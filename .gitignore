@@ -1,0 +1,16 @@
+*~
+*.out
+*.Rout
+.DS_Store
+.future
+.Rapp.history
+.RData
+.Rhistory
+.Rproj.user/
+_targets
+_targets.R
+docs
+inst/doc
+vignettes/*.html
+README.html
+.Rproj.user

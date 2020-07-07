@@ -1,0 +1,60 @@
+Package: targets
+Title: Dynamic Function-Oriented Make-Like Declarative Pipelines for R
+Description: The targets package is a pipeline toolkit that brings together
+  function-oriented programming and Make-like declarative workflows for
+  Statistics and data science in R. It implements a workflow as collection of
+  interconnected tasks, analyzes the dependency relationships among these
+  tasks, skips steps that are already up to date, runs the necessary
+  computations with optional parallel workers, abstracts files as
+  R objects, and provides tangible evidence that the results match
+  the underlying code and data. The methodology in this package
+  borrows from GNU Make by Richard Stallman (2015, ISBN:978-9881443519)
+  and drake by Will Landau (2018) <doi:10.21105/joss.00550>.
+Version: 0.0.0.9000
+License: MIT + file LICENSE
+URL: https://wlandau.github.io/targets, https://github.com/wlandau/targets
+BugReports: https://github.com/wlandau/targets/issues
+Authors@R: c(
+  person(
+    given = c("William", "Michael"),
+    family = "Landau",
+    role = c("aut", "cre"),
+    email = "will.landau@gmail.com",
+    comment = c(ORCID = "0000-0003-1878-3253")
+  ),
+  person(
+    family = "Eli Lilly and Company",
+    role = "cph"
+  ))
+Depends:
+  R (>= 3.5.0)
+Imports:
+  callr (>= 3.4.3),
+  cli (>= 2.0.2),
+  codetools (>= 0.2.16),
+  data.table (>= 1.12.8),
+  digest (>= 0.6.25),
+  igraph (>= 1.2.5),
+  R6 (>= 2.4.1),
+  rlang (>= 0.4.5),
+  tibble (>= 3.0.1),
+  tidyselect (>= 1.1.0),
+  utils,
+  vctrs (>= 0.2.4),
+  withr (>= 2.1.2)
+Suggests:
+  clustermq (>= 0.8.9),
+  dplyr (>= 1.0.0),
+  fst (>= 0.9.2),
+  future (>= 1.17.0),
+  qs (>= 0.21.2),
+  keras (>= 2.2.5.0),
+  knitr (>= 1.28),
+  rmarkdown (>= 2.1),
+  testthat (>= 2.3.2),
+  visNetwork (>= 2.0.9)
+Encoding: UTF-8
+Language: en-US
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1.9000
+VignetteBuilder: knitr

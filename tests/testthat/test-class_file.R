@@ -1,0 +1,233 @@
+tar_test("file_exists_path() when neither file exists", {
+  file <- file_init(path = c("abc", "xyz"))
+  expect_false(file_exists_path(file))
+})
+
+tar_test("file_exists_path() when one file exists", {
+  tmp <- tempfile()
+  file.create(tmp)
+  file <- file_init(path = c(tmp, "xyz"))
+  expect_false(file_exists_path(file))
+})
+
+tar_test("file_exists_path() when both files exist", {
+  tmp <- replicate(2, tempfile())
+  lapply(tmp, file.create)
+  file <- file_init(path = tmp)
+  expect_true(file_exists_path(file))
+})
+
+tar_test("file_should_rehash()", {
+  tmp <- tempfile()
+  file <- file_init(path = tmp)
+  writeLines("xyz", tmp)
+  expect_true(file_should_rehash(file, file$bytes, file$time))
+})
+
+tar_test("file_update_hash()", {
+  tmp <- tempfile()
+  file <- file_init(path = tmp)
+  writeLines("xyz", tmp)
+  file_update_hash(file)
+  hash <- file$hash
+  expect_true(is.character(hash))
+  expect_equal(nchar(hash), 16L)
+  expect_gt(file$bytes, 0)
+  expect_gt(file$time, 0)
+  expect_true(is.numeric(file$bytes))
+  expect_true(is.numeric(file$time))
+  expect_true(is.finite(file$bytes))
+  expect_true(is.finite(file$time))
+  expect_equal(length(file$bytes), 1L)
+  expect_equal(length(file$time), 1L)
+})
+
+tar_test("file_update_hash() where two files exist", {
+  tmp <- c(tempfile(), tempfile())
+  file <- file_init(path = tmp)
+  writeLines("abc", tmp[1])
+  writeLines("xyz", tmp[2])
+  file_update_hash(file)
+  hash <- file$hash
+  expect_true(is.character(hash))
+  expect_equal(nchar(hash), 16L)
+  expect_gt(file$bytes, 0)
+  expect_gt(file$time, 0)
+  expect_true(is.numeric(file$bytes))
+  expect_true(is.numeric(file$time))
+  expect_true(is.finite(file$bytes))
+  expect_true(is.finite(file$time))
+  expect_equal(length(file$bytes), 1L)
+  expect_equal(length(file$time), 1L)
+})
+
+tar_test("file_update_hash() where one file does not exist", {
+  tmp <- c(tempfile(), tempfile())
+  file <- file_init(path = tmp)
+  writeLines("xyz", tmp[1])
+  file_update_hash(file)
+  hash <- file$hash
+  expect_true(is.character(hash))
+  expect_equal(nchar(hash), 16L)
+  expect_gt(file$bytes, 0)
+  expect_gt(file$time, 0)
+  expect_true(is.numeric(file$bytes))
+  expect_true(is.numeric(file$time))
+  expect_true(is.finite(file$bytes))
+  expect_true(is.finite(file$time))
+  expect_equal(length(file$bytes), 1L)
+  expect_equal(length(file$time), 1L)
+})
+
+tar_test("file_update_hash() where neither file exists", {
+  tmp <- c(tempfile(), tempfile())
+  file <- file_init(path = tmp)
+  file_update_hash(file)
+  hash <- file$hash
+  expect_true(is.character(hash))
+  expect_equal(nchar(hash), 16L)
+  expect_false(is.na(hash))
+  expect_equal(file$bytes, 0)
+  expect_equal(file$time, -Inf)
+})
+
+tar_test("all files are hashed", {
+  tmp <- c(tempfile(), tempfile())
+  lapply(tmp, file.create)
+  file1 <- file_init(path = tmp[1])
+  file2 <- file_init(path = tmp)
+  file_update_hash(file1)
+  file_update_hash(file2)
+  expect_false(file1$hash == file2$hash)
+  expect_equal(nchar(file1$hash), 16L)
+  expect_equal(nchar(file2$hash), 16L)
+})
+
+tar_test("file_ensure_hash() on a small file", {
+  tmp <- tempfile()
+  file <- file_init(path = tmp)
+  writeLines("lines", tmp)
+  # first refresh
+  file_ensure_hash(file)
+  hash <- file$hash
+  expect_true(is.character(hash) && nchar(hash) > 1L)
+  bytes <- file$bytes
+  expect_gt(bytes, 0)
+  expect_true(is.finite(file$time))
+  # after a change
+  writeLines("new_lines", tmp)
+  file_ensure_hash(file)
+  hash2 <- file$hash
+  expect_false(hash == hash2)
+  bytes2 <- file$bytes
+  expect_gt(bytes2, bytes)
+  expect_true(is.finite(file$time))
+})
+
+tar_test("file_ensure_hash() on nested directories", {
+  tmp <- tempfile()
+  dir_create(tmp)
+  dir_create(file.path(tmp, "dir1"))
+  dir_create(file.path(tmp, "dir2", "dir3"))
+  writeLines("lines1", file.path(tmp, "file1"))
+  writeLines("lines2", file.path(tmp, "dir1", "file2"))
+  writeLines("lines3", file.path(tmp, "dir2", "dir3", "file3"))
+  writeLines("lines4", file.path(tmp, "dir2", "dir3", "file4"))
+  file <- file_init(path = tmp)
+  # first refresh
+  file_ensure_hash(file)
+  hash <- file$hash
+  expect_true(is.character(hash) && nchar(hash) > 1L)
+  bytes <- file$bytes
+  expect_true(bytes > 0)
+  expect_true(is.finite(file$time))
+  # after a change
+  writeLines("new_lines3", file.path(tmp, "dir2", "dir3", "file3"))
+  file_ensure_hash(file)
+  expect_false(file$hash == hash)
+  expect_gt(file$bytes, bytes)
+  expect_true(is.finite(file$time))
+})
+
+tar_test("file_has_correct_hash()", {
+  tmp <- tempfile()
+  file <- file_init(path = tmp)
+  expect_false(file_has_correct_hash(file))
+  writeLines("lines", tmp)
+  expect_false(file_has_correct_hash(file))
+  file_update_hash(file)
+  expect_true(file_has_correct_hash(file))
+})
+
+tar_test("file_wait_correct_hash()", {
+  tmp <- tempfile()
+  file <- file_init(path = tmp)
+  writeLines("lines", tmp)
+  expect_error(
+    file_wait_correct_hash(file, timeout = 0.02),
+    class = "condition_targets"
+  )
+  file_update_hash(file)
+  expect_silent(file_wait_correct_hash(file))
+})
+
+tar_test("file_validate() on a good file", {
+  file <- file_init(
+    path = "xyz",
+    hash = "xyz",
+    bytes = 123,
+    time = 123
+  )
+  expect_silent(file_validate(file))
+})
+
+tar_test("file_validate() with an extra field", {
+  file <- file_init(
+    path = "xyz",
+    hash = "xyz",
+    bytes = 123,
+    time = 123
+  )
+  file$nope <- 123
+  expect_error(file_validate(file), class = "condition_validate")
+})
+
+tar_test("file_validate() on a bad path", {
+  file <- file_init(
+    path = 123,
+    hash = "xyz",
+    bytes = 123,
+    time = 123
+  )
+  expect_error(file_validate(file), class = "condition_validate")
+})
+
+tar_test("file_validate() on a bad hash", {
+  file <- file_init(
+    path = "xyz",
+    hash = 123,
+    bytes = 123,
+    time = 123
+  )
+  expect_error(file_validate(file), class = "condition_validate")
+})
+
+tar_test("file_validate() on a bad bytes", {
+  file <- file_init(
+    path = "xyz",
+    hash = "xyz",
+    bytes = "xyz",
+    time = 123
+  )
+  expect_error(file_validate(file), class = "condition_validate")
+})
+
+tar_test("file_validate() on a bad time", {
+  file <- file_init(
+    path = "xyz",
+    hash = "xyz",
+    bytes = 123,
+    time = "xyz"
+  )
+  expect_error(file_validate(file), class = "condition_validate")
+})

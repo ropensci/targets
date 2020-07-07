@@ -1,0 +1,265 @@
+pattern_new <- function(
+  command = NULL,
+  settings = NULL,
+  cue = NULL,
+  cache = NULL,
+  value = NULL,
+  junction = NULL,
+  sitrep = NULL
+) {
+  force(command)
+  force(settings)
+  force(cue)
+  force(cache)
+  force(value)
+  force(junction)
+  force(sitrep)
+  enclass(environment(), c("tar_pattern", "tar_target"))
+}
+
+#' @export
+target_get_parent.tar_pattern <- function(target) {
+  target_get_name(target)
+}
+
+#' @export
+target_get_children.tar_pattern <- function(target) {
+  target$junction$splits
+}
+
+#' @export
+target_produce_record.tar_pattern <- function(target, meta) {
+  record_init(
+    name = target_get_name(target),
+    type = target_get_type(target),
+    data = pattern_produce_data_hash(target, meta),
+    command = target$command$hash,
+    bytes = target$sitrep$bytes,
+    format = target$settings$format,
+    iteration = target$settings$iteration,
+    children = as.character(target_get_children(target)),
+    seconds = target$sitrep$seconds
+  )
+}
+
+#' @export
+target_record_meta.tar_pattern <- function(target, meta) {
+  name <- target_get_name(target)
+  old_data <- trn(
+    meta$exists_record(name),
+    meta$get_record(name)$data,
+    NA_character_
+  )
+  record <- target_produce_record(target, meta)
+  if (!identical(record$data, old_data)) {
+    meta$insert_record(record)
+  }
+}
+
+#' @export
+target_skip.tar_pattern <- function(target, pipeline, scheduler, meta) {
+  trn(
+    is.null(target$junction),
+    pattern_skip_initial(target, pipeline, scheduler, meta),
+    pattern_skip_final(target, pipeline, scheduler, meta)
+  )
+}
+
+#' @export
+target_conclude.tar_pattern <- function(target, pipeline, scheduler, meta) {
+  trn(
+    is.null(target$junction),
+    pattern_conclude_initial(target, pipeline, scheduler, meta),
+    pattern_conclude_final(target, pipeline, scheduler, meta)
+  )
+}
+
+#' @export
+target_read_value.tar_pattern <- function(target, pipeline) {
+  branches <- target_get_children(target)
+  map(
+    branches,
+    ~target_ensure_value(pipeline_get_target(pipeline, .x), pipeline)
+  )
+  objects <- map(
+    branches,
+    ~pipeline_get_target(pipeline, .x)$value$object
+  )
+  names(objects) <- branches
+  value <- value_init(iteration = target$settings$iteration)
+  value$object <- value_produce_aggregate(value, objects)
+  value
+}
+
+#' @export
+target_branches_over.tar_pattern <- function(target, name) {
+  name %in% target$settings$dimensions
+}
+
+target_update_depend.tar_pattern <- function(target, meta) {
+  depends <- meta$depends
+  memory_set_object(depends, target_get_name(target), null64)
+}
+
+target_is_branchable.tar_pattern <- function(target) {
+  TRUE
+}
+
+#' @export
+target_validate.tar_pattern <- function(target) {
+  assert_correct_fields(target, pattern_new)
+  if (!is.null(target$junction)) {
+    junction_validate(target$junction)
+  }
+  NextMethod()
+}
+
+pattern_update_junction <- function(pattern, pipeline) {
+  pattern$junction <- target_produce_junction(pattern, pipeline)
+}
+
+pattern_engraph_branches <- function(target, pipeline, scheduler) {
+  graph <- scheduler$graph
+  graph$insert_edges(junction_upstream_edges(target$junction))
+  edges <- data_frame(
+    from = target_get_children(target),
+    to = target_get_name(target)
+  )
+  graph$insert_edges(edges)
+}
+
+pattern_enqueue_branches <- function(target, scheduler) {
+  children <- target_get_children(target)
+  ranks <- lapply(target_get_children(target), scheduler$count_unfinished_deps)
+  scheduler$queue$enqueue(target_get_children(target), unlist(ranks))
+}
+
+pattern_combine_niblings_siblings <- function(niblings, siblings) {
+  out <- as_data_frame(niblings)
+  for (name in siblings) {
+    out[[name]] <- name
+  }
+  out
+}
+
+pattern_get_nibling_list <- function(dimensions, pipeline) {
+  out <- map(dimensions, function(name) {
+    target_get_children(pipeline_get_target(pipeline, name))
+  })
+  names(out) <- dimensions
+  out
+}
+
+pattern_name_branches <- function(parent, niblings) {
+  suffixes <- digest_chr32(do.call(paste, niblings))
+  paste0(parent, "_", suffixes)
+}
+
+pattern_produce_branch <- function(spec, command, settings, cue, cache) {
+  branch_init(
+    command = command,
+    settings = settings,
+    cue = cue,
+    cache = cache,
+    deps = spec$deps,
+    child = spec$split,
+    index = spec$index
+  )
+}
+
+pattern_produce_branches <- function(target, pipeline, scheduler) {
+  map(
+    junction_transpose(target$junction),
+    pattern_produce_branch,
+    command = target$command,
+    settings = target$settings,
+    cue = target$cue,
+    cache = target$cache
+  )
+}
+
+pattern_insert_branches <- function(target, pipeline, scheduler) {
+  branches <- pattern_produce_branches(target, pipeline, scheduler)
+  lapply(branches, pipeline_set_target, pipeline = pipeline)
+  pattern_engraph_branches(target, pipeline, scheduler)
+  lapply(target_get_children(target), scheduler$progress$assign_queued)
+  pattern_enqueue_branches(target, scheduler)
+}
+
+pattern_requeue_downstream_branching <- function(
+  target,
+  pipeline,
+  scheduler
+) {
+  names <- target_downstream_branching(target, pipeline, scheduler)
+  scheduler$queue$increment_ranks(names, by = -1L)
+}
+
+pattern_requeue_downstream_nonbranching <- function(
+  target,
+  pipeline,
+  scheduler
+) {
+  names <- target_downstream_nonbranching(target, pipeline, scheduler)
+  scheduler$queue$increment_ranks(names, by = -1L)
+}
+
+pattern_requeue_self <- function(target, scheduler) {
+  rank <- length(target_get_children(target)) - pattern_priority() / 2
+  scheduler$queue$enqueue(target_get_name(target), ranks = rank)
+}
+
+pattern_priority <- function() {
+  1.1
+}
+
+pattern_produce_data_hash <- function(target, meta) {
+  hash_branches <- meta$hash_deps(target_get_children(target))
+  digest_chr64(paste(target$settings$iteration, hash_branches))
+}
+
+pattern_conclude_initial <- function(target, pipeline, scheduler, meta) {
+  pattern_skip_initial(target, pipeline, scheduler, meta)
+  sitrep_register_running(target$sitrep, target, scheduler)
+}
+
+pattern_conclude_final <- function(target, pipeline, scheduler, meta) {
+  pattern_skip_final(target, pipeline, scheduler, meta)
+  target_record_meta(target, meta)
+  sitrep_register_final(target$sitrep, target, scheduler)
+}
+
+pattern_skip_initial <- function(target, pipeline, scheduler, meta) {
+  pattern_update_junction(target, pipeline)
+  pattern_insert_branches(target, pipeline, scheduler)
+  pattern_requeue_downstream_branching(target, pipeline, scheduler)
+  pattern_requeue_self(target, scheduler)
+}
+
+pattern_skip_final <- function(target, pipeline, scheduler, meta) {
+  scheduler$progress$assign_dequeued(target_get_name(target))
+  pattern_requeue_downstream_nonbranching(target, pipeline, scheduler)
+}
+
+pattern_assert_dimensions <- function(target, dimensions, pipeline) {
+  for (name in dimensions) {
+    pipeline_assert_dimension(target, pipeline, name)
+  }
+}
+
+pipeline_assert_dimension <- function(target, pipeline, name) {
+  branchable <- FALSE
+  if (pipeline_exists_target(pipeline, name)) {
+    dep <- pipeline_get_target(pipeline, name)
+    branchable <- target_is_branchable(dep)
+  }
+  if (!branchable) {
+    throw_validate(
+      "targets must only branch over explicitly ",
+      "declared targets in the pipeline. ",
+      "Stems and patterns are fine, but you cannot branch over branches or ",
+      " global objects. Target ",
+      target_get_name(target), " tried to branch over ", name, "."
+    )
+  }
+}

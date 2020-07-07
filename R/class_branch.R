@@ -1,0 +1,118 @@
+branch_init <- function(
+  command = NULL,
+  settings = NULL,
+  cue = NULL,
+  cache = NULL,
+  value = NULL,
+  deps = character(0),
+  child = character(0),
+  index = integer(0)
+) {
+  command <- command_clone(command)
+  deps <- union(command$deps, deps)
+  command$deps <- setdiff(deps, settings$dimensions)
+  command$seed <- produce_seed(child)
+  pedigree <- pedigree_new(settings$name, child, index)
+  settings <- settings_clone(settings)
+  settings$name <- child
+  store <- settings_produce_store(settings)
+  branch_new(
+    command,
+    settings,
+    cue,
+    cache_clone(cache),
+    value,
+    NULL,
+    store,
+    NULL,
+    pedigree
+  )
+}
+
+branch_new <- function(
+  command = NULL,
+  settings = NULL,
+  cue = NULL,
+  cache = NULL,
+  value = NULL,
+  metrics = NULL,
+  store = NULL,
+  subpipeline = NULL,
+  pedigree = NULL
+) {
+  force(command)
+  force(settings)
+  force(cue)
+  force(cache)
+  force(value)
+  force(metrics)
+  force(store)
+  force(subpipeline)
+  force(pedigree)
+  enclass(environment(), c("tar_branch", "tar_builder", "tar_target"))
+}
+
+#' @export
+target_get_parent.tar_branch <- function(target) {
+  target$pedigree$parent
+}
+
+#' @export
+target_get_type.tar_branch <- function(target) {
+  "branch"
+}
+
+#' @export
+target_produce_record.tar_branch <- function(target, meta) {
+  file <- target$store$file
+  record_init(
+    name = target_get_name(target),
+    parent = target_get_parent(target),
+    type = "branch",
+    command = target$command$hash,
+    seed = target$command$seed,
+    depend = meta$get_depend(target_get_name(target)),
+    path = file$path,
+    data = file$hash,
+    bytes = file$bytes,
+    time = file$time,
+    format = target$settings$format,
+    iteration = target$settings$iteration,
+    seconds = as.numeric(target$metrics$seconds),
+    warnings = as.character(target$metrics$warnings),
+    error = as.character(target$metrics$error)
+  )
+}
+
+#' @export
+target_conclude.tar_branch <- function(target, pipeline, scheduler, meta) {
+  target_update_queue(target, scheduler)
+  NextMethod()
+}
+
+#' @export
+target_validate.tar_branch <- function(target) {
+  assert_correct_fields(target, branch_new)
+  pedigree_validate(target$pedigree)
+  NextMethod()
+}
+
+#' @export
+builder_sitrep_meta.tar_branch <- function(target, pipeline, meta) {
+  name <- target_get_parent(target)
+  parent <- pipeline_get_target(pipeline, name)
+  record <- meta$get_record(target_get_name(target))
+  sitrep_register_meta(parent$sitrep, record)
+}
+
+#' @export
+builder_sitrep_cancelled.tar_branch <- function(target, pipeline, scheduler) {
+  parent <- pipeline_get_target(pipeline, target_get_parent(target))
+  sitrep_register_cancelled(parent$sitrep, parent, scheduler)
+}
+
+#' @export
+builder_sitrep_errored.tar_branch <- function(target, pipeline, scheduler) {
+  parent <- pipeline_get_target(pipeline, target_get_parent(target))
+  sitrep_register_errored(parent$sitrep, parent, scheduler)
+}

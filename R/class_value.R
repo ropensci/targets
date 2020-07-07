@@ -1,0 +1,43 @@
+value_init <- function(object = NULL, iteration = "vector") {
+  switch(
+    iteration,
+    vector = vector_new(object),
+    list = list_new(object),
+    group = group_new(object),
+    throw_validate("unsupported iteration mode: ", iteration)
+  )
+}
+
+value_new <- function(object = NULL) {
+  enclass(environment(), "tar_value")
+}
+
+value_hash_slice <- function(value, index) {
+  digest_obj32(value_produce_slice(value, index))
+}
+
+value_hash_slices <- function(value) {
+  map_chr(seq_len(value_count_slices(value)), value_hash_slice, value = value)
+}
+
+value_count_slices <- function(value) {
+  UseMethod("value_count_slices")
+}
+
+value_produce_slice <- function(value, index) {
+  UseMethod("value_produce_slice")
+}
+
+value_produce_aggregate <- function(value, objects) {
+  UseMethod("value_produce_aggregate")
+}
+
+value_validate <- function(value) {
+  UseMethod("value_validate")
+}
+
+#' @export
+value_validate.tar_value <- function(value) {
+  assert_correct_fields(value, value_new)
+  assert_int(value_count_slices(value))
+}

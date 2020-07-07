@@ -1,0 +1,76 @@
+destination: docs/
+navbar:
+  title: targets
+  type: default
+  left:
+  - icon: fa-home fa-lg
+    href: index.html
+  - text: Functions
+    href: reference/index.html
+  - text: Manual
+    href: https://wlandau.github.io/targets-manual
+  - text: Cookbook
+    href: https://wlandau.github.io/targets-cookbook
+  - text: Design
+    href: articles/index.html
+  - text: News
+    href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/wlandau/targets
+articles:
+- title: Design
+  contents:
+  - '`need`'
+  - '`data`'
+  - '`orchestration`'
+  - '`composition`'
+reference:
+- title: Help
+  contents:
+  - '`tar_help`'
+  - '`tar_tidyselect`'
+- title: Setup
+  contents:
+  - '`tar_option`'
+  - '`tar_options`'
+  - '`tar_script`'
+- title: Helpers
+  contents:
+  - '`tar_cancel`'
+  - '`tar_group`'
+  - '`tar_knitr`'
+  - '`tar_name`'
+  - '`tar_path`'
+  - '`tar_traceback`'
+- title: Pipeline
+  contents:
+  - '`tar_cue`'
+  - '`tar_pipeline`'
+  - '`tar_target`'
+  - '`tar_target_external`'
+  - '`tar_validate`'
+- title: Inspect
+  contents:
+  - '`tar_glimpse`'
+  - '`tar_network`'
+  - '`tar_outdated`'
+  - '`tar_visnetwork`'
+- title: Run
+  contents:
+  - '`tar_make`'
+  - '`tar_make_clustermq`'
+  - '`tar_make_future`'
+- title: Data
+  contents:
+  - '`tar_load`'
+  - '`tar_meta`'
+  - '`tar_progress`'
+  - '`tar_read`'
+- title: Clean
+  contents:
+  - '`tar_deduplicate`'
+  - '`tar_delete`'
+  - '`tar_destroy`'
+  - '`tar_invalidate`'
+  - '`tar_prune`'
