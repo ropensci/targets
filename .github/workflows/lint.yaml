@@ -25,7 +25,7 @@ jobs:
           key: macOS-r-4.0-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: macOS-r-4.0-1-
 
-      - name: Install sys reqs
+      - name: Install system requirements
         run: |
           brew install zmq
 

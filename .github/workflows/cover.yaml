@@ -27,7 +27,11 @@ jobs:
           key: macOS-r-4.0-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: macOS-r-4.0-1-
 
-      - name: Install dependencies
+      - name: Install system requirements
+        run: |
+          brew install zmq
+
+      - name: Install packages
         run: |
           install.packages(c("remotes"))
           remotes::install_deps(dependencies = TRUE)

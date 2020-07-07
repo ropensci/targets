@@ -45,7 +45,12 @@ jobs:
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-1-
 
-      - name: Install system dependencies
+      - name: Install Mac system dependencies
+        if: runner.os == 'Mac'
+        run: |
+          brew install zmq
+
+      - name: Install Linux system dependencies
         if: runner.os == 'Linux'
         env:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
