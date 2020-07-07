@@ -205,6 +205,34 @@ tar_test("cue_depend() on a nested function", {
   expect_equal(out, "x")
 })
 
+tar_test("cue_depend() on a nested function with a pattern", {
+  envir <- new.env(parent = baseenv())
+  envir$f <- function(x) g(x)
+  envir$g <- function(x) x + 1L
+  environment(envir$f) <- envir
+  x <- target_init("x", quote(1L), envir = envir)
+  y <- target_init("y", quote(f(x)), pattern = quote(map(x)), envir = envir)
+  local <- algorithm_init("local", pipeline_init(list(x, y)))
+  local$run()
+  out <- counter_get_names(local$scheduler$progress$built)
+  expect_true("x" %in% out)
+  expect_true(any(grepl("y_", out)))
+  x <- target_init("x", quote(1L), envir = envir)
+  y <- target_init("y", quote(f(x)), pattern = quote(map(x)), envir = envir)
+  local <- algorithm_init("local", pipeline_init(list(x, y)))
+  local$run()
+  out <- counter_get_names(local$scheduler$progress$built)
+  expect_equal(out, character(0))
+  envir$g <- function(x) x + 2L - 1L
+  x <- target_init("x", quote(1L), envir = envir)
+  y <- target_init("y", quote(f(x)), pattern = quote(map(x)), envir = envir)
+  local <- algorithm_init("local", pipeline_init(list(x, y)))
+  local$run()
+  out <- counter_get_names(local$scheduler$progress$built)
+  expect_false("x" %in% out)
+  expect_true(any(grepl("y_", out)))
+})
+
 tar_test("cue_depend() suppressed", {
   cue <- cue_init(depend = FALSE)
   x <- target_init("x", quote(1L), cue = cue)

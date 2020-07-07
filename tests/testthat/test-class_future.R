@@ -74,12 +74,14 @@ tar_test("nontrivial globals", {
   on.exit(unlink("_targets", recursive = TRUE))
   on.exit(future::plan(future::sequential), add = TRUE)
   envir <- new.env(parent = baseenv())
-  envir$f <- function(x) {
-    g(x) + 1L
-  }
-  envir$g <- function(x) {
-    x + 1L
-  }
+  evalq({
+    f <- function(x) {
+      g(x) + 1L
+    }
+    g <- function(x) {
+      x + 1L
+    }
+  }, envir = envir)
   x <- target_init("x", quote(f(1L)), envir = envir)
   pipeline <- pipeline_init(list(x))
   cmq <- algorithm_init("future", pipeline)
