@@ -1,6 +1,7 @@
 tar_test("tar_make_clustermq() works", {
   skip_hpc()
   skip_on_os("windows")
+  skip_if_not_installed("clustermq")
   tar_script({
     options(clustermq.scheduler = "multicore")
     tar_pipeline(tar_target(x, "x"))
@@ -15,6 +16,7 @@ tar_test("tar_make_clustermq() works", {
 tar_test("tar_make_clustermq() can use tidyselect", {
   skip_hpc()
   skip_on_os("windows")
+  skip_if_not_installed("clustermq")
   tar_script({
     options(clustermq.scheduler = "multicore")
     tar_pipeline(
