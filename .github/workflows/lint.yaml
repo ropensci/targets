@@ -27,7 +27,7 @@ jobs:
 
       - name: Install system requirements
         run: |
-          brew install zmq
+          brew install zeromq
 
       - name: Install packages
         run: |

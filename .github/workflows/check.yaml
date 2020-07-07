@@ -48,7 +48,7 @@ jobs:
       - name: Install Mac system dependencies
         if: runner.os == 'Mac'
         run: |
-          brew install zmq
+          brew install zeromq
 
       - name: Install Linux system dependencies
         if: runner.os == 'Linux'
