@@ -31,7 +31,6 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
       - name: Install Mac system dependencies
-        if: runner.os == 'Mac'
         run: |
           brew install zeromq
 
