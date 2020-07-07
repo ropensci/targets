@@ -46,7 +46,7 @@ jobs:
           restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-1-
 
       - name: Install Mac system dependencies
-        if: runner.os == 'Mac'
+        if: runner.os == 'macOS'
         run: |
           brew install zeromq
 
