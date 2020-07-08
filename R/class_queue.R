@@ -7,8 +7,7 @@ queue_init <- function(
   switch(
     subclass,
     parallel = parallel_init(names = names, ranks = ranks),
-    serial = serial_init(names = names, ranks = ranks),
-    throw_validate("unsupported queue")
+    serial = serial_init(names = names, ranks = ranks)
   )
 }
 
