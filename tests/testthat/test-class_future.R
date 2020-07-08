@@ -28,7 +28,6 @@ tar_test("some targets up to date, some not", {
   skip_hpc()
   on.exit(unlink("_targets", recursive = TRUE))
   on.exit(future::plan(future::sequential), add = TRUE)
-  future::plan(future::multisession)
   x <- target_init("x", quote(1L))
   y <- target_init("y", quote(x))
   pipeline <- pipeline_init(list(x, y))
@@ -51,7 +50,6 @@ tar_test("future algo can skip targets", {
   skip_hpc()
   on.exit(unlink("_targets", recursive = TRUE))
   on.exit(future::plan(future::sequential), add = TRUE)
-  future::plan(future::multisession)
   x <- target_init("x", quote(1L))
   y <- target_init("y", quote(x))
   pipeline <- pipeline_init(list(x, y))
@@ -75,7 +73,6 @@ tar_test("nontrivial globals", {
   skip_hpc()
   on.exit(unlink("_targets", recursive = TRUE))
   on.exit(future::plan(future::sequential), add = TRUE)
-  future::plan(future::multisession)
   envir <- new.env(parent = baseenv())
   envir$f <- function(x) {
     g(x) + 1L
@@ -97,7 +94,6 @@ tar_test("branching plan", {
   skip_hpc()
   on.exit(unlink("_targets", recursive = TRUE))
   on.exit(future::plan(future::sequential), add = TRUE)
-  future::plan(future::multisession)
   pipeline <- pipeline_map()
   out <- algorithm_init(
     "future",
