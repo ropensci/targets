@@ -17,6 +17,26 @@ tar_test("file_exists_path() when both files exist", {
   expect_true(file_exists_path(file))
 })
 
+tar_test("file_list_files()", {
+  dir.create("x")
+  file.create(file.path("x", "y"))
+  file.create(file.path("x", "z"))
+  dir.create("y")
+  file.create(file.path("y", "y"))
+  file.create(file.path("y", "z"))
+  file.create("z")
+  arg <- c("abc", "x", "y", "z")
+  out <- file_list_files(arg)
+  exp <- c(
+    "z",
+    file.path("x", "y"),
+    file.path("x", "z"),
+    file.path("y", "y"),
+    file.path("y", "z")
+  )
+  expect_equal(sort(out), sort(exp))
+})
+
 tar_test("file_should_rehash()", {
   tmp <- tempfile()
   file <- file_init(path = tmp)
