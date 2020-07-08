@@ -22,6 +22,15 @@ tar_test("target can instantiate", {
   expect_true(is.environment(target_new()))
 })
 
+tar_test("queue can instantiate", {
+  queue <- queue_new(1, 2)
+  expect_true(is.environment(queue))
+  expect_true(queue$is_nonempty())
+  expect_silent(queue$enqueue())
+  expect_silent(queue$dequeue())
+  expect_silent(queue$increment_ranks())
+})
+
 tar_test("reporter can instantiate", {
   expect_true(is.environment(reporter_new()))
 })
