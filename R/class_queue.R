@@ -29,12 +29,6 @@ queue_class <- R6::R6Class(
     get_ranks = function() {
       unname(self$data)
     },
-    exists_name = function(name) {
-      counter_exists_name(self$counter, name)
-    },
-    filter_exists = function(names) {
-      counter_filter_exists(self$counter, names)
-    },
     dequeue = function() {
       index <- which.min(self$data)
       head <- names(self$data[index])
@@ -57,11 +51,8 @@ queue_class <- R6::R6Class(
       index <- names(self$data) %in% names
       self$data[index] <- self$data[index] + by
     },
-    get_count = function() {
-      length(self$data)
-    },
     is_nonempty = function() {
-      self$get_count() > 0L
+      length(self$data) > 0L
     },
     should_dequeue = function() {
       any(as.integer(ceiling(self$get_ranks())) == 0L)

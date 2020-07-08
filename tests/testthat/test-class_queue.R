@@ -132,15 +132,6 @@ tar_test("queue$increment_ranks() vectorized", {
   expect_equal(q$get_ranks(), c(1L, 4L, 5L))
 })
 
-tar_test("queue$get_count() on an empty queue", {
-  expect_equal(queue_init()$get_count(), 0L)
-})
-
-tar_test("queue$get_count() on a nonempty queue", {
-  q <- queue_init(names = letters[seq_len(3)], ranks = seq_len(3))
-  expect_equal(q$get_count(), 3L)
-})
-
 tar_test("queue$is_nonempty() on an empty queue", {
   expect_false(queue_init()$is_nonempty())
 })
@@ -162,43 +153,6 @@ tar_test("queue$should_dequeue() with no zero rank element", {
 tar_test("queue$should_dequeue() with a zero rank element", {
   q <- queue_init(names = c("x", "y", "z"), ranks = c(2L, 1L, 0L))
   expect_false(queue_init()$should_dequeue())
-})
-
-tar_test("q$exists_name() after enqueue", {
-  q <- queue_init(names = c("x", "y"), ranks = c(0L, 3L))
-  expect_false(q$exists_name("a"))
-  expect_false(q$exists_name("b"))
-  q$enqueue(names = c("a", "b"), ranks = c(1L, 2L))
-  expect_true(q$exists_name("a"))
-  expect_true(q$exists_name("b"))
-})
-
-tar_test("q$exists_name() after unwise dequeue", {
-  q <- queue_init(names = c("x", "y"), ranks = c(1L, 3L))
-  expect_true(q$exists_name("x"))
-  expect_true(q$exists_name("y"))
-  q$dequeue()
-  expect_false(q$exists_name("x"))
-  expect_true(q$exists_name("y"))
-})
-
-tar_test("q$exists_name() after prudent dequeue", {
-  q <- queue_init(names = c("x", "y"), ranks = c(1L, 0L))
-  expect_true(q$exists_name("x"))
-  expect_true(q$exists_name("y"))
-  q$dequeue()
-  expect_true(q$exists_name("x"))
-  expect_false(q$exists_name("y"))
-})
-
-tar_test("q$filter_exists()", {
-  q <- queue_init(names = c("x", "y"), ranks = c(1L, 0L))
-  out <- q$filter_exists(c("a", "x", "b", "y"))
-  expect_equal(sort(out), sort(c("x", "y")))
-  out <- q$filter_exists(c("a", "b", "y"))
-  expect_equal(out, "y")
-  out <- q$filter_exists(c("a"))
-  expect_equal(out, character(0))
 })
 
 tar_test("queue$validate() on a good queue", {
