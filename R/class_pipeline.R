@@ -30,7 +30,7 @@ pipeline_targets_init <- function(targets) {
 }
 
 pipeline_get_target <- function(pipeline, name) {
-  get(x = name, envir = pipeline$targets, inherits = FALSE)
+  pipeline$targets[[name]]
 }
 
 pipeline_get_names <- function(pipeline) {
