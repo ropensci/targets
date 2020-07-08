@@ -29,9 +29,6 @@ queue_class <- R6::R6Class(
     get_ranks = function() {
       unname(self$data)
     },
-    set_data = function(data) {
-      assign("data", data, envir = self)
-    },
     exists_name = function(name) {
       counter_exists_name(self$counter, name)
     },
@@ -39,7 +36,7 @@ queue_class <- R6::R6Class(
       counter_filter_exists(self$counter, names)
     },
     sort_data = function() {
-      self$set_data(sort(self$data))
+      self$data <- sort(self$data)
     },
     peek = function() {
       self$sort_data()
@@ -47,7 +44,7 @@ queue_class <- R6::R6Class(
     },
     dequeue = function() {
       head <- self$peek()
-      self$set_data(self$data[-1L])
+      self$data <- self$data[-1L]
       counter <- self$counter
       counter_del_names(counter, head)
       head
@@ -57,7 +54,7 @@ queue_class <- R6::R6Class(
       ranks <- c(self$get_ranks(), new_ranks)
       names <- c(self$get_names(), names)
       names(ranks) <- names
-      self$set_data(ranks)
+      self$data <- ranks
       counter <- self$counter
       counter_set_names(counter, names)
       invisible()
@@ -65,12 +62,12 @@ queue_class <- R6::R6Class(
     increment_ranks = function(names, by) {
       data <- self$data
       data[names] <- data[names] + by
-      self$set_data(data)
+      self$data <- data
     },
     set_ranks = function(names, ranks) {
       data <- self$data
       data[names] <- ranks
-      self$set_data(data)
+      self$data <- data
     },
     get_count = function() {
       length(self$data)
