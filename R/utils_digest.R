@@ -15,11 +15,11 @@ digest_file64 <- function(object, ...) {
 }
 
 digest_obj32 <- function(object, ...) {
-  vdigest32(list(object), serialize = TRUE, ...)
+  vdigest32(list(object), serialize = TRUE, serializeVersion = 3L, ...)
 }
 
 digest_obj64 <- function(object, ...) {
-  vdigest64(list(object), serialize = TRUE, ...)
+  vdigest64(list(object), serialize = TRUE, serializeVersion = 3L, ...)
 }
 
 produce_seed <- function(name) {
