@@ -146,6 +146,7 @@ outdated_class <- R6::R6Class(
       self$ensure_meta()
     },
     end = function() {
+      self$scheduler$reporter$report_end()
     },
     run = function() {
       self$start()

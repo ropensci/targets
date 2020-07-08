@@ -16,6 +16,9 @@ forecast_class <- R6::R6Class(
     },
     report_outdated = function(checked, outdated) {
       cli_outdated(checked$count, outdated$count)
+    },
+    report_end = function(progress = NULL) {
+      message("")
     }
   )
 )
