@@ -177,6 +177,8 @@ tar_test("file_has_correct_hash()", {
   expect_false(file_has_correct_hash(file))
   file_update_hash(file)
   expect_true(file_has_correct_hash(file))
+  unlink(tmp)
+  expect_false(file_has_correct_hash(file))
 })
 
 tar_test("file_wait_correct_hash()", {

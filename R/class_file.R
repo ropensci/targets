@@ -94,16 +94,17 @@ file_validate <- function(file) {
 }
 
 file_list_files <- function(path) {
-  is_directory <- dir.exists(path)
-  files_inner <- list.files(
-    path[is_directory],
+  if (!any(dir.exists(path))) {
+    return(path[file.exists(path)])
+  }
+  inner <- list.files(
+    path,
     all.files = TRUE,
     full.names = TRUE,
     recursive = TRUE
   )
-  files_outer <- path[!is_directory]
-  files_outer <- files_outer[file.exists(files_outer)]
-  c(files_inner, files_outer)
+  out <- c(path, inner)
+  out[file.exists(out) & !dir.exists(out)]
 }
 
 file_hash <- function(files) {
