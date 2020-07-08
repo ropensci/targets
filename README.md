@@ -4,7 +4,7 @@
 [![wip](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![check](https://github.com/wlandau/targets/workflows/check/badge.svg)](https://github.com/wlandau/targets/actions?query=workflow%3Acheck)
 [![lint](https://github.com/wlandau/targets/workflows/lint/badge.svg)](https://github.com/wlandau/targets/actions?query=workflow%3Alint)
-[![cover](https://codecov.io/github/wlandau/targets/coverage.svg?branch=master)](https://codecov.io/github/wlandau/targets?branch=master)
+[![codecov](https://codecov.io/gh/wlandau/targets/branch/master/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/wlandau/targets)
 
 The `targets` package is a
 [Make](https://www.gnu.org/software/make/)-like pipeline toolkit for
