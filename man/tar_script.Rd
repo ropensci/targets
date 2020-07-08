@@ -4,7 +4,7 @@
 \alias{tar_script}
 \title{Write a \verb{_targets.R} script to the current working directory.}
 \usage{
-tar_script(code = NULL, library_targets = TRUE)
+tar_script(code = NULL, library_targets = TRUE, ask = NULL)
 }
 \arguments{
 \item{code}{R code to write to \verb{_targets.R}. If \code{NULL}, an example
@@ -14,6 +14,11 @@ target script is written instead.}
 line at the top of \verb{_targets.R} automatically (recommended).
 If \code{TRUE}, you do not need to explicitly put \code{library(targets)}
 in \code{code}.}
+
+\item{ask}{Logical, whether to ask before writing if \verb{_targets.R}
+already exists. If \code{NULL}, defaults to \code{getOption("tar_script_ask")}.
+If \code{ask} and the \code{tar_script_ask} option are both \code{NULL},
+defaults to \code{interactive()}.}
 }
 \value{
 Nothing.

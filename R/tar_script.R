@@ -38,6 +38,10 @@
 #'   line at the top of `_targets.R` automatically (recommended).
 #'   If `TRUE`, you do not need to explicitly put `library(targets)`
 #'   in `code`.
+#' @param ask Logical, whether to ask before writing if `_targets.R`
+#'   already exists. If `NULL`, defaults to `getOption("tar_script_ask")`.
+#'   If `ask` and the `tar_script_ask` option are both `NULL`,
+#'   defaults to `interactive()`.
 #' @examples
 #' \dontrun{
 #' tar_dir({
@@ -50,10 +54,15 @@
 #' })
 #' })
 #' }
-tar_script <- function(code = NULL, library_targets = TRUE) {
+tar_script <- function(code = NULL, library_targets = TRUE, ask = NULL) {
   # Covered in tests/interactive/test-tar_script.R.
   # nocov start
-  if (file.exists("_targets.R") && interactive()) {
+  ask <- ask %||% getOption("tar_script_ask") %||% interactive()
+  assert_lgl(library_targets, "library_targets must be logical.")
+  assert_lgl(ask, "ask argument of tar_script() must be logical.")
+  assert_scalar(library_targets, "library_targets must have length 1.")
+  assert_scalar(ask, "ask argument of tar_script() must have length 1.")
+  if (file.exists("_targets.R") && ask) {
     choice <- utils::menu(
       c("yes", "no"),
       title = "Overwrite existing _targets.R file?"
