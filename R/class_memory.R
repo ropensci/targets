@@ -19,6 +19,10 @@ memory_get_object <- function(memory, name) {
 }
 
 memory_set_object <- function(memory, name, object) {
+  if (!exists(name, envir = memory$envir, inherits = FALSE)) {
+    memory$names <- c(memory$names, name)
+    memory$count <- memory$count + 1L
+  }
   assign(
     x = name,
     value = object,
@@ -26,28 +30,18 @@ memory_set_object <- function(memory, name, object) {
     inherits = FALSE,
     immediate = TRUE
   )
-  memory_append_names(memory, name)
-  memory$count <- memory$count + 1L
 }
 
 memory_del_objects <- function(memory, names) {
   names <- intersect(memory$names, names)
   remove(list = names, envir = memory$envir, inherits = FALSE)
-  memory_del_names(memory, names)
+  memory$names <- setdiff(memory$names, names)
   memory$count <- memory$count - length(names)
   invisible()
 }
 
 memory_clear_objects <- function(memory) {
   memory_del_objects(memory, memory$names)
-}
-
-memory_append_names <- function(memory, names) {
-  memory$names <- base::union(memory$names, names)
-}
-
-memory_del_names <- function(memory, names) {
-  memory$names <- setdiff(memory$names, names)
 }
 
 memory_validate <- function(memory) {
