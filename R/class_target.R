@@ -145,7 +145,15 @@ target_upstream_edges <- function(target) {
 }
 
 target_update_queue <- function(target, scheduler) {
-  names <- scheduler$graph$produce_downstream(target_get_name(target))
+  names <- target_downstream_names(target, scheduler)
+  target_decrement_ranks(names, scheduler)
+}
+
+target_downstream_names <- function(target, scheduler) {
+  scheduler$graph$produce_downstream(target_get_name(target))
+}
+
+target_decrement_ranks <- function(names, scheduler) {
   scheduler$queue$increment_ranks(names, -1L)
 }
 
