@@ -1,10 +1,14 @@
-scheduler_init <- function(pipeline = pipeline_init(), reporter = "verbose") {
+scheduler_init <- function(
+  pipeline = pipeline_init(),
+  queue = "parallel",
+  reporter = "verbose"
+) {
   names <- pipeline_get_names(pipeline)
   graph <- graph_init(pipeline)
   queue <- queue_init(
-    "parallel",
-    names,
-    graph$produce_degrees(names, "upstream")
+    subclass = queue,
+    names = names,
+    ranks = graph$produce_degrees(names, "upstream")
   )
   queued <- counter_init(names)
   progress <- progress_init(queued = queued)

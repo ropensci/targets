@@ -2,6 +2,7 @@ algorithm_init <- function(
   subclass = "local",
   pipeline = NULL,
   names = NULL,
+  queue = "parallel",
   reporter = "verbose",
   garbage_collection = FALSE,
   workers = 1L,
@@ -10,7 +11,11 @@ algorithm_init <- function(
   if (!is.null(names)) {
     pipeline_prune_targets(pipeline, names)
   }
-  scheduler <- pipeline_produce_scheduler(pipeline, reporter)
+  scheduler <- pipeline_produce_scheduler(
+    pipeline = pipeline,
+    queue = queue,
+    reporter = reporter
+  )
   meta <- meta_init()
   switch(
     subclass,

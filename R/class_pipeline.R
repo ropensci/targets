@@ -80,8 +80,12 @@ pipeline_produce_igraph <- function(pipeline, targets_only = TRUE) {
   igraph::simplify(igraph::graph_from_data_frame(edges))
 }
 
-pipeline_produce_scheduler <- function(pipeline, reporter = "verbose") {
-  scheduler_init(pipeline, reporter)
+pipeline_produce_scheduler <- function(
+  pipeline,
+  queue = "parallel",
+  reporter = "verbose"
+) {
+  scheduler_init(pipeline = pipeline, queue = queue, reporter = reporter)
 }
 
 pipeline_register_loaded_target <- function(pipeline, name) { # nolint
