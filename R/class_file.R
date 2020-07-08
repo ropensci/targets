@@ -99,15 +99,11 @@ file_list_files <- function(path) {
 }
 
 file_list_files_one <- function(path) {
-  trn(dir.exists(path), file_list_files_dir(path), file_list_file(path))
+  trn(dir.exists(path), file_list_files_dir(path), path)
 }
 
 file_list_files_dir <- function(path) {
   list.files(path, all.files = TRUE, full.names = TRUE, recursive = TRUE)
-}
-
-file_list_file <- function(path) {
-  trn(file.exists(path), path, character(0))
 }
 
 file_hash <- function(files) {
