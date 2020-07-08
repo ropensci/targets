@@ -120,18 +120,6 @@ tar_test("queue$enqueue() default ranks", {
   expect_identical(out, exp)
 })
 
-tar_test("queue$set_ranks() elementwise", {
-  q <- queue_init(names = c("x", "y", "z"), ranks = seq_len(3L))
-  q$set_ranks(names = c("y", "z"), ranks = c(9L, 8L))
-  expect_equal(q$get_ranks(), c(1L, 9L, 8L))
-})
-
-tar_test("queue$set_ranks() vectorized", {
-  q <- queue_init(names = c("x", "y", "z"), ranks = seq_len(3L))
-  q$set_ranks(names = c("y", "z"), ranks = 17L)
-  expect_equal(q$get_ranks(), c(1L, 17L, 17L))
-})
-
 tar_test("queue$increment_ranks() elementwise", {
   q <- queue_init(names = c("x", "y", "z"), ranks = seq_len(3L))
   q$increment_ranks(names = c("y", "z"), by = c(-2L, 2L))

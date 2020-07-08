@@ -57,9 +57,6 @@ queue_class <- R6::R6Class(
       index <- names(self$data) %in% names
       self$data[index] <- self$data[index] + by
     },
-    set_ranks = function(names, ranks) {
-      self$data[names] <- ranks
-    },
     get_count = function() {
       length(self$data)
     },
