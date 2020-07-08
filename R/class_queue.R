@@ -39,12 +39,12 @@ queue_class <- R6::R6Class(
       self$data <- sort(self$data)
     },
     peek = function() {
-      self$sort_data()
-      utils::head(self$get_names(), 1L)
+      names(self$data[which.min(self$data)])
     },
     dequeue = function() {
-      head <- self$peek()
-      self$data <- self$data[-1L]
+      index <- which.min(self$data)
+      head <- names(self$data[index])
+      self$data <- self$data[-index]
       counter <- self$counter
       counter_del_names(counter, head)
       head

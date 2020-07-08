@@ -66,21 +66,18 @@ tar_test("queue$peek() with none ready", {
   data <- q$data
   expect_false(q$should_dequeue())
   expect_identical(q$peek(), "b")
-  expect_identical(q$data, sort(data))
 })
 
 tar_test("queue$peek() with one ready", {
   q <- queue_init(names = letters[seq_len(3)], ranks = c(2L, 0L, 3L))
   data <- q$data
   expect_identical(q$peek(), "b")
-  expect_identical(q$data, sort(data))
 })
 
 tar_test("queue$peek() with multiple ready", {
   q <- queue_init(names = letters[seq_len(3)], ranks = c(0L, 0L, 3L))
   data <- q$data
   expect_identical(length(q$peek()), 1L)
-  expect_identical(q$data, sort(data))
 })
 
 tar_test("queue$dequeue() on an empty queue", {
