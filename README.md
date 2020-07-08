@@ -57,7 +57,7 @@ install.packages("targets")
   - [Minimal example](https://github.com/wlandau/targets-minimal).
   - [Machine learning with
     Keras](https://github.com/wlandau/targets-keras).
-  - [Validating a Stan model](https://github.com:wlandau/targets-stan).
+  - [Validating a Stan model](https://github.com/wlandau/targets-stan).
 
 ## Documentation
 
