@@ -193,13 +193,13 @@ tar_test("database$set_data()", {
   exp <- list(
     name = "e",
     col2 = "e22",
-    col3 = list(c("e23", "e24", "e25")),
+    col3 = c("e23", "e24", "e25"),
     col4 = 3L
   )
   expect_equal(db$get_row("e"), exp)
-  exp <- list(name = "f", col2 = "e32", col3 = list("x"), col4 = 4L)
+  exp <- list(name = "f", col2 = "e32", col3 = "x", col4 = 4L)
   expect_equal(db$get_row("f"), exp)
-  exp <- list(name = "x", col2 = "e02", col3 = list(c("1L", "2L")), col4 = 1L)
+  exp <- list(name = "x", col2 = "e02", col3 = c("1L", "2L"), col4 = 1L)
   expect_equal(db$get_row("x"), exp)
 })
 
@@ -235,13 +235,13 @@ tar_test("database$preprocess()", {
   exp <- list(
     name = "e",
     col2 = "e22",
-    col3 = list(c("e23", "e24", "e25")),
+    col3 = c("e23", "e24", "e25"),
     col4 = 3L
   )
   expect_equal(db$get_row("e"), exp)
-  exp <- list(name = "f", col2 = "e32", col3 = list("x"), col4 = 4L)
+  exp <- list(name = "f", col2 = "e32", col3 = "x", col4 = 4L)
   expect_equal(db$get_row("f"), exp)
-  exp <- list(name = "x", col2 = "e02", col3 = list(c("1", "2")), col4 = 1L)
+  exp <- list(name = "x", col2 = "e02", col3 = c("1", "2"), col4 = 1L)
   expect_equal(db$get_row("x"), exp)
 })
 

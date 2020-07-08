@@ -50,7 +50,8 @@ database_class <- R6::R6Class(
       memory_set_object(self$memory, name = name, object = as.list(row))
     },
     set_data = function(data) {
-      map(seq_len(nrow(data)), ~self$set_row(data[.x, ]))
+      list <- lapply(data, as.list)
+      map(seq_along(list$name), ~self$set_row(lapply(list, `[[`, i = .x)))
     },
     exists_row = function(name) {
       memory_exists_object(self$memory, name)
