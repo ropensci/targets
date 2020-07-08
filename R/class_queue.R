@@ -35,12 +35,6 @@ queue_class <- R6::R6Class(
     filter_exists = function(names) {
       counter_filter_exists(self$counter, names)
     },
-    sort_data = function() {
-      self$data <- sort(self$data)
-    },
-    peek = function() {
-      names(self$data[which.min(self$data)])
-    },
     dequeue = function() {
       index <- which.min(self$data)
       head <- names(self$data[index])

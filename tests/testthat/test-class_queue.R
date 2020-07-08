@@ -54,32 +54,6 @@ tar_test("queue$get_ranks() nonempty", {
   expect_identical(out, exp)
 })
 
-tar_test("queue$peek() on an empty queue", {
-  q <- queue_init()
-  data <- q$data
-  expect_identical(q$peek(), character(0))
-  expect_identical(q$data, data)
-})
-
-tar_test("queue$peek() with none ready", {
-  q <- queue_init(names = letters[seq_len(3)], ranks = c(2L, 1L, 3L))
-  data <- q$data
-  expect_false(q$should_dequeue())
-  expect_identical(q$peek(), "b")
-})
-
-tar_test("queue$peek() with one ready", {
-  q <- queue_init(names = letters[seq_len(3)], ranks = c(2L, 0L, 3L))
-  data <- q$data
-  expect_identical(q$peek(), "b")
-})
-
-tar_test("queue$peek() with multiple ready", {
-  q <- queue_init(names = letters[seq_len(3)], ranks = c(0L, 0L, 3L))
-  data <- q$data
-  expect_identical(length(q$peek()), 1L)
-})
-
 tar_test("queue$dequeue() on an empty queue", {
   q <- queue_init()
   data <- q$data
