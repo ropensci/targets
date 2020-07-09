@@ -13,7 +13,7 @@
 #' @param debug Character vector of names of targets to run in debug mode.
 #'   To use effectively, you must set `callr_function = NULL` and
 #'   restart your R session just before running.
-#'   [tar_make()], [tar_make_clustermq()], or [tar_make_future()]. 
+#'   [tar_make()], [tar_make_clustermq()], or [tar_make_future()].
 #'   For any target mentioned in `debug`, `targets` will force the target to
 #'   build locally (with `tar_cue(mode = "always")` and `deployment = "local"`
 #'   in the settings) and pause in an interactive debugger to help you diagnose

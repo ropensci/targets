@@ -48,7 +48,7 @@ tar_test("debug mode works in tar_make_clustermq()", {
   options(clustermq.scheduler = "multicore")
   on.exit(options(clustermq.scheduler = old))
   tar_script({
-    envir = new.env(parent = baseenv())
+    envir <- new.env(parent = baseenv())
     tar_options(debug = "b", envir = envir, packages = "targets")
     tar_pipeline(tar_target(a, "a"), tar_target(b, a))
   })
