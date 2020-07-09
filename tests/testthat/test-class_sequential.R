@@ -5,9 +5,9 @@ test_that("sequential$dequeue()", {
   expect_equal(q$data, letters[c(-1L, -2L)])
 })
 
-test_that("sequential$prepend()", {
+test_that("sequential$enqueue()", {
   q <- sequential_init(c("a", "b"))
-  q$prepend(c("c", "d"))
+  q$enqueue(c("c", "d"))
   expect_equal(q$data, c("c", "d", "a", "b"))
 })
 

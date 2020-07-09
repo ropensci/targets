@@ -34,7 +34,7 @@ parallel_class <- R6::R6Class(
       counter_del_names(counter, head)
       head
     },
-    prepend = function(names, ranks = NULL) {
+    enqueue = function(names, ranks = NULL) {
       new_ranks <- ranks %||% rep(0L, length(names))
       ranks <- c(self$get_ranks(), new_ranks)
       names <- c(self$get_names(), names)

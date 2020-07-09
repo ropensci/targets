@@ -30,7 +30,7 @@ queue_class <- R6::R6Class(
     },
     dequeue = function() {
     },
-    prepend = function(names, ranks = NULL) {
+    enqueue = function(names, ranks = NULL) {
     },
     increment_ranks = function(names, by) {
     },

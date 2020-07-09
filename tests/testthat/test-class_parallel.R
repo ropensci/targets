@@ -85,35 +85,35 @@ tar_test("parallel$dequeue() with multiple ready", {
   expect_identical(q$data, data)
 })
 
-tar_test("parallel$prepend() nothing on an empty queue", {
+tar_test("parallel$enqueue() nothing on an empty queue", {
   q <- parallel_init()
   data <- q$data
-  q$prepend(names = character(0))
+  q$enqueue(names = character(0))
   expect_identical(q$data, data)
   expect_equal(counter_get_names(q$counter), character(0))
 })
 
-tar_test("parallel$prepend() something on an empty queue", {
+tar_test("parallel$enqueue() something on an empty queue", {
   q <- parallel_init()
-  q$prepend(names = c("a", "b"), ranks = c(1L, 2L))
+  q$enqueue(names = c("a", "b"), ranks = c(1L, 2L))
   out <- q$data
   exp <- c(1L, 2L)
   names(exp) <- c("a", "b")
   expect_identical(out, exp)
 })
 
-tar_test("parallel$prepend() something on an empty queue", {
+tar_test("parallel$enqueue() something on an empty queue", {
   q <- parallel_init(names = c("x", "y"), ranks = c(0L, 3L))
-  q$prepend(names = c("a", "b"), ranks = c(1L, 2L))
+  q$enqueue(names = c("a", "b"), ranks = c(1L, 2L))
   out <- q$data
   exp <- c(0L, 3L, 1L, 2L)
   names(exp) <- c("x", "y", "a", "b")
   expect_identical(out, exp)
 })
 
-tar_test("parallel$prepend() default ranks", {
+tar_test("parallel$enqueue() default ranks", {
   q <- parallel_init(names = c("x", "y"), ranks = c(0L, 3L))
-  q$prepend(names = c("a", "b"))
+  q$enqueue(names = c("a", "b"))
   out <- q$data
   exp <- c(0L, 3L, 0L, 0L)
   names(exp) <- c("x", "y", "a", "b")

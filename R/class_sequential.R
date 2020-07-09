@@ -18,7 +18,7 @@ sequential_class <- R6::R6Class(
       self$data <- self$data[-1L]
       head
     },
-    prepend = function(names, ranks = NULL) {
+    enqueue = function(names, ranks = NULL) {
       self$data <- c(names, self$data)
     },
     increment_ranks = function(names = NULL, by = NULL) {

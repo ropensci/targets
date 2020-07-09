@@ -28,7 +28,7 @@ prelocal_class <- R6::R6Class(
         inherits(target, "tar_builder")
       if (should_abort) {
         name <- target_get_name(target)
-        self$scheduler$queue$prepend(name, ranks = 0L)
+        self$scheduler$queue$enqueue(name, ranks = 0L)
         throw_prelocal("requires remote workers")
       }
     }
