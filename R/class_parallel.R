@@ -15,6 +15,11 @@ parallel_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    counter = NULL,
+    initialize = function(data = NULL, counter = NULL) {
+      super$initialize(data)
+      self$counter <- counter
+    },
     get_names = function() {
       names(self$data)
     },

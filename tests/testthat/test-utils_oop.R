@@ -23,7 +23,7 @@ tar_test("target can instantiate", {
 })
 
 tar_test("queue can instantiate", {
-  queue <- queue_new(1, 2)
+  queue <- queue_new(1)
   expect_true(is.environment(queue))
   expect_true(queue$is_nonempty())
   expect_silent(queue$prepend())

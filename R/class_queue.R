@@ -7,12 +7,12 @@ queue_init <- function(
   switch(
     subclass,
     parallel = parallel_init(names = names, ranks = ranks),
-    sequential = sequential_init(names = names, ranks = ranks)
+    sequential = sequential_init(names = names)
   )
 }
 
-queue_new <- function(data = NULL, counter = NULL) {
-  queue_class$new(data, counter)
+queue_new <- function(data = NULL) {
+  queue_class$new(data)
 }
 
 queue_class <- R6::R6Class(
@@ -22,13 +22,8 @@ queue_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     data = NULL,
-    counter = NULL,
-    initialize = function(
-      data = NULL,
-      counter = NULL
-    ) {
+    initialize = function(data = NULL) {
       self$data <- data
-      self$counter <- counter
     },
     is_nonempty = function() {
       length(self$data) > 0L
