@@ -276,6 +276,13 @@ target_is_branchable.default <- function(target) {
   FALSE
 }
 
+target_debug <- function(target) {
+  UseMethod("target_debug")
+}
+
+target_debug.default <- function(target) {
+}
+
 target_validate <- function(target) {
   UseMethod("target_validate")
 }

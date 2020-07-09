@@ -10,6 +10,16 @@
 #' @inheritParams tar_target
 #' @param envir Environment containing functions and global objects
 #'   used in the R commands to run targets.
+#' @param debug Character vector of names of targets to run in debug mode.
+#'   To use effectively, you must set `callr_function = NULL` and
+#'   restart your R session just before running.
+#'   [tar_make()], [tar_make_clustermq()], or [tar_make_future()]. 
+#'   For any target mentioned in `debug`, `targets` will force the target to
+#'   build locally (with `tar_cue(mode = "always")` and `deployment = "local"`
+#'   in the settings) and pause in an interactive debugger to help you diagnose
+#'   problems. This is like inserting a `browser()` statement at the
+#'   beginning of the target's expression, but without invalidating any
+#'   targets.
 #' @examples
 #' \dontrun{
 #' # Set target options:
@@ -33,7 +43,8 @@ tar_options <- function(
   template = NULL,
   storage = c("local", "remote"),
   retrieval = storage,
-  cue = targets::tar_cue()
+  cue = targets::tar_cue(),
+  debug = character(0)
 ) {
   force(envir)
   assert_lgl(tidy_eval, "tidy_eval in tar_options() must be logical.")
@@ -62,6 +73,7 @@ tar_options <- function(
   if (!is.null(cue)) {
     cue_validate(cue)
   }
+  assert_chr("debug", "debug artument of tar_options() must be a character.")
   assign("tidy_eval", tidy_eval, envir = envir_target)
   assign("packages", packages, envir = envir_target)
   assign("library", library, envir = envir_target)
@@ -76,4 +88,5 @@ tar_options <- function(
   assign("storage", storage, envir = envir_target)
   assign("retrieval", retrieval, envir = envir_target)
   assign("cue", cue, envir = envir_target)
+  assign("debug", debug, envir = envir_target)
 }

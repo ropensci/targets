@@ -8,9 +8,13 @@ tar_prune(callr_function = callr::r, callr_arguments = list())
 }
 \arguments{
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
-process to do the work. Set to \code{NULL} to do the work in the current R
-session, which is not reproducible and only recommended for
-debugging purposes.}
+process to do the work. Set to \code{NULL} to run in the current session
+instead of an external process (but restart your R session just before
+you do in order to clear debris out of the global environment).
+\code{callr_function} needs to be \code{NULL} for interactive debugging,
+e.g. \code{tar_options(debug = "your_target")}.
+However, \code{callr_function} should not be \code{NULL} for serious
+reproducible work.}
 
 \item{callr_arguments}{A list of arguments to \code{callr_function}.}
 }

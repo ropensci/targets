@@ -18,7 +18,8 @@ tar_options(
   template = NULL,
   storage = c("local", "remote"),
   retrieval = storage,
-  cue = targets::tar_cue()
+  cue = targets::tar_cue(),
+  debug = character(0)
 )
 }
 \arguments{
@@ -122,6 +123,17 @@ If \code{"remote"}, the remote worker loads the targets dependencies.}
 
 \item{cue}{An optional object from \code{tar_cue()} to customize the
 rules that decide whether the target is up to date.}
+
+\item{debug}{Character vector of names of targets to run in debug mode.
+To use effectively, you must set \code{callr_function = NULL} and
+restart your R session just before running.
+\code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}, or \code{\link[=tar_make_future]{tar_make_future()}}.
+For any target mentioned in \code{debug}, \code{targets} will force the target to
+build locally (with \code{tar_cue(mode = "always")} and \code{deployment = "local"}
+in the settings) and pause in an interactive debugger to help you diagnose
+problems. This is like inserting a \code{browser()} statement at the
+beginning of the target's expression, but without invalidating any
+targets.}
 }
 \value{
 Nothing.

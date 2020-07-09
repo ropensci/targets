@@ -112,6 +112,7 @@ future_class <- R6::R6Class(
     },
     process_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
+      target_debug(target)
       target_update_depend(target, meta)
       trn(
         target_should_run(target, self$meta),
