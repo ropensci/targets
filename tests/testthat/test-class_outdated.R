@@ -71,7 +71,7 @@ tar_test("Update the command of a stem", {
   outdated <- outdated_init(pipeline)
   outdated$run()
   out <- counter_get_names(outdated$outdated)
-  expect_equal(sort(out), sort(c("x", "y", "z")))
+  expect_true(all(c("x", "y", "z") %in% out))
 })
 
 tar_test("Corrupt a branch", {
@@ -98,17 +98,18 @@ tar_test("Corrupt a branch but turn off the depend cue", {
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
-  pipeline <- pipeline_init(list(x, y, z))
+  w <- target_init("w", quote(y))
+  pipeline <- pipeline_init(list(x, y, z, w))
   local <- algorithm_init("local", pipeline)
   local$run()
   branch_y <- target_get_children(y)[2]
-  branch_z <- target_get_children(z)[2]
   unlink(file.path("_targets", "objects", branch_y))
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   cue <- cue_init(depend = FALSE)
   z <- target_init("z", quote(y), pattern = quote(map(y)), cue = cue)
-  pipeline <- pipeline_init(list(x, y, z))
+  w <- target_init("w", quote(y), cue = cue)
+  pipeline <- pipeline_init(list(x, y, z, w))
   outdated <- outdated_init(pipeline)
   outdated$run()
   out <- counter_get_names(outdated$outdated)
@@ -159,5 +160,5 @@ tar_test("map over a stem with no branches previously", {
 })
 
 tar_test("outdated$validate()", {
-  expect_silent(outdated_init(pipeline_init())$validate())
+  expect_silent(outdated_init(pipeline_map())$validate())
 })

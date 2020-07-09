@@ -70,6 +70,7 @@ tar_make_clustermq_inner <- function(
     subclass = "clustermq",
     pipeline = pipeline,
     names = names,
+    queue = "parallel",
     reporter = reporter,
     garbage_collection = garbage_collection,
     workers = workers,

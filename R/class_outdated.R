@@ -1,9 +1,14 @@
 outdated_init <- function(
   pipeline = NULL,
   meta = meta_init(),
+  queue = "sequential",
   reporter = "silent"
 ) {
-  scheduler <- pipeline_produce_scheduler(pipeline, reporter = reporter)
+  scheduler <- pipeline_produce_scheduler(
+    pipeline = pipeline,
+    queue = queue,
+    reporter = reporter
+  )
   outdated_new(
     pipeline,
     scheduler,
@@ -66,6 +71,12 @@ outdated_class <- R6::R6Class(
       record$data <- NA_character_
       self$meta$set_record(record)
     },
+    reset_junction = function(target) {
+      if (!is.null(target$junction)) {
+        new_splits <- rep(NA_character_, length(target$junction$splits))
+        target$junction$splits <- new_splits
+      }
+    },
     register_checked = function(name) {
       counter_set_names(self$checked, name)
     },
@@ -75,40 +86,40 @@ outdated_class <- R6::R6Class(
         self$reset_hash(name)
       }
     },
-    process_exists = function(target) {
+    register_builder_outdated = function(target) {
+      self$register_outdated(target_get_name(target))
+      self$reset_junction(target)
+    },
+    process_builder_exists = function(target) {
       tryCatch(
         target_skip(target, self$pipeline, self$scheduler, self$meta),
         error = function(e) warning(e$message)
       )
       target_update_depend(target, self$meta)
       if (target_should_run(target, self$meta)) {
-        self$register_outdated(target_get_name(target))
+        self$register_builder_outdated(target)
       }
     },
-    process_missing = function(target) {
-      self$register_outdated(target_get_name(target))
+    process_builder_missing = function(target) {
       target_update_queue(target, self$scheduler)
+      self$register_builder_outdated(target)
     },
     process_builder = function(target) {
       trn(
         self$meta$exists_record(target_get_name(target)),
-        self$process_exists(target),
-        self$process_missing(target)
+        self$process_builder_exists(target),
+        self$process_builder_missing(target)
       )
     },
-    process_pattern_initial = function(target) {
-      trn(
-        any(map_lgl(target$settings$dimensions, self$is_outdated)),
-        self$process_missing(target),
-        target_skip(
-          target,
-          self$pipeline,
-          self$scheduler,
-          self$meta
-        )
-      )
+    is_childless = function(name) {
+      target <- pipeline_get_target(self$pipeline, name)
+      !length(target_get_children(target))
     },
-    process_pattern_final = function(target) {
+    process_pattern = function(target) {
+      if (any(map_lgl(target$settings$dimensions, self$is_childless))) {
+        self$register_outdated(target_get_name(target))
+        return()
+      }
       target_skip(
         target,
         self$pipeline,
@@ -118,13 +129,6 @@ outdated_class <- R6::R6Class(
       if (any(map_lgl(target_get_children(target), self$is_outdated))) {
         self$register_outdated(target_get_name(target))
       }
-    },
-    process_pattern = function(target) {
-      trn(
-        is.null(target$junction),
-        self$process_pattern_initial(target),
-        self$process_pattern_final(target)
-      )
     },
     process_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)

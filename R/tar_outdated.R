@@ -7,11 +7,12 @@
 #' @details Requires that you define a pipeline
 #'   with a `_targets.R` script in your working directory.
 #'   (See [tar_script()] for details.)
-#' @return Names of the outdated targets. Individual branch names
-#'   are omitted when branch-specific information is not reliable:
-#'   for example, when a pattern branches over an outdated target.
+#' @return Names of the outdated targets. 
 #' @param branches Logical, whether to include branch names.
 #'   Including branches could get cumbersome for large pipelines.
+#'   Individual branch names are still omitted when branch-specific information
+#'   is not reliable: for example, when a pattern branches over
+#'   an outdated target.
 #' @param targets_only Logical, whether to just restrict to targets
 #'   or to include functions and other global objects from the environment
 #'   created by running `_targets.R`.
@@ -74,7 +75,11 @@ tar_outdated_inner <- function(pipeline, branches, targets_only, reporter) {
     character(0),
     tar_outdated_globals(pipeline, meta)
   )
-  outdated <- outdated_init(pipeline, reporter = reporter)
+  outdated <- outdated_init(
+    pipeline = pipeline,
+    queue = "sequential",
+    reporter = reporter
+  )
   outdated$run()
   outdated_targets <- counter_get_names(outdated$outdated)
   if (!branches) {

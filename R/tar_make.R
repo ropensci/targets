@@ -72,6 +72,7 @@ tar_make_inner <- function(
     subclass = "local",
     pipeline = pipeline,
     names = names,
+    queue = "sequential",
     reporter = reporter,
     garbage_collection = garbage_collection
   )$run()

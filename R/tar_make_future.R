@@ -63,6 +63,7 @@ tar_make_future_inner <- function(
     subclass = "future",
     pipeline = pipeline,
     names = names,
+    queue = "parallel",
     reporter = reporter,
     garbage_collection = garbage_collection,
     workers = workers

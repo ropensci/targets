@@ -14,7 +14,10 @@ tar_outdated(
 }
 \arguments{
 \item{branches}{Logical, whether to include branch names.
-Including branches could get cumbersome for large pipelines.}
+Including branches could get cumbersome for large pipelines.
+Individual branch names are still omitted when branch-specific information
+is not reliable: for example, when a pattern branches over
+an outdated target.}
 
 \item{targets_only}{Logical, whether to just restrict to targets
 or to include functions and other global objects from the environment
@@ -36,9 +39,7 @@ debugging purposes.}
 \item{callr_arguments}{A list of arguments to \code{callr_function}.}
 }
 \value{
-Names of the outdated targets. Individual branch names
-are omitted when branch-specific information is not reliable:
-for example, when a pattern branches over an outdated target.
+Names of the outdated targets.
 }
 \description{
 Checks for outdated targets in the pipeline,

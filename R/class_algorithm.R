@@ -2,7 +2,7 @@ algorithm_init <- function(
   subclass = "local",
   pipeline = NULL,
   names = NULL,
-  queue = "parallel",
+  queue = ifelse(subclass == "local", "sequential", "parallel"),
   reporter = "verbose",
   garbage_collection = FALSE,
   workers = 1L,
