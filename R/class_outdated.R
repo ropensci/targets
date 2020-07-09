@@ -1,24 +1,3 @@
-outdated_init <- function(
-  pipeline = NULL,
-  meta = meta_init(),
-  queue = "sequential",
-  reporter = "silent"
-) {
-  scheduler <- pipeline_produce_scheduler(
-    pipeline = pipeline,
-    queue = queue,
-    reporter = reporter
-  )
-  outdated_new(
-    pipeline,
-    scheduler,
-    meta,
-    FALSE,
-    counter_init(),
-    counter_init()
-  )
-}
-
 outdated_new <- function(
   pipeline = NULL,
   scheduler = NULL,

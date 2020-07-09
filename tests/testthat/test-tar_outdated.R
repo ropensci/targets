@@ -118,3 +118,15 @@ tar_test("tar_outdated() does not deduplicate metadata", {
   out <- meta_init()$database$read_data()
   expect_equal(nrow(out), 2L)
 })
+
+tar_test("tar_outdated() names arg works", {
+   tar_script({
+     envir <- new.env(parent = baseenv())
+     tar_options(envir = envir)
+     tar_pipeline(tar_target(x, 1L), tar_target(y, x))
+   })
+   out <- tar_outdated(callr_function = NULL)
+   expect_equal(sort(out), sort(c("x", "y")))
+   out <- tar_outdated(callr_function = NULL, names = "x")
+   expect_equal(out, "x")
+})

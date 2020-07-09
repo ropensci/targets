@@ -7,7 +7,12 @@
 #' @details Requires that you define a pipeline
 #'   with a `_targets.R` script in your working directory.
 #'   (See [tar_script()] for details.)
-#' @return Names of the outdated targets. 
+#' @return Names of the outdated targets.
+#' @param names Names of the targets. `tar_outdated()` will check
+#'   these targets and all upstream ancestors in the dependency graph.
+#'   Set `names` to `NULL` to check/build all the targets (default).
+#'   Otherwise, you can supply symbols, a character vector,
+#'   or `tidyselect` helpers like [starts_with()].
 #' @param branches Logical, whether to include branch names.
 #'   Including branches could get cumbersome for large pipelines.
 #'   Individual branch names are still omitted when branch-specific information
@@ -38,6 +43,7 @@
 #' })
 #' }
 tar_outdated <- function(
+  names = NULL,
   branches = FALSE,
   targets_only = TRUE,
   reporter = ifelse(interactive(), "forecast", "silent"),
@@ -55,6 +61,7 @@ tar_outdated <- function(
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
+    names_quosure = rlang::enquo(names),
     branches = branches,
     targets_only = targets_only,
     reporter = reporter
@@ -67,23 +74,32 @@ tar_outdated <- function(
   )
 }
 
-tar_outdated_inner <- function(pipeline, branches, targets_only, reporter) {
-  names <- pipeline_get_names(pipeline)
+tar_outdated_inner <- function(
+  pipeline,
+  names_quosure,
+  branches,
+  targets_only,
+  reporter
+) {
+  names_all <- pipeline_get_names(pipeline)
+  names <- tar_tidyselect(names_quosure, names_all)
   meta <- meta_init()
   outdated_globals <- trn(
     targets_only,
     character(0),
     tar_outdated_globals(pipeline, meta)
   )
-  outdated <- outdated_init(
+  outdated <- algorithm_init(
+    subclass = "outdated",
     pipeline = pipeline,
+    names = names,
     queue = "sequential",
     reporter = reporter
   )
   outdated$run()
   outdated_targets <- counter_get_names(outdated$outdated)
   if (!branches) {
-    outdated_targets <- intersect(outdated_targets, names)
+    outdated_targets <- intersect(outdated_targets, names_all)
   }
   c(outdated_globals, outdated_targets)
 }

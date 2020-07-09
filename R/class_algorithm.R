@@ -2,7 +2,8 @@ algorithm_init <- function(
   subclass = "local",
   pipeline = NULL,
   names = NULL,
-  queue = ifelse(subclass == "local", "sequential", "parallel"),
+  queue = "parallel",
+  meta = meta_init(),
   reporter = "verbose",
   garbage_collection = FALSE,
   workers = 1L,
@@ -16,9 +17,16 @@ algorithm_init <- function(
     queue = queue,
     reporter = reporter
   )
-  meta <- meta_init()
   switch(
     subclass,
+    outdated = outdated_new(
+      pipeline = pipeline,
+      scheduler = scheduler,
+      meta = meta,
+      garbage_collection = FALSE,
+      checked = counter_init(),
+      outdated = counter_init()
+    ),
     local = local_new(pipeline, scheduler, meta, garbage_collection),
     clustermq = clustermq_new(
       pipeline,

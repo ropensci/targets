@@ -5,6 +5,7 @@
 \title{Check which targets are outdated.}
 \usage{
 tar_outdated(
+  names = NULL,
   branches = FALSE,
   targets_only = TRUE,
   reporter = ifelse(interactive(), "forecast", "silent"),
@@ -13,6 +14,12 @@ tar_outdated(
 )
 }
 \arguments{
+\item{names}{Names of the targets. \code{tar_outdated()} will check
+these targets and all upstream ancestors in the dependency graph.
+Set \code{names} to \code{NULL} to check/build all the targets (default).
+Otherwise, you can supply symbols, a character vector,
+or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
+
 \item{branches}{Logical, whether to include branch names.
 Including branches could get cumbersome for large pipelines.
 Individual branch names are still omitted when branch-specific information
