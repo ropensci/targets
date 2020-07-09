@@ -18,6 +18,19 @@ tar_test("debug mode starts a browser()", {
   # Also print out `a` in the debugger. Should be "a".
 })
 
+tar_test("debug mode starts a browser() even with 'never' mode", {
+  tar_script({
+    envir <- new.env(parent = baseenv())
+    cue <- tar_cue(mode = "never")
+    tar_options(debug = "b", envir = envir, cue = cue)
+    tar_pipeline(tar_target(a, "a", cue = cue), tar_target(b, a, cue = cue))
+  })
+  tar_make() # Pre-build all targets.
+  tar_make(callr_function = NULL) # Should launch an interactive debugger.
+  # Also print out targets::tar_name() in the debugger. Should be "b".
+  # Also print out `a` in the debugger. Should be "a".
+})
+
 tar_test("debug mode works for branches.", {
   # Start without debug mode.
   tar_script({
