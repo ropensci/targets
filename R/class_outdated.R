@@ -78,10 +78,10 @@ outdated_class <- R6::R6Class(
       }
     },
     register_checked = function(name) {
-      counter_set_names(self$checked, name)
+      counter_set_name(self$checked, name)
     },
     register_outdated = function(name) {
-      counter_set_names(self$outdated, name)
+      counter_set_name(self$outdated, name)
       if (self$meta$exists_record(name)) {
         self$reset_hash(name)
       }
