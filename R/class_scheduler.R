@@ -3,7 +3,8 @@ scheduler_init <- function(
   queue = "parallel",
   reporter = "verbose"
 ) {
-  names <- pipeline_get_names(pipeline)
+  igraph <- pipeline_produce_igraph(pipeline, targets_only = TRUE)
+  names <- igraph::topo_sort(igraph)$name
   graph <- graph_init(pipeline)
   queue <- queue_init(
     subclass = queue,

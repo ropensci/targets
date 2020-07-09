@@ -1,5 +1,5 @@
 queue_init <- function(
-  subclass = c("parallel", "serial"),
+  subclass = c("parallel", "sequential"),
   names = character(0),
   ranks = integer(0)
 ) {
@@ -7,7 +7,7 @@ queue_init <- function(
   switch(
     subclass,
     parallel = parallel_init(names = names, ranks = ranks),
-    serial = serial_init(names = names, ranks = ranks)
+    sequential = sequential_init(names = names, ranks = ranks)
   )
 }
 
@@ -35,7 +35,7 @@ queue_class <- R6::R6Class(
     },
     dequeue = function() {
     },
-    enqueue = function(names, ranks = NULL) {
+    prepend = function(names, ranks = NULL) {
     },
     increment_ranks = function(names, by) {
     },

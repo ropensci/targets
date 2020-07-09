@@ -131,7 +131,7 @@ pattern_engraph_branches <- function(target, pipeline, scheduler) {
 pattern_enqueue_branches <- function(target, scheduler) {
   children <- target_get_children(target)
   ranks <- lapply(target_get_children(target), scheduler$count_unfinished_deps)
-  scheduler$queue$enqueue(target_get_children(target), unlist(ranks))
+  scheduler$queue$prepend(target_get_children(target), unlist(ranks))
 }
 
 pattern_combine_niblings_siblings <- function(niblings, siblings) {
@@ -206,7 +206,7 @@ pattern_requeue_downstream_nonbranching <- function(
 
 pattern_requeue_self <- function(target, scheduler) {
   rank <- length(target_get_children(target)) - pattern_priority() / 2
-  scheduler$queue$enqueue(target_get_name(target), ranks = rank)
+  scheduler$queue$prepend(target_get_name(target), ranks = rank)
 }
 
 pattern_priority <- function() {
@@ -231,9 +231,9 @@ pattern_conclude_final <- function(target, pipeline, scheduler, meta) {
 
 pattern_skip_initial <- function(target, pipeline, scheduler, meta) {
   pattern_update_junction(target, pipeline)
-  pattern_insert_branches(target, pipeline, scheduler)
   pattern_requeue_downstream_branching(target, pipeline, scheduler)
   pattern_requeue_self(target, scheduler)
+  pattern_insert_branches(target, pipeline, scheduler)
 }
 
 pattern_skip_final <- function(target, pipeline, scheduler, meta) {
