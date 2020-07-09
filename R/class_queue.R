@@ -35,6 +35,8 @@ queue_class <- R6::R6Class(
     increment_ranks = function(names, by) {
     },
     should_dequeue = function() {
+    },
+    update_ranks = function(target, scheduler) {
     }
   )
 )

@@ -51,6 +51,10 @@ parallel_class <- R6::R6Class(
     should_dequeue = function() {
       any(as.integer(ceiling(self$get_ranks())) == 0L)
     },
+    update_ranks = function(target, scheduler) {
+      names <- target_downstream_names(target, scheduler)
+      target_decrement_ranks(names, scheduler)
+    },
     validate_names = function(names) {
       assert_chr(names)
       if (anyNA(names) || anyDuplicated(names)) {

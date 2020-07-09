@@ -21,8 +21,6 @@ sequential_class <- R6::R6Class(
     enqueue = function(names, ranks = NULL) {
       self$data <- c(names, self$data)
     },
-    increment_ranks = function(names = NULL, by = NULL) {
-    },
     should_dequeue = function() {
       self$is_nonempty()
     },
