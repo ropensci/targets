@@ -119,13 +119,7 @@ pattern_update_junction <- function(pattern, pipeline) {
 }
 
 pattern_engraph_branches <- function(target, pipeline, scheduler) {
-  graph <- scheduler$graph
-  graph$insert_edges(junction_upstream_edges(target$junction))
-  edges <- data_frame(
-    from = target_get_children(target),
-    to = target_get_name(target)
-  )
-  graph$insert_edges(edges)
+  scheduler$queue$engraph_branches(target, pipeline, scheduler)
 }
 
 pattern_enqueue_branches <- function(target, scheduler) {

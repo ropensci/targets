@@ -55,6 +55,15 @@ parallel_class <- R6::R6Class(
       names <- target_downstream_names(target, scheduler)
       target_decrement_ranks(names, scheduler)
     },
+    engraph_branches = function(target, pipeline, scheduler) {
+      graph <- scheduler$graph
+      graph$insert_edges(junction_upstream_edges(target$junction))
+      edges <- data_frame(
+        from = target_get_children(target),
+        to = target_get_name(target)
+      )
+      graph$insert_edges(edges)
+    },
     validate_names = function(names) {
       assert_chr(names)
       if (anyNA(names) || anyDuplicated(names)) {

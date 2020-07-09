@@ -37,6 +37,8 @@ queue_class <- R6::R6Class(
     should_dequeue = function() {
     },
     update_ranks = function(target, scheduler) {
+    },
+    engraph_branches = function(target, pipeline, scheduler) {
     }
   )
 )
