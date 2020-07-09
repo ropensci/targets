@@ -124,10 +124,8 @@ pattern_engraph_branches <- function(target, pipeline, scheduler) {
 
 pattern_enqueue_branches <- function(target, scheduler) {
   children <- target_get_children(target)
-  scheduler$queue$enqueue(
-    children,
-    unlist(lapply(children, scheduler$count_unfinished_deps))
-  )
+  ranks <- scheduler$queue$branch_ranks(children, scheduler)
+  scheduler$queue$enqueue(children, ranks)
 }
 
 pattern_combine_niblings_siblings <- function(niblings, siblings) {

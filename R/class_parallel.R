@@ -64,6 +64,9 @@ parallel_class <- R6::R6Class(
       )
       graph$insert_edges(edges)
     },
+    branch_ranks = function(children, scheduler) {
+      unlist(lapply(children, scheduler$count_unfinished_deps))
+    },
     validate_names = function(names) {
       assert_chr(names)
       if (anyNA(names) || anyDuplicated(names)) {
