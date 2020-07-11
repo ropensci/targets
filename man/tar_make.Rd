@@ -43,7 +43,9 @@ reproducible work.}
 \item{callr_arguments}{A list of arguments to \code{callr_function}.}
 }
 \value{
-Nothing.
+\code{NULL} except if \code{callr_function = callr::r_bg()}, in which case
+a handle to the \code{callr} background process is returned. Either way,
+the value is invisibly returned.
 }
 \description{
 Run the pipeline you defined in \verb{_targets.R}. \code{tar_make()}

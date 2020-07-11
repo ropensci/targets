@@ -3,7 +3,9 @@
 #' @description Run the pipeline you defined in `_targets.R`. `tar_make()`
 #'   runs the correct targets in the correct order and stores the return
 #'   values in `_targets/objects/`.
-#' @return Nothing.
+#' @return `NULL` except if `callr_function = callr::r_bg()`, in which case
+#'   a handle to the `callr` background process is returned. Either way,
+#'   the value is invisibly returned.
 #' @inheritParams tar_validate
 #' @param names Names of the targets to build or check. Set to `NULL` to
 #'   check/build all the targets (default). Otherwise, you can supply
@@ -52,13 +54,13 @@ tar_make <- function(
     reporter = reporter,
     garbage_collection = garbage_collection
   )
-  callr_outer(
+  out <- callr_outer(
     targets_function = tar_make_inner,
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments
   )
-  invisible()
+  invisible(out)
 }
 
 tar_make_inner <- function(
@@ -76,6 +78,7 @@ tar_make_inner <- function(
     reporter = reporter,
     garbage_collection = garbage_collection
   )$run()
+  invisible()
 }
 
 tar_make_reporters <- function() {

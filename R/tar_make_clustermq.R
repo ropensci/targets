@@ -12,7 +12,9 @@
 #'   To read more about configuring `clustermq` for your scheduler, visit
 #'   <https://mschubert.github.io/clustermq/articles/userguide.html#configuration> # nolint
 #'   and navigate to the appropriate link under "Setting up the scheduler".
-#' @return Nothing.
+#' @return `NULL` except if `callr_function = callr::r_bg()`, in which case
+#'   a handle to the `callr` background process is returned. Either way,
+#'   the value is invisibly returned.
 #' @inheritParams tar_make_future
 #' @param template Named list of values to insert as fields
 #'   in the `clustermq` template file, such as computing resource requirements.
@@ -48,13 +50,13 @@ tar_make_clustermq <- function(
     workers = workers,
     template = template
   )
-  callr_outer(
+  out <- callr_outer(
     targets_function = tar_make_clustermq_inner,
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments
   )
-  invisible()
+  invisible(out)
 }
 
 tar_make_clustermq_inner <- function(
@@ -76,4 +78,5 @@ tar_make_clustermq_inner <- function(
     workers = workers,
     template = template
   )$run()
+  invisible()
 }

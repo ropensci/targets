@@ -8,7 +8,9 @@
 #'   so you must install `future` yourself.
 #' @details To configure `tar_make_future()` with a computing cluster,
 #'   see the `future.batchtools` package documentation.
-#' @return Nothing.
+#' @return `NULL` except if `callr_function = callr::r_bg()`, in which case
+#'   a handle to the `callr` background process is returned. Either way,
+#'   the value is invisibly returned.
 #' @inheritParams tar_make
 #' @param workers Positive integer, maximum number of transient
 #'   `future` workers allowed to run at any given time.
@@ -42,13 +44,13 @@ tar_make_future <- function(
     garbage_collection = garbage_collection,
     workers = workers
   )
-  callr_outer(
+  out <- callr_outer(
     targets_function = tar_make_future_inner,
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments
   )
-  invisible()
+  invisible(out)
 }
 
 tar_make_future_inner <- function(
@@ -68,4 +70,5 @@ tar_make_future_inner <- function(
     garbage_collection = garbage_collection,
     workers = workers
   )$run()
+  invisible()
 }
