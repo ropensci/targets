@@ -2,7 +2,9 @@
 #' @export
 #' @description Inspect the pipeline for issues and throw an error or
 #'   warning if a problem is detected.
-#' @return Nothing.
+#' @return `NULL` except if `callr_function = callr::r_bg()`, in which case
+#'   a handle to the `callr` background process is returned. Either way,
+#'   the value is invisibly returned.
 #' @param callr_function A function from `callr` to start a fresh clean R
 #'   process to do the work. Set to `NULL` to run in the current session
 #'   instead of an external process (but restart your R session just before
@@ -22,13 +24,13 @@
 tar_validate <- function(callr_function = callr::r, callr_arguments = list()) {
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
-  callr_outer(
+  out <- callr_outer(
     targets_function = tar_validate_inner,
     targets_arguments = list(),
     callr_function = callr_function,
     callr_arguments = callr_arguments
   )
-  invisible()
+  invisible(out)
 }
   
 tar_validate_inner <- function(pipeline) {

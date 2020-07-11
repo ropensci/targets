@@ -48,6 +48,6 @@ memory_validate <- function(memory) {
   assert_correct_fields(memory, memory_new)
   assert_chr(memory$names)
   assert_envir(memory$envir)
-  assert_identical(sort(memory$names), sort(names(memory$envir)))
+  assert_in(sort(memory$names), sort(names(memory$envir)))
   assert_identical(length(memory$names), memory$count)
 }

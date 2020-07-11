@@ -6,7 +6,9 @@
 #'   data store are unaffected. Also removes `_targets/scratch/`,
 #'   which is only needed while [tar_make()], [tar_make_clustermq()],
 #'   or [tar_make_future()] is running.
-#' @return Nothing.
+#' @return `NULL` except if `callr_function = callr::r_bg()`, in which case
+#'   a handle to the `callr` background process is returned. Either way,
+#'   the value is invisibly returned.
 #' @inheritParams tar_validate
 #' @examples
 #' \dontrun{
@@ -31,13 +33,13 @@ tar_prune <- function(callr_function = callr::r, callr_arguments = list()) {
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   store_del_scratch()
-  callr_outer(
+  out <- callr_outer(
     targets_function = tar_prune_inner,
     targets_arguments = list(),
     callr_function = callr_function,
     callr_arguments = callr_arguments
   )
-  invisible()
+  invisible(out)
 }
 
 tar_prune_inner <- function(pipeline) {
@@ -54,4 +56,5 @@ tar_prune_inner <- function(pipeline) {
   data <- as_data_frame(data)[data$name %in% keep, ]
   meta$database$overwrite_storage(data)
   unlink(file.path("_targets", "objects", discard), recursive = TRUE)
+  invisible()
 }
