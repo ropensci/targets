@@ -26,7 +26,7 @@ px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
 tar_destroy()
 unlink("_targets.R")
 
-# Same, but just setup overhead.
+# Same, but just setup overhead. Still a bottleneck in custom topo sort.
 tar_script({
   target_x0 <- tar_target(x0, stop())
   targets <- lapply(seq_len(1e3), function(id) {
