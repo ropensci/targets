@@ -6,6 +6,7 @@ settings_init <- function(
   error = "stop",
   memory = "persistent",
   deployment = "remote",
+  priority = 0,
   resources = list(),
   template = NULL,
   storage = "local",
@@ -22,6 +23,7 @@ settings_init <- function(
     error = error,
     memory = memory,
     deployment = deployment,
+    priority = priority,
     resources = resources,
     template = template,
     storage = storage,
@@ -38,6 +40,7 @@ settings_new <- function(
   error = NULL,
   memory = NULL,
   deployment = NULL,
+  priority = NULL,
   resources = NULL,
   template = NULL,
   storage = NULL,
@@ -51,6 +54,7 @@ settings_new <- function(
   force(error)
   force(memory)
   force(deployment)
+  force(priority)
   force(resources)
   force(template)
   force(storage)
@@ -72,6 +76,7 @@ settings_clone <- function(settings) {
     error = settings$error,
     memory = settings$memory,
     deployment = settings$deployment,
+    priority = settings$priority,
     resources = settings$resources,
     template = settings$template,
     storage = settings$storage,
@@ -101,6 +106,9 @@ settings_validate <- function(settings) {
   assert_in(settings$error, c("stop", "continue"))
   assert_in(settings$memory, c("persistent", "transient"))
   assert_in(settings$deployment, c("local", "remote"))
+  assert_scalar(settings$priority)
+  assert_ge(settings$priority, 0)
+  assert_le(settings$priority, 1)
   assert_list(settings$resources)
   assert_in(settings$storage, c("local", "remote"))
   assert_in(settings$retrieval, c("local", "remote"))

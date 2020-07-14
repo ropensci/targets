@@ -8,6 +8,12 @@ tar_test("assert_chr_no_delim()", {
   expect_error(assert_chr_no_delim("a*b"), class = "condition_validate")
 })
 
+tar_test("assert_ge()", {
+  expect_silent(assert_ge(2L, 1L))
+  expect_silent(assert_ge(2L, 2L))
+  expect_error(assert_ge(1L, 2L), class = "condition_validate")
+})
+
 tar_test("assert_function()", {
   expect_error(assert_function("not"), class = "condition_validate")
 })
@@ -15,6 +21,12 @@ tar_test("assert_function()", {
 tar_test("assert_df()", {
   expect_silent(assert_df(data_frame(x = 1)))
   expect_error(assert_df(TRUE), class = "condition_validate")
+})
+
+tar_test("assert_le()", {
+  expect_silent(assert_le(1L, 2L))
+  expect_silent(assert_le(2L, 2L))
+  expect_error(assert_le(2L, 1L), class = "condition_validate")
 })
 
 tar_test("assert_lgl()", {

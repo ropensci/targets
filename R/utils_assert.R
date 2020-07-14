@@ -54,6 +54,12 @@ assert_function <- function(x, msg = NULL) {
   }
 }
 
+assert_ge <- function(x, threshold, msg = NULL) {
+  if (x < threshold) {
+    throw_validate(msg %||% paste("x is less than", threshold))
+  }
+}
+
 assert_identical <- function(x, y, msg = NULL) {
   if (!identical(x, y)) {
     throw_validate(msg %||% "x and y are not identical.")
@@ -77,6 +83,12 @@ assert_in <- function(x, choices, msg = NULL) {
 assert_int <- function(x, msg = NULL) {
   if (!is.integer(x)) {
     throw_validate(msg %||% "x must be an integer vector.")
+  }
+}
+
+assert_le <- function(x, threshold, msg = NULL) {
+  if (x > threshold) {
+    throw_validate(msg %||% paste("x is greater than", threshold))
   }
 }
 

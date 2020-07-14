@@ -36,6 +36,28 @@ tar_test("branch$pedigree", {
   expect_equal(branch$settings$name, "x_1")
 })
 
+tar_test("branch priority", {
+  command <- command_init(quote(1 + 1))
+  settings <- settings_init(
+    name = "x",
+    pattern = quote(map(y)),
+    priority = 0.5
+  )
+  cue <- cue_init()
+  cache <- cache_init()
+  branch <- branch_init(
+    command,
+    settings,
+    cue,
+    cache,
+    NULL,
+    character(0),
+    "y",
+    1L
+  )
+  expect_equal(branch$settings$priority, 0.5)
+})
+
 tar_test("branches are not branchable", {
   command <- command_init(quote(1 + 1))
   settings <- settings_init(name = "x", pattern = quote(map(y)))
