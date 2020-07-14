@@ -54,6 +54,7 @@ tar_script({
   })
   tar_pipeline(c(targets, target_x0))
 })
+system.time(try(tar_make(reporter = "summary", callr_function = NULL)))
 px <- pprof(try(tar_make(reporter = "summary", callr_function = NULL)))
 tar_destroy()
 unlink("_targets.R")
