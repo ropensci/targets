@@ -190,7 +190,7 @@ position_level <- function(vertices, edges) {
   igraph <- igraph::graph_from_data_frame(edges)
   while (length(igraph::V(igraph))) {
     level <- level + 1L
-    leaves <- leaves(igraph)
+    leaves <- igraph_leaves(igraph)
     vertices[vertices$name %in% leaves, "level"] <- level
     igraph <- igraph::delete_vertices(graph = igraph, v = leaves)
   }

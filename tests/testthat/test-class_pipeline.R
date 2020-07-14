@@ -28,9 +28,9 @@ tar_test("pipeline_get_envir() on a nonempty pipeline", {
 tar_test("pipeline_get_priorities", {
   pipeline <- pipeline_init(
     list(
-      target_init("x", priority = 0.5),
-      target_init("y", priority = 0),
-      target_init("z", priority = 1)
+      target_init("x", quote(1), priority = 0.5),
+      target_init("y", quote(x), priority = 0),
+      target_init("z", quote(y), priority = 1)
     )
   )
   out <- pipeline_get_priorities(pipeline)
