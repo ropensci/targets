@@ -11,12 +11,20 @@ scheduler_init <- function(
   queue <- queue_init(
     subclass = queue,
     names = names,
-    ranks = graph$produce_degrees(names, "upstream")
+    ranks = initial_ranks(names, graph, priorities)
   )
   queued <- counter_init(names)
   progress <- progress_init(queued = queued)
   reporter <- reporter_init(reporter)
   scheduler_new(graph, queue, progress, reporter)
+}
+
+initial_ranks <- function(names, graph, priorities) {
+  graph$produce_degrees(names, "upstream") + rank_offset(priorities[names])
+}
+
+rank_offset <- function(priorities) {
+  - priorities / 2
 }
 
 scheduler_new <- function(

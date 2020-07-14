@@ -199,7 +199,7 @@ pattern_requeue_downstream_nonbranching <- function(
 }
 
 pattern_requeue_self <- function(target, scheduler) {
-  rank <- length(target_get_children(target)) - pattern_priority() / 2
+  rank <- length(target_get_children(target)) + rank_offset(pattern_priority())
   scheduler$queue$enqueue(target_get_name(target), ranks = rank)
 }
 
