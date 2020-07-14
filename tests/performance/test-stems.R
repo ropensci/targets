@@ -26,9 +26,26 @@ px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
 tar_destroy()
 unlink("_targets.R")
 
-# Same, but just setup overhead. Still a bottleneck in custom topo sort.
+# Same, but with a target chain.
 tar_script({
   target_x0 <- tar_target(x0, stop())
+  targets <- lapply(seq_len(1e3), function(id) {
+    name <- paste0("x", as.character(id))
+    dep <- paste0("x", as.character(id - 1L))
+    expr <- as.expression(rlang::sym(dep))
+    tar_target_external(name, expr = expr)
+  })
+  tar_pipeline(c(targets, target_x0))
+})
+system.time(try(tar_make(reporter = "summary", callr_function = NULL)))
+px <- pprof(try(tar_make(reporter = "summary", callr_function = NULL)))
+tar_destroy()
+unlink("_targets.R")
+
+# Same, but with setup overhead due to custom topo sort.
+# Should see the overhead in the graph.
+tar_script({
+  target_x0 <- tar_target(x0, stop(), priority = 1)
   targets <- lapply(seq_len(1e3), function(id) {
     name <- paste0("x", as.character(id))
     dep <- paste0("x", as.character(id - 1L))
