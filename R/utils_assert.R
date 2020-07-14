@@ -55,7 +55,7 @@ assert_function <- function(x, msg = NULL) {
 }
 
 assert_ge <- function(x, threshold, msg = NULL) {
-  if (x < threshold) {
+  if (any(x < threshold)) {
     throw_validate(msg %||% paste("x is less than", threshold))
   }
 }
@@ -87,7 +87,7 @@ assert_int <- function(x, msg = NULL) {
 }
 
 assert_le <- function(x, threshold, msg = NULL) {
-  if (x > threshold) {
+  if (any(x > threshold)) {
     throw_validate(msg %||% paste("x is greater than", threshold))
   }
 }

@@ -8,11 +8,7 @@ scheduler_init <- function(
   igraph <- igraph::simplify(igraph::graph_from_data_frame(edges))
   priorities <- pipeline_get_priorities(pipeline)
   names <- topo_sort_by_priority(igraph, priorities)
-  queue <- queue_init(
-    subclass = queue,
-    names = names,
-    ranks = initial_ranks(names, graph, priorities)
-  )
+  queue <- queue_init(queue, names, initial_ranks(names, graph, priorities))
   queued <- counter_init(names)
   progress <- progress_init(queued = queued)
   reporter <- reporter_init(reporter)
