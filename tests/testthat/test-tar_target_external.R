@@ -6,6 +6,11 @@ tar_test("tar_target_external() works", {
   expect_equal(x$command$string, "expression(get_data())")
 })
 
+tar_test("tar_target_external() gets priorities", {
+  x <- tar_target_external("x", quote(get_data()), priority = 0.5)
+  expect_equal(x$settings$priority, 0.5)
+})
+
 tar_test("tar_target_external() defines pattens correctly", {
   x <- tar_target_external("x", expression(1), pattern = expression(map(y)))
   expect_silent(target_validate(x))
