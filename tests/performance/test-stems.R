@@ -12,7 +12,7 @@ large_pipeline <- pipeline_init(targets)
 px <- pprof(algorithm_init("local", pipeline = large_pipeline)$run())
 tar_destroy()
 
-# With API
+# With API.
 tar_script({
   targets <- lapply(seq_len(1e3), function(id) {
     name <- paste0("x", as.character(id))
@@ -26,7 +26,7 @@ px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
 tar_destroy()
 unlink("_targets.R")
 
-# Same, but just setup overhead
+# Same, but just setup overhead.
 tar_script({
   target_x0 <- tar_target(x0, stop())
   targets <- lapply(seq_len(1e3), function(id) {
