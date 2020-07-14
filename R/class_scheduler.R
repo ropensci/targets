@@ -6,7 +6,8 @@ scheduler_init <- function(
   edges <- pipeline_upstream_edges(pipeline, targets_only = TRUE)
   graph <- graph_init(remove_loops(edges))
   igraph <- igraph::simplify(igraph::graph_from_data_frame(edges))
-  names <- topo_sort_by_priority(igraph, pipeline_get_priorities(pipeline))
+  priorities <- pipeline_get_priorities(pipeline)
+  names <- topo_sort_by_priority(igraph, priorities)
   queue <- queue_init(
     subclass = queue,
     names = names,
