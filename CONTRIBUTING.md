@@ -20,14 +20,7 @@ Please abide by the following guidelines.
 * Before posting a new issue, please take a moment to search for existing similar issues in order to avoid duplication.
 * For bug reports: if you can, please install the latest GitHub version of `targets` (i.e. `remotes::install_github("wlandau/targets")`) and verify that the issue still persists.
 * Describe your issue in prose as clearly and concisely as possible. The following three-paragraph format is preferred.
-    1. State the general problem or question in 1-2 matter-of-fact high-level sentences.
-    2. Explain supporting context and details necessary to understand paragraph 1.
-    3. Suggest solutions, implementation details, or other ideas if you have them.
-* Include diagnostic details about the problem, including
-    * A [reproducible example](https://github.com/tidyverse/reprex).
-    * Session info, available through `sessionInfo()` or [`reprex(si = TRUE)`](https://github.com/tidyverse/reprex).
-    * A stack trace from `traceback()` or `rlang::trace_back()`.
-    * The [SHA-1 hash](https://git-scm.com/book/en/v1/Getting-Started-Git-Basics#Git-Has-Integrity) of the GitHub commit of `targets` currently installed. `packageDescription("targets")$GithubSHA1` shows you this.
+* Be considerate of the maintainer's time and make it as easy as possible to troubleshoot any problems you identify. Read [here](https://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example) and [here](https://www.tidyverse.org/help/) to learn about minimal reproducible examples. Format your code according to the [tidyverse style guide](https://style.tidyverse.org/) to make it easier for others to read.
 
 ## Development
 
