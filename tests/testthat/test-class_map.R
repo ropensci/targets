@@ -489,3 +489,45 @@ tar_test("must branch over stems and patterns", {
   algo <- algorithm_init("local", pipeline = pipeline)
   expect_error(algo$run(), class = "condition_validate")
 })
+
+tar_test("pattern dims are always deps", {
+  x <- target_init("x", quote(seq_len(2)), pattern = quote(map(y)))
+  expect_true("y" %in% x$command$deps)
+})
+
+tar_test("pattern dims are always deps when run", {
+  pipeline <- pipeline_init(
+    list(
+      target_init("y", quote(seq_len(2))),
+      target_init("x", quote("x"), pattern = quote(map(y)))
+    )
+  )
+  algorithm_init("local", pipeline)$run()
+  x <- target_init("x", quote("x"), pattern = quote(map(y)))
+  out <- target_read_value(pipeline_get_target(pipeline, "x"), pipeline)$object
+  expect_equivalent(out, c("x", "x"))
+})
+
+tar_test("patterns and branches get correct ranks with priorities", {
+  pipeline <- pipeline_init(
+    list(
+      target_init("x", quote(seq_len(2)), priority = 0.1),
+      target_init("z", quote(stop(x)), pattern = quote(map(x)), priority = .3),
+      target_init("y", quote(stop(x)), pattern = quote(map(x)), priority = .2),
+      target_init("w", quote(c(y, z)), priority = 0.4)
+    )
+  )
+  algo <- algorithm_init("local", pipeline, queue = "parallel")
+  expect_error(algo$run())
+  out <- algo$scheduler$queue$data
+  branch_names <- target_get_children(pipeline_get_target(pipeline, "z"))
+  branch_name <- intersect(branch_names, names(out))
+  exp <- c(
+    y = 0 - 0.2 / 2,
+    w = 2 - 0.4 / 2,
+    z = 1 - 1.1 / 2
+  )
+  exp[branch_name] <- 0 - 0.3 / 2
+  expect_equal(sort(names(out)), sort(names(exp)))
+  expect_equal(out[names(exp)], exp)
+})

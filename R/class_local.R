@@ -50,7 +50,6 @@ local_class <- R6::R6Class(
       )
     },
     process_next = function() {
-      queue <- self$scheduler$queue
       if (self$garbage_collection) {
         gc()
       }
