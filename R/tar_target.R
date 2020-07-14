@@ -75,6 +75,9 @@
 #'   [tar_make_clustermq()] and [tar_make_future()]. If `"remote"`,
 #'   the target builds on a remote parallel worker. If `"local"`,
 #'   the target builds on the host machine / process managing the pipeline.
+#' @param priority Numeric of length 1 between 0 and 1. Controls which
+#'   targets get deployed first when multiple competing targets are ready
+#'   simultaneously. Targets with priorities closer to 1 get built earlier.
 #' @param template Relevant to [tar_make_clustermq()] only.
 #'   Named list of values to fill in the `clustermq` template file.
 #'   Unsupported for now. May be supported in the future if
@@ -123,6 +126,7 @@ tar_target <- function(
   memory = targets::tar_option("memory", "persistent"),
   template = targets::tar_option("template", NULL),
   deployment = targets::tar_option("deployment", "remote"),
+  priority = 0,
   resources = targets::tar_option("resources", list()),
   storage = targets::tar_option("storage", "local"),
   retrieval = targets::tar_option("retrieval", storage),
@@ -141,6 +145,9 @@ tar_target <- function(
   error <- match.arg(error, c("stop", "continue"))
   memory <- match.arg(memory, c("persistent", "transient"))
   deployment <- match.arg(deployment, c("remote", "local"))
+  assert_scalar(priority)
+  assert_ge(priority, 0)
+  assert_le(priority, 1)
   warn_template(template)
   assert_list(resources, "resources in tar_target() must be a named list.")
   storage <- match.arg(storage, c("local", "remote"))
@@ -167,6 +174,7 @@ tar_target <- function(
     error = error,
     memory = memory,
     deployment = deployment,
+    priority = priority,
     template = template,
     resources = resources,
     storage = storage,

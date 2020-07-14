@@ -5,6 +5,11 @@ tar_test("tar_target() works", {
   expect_equal(x$command$string, "expression(get_data())")
 })
 
+tar_test("tar_target() gets priorities", {
+  x <- tar_target(x, get_data(), priority = 0.5)
+  expect_equal(x$settings$priority, 0.5)
+})
+
 tar_test("tar_target() defines pattens correctly", {
   x <- tar_target(x, 1, pattern = map(y))
   expect_silent(target_validate(x))

@@ -55,6 +55,38 @@ tar_test("scheduler$count_unfinished_deps()", {
   expect_equal(scheduler$count_unfinished_deps("mins"), 0L)
 })
 
+tar_test("initial_ranks()", {
+  pipeline <- pipeline_init(
+    list(
+      target_init("x", quote(1), priority = 0.5),
+      target_init("y1", quote(x), priority = 0.2),
+      target_init("y2", quote(x), priority = 0.1),
+      target_init("y3", quote(x), priority = 0.3),
+      target_init("z1", quote(x), priority = 0.8),
+      target_init("z2", quote(x), priority = 0.7),
+      target_init("z3", quote(x), priority = 0.9),
+      target_init("w", quote(c(y1, y2, y3, z1, z2, z3)), priority = 1)
+    )
+  )
+  edges <- pipeline_upstream_edges(pipeline, targets_only = TRUE)
+  graph <- graph_init(remove_loops(edges))
+  igraph <- igraph::simplify(igraph::graph_from_data_frame(edges))
+  priorities <- pipeline_get_priorities(pipeline)
+  names <- topo_sort_by_priority(igraph, priorities)
+  out <- initial_ranks(names, graph, priorities)
+  exp <- c(
+    x = 0 - (0.5 / 2),
+    z3 = 1 - (0.9 / 2),
+    z1 = 1 - (0.8 / 2),
+    z2 = 1 - (0.7 / 2),
+    y3 = 1 - (0.3 / 2),
+    y1 = 1 - (0.2 / 2),
+    y2 = 1 - (0.1 / 2),
+    w = 6 - (1 / 2)
+  )
+  expect_equal(out, exp)
+})
+
 tar_test("validate empty scheduler", {
   s <- scheduler_init()
   expect_silent(s$validate())

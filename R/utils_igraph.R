@@ -30,7 +30,18 @@ targets_adjacent_vertices <- function(graph, v, mode) {
   igraph::V(graph)$name[index + 1]
 }
 
-leaves <- function(igraph) {
+igraph_leaves <- function(igraph) {
   is_leaf <- igraph::degree(igraph, mode = "in") == 0L
   igraph::V(igraph)[is_leaf]$name
+}
+
+topo_sort_by_priority <- function(igraph, priorities) {
+  out <- character(0)
+  while (length(igraph::V(igraph))) {
+    leaves <- igraph_leaves(igraph)
+    leaves <- leaves[order(priorities[leaves], decreasing = TRUE)]
+    out <- c(out, leaves)
+    igraph <- igraph::delete_vertices(graph = igraph, v = leaves)
+  }
+  out
 }

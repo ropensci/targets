@@ -8,6 +8,11 @@ tar_test("target$settings", {
   expect_silent(settings_validate(x$settings))
 })
 
+tar_test("target$settings$priority", {
+  x <- target_init(name = "abc", expr = quote(a), priority = 0.5)
+  expect_equal(x$settings$priority, 0.5)
+})
+
 tar_test("target$value", {
   x <- target_init(name = "abc", expr = quote(1L))
   builder_update_build(x)

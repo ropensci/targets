@@ -1,5 +1,6 @@
 tar_test("graph$produce_upstream()", {
-  graph <- graph_init(pipeline_order())
+  edges <- pipeline_upstream_edges(pipeline_order(), targets_only = TRUE)
+  graph <- graph_init(remove_loops(edges))
   expect_equal(graph$produce_upstream("data1"), character(0))
   expect_equal(graph$produce_upstream("data2"), character(0))
   expect_equal(graph$produce_upstream("min1"), "data1")
@@ -12,7 +13,8 @@ tar_test("graph$produce_upstream()", {
 })
 
 tar_test("graph$produce_downstream()", {
-  graph <- graph_init(pipeline_order())
+  edges <- pipeline_upstream_edges(pipeline_order(), targets_only = TRUE)
+  graph <- graph_init(remove_loops(edges))
   expect_equal(
     sort(graph$produce_downstream("data1")),
     sort(c("min1", "max1"))
@@ -31,7 +33,8 @@ tar_test("graph$produce_downstream()", {
 })
 
 tar_test("graph$produce_degrees(mode = \"in\")", {
-  graph <- graph_init(pipeline_order())
+  edges <- pipeline_upstream_edges(pipeline_order(), targets_only = TRUE)
+  graph <- graph_init(remove_loops(edges))
   expect_equal(graph$produce_degrees("data1", mode = "upstream"), 0L)
   expect_equal(graph$produce_degrees("data2", mode = "upstream"), 0L)
   expect_equal(graph$produce_degrees("min1", mode = "upstream"), 1L)
@@ -48,7 +51,8 @@ tar_test("graph$produce_degrees(mode = \"in\")", {
 })
 
 tar_test("graph$produce_degrees(mode = \"out\")", {
-  graph <- graph_init(pipeline_order())
+  edges <- pipeline_upstream_edges(pipeline_order(), targets_only = TRUE)
+  graph <- graph_init(remove_loops(edges))
   expect_equal(graph$produce_degrees("data1", mode = "out"), 2L)
   expect_equal(graph$produce_degrees("data2", mode = "out"), 2L)
   expect_equal(graph$produce_degrees("min1", mode = "out"), 1L)
@@ -65,7 +69,8 @@ tar_test("graph$produce_degrees(mode = \"out\")", {
 })
 
 tar_test("graph$insert_edges() upstream checks", {
-  graph <- graph_init(pipeline_order())
+  edges <- pipeline_upstream_edges(pipeline_order(), targets_only = TRUE)
+  graph <- graph_init(remove_loops(edges))
   new_edgelist <- data_frame(
     from = c("abc", "xyz", "min1", "other1"),
     to = c("data1", "data2", "123", "other2")
@@ -89,7 +94,8 @@ tar_test("graph$insert_edges() upstream checks", {
 })
 
 tar_test("graph$insert_edges() downstream checks", {
-  graph <- graph_init(pipeline_order())
+  edges <- pipeline_upstream_edges(pipeline_order(), targets_only = TRUE)
+  graph <- graph_init(remove_loops(edges))
   new_edgelist <- data_frame(
     from = c("abc", "xyz", "min1", "other1"),
     to = c("data1", "data2", "123", "other2")
@@ -126,6 +132,7 @@ tar_test("graph$replace_upstream()", {
 })
 
 tar_test("graph$validate()", {
-  graph <- graph_init(pipeline_order())
+  edges <- pipeline_upstream_edges(pipeline_order(), targets_only = TRUE)
+  graph <- graph_init(remove_loops(edges))
   expect_silent(graph$validate())
 })

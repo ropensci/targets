@@ -56,6 +56,7 @@ tar_target_external <- function(
   error = targets::tar_option("error", "stop"),
   memory = targets::tar_option("memory", "persistent"),
   deployment = targets::tar_option("deployment", "remote"),
+  priority = 0,
   template = targets::tar_option("template", NULL),
   resources = targets::tar_option("resources", list()),
   storage = targets::tar_option("storage", "local"),
@@ -74,6 +75,9 @@ tar_target_external <- function(
   error <- match.arg(error, c("stop", "continue"))
   memory <- match.arg(memory, c("persistent", "transient"))
   deployment <- match.arg(deployment, c("remote", "local"))
+  assert_scalar(priority)
+  assert_ge(priority, 0)
+  assert_le(priority, 1)
   warn_template(template)
   assert_list(
     resources,
@@ -96,6 +100,7 @@ tar_target_external <- function(
     error = error,
     memory = memory,
     deployment = deployment,
+    priority = priority,
     template = template,
     resources = resources,
     storage = storage,
