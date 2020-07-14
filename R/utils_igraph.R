@@ -34,3 +34,7 @@ leaves <- function(igraph) {
   is_leaf <- igraph::degree(igraph, mode = "in") == 0L
   igraph::V(igraph)[is_leaf]$name
 }
+
+topo_sort_by_priority <- function(igraph, pipeline) {
+  browser()
+}

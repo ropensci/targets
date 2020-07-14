@@ -47,6 +47,14 @@ pipeline_get_envir <- function(pipeline) {
   target_empty_envir
 }
 
+pipeline_get_priorities <- function(pipeline) {
+  map_dbl(
+    pipeline_get_names(pipeline),
+    ~pipeline_get_target(pipeline, .x)$settings$priority,
+    USE.NAMES = TRUE
+  )
+}
+
 pipeline_set_target <- function(pipeline, target) {
   assign(
     x = target$settings$name,

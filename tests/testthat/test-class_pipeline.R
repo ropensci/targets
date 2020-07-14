@@ -25,6 +25,20 @@ tar_test("pipeline_get_envir() on a nonempty pipeline", {
   expect_identical(pipeline_get_envir(pipeline), envir)
 })
 
+tar_test("pipeline_get_priorities", {
+  pipeline <- pipeline_init(
+    list(
+      target_init("x", priority = 0.5),
+      target_init("y", priority = 0),
+      target_init("z", priority = 1)
+    )
+  )
+  out <- pipeline_get_priorities(pipeline)
+  exp <- c(x = 0.5, y = 0, z = 1)
+  expect_equal(sort(names(out)), sort(names(exp)))
+  expect_equal(out[names(exp)], exp)
+})
+
 tar_test("pipeline_exists_target()", {
   pipeline <- pipeline_order()
   expect_true(pipeline_exists_target(pipeline, "data1"))
