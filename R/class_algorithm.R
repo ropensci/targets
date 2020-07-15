@@ -9,14 +9,8 @@ algorithm_init <- function(
   workers = 1L,
   template = list()
 ) {
-  if (!is.null(names)) {
-    pipeline_prune_targets(pipeline, names)
-  }
-  scheduler <- pipeline_produce_scheduler(
-    pipeline = pipeline,
-    queue = queue,
-    reporter = reporter
-  )
+  algorithm_preprocess_pipeline(subclass, pipeline, names)
+  scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
   switch(
     subclass,
     outdated = outdated_new(
@@ -116,3 +110,12 @@ algorithm_class <- R6::R6Class(
     }
   )
 )
+
+algorithm_preprocess_pipeline <- function(subclass, pipeline, names) {
+  if (!is.null(names)) {
+    pipeline_prune_targets(pipeline, names)
+  }
+  if (subclass == "outdated") {
+    pipeline_reset_priorities(pipeline)
+  }
+}

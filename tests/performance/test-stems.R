@@ -14,6 +14,7 @@ tar_destroy()
 
 # With API.
 tar_script({
+  x0 <- 1
   targets <- lapply(seq_len(1e3), function(id) {
     name <- paste0("x", as.character(id))
     dep <- paste0("x", as.character(id - 1L))
@@ -56,5 +57,14 @@ tar_script({
 })
 system.time(try(tar_make(reporter = "summary", callr_function = NULL)))
 px <- pprof(try(tar_make(reporter = "summary", callr_function = NULL)))
+
+# Should not see topo sort overhead for tar_outdated().
+system.time(try(tar_outdated(callr_function = NULL)))
+px <- pprof(try(tar_outdated(callr_function = NULL)))
+
+# Should not see topo sort overhead for tar_make_future().
+system.time(try(tar_make_future(callr_function = NULL)))
+px <- pprof(try(tar_make_future(callr_function = NULL)))
+
 tar_destroy()
 unlink("_targets.R")

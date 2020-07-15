@@ -7,12 +7,20 @@ scheduler_init <- function(
   graph <- graph_init(remove_loops(edges))
   igraph <- igraph::simplify(igraph::graph_from_data_frame(edges))
   priorities <- pipeline_get_priorities(pipeline)
-  names <- topo_sort_by_priority(igraph, priorities)
+  names <- scheduler_topo_sort(igraph, priorities, queue)
   queue <- queue_init(queue, names, initial_ranks(names, graph, priorities))
   queued <- counter_init(names)
   progress <- progress_init(queued = queued)
   reporter <- reporter_init(reporter)
   scheduler_new(graph, queue, progress, reporter)
+}
+
+scheduler_topo_sort <- function(igraph, priorities, queue) {
+  trn(
+    queue == "parallel",
+    igraph::V(igraph)$name,
+    topo_sort_custom(igraph, priorities)
+  )
 }
 
 initial_ranks <- function(names, graph, priorities) {

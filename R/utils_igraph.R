@@ -35,10 +35,15 @@ igraph_leaves <- function(igraph) {
   igraph::V(igraph)[is_leaf]$name
 }
 
+topo_sort_custom <- function(igraph, priorities) {
+  trn(
+    length(unique(priorities)) < 2L,
+    igraph::topo_sort(igraph)$name,
+    topo_sort_by_priority(igraph, priorities)
+  )
+}
+
 topo_sort_by_priority <- function(igraph, priorities) {
-  if (length(unique(priorities)) < 2L) {
-    return(igraph::topo_sort(igraph)$name)
-  }
   out <- character(0)
   while (igraph::gorder(igraph)) {
     leaves <- igraph_leaves(igraph)

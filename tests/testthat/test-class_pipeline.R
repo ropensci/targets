@@ -187,6 +187,33 @@ tar_test("pipeline_prune_targets() with multiple names", {
   expect_equal(sort(out), sort(exp))
 })
 
+tar_test("pipeline with duplicated targets", {
+  x <- target_init("x", quote(1))
+  y <- target_init("x", quote(1))
+  expect_error(pipeline_init(list(x, y)), class = "condition_validate")
+})
+
+tar_test("pipeline_reset_priorities()", {
+  pipeline <- pipeline_init(
+    list(
+      target_init("x", quote(1), priority = 1),
+      target_init("y1", quote(x), priority = 0.1),
+      target_init("y2", quote(x), priority = 0.2),
+      target_init("y3", quote(x), priority = 0.3),
+      target_init("z", quote(c(y1, y2, y3)), priority = 0.4)
+    )
+  )
+  for (name in pipeline_get_names(pipeline)) {
+    target <- pipeline_get_target(pipeline, name)
+    expect_gt(target$settings$priority, 0)
+  }
+  pipeline_reset_priorities(pipeline)
+  for (name in pipeline_get_names(pipeline)) {
+    target <- pipeline_get_target(pipeline, name)
+    expect_equal(target$settings$priority, 0)
+  }
+})
+
 tar_test("validate a nonempty pipeline", {
   expect_silent(pipeline_validate(pipeline_order()))
 })
@@ -219,12 +246,6 @@ tar_test("pipeline_validate(pipeline) with circular graph", {
     )
   )
   expect_error(pipeline_validate(pipeline)(), class = "condition_validate")
-})
-
-tar_test("pipeline with duplicated targets", {
-  x <- target_init("x", quote(1))
-  y <- target_init("x", quote(1))
-  expect_error(pipeline_init(list(x, y)), class = "condition_validate")
 })
 
 tar_test("print method", {
