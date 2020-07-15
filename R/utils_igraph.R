@@ -40,7 +40,7 @@ topo_sort_by_priority <- function(igraph, priorities) {
     return(igraph::topo_sort(igraph)$name)
   }
   out <- character(0)
-  while (length(igraph::V(igraph))) {
+  while (igraph::gorder(igraph)) {
     leaves <- igraph_leaves(igraph)
     leaves <- leaves[order(priorities[leaves], decreasing = TRUE)]
     out <- c(out, leaves)
