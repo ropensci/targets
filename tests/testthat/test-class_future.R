@@ -5,7 +5,6 @@ tar_test("future$workers", {
 
 tar_test("all local deployment works", {
   skip_if_not_installed("future")
-  skip_hpc()
   x <- target_init("x", quote(1L), deployment = "local")
   y <- target_init("y", quote(x), deployment = "local")
   z <- target_init("z", quote(x + 1L), deployment = "local")
@@ -25,7 +24,6 @@ tar_test("all local deployment works", {
 
 tar_test("some targets up to date, some not", {
   skip_if_not_installed("future")
-  skip_hpc()
   on.exit(unlink("_targets", recursive = TRUE))
   on.exit(future::plan(future::sequential), add = TRUE)
   x <- target_init("x", quote(1L))
@@ -47,7 +45,6 @@ tar_test("some targets up to date, some not", {
 tar_test("future algo can skip targets", {
   skip_on_cran()
   skip_if_not_installed("future")
-  skip_hpc()
   on.exit(unlink("_targets", recursive = TRUE))
   on.exit(future::plan(future::sequential), add = TRUE)
   x <- target_init("x", quote(1L))
@@ -70,7 +67,6 @@ tar_test("future algo can skip targets", {
 tar_test("nontrivial globals", {
   skip_on_cran()
   skip_if_not_installed("future")
-  skip_hpc()
   on.exit(unlink("_targets", recursive = TRUE))
   on.exit(future::plan(future::sequential), add = TRUE)
   envir <- new.env(parent = baseenv())
@@ -93,7 +89,6 @@ tar_test("nontrivial globals", {
 tar_test("branching plan", {
   skip_on_cran()
   skip_if_not_installed("future")
-  skip_hpc()
   on.exit(unlink("_targets", recursive = TRUE))
   on.exit(future::plan(future::sequential), add = TRUE)
   pipeline <- pipeline_map()
