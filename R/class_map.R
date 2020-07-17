@@ -47,7 +47,7 @@ print.tar_map <- function(x, ...) {
   cat(
     "<map target>",
     "\n  name:", target_get_name(x),
-    "\n  expression:\n   ",
+    "\n  command:\n   ",
     produce_lines(string_sub_expression(x$command$string)),
     "\n  maps over:\n   ",
     produce_lines(x$settings$dimensions),

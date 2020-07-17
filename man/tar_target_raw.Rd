@@ -6,7 +6,7 @@
 \usage{
 tar_target_raw(
   name,
-  expr,
+  command,
   pattern = NULL,
   packages = targets::tar_option("packages", (.packages())),
   library = targets::tar_option("library"),
@@ -29,7 +29,7 @@ tar_target_raw(
 \arguments{
 \item{name}{Character of length 1, name of the target.}
 
-\item{expr}{Similar to the \code{expr} argument of \code{\link[=tar_target]{tar_target()}} except
+\item{command}{Similar to the \code{command} argument of \code{\link[=tar_target]{tar_target()}} except
 the object must already be an expression instead of
 informally quoted code.
 \code{base::expression()} and \code{base::quote()} can produce such objects.}
@@ -55,7 +55,7 @@ Internally, the string gets hashed to check if the command changed
 since last run, which helps \code{targets} decide whether the
 target is up to date. External interfaces can take control of
 \code{string} to ignore changes in certain parts of the command.
-If \code{NULL}, the strings is just deparsed from \code{expr} (default).}
+If \code{NULL}, the strings is just deparsed from \code{command} (default).}
 
 \item{envir}{Environment containing functions and global objects
 used in the R commands to run targets.}
@@ -157,7 +157,7 @@ just feed them to \code{\link[=tar_pipeline]{tar_pipeline()}} in your \verb{_tar
 \description{
 \code{tar_target_raw()} is just like \code{\link[=tar_target]{tar_target()}} except
 it avoids non-standard evaluation for the arguments: \code{name}
-is a character string, \code{expr} and \code{pattern} are language objects,
+is a character string, \code{command} and \code{pattern} are language objects,
 and there is no \code{tidy_eval} argument. Use \code{tar_target_raw()}
 instead of \code{\link[=tar_target]{tar_target()}} if you are creating entire batches
 of targets programmatically (metaprogramming, static branching).

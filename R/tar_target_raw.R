@@ -2,7 +2,7 @@
 #' @export
 #' @description `tar_target_raw()` is just like [tar_target()] except
 #'   it avoids non-standard evaluation for the arguments: `name`
-#'   is a character string, `expr` and `pattern` are language objects,
+#'   is a character string, `command` and `pattern` are language objects,
 #'   and there is no `tidy_eval` argument. Use `tar_target_raw()`
 #'   instead of [tar_target()] if you are creating entire batches
 #'   of targets programmatically (metaprogramming, static branching).
@@ -11,7 +11,7 @@
 #' @inheritParams tar_target
 #' @inheritParams tar_options
 #' @param name Character of length 1, name of the target.
-#' @param expr Similar to the `expr` argument of [`tar_target()`] except
+#' @param command Similar to the `command` argument of [`tar_target()`] except
 #'   the object must already be an expression instead of
 #'   informally quoted code.
 #'   `base::expression()` and `base::quote()` can produce such objects.
@@ -27,7 +27,7 @@
 #'   since last run, which helps `targets` decide whether the
 #'   target is up to date. External interfaces can take control of
 #'   `string` to ignore changes in certain parts of the command.
-#'   If `NULL`, the strings is just deparsed from `expr` (default).
+#'   If `NULL`, the strings is just deparsed from `command` (default).
 #' @examples
 #'   # The following are equivalent.
 #'   y <- tar_target(y, sqrt(x), pattern = map(x))
@@ -43,7 +43,7 @@
 #'   print(target_list[[2]])
 tar_target_raw <- function(
   name,
-  expr,
+  command,
   pattern = NULL,
   packages = targets::tar_option("packages", (.packages())),
   library = targets::tar_option("library"),
@@ -89,7 +89,7 @@ tar_target_raw <- function(
   }
   target_init(
     name = name,
-    expr = expr,
+    expr = command,
     pattern = pattern,
     packages = packages,
     library = library,

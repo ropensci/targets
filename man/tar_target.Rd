@@ -6,7 +6,7 @@
 \usage{
 tar_target(
   name,
-  expr,
+  command,
   pattern = NULL,
   tidy_eval = targets::tar_option("tidy_eval", TRUE),
   packages = targets::tar_option("packages", (.packages())),
@@ -27,7 +27,7 @@ tar_target(
 \arguments{
 \item{name}{Symbol, name of the target.}
 
-\item{expr}{R code to run the target.}
+\item{command}{R code to run the target.}
 
 \item{pattern}{Language to define branching for a target.
 For example, in a pipeline with numeric vector targets \code{x} and \code{y},

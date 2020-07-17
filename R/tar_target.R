@@ -9,7 +9,7 @@
 #' @return A target object. Users should not modify these directly,
 #'   just feed them to [tar_pipeline()] in your `_targets.R` file.
 #' @param name Symbol, name of the target.
-#' @param expr R code to run the target.
+#' @param command R code to run the target.
 #' @param pattern Language to define branching for a target.
 #'   For example, in a pipeline with numeric vector targets `x` and `y`,
 #'   `tar_target(z, x + y, pattern = map(x, y))` implicitly defines
@@ -115,7 +115,7 @@
 #' print(data)
 tar_target <- function(
   name,
-  expr,
+  command,
   pattern = NULL,
   tidy_eval = targets::tar_option("tidy_eval", TRUE),
   packages = targets::tar_option("packages", (.packages())),
@@ -155,7 +155,7 @@ tar_target <- function(
   if (!is.null(cue)) {
     cue_validate(cue)
   }
-  expr <-  substitute(expr)
+  expr <-  substitute(command)
   envir <- tar_option("envir", globalenv())
   if (tidy_eval) {
     expr <- as.call(c(quote(rlang::expr), expr))
