@@ -93,10 +93,9 @@ tar_manifest_inner <- function(
 }
 
 tar_manifest_target <- function(target) {
-  str <- mask_pointers(safe_deparse(target$command$expr, collapse = " \\n "))
   out <- list(
     name = target_get_name(target),
-    command = str,
+    command = tar_manifest_command(target$command$expr),
     type = gsub("tar_", "", class(target)[1]),
     dimensions = list(target$settings$dimensions),
     format = target$settings$format,
@@ -117,4 +116,10 @@ tar_manifest_target <- function(target) {
     library = list(target$command$library)
   )
   tibble::as_tibble(out)
+}
+
+tar_manifest_command <- function(expr) {
+  out <- safe_deparse(expr, collapse = " \\n ")
+  out <- mask_pointers(out)
+  string_sub_expression(out)
 }
