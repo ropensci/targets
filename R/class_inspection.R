@@ -98,6 +98,7 @@ inspection_class <- R6::R6Class(
       outdated <- algorithm_init(
         subclass = "outdated",
         pipeline = self$pipeline,
+        queue = "sequential",
         meta = self$meta,
         reporter = self$reporter
       )
