@@ -48,13 +48,13 @@ reference:
   - '`tar_cue`'
   - '`tar_pipeline`'
   - '`tar_target`'
-  - '`tar_target_external`'
-  - '`tar_validate`'
+  - '`tar_target_raw`'
 - title: Inspect
   contents:
   - '`tar_glimpse`'
   - '`tar_network`'
   - '`tar_outdated`'
+  - '`tar_validate`'
   - '`tar_visnetwork`'
 - title: Run
   contents:

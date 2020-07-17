@@ -5,7 +5,7 @@
 #'   iteration type, and cue.
 #'   Needs to be called before any calls to [tar_target()]
 #'   in order to take effect.
-#' @details This function goes well with [tar_target_external()] when it comes
+#' @details This function goes well with [tar_target_raw()] when it comes
 #'   to defining external interfaces on top of the `targets` package to create
 #'   pipelines.
 #' @return Value of a target option. Returns `NULL` if the option is not set.

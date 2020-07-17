@@ -6,7 +6,7 @@ tar_script({
   targets <- lapply(
     seq_len(50),
     function(index) {
-      tar_target_external(
+      tar_target_raw(
         as.character(index),
         quote({
           print(pryr::mem_used())
@@ -29,7 +29,7 @@ tar_options(memory = "transient")
 targets <- lapply(
   seq_len(50),
   function(index) {
-    tar_target_external(
+    tar_target_raw(
       as.character(index),
       quote(runif(1e6)),
       memory = "transient"

@@ -1,21 +1,11 @@
-#' @title Declare a target from an external interface.
+#' @title Define a target using unrefined names and language objects.
 #' @export
-#' @description `tar_target_external()` is intended
-#'   for people who develop infrastructure on top of `targets`,
-#'   and it is not relevant to most end users.
-#' @details `tar_target_external()` is like [tar_target()],
-#'   but it is designed to be called from external interfaces.
-#'   Argument `name` is a character instead of a symbol, and
-#'   arguments `expr` and `pattern` are expression objects
-#'   instead of quoted code. In other words, where [tar_target()] uses
-#'   non-standard evaluation, `tar_target_external()` relies totally
-#'   on standard evaluation.
-#'   In addition, `tar_target_external()` supports arguments `string`
-#'   and `deps` to take more control of how commands and their dependencies
-#'   are resolved.
-#'   The hope is to make it easier for other packages to metaprogram
-#'   their own `targets` pipelines and develop external
-#'   domain specific languages for static branching.
+#' @description `tar_target_raw()` is just like [tar_target()] except
+#'   it avoids non-standard evaluation for the arguments: `name`
+#'   is a character string, `expr` and `pattern` are language objects,
+#'   and there is no `tidy_eval` argument. Use `tar_target_raw()`
+#'   instead of [tar_target()] if you are creating entire batches
+#'   of targets programmatically (metaprogramming, static branching).
 #' @return A target object. Users should not modify these directly,
 #'   just feed them to [tar_pipeline()] in your `_targets.R` file.
 #' @inheritParams tar_target
@@ -41,8 +31,17 @@
 #' @examples
 #'   # The following are equivalent.
 #'   y <- tar_target(y, sqrt(x), pattern = map(x))
-#'   y <- tar_target_external("y", expression(sqrt(x)), expression(map(x)))
-tar_target_external <- function(
+#'   y <- tar_target_raw("y", expression(sqrt(x)), expression(map(x)))
+#'   # Programmatically create a chain of interdependent targets
+#'   target_list <- lapply(seq_len(4), function(i) {
+#'     tar_target_raw(
+#'       letters[i + 1],
+#'       substitute(do_something(x), env = list(x = rlang::sym(letters[i])))
+#'     )
+#'   })
+#'   print(target_list[[1]])
+#'   print(target_list[[2]])
+tar_target_raw <- function(
   name,
   expr,
   pattern = NULL,
@@ -64,11 +63,11 @@ tar_target_external <- function(
   cue = targets::tar_option("cue", NULL)
 ) {
   force(envir)
-  assert_chr(name, "name arg of tar_target_external() must be character")
-  assert_chr(packages, "packages in tar_target_external() must be character.")
+  assert_chr(name, "name arg of tar_target_raw() must be character")
+  assert_chr(packages, "packages in tar_target_raw() must be character.")
   assert_chr(
     library %||% character(0),
-    "library in tar_target_external() must be NULL or character."
+    "library in tar_target_raw() must be NULL or character."
   )
   format <- match.arg(format, store_formats())
   iteration <- match.arg(iteration, c("vector", "list", "group"))
@@ -81,7 +80,7 @@ tar_target_external <- function(
   warn_template(template)
   assert_list(
     resources,
-    "resources in tar_target_external() must be a named list."
+    "resources in tar_target_raw() must be a named list."
   )
   storage <- match.arg(storage, c("local", "remote"))
   retrieval <- match.arg(retrieval, c("local", "remote"))

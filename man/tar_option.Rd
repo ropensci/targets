@@ -23,7 +23,7 @@ Needs to be called before any calls to \code{\link[=tar_target]{tar_target()}}
 in order to take effect.
 }
 \details{
-This function goes well with \code{\link[=tar_target_external]{tar_target_external()}} when it comes
+This function goes well with \code{\link[=tar_target_raw]{tar_target_raw()}} when it comes
 to defining external interfaces on top of the \code{targets} package to create
 pipelines.
 }
