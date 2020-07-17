@@ -1,4 +1,4 @@
-test_that("mask_pointers()", {
+tar_test("mask_pointers()", {
   str <- "function (x, y, z) \n.Call(<pointer: 0x116937930>, x, y, z)"
   x <- mask_pointers(str)
   expect_true(grepl("function", x))

@@ -38,7 +38,6 @@ target_get_type.tar_cross <- function(target) {
 
 #' @export
 print.tar_cross <- function(x, ...) {
-  expr <- x$command$expr
   cat(
     "<cross target>",
     "\n  name:", target_get_name(x),
@@ -59,7 +58,7 @@ print.tar_cross <- function(x, ...) {
     produce_lines(paste_list(x$settings$resources)),
     "\n  cue:\n   ",
     produce_lines(paste_list(as.list(x$cue))),
-    "\n  packages:\n   ", produce_lines(sort(x$command$packages)),
-    "\n  library:\n   ", produce_lines(sort(x$command$library))
+    "\n  packages:\n   ", produce_lines(x$command$packages),
+    "\n  library:\n   ", produce_lines(x$command$library)
   )
 }

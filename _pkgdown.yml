@@ -50,6 +50,7 @@ reference:
 - title: Inspect
   contents:
   - '`tar_glimpse`'
+  - '`tar_manifest`'
   - '`tar_network`'
   - '`tar_outdated`'
   - '`tar_validate`'

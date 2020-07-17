@@ -282,6 +282,7 @@ target_debug <- function(target) {
   UseMethod("target_debug")
 }
 
+#' @export
 target_debug.default <- function(target) {
 }
 

@@ -129,6 +129,7 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   NextMethod()
 }
 
+#' @export
 target_debug.tar_builder <- function(target) {
   debug <- tar_option("debug")
   if (length(debug) && target_get_name(target) %in% debug) {
