@@ -9,8 +9,6 @@ navbar:
     href: reference/index.html
   - text: Manual
     href: https://wlandau.github.io/targets-manual
-  - text: Cookbook
-    href: https://wlandau.github.io/targets-cookbook
   - text: Design
     href: articles/index.html
   - text: News
