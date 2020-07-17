@@ -4,16 +4,19 @@
 \alias{tar_meta}
 \title{Read a project's metadata.}
 \usage{
-tar_meta(names = NULL)
+tar_meta(names = NULL, fields = NULL)
 }
 \arguments{
 \item{names}{Optional, names of the targets. If supplied, \code{tar_meta()}
 only returns metadata on these targets.
 You can supply symbols, a character vector,
 or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
-}
-\value{
-A data frame with one row per target/object and these columns:
+
+\item{fields}{Optional, names of columns/fields to select. If supplied,
+\code{tar_meta()} only returns the selected metadata columns.
+You can supply symbols, a character vector, or \code{tidyselect} helpers
+like \code{\link[=starts_with]{starts_with()}}. The \code{name} column is always included first
+no matter what you select. Choices:
 \itemize{
 \item \code{name}: name of the target or global object.
 \item \code{type}: type of the object: either \code{"function"} or \code{"object"}
@@ -31,8 +34,8 @@ for dynamic files (i.e. \code{tar_target(format = "file")}).
 \item \code{format}: character, one of the admissible data storage formats.
 See the \code{format} argument in the \code{\link[=tar_target]{tar_target()}} help file for details.
 \item \code{iteration}: character, either \code{"list"} or \code{"vector"}
-to describe the iteration and aggregation mode of the target.
-See the \code{iteration} argument in the \code{\link[=tar_target]{tar_target()}} help file for details.
+to describe the iteration and aggregation mode of the target. See the
+\code{iteration} argument in the \code{\link[=tar_target]{tar_target()}} help file for details.
 \item \code{parent}: for branches, name of the parent pattern.
 \item \code{children}: list column, names of the children of targets that
 have them. These include buds of stems and branches of patterns.
@@ -40,7 +43,10 @@ have them. These include buds of stems and branches of patterns.
 \item \code{warnings}: character string of warning messages
 from the last run of the target.
 \item \code{error}: character string of the error message if the target errored.
+}}
 }
+\value{
+A data frame with one row per target/object and the selected fields.
 }
 \description{
 Read the metadata of all recorded targets and global objects.
