@@ -15,3 +15,9 @@ tar_test("tar_script() writes single line exactly", {
   })
   expect_equal(readLines("_targets.R"), c("library(targets)", "multi", "line"))
 })
+
+tar_test("tar_script_ask()", {
+  expect_true(tar_script_ask("true"))
+  expect_false(tar_script_ask("false"))
+  expect_null(tar_script_ask(""))
+})

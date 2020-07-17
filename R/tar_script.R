@@ -39,9 +39,10 @@
 #'   If `TRUE`, you do not need to explicitly put `library(targets)`
 #'   in `code`.
 #' @param ask Logical, whether to ask before writing if `_targets.R`
-#'   already exists. If `NULL`, defaults to `getOption("tar_script_ask")`.
-#'   If `ask` and the `tar_script_ask` option are both `NULL`,
-#'   defaults to `interactive()`.
+#'   already exists. If `NULL`, defaults to `Sys.getenv("TAR_SCRIPT_ASK")`.
+#'   (Set to `"true"` or `"false"` with `Sys.setenv()`).
+#'   If `ask` and the `TAR_SCRIPT_ASK` environment variable are both
+#'   indeterminate, defaults to `interactive()`.
 #' @examples
 #' \dontrun{
 #' tar_dir({
@@ -57,7 +58,9 @@
 tar_script <- function(code = NULL, library_targets = TRUE, ask = NULL) {
   # Covered in tests/interactive/test-tar_script.R.
   # nocov start
-  ask <- ask %||% getOption("tar_script_ask") %||% interactive()
+  ask <- ask %||%
+    tar_script_ask(Sys.getenv("TAR_SCRIPT_ASK")) %||%
+    interactive()
   assert_lgl(library_targets, "library_targets must be logical.")
   assert_lgl(ask, "ask argument of tar_script() must be logical.")
   assert_scalar(library_targets, "library_targets must have length 1.")
@@ -105,4 +108,14 @@ parse_target_script_code <- function(code) {
 
 target_script_path <- function() {
   "_targets.R"
+}
+
+tar_script_ask <- function(x) {
+  if (x == "true") {
+    return(TRUE)
+  }
+  if (x == "false") {
+    return(FALSE)
+  }
+  NULL
 }
