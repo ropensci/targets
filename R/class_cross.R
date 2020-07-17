@@ -42,7 +42,7 @@ print.tar_cross <- function(x, ...) {
   cat(
     "<cross target>",
     "\n  name:", target_get_name(x),
-    "\n  command:\n   ",
+    "\n  expression:\n   ",
     produce_lines(string_sub_expression(x$command$string)),
     "\n  crosses over:\n   ",
     produce_lines(x$settings$dimensions),
