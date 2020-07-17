@@ -59,7 +59,7 @@ visnetwork_class <- R6::R6Class(
     },
     produce_shapes = function(type) {
       shapes <- c(
-        object = "star",
+        object = "triangleDown",
         `function` = "triangle",
         stem = "dot",
         map = "square",
