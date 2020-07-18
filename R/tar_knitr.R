@@ -16,10 +16,10 @@
 #'   `_targets/` data store not only when `tar_knitr()` is evaluated,
 #'   but also when the actual report is run. The easiest way to
 #'   deal with this is just to keep all your R Markdown source files
-#'   at the root directory of the project. If you need to use other
-#'   directories, consider setting `knit_root_dir = getwd()`
-#'   in `rmarkdown::render()` or
-#'   `knitr::opts_knit$set(root.dir = your_project_root_directory)`
+#'   at the root directory of the project. If you need to keep your report
+#'   somewhere else, such as a subdirectory,
+#'   consider setting `knit_root_dir = getwd()` in `rmarkdown::render()` or
+#'   `knitr::opts_knit$set(root.dir = "your_project_root_directory")`
 #'   in an early code chunk of the report itself.
 #' @return A language object that represents the dependencies and
 #'   return value of a `knitr` source dynamic file.
