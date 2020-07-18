@@ -46,12 +46,6 @@ library(remotes)
 install_github("wlandau/targets")
 ```
 
-Stable releases live on CRAN.
-
-``` r
-install.packages("targets")
-```
-
 ## Examples
 
   - [Minimal example](https://github.com/wlandau/targets-minimal).
