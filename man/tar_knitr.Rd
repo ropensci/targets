@@ -29,6 +29,19 @@ allows you to run the report by itself (outside the pipeline)
 as long as a \verb{_targets/} data store already exists in the current
 working directory and contains the data.
 }
+\section{Working directory}{
+
+The current working directory (i.e. \code{getwd()}) must contain the
+\verb{_targets/} data store not only when \code{tar_knitr()} is evaluated,
+but also when the actual report is run. The easiest way to
+deal with this is just to keep all your R Markdown source files
+at the root directory of the project. If you need to use other
+directories, consider setting \code{knit_root_dir = getwd()}
+in \code{rmarkdown::render()} or
+\code{knitr::opts_knit$set(root.dir = your_project_root_directory)}
+in an early code chunk of the report itself.
+}
+
 \examples{
 \dontrun{
 tar_dir({

@@ -11,6 +11,16 @@
 #'   allows you to run the report by itself (outside the pipeline)
 #'   as long as a `_targets/` data store already exists in the current
 #'   working directory and contains the data.
+#' @section Working directory:
+#'   The current working directory (i.e. `getwd()`) must contain the
+#'   `_targets/` data store not only when `tar_knitr()` is evaluated,
+#'   but also when the actual report is run. The easiest way to
+#'   deal with this is just to keep all your R Markdown source files
+#'   at the root directory of the project. If you need to use other
+#'   directories, consider setting `knit_root_dir = getwd()`
+#'   in `rmarkdown::render()` or
+#'   `knitr::opts_knit$set(root.dir = your_project_root_directory)`
+#'   in an early code chunk of the report itself.
 #' @return A language object that represents the dependencies and
 #'   return value of a `knitr` source dynamic file.
 #' @param path Character of length 1, path to the `knitr` or
