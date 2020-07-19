@@ -52,16 +52,6 @@ target_prepare.tar_builder <- function(target, pipeline, scheduler) {
 }
 
 #' @export
-target_validate.tar_builder <- function(target) {
-  NextMethod()
-  if (!is.null(target$store)) {
-    store_validate(target$store)
-  }
-  if (!is.null(target$metrics)) {
-    metrics_validate(target$metrics)
-  }
-}
-
 target_should_run.tar_builder <- function(target, meta) {
   cue <- target$cue
   if (cue_record(cue, target, meta)) return(TRUE)
@@ -75,6 +65,7 @@ target_should_run.tar_builder <- function(target, meta) {
   FALSE
 }
 
+#' @export
 target_should_run_remote.tar_builder <- function(target) {
   target$settings$deployment == "remote"
 }
@@ -139,6 +130,17 @@ target_debug.tar_builder <- function(target) {
     target$cue$mode <- "always"
     target$settings$deployment <- "local"
     # nocov end
+  }
+}
+
+#' @export
+target_validate.tar_builder <- function(target) {
+  NextMethod()
+  if (!is.null(target$store)) {
+    store_validate(target$store)
+  }
+  if (!is.null(target$metrics)) {
+    metrics_validate(target$metrics)
   }
 }
 

@@ -42,10 +42,32 @@ tar_test("debug mode works for branches.", {
   # Pick one of the b_* branches branches and
   # assign it to debug in tar_options.
   tar_script({
-    envir <- new.env(parent = baseenv(), packages = "targets")
+    envir <- new.env(parent = baseenv())
     tar_options(envir = envir, debug = "b_0a91b2ed")
     tar_pipeline(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
   })
+  # Now verify that we launch a debugger.
+  tar_make(callr_function = NULL)
+  # Print targets::tar_name(). Should be the branch we picked in debug.
+  # Also print out `a`.
+  # Should be the value of the bud we are currently branching over.
+})
+
+tar_test("debug mode works for entire patterns", {
+  # Start without debug mode.
+  tar_script({
+    envir <- new.env(parent = baseenv())
+    tar_options(envir = envir)
+    tar_pipeline(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
+  })
+  tar_make(callr_function = NULL) # Should not debug.
+  # Pick one of the b_* branches branches and
+  # assign it to debug in tar_options.
+  tar_script({
+    envir <- new.env(parent = baseenv())
+    tar_options(envir = envir, debug = "b")
+    tar_pipeline(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
+  }, ask = FALSE)
   # Now verify that we launch a debugger.
   tar_make(callr_function = NULL)
   # Print targets::tar_name(). Should be the branch we picked in debug.

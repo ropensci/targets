@@ -96,11 +96,13 @@ target_branches_over.tar_pattern <- function(target, name) {
   name %in% target$settings$dimensions
 }
 
+#' @export
 target_update_depend.tar_pattern <- function(target, meta) {
   depends <- meta$depends
   memory_set_object(depends, target_get_name(target), null64)
 }
 
+#' @export
 target_is_branchable.tar_pattern <- function(target) {
   TRUE
 }
@@ -216,6 +218,7 @@ pattern_produce_data_hash <- function(target, meta) {
 pattern_conclude_initial <- function(target, pipeline, scheduler, meta) {
   pattern_skip_initial(target, pipeline, scheduler, meta)
   sitrep_register_running(target$sitrep, target, scheduler)
+  pattern_debug_branches(target)
 }
 
 pattern_conclude_final <- function(target, pipeline, scheduler, meta) {
@@ -256,5 +259,15 @@ pipeline_assert_dimension <- function(target, pipeline, name) {
       " global objects. Target ",
       target_get_name(target), " tried to branch over ", name, "."
     )
+  }
+}
+
+pattern_debug_branches <- function(target) {
+  debug <- tar_option("debug")
+  if (length(debug) && target_get_name(target) %in% debug) {
+    # Covered in tests/interactive/test-debug.R
+    # nocov start
+    tar_options(debug = c(debug, target_get_children(target)))
+    # nocov end
   }
 }
