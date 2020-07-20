@@ -33,17 +33,21 @@ library(remotes)
 install_github("wlandau/targets")
 ```
 
+## Documentation
+
+* [Manual](https://wlandau.github.io/targets-manual): deep dives into why and how to use `targets`.
+* [Reference](https://wlandau.github.io/targets/): package website.
+* [Functions](https://wlandau.github.io/targets/reference/index.html): documentation and examples of all user-side functions. 
+
 ## Examples
 
 * [Minimal example](https://github.com/wlandau/targets-minimal).
 * [Machine learning with Keras](https://github.com/wlandau/targets-keras).
 * [Validating a Stan model](https://github.com/wlandau/targets-stan).
 
-## Documentation
+## Helpers
 
-* [Manual](https://wlandau.github.io/targets-manual): deep dives into why and how to use `targets`.
-* [Reference](https://wlandau.github.io/targets/): package website.
-* [Functions](https://wlandau.github.io/targets/reference/index.html): documentation and examples of all user-side functions. 
+* [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny app to help sketch pipelines ([app](https://wlandau.shinyapps.io/targetsketch), [source](https://github.com/wlandau/targetsketch)).
 
 ## Specification
 

@@ -46,13 +46,6 @@ library(remotes)
 install_github("wlandau/targets")
 ```
 
-## Examples
-
-  - [Minimal example](https://github.com/wlandau/targets-minimal).
-  - [Machine learning with
-    Keras](https://github.com/wlandau/targets-keras).
-  - [Validating a Stan model](https://github.com/wlandau/targets-stan).
-
 ## Documentation
 
   - [Manual](https://wlandau.github.io/targets-manual): deep dives into
@@ -60,6 +53,20 @@ install_github("wlandau/targets")
   - [Reference](https://wlandau.github.io/targets/): package website.
   - [Functions](https://wlandau.github.io/targets/reference/index.html):
     documentation and examples of all user-side functions.
+
+## Examples
+
+  - [Minimal example](https://github.com/wlandau/targets-minimal).
+  - [Machine learning with
+    Keras](https://github.com/wlandau/targets-keras).
+  - [Validating a Stan model](https://github.com/wlandau/targets-stan).
+
+## Helpers
+
+  - [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny
+    app to help sketch pipelines
+    ([app](https://wlandau.shinyapps.io/targetsketch),
+    [source](https://github.com/wlandau/targetsketch)).
 
 ## Specification
 
@@ -70,8 +77,7 @@ install_github("wlandau/targets")
   - [Data management strategy and data store
     architecture](https://wlandau.github.io/targets/articles/need.html).
   - [Orchestration](https://wlandau.github.io/targets/articles/orchestration.html):
-    the mental model of target orchestration and dynamic
-    branching.
+    the mental model of target orchestration and dynamic branching.
   - [Composition](https://wlandau.github.io/targets/articles/composition.html):
     the object composition structure of the `target` class and its
     fields.
