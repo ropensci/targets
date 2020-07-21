@@ -4,7 +4,8 @@ progress_init <- function(
   built = counter_init(),
   skipped = counter_init(),
   cancelled = counter_init(),
-  errored = counter_init()
+  errored = counter_init(),
+  warned = counter_init()
 ) {
   database <- database_progress()
   progress_new(
@@ -14,7 +15,8 @@ progress_init <- function(
     built = built,
     skipped = skipped,
     cancelled = cancelled,
-    errored = errored
+    errored = errored,
+    warned = warned
   )
 }
 
@@ -25,7 +27,8 @@ progress_new <- function(
   skipped = NULL,
   built = NULL,
   cancelled = NULL,
-  errored = NULL
+  errored = NULL,
+  warned = NULL
 ) {
   progress_class$new(
     database = database,
@@ -34,7 +37,8 @@ progress_new <- function(
     skipped = skipped,
     built = built,
     cancelled = cancelled,
-    errored = errored
+    errored = errored,
+    warned = warned
   )
 }
 
@@ -51,6 +55,7 @@ progress_class <- R6::R6Class(
     built = NULL,
     cancelled = NULL,
     errored = NULL,
+    warned = NULL,
     initialize = function(
       database = NULL,
       queued = NULL,
@@ -58,7 +63,8 @@ progress_class <- R6::R6Class(
       skipped = NULL,
       built = NULL,
       cancelled = NULL,
-      errored = NULL
+      errored = NULL,
+      warned = NULL
     ) {
       self$database <- database
       self$queued <- queued
@@ -67,6 +73,7 @@ progress_class <- R6::R6Class(
       self$built <- built
       self$cancelled <- cancelled
       self$errored <- errored
+      self$warned <- warned
     },
     assign_dequeued = function(names) {
       counter_del_names(self$queued, names)
@@ -94,6 +101,10 @@ progress_class <- R6::R6Class(
     assign_errored = function(names) {
       counter_del_names(self$running, names)
       counter_set_names(self$errored, names)
+    },
+    assign_warned = function(names) {
+      counter_del_names(self$running, names)
+      counter_set_names(self$warned, names)
     },
     write_running = function(names) {
       db <- self$database

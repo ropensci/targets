@@ -104,6 +104,7 @@ target_skip.tar_builder <- function(target, pipeline, scheduler, meta) {
 
 #' @export
 target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
+  builder_handle_warnings(target, scheduler)
   if (metrics_has_cancel(target$metrics)) {
     return(builder_cancel(target, pipeline, scheduler))
   }
@@ -186,6 +187,12 @@ builder_update_subpipeline <- function(target, pipeline) {
 builder_ensure_subpipeline <- function(target, pipeline) {
   if (target$settings$retrieval == "remote") {
     builder_update_subpipeline(target, pipeline)
+  }
+}
+
+builder_handle_warnings <- function(target, scheduler) {
+  if (metrics_has_warnings(target$metrics)) {
+    scheduler$progress$assign_warned(target_get_name(target))
   }
 }
 

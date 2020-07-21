@@ -13,6 +13,10 @@ metrics_new <- function(
   environment()
 }
 
+metrics_has_warnings <- function(metrics) {
+  !is.null(metrics$warnings)
+}
+
 metrics_has_error <- function(metrics) {
   !is.null(metrics$error)
 }

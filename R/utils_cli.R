@@ -28,6 +28,14 @@ cli_uptodate <- function() {
   message(paste(symbol, msg))
 }
 
+cli_warned <- function(warned) {
+  warn_run(
+    warned,
+    " targets produced warnings. ",
+    "Run tar_meta(fields = warnings) for the messages."
+  )
+}
+
 cli_header_progress <- function() {
   msg <- c(
     "queue ",

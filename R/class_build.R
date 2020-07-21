@@ -5,6 +5,11 @@ build_init <- function(expr, envir, seed = 0L) {
     state$traceback <- as.character(sys.calls())
     NULL
   }
+  capture_warning <- function(w) {
+    state$warnings <- c(state$warnings, w$message)
+    warning(as_immediate_condition(w))
+    invokeRestart("muffleWarning")
+  }
   capture_cancel <- function(e) {
     state$cancel <- TRUE
     NULL
@@ -14,11 +19,7 @@ build_init <- function(expr, envir, seed = 0L) {
     withCallingHandlers(
       withr::with_dir(getwd(), withr::with_seed(seed, eval(expr, envir))),
       error = capture_error,
-      warning = function(w) {
-        state$warnings <- c(state$warnings, w$message)
-        warning(as_immediate_condition(w))
-        invokeRestart("muffleWarning")
-      },
+      warning = capture_warning,
       condition_cancel = capture_cancel
     ),
     error = function(e) {

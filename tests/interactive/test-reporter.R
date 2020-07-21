@@ -29,6 +29,11 @@ tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(stop(123)))))
 local <- algorithm_init("local", pipeline, reporter = "verbose")$run()
 
+# Should show a regular warning and a meta-warning with a tip about tar_meta().
+tar_destroy()
+pipeline <- pipeline_init(list(target_init("x", quote(warning(123)))))
+local <- algorithm_init("local", pipeline, reporter = "verbose")$run()
+
 # Should show a cancellation message.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(targets::tar_cancel()))))
@@ -44,6 +49,11 @@ algorithm_init("local", pipeline_map(), reporter = "timestamp")$run()
 # Should show a timestamp-stamped failure message and an error message.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(stop(123)))))
+local <- algorithm_init("local", pipeline, reporter = "timestamp")$run()
+
+# Should show a timestamped warning and a meta-warning w/ tip about tar_meta().
+tar_destroy()
+pipeline <- pipeline_init(list(target_init("x", quote(warning(123)))))
 local <- algorithm_init("local", pipeline, reporter = "timestamp")$run()
 
 # Should show a timestamp-stamped cancellation message.

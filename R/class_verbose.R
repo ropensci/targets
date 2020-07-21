@@ -31,6 +31,9 @@ verbose_class <- R6::R6Class(
       if (progress$uptodate()) {
         cli_uptodate()
       }
+      if (any(progress$warned$count > 0L)) {
+        cli_warned(progress$warned$count)
+      }
     }
   )
 )
