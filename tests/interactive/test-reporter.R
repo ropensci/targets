@@ -38,7 +38,10 @@ local <- algorithm_init("local", pipeline, reporter = "verbose")$run()
 tar_destroy()
 pipeline <- pipeline_init(
   list(
-    target_init("x", quote({warning("abc"); Sys.sleep(2)})),
+    target_init("x", quote({
+      warning("abc")
+      Sys.sleep(2)
+    })),
     target_init("y", quote(x))
   )
 )
@@ -49,7 +52,10 @@ local <- algorithm_init("local", pipeline, reporter = "verbose")$run()
 tar_destroy()
 pipeline <- pipeline_init(
   list(
-    target_init("x", quote({warning("abc"); Sys.sleep(2)})),
+    target_init("x", quote({
+      warning("abc")
+      Sys.sleep(2)
+    })),
     target_init("y", quote(x))
   )
 )
