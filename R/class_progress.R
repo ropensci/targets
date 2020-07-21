@@ -153,7 +153,8 @@ progress_class <- R6::R6Class(
         running = self$running$count,
         built = self$built$count,
         cancelled = self$cancelled$count,
-        errored = self$errored$count
+        errored = self$errored$count,
+        warned = self$warned$count
       )
     },
     validate = function() {

@@ -43,7 +43,8 @@ cli_header_progress <- function() {
     "skip  ",
     "built ",
     "cancel",
-    "error"
+    "error ",
+    "warn"
   )
   msg <- paste(msg, collapse = " | ")
   msg <- paste0(msg, "\n")
@@ -63,7 +64,8 @@ cli_progress <- function(
   skipped,
   built,
   cancelled,
-  errored
+  errored,
+  warned
 ) {
   msg <- c(
     cli_tally(queued),
@@ -71,7 +73,8 @@ cli_progress <- function(
     cli_tally(skipped),
     cli_tally(built),
     cli_tally(cancelled),
-    cli_tally(errored)
+    cli_tally(errored),
+    cli_tally(warned)
   )
   msg <- paste0("\r", paste(msg, collapse = " | "))
   message(msg, appendLF = FALSE)

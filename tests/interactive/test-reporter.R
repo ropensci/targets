@@ -34,6 +34,28 @@ tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(warning(123)))))
 local <- algorithm_init("local", pipeline, reporter = "verbose")$run()
 
+# Warnings are relayed immediately if the warn option is 1.
+tar_destroy()
+pipeline <- pipeline_init(
+  list(
+    target_init("x", quote({warning("abc"); Sys.sleep(2)})),
+    target_init("y", quote(x))
+  )
+)
+options(warn = 1)
+local <- algorithm_init("local", pipeline, reporter = "verbose")$run()
+
+# Warnings are delayed if the warn option is 0.
+tar_destroy()
+pipeline <- pipeline_init(
+  list(
+    target_init("x", quote({warning("abc"); Sys.sleep(2)})),
+    target_init("y", quote(x))
+  )
+)
+options(warn = 0)
+local <- algorithm_init("local", pipeline, reporter = "verbose")$run()
+
 # Should show a cancellation message.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(targets::tar_cancel()))))
@@ -74,6 +96,11 @@ local <- algorithm_init("local", pipeline, reporter = "summary")$run()
 # Should show one errored target.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(stop(123)))))
+local <- algorithm_init("local", pipeline, reporter = "summary")$run()
+
+# Should show one warned target.
+tar_destroy()
+pipeline <- pipeline_init(list(target_init("x", quote(warning(123)))))
 local <- algorithm_init("local", pipeline, reporter = "summary")$run()
 
 # Should show one cancelled target.
