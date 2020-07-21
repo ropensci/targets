@@ -14,7 +14,7 @@ tar_test("run verbose reporter with a error", {
 
 tar_test("run timestamp reporter with a warning", {
   pipeline <- pipeline_init(list(target_init("x", quote(warning(123)))))
-  local <- algorithm_init("local", pipeline, reporter = "timestamp")
+  local <- algorithm_init("local", pipeline, reporter = "verbose")
   expect_warning(local$run(), class = "condition_run")
 })
 
