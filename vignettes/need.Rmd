@@ -32,7 +32,7 @@ Myriad workflow tools already exist, but most of them have different goals and b
 Tool | Issues and differences
 ---|---
 [pditmmaso/awesome-pipeline](https://github.com/pditommaso/awesome-pipeline) | Most tools listed are not for R.
-[Metaflow](htps://github.com/netflix/metaflow) | Resembles [Airflow](https://github.com/apache/airflow/). Focuses on exploratory data science problems such as machine learning experiments, where every run counts and every run needs to start from scratch (except for resuming failed runs). For the most part, Metaflow does not attempt to offer the runtime savings of DRY ("don't repeat yourself") workflows that [Make](https://www.gnu.org/software/make/)-like tools provide.
+[Metaflow](https://github.com/netflix/metaflow) | Resembles [Airflow](https://github.com/apache/airflow/). Focuses on exploratory data science problems such as machine learning experiments, where every run counts and every run needs to start from scratch (except for resuming failed runs). For the most part, Metaflow does not attempt to offer the runtime savings of DRY ("don't repeat yourself") workflows that [Make](https://www.gnu.org/software/make/)-like tools provide.
 [GNU Make](https://www.gnu.org/software/make/) | Not designed for a function-oriented style in R.
 [`remake`](https://github.com/richfitz/remake) | No longer maintained.
 [`drake`](https://github.com/ropensci/drake) | Permanent systemic limitations on portability, reproducibility, parallel efficiency, dynamic branching, user-side guardrails, and metaprogramming.
