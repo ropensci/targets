@@ -155,7 +155,7 @@ tar_target <- function(
   if (!is.null(cue)) {
     cue_validate(cue)
   }
-  expr <-  substitute(command)
+  expr <- as.expression(substitute(command))
   envir <- tar_option("envir", globalenv())
   if (tidy_eval) {
     expr <- as.call(c(quote(rlang::expr), expr))
