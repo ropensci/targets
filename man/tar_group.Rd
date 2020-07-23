@@ -25,7 +25,9 @@ subsets of rows. It takes the groups defined by \code{dplyr::group_by()}
 and translates that information into a special \code{tar_group} is a column.
 \code{tar_group} is a vector of consecutive positive integers
 from 1 to the number of groups. Rows with the same value of \code{tar_group}
-belong to the same group.
+belong to the same group. The order of the integers depends on
+the orderings of the levels within the \code{dplyr::group_by()} columns
+and not the order of the rows.
 }
 \examples{
 \dontrun{
