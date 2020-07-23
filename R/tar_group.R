@@ -8,10 +8,13 @@
 #'   subsets of rows. It takes the groups defined by `dplyr::group_by()`
 #'   and translates that information into a special `tar_group` is a column.
 #'   `tar_group` is a vector of consecutive positive integers
-#'   from 1 to the number of groups. Rows with the same value of `tar_group`
-#'   belong to the same group. The order of the integers depends on
-#'   the orderings of the levels within the `dplyr::group_by()` columns
-#'   and not the order of the rows.
+#'   from 1 to the number of groups. Rows with the same integer in `tar_group`
+#'   belong to the same group, and branches are arranged in increasing order
+#'   with respect to these integers. The order of the integers depends on
+#'   the orderings in the grouping variables and not the order
+#'   of rows in the dataset. `dplyr::group_keys()` on the grouped data frame
+#'   shows how the grouping variables correspond to the integers in the
+#'   `tar_group` column.
 #' @return A data frame with a special `tar_group` column that
 #'   `targets` will use to find subsets of your data frame.
 #' @param x Grouped data frame from `dplyr::group_by()`
