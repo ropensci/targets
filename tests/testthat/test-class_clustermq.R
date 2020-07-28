@@ -86,12 +86,14 @@ tar_test("nontrivial common data", {
   options(clustermq.scheduler = "multicore")
   on.exit(options(clustermq.scheduler = old))
   envir <- new.env(parent = baseenv())
-  envir$f <- function(x) {
-    g(x) + 1L
-  }
-  envir$g <- function(x) {
-    x + 1L
-  }
+  evalq({
+    f <- function(x) {
+      g(x) + 1L
+    }
+    g <- function(x) {
+      x + 1L
+    }
+  }, envir = envir)
   x <- target_init("x", quote(f(1L)), envir = envir)
   pipeline <- pipeline_init(list(x))
   cmq <- algorithm_init("clustermq", pipeline)
@@ -108,11 +110,13 @@ tar_test("clustermq with a dynamic file", {
   options(clustermq.scheduler = "multicore")
   on.exit(options(clustermq.scheduler = old))
   envir <- new.env(parent = baseenv())
-  envir$save1 <- function() {
-    file <- "saved.out"
-    saveRDS(1L, file)
-    file
-  }
+  evalq({
+    save1 <- function() {
+      file <- "saved.out"
+      saveRDS(1L, file)
+      file
+    }
+  }, envir = envir)
   x <- target_init("x", quote(save1()), format = "file", envir = envir)
   pipeline <- pipeline_init(list(x))
   cmq <- algorithm_init("clustermq", pipeline)

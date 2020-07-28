@@ -10,10 +10,7 @@ deps_function <- function(x) {
 }
 
 deparse_language <- function(x) {
-  if (!is.character(x) && !is.null(x)) {
-    x <- safe_deparse(x)
-  }
-  x
+  trn(!is.character(x) && !is.null(x), safe_deparse(x), x)
 }
 
 safe_deparse <- function(x, collapse = "\n", backtick = TRUE) {
