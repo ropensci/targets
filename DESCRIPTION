@@ -50,7 +50,6 @@ Suggests:
   qs (>= 0.21.2),
   keras (>= 2.2.5.0),
   knitr (>= 1.28),
-  rmarkdown (>= 2.1),
   testthat (>= 2.3.2),
   visNetwork (>= 2.0.9)
 Encoding: UTF-8

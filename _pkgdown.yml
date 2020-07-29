@@ -37,7 +37,6 @@ reference:
   contents:
   - '`tar_cancel`'
   - '`tar_group`'
-  - '`tar_knitr`'
   - '`tar_name`'
   - '`tar_path`'
   - '`tar_traceback`'

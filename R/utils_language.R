@@ -36,8 +36,3 @@ produce_direct_deparse <- function() {
   environment(deparse) <- environment()
   deparse
 }
-
-safe_parse <- function(text) {
-  out <- parse(text = text, keep.source = FALSE)
-  trn(length(out), out[[1]], out)
-}
