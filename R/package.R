@@ -27,7 +27,7 @@
 #'   last_col matches num_range one_of starts_with
 #' @importFrom utils globalVariables head installed.packages menu stack
 #' @importFrom vctrs vec_c vec_size vec_slice
-#' @importFrom withr with_dir with_options with_seed
+#' @importFrom withr with_dir with_seed
 NULL
 
 utils::globalVariables(
