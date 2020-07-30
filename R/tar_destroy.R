@@ -21,7 +21,6 @@
 #' })
 #' }
 tar_destroy <- function(what = c("all", "meta", "progress", "objects")) {
-  assert_store()
   switch(
     match.arg(what),
     all = unlink("_targets", recursive = TRUE),
