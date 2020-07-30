@@ -63,6 +63,9 @@ install_github("wlandau/targets")
 
 ## Helpers
 
+  - [`tarchetypes`](https://wlandau.github.io/tarchetypes): an R package
+    to help define specialized targets such as dependency-aware R
+    Markdown reports.
   - [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny
     app to help sketch pipelines
     ([app](https://wlandau.shinyapps.io/targetsketch),
@@ -77,7 +80,8 @@ install_github("wlandau/targets")
   - [Data management strategy and data store
     architecture](https://wlandau.github.io/targets/articles/need.html).
   - [Orchestration](https://wlandau.github.io/targets/articles/orchestration.html):
-    the mental model of target orchestration and dynamic branching.
+    the mental model of target orchestration and dynamic
+    branching.
   - [Composition](https://wlandau.github.io/targets/articles/composition.html):
     the object composition structure of the `target` class and its
     fields.

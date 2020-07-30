@@ -47,6 +47,7 @@ install_github("wlandau/targets")
 
 ## Helpers
 
+* [`tarchetypes`](https://wlandau.github.io/tarchetypes): an R package to help define specialized targets such as dependency-aware R Markdown reports.
 * [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny app to help sketch pipelines ([app](https://wlandau.shinyapps.io/targetsketch), [source](https://github.com/wlandau/targetsketch)).
 
 ## Specification
