@@ -12,11 +12,12 @@
 #' @param option Character of length 1, name of an option to get.
 #'   Must be one of the argument names of [tar_options()].
 #' @examples
-#' \dontrun{
+#' tar_option("format") # default format before we set anything
+#' tar_target(x, 1)$settings$format
+#' tar_options(format = "fst_tbl") # new default format
 #' tar_option("format")
-#' tar_options(format = "fst_tbl")
-#' tar_option("format")
-#' }
+#' tar_target(x, 1)$settings$format
+#' tar_options(format = "rds") # reset the format
 tar_option <- function(option) {
   option <- match.arg(option, choices = names(formals(tar_options)))
   envir_target[[option]] %||% tar_option_default(option)

@@ -21,55 +21,44 @@
 #'   beginning of the target's expression, but without invalidating any
 #'   targets.
 #' @examples
-#' \dontrun{
+#' tar_option("format") # default format before we set anything
+#' tar_target(x, 1)$settings$format
+#' tar_options(format = "fst_tbl") # new default format
 #' tar_option("format")
-#' tar_options(format = "fst_tbl")
-#' tar_option("format")
-#' }
+#' tar_target(x, 1)$settings$format
+#' tar_options(format = "rds") # reset the format
 tar_options <- function(
   tidy_eval = TRUE,
   packages = (.packages()),
   library = NULL,
   envir = parent.frame(),
   format = "rds",
-  iteration = c("vector", "list", "group"),
-  error = c("stop", "continue"),
-  memory = c("persistent", "transient"),
-  deployment = c("remote", "local"),
+  iteration = "vector",
+  error = "stop",
+  memory = "persistent",
+  deployment = "remote",
   resources = list(),
   template = NULL,
-  storage = c("local", "remote"),
-  retrieval = storage,
+  storage = "local",
+  retrieval = "local",
   cue = targets::tar_cue(),
   debug = character(0)
 ) {
   force(envir)
   assert_lgl(tidy_eval, "tidy_eval in tar_options() must be logical.")
   assert_chr(packages, "packages in tar_options() must be character.")
-  assert_chr(
-    library %||% character(0),
-    "library in tar_options must be NULL or character."
-  )
-  assert_envir(
-    envir,
-    paste(
-      "envir in tar_options() must be the environment",
-      "where you put your functions and global objects",
-      "(global environment for most users)."
-    )
-  )
+  assert_chr(library %||% character(0), "library must be NULL or character.")
+  assert_envir(envir, tar_options_envir_message())
   format <- match.arg(format, store_formats())
-  iteration <- match.arg(iteration)
-  error <- match.arg(error)
-  memory <- match.arg(memory)
-  deployment <- match.arg(deployment)
+  iteration <- match.arg(iteration, c("vector", "list", "group"))
+  error <- match.arg(error, c("stop", "continue"))
+  memory <- match.arg(memory, c("persistent", "transient"))
+  deployment <- match.arg(deployment, c("remote", "local"))
   warn_template(template)
   assert_list(resources, "resources in tar_options() must be a named list.")
-  storage <- match.arg(storage)
+  storage <- match.arg(storage, c("local", "remote"))
   retrieval <- match.arg(retrieval, c("local", "remote"))
-  if (!is.null(cue)) {
-    cue_validate(cue)
-  }
+  trn(is.null(cue), NULL, cue_validate(cue))
   assert_chr("debug", "debug artument of tar_options() must be a character.")
   assign("tidy_eval", tidy_eval, envir = envir_target)
   assign("packages", packages, envir = envir_target)
@@ -86,4 +75,12 @@ tar_options <- function(
   assign("retrieval", retrieval, envir = envir_target)
   assign("cue", cue, envir = envir_target)
   assign("debug", debug, envir = envir_target)
+}
+
+tar_options_envir_message <- function() {
+  paste(
+    "envir in tar_options() must be the environment",
+    "where you put your functions and global objects",
+    "(global environment for most users)."
+  )
 }

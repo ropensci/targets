@@ -10,14 +10,14 @@ tar_options(
   library = NULL,
   envir = parent.frame(),
   format = "rds",
-  iteration = c("vector", "list", "group"),
-  error = c("stop", "continue"),
-  memory = c("persistent", "transient"),
-  deployment = c("remote", "local"),
+  iteration = "vector",
+  error = "stop",
+  memory = "persistent",
+  deployment = "remote",
   resources = list(),
   template = NULL,
-  storage = c("local", "remote"),
-  retrieval = storage,
+  storage = "local",
+  retrieval = "local",
   cue = targets::tar_cue(),
   debug = character(0)
 )
@@ -147,9 +147,10 @@ Needs to be called before any calls to \code{\link[=tar_target]{tar_target()}}
 in order to be useful
 }
 \examples{
-\dontrun{
+tar_option("format") # default format before we set anything
+tar_target(x, 1)$settings$format
+tar_options(format = "fst_tbl") # new default format
 tar_option("format")
-tar_options(format = "fst_tbl")
-tar_option("format")
-}
+tar_target(x, 1)$settings$format
+tar_options(format = "rds") # reset the format
 }

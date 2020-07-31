@@ -26,9 +26,10 @@ to defining external interfaces on top of the \code{targets} package to create
 pipelines.
 }
 \examples{
-\dontrun{
+tar_option("format") # default format before we set anything
+tar_target(x, 1)$settings$format
+tar_options(format = "fst_tbl") # new default format
 tar_option("format")
-tar_options(format = "fst_tbl")
-tar_option("format")
-}
+tar_target(x, 1)$settings$format
+tar_options(format = "rds") # reset the format
 }
