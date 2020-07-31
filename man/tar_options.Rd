@@ -141,10 +141,9 @@ Nothing.
 \description{
 Set target options, including default arguments to
 \code{\link[=tar_target]{tar_target()}} such as packages, storage format,
-iteration type, and cue. Put a call to \code{tar_options()}
-in your workflow's \verb{_targets.R} script for the options to take effect.
-Needs to be called before any calls to \code{\link[=tar_target]{tar_target()}}
-in order to be useful
+iteration type, and cue. See default options with \code{\link[=tar_option]{tar_option()}}.
+To use \code{tar_options()} effectively, put it in your workflow's
+\verb{_targets.R} script before calls to \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_target_raw]{tar_target_raw()}}.
 }
 \examples{
 tar_option("format") # default format before we set anything

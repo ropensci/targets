@@ -2,10 +2,9 @@
 #' @export
 #' @description Set target options, including default arguments to
 #'   [tar_target()] such as packages, storage format,
-#'   iteration type, and cue. Put a call to `tar_options()`
-#'   in your workflow's `_targets.R` script for the options to take effect.
-#'   Needs to be called before any calls to [tar_target()]
-#'   in order to be useful
+#'   iteration type, and cue. See default options with [tar_option()].
+#'   To use `tar_options()` effectively, put it in your workflow's
+#'   `_targets.R` script before calls to [tar_target()] or [tar_target_raw()].
 #' @return Nothing.
 #' @inheritParams tar_target
 #' @param envir Environment containing functions and global objects
