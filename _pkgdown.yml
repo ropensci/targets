@@ -33,13 +33,6 @@ reference:
   contents:
   - '`tar_option`'
   - '`tar_options`'
-- title: Helpers
-  contents:
-  - '`tar_cancel`'
-  - '`tar_group`'
-  - '`tar_name`'
-  - '`tar_path`'
-  - '`tar_traceback`'
 - title: Pipeline
   contents:
   - '`tar_cue`'
@@ -72,3 +65,10 @@ reference:
   - '`tar_destroy`'
   - '`tar_invalidate`'
   - '`tar_prune`'
+- title: Helpers
+  contents:
+  - '`tar_cancel`'
+  - '`tar_group`'
+  - '`tar_name`'
+  - '`tar_path`'
+  - '`tar_traceback`'
