@@ -189,11 +189,17 @@ pipeline_validate_envirs <- function(targets) {
 
 pipeline_validate_envir <- function(target, envir) {
   if (!identical(target$cache$imports$envir, envir)) {
-    throw_validate("all targets must share the same environment for imports")
+    throw_validate("all targets must share the same environment")
   }
 }
 
 pipeline_validate <- function(pipeline) {
+  UseMethod("pipeline_validate")
+}
+
+#' @export
+#' @keywords internal
+pipeline_validate.tar_pipeline <- function(pipeline) {
   assert_correct_fields(pipeline, pipeline_new)
   pipeline_validate_targets(pipeline$targets)
   pipeline_validate_dag(pipeline_produce_igraph(pipeline))
@@ -201,6 +207,12 @@ pipeline_validate <- function(pipeline) {
   counter_validate(pipeline$loaded)
   counter_validate(pipeline$transient)
   stash_validate(pipeline$stash)
+}
+
+#' @export
+#' @keywords internal
+pipeline_validate.default <- function(pipeline) {
+  throw_validate("not a tar_pipeline() object. _targets.R must end with one.")
 }
 
 #' @export

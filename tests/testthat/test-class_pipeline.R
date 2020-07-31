@@ -214,6 +214,10 @@ tar_test("pipeline_reset_priorities()", {
   }
 })
 
+tar_test("validate a non-pipeline", {
+  expect_error(pipeline_validate(stem_new()), class = "condition_validate")
+})
+
 tar_test("validate a nonempty pipeline", {
   expect_silent(pipeline_validate(pipeline_order()))
 })

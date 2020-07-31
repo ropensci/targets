@@ -4,7 +4,7 @@ library(targets)
 px <- pprof(
   targets <- lapply(
     as.character(seq_len(1e3)), function(name) {
-      target_init(name, expr = quote(1 + 1))
+      target_init(name, command = quote(1 + 1))
     }
   )
 )
@@ -18,8 +18,8 @@ tar_script({
   targets <- lapply(seq_len(1e3), function(id) {
     name <- paste0("x", as.character(id))
     dep <- paste0("x", as.character(id - 1L))
-    expr <- as.expression(rlang::sym(dep))
-    tar_target_raw(name, expr = expr)
+    command <- as.expression(rlang::sym(dep))
+    tar_target_raw(name, command = command)
   })
   tar_pipeline(targets)
 })
@@ -33,8 +33,8 @@ tar_script({
   targets <- lapply(seq_len(1e3), function(id) {
     name <- paste0("x", as.character(id))
     dep <- paste0("x", as.character(id - 1L))
-    expr <- as.expression(rlang::sym(dep))
-    tar_target_raw(name, expr = expr)
+    command <- as.expression(rlang::sym(dep))
+    tar_target_raw(name, command = command)
   })
   tar_pipeline(c(targets, target_x0))
 })
@@ -50,8 +50,8 @@ tar_script({
   targets <- lapply(seq_len(1e3), function(id) {
     name <- paste0("x", as.character(id))
     dep <- paste0("x", as.character(id - 1L))
-    expr <- as.expression(rlang::sym(dep))
-    tar_target_raw(name, expr = expr)
+    command <- as.expression(rlang::sym(dep))
+    tar_target_raw(name, command = command)
   })
   tar_pipeline(c(targets, target_x0))
 })

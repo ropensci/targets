@@ -60,6 +60,7 @@ tar_make_future_inner <- function(
   garbage_collection,
   workers
 ) {
+  pipeline_validate(pipeline)
   names <- tar_tidyselect(names_quosure, pipeline_get_names(pipeline))
   algorithm_init(
     subclass = "future",

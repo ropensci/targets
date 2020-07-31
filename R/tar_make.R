@@ -69,6 +69,7 @@ tar_make_inner <- function(
   reporter,
   garbage_collection
 ) {
+  pipeline_validate(pipeline)
   names <- tar_tidyselect(names_quosure, pipeline_get_names(pipeline))
   algorithm_init(
     subclass = "local",

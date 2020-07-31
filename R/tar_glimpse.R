@@ -64,6 +64,7 @@ tar_glimpse_inner <- function(
   allow_quosure,
   exclude_quosure
 ) {
+  pipeline_validate(pipeline)
   allow <- tar_tidyselect(allow_quosure, pipeline_get_names(pipeline))
   exclude <- tar_tidyselect(exclude_quosure, pipeline_get_names(pipeline))
   network <- glimpse_init(pipeline)

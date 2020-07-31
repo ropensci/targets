@@ -84,6 +84,7 @@ tar_manifest_inner <- function(
   names_quosure,
   fields_quosure
 ) {
+  pipeline_validate(pipeline)
   all_names <- pipeline_get_names(pipeline)
   names <- tar_tidyselect(names_quosure, all_names) %||% all_names
   out <- map(names, ~tar_manifest_target(pipeline_get_target(pipeline, .x)))
