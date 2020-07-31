@@ -48,10 +48,10 @@ so you do not need to explicitly include it in \code{code}.
 Usually, this section is a bunch of calls to \code{source()} that run
 scripts defining user-defined functions. These functions support
 the R commands of the targets.
-2. Options: call \code{\link[=tar_options]{tar_options()}} to set defaults for targets-specific
+2. Options: call \code{\link[=tar_option_set]{tar_option_set()}} to set defaults for targets-specific
 settings such as the names of required packages. Even if you have no
 specific options to set, it is still recommended to call
-\code{\link[=tar_options]{tar_options()}} in order to register the proper environment.
+\code{\link[=tar_option_set]{tar_option_set()}} in order to register the proper environment.
 3. Targets: define one or more target objects using \code{\link[=tar_target]{tar_target()}}.
 4. Pipeline: call \code{\link[=tar_pipeline]{tar_pipeline()}} to bring the targets from (3)
 together in a pipeline object. Every \verb{_targets.R} script must return
@@ -67,7 +67,7 @@ tar_script() # Writes an example target script.
 # Writes a user-defined target script:
 tar_script({
   x <- tar_target(x, 1 + 1)
-  tar_options()
+  tar_option_set()
   tar_pipeline(x)
 })
 })

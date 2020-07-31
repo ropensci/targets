@@ -267,7 +267,7 @@ pattern_debug_branches <- function(target) {
   if (length(debug) && target_get_name(target) %in% debug) {
     # Covered in tests/interactive/test-debug.R
     # nocov start
-    tar_options(debug = c(debug, target_get_children(target)))
+    tar_option_set(debug = c(debug, target_get_children(target)))
     # nocov end
   }
 }

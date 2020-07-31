@@ -10,14 +10,14 @@ tar_option_reset()
 Nothing.
 }
 \description{
-Reset target options you set with \code{\link[=tar_options]{tar_options()}}.
+Reset target options you set with \code{\link[=tar_option_set]{tar_option_set()}}.
 These options are mostly configurable default arguments to
 \code{\link[=tar_target]{tar_target()}} and \code{\link[=tar_target_raw]{tar_target_raw()}}.
 }
 \examples{
 tar_option("format") # default format before we set anything
 tar_target(x, 1)$settings$format
-tar_options(format = "fst_tbl") # new default format
+tar_option_set(format = "fst_tbl") # new default format
 tar_option("format")
 tar_target(x, 1)$settings$format
 tar_option_reset() # reset the format

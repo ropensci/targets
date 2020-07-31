@@ -21,10 +21,10 @@
 #'       Usually, this section is a bunch of calls to `source()` that run
 #'       scripts defining user-defined functions. These functions support
 #'       the R commands of the targets.
-#'     2. Options: call [tar_options()] to set defaults for targets-specific
+#'     2. Options: call [tar_option_set()] to set defaults for targets-specific
 #'       settings such as the names of required packages. Even if you have no
 #'       specific options to set, it is still recommended to call
-#'       [tar_options()] in order to register the proper environment.
+#'       [tar_option_set()] in order to register the proper environment.
 #'     3. Targets: define one or more target objects using [tar_target()].
 #'     4. Pipeline: call [tar_pipeline()] to bring the targets from (3)
 #'       together in a pipeline object. Every `_targets.R` script must return
@@ -50,7 +50,7 @@
 #' # Writes a user-defined target script:
 #' tar_script({
 #'   x <- tar_target(x, 1 + 1)
-#'   tar_options()
+#'   tar_option_set()
 #'   tar_pipeline(x)
 #' })
 #' })

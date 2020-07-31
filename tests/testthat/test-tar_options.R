@@ -1,5 +1,5 @@
-tar_test("tar_options() works", {
-  tar_options(packages = "tidyverse")
+tar_test("tar_option_set() works", {
+  tar_option_set(packages = "tidyverse")
   expect_equal(tar_option("packages"), "tidyverse")
 })
 

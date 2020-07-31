@@ -23,7 +23,7 @@
 #' tar_dir({
 #' tar_script({
 #'   options(clustermq.scheduler = "multicore")
-#'   tar_options()
+#'   tar_option_set()
 #'   tar_pipeline(tar_target(x, 1 + 1))
 #' })
 #' tar_make_clustermq()

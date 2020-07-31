@@ -1,7 +1,7 @@
 tar_test("tar_visnetwork() does not create a data store", {
   tar_script({
     f <- identity
-    tar_options()
+    tar_option_set()
     tar_pipeline(tar_target(x, f(1L)))
   })
   out <- tar_visnetwork(callr_function = NULL)
@@ -11,7 +11,7 @@ tar_test("tar_visnetwork() does not create a data store", {
 tar_test("tar_visnetwork()", {
   tar_script({
     f <- identity
-    tar_options()
+    tar_option_set()
     tar_pipeline(
       tar_target(y1, f(1)),
       tar_target(y2, 1 + 1),
@@ -27,7 +27,7 @@ tar_test("tar_visnetwork()", {
 
 tar_test("tar_visnetwork() does not deduplicate metadata", {
   tar_script({
-    tar_options(envir = new.env(parent = baseenv()))
+    tar_option_set(envir = new.env(parent = baseenv()))
     tar_pipeline(tar_target(x, 1L, cue = tar_cue(mode = "always")))
   })
   for (index in seq_len(2L)) {

@@ -14,7 +14,7 @@
 #'   The name of the target is always included as the first column
 #'   regardless of the selection.
 #'   Possible fields are below. All of them can be set in [tar_target()],
-#'   [tar_target_raw()], or [tar_options()].
+#'   [tar_target_raw()], or [tar_option_set()].
 #'   * `name`: Name of the target.
 #'   * `command`: the R command that runs when the target builds.
 #'   * `type`: Type of the target, either `"stem"` (non-pattern) or `"map"`
@@ -43,7 +43,7 @@
 #' \dontrun{
 #' tar_dir({
 #' tar_script({
-#'   tar_options()
+#'   tar_option_set()
 #'   tar_pipeline(
 #'     tar_target(y1, 1 + 1),
 #'     tar_target(y2, 1 + 1),

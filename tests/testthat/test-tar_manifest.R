@@ -1,6 +1,6 @@
 tar_test("tar_manifest() with default settings", {
   tar_script({
-    tar_options()
+    tar_option_set()
     tar_pipeline(
       tar_target(y1, 1 + 1),
       tar_target(y2, 1 + 1),
@@ -16,7 +16,7 @@ tar_test("tar_manifest() with default settings", {
 
 tar_test("tar_manifest() tidyselect on names", {
   tar_script({
-    tar_options()
+    tar_option_set()
     tar_pipeline(
       tar_target(y1, 1 + 1),
       tar_target(y2, 1 + 1),
@@ -31,7 +31,7 @@ tar_test("tar_manifest() tidyselect on names", {
 
 tar_test("tar_manifest() shows patterns correctly", {
   tar_script({
-    tar_options()
+    tar_option_set()
     tar_pipeline(
       tar_target(y1, 1 + 1),
       tar_target(y2, 1 + 1),
@@ -53,7 +53,7 @@ tar_test("tar_manifest() shows patterns correctly", {
 
 tar_test("tar_manifest() shows cues correctly", {
   tar_script({
-    tar_options()
+    tar_option_set()
     tar_pipeline(
       tar_target(y1, 1 + 1),
       tar_target(y2, 1 + 1),
@@ -83,7 +83,7 @@ tar_test("tar_manifest() shows cues correctly", {
 
 tar_test("tar_manifest() shows all fields if the fields arg is NULL", {
   tar_script({
-    tar_options()
+    tar_option_set()
     tar_pipeline(
       tar_target(y1, 1 + 1),
       tar_target(y2, 1 + 1),

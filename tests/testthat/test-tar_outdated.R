@@ -1,7 +1,7 @@
 tar_test("tar_outdated() does not create a data store", {
   tar_script({
     f <- identity
-    tar_options()
+    tar_option_set()
     tar_pipeline(tar_target(x, f(1L)))
   })
   out <- tar_outdated(callr_function = NULL)
@@ -12,7 +12,7 @@ tar_test("tar_outdated() without globals", {
   tar_script({
     f <- identity
     envir <- environment()
-    tar_options(envir = envir)
+    tar_option_set(envir = envir)
     tar_pipeline(tar_target(x, f(1L)))
   })
   out <- tar_outdated(
@@ -29,7 +29,7 @@ tar_test("tar_outdated() without globals", {
   tar_script({
     f <- function(x) x + 1L
     envir <- environment()
-    tar_options(envir = envir)
+    tar_option_set(envir = envir)
     tar_pipeline(tar_target(x, f(1L)))
   })
   out <- tar_outdated(
@@ -43,7 +43,7 @@ tar_test("tar_outdated() with globals", {
   tar_script({
     f <- identity
     envir <- environment()
-    tar_options(envir = envir)
+    tar_option_set(envir = envir)
     tar_pipeline(tar_target(x, f(1L)))
   })
   out <- tar_outdated(
@@ -60,7 +60,7 @@ tar_test("tar_outdated() with globals", {
   tar_script({
     f <- function(x) x + 1L
     envir <- environment()
-    tar_options(envir = envir)
+    tar_option_set(envir = envir)
     tar_pipeline(tar_target(x, f(1L)))
   })
   out <- tar_outdated(
@@ -110,7 +110,7 @@ tar_test("tar_outdated() can omit branches", {
 
 tar_test("tar_outdated() does not deduplicate metadata", {
   tar_script({
-    tar_options(envir = new.env(parent = baseenv()))
+    tar_option_set(envir = new.env(parent = baseenv()))
     tar_pipeline(tar_target(x, 1L, cue = tar_cue(mode = "always")))
   })
   for (index in seq_len(2L)) {
@@ -126,7 +126,7 @@ tar_test("tar_outdated() does not deduplicate metadata", {
 tar_test("tar_outdated() names arg works", {
    tar_script({
      envir <- new.env(parent = baseenv())
-     tar_options(envir = envir)
+     tar_option_set(envir = envir)
      tar_pipeline(tar_target(x, 1L), tar_target(y, x))
    })
    out <- tar_outdated(callr_function = NULL)

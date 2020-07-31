@@ -10,7 +10,7 @@
 #'   instead of an external process (but restart your R session just before
 #'   you do in order to clear debris out of the global environment).
 #'   `callr_function` needs to be `NULL` for interactive debugging,
-#'   e.g. `tar_options(debug = "your_target")`.
+#'   e.g. `tar_option_set(debug = "your_target")`.
 #'   However, `callr_function` should not be `NULL` for serious
 #'   reproducible work.
 #' @param callr_arguments A list of arguments to `callr_function`.

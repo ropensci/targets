@@ -10,16 +10,16 @@
 #'   pipelines.
 #' @return Value of a target option.
 #' @param option Character of length 1, name of an option to get.
-#'   Must be one of the argument names of [tar_options()].
+#'   Must be one of the argument names of [tar_option_set()].
 #' @examples
 #' tar_option("format") # default format before we set anything
 #' tar_target(x, 1)$settings$format
-#' tar_options(format = "fst_tbl") # new default format
+#' tar_option_set(format = "fst_tbl") # new default format
 #' tar_option("format")
 #' tar_target(x, 1)$settings$format
-#' tar_options(format = "rds") # reset the format
+#' tar_option_set(format = "rds") # reset the format
 tar_option <- function(option) {
-  option <- match.arg(option, choices = names(formals(tar_options)))
+  option <- match.arg(option, choices = names(formals(tar_option_set)))
   tar_envir_options[[option]] %||% tar_option_default(option)
 }
 

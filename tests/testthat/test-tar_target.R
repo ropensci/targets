@@ -18,14 +18,14 @@ tar_test("tar_target() defines pattens correctly", {
 })
 
 tar_test("tar_target() receives options", {
-  tar_options(format = "file")
+  tar_option_set(format = "file")
   x <- tar_target(x, "y")
   expect_equal(x$settings$format, "file")
 })
 
 tar_test("tidy eval works", {
   envir <- environment()
-  tar_options(envir = envir)
+  tar_option_set(envir = envir)
   envir$y <- 1
   x <- tar_target(x, get_data(!!y))
   expect_equal(x$command$string, "expression(get_data(1))")

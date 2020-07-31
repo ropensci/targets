@@ -41,7 +41,7 @@ when interpreting \code{expr}. If \code{TRUE}, you can use the
 the values of global objects.}
 
 \item{packages}{Character vector of packages to load right before
-the target builds. Use \code{tar_options()} to set packages
+the target builds. Use \code{tar_option_set()} to set packages
 globally for all subsequent targets you define.}
 
 \item{library}{Character vector of library paths to try
@@ -156,7 +156,7 @@ analysis <- tar_target(analysis, analyze(x), pattern = map(x))
 # Pipelines accept targets.
 pipeline <- tar_pipeline(data, analysis)
 # Tidy evaluation
-tar_options()
+tar_option_set()
 n_rows <- 30L
 data <- tar_target(target_name, get_data(!!n_rows))
 print(data)

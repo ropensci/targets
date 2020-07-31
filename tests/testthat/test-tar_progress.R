@@ -10,7 +10,7 @@ tar_test("tar_progress() works", {
 tar_test("tar_progress() with target selection", {
   tar_script({
     envir <- new.env(parent = baseenv())
-    tar_options(envir = envir)
+    tar_option_set(envir = envir)
     tar_pipeline(
       tar_target(x, seq_len(2)),
       tar_target(y, 2 * x, pattern = map(x))

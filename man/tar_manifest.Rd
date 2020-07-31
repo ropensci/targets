@@ -23,7 +23,7 @@ Set to \code{NULL} to print all the fields.
 The name of the target is always included as the first column
 regardless of the selection.
 Possible fields are below. All of them can be set in \code{\link[=tar_target]{tar_target()}},
-\code{\link[=tar_target_raw]{tar_target_raw()}}, or \code{\link[=tar_options]{tar_options()}}.
+\code{\link[=tar_target_raw]{tar_target_raw()}}, or \code{\link[=tar_option_set]{tar_option_set()}}.
 \itemize{
 \item \code{name}: Name of the target.
 \item \code{command}: the R command that runs when the target builds.
@@ -56,7 +56,7 @@ process to do the work. Set to \code{NULL} to run in the current session
 instead of an external process (but restart your R session just before
 you do in order to clear debris out of the global environment).
 \code{callr_function} needs to be \code{NULL} for interactive debugging,
-e.g. \code{tar_options(debug = "your_target")}.
+e.g. \code{tar_option_set(debug = "your_target")}.
 However, \code{callr_function} should not be \code{NULL} for serious
 reproducible work.}
 
@@ -73,7 +73,7 @@ Along with \code{\link[=tar_visnetwork]{tar_visnetwork()}} and \code{\link[=tar_
 \dontrun{
 tar_dir({
 tar_script({
-  tar_options()
+  tar_option_set()
   tar_pipeline(
     tar_target(y1, 1 + 1),
     tar_target(y2, 1 + 1),

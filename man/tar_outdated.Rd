@@ -43,7 +43,7 @@ process to do the work. Set to \code{NULL} to run in the current session
 instead of an external process (but restart your R session just before
 you do in order to clear debris out of the global environment).
 \code{callr_function} needs to be \code{NULL} for interactive debugging,
-e.g. \code{tar_options(debug = "your_target")}.
+e.g. \code{tar_option_set(debug = "your_target")}.
 However, \code{callr_function} should not be \code{NULL} for serious
 reproducible work.}
 

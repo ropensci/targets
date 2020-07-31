@@ -27,11 +27,11 @@ of the dependencies changed.}
 
 \item{format}{Logical, whether to rerun the target if the user-specified
 storage format changed. The storage format is user-specified through
-\code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_options]{tar_options()}}.}
+\code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_set]{tar_option_set()}}.}
 
 \item{iteration}{Logical, whether to rerun the target if the user-specified
 iteration method changed. The iteration method is user-specified through
-\code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_options]{tar_options()}}.}
+\code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_set]{tar_option_set()}}.}
 
 \item{file}{Logical, whether to rerun the target if the file(s) with the
 return value changed or at least one is missing.}

@@ -9,7 +9,7 @@
 #' @return A target object. Users should not modify these directly,
 #'   just feed them to [tar_pipeline()] in your `_targets.R` file.
 #' @inheritParams tar_target
-#' @inheritParams tar_options
+#' @inheritParams tar_option_set
 #' @param name Character of length 1, name of the target.
 #' @param command Similar to the `command` argument of [`tar_target()`] except
 #'   the object must already be an expression instead of

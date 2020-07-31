@@ -220,7 +220,7 @@ warn_output <- function(name, path) {
 warn_template <- function(template) {
   if (!is.null(template)) {
     warn_validate(
-      "Functions tar_options(), tar_target(), and tar_target_raw() ",
+      "Functions tar_option_set(), tar_target(), and tar_target_raw() ",
       "currently ignore the template argument. It will only be supported if ",
       "clustermq ever supports heterogeneous workers with varying resource ",
       "configurations. In the meantime, use the template argument of ",

@@ -27,7 +27,7 @@ tar_test("tar_make() works", {
 
 tar_test("tar_make() deduplicates metadata", {
   tar_script({
-    tar_options(envir = new.env(parent = baseenv()))
+    tar_option_set(envir = new.env(parent = baseenv()))
     tar_pipeline(tar_target(x, 1L, cue = tar_cue(mode = "always")))
   })
   for (index in seq_len(3L)) {

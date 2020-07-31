@@ -51,10 +51,10 @@
 #'   of the dependencies changed.
 #' @param format Logical, whether to rerun the target if the user-specified
 #'   storage format changed. The storage format is user-specified through
-#'   [tar_target()] or [tar_options()].
+#'   [tar_target()] or [tar_option_set()].
 #' @param iteration Logical, whether to rerun the target if the user-specified
 #'   iteration method changed. The iteration method is user-specified through
-#'   [tar_target()] or [tar_options()].
+#'   [tar_target()] or [tar_option_set()].
 #' @param file Logical, whether to rerun the target if the file(s) with the
 #'   return value changed or at least one is missing.
 #' @examples

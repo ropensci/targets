@@ -8,7 +8,7 @@ tar_option(option)
 }
 \arguments{
 \item{option}{Character of length 1, name of an option to get.
-Must be one of the argument names of \code{\link[=tar_options]{tar_options()}}.}
+Must be one of the argument names of \code{\link[=tar_option_set]{tar_option_set()}}.}
 }
 \value{
 Value of a target option.
@@ -28,8 +28,8 @@ pipelines.
 \examples{
 tar_option("format") # default format before we set anything
 tar_target(x, 1)$settings$format
-tar_options(format = "fst_tbl") # new default format
+tar_option_set(format = "fst_tbl") # new default format
 tar_option("format")
 tar_target(x, 1)$settings$format
-tar_options(format = "rds") # reset the format
+tar_option_set(format = "rds") # reset the format
 }
