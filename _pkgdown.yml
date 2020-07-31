@@ -33,6 +33,7 @@ reference:
   contents:
   - '`tar_option`'
   - '`tar_options`'
+  - '`tar_option_reset`'
 - title: Pipeline
   contents:
   - '`tar_cue`'
