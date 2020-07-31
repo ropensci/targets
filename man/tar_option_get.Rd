@@ -8,7 +8,7 @@ tar_option_get(option)
 }
 \arguments{
 \item{option}{Character of length 1, name of an option to get.
-Must be one of the argument names of \code{\link[=tar_options]{tar_options()}}.}
+Must be one of the argument names of \code{\link[=tar_option_set]{tar_option_set()}}.}
 }
 \value{
 Value of a target option.

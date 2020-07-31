@@ -10,7 +10,7 @@
 #'   pipelines.
 #' @return Value of a target option.
 #' @param option Character of length 1, name of an option to get.
-#'   Must be one of the argument names of [tar_options()].
+#'   Must be one of the argument names of [tar_option_set()].
 #' @examples
 #' tar_option_get("format") # default format before we set anything
 #' tar_target(x, 1)$settings$format
