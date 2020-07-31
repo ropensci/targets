@@ -5,21 +5,21 @@
 \title{Set target options.}
 \usage{
 tar_options(
-  tidy_eval = TRUE,
-  packages = (.packages()),
+  tidy_eval = NULL,
+  packages = NULL,
   library = NULL,
   envir = parent.frame(),
-  format = "rds",
-  iteration = "vector",
-  error = "stop",
-  memory = "persistent",
-  deployment = "remote",
-  resources = list(),
+  format = NULL,
+  iteration = NULL,
+  error = NULL,
+  memory = NULL,
+  deployment = NULL,
+  resources = NULL,
   template = NULL,
-  storage = "local",
-  retrieval = "local",
-  cue = targets::tar_cue(),
-  debug = character(0)
+  storage = NULL,
+  retrieval = NULL,
+  cue = NULL,
+  debug = NULL
 )
 }
 \arguments{

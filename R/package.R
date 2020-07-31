@@ -39,4 +39,4 @@ utils::globalVariables(
 )
 
 envir_run <- new.env(parent = emptyenv())
-envir_options <- new.env(parent = emptyenv())
+tar_envir_options <- new.env(parent = emptyenv())

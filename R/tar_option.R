@@ -20,7 +20,7 @@
 #' tar_options(format = "rds") # reset the format
 tar_option <- function(option) {
   option <- match.arg(option, choices = names(formals(tar_options)))
-  envir_options[[option]] %||% tar_option_default(option)
+  tar_envir_options[[option]] %||% tar_option_default(option)
 }
 
 tar_option_default <- function(option) {
