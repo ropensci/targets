@@ -35,7 +35,8 @@ tar_test("tar_network() works", {
 tar_test("targets_only = FALSE", {
   tar_script({
     x <- 1L
-    tar_options()
+    envir <- environment()
+    tar_options(envir = envir)
     tar_pipeline(
       tar_target(y1, 1 + 1),
       tar_target(y2, 1 + 1),

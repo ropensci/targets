@@ -10,7 +10,7 @@
 #'   the underlying code and data. The methodology in this package
 #'   borrows from GNU Make by Richard Stallman (2015, ISBN:978-9881443519)
 #'   and drake by Will Landau (2018) (doi:10.21105/joss.00550).
-#' @name tar_help
+#' @name targets-package
 #' @aliases targets
 #' @importFrom callr r
 #' @importFrom cli col_green symbol

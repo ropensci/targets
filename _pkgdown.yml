@@ -26,13 +26,13 @@ articles:
 reference:
 - title: Help
   contents:
-  - '`tar_help`'
-  - '`tar_tidyselect`'
-- title: Setup
+  - '`targets-package`'
+  - '`targets-tidyselect`'
+  - '`tar_script`'
+- title: Options
   contents:
   - '`tar_option`'
   - '`tar_options`'
-  - '`tar_script`'
 - title: Helpers
   contents:
   - '`tar_cancel`'

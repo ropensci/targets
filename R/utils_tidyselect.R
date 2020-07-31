@@ -1,4 +1,4 @@
-#' @aliases tar_tidyselect
+#' @aliases targets-tidyselect
 #' @export
 tidyselect::all_of
 #' @export

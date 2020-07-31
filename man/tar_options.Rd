@@ -8,7 +8,7 @@ tar_options(
   tidy_eval = NULL,
   packages = NULL,
   library = NULL,
-  envir = parent.frame(),
+  envir = NULL,
   format = NULL,
   iteration = NULL,
   error = NULL,

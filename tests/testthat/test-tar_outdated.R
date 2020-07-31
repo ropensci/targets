@@ -11,7 +11,8 @@ tar_test("tar_outdated() does not create a data store", {
 tar_test("tar_outdated() without globals", {
   tar_script({
     f <- identity
-    tar_options()
+    envir <- environment()
+    tar_options(envir = envir)
     tar_pipeline(tar_target(x, f(1L)))
   })
   out <- tar_outdated(
@@ -27,7 +28,8 @@ tar_test("tar_outdated() without globals", {
   expect_equal(out, character(0))
   tar_script({
     f <- function(x) x + 1L
-    tar_options()
+    envir <- environment()
+    tar_options(envir = envir)
     tar_pipeline(tar_target(x, f(1L)))
   })
   out <- tar_outdated(
@@ -40,7 +42,8 @@ tar_test("tar_outdated() without globals", {
 tar_test("tar_outdated() with globals", {
   tar_script({
     f <- identity
-    tar_options()
+    envir <- environment()
+    tar_options(envir = envir)
     tar_pipeline(tar_target(x, f(1L)))
   })
   out <- tar_outdated(
@@ -56,7 +59,8 @@ tar_test("tar_outdated() with globals", {
   expect_false(any(c("f", "x") %in% out))
   tar_script({
     f <- function(x) x + 1L
-    tar_options()
+    envir <- environment()
+    tar_options(envir = envir)
     tar_pipeline(tar_target(x, f(1L)))
   })
   out <- tar_outdated(
