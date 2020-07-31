@@ -117,20 +117,20 @@ tar_target <- function(
   name,
   command,
   pattern = NULL,
-  tidy_eval = targets::tar_option("tidy_eval"),
-  packages = targets::tar_option("packages"),
-  library = targets::tar_option("library"),
-  format = targets::tar_option("format"),
-  iteration = targets::tar_option("iteration"),
-  error = targets::tar_option("error"),
-  memory = targets::tar_option("memory"),
-  template = targets::tar_option("template"),
-  deployment = targets::tar_option("deployment"),
+  tidy_eval = targets::tar_option_get("tidy_eval"),
+  packages = targets::tar_option_get("packages"),
+  library = targets::tar_option_get("library"),
+  format = targets::tar_option_get("format"),
+  iteration = targets::tar_option_get("iteration"),
+  error = targets::tar_option_get("error"),
+  memory = targets::tar_option_get("memory"),
+  template = targets::tar_option_get("template"),
+  deployment = targets::tar_option_get("deployment"),
   priority = 0,
-  resources = targets::tar_option("resources"),
-  storage = targets::tar_option("storage"),
-  retrieval = targets::tar_option("retrieval"),
-  cue = targets::tar_option("cue")
+  resources = targets::tar_option_get("resources"),
+  storage = targets::tar_option_get("storage"),
+  retrieval = targets::tar_option_get("retrieval"),
+  cue = targets::tar_option_get("cue")
 ) {
   name <- deparse_language(substitute(name))
   assert_chr(name, "name arg of tar_target() must be a symbol")
@@ -156,7 +156,7 @@ tar_target <- function(
     cue_validate(cue)
   }
   expr <- as.expression(substitute(command))
-  envir <- tar_option("envir")
+  envir <- tar_option_get("envir")
   if (tidy_eval) {
     expr <- as.call(c(quote(rlang::expr), expr))
     expr <- rlang::quo_squash(eval(expr, envir = envir))

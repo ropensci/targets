@@ -174,7 +174,6 @@ vis$visnetwork
 tar_script({
   g <- function(x) x - 1
   f <- function(x) g(x) + 1
-  tar_options()
   tar_pipeline(
     tar_target(y1, f(1)),
     tar_target(y2, 1 + 1),

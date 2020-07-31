@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_option_reset.R
 \name{tar_option_reset}
 \alias{tar_option_reset}
-\title{Reset target options.}
+\title{Reset all target options.}
 \usage{
 tar_option_reset()
 }
@@ -10,16 +10,16 @@ tar_option_reset()
 Nothing.
 }
 \description{
-Reset target options you set with \code{\link[=tar_option_set]{tar_option_set()}}.
-These options are mostly configurable default arguments to
-\code{\link[=tar_target]{tar_target()}} and \code{\link[=tar_target_raw]{tar_target_raw()}}.
+Reset all target options you previously chose with
+\code{\link[=tar_option_set]{tar_option_set()}}. These options are mostly configurable default
+arguments to \code{\link[=tar_target]{tar_target()}} and \code{\link[=tar_target_raw]{tar_target_raw()}}.
 }
 \examples{
-tar_option("format") # default format before we set anything
+tar_option_get("format") # default format before we set anything
 tar_target(x, 1)$settings$format
 tar_option_set(format = "fst_tbl") # new default format
-tar_option("format")
+tar_option_get("format")
 tar_target(x, 1)$settings$format
-tar_option_reset() # reset the format
+tar_option_reset() # reset all options
 tar_target(x, 1)$settings$format
 }

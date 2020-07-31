@@ -9,7 +9,7 @@ summ <- function(dataset) {
 }
 
 # Set target-specific options such as packages.
-tar_options(packages = "dplyr")
+tar_option_set(packages = "dplyr")
 
 # Define targets
 targets <- list(

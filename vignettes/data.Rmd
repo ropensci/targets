@@ -60,8 +60,8 @@ In most situations, the progress file can be safely excluded from version contro
 * `path`: The file path where the return value is stored. For dynamic files, this field could include multiple character strings.
 * `bytes`: Numeric, total file size in bytes of all the target's files in `path`.
 * `time`: Numeric, maximum of all the time stamps of the files in `path`.
-* `format`: Name of the storage format of the target. User-specified with `tar_target()` or `tar_options()`.
-* `iteration`: Iteration mode of the target's value, either `"vector"` or `"list"`. User-specified with `tar_target()` or `tar_options()`.
+* `format`: Name of the storage format of the target. User-specified with `tar_target()` or `tar_option_set()`.
+* `iteration`: Iteration mode of the target's value, either `"vector"` or `"list"`. User-specified with `tar_target()` or `tar_option_set()`.
 * `parent`: Name of the parent pattern of the target if the target is a branch.
 * `children`: For patterns and branching stems, this field has the names of all the branches and buds. Can contain multiple character strings. Empty for branches and non-branching stems.
 * `seconds`: Runtime of the target in seconds.
@@ -81,8 +81,8 @@ These fields are pipe-separated in the flat file. Fields `path` and `children` c
 1. The cue mode does not equal `"never"`.
 1. The `command` metadata field (the hash of the R command) is different from last time.
 1. The `depend` metadata field (the hash of the immediate upstream dependency targets and global objects) is different from last time.
-1. The storage `format` (user-specified with `tar_target()` or `tar_options()`) is different from last time.
-1. The `iteration` method (user-specified with `tar_target()` or `tar_options()`) is different from last time.
+1. The storage `format` (user-specified with `tar_target()` or `tar_option_set()`) is different from last time.
+1. The `iteration` method (user-specified with `tar_target()` or `tar_option_set()`) is different from last time.
 1. A target's file (either the one in `_targets/objects/` or a dynamic file) does not exist or changed since last time.
 
 A target's dependencies can include functions, and these functions are tracked for changes using a custom hashing procedure. When a function's hash changes, the function is considered invalidated, and so are any downstream targets with the `depend` cue turned on. The `targets` package computes the hash of a function in the following way.

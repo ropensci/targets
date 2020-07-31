@@ -263,7 +263,7 @@ pipeline_assert_dimension <- function(target, pipeline, name) {
 }
 
 pattern_debug_branches <- function(target) {
-  debug <- tar_option("debug")
+  debug <- tar_option_get("debug")
   if (length(debug) && target_get_name(target) %in% debug) {
     # Covered in tests/interactive/test-debug.R
     # nocov start

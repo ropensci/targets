@@ -2,7 +2,7 @@
 #' @export
 #' @description Set target options, including default arguments to
 #'   [tar_target()] such as packages, storage format,
-#'   iteration type, and cue. See default options with [tar_option()].
+#'   iteration type, and cue. See default options with [tar_option_get()].
 #'   To use `tar_option_set()` effectively, put it in your workflow's
 #'   `_targets.R` script before calls to [tar_target()] or [tar_target_raw()].
 #' @return Nothing.
@@ -20,10 +20,10 @@
 #'   beginning of the target's expression, but without invalidating any
 #'   targets.
 #' @examples
-#' tar_option("format") # default format before we set anything
+#' tar_option_get("format") # default format before we set anything
 #' tar_target(x, 1)$settings$format
 #' tar_option_set(format = "fst_tbl") # new default format
-#' tar_option("format")
+#' tar_option_get("format")
 #' tar_target(x, 1)$settings$format
 #' tar_option_reset() # reset the format
 #' tar_target(x, 1)$settings$format
@@ -63,25 +63,25 @@ tar_option_set <- function(
 }
 
 tar_option_set_tidy_eval <- function(tidy_eval) {
-  tidy_eval <- tidy_eval %||% tar_option("tidy_eval")
+  tidy_eval <- tidy_eval %||% tar_option_get("tidy_eval")
   assert_lgl(tidy_eval, "tidy_eval in tar_option_set() must be logical.")
   assign("tidy_eval", tidy_eval, envir = tar_envir_options)
 }
 
 tar_option_set_packages <- function(packages) {
-  packages <- packages %||% tar_option("packages")
+  packages <- packages %||% tar_option_get("packages")
   assert_chr(packages, "packages in tar_option_set() must be character.")
   assign("packages", packages, envir = tar_envir_options)
 }
 
 tar_option_set_library <- function(library) {
-  library <- library %||% tar_option("library")
+  library <- library %||% tar_option_get("library")
   assert_chr(library %||% character(0), "library must be NULL or character.")
   assign("library", library, envir = tar_envir_options)
 }
 
 tar_option_set_envir <- function(envir) {
-  envir <- envir %||% tar_option("envir")
+  envir <- envir %||% tar_option_get("envir")
   msg <- paste(
     "envir in tar_option_set() must be the environment",
     "where you put your functions and global objects",
@@ -92,67 +92,67 @@ tar_option_set_envir <- function(envir) {
 }
 
 tar_option_set_format <- function(format) {
-  format <- format %||% tar_option("format")
+  format <- format %||% tar_option_get("format")
   format <- match.arg(format, store_formats())
   assign("format", format, envir = tar_envir_options)
 }
 
 tar_option_set_iteration <- function(iteration) {
-  iteration <- iteration %||% tar_option("iteration")
+  iteration <- iteration %||% tar_option_get("iteration")
   iteration <- match.arg(iteration, c("vector", "list", "group"))
   assign("iteration", iteration, envir = tar_envir_options)
 }
 
 tar_option_set_error <- function(error) {
-  error <- error %||% tar_option("error")
+  error <- error %||% tar_option_get("error")
   error <- match.arg(error, c("stop", "continue"))
   assign("error", error, envir = tar_envir_options)
 }
 
 tar_option_set_memory <- function(memory) {
-  memory <- memory %||% tar_option("memory")
+  memory <- memory %||% tar_option_get("memory")
   memory <- match.arg(memory, c("persistent", "transient"))
   assign("memory", memory, envir = tar_envir_options)
 }
 
 tar_option_set_deployment <- function(deployment) {
-  deployment <- deployment %||% tar_option("deployment")
+  deployment <- deployment %||% tar_option_get("deployment")
   deployment <- match.arg(deployment, c("remote", "local"))
   assign("deployment", deployment, envir = tar_envir_options)
 }
 
 tar_option_set_resources <- function(resources) {
-  resources <- resources %||% tar_option("resources")
+  resources <- resources %||% tar_option_get("resources")
   assert_list(resources, "resources in tar_option_set() must be a named list.")
   assign("resources", resources, envir = tar_envir_options)
 }
 
 tar_option_set_template <- function(template) {
-  template <- template %||% tar_option("template")
+  template <- template %||% tar_option_get("template")
   warn_template(template)
   assign("template", template, envir = tar_envir_options)
 }
 
 tar_option_set_storage <- function(storage) {
-  storage <- storage %||% tar_option("storage")
+  storage <- storage %||% tar_option_get("storage")
   storage <- match.arg(storage, c("local", "remote"))
   assign("storage", storage, envir = tar_envir_options)
 }
 
 tar_option_set_retrieval <- function(retrieval) {
-  retrieval <- retrieval %||% tar_option("retrieval")
+  retrieval <- retrieval %||% tar_option_get("retrieval")
   retrieval <- match.arg(retrieval, c("local", "remote"))
   assign("retrieval", retrieval, envir = tar_envir_options)
 }
 
 tar_option_set_cue <- function(cue) {
-  cue <- cue %||% tar_option("cue")
+  cue <- cue %||% tar_option_get("cue")
   trn(is.null(cue), NULL, cue_validate(cue))
   assign("cue", cue, envir = tar_envir_options)
 }
 
 tar_option_set_debug <- function(debug) {
-  debug <- debug %||% tar_option("debug")
+  debug <- debug %||% tar_option_get("debug")
   assert_chr(debug, "debug artument of tar_option_set() must be a character.")
   assign("debug", debug, envir = tar_envir_options)
 }

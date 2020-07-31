@@ -123,7 +123,7 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
 
 #' @export
 target_debug.tar_builder <- function(target) {
-  debug <- tar_option("debug")
+  debug <- tar_option_get("debug")
   if (length(debug) && target_get_name(target) %in% debug) {
     # Covered in tests/interactive/test-debug.R
     # nocov start

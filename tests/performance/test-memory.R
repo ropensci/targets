@@ -2,7 +2,7 @@ library(targets)
 library(pryr)
 
 tar_script({
- tar_options(memory = "transient") # Comment out and see memory increase.
+ tar_option_set(memory = "transient") # Comment out and see memory increase.
   targets <- lapply(
     seq_len(50),
     function(index) {
@@ -25,7 +25,7 @@ tar_make(garbage_collection = TRUE)
 # The final size of the pipeline object should be small.
 devtools::load_all()
 tar_destroy()
-tar_options(memory = "transient")
+tar_option_set(memory = "transient")
 targets <- lapply(
   seq_len(50),
   function(index) {
