@@ -8,20 +8,37 @@
 #' @details This function goes well with [tar_target_raw()] when it comes
 #'   to defining external interfaces on top of the `targets` package to create
 #'   pipelines.
-#' @return Value of a target option. Returns `NULL` if the option is not set.
+#' @return Value of a target option.
 #' @param option Character of length 1, name of an option to get.
 #'   Must be one of the argument names of [tar_options()].
-#' @param default Default value if the option is unset (`NULL`)
 #' @examples
 #' \dontrun{
-#' # Set target options:
+#' tar_option("format")
 #' tar_options(format = "fst_tbl")
 #' tar_option("format")
-#' # Reset target options:
-#' tar_options()
-#' tar_option("format")
 #' }
-tar_option <- function(option, default = NULL) {
+tar_option <- function(option) {
   option <- match.arg(option, choices = names(formals(tar_options)))
-  envir_target[[option]] %||% default
+  envir_target[[option]] %||% tar_option_default(option)
+}
+
+tar_option_default <- function(option) {
+  switch(
+    option,
+    tidy_eval = TRUE,
+    packages = (.packages()),
+    library = NULL,
+    envir = globalenv(),
+    format = "rds",
+    iteration = "vector",
+    error = "stop",
+    memory = "persistent",
+    deployment = "remote",
+    resources = list(),
+    template = NULL,
+    storage = "local",
+    retrieval = "local",
+    cue = targets::tar_cue(),
+    debug = character(0)
+  )
 }

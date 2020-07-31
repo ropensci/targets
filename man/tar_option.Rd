@@ -4,16 +4,14 @@
 \alias{tar_option}
 \title{Get a target option.}
 \usage{
-tar_option(option, default = NULL)
+tar_option(option)
 }
 \arguments{
 \item{option}{Character of length 1, name of an option to get.
 Must be one of the argument names of \code{\link[=tar_options]{tar_options()}}.}
-
-\item{default}{Default value if the option is unset (\code{NULL})}
 }
 \value{
-Value of a target option. Returns \code{NULL} if the option is not set.
+Value of a target option.
 }
 \description{
 Get a target option. These options include default arguments to
@@ -29,11 +27,8 @@ pipelines.
 }
 \examples{
 \dontrun{
-# Set target options:
-tar_options(format = "fst_tbl")
 tar_option("format")
-# Reset target options:
-tar_options()
+tar_options(format = "fst_tbl")
 tar_option("format")
 }
 }

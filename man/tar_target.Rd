@@ -8,20 +8,20 @@ tar_target(
   name,
   command,
   pattern = NULL,
-  tidy_eval = targets::tar_option("tidy_eval", TRUE),
-  packages = targets::tar_option("packages", (.packages())),
+  tidy_eval = targets::tar_option("tidy_eval"),
+  packages = targets::tar_option("packages"),
   library = targets::tar_option("library"),
-  format = targets::tar_option("format", "rds"),
-  iteration = targets::tar_option("iteration", "vector"),
-  error = targets::tar_option("error", "stop"),
-  memory = targets::tar_option("memory", "persistent"),
-  template = targets::tar_option("template", NULL),
-  deployment = targets::tar_option("deployment", "remote"),
+  format = targets::tar_option("format"),
+  iteration = targets::tar_option("iteration"),
+  error = targets::tar_option("error"),
+  memory = targets::tar_option("memory"),
+  template = targets::tar_option("template"),
+  deployment = targets::tar_option("deployment"),
   priority = 0,
-  resources = targets::tar_option("resources", list()),
-  storage = targets::tar_option("storage", "local"),
-  retrieval = targets::tar_option("retrieval", storage),
-  cue = targets::tar_option("cue", NULL)
+  resources = targets::tar_option("resources"),
+  storage = targets::tar_option("storage"),
+  retrieval = targets::tar_option("retrieval"),
+  cue = targets::tar_option("cue")
 )
 }
 \arguments{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_options.R
 \name{tar_options}
 \alias{tar_options}
-\title{Set target options, including default arguments to \code{\link[=tar_target]{tar_target()}}.}
+\title{Set target options.}
 \usage{
 tar_options(
   tidy_eval = TRUE,
@@ -148,11 +148,8 @@ in order to be useful
 }
 \examples{
 \dontrun{
-# Set target options:
-tar_options(format = "fst_tbl")
 tar_option("format")
-# Reset target options:
-tar_options()
+tar_options(format = "fst_tbl")
 tar_option("format")
 }
 }

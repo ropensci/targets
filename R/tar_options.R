@@ -1,4 +1,4 @@
-#' @title Set target options, including default arguments to [tar_target()].
+#' @title Set target options.
 #' @export
 #' @description Set target options, including default arguments to
 #'   [tar_target()] such as packages, storage format,
@@ -22,11 +22,8 @@
 #'   targets.
 #' @examples
 #' \dontrun{
-#' # Set target options:
-#' tar_options(format = "fst_tbl")
 #' tar_option("format")
-#' # Reset target options:
-#' tar_options()
+#' tar_options(format = "fst_tbl")
 #' tar_option("format")
 #' }
 tar_options <- function(
