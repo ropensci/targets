@@ -20,6 +20,12 @@ assert_chr_no_delim <- function(x, msg = NULL) {
   }
 }
 
+assert_dag <- function(x, msg = NULL) {
+  if (!inherits(x, "igraph") || !igraph::is_dag(x)) {
+    throw_validate(msg %||% "x must be an igraph and directed acyclic graph.")
+  }
+}
+
 assert_dbl <- function(x, msg = NULL) {
   if (!is.numeric(x)) {
     throw_validate(msg %||% "x must be numeric.")

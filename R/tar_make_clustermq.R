@@ -67,7 +67,7 @@ tar_make_clustermq_inner <- function(
   workers,
   template
 ) {
-  pipeline_validate(pipeline)
+  pipeline_validate_lite(pipeline)
   names <- tar_tidyselect(names_quosure, pipeline_get_names(pipeline))
   algorithm_init(
     subclass = "clustermq",

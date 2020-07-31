@@ -90,7 +90,7 @@ tar_visnetwork_inner <- function(
   label,
   reporter
 ) {
-  pipeline_validate(pipeline)
+  pipeline_validate_lite(pipeline)
   allow <- tar_tidyselect(allow_quosure, pipeline_get_names(pipeline))
   exclude <- tar_tidyselect(exclude_quosure, pipeline_get_names(pipeline))
   network <- inspection_init(

@@ -215,6 +215,24 @@ pipeline_validate.default <- function(pipeline) {
   throw_validate("not a tar_pipeline() object. _targets.R must end with one.")
 }
 
+
+pipeline_validate_lite <- function(pipeline) {
+  UseMethod("pipeline_validate_lite")
+}
+
+#' @export
+#' @keywords internal
+pipeline_validate_lite.tar_pipeline <- function(pipeline) {
+  assert_correct_fields(pipeline, pipeline_new)
+  pipeline_validate_envirs(pipeline$targets)
+}
+
+#' @export
+#' @keywords internal
+pipeline_validate_lite.default <- function(pipeline) {
+  throw_validate("not a tar_pipeline() object. _targets.R must end with one.")
+}
+
 #' @export
 #' @keywords internal
 print.tar_pipeline <- function(x, ...) {

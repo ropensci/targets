@@ -63,29 +63,11 @@ command_clone <- function(command) {
   out
 }
 
-command_validate_packages <- function(command) {
-  packages <- command$packages
-  assert_chr(packages)
-  library <- command$library
-  package_info <- utils::installed.packages(lib.loc = library)
-  installed <- package_info[, "Package", drop = TRUE]
-  if (!all(packages %in% installed)) {
-    missing <- paste(setdiff(packages, installed), collapse = ", ")
-    throw_validate("packages not installed: ", missing)
-  }
-}
-
-command_validate_library <- function(library) {
-  if (!is.null(library)) {
-    assert_chr(library)
-  }
-}
-
 command_validate <- function(command) {
   assert_correct_fields(command, command_new)
   assert_expr(command$expr)
-  command_validate_library(command$library)
-  command_validate_packages(command)
+  assert_chr(command$packages)
+  assert_chr(command$library %||% character(0))
   assert_chr(command$deps)
   assert_int(command$seed)
   assert_scalar(command$seed)

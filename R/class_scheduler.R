@@ -6,6 +6,7 @@ scheduler_init <- function(
   edges <- pipeline_upstream_edges(pipeline, targets_only = TRUE)
   graph <- graph_init(remove_loops(edges))
   igraph <- igraph::simplify(igraph::graph_from_data_frame(edges))
+  assert_dag(igraph, "dependency graph contains a cycle")
   priorities <- pipeline_get_priorities(pipeline)
   names <- scheduler_topo_sort(igraph, priorities, queue)
   queue <- queue_init(queue, names, initial_ranks(names, graph, priorities))

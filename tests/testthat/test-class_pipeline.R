@@ -216,20 +216,26 @@ tar_test("pipeline_reset_priorities()", {
 
 tar_test("validate a non-pipeline", {
   expect_error(pipeline_validate(stem_new()), class = "condition_validate")
+  expect_error(
+    pipeline_validate_lite(stem_new()),
+    class = "condition_validate"
+  )
 })
 
 tar_test("validate a nonempty pipeline", {
   expect_silent(pipeline_validate(pipeline_order()))
+  expect_silent(pipeline_validate_lite(pipeline_order()))
 })
 
 tar_test("validate an empty pipeline", {
   expect_silent(pipeline_validate(pipeline_init()))
+  expect_silent(pipeline_validate_lite(pipeline_init()))
 })
 
 tar_test("pipeline_validate(pipeline) with a bad target", {
   pipeline <- pipeline_order()
   pipeline_set_target(pipeline, target_init("x."))
-  expect_error(pipeline_validate(pipeline)(), class = "condition_validate")
+  expect_error(pipeline_validate(pipeline), class = "condition_validate")
 })
 
 tar_test("pipeline_validate(pipeline) on targets with different envirs", {
@@ -239,7 +245,8 @@ tar_test("pipeline_validate(pipeline) on targets with different envirs", {
       target_init("y", envir = new.env())
     )
   )
-  expect_error(pipeline_validate(pipeline)(), class = "condition_validate")
+  expect_error(pipeline_validate(pipeline), class = "condition_validate")
+  expect_error(pipeline_validate_lite(pipeline), class = "condition_validate")
 })
 
 tar_test("pipeline_validate(pipeline) with circular graph", {
@@ -249,7 +256,7 @@ tar_test("pipeline_validate(pipeline) with circular graph", {
       target_init("y", quote(x + 1))
     )
   )
-  expect_error(pipeline_validate(pipeline)(), class = "condition_validate")
+  expect_error(pipeline_validate(pipeline), class = "condition_validate")
 })
 
 tar_test("print method", {
