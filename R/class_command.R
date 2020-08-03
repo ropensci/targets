@@ -33,12 +33,14 @@ command_new <- function(
 }
 
 command_load_packages <- function(command) {
-  lapply(
-    command$packages,
-    require,
-    lib.loc = command$library,
-    quietly = TRUE,
-    character.only = TRUE
+  suppressPackageStartupMessages(
+    lapply(
+      command$packages,
+      require,
+      lib.loc = command$library,
+      quietly = TRUE,
+      character.only = TRUE
+    )
   )
 }
 
