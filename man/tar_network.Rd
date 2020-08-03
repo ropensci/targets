@@ -15,6 +15,14 @@ tar_network(
 \item{targets_only}{Logical, whether to restrict the output to just targets
 (\code{FALSE}) or to also include imported global functions and objects.}
 
+\item{reporter}{Character of length 1, name of the reporter to user.
+Controls how messages are printed as targets are checked. Choices:
+\itemize{
+\item \code{"silent"}: print nothing.
+\item \code{"forecast"}: print running totals of the checked and outdated
+targets found so far.
+}}
+
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session
 instead of an external process (but restart your R session just before
