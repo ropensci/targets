@@ -46,7 +46,7 @@ tar_outdated <- function(
   names = NULL,
   branches = FALSE,
   targets_only = TRUE,
-  reporter = ifelse(interactive(), "forecast", "silent"),
+  reporter = "silent",
   callr_function = callr::r,
   callr_arguments = list(spinner = reporter == "silent")
 ) {

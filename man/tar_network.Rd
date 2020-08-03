@@ -6,6 +6,7 @@
 \usage{
 tar_network(
   targets_only = FALSE,
+  reporter = "silent",
   callr_function = callr::r,
   callr_arguments = list()
 )

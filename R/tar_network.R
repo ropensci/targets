@@ -29,24 +29,30 @@
 #' }
 tar_network <- function(
   targets_only = FALSE,
+  reporter = "silent",
   callr_function = callr::r,
   callr_arguments = list()
 ) {
   assert_target_script()
   assert_lgl(targets_only, "targets_only must be logical.")
+  assert_in(
+    reporter,
+    c("forecast", "silent"),
+    "reporter arg of tar_outdated() must either be \"silent\" or \"forecast\""
+  )
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   callr_outer(
     targets_function = tar_network_inner,
-    targets_arguments = list(targets_only = targets_only),
+    targets_arguments = list(targets_only = targets_only, reporter = reporter),
     callr_function = callr_function,
     callr_arguments = callr_arguments
   )
 }
 
-tar_network_inner <- function(pipeline, targets_only) {
+tar_network_inner <- function(pipeline, targets_only, reporter) {
   pipeline_validate_lite(pipeline)
-  inspection <- inspection_init(pipeline)
+  inspection <- inspection_init(pipeline = pipeline, reporter = reporter)
   inspection$update(targets_only = targets_only)
   list(vertices = inspection$vertices, edges = inspection$edges)
 }

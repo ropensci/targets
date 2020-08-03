@@ -49,7 +49,7 @@ tar_visnetwork <- function(
   exclude = NULL,
   outdated = TRUE,
   label = NULL,
-  reporter = ifelse(interactive(), "forecast", "silent"),
+  reporter = "silent",
   callr_function = callr::r,
   callr_arguments = list(spinner = reporter == "silent")
 ) {
