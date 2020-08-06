@@ -1,6 +1,6 @@
 tar_test("tar_target_raw() works", {
-  envir <- new.env(parent = baseenv())
-  x <- tar_target_raw("x", expression(get_data()), envir = envir)
+  tar_option_set(envir = new.env(parent = baseenv()))
+  x <- tar_target_raw("x", expression(get_data()))
   expect_silent(target_validate(x))
   expect_equal(target_get_name(x), "x")
   expect_equal(x$command$string, "expression(get_data())")

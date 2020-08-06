@@ -49,7 +49,6 @@ tar_target_raw <- function(
   library = targets::tar_option_get("library"),
   deps = NULL,
   string = NULL,
-  envir = tar_option_get("envir"),
   format = targets::tar_option_get("format"),
   iteration = targets::tar_option_get("iteration"),
   error = targets::tar_option_get("error"),
@@ -62,7 +61,6 @@ tar_target_raw <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
-  force(envir)
   assert_chr(name, "name arg of tar_target_raw() must be character")
   assert_chr(packages, "packages in tar_target_raw() must be character.")
   assert_chr(
@@ -93,7 +91,7 @@ tar_target_raw <- function(
     pattern = pattern,
     packages = packages,
     library = library,
-    envir = envir,
+    envir = tar_option_get("envir"),
     format = format,
     iteration = iteration,
     error = error,

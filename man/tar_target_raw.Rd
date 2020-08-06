@@ -12,7 +12,6 @@ tar_target_raw(
   library = targets::tar_option_get("library"),
   deps = NULL,
   string = NULL,
-  envir = tar_option_get("envir"),
   format = targets::tar_option_get("format"),
   iteration = targets::tar_option_get("iteration"),
   error = targets::tar_option_get("error"),
@@ -56,9 +55,6 @@ since last run, which helps \code{targets} decide whether the
 target is up to date. External interfaces can take control of
 \code{string} to ignore changes in certain parts of the command.
 If \code{NULL}, the strings is just deparsed from \code{command} (default).}
-
-\item{envir}{Environment containing functions and global objects
-used in the R commands to run targets.}
 
 \item{format}{Optional storage format for the target's return value.
 With the exception of \code{format = "file"}, each target
