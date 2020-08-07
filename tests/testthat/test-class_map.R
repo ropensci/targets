@@ -531,3 +531,15 @@ tar_test("patterns and branches get correct ranks with priorities", {
   expect_equal(sort(names(out)), sort(names(exp)))
   expect_equal(out[names(exp)], exp)
 })
+
+tar_test("prohibit branching over stem files", {
+  file.create(c("a", "b"))
+  pipeline <- pipeline_init(
+    list(
+      target_init("paths", quote(c("a", "b")), format = "file"),
+      target_init("data", quote(paths), pattern = quote(map(paths)))
+    )
+  )
+  algo <- algorithm_init("local", pipeline)
+  expect_error(algo$run(), class = "condition_validate")
+})

@@ -253,11 +253,13 @@ pipeline_assert_dimension <- function(target, pipeline, name) {
   }
   if (!branchable) {
     throw_validate(
-      "targets must only branch over explicitly ",
+      "Target ", target_get_name(target),
+      " tried to branch over ", name, ", which is illegal. ",
+      "Patterns must only branch over explicitly ",
       "declared targets in the pipeline. ",
       "Stems and patterns are fine, but you cannot branch over branches or ",
-      " global objects. Target ",
-      target_get_name(target), " tried to branch over ", name, "."
+      "global objects. Also, if you branch over a target with ",
+      "format = \"file\", then that target must also be a pattern."
     )
   }
 }
