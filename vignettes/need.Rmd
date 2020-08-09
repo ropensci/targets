@@ -70,12 +70,17 @@ The `targets` package solves all these issues by design. Functions `tar_make()`,
 ├───── 37caf5df2892cfc4.rds
 ├───── ...
 ├── drake/
-├── keys/
+├───── history/
+├───── return/
+├───── tmp/
+├── keys/ # A surprisingly large number of tiny text files live here.
 ├───── memoize/
 ├───── meta/
 ├───── objects/
-├───── ...
-└── scratch/
+├───── progress/
+├───── recover/
+├───── session/
+└── scratch/ # This folder should be temporary, but it gets egregiously large.
 ```
 
 The `target` takes a friendlier, more transparent, less mysterious approach to data management. Its data store is a visible `_targets` folder, and it contains far fewer files: a spreadsheet of metadata, a spreadsheet of target progress, and one informatively named data file for each target. It is much easier to understand the data management process, identify and diagnose problems, place projects under version control, and avoid consuming unnecessary storage resources. Sketch:
@@ -89,7 +94,8 @@ _targets/
 ├───── target_name_1
 ├───── target_name_2
 ├───── target_name_3
-└───── ...
+├───── ...
+└── scratch/ # Deleted when the pipeline finishes.
 ```
 
 ## Show status of functions and global objects
