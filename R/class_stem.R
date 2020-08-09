@@ -86,7 +86,7 @@ target_conclude.tar_stem <- function(target, pipeline, scheduler, meta) {
 
 #' @export
 target_is_branchable.tar_stem <- function(target) {
-  TRUE
+  target$settings$format != "file"
 }
 
 #' @export
