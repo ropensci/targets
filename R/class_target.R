@@ -54,14 +54,14 @@ target_init <- function(
       settings,
       cue,
       cache,
-      sitrep = sitrep_init()
+      patternview = patternview_init()
     ),
     cross = cross_new(
       command,
       settings,
       cue,
       cache,
-      sitrep = sitrep_init()
+      patternview = patternview_init()
     ),
     throw_validate("unsupported pattern")
   )

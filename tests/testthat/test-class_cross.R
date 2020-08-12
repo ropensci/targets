@@ -8,9 +8,9 @@ tar_test("target_get_parent(cross)", {
   expect_equal(target_get_parent(x), "x")
 })
 
-tar_test("cross$sitrep", {
+tar_test("cross$patternview", {
   x <- target_init("x", expr = quote(1 + 1), pattern = quote(cross(a, b)))
-  expect_silent(sitrep_validate(x$sitrep))
+  expect_silent(patternview_validate(x$patternview))
 })
 
 tar_test("crosses produce correct junctions and bud niblings", {

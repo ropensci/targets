@@ -98,21 +98,29 @@ target_validate.tar_branch <- function(target) {
 }
 
 #' @export
-builder_sitrep_meta.tar_branch <- function(target, pipeline, meta) {
+builder_patternview_meta.tar_branch <- function(target, pipeline, meta) {
   name <- target_get_parent(target)
   parent <- pipeline_get_target(pipeline, name)
   record <- meta$get_record(target_get_name(target))
-  sitrep_register_meta(parent$sitrep, record)
+  patternview_register_meta(parent$patternview, record)
 }
 
 #' @export
-builder_sitrep_cancelled.tar_branch <- function(target, pipeline, scheduler) {
+builder_patternview_cancelled.tar_branch <- function(
+  target,
+  pipeline,
+  scheduler
+) {
   parent <- pipeline_get_target(pipeline, target_get_parent(target))
-  sitrep_register_cancelled(parent$sitrep, parent, scheduler)
+  patternview_register_cancelled(parent$patternview, parent, scheduler)
 }
 
 #' @export
-builder_sitrep_errored.tar_branch <- function(target, pipeline, scheduler) {
+builder_patternview_errored.tar_branch <- function(
+  target,
+  pipeline,
+  scheduler
+) {
   parent <- pipeline_get_target(pipeline, target_get_parent(target))
-  sitrep_register_errored(parent$sitrep, parent, scheduler)
+  patternview_register_errored(parent$patternview, parent, scheduler)
 }

@@ -5,7 +5,7 @@ cross_new <- function(
   cache = NULL,
   value = NULL,
   junction = NULL,
-  sitrep = NULL
+  patternview = NULL
 ) {
   force(command)
   force(settings)
@@ -13,7 +13,7 @@ cross_new <- function(
   force(cache)
   force(value)
   force(junction)
-  force(sitrep)
+  force(patternview)
   enclass(environment(), c("tar_cross", "tar_pattern", "tar_target"))
 }
 

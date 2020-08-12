@@ -87,6 +87,6 @@ tar_test("same, but continue on error", {
   expect_equal(progress$progress, c("running", "errored"))
 })
 
-tar_test("sitrep_validate()", {
-  expect_silent(sitrep_validate(sitrep_init()))
+tar_test("patternview_validate()", {
+  expect_silent(patternview_validate(patternview_init()))
 })

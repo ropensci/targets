@@ -49,7 +49,7 @@ Subpipeline | ✓ | ✓ | ✓ |  | | | |
 Junction |  | ✓ |  | | ✓ | ✓ | ✓ | 
 Pedigree |  |  | ✓ | ✓ | | | |
 Cue | ✓ | ✓ | ✓ | | | | |
-Sitrep | | | | | ✓ | ✓ | ✓ | 
+Patternview | | | | | ✓ | ✓ | ✓ | 
 
 The class inheritance hierarchy of targets is below, and the orchestration vignette explains why the package is designed this way.
 
@@ -119,6 +119,6 @@ Whereas junctions are branching specifications for stems and patterns, pedigrees
 
 A cue object is a collection of rules for deciding whether a target is up to date. `targets` allows the user to activate or suppress some of these rules to change the conditions under which targets rerun.
 
-## Sitrep class
+## Patternview class
 
-A sitrep object keeps track of the overall status of a all a pattern's branches as a group. Its helps make it more efficient to keep track of the progress, runtime, and storage size of an entire pattern.
+A patternview object keeps track of the overall status of a all a pattern's branches as a group. Its helps make it more efficient to keep track of the progress, runtime, and storage size of an entire pattern.

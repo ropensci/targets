@@ -5,7 +5,7 @@ pattern_new <- function(
   cache = NULL,
   value = NULL,
   junction = NULL,
-  sitrep = NULL
+  patternview = NULL
 ) {
   force(command)
   force(settings)
@@ -13,7 +13,7 @@ pattern_new <- function(
   force(cache)
   force(value)
   force(junction)
-  force(sitrep)
+  force(patternview)
   enclass(environment(), c("tar_pattern", "tar_target"))
 }
 
@@ -34,11 +34,11 @@ target_produce_record.tar_pattern <- function(target, meta) {
     type = target_get_type(target),
     data = pattern_produce_data_hash(target, meta),
     command = target$command$hash,
-    bytes = target$sitrep$bytes,
+    bytes = target$patternview$bytes,
     format = target$settings$format,
     iteration = target$settings$iteration,
     children = as.character(target_get_children(target)),
-    seconds = target$sitrep$seconds
+    seconds = target$patternview$seconds
   )
 }
 
@@ -217,14 +217,14 @@ pattern_produce_data_hash <- function(target, meta) {
 
 pattern_conclude_initial <- function(target, pipeline, scheduler, meta) {
   pattern_skip_initial(target, pipeline, scheduler, meta)
-  sitrep_register_running(target$sitrep, target, scheduler)
+  patternview_register_running(target$patternview, target, scheduler)
   pattern_debug_branches(target)
 }
 
 pattern_conclude_final <- function(target, pipeline, scheduler, meta) {
   pattern_skip_final(target, pipeline, scheduler, meta)
   target_record_meta(target, meta)
-  sitrep_register_final(target$sitrep, target, scheduler)
+  patternview_register_final(target$patternview, target, scheduler)
 }
 
 pattern_skip_initial <- function(target, pipeline, scheduler, meta) {

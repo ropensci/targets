@@ -12,9 +12,9 @@ tar_test("target_get_parent(map)", {
   expect_equal(target_get_parent(x), "x")
 })
 
-tar_test("map$sitrep", {
+tar_test("map$patternview", {
   x <- target_init("x", expr = quote(1 + 1), pattern = quote(map(a, b)))
-  expect_silent(sitrep_validate(x$sitrep))
+  expect_silent(patternview_validate(x$patternview))
 })
 
 tar_test("run a simple map and check output", {

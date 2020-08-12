@@ -1,8 +1,8 @@
-sitrep_init <- function(seconds = 0, bytes = 0, progress = "queued") {
-  sitrep_new(seconds, bytes, progress)
+patternview_init <- function(seconds = 0, bytes = 0, progress = "queued") {
+  patternview_new(seconds, bytes, progress)
 }
 
-sitrep_new <- function(seconds = 0, bytes = 0, progress = NULL) {
+patternview_new <- function(seconds = 0, bytes = 0, progress = NULL) {
   force(seconds)
   force(bytes)
   force(progress)
@@ -10,51 +10,51 @@ sitrep_new <- function(seconds = 0, bytes = 0, progress = NULL) {
   environment()
 }
 
-sitrep_register_meta <- function(sitrep, record) {
-  sitrep_register_seconds(sitrep, record)
-  sitrep_register_bytes(sitrep, record)
+patternview_register_meta <- function(patternview, record) {
+  patternview_register_seconds(patternview, record)
+  patternview_register_bytes(patternview, record)
 }
 
-sitrep_register_seconds <- function(sitrep, record) {
-  sitrep$seconds <- sitrep$seconds + record$seconds
+patternview_register_seconds <- function(patternview, record) {
+  patternview$seconds <- patternview$seconds + record$seconds
 }
 
-sitrep_register_bytes <- function(sitrep, record) {
-  sitrep$bytes <- sitrep$bytes + record$bytes
+patternview_register_bytes <- function(patternview, record) {
+  patternview$bytes <- patternview$bytes + record$bytes
 }
 
-sitrep_register_running <- function(sitrep, target, scheduler) {
-  sitrep$progress <- "running"
+patternview_register_running <- function(patternview, target, scheduler) {
+  patternview$progress <- "running"
   scheduler$progress$write_running(target_get_name(target))
 }
 
-sitrep_register_cancelled <- function(sitrep, target, scheduler) {
-  if (sitrep$progress != "errored") {
-    sitrep$progress <- "cancelled"
+patternview_register_cancelled <- function(patternview, target, scheduler) {
+  if (patternview$progress != "errored") {
+    patternview$progress <- "cancelled"
     scheduler$progress$write_cancelled(target_get_name(target))
   }
 }
 
-sitrep_register_errored <- function(sitrep, target, scheduler) {
-  sitrep$progress <- "errored"
+patternview_register_errored <- function(patternview, target, scheduler) {
+  patternview$progress <- "errored"
   scheduler$progress$write_errored(target_get_name(target))
 }
 
-sitrep_register_built <- function(sitrep, target, scheduler) {
-  sitrep$progress <- "built"
+patternview_register_built <- function(patternview, target, scheduler) {
+  patternview$progress <- "built"
 }
 
-sitrep_register_final <- function(sitrep, target, scheduler) {
-  if (sitrep$progress == "running") {
-    sitrep_register_built(sitrep, target, scheduler)
+patternview_register_final <- function(patternview, target, scheduler) {
+  if (patternview$progress == "running") {
+    patternview_register_built(patternview, target, scheduler)
     scheduler$progress$write_built(target_get_name(target))
   }
 }
 
-sitrep_validate <- function(sitrep) {
-  assert_correct_fields(sitrep, sitrep_new)
+patternview_validate <- function(patternview) {
+  assert_correct_fields(patternview, patternview_new)
   assert_in(
-    sitrep$progress,
+    patternview$progress,
     c("queued", "running", "built", "cancelled", "errored")
   )
 }
