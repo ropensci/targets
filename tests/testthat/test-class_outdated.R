@@ -94,6 +94,61 @@ tar_test("Update the command of a stem", {
   expect_true(all(c("x", "y", "z") %in% out))
 })
 
+tar_test("Update the file of a branch", {
+  x <- target_init("x", quote(seq_len(3)))
+  y <- target_init("y", quote(x), pattern = quote(map(x)))
+  z <- target_init("z", quote(y), pattern = quote(map(y)))
+  pipeline <- pipeline_init(list(x, y, z))
+  local <- algorithm_init("local", pipeline)
+  local$run()
+  child_y <- target_get_children(y)[1]
+  child_z <- target_get_children(z)[1]
+  path <- file.path("_targets", "objects", child_y)
+  object <- readRDS(path)
+  saveRDS(object + 100, path)
+  x <- target_init("x", quote(seq_len(3)))
+  y <- target_init("y", quote(x), pattern = quote(map(x)))
+  z <- target_init("z", quote(y), pattern = quote(map(y)))
+  pipeline <- pipeline_init(list(x, y, z))
+  outdated <- algorithm_init(
+    "outdated",
+    pipeline,
+    queue = "sequential",
+    reporter = "silent"
+  )
+  outdated$run()
+  out <- sort(counter_get_names(outdated$outdated))
+  exp <- sort(c("y", "z", child_y, child_z))
+  expect_equal(out, exp)
+})
+
+tar_test("Update the file of a branch and aggregate", {
+  x <- target_init("x", quote(seq_len(3)))
+  y <- target_init("y", quote(x), pattern = quote(map(x)))
+  z <- target_init("z", quote(y))
+  pipeline <- pipeline_init(list(x, y, z))
+  local <- algorithm_init("local", pipeline)
+  local$run()
+  child_y <- target_get_children(y)[1]
+  path <- file.path("_targets", "objects", child_y)
+  object <- readRDS(path)
+  saveRDS(object + 100, path)
+  x <- target_init("x", quote(seq_len(3)))
+  y <- target_init("y", quote(x), pattern = quote(map(x)))
+  z <- target_init("z", quote(y))
+  pipeline <- pipeline_init(list(x, y, z))
+  outdated <- algorithm_init(
+    "outdated",
+    pipeline,
+    queue = "sequential",
+    reporter = "silent"
+  )
+  outdated$run()
+  out <- sort(counter_get_names(outdated$outdated))
+  exp <- sort(c("y", "z", child_y))
+  expect_equal(out, exp)
+})
+
 tar_test("Corrupt a branch", {
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
