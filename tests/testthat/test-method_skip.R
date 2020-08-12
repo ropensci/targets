@@ -30,13 +30,16 @@ tar_test("Update an existing branch", {
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
-  pipeline <- pipeline_init(list(x, y, z))
+  w <- target_init("w", quote(sum(y)))
+  pipeline <- pipeline_init(list(x, y, z, w))
   local <- algorithm_init("local", pipeline)
   local$run()
+  expect_equal(target_read_value(w)$object, 6L)
   x <- target_init("x", quote(c(1L, 5L, 3L)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
-  pipeline <- pipeline_init(list(x, y, z))
+  w <- target_init("w", quote(sum(y)))
+  pipeline <- pipeline_init(list(x, y, z, w))
   local <- algorithm_init("local", pipeline)
   local$run()
   out <- c(
@@ -44,13 +47,14 @@ tar_test("Update an existing branch", {
     target_get_children(pipeline_get_target(pipeline, "z"))[2]
   )
   exp <- counter_get_names(local$scheduler$progress$built)
-  expect_equal(sort(c("x", out)), sort(exp))
+  expect_equal(sort(c("x", "w", out)), sort(exp))
   for (branch in out) {
     expect_equal(
       target_read_value(pipeline_get_target(pipeline, branch))$object,
       5L
     )
   }
+  expect_equal(target_read_value(w)$object, 9L)
 })
 
 tar_test("Insert a branch", {
