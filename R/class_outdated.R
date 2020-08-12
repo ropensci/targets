@@ -99,12 +99,7 @@ outdated_class <- R6::R6Class(
         self$register_outdated(target_get_name(target))
         return()
       }
-      target_skip(
-        target,
-        self$pipeline,
-        self$scheduler,
-        self$meta
-      )
+      target_skip(target, self$pipeline, self$scheduler, self$meta)
       if (any(map_lgl(target_get_children(target), self$is_outdated))) {
         self$register_outdated(target_get_name(target))
       }

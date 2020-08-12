@@ -13,14 +13,6 @@ algorithm_init <- function(
   scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
   switch(
     subclass,
-    outdated = outdated_new(
-      pipeline = pipeline,
-      scheduler = scheduler,
-      meta = meta,
-      garbage_collection = FALSE,
-      checked = counter_init(),
-      outdated = counter_init()
-    ),
     local = local_new(pipeline, scheduler, meta, garbage_collection),
     clustermq = clustermq_new(
       pipeline,
@@ -37,6 +29,21 @@ algorithm_init <- function(
       garbage_collection,
       workers = as.integer(workers),
       crew = memory_init()
+    ),
+    outdated = outdated_new(
+      pipeline = pipeline,
+      scheduler = scheduler,
+      meta = meta,
+      garbage_collection = FALSE,
+      checked = counter_init(),
+      outdated = counter_init()
+    ),
+    sitrep = sitrep_new(
+      pipeline = pipeline,
+      scheduler = scheduler,
+      meta = meta,
+      garbage_collection = FALSE,
+      sitrep = new.env(parent = emptyenv())
     ),
     throw_validate("unsupported algorithm")
   )

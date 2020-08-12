@@ -66,6 +66,23 @@ target_should_run.tar_builder <- function(target, meta) {
 }
 
 #' @export
+target_sitrep.tar_builder <- function(target, meta) {
+  cue <- target$cue
+  record <- cue_record(cue, target, meta)
+  list(
+    name = target_get_name(target),
+    record = cue_record(cue, target, meta),
+    always = cue_always(cue, target, meta),
+    never = cue_never(cue, target, meta),
+    command = trn(record, NA, cue_command(cue, target, meta)),
+    depend = trn(record, NA, cue_depend(cue, target, meta)),
+    format = trn(record, NA, cue_format(cue, target, meta)),
+    iteration = trn(record, NA, cue_iteration(cue, target, meta)),
+    file = trn(record, NA, cue_file(cue, target, meta))
+  )
+}
+
+#' @export
 target_should_run_remote.tar_builder <- function(target) {
   target$settings$deployment == "remote"
 }

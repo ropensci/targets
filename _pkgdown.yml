@@ -46,6 +46,8 @@ reference:
   - '`tar_manifest`'
   - '`tar_network`'
   - '`tar_outdated`'
+  - '`tar_progress`'
+  - '`tar_sitrep`'
   - '`tar_validate`'
   - '`tar_visnetwork`'
 - title: Run
@@ -57,7 +59,6 @@ reference:
   contents:
   - '`tar_load`'
   - '`tar_meta`'
-  - '`tar_progress`'
   - '`tar_read`'
 - title: Clean
   contents:

@@ -226,6 +226,15 @@ target_should_run.default <- function(target, meta) {
   TRUE
 }
 
+target_sitrep <- function(target, meta) {
+  UseMethod("target_sitrep")
+}
+
+#' @export
+target_sitrep.default <- function(target, meta) {
+  list()
+}
+
 target_should_run_remote <- function(target) {
   UseMethod("target_should_run_remote")
 }

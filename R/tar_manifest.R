@@ -89,8 +89,8 @@ tar_manifest_inner <- function(
   names <- tar_tidyselect(names_quosure, all_names) %||% all_names
   out <- map(names, ~tar_manifest_target(pipeline_get_target(pipeline, .x)))
   out <- do.call(rbind, out)
-  cols <- tar_tidyselect(fields_quosure, colnames(out)) %||% colnames(out)
-  out[, base::union("name", cols), drop = FALSE]
+  fields <- tar_tidyselect(fields_quosure, colnames(out)) %||% colnames(out)
+  out[, base::union("name", fields), drop = FALSE]
 }
 
 tar_manifest_target <- function(target) {
