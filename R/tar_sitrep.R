@@ -9,6 +9,11 @@
 #'     value will depend on the settings you supply to [tar_cue()].
 #'   * If a pattern tries to branches over a target that does not exist
 #'     in storage, then the branches are omitted from the output.
+#'   * `tar_sitrep()` is myopic. It only considers what happens to the
+#'     immediate target and its immediate upstream dependencies.
+#'     If target Z depends on target Y, target Y depends on target X,
+#'     and target X changed since last time, you may not see any
+#'     of the cues for Z activate.
 #' @return A data frame with one row per target/object and one column
 #'   per cue. Each element is a logical to indicate whether the cue
 #'   is activated for the target.
@@ -35,8 +40,9 @@
 #'   * `command`: Whether the target's command changed since last time.
 #'     Always `TRUE` if the `record` cue is activated.
 #'     Otherwise, always `FALSE` if the `command` cue is suppressed.
-#'   * `depend`: Whether at least one of the target's dependencies
-#'     changed since last time. Dependencies are targets, functions,
+#'   * `depend`: Whether the data/output of at least one of the target's
+#'     dependencies changed since last time.
+#'     Dependencies are targets, functions,
 #'     and global objects directly upstream.
 #'     Call [tar_outdated(targets_only = FALSE)] or
 #'     [tar_visnetwork(targets_only = FALSE)] to see exactly which

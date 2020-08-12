@@ -37,8 +37,9 @@ If \code{TRUE}, \code{\link[=tar_make]{tar_make()}} will only run if the
 \item \code{command}: Whether the target's command changed since last time.
 Always \code{TRUE} if the \code{record} cue is activated.
 Otherwise, always \code{FALSE} if the \code{command} cue is suppressed.
-\item \code{depend}: Whether at least one of the target's dependencies
-changed since last time. Dependencies are targets, functions,
+\item \code{depend}: Whether the data/output of at least one of the target's
+dependencies changed since last time.
+Dependencies are targets, functions,
 and global objects directly upstream.
 Call \link{tar_outdated(targets_only = FALSE)} or
 \link{tar_visnetwork(targets_only = FALSE)} to see exactly which
@@ -78,6 +79,11 @@ Caveats:
 value will depend on the settings you supply to \code{\link[=tar_cue]{tar_cue()}}.
 \item If a pattern tries to branches over a target that does not exist
 in storage, then the branches are omitted from the output.
+\item \code{tar_sitrep()} is myopic. It only considers what happens to the
+immediate target and its immediate upstream dependencies.
+If target Z depends on target Y, target Y depends on target X,
+and target X changed since last time, you may not see any
+of the cues for Z activate.
 }
 }
 \examples{
