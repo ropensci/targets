@@ -51,6 +51,7 @@ clustermq_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    garbage_collection = NULL,
     workers = NULL,
     crew = NULL,
     template = NULL,
@@ -68,9 +69,9 @@ clustermq_class <- R6::R6Class(
       super$initialize(
         pipeline = pipeline,
         scheduler = scheduler,
-        meta = meta,
-        garbage_collection = garbage_collection
+        meta = meta
       )
+      self$garbage_collection <- garbage_collection
       self$workers <- workers
       self$crew <- crew
       self$template <- template
@@ -198,6 +199,10 @@ clustermq_class <- R6::R6Class(
       assert_package("clustermq")
       self$start_algorithm()
     },
+    end = function() {
+      self$end_algorithm()
+      run_gc(self$garbage_collection)
+    },
     run_clustermq = function() {
       on.exit(self$crew$finalize())
       self$start_crew(pipeline_get_envir(self$pipeline))
@@ -221,6 +226,7 @@ clustermq_class <- R6::R6Class(
     },
     validate = function() {
       super$validate()
+      assert_lgl(self$garbage_collection)
       assert_int(self$workers)
       assert_list(self$template)
     }

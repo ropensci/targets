@@ -32,6 +32,20 @@ local_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    garbage_collection = NULL,
+    initialize = function(
+      pipeline = NULL,
+      scheduler = NULL,
+      meta = NULL,
+      garbage_collection = NULL
+    ) {
+      super$initialize(
+        pipeline = pipeline,
+        scheduler = scheduler,
+        meta = meta
+      )
+      self$garbage_collection <- garbage_collection
+    },
     assert_deployment = function(target) {
     },
     run_target = function(name) {
@@ -76,6 +90,14 @@ local_class <- R6::R6Class(
       }
       self$end()
       invisible()
+    },
+    end = function() {
+      self$end_algorithm()
+      run_gc(self$garbage_collection)
+    },
+    validate = function() {
+      super$validate()
+      assert_lgl(self$garbage_collection)
     }
   )
 )

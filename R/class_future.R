@@ -46,6 +46,7 @@ future_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    garbage_collection = NULL,
     workers = NULL,
     crew = NULL,
     globals = NULL,
@@ -61,9 +62,9 @@ future_class <- R6::R6Class(
       super$initialize(
         pipeline = pipeline,
         scheduler = scheduler,
-        meta = meta,
-        garbage_collection = garbage_collection
+        meta = meta
       )
+      self$garbage_collection <- garbage_collection
       self$workers <- workers
       self$crew <- crew
       self$globals <- globals
@@ -180,6 +181,10 @@ future_class <- R6::R6Class(
     start = function() {
       assert_package("future")
       self$start_algorithm()
+    },
+    end = function() {
+      self$end_algorithm()
+      run_gc(self$garbage_collection)
     },
     run = function() {
       self$start()

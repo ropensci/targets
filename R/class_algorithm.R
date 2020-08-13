@@ -1,14 +1,12 @@
 algorithm_new <- function(
   pipeline = NULL,
   scheduler = NULL,
-  meta = NULL,
-  garbage_collection = NULL
+  meta = NULL
 ) {
   algorithm_class$new(
     pipeline = pipeline,
     scheduler = scheduler,
-    meta = meta,
-    garbage_collection = garbage_collection
+    meta = meta
   )
 }
 
@@ -21,17 +19,14 @@ algorithm_class <- R6::R6Class(
     pipeline = NULL,
     scheduler = NULL,
     meta = NULL,
-    garbage_collection = NULL,
     initialize = function(
       pipeline = NULL,
       scheduler = NULL,
-      meta = NULL,
-      garbage_collection = NULL
+      meta = NULL
     ) {
       self$pipeline <- pipeline
       self$scheduler <- scheduler
       self$meta <- meta
-      self$garbage_collection <- garbage_collection
     },
     ensure_meta = function() {
       self$meta$database$preprocess(write = TRUE)
@@ -47,9 +42,6 @@ algorithm_class <- R6::R6Class(
       pipeline_unload_loaded(self$pipeline)
       scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress)
-      if (self$garbage_collection) {
-        gc()
-      }
       store_del_scratch()
     },
     start = function() {
@@ -62,7 +54,6 @@ algorithm_class <- R6::R6Class(
       pipeline_validate(self$pipeline)
       self$scheduler$validate()
       self$meta$validate()
-      assert_lgl(self$garbage_collection)
     }
   )
 )

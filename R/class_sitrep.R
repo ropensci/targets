@@ -48,8 +48,7 @@ sitrep_class <- R6::R6Class(
       super$initialize(
         pipeline = pipeline,
         scheduler = scheduler,
-        meta = meta,
-        garbage_collection = FALSE
+        meta = meta
       )
       self$sitrep <- sitrep
     },
