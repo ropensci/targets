@@ -1,0 +1,39 @@
+Name: Run a targets pipeline
+Description: Calls tar_make(). Requires a _targets.R configuration file.
+Binding: rstudio_addin_tar_make
+Interactive: false
+
+Name: Visualize a targets pipeline
+Description: Calls tar_visnetwork(). Requires a _targets.R configuration file.
+Binding: rstudio_addin_tar_visnetwork
+Interactive: false
+
+Name: Glimpse a targets pipeline
+Description: Calls tar_glimpse(). Requires a _targets.R configuration file.
+Binding: rstudio_addin_tar_glimpse
+Interactive: false
+
+Name: See outdated targets
+Description: Calls tarr_outdated(). Requries a _targets.R configuration file
+Binding: rstudio_addin_tar_outdated
+Interactive: false
+
+Name: View progress
+Description: Run tar_progress() and View() the result.
+Binding: rstudio_addin_tar_progress
+Interactive: false
+
+Name: Load target at cursor
+Description: Load the target identified by the symbol at the cursor position from the _targets data store.
+Binding: rstudio_addin_tar_load
+Interactive: false
+
+Name: Print target at cursor
+Description: Print the target identified by the symbol at the cursor position from the _targets data store.
+Binding: rstudio_addin_tar_read
+Interactive: false
+
+Name: Write target at cursor
+Description: Write tar_target() at the cursor position.
+Binding: rstudio_addin_tar_target
+Interactive: false
