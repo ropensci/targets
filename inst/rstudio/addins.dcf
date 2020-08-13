@@ -1,6 +1,11 @@
-Name: Run a targets pipeline
-Description: Calls tar_make(). Requires a _targets.R configuration file.
-Binding: rstudio_addin_tar_make
+Name: Run a targets pipeline in the foreground
+Description: Calls tar_make() in the current R process. Requires a _targets.R configuration file.
+Binding: tar_make
+Interactive: false
+
+Name: Run a targets pipeline in the background
+Description: Calls tar_make() in a background process. Requires a _targets.R configuration file.
+Binding: rstudio_addin_tar_make_bg
 Interactive: false
 
 Name: Visualize a targets pipeline
