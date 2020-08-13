@@ -44,7 +44,7 @@ test_that("keras and clustermq with local storage and retrieval", {
     envir = envir
   )
   pipeline <- pipeline_init(list(x))
-  cmq <- algorithm_init("clustermq", pipeline)
+  cmq <- clustermq_init(pipeline)
   cmq$run()
   expect_true(
     inherits(
@@ -103,7 +103,7 @@ test_that("keras and clustermq with remote storage and retrieval", {
     envir = envir
   )
   pipeline <- pipeline_init(list(x))
-  cmq <- algorithm_init("clustermq", pipeline)
+  cmq <- clustermq_init(pipeline)
   cmq$run()
   expect_true(
     inherits(

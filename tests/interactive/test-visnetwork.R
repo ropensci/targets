@@ -54,7 +54,7 @@ pipeline <- pipeline_init(
     target_init("z", quote(x + y), envir = envir)
   )
 )
-algorithm_init("local", pipeline)$run()
+local_init(pipeline)$run()
 evalq(h <- 2, envir = envir)
 pipeline <- pipeline_init(
   list(
@@ -79,7 +79,7 @@ vis$visnetwork
 x <- target_init("w", quote(Sys.sleep(100))) # Sleep for a long time.
 pipeline <- pipeline_init(list(x))
 # Manually cancel (ESC or CTRL-C):
-algorithm_init("local", pipeline = pipeline)$run()
+local_init(pipeline = pipeline)$run()
 x <- target_init("w", quote(Sys.sleep(100)))
 pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
@@ -89,7 +89,7 @@ vis$visnetwork
 
 # Should show one cancelled target.
 pipeline <- pipeline_init(list(target_init("w", quote(targets::tar_cancel()))))
-algorithm_init("local", pipeline = pipeline)$run()
+local_init(pipeline = pipeline)$run()
 pipeline <- pipeline_init(list(target_init("w", quote(targets::tar_cancel()))))
 net <- inspection_init(pipeline)
 vis <- visual_init(network = net)
@@ -99,7 +99,7 @@ vis$visnetwork
 # Should show one errored target.
 x <- target_init("x", quote(stop("123")))
 pipeline <- pipeline_init(list(x))
-algorithm_init("local", pipeline = pipeline)$run()
+local_init(pipeline = pipeline)$run()
 x <- target_init("x", quote(stop("123")))
 pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
@@ -111,7 +111,7 @@ vis$visnetwork
 tar_destroy()
 x <- target_init("x", quote(stop("123")), error = "continue")
 pipeline <- pipeline_init(list(x))
-algorithm_init("local", pipeline = pipeline)$run()
+local_init(pipeline = pipeline)$run()
 x <- target_init("x", quote(stop("123")), error = "continue")
 pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
@@ -129,7 +129,7 @@ x <- target_init(
   error = "continue"
 )
 pipeline <- pipeline_init(list(w, x))
-algorithm_init("local", pipeline = pipeline)$run()
+local_init(pipeline = pipeline)$run()
 w <- target_init("w", quote(seq_len(2)))
 x <- target_init(
   "x",
@@ -152,7 +152,7 @@ x <- target_init(
   pattern = quote(map(w))
 )
 pipeline <- pipeline_init(list(w, x))
-algorithm_init("local", pipeline = pipeline)$run()
+local_init(pipeline = pipeline)$run()
 w <- target_init("w", quote(seq_len(2)))
 x <- target_init(
   "x",

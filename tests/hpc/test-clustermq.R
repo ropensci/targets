@@ -7,7 +7,7 @@ tar_test("clustermq iteration loop can wait and shut down workers", {
   x <- target_init("x", quote(Sys.sleep(2)))
   y <- target_init("y", quote(list(x, a = "x")))
   pipeline <- pipeline_init(list(x, y))
-  out <- algorithm_init("clustermq", pipeline, reporter = "silent")
+  out <- clustermq_init(pipeline, reporter = "silent")
   out$run()
   target <- pipeline_get_target(pipeline, "y")
   expect_equal(target_read_value(target)$object$a, "x")
@@ -40,7 +40,7 @@ test_that("packages are actually loaded on remote targets", {
     envir = envir
   )
   pipeline <- pipeline_init(list(x))
-  out <- algorithm_init("clustermq", pipeline)
+  out <- clustermq_init(pipeline)
   out$run()
   exp <- tibble::tibble(x = "x")
   target <- pipeline_get_target(pipeline, "x")
@@ -74,7 +74,7 @@ test_that("nontrivial common data", {
   }
   x <- target_init("x", quote(f(1L)), envir = envir)
   pipeline <- pipeline_init(list(x))
-  cmq <- algorithm_init("clustermq", pipeline)
+  cmq <- clustermq_init(pipeline)
   cmq$run()
   target <- pipeline_get_target(pipeline, "x")
   expect_equal(target_read_value(target)$object, 3L)
@@ -100,16 +100,11 @@ test_that("branching plan on SGE", {
     add = TRUE
   )
   pipeline <- pipeline_map()
-  out <- algorithm_init(
-    "clustermq",
-    pipeline,
-    garbage_collection = TRUE,
-    workers = 4L
-  )
+  out <- clustermq_init(pipeline, garbage_collection = TRUE, workers = 4L)
   out$run()
   skipped <- counter_get_names(out$scheduler$progress$skipped)
   expect_equal(skipped, character(0))
-  out2 <- algorithm_init("clustermq", pipeline_map(), workers = 2L)
+  out2 <- clustermq_init(pipeline_map(), workers = 2L)
   out2$run()
   built <- counter_get_names(out2$scheduler$progress$built)
   expect_equal(built, character(0))
@@ -165,12 +160,7 @@ test_that("Same with remote storage", {
     add = TRUE
   )
   pipeline <- pipeline_map(storage = "remote")
-  out <- algorithm_init(
-    "clustermq",
-    pipeline,
-    garbage_collection = TRUE,
-    workers = 4L
-  )
+  out <- clustermq_init(pipeline, garbage_collection = TRUE, workers = 4L)
   out$run()
   skipped <- counter_get_names(out$scheduler$progress$skipped)
   expect_equal(skipped, character(0))
@@ -233,14 +223,14 @@ test_that("clustermq with a dynamic file", {
   }
   x <- target_init("x", quote(save1()), format = "file", envir = envir)
   pipeline <- pipeline_init(list(x))
-  cmq <- algorithm_init("clustermq", pipeline)
+  cmq <- clustermq_init(pipeline)
   cmq$run()
   out <- counter_get_names(cmq$scheduler$progress$built)
   expect_equal(out, "x")
   saveRDS(2L, pipeline_get_target(pipeline, "x")$store$file$path)
   x <- target_init("x", quote(save1()), format = "file", envir = envir)
   pipeline <- pipeline_init(list(x))
-  cmq <- algorithm_init("clustermq", pipeline)
+  cmq <- clustermq_init(pipeline)
   cmq$run()
   out <- counter_get_names(cmq$scheduler$progress$built)
   expect_equal(out, "x")

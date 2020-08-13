@@ -17,7 +17,7 @@ test_that("packages are actually loaded for remote targets", {
     envir = envir
   )
   pipeline <- pipeline_init(list(x))
-  out <- algorithm_init("future", pipeline)
+  out <- future_init(pipeline)
   out$run()
   exp <- tibble::tibble(x = "x")
   target <- pipeline_get_target(pipeline, "x")
@@ -45,7 +45,7 @@ test_that("nontrivial globals", {
   }, envir = envir)
   x <- target_init("x", quote(f(1L)), envir = envir)
   pipeline <- pipeline_init(list(x))
-  algo <- algorithm_init("future", pipeline)
+  algo <- future_init(pipeline)
   algo$run()
   target <- pipeline_get_target(pipeline, "x")
   expect_equal(target_read_value(target)$object, 3L)
@@ -63,16 +63,11 @@ test_that("branching plan on SGE", {
     template = "sge_batchtools.tmpl"
   )
   pipeline <- pipeline_map()
-  out <- algorithm_init(
-    "future",
-    pipeline,
-    garbage_collection = TRUE,
-    workers = 4L
-  )
+  out <- future_init(pipeline, garbage_collection = TRUE, workers = 4L)
   out$run()
   skipped <- counter_get_names(out$scheduler$progress$skipped)
   expect_equal(skipped, character(0))
-  out2 <- algorithm_init("future", pipeline_map(), workers = 2L)
+  out2 <- future_init(pipeline_map(), workers = 2L)
   out2$run()
   built <- counter_get_names(out2$scheduler$progress$built)
   expect_equal(built, character(0))
@@ -120,12 +115,7 @@ test_that("Same with remote storage", {
     template = "sge_batchtools.tmpl"
   )
   pipeline <- pipeline_map(storage = "remote")
-  out <- algorithm_init(
-    "future",
-    pipeline,
-    garbage_collection = TRUE,
-    workers = 4L
-  )
+  out <- future_init(pipeline, garbage_collection = TRUE, workers = 4L)
   out$run()
   skipped <- counter_get_names(out$scheduler$progress$skipped)
   expect_equal(skipped, character(0))
