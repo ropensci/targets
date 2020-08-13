@@ -31,9 +31,9 @@ tar_visnetwork(label = c("time", "size", "branches"))
 # Same, but no labels.
 tar_visnetwork()
 
-# Same, but with labels for time, size, and branches
+# Labels for time and branches
 net <- inspection_init(pipeline_cross())
-vis <- visual_init(network = net, label = c("time", "size", "children"))
+vis <- visual_init(network = net, label = c("time", "size", "branches"))
 vis$update()
 vis$visnetwork
 
@@ -87,7 +87,7 @@ vis <- visual_init(network = net)
 vis$update()
 vis$visnetwork
 
-# Should show one cancelled target.
+# Should show one canceled target.
 pipeline <- pipeline_init(list(target_init("w", quote(targets::tar_cancel()))))
 local_init(pipeline = pipeline)$run()
 pipeline <- pipeline_init(list(target_init("w", quote(targets::tar_cancel()))))

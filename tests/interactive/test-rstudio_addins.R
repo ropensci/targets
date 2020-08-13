@@ -65,7 +65,7 @@ tar_test({
   tar_script()
   tar_make()
   # data
-  # Click Addins > Print target at cursor.
+  # Click Addins > Read target at cursor.
 })
 
 tar_test({
