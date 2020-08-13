@@ -10,7 +10,8 @@
 #'   * If a pattern tries to branches over a target that does not exist
 #'     in storage, then the branches are omitted from the output.
 #'   * `tar_sitrep()` is myopic. It only considers what happens to the
-#'     immediate target and its immediate upstream dependencies.
+#'     immediate target and its immediate upstream dependencies,
+#'     and it makes no attempt to propagate invalidation downstream.
 #'     If target Z depends on target Y, target Y depends on target X,
 #'     and target X changed since last time, you may not see any
 #'     of the cues for Z activate.
@@ -18,6 +19,8 @@
 #'   per cue. Each element is a logical to indicate whether the cue
 #'   is activated for the target.
 #'   See the `field` argument in this help file for details.
+#' @inheritParams tar_manifest
+#' @inheritParams tar_outdated
 #' @param names Optional, names of the targets. If supplied, `tar_sitrep()`
 #'   only returns metadata on these targets.
 #'   You can supply symbols, a character vector,

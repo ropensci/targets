@@ -156,3 +156,41 @@ test_that("tar_sitrep() on a project with a change", {
   exp$file[exp$name == children_y[1]] <- TRUE
   expect_equivalent(out, exp)
 })
+
+test_that("tar_sitrep() invalidation due to aggregated pattern deps", {
+  tar_script(
+    tar_pipeline(
+      tar_target(x, seq_len(2)),
+      tar_target(y, 2 * x, pattern = map(x)),
+      tar_target(z, 2 * y, pattern = map(y)),
+      tar_target(w, sum(y))
+    )
+  )
+  tar_make(callr_function = NULL)
+  tar_script(
+    tar_pipeline(
+      tar_target(x, c(1L, 3L)),
+      tar_target(y, 2 * x, pattern = map(x)),
+      tar_target(z, 2 * y, pattern = map(y)),
+      tar_target(w, sum(y))
+    )
+  )
+  tar_make(callr_function = NULL, names = c("x", "y", "z"))
+  children_y <- tar_meta(names = "y")$children[[1]]
+  children_z <- tar_meta(names = "z")$children[[1]]
+  out <- tar_sitrep(callr_function = NULL)
+  out <- out[order(out$name), ]
+  exp <- tibble::tibble(
+    name = sort(c("w", "x", children_y, children_z)),
+    record = FALSE,
+    always = FALSE,
+    never = FALSE,
+    command = FALSE,
+    depend = FALSE,
+    format = FALSE,
+    iteration = FALSE,
+    file = FALSE
+  )
+  exp$depend[exp$name == "w"] <- TRUE
+  expect_equivalent(out, exp)
+})

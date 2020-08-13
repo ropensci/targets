@@ -59,6 +59,25 @@ are missing or different from last time.
 Always \code{NA} if the \code{record} cue is activated.
 Otherwise, always \code{FALSE} if the \code{file} cue is suppressed.
 }}
+
+\item{reporter}{Character of length 1, name of the reporter to user.
+Controls how messages are printed as targets are checked. Choices:
+\itemize{
+\item \code{"silent"}: print nothing.
+\item \code{"forecast"}: print running totals of the checked and outdated
+targets found so far.
+}}
+
+\item{callr_function}{A function from \code{callr} to start a fresh clean R
+process to do the work. Set to \code{NULL} to run in the current session
+instead of an external process (but restart your R session just before
+you do in order to clear debris out of the global environment).
+\code{callr_function} needs to be \code{NULL} for interactive debugging,
+e.g. \code{tar_option_set(debug = "your_target")}.
+However, \code{callr_function} should not be \code{NULL} for serious
+reproducible work.}
+
+\item{callr_arguments}{A list of arguments to \code{callr_function}.}
 }
 \value{
 A data frame with one row per target/object and one column
@@ -80,7 +99,8 @@ value will depend on the settings you supply to \code{\link[=tar_cue]{tar_cue()}
 \item If a pattern tries to branches over a target that does not exist
 in storage, then the branches are omitted from the output.
 \item \code{tar_sitrep()} is myopic. It only considers what happens to the
-immediate target and its immediate upstream dependencies.
+immediate target and its immediate upstream dependencies,
+and it makes no attempt to propagate invalidation downstream.
 If target Z depends on target Y, target Y depends on target X,
 and target X changed since last time, you may not see any
 of the cues for Z activate.
