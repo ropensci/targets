@@ -196,7 +196,7 @@ tar_visnetwork(allow = starts_with("y"))
 # Should show status undefined (gray).
 tar_visnetwork(outdated = FALSE)
 
-# Should show a cancelled target.
+# Should show a canceled target.
 tar_script(tar_pipeline(tar_target(y1, tar_cancel())))
 tar_make()
 tar_visnetwork(outdated = FALSE)
