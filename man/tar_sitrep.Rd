@@ -101,9 +101,6 @@ in storage, then the branches are omitted from the output.
 \item \code{tar_sitrep()} is myopic. It only considers what happens to the
 immediate target and its immediate upstream dependencies,
 and it makes no attempt to propagate invalidation downstream.
-If target Z depends on target Y, target Y depends on target X,
-and target X changed since last time, you may not see any
-of the cues for Z activate.
 }
 }
 \examples{

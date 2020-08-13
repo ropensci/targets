@@ -12,9 +12,6 @@
 #'   * `tar_sitrep()` is myopic. It only considers what happens to the
 #'     immediate target and its immediate upstream dependencies,
 #'     and it makes no attempt to propagate invalidation downstream.
-#'     If target Z depends on target Y, target Y depends on target X,
-#'     and target X changed since last time, you may not see any
-#'     of the cues for Z activate.
 #' @return A data frame with one row per target/object and one column
 #'   per cue. Each element is a logical to indicate whether the cue
 #'   is activated for the target.
