@@ -102,20 +102,21 @@ target_skip.tar_builder <- function(target, pipeline, scheduler, meta) {
 
 #' @export
 target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
+  target_update_queue(target, scheduler)
   builder_handle_warnings(target, scheduler)
   if (metrics_has_cancel(target$metrics)) {
-    return(builder_cancel(target, pipeline, scheduler))
+    builder_cancel(target, pipeline, scheduler)
+    return()
   }
   builder_ensure_object(target, "local")
+  builder_wait_correct_hash(target)
+  target_ensure_buds(target, pipeline, scheduler)
   target_record_meta(target, meta)
   builder_patternview_meta(target, pipeline, meta)
   builder_handle_error(target, pipeline, scheduler, meta)
   builder_ensure_restored(target, pipeline)
   pipeline_register_loaded(pipeline, target_get_name(target))
-  if (!metrics_terminated_early(target$metrics)) {
-    scheduler$progress$register_built(target_get_name(target))
-  }
-  builder_wait_correct_hash(target)
+  builder_register_built(target, scheduler)
   NextMethod()
 }
 
@@ -267,6 +268,12 @@ builder_set_envir_run <- function(target) {
 
 builder_unset_envir_run <- function() {
   remove(list = "name", envir = envir_run, inherits = FALSE)
+}
+
+builder_register_built <- function(target, scheduler) {
+  if (!metrics_terminated_early(target$metrics)) {
+    scheduler$progress$register_built(target_get_name(target))
+  }
 }
 
 builder_cancel <- function(target, pipeline, scheduler) {

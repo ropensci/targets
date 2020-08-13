@@ -266,6 +266,10 @@ target_conclude.tar_target <- function(target, pipeline, scheduler, meta) {
   cache_clear_objects(target$cache)
 }
 
+target_ensure_buds <- function(target, pipeline, scheduler) {
+  UseMethod("target_ensure_buds")
+}
+
 target_update_depend <- function(target, meta) {
   UseMethod("target_update_depend")
 }

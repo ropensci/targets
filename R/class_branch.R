@@ -85,9 +85,7 @@ target_produce_record.tar_branch <- function(target, meta) {
 }
 
 #' @export
-target_conclude.tar_branch <- function(target, pipeline, scheduler, meta) {
-  target_update_queue(target, scheduler)
-  NextMethod()
+target_ensure_buds.tar_branch <- function(target, pipeline, scheduler) {
 }
 
 #' @export
