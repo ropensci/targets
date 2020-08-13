@@ -1,4 +1,4 @@
-test_that("tar_sitrep() on an empty project", {
+tar_test("tar_sitrep() on an empty project", {
   tar_script(
     tar_pipeline(
       tar_target(x, seq_len(2)),
@@ -23,7 +23,7 @@ test_that("tar_sitrep() on an empty project", {
   expect_equivalent(out, exp)
 })
 
-test_that("tar_sitrep() on an empty project with callr process", {
+tar_test("tar_sitrep() on an empty project with callr process", {
   tar_script(
     tar_pipeline(
       tar_target(x, seq_len(2)),
@@ -48,7 +48,7 @@ test_that("tar_sitrep() on an empty project with callr process", {
   expect_equivalent(out, exp)
 })
 
-test_that("tar_sitrep() name selection", {
+tar_test("tar_sitrep() name selection", {
   tar_script(
     tar_pipeline(
       tar_target(x2, seq_len(2)),
@@ -67,7 +67,7 @@ test_that("tar_sitrep() name selection", {
   expect_equivalent(out, exp)
 })
 
-test_that("tar_sitrep() name selection in reverse", {
+tar_test("tar_sitrep() name selection in reverse", {
   tar_script(
     tar_pipeline(
       tar_target(x2, seq_len(2)),
@@ -84,7 +84,7 @@ test_that("tar_sitrep() name selection in reverse", {
   expect_equivalent(out, exp)
 })
 
-test_that("tar_sitrep() field selection", {
+tar_test("tar_sitrep() field selection", {
   tar_script(
     tar_pipeline(
       tar_target(x, seq_len(2)),
@@ -99,7 +99,7 @@ test_that("tar_sitrep() field selection", {
   expect_equivalent(out, exp)
 })
 
-test_that("tar_sitrep() on a run project", {
+tar_test("tar_sitrep() on a run project", {
   tar_script(
     tar_pipeline(
       tar_target(x, seq_len(2)),
@@ -127,7 +127,7 @@ test_that("tar_sitrep() on a run project", {
   expect_equivalent(out, exp)
 })
 
-test_that("tar_sitrep() on a project with a change", {
+tar_test("tar_sitrep() on a project with a change", {
   tar_script(
     tar_pipeline(
       tar_target(x, seq_len(2)),
@@ -157,7 +157,7 @@ test_that("tar_sitrep() on a project with a change", {
   expect_equivalent(out, exp)
 })
 
-test_that("tar_sitrep() invalidation due to aggregated pattern deps", {
+tar_test("tar_sitrep() invalidation due to aggregated pattern deps", {
   tar_script(
     tar_pipeline(
       tar_target(x, seq_len(2)),
