@@ -79,9 +79,11 @@ target_skip.tar_stem <- function(target, pipeline, scheduler, meta) {
 
 #' @export
 target_conclude.tar_stem <- function(target, pipeline, scheduler, meta) {
+  if (!metrics_terminated_early(target$metrics)) {
+    stem_ensure_buds(target, pipeline, scheduler)
+  }
   NextMethod()
   target_update_queue(target, scheduler)
-  stem_ensure_buds(target, pipeline, scheduler)
 }
 
 #' @export

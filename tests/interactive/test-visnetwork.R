@@ -20,7 +20,7 @@ vis$visnetwork
 # Should show all optional labels.
 tar_script({
   tar_pipeline(
-    tar_target(x, seq_len(3)),
+    tar_target(x, stop(seq_len(3))),
     tar_target(y, x, pattern = map(x)),
     tar_target(z, y, pattern = map(y))
   )
