@@ -74,17 +74,18 @@ algorithm_init("local", pipeline_map(), reporter = "timestamp")$run()
 # Should show one time-stamped skip message per target.
 algorithm_init("local", pipeline_map(), reporter = "timestamp")$run()
 
-# Should show a timestamp-stamped failure message and an error message.
+# Should show a timestamped failure message and an error message.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(stop(123)))))
 local <- algorithm_init("local", pipeline, reporter = "timestamp")$run()
 
-# Should show a timestamped warning and a meta-warning w/ tip about tar_meta().
+# Should show a timestamped message, a warning,
+# and a meta-warning w/ tip about tar_meta().
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(warning(123)))))
 local <- algorithm_init("local", pipeline, reporter = "timestamp")$run()
 
-# Should show a timestamp-stamped cancellation message.
+# Should show a timestamped cancellation message.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(targets::tar_cancel()))))
 local <- algorithm_init("local", pipeline, reporter = "timestamp")$run()
@@ -116,20 +117,20 @@ local <- algorithm_init("local", pipeline, reporter = "summary")$run()
 
 # Should show same number check as outdated.
 tar_destroy()
-out <- outdated_init(pipeline_map(), reporter = "forecast")
+out <- algorithm_init("outdated", pipeline_map(), reporter = "forecast")
 tmp <- out$run()
 
 # Should show more checked and no outdated.
 local <- algorithm_init("local", pipeline_map())
 local$run()
-out <- outdated_init(pipeline_map(), reporter = "forecast")
+out <- algorithm_init("outdated", pipeline_map(), reporter = "forecast")
 tmp <- out$run()
 
 # Should show more checked than outdated.
 data1 <- readRDS("_targets/objects/data1")
 data1 <- data1 + max(data1) + 10
 saveRDS(data1, "_targets/objects/data1")
-out <- outdated_init(pipeline_map(), reporter = "forecast")
+out <- algorithm_init("outdated", pipeline_map(), reporter = "forecast")
 tmp <- out$run()
 
 # tar_outdated() uses forecast reporter.
