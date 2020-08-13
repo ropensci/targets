@@ -224,3 +224,23 @@ tar_test("buds names make it into metadata so junctions can be restored", {
   expect_equal(length(unique(buds)), 3L)
   expect_true(all(grepl("x_", buds)))
 })
+
+tar_test("buds names stay in metadata on error", {
+  tar_script({
+    tar_pipeline(
+      tar_target(x, seq_len(3)),
+      tar_target(y, x, pattern = map(x))
+    )
+  })
+  tar_make(callr_function = NULL)
+  tar_script({
+    tar_pipeline(
+      tar_target(x, stop(seq_len(3))),
+      tar_target(y, x, pattern = map(x))
+    )
+  })
+  expect_error(tar_make(callr_function = NULL), class = "condition_run")
+  buds <- tar_meta(x, children)$children[[1]]
+  expect_equal(length(unique(buds)), 3L)
+  expect_true(all(grepl("x_", buds)))
+})
