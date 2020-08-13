@@ -78,7 +78,6 @@ tar_test("debug mode works for entire patterns", {
 tar_test("debug mode works in tar_make_clustermq()", {
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
-  skip_hpc()
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
   on.exit(options(clustermq.scheduler = old))
@@ -96,7 +95,6 @@ tar_test("debug mode works in tar_make_clustermq()", {
 tar_test("debug mode works in tar_make_future()", {
   skip_on_os("windows")
   skip_if_not_installed("future")
-  skip_hpc()
   tar_script({
     envir <- new.env(parent = baseenv())
     tar_option_set(debug = "b", envir = envir)

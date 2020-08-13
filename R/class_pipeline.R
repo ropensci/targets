@@ -243,6 +243,12 @@ pipeline_validate_lite.default <- function(pipeline) {
 #' @keywords internal
 print.tar_pipeline <- function(x, ...) {
   count <- length(pipeline_get_names(x))
-  msg <- paste("<pipeline with", count, "targets>")
+  msg <- paste0(
+    "<pipeline with ",
+    count,
+    " target",
+    trn(count == 1L, "", "s"),
+    ">"
+  )
   cat(msg)
 }

@@ -67,11 +67,11 @@ tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(targets::tar_cancel()))))
 local <- local_init(pipeline, reporter = "verbose")$run()
 
-# Should show one timestamp-stamped message per target.
+# Should show one timestamped message per target.
 tar_destroy()
 local_init(pipeline_map(), reporter = "timestamp")$run()
 
-# Should show one time-stamped skip message per target.
+# Should show one timestamped skip message per target.
 local_init(pipeline_map(), reporter = "timestamp")$run()
 
 # Should show a timestamped failure message and an error message.
@@ -117,20 +117,20 @@ local <- local_init(pipeline, reporter = "summary")$run()
 
 # Should show same number check as outdated.
 tar_destroy()
-out <- local_init(pipeline_map(), reporter = "forecast")
+out <- outdated_init(pipeline_map(), reporter = "forecast")
 tmp <- out$run()
 
 # Should show more checked and no outdated.
 local <- local_init(pipeline_map())
 local$run()
-out <- local_init(pipeline_map(), reporter = "forecast")
+out <- outdated_init(pipeline_map(), reporter = "forecast")
 tmp <- out$run()
 
 # Should show more checked than outdated.
 data1 <- readRDS("_targets/objects/data1")
 data1 <- data1 + max(data1) + 10
 saveRDS(data1, "_targets/objects/data1")
-out <- local_init(pipeline_map(), reporter = "forecast")
+out <- outdated_init(pipeline_map(), reporter = "forecast")
 tmp <- out$run()
 
 # tar_outdated() uses forecast reporter.
