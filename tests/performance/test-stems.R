@@ -62,6 +62,10 @@ px <- pprof(try(tar_make(reporter = "summary", callr_function = NULL)))
 system.time(try(tar_outdated(callr_function = NULL)))
 px <- pprof(try(tar_outdated(callr_function = NULL)))
 
+# Should not see topo sort overhead for tar_sitrep().
+system.time(try(tar_sitrep(callr_function = NULL)))
+px <- pprof(try(tar_sitrep(callr_function = NULL)))
+
 # Should not see topo sort overhead for tar_make_future().
 system.time(try(tar_make_future(callr_function = NULL)))
 px <- pprof(try(tar_make_future(callr_function = NULL)))

@@ -13,7 +13,7 @@ px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
 # Outdated targets
 px <- pprof(tar_outdated(callr_function = NULL))
 
-# Should more time on target_load_deps() in the profiling data.
+# Should see more time on target_load_deps() in the profiling data.
 tar_destroy()
 tar_script({
   tar_pipeline(
