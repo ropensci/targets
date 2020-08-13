@@ -51,7 +51,7 @@ sitrep_class <- R6::R6Class(
       name <- target_get_name(target)
       target <- pipeline_get_target(self$pipeline, name)
       target_update_depend(target, meta)
-      self$sitrep[[name]] <- target_sitrep(target, self$meta)
+      self$sitrep[[name]] <- builder_sitrep(target, self$meta)
       trn(
         self$meta$exists_record(target_get_name(target)),
         target_skip(target, self$pipeline, self$scheduler, self$meta),
@@ -74,10 +74,6 @@ sitrep_class <- R6::R6Class(
       }
       self$end()
       invisible()
-    },
-    validate = function() {
-      super$validate()
-      memory_validate(self$sitrep)
     }
   )
 )
