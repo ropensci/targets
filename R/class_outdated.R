@@ -1,8 +1,26 @@
+outdated_init <- function(
+  pipeline = NULL,
+  names = NULL,
+  queue = "sequential",
+  meta = meta_init(),
+  reporter = "silent"
+) {
+  pipeline_prune_names(pipeline, names)
+  pipeline_reset_priorities(pipeline)
+  scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
+  outdated_new(
+    pipeline = pipeline,
+    scheduler = scheduler,
+    meta = meta,
+    checked = counter_init(),
+    outdated = counter_init()
+  )
+}
+
 outdated_new <- function(
   pipeline = NULL,
   scheduler = NULL,
   meta = NULL,
-  garbage_collection = NULL,
   checked = NULL,
   outdated = NULL
 ) {
@@ -10,7 +28,6 @@ outdated_new <- function(
     pipeline = pipeline,
     scheduler = scheduler,
     meta = meta,
-    garbage_collection = garbage_collection,
     checked = checked,
     outdated = outdated
   )
@@ -29,7 +46,6 @@ outdated_class <- R6::R6Class(
       pipeline = NULL,
       scheduler = NULL,
       meta = NULL,
-      garbage_collection = NULL,
       checked = NULL,
       outdated = NULL
     ) {
@@ -37,7 +53,7 @@ outdated_class <- R6::R6Class(
         pipeline = pipeline,
         scheduler = scheduler,
         meta = meta,
-        garbage_collection = garbage_collection
+        garbage_collection = FALSE
       )
       self$checked <- checked
       self$outdated <- outdated

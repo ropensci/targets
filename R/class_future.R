@@ -1,3 +1,24 @@
+future_init <- function(
+  pipeline = NULL,
+  names = NULL,
+  queue = "parallel",
+  meta = meta_init(),
+  reporter = "verbose",
+  garbage_collection = FALSE,
+  workers = 1L
+) {
+  pipeline_prune_names(pipeline, names)
+  scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
+  future_new(
+    pipeline,
+    scheduler,
+    meta,
+    garbage_collection,
+    workers = as.integer(workers),
+    crew = memory_init()
+  )
+}
+
 future_new <- function(
   pipeline = NULL,
   scheduler = NULL,

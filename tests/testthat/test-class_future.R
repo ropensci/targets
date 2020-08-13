@@ -1,5 +1,5 @@
 tar_test("future$workers", {
-  out <- algorithm_init("future", pipeline_init(), workers = 3L)
+  out <- future_init(pipeline_init(), workers = 3L)
   expect_equal(out$workers, 3L)
 })
 
@@ -9,7 +9,7 @@ tar_test("all local deployment works", {
   y <- target_init("y", quote(x), deployment = "local")
   z <- target_init("z", quote(x + 1L), deployment = "local")
   pipeline <- pipeline_init(list(x, y, z))
-  algorithm_init("future", pipeline)$run()
+  future_init(pipeline)$run()
   expect_equal(target_read_value(x)$object, 1L)
   expect_equal(target_read_value(y)$object, 1L)
   expect_equal(target_read_value(z)$object, 2L)
@@ -17,7 +17,7 @@ tar_test("all local deployment works", {
   y <- target_init("y", quote(x), deployment = "local")
   z <- target_init("z", quote(x + 1L), deployment = "local")
   pipeline <- pipeline_init(list(x, y, z))
-  out <- algorithm_init("future", pipeline)
+  out <- future_init(pipeline)
   built <- counter_get_names(out$scheduler$progress$built)
   expect_equal(built, character(0))
 })
@@ -34,7 +34,7 @@ tar_test("some targets up to date, some not", {
   x <- target_init("x", quote(1L))
   y <- target_init("y", quote(x + 1L))
   pipeline <- pipeline_init(list(x, y))
-  cmq <- algorithm_init("future", pipeline)
+  cmq <- future_init(pipeline)
   cmq$run()
   out <- counter_get_names(cmq$scheduler$progress$built)
   expect_equal(out, "y")
@@ -56,7 +56,7 @@ tar_test("future algo can skip targets", {
   x <- target_init("x", quote(1L))
   y <- target_init("y", quote(x))
   pipeline <- pipeline_init(list(x, y))
-  cmq <- algorithm_init("future", pipeline)
+  cmq <- future_init(pipeline)
   cmq$run()
   out <- counter_get_names(cmq$scheduler$progress$built)
   expect_equal(out, "x")
@@ -80,7 +80,7 @@ tar_test("nontrivial globals", {
   }, envir = envir)
   x <- target_init("x", quote(f(1L)), envir = envir)
   pipeline <- pipeline_init(list(x))
-  cmq <- algorithm_init("future", pipeline)
+  cmq <- future_init(pipeline)
   cmq$run()
   value <- target_read_value(pipeline_get_target(pipeline, "x"))
   expect_equal(value$object, 3L)
@@ -92,17 +92,12 @@ tar_test("branching plan", {
   on.exit(unlink("_targets", recursive = TRUE))
   on.exit(future::plan(future::sequential), add = TRUE)
   pipeline <- pipeline_map()
-  out <- algorithm_init(
-    "future",
-    pipeline,
-    workers = 2L,
-    garbage_collection = TRUE
-  )
+  out <- future_init(pipeline, workers = 2L, garbage_collection = TRUE)
   out$run()
   expect_equal(out$crew$count, 0L)
   skipped <- counter_get_names(out$scheduler$progress$skipped)
   expect_equal(skipped, character(0))
-  out2 <- algorithm_init("future", pipeline_map(), workers = 2L)
+  out2 <- future_init(pipeline_map(), workers = 2L)
   out2$run()
   built <- counter_get_names(out2$scheduler$progress$built)
   expect_equal(built, character(0))
@@ -139,6 +134,6 @@ tar_test("branching plan", {
 })
 
 tar_test("future$validate()", {
-  out <- algorithm_init("future", pipeline_init())
+  out <- future_init(pipeline_init())
   expect_silent(out$validate())
 })

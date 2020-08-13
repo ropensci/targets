@@ -1,15 +1,31 @@
+sitrep_init <- function(
+  pipeline = NULL,
+  names = NULL,
+  queue = "sequential",
+  meta = meta_init(),
+  reporter = "silent"
+) {
+  pipeline_prune_names(pipeline, names)
+  pipeline_reset_priorities(pipeline)
+  scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
+  sitrep_new(
+    pipeline = pipeline,
+    scheduler = scheduler,
+    meta = meta,
+    sitrep = new.env(parent = emptyenv())
+  )
+}
+
 sitrep_new <- function(
   pipeline = NULL,
   scheduler = NULL,
   meta = NULL,
-  garbage_collection = NULL,
   sitrep = NULL
 ) {
   sitrep_class$new(
     pipeline = pipeline,
     scheduler = scheduler,
     meta = meta,
-    garbage_collection = garbage_collection,
     sitrep = sitrep
   )
 }
@@ -27,14 +43,13 @@ sitrep_class <- R6::R6Class(
       pipeline = NULL,
       scheduler = NULL,
       meta = NULL,
-      garbage_collection = NULL,
       sitrep = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
         scheduler = scheduler,
         meta = meta,
-        garbage_collection = garbage_collection
+        garbage_collection = FALSE
       )
       self$sitrep <- sitrep
     },

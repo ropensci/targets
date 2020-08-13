@@ -62,8 +62,7 @@ tar_make_future_inner <- function(
 ) {
   pipeline_validate_lite(pipeline)
   names <- tar_tidyselect(names_quosure, pipeline_get_names(pipeline))
-  algorithm_init(
-    subclass = "future",
+  future_init(
     pipeline = pipeline,
     names = names,
     queue = "parallel",

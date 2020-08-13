@@ -1,14 +1,10 @@
 tar_test("clustermq$workers", {
-  out <- algorithm_init("clustermq", pipeline_init(), workers = 3L)
+  out <- clustermq_init(pipeline_init(), workers = 3L)
   expect_equal(out$workers, 3L)
 })
 
 tar_test("clustermq$template", {
-  out <- algorithm_init(
-    "clustermq",
-    pipeline_init(),
-    template = list(cores = 3L)
-  )
+  out <- clustermq_init(pipeline_init(), template = list(cores = 3L))
   expect_equal(out$template, list(cores = 3L))
 })
 
@@ -19,7 +15,7 @@ tar_test("all local deployment works", {
   y <- target_init("y", quote(x), deployment = "local")
   z <- target_init("z", quote(x + 1L), deployment = "local")
   pipeline <- pipeline_init(list(x, y, z))
-  algorithm_init("clustermq", pipeline)$run()
+  clustermq_init(pipeline)$run()
   expect_equal(target_read_value(x)$object, 1L)
   expect_equal(target_read_value(y)$object, 1L)
   expect_equal(target_read_value(z)$object, 2L)
@@ -27,7 +23,7 @@ tar_test("all local deployment works", {
   y <- target_init("y", quote(x), deployment = "local")
   z <- target_init("z", quote(x + 1L), deployment = "local")
   pipeline <- pipeline_init(list(x, y, z))
-  out <- algorithm_init("clustermq", pipeline)
+  out <- clustermq_init(pipeline)
   built <- counter_get_names(out$scheduler$progress$built)
   expect_equal(built, character(0))
 })
@@ -46,7 +42,7 @@ tar_test("some targets up to date, some not", {
   x <- target_init("x", quote(1L))
   y <- target_init("y", quote(x + 1L))
   pipeline <- pipeline_init(list(x, y))
-  cmq <- algorithm_init("clustermq", pipeline)
+  cmq <- clustermq_init(pipeline)
   cmq$run()
   out <- counter_get_names(cmq$scheduler$progress$built)
   expect_equal(out, "y")
@@ -70,7 +66,7 @@ tar_test("clustermq algo can skip targets", {
   x <- target_init("x", quote(1L))
   y <- target_init("y", quote(x))
   pipeline <- pipeline_init(list(x, y))
-  cmq <- algorithm_init("clustermq", pipeline)
+  cmq <- clustermq_init(pipeline)
   cmq$run()
   out <- counter_get_names(cmq$scheduler$progress$built)
   expect_equal(out, "x")
@@ -96,7 +92,7 @@ tar_test("nontrivial common data", {
   }, envir = envir)
   x <- target_init("x", quote(f(1L)), envir = envir)
   pipeline <- pipeline_init(list(x))
-  cmq <- algorithm_init("clustermq", pipeline)
+  cmq <- clustermq_init(pipeline)
   cmq$run()
   value <- target_read_value(pipeline_get_target(pipeline, "x"))
   expect_equal(value$object, 3L)
@@ -119,14 +115,14 @@ tar_test("clustermq with a dynamic file", {
   }, envir = envir)
   x <- target_init("x", quote(save1()), format = "file", envir = envir)
   pipeline <- pipeline_init(list(x))
-  cmq <- algorithm_init("clustermq", pipeline)
+  cmq <- clustermq_init(pipeline)
   cmq$run()
   out <- counter_get_names(cmq$scheduler$progress$built)
   expect_equal(out, "x")
   saveRDS(2L, pipeline_get_target(pipeline, "x")$store$file$path)
   x <- target_init("x", quote(save1()), format = "file", envir = envir)
   pipeline <- pipeline_init(list(x))
-  cmq <- algorithm_init("clustermq", pipeline)
+  cmq <- clustermq_init(pipeline)
   cmq$run()
   out <- counter_get_names(cmq$scheduler$progress$built)
   expect_equal(out, "x")
@@ -140,16 +136,11 @@ tar_test("branching plan", {
   options(clustermq.scheduler = "multicore")
   on.exit(options(clustermq.scheduler = old))
   pipeline <- pipeline_map()
-  out <- algorithm_init(
-    "clustermq",
-    pipeline,
-    workers = 2L,
-    garbage_collection = TRUE
-  )
+  out <- clustermq_init(pipeline, workers = 2L, garbage_collection = TRUE)
   out$run()
   skipped <- counter_get_names(out$scheduler$progress$skipped)
   expect_equal(skipped, character(0))
-  out2 <- algorithm_init("clustermq", pipeline_map(), workers = 2L)
+  out2 <- clustermq_init(pipeline_map(), workers = 2L)
   out2$run()
   built <- counter_get_names(out2$scheduler$progress$built)
   expect_equal(built, character(0))
@@ -186,6 +177,6 @@ tar_test("branching plan", {
 })
 
 tar_test("clustermq$validate()", {
-  out <- algorithm_init("clustermq", pipeline_init())
+  out <- clustermq_init(pipeline_init())
   expect_silent(out$validate())
 })

@@ -90,8 +90,7 @@ tar_outdated_inner <- function(
     character(0),
     tar_outdated_globals(pipeline, meta)
   )
-  outdated <- algorithm_init(
-    subclass = "outdated",
+  outdated <- outdated_init(
     pipeline = pipeline,
     names = names,
     queue = "sequential",

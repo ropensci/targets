@@ -95,8 +95,7 @@ inspection_class <- R6::R6Class(
       )
     },
     produce_outdated = function(vertices) {
-      outdated <- algorithm_init(
-        subclass = "outdated",
+      outdated <- outdated_init(
         pipeline = self$pipeline,
         queue = "sequential",
         meta = self$meta,

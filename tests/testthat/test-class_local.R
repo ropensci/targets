@@ -4,7 +4,7 @@ tar_test("local$meta", {
   expect_false(file.exists("_targets"))
 })
 
-tar_test("algorithm_init()$run() stores correct values", {
+tar_test("local_init()$run() stores correct values", {
   pipeline <- pipeline_order()
   local_init(pipeline)$run()
   out <- target_read_value(pipeline_get_target(pipeline, "data1"))$object
@@ -27,7 +27,7 @@ tar_test("algorithm_init()$run() stores correct values", {
   expect_equal(out, c(1L, 1L, 10L, 20L))
 })
 
-tar_test("algorithm_init(pipeline)$run() retains correct memory", {
+tar_test("local_init(pipeline)$run() retains correct memory", {
   pipeline <- pipeline_init(
     list(
       target_init(name = "data1", expr = quote(seq_len(10))),

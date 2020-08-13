@@ -1,3 +1,27 @@
+clustermq_init <- function(
+  pipeline = NULL,
+  names = NULL,
+  queue = "parallel",
+  meta = meta_init(),
+  reporter = "verbose",
+  garbage_collection = FALSE,
+  workers = 1L,
+  template = list(),
+  log_worker = FALSE
+) {
+  pipeline_prune_names(pipeline, names)
+  scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
+  clustermq_new(
+    pipeline,
+    scheduler,
+    meta,
+    garbage_collection,
+    workers = as.integer(workers),
+    template = as.list(template),
+    log_worker = log_worker
+  )
+}
+
 clustermq_new <- function(
   pipeline = NULL,
   scheduler = NULL,

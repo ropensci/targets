@@ -116,8 +116,7 @@ tar_sitrep_inner <- function(
   names_all <- pipeline_get_names(pipeline)
   names <- tar_tidyselect(names_quosure, names_all)
   meta <- meta_init()
-  sitrep <- algorithm_init(
-    subclass = "sitrep",
+  sitrep <- sitrep_init(
     pipeline = pipeline,
     names = names,
     queue = "sequential",
