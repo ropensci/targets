@@ -1,4 +1,4 @@
-cli_target <- function(name, prefix) {
+cli_target <- function(name, prefix = character(0)) {
   symbol <- cli::col_blue(cli::symbol$bullet)
   msg <- paste(symbol, prefix, name)
   message(msg)

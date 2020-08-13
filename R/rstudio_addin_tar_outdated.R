@@ -6,7 +6,6 @@
 #' @export
 #' @keywords internal
 rstudio_addin_tar_outdated <- function() {
-  assert_package("outdated")
   print(tar_outdated())
 }
 # nocov end
