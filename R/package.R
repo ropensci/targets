@@ -21,7 +21,7 @@
 #'   graph_from_data_frame igraph_opt igraph_options is_dag simplify topo_sort
 #'   V
 #' @importFrom R6 R6Class
-#' @importFrom rlang as_function as_quosure enquo quo quo_squash
+#' @importFrom rlang as_function as_quosure enquo quo quo_squash sym
 #' @importFrom tibble as_tibble
 #' @importFrom tidyselect all_of any_of contains ends_with everything
 #'   last_col matches num_range one_of starts_with

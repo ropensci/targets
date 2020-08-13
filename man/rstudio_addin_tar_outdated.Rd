@@ -2,7 +2,7 @@
 % Please edit documentation in R/rstudio_addin_tar_outdated.R
 \name{rstudio_addin_tar_outdated}
 \alias{rstudio_addin_tar_outdated}
-\title{RStudio addin to call tar_outdated().}
+\title{RStudio addin to call \code{\link[=tar_outdated]{tar_outdated()}}.}
 \usage{
 rstudio_addin_tar_outdated()
 }

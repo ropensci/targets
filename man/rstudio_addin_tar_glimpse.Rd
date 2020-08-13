@@ -2,7 +2,7 @@
 % Please edit documentation in R/rstudio_addin_tar_glimpse.R
 \name{rstudio_addin_tar_glimpse}
 \alias{rstudio_addin_tar_glimpse}
-\title{RStudio addin to call tar_glimpse().}
+\title{RStudio addin to call \code{\link[=tar_glimpse]{tar_glimpse()}}.}
 \usage{
 rstudio_addin_tar_glimpse()
 }

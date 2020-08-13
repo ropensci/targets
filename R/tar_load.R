@@ -34,6 +34,9 @@ tar_load <- function(
 ) {
   force(envir)
   names <- tar_tidyselect(rlang::enquo(names), meta$name)
+  if (!length(names)) {
+    cli_red_x("Found no targets to load.")
+  }
   assert_chr(names, "names arg of tar_load() must end up as character")
   if (!is.null(branches)) {
     assert_dbl(branches, "branches arg of tar_load() must be numeric")

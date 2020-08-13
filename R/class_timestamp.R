@@ -10,18 +10,24 @@ timestamp_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     report_running = function(target, progress = NULL) {
-      msg <- paste(time_stamp(), "run", target_get_type_cli(target))
-      cli_target(target_get_name(target), msg)
+      cli_target(
+        target_get_name(target),
+        target_get_type_cli(target),
+        time_stamp = TRUE
+      )
     },
     report_skipped = function(target, progress) {
-      msg <- paste(time_stamp(), "skip", target_get_type_cli(target))
-      cli_skip(target_get_name(target), msg)
+      cli_skip(
+        target_get_name(target),
+        target_get_type_cli(target),
+        time_stamp = TRUE
+      )
     },
     report_errored = function(target, progress = NULL) {
-      cli_error(target_get_name(target), time_stamp())
+      cli_error(target_get_name(target), time_stamp = TRUE)
     },
     report_cancelled = function(target = NULL, progress = NULL) {
-      cli_cancel(target_get_name(target), time_stamp())
+      cli_cancel(target_get_name(target), time_stamp = TRUE)
     },
     report_end = function(progress = NULL) {
       if (progress$uptodate()) {

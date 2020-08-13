@@ -2,7 +2,7 @@
 % Please edit documentation in R/rstudio_addin_tar_progress.R
 \name{rstudio_addin_tar_progress}
 \alias{rstudio_addin_tar_progress}
-\title{RStudio addin to call tail(tar_progress()).}
+\title{RStudio addin to print \code{tail(tar_progress())}.}
 \usage{
 rstudio_addin_tar_progress()
 }

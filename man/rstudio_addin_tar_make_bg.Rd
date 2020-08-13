@@ -2,7 +2,7 @@
 % Please edit documentation in R/rstudio_addin_tar_make_bg.R
 \name{rstudio_addin_tar_make_bg}
 \alias{rstudio_addin_tar_make_bg}
-\title{RStudio addin to call tar_progress().}
+\title{RStudio addin to run \code{\link[=tar_make]{tar_make()}} in the background.}
 \usage{
 rstudio_addin_tar_make_bg()
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/rstudio_addin_tar_visnetwork.R
 \name{rstudio_addin_tar_visnetwork}
 \alias{rstudio_addin_tar_visnetwork}
-\title{RStudio addin to call tar_visnetwork().}
+\title{RStudio addin to call \code{\link[=tar_visnetwork]{tar_visnetwork()}}.}
 \usage{
 rstudio_addin_tar_visnetwork()
 }

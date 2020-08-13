@@ -23,8 +23,8 @@ Description: Calls tarr_outdated(). Requries a _targets.R configuration file
 Binding: rstudio_addin_tar_outdated
 Interactive: false
 
-Name: View progress
-Description: Run tar_progress() and View() the result.
+Name: Print recent progress
+Description: Run tar_progress() and print the tail() of the result.
 Binding: rstudio_addin_tar_progress
 Interactive: false
 

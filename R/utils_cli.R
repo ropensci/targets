@@ -1,31 +1,53 @@
-cli_target <- function(name, prefix = character(0)) {
-  symbol <- cli::col_blue(cli::symbol$bullet)
-  msg <- paste(symbol, prefix, name)
-  message(msg)
+cli_target <- function(name, prefix = NULL, time_stamp = FALSE) {
+  time <- trn(time_stamp, time_stamp(), NULL)
+  msg <- paste(c(time, "run", prefix, name), collapse = " ")
+  cli_blue_bullet(msg)
 }
 
-cli_skip <- function(name, prefix) {
-  symbol <- cli::col_green(cli::symbol$tick)
-  msg <- paste(symbol, prefix, name)
-  message(msg)
+cli_skip <- function(name, prefix = NULL, time_stamp = FALSE) {
+  time <- trn(time_stamp, time_stamp(), NULL)
+  msg <- paste(c(time, "skip", prefix, name), collapse = " ")
+  cli_green_check(msg)
 }
 
-cli_error <- function(name, prefix = NULL) {
-  symbol <- cli::col_red(cli::symbol$cross)
-  msg <- paste(c(symbol, prefix, "error", name), collapse = " ")
-  message(msg)
+cli_error <- function(name, prefix = NULL, time_stamp = FALSE) {
+  time <- trn(time_stamp, time_stamp(), NULL)
+  msg <- paste(c(time, "error", prefix, name), collapse = " ")
+  cli_red_x(msg)
 }
 
-cli_cancel <- function(name, prefix = NULL) {
-  symbol <- cli::col_yellow(cli::symbol$bullet)
-  msg <- paste(c(symbol, prefix, "cancel", name), collapse = " ")
-  message(msg)
+cli_cancel <- function(name, prefix = NULL, time_stamp = FALSE) {
+  time <- trn(time_stamp, time_stamp(), NULL)
+  msg <- paste(c(time, "cancel", prefix, name), collapse = " ")
+  cli_yellow_bullet(msg)
 }
 
 cli_uptodate <- function() {
+  cli_green_check("Already up to date.")
+}
+
+cli_blue_bullet <- function(msg) {
+  symbol <- cli::col_blue(cli::symbol$bullet)
+  msg <- paste(symbol, msg)
+  message(msg)
+}
+
+cli_green_check <- function(msg) {
   symbol <- cli::col_green(cli::symbol$tick)
-  msg <- "Already up to date."
-  message(paste(symbol, msg))
+  msg <- paste(symbol, msg)
+  message(msg)
+}
+
+cli_yellow_bullet <- function(msg) {
+  symbol <- cli::col_yellow(cli::symbol$bullet)
+  msg <- paste(symbol, msg)
+  message(msg)
+}
+
+cli_red_x <- function(msg) {
+  symbol <- cli::col_red(cli::symbol$cross)
+  msg <- paste(symbol, msg)
+  message(msg)
 }
 
 cli_warned <- function(warned) {
