@@ -110,7 +110,7 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   }
   builder_ensure_object(target, "local")
   builder_wait_correct_hash(target)
-  target_ensure_buds(target, pipeline, scheduler)
+  target_ensure_buds(target, pipeline, scheduler, meta)
   target_record_meta(target, meta)
   target_patternview_meta(target, pipeline, meta)
   builder_handle_error(target, pipeline, scheduler, meta)

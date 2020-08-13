@@ -78,10 +78,12 @@ target_skip.tar_stem <- function(target, pipeline, scheduler, meta) {
 }
 
 #' @export
-target_ensure_buds.tar_stem <- function(target, pipeline, scheduler) {
-  if (!metrics_terminated_early(target$metrics)) {
+target_ensure_buds.tar_stem <- function(target, pipeline, scheduler, meta) {
+  trn(
+    metrics_terminated_early(target$metrics),
+    stem_restore_buds(target, pipeline, scheduler, meta),
     stem_ensure_buds(target, pipeline, scheduler)
-  }
+  )
 }
 
 #' @export
@@ -143,11 +145,15 @@ stem_ensure_junction <- function(target, pipeline) {
 }
 
 stem_restore_junction <- function(target, pipeline, meta) {
-  children <- meta$get_record(target_get_name(target))$children
+  name <- target_get_name(target)
+  if (!meta$exists_record(name)) {
+    return()
+  }
+  children <- meta$get_record(name)$children
   junction <- trn(
     anyNA(children),
     target_produce_junction(target, pipeline),
-    junction_init(nexus = target_get_name(target), splits = children)
+    junction_init(nexus = name, splits = children)
   )
   target$junction <- junction
 }
