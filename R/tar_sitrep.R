@@ -47,8 +47,8 @@
 #'     dependencies changed since last time.
 #'     Dependencies are targets, functions,
 #'     and global objects directly upstream.
-#'     Call [tar_outdated(targets_only = FALSE)] or
-#'     [tar_visnetwork(targets_only = FALSE)] to see exactly which
+#'     Call `tar_outdated(targets_only = FALSE)` or
+#'     `tar_visnetwork(targets_only = FALSE)` to see exactly which
 #'     dependencies are outdated.
 #'     Always `NA` if the `record` cue is activated.
 #'     Otherwise, always `FALSE` if the `depend` cue is suppressed.

@@ -41,8 +41,8 @@ Otherwise, always \code{FALSE} if the \code{command} cue is suppressed.
 dependencies changed since last time.
 Dependencies are targets, functions,
 and global objects directly upstream.
-Call \link{tar_outdated(targets_only = FALSE)} or
-\link{tar_visnetwork(targets_only = FALSE)} to see exactly which
+Call \code{tar_outdated(targets_only = FALSE)} or
+\code{tar_visnetwork(targets_only = FALSE)} to see exactly which
 dependencies are outdated.
 Always \code{NA} if the \code{record} cue is activated.
 Otherwise, always \code{FALSE} if the \code{depend} cue is suppressed.
