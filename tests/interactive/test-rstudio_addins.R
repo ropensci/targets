@@ -45,42 +45,39 @@ tar_test({
 tar_test({
   tar_script()
   tar_destroy()
-  # Click Addins > Run a targets pipeline in the background
+  # Click Addins > Run a targets pipeline in the background.
   tar_outdated()
 })
 
 tar_test({
   tar_script()
-  # Click Addins > See outdated targets
+  # Click Addins > See outdated targets.
 })
 
 tar_test({
   tar_script()
   tar_destroy()
   tar_make()
-  # Click Addins > Print recent progress
+  # Click Addins > Print recent progress.
 })
 
 tar_test({
   tar_script()
   tar_make()
   # data
-  # Click Addins > Print target at cursor
+  # Click Addins > Print target at cursor.
+})
+
+tar_test({
+  # Click Addins > Write target at cursor.
 })
 
 tar_test({
   tar_script()
-  tar_make()
-  # data
-  # Click Addins > Write target at cursor
+  # Click Addins > Visualize a targets pipeline.
 })
 
 tar_test({
   tar_script()
-  # Click Addins > Visualize a targets pipeline
-})
-
-tar_test({
-  tar_script()
-  # Click Addins > Run a targets pipeline in the foreground
+  # Click Addins > Run a targets pipeline in the foreground.
 })

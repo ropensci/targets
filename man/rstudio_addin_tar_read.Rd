@@ -2,7 +2,7 @@
 % Please edit documentation in R/rstudio_addin_tar_read.R
 \name{rstudio_addin_tar_read}
 \alias{rstudio_addin_tar_read}
-\title{RStudio addin to print \code{\link[=tar_read]{tar_read()}} on the symbol at the cursor.}
+\title{RStudio addin to call \code{\link[=tar_read]{tar_read()}} on the symbol at the cursor.}
 \usage{
 rstudio_addin_tar_read(context = NULL)
 }

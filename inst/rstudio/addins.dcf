@@ -33,8 +33,8 @@ Description: Load the target identified by the symbol at the cursor position fro
 Binding: rstudio_addin_tar_load
 Interactive: false
 
-Name: Print target at cursor
-Description: Print the target identified by the symbol at the cursor position from the _targets data store.
+Name: Read target at cursor
+Description: Read the target identified by the symbol at the cursor position from the _targets data store.
 Binding: rstudio_addin_tar_read
 Interactive: false
 
