@@ -22,7 +22,7 @@ tar_test("target_run() on a good builder", {
 })
 
 tar_test("target_run() on a errored builder", {
-  local_init(pipeline_init())$start_algorithm()
+  local_init(pipeline_init())$start()
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
   target_run(x)
   meta <- meta_init()
@@ -36,7 +36,7 @@ tar_test("target_run() on a errored builder", {
 })
 
 tar_test("target_run_remote()", {
-  local_init(pipeline_init())$start_algorithm()
+  local_init(pipeline_init())$start()
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
   y <- target_run_remote(x, garbage_collection = TRUE)
   expect_true(inherits(y, "tar_builder"))
@@ -133,7 +133,7 @@ tar_test("same if we continue on error", {
 })
 
 tar_test("builder$write_from(\"local\")", {
-  local_init(pipeline_init())$start_algorithm()
+  local_init(pipeline_init())$start()
   x <- target_init("abc", expr = quote(a), format = "rds", storage = "local")
   pipeline <- pipeline_init(list(x))
   scheduler <- pipeline_produce_scheduler(pipeline)
@@ -153,7 +153,7 @@ tar_test("builder$write_from(\"local\")", {
 })
 
 tar_test("builder$write_from(\"remote\")", {
-  local_init(pipeline_init())$start_algorithm()
+  local_init(pipeline_init())$start()
   x <- target_init(
     "abc",
     expr = quote(a),
@@ -176,7 +176,7 @@ tar_test("builder$write_from(\"remote\")", {
 })
 
 tar_test("dynamic file and builder$write_from(\"local\")", {
-  local_init(pipeline_init())$start_algorithm()
+  local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())
   x <- target_init(
     name = "abc",
@@ -241,7 +241,7 @@ tar_test("dynamic file is missing at path", {
 })
 
 tar_test("dynamic file and builder$write_from(\"remote\")", {
-  local_init(pipeline_init())$start_algorithm()
+  local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())
   x <- target_init(
     name = "abc",

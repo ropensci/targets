@@ -181,7 +181,7 @@ future_class <- R6::R6Class(
       super$start()
     },
     end = function() {
-      self$end()
+      super$end()
       run_gc(self$garbage_collection)
     },
     run = function() {
