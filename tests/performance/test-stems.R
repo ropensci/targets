@@ -9,7 +9,7 @@ px <- pprof(
   )
 )
 large_pipeline <- pipeline_init(targets)
-px <- pprof(algorithm_init("local", pipeline = large_pipeline)$run())
+px <- pprof(local_init(pipeline = large_pipeline)$run())
 tar_destroy()
 
 # With API.

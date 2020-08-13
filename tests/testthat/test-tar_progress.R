@@ -1,6 +1,6 @@
 tar_test("tar_progress() works", {
   pipeline <- pipeline_init(list(target_init("x", quote(1))))
-  algorithm_init("local", pipeline = pipeline)$run()
+  local_init(pipeline = pipeline)$run()
   out <- tar_progress()
   expect_equal(dim(out), c(1L, 2L))
   expect_equal(out$name, "x")

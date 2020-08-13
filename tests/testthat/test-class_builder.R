@@ -22,7 +22,7 @@ tar_test("target_run() on a good builder", {
 })
 
 tar_test("target_run() on a errored builder", {
-  algorithm_init("local", pipeline_init())$start_algorithm()
+  local_init(pipeline_init())$start_algorithm()
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
   target_run(x)
   meta <- meta_init()
@@ -36,7 +36,7 @@ tar_test("target_run() on a errored builder", {
 })
 
 tar_test("target_run_remote()", {
-  algorithm_init("local", pipeline_init())$start_algorithm()
+  local_init(pipeline_init())$start_algorithm()
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
   y <- target_run_remote(x, garbage_collection = TRUE)
   expect_true(inherits(y, "tar_builder"))
@@ -82,7 +82,7 @@ tar_test("error = \"stop\" means stop on error", {
   x <- target_init("x", expr = quote(stop(123)), error = "stop")
   y <- target_init("y", expr = quote(stop(456)), error = "stop")
   pipeline <- pipeline_init(list(x, y))
-  expect_error(algorithm_init("local", pipeline)$run(), class = "condition_run")
+  expect_error(local_init(pipeline)$run(), class = "condition_run")
   expect_equal(x$store$file$path, character(0))
   meta <- meta_init()$database$read_condensed_data()
   expect_true(all(nzchar(meta$error)))
@@ -94,7 +94,7 @@ tar_test("error = \"continue\" means continue on error", {
   x <- target_init("x", expr = quote(stop(123)), error = "continue")
   y <- target_init("y", expr = quote(stop(456)), error = "continue")
   pipeline <- pipeline_init(list(x, y))
-  expect_silent(suppressMessages(algorithm_init("local", pipeline)$run()))
+  expect_silent(suppressMessages(local_init(pipeline)$run()))
   expect_equal(x$store$file$path, character(0))
   expect_equal(y$store$file$path, character(0))
   meta <- meta_init()$database$read_condensed_data()
@@ -106,12 +106,12 @@ tar_test("error = \"continue\" means continue on error", {
 tar_test("errored targets are not up to date", {
   x <- target_init("x", expr = quote(123))
   pipeline <- pipeline_init(list(x))
-  algorithm_init("local", pipeline)$run()
+  local_init(pipeline)$run()
   for (index in seq_len(2L)) {
     x <- target_init("x", expr = quote(stop(123)))
     pipeline <- pipeline_init(list(x))
     expect_error(
-      algorithm_init("local", pipeline)$run(),
+      local_init(pipeline)$run(),
       class = "condition_run"
     )
   }
@@ -120,11 +120,11 @@ tar_test("errored targets are not up to date", {
 tar_test("same if we continue on error", {
   x <- target_init("x", expr = quote(123))
   pipeline <- pipeline_init(list(x))
-  algorithm_init("local", pipeline)$run()
+  local_init(pipeline)$run()
   for (index in seq_len(2L)) {
     x <- target_init("x", expr = quote(stop(123)), error = "continue")
     pipeline <- pipeline_init(list(x))
-    local <- algorithm_init("local", pipeline)
+    local <- local_init(pipeline)
     local$run()
     counter <- local$scheduler$progress$skipped
     out <- counter_get_names(counter)
@@ -133,7 +133,7 @@ tar_test("same if we continue on error", {
 })
 
 tar_test("builder$write_from(\"local\")", {
-  algorithm_init("local", pipeline_init())$start_algorithm()
+  local_init(pipeline_init())$start_algorithm()
   x <- target_init("abc", expr = quote(a), format = "rds", storage = "local")
   pipeline <- pipeline_init(list(x))
   scheduler <- pipeline_produce_scheduler(pipeline)
@@ -153,7 +153,7 @@ tar_test("builder$write_from(\"local\")", {
 })
 
 tar_test("builder$write_from(\"remote\")", {
-  algorithm_init("local", pipeline_init())$start_algorithm()
+  local_init(pipeline_init())$start_algorithm()
   x <- target_init(
     "abc",
     expr = quote(a),
@@ -176,7 +176,7 @@ tar_test("builder$write_from(\"remote\")", {
 })
 
 tar_test("dynamic file and builder$write_from(\"local\")", {
-  algorithm_init("local", pipeline_init())$start_algorithm()
+  local_init(pipeline_init())$start_algorithm()
   envir <- new.env(parent = environment())
   x <- target_init(
     name = "abc",
@@ -206,7 +206,7 @@ tar_test("dynamic file has illegal path", {
     expr = quote("a*b"),
     format = "file"
   )
-  local <- algorithm_init("local", pipeline_init(list(x)))
+  local <- local_init(pipeline_init(list(x)))
   expect_error(local$run(), class = "condition_validate")
 })
 
@@ -216,7 +216,7 @@ tar_test("dynamic file has empty path", {
     expr = quote(NULL),
     format = "file"
   )
-  local <- algorithm_init("local", pipeline_init(list(x)))
+  local <- local_init(pipeline_init(list(x)))
   expect_error(local$run(), class = "condition_validate")
 })
 
@@ -226,7 +226,7 @@ tar_test("dynamic file has missing path value", {
     expr = quote(NA_character_),
     format = "file"
   )
-  local <- algorithm_init("local", pipeline_init(list(x)))
+  local <- local_init(pipeline_init(list(x)))
   expect_error(local$run(), class = "condition_validate")
 })
 
@@ -236,12 +236,12 @@ tar_test("dynamic file is missing at path", {
     expr = quote("nope"),
     format = "file"
   )
-  local <- algorithm_init("local", pipeline_init(list(x)))
+  local <- local_init(pipeline_init(list(x)))
   expect_warning(local$run(), class = "condition_validate")
 })
 
 tar_test("dynamic file and builder$write_from(\"remote\")", {
-  algorithm_init("local", pipeline_init())$start_algorithm()
+  local_init(pipeline_init())$start_algorithm()
   envir <- new.env(parent = environment())
   x <- target_init(
     name = "abc",
@@ -267,7 +267,7 @@ tar_test("dynamic file and builder$write_from(\"remote\")", {
 })
 
 tar_test("basic progress responses are correct", {
-  local <- algorithm_init("local", pipeline_order())
+  local <- local_init(pipeline_order())
   progress <- local$scheduler$progress
   pipeline <- local$pipeline
   expect_equal(
@@ -300,7 +300,7 @@ tar_test("builders load their packages", {
     envir = envir
   )
   pipeline <- pipeline_init(list(x))
-  out <- algorithm_init("local", pipeline)
+  out <- local_init(pipeline)
   out$run()
   expect_equal(
     target_read_value(pipeline_get_target(pipeline, "x"))$object,

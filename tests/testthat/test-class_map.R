@@ -31,7 +31,7 @@ tar_test("run a simple map and check output", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   expect_equal(
     target_read_value(pipeline_get_target(pipeline, "data"))$object,
@@ -59,7 +59,7 @@ tar_test("map over a non-dep", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   branches <- target_get_children(pipeline_get_target(pipeline, "map"))
   for (index in seq_along(branches)) {
@@ -83,7 +83,7 @@ tar_test("can load an entire map", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   expect_equal(counter_get_names(pipeline$loaded), character(0))
   target <- pipeline_get_target(pipeline, "map")
@@ -113,7 +113,7 @@ tar_test("vector aggregation", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   out <- target_read_value(pipeline_get_target(pipeline, "combine"))$object
   expect_equivalent(out, seq_len(3L))
@@ -142,7 +142,7 @@ tar_test("list aggregation", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   out <- target_read_value(pipeline_get_target(pipeline, "combine"))$object
   expect_equivalent(out, as.list(seq_len(3L)))
@@ -177,7 +177,7 @@ tar_test("group iteration", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   out <- target_read_value(pipeline_get_target(pipeline, "combine"))$object
   expect_true(is.data.frame(tar_read(data)))
@@ -198,13 +198,13 @@ tar_test("error relaying", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   expect_error(local$run(), class = "condition_run")
 })
 
 tar_test("maps produce correct junctions and bud niblings", {
   pipeline <- pipeline_map()
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   scheduler <- local$scheduler
   local$ensure_meta()
   local$process_target("data1")
@@ -230,7 +230,7 @@ tar_test("maps produce correct junctions and bud niblings", {
 
 tar_test("correct junction of a non-mapped stem", {
   pipeline <- pipeline_map()
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   scheduler <- local$scheduler
   local$ensure_meta()
   local$process_target("data0")
@@ -256,7 +256,7 @@ tar_test("correct junction of a non-mapped stem", {
 
 tar_test("run a pipeline with maps", {
   pipeline <- pipeline_map()
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   value <- function(name) {
     target_read_value(pipeline_get_target(pipeline, name))$object
@@ -292,7 +292,7 @@ tar_test("run a pipeline with maps", {
 
 tar_test("same with remote retrieval", {
   pipeline <- pipeline_map()
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   for (name in pipeline_get_names(pipeline)) {
     target <- pipeline_get_target(pipeline, name)
     settings <- target$settings
@@ -340,7 +340,7 @@ tar_test("branches with different names use different seeds", {
     pattern = quote(map(a))
   )
   pipeline <- pipeline_init(list(a, b))
-  algorithm_init("local", pipeline)$run()
+  local_init(pipeline)$run()
   target_load_value(b, pipeline)
   out <- b$value$object
   expect_false(out[1] == out[2])
@@ -370,7 +370,7 @@ tar_test("map over a stem that was not mapped over last time", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   pipeline <- pipeline_init(
     list(
@@ -385,7 +385,7 @@ tar_test("map over a stem that was not mapped over last time", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   expect_equal(
     target_read_value(pipeline_get_target(pipeline, "data"))$object,
@@ -414,7 +414,7 @@ tar_test("map over empty stem", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   expect_error(local$run(), class = "condition_pattern")
 })
 
@@ -422,7 +422,7 @@ tar_test("map$produce_record() of a successful map", {
   stem <- target_init("x", quote(sample.int(4)))
   target <- target_init("y", quote(x), pattern = quote(map(x)))
   pipeline <- pipeline_init(list(stem, target))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   meta <- local$meta
   record <- target_produce_record(target, meta)
@@ -454,7 +454,7 @@ tar_test("empty mapping variable", {
     )
   )
   expect_error(
-    algorithm_init("local", pipeline)$run(),
+    local_init(pipeline)$run(),
     class = "condition_pattern"
   )
 })
@@ -468,7 +468,7 @@ tar_test("inconformable mapping variables", {
     )
   )
   expect_error(
-    algorithm_init("local", pipeline)$run(),
+    local_init(pipeline)$run(),
     class = "condition_pattern"
   )
 })
@@ -486,7 +486,7 @@ tar_test("must branch over stems and patterns", {
       target_init("y", quote(x), pattern = quote(map(z)))
     )
   )
-  algo <- algorithm_init("local", pipeline = pipeline)
+  algo <- local_init(pipeline = pipeline)
   expect_error(algo$run(), class = "condition_validate")
 })
 
@@ -502,7 +502,7 @@ tar_test("pattern dims are always deps when run", {
       target_init("x", quote("x"), pattern = quote(map(y)))
     )
   )
-  algorithm_init("local", pipeline)$run()
+  local_init(pipeline)$run()
   x <- target_init("x", quote("x"), pattern = quote(map(y)))
   out <- target_read_value(pipeline_get_target(pipeline, "x"), pipeline)$object
   expect_equivalent(out, c("x", "x"))
@@ -517,7 +517,7 @@ tar_test("patterns and branches get correct ranks with priorities", {
       target_init("w", quote(c(y, z)), priority = 0.4)
     )
   )
-  algo <- algorithm_init("local", pipeline, queue = "parallel")
+  algo <- local_init(pipeline, queue = "parallel")
   expect_error(algo$run())
   out <- algo$scheduler$queue$data
   branch_names <- target_get_children(pipeline_get_target(pipeline, "z"))
@@ -540,6 +540,6 @@ tar_test("prohibit branching over stem files", {
       target_init("data", quote(paths), pattern = quote(map(paths)))
     )
   )
-  algo <- algorithm_init("local", pipeline)
+  algo <- local_init(pipeline)
   expect_error(algo$run(), class = "condition_validate")
 })

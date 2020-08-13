@@ -36,6 +36,6 @@ tar_test("dynamic files must return characters", {
     format = "file"
   )
   pipeline <- pipeline_init(list(x))
-  local <- algorithm_init("local", pipeline = pipeline)
+  local <- local_init(pipeline = pipeline)
   expect_error(local$run(), class = "condition_validate")
 })

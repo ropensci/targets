@@ -52,7 +52,7 @@ pipeline <- pipeline_init(
     )
   )
 )
-local <- algorithm_init("local", pipeline = pipeline)
+local <- local_init(pipeline = pipeline)
 scheduler <- local$scheduler
 local$run()
 # scheduler$queue$data # nolint

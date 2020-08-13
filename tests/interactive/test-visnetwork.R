@@ -11,11 +11,7 @@ vis$update()
 vis$visnetwork
 
 # Should show an inspection with everything up to date
-algorithm_init(
-  "local",
-  pipeline = pipeline_cross(),
-  reporter = "silent"
-)$run()
+local_init(pipeline = pipeline_cross(), reporter = "silent")$run()
 net <- inspection_init(pipeline_cross())
 vis <- visual_init(network = net)
 vis$update()

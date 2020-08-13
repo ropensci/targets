@@ -162,7 +162,7 @@ tar_test("pipeline_produce_subpipeline()", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   subpipeline <- pipeline_produce_subpipeline(pipeline, "summary")
   out <- sort(pipeline_get_names(subpipeline))

@@ -152,6 +152,12 @@ pipeline_produce_subpipeline <- function(pipeline, name) {
   )
 }
 
+pipeline_prune_names <- function(pipeline, names) {
+  if (!is.null(names)) {
+    pipeline_prune_targets(pipeline, names)
+  }
+}
+
 pipeline_prune_targets <- function(pipeline, names) {
   graph <- pipeline_produce_igraph(pipeline, targets_only = TRUE)
   keep <- upstream_vertices(graph = graph, from = names)

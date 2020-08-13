@@ -15,7 +15,7 @@ tar_test("cross$patternview", {
 
 tar_test("crosses produce correct junctions and bud niblings", {
   pipeline <- pipeline_cross()
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   scheduler <- local$scheduler
   local$ensure_meta()
   local$process_target("data1")
@@ -44,7 +44,7 @@ tar_test("crosses produce correct junctions and bud niblings", {
 
 tar_test("correct junction of non-crossed stems", {
   pipeline <- pipeline_cross()
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   scheduler <- local$scheduler
   local$ensure_meta()
   local$process_target("data1")
@@ -63,7 +63,7 @@ tar_test("correct junction of non-crossed stems", {
 
 tar_test("cross pipeline gives correct values", {
   pipeline <- pipeline_cross()
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   scheduler <- local$scheduler
   local$run()
   value <- function(name) {
@@ -106,7 +106,7 @@ tar_test("empty mapping variable", {
     )
   )
   expect_error(
-    algorithm_init("local", pipeline)$run(),
+    local_init(pipeline)$run(),
     class = "condition_pattern"
   )
 })

@@ -6,7 +6,7 @@ tar_test("tar_invalidate() works", {
       target_init("z", quote(y1 + y2))
     )
   )
-  algorithm_init("local", pipeline = pipeline)$run()
+  local_init(pipeline = pipeline)$run()
   tar_invalidate(starts_with("y")) # Only invalidates y1 and y2
   data <- meta_init()$database$read_data()
   expect_true("z" %in% data$name)
@@ -22,7 +22,7 @@ tar_test("tar_invalidate() works with patterns", {
       target_init("z", quote(y), pattern = quote(map(y)))
     )
   )
-  algorithm_init("local", pipeline = pipeline)$run()
+  local_init(pipeline = pipeline)$run()
   tar_invalidate(starts_with("y")) # Only invalidates y1 and y2
   data <- meta_init()$database$read_data()
   names <- data$name

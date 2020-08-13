@@ -61,7 +61,7 @@ tar_test("vertices and edges of nonempty imports", {
       target_init("z", quote(x + y), envir = envir)
     )
   )
-  algorithm_init("local", pipeline)$run()
+  local_init(pipeline)$run()
   evalq(g <- function(x) i + 1L, envir = envir)
   pipeline <- pipeline_init(
     list(
@@ -107,7 +107,7 @@ tar_test("same for targets", {
       target_init("z", quote(x + y), envir = envir)
     )
   )
-  algorithm_init("local", pipeline)$run()
+  local_init(pipeline)$run()
   evalq(g <- function(x) i + 1L, envir = envir)
   pipeline <- pipeline_init(
     list(
@@ -153,7 +153,7 @@ tar_test("children get counted in network data", {
       target_init("x", quote(w), pattern = quote(map(w)), envir = envir)
     )
   )
-  algorithm_init("local", pipeline)$run()
+  local_init(pipeline)$run()
   evalq(g <- function(x) i + 1L, envir = envir)
   pipeline <- pipeline_init(
     list(
@@ -183,7 +183,7 @@ tar_test("targets and imports bound together", {
       target_init("z", quote(x + y), envir = envir)
     )
   )
-  algorithm_init("local", pipeline)$run()
+  local_init(pipeline)$run()
   evalq(g <- function(x) i + 1L, envir = envir)
   pipeline <- pipeline_init(
     list(

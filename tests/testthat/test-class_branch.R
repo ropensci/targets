@@ -131,7 +131,7 @@ tar_test("target_deps_deep()", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   name <- target_get_children(pipeline_get_target(pipeline, "map"))[2]
   branch <- pipeline_get_target(pipeline, name)
@@ -146,7 +146,7 @@ tar_test("branch$produce_record() of a successful branch", {
   stem <- target_init("x", quote(sample.int(4)))
   map <- target_init("y", quote(x), pattern = quote(map(x)))
   pipeline <- pipeline_init(list(stem, map))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   meta <- local$meta
   target <- pipeline_get_target(pipeline, target_get_children(map)[2L])

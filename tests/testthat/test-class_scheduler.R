@@ -36,7 +36,7 @@ tar_test("queue has correct ranks", {
 tar_test("scheduler$count_unfinished_deps()", {
   pipeline <- pipeline_order()
   target <- pipeline_get_target(pipeline, "mins")
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   scheduler <- local$scheduler
   expect_equal(scheduler$count_unfinished_deps("mins"), 2L)
   local$ensure_meta()

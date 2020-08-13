@@ -71,8 +71,7 @@ tar_make_inner <- function(
 ) {
   pipeline_validate_lite(pipeline)
   names <- tar_tidyselect(names_quosure, pipeline_get_names(pipeline))
-  algorithm_init(
-    subclass = "local",
+  local_init(
     pipeline = pipeline,
     names = names,
     queue = "sequential",

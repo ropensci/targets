@@ -1,3 +1,16 @@
+local_init <- function(
+  pipeline = NULL,
+  names = NULL,
+  queue = "parallel",
+  meta = meta_init(),
+  reporter = "verbose",
+  garbage_collection = FALSE
+) {
+  pipeline_prune_names(pipeline, names)
+  scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
+  local_new(pipeline, scheduler, meta, garbage_collection)
+}
+
 local_new <- function(
   pipeline = NULL,
   scheduler = NULL,

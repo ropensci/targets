@@ -1,20 +1,20 @@
 tar_test("run verbose reporter", {
   pipeline <- pipeline_init(list(target_init("x", quote(0))))
   for (index in seq_len(2L)) {
-    local <- algorithm_init("local", pipeline, reporter = "verbose")
+    local <- local_init(pipeline, reporter = "verbose")
     expect_message(local$run())
   }
 })
 
 tar_test("run verbose reporter with a error", {
   pipeline <- pipeline_init(list(target_init("x", quote(stop(123)))))
-  local <- algorithm_init("local", pipeline, reporter = "verbose")
+  local <- local_init(pipeline, reporter = "verbose")
   expect_error(expect_message(local$run()), class = "condition_run")
 })
 
 tar_test("run timestamp reporter with a warning", {
   pipeline <- pipeline_init(list(target_init("x", quote(warning(123)))))
-  local <- algorithm_init("local", pipeline, reporter = "verbose")
+  local <- local_init(pipeline, reporter = "verbose")
   expect_warning(local$run(), class = "condition_run")
 })
 

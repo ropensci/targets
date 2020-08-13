@@ -6,7 +6,7 @@ tar_test("tar_delete() works", {
       target_init("z", quote(y1 + y2))
     )
   )
-  algorithm_init("local", pipeline = pipeline)$run()
+  local_init(pipeline = pipeline)$run()
   tar_delete(starts_with("y")) # Only deletes y1 and y2
   files <- list.files(file.path("_targets", "objects"))
   expect_equal(files, "z")
@@ -20,7 +20,7 @@ tar_test("tar_delete() works with patterns", {
       target_init("z", quote(y), pattern = quote(map(y)))
     )
   )
-  algorithm_init("local", pipeline = pipeline)$run()
+  local_init(pipeline = pipeline)$run()
   tar_delete(starts_with("y")) # Only deletes y1 and y2
   data <- meta_init()$database$read_data()
   names <- list.files(file.path("_targets", "objects"))
@@ -34,7 +34,7 @@ tar_test("tar_delete() does not delete dynamic files", {
   pipeline <- pipeline_init(
     list(target_init("x", quote("x"), format = "file"))
   )
-  algorithm_init("local", pipeline = pipeline)$run()
+  local_init(pipeline = pipeline)$run()
   tar_delete(x)
   expect_true(file.exists("x"))
 })

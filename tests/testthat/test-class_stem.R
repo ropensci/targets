@@ -44,7 +44,7 @@ tar_test("stem_produce_buds()", {
 
 tar_test("stem$ensure_children()", {
   pipeline <- pipeline_map()
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   scheduler <- local$scheduler
   local$ensure_meta()
   local$process_target("data1")
@@ -97,7 +97,7 @@ tar_test("target_deps_deep()", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   target <- pipeline_get_target(pipeline, "summary")
   out <- sort(target_deps_deep(target, pipeline))
@@ -111,7 +111,7 @@ tar_test("target_deps_deep()", {
 tar_test("insert stem record of a successful stem", {
   target <- target_init("x", quote(sample.int(100)))
   pipeline <- pipeline_init(list(target))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   meta <- local$meta
   db <- meta$database
@@ -140,7 +140,7 @@ tar_test("insert stem record of a successful stem", {
 tar_test("stem$produce_record() of a successful stem", {
   target <- target_init("x", quote(sample.int(100)))
   pipeline <- pipeline_init(list(target))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   meta <- local$meta
   record <- target_produce_record(target, meta)
@@ -165,7 +165,7 @@ tar_test("stem$produce_record() of a successful stem", {
 tar_test("stem$produce_record() of a errored stem", {
   target <- target_init("x", quote(stop(123)))
   pipeline <- pipeline_init(list(target))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   expect_error(local$run(), class = "condition_run")
   meta <- local$meta
   record <- target_produce_record(target, meta)

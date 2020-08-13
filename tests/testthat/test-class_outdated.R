@@ -24,7 +24,7 @@ tar_test("full non-branching run", {
   out$run()
   exp <- sort(pipeline_get_names(pipeline_order()))
   expect_equal(sort(counter_get_names(out$outdated)), exp)
-  local <- algorithm_init("local", pipeline_order())
+  local <- local_init(pipeline_order())
   local$run()
   out <- algorithm_init("outdated", pipeline_order(), reporter = "silent")
   out$run()
@@ -41,7 +41,7 @@ tar_test("full branching run with forecast reporter", {
   out$run()
   exp <- sort(pipeline_get_names(pipeline_map()))
   expect_equal(sort(counter_get_names(out$outdated)), exp)
-  local <- algorithm_init("local", pipeline_map(), reporter = "silent")
+  local <- local_init(pipeline_map(), reporter = "silent")
   local$run()
   out <- algorithm_init(
     "outdated",
@@ -57,7 +57,7 @@ tar_test("Outdated is idempotent (no overwriting imports)", {
   envir <- new.env(parent = baseenv())
   envir$f <- function(x) x
   x <- target_init("x", quote(f(1L)), envir = envir)
-  algorithm_init("local", pipeline_init(list(x)))$run()
+  local_init(pipeline_init(list(x)))$run()
   envir$f <- function(x) x + 1L
   for (index in seq_len(2L)) {
     x <- target_init("x", quote(f(1L)), envir = envir)
@@ -77,7 +77,7 @@ tar_test("Update the command of a stem", {
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
   pipeline <- pipeline_init(list(x, y, z))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   x <- target_init("x", quote(c(1L, 5L, 3L)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
@@ -99,7 +99,7 @@ tar_test("Update the file of a branch", {
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
   pipeline <- pipeline_init(list(x, y, z))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   child_y <- target_get_children(y)[1]
   child_z <- target_get_children(z)[1]
@@ -127,7 +127,7 @@ tar_test("Update the file of a branch and aggregate", {
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y))
   pipeline <- pipeline_init(list(x, y, z))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   child_y <- target_get_children(y)[1]
   path <- file.path("_targets", "objects", child_y)
@@ -154,7 +154,7 @@ tar_test("Corrupt a branch", {
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
   pipeline <- pipeline_init(list(x, y, z))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   branch_y <- target_get_children(y)[2]
   branch_z <- target_get_children(z)[2]
@@ -180,7 +180,7 @@ tar_test("Corrupt a branch but turn off the depend cue", {
   z <- target_init("z", quote(y), pattern = quote(map(y)))
   w <- target_init("w", quote(y))
   pipeline <- pipeline_init(list(x, y, z, w))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   branch_y <- target_get_children(y)[2]
   unlink(file.path("_targets", "objects", branch_y))
@@ -206,7 +206,7 @@ tar_test("Depend on all branches", {
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y))
   pipeline <- pipeline_init(list(x, y, z))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   branch <- target_get_children(y)[2]
   unlink(file.path("_targets", "objects", branch))
@@ -233,7 +233,7 @@ tar_test("map over a stem with no branches previously", {
       target_init("z", quote(x), pattern = quote(map(x)))
     )
   )
-  algorithm_init("local", pipeline = pipeline)$run()
+  local_init(pipeline = pipeline)$run()
   pipeline <- pipeline_init(
     list(
       target_init("x", quote(seq_len(2))),

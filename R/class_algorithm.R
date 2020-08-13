@@ -14,7 +14,6 @@ algorithm_init <- function(
   scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
   switch(
     subclass,
-    local = local_new(pipeline, scheduler, meta, garbage_collection),
     clustermq = clustermq_new(
       pipeline,
       scheduler,

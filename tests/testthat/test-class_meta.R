@@ -23,7 +23,7 @@ tar_test("builder target_record_meta()", {
   out <- meta_init()
   target <- target_init("x", quote(sample.int(100)))
   pipeline <- pipeline_init(list(target))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   meta <- local$meta
   db <- meta$database
@@ -61,7 +61,7 @@ tar_test("metadata recorded in local algo", {
   envir$b <- "x"
   target <- target_init(name = "a", expr = quote(c(1, 1)), envir = envir)
   pipeline <- pipeline_init(list(target))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   expect_true(file.exists(file.path("_targets", "meta", "meta")))
   db <- local$meta$database
@@ -96,7 +96,7 @@ tar_test("metadata storage is not duplicated", {
       format = "file"
     )
     pipeline <- pipeline_init(list(target))
-    local <- algorithm_init("local", pipeline)
+    local <- local_init(pipeline)
     local$run()
   }
   data <- local$meta$database$read_data()
@@ -108,14 +108,14 @@ tar_test("metadata storage is not duplicated", {
 tar_test("errored targets get old path and old format in meta", {
   skip_if_not_installed("qs")
   x <- target_init(name = "abc", expr = quote(123), format = "qs")
-  algorithm_init("local", pipeline_init(list(x)))$run()
+  local_init(pipeline_init(list(x)))$run()
   x <- target_init(
     name = "abc",
     expr = quote(stop(123)),
     format = "rds",
     error = "continue"
   )
-  algorithm_init("local", pipeline_init(list(x)))$run()
+  local_init(pipeline_init(list(x)))$run()
   meta <- meta_init()
   meta$database$preprocess(write = TRUE)
   data <- meta$database$read_data()
@@ -126,14 +126,14 @@ tar_test("errored targets get old path and old format in meta", {
 tar_test("can read old metadata with a error & a non-error", {
   skip_if_not_installed("qs")
   x <- target_init(name = "abc", expr = quote(123), format = "qs")
-  algorithm_init("local", pipeline_init(list(x)))$run()
+  local_init(pipeline_init(list(x)))$run()
   x <- target_init(
     name = "abc",
     expr = quote(stop(123)),
     format = "rds",
     error = "continue"
   )
-  algorithm_init("local", pipeline_init(list(x)))$run()
+  local_init(pipeline_init(list(x)))$run()
   data <- meta_init()$database$read_data()
   expect_equal(nrow(data), 2L)
   expect_equal(colnames(data), header_meta())
@@ -142,7 +142,7 @@ tar_test("can read old metadata with a error & a non-error", {
 tar_test("meta$produce_depend() empty", {
   x <- target_init(name = "x", expr = quote(1), envir = envir)
   pipeline <- pipeline_init(list(x))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   meta <- local$meta
   out <- meta$produce_depend(x)
@@ -156,7 +156,7 @@ tar_test("meta$produce_depend() nonempty", {
   x <- target_init(name = "x", expr = quote(w), envir = envir)
   y <- target_init(name = "y", expr = quote(c(w, x)), envir = envir)
   pipeline <- pipeline_init(list(x, y))
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   meta <- local$meta
   out <- meta$produce_depend(y)
@@ -178,7 +178,7 @@ tar_test("data hash of pattern updates", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   data <- meta_init()$database$read_data()
   expect_true("map" %in% data$name)
@@ -199,7 +199,7 @@ tar_test("data hash of pattern updates", {
       )
     )
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   data <- meta_init()$database$read_data()
   hash2 <- data$data[max(which(data$name == "map"))]
@@ -221,7 +221,7 @@ tar_test("data hash of pattern does not write same data", {
         )
       )
     )
-    local <- algorithm_init("local", pipeline)
+    local <- local_init(pipeline)
     local$run()
   }
   data <- meta_init()$database$read_data()

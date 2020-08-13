@@ -122,7 +122,7 @@ tar_test("progress$any_remaining() while running", {
 tar_test("progress database gets used", {
   x <- target_init("x", quote(1))
   y <- target_init("y", quote(x))
-  local <- algorithm_init("local", pipeline_init(list(x, y)))
+  local <- local_init(pipeline_init(list(x, y)))
   local$run()
   out <- local$scheduler$progress$database$read_data()
   exp <- data_frame(
@@ -132,7 +132,7 @@ tar_test("progress database gets used", {
   expect_equal(out, exp)
   x <- target_init("x", quote(1))
   y <- target_init("y", quote(x))
-  local <- algorithm_init("local", pipeline_init(list(x, y)))
+  local <- local_init(pipeline_init(list(x, y)))
   local$run()
   out <- local$scheduler$progress$database$read_data()
   expect_equal(colnames(out), c("name", "progress"))

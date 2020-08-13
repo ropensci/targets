@@ -3,7 +3,7 @@ tar_test("tar_cancel(TRUE)", {
     pipeline <- pipeline_init(
       list(target_init("x", quote(targets::tar_cancel(TRUE))))
     )
-    local <- algorithm_init("local", pipeline)
+    local <- local_init(pipeline)
     local$run()
     out <- counter_get_names(
       local$scheduler$progress$cancelled
@@ -22,7 +22,7 @@ tar_test("tar_cancel(FALSE)", {
   pipeline <- pipeline_init(
     list(target_init("x", quote(targets::tar_cancel(FALSE))))
   )
-  local <- algorithm_init("local", pipeline)
+  local <- local_init(pipeline)
   local$run()
   out <- counter_get_names(
     local$scheduler$progress$cancelled

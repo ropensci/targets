@@ -25,7 +25,7 @@ tar_test("visnetwork$update_network()", {
   envir$a <- 1L
   x <- target_init("x", quote(a), envir = envir)
   pipeline <- pipeline_init(list(x))
-  algorithm_init("local", pipeline)$run()
+  local_init(pipeline)$run()
   x <- target_init("x", quote(a), envir = envir)
   pipeline <- pipeline_init(list(x))
   net <- inspection_init(pipeline)
@@ -210,11 +210,7 @@ tar_test("visnetwork$validate() with allow and exclude", {
 
 tar_test("visnetwork$validate() with label", {
   pipeline <- pipeline_map()
-  algorithm_init(
-    "local",
-    pipeline = pipeline,
-    reporter = "silent"
-  )$run()
+  local_init(pipeline = pipeline, reporter = "silent")$run()
   net <- inspection_init(pipeline_map())
   vis <- visual_init(network = net, label = c("time", "size", "branches"))
   vis$update()

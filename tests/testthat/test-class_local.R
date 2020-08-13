@@ -1,12 +1,12 @@
 tar_test("local$meta", {
-  local <- algorithm_init("local", pipeline_order())
+  local <- local_init(pipeline_order())
   expect_silent(local$meta$validate())
   expect_false(file.exists("_targets"))
 })
 
 tar_test("algorithm_init()$run() stores correct values", {
   pipeline <- pipeline_order()
-  algorithm_init("local", pipeline)$run()
+  local_init(pipeline)$run()
   out <- target_read_value(pipeline_get_target(pipeline, "data1"))$object
   expect_equal(out, seq_len(10))
   out <- target_read_value(pipeline_get_target(pipeline, "data2"))$object
@@ -42,7 +42,7 @@ tar_test("algorithm_init(pipeline)$run() retains correct memory", {
     )
   )
   expect_error(
-    algorithm_init("local", pipeline)$run(),
+    local_init(pipeline)$run(),
     class = "condition_run"
   )
   names <- paste0(rep(c("data", "min", "max"), each = 2), seq_len(2))
@@ -65,7 +65,7 @@ tar_test("all targets unloaded at end", {
   x <- target_init("x", quote(1), memory = "persistent")
   y <- target_init("y", quote(1), memory = "transient")
   pipeline <- pipeline_init(list(x, y))
-  algorithm_init("local", pipeline)$run()
+  local_init(pipeline)$run()
   expect_null(x$value)
   expect_null(y$value)
 })
@@ -74,7 +74,7 @@ tar_test("transient targets unloaded periodically", {
   x <- target_init("x", quote(1), memory = "persistent")
   y <- target_init("y", quote(1), memory = "transient")
   pipeline <- pipeline_init(list(x, y))
-  algorithm_init("local", pipeline)$run()
+  local_init(pipeline)$run()
   expect_null(x$value)
   expect_null(y$value)
 })
@@ -82,12 +82,12 @@ tar_test("transient targets unloaded periodically", {
 tar_test("garbage collection (code gets covered)", {
   x <- target_init("x", quote(1))
   pipeline <- pipeline_init(list(x))
-  algorithm_init("local", pipeline, garbage_collection = TRUE)$run()
+  local_init(pipeline, garbage_collection = TRUE)$run()
 })
 
 tar_test("can run on a subset of targets", {
   pipeline <- pipeline_order()
-  local <- algorithm_init("local", pipeline, names = c("min1", "max2"))
+  local <- local_init(pipeline, names = c("min1", "max2"))
   local$run()
   out <- counter_get_names(local$scheduler$progress$built)
   exp <- c("min1", "max2", "data1", "data2")
@@ -111,5 +111,5 @@ tar_test("can run on a subset of targets", {
 })
 
 tar_test("local$validate()", {
-  expect_silent(algorithm_init("local", pipeline_order())$validate())
+  expect_silent(local_init(pipeline_order())$validate())
 })

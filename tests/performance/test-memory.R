@@ -37,7 +37,7 @@ targets <- lapply(
   }
 )
 pipeline <- tar_pipeline(targets)
-local <- algorithm_init("local", pipeline)
+local <- local_init(pipeline)
 local$run()
 pryr::object_size(pipeline)
 pryr::object_size(local)
@@ -49,7 +49,7 @@ pipeline <- tar_pipeline(
   tar_target(x, seq_len(1000)),
   tar_target(y, x, pattern = map(x))
 )
-local <- algorithm_init("local", pipeline)
+local <- local_init(pipeline)
 local$run()
 pryr::object_size(pipeline)
 x <- pipeline_get_target(pipeline, "x")

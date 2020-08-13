@@ -3,7 +3,7 @@ tar_test("tar_deduplicate() works", {
     cue <- cue_init(mode = "always")
     x <- target_init("x", quote(1), cue = cue)
     pipeline <- pipeline_init(list(x))
-    algorithm_init("local", pipeline = pipeline)$run()
+    local_init(pipeline = pipeline)$run()
   }
   tar_deduplicate()
   meta <- readLines(file.path("_targets", "meta", "meta"))

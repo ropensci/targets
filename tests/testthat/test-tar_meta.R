@@ -1,6 +1,6 @@
 tar_test("tar_meta() works", {
   pipeline <- pipeline_init(list(target_init("x", quote(1))))
-  algorithm_init("local", pipeline = pipeline)$run()
+  local_init(pipeline = pipeline)$run()
   out <- tar_meta()
   expect_equal(nrow(out), 1L)
   expect_equal(out$name, "x")
