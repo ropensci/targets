@@ -211,3 +211,16 @@ tar_test("stem print", {
   out <- utils::capture.output(print(x))
   expect_true(any(grepl("stem", out)))
 })
+
+tar_test("buds names make it into metadata so junctions can be restored", {
+  tar_script({
+    tar_pipeline(
+      tar_target(x, seq_len(3)),
+      tar_target(y, x, pattern = map(x))
+    )
+  })
+  tar_make(callr_function = NULL)
+  buds <- tar_meta(x, children)$children[[1]]
+  expect_equal(length(unique(buds)), 3L)
+  expect_true(all(grepl("x_", buds)))
+})
