@@ -8,6 +8,7 @@ tar_test("tar_load() works", {
   )
   algorithm_init("local", pipeline = pipeline)$run()
   envir <- new.env(parent = emptyenv())
+  expect_message(tar_load(missing), regexp = "no targets to load")
   tar_load(starts_with("y"), envir = envir)
   expect_equal(sort(names(envir)), sort(c("y1", "y2")))
   expect_equal(envir$y1, 1L)
