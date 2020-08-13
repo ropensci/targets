@@ -164,7 +164,7 @@ tar_test("branches get counted in network data", {
   vis <- inspection_init(pipeline)
   vis$update()
   vertices <- vis$vertices_targets
-  expect_true(is.na(vertices$branches[vertices$name == "w"]))
+  expect_false(anyNA(vertices$branches[vertices$name == "x"]))
   expect_equal(vertices$branches[vertices$name == "x"], 3L)
 })
 

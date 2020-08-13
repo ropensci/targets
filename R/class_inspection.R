@@ -150,7 +150,7 @@ inspection_class <- R6::R6Class(
             seconds = record$seconds,
             bytes = record$bytes,
             branches = trn(
-              is.na(record$children) || record$type == "stem",
+              anyNA(record$children) || identical(record$type, "stem"),
               NA_integer_,
               length(record$children)
             )
@@ -180,7 +180,7 @@ inspection_class <- R6::R6Class(
       names <- pipeline_get_names(self$pipeline)
       vertices <- data_frame(name = names)
       vertices <- self$resolve_target_status(vertices)
-      vertices <- resolve_target_meta(vertices)
+      vertices <- self$resolve_target_meta(vertices)
       names <- c(names, names(pipeline_get_envir(self$pipeline)))
       edges <- pipeline_upstream_edges(self$pipeline, targets_only = FALSE)
       edges <- edges[edges$from %in% names & edges$to %in% names,, drop = FALSE] # nolint
