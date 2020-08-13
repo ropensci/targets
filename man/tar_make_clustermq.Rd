@@ -11,6 +11,7 @@ tar_make_clustermq(
   garbage_collection = FALSE,
   workers = 1L,
   template = list(),
+  log_worker = FALSE,
   callr_function = callr::r,
   callr_arguments = list()
 )
@@ -39,6 +40,10 @@ between targets. The pipeline will run slower but consume less memory.}
 
 \item{template}{Named list of values to insert as fields
 in the \code{clustermq} template file, such as computing resource requirements.}
+
+\item{log_worker}{Logical, whether to write a log file for each worker.
+Same as the \code{log_worker} argument of \code{clustermq::Q()}
+and \code{clustermq::workers()}.}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session

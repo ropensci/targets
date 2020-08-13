@@ -5,7 +5,8 @@ clustermq_new <- function(
   garbage_collection = NULL,
   workers = NULL,
   crew = NULL,
-  template = NULL
+  template = NULL,
+  log_worker = NULL
 ) {
   clustermq_class$new(
     pipeline = pipeline,
@@ -14,7 +15,8 @@ clustermq_new <- function(
     garbage_collection = garbage_collection,
     workers = workers,
     crew = crew,
-    template = template
+    template = template,
+    log_worker = log_worker
   )
 }
 
@@ -28,6 +30,7 @@ clustermq_class <- R6::R6Class(
     workers = NULL,
     crew = NULL,
     template = NULL,
+    log_worker = NULL,
     initialize = function(
       pipeline = NULL,
       scheduler = NULL,
@@ -35,7 +38,8 @@ clustermq_class <- R6::R6Class(
       garbage_collection = NULL,
       workers = NULL,
       crew = NULL,
-      template = NULL
+      template = NULL,
+      log_worker = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -46,6 +50,7 @@ clustermq_class <- R6::R6Class(
       self$workers <- workers
       self$crew <- crew
       self$template <- template
+      self$log_worker <- log_worker
     },
     set_common_data = function(envir) {
       self$crew$set_common_data(
@@ -61,7 +66,8 @@ clustermq_class <- R6::R6Class(
     create_crew = function() {
       crew <- clustermq::workers(
         n_jobs = self$workers,
-        template = self$template
+        template = self$template,
+        log_worker = self$log_worker
       )
       self$crew <- crew
     },

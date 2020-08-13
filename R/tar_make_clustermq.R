@@ -18,6 +18,9 @@
 #' @inheritParams tar_make_future
 #' @param template Named list of values to insert as fields
 #'   in the `clustermq` template file, such as computing resource requirements.
+#' @param log_worker Logical, whether to write a log file for each worker.
+#'   Same as the `log_worker` argument of `clustermq::Q()`
+#'   and `clustermq::workers()`.
 #' @examples
 #' \dontrun{
 #' tar_dir({
@@ -35,6 +38,7 @@ tar_make_clustermq <- function(
   garbage_collection = FALSE,
   workers = 1L,
   template = list(),
+  log_worker = FALSE,
   callr_function = callr::r,
   callr_arguments = list()
 ) {
@@ -48,7 +52,8 @@ tar_make_clustermq <- function(
     reporter = reporter,
     garbage_collection = garbage_collection,
     workers = workers,
-    template = template
+    template = template,
+    log_worker = log_worker
   )
   out <- callr_outer(
     targets_function = tar_make_clustermq_inner,
@@ -65,7 +70,8 @@ tar_make_clustermq_inner <- function(
   reporter,
   garbage_collection,
   workers,
-  template
+  template,
+  log_worker
 ) {
   pipeline_validate_lite(pipeline)
   names <- tar_tidyselect(names_quosure, pipeline_get_names(pipeline))
@@ -77,7 +83,8 @@ tar_make_clustermq_inner <- function(
     reporter = reporter,
     garbage_collection = garbage_collection,
     workers = workers,
-    template = template
+    template = template,
+    log_worker = log_worker
   )$run()
   invisible()
 }

@@ -7,7 +7,8 @@ algorithm_init <- function(
   reporter = "verbose",
   garbage_collection = FALSE,
   workers = 1L,
-  template = list()
+  template = list(),
+  log_worker = FALSE
 ) {
   algorithm_preprocess_pipeline(subclass, pipeline, names)
   scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
@@ -20,7 +21,8 @@ algorithm_init <- function(
       meta,
       garbage_collection,
       workers = as.integer(workers),
-      template = as.list(template)
+      template = as.list(template),
+      log_worker = log_worker
     ),
     future = future_new(
       pipeline,
