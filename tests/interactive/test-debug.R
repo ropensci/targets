@@ -57,7 +57,7 @@ tar_test("debug mode works for entire patterns", {
   # Start without debug mode.
   tar_script({
     envir <- new.env(parent = baseenv())
-    tar_option_set(envir = envir)
+    tar_option_set(envir = envir, debug = character(0))
     tar_pipeline(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
   })
   tar_make(callr_function = NULL) # Should not debug.
@@ -84,7 +84,7 @@ tar_test("debug mode works in tar_make_clustermq()", {
   on.exit(options(clustermq.scheduler = old))
   tar_script({
     envir <- new.env(parent = baseenv())
-    tar_option_set(debug = "b", envir = envir, packages = "targets")
+    tar_option_set(debug = "b", envir = envir)
     tar_pipeline(tar_target(a, "a"), tar_target(b, a))
   })
   # Should launch an interactive debugger.
@@ -99,7 +99,7 @@ tar_test("debug mode works in tar_make_future()", {
   skip_hpc()
   tar_script({
     envir <- new.env(parent = baseenv())
-    tar_option_set(debug = "b", envir = envir, packages = "targets")
+    tar_option_set(debug = "b", envir = envir)
     tar_pipeline(tar_target(a, "a"), tar_target(b, a))
   })
   # Should launch an interactive debugger.
