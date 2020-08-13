@@ -33,22 +33,16 @@ algorithm_class <- R6::R6Class(
       envir <- pipeline_get_envir(self$pipeline)
       self$meta$record_imports(envir, self$pipeline)
     },
-    start_algorithm = function() {
+    start = function() {
       self$scheduler$reporter$report_start()
       self$ensure_meta()
       self$scheduler$progress$database$reset_storage()
     },
-    end_algorithm = function() {
+    end = function() {
       pipeline_unload_loaded(self$pipeline)
       scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress)
       store_del_scratch()
-    },
-    start = function() {
-      self$start_algorithm()
-    },
-    end = function() {
-      self$end_algorithm()
     },
     validate = function() {
       pipeline_validate(self$pipeline)

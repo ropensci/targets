@@ -112,9 +112,7 @@ future_class <- R6::R6Class(
       )
     },
     run_target = function(name) {
-      if (self$garbage_collection) {
-        gc()
-      }
+      run_gc(self$garbage_collection)
       target <- pipeline_get_target(self$pipeline, name)
       target_prepare(target, self$pipeline, self$scheduler)
       trn(
@@ -180,10 +178,10 @@ future_class <- R6::R6Class(
     },
     start = function() {
       assert_package("future")
-      self$start_algorithm()
+      super$start()
     },
     end = function() {
-      self$end_algorithm()
+      self$end()
       run_gc(self$garbage_collection)
     },
     run = function() {

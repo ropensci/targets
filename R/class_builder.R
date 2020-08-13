@@ -84,9 +84,7 @@ target_run.tar_builder <- function(target) {
 
 #' @export
 target_run_remote.tar_builder <- function(target, garbage_collection) {
-  if (garbage_collection) {
-    gc()
-  }
+  run_gc(garbage_collection)
   target_run(target)
   builder_serialize_value(target)
   target
