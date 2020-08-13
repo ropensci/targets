@@ -67,6 +67,7 @@ meta_class <- R6::R6Class(
       record$time <- old$time
       record$format <- old$format
       record$iteration <- old$iteration
+      record$children <- old$children
     },
     data_imports = function(envir, pipeline) {
       data <- hash_imports(envir)
