@@ -282,6 +282,18 @@ target_is_branchable.default <- function(target) {
   FALSE
 }
 
+target_patternview_meta <- function(target, pipeline, meta) {
+  UseMethod("target_patternview_meta")
+}
+
+target_patternview_cancelled <- function(target, pipeline, scheduler) {
+  UseMethod("target_patternview_cancelled")
+}
+
+target_patternview_errored <- function(target, pipeline, scheduler) {
+  UseMethod("target_patternview_errored")
+}
+
 target_debug <- function(target) {
   UseMethod("target_debug")
 }

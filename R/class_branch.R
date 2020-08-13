@@ -96,7 +96,7 @@ target_validate.tar_branch <- function(target) {
 }
 
 #' @export
-builder_patternview_meta.tar_branch <- function(target, pipeline, meta) {
+target_patternview_meta.tar_branch <- function(target, pipeline, meta) {
   name <- target_get_parent(target)
   parent <- pipeline_get_target(pipeline, name)
   record <- meta$get_record(target_get_name(target))
@@ -104,7 +104,7 @@ builder_patternview_meta.tar_branch <- function(target, pipeline, meta) {
 }
 
 #' @export
-builder_patternview_cancelled.tar_branch <- function(
+target_patternview_cancelled.tar_branch <- function(
   target,
   pipeline,
   scheduler
@@ -114,7 +114,7 @@ builder_patternview_cancelled.tar_branch <- function(
 }
 
 #' @export
-builder_patternview_errored.tar_branch <- function(
+target_patternview_errored.tar_branch <- function(
   target,
   pipeline,
   scheduler

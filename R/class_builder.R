@@ -112,7 +112,7 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   builder_wait_correct_hash(target)
   target_ensure_buds(target, pipeline, scheduler)
   target_record_meta(target, meta)
-  builder_patternview_meta(target, pipeline, meta)
+  target_patternview_meta(target, pipeline, meta)
   builder_handle_error(target, pipeline, scheduler, meta)
   builder_ensure_restored(target, pipeline)
   pipeline_register_loaded(pipeline, target_get_name(target))
@@ -144,28 +144,16 @@ target_validate.tar_builder <- function(target) {
   }
 }
 
-builder_patternview_meta <- function(target, pipeline, meta) {
-  UseMethod("builder_patternview_meta")
+#' @export
+target_patternview_meta.default <- function(target, pipeline, meta) {
 }
 
 #' @export
-builder_patternview_meta.default <- function(target, pipeline, meta) {
-}
-
-builder_patternview_cancelled <- function(target, pipeline, scheduler) {
-  UseMethod("builder_patternview_cancelled")
+target_patternview_cancelled.default <- function(target, pipeline, scheduler) {
 }
 
 #' @export
-builder_patternview_cancelled.default <- function(target, pipeline, scheduler) {
-}
-
-builder_patternview_errored <- function(target, pipeline, scheduler) {
-  UseMethod("builder_patternview_errored")
-}
-
-#' @export
-builder_patternview_errored.default <- function(target, pipeline, scheduler) {
+target_patternview_errored.default <- function(target, pipeline, scheduler) {
 }
 
 builder_ensure_deps <- function(target, pipeline, retrieval) {
@@ -201,7 +189,7 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   }
   scheduler$progress$register_errored(target_get_name(target))
   scheduler$reporter$report_errored(target, scheduler$progress)
-  builder_patternview_errored(target, pipeline, scheduler)
+  target_patternview_errored(target, pipeline, scheduler)
   assign("traceback", target$metrics$traceback, envir = envir_run)
   if (target$settings$error != "continue") {
     throw_run(target$metrics$error)
@@ -279,7 +267,7 @@ builder_register_built <- function(target, scheduler) {
 builder_cancel <- function(target, pipeline, scheduler) {
   scheduler$progress$register_cancelled(target_get_name(target))
   scheduler$reporter$report_cancelled(target, scheduler$progress)
-  builder_patternview_cancelled(target, pipeline, scheduler)
+  target_patternview_cancelled(target, pipeline, scheduler)
 }
 
 builder_serialize_value <- function(target) {
