@@ -46,7 +46,10 @@ tar_test("file_ensure_hash() on a huge file in pipeline", {
   file <- file_init(path = tmp)
   x <- paste(letters, collapse = "")
   writeLines(rep(x, 1e8), tmp) # Pause here.
-  tar_script(tar_pipeline(tar_target(x, "tempfile", format = "file")))
+  tar_script({
+    tar_option_set(packages = character(0))
+    tar_pipeline(tar_target(x, "tempfile", format = "file"))
+  })
   # First analysis of the file.
   tar_make() # Should be slow, should run.
   tar_make() # Should be fast, should skip.
