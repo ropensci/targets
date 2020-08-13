@@ -80,7 +80,7 @@ glimpse_class <- R6::R6Class(
         status = status,
         seconds = rep(NA_real_, length(names)),
         bytes = rep(NA_real_, length(names)),
-        children = rep(NA_integer_, length(names))
+        branches = rep(NA_integer_, length(names))
       )
       self$edges_imports <- edges
       self$vertices_imports <- vertices
@@ -97,7 +97,7 @@ glimpse_class <- R6::R6Class(
         status = status,
         seconds = rep(NA_real_, length(names)),
         bytes = rep(NA_real_, length(names)),
-        children = rep(NA_integer_, length(names))
+        branches = rep(NA_integer_, length(names))
       )
       names <- c(names, names(pipeline_get_envir(self$pipeline)))
       edges <- pipeline_upstream_edges(self$pipeline, targets_only = FALSE)

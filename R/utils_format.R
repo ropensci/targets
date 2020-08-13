@@ -47,10 +47,10 @@ format_bytes_scalar <- function(x) {
   paste(round(x, 3), "bytes")
 }
 
-format_children <- function(x) {
+format_branches <- function(x) {
   ifelse(
     is.na(x),
     "",
-    paste(round(x), "children")
+    paste(round(x), "branches")
   )
 }

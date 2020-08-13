@@ -110,7 +110,7 @@ visnetwork_class <- R6::R6Class(
     update_label = function(vertices) {
       seconds <- format_seconds(vertices$seconds)
       bytes <- format_bytes(vertices$bytes)
-      children <- format_children(vertices$children)
+      branches <- format_branches(vertices$branches)
       if ("time" %in% label) {
         vertices$label <- paste(vertices$label, seconds, sep = "\n")
       }
@@ -118,7 +118,7 @@ visnetwork_class <- R6::R6Class(
         vertices$label <- paste(vertices$label, bytes, sep = "\n")
       }
       if ("branches" %in% label) {
-        vertices$label <- paste(vertices$label, children, sep = "\n")
+        vertices$label <- paste(vertices$label, branches, sep = "\n")
       }
       vertices
     },

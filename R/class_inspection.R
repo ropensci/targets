@@ -118,8 +118,8 @@ inspection_class <- R6::R6Class(
       out$status[is.na(out$status)] <- "undefined"
       out$seconds <- rep(NA_real_, nrow(out))
       out$bytes <- rep(NA_real_, nrow(out))
-      out$children <- rep(NA_integer_, nrow(out))
-      out[, c("name", "type", "status", "seconds", "bytes", "children")]
+      out$branches <- rep(NA_integer_, nrow(out))
+      out[, c("name", "type", "status", "seconds", "bytes", "branches")]
     },
     resolve_target_status = function(vertices) {
       vertices <- vertices[order(vertices$name),, drop = FALSE] # nolint
@@ -149,8 +149,8 @@ inspection_class <- R6::R6Class(
             name = name,
             seconds = record$seconds,
             bytes = record$bytes,
-            children = trn(
-              is.na(record$children),
+            branches = trn(
+              is.na(record$children) || record$type == "stem",
               NA_integer_,
               length(record$children)
             )
@@ -161,7 +161,7 @@ inspection_class <- R6::R6Class(
         name = character(0),
         seconds = numeric(0),
         bytes = numeric(0),
-        children = integer(0)
+        branches = integer(0)
       )
       merge(vertices, meta, all.x = TRUE, sort = FALSE)
     },

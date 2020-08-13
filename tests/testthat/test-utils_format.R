@@ -18,7 +18,7 @@ tar_test("format_bytes()", {
   expect_true(grepl("bytes", format_bytes(1)))
 })
 
-tar_test("format_children()", {
-  out <- format_children(c(NA_integer_, 3))
-  expect_equal(out, c("", "3 children"))
+tar_test("format_branches()", {
+  out <- format_branches(c(NA_integer_, 3))
+  expect_equal(out, c("", "3 branches"))
 })

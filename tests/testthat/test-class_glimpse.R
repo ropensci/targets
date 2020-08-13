@@ -30,7 +30,7 @@ tar_test("vertices and edges", {
     status = rep("undefined", 4L),
     seconds = NA_real_,
     bytes = NA_real_,
-    children = NA_real_
+    branches = NA_real_
   )
   exp_targets <- data_frame(
     name = c("x", "y", "z"),
@@ -38,7 +38,7 @@ tar_test("vertices and edges", {
     status = rep("undefined", 3L),
     seconds = NA_real_,
     bytes = NA_real_,
-    children = NA_real_
+    branches = NA_real_
   )
   exp <- rbind(exp_imports, exp_targets)
   exp <- exp[order(exp$name), ]

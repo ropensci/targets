@@ -38,7 +38,7 @@ tar_test("vertices and edges of empty imports", {
     status = character(0),
     seconds = numeric(0),
     bytes = numeric(0),
-    children = integer(0)
+    branches = integer(0)
   )
   expect_equal(vertices, exp)
   edges <- vis$edges_imports
@@ -145,7 +145,7 @@ tar_test("same for targets", {
   expect_equal(edges, exp)
 })
 
-tar_test("children get counted in network data", {
+tar_test("branches get counted in network data", {
   envir <- new.env(parent = baseenv())
   pipeline <- pipeline_init(
     list(
@@ -164,8 +164,8 @@ tar_test("children get counted in network data", {
   vis <- inspection_init(pipeline)
   vis$update()
   vertices <- vis$vertices_targets
-  expect_true(is.na(vertices$children[vertices$name == "w"]))
-  expect_equal(vertices$children[vertices$name == "x"], 3L)
+  expect_true(is.na(vertices$branches[vertices$name == "w"]))
+  expect_equal(vertices$branches[vertices$name == "x"], 3L)
 })
 
 tar_test("targets and imports bound together", {
