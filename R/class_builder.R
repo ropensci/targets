@@ -105,7 +105,7 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   target_update_queue(target, scheduler)
   builder_handle_warnings(target, scheduler)
   if (metrics_has_cancel(target$metrics)) {
-    builder_cancel(target, pipeline, scheduler)
+    builder_cancel(target, pipeline, scheduler, meta)
     return()
   }
   builder_ensure_object(target, "local")
@@ -252,7 +252,8 @@ builder_register_built <- function(target, scheduler) {
   }
 }
 
-builder_cancel <- function(target, pipeline, scheduler) {
+builder_cancel <- function(target, pipeline, scheduler, meta) {
+  target_ensure_buds(target, pipeline, scheduler, meta)
   scheduler$progress$register_cancelled(target_get_name(target))
   scheduler$reporter$report_cancelled(target, scheduler$progress)
   target_patternview_cancelled(target, pipeline, scheduler)

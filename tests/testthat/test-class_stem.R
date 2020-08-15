@@ -264,4 +264,27 @@ tar_test("branches can use old buds if continuing on error", {
   buds <- tar_meta(y, children)$children[[1]]
   expect_equal(length(unique(buds)), 3L)
   expect_true(all(grepl("y_", buds)))
+  expect_equal(tar_read(y), seq_len(3))
+})
+
+tar_test("branches can use old buds if stem is cancelled", {
+  tar_script({
+    tar_pipeline(
+      tar_target(x, seq_len(3)),
+      tar_target(y, x, pattern = map(x))
+    )
+  })
+  tar_make(callr_function = NULL)
+  tar_script({
+    tar_option_set(error = "continue")
+    tar_pipeline(
+      tar_target(x, tar_cancel()),
+      tar_target(y, x, pattern = map(x))
+    )
+  })
+  tar_make(callr_function = NULL)
+  buds <- tar_meta(y, children)$children[[1]]
+  expect_equal(length(unique(buds)), 3L)
+  expect_true(all(grepl("y_", buds)))
+  expect_equal(tar_read(y), seq_len(3))
 })
