@@ -104,10 +104,15 @@ target_skip.tar_builder <- function(target, pipeline, scheduler, meta) {
 target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   target_update_queue(target, scheduler)
   builder_handle_warnings(target, scheduler)
-  if (metrics_has_cancel(target$metrics)) {
-    builder_cancel(target, pipeline, scheduler, meta)
-    return()
-  }
+  trn(
+    metrics_has_cancel(target$metrics),
+    builder_cancel(target, pipeline, scheduler, meta),
+    builder_conclude(target, pipeline, scheduler, meta)
+  )
+  NextMethod()
+}
+
+builder_conclude <- function(target, pipeline, scheduler, meta) {
   builder_ensure_object(target, "local")
   builder_wait_correct_hash(target)
   target_ensure_buds(target, pipeline, scheduler, meta)
@@ -117,7 +122,13 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   builder_ensure_restored(target, pipeline)
   pipeline_register_loaded(pipeline, target_get_name(target))
   builder_register_built(target, scheduler)
-  NextMethod()
+}
+
+builder_cancel <- function(target, pipeline, scheduler, meta) {
+  target_ensure_buds(target, pipeline, scheduler, meta)
+  scheduler$progress$register_cancelled(target_get_name(target))
+  scheduler$reporter$report_cancelled(target, scheduler$progress)
+  target_patternview_cancelled(target, pipeline, scheduler)
 }
 
 #' @export
@@ -250,13 +261,6 @@ builder_register_built <- function(target, scheduler) {
   if (!metrics_terminated_early(target$metrics)) {
     scheduler$progress$register_built(target_get_name(target))
   }
-}
-
-builder_cancel <- function(target, pipeline, scheduler, meta) {
-  target_ensure_buds(target, pipeline, scheduler, meta)
-  scheduler$progress$register_cancelled(target_get_name(target))
-  scheduler$reporter$report_cancelled(target, scheduler$progress)
-  target_patternview_cancelled(target, pipeline, scheduler)
 }
 
 builder_serialize_value <- function(target) {
