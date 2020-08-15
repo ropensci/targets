@@ -85,7 +85,11 @@ target_produce_record.tar_branch <- function(target, meta) {
 }
 
 #' @export
-target_ensure_buds.tar_branch <- function(target, pipeline, scheduler, meta) {
+target_ensure_buds.tar_branch <- function(target, pipeline, scheduler) {
+}
+
+#' @export
+target_restore_buds.tar_branch <- function(target, pipeline, scheduler, meta) {
 }
 
 #' @export

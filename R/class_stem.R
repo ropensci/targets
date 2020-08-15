@@ -78,12 +78,13 @@ target_skip.tar_stem <- function(target, pipeline, scheduler, meta) {
 }
 
 #' @export
-target_ensure_buds.tar_stem <- function(target, pipeline, scheduler, meta) {
-  trn(
-    metrics_terminated_early(target$metrics),
-    stem_restore_buds(target, pipeline, scheduler, meta),
-    stem_ensure_buds(target, pipeline, scheduler)
-  )
+target_ensure_buds.tar_stem <- function(target, pipeline, scheduler) {
+  stem_ensure_buds(target, pipeline, scheduler)
+}
+
+#' @export
+target_restore_buds.tar_stem <- function(target, pipeline, scheduler, meta) {
+  stem_restore_buds(target, pipeline, scheduler, meta)
 }
 
 #' @export
