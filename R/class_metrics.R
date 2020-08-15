@@ -29,6 +29,14 @@ metrics_terminated_early <- function(metrics) {
   metrics_has_error(metrics) || metrics_has_cancel(metrics)
 }
 
+metrics_outcome <- function(metrics) {
+  trn(
+    metrics_has_cancel(metrics),
+    "cancel",
+    trn(metrics_has_error(metrics), "error", "built")
+  )
+}
+
 metrics_validate <- function(metrics) {
   assert_correct_fields(metrics, metrics_new)
   assert_dbl(metrics$seconds)

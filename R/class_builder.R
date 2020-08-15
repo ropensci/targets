@@ -104,15 +104,28 @@ target_skip.tar_builder <- function(target, pipeline, scheduler, meta) {
 target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   target_update_queue(target, scheduler)
   builder_handle_warnings(target, scheduler)
-  trn(
-    metrics_has_cancel(target$metrics),
-    builder_cancel(target, pipeline, scheduler, meta),
-    builder_conclude(target, pipeline, scheduler, meta)
+  switch(
+    metrics_outcome(target$metrics),
+    cancel = builder_cancel(target, pipeline, scheduler, meta),
+    error = builder_error(target, pipeline, scheduler, meta),
+    built = builder_conclude(target, pipeline, scheduler, meta)
   )
   NextMethod()
 }
 
 builder_conclude <- function(target, pipeline, scheduler, meta) {
+  builder_ensure_object(target, "local")
+  builder_wait_correct_hash(target)
+  target_ensure_buds(target, pipeline, scheduler, meta)
+  target_record_meta(target, meta)
+  target_patternview_meta(target, pipeline, meta)
+  builder_handle_error(target, pipeline, scheduler, meta)
+  builder_ensure_restored(target, pipeline)
+  pipeline_register_loaded(pipeline, target_get_name(target))
+  builder_register_built(target, scheduler)
+}
+
+builder_error <- function(target, pipeline, scheduler, meta) {
   builder_ensure_object(target, "local")
   builder_wait_correct_hash(target)
   target_ensure_buds(target, pipeline, scheduler, meta)
