@@ -166,6 +166,30 @@ vis <- visual_init(network = net)
 vis$update()
 vis$visnetwork
 
+
+# Should one canceled map and one up-to-date stem.
+tar_destroy()
+w <- target_init("w", quote(seq_len(2)))
+x <- target_init(
+  "x",
+  quote(targets::tar_cancel(w < 1.5)),
+  pattern = quote(map(w))
+)
+pipeline <- pipeline_init(list(w, x))
+local_init(pipeline = pipeline)$run()
+w <- target_init("w", quote(seq_len(2)))
+x <- target_init(
+  "x",
+  quote(stopifnot(w < 1.5)),
+  pattern = quote(map(w)),
+  error = "continue"
+)
+pipeline <- pipeline_init(list(w, x))
+net <- inspection_init(pipeline)
+vis <- visual_init(network = net)
+vis$update()
+vis$visnetwork
+
 # Should show a glimpse of three targets.
 tar_script({
   g <- function(x) x - 1
