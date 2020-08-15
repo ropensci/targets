@@ -144,18 +144,6 @@ target_validate.tar_builder <- function(target) {
   }
 }
 
-#' @export
-target_patternview_meta.default <- function(target, pipeline, meta) {
-}
-
-#' @export
-target_patternview_cancelled.default <- function(target, pipeline, scheduler) {
-}
-
-#' @export
-target_patternview_errored.default <- function(target, pipeline, scheduler) {
-}
-
 builder_ensure_deps <- function(target, pipeline, retrieval) {
   if (target$settings$retrieval == retrieval) {
     target_load_deps(target, pipeline)
