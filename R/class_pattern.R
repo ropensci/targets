@@ -43,20 +43,6 @@ target_produce_record.tar_pattern <- function(target, meta) {
 }
 
 #' @export
-target_record_meta.tar_pattern <- function(target, meta) {
-  name <- target_get_name(target)
-  old_data <- trn(
-    meta$exists_record(name),
-    meta$get_record(name)$data,
-    NA_character_
-  )
-  record <- target_produce_record(target, meta)
-  if (!identical(record$data, old_data)) {
-    meta$insert_record(record)
-  }
-}
-
-#' @export
 target_skip.tar_pattern <- function(target, pipeline, scheduler, meta) {
   trn(
     is.null(target$junction),
@@ -223,7 +209,7 @@ pattern_conclude_initial <- function(target, pipeline, scheduler, meta) {
 
 pattern_conclude_final <- function(target, pipeline, scheduler, meta) {
   pattern_skip_final(target, pipeline, scheduler, meta)
-  target_record_meta(target, meta)
+  pattern_record_meta(target, meta)
   patternview_register_final(target$patternview, target, scheduler)
 }
 
@@ -261,6 +247,19 @@ pipeline_assert_dimension <- function(target, pipeline, name) {
       "global objects. Also, if you branch over a target with ",
       "format = \"file\", then that target must also be a pattern."
     )
+  }
+}
+
+pattern_record_meta <- function(target, meta) {
+  name <- target_get_name(target)
+  old_data <- trn(
+    meta$exists_record(name),
+    meta$get_record(name)$data,
+    NA_character_
+  )
+  record <- target_produce_record(target, meta)
+  if (!identical(record$data, old_data)) {
+    meta$insert_record(record)
   }
 }
 

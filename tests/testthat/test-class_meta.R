@@ -19,7 +19,7 @@ tar_test("meta$get_record()", {
   expect_equal(record$path, letters)
 })
 
-tar_test("builder target_record_meta()", {
+tar_test("builder metadata recording", {
   out <- meta_init()
   target <- target_init("x", quote(sample.int(100)))
   pipeline <- pipeline_init(list(target))
@@ -31,7 +31,7 @@ tar_test("builder target_record_meta()", {
   db$reset_storage()
   data <- db$read_data()
   expect_equal(nrow(data), 0L)
-  target_record_meta(target, meta)
+  meta$insert_record(target_produce_record(target, meta))
   expect_true(db$exists_row(target_get_name(target)))
   data <- db$read_data()
   expect_equal(nrow(data), 1L)

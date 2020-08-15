@@ -201,10 +201,6 @@ target_produce_record <- function(target, meta) {
   UseMethod("target_produce_record")
 }
 
-target_record_meta <- function(target, meta) {
-  UseMethod("target_record_meta")
-}
-
 target_skip <- function(target, pipeline, scheduler, meta) {
   UseMethod("target_skip")
 }

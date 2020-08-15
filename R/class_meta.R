@@ -57,7 +57,7 @@ meta_class <- R6::R6Class(
       self$hash_deps(sort(target$command$deps), target)
     },
     handle_error = function(record) {
-      if (!record_has_error(record) || !self$exists_record(record$name)) {
+      if (!self$exists_record(record$name)) {
         return()
       }
       old <- self$get_record(record$name)

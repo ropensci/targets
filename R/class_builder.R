@@ -30,13 +30,6 @@ target_update_depend.tar_builder <- function(target, meta) {
 }
 
 #' @export
-target_record_meta.tar_builder <- function(target, meta) {
-  record <- target_produce_record(target, meta)
-  meta$handle_error(record)
-  meta$insert_record(record)
-}
-
-#' @export
 target_read_value.tar_builder <- function(target, pipeline = NULL) {
   object <- store_read_object(target$store)
   iteration <- target$settings$iteration
@@ -118,7 +111,7 @@ builder_conclude <- function(target, pipeline, scheduler, meta) {
   builder_ensure_object(target, "local")
   builder_wait_correct_hash(target)
   target_ensure_buds(target, pipeline, scheduler)
-  target_record_meta(target, meta)
+  meta$insert_record(target_produce_record(target, meta))
   target_patternview_meta(target, pipeline, meta)
   pipeline_register_loaded(pipeline, target_get_name(target))
   scheduler$progress$register_built(target_get_name(target))
@@ -126,7 +119,7 @@ builder_conclude <- function(target, pipeline, scheduler, meta) {
 
 builder_error <- function(target, pipeline, scheduler, meta) {
   target_restore_buds(target, pipeline, scheduler, meta)
-  target_record_meta(target, meta)
+  builder_record_error_meta(target, meta)
   target_patternview_meta(target, pipeline, meta)
   builder_handle_error(target, pipeline, scheduler, meta)
 }
@@ -197,6 +190,12 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   if (target$settings$error != "continue") {
     throw_run(target$metrics$error)
   }
+}
+
+builder_record_error_meta <- function(target, meta) {
+  record <- target_produce_record(target, meta)
+  meta$handle_error(record)
+  meta$insert_record(record)
 }
 
 builder_update_build <- function(target) {
