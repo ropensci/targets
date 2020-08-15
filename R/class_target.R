@@ -299,7 +299,7 @@ target_patternview_cancelled <- function(target, pipeline, scheduler) {
 }
 
 #' @export
-target_patternview_cancelled.default<- function(target, pipeline, scheduler) {
+target_patternview_cancelled.default <- function(target, pipeline, scheduler) {
 }
 
 target_patternview_errored <- function(target, pipeline, scheduler) {
