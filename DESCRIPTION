@@ -12,7 +12,7 @@ Description: The targets package is a pipeline toolkit that brings together
   and drake by Will Landau (2018) <doi:10.21105/joss.00550>.
 Version: 0.0.0.9000
 License: MIT + file LICENSE
-URL: https://wlandau.github.io/targets, https://github.com/wlandau/targets
+URL: https://wlandau.github.io/targets/, https://github.com/wlandau/targets
 BugReports: https://github.com/wlandau/targets/issues
 Authors@R: c(
   person(
