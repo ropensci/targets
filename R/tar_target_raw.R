@@ -54,7 +54,7 @@ tar_target_raw <- function(
   error = targets::tar_option_get("error"),
   memory = targets::tar_option_get("memory"),
   deployment = targets::tar_option_get("deployment"),
-  priority = 0,
+  priority = targets::tar_option_get("priority"),
   template = targets::tar_option_get("template"),
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
@@ -72,6 +72,7 @@ tar_target_raw <- function(
   error <- match.arg(error, c("stop", "continue"))
   memory <- match.arg(memory, c("persistent", "transient"))
   deployment <- match.arg(deployment, c("remote", "local"))
+  assert_dbl(priority)
   assert_scalar(priority)
   assert_ge(priority, 0)
   assert_le(priority, 1)

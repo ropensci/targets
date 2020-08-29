@@ -36,6 +36,7 @@ tar_option_default <- function(option) {
     error = "stop",
     memory = "persistent",
     deployment = "remote",
+    priority = 0,
     resources = list(),
     template = NULL,
     storage = "local",

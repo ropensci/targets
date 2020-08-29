@@ -14,6 +14,7 @@ tar_option_set(
   error = NULL,
   memory = NULL,
   deployment = NULL,
+  priority = NULL,
   resources = NULL,
   template = NULL,
   storage = NULL,
@@ -97,6 +98,10 @@ whenever another target needs the value.}
 \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}. If \code{"remote"},
 the target builds on a remote parallel worker. If \code{"local"},
 the target builds on the host machine / process managing the pipeline.}
+
+\item{priority}{Numeric of length 1 between 0 and 1. Controls which
+targets get deployed first when multiple competing targets are ready
+simultaneously. Targets with priorities closer to 1 get built earlier.}
 
 \item{resources}{Relevant to \code{\link[=tar_make_future]{tar_make_future()}} only.
 A named list of resources passed to \code{future::future()} when

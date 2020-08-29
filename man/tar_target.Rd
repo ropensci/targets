@@ -17,7 +17,7 @@ tar_target(
   memory = targets::tar_option_get("memory"),
   template = targets::tar_option_get("template"),
   deployment = targets::tar_option_get("deployment"),
-  priority = 0,
+  priority = targets::tar_option_get("priority"),
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
   retrieval = targets::tar_option_get("retrieval"),

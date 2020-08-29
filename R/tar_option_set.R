@@ -37,6 +37,7 @@ tar_option_set <- function(
   error = NULL,
   memory = NULL,
   deployment = NULL,
+  priority = NULL,
   resources = NULL,
   template = NULL,
   storage = NULL,
@@ -54,6 +55,7 @@ tar_option_set <- function(
   tar_option_set_error(error)
   tar_option_set_memory(memory)
   tar_option_set_deployment(deployment)
+  tar_option_set_priority(priority)
   tar_option_set_resources(resources)
   tar_option_set_template(template)
   tar_option_set_storage(storage)
@@ -119,6 +121,15 @@ tar_option_set_deployment <- function(deployment) {
   deployment <- deployment %||% tar_option_get("deployment")
   deployment <- match.arg(deployment, c("remote", "local"))
   assign("deployment", deployment, envir = tar_envir_options)
+}
+
+tar_option_set_priority <- function(priority) {
+  priority <- priority %||% tar_option_get("priority")
+  assert_dbl(priority, msg = "priority must be numeric")
+  assert_scalar(priority, msg = "priority must have length 1")
+  assert_ge(priority, 0, msg = "priority cannot be less than 0")
+  assert_le(priority, 1, msg = "priority cannot be greater than 1")
+  assign("priority", priority, envir = tar_envir_options)
 }
 
 tar_option_set_resources <- function(resources) {
