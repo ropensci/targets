@@ -26,8 +26,7 @@ articles:
 reference:
 - title: Help
   contents:
-  - '`targets-package`'
-  - '`targets-tidyselect`'
+  - '`tar_package`'
   - '`tar_script`'
 - title: Options
   contents:
@@ -42,6 +41,8 @@ reference:
   - '`tar_target_raw`'
 - title: Inspect
   contents:
+  - '`tar_deps`'
+  - '`tar_deps_raw`'
   - '`tar_glimpse`'
   - '`tar_manifest`'
   - '`tar_network`'

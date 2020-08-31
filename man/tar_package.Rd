@@ -3,7 +3,6 @@
 \docType{package}
 \name{tar_package}
 \alias{tar_package}
-\alias{targets}
 \title{targets: Dynamic Function-Oriented Make-Like Declarative Pipelines for R}
 \description{
 The targets package is a pipeline toolkit that brings together

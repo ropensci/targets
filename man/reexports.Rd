@@ -4,7 +4,6 @@
 \name{reexports}
 \alias{reexports}
 \alias{all_of}
-\alias{targets-tidyselect}
 \alias{any_of}
 \alias{contains}
 \alias{ends_with}

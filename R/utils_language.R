@@ -1,5 +1,7 @@
-deps_function <- function(x) {
-  codetools::findGlobals(x)
+deps_function <- function(fun) {
+  env <- list(`~` = `identity`)
+  body(fun) <- eval(call("substitute", body(fun), env), envir = baseenv())
+  codetools::findGlobals(fun)
 }
 
 deparse_language <- function(x) {
