@@ -67,7 +67,7 @@ hash changes, the function is considered invalidated, and so are any
 downstream targets with the \code{depend} cue turned on. The
 \code{targets} package computes the hash of a function in the following way.
 \enumerate{
-\item Deparse the function with \code{targets:::safe_deparse()}. This
+\item Deparse the function with \code{targets:::deparse_safe()}. This
 function computes a string representation of the function
 that removes comments and standardizes whitespace so that
 trivial changes to formatting do not cue targets to rerun.

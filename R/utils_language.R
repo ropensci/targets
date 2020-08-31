@@ -1,20 +1,13 @@
-embody_expr <- function(expr) {
-  fun <- function() {
-  }
-  body(fun) <- expr
-  fun
-}
-
 deps_function <- function(x) {
   codetools::findGlobals(x)
 }
 
 deparse_language <- function(x) {
-  trn(!is.character(x) && !is.null(x), safe_deparse(x), x)
+  trn(!is.character(x) && !is.null(x), deparse_safe(x), x)
 }
 
-safe_deparse <- function(x, collapse = "\n", backtick = TRUE) {
-  out <- direct_deparse(
+deparse_safe <- function(x, collapse = "\n", backtick = TRUE) {
+  out <- deparse_direct(
     x,
     control = deparse_control_custom,
     backtick = backtick
@@ -27,11 +20,18 @@ safe_deparse <- function(x, collapse = "\n", backtick = TRUE) {
 
 deparse_control_custom <- .deparseOpts(c("keepNA", "keepInteger"))
 
-direct_deparse <- function(...) {
-  produce_direct_deparse()(...)
+deparse_direct <- function(...) {
+  produce_deparse_direct()(...)
 }
 
-produce_direct_deparse <- function() {
+embody_expr <- function(expr) {
+  fun <- function() {
+  }
+  body(fun) <- expr
+  fun
+}
+
+produce_deparse_direct <- function() {
   .deparseOpts <- identity
   environment(deparse) <- environment()
   deparse

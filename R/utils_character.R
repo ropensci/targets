@@ -15,7 +15,7 @@ produce_lines <- function(x) {
   trn(
     length(x),
     paste(lines, collapse = "\n    "),
-    safe_deparse(x)
+    deparse_safe(x)
   )
 }
 

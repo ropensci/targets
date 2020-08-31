@@ -96,9 +96,9 @@ example_target_script <- function() {
 
 parse_target_script_code <- function(code) {
   trn(
-    length(code) > 1L && safe_deparse(code[[1]]) == "`{`",
-    map_chr(code[-1], safe_deparse),
-    safe_deparse(code)
+    length(code) > 1L && deparse_safe(code[[1]]) == "`{`",
+    map_chr(code[-1], deparse_safe),
+    deparse_safe(code)
   )
 }
 

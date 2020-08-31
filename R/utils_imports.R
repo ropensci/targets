@@ -65,7 +65,7 @@ hash_object.character <- function(value, name, hashes, graph) {
 
 #' @export
 hash_object.function <- function(value, name, hashes, graph) {
-  str <- safe_deparse(value)
+  str <- deparse_safe(value)
   deps <- names(igraph::neighbors(graph = graph, v = name, mode = "in"))
   dep_hashes <- unlist(lapply(deps, get_field, collection = hashes))
   base <- paste(c(str, dep_hashes), collapse = " ")

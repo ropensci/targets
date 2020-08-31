@@ -25,7 +25,7 @@
 #'  hash changes, the function is considered invalidated, and so are any
 #'  downstream targets with the `depend` cue turned on. The
 #'  `targets` package computes the hash of a function in the following way.
-#'    1. Deparse the function with `targets:::safe_deparse()`. This
+#'    1. Deparse the function with `targets:::deparse_safe()`. This
 #'      function computes a string representation of the function
 #'      that removes comments and standardizes whitespace so that
 #'      trivial changes to formatting do not cue targets to rerun.
