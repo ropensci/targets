@@ -5,13 +5,10 @@
 #'   value lives in a file in `_targets/objects/`. For dynamic files
 #'   (i.e. `format = "file"`) the paths loaded in place of the values.
 #' @return Nothing.
-#' @inheritParams tar_read
+#' @inheritParams tar_load_raw
 #' @param names Names of the targets to build or check. Set to `NULL` to
 #'   check/build all the targets (default). Otherwise, you can supply
 #'   symbols, a character vector, or `tidyselect` helpers like [starts_with()].
-#' @param branches Integer of indices of the branches to load
-#'   for any targets that are patterns.
-#' @param envir Environment to put the loaded targets.
 #' @examples
 #' \dontrun{
 #' tar_dir({
