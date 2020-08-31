@@ -25,6 +25,8 @@ if \code{format = "file"} was set.
 }
 \description{
 Like \code{\link[=tar_read]{tar_read()}} except \code{name} is a character string.
+Do not use in \code{knitr} or R Markdown reports with \code{tarchetypes::tar_knit()}
+or \code{tarchetypes::tar_render()}.
 }
 \examples{
 \dontrun{

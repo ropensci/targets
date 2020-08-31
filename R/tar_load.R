@@ -37,6 +37,8 @@ tar_load <- function(
 #' @title Load the values of targets (raw version).
 #' @export
 #' @description Same as [tar_load()] except `names` is a character vector.
+#'   Do not use in `knitr` or R Markdown reports with `tarchetypes::tar_knit()`
+#'   or `tarchetypes::tar_render()`.
 #' @return Nothing.
 #' @inheritParams tar_read
 #' @param names Character vector, names of the targets to build or check.

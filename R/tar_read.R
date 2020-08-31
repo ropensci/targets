@@ -24,6 +24,8 @@ tar_read <- function(name, branches = NULL, meta = tar_meta()) {
 #' @title Read a target's value from storage (raw version)
 #' @export
 #' @description Like [tar_read()] except `name` is a character string.
+#'   Do not use in `knitr` or R Markdown reports with `tarchetypes::tar_knit()`
+#'   or `tarchetypes::tar_render()`.
 #' @return The target's return value from its file in
 #'   `_targets/objects/`, or the paths to the custom files and directories
 #'   if `format = "file"` was set.

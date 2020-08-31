@@ -25,6 +25,8 @@ Nothing.
 }
 \description{
 Same as \code{\link[=tar_load]{tar_load()}} except \code{names} is a character vector.
+Do not use in \code{knitr} or R Markdown reports with \code{tarchetypes::tar_knit()}
+or \code{tarchetypes::tar_render()}.
 }
 \examples{
 \dontrun{
