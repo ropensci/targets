@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_deps.R
 \name{tar_deps_raw}
 \alias{tar_deps_raw}
-\title{Code dependencies (raw)}
+\title{Code dependencies (raw version)}
 \usage{
 tar_deps_raw(expr)
 }

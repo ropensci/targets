@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_read.R
 \name{tar_read_raw}
 \alias{tar_read_raw}
-\title{Read a target's value from storage (raw)}
+\title{Read a target's value from storage (raw version)}
 \usage{
 tar_read_raw(name, branches = NULL, meta = tar_meta())
 }

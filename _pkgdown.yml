@@ -27,7 +27,6 @@ reference:
 - title: Help
   contents:
   - '`tar_package`'
-  - '`tar_script`'
 - title: Options
   contents:
   - '`tar_option_get`'
@@ -59,6 +58,7 @@ reference:
 - title: Data
   contents:
   - '`tar_load`'
+  - '`tar_load_raw`'
   - '`tar_meta`'
   - '`tar_read`'
   - '`tar_read_raw`'
@@ -75,4 +75,5 @@ reference:
   - '`tar_group`'
   - '`tar_name`'
   - '`tar_path`'
+  - '`tar_script`'
   - '`tar_traceback`'

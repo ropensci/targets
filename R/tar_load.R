@@ -34,6 +34,41 @@ tar_load <- function(
 ) {
   force(envir)
   names <- tar_tidyselect(rlang::enquo(names), meta$name)
+  tar_load_raw(names = names, branches = branches, meta = meta, envir = envir)
+}
+
+#' @title Load the values of targets (raw version).
+#' @export
+#' @description Same as [tar_load()] except `names` is a character vector.
+#' @return Nothing.
+#' @inheritParams tar_read
+#' @param names Character vector, names of the targets to build or check.
+#' @param branches Integer of indices of the branches to load
+#'   for any targets that are patterns.
+#' @param envir Environment to put the loaded targets.
+#' @examples
+#' \dontrun{
+#' tar_dir({
+#' tar_script(
+#'   tar_pipeline(
+#'     tar_target(y1, 1 + 1),
+#'     tar_target(y2, 1 + 1),
+#'     tar_target(z, y1 + y2)
+#'   )
+#' )
+#' tar_make()
+#' tar_load_raw(c("y1", "y2"))
+#' y1
+#' y2
+#' })
+#' }
+tar_load_raw <- function(
+  names,
+  branches = NULL,
+  meta = tar_meta(),
+  envir = parent.frame()
+) {
+  force(envir)
   if (!length(names)) {
     cli_red_x("Found no targets to load.")
   }
