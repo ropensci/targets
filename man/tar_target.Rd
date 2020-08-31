@@ -36,7 +36,7 @@ branches of \code{z} that each compute \code{x[1] + y[1]}, \code{x[2] + y[2]},
 and so on. See the user manual for details.}
 
 \item{tidy_eval}{Logical, whether to enable tidy evaluation
-when interpreting \code{expr}. If \code{TRUE}, you can use the
+when interpreting \code{command} and \code{pattern}. If \code{TRUE}, you can use the
 "bang-bang" operator \verb{!!} to programmatically insert
 the values of global objects.}
 
@@ -143,7 +143,7 @@ just feed them to \code{\link[=tar_pipeline]{tar_pipeline()}} in your \verb{_tar
 }
 \description{
 A target is a single step of computation in a pipeline.
-It runs an R command (\code{expr} argument) and returns a value.
+It runs an R command and returns a value.
 This value gets treated as an R object that can be used
 by the commands of targets downstream. Targets that
 are already up to date are skipped. See the user manual

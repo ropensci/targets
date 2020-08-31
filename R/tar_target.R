@@ -1,7 +1,7 @@
 #' @title Declare a target.
 #' @export
 #' @description A target is a single step of computation in a pipeline.
-#'   It runs an R command (`expr` argument) and returns a value.
+#'   It runs an R command and returns a value.
 #'   This value gets treated as an R object that can be used
 #'   by the commands of targets downstream. Targets that
 #'   are already up to date are skipped. See the user manual
@@ -16,7 +16,7 @@
 #'   branches of `z` that each compute `x[1] + y[1]`, `x[2] + y[2]`,
 #'   and so on. See the user manual for details.
 #' @param tidy_eval Logical, whether to enable tidy evaluation
-#'   when interpreting `expr`. If `TRUE`, you can use the
+#'   when interpreting `command` and `pattern`. If `TRUE`, you can use the
 #'   "bang-bang" operator `!!` to programmatically insert
 #'   the values of global objects.
 #' @param packages Character vector of packages to load right before
@@ -156,17 +156,13 @@ tar_target <- function(
   if (!is.null(cue)) {
     cue_validate(cue)
   }
-  expr <- as.expression(substitute(command))
   envir <- tar_option_get("envir")
-  if (tidy_eval) {
-    expr <- as.call(c(quote(rlang::expr), expr))
-    expr <- rlang::quo_squash(eval(expr, envir = envir))
-  }
-  pattern <- substitute(pattern)
+  expr <- as.expression(substitute(command))
+  pattern <- as.expression(substitute(pattern))
   target_init(
     name = name,
-    expr = expr,
-    pattern = pattern,
+    expr = tidy_eval(expr, envir, tidy_eval),
+    pattern = tidy_eval(pattern, envir, tidy_eval),
     packages = packages,
     library = library,
     envir = envir,
