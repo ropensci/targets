@@ -10,6 +10,13 @@ tar_test("tar_read() works on builders", {
   expect_equal(tar_read(x), 1L)
 })
 
+tar_test("tar_read_raw() works", {
+  pipeline <- pipeline_init(list(target_init("x", quote(1L))))
+  local_init(pipeline = pipeline)$run()
+  name <- "x"
+  expect_equal(tar_read_raw(name), 1L)
+})
+
 tar_test("tar_read() works on a dynamic file", {
   saveRDS("contents", "data_file")
   x <- target_init("x", quote("data_file"), format = "file")

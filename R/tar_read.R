@@ -6,7 +6,28 @@
 #' @return The target's return value from its file in
 #'   `_targets/objects/`, or the paths to the custom files and directories
 #'   if `format = "file"` was set.
+#' @inheritParams tar_read_raw
 #' @param name Symbol, name of the target to read.
+#' @examples
+#' \dontrun{
+#' tar_dir({
+#' tar_script(tar_pipeline(tar_target(x, 1 + 1)))
+#' tar_make()
+#' tar_read(x)
+#' })
+#' }
+tar_read <- function(name, branches = NULL, meta = tar_meta()) {
+  name <- deparse_language(substitute(name))
+  tar_read_raw(name, branches, meta)
+}
+
+#' @title Read a target's value from storage (raw version)
+#' @export
+#' @description Like [tar_read()] except `name` is a character string.
+#' @return The target's return value from its file in
+#'   `_targets/objects/`, or the paths to the custom files and directories
+#'   if `format = "file"` was set.
+#' @param name Character, name of the target to read.
 #' @param branches Integer of indices of the branches to load
 #'   if the target is a pattern.
 #' @param meta Data frame of metadata from [tar_meta()].
@@ -19,12 +40,11 @@
 #' tar_dir({
 #' tar_script(tar_pipeline(tar_target(x, 1 + 1)))
 #' tar_make()
-#' tar_read(x)
+#' tar_read_raw("x")
 #' })
 #' }
-tar_read <- function(name, branches = NULL, meta = tar_meta()) {
+tar_read_raw <- function(name, branches = NULL, meta = tar_meta()) {
   assert_store()
-  name <- deparse_language(substitute(name))
   assert_chr(name, "name arg of tar_read() must be a symbol.")
   tar_read_inner(name, branches, meta)
 }

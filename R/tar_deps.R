@@ -18,7 +18,7 @@ tar_deps <- function(expr) {
   tar_deps_raw(expr)
 }
 
-#' @title Code dependencies (raw)
+#' @title Code dependencies (raw version)
 #' @export
 #' @description Same as [tar_deps()] except `expr` must already be an
 #'   unquoted function or expression object.
