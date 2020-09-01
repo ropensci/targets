@@ -4,7 +4,7 @@ tar_test("tar_make_future() works", {
     callr_arguments = list(show = FALSE),
     reporter = "silent"
   )
-  expect_equal(readRDS(file.path("_targets", "objects", "x")), "x")
+  expect_equal(tar_read(x), "x")
 })
 
 tar_test("tar_make_future() can use tidyselect", {

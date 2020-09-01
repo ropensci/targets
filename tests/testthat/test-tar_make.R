@@ -21,7 +21,7 @@ tar_test("tar_make() works", {
     reporter = "silent",
     callr_arguments = list(show = FALSE)
   )
-  out <- readRDS(file.path("_targets", "objects", "z"))
+  out <- tar_read(z)
   expect_equal(out, 4L)
 })
 
@@ -69,6 +69,6 @@ tar_test("tar_make() finds the correct environment", {
     reporter = "silent",
     callr_arguments = list(show = FALSE)
   )
-  out <- readRDS(file.path("_targets", "objects", "y"))
+  out <- tar_read(y)
   expect_equal(out, 3L)
 })
