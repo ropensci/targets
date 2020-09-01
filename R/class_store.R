@@ -161,5 +161,3 @@ store_dir_workspace <- function() {
 store_del_workspace <- function() {
   unlink(store_dir_workspace(), recursive = TRUE)
 }
-
-

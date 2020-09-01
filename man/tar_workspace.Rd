@@ -16,7 +16,7 @@ the function returns no value, but it does load multiple objects
 into the environment (\code{envir} argument) in order to replicate the
 workspace where the error happened. These objects include
 the global objects at the time \code{\link[=tar_make]{tar_make()}} was called, the
-target dependencies, the random number generator seed
+dependency targets, the random number generator seed
 (assigned to \code{.tar_seed} and set with \code{set.seed()})
 and the traceback of the error (assigned to \code{.tar_traceback}).
 }
@@ -28,7 +28,11 @@ of an errored target attempted with \code{error = "save"}.
 If you set \code{error = "save"} in \code{\link[=tar_option_set]{tar_option_set()}}
 or \code{\link[=tar_target]{tar_target()}}, then if that target throws an error
 in \code{\link[=tar_make]{tar_make()}}, it will save its workspace to a compressed file
-in \verb{_targets/workspaces/}. The workspace includes
+in \verb{_targets/workspaces/}. The workspace includes the
+global objects at the time \code{\link[=tar_make]{tar_make()}} was called, the
+dependency targets, the random number generator seed
+(assigned to \code{.tar_seed} and set with \code{set.seed()})
+and the traceback of the error (assigned to \code{.tar_traceback}).
 }
 \examples{
 \dontrun{
