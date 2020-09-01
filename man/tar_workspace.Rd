@@ -23,6 +23,7 @@ and the traceback of the error (assigned to \code{.tar_traceback}).
 \description{
 Load the workspace and random number generator seed
 of an errored target attempted with \code{error = "save"}.
+Remove workspace files with \code{\link[=tar_undebug]{tar_undebug()}} when you are done debugging.
 }
 \details{
 If you set \code{error = "save"} in \code{\link[=tar_option_set]{tar_option_set()}}
@@ -33,6 +34,7 @@ global objects at the time \code{\link[=tar_make]{tar_make()}} was called, the
 dependency targets, the random number generator seed
 (assigned to \code{.tar_seed} and set with \code{set.seed()})
 and the traceback of the error (assigned to \code{.tar_traceback}).
+Remove workspace files with \code{\link[=tar_undebug]{tar_undebug()}} when you are done debugging.
 
 Although useful, this behavior does not perfectly replicate
 what \code{\link[=tar_make]{tar_make()}} does to set up the runtime environment

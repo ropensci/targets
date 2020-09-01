@@ -2,6 +2,7 @@
 #' @export
 #' @description Load the workspace and random number generator seed
 #'   of an errored target attempted with `error = "save"`.
+#'   Remove workspace files with [tar_undebug()] when you are done debugging.
 #' @details If you set `error = "save"` in [tar_option_set()]
 #'   or [tar_target()], then if that target throws an error
 #'   in [tar_make()], it will save its workspace to a compressed file
@@ -10,6 +11,7 @@
 #'   dependency targets, the random number generator seed
 #'   (assigned to `.tar_seed` and set with `set.seed()`)
 #'   and the traceback of the error (assigned to `.tar_traceback`).
+#'   Remove workspace files with [tar_undebug()] when you are done debugging.
 #'
 #'   Although useful, this behavior does not perfectly replicate
 #'   what [tar_make()] does to set up the runtime environment
