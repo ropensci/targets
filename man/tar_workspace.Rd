@@ -33,6 +33,11 @@ global objects at the time \code{\link[=tar_make]{tar_make()}} was called, the
 dependency targets, the random number generator seed
 (assigned to \code{.tar_seed} and set with \code{set.seed()})
 and the traceback of the error (assigned to \code{.tar_traceback}).
+Although useful, this behavior does not perfectly replicate
+what \code{\link[=tar_make]{tar_make()}} does to set up the runtime environment
+for a target. \code{\link[=tar_make]{tar_make()}} creates a formal hierarchy of
+environments that inherit from one another in order to
+organize data and contain side effects.
 }
 \examples{
 \dontrun{

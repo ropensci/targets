@@ -157,7 +157,3 @@ store_path_workspaces <- function(name) {
 store_dir_workspaces <- function() {
   file.path("_targets", "workspaces")
 }
-
-store_del_workspaces <- function() {
-  unlink(store_dir_workspaces(), recursive = TRUE)
-}

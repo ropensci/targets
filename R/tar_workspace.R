@@ -10,6 +10,11 @@
 #'   dependency targets, the random number generator seed
 #'   (assigned to `.tar_seed` and set with `set.seed()`)
 #'   and the traceback of the error (assigned to `.tar_traceback`).
+#'   Although useful, this behavior does not perfectly replicate
+#'   what [tar_make()] does to set up the runtime environment
+#'   for a target. [tar_make()] creates a formal hierarchy of
+#'   environments that inherit from one another in order to
+#'   organize data and contain side effects.
 #' @return the function returns no value, but it does load multiple objects
 #'   into the environment (`envir` argument) in order to replicate the
 #'   workspace where the error happened. These objects include
