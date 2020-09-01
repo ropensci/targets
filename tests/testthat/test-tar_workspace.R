@@ -7,7 +7,7 @@ tar_test("workspaces are not saved if error = 'stop'", {
   )
   local <- local_init(pipeline, reporter = "verbose")
   expect_error(expect_message(local$run()), class = "condition_run")
-  expect_false(file.exists(store_path_workspace("x")))
+  expect_false(file.exists(store_path_workspaces("x")))
 })
 
 tar_test("workspaces are not saved if error = 'continue'", {
@@ -19,7 +19,7 @@ tar_test("workspaces are not saved if error = 'continue'", {
   )
   local <- local_init(pipeline, reporter = "verbose")
   expect_message(local$run(), class = "condition_run")
-  expect_false(file.exists(store_path_workspace("x")))
+  expect_false(file.exists(store_path_workspaces("x")))
 })
 
 tar_test("workspaces are saved if error = 'save'", {
@@ -31,7 +31,7 @@ tar_test("workspaces are saved if error = 'save'", {
   )
   local <- local_init(pipeline, reporter = "verbose")
   expect_error(expect_message(local$run()), class = "condition_run")
-  expect_true(file.exists(store_path_workspace("x")))
+  expect_true(file.exists(store_path_workspaces("x")))
 })
 
 tar_test("tar_workspace() works", {

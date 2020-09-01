@@ -5,7 +5,9 @@
 \title{Destroy a section or all of the \verb{_targets/} data store in the
 current working directory}
 \usage{
-tar_destroy(what = c("all", "meta", "progress", "objects"))
+tar_destroy(
+  what = c("all", "meta", "progress", "objects", "scratch", "workspaces")
+)
 }
 \arguments{
 \item{what}{Character of length 1, what to destroy. Choices:
@@ -17,7 +19,16 @@ which invalidates all the targets but keeps the data.
 \verb{_targets/meta/progress}, which resets the progress tracking info.
 \item \code{"objects"}: delete all the target return values in \verb{_targets/objects/}
 but keep progress and metadata. Dynamic files are not deleted this way.
+\item \code{"scratch"}: temporary files saved during \code{\link[=tar_make]{tar_make()}} that should
+automatically get deleted except if R crashed.
+\item \code{"workspaces"}: compressed files in \verb{_targets/workspaces/} with
+the saved workspaces of targets that errored. Only saved
+if \code{error = "save"} in \code{\link[=tar_option_set]{tar_option_set()}} or \code{\link[=tar_target]{tar_target()}}.
+Load a workspace with \code{\link[=tar_workspace]{tar_workspace()}}.
 }}
+}
+\value{
+Nothing.
 }
 \description{
 Destroy \verb{_targets/} data store in the current working

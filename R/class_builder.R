@@ -202,8 +202,8 @@ builder_save_workspace <- function(target, scheduler) {
   }
   out$.tar_seed <- target$command$seed
   out$.tar_traceback <- target$metrics$traceback
-  dir_create(store_dir_workspace())
-  path <- store_path_workspace(target$settings$name)
+  dir_create(store_dir_workspaces())
+  path <- store_path_workspaces(target$settings$name)
   qs::qsave(x = out, file = path, preset = "high")
 }
 

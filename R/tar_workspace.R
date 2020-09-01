@@ -41,7 +41,7 @@
 tar_workspace <- function(name, envir = parent.frame()) {
   force(envir)
   name <- deparse_language(substitute(name))
-  path <- store_path_workspace(name)
+  path <- store_path_workspaces(name)
   assert_path(path, paste0("no workspace found for target ", name, "."))
   workspace <- qs::qread(path)
   map(names(workspace), ~assign(.x, value = workspace[[.x]], envir = envir))
