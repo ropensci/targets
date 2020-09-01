@@ -155,7 +155,7 @@ store_path_workspace <- function(name) {
 }
 
 store_dir_workspace <- function() {
-  file.path("_targets", "workspace")
+  file.path("_targets", "workspaces")
 }
 
 store_del_workspace <- function() {
