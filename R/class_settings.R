@@ -103,7 +103,7 @@ settings_validate <- function(settings) {
   assert_in(settings$format, store_formats())
   settings_validate_pattern(settings$growth, settings$dimensions)
   assert_chr(settings$iteration)
-  assert_in(settings$error, c("stop", "continue"))
+  assert_in(settings$error, c("stop", "continue", "save"))
   assert_in(settings$memory, c("persistent", "transient"))
   assert_in(settings$deployment, c("local", "remote"))
   assert_scalar(settings$priority)

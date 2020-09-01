@@ -9,6 +9,13 @@ tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(stop(123)))))
 local <- local_init(pipeline, reporter = "silent")$run()
 
+# Should be silent except for the error message.
+tar_destroy()
+pipeline <- pipeline_init(
+  list(target_init("x", quote(stop(123)), error = "save"))
+)
+local <- local_init(pipeline, reporter = "silent")$run()
+
 # Should be silent.
 tar_destroy()
 for (index in seq_len(2L)) {
@@ -32,6 +39,18 @@ local <- local_init(pipeline, reporter = "verbose")$run()
 # Should show a regular warning and a meta-warning with a tip about tar_meta().
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(warning(123)))))
+local <- local_init(pipeline, reporter = "verbose")$run()
+
+# Should show error message but not save workspace.
+tar_destroy()
+pipeline <- pipeline_init(list(target_init("x", quote(stop(123)))))
+local <- local_init(pipeline, reporter = "verbose")$run()
+
+# Should show error message and save workspace.
+tar_destroy()
+pipeline <- pipeline_init(
+  list(target_init("x", quote(stop(123)), error = "save"))
+)
 local <- local_init(pipeline, reporter = "verbose")$run()
 
 # Warnings are relayed immediately if the warn option is 1.
@@ -77,6 +96,14 @@ local_init(pipeline_map(), reporter = "timestamp")$run()
 # Should show a timestamped failure message and an error message.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(stop(123)))))
+local <- local_init(pipeline, reporter = "timestamp")$run()
+
+# Should show a timestamped failure message and an error message
+# and save workspace.
+tar_destroy()
+pipeline <- pipeline_init(
+  list(target_init("x", quote(stop(123)), error = "save"))
+)
 local <- local_init(pipeline, reporter = "timestamp")$run()
 
 # Should show a timestamped message, a warning,

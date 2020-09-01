@@ -6,8 +6,12 @@ tar_test("run timestamp reporter", {
   }
 })
 
-tar_test("run timestamp reporter with a error", {
-  pipeline <- pipeline_init(list(target_init("x", quote(stop(123)))))
+tar_test("run timestamp reporter with a error and saved workspace", {
+  pipeline <- pipeline_init(
+    list(
+      target_init("x", quote(stop(123)), error = "save")
+    )
+  )
   local <- local_init(pipeline, reporter = "timestamp")
   expect_error(expect_message(local$run()), class = "condition_run")
 })

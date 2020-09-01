@@ -6,8 +6,12 @@ tar_test("run verbose reporter", {
   }
 })
 
-tar_test("run verbose reporter with a error", {
-  pipeline <- pipeline_init(list(target_init("x", quote(stop(123)))))
+tar_test("run verbose reporter with a error and save workspace", {
+  pipeline <- pipeline_init(
+    list(
+      target_init("x", quote(stop(123)), error = "save")
+    )
+  )
   local <- local_init(pipeline, reporter = "verbose")
   expect_error(expect_message(local$run()), class = "condition_run")
 })

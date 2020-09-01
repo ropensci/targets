@@ -187,9 +187,25 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   scheduler$reporter$report_errored(target, scheduler$progress)
   target_patternview_errored(target, pipeline, scheduler)
   assign("traceback", target$metrics$traceback, envir = envir_run)
+  if (target$settings$error == "save") {
+    builder_save_workspace(target, scheduler)
+  }
   if (target$settings$error != "continue") {
     throw_run(target$metrics$error)
   }
+}
+
+builder_save_workspace <- function(target, scheduler) {
+  scheduler$reporter$report_workspace(target)
+  out <- as.list(target$cache$imports$envir)
+  for (name in target$cache$targets$names) {
+    out[[name]] <- memory_get_object(target$cache$targets, name)
+  }
+  out$.tar_seed <- target$command$seed
+  out$.tar_traceback <- target$metrics$traceback
+  dir_create(store_dir_workspace())
+  path <- store_path_workspace(target$settings$name)
+  qs::qsave(x = out, file = path, preset = "high")
 }
 
 builder_record_error_meta <- function(target, meta) {
@@ -202,7 +218,9 @@ builder_update_build <- function(target) {
   command_load_packages(target$command)
   envir <- cache_get_envir(target$cache)
   build <- command_produce_build(target$command, envir)
-  cache_clear_objects(target$cache)
+  if (!metrics_has_error(build$metrics) || target$settings$error != "save") {
+    cache_clear_objects(target$cache)
+  }
   object <- store_coerce_object(target$store, build$object)
   target$value <- value_init(object, target$settings$iteration)
   target$metrics <- build$metrics
