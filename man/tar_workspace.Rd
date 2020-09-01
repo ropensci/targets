@@ -33,11 +33,20 @@ global objects at the time \code{\link[=tar_make]{tar_make()}} was called, the
 dependency targets, the random number generator seed
 (assigned to \code{.tar_seed} and set with \code{set.seed()})
 and the traceback of the error (assigned to \code{.tar_traceback}).
+
 Although useful, this behavior does not perfectly replicate
 what \code{\link[=tar_make]{tar_make()}} does to set up the runtime environment
 for a target. \code{\link[=tar_make]{tar_make()}} creates a formal hierarchy of
 environments that inherit from one another in order to
 organize data and contain side effects.
+
+In addition, sometimes, you may not be able to debug with
+\code{error = "save"}. Workspace files are saved with \code{qs::qsave()},
+so if one of your dependencies cannot be properly serialized this way
+(e.g. Keras models you store with \code{format = "keras"})
+then the workspace cannot be saved properly. If this happens to you,
+either avoid non-exportable objects or use interactive debugging.
+(See the \code{debug} argument of \code{\link[=tar_option_set]{tar_option_set()}}.)
 }
 \examples{
 \dontrun{

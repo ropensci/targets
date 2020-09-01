@@ -10,11 +10,20 @@
 #'   dependency targets, the random number generator seed
 #'   (assigned to `.tar_seed` and set with `set.seed()`)
 #'   and the traceback of the error (assigned to `.tar_traceback`).
+#'
 #'   Although useful, this behavior does not perfectly replicate
 #'   what [tar_make()] does to set up the runtime environment
 #'   for a target. [tar_make()] creates a formal hierarchy of
 #'   environments that inherit from one another in order to
 #'   organize data and contain side effects.
+#'
+#'   In addition, sometimes, you may not be able to debug with
+#'   `error = "save"`. Workspace files are saved with `qs::qsave()`,
+#'   so if one of your dependencies cannot be properly serialized this way
+#'   (e.g. Keras models you store with `format = "keras"`)
+#'   then the workspace cannot be saved properly. If this happens to you,
+#'   either avoid non-exportable objects or use interactive debugging.
+#'   (See the `debug` argument of [tar_option_set()].)
 #' @return the function returns no value, but it does load multiple objects
 #'   into the environment (`envir` argument) in order to replicate the
 #'   workspace where the error happened. These objects include
