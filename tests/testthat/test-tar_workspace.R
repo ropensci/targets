@@ -53,3 +53,22 @@ tar_test("tar_workspace() works", {
   expect_true(is.character(envir$.tar_traceback))
   expect_false(identical(seed, .Random.seed))
 })
+
+tar_test("tar_workspace() on a branch", {
+  tar_script({
+    tar_option_set(error = "save")
+    tar_pipeline(
+      tar_target(x, seq_len(4L)),
+      tar_target(y, stopifnot(x < 4L), pattern = map(x))
+    )
+  })
+  try(tar_make(callr_function = NULL), silent = TRUE)
+  meta <- tar_meta(fields = error)
+  failed <- meta[!is.na(unlist(meta$error)), ]$name
+  envir <- new.env(parent = emptyenv())
+  eval(substitute(
+    tar_workspace(name = name, envir = envir),
+    env = list(name = failed)
+  ))
+  expect_equal(envir$x, 4L)
+})
