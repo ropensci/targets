@@ -26,6 +26,12 @@ cli_uptodate <- function() {
   cli_green_check("Already up to date.")
 }
 
+cli_workspace <- function(name, time_stamp = FALSE) {
+  time <- trn(time_stamp, time_stamp(), NULL)
+  msg <- paste(c(time, "save workspace", name), collapse = " ")
+  cli_blue_bullet(msg)
+}
+
 cli_blue_bullet <- function(msg) {
   symbol <- cli::col_blue(cli::symbol$bullet)
   msg <- paste(symbol, msg)

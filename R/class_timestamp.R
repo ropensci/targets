@@ -37,6 +37,9 @@ timestamp_class <- R6::R6Class(
         time_stamp = TRUE
       )
     },
+    report_workspace = function(target) {
+      cli_workspace(target_get_name(target), time_stamp = TRUE)
+    },
     report_end = function(progress = NULL) {
       if (progress$uptodate()) {
         cli_uptodate()

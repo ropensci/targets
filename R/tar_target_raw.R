@@ -69,7 +69,7 @@ tar_target_raw <- function(
   )
   format <- match.arg(format, store_formats())
   iteration <- match.arg(iteration, c("vector", "list", "group"))
-  error <- match.arg(error, c("stop", "continue"))
+  error <- match.arg(error, c("stop", "continue", "save"))
   memory <- match.arg(memory, c("persistent", "transient"))
   deployment <- match.arg(deployment, c("remote", "local"))
   assert_dbl(priority)

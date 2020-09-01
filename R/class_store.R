@@ -149,3 +149,11 @@ store_dir_scratch <- function() {
 store_del_scratch <- function() {
   unlink(store_dir_scratch(), recursive = TRUE)
 }
+
+store_path_workspaces <- function(name) {
+  file.path(store_dir_workspaces(), name)
+}
+
+store_dir_workspaces <- function() {
+  file.path("_targets", "workspaces")
+}

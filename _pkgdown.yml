@@ -62,6 +62,7 @@ reference:
   - '`tar_meta`'
   - '`tar_read`'
   - '`tar_read_raw`'
+  - '`tar_workspace`'
 - title: Clean
   contents:
   - '`tar_deduplicate`'
@@ -69,6 +70,7 @@ reference:
   - '`tar_destroy`'
   - '`tar_invalidate`'
   - '`tar_prune`'
+  - '`tar_undebug`'
 - title: Helpers
   contents:
   - '`tar_cancel`'
@@ -76,4 +78,3 @@ reference:
   - '`tar_name`'
   - '`tar_path`'
   - '`tar_script`'
-  - '`tar_traceback`'
