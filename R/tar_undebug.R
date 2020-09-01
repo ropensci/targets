@@ -1,7 +1,7 @@
 #' @title Remove debugging files.
 #' @export
 #' @description Destroy `_targets/workspaces/` and `_targets/scratch/`,
-#'   which are directories with files for debugging. 
+#'   which are directories with files for debugging.
 #' @return Nothing.
 #' @examples
 #' \dontrun{
