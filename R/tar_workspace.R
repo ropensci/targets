@@ -40,6 +40,11 @@
 #'   and the traceback of the error (assigned to `.targets$traceback`).
 #' @param name Symbol, name of the target whose workspace to read.
 #' @param envir Environment in which to put the objects.
+#' @param packages Logical, whether to load the required packages
+#'   of the target. Uses `require()` with `lib.loc` equal to
+#'   the `library` setting of the target
+#'   (from `tar_target(library = "PATH_TO_LIB")` or
+#'   `tar_option_set(library = "PATH_TO_LIB")`).
 #' @examples
 #' \dontrun{
 #' tmp <- sample(1)
@@ -59,19 +64,21 @@
 #' tail(.Random.seed) # Should be different.
 #' tail(.targets$traceback, 1)
 #' }
-tar_workspace <- function(name, envir = parent.frame()) {
+tar_workspace <- function(name, envir = parent.frame(), packages = TRUE) {
   force(envir)
   name <- deparse_language(substitute(name))
   path <- store_path_workspaces(name)
   assert_path(path, paste0("no workspace found for target ", name, "."))
   workspace <- qs::qread(path)
-  lapply(
-    workspace$.targets$packages,
-    require,
-    lib.loc = workspace$.targets$library,
-    quietly = TRUE,
-    character.only = TRUE
-  )
+  if (packages) {
+    lapply(
+      workspace$.targets$packages,
+      require,
+      lib.loc = workspace$.targets$library,
+      quietly = TRUE,
+      character.only = TRUE
+    )
+  }
   map(names(workspace), ~assign(.x, value = workspace[[.x]], envir = envir))
   set.seed(workspace$.targets$seed)
   invisible()

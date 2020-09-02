@@ -4,12 +4,18 @@
 \alias{tar_workspace}
 \title{Load a saved workspace and seed for debugging.}
 \usage{
-tar_workspace(name, envir = parent.frame())
+tar_workspace(name, envir = parent.frame(), packages = TRUE)
 }
 \arguments{
 \item{name}{Symbol, name of the target whose workspace to read.}
 
 \item{envir}{Environment in which to put the objects.}
+
+\item{packages}{Logical, whether to load the required packages
+of the target. Uses \code{require()} with \code{lib.loc} equal to
+the \code{library} setting of the target
+(from \code{tar_target(library = "PATH_TO_LIB")} or
+\code{tar_option_set(library = "PATH_TO_LIB")}).}
 }
 \value{
 the function returns no value, but it does load

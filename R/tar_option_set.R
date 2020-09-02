@@ -11,7 +11,7 @@
 #'   used in the R commands to run targets.
 #' @param debug Character vector of names of targets to run in debug mode.
 #'   To use effectively, you must set `callr_function = NULL` and
-#'   restart your R session just before running. You should also 
+#'   restart your R session just before running. You should also
 #'   [tar_make()], [tar_make_clustermq()], or [tar_make_future()].
 #'   For any target mentioned in `debug`, `targets` will force the target to
 #'   build locally (with `tar_cue(mode = "always")` and `deployment = "local"`
