@@ -1,17 +1,21 @@
 #' @title Load a saved workspace and seed for debugging.
 #' @export
-#' @description Load the workspace and random number generator seed
+#' @description Load the packages, workspace, and random number generator seed
 #'   of an errored target attempted with `error = "save"`.
 #'   Remove workspace files with [tar_undebug()] when you are done debugging.
 #' @details If you set `error = "save"` in [tar_option_set()]
 #'   or [tar_target()], then if that target throws an error
 #'   in [tar_make()], it will save its workspace to a compressed file
 #'   in `_targets/workspaces/`. The workspace includes the
+#'   target's required packages, the
 #'   global objects at the time [tar_make()] was called, the
 #'   dependency targets, the random number generator seed
-#'   (assigned to `.tar_seed` and set with `set.seed()`)
-#'   and the traceback of the error (assigned to `.tar_traceback`).
-#'   Remove workspace files with [tar_undebug()] when you are done debugging.
+#'   (assigned to `.targets$seed` and set with `set.seed()`)
+#'   and the traceback of the error (assigned to `.targets$traceback`).
+#'   `tar_workspace()` loads the packages, populates the environment
+#'   with the objects, and sets the seed to the seed of the target.
+#'   Workspace files can be large sometimes, so it is good practice to
+#'   remove them with [tar_undebug()] when you are done debugging.
 #'
 #'   Although useful, this behavior does not perfectly replicate
 #'   what [tar_make()] does to set up the runtime environment
@@ -26,13 +30,14 @@
 #'   then the workspace cannot be saved properly. If this happens to you,
 #'   either avoid non-exportable objects or use interactive debugging.
 #'   (See the `debug` argument of [tar_option_set()].)
-#' @return the function returns no value, but it does load multiple objects
+#' @return the function returns no value, but it does load
+#'   the target's required packages, as well as multiple objects
 #'   into the environment (`envir` argument) in order to replicate the
 #'   workspace where the error happened. These objects include
 #'   the global objects at the time [tar_make()] was called, the
 #'   dependency targets, the random number generator seed
-#'   (assigned to `.tar_seed` and set with `set.seed()`)
-#'   and the traceback of the error (assigned to `.tar_traceback`).
+#'   (assigned to `.targets$seed` and set with `set.seed()`)
+#'   and the traceback of the error (assigned to `.targets$traceback`).
 #' @param name Symbol, name of the target whose workspace to read.
 #' @param envir Environment in which to put the objects.
 #' @examples
@@ -52,7 +57,7 @@
 #' exists("x") # Should be TRUE.
 #' print(x) # "loaded"
 #' tail(.Random.seed) # Should be different.
-#' tail(.tar_traceback, 1)
+#' tail(.targets$traceback, 1)
 #' }
 tar_workspace <- function(name, envir = parent.frame()) {
   force(envir)
@@ -60,7 +65,14 @@ tar_workspace <- function(name, envir = parent.frame()) {
   path <- store_path_workspaces(name)
   assert_path(path, paste0("no workspace found for target ", name, "."))
   workspace <- qs::qread(path)
+  lapply(
+    workspace$.targets$packages,
+    require,
+    lib.loc = workspace$.targets$library,
+    quietly = TRUE,
+    character.only = TRUE
+  )
   map(names(workspace), ~assign(.x, value = workspace[[.x]], envir = envir))
-  set.seed(workspace$.tar_seed)
+  set.seed(workspace$.targets$seed)
   invisible()
 }

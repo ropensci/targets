@@ -49,8 +49,8 @@ tar_test("tar_workspace() works", {
   envir <- new.env(parent = emptyenv())
   tar_workspace(y, envir = envir)
   expect_equal(envir$x, "loaded")
-  expect_true(is.integer(envir$.tar_seed))
-  expect_true(is.character(envir$.tar_traceback))
+  expect_true(is.integer(envir$.targets$seed))
+  expect_true(is.character(envir$.targets$traceback))
   expect_false(identical(seed, .Random.seed))
 })
 

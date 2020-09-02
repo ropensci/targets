@@ -200,8 +200,12 @@ builder_save_workspace <- function(target, scheduler) {
   for (name in target$cache$targets$names) {
     out[[name]] <- memory_get_object(target$cache$targets, name)
   }
-  out$.tar_seed <- target$command$seed
-  out$.tar_traceback <- target$metrics$traceback
+  out$.targets <- list(
+    packages = target$command$packages,
+    library = target$command$library,
+    seed = target$command$seed,
+    traceback = target$metrics$traceback
+  )
   dir_create(store_dir_workspaces())
   path <- store_path_workspaces(target$settings$name)
   qs::qsave(x = out, file = path, preset = "high")

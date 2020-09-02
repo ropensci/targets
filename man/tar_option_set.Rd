@@ -131,7 +131,7 @@ rules that decide whether the target is up to date.}
 
 \item{debug}{Character vector of names of targets to run in debug mode.
 To use effectively, you must set \code{callr_function = NULL} and
-restart your R session just before running.
+restart your R session just before running. You should also
 \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}, or \code{\link[=tar_make_future]{tar_make_future()}}.
 For any target mentioned in \code{debug}, \code{targets} will force the target to
 build locally (with \code{tar_cue(mode = "always")} and \code{deployment = "local"}

@@ -12,16 +12,17 @@ tar_workspace(name, envir = parent.frame())
 \item{envir}{Environment in which to put the objects.}
 }
 \value{
-the function returns no value, but it does load multiple objects
+the function returns no value, but it does load
+the target's required packages, as well as multiple objects
 into the environment (\code{envir} argument) in order to replicate the
 workspace where the error happened. These objects include
 the global objects at the time \code{\link[=tar_make]{tar_make()}} was called, the
 dependency targets, the random number generator seed
-(assigned to \code{.tar_seed} and set with \code{set.seed()})
-and the traceback of the error (assigned to \code{.tar_traceback}).
+(assigned to \code{.targets$seed} and set with \code{set.seed()})
+and the traceback of the error (assigned to \code{.targets$traceback}).
 }
 \description{
-Load the workspace and random number generator seed
+Load the packages, workspace, and random number generator seed
 of an errored target attempted with \code{error = "save"}.
 Remove workspace files with \code{\link[=tar_undebug]{tar_undebug()}} when you are done debugging.
 }
@@ -30,11 +31,15 @@ If you set \code{error = "save"} in \code{\link[=tar_option_set]{tar_option_set(
 or \code{\link[=tar_target]{tar_target()}}, then if that target throws an error
 in \code{\link[=tar_make]{tar_make()}}, it will save its workspace to a compressed file
 in \verb{_targets/workspaces/}. The workspace includes the
+target's required packages, the
 global objects at the time \code{\link[=tar_make]{tar_make()}} was called, the
 dependency targets, the random number generator seed
-(assigned to \code{.tar_seed} and set with \code{set.seed()})
-and the traceback of the error (assigned to \code{.tar_traceback}).
-Remove workspace files with \code{\link[=tar_undebug]{tar_undebug()}} when you are done debugging.
+(assigned to \code{.targets$seed} and set with \code{set.seed()})
+and the traceback of the error (assigned to \code{.targets$traceback}).
+\code{tar_workspace()} loads the packages, populates the environment
+with the objects, and sets the seed to the seed of the target.
+Workspace files can be large sometimes, so it is good practice to
+remove them with \code{\link[=tar_undebug]{tar_undebug()}} when you are done debugging.
 
 Although useful, this behavior does not perfectly replicate
 what \code{\link[=tar_make]{tar_make()}} does to set up the runtime environment
@@ -67,6 +72,6 @@ tar_workspace(y)
 exists("x") # Should be TRUE.
 print(x) # "loaded"
 tail(.Random.seed) # Should be different.
-tail(.tar_traceback, 1)
+tail(.targets$traceback, 1)
 }
 }
