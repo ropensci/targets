@@ -61,6 +61,11 @@ install_github("wlandau/targets")
     Keras](https://github.com/wlandau/targets-keras).
   - [Validating a Stan model](https://github.com/wlandau/targets-stan).
 
+## Courses
+
+  - [Official half-day interactive
+    tutorial](https://github.com/wlandau/targets-tutorial).
+
 ## Helpers
 
   - [`tarchetypes`](https://wlandau.github.io/tarchetypes): an R package
@@ -80,8 +85,7 @@ install_github("wlandau/targets")
   - [Data management strategy and data store
     architecture](https://wlandau.github.io/targets/articles/need.html).
   - [Orchestration](https://wlandau.github.io/targets/articles/orchestration.html):
-    the mental model of target orchestration and dynamic
-    branching.
+    the mental model of target orchestration and dynamic branching.
   - [Composition](https://wlandau.github.io/targets/articles/composition.html):
     the object composition structure of the `target` class and its
     fields.

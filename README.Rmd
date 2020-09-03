@@ -45,6 +45,10 @@ install_github("wlandau/targets")
 * [Machine learning with Keras](https://github.com/wlandau/targets-keras).
 * [Validating a Stan model](https://github.com/wlandau/targets-stan).
 
+## Courses
+
+* [Official half-day interactive tutorial](https://github.com/wlandau/targets-tutorial).
+
 ## Helpers
 
 * [`tarchetypes`](https://wlandau.github.io/tarchetypes): an R package to help define specialized targets such as dependency-aware R Markdown reports.
