@@ -35,7 +35,6 @@ Imports:
   data.table (>= 1.12.8),
   digest (>= 0.6.25),
   igraph (>= 1.2.5),
-  qs (>= 0.23.2),
   R6 (>= 2.4.1),
   rlang (>= 0.4.5),
   tibble (>= 3.0.1),
@@ -50,6 +49,7 @@ Suggests:
   future (>= 1.17.0),
   keras (>= 2.2.5.0),
   knitr (>= 1.28),
+  qs (>= 0.23.2),
   rstudioapi (>= 0.11), 
   testthat (>= 2.3.2),
   visNetwork (>= 2.0.9)
