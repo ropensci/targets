@@ -5,7 +5,8 @@ qs_new <- function(file = NULL) {
 
 #' @export
 store_read_path.tar_qs <- function(store, path) {
-  qs::qread(file = path, use_alt_rep = TRUE)
+  # TODO: use altrep when solved in qs (#147).
+  qs::qread(file = path, use_alt_rep = FALSE)
 }
 
 #' @export

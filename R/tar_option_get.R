@@ -31,7 +31,7 @@ tar_option_default <- function(option) {
     packages = (.packages()),
     library = NULL,
     envir = globalenv(),
-    format = "qs",
+    format = "rds",
     iteration = "vector",
     error = "stop",
     memory = "persistent",
