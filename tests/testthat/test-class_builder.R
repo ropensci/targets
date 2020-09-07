@@ -268,6 +268,8 @@ tar_test("dynamic file and builder$write_from(\"remote\")", {
 
 tar_test("basic progress responses are correct", {
   local <- local_init(pipeline_order())
+  pipeline_prune_names(local$pipeline, local$names)
+  local$update_scheduler()
   progress <- local$scheduler$progress
   pipeline <- local$pipeline
   expect_equal(
@@ -280,6 +282,7 @@ tar_test("basic progress responses are correct", {
   expect_equal(sort(counter_get_names(progress$cancelled)), character(0))
   expect_equal(sort(counter_get_names(progress$errored)), character(0))
   local$run()
+  progress <- local$scheduler$progress
   expect_equal(sort(counter_get_names(progress$queued)), character(0))
   expect_equal(sort(counter_get_names(progress$running)), character(0))
   expect_equal(

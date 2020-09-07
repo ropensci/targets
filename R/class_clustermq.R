@@ -195,9 +195,12 @@ clustermq_class <- R6::R6Class(
     produce_prelocal = function() {
       prelocal_new(
         pipeline = self$pipeline,
-        scheduler = self$scheduler,
         meta = self$meta,
-        garbage_collection = self$garbage_collection
+        names = self$names,
+        queue = self$queue,
+        reporter = self$reporter,
+        garbage_collection = self$garbage_collection,
+        scheduler = self$scheduler
       )
     },
     run_clustermq = function() {

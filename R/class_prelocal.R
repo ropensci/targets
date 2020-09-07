@@ -1,14 +1,20 @@
 prelocal_new <- function(
   pipeline = NULL,
-  scheduler = NULL,
   meta = NULL,
-  garbage_collection = NULL
+  names = NULL,
+  queue = NULL,
+  reporter = NULL,
+  garbage_collection = NULL,
+  scheduler = NULL
 ) {
   prelocal_class$new(
     pipeline = pipeline,
-    scheduler = scheduler,
     meta = meta,
-    garbage_collection = garbage_collection
+    names = names,
+    queue = queue,
+    reporter = reporter,
+    garbage_collection = garbage_collection,
+    scheduler = scheduler
   )
 }
 
@@ -19,6 +25,25 @@ prelocal_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    initialize = function(
+      pipeline = NULL,
+      meta = NULL,
+      names = NULL,
+      queue = NULL,
+      reporter = NULL,
+      garbage_collection = NULL,
+      scheduler = NULL
+    ) {
+      super$initialize(
+        pipeline = pipeline,
+        meta = meta,
+        names = names,
+        queue = queue,
+        reporter = reporter,
+        garbage_collection = garbage_collection
+      )
+      self$scheduler <- scheduler
+    },
     start = function() {
     },
     end = function() {
