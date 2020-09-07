@@ -32,7 +32,7 @@ sitrep_new <- function(
 
 sitrep_class <- R6::R6Class(
   classname = "tar_sitrep",
-  inherit = algorithm_class,
+  inherit = passive_class,
   class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
@@ -82,21 +82,6 @@ sitrep_class <- R6::R6Class(
         self$process_pattern(target),
         self$process_builder(target)
       )
-    },
-    ensure_meta = function() {
-      self$meta$database$ensure_preprocessed(write = FALSE)
-      envir <- pipeline_get_envir(self$pipeline)
-      self$meta$set_imports(envir, self$pipeline)
-    },
-    start = function() {
-      pipeline_prune_names(self$pipeline, self$names)
-      pipeline_reset_priorities(self$pipeline)
-      self$update_scheduler()
-      self$ensure_meta()
-      self$scheduler$reporter$report_start()
-    },
-    end = function() {
-      self$scheduler$reporter$report_end()
     },
     run = function() {
       self$start()
