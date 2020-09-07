@@ -82,12 +82,6 @@ target_new <- function(
   enclass(environment(), "tar_target")
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param target Target object.
 target_get_name <- function(target) {
   target$settings$name
 }
@@ -168,12 +162,6 @@ target_get_parent <- function(target) {
   UseMethod("target_get_parent")
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param target Target object.
 target_get_children <- function(target) {
   UseMethod("target_get_children")
 }
@@ -205,13 +193,6 @@ target_produce_junction <- function(target, pipeline) {
   UseMethod("target_produce_junction")
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param target Target object.
-#' @param pipeline Pipeline object.
 target_read_value <- function(target, pipeline) {
   UseMethod("target_read_value")
 }
@@ -220,27 +201,10 @@ target_produce_record <- function(target, meta) {
   UseMethod("target_produce_record")
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param target Target object.
-#' @param pipeline Pipeline object.
-#' @param scheduler Scheduler object.
-#' @param meta Meta object.
 target_skip <- function(target, pipeline, scheduler, meta) {
   UseMethod("target_skip")
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param target Target object.
-#' @param pipeline Pipeline object.
-#' @param scheduler Scheduler object.
 target_prepare <- function(target, pipeline, scheduler) {
   UseMethod("target_prepare")
 }
@@ -249,13 +213,6 @@ target_prepare <- function(target, pipeline, scheduler) {
 target_prepare.default <- function(target, pipeline, scheduler) {
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param target Target object.
-#' @param meta Meta object.
 target_should_run <- function(target, meta) {
   UseMethod("target_should_run")
 }
@@ -265,11 +222,6 @@ target_should_run.default <- function(target, meta) {
   TRUE
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
 target_should_run_remote <- function(target) {
   UseMethod("target_should_run_remote")
 }
@@ -279,12 +231,6 @@ target_should_run_remote.default <- function(target) {
   FALSE
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param target Target object.
 target_run <- function(target) {
   UseMethod("target_run")
 }
@@ -307,15 +253,6 @@ target_run_remote <- function(target, garbage_collection) {
 target_run_remote.default <- function(target, garbage_collection) {
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param target Target object.
-#' @param pipeline Pipeline object.
-#' @param scheduler Scheduler object.
-#' @param meta Meta object.
 target_conclude <- function(target, pipeline, scheduler, meta) {
   UseMethod("target_conclude")
 }
@@ -333,13 +270,6 @@ target_restore_buds <- function(target, pipeline, scheduler, meta) {
   UseMethod("target_restore_buds")
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param target Target object.
-#' @param meta Meta object.
 target_update_depend <- function(target, meta) {
   UseMethod("target_update_depend")
 }
@@ -376,12 +306,6 @@ target_patternview_errored <- function(target, pipeline, scheduler) {
 target_patternview_errored.default <- function(target, pipeline, scheduler) {
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param target Target object.
 target_debug <- function(target) {
   UseMethod("target_debug")
 }
