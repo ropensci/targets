@@ -265,6 +265,11 @@ target_should_run.default <- function(target, meta) {
   TRUE
 }
 
+#' @title Internal infrastructure function.
+#' @export
+#' @keywords internal
+#' @description Not a user-side function.
+#'   Only use for developing external HPC backend packages.
 target_should_run_remote <- function(target) {
   UseMethod("target_should_run_remote")
 }
