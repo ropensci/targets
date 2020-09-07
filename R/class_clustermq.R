@@ -173,7 +173,7 @@ clustermq_class <- R6::R6Class(
         return()
       }
       pipeline_set_target(self$pipeline, target)
-      builder_unserialize_value(target)
+      self$unserialize_target(target)
       target_conclude(
         target,
         self$pipeline,

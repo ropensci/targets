@@ -57,6 +57,9 @@ active_class <- R6::R6Class(
         gc()
       }
     },
+    unserialize_target = function(target) {
+      builder_unserialize_value(target)
+    },
     start = function() {
       pipeline_prune_names(self$pipeline, self$names)
       self$update_scheduler()
