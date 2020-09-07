@@ -13,7 +13,7 @@ future_init <- function(
     names = names,
     queue = queue,
     reporter = reporter,
-    garbage_collection = garbage_collection,
+    garbage_collection = as.logical(garbage_collection),
     workers = as.integer(workers)
   )
 }
@@ -29,8 +29,10 @@ future_new <- function(
 ) {
   future_class$new(
     pipeline = pipeline,
-    scheduler = scheduler,
     meta = meta,
+    names = names,
+    queue = queue,
+    reporter = reporter,
     garbage_collection = garbage_collection,
     workers = workers
   )
