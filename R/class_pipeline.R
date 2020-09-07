@@ -29,32 +29,14 @@ pipeline_targets_init <- function(targets) {
   list2env(targets, parent = emptyenv(), hash = TRUE)
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param pipeline Pipeline object.
-#' @param name Character, name of the target to get.
 pipeline_get_target <- function(pipeline, name) {
   pipeline$targets[[name]]
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
 pipeline_get_names <- function(pipeline) {
   names(pipeline$targets)
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param pipeline Pipeline object.
 pipeline_get_envir <- function(pipeline) {
   for (name in pipeline_get_names(pipeline)) {
     target <- pipeline_get_target(pipeline, name)
@@ -82,13 +64,6 @@ pipeline_reset_priority <- function(pipeline, name) {
   target$settings$priority <- 0
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param pipeline Pipeline object.
-#' @param target Target object.
 pipeline_set_target <- function(pipeline, target) {
   assign(
     x = target$settings$name,
@@ -246,12 +221,6 @@ pipeline_validate.default <- function(pipeline) {
   throw_validate("not a tar_pipeline() object. _targets.R must end with one.")
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
-#' @param pipeline Pipeline object.
 pipeline_validate_lite <- function(pipeline) {
   UseMethod("pipeline_validate_lite")
 }
