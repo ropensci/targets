@@ -2,6 +2,7 @@ library(proffer)
 library(targets)
 
 # Should barely see target_load_deps() in the profiling data.
+# Use debug(store_read_path.tar_rds) to be sure readRDS() is not called. # nolint
 tar_script({
   tar_pipeline(
     tar_target(x, seq_len(1e3)),
@@ -14,6 +15,7 @@ px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
 px <- pprof(tar_outdated(callr_function = NULL))
 
 # Should see more time on target_load_deps() in the profiling data.
+# Use debug(store_read_path.tar_rds) to be sure readRDS() is called. # nolint
 tar_destroy()
 tar_script({
   tar_pipeline(

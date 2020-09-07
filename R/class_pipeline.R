@@ -40,6 +40,11 @@ pipeline_get_target <- function(pipeline, name) {
   pipeline$targets[[name]]
 }
 
+#' @title Internal infrastructure function.
+#' @export
+#' @keywords internal
+#' @description Not a user-side function.
+#'   Only use for developing external HPC backend packages.
 pipeline_get_names <- function(pipeline) {
   names(pipeline$targets)
 }
@@ -241,7 +246,12 @@ pipeline_validate.default <- function(pipeline) {
   throw_validate("not a tar_pipeline() object. _targets.R must end with one.")
 }
 
-
+#' @title Internal infrastructure function.
+#' @export
+#' @keywords internal
+#' @description Not a user-side function.
+#'   Only use for developing external HPC backend packages.
+#' @param pipeline Pipeline object.
 pipeline_validate_lite <- function(pipeline) {
   UseMethod("pipeline_validate_lite")
 }

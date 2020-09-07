@@ -1,3 +1,12 @@
+#' @title Internal infrastructure function.
+#' @export
+#' @keywords internal
+#' @description Not a user-side function.
+#'   Only use for developing external HPC backend packages.
+#' @param targets_function A `targets` function.
+#' @param targets_arguments List of arguments to `targets_function`.
+#' @param callr_Function A `callr` function.
+#' @param callr_arguments List of arguments to  `callr_function`.
 callr_outer <- function(
   targets_function,
   targets_arguments,

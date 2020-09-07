@@ -29,6 +29,11 @@ tidyselect::one_of
 #' @keywords internal
 tidyselect::starts_with
 
+#' @title Internal infrastructure function.
+#' @export
+#' @keywords internal
+#' @description Not a user-side function.
+#'   Only use for developing external HPC backend packages.
 tar_tidyselect <- function(names_quosure, choices) {
   if (is.null(rlang::quo_squash(names_quosure))) {
     return(NULL)

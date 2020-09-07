@@ -81,6 +81,11 @@ tar_make_inner <- function(
   invisible()
 }
 
+#' @title Internal infrastructure function.
+#' @export
+#' @keywords internal
+#' @description Not a user-side function.
+#'   Only use for developing external HPC backend packages.
 tar_make_reporters <- function() {
   c("verbose", "silent", "timestamp", "summary")
 }
