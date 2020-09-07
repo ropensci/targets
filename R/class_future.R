@@ -118,7 +118,7 @@ future_class <- R6::R6Class(
         self$run_remote(target),
         self$run_local(target)
       )
-      pipeline_unload_transient(self$pipeline)
+      self$unload_transient()
     },
     skip_target = function(target) {
       target_skip(

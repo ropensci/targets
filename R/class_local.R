@@ -54,7 +54,7 @@ local_class <- R6::R6Class(
         self$scheduler,
         self$meta
       )
-      pipeline_unload_transient(self$pipeline)
+      self$unload_transient()
     },
     process_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)

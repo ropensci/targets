@@ -57,6 +57,9 @@ active_class <- R6::R6Class(
         gc()
       }
     },
+    unload_transient = function() {
+      pipeline_unload_transient(self$pipeline)
+    },
     unserialize_target = function(target) {
       builder_unserialize_value(target)
     },
