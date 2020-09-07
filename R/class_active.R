@@ -52,6 +52,11 @@ active_class <- R6::R6Class(
       envir <- pipeline_get_envir(self$pipeline)
       self$meta$record_imports(envir, self$pipeline)
     },
+    run_gc = function() {
+      if (self$garbage_collection) {
+        gc()
+      }
+    },
     start = function() {
       pipeline_prune_names(self$pipeline, self$names)
       self$update_scheduler()
@@ -64,7 +69,7 @@ active_class <- R6::R6Class(
       scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress)
       store_del_scratch()
-      run_gc(self$garbage_collection)
+      self$run_gc()
     },
     validate = function() {
       super$validate()

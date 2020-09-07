@@ -72,7 +72,7 @@ local_class <- R6::R6Class(
       )
     },
     process_next = function() {
-      run_gc(self$garbage_collection)
+      self$run_gc()
       self$process_target(self$scheduler$queue$dequeue())
     },
     run = function() {

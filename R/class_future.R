@@ -110,7 +110,7 @@ future_class <- R6::R6Class(
       )
     },
     run_target = function(name) {
-      run_gc(self$garbage_collection)
+      self$run_gc()
       target <- pipeline_get_target(self$pipeline, name)
       target_prepare(target, self$pipeline, self$scheduler)
       trn(
