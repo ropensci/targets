@@ -1,32 +1,32 @@
 sitrep_init <- function(
   pipeline = NULL,
+  meta = meta_init(),
   names = NULL,
   queue = "sequential",
-  meta = meta_init(),
   reporter = "silent"
 ) {
-  pipeline_prune_names(pipeline, names)
-  pipeline_reset_priorities(pipeline)
-  scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
   sitrep_new(
     pipeline = pipeline,
-    scheduler = scheduler,
     meta = meta,
-    sitrep = new.env(parent = emptyenv())
+    names = names,
+    queue = queue,
+    reporter = reporter
   )
 }
 
 sitrep_new <- function(
   pipeline = NULL,
-  scheduler = NULL,
   meta = NULL,
-  sitrep = NULL
+  names = NULL,
+  queue = NULL,
+  reporter = NULL
 ) {
   sitrep_class$new(
     pipeline = pipeline,
-    scheduler = scheduler,
     meta = meta,
-    sitrep = sitrep
+    names = names,
+    queue = queue,
+    reporter = reporter
   )
 }
 
@@ -41,16 +41,20 @@ sitrep_class <- R6::R6Class(
     sitrep = NULL,
     initialize = function(
       pipeline = NULL,
-      scheduler = NULL,
       meta = NULL,
-      sitrep = NULL
+      names = NULL,
+      queue = NULL,
+      reporter = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
-        scheduler = scheduler,
-        meta = meta
+        meta = meta,
+        names = names,
+        queue = queue,
+        reporter = reporter,
+        garbage_collection = FALSE
       )
-      self$sitrep <- sitrep
+      self$sitrep <- new.env(parent = emptyenv())
     },
     has_children = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
@@ -79,6 +83,21 @@ sitrep_class <- R6::R6Class(
         self$process_pattern(target),
         self$process_builder(target)
       )
+    },
+    ensure_meta = function() {
+      self$meta$database$ensure_preprocessed(write = FALSE)
+      envir <- pipeline_get_envir(self$pipeline)
+      self$meta$set_imports(envir, self$pipeline)
+    },
+    start = function() {
+      pipeline_prune_names(self$pipeline, self$names)
+      pipeline_reset_priorities(self$pipeline)
+      self$update_scheduler()
+      self$ensure_meta()
+      self$scheduler$reporter$report_start()
+    },
+    end = function() {
+      self$scheduler$reporter$report_end()
     },
     run = function() {
       self$start()

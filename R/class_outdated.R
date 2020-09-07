@@ -10,9 +10,7 @@ outdated_init <- function(
     meta = meta,
     names = names,
     queue = queue,
-    reporter = reporter,
-    checked = counter_init(),
-    outdated = counter_init()
+    reporter = reporter
   )
 }
 
@@ -21,18 +19,14 @@ outdated_new <- function(
   meta = NULL,
   names = NULL,
   queue = NULL,
-  reporter = NULL,
-  checked = NULL,
-  outdated = NULL
+  reporter = NULL
 ) {
   outdated_class$new(
     pipeline = pipeline,
     meta = meta,
     names = names,
     queue = queue,
-    reporter = reporter,
-    checked = checked,
-    outdated = outdated
+    reporter = reporter
   )
 }
 
@@ -50,9 +44,7 @@ outdated_class <- R6::R6Class(
       meta = NULL,
       names = NULL,
       queue = NULL,
-      reporter = NULL,
-      checked = NULL,
-      outdated = NULL
+      reporter = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -62,8 +54,8 @@ outdated_class <- R6::R6Class(
         reporter = reporter,
         garbage_collection = FALSE
       )
-      self$checked <- checked
-      self$outdated <- outdated
+      self$checked <- counter_init()
+      self$outdated <- counter_init()
     },
     is_outdated = function(name) {
       counter_exists_name(self$outdated, name)
