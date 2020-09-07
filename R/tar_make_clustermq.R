@@ -74,7 +74,7 @@ tar_make_clustermq_inner <- function(
   log_worker
 ) {
   pipeline_validate_lite(pipeline)
-  names <- tar_tidyselect(names_quosure, pipeline_get_names(pipeline))
+  names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
   clustermq_init(
     pipeline = pipeline,
     names = names,

@@ -1,8 +1,3 @@
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
 meta_init <- function() {
   database <- database_meta()
   depends <- memory_init()

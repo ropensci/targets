@@ -30,7 +30,7 @@ tar_delete <- function(names) {
   meta <- meta_init()
   data <- meta$database$read_condensed_data()
   names_quosure <- rlang::enquo(names)
-  names <- tar_tidyselect(names_quosure, data$name)
+  names <- eval_tidyselect(names_quosure, data$name)
   assert_chr(names, "names arg of tar_delete() must end up as character")
   children <- unlist(data$children[data$name %in% names])
   children <- unique(children[!is.na(children)])

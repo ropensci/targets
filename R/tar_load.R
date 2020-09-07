@@ -30,7 +30,7 @@ tar_load <- function(
   envir = parent.frame()
 ) {
   force(envir)
-  names <- tar_tidyselect(rlang::enquo(names), meta$name)
+  names <- eval_tidyselect(rlang::enquo(names), meta$name)
   tar_load_raw(names = names, branches = branches, meta = meta, envir = envir)
 }
 

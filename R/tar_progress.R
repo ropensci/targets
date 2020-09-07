@@ -29,7 +29,7 @@ tar_progress <- function(names = NULL) {
   assert_path(file.path("_targets/meta/progress"))
   out <- tibble::as_tibble(progress_init()$database$read_condensed_data())
   names_quosure <- rlang::enquo(names)
-  names <- tar_tidyselect(names_quosure, out$name)
+  names <- eval_tidyselect(names_quosure, out$name)
   if (!is.null(names)) {
     out <- out[match(names, out$name),, drop = FALSE] # nolint
   }

@@ -83,7 +83,7 @@ tar_outdated_inner <- function(
 ) {
   pipeline_validate_lite(pipeline)
   names_all <- pipeline_get_names(pipeline)
-  names <- tar_tidyselect(names_quosure, names_all)
+  names <- eval_tidyselect(names_quosure, names_all)
   meta <- meta_init()
   outdated_globals <- trn(
     targets_only,

@@ -56,8 +56,8 @@ tar_meta <- function(names = NULL, fields = NULL) {
   out <- tibble::as_tibble(meta_init()$database$read_condensed_data())
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)
-  names <- tar_tidyselect(names_quosure, out$name)
-  fields <- tar_tidyselect(fields_quosure, colnames(out)) %||% colnames(out)
+  names <- eval_tidyselect(names_quosure, out$name)
+  fields <- eval_tidyselect(fields_quosure, colnames(out)) %||% colnames(out)
   if (!is.null(names)) {
     out <- out[match(names, out$name),, drop = FALSE] # nolint
   }

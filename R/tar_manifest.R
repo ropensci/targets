@@ -86,10 +86,10 @@ tar_manifest_inner <- function(
 ) {
   pipeline_validate_lite(pipeline)
   all_names <- pipeline_get_names(pipeline)
-  names <- tar_tidyselect(names_quosure, all_names) %||% all_names
+  names <- eval_tidyselect(names_quosure, all_names) %||% all_names
   out <- map(names, ~tar_manifest_target(pipeline_get_target(pipeline, .x)))
   out <- do.call(rbind, out)
-  fields <- tar_tidyselect(fields_quosure, colnames(out)) %||% colnames(out)
+  fields <- eval_tidyselect(fields_quosure, colnames(out)) %||% colnames(out)
   out[, base::union("name", fields), drop = FALSE]
 }
 

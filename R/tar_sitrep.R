@@ -114,7 +114,7 @@ tar_sitrep_inner <- function(
 ) {
   pipeline_validate_lite(pipeline)
   names_all <- pipeline_get_names(pipeline)
-  names <- tar_tidyselect(names_quosure, names_all)
+  names <- eval_tidyselect(names_quosure, names_all)
   meta <- meta_init()
   sitrep <- sitrep_init(
     pipeline = pipeline,
@@ -127,6 +127,6 @@ tar_sitrep_inner <- function(
   if (!is.null(names)) {
     out <- out[match(names, out$name),, drop = FALSE] # nolint
   }
-  fields <- tar_tidyselect(fields_quosure, colnames(out)) %||% colnames(out)
+  fields <- eval_tidyselect(fields_quosure, colnames(out)) %||% colnames(out)
   out[, base::union("name", fields), drop = FALSE]
 }

@@ -61,7 +61,7 @@ tar_make_future_inner <- function(
   workers
 ) {
   pipeline_validate_lite(pipeline)
-  names <- tar_tidyselect(names_quosure, pipeline_get_names(pipeline))
+  names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
   future_init(
     pipeline = pipeline,
     names = names,

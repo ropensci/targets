@@ -70,7 +70,7 @@ tar_make_inner <- function(
   garbage_collection
 ) {
   pipeline_validate_lite(pipeline)
-  names <- tar_tidyselect(names_quosure, pipeline_get_names(pipeline))
+  names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
   local_init(
     pipeline = pipeline,
     names = names,
@@ -81,11 +81,6 @@ tar_make_inner <- function(
   invisible()
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
 tar_make_reporters <- function() {
   c("verbose", "silent", "timestamp", "summary")
 }
