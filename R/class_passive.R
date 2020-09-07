@@ -1,19 +1,3 @@
-passive_init <- function(
-  pipeline = NULL,
-  meta = meta_init(),
-  names = NULL,
-  queue = "sequential",
-  reporter = "silent"
-) {
-  passive_new(
-    pipeline = pipeline,
-    meta = meta,
-    names = names,
-    queue = queue,
-    reporter = reporter
-  )
-}
-
 passive_new <- function(
   pipeline = NULL,
   meta = NULL,
