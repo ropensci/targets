@@ -9,7 +9,10 @@ test_that("keras and clustermq with local storage and retrieval", {
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
   on.exit(options(clustermq.scheduler = old), add = TRUE)
+  old_envir <- tar_option_get("envir")
+  on.exit(tar_option_set(envir = old_envir), add = TRUE)
   envir <- new.env(parent = globalenv())
+  tar_option_set(envir = envir)
   envir$f <- function() {
     model <- keras::keras_model_sequential() %>%
       keras::layer_conv_2d(
@@ -37,13 +40,12 @@ test_that("keras and clustermq with local storage and retrieval", {
     )
     model
   }
-  x <- target_init(
+  x <- tar_target_raw(
     name = "abc",
-    expr = quote(f()),
-    format = "keras",
-    envir = envir
+    command = quote(f()),
+    format = "keras"
   )
-  pipeline <- pipeline_init(list(x))
+  pipeline <- tar_pipeline(x)
   cmq <- clustermq_init(pipeline)
   cmq$run()
   expect_true(
@@ -66,7 +68,10 @@ test_that("keras and clustermq with remote storage and retrieval", {
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
   on.exit(options(clustermq.scheduler = old), add = TRUE)
+  old_envir <- tar_option_get("envir")
+  on.exit(tar_option_set(envir = old_envir), add = TRUE)
   envir <- new.env(parent = globalenv())
+  tar_option_set(envir = envir)
   envir$f <- function() {
     model <- keras::keras_model_sequential() %>%
       keras::layer_conv_2d(
@@ -94,15 +99,14 @@ test_that("keras and clustermq with remote storage and retrieval", {
     )
     model
   }
-  x <- target_init(
+  x <- tar_target_raw(
     name = "abc",
-    expr = quote(f()),
+    command = quote(f()),
     format = "keras",
     storage = "remote",
-    retrieval = "remote",
-    envir = envir
+    retrieval = "remote"
   )
-  pipeline <- pipeline_init(list(x))
+  pipeline <- tar_pipeline(x)
   cmq <- clustermq_init(pipeline)
   cmq$run()
   expect_true(

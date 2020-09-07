@@ -7,7 +7,10 @@ test_that("keras and future with local storage and retrieval", {
   skip_if_not_installed("keras")
   on.exit(future::plan(future::sequential), add = TRUE)
   future::plan(future::multisession)
+  old_envir <- tar_option_get("envir")
+  on.exit(tar_option_set(envir = old_envir), add = TRUE)
   envir <- new.env(parent = globalenv())
+  tar_option_set(envir = envir)
   envir$f <- function() {
     model <- keras::keras_model_sequential() %>%
       keras::layer_conv_2d(
@@ -35,15 +38,14 @@ test_that("keras and future with local storage and retrieval", {
     )
     model
   }
-  x <- target_init(
+  x <- tar_target_raw(
     name = "abc",
-    expr = quote(f()),
-    format = "keras",
-    envir = envir
+    command = quote(f()),
+    format = "keras"
   )
-  pipeline <- pipeline_init(list(x))
-  cmq <- future_init(pipeline)
-  cmq$run()
+  pipeline <- tar_pipeline(x)
+  future <- future_init(pipeline)
+  future$run()
   expect_true(
     inherits(
       target_read_value(pipeline_get_target(pipeline, "abc"))$object,
@@ -62,7 +64,10 @@ test_that("keras and future with remote storage and retrieval", {
   skip_if_not_installed("keras")
   on.exit(future::plan(future::sequential), add = TRUE)
   future::plan(future::multisession)
+  old_envir <- tar_option_get("envir")
+  on.exit(tar_option_set(envir = old_envir), add = TRUE)
   envir <- new.env(parent = globalenv())
+  tar_option_set(envir = envir)
   envir$f <- function() {
     model <- keras::keras_model_sequential() %>%
       keras::layer_conv_2d(
@@ -90,17 +95,16 @@ test_that("keras and future with remote storage and retrieval", {
     )
     model
   }
-  x <- target_init(
+  x <- tar_target_raw(
     name = "abc",
-    expr = quote(f()),
+    command = quote(f()),
     format = "keras",
     storage = "remote",
-    retrieval = "remote",
-    envir = envir
+    retrieval = "remote"
   )
-  pipeline <- pipeline_init(list(x))
-  cmq <- future_init(pipeline)
-  cmq$run()
+  pipeline <- tar_pipeline(x)
+  future <- future_init(pipeline)
+  future$run()
   expect_true(
     inherits(
       target_read_value(pipeline_get_target(pipeline, "abc"))$object,
