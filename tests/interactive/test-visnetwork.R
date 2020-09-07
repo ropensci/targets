@@ -33,7 +33,7 @@ tar_visnetwork()
 
 # Labels for time and branches
 net <- inspection_init(pipeline_cross())
-vis <- visual_init(network = net, label = c("time", "size", "branches"))
+vis <- visual_init(network = net, label = c("time", "branches"))
 vis$update()
 vis$visnetwork
 
