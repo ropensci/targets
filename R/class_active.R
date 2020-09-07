@@ -29,6 +29,7 @@ active_new <- function(
 }
 
 #' @title Abstract class for active algorithm objects.
+#' @aliases tar_active
 #' @export
 #' @keywords internal
 #' @description Not a user-side R6 class.
@@ -40,18 +41,6 @@ active_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    #' @field pipeline Pipeline object.
-    pipeline = NULL,
-    #' @field meta Meta object.
-    meta = NULL,
-    #' @field scheduler Scheduler object.
-    scheduler = NULL,
-    #' @field names Character, names of targets.
-    names = NULL,
-    #' @field queue Character, name of the queue type.
-    queue = NULL,
-    #' @field reporter Character, name of the reporter.
-    reporter = NULL,
     #' @field garbage_collection Logical, whether to
     #'   periodically run garbage collection.
     garbage_collection = NULL,

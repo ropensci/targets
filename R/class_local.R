@@ -34,6 +34,10 @@ local_new <- function(
   )
 }
 
+#' @title Abstract class for local algorithm objects.
+#' @aliases tar_local
+#' @keywords internal
+#' @description Not a user-side R6 class.
 local_class <- R6::R6Class(
   classname = "tar_local",
   inherit = active_class,
@@ -41,8 +45,12 @@ local_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    #' @description Only applies to prelocal objects.
+    #' @param target Target object.
     assert_deployment = function(target) {
     },
+    #' @description Run a target.
+    #' @param name Name of a target to run.
     run_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
       self$assert_deployment(target)
@@ -56,6 +64,8 @@ local_class <- R6::R6Class(
       )
       self$unload_transient()
     },
+    #' @description Process a target.
+    #' @param name Name of a target to process.
     process_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
       target_debug(target)
@@ -71,10 +81,12 @@ local_class <- R6::R6Class(
         )
       )
     },
+    #' @description Process the next target.
     process_next = function() {
       self$run_gc()
       self$process_target(self$scheduler$queue$dequeue())
     },
+    #' @description Run the algorithm.
     run = function() {
       self$start()
       queue <- self$scheduler$queue
@@ -84,6 +96,7 @@ local_class <- R6::R6Class(
       self$end()
       invisible()
     },
+    #' @description Validate the algorithm.
     validate = function() {
       super$validate()
       assert_lgl(self$garbage_collection)

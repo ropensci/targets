@@ -2,6 +2,7 @@
 % Please edit documentation in R/class_active.R
 \name{active_class}
 \alias{active_class}
+\alias{tar_active}
 \title{Abstract class for active algorithm objects.}
 \description{
 Not a user-side R6 class.
@@ -14,18 +15,6 @@ Used to build external HPC scheduling algorithms.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{pipeline}}{Pipeline object.}
-
-\item{\code{meta}}{Meta object.}
-
-\item{\code{scheduler}}{Scheduler object.}
-
-\item{\code{names}}{Character, names of targets.}
-
-\item{\code{queue}}{Character, name of the queue type.}
-
-\item{\code{reporter}}{Character, name of the reporter.}
-
 \item{\code{garbage_collection}}{Logical, whether to
 periodically run garbage collection.}
 }
