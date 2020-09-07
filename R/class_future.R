@@ -1,41 +1,38 @@
 future_init <- function(
   pipeline = NULL,
+  meta = meta_init(),
   names = NULL,
   queue = "parallel",
-  meta = meta_init(),
   reporter = "verbose",
   garbage_collection = FALSE,
   workers = 1L
 ) {
-  pipeline_prune_names(pipeline, names)
-  scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
   future_new(
-    pipeline,
-    scheduler,
-    meta,
-    garbage_collection,
-    workers = as.integer(workers),
-    crew = memory_init()
+    pipeline = pipeline,
+    meta = meta,
+    names = names,
+    queue = queue,
+    reporter = reporter,
+    garbage_collection = garbage_collection,
+    workers = as.integer(workers)
   )
 }
 
 future_new <- function(
   pipeline = NULL,
-  scheduler = NULL,
   meta = NULL,
+  names = NULL,
+  queue = NULL,
+  reporter = NULL,
   garbage_collection = NULL,
-  workers = NULL,
-  crew = NULL,
-  globals = NULL
+  workers = NULL
 ) {
   future_class$new(
     pipeline = pipeline,
     scheduler = scheduler,
     meta = meta,
     garbage_collection = garbage_collection,
-    workers = workers,
-    crew = crew,
-    globals = globals
+    workers = workers
   )
 }
 
@@ -46,44 +43,48 @@ future_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    garbage_collection = NULL,
     workers = NULL,
     crew = NULL,
     globals = NULL,
     initialize = function(
       pipeline = NULL,
-      scheduler = NULL,
       meta = NULL,
+      names = NULL,
+      queue = NULL,
+      reporter = NULL,
       garbage_collection = NULL,
-      workers = NULL,
-      crew = NULL,
-      globals = NULL
+      workers = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
-        scheduler = scheduler,
-        meta = meta
+        meta = meta,
+        names = names,
+        queue = queue,
+        reporter = reporter,
+        garbage_collection = garbage_collection
       )
-      self$garbage_collection <- garbage_collection
       self$workers <- workers
-      self$crew <- crew
-      self$globals <- globals
     },
     update_globals = function() {
-      globals <- as.list(
+      self$globals <- as.list(
         pipeline_get_envir(self$pipeline),
         all.names = FALSE
       )
-      globals$.targets_gc_5048826d <- self$garbage_collection
-      self$globals <- globals
+      self$globals$.targets_gc_5048826d <- self$garbage_collection
     },
     ensure_globals = function() {
       if (is.null(self$globals)) {
         self$update_globals()
       }
     },
+    ensure_crew = function() {
+      if (is.null(self$crew)) {
+        self$crew <- memory_init()
+      }
+    },
     run_remote = function(target) {
       self$ensure_globals()
+      self$ensure_crew()
       globals <- self$globals
       globals$.targets_target_5048826d <- target
       future <- future::future(
@@ -175,14 +176,6 @@ future_class <- R6::R6Class(
         self$next_target(),
         self$wait()
       )
-    },
-    start = function() {
-      assert_package("future")
-      super$start()
-    },
-    end = function() {
-      super$end()
-      run_gc(self$garbage_collection)
     },
     run = function() {
       self$start()

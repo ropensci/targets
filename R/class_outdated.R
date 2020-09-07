@@ -1,17 +1,16 @@
 outdated_init <- function(
   pipeline = NULL,
+  meta = meta_init(),
   names = NULL,
   queue = "sequential",
-  meta = meta_init(),
   reporter = "silent"
 ) {
-  pipeline_prune_names(pipeline, names)
-  pipeline_reset_priorities(pipeline)
-  scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
   outdated_new(
     pipeline = pipeline,
-    scheduler = scheduler,
     meta = meta,
+    names = names,
+    queue = queue,
+    reporter = reporter,
     checked = counter_init(),
     outdated = counter_init()
   )
@@ -19,15 +18,19 @@ outdated_init <- function(
 
 outdated_new <- function(
   pipeline = NULL,
-  scheduler = NULL,
   meta = NULL,
+  names = NULL,
+  queue = NULL,
+  reporter = NULL,
   checked = NULL,
   outdated = NULL
 ) {
   outdated_class$new(
     pipeline = pipeline,
-    scheduler = scheduler,
     meta = meta,
+    names = names,
+    queue = queue,
+    reporter = reporter,
     checked = checked,
     outdated = outdated
   )
@@ -44,15 +47,20 @@ outdated_class <- R6::R6Class(
     outdated = NULL,
     initialize = function(
       pipeline = NULL,
-      scheduler = NULL,
       meta = NULL,
+      names = NULL,
+      queue = NULL,
+      reporter = NULL,
       checked = NULL,
       outdated = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
-        scheduler = scheduler,
-        meta = meta
+        meta = meta,
+        names = names,
+        queue = queue,
+        reporter = reporter,
+        garbage_collection = FALSE
       )
       self$checked <- checked
       self$outdated <- outdated
@@ -135,8 +143,11 @@ outdated_class <- R6::R6Class(
       self$meta$set_imports(envir, self$pipeline)
     },
     start = function() {
-      self$scheduler$reporter$report_start()
+      pipeline_prune_names(self$pipeline, self$names)
+      pipeline_reset_priorities(self$pipeline)
+      self$update_scheduler()
       self$ensure_meta()
+      self$scheduler$reporter$report_start()
     },
     end = function() {
       self$scheduler$reporter$report_end()

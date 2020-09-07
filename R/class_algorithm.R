@@ -1,12 +1,18 @@
 algorithm_new <- function(
   pipeline = NULL,
-  scheduler = NULL,
-  meta = NULL
+  meta = NULL,
+  names = NULL,
+  queue = NULL,
+  reporter = NULL,
+  garbage_collection = NULL
 ) {
   algorithm_class$new(
     pipeline = pipeline,
-    scheduler = scheduler,
-    meta = meta
+    meta = meta,
+    names = names,
+    queue = queue,
+    reporter = reporter,
+    garbage_collection = garbage_collection
   )
 }
 
@@ -17,32 +23,52 @@ algorithm_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     pipeline = NULL,
-    scheduler = NULL,
     meta = NULL,
+    scheduler = NULL,
+    names = NULL,
+    queue = NULL,
+    reporter = NULL,
+    garbage_collection = NULL,
     initialize = function(
       pipeline = NULL,
-      scheduler = NULL,
-      meta = NULL
+      meta = NULL,
+      names = NULL,
+      queue = NULL,
+      reporter = NULL,
+      garbage_collection = NULL
     ) {
       self$pipeline <- pipeline
-      self$scheduler <- scheduler
       self$meta <- meta
+      self$names <- names
+      self$queue <- queue
+      self$reporter <- reporter
+      self$garbage_collection <- garbage_collection
     },
     ensure_meta = function() {
       self$meta$database$preprocess(write = TRUE)
       envir <- pipeline_get_envir(self$pipeline)
       self$meta$record_imports(envir, self$pipeline)
     },
+    update_scheduler = function() {
+      self$scheduler <- pipeline_produce_scheduler(
+        self$pipeline,
+        self$queue,
+        self$reporter
+      )
+    },
     start = function() {
-      self$scheduler$reporter$report_start()
+      pipeline_prune_names(self$pipeline, self$names)
+      self$update_scheduler()
       self$ensure_meta()
       self$scheduler$progress$database$reset_storage()
+      self$scheduler$reporter$report_start()
     },
     end = function() {
       pipeline_unload_loaded(self$pipeline)
       scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress)
       store_del_scratch()
+      run_gc(self$garbage_collection)
     },
     validate = function() {
       pipeline_validate(self$pipeline)

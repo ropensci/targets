@@ -1,26 +1,35 @@
 local_init <- function(
   pipeline = NULL,
+  meta = meta_init(),
   names = NULL,
   queue = "parallel",
-  meta = meta_init(),
   reporter = "verbose",
   garbage_collection = FALSE
 ) {
-  pipeline_prune_names(pipeline, names)
-  scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
-  local_new(pipeline, scheduler, meta, garbage_collection)
+  local_new(
+    pipeline = pipeline,
+    meta = meta,
+    names = names,
+    queue = queue,
+    reporter = reporter,
+    garbage_collection = garbage_collection
+  )
 }
 
 local_new <- function(
   pipeline = NULL,
-  scheduler = NULL,
   meta = NULL,
+  names = NULL,
+  queue = NULL,
+  reporter = NULL,
   garbage_collection = NULL
 ) {
   local_class$new(
     pipeline = pipeline,
-    scheduler = scheduler,
     meta = meta,
+    names = names,
+    queue = queue,
+    reporter = reporter,
     garbage_collection = garbage_collection
   )
 }
@@ -32,20 +41,6 @@ local_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    garbage_collection = NULL,
-    initialize = function(
-      pipeline = NULL,
-      scheduler = NULL,
-      meta = NULL,
-      garbage_collection = NULL
-    ) {
-      super$initialize(
-        pipeline = pipeline,
-        scheduler = scheduler,
-        meta = meta
-      )
-      self$garbage_collection <- garbage_collection
-    },
     assert_deployment = function(target) {
     },
     run_target = function(name) {
@@ -88,10 +83,6 @@ local_class <- R6::R6Class(
       }
       self$end()
       invisible()
-    },
-    end = function() {
-      super$end()
-      run_gc(self$garbage_collection)
     },
     validate = function() {
       super$validate()
