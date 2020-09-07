@@ -9,19 +9,21 @@ test_that("packages are actually loaded for remote targets", {
     future.batchtools::batchtools_sge,
     template = "sge_batchtools.tmpl"
   )
+  old_envir <- tar_option_get("envir")
+  on.exit(tar_option_set(envir = old_envir), add = TRUE)
   envir <- new.env(parent = globalenv())
-  x <- target_init(
+  tar_option_set(envir = envir)
+  x <- tar_target_raw(
     "x",
     quote(tibble(x = "x")),
-    packages = "tibble",
-    envir = envir
+    packages = "tibble"
   )
-  pipeline <- pipeline_init(list(x))
+  pipeline <- tar_pipeline(list(x))
   out <- future_init(pipeline)
   out$run()
   exp <- tibble::tibble(x = "x")
   target <- pipeline_get_target(pipeline, "x")
-  expect_equal(target_read_value(target)$object, exp)
+  expect_equal(tar_read(x), exp)
 })
 
 test_that("nontrivial globals", {
@@ -34,7 +36,10 @@ test_that("nontrivial globals", {
     future.batchtools::batchtools_sge,
     template = "sge_batchtools.tmpl"
   )
-  envir <- new.env(parent = baseenv())
+  old_envir <- tar_option_get("envir")
+  on.exit(tar_option_set(envir = old_envir), add = TRUE)
+  envir <- new.env(parent = globalenv())
+  tar_option_set(envir = envir)
   evalq({
     f <- function(x) {
       g(x) + 1L
@@ -43,12 +48,12 @@ test_that("nontrivial globals", {
       x + 1L
     }
   }, envir = envir)
-  x <- target_init("x", quote(f(1L)), envir = envir)
-  pipeline <- pipeline_init(list(x))
+  x <- tar_target_raw("x", quote(f(1L)))
+  pipeline <- tar_pipeline(list(x))
   algo <- future_init(pipeline)
   algo$run()
   target <- pipeline_get_target(pipeline, "x")
-  expect_equal(target_read_value(target)$object, 3L)
+  expect_equal(tar_read(x), 3L)
 })
 
 test_that("branching plan on SGE", {
@@ -65,11 +70,11 @@ test_that("branching plan on SGE", {
   pipeline <- pipeline_map()
   out <- future_init(pipeline, garbage_collection = TRUE, workers = 4L)
   out$run()
-  skipped <- counter_get_names(out$scheduler$progress$skipped)
+  skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))
   out2 <- future_init(pipeline_map(), workers = 2L)
   out2$run()
-  built <- counter_get_names(out2$scheduler$progress$built)
+  built <- names(out2$scheduler$progress$built$envir)
   expect_equal(built, character(0))
   value <- function(name) {
     target_read_value(pipeline_get_target(pipeline, name))$object
@@ -117,7 +122,7 @@ test_that("Same with remote storage", {
   pipeline <- pipeline_map(storage = "remote")
   out <- future_init(pipeline, garbage_collection = TRUE, workers = 4L)
   out$run()
-  skipped <- counter_get_names(out$scheduler$progress$skipped)
+  skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))
   value <- function(name) {
     target_read_value(pipeline_get_target(pipeline, name))$object
