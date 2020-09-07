@@ -1,8 +1,3 @@
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
 assert_callr_function <- function(callr_function) {
   if (!is.null(callr_function)) {
     assert_function(
@@ -103,22 +98,12 @@ assert_le <- function(x, threshold, msg = NULL) {
   }
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
 assert_list <- function(x, msg = NULL) {
   if (!is.list(x)) {
     throw_validate(msg %||% "x must be a list.")
   }
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
 assert_lgl <- function(x, msg = NULL) {
   if (!is.logical(x)) {
     throw_validate(msg %||% "x must be logical.")
@@ -198,11 +183,6 @@ assert_store <- function() {
   )
 }
 
-#' @title Internal infrastructure function.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function.
-#'   Only use for developing external HPC backend packages.
 assert_target_script <- function() {
   assert_path(
     "_targets.R",
