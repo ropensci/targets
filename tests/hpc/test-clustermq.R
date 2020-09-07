@@ -4,9 +4,9 @@ tar_test("clustermq iteration loop can wait and shut down workers", {
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
   on.exit(options(clustermq.scheduler = old))
-  x <- target_init("x", quote(Sys.sleep(2)))
-  y <- target_init("y", quote(list(x, a = "x")))
-  pipeline <- pipeline_init(list(x, y))
+  x <- tar_target_raw("x", quote(Sys.sleep(2)))
+  y <- tar_target_raw("y", quote(list(x, a = "x")))
+  pipeline <- tar_pipeline(list(x, y))
   out <- clustermq_init(pipeline, reporter = "silent")
   out$run()
   target <- pipeline_get_target(pipeline, "y")
@@ -32,19 +32,20 @@ test_that("packages are actually loaded on remote targets", {
     ),
     add = TRUE
   )
+  old_envir <- tar_option_get("envir")
+  on.exit(tar_option_set(envir = old_envir), add = TRUE)
   envir <- new.env(parent = globalenv())
-  x <- target_init(
+  tar_option_set(envir = envir)
+  x <- tar_target_raw(
     "x",
     quote(tibble(x = "x")),
-    packages = "tibble",
-    envir = envir
+    packages = "tibble"
   )
-  pipeline <- pipeline_init(list(x))
+  pipeline <- tar_pipeline(x)
   out <- clustermq_init(pipeline)
   out$run()
   exp <- tibble::tibble(x = "x")
-  target <- pipeline_get_target(pipeline, "x")
-  expect_equal(target_read_value(target)$object, exp)
+  expect_equal(tar_read(x), exp)
 })
 
 test_that("nontrivial common data", {
@@ -65,19 +66,22 @@ test_that("nontrivial common data", {
     ),
     add = TRUE
   )
-  envir <- new.env(parent = baseenv())
+  old_envir <- tar_option_get("envir")
+  on.exit(tar_option_set(envir = old_envir), add = TRUE)
+  envir <- new.env(parent = globalenv())
+  tar_option_set(envir = envir)
   envir$f <- function(x) {
     g(x) + 1L
   }
   envir$g <- function(x) {
     x + 1L
   }
-  x <- target_init("x", quote(f(1L)), envir = envir)
-  pipeline <- pipeline_init(list(x))
+  x <- tar_target_raw("x", quote(f(1L)))
+  pipeline <- tar_pipeline(x)
   cmq <- clustermq_init(pipeline)
   cmq$run()
   target <- pipeline_get_target(pipeline, "x")
-  expect_equal(target_read_value(target)$object, 3L)
+  expect_equal(tar_read(x), 3L)
 })
 
 test_that("branching plan on SGE", {
@@ -102,11 +106,11 @@ test_that("branching plan on SGE", {
   pipeline <- pipeline_map()
   out <- clustermq_init(pipeline, garbage_collection = TRUE, workers = 4L)
   out$run()
-  skipped <- counter_get_names(out$scheduler$progress$skipped)
+  skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))
   out2 <- clustermq_init(pipeline_map(), workers = 2L)
   out2$run()
-  built <- counter_get_names(out2$scheduler$progress$built)
+  built <- names(out2$scheduler$progress$built$envir)
   expect_equal(built, character(0))
   value <- function(name) {
     target_read_value(pipeline_get_target(pipeline, name))$object
@@ -162,7 +166,7 @@ test_that("Same with remote storage", {
   pipeline <- pipeline_map(storage = "remote")
   out <- clustermq_init(pipeline, garbage_collection = TRUE, workers = 4L)
   out$run()
-  skipped <- counter_get_names(out$scheduler$progress$skipped)
+  skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))
   value <- function(name) {
     target_read_value(pipeline_get_target(pipeline, name))$object
@@ -215,23 +219,26 @@ test_that("clustermq with a dynamic file", {
     ),
     add = TRUE
   )
-  envir <- new.env(parent = baseenv())
+  old_envir <- tar_option_get("envir")
+  on.exit(tar_option_set(envir = old_envir), add = TRUE)
+  envir <- new.env(parent = globalenv())
+  tar_option_set(envir = envir)
   envir$save1 <- function() {
     file <- "saved.out"
     saveRDS(1L, file)
     file
   }
-  x <- target_init("x", quote(save1()), format = "file", envir = envir)
-  pipeline <- pipeline_init(list(x))
+  x <- tar_target_raw("x", quote(save1()), format = "file")
+  pipeline <- tar_pipeline(list(x))
   cmq <- clustermq_init(pipeline)
   cmq$run()
-  out <- counter_get_names(cmq$scheduler$progress$built)
+  out <- names(cmq$scheduler$progress$built$envir)
   expect_equal(out, "x")
   saveRDS(2L, pipeline_get_target(pipeline, "x")$store$file$path)
-  x <- target_init("x", quote(save1()), format = "file", envir = envir)
-  pipeline <- pipeline_init(list(x))
+  x <- tar_target_raw("x", quote(save1()), format = "file")
+  pipeline <- tar_pipeline(list(x))
   cmq <- clustermq_init(pipeline)
   cmq$run()
-  out <- counter_get_names(cmq$scheduler$progress$built)
+  out <- names(cmq$scheduler$progress$built$envir)
   expect_equal(out, "x")
 })
