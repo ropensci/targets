@@ -50,7 +50,7 @@ clustermq_new <- function(
 
 clustermq_class <- R6::R6Class(
   classname = "tar_clustermq",
-  inherit = algorithm_class,
+  inherit = active_class,
   class = FALSE,
   portable = FALSE,
   cloneable = FALSE,

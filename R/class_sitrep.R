@@ -51,8 +51,7 @@ sitrep_class <- R6::R6Class(
         meta = meta,
         names = names,
         queue = queue,
-        reporter = reporter,
-        garbage_collection = FALSE
+        reporter = reporter
       )
       self$sitrep <- new.env(parent = emptyenv())
     },

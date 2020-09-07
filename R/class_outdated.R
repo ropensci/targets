@@ -51,8 +51,7 @@ outdated_class <- R6::R6Class(
         meta = meta,
         names = names,
         queue = queue,
-        reporter = reporter,
-        garbage_collection = FALSE
+        reporter = reporter
       )
       self$checked <- counter_init()
       self$outdated <- counter_init()
