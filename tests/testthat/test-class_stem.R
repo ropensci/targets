@@ -45,6 +45,8 @@ tar_test("stem_produce_buds()", {
 tar_test("stem$ensure_children()", {
   pipeline <- pipeline_map()
   local <- local_init(pipeline)
+  pipeline_prune_names(local$pipeline, local$names)
+  local$update_scheduler()
   scheduler <- local$scheduler
   local$ensure_meta()
   local$process_target("data1")
