@@ -166,7 +166,6 @@ vis <- visual_init(network = net)
 vis$update()
 vis$visnetwork
 
-
 # Should one canceled map and one up-to-date stem.
 tar_destroy()
 w <- target_init("w", quote(seq_len(2)))
