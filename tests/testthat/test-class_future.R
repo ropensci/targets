@@ -18,6 +18,7 @@ tar_test("all local deployment works", {
   z <- target_init("z", quote(x + 1L), deployment = "local")
   pipeline <- pipeline_init(list(x, y, z))
   out <- future_init(pipeline)
+  out$run()
   built <- counter_get_names(out$scheduler$progress$built)
   expect_equal(built, character(0))
 })

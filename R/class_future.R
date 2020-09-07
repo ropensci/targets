@@ -66,6 +66,7 @@ future_class <- R6::R6Class(
         garbage_collection = garbage_collection
       )
       self$workers <- workers
+      self$crew <- memory_init()
     },
     update_globals = function() {
       self$globals <- as.list(
@@ -79,14 +80,8 @@ future_class <- R6::R6Class(
         self$update_globals()
       }
     },
-    ensure_crew = function() {
-      if (is.null(self$crew)) {
-        self$crew <- memory_init()
-      }
-    },
     run_remote = function(target) {
       self$ensure_globals()
-      self$ensure_crew()
       globals <- self$globals
       globals$.targets_target_5048826d <- target
       future <- future::future(
