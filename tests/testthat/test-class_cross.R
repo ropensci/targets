@@ -16,6 +16,8 @@ tar_test("cross$patternview", {
 tar_test("crosses produce correct junctions and bud niblings", {
   pipeline <- pipeline_cross()
   local <- local_init(pipeline)
+  pipeline_prune_names(local$pipeline, local$names)
+  local$update_scheduler()
   scheduler <- local$scheduler
   local$ensure_meta()
   local$process_target("data1")
@@ -45,6 +47,8 @@ tar_test("crosses produce correct junctions and bud niblings", {
 tar_test("correct junction of non-crossed stems", {
   pipeline <- pipeline_cross()
   local <- local_init(pipeline)
+  pipeline_prune_names(local$pipeline, local$names)
+  local$update_scheduler()
   scheduler <- local$scheduler
   local$ensure_meta()
   local$process_target("data1")

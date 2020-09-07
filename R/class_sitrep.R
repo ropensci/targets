@@ -1,38 +1,38 @@
 sitrep_init <- function(
   pipeline = NULL,
+  meta = meta_init(),
   names = NULL,
   queue = "sequential",
-  meta = meta_init(),
   reporter = "silent"
 ) {
-  pipeline_prune_names(pipeline, names)
-  pipeline_reset_priorities(pipeline)
-  scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
   sitrep_new(
     pipeline = pipeline,
-    scheduler = scheduler,
     meta = meta,
-    sitrep = new.env(parent = emptyenv())
+    names = names,
+    queue = queue,
+    reporter = reporter
   )
 }
 
 sitrep_new <- function(
   pipeline = NULL,
-  scheduler = NULL,
   meta = NULL,
-  sitrep = NULL
+  names = NULL,
+  queue = NULL,
+  reporter = NULL
 ) {
   sitrep_class$new(
     pipeline = pipeline,
-    scheduler = scheduler,
     meta = meta,
-    sitrep = sitrep
+    names = names,
+    queue = queue,
+    reporter = reporter
   )
 }
 
 sitrep_class <- R6::R6Class(
   classname = "tar_sitrep",
-  inherit = algorithm_class,
+  inherit = passive_class,
   class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
@@ -41,16 +41,19 @@ sitrep_class <- R6::R6Class(
     sitrep = NULL,
     initialize = function(
       pipeline = NULL,
-      scheduler = NULL,
       meta = NULL,
-      sitrep = NULL
+      names = NULL,
+      queue = NULL,
+      reporter = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
-        scheduler = scheduler,
-        meta = meta
+        meta = meta,
+        names = names,
+        queue = queue,
+        reporter = reporter
       )
-      self$sitrep <- sitrep
+      self$sitrep <- new.env(parent = emptyenv())
     },
     has_children = function(name) {
       target <- pipeline_get_target(self$pipeline, name)

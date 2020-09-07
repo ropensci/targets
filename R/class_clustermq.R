@@ -1,21 +1,21 @@
 clustermq_init <- function(
   pipeline = NULL,
+  meta = meta_init(),
   names = NULL,
   queue = "parallel",
-  meta = meta_init(),
   reporter = "verbose",
   garbage_collection = FALSE,
   workers = 1L,
   template = list(),
   log_worker = FALSE
 ) {
-  pipeline_prune_names(pipeline, names)
-  scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
   clustermq_new(
-    pipeline,
-    scheduler,
-    meta,
-    garbage_collection,
+    pipeline = pipeline,
+    meta = meta,
+    names = names,
+    queue = queue,
+    reporter = reporter,
+    garbage_collection = garbage_collection,
     workers = as.integer(workers),
     template = as.list(template),
     log_worker = log_worker
@@ -24,8 +24,10 @@ clustermq_init <- function(
 
 clustermq_new <- function(
   pipeline = NULL,
-  scheduler = NULL,
   meta = NULL,
+  names = NULL,
+  queue = NULL,
+  reporter = NULL,
   garbage_collection = NULL,
   workers = NULL,
   crew = NULL,
@@ -34,8 +36,10 @@ clustermq_new <- function(
 ) {
   clustermq_class$new(
     pipeline = pipeline,
-    scheduler = scheduler,
     meta = meta,
+    names = names,
+    queue = queue,
+    reporter = reporter,
     garbage_collection = garbage_collection,
     workers = workers,
     crew = crew,
@@ -46,20 +50,21 @@ clustermq_new <- function(
 
 clustermq_class <- R6::R6Class(
   classname = "tar_clustermq",
-  inherit = algorithm_class,
+  inherit = active_class,
   class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    garbage_collection = NULL,
     workers = NULL,
     crew = NULL,
     template = NULL,
     log_worker = NULL,
     initialize = function(
       pipeline = NULL,
-      scheduler = NULL,
       meta = NULL,
+      names = NULL,
+      queue = NULL,
+      reporter = NULL,
       garbage_collection = NULL,
       workers = NULL,
       crew = NULL,
@@ -68,10 +73,12 @@ clustermq_class <- R6::R6Class(
     ) {
       super$initialize(
         pipeline = pipeline,
-        scheduler = scheduler,
-        meta = meta
+        meta = meta,
+        names = names,
+        queue = queue,
+        reporter = reporter,
+        garbage_collection = garbage_collection
       )
-      self$garbage_collection <- garbage_collection
       self$workers <- workers
       self$crew <- crew
       self$template <- template
@@ -120,7 +127,7 @@ clustermq_class <- R6::R6Class(
       )
     },
     run_target = function(name) {
-      run_gc(self$garbage_collection)
+      self$run_gc()
       target <- pipeline_get_target(self$pipeline, name)
       target_prepare(target, self$pipeline, self$scheduler)
       trn(
@@ -128,7 +135,7 @@ clustermq_class <- R6::R6Class(
         self$run_remote(target),
         self$run_local(target)
       )
-      pipeline_unload_transient(self$pipeline)
+      self$unload_transient()
     },
     skip_target = function(target) {
       self$crew$send_wait()
@@ -166,7 +173,7 @@ clustermq_class <- R6::R6Class(
         return()
       }
       pipeline_set_target(self$pipeline, target)
-      builder_unserialize_value(target)
+      self$unserialize_target(target)
       target_conclude(
         target,
         self$pipeline,
@@ -188,18 +195,13 @@ clustermq_class <- R6::R6Class(
     produce_prelocal = function() {
       prelocal_new(
         pipeline = self$pipeline,
-        scheduler = self$scheduler,
         meta = self$meta,
-        garbage_collection = self$garbage_collection
+        names = self$names,
+        queue = self$queue,
+        reporter = self$reporter,
+        garbage_collection = self$garbage_collection,
+        scheduler = self$scheduler
       )
-    },
-    start = function() {
-      assert_package("clustermq")
-      super$start()
-    },
-    end = function() {
-      super$end()
-      run_gc(self$garbage_collection)
     },
     run_clustermq = function() {
       on.exit(self$crew$finalize())

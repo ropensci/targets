@@ -2,6 +2,14 @@ tar_test("algorithm can instantiate", {
   expect_true(is.environment(algorithm_new()))
 })
 
+tar_test("active can instantiate", {
+  expect_true(is.environment(active_new()))
+})
+
+tar_test("passive can instantiate", {
+  expect_true(is.environment(passive_new()))
+})
+
 tar_test("builder can instantiate", {
   expect_true(is.environment(builder_new()))
 })

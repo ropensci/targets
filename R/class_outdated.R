@@ -1,41 +1,38 @@
 outdated_init <- function(
   pipeline = NULL,
+  meta = meta_init(),
   names = NULL,
   queue = "sequential",
-  meta = meta_init(),
   reporter = "silent"
 ) {
-  pipeline_prune_names(pipeline, names)
-  pipeline_reset_priorities(pipeline)
-  scheduler <- pipeline_produce_scheduler(pipeline, queue, reporter)
   outdated_new(
     pipeline = pipeline,
-    scheduler = scheduler,
     meta = meta,
-    checked = counter_init(),
-    outdated = counter_init()
+    names = names,
+    queue = queue,
+    reporter = reporter
   )
 }
 
 outdated_new <- function(
   pipeline = NULL,
-  scheduler = NULL,
   meta = NULL,
-  checked = NULL,
-  outdated = NULL
+  names = NULL,
+  queue = NULL,
+  reporter = NULL
 ) {
   outdated_class$new(
     pipeline = pipeline,
-    scheduler = scheduler,
     meta = meta,
-    checked = checked,
-    outdated = outdated
+    names = names,
+    queue = queue,
+    reporter = reporter
   )
 }
 
 outdated_class <- R6::R6Class(
   classname = "tar_outdated",
-  inherit = algorithm_class,
+  inherit = passive_class,
   class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
@@ -44,18 +41,20 @@ outdated_class <- R6::R6Class(
     outdated = NULL,
     initialize = function(
       pipeline = NULL,
-      scheduler = NULL,
       meta = NULL,
-      checked = NULL,
-      outdated = NULL
+      names = NULL,
+      queue = NULL,
+      reporter = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
-        scheduler = scheduler,
-        meta = meta
+        meta = meta,
+        names = names,
+        queue = queue,
+        reporter = reporter
       )
-      self$checked <- checked
-      self$outdated <- outdated
+      self$checked <- counter_init()
+      self$outdated <- counter_init()
     },
     is_outdated = function(name) {
       counter_exists_name(self$outdated, name)
@@ -128,18 +127,6 @@ outdated_class <- R6::R6Class(
       )
       self$register_checked(name)
       self$scheduler$reporter$report_outdated(self$checked, self$outdated)
-    },
-    ensure_meta = function() {
-      self$meta$database$ensure_preprocessed(write = FALSE)
-      envir <- pipeline_get_envir(self$pipeline)
-      self$meta$set_imports(envir, self$pipeline)
-    },
-    start = function() {
-      self$scheduler$reporter$report_start()
-      self$ensure_meta()
-    },
-    end = function() {
-      self$scheduler$reporter$report_end()
     },
     run = function() {
       self$start()

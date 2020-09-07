@@ -1,53 +1,77 @@
 algorithm_new <- function(
   pipeline = NULL,
-  scheduler = NULL,
-  meta = NULL
+  meta = NULL,
+  names = NULL,
+  queue = NULL,
+  reporter = NULL
 ) {
   algorithm_class$new(
     pipeline = pipeline,
-    scheduler = scheduler,
-    meta = meta
+    meta = meta,
+    names = names,
+    queue = queue,
+    reporter = reporter
   )
 }
 
+#' @title Abstract class for algorithm objects.
+#' @aliases tar_algorithm
+#' @keywords internal
+#' @description Not a user-side R6 class.
 algorithm_class <- R6::R6Class(
   classname = "tar_algorithm",
   class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    #' @field pipeline Pipeline object.
     pipeline = NULL,
-    scheduler = NULL,
+    #' @field meta Meta object.
     meta = NULL,
+    #' @field scheduler Scheduler object.
+    scheduler = NULL,
+    #' @field names Character, names of targets.
+    names = NULL,
+    #' @field queue Character, name of the queue type.
+    queue = NULL,
+    #' @field reporter Character, name of the reporter.
+    reporter = NULL,
+    #' @description Initialize an active algorithm object.
+    #' @param pipeline Pipeline object.
+    #' @param meta Meta object.
+    #' @param names Character, names of targets.
+    #' @param queue Character, type of queue.
+    #' @param reporter Character, type of reporter.
     initialize = function(
       pipeline = NULL,
-      scheduler = NULL,
-      meta = NULL
+      meta = NULL,
+      names = NULL,
+      queue = NULL,
+      reporter = NULL
     ) {
       self$pipeline <- pipeline
-      self$scheduler <- scheduler
       self$meta <- meta
+      self$names <- names
+      self$queue <- queue
+      self$reporter <- reporter
     },
-    ensure_meta = function() {
-      self$meta$database$preprocess(write = TRUE)
-      envir <- pipeline_get_envir(self$pipeline)
-      self$meta$record_imports(envir, self$pipeline)
+    #' @description Create the scheduler from the
+    #'   pipeline and settings.
+    update_scheduler = function() {
+      self$scheduler <- pipeline_produce_scheduler(
+        self$pipeline,
+        self$queue,
+        self$reporter
+      )
     },
-    start = function() {
-      self$scheduler$reporter$report_start()
-      self$ensure_meta()
-      self$scheduler$progress$database$reset_storage()
-    },
-    end = function() {
-      pipeline_unload_loaded(self$pipeline)
-      scheduler <- self$scheduler
-      scheduler$reporter$report_end(scheduler$progress)
-      store_del_scratch()
-    },
+    #' @description Validate the algorithm.
     validate = function() {
       pipeline_validate(self$pipeline)
-      self$scheduler$validate()
+      (self$scheduler %||% scheduler_init())$validate()
       self$meta$validate()
+      assert_chr(self$names %||% character(0))
+      assert_chr(self$queue %||% character(0))
+      assert_chr(self$reporter %||% character(0))
     }
   )
 )

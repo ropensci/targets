@@ -37,6 +37,8 @@ tar_test("scheduler$count_unfinished_deps()", {
   pipeline <- pipeline_order()
   target <- pipeline_get_target(pipeline, "mins")
   local <- local_init(pipeline)
+  pipeline_prune_names(local$pipeline, local$names)
+  local$update_scheduler()
   scheduler <- local$scheduler
   expect_equal(scheduler$count_unfinished_deps("mins"), 2L)
   local$ensure_meta()
