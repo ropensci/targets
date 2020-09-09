@@ -25,7 +25,7 @@
 #' @importFrom tidyselect all_of any_of contains ends_with everything
 #'   last_col matches num_range one_of starts_with
 #' @importFrom utils globalVariables head menu stack tail
-#' @importFrom vctrs vec_c vec_size vec_slice
+#' @importFrom vctrs vec_c vec_rbind vec_size vec_slice
 #' @importFrom withr with_dir with_seed
 NULL
 

@@ -16,7 +16,7 @@ value_produce_slice.tar_group <- function(value, index) { # nolint
 
 #' @export
 value_produce_aggregate.tar_group <- function(value, objects) { # nolint
-  do.call(rbind, objects)
+  do.call(vctrs::vec_rbind, objects)
 }
 
 #' @export
