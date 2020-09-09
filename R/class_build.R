@@ -1,7 +1,7 @@
 build_init <- function(expr, envir, seed = 0L) {
   start <- build_time_seconds()
   capture_error <- function(e) {
-    state$error <- paste(c(e$message, " ."), collapse = "")
+    state$error <- paste(c(conditionMessage(e), " ."), collapse = "")
     state$traceback <- as.character(sys.calls())
     NULL
   }
