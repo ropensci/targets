@@ -15,9 +15,9 @@ tar_target(
   iteration = targets::tar_option_get("iteration"),
   error = targets::tar_option_get("error"),
   memory = targets::tar_option_get("memory"),
-  template = targets::tar_option_get("template"),
   deployment = targets::tar_option_get("deployment"),
   priority = targets::tar_option_get("priority"),
+  template = targets::tar_option_get("template"),
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
   retrieval = targets::tar_option_get("retrieval"),
@@ -102,13 +102,6 @@ after every new target completes.
 Either way, the target gets automatically loaded into memory
 whenever another target needs the value.}
 
-\item{template}{Relevant to \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} only.
-Named list of values to fill in the \code{clustermq} template file.
-Unsupported for now. May be supported in the future if
-\code{clustermq} ever supports heterogeneous workers with varying
-resource requirements. In the meantime, use the \code{template}
-argument of \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}.}
-
 \item{deployment}{Character of length 1, only relevant to
 \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}. If \code{"remote"},
 the target builds on a remote parallel worker. If \code{"local"},
@@ -117,6 +110,13 @@ the target builds on the host machine / process managing the pipeline.}
 \item{priority}{Numeric of length 1 between 0 and 1. Controls which
 targets get deployed first when multiple competing targets are ready
 simultaneously. Targets with priorities closer to 1 get built earlier.}
+
+\item{template}{Relevant to \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} only.
+Named list of values to fill in the \code{clustermq} template file.
+Unsupported for now. May be supported in the future if
+\code{clustermq} ever supports heterogeneous workers with varying
+resource requirements. In the meantime, use the \code{template}
+argument of \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}.}
 
 \item{resources}{Relevant to \code{\link[=tar_make_future]{tar_make_future()}} only.
 A named list of resources passed to \code{future::future()} when
