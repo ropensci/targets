@@ -118,5 +118,7 @@ tar_outdated_globals <- function(pipeline, meta) {
   old$old <- old$values
   comparison <- merge(new, old, all.x = TRUE)
   comparison$values[is.na(comparison$values)] <- ""
-  comparison$name[comparison$new != comparison$old]
+  different <- comparison$new != comparison$old
+  different[is.na(different)] <- TRUE
+  comparison$name[different]
 }
