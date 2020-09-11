@@ -101,14 +101,21 @@ tar_test("target_upstream_edges()", {
   expect_true(all(c("a", "b") %in% e$from))
 })
 
-tar_test("error to validate a circular target", {
-  x <- target_init(name = "abc", expr = quote(abc))
-  expect_error(target_validate(x), class = "condition_validate")
-})
-
 tar_test("error if unsupported pattern", {
   expect_error(
     target_init(name = "abc", expr = quote(xyz), pattern = quote(nope(xyz))),
     class = "condition_validate"
   )
+})
+
+tar_test("error to validate a circular target", {
+  x <- target_init(name = "abc", expr = quote(abc), pattern = quote(map(abc)))
+  expect_error(target_validate(x), class = "condition_validate")
+})
+
+tar_test("targets resist self-referantiality", {
+  x <- target_init(name = "identity", expr = quote(identity("i")))
+  pipeline <- pipeline_init(list(x))
+  local_init(pipeline)$run()
+  expect_equal(target_read_value(x, pipeline)$object, "i")
 })

@@ -23,6 +23,8 @@ target_init <- function(
   envir <- envir %||% target_empty_envir
   seed <- produce_seed(name)
   command <- command_init(expr, packages, library, seed, deps, string)
+  cue <- cue %||% cue_default
+  cache <- cache_init(memory_init(envir))
   settings <- settings_init(
     name = name,
     format = format,
@@ -37,9 +39,8 @@ target_init <- function(
     storage = storage,
     retrieval = retrieval
   )
-  cue <- cue %||% cue_default
-  cache <- cache_init(memory_init(envir))
   command$deps <- unique(c(command$deps, settings$dimensions))
+  command$deps <- setdiff(command$deps, name)
   switch(
     settings$growth,
     none = stem_new(
@@ -335,7 +336,10 @@ target_validate.tar_target <- function(target) {
 }
 
 target_validate_deps <- function(target) {
-  if (target_get_name(target) %in% target$command$deps) {
+  name <- target_get_name(target)
+  deps <- target$command$deps
+  dims <- target$settings$dimensions
+  if (name %in% c(deps, dims)) {
     throw_validate("target ", target_get_name(target), " depends on itself.")
   }
 }
