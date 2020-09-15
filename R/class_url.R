@@ -53,22 +53,33 @@ store_early_hash.tar_url <- function(store) { # nolint
 }
 
 store_url_hash <- function(urls) {
-  digest_obj64(lapply(urls, store_url_hash_raw))
+  digest_obj64(lapply(urls, store_url_hash_impl))
 }
 
-store_url_hash_raw <- function(url) {
+store_url_hash_impl <- function(url) {
   assert_internet()
   handle <- curl::new_handle()
   handle <- curl::handle_setopt(handle, nobody = TRUE)
   req <- curl::curl_fetch_memory(url, handle = handle)
-  stopifnot(length(req$content) < 1L)
-  headers <- curl::parse_headers_list(req$headers)
   assert_identical(req$status_code, 200L, paste("could not access url:", url))
+  headers <- curl::parse_headers_list(req$headers)
   etag <- paste(headers[["etag"]], collapse = "")
   mtime <- paste(headers[["last-modified"]], collapse = "")
   out <- paste0(etag, mtime)
   assert_nzchar(out, paste("no ETag or Last-Modified for url:", url))
   out
+}
+
+store_url_exists <- function(urls) {
+  unlist(lapply(urls, store_url_exists_impl))
+}
+
+store_url_exists_impl <- function(url) {
+  assert_internet()
+  handle <- curl::new_handle()
+  handle <- curl::handle_setopt(handle, nobody = TRUE)
+  req <- curl::curl_fetch_memory(url, handle = handle)
+  identical(as.integer(req$status_code), 200L)
 }
 
 #' @export
