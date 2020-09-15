@@ -1,12 +1,3 @@
-library(testthat)
-
-# Needs to sleep, which extends test time.
-tar_test("seconds has the right object", {
-  build <- build_init(quote(Sys.sleep(5L)), baseenv())
-  out <- build$metrics$seconds
-  expect_equal(out, 5, tolerance = 1e-2)
-})
-
 # Needs to create a delay to be sure large files
 # get hashed at the correct times.
 tar_test("file_ensure_hash() on a huge file", {
