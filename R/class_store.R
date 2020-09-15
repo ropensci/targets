@@ -146,6 +146,26 @@ store_warn_output.default <- function(store, name) {
   warn_output(name, store$file$path)
 }
 
+store_has_correct_hash <- function(store, target, meta) {
+  UseMethod("store_has_correct_hash")
+}
+
+#' @export
+store_has_correct_hash.default <- function(store, target, meta) {
+  record <- meta$get_record(target_get_name(target))
+  file <- file_new(
+    path = record$path,
+    hash = record$data,
+    bytes = record$bytes,
+    time = record$time
+  )
+  trn(
+    all(file.exists(record$path)),
+    !file_has_correct_hash(file),
+    TRUE
+  )
+}
+
 store_path_default <- function(name) {
   file.path("_targets", "objects", name)
 }
