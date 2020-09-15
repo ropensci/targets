@@ -58,8 +58,7 @@ store_url_hash <- function(urls) {
 
 store_url_hash_impl <- function(url) {
   assert_internet()
-  handle <- curl::new_handle()
-  handle <- curl::handle_setopt(handle, nobody = TRUE)
+  handle <- curl::new_handle(nobody = TRUE)
   req <- curl::curl_fetch_memory(url, handle = handle)
   assert_identical(req$status_code, 200L, paste("could not access url:", url))
   headers <- curl::parse_headers_list(req$headers)
@@ -76,8 +75,7 @@ store_url_exists <- function(urls) {
 
 store_url_exists_impl <- function(url) {
   assert_internet()
-  handle <- curl::new_handle()
-  handle <- curl::handle_setopt(handle, nobody = TRUE)
+  handle <- curl::new_handle(nobody = TRUE)
   req <- curl::curl_fetch_memory(url, handle = handle)
   identical(as.integer(req$status_code), 200L)
 }
