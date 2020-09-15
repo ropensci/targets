@@ -1,10 +1,15 @@
+#' @export
+store_new.rds <- function(class, file) {
+  rds_new(file)
+}
+
 rds_new <- function(file = NULL) {
   force(file)
   enclass(environment(), c("tar_rds", "tar_store"))
 }
 
 #' @export
-store_assert_format.rds <- function(class) {
+store_assert_format_setting.rds <- function(class) {
 }
 
 #' @export

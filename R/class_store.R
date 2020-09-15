@@ -1,29 +1,27 @@
 store_init <- function(format = "rds") {
-  file <- file_init()
-  switch(
-    format,
-    file = store_file_new(file),
-    rds = rds_new(file),
-    qs = qs_new(file),
-    keras = keras_new(file),
-    fst = fst_new(file),
-    fst_dt = fst_dt_new(file),
-    fst_tbl = fst_tbl_new(file),
-    throw_validate("unsupported format")
-  )
+  store_new(as_class(format), file_init())
 }
 
-store_new <- function(file = NULL) {
+store_new <- function(class, file = NULL) {
+  UseMethod("store_new")
+}
+
+#' @export
+store_new.default <- function(class, file = NULL) {
+  store_new_default(file)
+}
+
+store_new_default <- function(file) {
   force(file)
   enclass(environment(), "tar_store")
 }
 
-store_assert_format <- function(class) {
-  UseMethod("store_assert_format")
+store_assert_format_setting <- function(class) {
+  UseMethod("store_assert_format_setting")
 }
 
 #' @export
-store_assert_format.default <- function(class) {
+store_assert_format_setting.default <- function(class) {
   throw_validate("unsupported format")
 }
 
@@ -127,7 +125,7 @@ store_unserialize_value.default <- function(store, value) {
 }
 
 store_validate <- function(store) {
-  assert_correct_fields(store, store_new)
+  assert_correct_fields(store, store_new_default)
   store_validate_packages(store)
 }
 

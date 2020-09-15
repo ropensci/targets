@@ -14,5 +14,5 @@ tar_test("rds update_object()", {
 })
 
 tar_test("misspelled format", {
-  expect_error(store_init(format = "r2ds"), class = "condition_validate")
+  expect_error(tar_target(x, 1, format = "r2ds"), class = "condition_validate")
 })

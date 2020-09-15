@@ -1,10 +1,15 @@
+#' @export
+store_new.qs <- function(class, file) {
+  qs_new(file)
+}
+
 qs_new <- function(file = NULL) {
   force(file)
   enclass(environment(), c("tar_qs", "tar_store"))
 }
 
 #' @export
-store_assert_format.qs <- function(class) {
+store_assert_format_setting.qs <- function(class) {
 }
 
 #' @export

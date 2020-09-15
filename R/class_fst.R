@@ -1,10 +1,15 @@
+#' @export
+store_new.fst <- function(class, file) {
+  fst_new(file)
+}
+
 fst_new <- function(file = NULL) {
   force(file)
   enclass(environment(), c("tar_fst", "tar_store"))
 }
 
 #' @export
-store_assert_format.fst <- function(class) {
+store_assert_format_setting.fst <- function(class) {
 }
 
 #' @export

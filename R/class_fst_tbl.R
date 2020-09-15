@@ -1,10 +1,15 @@
+#' @export
+store_new.fst_tbl <- function(class, file) {
+  fst_tbl_new(file)
+}
+
 fst_tbl_new <- function(file = NULL) {
   force(file)
   enclass(environment(), c("tar_fst_tbl", "tar_fst", "tar_store"))
 }
 
 #' @export
-store_assert_format.fst_tbl <- function(class) {
+store_assert_format_setting.fst_tbl <- function(class) {
 }
 
 #' @export

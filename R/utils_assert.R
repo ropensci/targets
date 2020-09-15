@@ -57,8 +57,7 @@ assert_expr <- function(x, msg = NULL) {
 assert_format <- function(format) {
   assert_scalar(format)
   assert_chr(format)
-  class <- as_class(format)
-  store_assert_format(class)
+  store_assert_format_setting(as_class(format))
 }
 
 assert_function <- function(x, msg = NULL) {
