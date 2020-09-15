@@ -4,6 +4,10 @@ fst_dt_new <- function(file = NULL) {
 }
 
 #' @export
+store_assert_format.fst_dt <- function(format) {
+}
+
+#' @export
 store_read_path.tar_fst_dt <- function(store, path) {
   fst::read_fst(path, as.data.table = TRUE)
 }

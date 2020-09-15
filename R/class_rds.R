@@ -4,6 +4,10 @@ rds_new <- function(file = NULL) {
 }
 
 #' @export
+store_assert_format.rds <- function(format) {
+}
+
+#' @export
 store_read_path.tar_rds <- function(store, path) {
   readRDS(path)
 }

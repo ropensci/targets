@@ -20,6 +20,10 @@ assert_chr_no_delim <- function(x, msg = NULL) {
   }
 }
 
+assert_correct_fields <- function(object, constructor) {
+  assert_identical_chr(sort(names(object)), sort(names(formals(constructor))))
+}
+
 assert_dag <- function(x, msg = NULL) {
   if (!inherits(x, "igraph") || !igraph::is_dag(x)) {
     throw_validate(msg %||% "x must be an igraph and directed acyclic graph.")
@@ -50,8 +54,11 @@ assert_expr <- function(x, msg = NULL) {
   }
 }
 
-assert_correct_fields <- function(object, constructor) {
-  assert_identical_chr(sort(names(object)), sort(names(formals(constructor))))
+assert_format <- function(format) {
+  assert_scalar(format)
+  assert_chr(format)
+  x <- enclass(list(format), format)
+  store_assert_format(x)
 }
 
 assert_function <- function(x, msg = NULL) {

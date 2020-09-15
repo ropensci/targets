@@ -67,7 +67,7 @@ tar_target_raw <- function(
     library %||% character(0),
     "library in tar_target_raw() must be NULL or character."
   )
-  format <- match.arg(format, store_formats())
+  assert_format(format)
   iteration <- match.arg(iteration, c("vector", "list", "group"))
   error <- match.arg(error, c("stop", "continue", "save"))
   memory <- match.arg(memory, c("persistent", "transient"))

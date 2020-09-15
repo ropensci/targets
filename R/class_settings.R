@@ -99,8 +99,7 @@ settings_validate_pattern <- function(growth, dimensions) {
 settings_validate <- function(settings) {
   assert_correct_fields(settings, settings_new)
   assert_name(settings$name)
-  assert_chr(settings$format)
-  assert_in(settings$format, store_formats())
+  assert_format(settings$format)
   settings_validate_pattern(settings$growth, settings$dimensions)
   assert_chr(settings$iteration)
   assert_in(settings$error, c("stop", "continue", "save"))

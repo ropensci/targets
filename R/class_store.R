@@ -18,8 +18,13 @@ store_new <- function(file = NULL) {
   enclass(environment(), "tar_store")
 }
 
-store_formats <- function() {
-  c("file", "rds", "qs", "keras", "fst", "fst_dt", "fst_tbl")
+store_assert_format <- function(format) {
+  UseMethod("store_assert_format")
+}
+
+#' @export
+store_assert_format.default <- function(format) {
+  throw_validate("unsupported format")
 }
 
 store_read_object <- function(store) {

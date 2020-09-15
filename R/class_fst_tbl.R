@@ -4,6 +4,10 @@ fst_tbl_new <- function(file = NULL) {
 }
 
 #' @export
+store_assert_format.fst_tbl <- function(format) {
+}
+
+#' @export
 store_read_path.tar_fst_tbl <- function(store, path) {
   tibble::as_tibble(fst::read_fst(path))
 }

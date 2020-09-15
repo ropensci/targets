@@ -95,7 +95,7 @@ tar_option_set_envir <- function(envir) {
 
 tar_option_set_format <- function(format) {
   format <- format %||% tar_option_get("format")
-  format <- match.arg(format, store_formats())
+  assert_format(format)
   assign("format", format, envir = tar_envir_options)
 }
 

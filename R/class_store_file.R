@@ -4,6 +4,10 @@ store_file_new <- function(file = NULL) {
 }
 
 #' @export
+store_assert_format.file <- function(format) {
+}
+
+#' @export
 store_read_path.tar_store_file <- function(store, path) {
   path
 }

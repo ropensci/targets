@@ -3,6 +3,10 @@ keras_new <- function(file = NULL) {
   enclass(environment(), c("tar_keras", "tar_store"))
 }
 
+#' @export
+store_assert_format.keras <- function(format) {
+}
+
 # nocov start (tests are interactive and depend on Python Keras)
 #' @export
 store_read_path.tar_keras <- function(store, path) {

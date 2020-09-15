@@ -4,6 +4,10 @@ qs_new <- function(file = NULL) {
 }
 
 #' @export
+store_assert_format.qs <- function(format) {
+}
+
+#' @export
 store_read_path.tar_qs <- function(store, path) {
   # TODO: use altrep when solved in qs (#147).
   qs::qread(file = path, use_alt_rep = FALSE)
