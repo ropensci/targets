@@ -156,11 +156,12 @@ analysis <- tar_target(analysis, analyze(x), pattern = map(x))
 # Pipelines accept targets.
 pipeline <- tar_pipeline(data, analysis)
 # Tidy evaluation
-tar_option_set()
+tar_option_set(envir = environment())
 n_rows <- 30L
 data <- tar_target(target_name, get_data(!!n_rows))
 print(data)
 # Disable tidy evaluation:
 data <- tar_target(target_name, get_data(!!n_rows), tidy_eval = FALSE)
 print(data)
+tar_option_reset()
 }
