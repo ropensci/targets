@@ -62,3 +62,8 @@ store_wait_correct_hash.tar_url <- function(store, remote) { # nolint
   stop("needs work")
 #  file_wait_correct_hash(store$file)
 }
+
+#' @export
+store_validate_packages.tar_qs <- function(store) {
+  assert_package("curl")
+}

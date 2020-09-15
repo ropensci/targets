@@ -44,6 +44,7 @@ Imports:
   withr (>= 2.1.2)
 Suggests:
   clustermq (>= 0.8.9),
+  curl (4.3),
   dplyr (>= 1.0.0),
   fst (>= 0.9.2),
   future (>= 1.17.0),
