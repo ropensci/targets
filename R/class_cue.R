@@ -99,7 +99,14 @@ cue_file <- function(cue, target, meta) {
   if (!cue$file) {
     return(FALSE)
   }
-  store_has_correct_hash(target$store, target, meta)
+  record <- meta$get_record(target_get_name(target))
+  file <- file_new(
+    path = record$path,
+    hash = record$data,
+    bytes = record$bytes,
+    time = record$time
+  )
+  store_has_correct_hash(target$store, file)
 }
 
 cue_validate <- function(cue) {
