@@ -4,7 +4,7 @@ qs_new <- function(file = NULL) {
 }
 
 #' @export
-store_assert_format.qs <- function(format) {
+store_assert_format.qs <- function(class) {
 }
 
 #' @export

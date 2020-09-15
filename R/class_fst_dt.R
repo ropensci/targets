@@ -4,7 +4,7 @@ fst_dt_new <- function(file = NULL) {
 }
 
 #' @export
-store_assert_format.fst_dt <- function(format) {
+store_assert_format.fst_dt <- function(class) {
 }
 
 #' @export

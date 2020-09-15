@@ -4,7 +4,7 @@ rds_new <- function(file = NULL) {
 }
 
 #' @export
-store_assert_format.rds <- function(format) {
+store_assert_format.rds <- function(class) {
 }
 
 #' @export

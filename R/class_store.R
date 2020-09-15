@@ -18,12 +18,12 @@ store_new <- function(file = NULL) {
   enclass(environment(), "tar_store")
 }
 
-store_assert_format <- function(format) {
+store_assert_format <- function(class) {
   UseMethod("store_assert_format")
 }
 
 #' @export
-store_assert_format.default <- function(format) {
+store_assert_format.default <- function(class) {
   throw_validate("unsupported format")
 }
 

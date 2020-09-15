@@ -4,7 +4,7 @@ fst_new <- function(file = NULL) {
 }
 
 #' @export
-store_assert_format.fst <- function(format) {
+store_assert_format.fst <- function(class) {
 }
 
 #' @export

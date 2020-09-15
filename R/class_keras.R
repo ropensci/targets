@@ -4,7 +4,7 @@ keras_new <- function(file = NULL) {
 }
 
 #' @export
-store_assert_format.keras <- function(format) {
+store_assert_format.keras <- function(class) {
 }
 
 # nocov start (tests are interactive and depend on Python Keras)
