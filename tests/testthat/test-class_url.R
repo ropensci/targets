@@ -1,13 +1,13 @@
 tar_test("dynamic urls work", {
   skip_if_not_installed("curl")
   skip_if_offline()
-  url <- "https://github.com/ropensci/drake/archive/v7.3.0.tar.gz"
+  url <- "https://httpbin.org/etag/test"
   skip_if(!store_url_exists(url))
   tar_script({
     tar_pipeline(
       tar_target(
         abc,
-        rep("https://github.com/ropensci/drake/archive/v7.3.0.tar.gz", 2),
+        rep("https://httpbin.org/etag/test", 2),
         format = "url"
       )
     )
