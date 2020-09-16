@@ -1,5 +1,3 @@
-# Tested in tests/interent/test-url.R
-# nocov start
 #' @export
 store_new.url <- function(class, file) {
   store_url_new(file)
@@ -76,7 +74,7 @@ store_url_exists <- function(urls) {
 store_url_exists_impl <- function(url) {
   assert_internet()
   handle <- curl::new_handle(nobody = TRUE)
-  req <- curl::curl_fetch_memory(url, handle = handle)
+  req <- curl::curl_fetch_memory(as.character(url), handle = handle)
   identical(as.integer(req$status_code), 200L)
 }
 
@@ -96,4 +94,9 @@ store_validate_packages.tar_qs <- function(store) {
 #' @export
 store_warn_output.tar_url <- function(store, name) {
 }
-# nocov end
+
+#' @export
+store_has_correct_hash.tar_url <- function(store, file) {
+  all(store_url_exists(file$path)) &&
+    identical(store_url_hash(file$path), file$hash)
+}

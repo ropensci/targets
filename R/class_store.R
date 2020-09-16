@@ -152,11 +152,7 @@ store_has_correct_hash <- function(store, file) {
 
 #' @export
 store_has_correct_hash.default <- function(store, file) {
-  trn(
-    all(file.exists(file$path)),
-    !file_has_correct_hash(file),
-    TRUE
-  )
+  all(file.exists(file$path)) && file_has_correct_hash(file)
 }
 
 store_path_default <- function(name) {

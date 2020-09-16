@@ -106,7 +106,7 @@ cue_file <- function(cue, target, meta) {
     bytes = record$bytes,
     time = record$time
   )
-  store_has_correct_hash(target$store, file)
+  !store_has_correct_hash(target$store, file)
 }
 
 cue_validate <- function(cue) {
