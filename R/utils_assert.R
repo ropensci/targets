@@ -98,6 +98,13 @@ assert_int <- function(x, msg = NULL) {
   }
 }
 
+assert_internet <- function(msg = NULL) {
+  assert_package("curl")
+  if (!curl::has_internet()) {
+    throw_run("no internet") # nocov
+  }
+}
+
 assert_le <- function(x, threshold, msg = NULL) {
   if (any(x > threshold)) {
     throw_validate(msg %||% paste("x is greater than", threshold))
@@ -139,6 +146,12 @@ assert_nonempty <- function(x, msg = NULL) {
 assert_nonmissing <- function(x, msg = NULL) {
   if (anyNA(x)) {
     throw_validate(msg %||% "x must have no missing values (NA's)")
+  }
+}
+
+assert_nzchar <- function(x, msg = NULL) {
+  if (any(!nzchar(x))) {
+    throw_validate(msg %||% "x has empty character strings")
   }
 }
 

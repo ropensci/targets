@@ -29,13 +29,6 @@
 #'   gets a file in `_targets/objects`, and each format is a different
 #'   way to save and load this file.
 #'   Possible formats:
-#'   * `"file"`: A dynamic file. To use this format,
-#'     the target needs to manually identify or save some data
-#'     and return a character vector of paths
-#'     to the data. Those paths must point to files or directories,
-#'     and they must not contain characters `|` or `*`.
-#'     Then, `targets` automatically checks those files and cues the
-#'     appropriate build decisions if those files are out of date.
 #'   * `"rds"`: Default, uses `saveRDS()` and `readRDS()`. Should work for
 #'     most objects, but slow.
 #'   * `"qs"`: Uses `qs::qsave()` and `qs::qread()`. Should work for
@@ -47,6 +40,23 @@
 #'   * `"fst_tbl"`: Same as `"fst"`, but the value is a `tibble`.
 #'   * `"keras"`: Uses `keras::save_model_hdf5()` and
 #'     `keras::load_model_hdf5()`. The value must be a Keras model.
+#'   * `"file"`: A dynamic file. To use this format,
+#'     the target needs to manually identify or save some data
+#'     and return a character vector of paths
+#'     to the data. Those paths must point to files or directories,
+#'     and they must not contain characters `|` or `*`.
+#'     Then, `targets` automatically checks those files and cues the
+#'     appropriate build decisions if those files are out of date.
+#'   * `"url"`: A dynamic input URL. It works like `format = "file"`
+#'     except the return value of the target is a URL that already exists
+#'     and serves as input data for downstream targets.
+#'     The data at the URL needs to have an ETag or a Last-Modified
+#'     time stamp, or else the target will throw an error because
+#'     it cannot track the data. Also, use extreme caution when
+#'     trying to use `format = "url"` to track uploads. You must be absolutely
+#'     certain the ETag and Last-Modified time stamp are fully updated
+#'     and available by the time the target's command finishes running.
+#'     `targets` makes no attempt to wait for the web server.
 #' @param iteration Character of length 1, name of the iteration mode
 #'   of the target. Choices:
 #'   * `"vector"`: branching happens with `vectors::vec_slice()` and

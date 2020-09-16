@@ -67,6 +67,11 @@ tar_test("assert_nonmissing()", {
   expect_error(assert_nonmissing(NA_character_), class = "condition_validate")
 })
 
+tar_test("assert_nzchar()", {
+  expect_silent(assert_nzchar("abc"))
+  expect_error(assert_nzchar(c("a", "")), class = "condition_validate")
+})
+
 tar_test("assert_path()", {
   file.create("x")
   expect_error(assert_path(c("x", "y")), class = "condition_validate")

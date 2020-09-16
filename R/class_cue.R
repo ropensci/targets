@@ -106,11 +106,7 @@ cue_file <- function(cue, target, meta) {
     bytes = record$bytes,
     time = record$time
   )
-  trn(
-    all(file.exists(record$path)),
-    !file_has_correct_hash(file),
-    TRUE
-  )
+  !store_has_correct_hash(target$store, file)
 }
 
 cue_validate <- function(cue) {
