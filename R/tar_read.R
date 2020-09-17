@@ -66,7 +66,7 @@ tar_read_inner <- function(name, branches, meta) {
 
 read_builder <- function(record) {
   store <- store_init(format = record$format)
-  store_update_path(store, record$name, record$path)
+  store$file$path <- record$path
   store_read_object(store)
 }
 

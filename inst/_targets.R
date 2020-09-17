@@ -5,7 +5,7 @@
 # This is where you write source(\"R/functions.R\")
 # if you keep your functions in external scripts.
 summ <- function(dataset) {
-  summarize(dataset)
+  summarize(dataset, mean_x = mean(x))
 }
 
 # Set target-specific options such as packages.
