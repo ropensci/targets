@@ -236,8 +236,7 @@ builder_update_path <- function(target) {
   }
   settings <- target$settings
   name <- settings$name
-  object <- target$value$object
-  store_update_path(target$store, name, object)
+  store_update_path(target$store, target)
   store_early_hash(target$store)
 }
 

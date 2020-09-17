@@ -51,17 +51,17 @@ store_write_path <- function(store, object, path) {
   UseMethod("store_write_path")
 }
 
-store_update_path <- function(store, name, object) {
-  store$file$path <- store_produce_path(store, name, object)
+store_update_path <- function(store, target) {
+  store$file$path <- store_produce_path(store, target)
 }
 
-store_produce_path <- function(store, name, object) {
+store_produce_path <- function(store, target) {
   UseMethod("store_produce_path")
 }
 
 #' @export
-store_produce_path.default <- function(store, name, object) {
-  store_path_default(name)
+store_produce_path.default <- function(store, target) {
+  store_path_default(target_get_name(target))
 }
 
 store_coerce_object <- function(store, object) {
