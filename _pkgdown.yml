@@ -9,7 +9,7 @@ navbar:
     href: reference/index.html
   - text: Manual
     href: https://wlandau.github.io/targets-manual
-  - text: Design
+  - text: Vignettes
     href: articles/index.html
   - text: News
     href: news/index.html
@@ -17,9 +17,11 @@ navbar:
   - icon: fa-github fa-lg
     href: https://github.com/wlandau/targets
 articles:
-- title: Design
+- title: Background
   contents:
   - '`need`'
+- title: Design
+  contents:
   - '`data`'
   - '`orchestration`'
   - '`composition`'
