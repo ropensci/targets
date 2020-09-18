@@ -1,6 +1,6 @@
 #' @export
 store_new.file <- function(class, file = NULL, resources = NULL) {
-  store_file_new(file)
+  store_file_new(file, resources)
 }
 
 store_file_new <- function(file = NULL, resources = NULL) {

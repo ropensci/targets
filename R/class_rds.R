@@ -1,6 +1,6 @@
 #' @export
 store_new.rds <- function(class, file = NULL, resources = NULL) {
-  rds_new(file)
+  rds_new(file, resources)
 }
 
 rds_new <- function(file = NULL, resources = NULL) {

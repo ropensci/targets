@@ -1,6 +1,6 @@
 #' @export
 store_new.keras <- function(class, file = NULL, resources = NULL) {
-  keras_new(file)
+  keras_new(file, resources)
 }
 
 keras_new <- function(file = NULL, resources = NULL) {

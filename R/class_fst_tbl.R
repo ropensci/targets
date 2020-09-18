@@ -1,6 +1,6 @@
 #' @export
 store_new.fst_tbl <- function(class, file = NULL, resources = NULL) {
-  fst_tbl_new(file)
+  fst_tbl_new(file, resources)
 }
 
 fst_tbl_new <- function(file = NULL, resources = NULL) {

@@ -132,6 +132,7 @@ store_unserialize_value.default <- function(store, value) {
 store_validate <- function(store) {
   assert_correct_fields(store, store_new_default)
   store_validate_packages(store)
+  assert_list(store$resources)
 }
 
 store_validate_packages <- function(store) {

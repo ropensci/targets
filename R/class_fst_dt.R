@@ -1,6 +1,6 @@
 #' @export
 store_new.fst_dt <- function(class, file = NULL, resources = NULL) {
-  fst_dt_new(file)
+  fst_dt_new(file, resources)
 }
 
 fst_dt_new <- function(file = NULL, resources = NULL) {

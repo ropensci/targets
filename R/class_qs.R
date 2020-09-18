@@ -1,6 +1,6 @@
 #' @export
 store_new.qs <- function(class, file = NULL, resources = NULL) {
-  qs_new(file)
+  qs_new(file, resources)
 }
 
 qs_new <- function(file = NULL, resources = NULL) {
