@@ -70,3 +70,21 @@ tar_test("url target store gets custom curl handle", {
   handle <- x$store$resources$handle
   expect_true(inherits(handle, "curl_handle"))
 })
+
+tar_test("bad curl handle throws an error", {
+  skip_if_not_installed("curl")
+  skip_if_offline()
+  url <- "https://httpbin.org/etag/test"
+  skip_if(!url_exists(url))
+  tar_script({
+    tar_pipeline(
+      tar_target(
+        abc,
+        rep("https://httpbin.org/etag/test", 2),
+        format = "url",
+        resources = list(handle = "invalid")
+      )
+    )
+  })
+  expect_error(tar_make(callr_function = NULL), class = "condition_validate")
+})

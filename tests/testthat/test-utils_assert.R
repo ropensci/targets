@@ -39,6 +39,14 @@ tar_test("assert_df()", {
   expect_error(assert_df(TRUE), class = "condition_validate")
 })
 
+tar_test("assert_inherits()", {
+  expect_silent(assert_inherits(data_frame(x = 1), "data.frame"))
+  expect_error(
+    assert_inherits(TRUE, "data.frame"),
+    class = "condition_validate"
+  )
+})
+
 tar_test("assert_le()", {
   expect_silent(assert_le(1L, 2L))
   expect_silent(assert_le(2L, 2L))

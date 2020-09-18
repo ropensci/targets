@@ -14,3 +14,18 @@ tar_test("qs format", {
   expect_equal(target_read_value(x)$object, exp)
   expect_silent(target_validate(x))
 })
+
+tar_test("bad compression level throws error", {
+  skip_if_not_installed("qs")
+  tar_script({
+    tar_pipeline(
+      tar_target(
+        abc,
+        1,
+        format = "qs",
+        resources = list(preset = NA_real_)
+      )
+    )
+  })
+  expect_error(tar_make(callr_function = NULL), class = "condition_validate")
+})

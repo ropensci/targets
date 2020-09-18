@@ -21,11 +21,10 @@ store_read_path.tar_qs <- function(store, path) {
 
 #' @export
 store_write_path.tar_qs <- function(store, object, path) {
-  qs::qsave(
-    x = object,
-    file = path,
-    preset = store$resources$preset %||% "high"
-  )
+  preset <- store$resources$preset %||% "high"
+  assert_chr(preset)
+  assert_scalar(preset)
+  qs::qsave(x = object, file = path, preset = preset)
 }
 
 #' @export

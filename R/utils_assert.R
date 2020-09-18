@@ -92,6 +92,12 @@ assert_in <- function(x, choices, msg = NULL) {
   }
 }
 
+assert_inherits <- function(x, class, msg = NULL) {
+  if (!inherits(x, class)) {
+    throw_validate(msg %||% paste("x does not inherit from", class))
+  }
+}
+
 assert_int <- function(x, msg = NULL) {
   if (!is.integer(x)) {
     throw_validate(msg %||% "x must be an integer vector.")
