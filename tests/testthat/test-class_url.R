@@ -26,6 +26,26 @@ tar_test("dynamic urls work", {
   expect_false(file.exists(file.path("_targets", "objects", "abc")))
 })
 
+tar_test("custom handle can be supplied without error", {
+  skip_if_not_installed("curl")
+  skip_if_offline()
+  url <- "https://httpbin.org/etag/test"
+  skip_if(!url_exists(url))
+  tar_script({
+    tar_pipeline(
+      tar_target(
+        abc,
+        rep("https://httpbin.org/etag/test", 2),
+        format = "url",
+        resources = list(handle = curl::new_handle())
+      )
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(abc), rep("https://httpbin.org/etag/test", 2))
+  expect_false(file.exists(file.path("_targets", "objects", "abc")))
+})
+
 tar_test("dynamic urls must return characters", {
   skip_if_not_installed("curl")
   skip_if_offline()

@@ -81,20 +81,20 @@ store_assert_format <- function(store, object) {
 store_assert_format.default <- function(store, object) {
 }
 
-store_early_hash <- function(store) {
+store_early_hash <- function(store, target) {
   UseMethod("store_early_hash")
 }
 
 #' @export
-store_early_hash.default <- function(store) {
+store_early_hash.default <- function(store, target) {
 }
 
-store_late_hash <- function(store) {
+store_late_hash <- function(store, target) {
   UseMethod("store_late_hash")
 }
 
 #' @export
-store_late_hash.default <- function(store) {
+store_late_hash.default <- function(store, target) {
   file_update_hash(store$file)
 }
 
@@ -146,12 +146,12 @@ store_warn_output.default <- function(store, name) {
   warn_output(name, store$file$path)
 }
 
-store_has_correct_hash <- function(store, file) {
+store_has_correct_hash <- function(store, file, target) {
   UseMethod("store_has_correct_hash")
 }
 
 #' @export
-store_has_correct_hash.default <- function(store, file) {
+store_has_correct_hash.default <- function(store, file, target) {
   all(file.exists(file$path)) && file_has_correct_hash(file)
 }
 

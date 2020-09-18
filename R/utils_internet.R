@@ -1,21 +1,21 @@
-url_exists <- function(url) {
-  unlist(lapply(url, url_exists_impl))
+url_exists <- function(url, handle = NULL) {
+  unlist(lapply(url, url_exists_impl, handle = handle))
 }
 
-url_exists_impl <- function(url) {
+url_exists_impl <- function(url, handle) {
   assert_internet()
-  handle <- curl::new_handle(nobody = TRUE)
+  handle <- url_handle(handle)
   req <- curl::curl_fetch_memory(as.character(url), handle = handle)
   identical(as.integer(req$status_code), 200L)
 }
 
-url_hash <- function(url) {
-  digest_obj64(lapply(url, url_hash_impl))
+url_hash <- function(url, handle = NULL) {
+  digest_obj64(lapply(url, url_hash_impl, handle = handle))
 }
 
-url_hash_impl <- function(url) {
+url_hash_impl <- function(url, handle) {
   assert_internet()
-  handle <- curl::new_handle(nobody = TRUE)
+  handle <- url_handle(handle)
   req <- curl::curl_fetch_memory(url, handle = handle)
   assert_identical(req$status_code, 200L, paste("could not access url:", url))
   headers <- curl::parse_headers_list(req$headers)
@@ -24,4 +24,8 @@ url_hash_impl <- function(url) {
   out <- paste0(etag, mtime)
   assert_nzchar(out, paste("no ETag or Last-Modified for url:", url))
   out
+}
+
+url_handle <- function(handle = NULL) {
+  curl::handle_setopt(handle %||% curl::new_handle(), nobody = TRUE)
 }

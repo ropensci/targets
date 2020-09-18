@@ -46,12 +46,15 @@ store_assert_format.tar_url <- function(store, object) {
 }
 
 #' @export
-store_early_hash.tar_url <- function(store) { # nolint
-  store$file$hash <- url_hash(store$file$path)
+store_early_hash.tar_url <- function(store, target) { # nolint
+  store$file$hash <- url_hash(
+    store$file$path,
+    target$settings$resources$handle
+  )
 }
 
 #' @export
-store_late_hash.tar_url <- function(store) { # nolint
+store_late_hash.tar_url <- function(store, target) { # nolint
 }
 
 #' @export
@@ -68,7 +71,8 @@ store_warn_output.tar_url <- function(store, name) {
 }
 
 #' @export
-store_has_correct_hash.tar_url <- function(store, file) {
-  all(url_exists(file$path)) &&
-    identical(url_hash(file$path), file$hash)
+store_has_correct_hash.tar_url <- function(store, file, target) {
+  handle <- target$settings$resources$handle
+  all(url_exists(file$path, handle)) &&
+    identical(url_hash(file$path, handle), file$hash)
 }
