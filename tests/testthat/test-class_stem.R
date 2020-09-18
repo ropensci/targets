@@ -203,13 +203,10 @@ tar_test("stem validate with junction", {
 })
 
 tar_test("stem print", {
-  expect_warning(
-    x <- tar_target(x, {
-      a <- 1
-      b
-    }, template = list(cpu = 1, mem = 2)),
-    class = "condition_validate"
-  )
+  x <- tar_target(x, {
+    a <- 1
+    b
+  }, resources = list(cpu = 1, mem = 2))
   out <- utils::capture.output(print(x))
   expect_true(any(grepl("stem", out)))
 })

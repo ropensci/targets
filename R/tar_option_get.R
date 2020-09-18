@@ -38,7 +38,6 @@ tar_option_default <- function(option) {
     deployment = "remote",
     priority = 0,
     resources = list(),
-    template = NULL,
     storage = "local",
     retrieval = "local",
     cue = targets::tar_cue(),

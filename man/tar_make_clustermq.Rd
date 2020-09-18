@@ -10,7 +10,6 @@ tar_make_clustermq(
   reporter = "verbose",
   garbage_collection = FALSE,
   workers = 1L,
-  template = list(),
   log_worker = FALSE,
   callr_function = callr::r,
   callr_arguments = list()
@@ -37,9 +36,6 @@ between targets. The pipeline will run slower but consume less memory.}
 
 \item{workers}{Positive integer, maximum number of transient
 \code{future} workers allowed to run at any given time.}
-
-\item{template}{Named list of values to insert as fields
-in the \code{clustermq} template file, such as computing resource requirements.}
 
 \item{log_worker}{Logical, whether to write a log file for each worker.
 Same as the \code{log_worker} argument of \code{clustermq::Q()}
@@ -75,6 +71,8 @@ To use with a cluster, you will need to set the global options
 To read more about configuring \code{clustermq} for your scheduler, visit
 \url{https://mschubert.github.io/clustermq/articles/userguide.html#configuration} # nolint
 and navigate to the appropriate link under "Setting up the scheduler".
+Wildcards in the template file are filled in with elements from
+\code{tar_option_get("resources")}.
 }
 \examples{
 \dontrun{

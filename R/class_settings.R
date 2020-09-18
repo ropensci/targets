@@ -8,7 +8,6 @@ settings_init <- function(
   deployment = "remote",
   priority = 0,
   resources = list(),
-  template = NULL,
   storage = "local",
   retrieval = storage
 ) {
@@ -25,7 +24,6 @@ settings_init <- function(
     deployment = deployment,
     priority = priority,
     resources = resources,
-    template = template,
     storage = storage,
     retrieval = retrieval
   )
@@ -42,7 +40,6 @@ settings_new <- function(
   deployment = NULL,
   priority = NULL,
   resources = NULL,
-  template = NULL,
   storage = NULL,
   retrieval = NULL
 ) {
@@ -56,7 +53,6 @@ settings_new <- function(
   force(deployment)
   force(priority)
   force(resources)
-  force(template)
   force(storage)
   force(retrieval)
   environment()
@@ -78,7 +74,6 @@ settings_clone <- function(settings) {
     deployment = settings$deployment,
     priority = settings$priority,
     resources = settings$resources,
-    template = settings$template,
     storage = settings$storage,
     retrieval = settings$retrieval
   )

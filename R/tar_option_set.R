@@ -39,7 +39,6 @@ tar_option_set <- function(
   deployment = NULL,
   priority = NULL,
   resources = NULL,
-  template = NULL,
   storage = NULL,
   retrieval = NULL,
   cue = NULL,
@@ -57,7 +56,6 @@ tar_option_set <- function(
   tar_option_set_deployment(deployment)
   tar_option_set_priority(priority)
   tar_option_set_resources(resources)
-  tar_option_set_template(template)
   tar_option_set_storage(storage)
   tar_option_set_retrieval(retrieval)
   tar_option_set_cue(cue)
@@ -136,12 +134,6 @@ tar_option_set_resources <- function(resources) {
   resources <- resources %||% tar_option_get("resources")
   assert_list(resources, "resources in tar_option_set() must be a named list.")
   assign("resources", resources, envir = tar_envir_options)
-}
-
-tar_option_set_template <- function(template) {
-  template <- template %||% tar_option_get("template")
-  warn_template(template)
-  assign("template", template, envir = tar_envir_options)
 }
 
 tar_option_set_storage <- function(storage) {

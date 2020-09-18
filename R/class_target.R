@@ -13,7 +13,6 @@ target_init <- function(
   memory = "persistent",
   deployment = "remote",
   priority = 0,
-  template = NULL,
   resources = list(),
   storage = "local",
   retrieval = storage,
@@ -34,7 +33,6 @@ target_init <- function(
     memory = memory,
     deployment = deployment,
     priority = priority,
-    template = template,
     resources = resources,
     storage = storage,
     retrieval = retrieval

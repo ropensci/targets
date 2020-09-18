@@ -12,12 +12,12 @@
 #'   To read more about configuring `clustermq` for your scheduler, visit
 #'   <https://mschubert.github.io/clustermq/articles/userguide.html#configuration> # nolint
 #'   and navigate to the appropriate link under "Setting up the scheduler".
+#'   Wildcards in the template file are filled in with elements from
+#'   `tar_option_get("resources")`.
 #' @return `NULL` except if `callr_function = callr::r_bg()`, in which case
 #'   a handle to the `callr` background process is returned. Either way,
 #'   the value is invisibly returned.
 #' @inheritParams tar_make_future
-#' @param template Named list of values to insert as fields
-#'   in the `clustermq` template file, such as computing resource requirements.
 #' @param log_worker Logical, whether to write a log file for each worker.
 #'   Same as the `log_worker` argument of `clustermq::Q()`
 #'   and `clustermq::workers()`.
@@ -37,7 +37,6 @@ tar_make_clustermq <- function(
   reporter = "verbose",
   garbage_collection = FALSE,
   workers = 1L,
-  template = list(),
   log_worker = FALSE,
   callr_function = callr::r,
   callr_arguments = list()
@@ -52,7 +51,6 @@ tar_make_clustermq <- function(
     reporter = reporter,
     garbage_collection = garbage_collection,
     workers = workers,
-    template = template,
     log_worker = log_worker
   )
   out <- callr_outer(
@@ -70,7 +68,6 @@ tar_make_clustermq_inner <- function(
   reporter,
   garbage_collection,
   workers,
-  template,
   log_worker
 ) {
   pipeline_validate_lite(pipeline)
@@ -82,7 +79,6 @@ tar_make_clustermq_inner <- function(
     reporter = reporter,
     garbage_collection = garbage_collection,
     workers = workers,
-    template = template,
     log_worker = log_worker
   )$run()
   invisible()

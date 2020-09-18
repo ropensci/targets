@@ -16,8 +16,8 @@ tar_test("settings_validate()", {
   expect_silent(settings_validate(x))
 })
 
-tar_test("settings_validate() with template", {
-  x <- settings_init(name = "abc", template = "123")
+tar_test("settings_validate() with resources", {
+  x <- settings_init(name = "abc", resources = list(ncores = 2))
   expect_silent(settings_validate(x))
 })
 

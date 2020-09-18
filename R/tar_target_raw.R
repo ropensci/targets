@@ -55,7 +55,6 @@ tar_target_raw <- function(
   memory = targets::tar_option_get("memory"),
   deployment = targets::tar_option_get("deployment"),
   priority = targets::tar_option_get("priority"),
-  template = targets::tar_option_get("template"),
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
   retrieval = targets::tar_option_get("retrieval"),
@@ -76,7 +75,6 @@ tar_target_raw <- function(
   assert_scalar(priority)
   assert_ge(priority, 0)
   assert_le(priority, 1)
-  warn_template(template)
   assert_list(
     resources,
     "resources in tar_target_raw() must be a named list."
@@ -99,7 +97,6 @@ tar_target_raw <- function(
     memory = memory,
     deployment = deployment,
     priority = priority,
-    template = template,
     resources = resources,
     storage = storage,
     retrieval = retrieval,

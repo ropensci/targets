@@ -103,10 +103,3 @@ tar_test("assert_unique_targets()", {
     class = "condition_validate"
   )
 })
-
-tar_test("warn_template()", {
-  expect_warning(
-    tar_target(x, 1, template = list(x = 1)),
-    class = "condition_validate"
-  )
-})

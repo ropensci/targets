@@ -3,11 +3,6 @@ tar_test("clustermq$workers", {
   expect_equal(out$workers, 3L)
 })
 
-tar_test("clustermq$template", {
-  out <- clustermq_init(tar_pipeline(), template = list(cores = 3L))
-  expect_equal(out$template, list(cores = 3L))
-})
-
 tar_test("all local deployment works", {
   skip_on_os("windows")
   skip_if_not_installed("clustermq")

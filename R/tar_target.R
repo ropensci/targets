@@ -88,15 +88,12 @@
 #' @param priority Numeric of length 1 between 0 and 1. Controls which
 #'   targets get deployed first when multiple competing targets are ready
 #'   simultaneously. Targets with priorities closer to 1 get built earlier.
-#' @param template Relevant to [tar_make_clustermq()] only.
-#'   Named list of values to fill in the `clustermq` template file.
-#'   Unsupported for now. May be supported in the future if
-#'   `clustermq` ever supports heterogeneous workers with varying
-#'   resource requirements. In the meantime, use the `template`
-#'   argument of [tar_make_clustermq()].
-#' @param resources Relevant to [tar_make_future()] only.
-#'   A named list of resources passed to `future::future()` when
-#'   defining a new worker.
+#' @param resources A named list of computing resources
+#'   for high-performance computing. Elements in this list are passed
+#'   to `future::future()` in [tar_make_future()] and
+#'   to `clustermq::workers()` in [tar_make_clustermq()]
+#'   to fill in the patterns in cluster computing
+#'   template files with user-defined values.
 #' @param storage Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
 #'   If `"local"`, the target's return value is sent back to the
@@ -137,7 +134,6 @@ tar_target <- function(
   memory = targets::tar_option_get("memory"),
   deployment = targets::tar_option_get("deployment"),
   priority = targets::tar_option_get("priority"),
-  template = targets::tar_option_get("template"),
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
   retrieval = targets::tar_option_get("retrieval"),
@@ -160,7 +156,6 @@ tar_target <- function(
   assert_scalar(priority)
   assert_ge(priority, 0)
   assert_le(priority, 1)
-  warn_template(template)
   assert_list(resources, "resources in tar_target() must be a named list.")
   storage <- match.arg(storage, c("local", "remote"))
   retrieval <- match.arg(retrieval, c("local", "remote"))
@@ -183,7 +178,6 @@ tar_target <- function(
     memory = memory,
     deployment = deployment,
     priority = priority,
-    template = template,
     resources = resources,
     storage = storage,
     retrieval = retrieval,

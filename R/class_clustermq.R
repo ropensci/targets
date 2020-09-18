@@ -6,7 +6,6 @@ clustermq_init <- function(
   reporter = "verbose",
   garbage_collection = FALSE,
   workers = 1L,
-  template = list(),
   log_worker = FALSE
 ) {
   clustermq_new(
@@ -17,7 +16,6 @@ clustermq_init <- function(
     reporter = reporter,
     garbage_collection = garbage_collection,
     workers = as.integer(workers),
-    template = as.list(template),
     log_worker = log_worker
   )
 }
@@ -31,7 +29,6 @@ clustermq_new <- function(
   garbage_collection = NULL,
   workers = NULL,
   crew = NULL,
-  template = NULL,
   log_worker = NULL
 ) {
   clustermq_class$new(
@@ -43,7 +40,6 @@ clustermq_new <- function(
     garbage_collection = garbage_collection,
     workers = workers,
     crew = crew,
-    template = template,
     log_worker = log_worker
   )
 }
@@ -57,7 +53,6 @@ clustermq_class <- R6::R6Class(
   public = list(
     workers = NULL,
     crew = NULL,
-    template = NULL,
     log_worker = NULL,
     initialize = function(
       pipeline = NULL,
@@ -68,7 +63,6 @@ clustermq_class <- R6::R6Class(
       garbage_collection = NULL,
       workers = NULL,
       crew = NULL,
-      template = NULL,
       log_worker = NULL
     ) {
       super$initialize(
@@ -81,7 +75,6 @@ clustermq_class <- R6::R6Class(
       )
       self$workers <- workers
       self$crew <- crew
-      self$template <- template
       self$log_worker <- log_worker
     },
     set_common_data = function(envir) {
@@ -98,7 +91,7 @@ clustermq_class <- R6::R6Class(
     create_crew = function() {
       crew <- clustermq::workers(
         n_jobs = self$workers,
-        template = self$template,
+        template = tar_option_get("resources"),
         log_worker = self$log_worker
       )
       self$crew <- crew
@@ -228,7 +221,6 @@ clustermq_class <- R6::R6Class(
       super$validate()
       assert_lgl(self$garbage_collection)
       assert_int(self$workers)
-      assert_list(self$template)
     }
   )
 )
