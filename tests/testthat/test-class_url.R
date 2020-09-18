@@ -2,7 +2,7 @@ tar_test("dynamic urls work", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!store_url_exists(url))
+  skip_if(!url_exists(url))
   tar_script({
     tar_pipeline(
       tar_target(
