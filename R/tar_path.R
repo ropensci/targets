@@ -21,14 +21,14 @@ tar_path <- function(name = NULL) {
   trn(
     is.null(name),
     tar_path_running(),
-    store_path_default(name)
+    path_default(name)
   )
 }
 
 tar_path_running <- function(name) {
   trn(
     exists(x = "name", envir = envir_run, inherits = FALSE),
-    store_path_default(get(x = "name", envir = envir_run)),
+    path_default(get(x = "name", envir = envir_run)),
     throw_validate("tar_path() with no args only works inside a pipeline.")
   )
 }

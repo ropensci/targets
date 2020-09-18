@@ -36,8 +36,8 @@ tar_destroy <- function(
     meta = unlink(file.path("_targets", "meta", "meta")),
     progress = unlink(file.path("_targets", "meta", "progress")),
     objects = unlink(file.path("_targets", "objects"), recursive = TRUE),
-    scratch = unlink(store_dir_scratch(), recursive = TRUE),
-    workspaces = unlink(store_dir_workspaces(), recursive = TRUE)
+    scratch = unlink(path_scratch_dir(), recursive = TRUE),
+    workspaces = unlink(path_workspaces_dir(), recursive = TRUE)
   )
   invisible()
 }

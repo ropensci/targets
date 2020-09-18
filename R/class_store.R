@@ -46,7 +46,7 @@ store_write_object <- function(store, object) {
 store_write_object.default <- function(store, object) {
   path <- store$file$path
   dir_create(dirname(path))
-  tmp <- store_path_scratch(pattern = basename(path))
+  tmp <- path_scratch(pattern = basename(path))
   dir_create(dirname(tmp))
   store_write_path(store, store_coerce_object(store, object), tmp)
   file.rename(tmp, path)
@@ -66,7 +66,7 @@ store_produce_path <- function(store, name, object) {
 
 #' @export
 store_produce_path.default <- function(store, name, object) {
-  store_path_default(name)
+  path_default(name)
 }
 
 store_coerce_object <- function(store, object) {
@@ -159,28 +159,4 @@ store_has_correct_hash <- function(store, file) {
 #' @export
 store_has_correct_hash.default <- function(store, file) {
   all(file.exists(file$path)) && file_has_correct_hash(file)
-}
-
-store_path_default <- function(name) {
-  file.path("_targets", "objects", name)
-}
-
-store_path_scratch <- function(pattern = "") {
-  tempfile(pattern = pattern, tmpdir = store_dir_scratch())
-}
-
-store_dir_scratch <- function() {
-  file.path("_targets", "scratch")
-}
-
-store_del_scratch <- function() {
-  unlink(store_dir_scratch(), recursive = TRUE)
-}
-
-store_path_workspaces <- function(name) {
-  file.path(store_dir_workspaces(), name)
-}
-
-store_dir_workspaces <- function() {
-  file.path("_targets", "workspaces")
 }

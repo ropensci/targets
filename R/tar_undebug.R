@@ -18,7 +18,7 @@
 #' file.exists("_targets/workspaces/y") # FALSE
 #' }
 tar_undebug <- function() {
-  unlink(store_dir_scratch(), recursive = TRUE)
-  unlink(store_dir_workspaces(), recursive = TRUE)
+  unlink(path_scratch_dir(), recursive = TRUE)
+  unlink(path_workspaces_dir(), recursive = TRUE)
   invisible()
 }

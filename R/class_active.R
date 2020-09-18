@@ -68,7 +68,7 @@ active_class <- R6::R6Class(
       pipeline_unload_loaded(self$pipeline)
       scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress)
-      store_del_scratch()
+      path_scratch_del()
       self$run_gc()
     },
     validate = function() {
