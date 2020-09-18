@@ -237,7 +237,7 @@ builder_update_path <- function(target) {
   settings <- target$settings
   name <- settings$name
   store_update_path(target$store, target_get_name(target), target$value$object)
-  store_early_hash(target$store, target)
+  store_early_hash(target$store)
 }
 
 builder_update_object <- function(target) {
@@ -247,7 +247,7 @@ builder_update_object <- function(target) {
   file_validate_path(target$store$file$path)
   store_write_object(target$store, target$value$object)
   store_warn_output(target$store, target_get_name(target))
-  store_late_hash(target$store, target)
+  store_late_hash(target$store)
 }
 
 builder_ensure_object <- function(target, storage) {

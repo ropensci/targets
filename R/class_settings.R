@@ -59,7 +59,7 @@ settings_new <- function(
 }
 
 settings_produce_store <- function(settings) {
-  store_init(settings$format)
+  store_init(settings$format, settings$resources)
 }
 
 settings_clone <- function(settings) {

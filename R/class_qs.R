@@ -1,10 +1,11 @@
 #' @export
-store_new.qs <- function(class, file) {
+store_new.qs <- function(class, file = NULL, resources = NULL) {
   qs_new(file)
 }
 
-qs_new <- function(file = NULL) {
+qs_new <- function(file = NULL, resources = NULL) {
   force(file)
+  force(resources)
   enclass(environment(), c("tar_qs", "tar_store"))
 }
 

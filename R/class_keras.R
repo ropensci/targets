@@ -1,10 +1,11 @@
 #' @export
-store_new.keras <- function(class, file) {
+store_new.keras <- function(class, file = NULL, resources = NULL) {
   keras_new(file)
 }
 
-keras_new <- function(file = NULL) {
+keras_new <- function(file = NULL, resources = NULL) {
   force(file)
+  force(resources)
   enclass(environment(), c("tar_keras", "tar_store"))
 }
 

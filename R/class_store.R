@@ -1,18 +1,23 @@
-store_init <- function(format = "rds") {
-  store_new(as_class(format), file_init())
+store_init <- function(format = "rds", resources = list()) {
+  store_new(
+    class = as_class(format),
+    file = file_init(),
+    resources = resources
+  )
 }
 
-store_new <- function(class, file = NULL) {
+store_new <- function(class, file = NULL, resources = NULL) {
   UseMethod("store_new")
 }
 
 #' @export
-store_new.default <- function(class, file = NULL) {
-  store_new_default(file)
+store_new.default <- function(class, file = NULL, resources = NULL) {
+  store_new_default(file, resources)
 }
 
-store_new_default <- function(file) {
+store_new_default <- function(file, resources) {
   force(file)
+  force(resources)
   enclass(environment(), "tar_store")
 }
 
@@ -81,20 +86,20 @@ store_assert_format <- function(store, object) {
 store_assert_format.default <- function(store, object) {
 }
 
-store_early_hash <- function(store, target) {
+store_early_hash <- function(store) {
   UseMethod("store_early_hash")
 }
 
 #' @export
-store_early_hash.default <- function(store, target) {
+store_early_hash.default <- function(store) {
 }
 
-store_late_hash <- function(store, target) {
+store_late_hash <- function(store) {
   UseMethod("store_late_hash")
 }
 
 #' @export
-store_late_hash.default <- function(store, target) {
+store_late_hash.default <- function(store) {
   file_update_hash(store$file)
 }
 
@@ -146,12 +151,12 @@ store_warn_output.default <- function(store, name) {
   warn_output(name, store$file$path)
 }
 
-store_has_correct_hash <- function(store, file, target) {
+store_has_correct_hash <- function(store, file) {
   UseMethod("store_has_correct_hash")
 }
 
 #' @export
-store_has_correct_hash.default <- function(store, file, target) {
+store_has_correct_hash.default <- function(store, file) {
   all(file.exists(file$path)) && file_has_correct_hash(file)
 }
 

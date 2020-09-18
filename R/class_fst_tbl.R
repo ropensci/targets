@@ -1,10 +1,11 @@
 #' @export
-store_new.fst_tbl <- function(class, file) {
+store_new.fst_tbl <- function(class, file = NULL, resources = NULL) {
   fst_tbl_new(file)
 }
 
-fst_tbl_new <- function(file = NULL) {
+fst_tbl_new <- function(file = NULL, resources = NULL) {
   force(file)
+  force(resources)
   enclass(environment(), c("tar_fst_tbl", "tar_fst", "tar_store"))
 }
 

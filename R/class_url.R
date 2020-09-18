@@ -1,10 +1,11 @@
 #' @export
-store_new.url <- function(class, file) {
-  store_url_new(file)
+store_new.url <- function(class, file = NULL, resources = NULL) {
+  store_url_new(file, resources)
 }
 
-store_url_new <- function(file = NULL) {
+store_url_new <- function(file = NULL, resources = NULL) {
   force(file)
+  force(resources)
   enclass(environment(), c("tar_url", "tar_store"))
 }
 
@@ -46,15 +47,15 @@ store_assert_format.tar_url <- function(store, object) {
 }
 
 #' @export
-store_early_hash.tar_url <- function(store, target) { # nolint
+store_early_hash.tar_url <- function(store) { # nolint
   store$file$hash <- url_hash(
-    store$file$path,
-    target$settings$resources$handle
+    url = store$file$path,
+    handle = store$resources$handle
   )
 }
 
 #' @export
-store_late_hash.tar_url <- function(store, target) { # nolint
+store_late_hash.tar_url <- function(store) { # nolint
 }
 
 #' @export
@@ -71,8 +72,8 @@ store_warn_output.tar_url <- function(store, name) {
 }
 
 #' @export
-store_has_correct_hash.tar_url <- function(store, file, target) {
-  handle <- target$settings$resources$handle
+store_has_correct_hash.tar_url <- function(store, file) {
+  handle <- store$resources$handle
   all(url_exists(file$path, handle)) &&
     identical(url_hash(file$path, handle), file$hash)
 }

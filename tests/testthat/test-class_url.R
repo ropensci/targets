@@ -58,3 +58,15 @@ tar_test("dynamic urls must return characters", {
   local <- local_init(pipeline = pipeline)
   expect_error(local$run(), class = "condition_validate")
 })
+
+tar_test("url target store gets custom curl handle", {
+  skip_if_not_installed("curl")
+  x <- target_init(
+    name = "abc",
+    expr = quote(list(list("illegal"))),
+    format = "url",
+    resources = list(handle = curl::new_handle())
+  )
+  handle <- x$store$resources$handle
+  expect_true(inherits(handle, "curl_handle"))
+})

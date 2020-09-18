@@ -49,8 +49,10 @@
 #'     appropriate build decisions if those files are out of date.
 #'   * `"url"`: A dynamic input URL. It works like `format = "file"`
 #'     except the return value of the target is a URL that already exists
-#'     and serves as input data for downstream targets.
-#'     The data at the URL needs to have an ETag or a Last-Modified
+#'     and serves as input data for downstream targets. Optionally
+#'     supply a custom `curl` handle through the `resources` argument, e.g.
+#'     `tar_target(..., resources = list(handle = curl::new_handle()))`.
+#'     The data file at the URL needs to have an ETag or a Last-Modified
 #'     time stamp, or else the target will throw an error because
 #'     it cannot track the data. Also, use extreme caution when
 #'     trying to use `format = "url"` to track uploads. You must be absolutely
@@ -88,12 +90,11 @@
 #' @param priority Numeric of length 1 between 0 and 1. Controls which
 #'   targets get deployed first when multiple competing targets are ready
 #'   simultaneously. Targets with priorities closer to 1 get built earlier.
-#' @param resources A named list of computing resources
-#'   for high-performance computing. Elements in this list are passed
-#'   to `future::future()` in [tar_make_future()] and
-#'   to `clustermq::workers()` in [tar_make_clustermq()]
-#'   to fill in the patterns in cluster computing
-#'   template files with user-defined values.
+#' @param resources A named list of computing resources. Uses:
+#'   * Template file wildcards for `future::future()` in [tar_make_future()].
+#'   * Template file wildcards `clustermq::workers()` in [tar_make_clustermq()].
+#'   * Custom `curl` handle if `format = "url"`,
+#'     e.g. `resources = list(handle = curl::new_handle()`.
 #' @param storage Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
 #'   If `"local"`, the target's return value is sent back to the

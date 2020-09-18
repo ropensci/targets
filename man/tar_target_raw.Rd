@@ -81,8 +81,10 @@ Then, \code{targets} automatically checks those files and cues the
 appropriate build decisions if those files are out of date.
 \item \code{"url"}: A dynamic input URL. It works like \code{format = "file"}
 except the return value of the target is a URL that already exists
-and serves as input data for downstream targets.
-The data at the URL needs to have an ETag or a Last-Modified
+and serves as input data for downstream targets. Optionally
+supply a custom \code{curl} handle through the \code{resources} argument, e.g.
+\code{tar_target(..., resources = list(handle = curl::new_handle()))}.
+The data file at the URL needs to have an ETag or a Last-Modified
 time stamp, or else the target will throw an error because
 it cannot track the data. Also, use extreme caution when
 trying to use \code{format = "url"} to track uploads. You must be absolutely
@@ -129,12 +131,13 @@ the target builds on the host machine / process managing the pipeline.}
 targets get deployed first when multiple competing targets are ready
 simultaneously. Targets with priorities closer to 1 get built earlier.}
 
-\item{resources}{A named list of computing resources
-for high-performance computing. Elements in this list are passed
-to \code{future::future()} in \code{\link[=tar_make_future]{tar_make_future()}} and
-to \code{clustermq::workers()} in \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}
-to fill in the patterns in cluster computing
-template files with user-defined values.}
+\item{resources}{A named list of computing resources. Uses:
+\itemize{
+\item Template file wildcards for \code{future::future()} in \code{\link[=tar_make_future]{tar_make_future()}}.
+\item Template file wildcards \code{clustermq::workers()} in \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}.
+\item Custom \code{curl} handle if \code{format = "url"},
+e.g. \verb{resources = list(handle = curl::new_handle()}.
+}}
 
 \item{storage}{Character of length 1, only relevant to
 \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}.
