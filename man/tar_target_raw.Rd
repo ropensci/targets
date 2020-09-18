@@ -64,12 +64,18 @@ Possible formats:
 \item \code{"rds"}: Default, uses \code{saveRDS()} and \code{readRDS()}. Should work for
 most objects, but slow.
 \item \code{"qs"}: Uses \code{qs::qsave()} and \code{qs::qread()}. Should work for
-most objects, much faster than \code{"rds"}.
+most objects, much faster than \code{"rds"}. Optionally set the
+preset for \code{qsave()} through the \code{resources} argument, e.g.
+\code{tar_target(..., resources = list(preset = "archive"))}.
 \item \code{"fst"}: Uses \code{fst::write_fst()} and \code{fst::read_fst()}.
 Much faster than \code{"rds"}, but the value must be
-a data frame.
+a data frame. Optionally set the compression level for
+\code{fst::write_fst()} through the \code{resources} argument, e.g.
+\code{tar_target(..., resources = list(compress = 100))}.
 \item \code{"fst_dt"}: Same as \code{"fst"}, but the value is a \code{data.table}.
+Optionally set the compression level the same way as for \code{"fst"}.
 \item \code{"fst_tbl"}: Same as \code{"fst"}, but the value is a \code{tibble}.
+Optionally set the compression level the same way as for \code{"fst"}.
 \item \code{"keras"}: Uses \code{keras::save_model_hdf5()} and
 \code{keras::load_model_hdf5()}. The value must be a Keras model.
 \item \code{"file"}: A dynamic file. To use this format,
@@ -136,7 +142,12 @@ simultaneously. Targets with priorities closer to 1 get built earlier.}
 \item Template file wildcards for \code{future::future()} in \code{\link[=tar_make_future]{tar_make_future()}}.
 \item Template file wildcards \code{clustermq::workers()} in \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}.
 \item Custom \code{curl} handle if \code{format = "url"},
-e.g. \verb{resources = list(handle = curl::new_handle()}.
+e.g. \code{resources = list(handle = curl::new_handle())}.
+\item Custom preset for \code{qs::qsave()} if \code{format = "qs"}, e.g.
+\code{resources = list(handle = "archive")}.
+\item Custom compression level for \code{fst::write_fst()} if
+\code{format} is \code{"fst"}, \code{"fst_dt"}, or \code{"fst_tbl"}, e.g.
+\code{resources = list(compress = 100)}.
 }}
 
 \item{storage}{Character of length 1, only relevant to

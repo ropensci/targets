@@ -32,12 +32,18 @@
 #'   * `"rds"`: Default, uses `saveRDS()` and `readRDS()`. Should work for
 #'     most objects, but slow.
 #'   * `"qs"`: Uses `qs::qsave()` and `qs::qread()`. Should work for
-#'     most objects, much faster than `"rds"`.
+#'     most objects, much faster than `"rds"`. Optionally set the
+#'     preset for `qsave()` through the `resources` argument, e.g.
+#'     `tar_target(..., resources = list(preset = "archive"))`.
 #'   * `"fst"`: Uses `fst::write_fst()` and `fst::read_fst()`.
 #'     Much faster than `"rds"`, but the value must be
-#'     a data frame.
+#'     a data frame. Optionally set the compression level for
+#'     `fst::write_fst()` through the `resources` argument, e.g.
+#'     `tar_target(..., resources = list(compress = 100))`.
 #'   * `"fst_dt"`: Same as `"fst"`, but the value is a `data.table`.
+#'     Optionally set the compression level the same way as for `"fst"`.
 #'   * `"fst_tbl"`: Same as `"fst"`, but the value is a `tibble`.
+#'     Optionally set the compression level the same way as for `"fst"`.
 #'   * `"keras"`: Uses `keras::save_model_hdf5()` and
 #'     `keras::load_model_hdf5()`. The value must be a Keras model.
 #'   * `"file"`: A dynamic file. To use this format,
@@ -94,7 +100,12 @@
 #'   * Template file wildcards for `future::future()` in [tar_make_future()].
 #'   * Template file wildcards `clustermq::workers()` in [tar_make_clustermq()].
 #'   * Custom `curl` handle if `format = "url"`,
-#'     e.g. `resources = list(handle = curl::new_handle()`.
+#'     e.g. `resources = list(handle = curl::new_handle())`.
+#'   * Custom preset for `qs::qsave()` if `format = "qs"`, e.g.
+#'     `resources = list(handle = "archive")`.
+#'   * Custom compression level for `fst::write_fst()` if
+#'     `format` is `"fst"`, `"fst_dt"`, or `"fst_tbl"`, e.g.
+#'     `resources = list(compress = 100)`.
 #' @param storage Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
 #'   If `"local"`, the target's return value is sent back to the
