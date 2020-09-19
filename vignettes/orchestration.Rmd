@@ -130,6 +130,8 @@ The specific behavior of `prepare()`, `run()`, and `conclude()` depends on the s
 1. Decrement the ranks of downstream targets in the priority queue.
 1. Insert new targets dynamically.
 
+For patterns, `conclude()` is called twice: once to spawn branches, and then again when all the branches are done.
+
 ## Decrement the ranks of downstream targets in the priority queue.
 
 The `conclude()` method decrements ranks in the priority queue to signal that downstream neighbors are one step closer to being ready to build. Most targets decrement all their downstream neighbors, but a pattern only decrement the neighbors that branch over it. This behavior for patterns is key because it allows future patterns to quickly define new branches before the current ones even start running, which contributes to parallel efficiency.
@@ -138,12 +140,29 @@ The `conclude()` method decrements ranks in the priority queue to signal that do
 
 `targets` creates new targets dynamically when stems and patterns conclude. To illustrate, let us use the following example pipeline.
 
-![](orchestration/orchestration-start.png)
+```{r, eval = FALSE}
+# _targets.R
+library(targets)
+source("functions.R") # Defines all the functions below prefixed with "user_".
+tar_pipeline(
+  tar_target(data1, user_data1()),
+  tar_target(data2, list(user_data2_slice1(), user_data2_slice2())),
+  tar_target(analysis, user_analyze(data2), pattern = map(data2)),
+  tar_target(validation, user_validate(analysis), pattern = map(analysis)),
+  tar_target(summary, user_summarize(validation)) # Does not map over validation.
+)
+```
+
+In prose:
 
 * The `data` and `data2` targets are starting datasets.
 * The `analysis` target maps over the rows of `data2` and performs a statistical analysis on each row. All analyses use the entirety of `data1`.
 * The `validation` target maps over the analyses to check each one for correctness.
 * The `summary` target aggregates and summarizes all the analyses and validations together.
+
+Graphical representation:
+
+![](orchestration/orchestration-start.png)
 
 ### Insert buds
 
@@ -157,15 +176,17 @@ To insert the buds, we:
 1. Create new bud objects, each containing a slice of `data2`'s return value.
 1. Insert the buds into the pipeline object.
 
-We do not need to update the scheduler because the parent stem of the buds already completed. In other words, buds are born built.
+We do not need to update the scheduler because the parent stem of the buds already completed. In other words, buds are born built. They exist as separate data objects in memory, but they have no dedicated storage.
 
 ### Insert branches
 
-With the buds in place, the `analysis` pattern can now create branches.
+With the buds in place, the `analysis` pattern can now create branches that depend on each of the respective buds of `data2`. After they run, the branches exist as separate data objects in memory and storage. The full aggregated `analysis` pattern is not needed, so it is never created.
 
 ![](orchestration/orchestration-analysis.png)
 
 As soon as these first branches are created, we can create the branches for `validation`. It does not matter if `analysis_5c77a278` and `analysis_3439bce3` are both still queued. In addition, as soon as `analysis_5c77a278` is built, `validation_0f7f2822` can start building regardless of whether `analysis_3439bce3` is complete. This is a major source of parallel efficiency.
+
+Notice that we never draw edges from the `validation_*` branches to `summary`. This is because `summary` does not map over `validation`, so it automatically takes in all of `validation` as an entire aggregated pattern. In the `prepare()` method of `summary`, `validation` is constructed from its individual branches kept in memory while it is needed. Unlike the `validation_*` branches, the aggregated `validation` pattern does not persist in storage.
 
 ![](orchestration/orchestration-validation.png)
 
