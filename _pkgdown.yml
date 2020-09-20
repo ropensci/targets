@@ -36,8 +36,8 @@ reference:
 - title: Options
   contents:
   - '`tar_option_get`'
-  - '`tar_option_set`'
   - '`tar_option_reset`'
+  - '`tar_option_set`'
 - title: Pipeline
   contents:
   - '`tar_cue`'
