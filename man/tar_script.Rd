@@ -16,9 +16,9 @@ If \code{TRUE}, you do not need to explicitly put \code{library(targets)}
 in \code{code}.}
 
 \item{ask}{Logical, whether to ask before writing if \verb{_targets.R}
-already exists. If \code{NULL}, defaults to \code{Sys.getenv("TAR_SCRIPT_ASK")}.
+already exists. If \code{NULL}, defaults to \code{Sys.getenv("TAR_ASK")}.
 (Set to \code{"true"} or \code{"false"} with \code{Sys.setenv()}).
-If \code{ask} and the \code{TAR_SCRIPT_ASK} environment variable are both
+If \code{ask} and the \code{TAR_ASK} environment variable are both
 indeterminate, defaults to \code{interactive()}.}
 }
 \value{

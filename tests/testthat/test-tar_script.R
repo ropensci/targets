@@ -1,6 +1,6 @@
 tar_test("tar_script() writes example if null", {
   tar_script()
-  expect_gt(length(readLines("_targets.R")), 0L)
+  expect_gt(length(readLines("_targets.R")), 3L)
 })
 
 tar_test("tar_script() writes single line exactly", {
@@ -14,10 +14,4 @@ tar_test("tar_script() writes single line exactly", {
     line
   })
   expect_equal(readLines("_targets.R"), c("library(targets)", "multi", "line"))
-})
-
-tar_test("tar_script_ask()", {
-  expect_true(tar_script_ask("true"))
-  expect_false(tar_script_ask("false"))
-  expect_null(tar_script_ask(""))
 })

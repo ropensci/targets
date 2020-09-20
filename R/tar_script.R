@@ -39,9 +39,9 @@
 #'   If `TRUE`, you do not need to explicitly put `library(targets)`
 #'   in `code`.
 #' @param ask Logical, whether to ask before writing if `_targets.R`
-#'   already exists. If `NULL`, defaults to `Sys.getenv("TAR_SCRIPT_ASK")`.
+#'   already exists. If `NULL`, defaults to `Sys.getenv("TAR_ASK")`.
 #'   (Set to `"true"` or `"false"` with `Sys.setenv()`).
-#'   If `ask` and the `TAR_SCRIPT_ASK` environment variable are both
+#'   If `ask` and the `TAR_ASK` environment variable are both
 #'   indeterminate, defaults to `interactive()`.
 #' @examples
 #' \dontrun{
@@ -56,26 +56,11 @@
 #' })
 #' }
 tar_script <- function(code = NULL, library_targets = TRUE, ask = NULL) {
-  # Covered in tests/interactive/test-tar_script.R.
-  # nocov start
-  ask <- ask %||%
-    tar_script_ask(Sys.getenv("TAR_SCRIPT_ASK")) %||%
-    interactive()
-  assert_lgl(library_targets, "library_targets must be logical.")
-  assert_lgl(ask, "ask argument of tar_script() must be logical.")
-  assert_scalar(library_targets, "library_targets must have length 1.")
-  assert_scalar(ask, "ask argument of tar_script() must have length 1.")
-  if (file.exists("_targets.R") && ask) {
-    choice <- utils::menu(
-      c("yes", "no"),
-      title = "Overwrite existing _targets.R file?"
-    )
-    if (as.integer(choice) != 1L) {
-      return()
-    }
+  if (!tar_should_overwrite(ask, "_targets.R")) {
+    return() # nocov # covered in tests/interactive/test-tar_script.R
   }
-  # nocov end
   assert_lgl(library_targets, "library_targets must be logical.")
+  assert_scalar(library_targets, "library_targets must have length 1.")
   code <- substitute(code)
   text <- trn(
     length(code),
@@ -104,14 +89,4 @@ parse_target_script_code <- function(code) {
 
 target_script_path <- function() {
   "_targets.R"
-}
-
-tar_script_ask <- function(x) {
-  if (x == "true") {
-    return(TRUE)
-  }
-  if (x == "false") {
-    return(FALSE)
-  }
-  NULL
 }

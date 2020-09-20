@@ -1,3 +1,7 @@
+throw_ask <- function(...) {
+  stop(condition_ask(...))
+}
+
 throw_cancel <- function(...) {
   stop(condition_cancel(...))
 }
@@ -28,6 +32,13 @@ warn_run <- function(...) {
 
 warn_validate <- function(...) {
   warning(warning_validate(...))
+}
+
+condition_ask <- function(...) {
+  structure(
+    list(message = paste0(..., collapse = ""), call = NULL),
+    class = c("condition_ask", "condition_targets", "error", "condition")
+  )
 }
 
 condition_cancel <- function(...) {
