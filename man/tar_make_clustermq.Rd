@@ -34,8 +34,8 @@ or errored).
 \item{garbage_collection}{Logical, whether to run \code{base::gc()}
 between targets. The pipeline will run slower but consume less memory.}
 
-\item{workers}{Positive integer, maximum number of transient
-\code{future} workers allowed to run at any given time.}
+\item{workers}{Positive integer, number of persistent \code{clustermq} workers
+to create.}
 
 \item{log_worker}{Logical, whether to write a log file for each worker.
 Same as the \code{log_worker} argument of \code{clustermq::Q()}

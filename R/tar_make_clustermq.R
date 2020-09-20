@@ -18,6 +18,8 @@
 #'   a handle to the `callr` background process is returned. Either way,
 #'   the value is invisibly returned.
 #' @inheritParams tar_make_future
+#' @param workers Positive integer, number of persistent `clustermq` workers
+#'   to create.
 #' @param log_worker Logical, whether to write a log file for each worker.
 #'   Same as the `log_worker` argument of `clustermq::Q()`
 #'   and `clustermq::workers()`.
