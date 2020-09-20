@@ -57,7 +57,8 @@
 #' }
 tar_script <- function(code = NULL, library_targets = TRUE, ask = NULL) {
   if (!tar_should_overwrite(ask, "_targets.R")) {
-    return() # nocov # covered in tests/interactive/test-tar_script.R # nolint
+    # covered in tests/interactive/test-tar_script.R # nolint
+    return(invisible()) # nocov
   }
   assert_lgl(library_targets, "library_targets must be logical.")
   assert_scalar(library_targets, "library_targets must have length 1.")
