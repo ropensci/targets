@@ -12,7 +12,7 @@ tar_should_overwrite <- function(ask = NULL, file = character(0)) {
 }
 
 tar_ask_env <- function() {
-  x <- Sys.getenv("TAR_ASK")
+  x <- trimws(tolower(Sys.getenv("TAR_ASK")))
   if (x == "true") {
     return(TRUE)
   }
