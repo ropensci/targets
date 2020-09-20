@@ -29,6 +29,10 @@ reference:
 - title: Help
   contents:
   - '`targets-package`'
+- title: Setup
+  contents:
+  - '`tar_edit`'
+  - '`tar_script`'
 - title: Options
   contents:
   - '`tar_option_get`'
@@ -79,4 +83,3 @@ reference:
   - '`tar_group`'
   - '`tar_name`'
   - '`tar_path`'
-  - '`tar_script`'

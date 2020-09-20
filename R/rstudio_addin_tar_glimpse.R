@@ -6,7 +6,6 @@
 #' @export
 #' @keywords internal
 rstudio_addin_tar_glimpse <- function() {
-  assert_package("visNetwork")
   print(tar_glimpse())
 }
 # nocov end

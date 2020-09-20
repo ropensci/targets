@@ -6,7 +6,6 @@
 #' @export
 #' @keywords internal
 rstudio_addin_tar_visnetwork <- function() {
-  assert_package("visNetwork")
   print(tar_visnetwork())
 }
 # nocov end

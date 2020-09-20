@@ -1,3 +1,8 @@
+Name: Edit _targets.R
+Description: Open the file _targets.R for editing. Requires the usethis package.
+Binding: tar_edit
+Interactive: false
+
 Name: Run a targets pipeline in the foreground
 Description: Calls tar_make() in the current R process. Requires a _targets.R configuration file.
 Binding: tar_make
@@ -9,12 +14,12 @@ Binding: rstudio_addin_tar_make_bg
 Interactive: false
 
 Name: Visualize a targets pipeline
-Description: Calls tar_visnetwork(). Requires a _targets.R configuration file.
+Description: Calls tar_visnetwork(). Requires a _targets.R configuration file and the visNetwork package.
 Binding: rstudio_addin_tar_visnetwork
 Interactive: false
 
 Name: Glimpse a targets pipeline
-Description: Calls tar_glimpse(). Requires a _targets.R configuration file.
+Description: Calls tar_glimpse(). Requires a _targets.R configuration file and the visNetwork package.
 Binding: rstudio_addin_tar_glimpse
 Interactive: false
 

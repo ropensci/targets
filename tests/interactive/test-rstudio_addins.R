@@ -28,6 +28,11 @@ tar_test({
 
 tar_test({
   tar_script()
+  # Click Addins > Edit _targets.R.
+})
+
+tar_test({
+  tar_script()
   # Click Addins > Glimpse a targets pipeline.
 })
 
