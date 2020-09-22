@@ -1,21 +1,21 @@
 #' @title Setup package dependencies for compatibility with `{renv}`
 #' @export
-#' @description Write package dependencies to a file named `_packages.R` in 
-#'   the root project directory. See `Details` for a more extensive 
+#' @description Write package dependencies to a file named `_packages.R` in
+#'   the root project directory. See `Details` for a more extensive
 #'   explanation.
 #' @details This function gets called for its side-effect, which writes
-#'   package dependencies provided to the `packages` argument to 
+#'   package dependencies provided to the `packages` argument to
 #'   `_packages.R`. `tar_renv` is unable to detect packages declared after it
 #'   has been called in the script (e.g. target-specific packages declared
-#'   within \code{\link{tar_pipeline}}); these packages need to be 
+#'   within \code{\link{tar_pipeline}}); these packages need to be
 #'   passed to `tar_renv` manually. The generated file should \strong{not} be
 #'   edited by hand and will be overwritten each time `tar_renv` runs.
 #'   
-#'   By explicitly writing packages to a file, `{renv}` is able to crawl the 
-#'   file to identify package dependencies with `renv::dependencies()`. 
-#'   Calling `renv::init()` after `tar_renv` has ran will set up a 
-#'   project-local `R` library. This allows your `targets` pipeline to have 
-#'   its own self-contained `R` library separate from your standard `R` 
+#'   By explicitly writing packages to a file, `{renv}` is able to crawl the
+#'   file to identify package dependencies with `renv::dependencies()`.
+#'   Calling `renv::init()` after `tar_renv` has ran will set up a
+#'   project-local `R` library. This allows your `targets` pipeline to have
+#'   its own self-contained `R` library separate from your standard `R`
 #'   library. See [`{renv}`](https://rstudio.github.io/renv/index.html) for
 #'   more information.
 #'   
