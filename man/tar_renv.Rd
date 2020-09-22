@@ -52,7 +52,6 @@ tar_script({
   pkgs <- c("tidyverse", "qs")
   tar_option_set(packages = pkgs)
   tar_renv()
-  
   tar_pipeline()
 })
 tar_make()
