@@ -32,6 +32,7 @@ reference:
 - title: Setup
   contents:
   - '`tar_edit`'
+  - '`tar_renv`'
   - '`tar_script`'
 - title: Options
   contents:
