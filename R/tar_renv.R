@@ -1,7 +1,7 @@
 #' @title Set up package dependencies for compatibility with `renv`
 #' @export
 #' @seealso <https://rstudio.github.io/renv/articles/renv.html>
-#' @description Write package dependencies to a script file 
+#' @description Write package dependencies to a script file
 #'   (named `_packages.R` by default in
 #'   the root project directory). Each package is written to a separate line in
 #'   as a standard [library()] call (e.g. `library(package)`)
