@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_renv.R
 \name{tar_renv}
 \alias{tar_renv}
-\title{Setup package dependencies for compatibility with \code{{renv}}}
+\title{Set up package dependencies for compatibility with \code{renv}}
 \usage{
 tar_renv(packages = targets::tar_option_get("packages"), ask = NULL)
 }
@@ -22,21 +22,25 @@ Nothing, invisibly.
 }
 \description{
 Write package dependencies to a file named \verb{_packages.R} in
-the root project directory. See \code{Details} for a more extensive
-explanation.
+the root project directory. Each package is written to a separate line in
+\verb{_packages.R} as a standard \code{\link{library}} call (e.g. \code{library(package)})
+so that they may be identified by \code{{renv}} for caching. This is only
+necessary if the user invokes \code{\link[=tar_option_set]{tar_option_set()}} or \code{\link[=tar_target]{tar_target()}} to
+declare packages rather than \code{\link{library}}/\code{\link{require}} or namespacing
+(i.e. \verb{package::function()}). See \code{Details} for more information.
 }
 \details{
 This function gets called for its side-effect, which writes
 package dependencies provided to the \code{packages} argument to
-\verb{_packages.R}. \code{tar_renv} is unable to detect packages declared after it
+\verb{_packages.R}. \code{tar_renv()} is unable to detect packages declared after it
 has been called in the script (e.g. target-specific packages declared
 within \code{\link{tar_pipeline}}); these packages need to be
-passed to \code{tar_renv} manually. The generated file should \strong{not} be
-edited by hand and will be overwritten each time \code{tar_renv} runs.
+passed to \code{tar_renv()} manually. The generated file should \strong{not} be
+edited by hand and will be overwritten each time \code{tar_renv()} runs.
 
 By explicitly writing packages to a file, \code{{renv}} is able to crawl the
-file to identify package dependencies with \code{renv::dependencies()}.
-Calling \code{renv::init()} after \code{tar_renv} has ran will set up a
+file to identify package dependencies with \code{\link[renv:dependencies]{renv::dependencies()}}.
+Calling \code{\link[renv:init]{renv::init()}} after \code{tar_renv()} has ran will set up a
 project-local \code{R} library. This allows your \code{targets} pipeline to have
 its own self-contained \code{R} library separate from your standard \code{R}
 library. See \href{https://rstudio.github.io/renv/index.html}{\code{{renv}}} for
@@ -48,16 +52,12 @@ primarily exists to provide native compatibility with \code{{renv}}.
 }
 \examples{
 tar_dir({
-tar_script({
   pkgs <- c("tidyverse", "qs")
   tar_option_set(packages = pkgs)
   tar_renv()
-  tar_pipeline()
-})
-tar_make()
-readLines("_packages.R")
+  readLines("_packages.R")
 })
 }
 \seealso{
-\href{https://rstudio.github.io/renv/articles/renv.html}{Introduction to \code{{renv}}}
+\url{https://rstudio.github.io/renv/articles/renv.html}
 }
