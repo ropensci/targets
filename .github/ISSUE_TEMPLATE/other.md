@@ -8,9 +8,9 @@ assignees: ""
 
 ## Prework
 
-* [ ] I understand and agree to the [code of conduct](https://github.com/wlandau/targets/blob/master/CODE_OF_CONDUCT.md).
-* [ ] I understand and agree to the [contributing guidelines](https://github.com/wlandau/targets/blob/master/CONTRIBUTING.md).
-* [ ] Be considerate of the maintainer's time and make it as easy as possible to troubleshoot any problems you identify. **That means posting a runnable, complete, easy to understand [reproducible example](https://www.tidyverse.org/help/) that lets the mainainer fully replicate the issue and see what you see**. Please format your code according to the [tidyverse style guide](https://style.tidyverse.org/).
+* [ ] I understand and agree to the [code of conduct](https://github.com/wlandau/targets/blob/master/CODE_OF_CONDUCT.md) and the [contributing guidelines](https://github.com/wlandau/targets/blob/master/CONTRIBUTING.md).
+* [ ] Be considerate of the maintainer's time and make it as easy as possible to troubleshoot any problems you identify. That means posting a runnable, complete, easy to understand [reproducible example](https://www.tidyverse.org/help/) so the maintainer can figure out where the problem is coming from.
+* [ ] Please format your code according to the [tidyverse style guide](https://style.tidyverse.org/).
 
 ## Description
 
@@ -20,4 +20,4 @@ To help us read any code you include (optional) please try to follow the [tidyve
 
 ## Reproducible example
 
-Be considerate of the maintainer's time and make it as easy as possible to troubleshoot any problems you identify. **That means posting a runnable, complete, easy to understand [reproducible example](https://www.tidyverse.org/help/) that lets the mainainer fully replicate the issue and see what you see**. Please format your code according to the [tidyverse style guide](https://style.tidyverse.org/).
+Be considerate of the maintainer's time and make it as easy as possible to troubleshoot any problems you identify. That means posting a runnable, complete, easy to understand [reproducible example](https://www.tidyverse.org/help/) so the maintainer can figure out where the problem is coming from. Please format your code according to the [tidyverse style guide](https://style.tidyverse.org/).
