@@ -2,22 +2,22 @@
 #' @export
 #' @seealso <https://rstudio.github.io/renv/articles/renv.html>
 #' @description Write package dependencies to a script file
-#'   (named `_packages.R` by default in
-#'   the root project directory). Each package is written to a separate line in
-#'   as a standard [library()] call (e.g. `library(package)`)
-#'   `renv` identifies them automatically. This is only
+#'   (by default, named `_packages.R` in the root project directory).
+#'   Each package is written to a separate line
+#'   as a standard [library()] call (e.g. `library(package)`) so
+#'   `renv` can identify them automatically. This is only
 #'   necessary if the user invokes [`tar_option_set()`] or [`tar_target()`] to
-#'   declare packages rather than the usual `library()` or namespaced call.
+#'   declare packages rather than the usual `library()` or namespaced call
 #'   (i.e. `package::function()`). See `Details` for more information.
 #' @details This function gets called for its side-effect, which writes
 #'   package dependencies provided to the `packages` argument to
 #'   a script. If you do not explicitly set the `packages` argument,
-#'   `tar_renv()` will detect only the packages at `tar_option_get("packages")`
-#'   at that point in the code. The generated file should __not__ be
-#'   edited by hand and will be overwritten each time `tar_renv()` runs
-#'   non-interactively.
+#'   `tar_renv()` will only detect the packages that
+#'   `tar_option_get("packages")` returns at that point in the code.
+#'   The generated file should __not__ be edited by hand and will be
+#'   overwritten each time `tar_renv()` runs non-interactively.
 #'
-#'   With the script written by `tar_env()`, `renv` is able to crawl the
+#'   With the script written by `tar_renv()`, `renv` is able to crawl the
 #'   file to identify package dependencies (with `renv::dependencies()`).
 #'   Calling `renv::init()` after `tar_renv()` has ran will set up a
 #'   project-local `R` library. This allows your `targets` pipeline to have
