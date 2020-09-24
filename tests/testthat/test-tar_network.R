@@ -29,7 +29,7 @@ tar_test("tar_network() works", {
   exp <- data_frame(from = c("y1", "y2"), to = "z")
   exp <- exp[order(exp$from), ]
   rownames(exp) <- NULL
-  expect_equal(out$edges, exp)
+  expect_equivalent(out$edges, exp)
 })
 
 tar_test("targets_only = FALSE", {

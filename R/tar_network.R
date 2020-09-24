@@ -54,5 +54,8 @@ tar_network_inner <- function(pipeline, targets_only, reporter) {
   pipeline_validate_lite(pipeline)
   inspection <- inspection_init(pipeline = pipeline, reporter = reporter)
   inspection$update(targets_only = targets_only)
-  list(vertices = inspection$vertices, edges = inspection$edges)
+  list(
+    vertices = tibble::as_tibble(inspection$vertices),
+    edges = tibble::as_tibble(inspection$edges)
+  )
 }
