@@ -29,24 +29,24 @@ Nothing, invisibly.
 }
 \description{
 Write package dependencies to a script file
-(named \verb{_packages.R} by default in
-the root project directory). Each package is written to a separate line in
-as a standard \code{\link[=library]{library()}} call (e.g. \code{library(package)})
-\code{renv} identifies them automatically. This is only
+(by default, named \verb{_packages.R} in the root project directory).
+Each package is written to a separate line
+as a standard \code{\link[=library]{library()}} call (e.g. \code{library(package)}) so
+\code{renv} can identify them automatically. This is only
 necessary if the user invokes \code{\link[=tar_option_set]{tar_option_set()}} or \code{\link[=tar_target]{tar_target()}} to
-declare packages rather than the usual \code{library()} or namespaced call.
+declare packages rather than the usual \code{library()} or namespaced call
 (i.e. \verb{package::function()}). See \code{Details} for more information.
 }
 \details{
 This function gets called for its side-effect, which writes
 package dependencies provided to the \code{packages} argument to
 a script. If you do not explicitly set the \code{packages} argument,
-\code{tar_renv()} will detect only the packages at \code{tar_option_get("packages")}
-at that point in the code. The generated file should \strong{not} be
-edited by hand and will be overwritten each time \code{tar_renv()} runs
-non-interactively.
+\code{tar_renv()} will only detect the packages that
+\code{tar_option_get("packages")} returns at that point in the code.
+The generated file should \strong{not} be edited by hand and will be
+overwritten each time \code{tar_renv()} runs non-interactively.
 
-With the script written by \code{tar_env()}, \code{renv} is able to crawl the
+With the script written by \code{tar_renv()}, \code{renv} is able to crawl the
 file to identify package dependencies (with \code{renv::dependencies()}).
 Calling \code{renv::init()} after \code{tar_renv()} has ran will set up a
 project-local \code{R} library. This allows your \code{targets} pipeline to have
