@@ -7,9 +7,11 @@ labels: "type: trouble"
 
 ## Prework
 
-* [ ] I understand and agree to the [code of conduct](https://github.com/wlandau/targets/blob/master/CODE_OF_CONDUCT.md) and the [contributing guidelines](https://github.com/wlandau/targets/blob/master/CONTRIBUTING.md).
-* [ ] Be considerate of the maintainer's time and make it as easy as possible to troubleshoot any problems you identify. That means posting a runnable, complete, easy to understand [reproducible example](https://www.tidyverse.org/help/) so the maintainer can figure out where the problem is coming from.
-* [ ] Please format your code according to the [tidyverse style guide](https://style.tidyverse.org/).
+* [ ] Read and agree to the [code of conduct](https://github.com/wlandau/targets/blob/master/CODE_OF_CONDUCT.md) and [contributing guidelines](https://github.com/wlandau/targets/blob/master/CONTRIBUTING.md).
+* [ ] Post a [minimal reproducible example](https://www.tidyverse.org/help/) so the maintainer can troubleshoot the problems you identify. A reproducible example is:
+    1. [ ] **Runnable**: post enough R code and data so any onlooker can create the error on their own computer.
+    1. [ ] **Minimal**: reduce runtime wherever possible and remove complicated details that are irrelevant to the issue at hand.
+    1. [ ] **Readable**: format your code according to the [tidyverse style guide](https://style.tidyverse.org/).
 
 ## Description
 
@@ -17,7 +19,10 @@ What trouble are you having?
 
 ## Reproducible example
 
-Be considerate of the maintainer's time and make it as easy as possible to troubleshoot any problems you identify. That means posting a runnable, complete, easy to understand [reproducible example](https://www.tidyverse.org/help/) so the maintainer can figure out where the problem is coming from. Please format your code according to the [tidyverse style guide](https://style.tidyverse.org/).
+* [ ] Post a [minimal reproducible example](https://www.tidyverse.org/help/) so the maintainer can troubleshoot the problems you identify. A reproducible example is:
+    1. [ ] **Runnable**: post enough R code and data so any onlooker can create the error on their own computer.
+    1. [ ] **Minimal**: reduce runtime wherever possible and remove complicated details that are irrelevant to the issue at hand.
+    1. [ ] **Readable**: format your code according to the [tidyverse style guide](https://style.tidyverse.org/).
 
 ## Desired result
 
