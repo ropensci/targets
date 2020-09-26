@@ -28,7 +28,7 @@ Please describe the performance issue.
 
 ## Benchmarks
 
-How poorly does `targets` perform? To find out, we recommend the [`proffer`](https://github.com/wlandau/proffer) package and take screenshots of the results displayed in your browser.
+How poorly does `targets` perform? To find out, we recommend you use the [`proffer`](https://github.com/r-prof/proffer) package and take screenshots of the results displayed in your browser.
 
 ```r
 library(targets)
