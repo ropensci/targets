@@ -5,7 +5,13 @@ file_init <- function(
   bytes = 0,
   time = -Inf
 ) {
-  file_new(path, hash, bytes, time)
+  file_new(
+    path = path,
+    stage = stage,
+    hash = hash,
+    bytes = bytes,
+    time = time
+  )
 }
 
 file_new <- function(

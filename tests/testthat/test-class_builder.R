@@ -71,6 +71,7 @@ tar_test("read and write objects", {
   tmp <- tempfile()
   file <- x$store$file
   file$path <- tmp
+  file$stage <- tempfile()
   cache_set_object(x$cache, "a", "123")
   builder_update_build(x)
   builder_update_object(x)
