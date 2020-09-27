@@ -72,10 +72,6 @@ store_validate_packages.tar_qs <- function(store) {
 }
 
 #' @export
-store_warn_output.tar_url <- function(store, name) {
-}
-
-#' @export
 store_has_correct_hash.tar_url <- function(store) {
   handle <- store$resources$handle
   all(url_exists(store$file$path, handle)) &&

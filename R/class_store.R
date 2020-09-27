@@ -189,15 +189,6 @@ store_validate_packages <- function(store) {
 store_validate_packages.default <- function(store) {
 }
 
-store_warn_output <- function(store, name) {
-  UseMethod("store_warn_output")
-}
-
-#' @export
-store_warn_output.default <- function(store, name) {
-  warn_output(name, store$file$path)
-}
-
 store_has_correct_hash <- function(store) {
   UseMethod("store_has_correct_hash")
 }

@@ -235,15 +235,3 @@ assert_unique <- function(x, msg = NULL) {
 assert_unique_targets <- function(x) {
   assert_unique(x, "duplicated target names:")
 }
-
-warn_output <- function(name, path) {
-  missing <- !file.exists(path)
-  if (any(missing)) {
-    warn_validate(
-      "could not find files expected from target ",
-      name,
-      ": ",
-      paste(path[missing], collapse = ", ")
-    )
-  }
-}
