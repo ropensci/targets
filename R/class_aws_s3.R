@@ -14,8 +14,8 @@ store_write_object.tar_aws_s3 <- function(store, object) {
   dir_create(dirname(tmp))
   store_write_path(store, store_coerce_object(store, object), tmp)
   store$file$hash <- file_hash(tmp)
-  key <- store_aws_s3_object(path)
-  bucket <- store_aws_s3_bucket(path)
+  key <- store_aws_s3_key(store$file$path)
+  bucket <- store_aws_s3_bucket(store$file$path)
   aws.s3::put_object(
     file = tmp,
     object = key,
