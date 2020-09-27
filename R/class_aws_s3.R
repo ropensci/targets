@@ -4,6 +4,7 @@ store_read_object.tar_aws_s3 <- function(store) {
   bucket <- store_aws_s3_bucket(path)
   key <- store_aws_s3_key(path)
   tmp <- tempfile()
+  on.exit(unlink(tmp))
   aws.s3::save_object(object = key, bucket = bucket, file = tmp)
   store_coerce_object(store, store_read_path(store, tmp))
 }

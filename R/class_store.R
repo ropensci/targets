@@ -31,6 +31,10 @@ store_assert_format_setting.default <- function(class) {
 }
 
 store_read_object <- function(store) {
+  UseMethod("store_read_object")
+}
+
+store_read_object.default <- function(store) {
   store_coerce_object(store, store_read_path(store, store$file$path))
 }
 
