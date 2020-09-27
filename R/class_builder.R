@@ -187,16 +187,17 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   scheduler$reporter$report_errored(target, scheduler$progress)
   target_patternview_errored(target, pipeline, scheduler)
   if (target$settings$error == "save") {
-    builder_save_workspace(target, scheduler)
+    builder_save_workspace(target, pipeline, scheduler)
   }
   if (target$settings$error != "continue") {
     throw_run(target$metrics$error)
   }
 }
 
-builder_save_workspace <- function(target, scheduler) {
+builder_save_workspace <- function(target, pipeline, scheduler) {
   scheduler$reporter$report_workspace(target)
   out <- as.list(target$cache$imports$envir)
+  target_load_deps(target, pipeline)
   for (name in target$cache$targets$names) {
     out[[name]] <- memory_get_object(target$cache$targets, name)
   }
