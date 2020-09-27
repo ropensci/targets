@@ -59,28 +59,6 @@ store_upload_object.tar_aws_s3 <- function(store) {
   )
 }
 
-store_aws_s3_wait_upload <- function(
-  key,
-  bucket,
-  hash,
-  sleep = 0.01,
-  timeout = 300
-) {
-  time_left <- timeout
-  while (time_left > 0) {
-    if (store_aws_s3_is_uploaded(key, bucket, hash)) {
-      return(invisible())
-    }
-    Sys.sleep(sleep)
-    time_left <- time_left - sleep
-  }
-  throw_file("timed out waiting for ", key, " S3 object upload.")
-}
-
-store_aws_s3_is_uploaded <- function(key, bucket, hash_local) {
-  identical(hash_local, store_aws_s3_hash(key = key, bucket = bucket))
-}
-
 store_aws_s3_hash <- function(key, bucket) {
   head <- aws.s3::head_object(object = key, bucket = bucket)
   hash_remote <- attr(head, "x-amz-meta-targets-hash")
@@ -102,7 +80,7 @@ store_has_correct_hash.tar_aws_s3 <- function(store) {
 
 #' @export
 store_ensure_correct_hash.tar_aws_s3 <- function(store, storage, deployment) {
-  store_aws_s3_wait_upload(key, bucket, hash)
+  store_wait_correct_hash(store)
 }
 
 #' @export
