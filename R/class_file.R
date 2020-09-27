@@ -73,18 +73,6 @@ file_has_correct_hash <- function(file) {
   )
 }
 
-file_wait_correct_hash <- function(file, sleep = 0.01, timeout = 300) {
-  time_left <- timeout
-  while (time_left > 0) {
-    if (file_has_correct_hash(file)) {
-      return(invisible())
-    }
-    Sys.sleep(sleep)
-    time_left <- time_left - sleep
-  }
-  throw_file("timed out waiting for target ", file$name, " file.")
-}
-
 file_validate_path <- function(path) {
   assert_nonempty(path)
   assert_nonmissing(path)

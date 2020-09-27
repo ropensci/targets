@@ -92,16 +92,16 @@ store_late_hash.tar_aws_s3 <- function(store) {
 }
 
 #' @export
-store_has_correct_hash.tar_aws_s3 <- function(store, file) {
-  path <- file$path
+store_has_correct_hash.tar_aws_s3 <- function(store) {
+  path <- store$file$path
   bucket <- store_aws_s3_bucket(path)
   key <- store_aws_s3_key(path)
   hash <- tryCatch(store_aws_s3_hash, error = function(e) NA_character_)
-  identical(hash, file$hash)
+  identical(hash, store$file$hash)
 }
 
 #' @export
-store_wait_correct_hash.tar_aws_s3 <- function(store, remote) {
+store_ensure_correct_hash.tar_aws_s3 <- function(store, storage, deployment) {
   store_aws_s3_wait_upload(key, bucket, hash)
 }
 

@@ -160,7 +160,8 @@ tar_test("builder$write_from(\"remote\")", {
     expr = quote(a),
     format = "rds",
     storage = "remote",
-    retrieval = "local"
+    retrieval = "local",
+    deployment = "deployment"
   )
   cache_set_object(x$cache, "a", "123")
   target_run(x)
@@ -235,10 +236,13 @@ tar_test("dynamic file is missing at path", {
   x <- target_init(
     name = "abc",
     expr = quote("nope"),
-    format = "file"
+    format = "file",
+    deployment = "local"
   )
   local <- local_init(pipeline_init(list(x)))
-  expect_warning(local$run(), class = "condition_validate")
+  suppressWarnings(
+    expect_error(local$run(), class = "condition_file"),
+  )
 })
 
 tar_test("dynamic file and builder$write_from(\"remote\")", {

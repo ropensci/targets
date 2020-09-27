@@ -127,15 +127,37 @@ store_late_hash.default <- function(store) {
   file_update_hash(store$file)
 }
 
-store_wait_correct_hash <- function(store, remote) {
-  UseMethod("store_wait_correct_hash")
+store_ensure_correct_hash <- function(
+  store,
+  storage,
+  deployment
+) {
+  UseMethod("store_ensure_correct_hash")
 }
 
 #' @export
-store_wait_correct_hash.default <- function(store, remote) {
-  if (remote) {
-    file_wait_correct_hash(store$file)
+store_ensure_correct_hash.default <- function(store, storage, deployment ) {
+  if (storage == "remote" && deployment == "remote") {
+    store_wait_correct_hash(store)
   }
+}
+
+store_wait_correct_hash <- function(store, sleep = 0.01, timeout = 120) {
+  time_left <- timeout
+  while (time_left > 0) {
+    if (store_has_correct_hash(store)) {
+      return(invisible())
+    }
+    Sys.sleep(sleep)
+    time_left <- time_left - sleep
+  }
+  msg <- paste(
+    "Path",
+    paste(store$file$path, collapse = " "),
+    "does not exist or has incorrect hash. ",
+    "File sync timed out."
+  )
+  throw_file(msg)
 }
 
 store_serialize_value <- function(store, value) {
@@ -176,11 +198,11 @@ store_warn_output.default <- function(store, name) {
   warn_output(name, store$file$path)
 }
 
-store_has_correct_hash <- function(store, file) {
+store_has_correct_hash <- function(store) {
   UseMethod("store_has_correct_hash")
 }
 
 #' @export
-store_has_correct_hash.default <- function(store, file) {
-  all(file.exists(file$path)) && file_has_correct_hash(file)
+store_has_correct_hash.default <- function(store) {
+  all(file.exists(store$file$path)) && file_has_correct_hash(store$file)
 }

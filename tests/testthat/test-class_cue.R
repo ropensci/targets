@@ -305,14 +305,23 @@ tar_test("cue_file()", {
 })
 
 tar_test("file cue activated if a file does not exist", {
-  file.create("x")
   for (index in seq_len(2)) {
-    x <- target_init("x", quote(c("x", "y")), format = "file")
+    x <- target_init(
+      "name",
+      quote({
+        file.create("x")
+        file.create("y")
+        c("x", "y")
+      }),
+      format = "file",
+      deployment = "local"
+    )
     pipeline <- pipeline_init(list(x))
     local <- local_init(pipeline)
-    expect_warning(local$run(), class = "condition_validate")
+    local$run()
     out <- counter_get_names(local$scheduler$progress$built)
-    expect_equal(out, "x")
+    expect_equal(out, "name")
+    unlink("y")
   }
 })
 
@@ -320,17 +329,24 @@ tar_test("above, but with file cue suppressed", {
   file.create("x")
   cue <- cue_init(file = FALSE)
   for (index in seq_len(2)) {
-    x <- target_init("x", quote(c("x", "y")), format = "file", cue = cue)
+    x <- target_init(
+      "name",
+      quote({
+        file.create("x")
+        file.create("y")
+        c("x", "y")
+      }),
+      format = "file",
+      deployment = "local",
+      cue = cue
+    )
     pipeline <- pipeline_init(list(x))
     local <- local_init(pipeline)
-    trn(
-      index == 1L,
-      expect_warning(local$run(), class = "condition_validate"),
-      local$run()
-    )
+    local$run()
+    unlink("y")
   }
   out <- counter_get_names(local$scheduler$progress$skipped)
-  expect_equal(out, "x")
+  expect_equal(out, "name")
 })
 
 tar_test("cue_file() suppressed", {

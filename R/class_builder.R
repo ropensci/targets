@@ -269,8 +269,9 @@ builder_ensure_restored <- function(target, pipeline) {
 }
 
 builder_wait_correct_hash <- function(target) {
-  remote <- target$settings$storage == "remote"
-  store_wait_correct_hash(target$store, remote)
+  storage <- target$settings$storage
+  deployment <- target$settings$deployment
+  store_ensure_correct_hash(target$store, storage, deployment)
 }
 
 builder_set_envir_run <- function(target) {

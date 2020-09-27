@@ -56,6 +56,12 @@ store_late_hash.tar_store_file <- function(store, target) { # nolint
 }
 
 #' @export
-store_wait_correct_hash.tar_store_file <- function(store, remote) { # nolint
-  file_wait_correct_hash(store$file)
+store_ensure_correct_hash.tar_store_file <- function(
+  store,
+  storage,
+  deployment
+) {
+  sleep = trn(deployment == "remote", 0.01, 1e-9)
+  timeout = trn(deployment == "remote", 120, 1e-9)
+  store_wait_correct_hash(store, sleep = sleep, timeout = timeout)
 }

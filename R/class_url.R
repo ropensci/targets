@@ -59,7 +59,11 @@ store_late_hash.tar_url <- function(store) { # nolint
 }
 
 #' @export
-store_wait_correct_hash.tar_url <- function(store, remote) { # nolint
+store_ensure_correct_hash.tar_url <- function( # nolint
+  store,
+  storage,
+  deployment
+) {
 }
 
 #' @export
@@ -72,8 +76,8 @@ store_warn_output.tar_url <- function(store, name) {
 }
 
 #' @export
-store_has_correct_hash.tar_url <- function(store, file) {
+store_has_correct_hash.tar_url <- function(store) {
   handle <- store$resources$handle
-  all(url_exists(file$path, handle)) &&
-    identical(url_hash(file$path, handle), file$hash)
+  all(url_exists(store$file$path, handle)) &&
+    identical(url_hash(store$file$path, handle), store$file$hash)
 }
