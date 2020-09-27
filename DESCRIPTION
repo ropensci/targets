@@ -48,6 +48,7 @@ Imports:
   vctrs (>= 0.2.4),
   withr (>= 2.1.2)
 Suggests:
+  aws.s3 (>= 0.3.21),
   clustermq (>= 0.8.9),
   curl (>= 4.3),
   dplyr (>= 1.0.0),
