@@ -94,6 +94,6 @@ store_wait_correct_hash.tar_aws_s3 <- function(store, remote) {
 
 #' @export
 store_validate_packages.tar_aws_s3 <- function(store) {
-  assert_package("aws_s3.s3")
+  assert_package("aws.s3")
   NextMethod()
 }
