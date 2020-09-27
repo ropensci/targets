@@ -12,7 +12,7 @@ tar_test("fst_dt format", {
     envir = envir
   )
   builder_update_build(x)
-  builder_update_path(x)
+  builder_update_paths(x)
   builder_update_object(x)
   exp <- envir$f()
   file <- x$store$file

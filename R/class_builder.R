@@ -70,7 +70,7 @@ target_run.tar_builder <- function(target) {
   builder_ensure_deps(target, target$subpipeline, "remote")
   builder_update_build(target)
   target$subpipeline <- NULL
-  builder_update_path(target)
+  builder_update_paths(target)
   builder_ensure_object(target, "remote")
   target
 }
@@ -230,13 +230,13 @@ builder_update_build <- function(target) {
   invisible()
 }
 
-builder_update_path <- function(target) {
+builder_update_paths <- function(target) {
   if (metrics_terminated_early(target$metrics)) {
     return()
   }
-  settings <- target$settings
-  name <- settings$name
-  store_update_path(target$store, target_get_name(target), target$value$object)
+  name <- target_get_name(target)
+  store_update_path(target$store, name, target$value$object)
+  store_update_stage(target$store, name, target$value$object)
   store_early_hash(target$store)
 }
 

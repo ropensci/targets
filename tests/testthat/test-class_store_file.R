@@ -14,7 +14,7 @@ tar_test("dynamic files work", {
   builder_update_build(x)
   expect_equal(x$store$file$path, character(0))
   expect_true(is.na(x$store$file$hash))
-  builder_update_path(x)
+  builder_update_paths(x)
   expect_true(file.exists(x$store$file$path))
   expect_true(nzchar(x$store$file$path))
   expect_false(is.na(x$store$file$hash))

@@ -12,7 +12,7 @@ tar_test("fst_tbl format", {
     envir = envir
   )
   builder_update_build(x)
-  builder_update_path(x)
+  builder_update_paths(x)
   builder_update_object(x)
   exp <- envir$f()
   out <- tibble::as_tibble(fst::read_fst(x$store$file$path))
@@ -36,7 +36,7 @@ tar_test("fst_tbl coercion", {
   )
   builder_update_build(x)
   expect_true(inherits(x$value$object, "tbl_df"))
-  builder_update_path(x)
+  builder_update_paths(x)
   builder_update_object(x)
   expect_true(inherits(target_read_value(x)$object, "tbl_df"))
 })

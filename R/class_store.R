@@ -45,11 +45,11 @@ store_write_object <- function(store, object) {
 #' @export
 store_write_object.default <- function(store, object) {
   path <- store$file$path
+  stage <- store$file$stage
   dir_create(dirname(path))
-  tmp <- path_scratch(pattern = basename(path))
-  dir_create(dirname(tmp))
-  store_write_path(store, store_coerce_object(store, object), tmp)
-  file.rename(tmp, path)
+  dir_create(dirname(stage))
+  store_write_path(store, store_coerce_object(store, object), stage)
+  file.rename(stage, path)
 }
 
 store_write_path <- function(store, object, path) {
@@ -67,6 +67,19 @@ store_produce_path <- function(store, name, object) {
 #' @export
 store_produce_path.default <- function(store, name, object) {
   path_default(name)
+}
+
+store_update_stage <- function(store, name, object) {
+  store$file$stage <- store_produce_stage(store, name, object)
+}
+
+store_produce_stage <- function(store, name, object) {
+  UseMethod("store_produce_stage")
+}
+
+#' @export
+store_produce_stage.default <- function(store, name, object) {
+  path_scratch(pattern = name)
 }
 
 store_coerce_object <- function(store, object) {

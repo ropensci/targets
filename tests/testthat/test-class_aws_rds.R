@@ -1,7 +1,9 @@
 tar_test("aws_rds format", {
+  skip("nope")
   skip_if(Sys.getenv("AWS_ACCESS_KEY_ID") == "")
   skip_if(Sys.getenv("AWS_SECRET_ACCESS_KEY") == "")
   skip_if_not_installed("aws.s3")
+  skip_if_offline()
   bucket_name <- "file1471b52b7f804"
   on.exit(aws.s3::delete_bucket(bucket = bucket_name))
   aws.s3::put_bucket(bucket = bucket_name)

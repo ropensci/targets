@@ -1,5 +1,6 @@
 file_init <- function(
   path = character(0),
+  stage = character(0),
   hash = NA_character_,
   bytes = 0,
   time = -Inf
@@ -9,11 +10,13 @@ file_init <- function(
 
 file_new <- function(
   path = NULL,
+  stage = NULL,
   hash = NULL,
   bytes = NULL,
   time = NULL
 ) {
   force(path)
+  force(stage)
   force(hash)
   force(bytes)
   force(time)
