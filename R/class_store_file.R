@@ -61,7 +61,9 @@ store_ensure_correct_hash.tar_store_file <- function(
   storage,
   deployment
 ) {
-  sleep = trn(deployment == "remote", 0.01, 1e-9)
-  timeout = trn(deployment == "remote", 120, 1e-9)
-  store_wait_correct_hash(store, sleep = sleep, timeout = timeout)
+  trn(
+    deployment == "remote",
+    store_wait_correct_hash(store),
+    assert_path(store$file$path)
+  )
 }

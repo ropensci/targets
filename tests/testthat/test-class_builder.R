@@ -240,9 +240,7 @@ tar_test("dynamic file is missing at path", {
     deployment = "local"
   )
   local <- local_init(pipeline_init(list(x)))
-  suppressWarnings(
-    expect_error(local$run(), class = "condition_file"),
-  )
+  expect_error(local$run(), class = "condition_validate")
 })
 
 tar_test("dynamic file and builder$write_from(\"remote\")", {
