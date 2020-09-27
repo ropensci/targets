@@ -1,5 +1,9 @@
 path_default <- function(name) {
-  file.path("_targets", "objects", name)
+  file.path(path_default_dir(), name)
+}
+
+path_default_dir <- function() {
+  file.path("_targets", "objects")
 }
 
 path_scratch <- function(pattern = "") {
