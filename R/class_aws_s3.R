@@ -60,6 +60,13 @@ store_upload_object.tar_aws_s3 <- function(store) {
 }
 
 store_aws_s3_hash <- function(key, bucket) {
+  tryCatch(
+    store_aws_s3_hash_impl(key, bucket),
+    error = function(e) NA_character_
+  )
+}
+
+store_aws_s3_hash_impl <- function(key, bucket) {
   head <- aws.s3::head_object(object = key, bucket = bucket)
   hash_remote <- attr(head, "x-amz-meta-targets-hash")
 }
@@ -74,8 +81,8 @@ store_has_correct_hash.tar_aws_s3 <- function(store) {
   path <- store$file$path
   bucket <- store_aws_s3_bucket(path)
   key <- store_aws_s3_key(path)
-  hash <- tryCatch(store_aws_s3_hash, error = function(e) NA_character_)
-  identical(hash, store$file$hash)
+  hash <- store_aws_s3_hash(key, bucket)
+  !is.na(hash) && identical(hash, store$file$hash)
 }
 
 #' @export
