@@ -40,11 +40,11 @@ store_produce_path.tar_aws_s3 <- function(store, name, object) {
   c(bucket, object)
 }
 
-store_aws_s3_bucket(path) {
+store_aws_s3_bucket <- function(path) {
   path[1]
 }
 
-store_aws_s3_key(path) {
+store_aws_s3_key <- function(path) {
   path[2]
 }
 
