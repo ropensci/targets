@@ -60,6 +60,13 @@ store_write_path <- function(store, object, path) {
   UseMethod("store_write_path")
 }
 
+store_upload_object <- function(store) {
+  UseMethod("store_upload_object")
+}
+
+store_upload_object.default <- function(store) {
+}
+
 store_update_path <- function(store, name, object) {
   store$file$path <- store_produce_path(store, name, object)
 }
