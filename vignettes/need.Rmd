@@ -98,6 +98,19 @@ _targets/
 └── scratch/ # Deleted when the pipeline finishes.
 ```
 
+## Cloud storage
+
+Thanks to the simplified data store and simplified internals, `targets` can automatically upload data to the S3 bucket of your choice. Simply configure `aws.s3`, create a bucket, and select one of the AWS-powered storage formats.
+
+```{r, eval = FALSE}
+# _targets.R
+tar_option_set(resources = list(bucket = "my-bucket-name"))
+tar_pipeline(
+  tar_target(dataset, get_large_dataset(), format = "aws_fst_tbl"),
+  tar_target(analysis, analyze_dataset(dataset), format = "aws_qs")
+)
+```
+
 ## Show status of functions and global objects
 
 [`drake`](https://github.com/ropensci/drake) has several utilities that inform users which targets are up to date and which need to rerun. However, those utilities are limited by how [`drake`](https://github.com/ropensci/drake) manages functions and other global objects. Whenever [`drake`](https://github.com/ropensci/drake) inspects globals, it stores their values in its cache and loses track of their previous state from the last run of the pipeline. As a result, it has trouble informing users exactly why a given target is out of date. And because the system for tracking global objects is tightly coupled with the cache, this limitation is permanent.
