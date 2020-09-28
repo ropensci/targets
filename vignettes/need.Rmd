@@ -100,7 +100,7 @@ _targets/
 
 ## Cloud storage
 
-Thanks to the simplified data store and simplified internals, `targets` can automatically upload data to the S3 bucket of your choice. Simply configure `aws.s3`, create a bucket, and select one of the AWS-powered storage formats.
+Thanks to the simplified data store and simplified internals, `targets` can automatically upload data to the Amazon S3 bucket of your choice. Simply configure `aws.s3`, create a bucket, and select one of the AWS-powered storage formats.
 
 ```{r, eval = FALSE}
 # _targets.R
