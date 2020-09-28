@@ -100,7 +100,7 @@ _targets/
 
 ## Cloud storage
 
-Thanks to the simplified data store and simplified internals, `targets` can automatically upload data to the Amazon S3 bucket of your choice. Simply configure `aws.s3`, create a bucket, and select one of the AWS-powered storage formats.
+Thanks to the simplified data store and simplified internals, `targets` can automatically upload data to the Amazon S3 bucket of your choice. Simply configure `aws.s3`, create a bucket, and select one of the AWS-powered storage formats. Then, `targets` will automatically upload the return values to the cloud.
 
 ```{r, eval = FALSE}
 # _targets.R
@@ -109,6 +109,12 @@ tar_pipeline(
   tar_target(dataset, get_large_dataset(), format = "aws_fst_tbl"),
   tar_target(analysis, analyze_dataset(dataset), format = "aws_qs")
 )
+```
+
+Data retrieval is still super easy.
+
+```{r, eval = FALSE}
+tar_read(dataset)
 ```
 
 ## Show status of functions and global objects
