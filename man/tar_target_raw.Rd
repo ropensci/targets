@@ -103,6 +103,18 @@ respective formats \code{"rds"}, \code{"qs"}, etc. The only difference
 is that the data file is uploaded to the AWS S3 bucket
 you supply to \code{resources}. See the cloud computing chapter
 of the manual for details.
+\item \code{"aws_file"}: arbitrary dynamic files on AWS S3. The target
+should return a path to a temporary local file, then
+\code{targets} will automatically upload this file to an S3
+bucket and track it for you. Unlike \code{format = "file"},
+\code{format = "aws_file"} can only handle one single file,
+and that file must not be a directory.
+\code{\link[=tar_read]{tar_read()}} and downstream targets
+download the file to \verb{_targets/scratch/} locally and return the path.
+\verb{_targets/scratch/} gets deleted at the end of \code{\link[=tar_make]{tar_make()}}.
+Requires the same \code{resources} and other configuration details
+as the other AWS-powered formats. See the cloud computing
+chapter of the manual for details.
 }}
 
 \item{iteration}{Character of length 1, name of the iteration mode

@@ -71,6 +71,18 @@
 #'     is that the data file is uploaded to the AWS S3 bucket
 #'     you supply to `resources`. See the cloud computing chapter
 #'     of the manual for details.
+#'   * `"aws_file"`: arbitrary dynamic files on AWS S3. The target
+#'     should return a path to a temporary local file, then
+#'     `targets` will automatically upload this file to an S3
+#'     bucket and track it for you. Unlike `format = "file"`,
+#'     `format = "aws_file"` can only handle one single file,
+#'     and that file must not be a directory.
+#'     [tar_read()] and downstream targets
+#'     download the file to `_targets/scratch/` locally and return the path.
+#'     `_targets/scratch/` gets deleted at the end of [tar_make()].
+#'     Requires the same `resources` and other configuration details
+#'     as the other AWS-powered formats. See the cloud computing
+#'     chapter of the manual for details.
 #' @param iteration Character of length 1, name of the iteration mode
 #'   of the target. Choices:
 #'   * `"vector"`: branching happens with `vectors::vec_slice()` and

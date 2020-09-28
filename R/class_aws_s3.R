@@ -70,7 +70,11 @@ store_aws_s3_hash <- function(key, bucket) {
 
 #' @export
 store_late_hash.tar_aws_s3 <- function(store) {
-  store$file$hash <- file_hash(store$file$stage)
+  file <- file_init(path = store$file$stage)
+  file_update_hash(file)
+  store$file$hash <- file$hash
+  store$file$bytes <- file$bytes
+  store$file$time <- file$time
 }
 
 #' @export
