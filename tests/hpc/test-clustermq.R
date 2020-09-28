@@ -3,7 +3,6 @@ tar_test("clustermq iteration loop can wait and shut down workers", {
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
-  on.exit(options(clustermq.scheduler = old))
   x <- tar_target_raw("x", quote(Sys.sleep(2)))
   y <- tar_target_raw("y", quote(list(x, a = "x")))
   pipeline <- tar_pipeline(list(x, y))
@@ -11,6 +10,7 @@ tar_test("clustermq iteration loop can wait and shut down workers", {
   out$run()
   target <- pipeline_get_target(pipeline, "y")
   expect_equal(target_read_value(target)$object$a, "x")
+  options(clustermq.scheduler = old)
 })
 
 test_that("packages are actually loaded on remote targets", {

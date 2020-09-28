@@ -11,7 +11,5 @@
 tar_dir <- function(code) {
   dir <- tempfile(pattern = "targets_")
   dir_create(dir)
-  expr <- substitute(code)
-  withr::local_dir(dir)
-  eval(expr, envir = environment())
+  withr::with_dir(dir, code)
 }

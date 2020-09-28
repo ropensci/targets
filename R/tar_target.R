@@ -65,7 +65,12 @@
 #'     certain the ETag and Last-Modified time stamp are fully updated
 #'     and available by the time the target's command finishes running.
 #'     `targets` makes no attempt to wait for the web server.
-#'   * `"aws_rds"`, `"aws_qs"`, `"aws_fst"`
+#'   * `"aws_rds"`, `"aws_qs"`, `"aws_fst"`, `"aws_fst_dt"`,
+#'     `"aws_fst_tbl"`, `"aws_keras"`: AWS-powered versions of the
+#'     respective formats `"rds"`, `"qs"`, etc. The only difference
+#'     is that the data file is uploaded to the AWS S3 bucket
+#'     you supply to `resources`. See the cloud computing chapter
+#'     of the manual for details.
 #' @param iteration Character of length 1, name of the iteration mode
 #'   of the target. Choices:
 #'   * `"vector"`: branching happens with `vectors::vec_slice()` and
@@ -107,6 +112,10 @@
 #'   * Custom compression level for `fst::write_fst()` if
 #'     `format` is `"fst"`, `"fst_dt"`, or `"fst_tbl"`, e.g.
 #'     `resources = list(compress = 100)`.
+#'   * AWS bucket and prefix for the `"aws_"` formats, e.g.
+#'     `resources = list(bucket = "your-bucket", prefix = "folder/name")`.
+#'     `bucket` is required for AWS formats. See the cloud computing chapter
+#'     of the manual for details.
 #' @param storage Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
 #'   If `"local"`, the target's return value is sent back to the

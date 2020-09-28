@@ -13,12 +13,13 @@ tar_test("Run tar_renv() interactively", {
   tar_renv(packages = pkgs1)
   expect_true(file.exists("_packages.R"))
   expect_equal(readLines("_packages.R"), lines1)
+  old_tar_ask <- Sys.getenv("TAR_ASK")
   Sys.setenv(TAR_ASK = "true")
-  on.exit(Sys.setenv(TAR_ASK = "false"))
   tar_renv(packages = pkgs2) # See a menu and choose 2.
   expect_equal(readLines("_packages.R"), lines1)
   tar_renv(packages = pkgs2) # See a menu and choose 0.
   expect_equal(readLines("_packages.R"), lines1)
   tar_renv(packages = pkgs2) # See a menu and choose 1.
   expect_equal(readLines("_packages.R"), lines2)
+  Sys.setenv(TAR_ASK = old_tar_ask)
 })

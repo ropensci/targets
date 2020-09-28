@@ -29,11 +29,6 @@ tar_test("file_ensure_hash() on a huge file", {
 
 tar_test("file_ensure_hash() on a huge file in pipeline", {
   tmp <- "tempfile"
-  on.exit({
-    unlink(tmp)
-    tar_destroy()
-    unlink("_targets.R")
-  })
   file <- file_init(path = tmp)
   x <- paste(letters, collapse = "")
   writeLines(rep(x, 1e8), tmp) # Pause here.
@@ -53,4 +48,7 @@ tar_test("file_ensure_hash() on a huge file in pipeline", {
   write("extra line", file = tmp, append = TRUE)
   tar_make() # Could be slow, should run.
   tar_make() # Should be fast, should skip.
+  unlink(tmp)
+  tar_destroy()
+  unlink("_targets.R")
 })

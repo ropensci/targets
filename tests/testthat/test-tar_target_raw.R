@@ -19,7 +19,6 @@ tar_test("tar_target_raw() defines pattens correctly", {
 })
 
 tar_test("tar_target_raw() receives options", {
-  on.exit(tar_option_set())
   tar_option_set(format = "file")
   x <- tar_target_raw("x", "y")
   expect_equal(x$settings$format, "file")
