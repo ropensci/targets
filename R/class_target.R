@@ -277,6 +277,7 @@ target_is_branchable <- function(target) {
   UseMethod("target_is_branchable")
 }
 
+#' @export
 target_is_branchable.default <- function(target) {
   FALSE
 }

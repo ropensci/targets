@@ -1,0 +1,16 @@
+store_new.aws_fst_tbl <- function(class, file = NULL, resources = NULL) {
+  aws_fst_tbl_new(file = file, resources = resources)
+}
+
+aws_fst_tbl_new <- function(file = NULL, resources = NULL) {
+  force(file)
+  force(resources)
+  enclass(
+    environment(),
+    c("tar_aws_s3_fst_tbl", "tar_aws_s3", "tar_fst_tbl", "tar_store")
+  )
+}
+
+#' @export
+store_assert_format_setting.aws_fst_tbl <- function(class) {
+}

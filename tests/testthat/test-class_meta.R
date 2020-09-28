@@ -140,6 +140,7 @@ tar_test("can read old metadata with a error & a non-error", {
 })
 
 tar_test("meta$produce_depend() empty", {
+  envir <- new.env(parent = globalenv())
   x <- target_init(name = "x", expr = quote(1), envir = envir)
   pipeline <- pipeline_init(list(x))
   local <- local_init(pipeline)

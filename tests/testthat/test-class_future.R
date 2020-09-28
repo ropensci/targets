@@ -25,8 +25,6 @@ tar_test("all local deployment works", {
 
 tar_test("some targets up to date, some not", {
   skip_if_not_installed("future")
-  on.exit(unlink("_targets", recursive = TRUE))
-  on.exit(future::plan(future::sequential), add = TRUE)
   x <- tar_target_raw("x", quote(1L))
   y <- tar_target_raw("y", quote(x))
   pipeline <- tar_pipeline(list(x, y))
@@ -41,13 +39,12 @@ tar_test("some targets up to date, some not", {
   expect_equal(out, "y")
   value <- target_read_value(pipeline_get_target(pipeline, "y"))
   expect_equal(value$object, 2L)
+  future::plan(future::sequential)
 })
 
 tar_test("future algo can skip targets", {
   skip_on_cran()
   skip_if_not_installed("future")
-  on.exit(unlink("_targets", recursive = TRUE))
-  on.exit(future::plan(future::sequential), add = TRUE)
   x <- tar_target_raw("x", quote(1L))
   y <- tar_target_raw("y", quote(x))
   pipeline <- tar_pipeline(list(x, y))
@@ -63,15 +60,13 @@ tar_test("future algo can skip targets", {
   expect_equal(out, "x")
   value <- target_read_value(pipeline_get_target(pipeline, "x"))
   expect_equal(value$object, 1L)
+  future::plan(future::sequential)
 })
 
 tar_test("nontrivial globals", {
   skip_on_cran()
   skip_if_not_installed("future")
-  on.exit(unlink("_targets", recursive = TRUE))
-  on.exit(future::plan(future::sequential), add = TRUE)
   old_envir <- tar_option_get("envir")
-  on.exit(tar_option_set(envir = old_envir), add = TRUE)
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
   evalq({
@@ -87,13 +82,13 @@ tar_test("nontrivial globals", {
   cmq <- future_init(pipeline)
   cmq$run()
   expect_equal(tar_read(x), 3L)
+  future::plan(future::sequential)
+  tar_option_set(envir = old_envir)
 })
 
 tar_test("branching plan", {
   skip_on_cran()
   skip_if_not_installed("future")
-  on.exit(unlink("_targets", recursive = TRUE))
-  on.exit(future::plan(future::sequential), add = TRUE)
   pipeline <- pipeline_map()
   out <- future_init(pipeline, workers = 2L, garbage_collection = TRUE)
   out$run()
@@ -134,6 +129,7 @@ tar_test("branching plan", {
   for (index in seq_along(branches)) {
     expect_equal(value(branches[index]), index + 15L)
   }
+  future::plan(future::sequential)
 })
 
 tar_test("future$validate()", {

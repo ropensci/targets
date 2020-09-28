@@ -70,7 +70,7 @@ target_run.tar_builder <- function(target) {
   builder_ensure_deps(target, target$subpipeline, "remote")
   builder_update_build(target)
   target$subpipeline <- NULL
-  builder_update_path(target)
+  builder_update_paths(target)
   builder_ensure_object(target, "remote")
   target
 }
@@ -187,16 +187,17 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   scheduler$reporter$report_errored(target, scheduler$progress)
   target_patternview_errored(target, pipeline, scheduler)
   if (target$settings$error == "save") {
-    builder_save_workspace(target, scheduler)
+    builder_save_workspace(target, pipeline, scheduler)
   }
   if (target$settings$error != "continue") {
     throw_run(target$metrics$error)
   }
 }
 
-builder_save_workspace <- function(target, scheduler) {
+builder_save_workspace <- function(target, pipeline, scheduler) {
   scheduler$reporter$report_workspace(target)
   out <- as.list(target$cache$imports$envir)
+  target_load_deps(target, pipeline)
   for (name in target$cache$targets$names) {
     out[[name]] <- memory_get_object(target$cache$targets, name)
   }
@@ -230,13 +231,13 @@ builder_update_build <- function(target) {
   invisible()
 }
 
-builder_update_path <- function(target) {
+builder_update_paths <- function(target) {
   if (metrics_terminated_early(target$metrics)) {
     return()
   }
-  settings <- target$settings
-  name <- settings$name
-  store_update_path(target$store, target_get_name(target), target$value$object)
+  name <- target_get_name(target)
+  store_update_path(target$store, name, target$value$object)
+  store_update_stage(target$store, name, target$value$object)
   store_early_hash(target$store)
 }
 
@@ -246,8 +247,8 @@ builder_update_object <- function(target) {
   }
   file_validate_path(target$store$file$path)
   store_write_object(target$store, target$value$object)
-  store_warn_output(target$store, target_get_name(target))
   store_late_hash(target$store)
+  store_upload_object(target$store)
 }
 
 builder_ensure_object <- function(target, storage) {
@@ -268,8 +269,9 @@ builder_ensure_restored <- function(target, pipeline) {
 }
 
 builder_wait_correct_hash <- function(target) {
-  remote <- target$settings$storage == "remote"
-  store_wait_correct_hash(target$store, remote)
+  storage <- target$settings$storage
+  deployment <- target$settings$deployment
+  store_ensure_correct_hash(target$store, storage, deployment)
 }
 
 builder_set_envir_run <- function(target) {

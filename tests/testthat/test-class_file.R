@@ -181,18 +181,6 @@ tar_test("file_has_correct_hash()", {
   expect_false(file_has_correct_hash(file))
 })
 
-tar_test("file_wait_correct_hash()", {
-  tmp <- tempfile()
-  file <- file_init(path = tmp)
-  writeLines("lines", tmp)
-  expect_error(
-    file_wait_correct_hash(file, timeout = 0.02),
-    class = "condition_targets"
-  )
-  file_update_hash(file)
-  expect_silent(file_wait_correct_hash(file))
-})
-
 tar_test("file_validate() on a good file", {
   file <- file_init(
     path = "xyz",

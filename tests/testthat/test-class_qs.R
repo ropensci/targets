@@ -7,7 +7,7 @@ tar_test("qs format", {
     envir = baseenv()
   )
   builder_update_build(x)
-  builder_update_path(x)
+  builder_update_paths(x)
   builder_update_object(x)
   exp <- 2L
   expect_equal(qs::qread(x$store$file$path), exp)

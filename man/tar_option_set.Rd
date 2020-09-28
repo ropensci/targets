@@ -80,6 +80,24 @@ trying to use \code{format = "url"} to track uploads. You must be absolutely
 certain the ETag and Last-Modified time stamp are fully updated
 and available by the time the target's command finishes running.
 \code{targets} makes no attempt to wait for the web server.
+\item \code{"aws_rds"}, \code{"aws_qs"}, \code{"aws_fst"}, \code{"aws_fst_dt"},
+\code{"aws_fst_tbl"}, \code{"aws_keras"}: AWS-powered versions of the
+respective formats \code{"rds"}, \code{"qs"}, etc. The only difference
+is that the data file is uploaded to the AWS S3 bucket
+you supply to \code{resources}. See the cloud computing chapter
+of the manual for details.
+\item \code{"aws_file"}: arbitrary dynamic files on AWS S3. The target
+should return a path to a temporary local file, then
+\code{targets} will automatically upload this file to an S3
+bucket and track it for you. Unlike \code{format = "file"},
+\code{format = "aws_file"} can only handle one single file,
+and that file must not be a directory.
+\code{\link[=tar_read]{tar_read()}} and downstream targets
+download the file to \verb{_targets/scratch/} locally and return the path.
+\verb{_targets/scratch/} gets deleted at the end of \code{\link[=tar_make]{tar_make()}}.
+Requires the same \code{resources} and other configuration details
+as the other AWS-powered formats. See the cloud computing
+chapter of the manual for details.
 }}
 
 \item{iteration}{Character of length 1, name of the iteration mode
@@ -131,6 +149,10 @@ e.g. \code{resources = list(handle = curl::new_handle())}.
 \item Custom compression level for \code{fst::write_fst()} if
 \code{format} is \code{"fst"}, \code{"fst_dt"}, or \code{"fst_tbl"}, e.g.
 \code{resources = list(compress = 100)}.
+\item AWS bucket and prefix for the \code{"aws_"} formats, e.g.
+\code{resources = list(bucket = "your-bucket", prefix = "folder/name")}.
+\code{bucket} is required for AWS formats. See the cloud computing chapter
+of the manual for details.
 }}
 
 \item{storage}{Character of length 1, only relevant to

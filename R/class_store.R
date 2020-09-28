@@ -31,6 +31,10 @@ store_assert_format_setting.default <- function(class) {
 }
 
 store_read_object <- function(store) {
+  UseMethod("store_read_object")
+}
+
+store_read_object.default <- function(store) {
   store_coerce_object(store, store_read_path(store, store$file$path))
 }
 
@@ -45,15 +49,22 @@ store_write_object <- function(store, object) {
 #' @export
 store_write_object.default <- function(store, object) {
   path <- store$file$path
+  stage <- store$file$stage
   dir_create(dirname(path))
-  tmp <- path_scratch(pattern = basename(path))
-  dir_create(dirname(tmp))
-  store_write_path(store, store_coerce_object(store, object), tmp)
-  file.rename(tmp, path)
+  dir_create(dirname(stage))
+  store_write_path(store, store_coerce_object(store, object), stage)
+  file.rename(stage, path)
 }
 
 store_write_path <- function(store, object, path) {
   UseMethod("store_write_path")
+}
+
+store_upload_object <- function(store) {
+  UseMethod("store_upload_object")
+}
+
+store_upload_object.default <- function(store) {
 }
 
 store_update_path <- function(store, name, object) {
@@ -67,6 +78,19 @@ store_produce_path <- function(store, name, object) {
 #' @export
 store_produce_path.default <- function(store, name, object) {
   path_default(name)
+}
+
+store_update_stage <- function(store, name, object) {
+  store$file$stage <- store_produce_stage(store, name, object)
+}
+
+store_produce_stage <- function(store, name, object) {
+  UseMethod("store_produce_stage")
+}
+
+#' @export
+store_produce_stage.default <- function(store, name, object) {
+  path_scratch(pattern = name)
 }
 
 store_coerce_object <- function(store, object) {
@@ -103,15 +127,37 @@ store_late_hash.default <- function(store) {
   file_update_hash(store$file)
 }
 
-store_wait_correct_hash <- function(store, remote) {
-  UseMethod("store_wait_correct_hash")
+store_ensure_correct_hash <- function(
+  store,
+  storage,
+  deployment
+) {
+  UseMethod("store_ensure_correct_hash")
 }
 
 #' @export
-store_wait_correct_hash.default <- function(store, remote) {
-  if (remote) {
-    file_wait_correct_hash(store$file)
+store_ensure_correct_hash.default <- function(store, storage, deployment) {
+  if (storage == "remote" && deployment == "remote") {
+    store_wait_correct_hash(store)
   }
+}
+
+store_wait_correct_hash <- function(store, sleep = 0.01, timeout = 120) {
+  time_left <- timeout
+  while (time_left > 0) {
+    if (store_has_correct_hash(store)) {
+      return(invisible())
+    }
+    Sys.sleep(sleep)
+    time_left <- time_left - sleep
+  }
+  msg <- paste(
+    "Path",
+    paste(store$file$path, collapse = " "),
+    "does not exist or has incorrect hash. ",
+    "File sync timed out."
+  )
+  throw_file(msg)
 }
 
 store_serialize_value <- function(store, value) {
@@ -143,20 +189,11 @@ store_validate_packages <- function(store) {
 store_validate_packages.default <- function(store) {
 }
 
-store_warn_output <- function(store, name) {
-  UseMethod("store_warn_output")
-}
-
-#' @export
-store_warn_output.default <- function(store, name) {
-  warn_output(name, store$file$path)
-}
-
-store_has_correct_hash <- function(store, file) {
+store_has_correct_hash <- function(store) {
   UseMethod("store_has_correct_hash")
 }
 
 #' @export
-store_has_correct_hash.default <- function(store, file) {
-  all(file.exists(file$path)) && file_has_correct_hash(file)
+store_has_correct_hash.default <- function(store) {
+  all(file.exists(store$file$path)) && file_has_correct_hash(store$file)
 }

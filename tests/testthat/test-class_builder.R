@@ -71,6 +71,7 @@ tar_test("read and write objects", {
   tmp <- tempfile()
   file <- x$store$file
   file$path <- tmp
+  file$stage <- tempfile()
   cache_set_object(x$cache, "a", "123")
   builder_update_build(x)
   builder_update_object(x)
@@ -159,7 +160,8 @@ tar_test("builder$write_from(\"remote\")", {
     expr = quote(a),
     format = "rds",
     storage = "remote",
-    retrieval = "local"
+    retrieval = "local",
+    deployment = "deployment"
   )
   cache_set_object(x$cache, "a", "123")
   target_run(x)
@@ -234,10 +236,11 @@ tar_test("dynamic file is missing at path", {
   x <- target_init(
     name = "abc",
     expr = quote("nope"),
-    format = "file"
+    format = "file",
+    deployment = "local"
   )
   local <- local_init(pipeline_init(list(x)))
-  expect_warning(local$run(), class = "condition_validate")
+  expect_error(local$run(), class = "condition_validate")
 })
 
 tar_test("dynamic file and builder$write_from(\"remote\")", {

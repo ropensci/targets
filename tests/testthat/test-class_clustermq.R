@@ -29,7 +29,6 @@ tar_test("some targets up to date, some not", {
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
-  on.exit(options(clustermq.scheduler = old))
   x <- tar_target_raw("x", quote(1L))
   y <- tar_target_raw("y", quote(x))
   pipeline <- tar_pipeline(list(x, y))
@@ -44,6 +43,7 @@ tar_test("some targets up to date, some not", {
   expect_equal(out, "y")
   value <- target_read_value(pipeline_get_target(pipeline, "y"))
   expect_equal(value$object, 2L)
+  options(clustermq.scheduler = old)
 })
 
 tar_test("clustermq algo can skip targets", {
@@ -52,7 +52,6 @@ tar_test("clustermq algo can skip targets", {
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
-  on.exit(options(clustermq.scheduler = old))
   x <- tar_target_raw("x", quote(1L))
   y <- tar_target_raw("y", quote(x))
   pipeline <- tar_pipeline(list(x, y))
@@ -67,6 +66,7 @@ tar_test("clustermq algo can skip targets", {
   out <- names(cmq$scheduler$progress$built$envir)
   expect_equal(out, "x")
   expect_equal(tar_read(x), 1L)
+  options(clustermq.scheduler = old)
 })
 
 tar_test("nontrivial common data", {
@@ -75,9 +75,7 @@ tar_test("nontrivial common data", {
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
-  on.exit(options(clustermq.scheduler = old))
   old_envir <- tar_option_get("envir")
-  on.exit(tar_option_set(envir = old_envir), add = TRUE)
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
   evalq({
@@ -94,6 +92,8 @@ tar_test("nontrivial common data", {
   cmq$run()
   value <- target_read_value(pipeline_get_target(pipeline, "x"))
   expect_equal(value$object, 3L)
+  tar_option_set(envir = old_envir)
+  options(clustermq.scheduler = old)
 })
 
 tar_test("clustermq with a dynamic file", {
@@ -102,9 +102,7 @@ tar_test("clustermq with a dynamic file", {
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
-  on.exit(options(clustermq.scheduler = old))
   old_envir <- tar_option_get("envir")
-  on.exit(tar_option_set(envir = old_envir), add = TRUE)
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
   evalq({
@@ -127,6 +125,8 @@ tar_test("clustermq with a dynamic file", {
   cmq$run()
   out <- names(cmq$scheduler$progress$built$envir)
   expect_equal(out, "x")
+  options(clustermq.scheduler = old)
+  tar_option_set(envir = old_envir)
 })
 
 tar_test("branching plan", {
@@ -135,7 +135,6 @@ tar_test("branching plan", {
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
-  on.exit(options(clustermq.scheduler = old))
   pipeline <- pipeline_map()
   out <- clustermq_init(pipeline, workers = 2L, garbage_collection = TRUE)
   out$run()
@@ -175,6 +174,7 @@ tar_test("branching plan", {
   for (index in seq_along(branches)) {
     expect_equal(value(branches[index]), index + 15L)
   }
+  options(clustermq.scheduler = old)
 })
 
 tar_test("clustermq$validate()", {

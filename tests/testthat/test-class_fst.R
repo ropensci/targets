@@ -11,7 +11,7 @@ tar_test("fst format", {
     envir = envir
   )
   builder_update_build(x)
-  builder_update_path(x)
+  builder_update_paths(x)
   builder_update_object(x)
   exp <- envir$f()
   expect_equal(fst::read_fst(x$store$file$path), exp)

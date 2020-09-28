@@ -1,19 +1,28 @@
 file_init <- function(
   path = character(0),
+  stage = character(0),
   hash = NA_character_,
   bytes = 0,
   time = -Inf
 ) {
-  file_new(path, hash, bytes, time)
+  file_new(
+    path = path,
+    stage = stage,
+    hash = hash,
+    bytes = bytes,
+    time = time
+  )
 }
 
 file_new <- function(
   path = NULL,
+  stage = NULL,
   hash = NULL,
   bytes = NULL,
   time = NULL
 ) {
   force(path)
+  force(stage)
   force(hash)
   force(bytes)
   force(time)
@@ -62,18 +71,6 @@ file_has_correct_hash <- function(file) {
     identical(file$hash, file_hash(files)),
     TRUE
   )
-}
-
-file_wait_correct_hash <- function(file, sleep = 0.01, timeout = 300) {
-  time_left <- timeout
-  while (time_left > 0) {
-    if (file_has_correct_hash(file)) {
-      return(invisible())
-    }
-    Sys.sleep(sleep)
-    time_left <- time_left - sleep
-  }
-  throw_file("timed out waiting for target ", file$name, " file.")
 }
 
 file_validate_path <- function(path) {
