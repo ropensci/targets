@@ -1,6 +1,13 @@
 tar_test("aws_file format file gets stored", {
   skip_if_no_aws()
   bucket_name <- random_bucket_name()
+  on.exit({
+    aws.s3::delete_object(object = "_targets/x", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/y", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
+    aws.s3::delete_bucket(bucket = bucket_name)
+    expect_false(aws.s3::bucket_exists(bucket = bucket_name))
+  })
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(resources = list(bucket = !!bucket_name))
@@ -32,16 +39,18 @@ tar_test("aws_file format file gets stored", {
     file = tmp
   )
   expect_equal(readLines(tmp), "x_lines")
-  aws.s3::delete_object(object = "_targets/x", bucket = bucket_name)
-  aws.s3::delete_object(object = "_targets/y", bucket = bucket_name)
-  aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-  aws.s3::delete_bucket(bucket = bucket_name)
-  expect_false(aws.s3::bucket_exists(bucket = bucket_name))
 })
 
 tar_test("aws_file format invalidation", {
   skip_if_no_aws()
   bucket_name <- random_bucket_name()
+  on.exit({
+    aws.s3::delete_object(object = "_targets/x", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/y", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
+    aws.s3::delete_bucket(bucket = bucket_name)
+    expect_false(aws.s3::bucket_exists(bucket = bucket_name))
+  })
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(resources = list(bucket = !!bucket_name))
@@ -80,9 +89,4 @@ tar_test("aws_file format invalidation", {
   expect_equal(tar_progress(x)$progress, "built")
   expect_equal(tar_progress(y)$progress, "built")
   expect_equal(tar_read(y), "x_lines2")
-  aws.s3::delete_object(object = "_targets/x", bucket = bucket_name)
-  aws.s3::delete_object(object = "_targets/y", bucket = bucket_name)
-  aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-  aws.s3::delete_bucket(bucket = bucket_name)
-  expect_false(aws.s3::bucket_exists(bucket = bucket_name))
 })

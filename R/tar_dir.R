@@ -9,7 +9,9 @@
 #' tar_dir(file.create("x"))
 #' file.exists("x") # Should be false.
 tar_dir <- function(code) {
+  code <- substitute(code)
   dir <- tempfile(pattern = "targets_")
   dir_create(dir)
-  withr::with_dir(dir, code)
+  withr::local_dir(dir)
+  eval(code, envir = parent.frame())
 }
