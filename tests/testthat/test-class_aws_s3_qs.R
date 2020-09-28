@@ -1,12 +1,13 @@
-tar_test("aws_rds format data gets stored", {
+tar_test("aws_qs format data gets stored", {
   skip_if_no_aws()
+  skip_if_not_installed("qs")
   bucket_name <- random_bucket_name()
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(resources = list(bucket = !!bucket_name))
     tar_pipeline(
-      tar_target(x, "x_value", format = "aws_rds"),
-      tar_target(y, c(x, "y_value"), format = "aws_rds")
+      tar_target(x, "x_value", format = "aws_qs"),
+      tar_target(y, c(x, "y_value"), format = "aws_qs")
     )
   })
   expr <- tidy_eval(expr, environment(), TRUE)
@@ -28,7 +29,7 @@ tar_test("aws_rds format data gets stored", {
     bucket = bucket_name,
     file = tmp
   )
-  expect_equal(readRDS(tmp), "x_value")
+  expect_equal(qs::qread(tmp), "x_value")
   aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
   aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
   aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
@@ -37,15 +38,16 @@ tar_test("aws_rds format data gets stored", {
   expect_false(aws.s3::bucket_exists(bucket = bucket_name))
 })
 
-tar_test("aws_rds format invalidation", {
+tar_test("aws_qs format invalidation", {
   skip_if_no_aws()
+  skip_if_not_installed("qs")
   bucket_name <- random_bucket_name()
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(resources = list(bucket = !!bucket_name))
     tar_pipeline(
-      tar_target(x, "x_value", format = "aws_rds"),
-      tar_target(y, c(x, "y_value"), format = "aws_rds")
+      tar_target(x, "x_value", format = "aws_qs"),
+      tar_target(y, c(x, "y_value"), format = "aws_qs")
     )
   })
   expr <- tidy_eval(expr, environment(), TRUE)
@@ -58,8 +60,8 @@ tar_test("aws_rds format invalidation", {
   expr <- quote({
     tar_option_set(resources = list(bucket = !!bucket_name))
     tar_pipeline(
-      tar_target(x, "x_value2", format = "aws_rds"),
-      tar_target(y, c(x, "y_value"), format = "aws_rds")
+      tar_target(x, "x_value2", format = "aws_qs"),
+      tar_target(y, c(x, "y_value"), format = "aws_qs")
     )
   })
   expr <- tidy_eval(expr, environment(), TRUE)
