@@ -65,6 +65,7 @@
 #'     certain the ETag and Last-Modified time stamp are fully updated
 #'     and available by the time the target's command finishes running.
 #'     `targets` makes no attempt to wait for the web server.
+#'   * `"aws_rds"`, `"aws_qs"`, `"aws_fst"`
 #' @param iteration Character of length 1, name of the iteration mode
 #'   of the target. Choices:
 #'   * `"vector"`: branching happens with `vectors::vec_slice()` and
