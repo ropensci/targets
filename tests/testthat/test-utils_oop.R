@@ -18,10 +18,6 @@ tar_test("value can instantiate", {
   expect_true(is.environment(value_new()))
 })
 
-tar_test("store can instantiate", {
-  expect_true(is.environment(store_new()))
-})
-
 tar_test("pattern can instantiate", {
   expect_true(is.environment(pattern_new()))
 })

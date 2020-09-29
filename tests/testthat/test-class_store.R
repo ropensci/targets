@@ -11,3 +11,7 @@ tar_test("store_wait_correct_hash()", {
   file_update_hash(file)
   expect_silent(store_wait_correct_hash(store))
 })
+
+tar_test("store_validate()", {
+  store_validate(store_new(resources = list()))
+})
