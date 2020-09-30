@@ -39,6 +39,16 @@ tar_test("assert_df()", {
   expect_error(assert_df(TRUE), class = "condition_validate")
 })
 
+tar_test("assert_in()", {
+  expect_silent(assert_in("x", letters))
+  expect_error(assert_in("xyz", letters), class = "condition_validate")
+})
+
+tar_test("assert_not_in()", {
+  expect_silent(assert_not_in("xyz", letters))
+  expect_error(assert_not_in("x", letters), class = "condition_validate")
+})
+
 tar_test("assert_inherits()", {
   expect_silent(assert_inherits(data_frame(x = 1), "data.frame"))
   expect_error(
@@ -97,6 +107,8 @@ tar_test("assert_target_script()", {
   expect_error(assert_target_script(), class = "condition_validate")
   file.create("_targets.R")
   expect_silent(assert_target_script())
+  writeLines("tar_make()", "_targets.R")
+  expect_error(assert_target_script(), class = "condition_validate")
 })
 
 tar_test("assert_true()", {

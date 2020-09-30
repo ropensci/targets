@@ -92,6 +92,12 @@ assert_in <- function(x, choices, msg = NULL) {
   }
 }
 
+assert_not_in <- function(x, choices, msg = NULL) {
+  if (any(x %in% choices)) {
+    throw_validate(msg %||% paste(deparse(x), " is in ", deparse(choices)))
+  }
+}
+
 assert_inherits <- function(x, class, msg = NULL) {
   if (!inherits(x, class)) {
     throw_validate(msg %||% paste("x does not inherit from", class))
@@ -209,14 +215,16 @@ assert_store <- function() {
 }
 
 assert_target_script <- function() {
-  assert_path(
-    "_targets.R",
-    paste(
-      "main functions like tar_make() require a special _targets.R script",
-      "in the current working directory to define the pipeline.",
-      "The tar_script() function is a convenient way to produce one."
-    )
+  msg <- paste(
+    "main functions like tar_make() require a special _targets.R script",
+    "in the current working directory to define the pipeline.",
+    "The tar_script() function is a convenient way to produce one."
   )
+  assert_path("_targets.R", msg)
+  vars <- all.vars(parse(file = "_targets.R"), functions = TRUE)
+  choices <- grep("^tar_make", getNamespaceExports("targets"), value = TRUE)
+  msg <- "_targets.R must not contain tar_make() or similar functions."
+  assert_not_in(vars, choices, msg)
 }
 
 assert_true <- function(condition, msg = NULL) {
