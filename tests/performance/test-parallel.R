@@ -15,6 +15,7 @@ tar_script({
   )
 })
 tar_make_clustermq(workers = 3L)
+tar_destroy()
 
 # If there are problems, use the example below
 envir <- globalenv()
