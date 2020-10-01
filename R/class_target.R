@@ -15,7 +15,7 @@ target_init <- function(
   priority = 0,
   resources = list(),
   storage = "local",
-  retrieval = storage,
+  retrieval = "local",
   cue = NULL
 ) {
   force(envir)

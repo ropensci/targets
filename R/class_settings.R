@@ -9,7 +9,7 @@ settings_init <- function(
   priority = 0,
   resources = list(),
   storage = "local",
-  retrieval = storage
+  retrieval = "local"
 ) {
   growth <- all.vars(pattern, functions = TRUE, max.names = 1L) %|||% "none"
   dimensions <- all.vars(pattern, functions = FALSE)
