@@ -2,7 +2,6 @@
 # We should not have to wait for all the `x2` branches to finish
 # before we move on to `x3`-`x6` branches downstream of the
 # first x1 branches.
-# Run this in a terminal, not RStudio.
 library(targets)
 tar_script({
   options(clustermq.scheduler = "multicore")
