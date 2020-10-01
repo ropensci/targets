@@ -1,5 +1,4 @@
 library(proffer)
-library(targets)
 
 # Should barely see target_load_deps() in the profiling data.
 # Use debug(store_read_path.tar_rds) to be sure readRDS() is not called. # nolint
