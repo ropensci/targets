@@ -35,7 +35,7 @@ store_serialize_value.tar_torch <- function(store, value) {
 store_unserialize_value.tar_torch <- function(store, value) {
   con <- rawConnection(value$object, open = "r")
   on.exit(close(con))
-  torch::torch_load(con)
+  value$object <- torch::torch_load(con)
 }
 
 #' @export
