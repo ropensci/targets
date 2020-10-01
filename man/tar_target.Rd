@@ -69,6 +69,9 @@ Optionally set the compression level the same way as for \code{"fst"}.
 Optionally set the compression level the same way as for \code{"fst"}.
 \item \code{"keras"}: Uses \code{keras::save_model_hdf5()} and
 \code{keras::load_model_hdf5()}. The value must be a Keras model.
+\item \code{"torch"}: Uses \code{torch::torch_save()} and \code{torch::torch_load()}.
+The value must be an object from the \code{torch} package
+such as a tensor or neural network module.
 \item \code{"file"}: A dynamic file. To use this format,
 the target needs to manually identify or save some data
 and return a character vector of paths

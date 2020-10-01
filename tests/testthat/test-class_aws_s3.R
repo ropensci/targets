@@ -40,3 +40,10 @@ tar_test("validate aws_keras", {
   tar_script(tar_pipeline(tar_target(x, "x_value", format = "aws_keras")))
   expect_silent(tar_validate(callr_function = NULL))
 })
+
+tar_test("validate aws_torch", {
+  skip_if_not_installed("aws.s3")
+  skip_if_not_installed("torch")
+  tar_script(tar_pipeline(tar_target(x, "x_value", format = "aws_torch")))
+  expect_silent(tar_validate(callr_function = NULL))
+})

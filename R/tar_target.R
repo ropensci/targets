@@ -46,6 +46,9 @@
 #'     Optionally set the compression level the same way as for `"fst"`.
 #'   * `"keras"`: Uses `keras::save_model_hdf5()` and
 #'     `keras::load_model_hdf5()`. The value must be a Keras model.
+#'   * `"torch"`: Uses `torch::torch_save()` and `torch::torch_load()`.
+#'     The value must be an object from the `torch` package
+#'     such as a tensor or neural network module.
 #'   * `"file"`: A dynamic file. To use this format,
 #'     the target needs to manually identify or save some data
 #'     and return a character vector of paths
