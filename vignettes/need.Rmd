@@ -127,7 +127,7 @@ In `targets`, the metadata management system only updates information on global 
 
 ## Dynamic branching with `dplyr::group_by()`
 
-[Dynamic branching](https://books.ropensci.org/drake/dynamic.html) was an architecturally difficult fit in [`drake`](https://github.com/ropensci/drake), and it can only support one single ([`vctrs`](https://r-lib.github.io/vctrs)-based) method of slicing and aggregation for processing sub-targets. This limitation has frustrated members of the community, as discussed [here](https://github.com/ropensci/drake/issues/1087) and [here](https://github.com/ropensci/drake/issues/1170).
+[Dynamic branching](https://books.ropensci.org/drake/dynamic.html) was an architecturally difficult fit in [`drake`](https://github.com/ropensci/drake), and it can only support one single (`vctrs`-based) method of slicing and aggregation for processing sub-targets. This limitation has frustrated members of the community, as discussed [here](https://github.com/ropensci/drake/issues/1087) and [here](https://github.com/ropensci/drake/issues/1170).
 
 `targets`, on the other hand, is more flexible regarding slicing and aggregation. When it branches over an object, it can iterate over vectors, lists, and even data frames grouped with `dplyr::group_by()`. To branch over chunks of a data frame, our data frame target needs to have a special `tar_group` column. We can create this column in our target's return value with the `tar_group()` function.
 
