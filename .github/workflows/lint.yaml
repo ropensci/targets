@@ -7,6 +7,7 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUBPAT }}
+      TORCH_INSTALL: 1
     steps:
       - uses: actions/checkout@v2
 
