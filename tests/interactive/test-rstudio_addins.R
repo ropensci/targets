@@ -1,42 +1,43 @@
-tar_test({
+tar_test("glimpse addin", {
   tar_script()
   tar_make()
   rstudio_addin_tar_glimpse() # Should show tar_glimpse().
 })
 
-tar_test({
+tar_test("bg addin", {
   tar_script()
   rstudio_addin_tar_make_bg() # Should show running in the background.
+  Sys.sleep(5)
   expect_equal(tar_outdated(), character(0))
 })
 
-tar_test({
+tar_test("outdated addin", {
   tar_script()
   rstudio_addin_tar_outdated() # Should show all outdated targets.
 })
 
-tar_test({
+tar_test("progress addin", {
   tar_script()
   tar_make()
   rstudio_addin_tar_progress() # Should print the tail of tar_progress()
 })
 
-tar_test({
+tar_test("visnetwork addin", {
   tar_script()
   rstudio_addin_tar_visnetwork() # Should show tar_visnetwork()
 })
 
-tar_test({
+tar_test("edit addin", {
   tar_script()
   # Click Addins > Edit _targets.R.
 })
 
-tar_test({
+tar_test("glimpse addin", {
   tar_script()
   # Click Addins > Glimpse a targets pipeline.
 })
 
-tar_test({
+tar_test("load addin", {
   tar_script()
   tar_make()
   print(data) # Should show a function.
@@ -47,42 +48,42 @@ tar_test({
   # Repeat with cursor in whitespace. Should error.
 })
 
-tar_test({
+tar_test("bg addin", {
   tar_script()
   tar_destroy()
   # Click Addins > Run a targets pipeline in the background.
   tar_outdated()
 })
 
-tar_test({
+tar_test("oudated addin", {
   tar_script()
   # Click Addins > See outdated targets.
 })
 
-tar_test({
+tar_test("progress addin", {
   tar_script()
   tar_destroy()
   tar_make()
   # Click Addins > Print recent progress.
 })
 
-tar_test({
+tar_test("read addin", {
   tar_script()
   tar_make()
   # data
   # Click Addins > Read target at cursor.
 })
 
-tar_test({
+tar_test("write addin", {
   # Click Addins > Write target at cursor.
 })
 
-tar_test({
+tar_test("visnetwork addin", {
   tar_script()
   # Click Addins > Visualize a targets pipeline.
 })
 
-tar_test({
+tar_test("fg addin", {
   tar_script()
   # Click Addins > Run a targets pipeline in the foreground.
 })
