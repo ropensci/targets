@@ -40,12 +40,14 @@ cue_record <- function(cue, target, meta) {
   record <- meta$get_record(target_get_name(target))
   if (record_has_error(record)) {
     # Not sure why covr does not catch this.
-    # A test definitely covers it (errored targets are always outdated).
+    # A test in tests/testthat/test-class_builder.R # nolint
+    # definitely covers it (errored targets are always outdated).
     return(TRUE) # nocov
   }
   if (record$type != target_get_type(target)) {
     # Again, not sure why covr does not catch this.
-    # A test definitely covers it (conflicting import and target).
+    # A test in tests/testthat/test-class_cue.R # nolint
+    # definitely covers it (conflicting import and target).
     return(TRUE) # nocov
   }
   FALSE

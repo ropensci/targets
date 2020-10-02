@@ -15,8 +15,8 @@ store_assert_format_setting.keras <- function(class) {
 
 # It would be too burdensome to depend on Python Keras
 # just for automated testing, so this code is covered
-# in semi-automated tests in tests/hpc/ and
-# tests/interactive/.
+# in semi-automated tests in tests/hpc/ and # nolint
+# tests/interactive/. # nolint
 # nocov start
 #' @export
 store_read_path.tar_keras <- function(store, path) {
