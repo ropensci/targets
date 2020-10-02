@@ -13,7 +13,11 @@ keras_new <- function(file = NULL, resources = NULL) {
 store_assert_format_setting.keras <- function(class) {
 }
 
-# nocov start (tests are interactive and depend on Python Keras)
+# It would be too burdensome to depend on Python Keras
+# just for automated testing, so this code is covered
+# in semi-automated tests in tests/hpc/ and
+# tests/interactive/.
+# nocov start
 #' @export
 store_read_path.tar_keras <- function(store, path) {
   keras::load_model_hdf5(path)

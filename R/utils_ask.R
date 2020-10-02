@@ -5,6 +5,10 @@ tar_should_overwrite <- function(ask = NULL, file = character(0)) {
   if (!file.exists(file) || !ask) {
     return(TRUE)
   }
+  # This part is intrinsically interactive and cannot be covered
+  # in fully automated tests.
+  # tests/interactive/test-tar_script.R is an example of a semi-automated test
+  # that coveres this.
   # nocov start
   out <- utils::menu(c("yes", "no"), title = paste0("Overwrite ", file, "?"))
   as.integer(out) == 1L

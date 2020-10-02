@@ -113,6 +113,8 @@ assert_int <- function(x, msg = NULL) {
 assert_internet <- function(msg = NULL) {
   assert_package("curl")
   if (!curl::has_internet()) {
+    # This line cannot be covered in automated tests
+    # because internet is usually on.
     throw_run("no internet") # nocov
   }
 }

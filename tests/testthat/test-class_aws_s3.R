@@ -11,6 +11,12 @@ tar_test("validate aws_qs", {
   expect_silent(tar_validate(callr_function = NULL))
 })
 
+tar_test("validate aws_file", {
+  skip_if_not_installed("aws.s3")
+  tar_script(tar_pipeline(tar_target(x, "x_value", format = "aws_file")))
+  expect_silent(tar_validate(callr_function = NULL))
+})
+
 tar_test("validate aws_fst", {
   skip_if_not_installed("aws.s3")
   skip_if_not_installed("fst")

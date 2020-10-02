@@ -182,6 +182,9 @@ clustermq_class <- R6::R6Class(
       } else if (self$scheduler$queue$is_nonempty()) {
         self$next_target()
       } else {
+        # To cover this line, we need a longer and more complicated pipeline
+        # than would be appropriate for fully automated testing.
+        # tests/hpc/test-clustermq.R has a couple longer tests.
         self$crew$send_shutdown_worker() # nocov
       }
     },

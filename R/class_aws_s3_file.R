@@ -11,6 +11,12 @@ aws_file_new <- function(file = NULL, resources = NULL) {
   )
 }
 
+# Semi-automated tests of Amazon S3 integration live in tests/aws/. # nolint
+# These tests should not be fully automated because they
+# automatically create S3 buckets and upload data,
+# which could put an unexpected and unfair burden on
+# external contributors from the open source community.
+# nocov start
 #' @export
 store_assert_format_setting.aws_file <- function(class) {
 }
@@ -29,3 +35,4 @@ store_read_object.tar_aws_s3_file <- function(store) {
   aws.s3::save_object(object = key, bucket = bucket, file = out)
   out
 }
+# nocov end
