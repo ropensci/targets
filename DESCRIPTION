@@ -1,5 +1,5 @@
 Package: targets
-Title: Dynamic Function-Oriented Make-Like Declarative Pipelines for R
+Title: Dynamic Function-Oriented Make-Like Declarative Workflows for R
 Description: The targets package is a pipeline toolkit that brings together
   function-oriented programming and Make-like declarative workflows for
   Statistics and data science in R. It implements a workflow as collection of
