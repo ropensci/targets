@@ -1,3 +1,9 @@
+# Semi-automated tests of Amazon S3 integration live in tests/aws/. # nolint
+# These tests should not be fully automated because they
+# automatically create S3 buckets and upload data,
+# which could put an unexpected and unfair burden on
+# external contributors from the open source community.
+# nocov start
 #' @export
 store_produce_path.tar_aws_s3 <- function(store, name, object) {
   bucket <- store$resources$bucket
@@ -92,6 +98,7 @@ store_has_correct_hash.tar_aws_s3 <- function(store) {
 store_ensure_correct_hash.tar_aws_s3 <- function(store, storage, deployment) {
   store_wait_correct_hash(store)
 }
+# nocov end
 
 #' @export
 store_validate_packages.tar_aws_s3 <- function(store) {
