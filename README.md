@@ -5,6 +5,7 @@
 [![check](https://github.com/wlandau/targets/workflows/check/badge.svg)](https://github.com/wlandau/targets/actions?query=workflow%3Acheck)
 [![lint](https://github.com/wlandau/targets/workflows/lint/badge.svg)](https://github.com/wlandau/targets/actions?query=workflow%3Alint)
 [![codecov](https://codecov.io/gh/wlandau/targets/branch/master/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/wlandau/targets)
+[![zenodo](https://zenodo.org/badge/200093430.svg)](https://zenodo.org/badge/latestdoi/200093430)
 
 The `targets` package is a
 [Make](https://www.gnu.org/software/make/)-like pipeline toolkit for
