@@ -5,7 +5,7 @@
 #' @examples
 #' \dontrun{
 #' tar_dir(
-#' tar_edit()
+#' # tar_edit()
 #' )
 #' }
 tar_edit <- function() {

@@ -13,7 +13,7 @@ Requires the \code{usethis} package.
 \examples{
 \dontrun{
 tar_dir(
-tar_edit()
+# tar_edit()
 )
 }
 }
