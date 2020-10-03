@@ -1,3 +1,4 @@
+# Use sparingly. We do not want to max out any AWS quotas.
 tar_test("aws_qs format data gets stored", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
