@@ -12,7 +12,7 @@ record_init <- function(
   depend = NA_character_,
   path = NA_character_,
   data = NA_character_,
-  bytes = NA_integer_,
+  bytes = NA_real_, # Cannot be integer because of large value.
   time = NA_real_,
   format = NA_character_,
   iteration = NA_character_,
@@ -30,7 +30,7 @@ record_init <- function(
     depend = as.character(depend),
     path = as.character(path) %|||% NA_character_,
     data = as.character(data),
-    bytes = as.integer(bytes),
+    bytes = as.numeric(bytes),
     time = as.numeric(time),
     format = as.character(format),
     iteration = as.character(iteration),

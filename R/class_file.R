@@ -45,7 +45,7 @@ file_update_hash <- function(file) {
 file_should_rehash <- function(file, bytes, time) {
   small <- bytes < 1e5
   touched <- time > (file$time - 1e-9)
-  resized <- abs(bytes - file$bytes) > .Machine$double.eps ^ 0.5
+  resized <- abs(bytes - file$bytes) > 1e-9
   small || touched || resized
 }
 
@@ -121,7 +121,8 @@ file_info <- function(files) {
 }
 
 file_bytes <- function(info) {
-  as.integer(sum(replace_na(info$size, 0L)))
+  # Cannot be integer because of large value.
+  round(sum(replace_na(info$size, 0)), 9)
 }
 
 file_time <- function(info) {
