@@ -207,11 +207,17 @@ store_sync_file_meta.default <- function(store, target, meta) {
   # Tested in tests/interactive/test-file.R. # nolint
   # nocov start
   time_old <- record$time
-  time_new <- file_time(file_info(target$store$file$path))
-  if (identical(time_new, time_old)) {
+  size_old <- record$size
+  info <- file_info(target$store$file$path)
+  time_new <- file_time(info)
+  bytes_new <- file_bytes(info)
+  size_new <- file_size(bytes_new)
+  if (identical(time_new, time_old) && identical(size_new, size_old)) {
     return()
   }
   record$time <- time_new
+  record$size <- size_new
+  record$bytes <- bytes_new
   meta$insert_record(record)
   # nocov end
 }
