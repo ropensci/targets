@@ -5,6 +5,7 @@
 ^.*\.log$
 ^.*\.out$
 ^.*\.nfs.*$
+^.*\.Rout$
 ^.*\.Rproj$
 ^.*\.svg$
 ^.*\.yaml$
