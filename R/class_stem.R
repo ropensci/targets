@@ -64,10 +64,10 @@ target_produce_record.tar_stem <- function(target, meta) {
     time = file$time,
     format = target$settings$format,
     iteration = target$settings$iteration,
-    children = as.character(target_get_children(target)),
-    seconds = as.numeric(target$metrics$seconds),
-    warnings = as.character(target$metrics$warnings),
-    error = as.character(target$metrics$error)
+    children = target_get_children(target),
+    seconds = target$metrics$seconds,
+    warnings = target$metrics$warnings,
+    error = target$metrics$error
   )
 }
 

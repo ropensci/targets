@@ -37,7 +37,7 @@ target_produce_record.tar_pattern <- function(target, meta) {
     bytes = target$patternview$bytes,
     format = target$settings$format,
     iteration = target$settings$iteration,
-    children = as.character(target_get_children(target)),
+    children = target_get_children(target),
     seconds = target$patternview$seconds
   )
 }

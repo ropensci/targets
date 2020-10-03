@@ -17,22 +17,22 @@ record_init <- function(
   error = NA_character_
 ) {
   record_new(
-    name = name,
-    parent = parent,
-    type = type,
-    command = command,
-    seed = seed,
-    depend = depend,
-    path = path,
-    data = data,
-    bytes = bytes,
-    time = time,
-    format = format,
-    iteration = iteration,
-    children = children,
-    seconds = seconds,
-    warnings = warnings,
-    error = error
+    name = as.character(name),
+    parent = as.character(parent),
+    type = as.character(type),
+    command = as.character(command),
+    seed = as.integer(seed),
+    depend = as.character(depend),
+    path = as.character(path),
+    data = as.character(data),
+    bytes = as.integer(bytes),
+    time = as.numeric(time),
+    format = as.character(format),
+    iteration = as.character(iteration),
+    children = as.character(children),
+    seconds = as.numeric(seconds),
+    warnings = as.character(warnings),
+    error = as.character(error)
   )
 }
 

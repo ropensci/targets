@@ -78,9 +78,9 @@ target_produce_record.tar_branch <- function(target, meta) {
     time = file$time,
     format = target$settings$format,
     iteration = target$settings$iteration,
-    seconds = as.numeric(target$metrics$seconds),
-    warnings = as.character(target$metrics$warnings),
-    error = as.character(target$metrics$error)
+    seconds = target$metrics$seconds,
+    warnings = target$metrics$warnings,
+    error = target$metrics$error
   )
 }
 
