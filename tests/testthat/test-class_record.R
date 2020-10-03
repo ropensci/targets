@@ -8,7 +8,7 @@ tar_test("record$produce_row()", {
     path = c("x_path", "y_path"),
     data = "x_data",
     bytes = 123,
-    time = 456,
+    time = "f12345",
     format = "x_format",
     iteration = "x_iteration",
     children = c("x_branch", "y_branch"),
@@ -25,7 +25,7 @@ tar_test("record$produce_row()", {
   expect_equal(row$path, list(c("x_path", "y_path")))
   expect_equal(row$data, "x_data")
   expect_equal(row$bytes, 123)
-  expect_equal(row$time, 456)
+  expect_equal(row$time, "f12345")
   expect_equal(row$format, "x_format")
   expect_equal(row$iteration, "x_iteration")
   expect_equal(row$children, list(c("x_branch", "y_branch")))

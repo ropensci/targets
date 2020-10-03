@@ -196,6 +196,9 @@ store_sync_file_meta.default <- function(store, target, meta) {
     return()
   }
   name <- target_get_name(target)
+  if (!meta$exists_record(name)) {
+    return()
+  }
   record <- meta$get_record(name)
   if (record$bytes < file_bound_bytes) {
     return()
@@ -205,7 +208,7 @@ store_sync_file_meta.default <- function(store, target, meta) {
   # nocov start
   time_old <- record$time
   time_new <- file_time(file_info(target$store$file$path))
-  if (time_new <= (time_old + file_tol_time)) {
+  if (identical(time_new, time_old)) {
     return()
   }
   record$time <- time_new

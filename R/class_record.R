@@ -13,7 +13,7 @@ record_init <- function(
   path = NA_character_,
   data = NA_character_,
   bytes = NA_real_, # Cannot be integer because of large value.
-  time = NA_real_,
+  time = NA_character_,
   format = NA_character_,
   iteration = NA_character_,
   parent = NA_character_,
@@ -31,7 +31,7 @@ record_init <- function(
     path = as.character(path) %|||% NA_character_,
     data = as.character(data),
     bytes = as.numeric(bytes),
-    time = as.numeric(time),
+    time = as.character(time),
     format = as.character(format),
     iteration = as.character(iteration),
     parent = as.character(parent),
@@ -133,7 +133,7 @@ record_validate <- function(record) {
   assert_chr_no_delim(record$path)
   assert_chr_no_delim(record$data)
   assert_dbl(record$bytes)
-  assert_dbl(record$time)
+  assert_chr(record$time)
   assert_chr_no_delim(record$format)
   assert_chr_no_delim(record$iteration)
   assert_chr_no_delim(record$children)

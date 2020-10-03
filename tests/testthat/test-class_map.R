@@ -440,7 +440,7 @@ tar_test("map$produce_record() of a successful map", {
   expect_equal(nchar(record$data), 16L)
   expect_false(is.na(record$bytes))
   expect_true(is.numeric(record$bytes))
-  expect_equal(record$time, NA_real_)
+  expect_equal(record$time, NA_character_)
   expect_equal(record$format, "rds")
   expect_equal(record$iteration, "vector")
   expect_equal(record$children, target_get_children(target))

@@ -3,7 +3,7 @@ file_init <- function(
   stage = character(0),
   hash = NA_character_,
   bytes = 0,
-  time = -Inf
+  time = NA_character_
 ) {
   file_new(
     path = path,
@@ -44,12 +44,10 @@ file_update_hash <- function(file) {
 
 file_should_rehash <- function(file, bytes, time) {
   small <- bytes < file_bound_bytes
-  touched <- time > (file$time + file_tol_time)
+  touched <- !identical(time, file$time)
   resized <- abs(bytes - file$bytes) > file_tol_bytes
   small || touched || resized
 }
-
-file_tol_time <- 1e-5
 
 file_tol_bytes <- 1e-5
 
@@ -92,7 +90,7 @@ file_validate <- function(file) {
   assert_scalar(file$hash)
   assert_dbl(file$bytes)
   assert_scalar(file$bytes)
-  assert_dbl(file$time)
+  assert_chr(file$time)
   assert_scalar(file$time)
 }
 
@@ -132,5 +130,5 @@ file_bytes <- function(info) {
 }
 
 file_time <- function(info) {
-  round(max(replace_na(as.numeric(info$mtime), -Inf) %|||% -Inf), 6)
+  digest_obj64(max(c(-Inf, replace_na(as.numeric(info$mtime), -Inf))))
 }

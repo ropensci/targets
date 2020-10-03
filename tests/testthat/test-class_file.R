@@ -53,11 +53,10 @@ tar_test("file_update_hash()", {
   expect_true(is.character(hash))
   expect_equal(nchar(hash), 16L)
   expect_gt(file$bytes, 0)
-  expect_gt(file$time, 0)
+  expect_true(is.character(file$time))
+  expect_equal(nchar(file$time), 16L)
   expect_true(is.numeric(file$bytes))
-  expect_true(is.numeric(file$time))
   expect_true(is.finite(file$bytes))
-  expect_true(is.finite(file$time))
   expect_equal(length(file$bytes), 1L)
   expect_equal(length(file$time), 1L)
 })
@@ -72,11 +71,10 @@ tar_test("file_update_hash() where two files exist", {
   expect_true(is.character(hash))
   expect_equal(nchar(hash), 16L)
   expect_gt(file$bytes, 0)
-  expect_gt(file$time, 0)
   expect_true(is.numeric(file$bytes))
-  expect_true(is.numeric(file$time))
+  expect_true(is.character(file$time))
+  expect_equal(nchar(file$time), 16L)
   expect_true(is.finite(file$bytes))
-  expect_true(is.finite(file$time))
   expect_equal(length(file$bytes), 1L)
   expect_equal(length(file$time), 1L)
 })
@@ -90,11 +88,10 @@ tar_test("file_update_hash() where one file does not exist", {
   expect_true(is.character(hash))
   expect_equal(nchar(hash), 16L)
   expect_gt(file$bytes, 0)
-  expect_gt(file$time, 0)
   expect_true(is.numeric(file$bytes))
-  expect_true(is.numeric(file$time))
+  expect_true(is.character(file$time))
+  expect_equal(nchar(file$time), 16L)
   expect_true(is.finite(file$bytes))
-  expect_true(is.finite(file$time))
   expect_equal(length(file$bytes), 1L)
   expect_equal(length(file$time), 1L)
 })
@@ -108,7 +105,8 @@ tar_test("file_update_hash() where neither file exists", {
   expect_equal(nchar(hash), 16L)
   expect_false(is.na(hash))
   expect_equal(file$bytes, 0)
-  expect_equal(file$time, -Inf)
+  expect_true(is.character(file$time))
+  expect_equal(nchar(file$time), 16L)
 })
 
 tar_test("all files are hashed", {
@@ -133,7 +131,8 @@ tar_test("file_ensure_hash() on a small file", {
   expect_true(is.character(hash) && nchar(hash) > 1L)
   bytes <- file$bytes
   expect_gt(bytes, 0)
-  expect_true(is.finite(file$time))
+  expect_true(is.character(file$time))
+  expect_equal(nchar(file$time), 16L)
   # after a change
   writeLines("new_lines", tmp)
   file_ensure_hash(file)
@@ -141,7 +140,8 @@ tar_test("file_ensure_hash() on a small file", {
   expect_false(hash == hash2)
   bytes2 <- file$bytes
   expect_gt(bytes2, bytes)
-  expect_true(is.finite(file$time))
+  expect_true(is.character(file$time))
+  expect_equal(nchar(file$time), 16L)
 })
 
 tar_test("file_ensure_hash() on nested directories", {
@@ -160,13 +160,13 @@ tar_test("file_ensure_hash() on nested directories", {
   expect_true(is.character(hash) && nchar(hash) > 1L)
   bytes <- file$bytes
   expect_true(bytes > 0)
-  expect_true(is.finite(file$time))
   # after a change
   writeLines("new_lines3", file.path(tmp, "dir2", "dir3", "file3"))
   file_ensure_hash(file)
   expect_false(file$hash == hash)
   expect_gt(file$bytes, bytes)
-  expect_true(is.finite(file$time))
+  expect_true(is.character(file$time))
+  expect_equal(nchar(file$time), 16L)
 })
 
 tar_test("file_has_correct_hash()", {
@@ -186,7 +186,7 @@ tar_test("file_validate() on a good file", {
     path = "xyz",
     hash = "xyz",
     bytes = 123,
-    time = 123
+    time = "0123456789012345"
   )
   expect_silent(file_validate(file))
 })
@@ -196,7 +196,7 @@ tar_test("file_validate() with an extra field", {
     path = "xyz",
     hash = "xyz",
     bytes = 123,
-    time = 123
+    time = "f123456789012345"
   )
   file$nope <- 123
   expect_error(file_validate(file), class = "condition_validate")
@@ -207,7 +207,7 @@ tar_test("file_validate() on a bad path", {
     path = 123,
     hash = "xyz",
     bytes = 123,
-    time = 123
+    time = "f123456789012345"
   )
   expect_error(file_validate(file), class = "condition_validate")
 })
@@ -217,7 +217,7 @@ tar_test("file_validate() on a bad hash", {
     path = "xyz",
     hash = 123,
     bytes = 123,
-    time = 123
+    time = "f123456789012345"
   )
   expect_error(file_validate(file), class = "condition_validate")
 })
@@ -227,7 +227,7 @@ tar_test("file_validate() on a bad bytes", {
     path = "xyz",
     hash = "xyz",
     bytes = "xyz",
-    time = 123
+    time = "f123456789012345"
   )
   expect_error(file_validate(file), class = "condition_validate")
 })
@@ -237,7 +237,7 @@ tar_test("file_validate() on a bad time", {
     path = "xyz",
     hash = "xyz",
     bytes = 123,
-    time = "xyz"
+    time = NA_real_
   )
   expect_error(file_validate(file), class = "condition_validate")
 })

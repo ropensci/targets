@@ -29,13 +29,15 @@ tar_test("file_ensure_hash() on a huge file", {
 
 tar_test("file_ensure_hash() on a huge file in pipeline", {
   tmp <- "tempfile"
-  file <- file_init(path = tmp)
-  x <- paste(letters, collapse = "")
-  writeLines(rep(x, 1e8), tmp) # Pause here.
-  tar_script({
+  expr <- quote({
     tar_option_set(packages = character(0))
     tar_pipeline(tar_target(x, "tempfile", format = "file"))
   })
+  expr <- tidy_eval(expr, environment(), TRUE)
+  do.call(tar_script, list(code = expr))
+  file <- file_init(path = tmp)
+  x <- paste(letters, collapse = "")
+  writeLines(rep(x, 1e8), tmp) # Pause here.
   # First analysis of the file.
   tar_make(callr_function = NULL) # Should be slow, should run.
   tar_make(callr_function = NULL) # Should be fast, should skip.
@@ -53,6 +55,5 @@ tar_test("file_ensure_hash() on a huge file in pipeline", {
   tar_make(callr_function = NULL) # Should be fast, should skip.
   unlink(tmp)
   tar_destroy()
-  unlink(tmp)
   unlink("_targets.R")
 })

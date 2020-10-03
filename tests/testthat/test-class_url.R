@@ -88,3 +88,9 @@ tar_test("bad curl handle throws an error", {
   })
   expect_error(tar_make(callr_function = NULL), class = "condition_validate")
 })
+
+tar_test("validate url format", {
+  skip_if_not_installed("curl")
+  tar_script(tar_pipeline(tar_target(x, "x_value", format = "url")))
+  expect_silent(tar_validate(callr_function = NULL))
+})
