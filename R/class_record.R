@@ -12,7 +12,7 @@ record_init <- function(
   depend = NA_character_,
   path = NA_character_,
   data = NA_character_,
-  bytes = NA_real_,
+  bytes = NA_integer_,
   time = NA_real_,
   format = NA_character_,
   iteration = NA_character_,
