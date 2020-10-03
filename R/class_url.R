@@ -67,8 +67,7 @@ store_ensure_correct_hash.tar_url <- function( # nolint
 }
 
 #' @export
-store_validate_packages.tar_qs <- function(store) {
-  assert_package("curl")
+store_sync_timestamp.tar_url <- function(store, target, meta) {
 }
 
 #' @export
@@ -76,4 +75,9 @@ store_has_correct_hash.tar_url <- function(store) {
   handle <- store$resources$handle
   all(url_exists(store$file$path, handle)) &&
     identical(url_hash(store$file$path, handle), store$file$hash)
+}
+
+#' @export
+store_validate_packages.tar_url <- function(store) {
+  assert_package("curl")
 }

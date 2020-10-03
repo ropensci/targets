@@ -175,6 +175,23 @@ store_unserialize_value <- function(store, value) {
 store_unserialize_value.default <- function(store, value) {
 }
 
+store_has_correct_hash <- function(store) {
+  UseMethod("store_has_correct_hash")
+}
+
+#' @export
+store_has_correct_hash.default <- function(store) {
+  all(file.exists(store$file$path)) && file_has_correct_hash(store$file)
+}
+
+store_sync_timestamp <- function(store, target, meta) {
+  UseMethod("store_sync_timestamp")
+}
+
+#' @export
+store_sync_timestamp.default <- function(store, target, meta) {
+}
+
 store_validate <- function(store) {
   assert_correct_fields(store, store_new_default)
   store_validate_packages(store)
@@ -187,13 +204,4 @@ store_validate_packages <- function(store) {
 
 #' @export
 store_validate_packages.default <- function(store) {
-}
-
-store_has_correct_hash <- function(store) {
-  UseMethod("store_has_correct_hash")
-}
-
-#' @export
-store_has_correct_hash.default <- function(store) {
-  all(file.exists(store$file$path)) && file_has_correct_hash(store$file)
 }

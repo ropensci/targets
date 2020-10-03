@@ -98,6 +98,10 @@ store_has_correct_hash.tar_aws_s3 <- function(store) {
 store_ensure_correct_hash.tar_aws_s3 <- function(store, storage, deployment) {
   store_wait_correct_hash(store)
 }
+
+#' @export
+store_sync_timestamp.tar_aws_s3 <- function(store, target, meta) {
+}
 # nocov end
 
 #' @export
