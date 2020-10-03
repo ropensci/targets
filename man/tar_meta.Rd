@@ -29,8 +29,10 @@ for imported global objects, and \code{"stem"}, \code{"branch"},
 \item \code{path}: A list column of paths to target data. Usually, each element
 is a single path, but there could be multiple paths per target
 for dynamic files (i.e. \code{tar_target(format = "file")}).
+\item \code{time}: hash of the maximum modification time stamp
+over all the files in \code{path}.
+\item \code{size}: hash of the sum of all the bytes of the files at \code{path}.
 \item \code{bytes}: total file size in bytes of all files in \code{path}.
-\item \code{time}: maximum modification time stamp over all the files in \code{path}.
 \item \code{format}: character, one of the admissible data storage formats.
 See the \code{format} argument in the \code{\link[=tar_target]{tar_target()}} help file for details.
 \item \code{iteration}: character, either \code{"list"} or \code{"vector"}

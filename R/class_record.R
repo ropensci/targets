@@ -13,6 +13,7 @@ record_init <- function(
   path = NA_character_,
   data = NA_character_,
   time = NA_character_,
+  size = NA_character_,
   bytes = NA_real_, # Cannot be integer because of large value.
   format = NA_character_,
   iteration = NA_character_,
@@ -31,6 +32,7 @@ record_init <- function(
     path = as.character(path) %|||% NA_character_,
     data = as.character(data),
     time = as.character(time),
+    size = as.character(size),
     bytes = as.numeric(bytes),
     format = as.character(format),
     iteration = as.character(iteration),
@@ -52,6 +54,7 @@ record_new <- function(
   path = NULL,
   data = NULL,
   time = NULL,
+  size = NULL,
   bytes = NULL,
   format = NULL,
   iteration = NULL,
@@ -69,6 +72,7 @@ record_new <- function(
   force(path)
   force(data)
   force(time)
+  force(size)
   force(bytes)
   force(format)
   force(iteration)
@@ -98,6 +102,7 @@ record_produce_row <- function(record) {
     seed = record$seed,
     path = list(record$path),
     time = record$time,
+    size = record$size,
     bytes = record$bytes,
     format = record$format,
     iteration = record$iteration,
@@ -132,8 +137,9 @@ record_validate <- function(record) {
   assert_chr_no_delim(record$path)
   assert_chr_no_delim(record$path)
   assert_chr_no_delim(record$data)
-  assert_dbl(record$bytes)
   assert_chr(record$time)
+  assert_chr(record$size)
+  assert_dbl(record$bytes)
   assert_chr_no_delim(record$format)
   assert_chr_no_delim(record$iteration)
   assert_chr_no_delim(record$children)
@@ -147,8 +153,9 @@ record_validate <- function(record) {
   assert_scalar(record$seed)
   assert_scalar(record$depend)
   assert_scalar(record$data)
-  assert_scalar(record$bytes)
   assert_scalar(record$time)
+  assert_scalar(record$size)
+  assert_scalar(record$bytes)
   assert_scalar(record$format)
   assert_scalar(record$iteration)
 }

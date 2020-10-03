@@ -200,7 +200,7 @@ store_sync_file_meta.default <- function(store, target, meta) {
     return()
   }
   record <- meta$get_record(name)
-  if (record$bytes < file_bound_bytes) {
+  if (record$bytes < file_small_bytes) {
     return()
   }
   # Fully automated tests do no use big files.

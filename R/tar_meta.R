@@ -22,8 +22,10 @@
 #'   * `path`: A list column of paths to target data. Usually, each element
 #'     is a single path, but there could be multiple paths per target
 #'     for dynamic files (i.e. `tar_target(format = "file")`).
+#'   * `time`: hash of the maximum modification time stamp
+#'     over all the files in `path`.
+#'   * `size`: hash of the sum of all the bytes of the files at `path`.
 #'   * `bytes`: total file size in bytes of all files in `path`.
-#'   * `time`: maximum modification time stamp over all the files in `path`.
 #'   * `format`: character, one of the admissible data storage formats.
 #'     See the `format` argument in the [tar_target()] help file for details.
 #'   * `iteration`: character, either `"list"` or `"vector"`

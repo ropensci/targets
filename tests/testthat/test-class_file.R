@@ -45,6 +45,7 @@ tar_test("file_should_rehash()", {
     file_should_rehash(
       file = file,
       time = file$time,
+      size = file$size,
       bytes = file$bytes
     )
   )
@@ -61,9 +62,12 @@ tar_test("file_update_hash()", {
   expect_gt(file$bytes, 0)
   expect_true(is.character(file$time))
   expect_equal(nchar(file$time), 16L)
+  expect_true(is.character(file$size))
+  expect_equal(nchar(file$size), 16L)
   expect_true(is.numeric(file$bytes))
   expect_true(is.finite(file$bytes))
   expect_equal(length(file$bytes), 1L)
+  expect_equal(length(file$time), 1L)
   expect_equal(length(file$time), 1L)
 })
 
@@ -80,9 +84,12 @@ tar_test("file_update_hash() where two files exist", {
   expect_true(is.numeric(file$bytes))
   expect_true(is.character(file$time))
   expect_equal(nchar(file$time), 16L)
+  expect_true(is.character(file$size))
+  expect_equal(nchar(file$size), 16L)
   expect_true(is.finite(file$bytes))
   expect_equal(length(file$bytes), 1L)
   expect_equal(length(file$time), 1L)
+  expect_equal(length(file$size), 1L)
 })
 
 tar_test("file_update_hash() where one file does not exist", {
@@ -97,9 +104,12 @@ tar_test("file_update_hash() where one file does not exist", {
   expect_true(is.numeric(file$bytes))
   expect_true(is.character(file$time))
   expect_equal(nchar(file$time), 16L)
+  expect_true(is.character(file$size))
+  expect_equal(nchar(file$size), 16L)
   expect_true(is.finite(file$bytes))
   expect_equal(length(file$bytes), 1L)
   expect_equal(length(file$time), 1L)
+  expect_equal(length(file$size), 1L)
 })
 
 tar_test("file_update_hash() where neither file exists", {
@@ -113,6 +123,8 @@ tar_test("file_update_hash() where neither file exists", {
   expect_equal(file$bytes, 0)
   expect_true(is.character(file$time))
   expect_equal(nchar(file$time), 16L)
+  expect_true(is.character(file$size))
+  expect_equal(nchar(file$size), 16L)
 })
 
 tar_test("all files are hashed", {

@@ -110,6 +110,7 @@ header_meta <- function() {
     "seed",
     "path",
     "time",
+    "size",
     "bytes",
     "format",
     "iteration",
