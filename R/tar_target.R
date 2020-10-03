@@ -52,10 +52,14 @@
 #'   * `"file"`: A dynamic file. To use this format,
 #'     the target needs to manually identify or save some data
 #'     and return a character vector of paths
-#'     to the data. Those paths must point to files or directories,
-#'     and they must not contain characters `|` or `*`.
-#'     Then, `targets` automatically checks those files and cues the
+#'     to the data. Then, `targets` automatically checks those files and cues the
 #'     appropriate build decisions if those files are out of date.
+#'     Those paths must point to files or directories,
+#'     and they must not contain characters `|` or `*`.
+#'     All the files and directories you return must actually exist,
+#'     or else `targets` will throw an error. (And if `storage` is `"remote"`,
+#'     `targets` will first stall out trying to wait for the file
+#'     to arrive over a network file system.)
 #'   * `"url"`: A dynamic input URL. It works like `format = "file"`
 #'     except the return value of the target is a URL that already exists
 #'     and serves as input data for downstream targets. Optionally

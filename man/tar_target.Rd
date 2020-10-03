@@ -75,10 +75,14 @@ such as a tensor or neural network module.
 \item \code{"file"}: A dynamic file. To use this format,
 the target needs to manually identify or save some data
 and return a character vector of paths
-to the data. Those paths must point to files or directories,
-and they must not contain characters \code{|} or \code{*}.
-Then, \code{targets} automatically checks those files and cues the
+to the data. Then, \code{targets} automatically checks those files and cues the
 appropriate build decisions if those files are out of date.
+Those paths must point to files or directories,
+and they must not contain characters \code{|} or \code{*}.
+All the files and directories you return must actually exist,
+or else \code{targets} will throw an error. (And if \code{storage} is \code{"remote"},
+\code{targets} will first stall out trying to wait for the file
+to arrive over a network file system.)
 \item \code{"url"}: A dynamic input URL. It works like \code{format = "file"}
 except the return value of the target is a URL that already exists
 and serves as input data for downstream targets. Optionally

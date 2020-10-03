@@ -142,7 +142,7 @@ store_ensure_correct_hash.default <- function(store, storage, deployment) {
   }
 }
 
-store_wait_correct_hash <- function(store, sleep = 0.01, timeout = 120) {
+store_wait_correct_hash <- function(store, sleep = 0.01, timeout = 60) {
   time_left <- timeout
   while (time_left > 0) {
     if (store_has_correct_hash(store)) {
@@ -154,7 +154,7 @@ store_wait_correct_hash <- function(store, sleep = 0.01, timeout = 120) {
   msg <- paste(
     "Path",
     paste(store$file$path, collapse = " "),
-    "does not exist or has incorrect hash. ",
+    "does not exist or has incorrect hash.",
     "File sync timed out."
   )
   throw_file(msg)
