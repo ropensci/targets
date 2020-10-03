@@ -117,7 +117,7 @@ database_class <- R6::R6Class(
       file.rename(from = tmp, to = self$path)
     },
     produce_line = function(row) {
-      paste(map_chr(row, produce_subline), collapse = "|")
+      paste(map_chr(row, self$produce_subline), collapse = "|")
     },
     produce_subline = function(element) {
       if (is.list(element)) {
