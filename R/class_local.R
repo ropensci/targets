@@ -57,19 +57,12 @@ local_class <- R6::R6Class(
       )
       self$unload_transient()
     },
-    process_target = function(name) {
-      target <- pipeline_get_target(self$pipeline, name)
-      target_debug(target)
-      target_update_depend(target, meta)
-      trn(
-        target_should_run(target, self$meta),
-        self$run_target(name),
-        target_skip(
-          target,
-          self$pipeline,
-          self$scheduler,
-          self$meta
-        )
+    skip_target = function(target) {
+      target_skip(
+        target,
+        self$pipeline,
+        self$scheduler,
+        self$meta
       )
     },
     process_next = function() {

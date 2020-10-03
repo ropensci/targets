@@ -5,6 +5,10 @@ url_exists <- function(url, handle = NULL) {
 url_exists_impl <- function(url, handle) {
   assert_internet()
   handle <- url_handle(handle)
+  tryCatch(url_exists_try(url, handle), error = function(e) FALSE)
+}
+
+url_exists_try <- function(url, handle) {
   req <- curl::curl_fetch_memory(as.character(url), handle = handle)
   identical(as.integer(req$status_code), 200L)
 }
