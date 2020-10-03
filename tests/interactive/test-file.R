@@ -50,5 +50,6 @@ tar_test("file_ensure_hash() on a huge file in pipeline", {
   tar_make(callr_function = NULL) # Should be fast, should skip.
   unlink(tmp)
   tar_destroy()
+  unlink(tmp)
   unlink("_targets.R")
 })
