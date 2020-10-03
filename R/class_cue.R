@@ -54,11 +54,11 @@ cue_record <- function(cue, target, meta) {
 }
 
 cue_always <- function(cue, target, meta) {
-  cue$mode == "always"
+  identical(cue$mode, "always")
 }
 
 cue_never <- function(cue, target, meta) {
-  cue$mode == "never"
+  identical(cue$mode, "never")
 }
 
 cue_command <- function(cue, target, meta) {
@@ -67,7 +67,7 @@ cue_command <- function(cue, target, meta) {
   }
   old <- meta$get_record(target_get_name(target))$command
   new <- target$command$hash
-  (old != new) %||NA% TRUE
+  !identical(old, new)
 }
 
 cue_depend <- function(cue, target, meta) {
@@ -76,7 +76,7 @@ cue_depend <- function(cue, target, meta) {
   }
   old <- meta$get_record(target_get_name(target))$depend
   new <- meta$get_depend(target_get_name(target))
-  (old != new) %||NA% TRUE
+  !identical(old, new)
 }
 
 cue_format <- function(cue, target, meta) {
@@ -85,7 +85,7 @@ cue_format <- function(cue, target, meta) {
   }
   old <- meta$get_record(target_get_name(target))$format
   new <- target$settings$format
-  (old != new) %||NA% TRUE
+  !identical(old, new)
 }
 
 cue_iteration <- function(cue, target, meta) {
@@ -94,7 +94,7 @@ cue_iteration <- function(cue, target, meta) {
   }
   old <- meta$get_record(target_get_name(target))$iteration
   new <- target$settings$iteration
-  (old != new) %||NA% TRUE
+  !identical(old, new)
 }
 
 cue_file <- function(cue, target, meta) {
