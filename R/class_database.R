@@ -193,7 +193,7 @@ database_class <- R6::R6Class(
         return()
       }
       line <- readLines(self$path, n = 1L)
-      header = strsplit(line, split = database_sep_outer, fixed = TRUE)[[1]]
+      header <- strsplit(line, split = database_sep_outer, fixed = TRUE)[[1]]
       if (identical(header, self$header)) {
         return()
       }
