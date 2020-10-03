@@ -42,6 +42,7 @@ active_class <- R6::R6Class(
       self$garbage_collection <- garbage_collection
     },
     ensure_meta = function() {
+      self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
       envir <- pipeline_get_envir(self$pipeline)
       self$meta$record_imports(envir, self$pipeline)

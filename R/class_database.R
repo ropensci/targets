@@ -96,8 +96,8 @@ database_class <- R6::R6Class(
       data.table::fwrite(
         x = data,
         file = self$path,
-        sep = "|",
-        sep2 = c("", "*", ""),
+        sep = database_sep_outer,
+        sep2 = c("", database_sep_inner, ""),
         na = "",
         append = TRUE
       )
@@ -109,20 +109,20 @@ database_class <- R6::R6Class(
       data.table::fwrite(
         x = data,
         file = tmp,
-        sep = "|",
-        sep2 = c("", "*", ""),
+        sep = database_sep_outer,
+        sep2 = c("", database_sep_inner, ""),
         na = "",
         append = FALSE
       )
       file.rename(from = tmp, to = self$path)
     },
     produce_line = function(row) {
-      paste(map_chr(row, self$produce_subline), collapse = "|")
+      paste(map_chr(row, self$produce_subline), collapse = database_sep_outer)
     },
     produce_subline = function(element) {
       element <- replace_na(element, "")
       if (is.list(element)) {
-        element <- paste(unlist(element), collapse = "*")
+        element <- paste(unlist(element), collapse = database_sep_inner)
       }
       as.character(element)
     },
@@ -153,7 +153,7 @@ database_class <- R6::R6Class(
       # We can also delete the list_columns arg then.
       out <- data.table::fread(
         file = self$path,
-        sep = "|",
+        sep = database_sep_outer,
         fill = TRUE,
         na.strings = ""
       )
@@ -164,7 +164,7 @@ database_class <- R6::R6Class(
       for (id in self$list_columns) {
         out[[id]] <- strsplit(
           as.character(out[[id]]),
-          split = "*",
+          split = database_sep_inner,
           fixed = TRUE
         )
       }
@@ -188,9 +188,28 @@ database_class <- R6::R6Class(
         throw_validate("header must have a column called \"name\"")
       }
     },
+    validate_file = function() {
+      if (!file.exists(self$path)) {
+        return()
+      }
+      line <- readLines(self$path, n = 1L)
+      header = strsplit(line, split = database_sep_outer, fixed = TRUE)[[1]]
+      if (identical(header, self$header)) {
+        return()
+      }
+      throw_validate(
+        "invalid header in ", self$path, "\n",
+        "  found: ", paste(header, collapse = database_sep_outer), "\n",
+        "  expected: ", paste(self$header, collapse = database_sep_outer),
+        "\nProbably because of a breaking change in {targets}.", "\n",
+        "Either the data store with tar_destroy() and rerun tar_make(),",
+        "or downgrade {targets} to an earlier version."
+      )
+    },
     validate = function() {
       memory_validate(self$memory)
       self$validate_columns(self$header, self$list_columns)
+      self$validate_file()
       assert_chr(self$path)
       assert_scalar(self$path)
       assert_chr(self$header)
@@ -198,3 +217,6 @@ database_class <- R6::R6Class(
     }
   )
 )
+
+database_sep_outer <- "|"
+database_sep_inner <- "*"

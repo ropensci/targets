@@ -52,7 +52,7 @@ tar_test("record_encode_field() nonempty", {
 
 tar_test("record_encode_field() with bad characters", {
   out <- record_encode_field(c("a\nb*|c\r", "b"))
-  expect_equal(out, "a{NEWLINE}b*{PIPE}c{RETURN} b")
+  expect_equal(out, "a{NEWLINE}b{SEP_INNER}{SEP_OUTER}c{RETURN} b")
   expect_true(nzchar(out))
 })
 

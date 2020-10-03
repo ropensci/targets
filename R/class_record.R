@@ -118,8 +118,8 @@ record_encode_field <- function(field) {
   if (!length(field) || anyNA(field)) {
     return(NA_character_)
   }
-  field <- gsub("|", "{PIPE}", field, fixed = TRUE)
-  field <- gsub("&", "{AND}", field, fixed = TRUE)
+  field <- gsub(database_sep_outer, "{SEP_OUTER}", field, fixed = TRUE)
+  field <- gsub(database_sep_inner, "{SEP_INNER}", field, fixed = TRUE)
   field <- gsub("\n", "{NEWLINE}", field, fixed = TRUE)
   field <- gsub("\r", "{RETURN}", field, fixed = TRUE)
   field <- paste0(field, collapse = " ")
