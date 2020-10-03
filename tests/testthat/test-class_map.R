@@ -436,7 +436,7 @@ tar_test("map$produce_record() of a successful map", {
   expect_equal(record$type, "map")
   expect_equal(nchar(record$command), 16L)
   expect_equal(record$depend, NA_character_)
-  expect_equal(record$path, character(0))
+  expect_equal(record$path, NA_character_)
   expect_equal(nchar(record$data), 16L)
   expect_false(is.na(record$bytes))
   expect_true(is.numeric(record$bytes))

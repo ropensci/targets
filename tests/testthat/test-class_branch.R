@@ -164,7 +164,7 @@ tar_test("branch$produce_record() of a successful branch", {
   expect_true(record$time > 0)
   expect_equal(record$format, "rds")
   expect_equal(record$iteration, "vector")
-  expect_equal(record$children, character(0))
+  expect_equal(record$children, NA_character_)
   expect_true(is.numeric(record$seconds))
   expect_equal(record$warnings, character(0))
   expect_equal(record$error, character(0))

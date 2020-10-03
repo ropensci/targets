@@ -1,3 +1,9 @@
+# You may notice some defaults are NA.
+# This is all to ensure everything is consistent when we write to and from
+# data table files. When we write records to a data table file,
+# empty values come out as NA's. If we began with empty values such as NULL,
+# they would get changed to NA's after they run through storage.
+# So we always stick with NA.
 record_init <- function(
   name = NA_character_,
   parent = NA_character_,
@@ -5,13 +11,13 @@ record_init <- function(
   command = NA_character_,
   seed = NA_integer_,
   depend = NA_character_,
-  path = character(0),
+  path = NA_character_,
   data = NA_character_,
   bytes = NA_real_,
   time = NA_real_,
   format = NA_character_,
   iteration = NA_character_,
-  children = character(0),
+  children = NA_character_,
   seconds = NA_real_,
   warnings = NA_character_,
   error = NA_character_
