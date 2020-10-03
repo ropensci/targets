@@ -19,7 +19,7 @@ rstudio_symbol_at_cursor <- function(context) {
     cursor_column >= match_starts & cursor_column <= match_ends
   )
   trn(
-    length(match_index) == 0L,
+    identical(length(match_index), 0L),
     cli_red_x("Could not find object name at cursor position."),
     substr(
       context$contents[cursor_line],

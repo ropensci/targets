@@ -175,8 +175,12 @@ target_get_type <- function(target) {
 }
 
 target_get_type_cli <- function(target) {
-  type <- target_get_type(target)
-  ifelse(type == "stem", "target", type)
+  UseMethod("target_get_type_cli")
+}
+
+#' @export
+target_get_type_cli.default <- function(target) {
+  target_get_type(target)
 }
 
 target_branches_over <- function(target, name) {

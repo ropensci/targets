@@ -222,7 +222,9 @@ builder_update_build <- function(target) {
   command_load_packages(target$command)
   envir <- cache_get_envir(target$cache)
   build <- command_produce_build(target$command, envir)
-  if (!metrics_has_error(build$metrics) || target$settings$error != "save") {
+  should_keep <- metrics_has_error(build$metrics) &&
+    identical(target$settings$error, "save")
+  if (!should_keep) {
     cache_clear_objects(target$cache)
   }
   object <- store_coerce_object(target$store, build$object)

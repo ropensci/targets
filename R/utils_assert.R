@@ -143,7 +143,7 @@ assert_name <- function(name) {
   if (!nzchar(name)) {
     throw_validate("name must be a nonempty string.")
   }
-  if (name != make.names(name)) {
+  if (!identical(name, make.names(name))) {
     throw_validate(name, " is not a valid symbol name.")
   }
   if (grepl("\\.$", name)) {

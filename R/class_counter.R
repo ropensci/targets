@@ -53,7 +53,7 @@ counter_validate <- function(counter) {
   assert_int(counter$count)
   assert_scalar(counter$count)
   assert_envir(counter$envir)
-  if (length(names(counter$envir)) != counter$count) {
+  if (!identical(length(names(counter$envir)), counter$count)) {
     throw_validate("envir does not match count.")
   }
 }

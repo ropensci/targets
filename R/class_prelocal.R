@@ -49,7 +49,7 @@ prelocal_class <- R6::R6Class(
     end = function() {
     },
     assert_deployment = function(target) {
-      should_abort <- target$settings$deployment == "remote" &&
+      should_abort <- identical(target$settings$deployment, "remote") &&
         inherits(target, "tar_builder")
       if (should_abort) {
         name <- target_get_name(target)

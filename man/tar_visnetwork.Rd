@@ -12,7 +12,7 @@ tar_visnetwork(
   label = NULL,
   reporter = "silent",
   callr_function = callr::r,
-  callr_arguments = list(spinner = reporter == "silent")
+  callr_arguments = list(spinner = identical(reporter, "silent"))
 )
 }
 \arguments{

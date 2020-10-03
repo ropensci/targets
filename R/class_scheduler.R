@@ -18,7 +18,7 @@ scheduler_init <- function(
 
 scheduler_topo_sort <- function(igraph, priorities, queue) {
   trn(
-    queue == "parallel",
+    identical(queue, "parallel"),
     igraph::V(igraph)$name,
     topo_sort_custom(igraph, priorities)
   )

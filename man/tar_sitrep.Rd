@@ -9,7 +9,7 @@ tar_sitrep(
   fields = NULL,
   reporter = "silent",
   callr_function = callr::r,
-  callr_arguments = list(spinner = reporter == "silent")
+  callr_arguments = list(spinner = identical(reporter, "silent"))
 )
 }
 \arguments{

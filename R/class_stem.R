@@ -41,6 +41,11 @@ target_get_type.tar_stem <- function(target) {
 }
 
 #' @export
+target_get_type_cli.tar_stem <- function(target) {
+  "target"
+}
+
+#' @export
 target_produce_junction.tar_stem <- function(target, pipeline) {
   target_ensure_value(target, pipeline)
   stem_assert_nonempty(target)
@@ -89,7 +94,7 @@ target_restore_buds.tar_stem <- function(target, pipeline, scheduler, meta) {
 
 #' @export
 target_is_branchable.tar_stem <- function(target) {
-  target$settings$format != "file"
+  !identical(target$settings$format, "file")
 }
 
 #' @export

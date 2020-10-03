@@ -29,7 +29,7 @@ patternview_register_running <- function(patternview, target, scheduler) {
 }
 
 patternview_register_cancelled <- function(patternview, target, scheduler) {
-  if (patternview$progress != "errored") {
+  if (!identical(patternview$progress, "errored")) {
     patternview$progress <- "cancelled"
     scheduler$progress$write_cancelled(target_get_name(target))
   }
@@ -45,7 +45,7 @@ patternview_register_built <- function(patternview, target, scheduler) {
 }
 
 patternview_register_final <- function(patternview, target, scheduler) {
-  if (patternview$progress == "running") {
+  if (identical(patternview$progress, "running")) {
     patternview_register_built(patternview, target, scheduler)
     scheduler$progress$write_built(target_get_name(target))
   }

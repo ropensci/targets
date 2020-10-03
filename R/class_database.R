@@ -136,7 +136,7 @@ database_class <- R6::R6Class(
       }
     },
     ensure_preprocessed = function(write = FALSE) {
-      if (self$memory$count == 0L) {
+      if (identical(self$memory$count, 0L)) {
         self$preprocess(write = write)
       }
     },

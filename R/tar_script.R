@@ -82,7 +82,7 @@ example_target_script <- function() {
 
 parse_target_script_code <- function(code) {
   trn(
-    length(code) > 1L && deparse_safe(code[[1]]) == "`{`",
+    length(code) > 1L && identical(deparse_safe(code[[1]]), "`{`"),
     map_chr(code[-1], deparse_safe),
     deparse_safe(code)
   )

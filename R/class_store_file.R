@@ -62,7 +62,7 @@ store_ensure_correct_hash.tar_store_file <- function(
   deployment
 ) {
   trn(
-    deployment == "remote",
+    identical(deployment, "remote"),
     store_wait_correct_hash(store),
     assert_path(store$file$path)
   )

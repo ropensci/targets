@@ -44,7 +44,7 @@ cue_record <- function(cue, target, meta) {
     # definitely covers it (errored targets are always outdated).
     return(TRUE) # nocov
   }
-  if (record$type != target_get_type(target)) {
+  if (!identical(record$type, target_get_type(target))) {
     # Again, not sure why covr does not catch this.
     # A test in tests/testthat/test-class_cue.R # nolint
     # definitely covers it (conflicting import and target).

@@ -11,16 +11,16 @@ tar_should_overwrite <- function(ask = NULL, file = character(0)) {
   # that coveres this.
   # nocov start
   out <- utils::menu(c("yes", "no"), title = paste0("Overwrite ", file, "?"))
-  as.integer(out) == 1L
+  identical(as.integer(out), 1L)
   # nocov end
 }
 
 tar_ask_env <- function() {
   x <- trimws(tolower(Sys.getenv("TAR_ASK")))
-  if (x == "true") {
+  if (identical(x, "true")) {
     return(TRUE)
   }
-  if (x == "false") {
+  if (identical(x, "false")) {
     return(FALSE)
   }
   NULL

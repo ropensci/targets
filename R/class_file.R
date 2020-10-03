@@ -106,11 +106,11 @@ file_list_files <- function(path) {
 
 file_hash <- function(files) {
   n <- length(files)
-  if (n == 0L) {
+  if (identical(n, 0L)) {
     return(null64)
   }
   hash <- digest_file64(files)
-  if (n == 1L) {
+  if (identical(n, 1L)) {
     return(hash)
   }
   digest_chr64(paste(hash, collapse = ""))

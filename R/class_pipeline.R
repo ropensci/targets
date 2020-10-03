@@ -108,7 +108,7 @@ pipeline_produce_scheduler <- function(
 pipeline_register_loaded_target <- function(pipeline, name) { # nolint
   counter_set_name(pipeline$loaded, name)
   target <- pipeline_get_target(pipeline, name)
-  if (target$settings$memory == "transient") {
+  if (identical(target$settings$memory, "transient")) {
     counter_set_name(pipeline$transient, name)
   }
 }
@@ -246,7 +246,7 @@ print.tar_pipeline <- function(x, ...) {
     "<pipeline with ",
     count,
     " target",
-    trn(count == 1L, "", "s"),
+    trn(identical(count, 1L), "", "s"),
     ">"
   )
   cat(msg)

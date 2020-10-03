@@ -48,7 +48,7 @@ tar_outdated <- function(
   targets_only = TRUE,
   reporter = "silent",
   callr_function = callr::r,
-  callr_arguments = list(spinner = reporter == "silent")
+  callr_arguments = list(spinner = identical(reporter, "silent"))
 ) {
   assert_target_script()
   assert_lgl(branches, "branches arg of tar_outdated() must be logical.")

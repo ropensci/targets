@@ -86,7 +86,7 @@ settings_validate_pattern <- function(growth, dimensions) {
   if (!(growth %in% c("none", "map", "cross"))) {
     throw_validate("pattern must be one of \"none\", \"map\", or \"cross\".")
   }
-  if (growth != "none" && length(dimensions) < 1L) {
+  if (!identical(growth, "none") && length(dimensions) < 1L) {
     throw_validate("pattern must accept at least one target")
   }
 }
