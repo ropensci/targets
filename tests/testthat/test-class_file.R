@@ -41,7 +41,13 @@ tar_test("file_should_rehash()", {
   tmp <- tempfile()
   file <- file_init(path = tmp)
   writeLines("xyz", tmp)
-  expect_true(file_should_rehash(file, file$bytes, file$time))
+  expect_true(
+    file_should_rehash(
+      file = file,
+      time = file$time,
+      bytes = file$bytes
+    )
+  )
 })
 
 tar_test("file_update_hash()", {

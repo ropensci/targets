@@ -12,8 +12,8 @@ record_init <- function(
   depend = NA_character_,
   path = NA_character_,
   data = NA_character_,
-  bytes = NA_real_, # Cannot be integer because of large value.
   time = NA_character_,
+  bytes = NA_real_, # Cannot be integer because of large value.
   format = NA_character_,
   iteration = NA_character_,
   parent = NA_character_,
@@ -30,8 +30,8 @@ record_init <- function(
     depend = as.character(depend),
     path = as.character(path) %|||% NA_character_,
     data = as.character(data),
-    bytes = as.numeric(bytes),
     time = as.character(time),
+    bytes = as.numeric(bytes),
     format = as.character(format),
     iteration = as.character(iteration),
     parent = as.character(parent),
@@ -51,8 +51,8 @@ record_new <- function(
   depend = NULL,
   path = NULL,
   data = NULL,
-  bytes = NULL,
   time = NULL,
+  bytes = NULL,
   format = NULL,
   iteration = NULL,
   children = NULL,
@@ -68,8 +68,8 @@ record_new <- function(
   force(depend)
   force(path)
   force(data)
-  force(bytes)
   force(time)
+  force(bytes)
   force(format)
   force(iteration)
   force(children)
@@ -97,8 +97,8 @@ record_produce_row <- function(record) {
     depend = record$depend,
     seed = record$seed,
     path = list(record$path),
-    bytes = record$bytes,
     time = record$time,
+    bytes = record$bytes,
     format = record$format,
     iteration = record$iteration,
     parent = record$parent,
