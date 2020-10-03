@@ -184,12 +184,33 @@ store_has_correct_hash.default <- function(store) {
   all(file.exists(store$file$path)) && file_has_correct_hash(store$file)
 }
 
-store_sync_timestamp <- function(store, target, meta) {
-  UseMethod("store_sync_timestamp")
+store_sync_file_meta <- function(store, target, meta) {
+  UseMethod("store_sync_file_meta")
 }
 
 #' @export
-store_sync_timestamp.default <- function(store, target, meta) {
+store_sync_file_meta.default <- function(store, target, meta) {
+  skip <- identical(target$cue$mode, "never") ||
+    identical(target$cue$file, FALSE)
+  if (skip) {
+    return()
+  }
+  name <- target_get_name(target)
+  record <- meta$get_record(name)
+  if (record$bytes < file_bound_bytes) {
+    return()
+  }
+  # Fully automated tests do no use big files.
+  # Tested in tests/interactive/test-file.R. # nolint
+  # nocov start
+  time_old <- record$time
+  time_new <- file_time(file_info(target$store$file$path))
+  if (time_new <= (time_old + file_tol_time)) {
+    return()
+  }
+  record$time <- time_new
+  meta$insert_record(record)
+  # nocov end
 }
 
 store_validate <- function(store) {

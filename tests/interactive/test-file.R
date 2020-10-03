@@ -44,6 +44,9 @@ tar_test("file_ensure_hash() on a huge file in pipeline", {
   writeLines(rep(x, 1e8), tmp) # Pause here. Changes time stamp.
   # Slow because metadata has old timestamp:
   tar_make(callr_function = NULL) # Should skip.
+  # Metadata should have new timestamp now
+  # thanks to store_sync_file_meta() # nolint
+  tar_make(callr_function = NULL)
   # Analysis after changing the file.
   write("extra line", file = tmp, append = TRUE)
   tar_make(callr_function = NULL) # Should be slow, should run.

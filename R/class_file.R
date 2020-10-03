@@ -43,11 +43,17 @@ file_update_hash <- function(file) {
 }
 
 file_should_rehash <- function(file, bytes, time) {
-  small <- bytes < 1e5
-  touched <- time > (file$time + 1e-6)
-  resized <- abs(bytes - file$bytes) > 1e-6
+  small <- bytes < file_bound_bytes
+  touched <- time > (file$time + file_tol_time)
+  resized <- abs(bytes - file$bytes) > file_tol_bytes
   small || touched || resized
 }
+
+file_tol_time <- 1e-5
+
+file_tol_bytes <- 1e-5
+
+file_bound_bytes <- 1e5
 
 file_ensure_hash <- function(file) {
   files <- file_list_files(file$path)

@@ -66,7 +66,7 @@ active_class <- R6::R6Class(
         self$run_target(name),
         self$skip_target(target)
       )
-      store_sync_timestamp(target$store, target, self$meta)
+      store_sync_file_meta(target$store, target, self$meta)
     },
     start = function() {
       pipeline_prune_names(self$pipeline, self$names)
