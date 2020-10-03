@@ -37,17 +37,17 @@ tar_test("file_ensure_hash() on a huge file in pipeline", {
     tar_pipeline(tar_target(x, "tempfile", format = "file"))
   })
   # First analysis of the file.
-  tar_make() # Should be slow, should run.
-  tar_make() # Should be fast, should skip.
+  tar_make(callr_function = NULL) # Should be slow, should run.
+  tar_make(callr_function = NULL) # Should be fast, should skip.
   # Write the same contents to the file
   # to check what happens when the timestamp changes.
-  writeLines(rep(x, 1e8), tmp) # Pause here.
-  tar_make() # Could be slow, should skip.
-  tar_make() # Should be fast, should skip.
+  writeLines(rep(x, 1e8), tmp) # Pause here. Changes time stamp.
+  # Slow because metadata has old timestamp:
+  tar_make(callr_function = NULL) # Should skip.
   # Analysis after changing the file.
   write("extra line", file = tmp, append = TRUE)
-  tar_make() # Could be slow, should run.
-  tar_make() # Should be fast, should skip.
+  tar_make(callr_function = NULL) # Should be slow, should run.
+  tar_make(callr_function = NULL) # Should be fast, should skip.
   unlink(tmp)
   tar_destroy()
   unlink("_targets.R")
