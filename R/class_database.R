@@ -1,6 +1,6 @@
 database_init <- function(
   path = tempfile(),
-  header = character(0),
+  header = "name",
   list_columns = character(0)
 ) {
   memory <- memory_init()
@@ -197,13 +197,13 @@ database_class <- R6::R6Class(
       if (identical(header, self$header)) {
         return()
       }
-      throw_validate(
+      throw_file(
         "invalid header in ", self$path, "\n",
         "  found: ", paste(header, collapse = database_sep_outer), "\n",
         "  expected: ", paste(self$header, collapse = database_sep_outer),
-        "\nProbably because of a breaking change in {targets}.", "\n",
-        "Either the data store with tar_destroy() and rerun tar_make(),",
-        "or downgrade {targets} to an earlier version."
+        "\nProbably because of a breaking change in the targets package.\n",
+        "Either the data store with tar_destroy() and rerun tar_make() ",
+        "or downgrade the targets package to an earlier version."
       )
     },
     validate = function() {
