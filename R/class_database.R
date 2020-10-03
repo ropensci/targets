@@ -120,10 +120,11 @@ database_class <- R6::R6Class(
       paste(map_chr(row, self$produce_subline), collapse = "|")
     },
     produce_subline = function(element) {
+      element <- replace_na(element, "")
       if (is.list(element)) {
         element <- paste(unlist(element), collapse = "*")
       }
-      as.character(replace_na(element, ""))
+      as.character(element)
     },
     reset_storage = function() {
       dir_create(dirname(self$path))

@@ -166,8 +166,8 @@ tar_test("branch$produce_record() of a successful branch", {
   expect_equal(record$iteration, "vector")
   expect_equal(record$children, NA_character_)
   expect_true(is.numeric(record$seconds))
-  expect_equal(record$warnings, character(0))
-  expect_equal(record$error, character(0))
+  expect_equal(record$warnings, NA_character_)
+  expect_equal(record$error, NA_character_)
 })
 
 tar_test("branch_validate()", {

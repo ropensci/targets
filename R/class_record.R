@@ -1,12 +1,11 @@
-# You may notice some defaults are NA.
+# You may notice all defaults are NA and all missing values are NA.
 # This is all to ensure everything is consistent when we write to and from
 # data table files. When we write records to a data table file,
-# empty values come out as NA's. If we began with empty values such as NULL,
-# they would get changed to NA's after they run through storage.
+# empty values come out as NA. If we began with empty values such as NULL,
+# they would get changed to NA after they run through storage.
 # So we always stick with NA.
 record_init <- function(
   name = NA_character_,
-  parent = NA_character_,
   type = NA_character_,
   command = NA_character_,
   seed = NA_integer_,
@@ -17,6 +16,7 @@ record_init <- function(
   time = NA_real_,
   format = NA_character_,
   iteration = NA_character_,
+  parent = NA_character_,
   children = NA_character_,
   seconds = NA_real_,
   warnings = NA_character_,
@@ -24,21 +24,21 @@ record_init <- function(
 ) {
   record_new(
     name = as.character(name),
-    parent = as.character(parent),
     type = as.character(type),
     command = as.character(command),
     seed = as.integer(seed),
     depend = as.character(depend),
-    path = as.character(path),
+    path = as.character(path) %|||% NA_character_,
     data = as.character(data),
     bytes = as.integer(bytes),
     time = as.numeric(time),
     format = as.character(format),
     iteration = as.character(iteration),
-    children = as.character(children),
+    parent = as.character(parent),
+    children = as.character(children) %|||% NA_character_,
     seconds = as.numeric(seconds),
-    warnings = as.character(warnings),
-    error = as.character(error)
+    warnings = as.character(warnings) %|||% NA_character_,
+    error = as.character(error) %|||% NA_character_
   )
 }
 
