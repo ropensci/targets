@@ -14,7 +14,7 @@ tar_script({
     tar_target(x6, x5, pattern = map(x5))
   )
 })
-tar_make_clustermq(workers = 3L)
+tar_make_clustermq(workers = 3L, reporter = "timestamp")
 tar_destroy()
 
 # If there are problems, inspect the example below.
