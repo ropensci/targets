@@ -63,8 +63,8 @@ meta_class <- R6::R6Class(
       old <- self$get_record(record$name)
       record$path <- old$path
       record$data <- old$data
-      record$bytes <- old$bytes
       record$time <- old$time
+      record$bytes <- old$bytes
       record$format <- old$format
       record$iteration <- old$iteration
       record$children <- old$children
@@ -109,8 +109,9 @@ header_meta <- function() {
     "depend",
     "seed",
     "path",
-    "bytes",
     "time",
+    "size",
+    "bytes",
     "format",
     "iteration",
     "parent",

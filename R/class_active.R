@@ -42,6 +42,7 @@ active_class <- R6::R6Class(
       self$garbage_collection <- garbage_collection
     },
     ensure_meta = function() {
+      self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
       envir <- pipeline_get_envir(self$pipeline)
       self$meta$record_imports(envir, self$pipeline)
@@ -57,6 +58,15 @@ active_class <- R6::R6Class(
     unserialize_target = function(target) {
       builder_unserialize_value(target)
     },
+    skip_target = function(target) {
+      target_skip(
+        target,
+        self$pipeline,
+        self$scheduler,
+        self$meta
+      )
+      target_sync_file_meta(target, self$meta)
+    },
     process_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
       target_debug(target)
@@ -66,7 +76,6 @@ active_class <- R6::R6Class(
         self$run_target(name),
         self$skip_target(target)
       )
-      store_sync_file_meta(target$store, target, self$meta)
     },
     start = function() {
       pipeline_prune_names(self$pipeline, self$names)

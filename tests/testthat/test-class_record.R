@@ -7,8 +7,9 @@ tar_test("record$produce_row()", {
     depend = "x_depend",
     path = c("x_path", "y_path"),
     data = "x_data",
-    bytes = 123,
     time = "f12345",
+    size = "f123456",
+    bytes = 123,
     format = "x_format",
     iteration = "x_iteration",
     children = c("x_branch", "y_branch"),
@@ -24,8 +25,9 @@ tar_test("record$produce_row()", {
   expect_equal(row$depend, "x_depend")
   expect_equal(row$path, list(c("x_path", "y_path")))
   expect_equal(row$data, "x_data")
-  expect_equal(row$bytes, 123)
   expect_equal(row$time, "f12345")
+  expect_equal(row$size, "f123456")
+  expect_equal(row$bytes, 123)
   expect_equal(row$format, "x_format")
   expect_equal(row$iteration, "x_iteration")
   expect_equal(row$children, list(c("x_branch", "y_branch")))
@@ -50,7 +52,7 @@ tar_test("record_encode_field() nonempty", {
 
 tar_test("record_encode_field() with bad characters", {
   out <- record_encode_field(c("a\nb*|c\r", "b"))
-  expect_equal(out, "a{NEWLINE}b*{PIPE}c{RETURN} b")
+  expect_equal(out, "a{NEWLINE}b{SEP_INNER}{SEP_OUTER}c{RETURN} b")
   expect_true(nzchar(out))
 })
 
@@ -76,8 +78,9 @@ tar_test("record_validate() custom", {
     depend = "x_depend",
     path = c("x_path", "y_path"),
     data = "x_data",
+    time = "x123",
+    size = "x456",
     bytes = 123,
-    time = 456,
     format = "x_format",
     iteration = "x_iteration",
     children = c("x_branch", "y_branch")

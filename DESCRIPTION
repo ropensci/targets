@@ -10,7 +10,7 @@ Description: The targets package is a pipeline toolkit that brings together
   the underlying code and data. The methodology in this package
   borrows from GNU Make by Richard Stallman (2015, ISBN:978-9881443519)
   and drake by Will Landau (2018) <doi:10.21105/joss.00550>.
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 License: MIT + file LICENSE
 URL: https://wlandau.github.io/targets/, https://github.com/wlandau/targets
 BugReports: https://github.com/wlandau/targets/issues

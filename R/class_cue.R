@@ -106,8 +106,9 @@ cue_file <- function(cue, target, meta) {
   file_recorded <- file_new(
     path = record$path,
     hash = record$data,
-    bytes = record$bytes,
-    time = record$time
+    time = record$time,
+    size = record$size,
+    bytes = record$bytes
   )
   on.exit(target$store$file <- file_current)
   target$store$file <- file_recorded

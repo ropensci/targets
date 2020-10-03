@@ -2,15 +2,17 @@ file_init <- function(
   path = character(0),
   stage = character(0),
   hash = NA_character_,
-  bytes = 0,
-  time = NA_character_
+  time = NA_character_,
+  size = NA_character_,
+  bytes = 0
 ) {
   file_new(
     path = path,
     stage = stage,
     hash = hash,
-    bytes = bytes,
-    time = time
+    time = time,
+    size = size,
+    bytes = bytes
   )
 }
 
@@ -18,14 +20,16 @@ file_new <- function(
   path = NULL,
   stage = NULL,
   hash = NULL,
-  bytes = NULL,
-  time = NULL
+  time = NULL,
+  size = NULL,
+  bytes = NULL
 ) {
   force(path)
   force(stage)
   force(hash)
-  force(bytes)
   force(time)
+  force(size)
+  force(bytes)
   environment()
 }
 
@@ -37,41 +41,53 @@ file_update_hash <- function(file) {
   files <- file_list_files(file$path)
   info <- file_info(files)
   file$hash <- file_hash(files)
-  file$bytes <- file_bytes(info)
   file$time <- file_time(info)
+  file$bytes <- file_bytes(info)
+  file$size <- file_size(file$bytes)
   invisible()
 }
 
-file_should_rehash <- function(file, bytes, time) {
-  small <- bytes < file_bound_bytes
+file_should_rehash <- function(file, time, size, bytes) {
+  small <- bytes < file_small_bytes
   touched <- !identical(time, file$time)
-  resized <- abs(bytes - file$bytes) > file_tol_bytes
+  resized <- !identical(size, file$size)
   small || touched || resized
 }
 
-file_tol_bytes <- 1e-5
-
-file_bound_bytes <- 1e5
+file_small_bytes <- 1e5
 
 file_ensure_hash <- function(file) {
   files <- file_list_files(file$path)
   info <- file_info(files)
-  bytes <- file_bytes(info)
   time <- file_time(info)
-  do <- file_should_rehash(file, bytes, time)
+  bytes <- file_bytes(info)
+  size <- file_size(bytes)
+  do <- file_should_rehash(
+    file = file,
+    time = time,
+    size = size,
+    bytes = bytes
+  )
   hash <- trn(do, file_hash(files), file$hash)
   file$hash <- hash
-  file$bytes <- bytes
   file$time <- time
+  file$size <- size
+  file$bytes <- bytes
 }
 
 file_has_correct_hash <- function(file) {
   files <- file_list_files(file$path)
   info <- file_info(files)
-  bytes <- file_bytes(info)
   time <- file_time(info)
+  bytes <- file_bytes(info)
+  size <- file_size(bytes)
   trn(
-    file_should_rehash(file, bytes, time),
+    file_should_rehash(
+      file = file,
+      time = time,
+      size = size,
+      bytes = bytes
+    ),
     identical(file$hash, file_hash(files)),
     TRUE
   )
@@ -87,11 +103,13 @@ file_validate <- function(file) {
   assert_correct_fields(file, file_new)
   file_validate_path(file$path)
   assert_chr(file$hash)
-  assert_scalar(file$hash)
-  assert_dbl(file$bytes)
-  assert_scalar(file$bytes)
   assert_chr(file$time)
+  assert_chr(file$size)
+  assert_dbl(file$bytes)
+  assert_scalar(file$hash)
   assert_scalar(file$time)
+  assert_scalar(file$size)
+  assert_scalar(file$bytes)
 }
 
 file_list_files <- function(path) {
@@ -124,11 +142,15 @@ file_info <- function(files) {
   file.info(files, extra_cols = FALSE)
 }
 
+file_time <- function(info) {
+  digest_obj64(max(c(-Inf, replace_na(as.numeric(info$mtime), -Inf))))
+}
+
 file_bytes <- function(info) {
   # Cannot be integer because of large value.
   round(sum(replace_na(info$size, 0)), 6)
 }
 
-file_time <- function(info) {
-  digest_obj64(max(c(-Inf, replace_na(as.numeric(info$mtime), -Inf))))
+file_size <- function(bytes) {
+  digest_obj64(bytes)
 }

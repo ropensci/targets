@@ -58,8 +58,9 @@ In most situations, the progress file can be safely excluded from version contro
 * `depend`: Composite hash of all the target's immediate upstream dependencies.
 * `seed`: Random number generator seed of the target. A target seed is unique and deterministically generated from its name.
 * `path`: The file path where the return value is stored. For dynamic files, this field could include multiple character strings.
+* `time`: Character, hash of the maximum of all the time stamps of the files in `path`.
+* `bytes`: Character, hash of the total file size in bytes of all the target's files in `path`.
 * `bytes`: Numeric, total file size in bytes of all the target's files in `path`.
-* `time`: Numeric, maximum of all the time stamps of the files in `path`.
 * `format`: Name of the storage format of the target. User-specified with `tar_target()` or `tar_option_set()`.
 * `iteration`: Iteration mode of the target's value, either `"vector"` or `"list"`. User-specified with `tar_target()` or `tar_option_set()`.
 * `parent`: Name of the parent pattern of the target if the target is a branch.

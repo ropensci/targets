@@ -306,3 +306,32 @@ tar_test("database$validate() without name column", {
   out <- database_init(header = letters)
   expect_error(out$validate(), class = "condition_validate")
 })
+
+
+tar_test("validate compatible header", {
+  tar_script()
+  tar_make(callr_function = NULL)
+  data <- tar_meta()
+  meta <- meta_init()
+  meta$database$overwrite_storage(data)
+  expect_silent(tar_make(callr_function = NULL, reporter = "silent"))
+})
+
+tar_test("do not validate header of missing file", {
+  out <- database_init(header = "name")
+  expect_silent(out$validate())
+  expect_false(file.exists(out$path))
+})
+
+tar_test("fail to validate incompatible header", {
+  tar_script()
+  tar_make(callr_function = NULL)
+  data <- tar_meta()
+  data$size <- NULL
+  meta <- meta_init()
+  meta$database$overwrite_storage(data)
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "condition_file"
+  )
+})
