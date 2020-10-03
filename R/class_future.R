@@ -120,14 +120,6 @@ future_class <- R6::R6Class(
       )
       self$unload_transient()
     },
-    skip_target = function(target) {
-      target_skip(
-        target,
-        self$pipeline,
-        self$scheduler,
-        self$meta
-      )
-    },
     wait = function() {
       Sys.sleep(0.001)
     },

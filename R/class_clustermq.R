@@ -138,6 +138,7 @@ clustermq_class <- R6::R6Class(
         self$scheduler,
         self$meta
       )
+      target_sync_file_meta(target, self$meta)
     },
     wait = function() {
       self$crew$send_wait()

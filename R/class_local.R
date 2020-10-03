@@ -57,14 +57,6 @@ local_class <- R6::R6Class(
       )
       self$unload_transient()
     },
-    skip_target = function(target) {
-      target_skip(
-        target,
-        self$pipeline,
-        self$scheduler,
-        self$meta
-      )
-    },
     process_next = function() {
       self$process_target(self$scheduler$queue$dequeue())
     },

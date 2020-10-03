@@ -190,35 +190,37 @@ store_sync_file_meta <- function(store, target, meta) {
 
 #' @export
 store_sync_file_meta.default <- function(store, target, meta) {
-  skip <- identical(target$cue$mode, "never") ||
-    identical(target$cue$file, FALSE)
-  if (skip) {
+  cue <- target$cue
+  if (identical(cue$mode, "never") || identical(cue$file, FALSE)) {
     return()
   }
   name <- target_get_name(target)
-  if (!meta$exists_record(name)) {
-    return()
-  }
   record <- meta$get_record(name)
-  if (record$bytes < file_small_bytes) {
-    return()
-  }
+  file <- file_init(
+    path = record$path,
+    time = record$time,
+    size = record$size,
+    bytes = record$bytes
+  )
+  info <- file_info(target$store$file$path)
+  time <- file_time(info)
+  bytes <- file_bytes(info)
+  size <- file_size(bytes)
+  sync <- file_should_rehash(
+    file = file,
+    time = time,
+    size = size,
+    bytes = bytes
+  )
   # Fully automated tests do no use big files.
   # Tested in tests/interactive/test-file.R. # nolint
   # nocov start
-  time_old <- record$time
-  size_old <- record$size
-  info <- file_info(target$store$file$path)
-  time_new <- file_time(info)
-  bytes_new <- file_bytes(info)
-  size_new <- file_size(bytes_new)
-  if (identical(time_new, time_old) && identical(size_new, size_old)) {
-    return()
+  if (sync) {
+    record$time <- time
+    record$size <- size
+    record$bytes <- bytes
+    meta$insert_record(record)
   }
-  record$time <- time_new
-  record$size <- size_new
-  record$bytes <- bytes_new
-  meta$insert_record(record)
   # nocov end
 }
 
