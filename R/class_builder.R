@@ -60,7 +60,7 @@ target_should_run.tar_builder <- function(target, meta) {
 
 #' @export
 target_should_run_remote.tar_builder <- function(target) {
-  target$settings$deployment == "remote"
+  identical(target$settings$deployment, "remote")
 }
 
 #' @export
@@ -156,7 +156,7 @@ target_validate.tar_builder <- function(target) {
 }
 
 builder_ensure_deps <- function(target, pipeline, retrieval) {
-  if (target$settings$retrieval == retrieval) {
+  if (identical(target$settings$retrieval, retrieval)) {
     target_load_deps(target, pipeline)
   }
 }
@@ -171,7 +171,7 @@ builder_update_subpipeline <- function(target, pipeline) {
 }
 
 builder_ensure_subpipeline <- function(target, pipeline) {
-  if (target$settings$retrieval == "remote") {
+  if (identical(target$settings$retrieval, "remote")) {
     builder_update_subpipeline(target, pipeline)
   }
 }
@@ -186,10 +186,10 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   scheduler$progress$register_errored(target_get_name(target))
   scheduler$reporter$report_errored(target, scheduler$progress)
   target_patternview_errored(target, pipeline, scheduler)
-  if (target$settings$error == "save") {
+  if (identical(target$settings$error, "save")) {
     builder_save_workspace(target, pipeline, scheduler)
   }
-  if (target$settings$error != "continue") {
+  if (!identical(target$settings$error, "continue")) {
     throw_run(target$metrics$error)
   }
 }
@@ -252,7 +252,7 @@ builder_update_object <- function(target) {
 }
 
 builder_ensure_object <- function(target, storage) {
-  if (target$settings$storage == storage) {
+  if (identical(target$settings$storage, storage)) {
     builder_update_object(target)
   }
 }
@@ -263,7 +263,7 @@ builder_restore_targets <- function(target, pipeline) {
 }
 
 builder_ensure_restored <- function(target, pipeline) {
-  if (target$settings$retrieval == "remote") {
+  if (identical(target$settings$retrieval, "remote")) {
     builder_restore_targets(target, pipeline)
   }
 }
@@ -283,13 +283,13 @@ builder_unset_envir_run <- function() {
 }
 
 builder_serialize_value <- function(target) {
-  if (target$settings$storage == "local") {
+  if (identical(target$settings$storage, "local")) {
     store_serialize_value(target$store, target$value)
   }
 }
 
 builder_unserialize_value <- function(target) {
-  if (target$settings$storage == "local") {
+  if (identical(target$settings$storage, "local")) {
     store_unserialize_value(target$store, target$value)
   }
 }
