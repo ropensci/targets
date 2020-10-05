@@ -199,10 +199,11 @@ database_class <- R6::R6Class(
       }
       throw_file(
         "invalid header in ", self$path, "\n",
-        "  found: ", paste(header, collapse = database_sep_outer), "\n",
+        "  found:    ", paste(header, collapse = database_sep_outer), "\n",
         "  expected: ", paste(self$header, collapse = database_sep_outer),
-        "\nProbably because of a breaking change in the targets package.\n",
-        "Either the data store with tar_destroy() and rerun tar_make() ",
+        "\nProbably because of a breaking change in the targets package. ",
+        "Before running tar_make() again, ",
+        "either delete the data store with tar_destroy() ",
         "or downgrade the targets package to an earlier version."
       )
     },
