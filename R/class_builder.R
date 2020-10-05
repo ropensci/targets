@@ -248,12 +248,20 @@ builder_update_paths <- function(target) {
   store_early_hash(target$store)
 }
 
+builder_unload_value <- function(target) {
+  settings <- target$settings
+  if (settings$deployment == "remote" && settings$storage == "remote") {
+    target$value <- NULL
+  }
+}
+
 builder_update_object <- function(target) {
   if (metrics_terminated_early(target$metrics)) {
     return()
   }
   file_validate_path(target$store$file$path)
   store_write_object(target$store, target$value$object)
+  builder_unload_value(target)
   store_late_hash(target$store)
   store_upload_object(target$store)
 }

@@ -109,7 +109,10 @@
 #'   but the pipeline keeps going.
 #' @param memory Character of length 1, memory strategy.
 #'   If `"persistent"`, the target stays in memory
-#'   until the end of the pipeline.
+#'   until the end of the pipeline (unless `storage` is `"remote"`,
+#'   in which case `targets` unloads the value from memory
+#'   right after storing it in order to avoid sending
+#'   copious data over a network).
 #'   If `"transient"`, the target gets unloaded
 #'   after every new target completes.
 #'   Either way, the target gets automatically loaded into memory

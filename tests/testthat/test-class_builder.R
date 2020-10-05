@@ -260,6 +260,7 @@ tar_test("dynamic file and builder$write_from(\"remote\")", {
     file
   }
   target_run(x)
+  expect_null(x$value)
   expect_true(file.exists(x$store$file$path))
   expect_false(is.na(x$store$file$hash))
   pipeline <- pipeline_init(list(x))
@@ -267,6 +268,26 @@ tar_test("dynamic file and builder$write_from(\"remote\")", {
   meta <- meta_init()
   memory_set_object(meta$depends, "abc", NA_character_)
   target_conclude(x, pipeline, scheduler, meta)
+})
+
+tar_test("value kept if storage is local", {
+  local_init(pipeline_init())$start()
+  envir <- new.env(parent = environment())
+  x <- target_init(
+    name = "abc",
+    expr = quote(f()),
+    format = "file",
+    envir = envir,
+    storage = "local",
+    retrieval = "local"
+  )
+  envir$f <- function() {
+    file <- tempfile()
+    writeLines("lines", con = file)
+    file
+  }
+  target_run(x)
+  expect_equal(readLines(x$value$object), "lines")
 })
 
 tar_test("basic progress responses are correct", {

@@ -130,7 +130,10 @@ but the pipeline keeps going.}
 
 \item{memory}{Character of length 1, memory strategy.
 If \code{"persistent"}, the target stays in memory
-until the end of the pipeline.
+until the end of the pipeline (unless \code{storage} is \code{"remote"},
+in which case \code{targets} unloads the value from memory
+right after storing it in order to avoid sending
+copious data over a network).
 If \code{"transient"}, the target gets unloaded
 after every new target completes.
 Either way, the target gets automatically loaded into memory
