@@ -227,11 +227,7 @@ builder_update_build <- function(target) {
   command_load_packages(target$command)
   envir <- cache_get_envir(target$cache)
   build <- command_produce_build(target$command, envir)
-  should_keep <- metrics_has_error(build$metrics) &&
-    identical(target$settings$error, "save")
-  if (!should_keep) {
-    cache_clear_objects(target$cache)
-  }
+  cache_clear_objects(target$cache)
   object <- store_coerce_object(target$store, build$object)
   target$value <- value_init(object, target$settings$iteration)
   target$metrics <- build$metrics
@@ -250,7 +246,9 @@ builder_update_paths <- function(target) {
 
 builder_unload_value <- function(target) {
   settings <- target$settings
-  if (settings$deployment == "remote" && settings$storage == "remote") {
+  clear <- identical(settings$deployment, "remote") &&
+    identical(settings$storage, "remote")
+  if (clear) {
     target$value <- NULL
   }
 }
