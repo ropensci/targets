@@ -3,7 +3,7 @@ tar_test("clustermq$workers", {
   expect_equal(out$workers, 3L)
 })
 
-tar_test("all local deployment works", {
+tar_test("workerless deployment works", {
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
   x <- tar_target_raw("x", quote(1L), deployment = "master")

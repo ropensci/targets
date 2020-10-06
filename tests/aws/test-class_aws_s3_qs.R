@@ -41,7 +41,7 @@ tar_test("aws_qs format data gets stored", {
   expect_equal(qs::qread(tmp), "x_value")
 })
 
-tar_test("aws_qs format data gets stored with remote storage", {
+tar_test("aws_qs format data gets stored with worker storage", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
   bucket_name <- random_bucket_name()

@@ -288,7 +288,7 @@ tar_test("branches can use old buds if stem is cancelled", {
   expect_equal(tar_read(y), seq_len(3))
 })
 
-tar_test("branches can use old buds if stem is cancelled (remote storage)", {
+tar_test("branches can use old buds if stem is cancelled (worker storage)", {
   tar_script({
     tar_pipeline(
       tar_target(x, seq_len(3), storage = "worker"),

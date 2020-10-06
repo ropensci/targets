@@ -80,12 +80,12 @@ future_class <- R6::R6Class(
         self$update_globals()
       }
     },
-    run_remote = function(target) {
+    run_worker = function(target) {
       self$ensure_globals()
       globals <- self$globals
       globals$.targets_target_5048826d <- target
       future <- future::future(
-        expr = target_run_remote(
+        expr = target_run_worker(
           .targets_target_5048826d,
           .targets_gc_5048826d
         ),
@@ -100,7 +100,7 @@ future_class <- R6::R6Class(
         object = future
       )
     },
-    run_local = function(target) {
+    run_master = function(target) {
       target_run(target)
       target_conclude(
         target,
@@ -114,9 +114,9 @@ future_class <- R6::R6Class(
       target <- pipeline_get_target(self$pipeline, name)
       target_prepare(target, self$pipeline, self$scheduler)
       trn(
-        target_should_run_remote(target),
-        self$run_remote(target),
-        self$run_local(target)
+        target_should_run_worker(target),
+        self$run_worker(target),
+        self$run_master(target)
       )
       self$unload_transient()
     },
@@ -129,7 +129,7 @@ future_class <- R6::R6Class(
         self$process_target(queue$dequeue())
       }
     },
-    conclude_remote_target = function(target) {
+    conclude_worker_target = function(target) {
       pipeline_set_target(self$pipeline, target)
       self$unserialize_target(target)
       target_conclude(
@@ -142,7 +142,7 @@ future_class <- R6::R6Class(
     scan_worker = function(name) {
       worker <- memory_get_object(self$crew, name)
       if (future::resolved(worker)) {
-        self$conclude_remote_target(future::value(worker))
+        self$conclude_worker_target(future::value(worker))
         memory_del_objects(self$crew, name)
       }
     },

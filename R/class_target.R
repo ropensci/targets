@@ -225,12 +225,12 @@ target_should_run.default <- function(target, meta) {
   TRUE
 }
 
-target_should_run_remote <- function(target) {
-  UseMethod("target_should_run_remote")
+target_should_run_worker <- function(target) {
+  UseMethod("target_should_run_worker")
 }
 
 #' @export
-target_should_run_remote.default <- function(target) {
+target_should_run_worker.default <- function(target) {
   FALSE
 }
 
@@ -242,18 +242,18 @@ target_run <- function(target) {
 target_run.default <- function(target) {
 }
 
-#' @title Internal function to run a target on a remote worker.
+#' @title Internal function to run a target on a worker.
 #' @export
 #' @keywords internal
 #' @description For internal purposes only. Not a user-side function.
 #' @param target A target object.
 #' @param garbage_collection Logical, whether to run garbage collection.
-target_run_remote <- function(target, garbage_collection) {
-  UseMethod("target_run_remote")
+target_run_worker <- function(target, garbage_collection) {
+  UseMethod("target_run_worker")
 }
 
 #' @export
-target_run_remote.default <- function(target, garbage_collection) {
+target_run_worker.default <- function(target, garbage_collection) {
 }
 
 target_conclude <- function(target, pipeline, scheduler, meta) {

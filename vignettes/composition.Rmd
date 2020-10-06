@@ -105,7 +105,7 @@ A `file` object is an abstraction of a collection of files and directories. It c
 
 ## Subpipeline
 
-A `subpipeline` is not actually a class of its own, it is just a `pipeline` object with only the direct dependencies of a particular target and no values or cache objects in those dependencies. Its only purpose is to efficiently assist with the mechanics of remote retrieval.
+A `subpipeline` is not actually a class of its own, it is just a `pipeline` object with only the direct dependencies of a particular target and no values or cache objects in those dependencies. Its only purpose is to efficiently assist with the mechanics of worker-side retrieval.
 
 ## Junction class
 

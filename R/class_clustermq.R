@@ -100,16 +100,16 @@ clustermq_class <- R6::R6Class(
       self$create_crew()
       self$set_common_data(envir)
     },
-    run_remote = function(target) {
+    run_worker = function(target) {
       self$crew$send_call(
-        expr = target_run_remote(target, garbage_collection),
+        expr = target_run_worker(target, garbage_collection),
         env = list(
           target = target,
           garbage_collection = self$garbage_collection
         )
       )
     },
-    run_local = function(target) {
+    run_master = function(target) {
       self$crew$send_wait()
       target_run(target)
       target_conclude(
@@ -124,9 +124,9 @@ clustermq_class <- R6::R6Class(
       target <- pipeline_get_target(self$pipeline, name)
       target_prepare(target, self$pipeline, self$scheduler)
       trn(
-        target_should_run_remote(target),
-        self$run_remote(target),
-        self$run_local(target)
+        target_should_run_worker(target),
+        self$run_worker(target),
+        self$run_master(target)
       )
       self$unload_transient()
     },
@@ -152,7 +152,7 @@ clustermq_class <- R6::R6Class(
         self$wait()
       )
     },
-    conclude_remote_target = function(target) {
+    conclude_worker_target = function(target) {
       if (is.null(target)) {
         return()
       }
@@ -167,7 +167,7 @@ clustermq_class <- R6::R6Class(
     },
     iterate = function() {
       message <- self$crew$receive_data()
-      self$conclude_remote_target(message$result)
+      self$conclude_worker_target(message$result)
       if (!identical(message$token, "set_common_data_token")) {
         self$crew$send_common_data()
       } else if (self$scheduler$queue$is_nonempty()) {

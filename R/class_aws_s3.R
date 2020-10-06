@@ -71,7 +71,7 @@ store_aws_s3_exists <- function(key, bucket) {
 
 store_aws_s3_hash <- function(key, bucket) {
   head <- aws.s3::head_object(object = key, bucket = bucket)
-  hash_remote <- attr(head, "x-amz-meta-targets-hash")
+  hash_worker <- attr(head, "x-amz-meta-targets-hash")
 }
 
 #' @export

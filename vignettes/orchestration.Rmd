@@ -18,7 +18,7 @@ The `targets` package runs the correct targets in the correct order (orchestrati
 
 ## Algorithm class
 
-An algorithm in `targets` is an abstract class that represents how to iterate through the pipeline target by target. Different algorithms describe different kinds of deployment: for example, local execution on the host machine versus parallel execution on a cluster. Every algorithm has a scheduler object and a pipeline object.
+An algorithm in `targets` is an abstract class that represents how to iterate through the pipeline target by target. Different algorithms describe different kinds of deployment: for example, master-side execution on the host machine versus parallel execution on a cluster. Every algorithm has a scheduler object and a pipeline object.
 
 ## Pipeline class
 

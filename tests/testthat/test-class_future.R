@@ -3,7 +3,7 @@ tar_test("future$workers", {
   expect_equal(out$workers, 3L)
 })
 
-tar_test("all local deployment works", {
+tar_test("workerless deployment works", {
   skip_if_not_installed("future")
   x <- tar_target_raw("x", quote(1L), deployment = "master")
   y <- tar_target_raw("y", quote(x), deployment = "master")

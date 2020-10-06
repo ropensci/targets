@@ -59,7 +59,7 @@ target_should_run.tar_builder <- function(target, meta) {
 }
 
 #' @export
-target_should_run_remote.tar_builder <- function(target) {
+target_should_run_worker.tar_builder <- function(target) {
   identical(target$settings$deployment, "worker")
 }
 
@@ -76,7 +76,7 @@ target_run.tar_builder <- function(target) {
 }
 
 #' @export
-target_run_remote.tar_builder <- function(target, garbage_collection) {
+target_run_worker.tar_builder <- function(target, garbage_collection) {
   run_gc(garbage_collection)
   target_run(target)
   builder_serialize_value(target)

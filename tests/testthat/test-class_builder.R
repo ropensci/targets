@@ -35,10 +35,10 @@ tar_test("target_run() on a errored builder", {
   expect_true(metrics_has_error(x$metrics))
 })
 
-tar_test("target_run_remote()", {
+tar_test("target_run_worker()", {
   local_init(pipeline_init())$start()
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
-  y <- target_run_remote(x, garbage_collection = TRUE)
+  y <- target_run_worker(x, garbage_collection = TRUE)
   expect_true(inherits(y, "tar_builder"))
   expect_silent(target_validate(y))
 })
@@ -133,7 +133,7 @@ tar_test("same if we continue on error", {
   }
 })
 
-tar_test("builder$write_from(\"local\")", {
+tar_test("builder writing from master", {
   local_init(pipeline_init())$start()
   x <- target_init("abc", expr = quote(a), format = "rds", storage = "master")
   pipeline <- pipeline_init(list(x))
@@ -153,7 +153,7 @@ tar_test("builder$write_from(\"local\")", {
   target_conclude(x, pipeline, scheduler, meta)
 })
 
-tar_test("builder$write_from(\"remote\")", {
+tar_test("builder writing from worker", {
   local_init(pipeline_init())$start()
   x <- target_init(
     "abc",
@@ -177,7 +177,7 @@ tar_test("builder$write_from(\"remote\")", {
   target_conclude(x, pipeline, scheduler, meta)
 })
 
-tar_test("dynamic file and builder$write_from(\"local\")", {
+tar_test("dynamic file writing from master", {
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())
   x <- target_init(
@@ -243,7 +243,7 @@ tar_test("dynamic file is missing at path", {
   expect_error(local$run(), class = "condition_validate")
 })
 
-tar_test("dynamic file and builder$write_from(\"remote\")", {
+tar_test("dynamic file writing from worker", {
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())
   x <- target_init(

@@ -1,4 +1,4 @@
-test_that("keras and future with local storage and retrieval", {
+test_that("keras and future with master storage and retrieval", {
   # Requires Python TensorFlow and Keras.
   # Cannot test inside the RStudio IDE.
   unlink("_targets", recursive = TRUE)
@@ -54,7 +54,7 @@ test_that("keras and future with local storage and retrieval", {
   )
 })
 
-test_that("keras and future with remote storage and retrieval", {
+test_that("keras and future with worker storage and retrieval", {
   # Requires Python TensorFlow and Keras.
   # Start up a new process for this one.
   # Also cannot test inside the RStudio IDE.

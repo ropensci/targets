@@ -13,7 +13,7 @@ tar_test("clustermq iteration loop can wait and shut down workers", {
   options(clustermq.scheduler = old)
 })
 
-test_that("packages are actually loaded on remote targets", {
+test_that("packages are actually loaded", {
   # Needs sge_clustermq.tmpl (in current directory).
   unlink("_targets", recursive = TRUE)
   on.exit(unlink("_targets", recursive = TRUE))
@@ -144,7 +144,7 @@ test_that("branching plan on SGE", {
   }
 })
 
-test_that("Same with remote storage", {
+test_that("Same with worker-side storage", {
   # Needs sge_clustermq.tmpl (in current directory).
   unlink("_targets", recursive = TRUE)
   on.exit(unlink("_targets", recursive = TRUE))

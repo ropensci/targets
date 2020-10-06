@@ -119,7 +119,7 @@
 #'   whenever another target needs the value.
 #' @param deployment Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()]. If `"worker"`,
-#'   the target builds on a remote parallel worker. If `"master"`,
+#'   the target builds on a parallel worker. If `"master"`,
 #'   the target builds on the host machine / process managing the pipeline.
 #' @param priority Numeric of length 1 between 0 and 1. Controls which
 #'   targets get deployed first when multiple competing targets are ready

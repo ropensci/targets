@@ -294,7 +294,7 @@ tar_test("run a pipeline with maps", {
   }
 })
 
-tar_test("same with remote retrieval", {
+tar_test("same with worker retrieval", {
   pipeline <- pipeline_map()
   local <- local_init(pipeline)
   for (name in pipeline_get_names(pipeline)) {
