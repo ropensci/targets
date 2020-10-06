@@ -127,7 +127,7 @@ chapter of the manual for details.
 \item{iteration}{Character of length 1, name of the iteration mode
 of the target. Choices:
 \itemize{
-\item \code{"vector"}: branching happens with \code{vectors::vec_slice()} and
+\item \code{"vector"}: branching happens with \code{vctrs::vec_slice()} and
 aggregation happens with \code{vctrs::vec_c()}.
 \item \code{"list"}, branching happens with \verb{[[]]} and aggregation happens with
 \code{list()}.
