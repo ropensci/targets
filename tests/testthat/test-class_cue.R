@@ -314,7 +314,7 @@ tar_test("file cue activated if a file does not exist", {
         c("x", "y")
       }),
       format = "file",
-      deployment = "local"
+      deployment = "master"
     )
     pipeline <- pipeline_init(list(x))
     local <- local_init(pipeline)
@@ -337,7 +337,7 @@ tar_test("above, but with file cue suppressed", {
         c("x", "y")
       }),
       format = "file",
-      deployment = "local",
+      deployment = "master",
       cue = cue
     )
     pipeline <- pipeline_init(list(x))

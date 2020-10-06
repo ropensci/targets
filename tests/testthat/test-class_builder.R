@@ -135,7 +135,7 @@ tar_test("same if we continue on error", {
 
 tar_test("builder$write_from(\"local\")", {
   local_init(pipeline_init())$start()
-  x <- target_init("abc", expr = quote(a), format = "rds", storage = "local")
+  x <- target_init("abc", expr = quote(a), format = "rds", storage = "master")
   pipeline <- pipeline_init(list(x))
   scheduler <- pipeline_produce_scheduler(pipeline)
   cache_set_object(x$cache, "a", "123")
@@ -160,7 +160,7 @@ tar_test("builder$write_from(\"remote\")", {
     expr = quote(a),
     format = "rds",
     storage = "worker",
-    retrieval = "local",
+    retrieval = "master",
     deployment = "deployment"
   )
   cache_set_object(x$cache, "a", "123")
@@ -185,7 +185,7 @@ tar_test("dynamic file and builder$write_from(\"local\")", {
     expr = quote(f()),
     format = "file",
     envir = envir,
-    storage = "local"
+    storage = "master"
   )
   envir$f <- function() {
     file <- tempfile()
@@ -237,7 +237,7 @@ tar_test("dynamic file is missing at path", {
     name = "abc",
     expr = quote("nope"),
     format = "file",
-    deployment = "local"
+    deployment = "master"
   )
   local <- local_init(pipeline_init(list(x)))
   expect_error(local$run(), class = "condition_validate")
@@ -252,7 +252,7 @@ tar_test("dynamic file and builder$write_from(\"remote\")", {
     format = "file",
     envir = envir,
     storage = "worker",
-    retrieval = "local"
+    retrieval = "master"
   )
   envir$f <- function() {
     file <- tempfile()
@@ -278,8 +278,8 @@ tar_test("value kept if storage is local", {
     expr = quote(f()),
     format = "file",
     envir = envir,
-    storage = "local",
-    retrieval = "local"
+    storage = "master",
+    retrieval = "master"
   )
   envir$f <- function() {
     file <- tempfile()

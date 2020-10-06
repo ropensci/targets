@@ -14,7 +14,7 @@
 #'   restart your R session just before running. You should also
 #'   [tar_make()], [tar_make_clustermq()], or [tar_make_future()].
 #'   For any target mentioned in `debug`, `targets` will force the target to
-#'   build locally (with `tar_cue(mode = "always")` and `deployment = "local"`
+#'   build locally (with `tar_cue(mode = "always")` and `deployment = "master"`
 #'   in the settings) and pause in an interactive debugger to help you diagnose
 #'   problems. This is like inserting a `browser()` statement at the
 #'   beginning of the target's expression, but without invalidating any
@@ -117,7 +117,7 @@ tar_option_set_memory <- function(memory) {
 
 tar_option_set_deployment <- function(deployment) {
   deployment <- deployment %||% tar_option_get("deployment")
-  deployment <- match.arg(deployment, c("worker", "local"))
+  deployment <- match.arg(deployment, c("worker", "master"))
   assign("deployment", deployment, envir = tar_envir_options)
 }
 
@@ -138,13 +138,13 @@ tar_option_set_resources <- function(resources) {
 
 tar_option_set_storage <- function(storage) {
   storage <- storage %||% tar_option_get("storage")
-  storage <- match.arg(storage, c("local", "worker"))
+  storage <- match.arg(storage, c("master", "worker"))
   assign("storage", storage, envir = tar_envir_options)
 }
 
 tar_option_set_retrieval <- function(retrieval) {
   retrieval <- retrieval %||% tar_option_get("retrieval")
-  retrieval <- match.arg(retrieval, c("local", "worker"))
+  retrieval <- match.arg(retrieval, c("master", "worker"))
   assign("retrieval", retrieval, envir = tar_envir_options)
 }
 

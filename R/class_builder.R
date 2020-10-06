@@ -40,7 +40,7 @@ target_read_value.tar_builder <- function(target, pipeline = NULL) {
 target_prepare.tar_builder <- function(target, pipeline, scheduler) {
   scheduler$progress$register_running(target_get_name(target))
   scheduler$reporter$report_running(target, scheduler$progress)
-  builder_ensure_deps(target, pipeline, "local")
+  builder_ensure_deps(target, pipeline, "master")
   builder_ensure_subpipeline(target, pipeline)
 }
 
@@ -108,7 +108,7 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
 }
 
 builder_conclude <- function(target, pipeline, scheduler, meta) {
-  builder_ensure_object(target, "local")
+  builder_ensure_object(target, "master")
   builder_wait_correct_hash(target)
   target_ensure_buds(target, pipeline, scheduler)
   meta$insert_record(target_produce_record(target, meta))
@@ -139,7 +139,7 @@ target_debug.tar_builder <- function(target) {
     # nocov start
     target$command$expr <- c(expression(browser()), target$command$expr)
     target$cue$mode <- "always"
-    target$settings$deployment <- "local"
+    target$settings$deployment <- "master"
     # nocov end
   }
 }
@@ -296,13 +296,13 @@ builder_unset_envir_run <- function() {
 }
 
 builder_serialize_value <- function(target) {
-  if (identical(target$settings$storage, "local")) {
+  if (identical(target$settings$storage, "master")) {
     store_serialize_value(target$store, target$value)
   }
 }
 
 builder_unserialize_value <- function(target) {
-  if (identical(target$settings$storage, "local")) {
+  if (identical(target$settings$storage, "master")) {
     store_unserialize_value(target$store, target$value)
   }
 }

@@ -38,8 +38,8 @@ tar_option_default <- function(option) {
     deployment = "worker",
     priority = 0,
     resources = list(),
-    storage = "local",
-    retrieval = "local",
+    storage = "master",
+    retrieval = "master",
     cue = targets::tar_cue(),
     debug = character(0)
   )

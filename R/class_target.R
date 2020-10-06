@@ -14,8 +14,8 @@ target_init <- function(
   deployment = "worker",
   priority = 0,
   resources = list(),
-  storage = "local",
-  retrieval = "local",
+  storage = "master",
+  retrieval = "master",
   cue = NULL
 ) {
   force(envir)

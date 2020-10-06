@@ -14,7 +14,7 @@ pipeline_order <- function() {
   )
 }
 
-pipeline_map <- function(storage = "local") {
+pipeline_map <- function(storage = "master") {
   tar_pipeline(
     list(
       tar_target_raw(
