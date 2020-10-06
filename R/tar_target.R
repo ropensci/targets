@@ -57,7 +57,7 @@
 #'     Those paths must point to files or directories,
 #'     and they must not contain characters `|` or `*`.
 #'     All the files and directories you return must actually exist,
-#'     or else `targets` will throw an error. (And if `storage` is `"remote"`,
+#'     or else `targets` will throw an error. (And if `storage` is `"worker"`,
 #'     `targets` will first stall out trying to wait for the file
 #'     to arrive over a network file system.)
 #'   * `"url"`: A dynamic input URL. It works like `format = "file"`
@@ -109,7 +109,7 @@
 #'   but the pipeline keeps going.
 #' @param memory Character of length 1, memory strategy.
 #'   If `"persistent"`, the target stays in memory
-#'   until the end of the pipeline (unless `storage` is `"remote"`,
+#'   until the end of the pipeline (unless `storage` is `"worker"`,
 #'   in which case `targets` unloads the value from memory
 #'   right after storing it in order to avoid sending
 #'   copious data over a network).
@@ -118,7 +118,7 @@
 #'   Either way, the target gets automatically loaded into memory
 #'   whenever another target needs the value.
 #' @param deployment Character of length 1, only relevant to
-#'   [tar_make_clustermq()] and [tar_make_future()]. If `"remote"`,
+#'   [tar_make_clustermq()] and [tar_make_future()]. If `"worker"`,
 #'   the target builds on a remote parallel worker. If `"local"`,
 #'   the target builds on the host machine / process managing the pipeline.
 #' @param priority Numeric of length 1 between 0 and 1. Controls which
@@ -141,13 +141,13 @@
 #' @param storage Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
 #'   If `"local"`, the target's return value is sent back to the
-#'   host machine and saved locally. If `"remote"`, the remote worker
+#'   host machine and saved locally. If `"worker"`, the worker
 #'   saves the value.
 #' @param retrieval Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
 #'   If `"local"`, the target's dependencies are loaded on the host machine
-#'   and sent to the remote worker before the target builds.
-#'   If `"remote"`, the remote worker loads the targets dependencies.
+#'   and sent to the worker before the target builds.
+#'   If `"worker"`, the worker loads the targets dependencies.
 #' @param cue An optional object from `tar_cue()` to customize the
 #'   rules that decide whether the target is up to date.
 #' @examples
@@ -195,14 +195,14 @@ tar_target <- function(
   iteration <- match.arg(iteration, c("vector", "list", "group"))
   error <- match.arg(error, c("stop", "continue", "save"))
   memory <- match.arg(memory, c("persistent", "transient"))
-  deployment <- match.arg(deployment, c("remote", "local"))
+  deployment <- match.arg(deployment, c("worker", "local"))
   assert_dbl(priority)
   assert_scalar(priority)
   assert_ge(priority, 0)
   assert_le(priority, 1)
   assert_list(resources, "resources in tar_target() must be a named list.")
-  storage <- match.arg(storage, c("local", "remote"))
-  retrieval <- match.arg(retrieval, c("local", "remote"))
+  storage <- match.arg(storage, c("local", "worker"))
+  retrieval <- match.arg(retrieval, c("local", "worker"))
   if (!is.null(cue)) {
     cue_validate(cue)
   }

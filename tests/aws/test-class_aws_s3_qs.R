@@ -57,8 +57,8 @@ tar_test("aws_qs format data gets stored with remote storage", {
   expr <- quote({
     tar_option_set(
       resources = list(bucket = !!bucket_name),
-      storage = "remote",
-      retrieval = "remote"
+      storage = "worker",
+      retrieval = "worker"
     )
     tar_pipeline(
       tar_target(x, "x_value", format = "aws_qs"),

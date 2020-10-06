@@ -18,8 +18,8 @@ px <- pprof(tar_outdated(callr_function = NULL))
 tar_destroy()
 tar_script({
   tar_pipeline(
-    tar_target(x, seq_len(1e3), retrieval = "remote"),
-    tar_target(y, x, pattern = map(x), retrieval = "remote")
+    tar_target(x, seq_len(1e3), retrieval = "worker"),
+    tar_target(y, x, pattern = map(x), retrieval = "worker")
   )
 })
 px <- pprof(tar_make(reporter = "summary", callr_function = NULL))

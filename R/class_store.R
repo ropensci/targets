@@ -137,7 +137,7 @@ store_ensure_correct_hash <- function(
 
 #' @export
 store_ensure_correct_hash.default <- function(store, storage, deployment) {
-  if (identical(storage, "remote") && identical(deployment, "remote")) {
+  if (identical(storage, "worker") && identical(deployment, "worker")) {
     store_wait_correct_hash(store)
   }
 }

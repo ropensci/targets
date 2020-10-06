@@ -99,8 +99,8 @@ test_that("keras and future with remote storage and retrieval", {
     name = "abc",
     command = quote(f()),
     format = "keras",
-    storage = "remote",
-    retrieval = "remote"
+    storage = "worker",
+    retrieval = "worker"
   )
   pipeline <- tar_pipeline(x)
   future <- future_init(pipeline)

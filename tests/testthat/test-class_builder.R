@@ -159,7 +159,7 @@ tar_test("builder$write_from(\"remote\")", {
     "abc",
     expr = quote(a),
     format = "rds",
-    storage = "remote",
+    storage = "worker",
     retrieval = "local",
     deployment = "deployment"
   )
@@ -251,7 +251,7 @@ tar_test("dynamic file and builder$write_from(\"remote\")", {
     expr = quote(f()),
     format = "file",
     envir = envir,
-    storage = "remote",
+    storage = "worker",
     retrieval = "local"
   )
   envir$f <- function() {

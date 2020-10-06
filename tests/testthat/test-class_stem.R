@@ -291,7 +291,7 @@ tar_test("branches can use old buds if stem is cancelled", {
 tar_test("branches can use old buds if stem is cancelled (remote storage)", {
   tar_script({
     tar_pipeline(
-      tar_target(x, seq_len(3), storage = "remote"),
+      tar_target(x, seq_len(3), storage = "worker"),
       tar_target(y, x, pattern = map(x))
     )
   })
@@ -299,7 +299,7 @@ tar_test("branches can use old buds if stem is cancelled (remote storage)", {
   tar_script({
     tar_option_set(error = "continue")
     tar_pipeline(
-      tar_target(x, tar_cancel(), storage = "remote"),
+      tar_target(x, tar_cancel(), storage = "worker"),
       tar_target(y, x, pattern = map(x))
     )
   })

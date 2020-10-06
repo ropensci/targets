@@ -119,7 +119,7 @@ test_that("Same with remote storage", {
     future.batchtools::batchtools_sge,
     template = "sge_batchtools.tmpl"
   )
-  pipeline <- pipeline_map(storage = "remote")
+  pipeline <- pipeline_map(storage = "worker")
   out <- future_init(pipeline, garbage_collection = TRUE, workers = 4L)
   out$run()
   skipped <- names(out$scheduler$progress$skipped$envir)

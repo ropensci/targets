@@ -11,7 +11,7 @@ target_init <- function(
   iteration = "vector",
   error = "stop",
   memory = "persistent",
-  deployment = "remote",
+  deployment = "worker",
   priority = 0,
   resources = list(),
   storage = "local",

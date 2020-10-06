@@ -60,18 +60,18 @@ target_should_run.tar_builder <- function(target, meta) {
 
 #' @export
 target_should_run_remote.tar_builder <- function(target) {
-  identical(target$settings$deployment, "remote")
+  identical(target$settings$deployment, "worker")
 }
 
 #' @export
 target_run.tar_builder <- function(target) {
   on.exit(builder_unset_envir_run())
   builder_set_envir_run(target)
-  builder_ensure_deps(target, target$subpipeline, "remote")
+  builder_ensure_deps(target, target$subpipeline, "worker")
   builder_update_build(target)
   target$subpipeline <- NULL
   builder_update_paths(target)
-  builder_ensure_object(target, "remote")
+  builder_ensure_object(target, "worker")
   target
 }
 
@@ -176,7 +176,7 @@ builder_update_subpipeline <- function(target, pipeline) {
 }
 
 builder_ensure_subpipeline <- function(target, pipeline) {
-  if (identical(target$settings$retrieval, "remote")) {
+  if (identical(target$settings$retrieval, "worker")) {
     builder_update_subpipeline(target, pipeline)
   }
 }
@@ -246,8 +246,8 @@ builder_update_paths <- function(target) {
 
 builder_unload_value <- function(target) {
   settings <- target$settings
-  clear <- identical(settings$deployment, "remote") &&
-    identical(settings$storage, "remote")
+  clear <- identical(settings$deployment, "worker") &&
+    identical(settings$storage, "worker")
   if (clear) {
     target$value <- NULL
   }
@@ -276,7 +276,7 @@ builder_restore_targets <- function(target, pipeline) {
 }
 
 builder_ensure_restored <- function(target, pipeline) {
-  if (identical(target$settings$retrieval, "remote")) {
+  if (identical(target$settings$retrieval, "worker")) {
     builder_restore_targets(target, pipeline)
   }
 }

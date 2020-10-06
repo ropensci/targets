@@ -300,7 +300,7 @@ tar_test("same with remote retrieval", {
   for (name in pipeline_get_names(pipeline)) {
     target <- pipeline_get_target(pipeline, name)
     settings <- target$settings
-    settings$retrieval <- "remote"
+    settings$retrieval <- "worker"
     target$settings <- settings
   }
   local$run()

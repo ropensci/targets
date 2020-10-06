@@ -117,7 +117,7 @@ tar_option_set_memory <- function(memory) {
 
 tar_option_set_deployment <- function(deployment) {
   deployment <- deployment %||% tar_option_get("deployment")
-  deployment <- match.arg(deployment, c("remote", "local"))
+  deployment <- match.arg(deployment, c("worker", "local"))
   assign("deployment", deployment, envir = tar_envir_options)
 }
 
@@ -138,13 +138,13 @@ tar_option_set_resources <- function(resources) {
 
 tar_option_set_storage <- function(storage) {
   storage <- storage %||% tar_option_get("storage")
-  storage <- match.arg(storage, c("local", "remote"))
+  storage <- match.arg(storage, c("local", "worker"))
   assign("storage", storage, envir = tar_envir_options)
 }
 
 tar_option_set_retrieval <- function(retrieval) {
   retrieval <- retrieval %||% tar_option_get("retrieval")
-  retrieval <- match.arg(retrieval, c("local", "remote"))
+  retrieval <- match.arg(retrieval, c("local", "worker"))
   assign("retrieval", retrieval, envir = tar_envir_options)
 }
 

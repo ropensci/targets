@@ -163,7 +163,7 @@ test_that("Same with remote storage", {
     ),
     add = TRUE
   )
-  pipeline <- pipeline_map(storage = "remote")
+  pipeline <- pipeline_map(storage = "worker")
   out <- clustermq_init(pipeline, garbage_collection = TRUE, workers = 4L)
   out$run()
   skipped <- names(out$scheduler$progress$skipped$envir)

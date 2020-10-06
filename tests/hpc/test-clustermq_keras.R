@@ -103,8 +103,8 @@ test_that("keras and clustermq with remote storage and retrieval", {
     name = "abc",
     command = quote(f()),
     format = "keras",
-    storage = "remote",
-    retrieval = "remote"
+    storage = "worker",
+    retrieval = "worker"
   )
   pipeline <- tar_pipeline(x)
   cmq <- clustermq_init(pipeline)

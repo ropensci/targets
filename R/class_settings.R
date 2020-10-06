@@ -5,7 +5,7 @@ settings_init <- function(
   iteration = "vector",
   error = "stop",
   memory = "persistent",
-  deployment = "remote",
+  deployment = "worker",
   priority = 0,
   resources = list(),
   storage = "local",
@@ -99,12 +99,12 @@ settings_validate <- function(settings) {
   assert_chr(settings$iteration)
   assert_in(settings$error, c("stop", "continue", "save"))
   assert_in(settings$memory, c("persistent", "transient"))
-  assert_in(settings$deployment, c("local", "remote"))
+  assert_in(settings$deployment, c("local", "worker"))
   assert_scalar(settings$priority)
   assert_ge(settings$priority, 0)
   assert_le(settings$priority, 1)
   assert_list(settings$resources)
-  assert_in(settings$storage, c("local", "remote"))
-  assert_in(settings$retrieval, c("local", "remote"))
+  assert_in(settings$storage, c("local", "worker"))
+  assert_in(settings$retrieval, c("local", "worker"))
   invisible()
 }

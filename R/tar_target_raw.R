@@ -70,7 +70,7 @@ tar_target_raw <- function(
   iteration <- match.arg(iteration, c("vector", "list", "group"))
   error <- match.arg(error, c("stop", "continue", "save"))
   memory <- match.arg(memory, c("persistent", "transient"))
-  deployment <- match.arg(deployment, c("remote", "local"))
+  deployment <- match.arg(deployment, c("worker", "local"))
   assert_dbl(priority)
   assert_scalar(priority)
   assert_ge(priority, 0)
@@ -79,8 +79,8 @@ tar_target_raw <- function(
     resources,
     "resources in tar_target_raw() must be a named list."
   )
-  storage <- match.arg(storage, c("local", "remote"))
-  retrieval <- match.arg(retrieval, c("local", "remote"))
+  storage <- match.arg(storage, c("local", "worker"))
+  retrieval <- match.arg(retrieval, c("local", "worker"))
   if (!is.null(cue)) {
     cue_validate(cue)
   }
