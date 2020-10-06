@@ -50,7 +50,7 @@ visnetwork_class <- R6::R6Class(
       colors <- c(
         undefined = "#899DA4",
         uptodate = "#0B775E",
-        outdated = "#3B9AB2",
+        outdated = "#5BBCD6",
         running = "#DC863B",
         cancelled = "#FAD510",
         errored = "#C93312"
