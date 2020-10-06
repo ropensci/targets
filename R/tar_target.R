@@ -92,7 +92,7 @@
 #'     chapter of the manual for details.
 #' @param iteration Character of length 1, name of the iteration mode
 #'   of the target. Choices:
-#'   * `"vector"`: branching happens with `vectors::vec_slice()` and
+#'   * `"vector"`: branching happens with `vctrs::vec_slice()` and
 #'     aggregation happens with `vctrs::vec_c()`.
 #'   * `"list"`, branching happens with `[[]]` and aggregation happens with
 #'     `list()`.
