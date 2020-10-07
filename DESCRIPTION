@@ -1,15 +1,15 @@
 Package: targets
-Title: Dynamic Function-Oriented Make-Like Declarative Workflows for R
-Description: The targets package is a pipeline toolkit that brings together
-  function-oriented programming and Make-like declarative workflows for
+Title: Dynamic Function-Oriented 'Make'-Like Declarative Workflows for R
+Description: The 'targets' package is a pipeline toolkit that brings together
+  function-oriented programming and 'Make'-like declarative workflows for
   Statistics and data science in R. It implements a workflow as collection of
   interconnected tasks, analyzes the dependency relationships among these
   tasks, skips steps that are already up to date, runs the necessary
   computations with optional parallel workers, abstracts files as
   R objects, and provides tangible evidence that the results match
   the underlying code and data. The methodology in this package
-  borrows from GNU Make by Richard Stallman (2015, ISBN:978-9881443519)
-  and drake by Will Landau (2018) <doi:10.21105/joss.00550>.
+  borrows from GNU 'Make' by Richard Stallman (2015, ISBN:978-9881443519)
+  and 'drake' by Will Landau (2018) <doi:10.21105/joss.00550>.
 Version: 0.0.0.9002
 License: MIT + file LICENSE
 URL: https://wlandau.github.io/targets/, https://github.com/wlandau/targets
