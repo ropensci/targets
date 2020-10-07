@@ -47,6 +47,18 @@ library(remotes)
 install_github("wlandau/targets")
 ```
 
+## Help
+
+  - Post to the [GitHub issue
+    tracker](https://github.com/wlandau/issues) to elicit help from the
+    maintainer.
+  - The [RStudio Community](https://community.rstudio.com/) forum is
+    full of friendly enthusiasts of R and the tidyverse. Use the
+    [`targets` tag](https://community.rstudio.com/tag/targets).
+  - [Stack Overflow](https://stackoverflow.com/) broadcasts to the
+    entire open source community. Use the [`targets-r-package`
+    tag](https://stackoverflow.com/questions/tagged/targets-r-package).
+
 ## Documentation
 
   - [Manual](https://wlandau.github.io/targets-manual): deep dives into

@@ -92,7 +92,8 @@ future_class <- R6::R6Class(
         packages = "targets",
         globals = globals,
         label = target_get_name(target),
-        resources = target$settings$resources
+        resources = target$settings$resources,
+        lazy = FALSE
       )
       memory_set_object(
         self$crew,
