@@ -19,7 +19,7 @@ tar_test("get envir of an empty pipeline", {
   expect_true(is.environment(pipeline_init()$envir))
 })
 
-tar_test("pipeline_get_envir() on a nonempty pipeline", {
+tar_test("get envir of a nonempty pipeline", {
   envir <- new.env(parent = emptyenv())
   pipeline <- pipeline_init(list(target_init("x", envir = envir)))
   expect_identical(pipeline$envir, envir)
