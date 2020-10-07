@@ -1,16 +1,16 @@
 build_init <- function(expr, envir, seed = 0L) {
   start <- build_time_seconds()
-  capture_error <- function(e) {
-    state$error <- paste(c(conditionMessage(e), " ."), collapse = "")
+  capture_error <- function(condition) {
+    state$error <- build_message(condition)
     state$traceback <- as.character(sys.calls())
     NULL
   }
-  capture_warning <- function(w) {
-    state$warnings <- c(state$warnings, w$message)
-    warning(as_immediate_condition(w))
+  capture_warning <- function(condition) {
+    state$warnings <- build_message(condition)
+    warning(as_immediate_condition(condition))
     invokeRestart("muffleWarning")
   }
-  capture_cancel <- function(e) {
+  capture_cancel <- function(condition) {
     state$cancel <- TRUE
     NULL
   }
@@ -22,7 +22,7 @@ build_init <- function(expr, envir, seed = 0L) {
       warning = capture_warning,
       condition_cancel = capture_cancel
     ),
-    error = function(e) {
+    error = function(condition) {
     }
   )
   metrics <- metrics_new(
@@ -48,4 +48,8 @@ build_validate <- function(build) {
 
 build_time_seconds <- function() {
   as.numeric(proc.time()["elapsed"])
+}
+
+build_message <- function(condition) {
+  substr(paste(c(conditionMessage(condition), "."), collapse = " "), 0L, 128L)
 }

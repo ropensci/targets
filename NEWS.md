@@ -8,6 +8,7 @@
 # Bug fixes
 
 * Stop sending target return values over the network when `storage` is `"remote"` (#182, @mattwarkentin).
+* Shorten lengths of warnings and error messages to 128 characters (#186, @gorkang).
 
 # targets 0.0.0.9000
 
