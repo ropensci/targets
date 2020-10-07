@@ -171,7 +171,7 @@ assert_nzchar <- function(x, msg = NULL) {
 
 assert_package <- function(package, msg = NULL) {
   if (!requireNamespace(package, quietly = TRUE)) {
-    throw_validate(msg %||% paste("package ", package, " not installed"))
+    throw_validate(msg %||% paste("package", package, "not installed"))
   }
 }
 
@@ -189,13 +189,13 @@ assert_path <- function(path, msg = NULL) {
 
 assert_match <- function(x, pattern, msg = NULL) {
   if (!grepl(pattern = pattern, x = x)) {
-    throw_validate(msg %||% paste(x, " does not match pattern ", pattern))
+    throw_validate(msg %||% paste(x, "does not match pattern", pattern))
   }
 }
 
 assert_positive <- function(x, msg = NULL) {
   if (any(x <= 0)) {
-    throw_validate(msg %||% paste(x, " is not all positive."))
+    throw_validate(msg %||% paste("x is not all positive."))
   }
 }
 
