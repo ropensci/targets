@@ -79,7 +79,7 @@ clustermq_class <- R6::R6Class(
     },
     set_common_data = function(envir) {
       self$crew$set_common_data(
-        export = as.list(envir, all.names = FALSE),
+        export = self$produce_exports(envir),
         fun = identity,
         const = list(),
         rettype = list(),

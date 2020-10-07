@@ -47,6 +47,11 @@ active_class <- R6::R6Class(
       envir <- pipeline_get_envir(self$pipeline)
       self$meta$record_imports(envir, self$pipeline)
     },
+    produce_exports = function(envir) {
+      out <- as.list(envir, all.names = TRUE)
+      names <- fltr(names(out), ~!is_internal_name(.x, envir))
+      out[names]
+    },
     run_gc = function() {
       if (self$garbage_collection) {
         gc()

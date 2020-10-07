@@ -69,10 +69,7 @@ future_class <- R6::R6Class(
       self$crew <- memory_init()
     },
     update_globals = function() {
-      self$globals <- as.list(
-        pipeline_get_envir(self$pipeline),
-        all.names = FALSE
-      )
+      self$globals <- self$produce_exports(pipeline_get_envir(self$pipeline))
       self$globals$.targets_gc_5048826d <- self$garbage_collection
     },
     ensure_globals = function() {
