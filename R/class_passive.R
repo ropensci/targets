@@ -23,8 +23,7 @@ passive_class <- R6::R6Class(
   public = list(
     ensure_meta = function() {
       self$meta$database$ensure_preprocessed(write = FALSE)
-      envir <- pipeline_get_envir(self$pipeline)
-      self$meta$set_imports(envir, self$pipeline)
+      self$meta$set_imports(self$pipeline$envir, self$pipeline)
     },
     start = function() {
       pipeline_prune_names(self$pipeline, self$names)

@@ -166,7 +166,7 @@ inspection_class <- R6::R6Class(
       merge(vertices, meta, all.x = TRUE, sort = FALSE)
     },
     update_imports = function() {
-      envir <- pipeline_get_envir(self$pipeline)
+      envir <- self$pipeline$envir
       graph <- graph_envir(envir)
       edges <- lapply(as_data_frame(igraph::get.edgelist(graph)), as.character)
       edges <- data_frame(from = edges[[1]], to = edges[[2]])
@@ -181,7 +181,7 @@ inspection_class <- R6::R6Class(
       vertices <- data_frame(name = names)
       vertices <- self$resolve_target_status(vertices)
       vertices <- self$resolve_target_meta(vertices)
-      names <- c(names, names(pipeline_get_envir(self$pipeline)))
+      names <- c(names, names(self$pipeline$envir))
       edges <- pipeline_upstream_edges(self$pipeline, targets_only = FALSE)
       edges <- edges[edges$from %in% names & edges$to %in% names,, drop = FALSE] # nolint
       edges <- edges[edges$from != edges$to,, drop = FALSE] # nolint

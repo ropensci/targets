@@ -44,8 +44,7 @@ active_class <- R6::R6Class(
     ensure_meta = function() {
       self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
-      envir <- pipeline_get_envir(self$pipeline)
-      self$meta$record_imports(envir, self$pipeline)
+      self$meta$record_imports(self$pipeline$envir, self$pipeline)
     },
     produce_exports = function(envir) {
       out <- as.list(envir, all.names = TRUE)

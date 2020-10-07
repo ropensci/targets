@@ -2,6 +2,7 @@ pipeline_init <- function(targets = list()) {
   targets <- pipeline_targets_init(targets)
   pipeline_new(
     targets = targets,
+    envir = pipeline_envir(targets),
     loaded = counter_init(),
     transient = counter_init(),
     stash = stash_init()
@@ -10,11 +11,13 @@ pipeline_init <- function(targets = list()) {
 
 pipeline_new <- function(
   targets = NULL,
+  envir = NULL,
   loaded = NULL,
   transient = NULL,
   stash = NULL
 ) {
   force(targets)
+  force(envir)
   force(loaded)
   force(transient)
   force(stash)
@@ -29,22 +32,22 @@ pipeline_targets_init <- function(targets) {
   list2env(targets, parent = emptyenv(), hash = TRUE)
 }
 
+pipeline_envir <- function(targets) {
+  for (name in names(targets)) {
+    target <- targets[[name]]
+    if (inherits(target, "tar_stem")) {
+      return(target$cache$imports$envir)
+    }
+  }
+  target_empty_envir
+}
+
 pipeline_get_target <- function(pipeline, name) {
   pipeline$targets[[name]]
 }
 
 pipeline_get_names <- function(pipeline) {
   names(pipeline$targets)
-}
-
-pipeline_get_envir <- function(pipeline) {
-  for (name in pipeline_get_names(pipeline)) {
-    target <- pipeline_get_target(pipeline, name)
-    if (inherits(target, "tar_stem")) {
-      return(target$cache$imports$envir)
-    }
-  }
-  target_empty_envir
 }
 
 pipeline_get_priorities <- function(pipeline) {
@@ -183,13 +186,18 @@ pipeline_validate_dag <- function(igraph) {
   }
 }
 
-pipeline_validate_envirs <- function(targets) {
-  targets <- as.list(targets)
+pipeline_validate_envirs <- function(pipeline) {
+  targets <- as.list(pipeline$targets)
   if (!length(targets)) {
     return()
   }
   envir <- targets[[1]]$cache$imports$envir
   assert_envir(envir)
+  assert_identical(
+    envir,
+    pipeline$envir,
+    "pipeline and target environments must agree."
+  )
   lapply(targets, pipeline_validate_envir, envir = envir)
 }
 
@@ -209,7 +217,7 @@ pipeline_validate.tar_pipeline <- function(pipeline) {
   assert_correct_fields(pipeline, pipeline_new)
   pipeline_validate_targets(pipeline$targets)
   pipeline_validate_dag(pipeline_produce_igraph(pipeline))
-  pipeline_validate_envirs(pipeline$targets)
+  pipeline_validate_envirs(pipeline)
   counter_validate(pipeline$loaded)
   counter_validate(pipeline$transient)
   stash_validate(pipeline$stash)
@@ -229,7 +237,7 @@ pipeline_validate_lite <- function(pipeline) {
 #' @keywords internal
 pipeline_validate_lite.tar_pipeline <- function(pipeline) {
   assert_correct_fields(pipeline, pipeline_new)
-  pipeline_validate_envirs(pipeline$targets)
+  pipeline_validate_envirs(pipeline)
 }
 
 #' @export

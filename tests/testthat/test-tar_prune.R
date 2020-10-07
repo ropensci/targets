@@ -24,16 +24,16 @@ tar_test("tar_prune() works with patterns", {
     )
   )
   local_init(pipeline = pipeline)$run()
-  tar_script(tar_pipeline(tar_target(y, x, map(x))))
+  tar_script(tar_pipeline(tar_target(x, seq_len(2)), tar_target(y, x, map(x))))
   tar_prune(callr_arguments = list(show = FALSE))
   names <- meta_init()$database$read_data()$name
+  expect_equal(length(names), 4L)
+  expect_equal(length(unique(names)), 4L)
+  expect_true(all(grepl("^y|^x", names)))
+  names <- list.files(file.path("_targets", "objects"))
   expect_equal(length(names), 3L)
   expect_equal(length(unique(names)), 3L)
-  expect_true(all(grepl("^y", names)))
-  names <- list.files(file.path("_targets", "objects"))
-  expect_equal(length(names), 2L)
-  expect_equal(length(unique(names)), 2L)
-  expect_true(all(grepl("^y_", names)))
+  expect_true(all(grepl("^y_|^x", names)))
 })
 
 tar_test("tar_prune() does not remove global objects from metadata", {

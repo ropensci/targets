@@ -192,7 +192,7 @@ clustermq_class <- R6::R6Class(
     },
     run_clustermq = function() {
       on.exit(self$crew$finalize())
-      self$start_crew(pipeline_get_envir(self$pipeline))
+      self$start_crew(self$pipeline$envir)
       while (self$scheduler$progress$any_remaining()) {
         self$iterate()
       }
