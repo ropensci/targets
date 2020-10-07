@@ -28,7 +28,10 @@ graph_edges <- function(edges) {
 }
 
 edges_envir <- function(envir) {
-  names <- names(envir)
+  names <- fltr(
+    names(envir),
+    ~!inherits(get(.x, envir, inherits = FALSE), excluded_classes)
+  )
   from <- lapply(names, envir_deps, envir = envir, names = names)
   lengths <- map_int(from, length)
   to <- lapply(seq_along(names), rep_to, names = names, lengths = lengths)
@@ -36,6 +39,8 @@ edges_envir <- function(envir) {
   to <- as.character(unlist(to))
   out <- data_frame(from = unlist(from), to = unlist(to))
 }
+
+excluded_classes <- c("tar_pipeline", "tar_target")
 
 envir_deps <- function(name, envir, names) {
   value <- get(x = name, envir = envir, inherits = FALSE)
