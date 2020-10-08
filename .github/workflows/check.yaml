@@ -24,6 +24,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       TORCH_INSTALL: 1
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: false
 
     steps:
       - uses: actions/checkout@v2
