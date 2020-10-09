@@ -118,11 +118,11 @@ record_encode_field <- function(field) {
   if (!length(field) || anyNA(field)) {
     return(NA_character_)
   }
-  field <- gsub(database_sep_outer, "{SEP_OUTER}", field, fixed = TRUE)
-  field <- gsub(database_sep_inner, "{SEP_INNER}", field, fixed = TRUE)
-  field <- gsub("\n", "{NEWLINE}", field, fixed = TRUE)
-  field <- gsub("\r", "{RETURN}", field, fixed = TRUE)
-  field <- paste0(field, collapse = " ")
+  field <- gsub(database_sep_outer, "", field, fixed = TRUE)
+  field <- gsub(database_sep_inner, "", field, fixed = TRUE)
+  field <- gsub("\t", " ", field)
+  field <- gsub("[^[:alnum:] \\.,_]", "", field)
+  field <- paste(field, collapse = " ")
   field
 }
 

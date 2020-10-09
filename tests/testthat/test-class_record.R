@@ -51,9 +51,17 @@ tar_test("record_encode_field() nonempty", {
 })
 
 tar_test("record_encode_field() with bad characters", {
-  out <- record_encode_field(c("a\nb*|c\r", "b"))
-  expect_equal(out, "a{NEWLINE}b{SEP_INNER}{SEP_OUTER}c{RETURN} b")
+  out <- record_encode_field(c("a\nb*|c\r", "b\t"))
+  expect_equal(out, "abc b ")
   expect_true(nzchar(out))
+  expect_equal(length(out), 1L)
+})
+
+tar_test("record_encode_field() with more bad characters", {
+  str <- "123abcXYZ90878734 123a*}*}*}|||*|*|*|*|bcXYZ90878734 ...,,,_-="
+  out <- record_encode_field(str)
+  exp <- "123abcXYZ90878734 123abcXYZ90878734 ...,,,_"
+  expect_equal(out, exp)
 })
 
 tar_test("record_validate(record) empty", {
