@@ -2,7 +2,7 @@
 name: Question
 about: Ask a question.
 title: ""
-labels: "type: question'
+labels: "type: question"
 assignees: ""
 ---
 
