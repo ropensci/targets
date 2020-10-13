@@ -109,7 +109,7 @@ clustermq_class <- R6::R6Class(
         )
       )
     },
-    run_master = function(target) {
+    run_main = function(target) {
       self$crew$send_wait()
       target_run(target)
       target_conclude(
@@ -126,7 +126,7 @@ clustermq_class <- R6::R6Class(
       trn(
         target_should_run_worker(target),
         self$run_worker(target),
-        self$run_master(target)
+        self$run_main(target)
       )
       self$unload_transient()
     },

@@ -158,7 +158,7 @@ whenever another target needs the value.}
 
 \item{deployment}{Character of length 1, only relevant to
 \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}. If \code{"worker"},
-the target builds on a parallel worker. If \code{"master"},
+the target builds on a parallel worker. If \code{"main"},
 the target builds on the host machine / process managing the pipeline.}
 
 \item{priority}{Numeric of length 1 between 0 and 1. Controls which
@@ -187,13 +187,13 @@ of the manual for details.
 
 \item{storage}{Character of length 1, only relevant to
 \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}.
-If \code{"master"}, the target's return value is sent back to the
+If \code{"main"}, the target's return value is sent back to the
 host machine and saved locally. If \code{"worker"}, the worker
 saves the value.}
 
 \item{retrieval}{Character of length 1, only relevant to
 \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}.
-If \code{"master"}, the target's dependencies are loaded on the host machine
+If \code{"main"}, the target's dependencies are loaded on the host machine
 and sent to the worker before the target builds.
 If \code{"worker"}, the worker loads the targets dependencies.}
 

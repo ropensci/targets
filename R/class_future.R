@@ -98,7 +98,7 @@ future_class <- R6::R6Class(
         object = future
       )
     },
-    run_master = function(target) {
+    run_main = function(target) {
       target_run(target)
       target_conclude(
         target,
@@ -114,7 +114,7 @@ future_class <- R6::R6Class(
       trn(
         target_should_run_worker(target),
         self$run_worker(target),
-        self$run_master(target)
+        self$run_main(target)
       )
       self$unload_transient()
     },

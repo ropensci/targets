@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 [![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![check](https://github.com/wlandau/targets/workflows/check/badge.svg)](https://github.com/wlandau/targets/actions?query=workflow%3Acheck)
 [![lint](https://github.com/wlandau/targets/workflows/lint/badge.svg)](https://github.com/wlandau/targets/actions?query=workflow%3Alint)
-[![codecov](https://codecov.io/gh/wlandau/targets/branch/master/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/wlandau/targets)
+[![codecov](https://codecov.io/gh/wlandau/targets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/wlandau/targets)
 [![zenodo](https://zenodo.org/badge/200093430.svg)](https://zenodo.org/badge/latestdoi/200093430)
 
 The `targets` package is a [Make](https://www.gnu.org/software/make/)-like pipeline toolkit for Statistics and data science in R. With `targets`, you can maintain a reproducible workflow without repeating yourself. `targets` learns how your pipeline fits together, skips costly runtime for tasks that are already up to date, runs only the necessary computation, supports implicit parallel computing, abstracts files as R objects, and shows tangible evidence that the results match the underlying code and data. For deep dives into why and how to use `targets`, please see the [user manual](https://wlandau.github.io/targets-manual).
@@ -71,4 +71,4 @@ install_github("wlandau/targets")
 
 ## Participation
 
-Development is a community effort, and we welcome discussion and contribution. By participating in this project, you agree to abide by the [code of conduct](https://github.com/wlandau/targets/blob/master/CODE_OF_CONDUCT.md) and the [contributing guide](https://github.com/wlandau/targets/blob/master/CONTRIBUTING.md).
+Development is a community effort, and we welcome discussion and contribution. By participating in this project, you agree to abide by the [code of conduct](https://github.com/wlandau/targets/blob/main/CODE_OF_CONDUCT.md) and the [contributing guide](https://github.com/wlandau/targets/blob/main/CONTRIBUTING.md).

@@ -319,10 +319,10 @@
       "sameAs": "https://CRAN.R-project.org/package=withr"
     }
   ],
-  "releaseNotes": "https://github.com/wlandau/targets/blob/master/NEWS.md",
+  "releaseNotes": "https://github.com/wlandau/targets/blob/main/NEWS.md",
   "fileSize": "283.81KB",
-  "contIntegration": "https://codecov.io/github/wlandau/targets?branch=master",
+  "contIntegration": "https://codecov.io/github/wlandau/targets?branch=main",
   "developmentStatus": "https://www.repostatus.org/#wip",
   "relatedLink": "https://wlandau.github.io/targets",
-  "readme": "https://github.com/wlandau/targets/blob/master/README.md"
+  "readme": "https://github.com/wlandau/targets/blob/main/README.md"
 }

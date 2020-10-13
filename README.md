@@ -4,7 +4,7 @@
 [![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![check](https://github.com/wlandau/targets/workflows/check/badge.svg)](https://github.com/wlandau/targets/actions?query=workflow%3Acheck)
 [![lint](https://github.com/wlandau/targets/workflows/lint/badge.svg)](https://github.com/wlandau/targets/actions?query=workflow%3Alint)
-[![codecov](https://codecov.io/gh/wlandau/targets/branch/master/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/wlandau/targets)
+[![codecov](https://codecov.io/gh/wlandau/targets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/wlandau/targets)
 [![zenodo](https://zenodo.org/badge/200093430.svg)](https://zenodo.org/badge/latestdoi/200093430)
 
 The `targets` package is a
@@ -110,6 +110,6 @@ install_github("wlandau/targets")
 Development is a community effort, and we welcome discussion and
 contribution. By participating in this project, you agree to abide by
 the [code of
-conduct](https://github.com/wlandau/targets/blob/master/CODE_OF_CONDUCT.md)
+conduct](https://github.com/wlandau/targets/blob/main/CODE_OF_CONDUCT.md)
 and the [contributing
-guide](https://github.com/wlandau/targets/blob/master/CONTRIBUTING.md).
+guide](https://github.com/wlandau/targets/blob/main/CONTRIBUTING.md).

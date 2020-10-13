@@ -4,7 +4,7 @@ Development is a community effort, and we welcome participation.
 
 ## Code of Conduct
 
-By participating in this project, you agree to abide by the [code of conduct](https://github.com/wlandau/targets/blob/master/CODE_OF_CONDUCT.md).
+By participating in this project, you agree to abide by the [code of conduct](https://github.com/wlandau/targets/blob/main/CODE_OF_CONDUCT.md).
 
 ## Issues
 
@@ -43,5 +43,5 @@ Please also follow these additional guidelines.
 * For new features or functionality, add tests in `tests`. Tests that can be automated should go in `tests/testthat/`. Tests that cannot be automated should go in `tests/interactive/`. For features affecting performance, it is good practice to add profiling studies to `tests/performance/`.
 * Check code coverage with `covr::package_coverage()`. Automated tests should cover all the new or changed functionality in your pull request.
 * Run overall package checks with `devtools::check()` and `goodpractice::gp()`
-* Describe your contribution in the project's [`NEWS.md`](https://github.com/wlandau/targets/blob/master/NEWS.md) file. Be sure to mention relevent GitHub issue numbers and your GitHub name as done in existing news entries.
-* If you feel contribution is substantial enough for official author or contributor status, please add yourself to the `Authors@R` field of the [`DESCRIPTION`](https://github.com/wlandau/targets/blob/master/DESCRIPTION) file.
+* Describe your contribution in the project's [`NEWS.md`](https://github.com/wlandau/targets/blob/main/NEWS.md) file. Be sure to mention relevent GitHub issue numbers and your GitHub name as done in existing news entries.
+* If you feel contribution is substantial enough for official author or contributor status, please add yourself to the `Authors@R` field of the [`DESCRIPTION`](https://github.com/wlandau/targets/blob/main/DESCRIPTION) file.

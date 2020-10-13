@@ -133,9 +133,9 @@ tar_test("same if we continue on error", {
   }
 })
 
-tar_test("builder writing from master", {
+tar_test("builder writing from main", {
   local_init(pipeline_init())$start()
-  x <- target_init("abc", expr = quote(a), format = "rds", storage = "master")
+  x <- target_init("abc", expr = quote(a), format = "rds", storage = "main")
   pipeline <- pipeline_init(list(x))
   scheduler <- pipeline_produce_scheduler(pipeline)
   cache_set_object(x$cache, "a", "123")
@@ -160,7 +160,7 @@ tar_test("builder writing from worker", {
     expr = quote(a),
     format = "rds",
     storage = "worker",
-    retrieval = "master",
+    retrieval = "main",
     deployment = "deployment"
   )
   cache_set_object(x$cache, "a", "123")
@@ -177,7 +177,7 @@ tar_test("builder writing from worker", {
   target_conclude(x, pipeline, scheduler, meta)
 })
 
-tar_test("dynamic file writing from master", {
+tar_test("dynamic file writing from main", {
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())
   x <- target_init(
@@ -185,7 +185,7 @@ tar_test("dynamic file writing from master", {
     expr = quote(f()),
     format = "file",
     envir = envir,
-    storage = "master"
+    storage = "main"
   )
   envir$f <- function() {
     file <- tempfile()
@@ -237,7 +237,7 @@ tar_test("dynamic file is missing at path", {
     name = "abc",
     expr = quote("nope"),
     format = "file",
-    deployment = "master"
+    deployment = "main"
   )
   local <- local_init(pipeline_init(list(x)))
   expect_error(local$run(), class = "condition_validate")
@@ -252,7 +252,7 @@ tar_test("dynamic file writing from worker", {
     format = "file",
     envir = envir,
     storage = "worker",
-    retrieval = "master"
+    retrieval = "main"
   )
   envir$f <- function() {
     file <- tempfile()
@@ -278,8 +278,8 @@ tar_test("value kept if storage is local", {
     expr = quote(f()),
     format = "file",
     envir = envir,
-    storage = "master",
-    retrieval = "master"
+    storage = "main",
+    retrieval = "main"
   )
   envir$f <- function() {
     file <- tempfile()

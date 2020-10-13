@@ -119,7 +119,7 @@
 #'   whenever another target needs the value.
 #' @param deployment Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()]. If `"worker"`,
-#'   the target builds on a parallel worker. If `"master"`,
+#'   the target builds on a parallel worker. If `"main"`,
 #'   the target builds on the host machine / process managing the pipeline.
 #' @param priority Numeric of length 1 between 0 and 1. Controls which
 #'   targets get deployed first when multiple competing targets are ready
@@ -143,12 +143,12 @@
 #'     of the manual for details.
 #' @param storage Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
-#'   If `"master"`, the target's return value is sent back to the
+#'   If `"main"`, the target's return value is sent back to the
 #'   host machine and saved locally. If `"worker"`, the worker
 #'   saves the value.
 #' @param retrieval Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
-#'   If `"master"`, the target's dependencies are loaded on the host machine
+#'   If `"main"`, the target's dependencies are loaded on the host machine
 #'   and sent to the worker before the target builds.
 #'   If `"worker"`, the worker loads the targets dependencies.
 #' @param cue An optional object from `tar_cue()` to customize the
@@ -198,14 +198,14 @@ tar_target <- function(
   iteration <- match.arg(iteration, c("vector", "list", "group"))
   error <- match.arg(error, c("stop", "continue", "save"))
   memory <- match.arg(memory, c("persistent", "transient"))
-  deployment <- match.arg(deployment, c("worker", "master"))
+  deployment <- match.arg(deployment, c("worker", "main"))
   assert_dbl(priority)
   assert_scalar(priority)
   assert_ge(priority, 0)
   assert_le(priority, 1)
   assert_list(resources, "resources in tar_target() must be a named list.")
-  storage <- match.arg(storage, c("master", "worker"))
-  retrieval <- match.arg(retrieval, c("master", "worker"))
+  storage <- match.arg(storage, c("main", "worker"))
+  retrieval <- match.arg(retrieval, c("main", "worker"))
   if (!is.null(cue)) {
     cue_validate(cue)
   }
