@@ -1,16 +1,16 @@
 # Use sparingly. We do not want to max out any AWS quotas.
+# And afterwards, manually verify that all the buckets are gone.
 tar_test("aws_qs format data gets stored", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  bucket_name <- random_bucket_name()
   on.exit({
     aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets", bucket = bucket_name)
     aws.s3::delete_bucket(bucket = bucket_name)
-    expect_false(aws.s3::bucket_exists(bucket = bucket_name))
   })
+  bucket_name <- random_bucket_name()
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(resources = list(bucket = !!bucket_name))
@@ -44,15 +44,14 @@ tar_test("aws_qs format data gets stored", {
 tar_test("aws_qs format data gets stored with worker storage", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  bucket_name <- random_bucket_name()
   on.exit({
     aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets", bucket = bucket_name)
     aws.s3::delete_bucket(bucket = bucket_name)
-    expect_false(aws.s3::bucket_exists(bucket = bucket_name))
   })
+  bucket_name <- random_bucket_name()
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(
@@ -90,15 +89,14 @@ tar_test("aws_qs format data gets stored with worker storage", {
 tar_test("aws_qs format invalidation", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  bucket_name <- random_bucket_name()
   on.exit({
     aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets", bucket = bucket_name)
     aws.s3::delete_bucket(bucket = bucket_name)
-    expect_false(aws.s3::bucket_exists(bucket = bucket_name))
   })
+  bucket_name <- random_bucket_name()
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(resources = list(bucket = !!bucket_name))
@@ -128,4 +126,39 @@ tar_test("aws_qs format invalidation", {
   expect_equal(tar_progress(y)$progress, "built")
   expect_equal(tar_read(x), "x_value2")
   expect_equal(tar_read(y), c("x_value2", "y_value"))
+})
+
+tar_test("aws_qs format and dynamic branching", {
+  skip_if_no_aws()
+  skip_if_not_installed("qs")
+  on.exit({
+    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects/z", bucket = bucket_name)
+    object <- file.path("_targets/objects", tar_meta(y, children)[[1]][1])
+    aws.s3::delete_object(object = object, bucket = bucket_name)
+    object <- file.path("_targets/objects", tar_meta(y, children)[[1]][2])
+    aws.s3::delete_object(object = object, bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
+    aws.s3::delete_bucket(bucket = bucket_name)
+  })
+  bucket_name <- random_bucket_name()
+  aws.s3::put_bucket(bucket = bucket_name)
+  expr <- quote({
+    tar_option_set(
+      resources = list(bucket = !!bucket_name),
+      storage = "worker",
+      retrieval = "worker",
+      format = "aws_qs"
+    )
+    tar_pipeline(
+      tar_target(x, seq_len(2)),
+      tar_target(y, 10L * x, pattern = map(x)),
+      tar_target(z, sum(y))
+    )
+  })
+  expect_equal(tar_read(x), seq_len(2))
+  expect_equal(tar_read(y, branches = 1), 10L)
+  expect_equal(tar_read(y, branches = 2), 20L)
+  expect_equal(tar_read(z), 30L)
 })
