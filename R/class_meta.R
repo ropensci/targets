@@ -37,6 +37,24 @@ meta_class <- R6::R6Class(
     exists_record = function(name) {
       self$database$exists_row(name)
     },
+    del_records = function(names) {
+      self$database$del_rows(names)
+    },
+    list_records = function() {
+      self$database$list_rows()
+    },
+    restrict_records = function(pipeline) {
+      names_envir <- names(pipeline$envir)
+      names_records <- self$list_records()
+      names_targets <- pipeline_get_names(pipeline)
+      names_parents <- intersect(names_records, names_targets)
+      names_children <- map(names_parents, ~self$get_record(.x)$children)
+      names_children <- as.character(unlist(names_children))
+      names_children <- names_children[!is.na(names_children)]
+      names_current <- c(names_envir, names_targets, names_children)
+      remove <- setdiff(names_records, names_current)
+      self$del_records(remove)
+    },
     hash_dep = function(name, target) {
       exists <- self$exists_record(name) && (
         record_is_target(self$get_record(name)) ||

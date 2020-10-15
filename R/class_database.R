@@ -49,12 +49,18 @@ database_class <- R6::R6Class(
       name <- as.character(row$name)
       memory_set_object(self$memory, name = name, object = as.list(row))
     },
+    del_rows = function(names) {
+      memory_del_objects(self$memory, names)
+    },
     set_data = function(data) {
       list <- lapply(data, as.list)
       map(seq_along(list$name), ~self$set_row(lapply(list, `[[`, i = .x)))
     },
     exists_row = function(name) {
       memory_exists_object(self$memory, name)
+    },
+    list_rows = function() {
+      self$memory$names
     },
     condense_data = function(data) {
       data[!duplicated(data$name, fromLast = TRUE), ]
