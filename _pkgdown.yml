@@ -41,6 +41,7 @@ reference:
   - '`tar_option_set`'
 - title: Pipeline
   contents:
+  - '`tar_bind`'
   - '`tar_cue`'
   - '`tar_pipeline`'
   - '`tar_target`'
