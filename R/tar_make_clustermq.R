@@ -43,6 +43,7 @@ tar_make_clustermq <- function(
   callr_function = callr::r,
   callr_arguments = list()
 ) {
+  assert_package("clustermq")
   assert_target_script()
   reporter <- match.arg(reporter, choices = tar_make_reporters())
   assert_lgl(garbage_collection, "garbage_collection must be logical.")

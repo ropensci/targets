@@ -33,6 +33,7 @@ tar_make_future <- function(
   callr_function = callr::r,
   callr_arguments = list()
 ) {
+  assert_package("future")
   assert_target_script()
   reporter <- match.arg(reporter, choices = tar_make_reporters())
   assert_lgl(garbage_collection, "garbage_collection must be logical.")
