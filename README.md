@@ -21,11 +21,11 @@ manual](https://wlandau.github.io/targets-manual).
 ## What about `drake`?
 
 The [`drake`](https://github.com/ropensci/drake) package is an older and
-more established R-focused pipeline toolkit. It is has become a key
-piece of the R ecosystem, and development will continue. However, nearly
-four years of community feedback have exposed major user-side
-limitations regarding data management, collaboration, and parallel
-efficiency. Unfortunately, these limitations are permanent. Solutions in
+more established R-focused pipeline toolkit. It has become a key piece
+of the R ecosystem, and development will continue. However, nearly four
+years of community feedback have exposed major user-side limitations
+regarding data management, collaboration, and parallel efficiency.
+Unfortunately, these limitations are permanent. Solutions in
 [`drake`](https://github.com/ropensci/drake) itself would make the
 package incompatible with existing projects that use it, and the
 internal architecture is too copious, elaborate, and mature for such
