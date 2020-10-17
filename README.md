@@ -50,8 +50,8 @@ install_github("wlandau/targets")
 ## Help
 
   - Post to the [GitHub issue
-    tracker](https://github.com/wlandau/issues) to elicit help from the
-    maintainer.
+    tracker](https://github.com/wlandau/targets/issues) to elicit help
+    from the maintainer.
   - The [RStudio Community](https://community.rstudio.com/) forum is
     full of friendly enthusiasts of R and the tidyverse. Use the
     [`targets` tag](https://community.rstudio.com/tag/targets).
@@ -61,11 +61,11 @@ install_github("wlandau/targets")
 
 ## Documentation
 
-  - [Manual](https://wlandau.github.io/targets-manual): deep dives into
-    why and how to use `targets`.
-  - [Reference](https://wlandau.github.io/targets/): package website.
-  - [Functions](https://wlandau.github.io/targets/reference/index.html):
-    documentation and examples of all user-side functions.
+  - [User manual](https://wlandau.github.io/targets-manual): in-depth
+    discussion about how to use `targets`.
+  - [Reference website](https://wlandau.github.io/targets/): formal
+    documentation of all user-side functions, the statement of need, and
+    multiple design documents of the internal architecture.
 
 ## Examples
 
@@ -88,22 +88,6 @@ install_github("wlandau/targets")
     app to help sketch pipelines
     ([app](https://wlandau.shinyapps.io/targetsketch),
     [source](https://github.com/wlandau/targetsketch)).
-
-## Specification
-
-  - [Statement of
-    need](https://wlandau.github.io/targets/articles/need.html): the
-    role of the `targets` package and why it was created alongside
-    [`drake`](https://github.com/ropensci/drake).
-  - [Data management strategy and data store
-    architecture](https://wlandau.github.io/targets/articles/need.html).
-  - [Orchestration](https://wlandau.github.io/targets/articles/orchestration.html):
-    the mental model of target orchestration and dynamic branching.
-  - [Composition](https://wlandau.github.io/targets/articles/composition.html):
-    the object composition structure of the `target` class and its
-    fields.
-  - [OOP](https://wlandau.github.io/targets/articles/oop.html): the
-    object oriented programming model of `targets`.
 
 ## Participation
 
