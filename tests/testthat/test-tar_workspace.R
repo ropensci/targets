@@ -13,12 +13,13 @@ tar_test("workspaces are not saved if error = 'stop'", {
 tar_test("workspaces are not saved if error = 'continue'", {
   pipeline <- pipeline_init(
     list(
-      target_init("y", quote(1)),
+      target_init("y", quote(12345)),
       target_init("x", quote(stop(y)), error = "continue")
     )
   )
   local <- local_init(pipeline, reporter = "verbose")
-  expect_message(local$run(), class = "condition_run")
+  suppressMessages(local$run())
+  expect_true(grepl("12345", tar_meta(x)$error[[1]]))
   expect_false(file.exists(path_workspaces("x")))
 })
 

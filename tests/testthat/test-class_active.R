@@ -1,4 +1,4 @@
-test_that("active$produce_exports()", {
+tar_test("active$produce_exports()", {
   active <- active_new()
   envir <- new.env(parent = emptyenv())
   envir$target <- tar_target(x, 1)

@@ -20,7 +20,7 @@ tar_test("tar_sitrep() on an empty project", {
     iteration = NA,
     file = NA
   )
-  expect_equivalent(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_sitrep() on an empty project with callr process", {
@@ -45,7 +45,7 @@ tar_test("tar_sitrep() on an empty project with callr process", {
     iteration = NA,
     file = NA
   )
-  expect_equivalent(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_sitrep() name selection", {
@@ -64,7 +64,7 @@ tar_test("tar_sitrep() name selection", {
   out <- out[order(out$name), ]
   exp <- tibble::tibble(name = c("x1", "x2"), record = TRUE)
   exp <- exp[order(exp$name), ]
-  expect_equivalent(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_sitrep() name selection in reverse", {
@@ -81,7 +81,7 @@ tar_test("tar_sitrep() name selection in reverse", {
     names = c("x2", "x1")
   )
   exp <- tibble::tibble(name = c("x2", "x1"), record = TRUE)
-  expect_equivalent(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_sitrep() field selection", {
@@ -96,7 +96,7 @@ tar_test("tar_sitrep() field selection", {
   out <- tar_sitrep(callr_function = NULL, fields = contains("always"))
   out <- out[order(out$name), ]
   exp <- tibble::tibble(name = c("w", "x"), always = FALSE)
-  expect_equivalent(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_sitrep() on a run project", {
@@ -124,7 +124,7 @@ tar_test("tar_sitrep() on a run project", {
     iteration = FALSE,
     file = FALSE
   )
-  expect_equivalent(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_sitrep() on a project with a change", {
@@ -154,7 +154,7 @@ tar_test("tar_sitrep() on a project with a change", {
     file = FALSE
   )
   exp$file[exp$name == children_y[1]] <- TRUE
-  expect_equivalent(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_sitrep() invalidation due to aggregated pattern deps", {
@@ -192,5 +192,5 @@ tar_test("tar_sitrep() invalidation due to aggregated pattern deps", {
     file = FALSE
   )
   exp$depend[exp$name == "w"] <- TRUE
-  expect_equivalent(out, exp)
+  expect_equiv(out, exp)
 })

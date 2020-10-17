@@ -116,7 +116,7 @@ tar_test("vector aggregation", {
   local <- local_init(pipeline)
   local$run()
   out <- target_read_value(pipeline_get_target(pipeline, "combine"))$object
-  expect_equivalent(out, seq_len(3L))
+  expect_equiv(out, seq_len(3L))
   expect_equal(
     names(out),
     target_get_children(pipeline_get_target(pipeline, "map"))
@@ -145,7 +145,7 @@ tar_test("list aggregation", {
   local <- local_init(pipeline)
   local$run()
   out <- target_read_value(pipeline_get_target(pipeline, "combine"))$object
-  expect_equivalent(out, as.list(seq_len(3L)))
+  expect_equiv(out, as.list(seq_len(3L)))
   expect_equal(
     names(out),
     target_get_children(pipeline_get_target(pipeline, "map"))
@@ -181,7 +181,7 @@ tar_test("group iteration", {
   local$run()
   out <- target_read_value(pipeline_get_target(pipeline, "combine"))$object
   expect_true(is.data.frame(tar_read(data)))
-  expect_equivalent(out, c(3L, 7L, 11L))
+  expect_equiv(out, c(3L, 7L, 11L))
 })
 
 tar_test("error relaying", {
@@ -509,7 +509,7 @@ tar_test("pattern dims are always deps when run", {
   local_init(pipeline)$run()
   x <- target_init("x", quote("x"), pattern = quote(map(y)))
   out <- target_read_value(pipeline_get_target(pipeline, "x"), pipeline)$object
-  expect_equivalent(out, c("x", "x"))
+  expect_equiv(out, c("x", "x"))
 })
 
 tar_test("patterns and branches get correct ranks with priorities", {

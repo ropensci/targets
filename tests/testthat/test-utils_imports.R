@@ -102,7 +102,7 @@ tar_test("hash_imports() after trivial formatting change", {
   hashes2 <- hash_imports(envir)
   hashes1 <- hashes1[order(hashes1$name), ]
   hashes2 <- hashes2[order(hashes2$name), ]
-  expect_equivalent(hashes1, hashes2)
+  expect_equiv(hashes1, hashes2)
 })
 
 tar_test("exclude special objects from imports", {

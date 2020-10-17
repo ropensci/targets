@@ -1,4 +1,4 @@
-test_that("tar_bind() works", {
+tar_test("tar_bind() works", {
   tar_script({
     pipeline1 <- tar_pipeline(
       tar_target(a, 1L),
@@ -16,7 +16,7 @@ test_that("tar_bind() works", {
   expect_equal(tar_read(e), 7L)
 })
 
-test_that("tar_bind() errors if names are duplicated", {
+tar_test("tar_bind() errors if names are duplicated", {
   tar_script({
     pipeline1 <- tar_pipeline(tar_target(a, 1))
     pipeline2 <- tar_pipeline(tar_target(a, 2))

@@ -38,7 +38,7 @@ tar_test("tar_read() on patterns with vector iteration", {
   expect_equal(tar_read(y), letters[seq_len(4L)])
   out <- tar_read(y, branches = c(2L, 3L))
   expect_equal(out, letters[c(2L, 3L)])
-  expect_error(tar_read(y, branches = 99L), error = "condition_validate")
+  expect_error(tar_read(y, branches = 99L), class = "condition_validate")
 })
 
 tar_test("tar_read() on patterns with list iteration", {

@@ -23,13 +23,13 @@ tar_test("tar_network() works", {
   )
   exp <- exp[order(exp$name), ]
   rownames(exp) <- NULL
-  expect_equivalent(out$vertices, exp)
+  expect_equiv(out$vertices, exp)
   out$edges <- out$edges[order(out$edges$from), ]
   rownames(out$edges) <- NULL
   exp <- data_frame(from = c("y1", "y2"), to = "z")
   exp <- exp[order(exp$from), ]
   rownames(exp) <- NULL
-  expect_equivalent(out$edges, exp)
+  expect_equiv(out$edges, exp)
 })
 
 tar_test("targets_only = FALSE", {

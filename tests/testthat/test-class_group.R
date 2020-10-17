@@ -20,7 +20,7 @@ tar_test("value_produce_slice(group)", {
   x <- value_init(object = object, iteration = "group")
   for (index in seq_len(3)) {
     exp <- object[object$tar_group == index, ]
-    expect_equivalent(value_produce_slice(x, index), exp)
+    expect_equiv(value_produce_slice(x, index), exp)
   }
 })
 
@@ -32,7 +32,7 @@ tar_test("value_hash_slice(group)", {
   x <- value_init(object = object, iteration = "group")
   for (index in seq_len(3)) {
     exp <- digest_obj32(object[object$tar_group == index, ])
-    expect_equivalent(value_hash_slice(x, index), exp)
+    expect_equiv(value_hash_slice(x, index), exp)
   }
 })
 

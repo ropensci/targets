@@ -12,7 +12,7 @@ tar_test("tar_group() works", {
     id = rep(letters[seq_len(3)], each = 2),
     tar_group = rep(seq_len(3), each = 2)
   )
-  expect_equivalent(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_group() needs group_by()", {
