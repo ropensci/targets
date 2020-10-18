@@ -35,4 +35,9 @@ store_read_object.tar_aws_s3_file <- function(store) {
   aws.s3::save_object(object = key, bucket = bucket, file = out)
   out
 }
+
+#' @export
+store_unload.tar_aws_s3_file <- function(store, target) {
+  unlink(as.character(target$value$object))
+}
 # nocov end

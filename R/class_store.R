@@ -224,6 +224,14 @@ store_sync_file_meta.default <- function(store, target, meta) {
   # nocov end
 }
 
+store_unload <- function(store, target) {
+  UseMethod("store_unload")
+}
+
+#' @export
+store_unload.default <- function(store, target) {
+}
+
 store_validate <- function(store) {
   assert_correct_fields(store, store_new_default)
   store_validate_packages(store)

@@ -137,7 +137,14 @@ copious data over a network).
 If \code{"transient"}, the target gets unloaded
 after every new target completes.
 Either way, the target gets automatically loaded into memory
-whenever another target needs the value.}
+whenever another target needs the value.
+For cloud-based dynamic files such as \code{format = "aws_file"},
+this memory policy applies to
+temporary local copies of the file in \verb{_targets/scratch/"}:
+\code{"persistent"} means they remain until the end of the pipeline,
+and \code{"transient"} means they get deleted from the file system
+as soon as possible. The former conserves bandwidth,
+and the latter conserves local storage.}
 
 \item{deployment}{Character of length 1, only relevant to
 \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}. If \code{"worker"},
