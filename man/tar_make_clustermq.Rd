@@ -8,7 +8,6 @@
 tar_make_clustermq(
   names = NULL,
   reporter = "verbose",
-  garbage_collection = FALSE,
   workers = 1L,
   log_worker = FALSE,
   callr_function = callr::r,
@@ -30,9 +29,6 @@ Controls how messages are printed as targets run in the pipeline. Choices:
 each status category (queued, running, skipped, build, cancelled,
 or errored).
 }}
-
-\item{garbage_collection}{Logical, whether to run \code{base::gc()}
-between targets. The pipeline will run slower but consume less memory.}
 
 \item{workers}{Positive integer, number of persistent \code{clustermq} workers
 to create.}

@@ -3,16 +3,14 @@ local_init <- function(
   meta = meta_init(),
   names = NULL,
   queue = "parallel",
-  reporter = "verbose",
-  garbage_collection = FALSE
+  reporter = "verbose"
 ) {
   local_new(
     pipeline = pipeline,
     meta = meta,
     names = names,
     queue = queue,
-    reporter = reporter,
-    garbage_collection = garbage_collection
+    reporter = reporter
   )
 }
 
@@ -21,16 +19,14 @@ local_new <- function(
   meta = NULL,
   names = NULL,
   queue = NULL,
-  reporter = NULL,
-  garbage_collection = NULL
+  reporter = NULL
 ) {
   local_class$new(
     pipeline = pipeline,
     meta = meta,
     names = names,
     queue = queue,
-    reporter = reporter,
-    garbage_collection = garbage_collection
+    reporter = reporter
   )
 }
 
@@ -68,10 +64,6 @@ local_class <- R6::R6Class(
       }
       self$end()
       invisible()
-    },
-    validate = function() {
-      super$validate()
-      assert_lgl(self$garbage_collection)
     }
   )
 )

@@ -18,8 +18,6 @@
 #'   * `"summary"`: print a running total of the number of each targets in
 #'     each status category (queued, running, skipped, build, cancelled,
 #'     or errored).
-#' @param garbage_collection Logical, whether to run `base::gc()`
-#'   between targets. The pipeline will run slower but consume less memory.
 #' @examples
 #' tar_dir({
 #' tar_script({
@@ -40,19 +38,16 @@
 tar_make <- function(
   names = NULL,
   reporter = "verbose",
-  garbage_collection = FALSE,
   callr_function = callr::r,
   callr_arguments = list()
 ) {
   assert_target_script()
   reporter <- match.arg(reporter, choices = tar_make_reporters())
-  assert_lgl(garbage_collection, "garbage_collection must be logical.")
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
     names_quosure = rlang::enquo(names),
-    reporter = reporter,
-    garbage_collection = garbage_collection
+    reporter = reporter
   )
   out <- callr_outer(
     targets_function = tar_make_inner,
@@ -63,20 +58,14 @@ tar_make <- function(
   invisible(out)
 }
 
-tar_make_inner <- function(
-  pipeline,
-  names_quosure,
-  reporter,
-  garbage_collection
-) {
+tar_make_inner <- function(pipeline, names_quosure, reporter) {
   pipeline_validate_lite(pipeline)
   names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
   local_init(
     pipeline = pipeline,
     names = names,
     queue = "sequential",
-    reporter = reporter,
-    garbage_collection = garbage_collection
+    reporter = reporter
   )$run()
   invisible()
 }

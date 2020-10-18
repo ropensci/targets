@@ -4,7 +4,6 @@ future_init <- function(
   names = NULL,
   queue = "parallel",
   reporter = "verbose",
-  garbage_collection = FALSE,
   workers = 1L
 ) {
   future_new(
@@ -13,7 +12,6 @@ future_init <- function(
     names = names,
     queue = queue,
     reporter = reporter,
-    garbage_collection = as.logical(garbage_collection),
     workers = as.integer(workers)
   )
 }
@@ -24,7 +22,6 @@ future_new <- function(
   names = NULL,
   queue = NULL,
   reporter = NULL,
-  garbage_collection = NULL,
   workers = NULL
 ) {
   future_class$new(
@@ -33,7 +30,6 @@ future_new <- function(
     names = names,
     queue = queue,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     workers = workers
   )
 }
@@ -54,7 +50,6 @@ future_class <- R6::R6Class(
       names = NULL,
       queue = NULL,
       reporter = NULL,
-      garbage_collection = NULL,
       workers = NULL
     ) {
       super$initialize(
@@ -62,8 +57,7 @@ future_class <- R6::R6Class(
         meta = meta,
         names = names,
         queue = queue,
-        reporter = reporter,
-        garbage_collection = garbage_collection
+        reporter = reporter
       )
       self$workers <- workers
       self$crew <- memory_init()

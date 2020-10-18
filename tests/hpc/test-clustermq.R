@@ -104,7 +104,7 @@ test_that("branching plan on SGE", {
     add = TRUE
   )
   pipeline <- pipeline_map()
-  out <- clustermq_init(pipeline, garbage_collection = TRUE, workers = 4L)
+  out <- clustermq_init(pipeline, workers = 4L)
   out$run()
   skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))
@@ -164,7 +164,7 @@ test_that("Same with worker-side storage", {
     add = TRUE
   )
   pipeline <- pipeline_map(storage = "worker")
-  out <- clustermq_init(pipeline, garbage_collection = TRUE, workers = 4L)
+  out <- clustermq_init(pipeline, workers = 4L)
   out$run()
   skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))

@@ -3,16 +3,14 @@ active_new <- function(
   meta = NULL,
   names = NULL,
   queue = NULL,
-  reporter = NULL,
-  garbage_collection = NULL
+  reporter = NULL
 ) {
   active_class$new(
     pipeline = pipeline,
     meta = meta,
     names = names,
     queue = queue,
-    reporter = reporter,
-    garbage_collection = garbage_collection
+    reporter = reporter
   )
 }
 
@@ -23,24 +21,6 @@ active_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    garbage_collection = NULL,
-    initialize = function(
-      pipeline = NULL,
-      meta = NULL,
-      names = NULL,
-      queue = NULL,
-      reporter = NULL,
-      garbage_collection = NULL
-    ) {
-      super$initialize(
-        pipeline = pipeline,
-        meta = meta,
-        names = names,
-        queue = queue,
-        reporter = reporter
-      )
-      self$garbage_collection <- garbage_collection
-    },
     ensure_meta = function() {
       self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
@@ -89,10 +69,6 @@ active_class <- R6::R6Class(
       scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress)
       path_scratch_del()
-    },
-    validate = function() {
-      super$validate()
-      assert_lgl(self$garbage_collection)
     }
   )
 )

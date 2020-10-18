@@ -79,12 +79,6 @@ tar_test("transient targets unloaded periodically", {
   expect_null(y$value)
 })
 
-tar_test("garbage collection (code gets covered)", {
-  x <- target_init("x", quote(1))
-  pipeline <- pipeline_init(list(x))
-  local_init(pipeline, garbage_collection = TRUE)$run()
-})
-
 tar_test("can run on a subset of targets", {
   pipeline <- pipeline_order()
   local <- local_init(pipeline, names = c("min1", "max2"))
