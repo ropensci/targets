@@ -131,10 +131,15 @@ clustermq_class <- R6::R6Class(
       )
       target_sync_file_meta(target, self$meta)
     },
+    # Requires a longer target to guarantee test coverage.
+    # Tested in tests/hpc/test-clustermq.R.
+    # nocov start
     wait = function() {
+      browser()
       self$crew$send_wait()
       Sys.sleep(0.001)
     },
+    # nocov end
     next_target = function() {
       queue <- self$scheduler$queue
       trn(
