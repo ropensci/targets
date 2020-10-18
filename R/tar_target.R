@@ -124,6 +124,8 @@
 #'   and `"transient"` means they get deleted from the file system
 #'   as soon as possible. The former conserves bandwidth,
 #'   and the latter conserves local storage.
+#' @param garbage_collection Logical, whether to run `base::gc()`
+#'   just before the target runs.
 #' @param deployment Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()]. If `"worker"`,
 #'   the target builds on a parallel worker. If `"main"`,
@@ -186,6 +188,7 @@ tar_target <- function(
   iteration = targets::tar_option_get("iteration"),
   error = targets::tar_option_get("error"),
   memory = targets::tar_option_get("memory"),
+  garbage_collection = targets::tar_option_get("garbage_collection"),
   deployment = targets::tar_option_get("deployment"),
   priority = targets::tar_option_get("priority"),
   resources = targets::tar_option_get("resources"),
@@ -205,6 +208,8 @@ tar_target <- function(
   iteration <- match.arg(iteration, c("vector", "list", "group"))
   error <- match.arg(error, c("stop", "continue", "save"))
   memory <- match.arg(memory, c("persistent", "transient"))
+  assert_lgl(garbage_collection, "garbage_collection must be logical.")
+  assert_scalar(garbage_collection, "garbage_collection must be a scalar.")
   deployment <- match.arg(deployment, c("worker", "main"))
   assert_dbl(priority)
   assert_scalar(priority)
@@ -230,6 +235,7 @@ tar_target <- function(
     iteration = iteration,
     error = error,
     memory = memory,
+    garbage_collection = garbage_collection,
     deployment = deployment,
     priority = priority,
     resources = resources,

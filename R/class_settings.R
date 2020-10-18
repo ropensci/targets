@@ -5,6 +5,7 @@ settings_init <- function(
   iteration = "vector",
   error = "stop",
   memory = "persistent",
+  garbage_collection = FALSE,
   deployment = "worker",
   priority = 0,
   resources = list(),
@@ -21,6 +22,7 @@ settings_init <- function(
     iteration = iteration,
     error = error,
     memory = memory,
+    garbage_collection = garbage_collection,
     deployment = deployment,
     priority = priority,
     resources = resources,
@@ -37,6 +39,7 @@ settings_new <- function(
   iteration = NULL,
   error = NULL,
   memory = NULL,
+  garbage_collection = NULL,
   deployment = NULL,
   priority = NULL,
   resources = NULL,
@@ -50,6 +53,7 @@ settings_new <- function(
   force(iteration)
   force(error)
   force(memory)
+  force(garbage_collection)
   force(deployment)
   force(priority)
   force(resources)
@@ -71,6 +75,7 @@ settings_clone <- function(settings) {
     iteration = settings$iteration,
     error = settings$error,
     memory = settings$memory,
+    garbage_collection = settings$garbage_collection,
     deployment = settings$deployment,
     priority = settings$priority,
     resources = settings$resources,
@@ -99,6 +104,8 @@ settings_validate <- function(settings) {
   assert_chr(settings$iteration)
   assert_in(settings$error, c("stop", "continue", "save"))
   assert_in(settings$memory, c("persistent", "transient"))
+  assert_lgl(settings$garbage_collection)
+  assert_scalar(settings$garbage_collection)
   assert_in(settings$deployment, c("main", "worker"))
   assert_scalar(settings$priority)
   assert_ge(settings$priority, 0)

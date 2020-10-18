@@ -28,7 +28,6 @@
 tar_make_future <- function(
   names = NULL,
   reporter = "verbose",
-  garbage_collection = FALSE,
   workers = 1L,
   callr_function = callr::r,
   callr_arguments = list()
@@ -36,13 +35,11 @@ tar_make_future <- function(
   assert_package("future")
   assert_target_script()
   reporter <- match.arg(reporter, choices = tar_make_reporters())
-  assert_lgl(garbage_collection, "garbage_collection must be logical.")
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
     names_quosure = rlang::enquo(names),
     reporter = reporter,
-    garbage_collection = garbage_collection,
     workers = workers
   )
   out <- callr_outer(
@@ -54,13 +51,7 @@ tar_make_future <- function(
   invisible(out)
 }
 
-tar_make_future_inner <- function(
-  pipeline,
-  names_quosure,
-  reporter,
-  garbage_collection,
-  workers
-) {
+tar_make_future_inner <- function(pipeline, names_quosure, reporter, workers) {
   pipeline_validate_lite(pipeline)
   names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
   future_init(
@@ -68,7 +59,6 @@ tar_make_future_inner <- function(
     names = names,
     queue = "parallel",
     reporter = reporter,
-    garbage_collection = garbage_collection,
     workers = workers
   )$run()
   invisible()

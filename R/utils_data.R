@@ -29,9 +29,3 @@ dir_create <- function(x) {
 mask_pointers <- function(x) {
   gsub("<pointer: 0x[0-9a-zA-Z]*>", "", x)
 }
-
-run_gc <- function(garbage_collection) {
-  if (garbage_collection) {
-    gc()
-  }
-}

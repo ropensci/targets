@@ -4,7 +4,6 @@ future_init <- function(
   names = NULL,
   queue = "parallel",
   reporter = "verbose",
-  garbage_collection = FALSE,
   workers = 1L
 ) {
   future_new(
@@ -13,7 +12,6 @@ future_init <- function(
     names = names,
     queue = queue,
     reporter = reporter,
-    garbage_collection = as.logical(garbage_collection),
     workers = as.integer(workers)
   )
 }
@@ -24,7 +22,6 @@ future_new <- function(
   names = NULL,
   queue = NULL,
   reporter = NULL,
-  garbage_collection = NULL,
   workers = NULL
 ) {
   future_class$new(
@@ -33,7 +30,6 @@ future_new <- function(
     names = names,
     queue = queue,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     workers = workers
   )
 }
@@ -54,7 +50,6 @@ future_class <- R6::R6Class(
       names = NULL,
       queue = NULL,
       reporter = NULL,
-      garbage_collection = NULL,
       workers = NULL
     ) {
       super$initialize(
@@ -62,15 +57,13 @@ future_class <- R6::R6Class(
         meta = meta,
         names = names,
         queue = queue,
-        reporter = reporter,
-        garbage_collection = garbage_collection
+        reporter = reporter
       )
       self$workers <- workers
       self$crew <- memory_init()
     },
     update_globals = function() {
       self$globals <- self$produce_exports(self$pipeline$envir)
-      self$globals$.targets_gc_5048826d <- self$garbage_collection
     },
     ensure_globals = function() {
       if (is.null(self$globals)) {
@@ -82,10 +75,7 @@ future_class <- R6::R6Class(
       globals <- self$globals
       globals$.targets_target_5048826d <- target
       future <- future::future(
-        expr = target_run_worker(
-          .targets_target_5048826d,
-          .targets_gc_5048826d
-        ),
+        expr = target_run_worker(.targets_target_5048826d),
         packages = "targets",
         globals = globals,
         label = target_get_name(target),
@@ -109,8 +99,8 @@ future_class <- R6::R6Class(
       )
     },
     run_target = function(name) {
-      self$run_gc()
       target <- pipeline_get_target(self$pipeline, name)
+      target_gc(target)
       target_prepare(target, self$pipeline, self$scheduler)
       trn(
         target_should_run_worker(target),

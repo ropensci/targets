@@ -68,7 +68,7 @@ test_that("branching plan on SGE", {
     template = "sge_batchtools.tmpl"
   )
   pipeline <- pipeline_map()
-  out <- future_init(pipeline, garbage_collection = TRUE, workers = 4L)
+  out <- future_init(pipeline, workers = 4L)
   out$run()
   skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))
@@ -120,7 +120,7 @@ test_that("Same with worker-side storage", {
     template = "sge_batchtools.tmpl"
   )
   pipeline <- pipeline_map(storage = "worker")
-  out <- future_init(pipeline, garbage_collection = TRUE, workers = 4L)
+  out <- future_init(pipeline, workers = 4L)
   out$run()
   skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))

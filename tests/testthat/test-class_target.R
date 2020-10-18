@@ -119,3 +119,10 @@ tar_test("targets resist self-referantiality", {
   local_init(pipeline)$run()
   expect_equal(target_read_value(x, pipeline)$object, "i")
 })
+
+tar_test("target_gc()", {
+  x <- target_init(name = "x", expr = quote(1), garbage_collection = TRUE)
+  expect_silent(target_gc(x))
+  x <- target_init(name = "x", expr = quote(1), garbage_collection = FALSE)
+  expect_silent(target_gc(x))
+})

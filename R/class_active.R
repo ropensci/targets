@@ -3,16 +3,14 @@ active_new <- function(
   meta = NULL,
   names = NULL,
   queue = NULL,
-  reporter = NULL,
-  garbage_collection = NULL
+  reporter = NULL
 ) {
   active_class$new(
     pipeline = pipeline,
     meta = meta,
     names = names,
     queue = queue,
-    reporter = reporter,
-    garbage_collection = garbage_collection
+    reporter = reporter
   )
 }
 
@@ -23,24 +21,6 @@ active_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    garbage_collection = NULL,
-    initialize = function(
-      pipeline = NULL,
-      meta = NULL,
-      names = NULL,
-      queue = NULL,
-      reporter = NULL,
-      garbage_collection = NULL
-    ) {
-      super$initialize(
-        pipeline = pipeline,
-        meta = meta,
-        names = names,
-        queue = queue,
-        reporter = reporter
-      )
-      self$garbage_collection <- garbage_collection
-    },
     ensure_meta = function() {
       self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
@@ -51,11 +31,6 @@ active_class <- R6::R6Class(
       out <- as.list(envir, all.names = TRUE)
       names <- fltr(names(out), ~!is_internal_name(.x, envir))
       out[names]
-    },
-    run_gc = function() {
-      if (self$garbage_collection) {
-        gc()
-      }
     },
     unload_transient = function() {
       pipeline_unload_transient(self$pipeline)
@@ -94,11 +69,6 @@ active_class <- R6::R6Class(
       scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress)
       path_scratch_del()
-      self$run_gc()
-    },
-    validate = function() {
-      super$validate()
-      assert_lgl(self$garbage_collection)
     }
   )
 )

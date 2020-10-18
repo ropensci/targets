@@ -3,8 +3,8 @@ tar_test("clustermq iteration loop can wait and shut down workers", {
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
-  x <- tar_target_raw("x", quote(Sys.sleep(2)))
-  y <- tar_target_raw("y", quote(list(x, a = "x")))
+  x <- tar_target_raw("x", quote(Sys.sleep(2)), garbage_collection = TRUE)
+  y <- tar_target_raw("y", quote(list(x, a = "x")), garbage_collection = TRUE)
   pipeline <- tar_pipeline(list(x, y))
   out <- clustermq_init(pipeline, reporter = "silent")
   out$run()
@@ -104,7 +104,7 @@ test_that("branching plan on SGE", {
     add = TRUE
   )
   pipeline <- pipeline_map()
-  out <- clustermq_init(pipeline, garbage_collection = TRUE, workers = 4L)
+  out <- clustermq_init(pipeline, workers = 4L)
   out$run()
   skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))
@@ -164,7 +164,7 @@ test_that("Same with worker-side storage", {
     add = TRUE
   )
   pipeline <- pipeline_map(storage = "worker")
-  out <- clustermq_init(pipeline, garbage_collection = TRUE, workers = 4L)
+  out <- clustermq_init(pipeline, workers = 4L)
   out$run()
   skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))

@@ -11,6 +11,7 @@ target_init <- function(
   iteration = "vector",
   error = "stop",
   memory = "persistent",
+  garbage_collection = FALSE,
   deployment = "worker",
   priority = 0,
   resources = list(),
@@ -31,6 +32,7 @@ target_init <- function(
     iteration = iteration,
     error = error,
     memory = memory,
+    garbage_collection = garbage_collection,
     deployment = deployment,
     priority = priority,
     resources = resources,
@@ -247,13 +249,18 @@ target_run.default <- function(target) {
 #' @keywords internal
 #' @description For internal purposes only. Not a user-side function.
 #' @param target A target object.
-#' @param garbage_collection Logical, whether to run garbage collection.
-target_run_worker <- function(target, garbage_collection) {
+target_run_worker <- function(target) {
   UseMethod("target_run_worker")
 }
 
 #' @export
-target_run_worker.default <- function(target, garbage_collection) {
+target_run_worker.default <- function(target) {
+}
+
+target_gc <- function(target) {
+  if (target$settings$garbage_collection) {
+    gc()
+  }
 }
 
 target_conclude <- function(target, pipeline, scheduler, meta) {

@@ -4,7 +4,6 @@ clustermq_init <- function(
   names = NULL,
   queue = "parallel",
   reporter = "verbose",
-  garbage_collection = FALSE,
   workers = 1L,
   log_worker = FALSE
 ) {
@@ -14,7 +13,6 @@ clustermq_init <- function(
     names = names,
     queue = queue,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     workers = as.integer(workers),
     log_worker = log_worker
   )
@@ -26,7 +24,6 @@ clustermq_new <- function(
   names = NULL,
   queue = NULL,
   reporter = NULL,
-  garbage_collection = NULL,
   workers = NULL,
   crew = NULL,
   log_worker = NULL
@@ -37,7 +34,6 @@ clustermq_new <- function(
     names = names,
     queue = queue,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     workers = workers,
     crew = crew,
     log_worker = log_worker
@@ -60,7 +56,6 @@ clustermq_class <- R6::R6Class(
       names = NULL,
       queue = NULL,
       reporter = NULL,
-      garbage_collection = NULL,
       workers = NULL,
       crew = NULL,
       log_worker = NULL
@@ -70,8 +65,7 @@ clustermq_class <- R6::R6Class(
         meta = meta,
         names = names,
         queue = queue,
-        reporter = reporter,
-        garbage_collection = garbage_collection
+        reporter = reporter
       )
       self$workers <- workers
       self$crew <- crew
@@ -102,11 +96,8 @@ clustermq_class <- R6::R6Class(
     },
     run_worker = function(target) {
       self$crew$send_call(
-        expr = target_run_worker(target, garbage_collection),
-        env = list(
-          target = target,
-          garbage_collection = self$garbage_collection
-        )
+        expr = target_run_worker(target),
+        env = list(target = target)
       )
     },
     run_main = function(target) {
@@ -120,8 +111,8 @@ clustermq_class <- R6::R6Class(
       )
     },
     run_target = function(name) {
-      self$run_gc()
       target <- pipeline_get_target(self$pipeline, name)
+      target_gc(target)
       target_prepare(target, self$pipeline, self$scheduler)
       trn(
         target_should_run_worker(target),
@@ -140,10 +131,15 @@ clustermq_class <- R6::R6Class(
       )
       target_sync_file_meta(target, self$meta)
     },
+    # Requires a longer target to guarantee test coverage.
+    # Tested in tests/hpc/test-clustermq.R.
+    # nocov start
     wait = function() {
+      browser()
       self$crew$send_wait()
       Sys.sleep(0.001)
     },
+    # nocov end
     next_target = function() {
       queue <- self$scheduler$queue
       trn(
@@ -186,7 +182,6 @@ clustermq_class <- R6::R6Class(
         names = self$names,
         queue = self$queue,
         reporter = self$reporter,
-        garbage_collection = self$garbage_collection,
         scheduler = self$scheduler
       )
     },
@@ -213,7 +208,6 @@ clustermq_class <- R6::R6Class(
     },
     validate = function() {
       super$validate()
-      assert_lgl(self$garbage_collection)
       assert_int(self$workers)
     }
   )

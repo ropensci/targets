@@ -4,12 +4,10 @@
 \alias{target_run_worker}
 \title{Internal function to run a target on a worker.}
 \usage{
-target_run_worker(target, garbage_collection)
+target_run_worker(target)
 }
 \arguments{
 \item{target}{A target object.}
-
-\item{garbage_collection}{Logical, whether to run garbage collection.}
 }
 \description{
 For internal purposes only. Not a user-side function.

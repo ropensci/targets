@@ -90,7 +90,7 @@ tar_test("branching plan", {
   skip_on_cran()
   skip_if_not_installed("future")
   pipeline <- pipeline_map()
-  out <- future_init(pipeline, workers = 2L, garbage_collection = TRUE)
+  out <- future_init(pipeline, workers = 2L)
   out$run()
   expect_equal(out$crew$count, 0L)
   skipped <- names(out$scheduler$progress$skipped$envir)

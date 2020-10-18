@@ -37,7 +37,6 @@
 tar_make_clustermq <- function(
   names = NULL,
   reporter = "verbose",
-  garbage_collection = FALSE,
   workers = 1L,
   log_worker = FALSE,
   callr_function = callr::r,
@@ -46,13 +45,11 @@ tar_make_clustermq <- function(
   assert_package("clustermq")
   assert_target_script()
   reporter <- match.arg(reporter, choices = tar_make_reporters())
-  assert_lgl(garbage_collection, "garbage_collection must be logical.")
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
     names_quosure = rlang::enquo(names),
     reporter = reporter,
-    garbage_collection = garbage_collection,
     workers = workers,
     log_worker = log_worker
   )
@@ -69,7 +66,6 @@ tar_make_clustermq_inner <- function(
   pipeline,
   names_quosure,
   reporter,
-  garbage_collection,
   workers,
   log_worker
 ) {
@@ -80,7 +76,6 @@ tar_make_clustermq_inner <- function(
     names = names,
     queue = "parallel",
     reporter = reporter,
-    garbage_collection = garbage_collection,
     workers = workers,
     log_worker = log_worker
   )$run()

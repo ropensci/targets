@@ -136,7 +136,7 @@ tar_test("branching plan", {
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
   pipeline <- pipeline_map()
-  out <- clustermq_init(pipeline, workers = 2L, garbage_collection = TRUE)
+  out <- clustermq_init(pipeline, workers = 2L)
   out$run()
   skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))

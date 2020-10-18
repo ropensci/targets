@@ -38,7 +38,7 @@ tar_test("target_run() on a errored builder", {
 tar_test("target_run_worker()", {
   local_init(pipeline_init())$start()
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
-  y <- target_run_worker(x, garbage_collection = TRUE)
+  y <- target_run_worker(x)
   expect_true(inherits(y, "tar_builder"))
   expect_silent(target_validate(y))
 })
