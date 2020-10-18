@@ -44,8 +44,8 @@ local_class <- R6::R6Class(
     assert_deployment = function(target) {
     },
     run_target = function(name) {
-      self$run_gc()
       target <- pipeline_get_target(self$pipeline, name)
+      target_gc(target)
       self$assert_deployment(target)
       target_prepare(target, self$pipeline, self$scheduler)
       target_run(target)

@@ -70,7 +70,6 @@ future_class <- R6::R6Class(
     },
     update_globals = function() {
       self$globals <- self$produce_exports(self$pipeline$envir)
-      self$globals$.targets_gc_5048826d <- self$garbage_collection
     },
     ensure_globals = function() {
       if (is.null(self$globals)) {
@@ -82,10 +81,7 @@ future_class <- R6::R6Class(
       globals <- self$globals
       globals$.targets_target_5048826d <- target
       future <- future::future(
-        expr = target_run_worker(
-          .targets_target_5048826d,
-          .targets_gc_5048826d
-        ),
+        expr = target_run_worker(.targets_target_5048826d),
         packages = "targets",
         globals = globals,
         label = target_get_name(target),
@@ -109,8 +105,8 @@ future_class <- R6::R6Class(
       )
     },
     run_target = function(name) {
-      self$run_gc()
       target <- pipeline_get_target(self$pipeline, name)
+      target_gc(target)
       target_prepare(target, self$pipeline, self$scheduler)
       trn(
         target_should_run_worker(target),

@@ -13,6 +13,7 @@ tar_option_set(
   iteration = NULL,
   error = NULL,
   memory = NULL,
+  garbage_collection = NULL,
   deployment = NULL,
   priority = NULL,
   resources = NULL,
@@ -145,6 +146,9 @@ temporary local copies of the file in \verb{_targets/scratch/"}:
 and \code{"transient"} means they get deleted from the file system
 as soon as possible. The former conserves bandwidth,
 and the latter conserves local storage.}
+
+\item{garbage_collection}{Logical, whether to run \code{base::gc()}
+just before the target runs.}
 
 \item{deployment}{Character of length 1, only relevant to
 \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}. If \code{"worker"},

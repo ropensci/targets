@@ -35,6 +35,7 @@ tar_option_default <- function(option) {
     iteration = "vector",
     error = "stop",
     memory = "persistent",
+    garbage_collection = FALSE,
     deployment = "worker",
     priority = 0,
     resources = list(),

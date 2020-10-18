@@ -52,11 +52,6 @@ active_class <- R6::R6Class(
       names <- fltr(names(out), ~!is_internal_name(.x, envir))
       out[names]
     },
-    run_gc = function() {
-      if (self$garbage_collection) {
-        gc()
-      }
-    },
     unload_transient = function() {
       pipeline_unload_transient(self$pipeline)
     },
@@ -94,7 +89,6 @@ active_class <- R6::R6Class(
       scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress)
       path_scratch_del()
-      self$run_gc()
     },
     validate = function() {
       super$validate()

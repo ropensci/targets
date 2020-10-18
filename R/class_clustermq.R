@@ -102,11 +102,8 @@ clustermq_class <- R6::R6Class(
     },
     run_worker = function(target) {
       self$crew$send_call(
-        expr = target_run_worker(target, garbage_collection),
-        env = list(
-          target = target,
-          garbage_collection = self$garbage_collection
-        )
+        expr = target_run_worker(target),
+        env = list(target = target)
       )
     },
     run_main = function(target) {
@@ -120,8 +117,8 @@ clustermq_class <- R6::R6Class(
       )
     },
     run_target = function(name) {
-      self$run_gc()
       target <- pipeline_get_target(self$pipeline, name)
+      target_gc(target)
       target_prepare(target, self$pipeline, self$scheduler)
       trn(
         target_should_run_worker(target),

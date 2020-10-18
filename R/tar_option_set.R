@@ -36,6 +36,7 @@ tar_option_set <- function(
   iteration = NULL,
   error = NULL,
   memory = NULL,
+  garbage_collection = NULL,
   deployment = NULL,
   priority = NULL,
   resources = NULL,
@@ -53,6 +54,7 @@ tar_option_set <- function(
   tar_option_set_iteration(iteration)
   tar_option_set_error(error)
   tar_option_set_memory(memory)
+  tar_option_set_garbage_collection(garbage_collection)
   tar_option_set_deployment(deployment)
   tar_option_set_priority(priority)
   tar_option_set_resources(resources)
@@ -113,6 +115,15 @@ tar_option_set_memory <- function(memory) {
   memory <- memory %||% tar_option_get("memory")
   memory <- match.arg(memory, c("persistent", "transient"))
   assign("memory", memory, envir = tar_envir_options)
+}
+
+tar_option_set_garbage_collection <- function(garbage_collection) {
+  garbage_collection <- garbage_collection %||%
+    tar_option_get("garbage_collection")
+  garbage_collection <- as.logical(garbage_collection)
+  assert_lgl(garbage_collection, "garbage_collection must be logical.")
+  assert_scalar(garbage_collection, "garbage_collection must be a scalar.")
+  assign("garbage_collection", garbage_collection, envir = tar_envir_options)
 }
 
 tar_option_set_deployment <- function(deployment) {
