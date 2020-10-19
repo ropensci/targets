@@ -53,7 +53,7 @@ Suggests:
   curl (>= 4.3),
   dplyr (>= 1.0.0),
   fst (>= 0.9.2),
-  future (>= 1.17.0),
+  future (>= 1.19.1),
   keras (>= 2.2.5.0),
   knitr (>= 1.30),
   rmarkdown (>= 2.4),

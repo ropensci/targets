@@ -139,6 +139,8 @@
 #' @param resources A named list of computing resources. Uses:
 #'   * Template file wildcards for `future::future()` in [tar_make_future()].
 #'   * Template file wildcards `clustermq::workers()` in [tar_make_clustermq()].
+#'   * Custom target-level `future::plan()`, e.g.
+#'     `resources = list(plan = future::plan(future::multicore))`.
 #'   * Custom `curl` handle if `format = "url"`,
 #'     e.g. `resources = list(handle = curl::new_handle())`.
 #'   * Custom preset for `qs::qsave()` if `format = "qs"`, e.g.

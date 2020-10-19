@@ -17,6 +17,10 @@
 
 * Add a new function `tar_bind()` to combine pipeline objects.
 
+## Enhancements
+
+* Allow target-specific `future::plan()`s through the `resources` argument of `tar_target()` (#198, @mattwarkentin).
+
 # targets 0.0.0.9000
 
 * First version.
