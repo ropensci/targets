@@ -135,7 +135,6 @@ clustermq_class <- R6::R6Class(
     # Tested in tests/hpc/test-clustermq.R.
     # nocov start
     wait = function() {
-      browser()
       self$crew$send_wait()
       Sys.sleep(0.001)
     },
