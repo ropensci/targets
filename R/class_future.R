@@ -74,9 +74,10 @@ future_class <- R6::R6Class(
       self$ensure_globals()
       globals <- self$globals
       globals$.targets_target_5048826d <- target
-      plan <- target$resources$plan %||% future::plan()
-      old_plan <- future::plan(plan)
-      on.exit(future::plan(old_plan))
+      plan_old <- future::plan()
+      on.exit(future::plan(plan_old))
+      plan_new <- target$settings$resources$plan %||% future::plan()
+      future::plan(plan_new)
       future <- future::future(
         expr = target_run_worker(.targets_target_5048826d),
         packages = "targets",
