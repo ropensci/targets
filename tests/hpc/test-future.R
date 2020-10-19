@@ -1,3 +1,40 @@
+tar_test("future workers actually launch", {
+  skip_on_cran()
+  tar_script({
+    future::plan(future.callr::callr)
+    tar_pipeline(
+      tar_target(x, seq_len(4)),
+      tar_target(
+        y,
+        Sys.sleep(30),
+        pattern = map(x)
+      )
+    )
+  })
+  # The following should launch 4 targets running simultaneously.
+  # Terminate early if necessary.
+  tar_make_future(workers = 4)
+})
+
+tar_test("custom future plans through resources", {
+  skip_on_cran()
+  tar_script({
+    future::plan(future::sequential)
+    tar_pipeline(
+      tar_target(x, seq_len(4)),
+      tar_target(
+        y,
+        Sys.sleep(30),
+        pattern = map(x),
+        resources = list(plan = future.callr::callr)
+      )
+    )
+  })
+  # The following should launch 4 targets running simultaneously.
+  # Terminate early if necessary.
+  tar_make_future(workers = 4)
+})
+
 test_that("packages are actually loaded", {
   # Needs sge_batchtools.tmpl (in current directory).
   unlink("_targets", recursive = TRUE)
