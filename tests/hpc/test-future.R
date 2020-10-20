@@ -19,6 +19,8 @@ tar_test("future workers actually launch", {
 tar_test("custom future plans through resources", {
   skip_on_cran()
   tar_script({
+    future::plan(future::multisession, workers = 4)
+    plan_multisession <- future::plan()
     future::plan(future::sequential)
     tar_pipeline(
       tar_target(x, seq_len(4)),
@@ -26,7 +28,7 @@ tar_test("custom future plans through resources", {
         y,
         Sys.sleep(30),
         pattern = map(x),
-        resources = list(plan = future.callr::callr)
+        resources = list(plan = plan_multisession)
       )
     )
   })
