@@ -75,9 +75,9 @@ future_class <- R6::R6Class(
       globals <- self$globals
       globals$.targets_target_5048826d <- target
       plan_old <- future::plan()
-      on.exit(future::plan(plan_old))
+      on.exit(future::plan(plan_old, .cleanup = FALSE))
       plan_new <- target$settings$resources$plan %||% future::plan()
-      future::plan(plan_new)
+      future::plan(plan_new, .cleanup = FALSE)
       future <- future::future(
         expr = target_run_worker(.targets_target_5048826d),
         packages = "targets",
@@ -155,6 +155,10 @@ future_class <- R6::R6Class(
         self$iterate()
       }
       self$end()
+    },
+    end = function() {
+      future::plan(future::sequential, .cleanup = TRUE)
+      super$end()
     },
     validate = function() {
       super$validate()
