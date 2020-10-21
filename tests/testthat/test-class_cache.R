@@ -77,6 +77,7 @@ tar_test("cache_clear_objects()", {
     out$targets$names,
     character(0)
   )
+  expect_equal(names(out$targets$envir), character(0))
   expect_identical(
     parent.env(out$targets$envir),
     out$imports$envir
