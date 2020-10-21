@@ -40,10 +40,6 @@ memory_del_objects <- function(memory, names) {
   invisible()
 }
 
-memory_clear_objects <- function(memory) {
-  memory_del_objects(memory, memory$names)
-}
-
 memory_validate <- function(memory) {
   assert_correct_fields(memory, memory_new)
   assert_chr(memory$names)

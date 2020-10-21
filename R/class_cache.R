@@ -18,7 +18,7 @@ cache_set_object <- function(cache, name, object) {
 }
 
 cache_clear_objects <- function(cache) {
-  memory_clear_objects(cache$targets)
+  cache$targets <- memory_init(new.env(parent = cache$imports$envir))
 }
 
 cache_clone <- function(cache) {

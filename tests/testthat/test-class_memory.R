@@ -63,22 +63,6 @@ tar_test("memory_del_objects()", {
   expect_equal(out$count, 1L)
 })
 
-tar_test("memory_clear_objects()", {
-  out <- memory_init()
-  memory_set_object(out, "a", "123")
-  memory_set_object(out, "b", "456")
-  memory_set_object(out, "c", "789")
-  expect_equal(out$envir$a, "123")
-  expect_equal(out$envir$b, "456")
-  expect_equal(out$envir$c, "789")
-  expect_equal(sort(out$names), sort(c("a", "b", "c")))
-  memory_clear_objects(out)
-  expect_equal(out$envir$a, NULL)
-  expect_equal(out$envir$b, NULL)
-  expect_equal(out$envir$c, NULL)
-  expect_equal(out$names, character(0))
-})
-
 tar_test("memory_validate() on a good memory object", {
   out <- memory_init()
   memory_set_object(out, "a", "123")
