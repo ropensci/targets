@@ -46,11 +46,12 @@ meta_class <- R6::R6Class(
     restrict_records = function(pipeline) {
       names_envir <- names(pipeline$envir)
       names_records <- self$list_records()
+      names_children <- fltr(
+        names_records,
+        ~self$database$get_row(.x)$type == "branch"
+      )
       names_targets <- pipeline_get_names(pipeline)
       names_parents <- intersect(names_records, names_targets)
-      names_children <- map(names_parents, ~self$database$get_row(.x)$children)
-      names_children <- as.character(unlist(names_children))
-      names_children <- names_children[!is.na(names_children)]
       names_current <- c(names_envir, names_targets, names_children)
       remove <- setdiff(names_records, names_current)
       self$del_records(remove)
