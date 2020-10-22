@@ -167,8 +167,6 @@ pipeline_prune_targets <- function(pipeline, names) {
   keep <- upstream_vertices(graph = graph, from = names)
   discard <- setdiff(pipeline_get_names(pipeline), keep)
   remove(list = discard, envir = pipeline$targets, inherits = FALSE)
-  message <- "cannot find any of the requested targets."
-  assert_nonempty(pipeline_get_names(pipeline), message)
 }
 
 pipeline_stash_targets <- function(pipeline, subpipeline) {

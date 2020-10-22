@@ -72,16 +72,3 @@ tar_test("tar_make() finds the correct environment", {
   out <- tar_read(y)
   expect_equal(out, 3L)
 })
-
-tar_test("cannot find any of the requested targets", {
-  tar_script(tar_pipeline(tar_target(x, 1)))
-  expect_error(
-    tar_make(callr_function = NULL, names = "y"),
-    class = "condition_validate"
-  )
-})
-
-tar_test("empty pipelines are okay", {
-  tar_script(tar_pipeline())
-  expect_silent(suppressMessages(tar_make(callr_function = NULL, names = "y")))
-})

@@ -139,7 +139,8 @@ progress_class <- R6::R6Class(
       self$write_errored(names)
     },
     uptodate = function() {
-      self$built$count == 0L &&
+      self$skipped$count > 0L &&
+        self$built$count == 0L &&
         self$cancelled$count == 0L &&
         self$errored$count == 0L
     },
