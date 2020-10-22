@@ -77,6 +77,11 @@ tar_test("cannot find any of the requested targets", {
   tar_script(tar_pipeline(tar_target(x, 1)))
   expect_error(
     tar_make(callr_function = NULL, names = "y"),
-    calss = "condition_validate"
+    class = "condition_validate"
   )
+})
+
+tar_test("empty pipelines are okay", {
+  tar_script(tar_pipeline())
+  expect_silent(suppressMessages(tar_make(callr_function = NULL, names = "y")))
 })
