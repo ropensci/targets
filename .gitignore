@@ -13,4 +13,5 @@ docs
 inst/doc
 vignettes/*.html
 README.html
+paper.html
 .Rproj.user

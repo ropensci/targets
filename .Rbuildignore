@@ -33,3 +33,5 @@
 ^README\.md$
 ^README\.Rmd$
 ^LICENSE\.md$
+^paper\.md$
+^paper\.bib$
