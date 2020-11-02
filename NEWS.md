@@ -20,6 +20,7 @@
 ## Enhancements
 
 * Allow target-specific `future::plan()`s through the `resources` argument of `tar_target()` (#198, @mattwarkentin).
+* Use `library()` instead of `require()` in `command_load_packages()`.
 
 # targets 0.0.0.9000
 
