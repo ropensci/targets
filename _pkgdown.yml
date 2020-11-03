@@ -85,3 +85,4 @@ reference:
   - '`tar_group`'
   - '`tar_name`'
   - '`tar_path`'
+  - '`tar_seed`'

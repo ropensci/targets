@@ -59,12 +59,13 @@ Suggests:
   rmarkdown (>= 2.4),
   qs (>= 0.23.2),
   rstudioapi (>= 0.11),
-  testthat (>= 2.3.2),
+  testthat (>= 3.0.0),
   torch (>= 0.1.0),
   usethis (>= 1.6.3),
   visNetwork (>= 2.0.9)
 Encoding: UTF-8
 Language: en-US
+VignetteBuilder: knitr
+Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1.9000
-VignetteBuilder: knitr

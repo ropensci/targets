@@ -6,6 +6,7 @@
 * Change "local" to "main" and "remote" to "worker" in the `storage`, `retrieval`, and `deployment` settings (#183, @mattwarkentin).
 * Ensure function dependencies are sorted before computing the function hash (GitHub commit f15face7d72c15c2d1098da959492bdbfcddb425).
 * Move `garbage_collection` to a target-level setting, i.e. argument to `tar_target()` and `tar_option_set()` (#194). Previously was an argument to the `tar_make*()` functions.
+* Allow `tar_name()` and `tar_path()` to run outside the pipeline with debugging-friendly default return values.
 
 ## Bug fixes
 
@@ -16,6 +17,7 @@
 ## New features
 
 * Add a new function `tar_bind()` to combine pipeline objects.
+* Add `tar_seed()` to get the random number generator seed of the target currently running.
 
 ## Enhancements
 

@@ -1,5 +1,6 @@
 tar_test("tar_name() outside a pipeline", {
-  expect_error(tar_name(), class = "condition_validate")
+  expect_equal(tar_name(), "target")
+  expect_equal(tar_name(default = "custom"), "custom")
 })
 
 tar_test("tar_name() inside a pipeline", {

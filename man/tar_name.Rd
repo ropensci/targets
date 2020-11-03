@@ -4,15 +4,28 @@
 \alias{tar_name}
 \title{Get the name of the target currently running.}
 \usage{
-tar_name()
+tar_name(default = "target")
+}
+\arguments{
+\item{default}{Character, value to return if \code{tar_name()}
+is called on its own outside a \code{targets} pipeline.
+Having a default lets users run things without \code{\link[=tar_make]{tar_make()}},
+which helps peel back layers of code and troubleshoot bugs.}
+}
+\value{
+Character of length 1. If called inside a pipeline,
+\code{tar_name()} returns name of the target currently running.
+Otherwise, the return value is \code{default}.
 }
 \description{
 Get the name of the target currently running.
 }
 \details{
-Must be invoked somewhere in the target's command.
+If invoked inside the target's command.
 Only works inside a \code{targets} pipeline.
 }
 \examples{
-tar_target(returns_name, tar_name())
+tar_name()
+tar_name(default = "custom_target_name")
+tar_target(name, tar_name(default = "custom")) # Returns "name".
 }

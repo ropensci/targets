@@ -1,10 +1,11 @@
 tar_test("tar_path() outside a pipeline with no arguments", {
-  expect_error(tar_path(), class = "condition_validate")
+  expect_true(is.character(tar_path()))
+  expect_equal(length(tar_path()), 1L)
+  expect_equal(tar_path(default = "x"), "x")
 })
 
 tar_test("tar_path() with a name arg", {
-  exp <- file.path("_targets", "objects", "x")
-  expect_equal(tar_path(x), exp)
+  expect_equal(tar_path(x), file.path("_targets", "objects", "x"))
 })
 
 tar_test("tar_path() inside a pipeline", {

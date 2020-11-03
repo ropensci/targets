@@ -289,10 +289,12 @@ builder_wait_correct_hash <- function(target) {
 
 builder_set_envir_run <- function(target) {
   assign(x = "name", value = target_get_name(target), envir = envir_run)
+  assign(x = "seed", value = target$command$seed, envir = envir_run)
 }
 
 builder_unset_envir_run <- function() {
-  remove(list = "name", envir = envir_run, inherits = FALSE)
+  names <- c("name", "seed")
+  remove(list = names, envir = envir_run, inherits = FALSE)
 }
 
 builder_serialize_value <- function(target) {
