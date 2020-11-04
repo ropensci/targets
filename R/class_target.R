@@ -293,6 +293,19 @@ target_is_branchable.default <- function(target) {
   FALSE
 }
 
+target_copy <- function(target) {
+  class <- class(target)
+  out <- list2env(as.list(target), parent = emptyenv(), hash = FALSE)
+  class(out) <- class
+  if (!is.null(target$cache)) {
+    out$cache <- cache_init(imports = target$cache$imports)
+  }
+  out$value <- target$value
+  out$metrics <- NULL
+  out$junction <- NULL
+  out
+}
+
 target_patternview_meta <- function(target, pipeline, meta) {
   UseMethod("target_patternview_meta")
 }

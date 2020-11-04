@@ -148,12 +148,23 @@ pipeline_produce_subpipeline <- function(pipeline, name) {
   target <- pipeline_get_target(pipeline, name)
   deps <- target_deps_deep(target, pipeline)
   targets <- new.env(parent = emptyenv())
-  map(deps, ~assign(.x, pipeline_get_target(pipeline, .x), envir = targets))
+  lapply(
+    deps,
+    pipeline_assign_target_copy,
+    pipeline = pipeline,
+    envir = targets
+  )
   pipeline_new(
     targets = targets,
     loaded = counter_init(),
     transient = counter_init()
   )
+}
+
+pipeline_assign_target_copy <- function(pipeline, name, envir) {
+  target <- pipeline_get_target(pipeline, name)
+  copy <- target_copy(target)
+  assign(name, copy, envir = envir)
 }
 
 pipeline_prune_names <- function(pipeline, names) {
