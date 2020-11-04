@@ -24,6 +24,7 @@ tar_test("torch format with in-memory serialization", {
 })
 
 tar_test("torch in-memory serialization of deps", {
+  skip("hold")
   skip_on_cran()
   skip_on_os("windows")
   skip_if_not_installed("clustermq")

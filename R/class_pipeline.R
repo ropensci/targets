@@ -160,7 +160,7 @@ pipeline_produce_subpipeline <- function(pipeline, name) {
 
 pipeline_assign_target_copy <- function(pipeline, name, envir) {
   target <- pipeline_get_target(pipeline, name)
-  copy <- target_copy(target)
+  copy <- target_subpipeline_copy(target)
   assign(name, copy, envir = envir)
 }
 

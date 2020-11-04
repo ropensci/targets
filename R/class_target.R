@@ -293,15 +293,15 @@ target_is_branchable.default <- function(target) {
   FALSE
 }
 
-target_copy <- function(target) {
+target_subpipeline_copy <- function(target) {
   class <- class(target)
   out <- list2env(as.list(target), parent = emptyenv(), hash = FALSE)
   class(out) <- class
-  if (!is.null(target$cache)) {
-    out$cache <- cache_init(imports = target$cache$imports)
-  }
-  out$value <- target$value
   out$metrics <- NULL
+  out$cache <- NULL
+  if (identical(target$settings$retrieval, "worker")) {
+    out$value <- NULL
+  }
   out
 }
 
