@@ -36,12 +36,10 @@ command_load_packages <- function(command) {
   suppressPackageStartupMessages(
     lapply(
       command$packages,
-      library,
+      require,
       lib.loc = command$library,
       quietly = TRUE,
-      character.only = TRUE,
-      logical.return = TRUE,
-      verbose = FALSE
+      character.only = TRUE
     )
   )
 }
