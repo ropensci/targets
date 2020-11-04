@@ -70,10 +70,6 @@ tar_make_inner <- function(pipeline, names_quosure, reporter) {
   invisible()
 }
 
-target_make_deploy_main <- function(target) {
-  target$settings$deployment <- "main"
-}
-
 tar_make_reporters <- function() {
   c("verbose", "silent", "timestamp", "summary")
 }
