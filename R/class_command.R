@@ -44,7 +44,7 @@ command_load_packages <- function(command) {
       character.only = TRUE
     )
   )
-  out <- unlist(out)
+  out <- as.logical(unlist(out))
   packages <- paste(command$packages[!out], collapse = ", ")
   assert_true(all(out), paste("packages not found:", packages))
 }
