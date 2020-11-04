@@ -173,7 +173,7 @@ builder_update_subpipeline <- function(target, pipeline) {
 }
 
 builder_ensure_subpipeline <- function(target, pipeline) {
-  if (identical(target$settings$retrieval, "worker")) {
+  if (identical(target$settings$deployment, "worker")) {
     builder_update_subpipeline(target, pipeline)
   }
 }
