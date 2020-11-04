@@ -61,7 +61,6 @@ tar_make <- function(
 tar_make_inner <- function(pipeline, names_quosure, reporter) {
   pipeline_validate_lite(pipeline)
   names <- pipeline_get_names(pipeline)
-  map(names, ~target_make_deploy_main(pipeline_get_target(pipeline, .x)))
   names <- eval_tidyselect(names_quosure, names)
   local_init(
     pipeline = pipeline,

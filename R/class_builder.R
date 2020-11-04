@@ -68,8 +68,8 @@ target_should_run_worker.tar_builder <- function(target) {
 target_run.tar_builder <- function(target) {
   on.exit(builder_unset_envir_run())
   builder_set_envir_run(target)
-  builder_ensure_deps(target, target$subpipeline, "worker")
   builder_unserialize_subpipeline(target)
+  builder_ensure_deps(target, target$subpipeline, "worker")
   builder_update_build(target)
   target$subpipeline <- NULL
   builder_update_paths(target)

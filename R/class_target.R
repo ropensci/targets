@@ -346,11 +346,15 @@ target_sync_file_meta.default <- function(target, meta) {
 }
 
 target_serialize_value <- function(target) {
-  store_serialize_value(target$store, target)
+  if (!is.null(target$value)) {
+    store_serialize_value(target$store, target)
+  }
 }
 
 target_unserialize_value <- function(target) {
-  store_unserialize_value(target$store, target)
+  if (!is.null(target$value)) {
+    store_unserialize_value(target$store, target)
+  }
 }
 
 target_validate <- function(target) {
