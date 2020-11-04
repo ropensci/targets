@@ -60,8 +60,7 @@ tar_make <- function(
 
 tar_make_inner <- function(pipeline, names_quosure, reporter) {
   pipeline_validate_lite(pipeline)
-  names <- pipeline_get_names(pipeline)
-  names <- eval_tidyselect(names_quosure, names)
+  names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
   local_init(
     pipeline = pipeline,
     names = names,
