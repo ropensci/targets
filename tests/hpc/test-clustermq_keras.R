@@ -6,54 +6,46 @@ test_that("keras and clustermq with main storage and retrieval", {
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
   skip_if_not_installed("keras")
-  old <- getOption("clustermq.scheduler")
-  options(clustermq.scheduler = "multicore")
-  on.exit(options(clustermq.scheduler = old), add = TRUE)
-  old_envir <- tar_option_get("envir")
-  on.exit(tar_option_set(envir = old_envir), add = TRUE)
-  envir <- new.env(parent = globalenv())
-  tar_option_set(envir = envir)
-  envir$f <- function() {
-    model <- keras::keras_model_sequential() %>%
-      keras::layer_conv_2d(
-        filters = 32,
-        kernel_size = c(3, 3),
-        activation = "relu",
-        input_shape = c(28, 28, 1)
-      ) %>%
-      keras::layer_conv_2d(
-        filters = 64,
-        kernel_size = c(3, 3),
-        activation = "relu"
-      ) %>%
-      keras::layer_max_pooling_2d(pool_size = c(2, 2)) %>%
-      keras::layer_dropout(rate = 0.25) %>%
-      keras::layer_flatten() %>%
-      keras::layer_dense(units = 128, activation = "relu") %>%
-      keras::layer_dropout(rate = 0.5) %>%
-      keras::layer_dense(units = 10, activation = "softmax")
-    keras::compile(
-      model,
-      loss = "categorical_crossentropy",
-      optimizer = keras::optimizer_adadelta(),
-      metrics = "accuracy"
+  tar_script({
+    tar_option_set(packages = "keras")
+    options(clustermq.scheduler = "multicore")
+    f <- function() {
+      model <- keras::keras_model_sequential() %>%
+        keras::layer_conv_2d(
+          filters = 32,
+          kernel_size = c(3, 3),
+          activation = "relu",
+          input_shape = c(28, 28, 1)
+        ) %>%
+        keras::layer_conv_2d(
+          filters = 64,
+          kernel_size = c(3, 3),
+          activation = "relu"
+        ) %>%
+        keras::layer_max_pooling_2d(pool_size = c(2, 2)) %>%
+        keras::layer_dropout(rate = 0.25) %>%
+        keras::layer_flatten() %>%
+        keras::layer_dense(units = 128, activation = "relu") %>%
+        keras::layer_dropout(rate = 0.5) %>%
+        keras::layer_dense(units = 10, activation = "softmax")
+      keras::compile(
+        model,
+        loss = "categorical_crossentropy",
+        optimizer = keras::optimizer_adadelta(),
+        metrics = "accuracy"
+      )
+      model
+    }
+    tar_pipeline(
+      tar_target_raw(
+        name = "abc",
+        command = quote(f()),
+        format = "keras"
+      )
     )
-    model
-  }
-  x <- tar_target_raw(
-    name = "abc",
-    command = quote(f()),
-    format = "keras"
-  )
-  pipeline <- tar_pipeline(x)
-  cmq <- clustermq_init(pipeline)
-  cmq$run()
-  expect_true(
-    inherits(
-      target_read_value(pipeline_get_target(pipeline, "abc"))$object,
-      "keras.engine.training.Model"
-    )
-  )
+  })
+  tar_make_clustermq()
+  expect_true(inherits(tar_read(abc), "keras.engine.training.Model"))
 })
 
 test_that("keras and clustermq with worker storage and retrieval", {

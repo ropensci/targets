@@ -76,7 +76,8 @@ pipeline_set_target <- function(pipeline, target) {
 }
 
 pipeline_exists_target <- function(pipeline, name) {
-  exists(x = name, envir = pipeline$targets %||% tar_empty_envir, inherits = FALSE)
+  envir <- pipeline$targets %||% tar_empty_envir
+  exists(x = name, envir = envir, inherits = FALSE)
 }
 
 pipeline_targets_only_edges <- function(edges) {

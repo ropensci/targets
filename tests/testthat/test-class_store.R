@@ -12,6 +12,12 @@ tar_test("store_wait_correct_hash()", {
   expect_silent(store_wait_correct_hash(store))
 })
 
+tar_test("default serialization/unserialization methods", {
+  store <- store_init()
+  expect_equal(store_serialize_object(store, "x"), "x")
+  expect_equal(store_unserialize_object(store, "x"), "x")
+})
+
 tar_test("store_validate()", {
   expect_silent(store_validate(store_new(resources = list())))
 })
