@@ -76,6 +76,11 @@ install_github("wlandau/targets")
     Keras](https://github.com/wlandau/targets-keras).
   - [Validating a Stan model](https://github.com/wlandau/targets-stan).
 
+## Recorded talks
+
+  - [R/Pharma 2020
+    (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
+
 ## Courses
 
   - [Official half-day interactive
