@@ -6,7 +6,7 @@ store_new.torch <- function(class, file = NULL, resources = NULL) {
 torch_new <- function(file = NULL, resources = NULL) {
   force(file)
   force(resources)
-  enclass(environment(), c("tar_torch", "tar_store"))
+  enclass(environment(), c("tar_torch", "tar_unexportable", "tar_store"))
 }
 
 #' @export

@@ -42,6 +42,7 @@ target_prepare.tar_builder <- function(target, pipeline, scheduler) {
   scheduler$reporter$report_running(target, scheduler$progress)
   builder_ensure_deps(target, pipeline, "main")
   builder_ensure_subpipeline(target, pipeline)
+  builder_serialize_subpipeline(target)
 }
 
 #' @export
@@ -68,6 +69,7 @@ target_run.tar_builder <- function(target) {
   on.exit(builder_unset_envir_run())
   builder_set_envir_run(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
+  builder_unserialize_subpipeline(target)
   builder_update_build(target)
   target$subpipeline <- NULL
   builder_update_paths(target)
@@ -170,6 +172,22 @@ builder_update_subpipeline <- function(target, pipeline) {
     pipeline,
     target_get_name(target)
   )
+}
+
+builder_serialize_subpipeline <- function(target) {
+  subpipeline <- target$subpipeline
+  retrieval <- target$settings$retrieval
+  if (!is.null(subpipeline) && identical(retrieval, "main")) {
+    pipeline_serialize_values(subpipeline)
+  }
+}
+
+builder_unserialize_subpipeline <- function(target) {
+  subpipeline <- target$subpipeline
+  retrieval <- target$settings$retrieval
+  if (!is.null(subpipeline) && identical(retrieval, "main")) {
+    pipeline_unserialize_values(target$subpipeline)
+  }
 }
 
 builder_ensure_subpipeline <- function(target, pipeline) {
@@ -285,13 +303,13 @@ builder_unset_envir_run <- function() {
 
 builder_serialize_value <- function(target) {
   if (identical(target$settings$storage, "main")) {
-    store_serialize_value(target$store, target$value)
+    target_serialize_value(target)
   }
 }
 
 builder_unserialize_value <- function(target) {
   if (identical(target$settings$storage, "main")) {
-    store_unserialize_value(target$store, target$value)
+    target_unserialize_value(target)
   }
 }
 

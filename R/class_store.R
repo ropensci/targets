@@ -160,21 +160,6 @@ store_wait_correct_hash <- function(store, sleep = 0.01, timeout = 60) {
   throw_file(msg)
 }
 
-store_serialize_value <- function(store, value) {
-  UseMethod("store_serialize_value")
-}
-
-store_serialize_value.default <- function(store, value) {
-}
-
-store_unserialize_value <- function(store, value) {
-  UseMethod("store_unserialize_value")
-}
-
-#' @export
-store_unserialize_value.default <- function(store, value) {
-}
-
 store_has_correct_hash <- function(store) {
   UseMethod("store_has_correct_hash")
 }
@@ -232,28 +217,38 @@ store_unload <- function(store, target) {
 store_unload.default <- function(store, target) {
 }
 
-store_serialize_value <- function(store, value) {
-  value$object <- store_serialize_object(store, value$object)
-}
-
-store_unserialize_value <- function(store, value) {
-  value$object <- store_unserialize_object(store, value$object)
-}
-
 store_serialize_object <- function(store, object) {
   UseMethod("store_serialize_object")
+}
+
+#' @export
+store_serialize_object.default <- function(store, object) {
+  object
 }
 
 store_unserialize_object <- function(store, object) {
   UseMethod("store_unserialize_object")
 }
 
-store_serialize_object.default <- function(store, object) {
+#' @export
+store_unserialize_object.default <- function(store, object) {
   object
 }
 
-store_unserialize_object.default <- function(store, object) {
-  object
+store_serialize_value <- function(store, target) {
+  UseMethod("store_serialize_value")
+}
+
+#' @export
+store_serialize_value.default <- function(store, target) {
+}
+
+store_unserialize_value <- function(store, target) {
+  UseMethod("store_unserialize_value")
+}
+
+#' @export
+store_unserialize_value.default <- function(store, target) {
 }
 
 store_validate <- function(store) {

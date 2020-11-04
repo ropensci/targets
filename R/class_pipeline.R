@@ -164,6 +164,20 @@ pipeline_assign_target_copy <- function(pipeline, name, envir) {
   assign(name, copy, envir = envir)
 }
 
+pipeline_serialize_values <- function(pipeline) {
+  map(
+    pipeline_get_names(pipeline),
+    ~target_serialize_value(pipeline_get_target(pipeline, .x))
+  )
+}
+
+pipeline_unserialize_values <- function(pipeline) {
+  map(
+    pipeline_get_names(pipeline),
+    ~target_unserialize_value(pipeline_get_target(pipeline, .x))
+  )
+}
+
 pipeline_prune_names <- function(pipeline, names) {
   if (!is.null(names)) {
     pipeline_prune_targets(pipeline, names)
