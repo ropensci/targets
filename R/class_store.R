@@ -232,6 +232,30 @@ store_unload <- function(store, target) {
 store_unload.default <- function(store, target) {
 }
 
+store_serialize_value <- function(store, value) {
+  value$object <- store_serialize_object(store, value$object)
+}
+
+store_unserialize_value <- function(store, value) {
+  value$object <- store_unserialize_object(store, value$object)
+}
+
+store_serialize_object <- function(store, object) {
+  UseMethod("store_serialize_object")
+}
+
+store_unserialize_object <- function(store, object) {
+  UseMethod("store_unserialize_object")
+}
+
+store_serialize_object.default <- function(store, object) {
+  object
+}
+
+store_unserialize_object.default <- function(store, object) {
+  object
+}
+
 store_validate <- function(store) {
   assert_correct_fields(store, store_new_default)
   store_validate_packages(store)
