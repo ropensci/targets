@@ -161,7 +161,7 @@ tar_test("builder writing from worker", {
     format = "rds",
     storage = "worker",
     retrieval = "main",
-    deployment = "deployment"
+    deployment = "worker"
   )
   cache_set_object(x$cache, "a", "123")
   target_run(x)
