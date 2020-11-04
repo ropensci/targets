@@ -97,7 +97,6 @@ target_skip.tar_builder <- function(target, pipeline, scheduler, meta) {
 target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   target_update_queue(target, scheduler)
   builder_handle_warnings(target, scheduler)
-  builder_ensure_restored(target, pipeline)
   switch(
     metrics_outcome(target$metrics),
     cancel = builder_cancel(target, pipeline, scheduler, meta),
@@ -167,12 +166,10 @@ builder_ensure_deps <- function(target, pipeline, retrieval) {
 }
 
 builder_update_subpipeline <- function(target, pipeline) {
-  subpipeline <- pipeline_produce_subpipeline(
+  target$subpipeline <- pipeline_produce_subpipeline(
     pipeline,
     target_get_name(target)
   )
-  pipeline_stash_targets(pipeline, subpipeline)
-  target$subpipeline <- subpipeline
 }
 
 builder_ensure_subpipeline <- function(target, pipeline) {
@@ -267,17 +264,6 @@ builder_update_object <- function(target) {
 builder_ensure_object <- function(target, storage) {
   if (identical(target$settings$storage, storage)) {
     builder_update_object(target)
-  }
-}
-
-builder_restore_targets <- function(target, pipeline) {
-  pipeline_restore_targets(pipeline)
-  target$subpipeline <- NULL
-}
-
-builder_ensure_restored <- function(target, pipeline) {
-  if (identical(target$settings$retrieval, "worker")) {
-    builder_restore_targets(target, pipeline)
   }
 }
 

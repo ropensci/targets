@@ -4,8 +4,7 @@ pipeline_init <- function(targets = list()) {
     targets = targets,
     envir = pipeline_envir(targets),
     loaded = counter_init(),
-    transient = counter_init(),
-    stash = stash_init()
+    transient = counter_init()
   )
 }
 
@@ -13,14 +12,12 @@ pipeline_new <- function(
   targets = NULL,
   envir = NULL,
   loaded = NULL,
-  transient = NULL,
-  stash = NULL
+  transient = NULL
 ) {
   force(targets)
   force(envir)
   force(loaded)
   force(transient)
-  force(stash)
   enclass(environment(), "tar_pipeline")
 }
 
@@ -180,14 +177,6 @@ pipeline_prune_targets <- function(pipeline, names) {
   remove(list = discard, envir = pipeline$targets, inherits = FALSE)
 }
 
-pipeline_stash_targets <- function(pipeline, subpipeline) {
-  stash_targets(pipeline$stash, subpipeline)
-}
-
-pipeline_restore_targets <- function(pipeline) {
-  stash_restore_targets(pipeline$stash, pipeline)
-}
-
 pipeline_validate_targets <- function(targets) {
   eapply(targets, function(target) target_validate(target))
 }
@@ -232,7 +221,6 @@ pipeline_validate.tar_pipeline <- function(pipeline) {
   pipeline_validate_envirs(pipeline)
   counter_validate(pipeline$loaded)
   counter_validate(pipeline$transient)
-  stash_validate(pipeline$stash)
 }
 
 #' @export

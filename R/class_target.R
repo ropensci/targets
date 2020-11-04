@@ -302,7 +302,6 @@ target_copy <- function(target) {
   }
   out$value <- target$value
   out$metrics <- NULL
-  out$junction <- NULL
   out
 }
 
