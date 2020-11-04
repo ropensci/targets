@@ -221,6 +221,7 @@ builder_save_workspace <- function(target, pipeline, scheduler) {
   out <- as.list(target$cache$imports$envir)
   target_ensure_deps(target, pipeline)
   target_cache_deps(target, pipeline)
+  on.exit(cache_clear_objects(target$cache))
   for (name in target$cache$targets$names) {
     out[[name]] <- memory_get_object(target$cache$targets, name)
   }
@@ -245,7 +246,6 @@ builder_update_build <- function(target) {
   command_load_packages(target$command)
   envir <- cache_get_envir(target$cache)
   build <- command_produce_build(target$command, envir)
-  cache_clear_objects(target$cache)
   object <- store_coerce_object(target$store, build$object)
   target$value <- value_init(object, target$settings$iteration)
   target$metrics <- build$metrics
