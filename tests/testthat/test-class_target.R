@@ -38,7 +38,7 @@ tar_test("target_ensure_value() loads values", {
   }
 })
 
-tar_test("target_load_dep()", {
+tar_test("target_ensure_dep() and target_cache_dep()", {
   x <- target_init(name = "abc", format = "rds")
   y <- target_init(name = "xyz", format = "rds")
   pipeline <- pipeline_init(list(x, y))
@@ -49,7 +49,8 @@ tar_test("target_load_dep()", {
   expect_false(memory_exists_object(x$cache$targets, "xyz"))
   expect_error(x$cache$get_object("xyz"))
   for (index in seq_len(2)) {
-    target_load_dep(x, y, pipeline)
+    target_ensure_dep(x, y, pipeline)
+    target_cache_dep(x, y, pipeline)
     expect_equal(memory_get_object(x$cache$targets, "xyz"), "value")
     cache_clear_objects(x$cache)
   }

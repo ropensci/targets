@@ -66,11 +66,13 @@ target_should_run_worker.tar_builder <- function(target) {
 
 #' @export
 target_run.tar_builder <- function(target) {
-  on.exit(builder_unset_envir_run())
-  builder_set_envir_run(target)
+  on.exit(builder_unset_tar_envir_run())
+  builder_set_tar_envir_run(target)
   builder_unserialize_subpipeline(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
+  target_cache_deps(target, target$subpipeline)
   builder_update_build(target)
+  cache_clear_objects(target$cache)
   target$subpipeline <- NULL
   builder_update_paths(target)
   builder_ensure_object(target, "worker")
@@ -163,7 +165,7 @@ target_validate.tar_builder <- function(target) {
 
 builder_ensure_deps <- function(target, pipeline, retrieval) {
   if (identical(target$settings$retrieval, retrieval)) {
-    target_load_deps(target, pipeline)
+    target_ensure_deps(target, pipeline)
   }
 }
 
@@ -217,7 +219,8 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
 builder_save_workspace <- function(target, pipeline, scheduler) {
   scheduler$reporter$report_workspace(target)
   out <- as.list(target$cache$imports$envir)
-  target_load_deps(target, pipeline)
+  target_ensure_deps(target, pipeline)
+  target_cache_deps(target, pipeline)
   for (name in target$cache$targets$names) {
     out[[name]] <- memory_get_object(target$cache$targets, name)
   }
@@ -291,14 +294,14 @@ builder_wait_correct_hash <- function(target) {
   store_ensure_correct_hash(target$store, storage, deployment)
 }
 
-builder_set_envir_run <- function(target) {
-  assign(x = "name", value = target_get_name(target), envir = envir_run)
-  assign(x = "seed", value = target$command$seed, envir = envir_run)
+builder_set_tar_envir_run <- function(target) {
+  assign(x = "name", value = target_get_name(target), envir = tar_envir_run)
+  assign(x = "seed", value = target$command$seed, envir = tar_envir_run)
 }
 
-builder_unset_envir_run <- function() {
+builder_unset_tar_envir_run <- function() {
   names <- c("name", "seed")
-  remove(list = names, envir = envir_run, inherits = FALSE)
+  remove(list = names, envir = tar_envir_run, inherits = FALSE)
 }
 
 builder_serialize_value <- function(target) {
@@ -328,3 +331,5 @@ builder_sitrep <- function(target, meta) {
     file = trn(record, NA, cue_file(cue, target, meta))
   )
 }
+
+tar_envir_run <- new.env(parent = emptyenv())

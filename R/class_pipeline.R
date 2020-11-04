@@ -36,7 +36,7 @@ pipeline_envir <- function(targets) {
       return(target$cache$imports$envir)
     }
   }
-  target_empty_envir
+  tar_empty_envir
 }
 
 pipeline_get_target <- function(pipeline, name) {
@@ -76,7 +76,7 @@ pipeline_set_target <- function(pipeline, target) {
 }
 
 pipeline_exists_target <- function(pipeline, name) {
-  exists(x = name, envir = pipeline$targets, inherits = FALSE)
+  exists(x = name, envir = pipeline$targets %||% tar_empty_envir, inherits = FALSE)
 }
 
 pipeline_targets_only_edges <- function(edges) {
@@ -145,11 +145,13 @@ pipeline_produce_subpipeline <- function(pipeline, name) {
   target <- pipeline_get_target(pipeline, name)
   deps <- target_deps_deep(target, pipeline)
   targets <- new.env(parent = emptyenv())
+  keep_value <- identical(target$settings$retrieval, "main")
   lapply(
     deps,
     pipeline_assign_target_copy,
     pipeline = pipeline,
-    envir = targets
+    envir = targets,
+    keep_value = keep_value
   )
   pipeline_new(
     targets = targets,
@@ -158,9 +160,9 @@ pipeline_produce_subpipeline <- function(pipeline, name) {
   )
 }
 
-pipeline_assign_target_copy <- function(pipeline, name, envir) {
+pipeline_assign_target_copy <- function(pipeline, name, envir, keep_value) {
   target <- pipeline_get_target(pipeline, name)
-  copy <- target_subpipeline_copy(target)
+  copy <- target_subpipeline_copy(target, keep_value)
   assign(name, copy, envir = envir)
 }
 

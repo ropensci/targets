@@ -36,7 +36,12 @@ tar_test("torch in-memory serialization of deps", {
       tar_target(array, as.array(tensor))
     )
   })
-  tar_make_clustermq()
+  capture.output(tar_make_clustermq(reporter = "silent"))
+  tar_load(tensor)
+  expect_true(inherits(tensor, "torch_tensor"))
+  expect_equal(length(tensor), 10)
+  tar_load(array)
+  expect_equal(array, rep(0, 10))
 })
 
 tar_test("validate torch format", {

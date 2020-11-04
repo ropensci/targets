@@ -20,7 +20,7 @@ target_init <- function(
   cue = NULL
 ) {
   force(envir)
-  envir <- envir %||% target_empty_envir
+  envir <- envir %||% tar_empty_envir
   seed <- produce_seed(name)
   command <- command_init(expr, packages, library, seed, deps, string)
   cue <- cue %||% cue_default
@@ -87,16 +87,26 @@ target_get_name <- function(target) {
   target$settings$name
 }
 
-target_load_dep <- function(target, dep, pipeline) {
-  target_ensure_value(dep, pipeline)
+target_cache_dep <- function(target, dep, pipeline) {
   object <- dep$value$object
   cache_set_object(target$cache, target_get_parent(dep), object)
 }
 
-target_load_deps <- function(target, pipeline) {
+target_cache_deps <- function(target, pipeline) {
   map(
     target_deps_shallow(target, pipeline),
-    ~target_load_dep(target, pipeline_get_target(pipeline, .x), pipeline)
+    ~target_cache_dep(target, pipeline_get_target(pipeline, .x), pipeline)
+  )
+}
+
+target_ensure_dep <- function(target, dep, pipeline) {
+  target_ensure_value(dep, pipeline)
+}
+
+target_ensure_deps <- function(target, pipeline) {
+  map(
+    target_deps_shallow(target, pipeline),
+    ~target_ensure_dep(target, pipeline_get_target(pipeline, .x), pipeline)
   )
 }
 
@@ -269,7 +279,6 @@ target_conclude <- function(target, pipeline, scheduler, meta) {
 
 #' @export
 target_conclude.tar_target <- function(target, pipeline, scheduler, meta) {
-  cache_clear_objects(target$cache)
 }
 
 target_ensure_buds <- function(target, pipeline, scheduler) {
@@ -293,13 +302,13 @@ target_is_branchable.default <- function(target) {
   FALSE
 }
 
-target_subpipeline_copy <- function(target) {
+target_subpipeline_copy <- function(target, keep_value) {
   class <- class(target)
   out <- list2env(as.list(target), parent = emptyenv(), hash = FALSE)
   class(out) <- class
   out$metrics <- NULL
   out$cache <- NULL
-  if (identical(target$settings$retrieval, "worker")) {
+  if (!keep_value) {
     out$value <- NULL
   }
   out
@@ -385,5 +394,3 @@ target_validate_deps <- function(target) {
     throw_validate("target ", target_get_name(target), " depends on itself.")
   }
 }
-
-target_empty_envir <- new.env(parent = baseenv())
