@@ -6,6 +6,8 @@ data_frame <- function(...) {
   data.frame(..., stringsAsFactors = FALSE)
 }
 
+tar_empty_envir <- new.env(parent = baseenv())
+
 expand_grid <- function(...) {
   rev(expand.grid(rev(list(...)), stringsAsFactors = FALSE))
 }

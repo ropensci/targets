@@ -4,8 +4,7 @@ pipeline_init <- function(targets = list()) {
     targets = targets,
     envir = pipeline_envir(targets),
     loaded = counter_init(),
-    transient = counter_init(),
-    stash = stash_init()
+    transient = counter_init()
   )
 }
 
@@ -13,14 +12,12 @@ pipeline_new <- function(
   targets = NULL,
   envir = NULL,
   loaded = NULL,
-  transient = NULL,
-  stash = NULL
+  transient = NULL
 ) {
   force(targets)
   force(envir)
   force(loaded)
   force(transient)
-  force(stash)
   enclass(environment(), "tar_pipeline")
 }
 
@@ -39,7 +36,7 @@ pipeline_envir <- function(targets) {
       return(target$cache$imports$envir)
     }
   }
-  target_empty_envir
+  tar_empty_envir
 }
 
 pipeline_get_target <- function(pipeline, name) {
@@ -79,7 +76,8 @@ pipeline_set_target <- function(pipeline, target) {
 }
 
 pipeline_exists_target <- function(pipeline, name) {
-  exists(x = name, envir = pipeline$targets, inherits = FALSE)
+  envir <- pipeline$targets %||% tar_empty_envir
+  exists(x = name, envir = envir, inherits = FALSE)
 }
 
 pipeline_targets_only_edges <- function(edges) {
@@ -148,11 +146,38 @@ pipeline_produce_subpipeline <- function(pipeline, name) {
   target <- pipeline_get_target(pipeline, name)
   deps <- target_deps_deep(target, pipeline)
   targets <- new.env(parent = emptyenv())
-  map(deps, ~assign(.x, pipeline_get_target(pipeline, .x), envir = targets))
+  keep_value <- identical(target$settings$retrieval, "main")
+  lapply(
+    deps,
+    pipeline_assign_target_copy,
+    pipeline = pipeline,
+    envir = targets,
+    keep_value = keep_value
+  )
   pipeline_new(
     targets = targets,
     loaded = counter_init(),
     transient = counter_init()
+  )
+}
+
+pipeline_assign_target_copy <- function(pipeline, name, envir, keep_value) {
+  target <- pipeline_get_target(pipeline, name)
+  copy <- target_subpipeline_copy(target, keep_value)
+  assign(name, copy, envir = envir)
+}
+
+pipeline_serialize_values <- function(pipeline) {
+  map(
+    pipeline_get_names(pipeline),
+    ~target_serialize_value(pipeline_get_target(pipeline, .x))
+  )
+}
+
+pipeline_unserialize_values <- function(pipeline) {
+  map(
+    pipeline_get_names(pipeline),
+    ~target_unserialize_value(pipeline_get_target(pipeline, .x))
   )
 }
 
@@ -167,14 +192,6 @@ pipeline_prune_targets <- function(pipeline, names) {
   keep <- upstream_vertices(graph = graph, from = names)
   discard <- setdiff(pipeline_get_names(pipeline), keep)
   remove(list = discard, envir = pipeline$targets, inherits = FALSE)
-}
-
-pipeline_stash_targets <- function(pipeline, subpipeline) {
-  stash_targets(pipeline$stash, subpipeline)
-}
-
-pipeline_restore_targets <- function(pipeline) {
-  stash_restore_targets(pipeline$stash, pipeline)
 }
 
 pipeline_validate_targets <- function(targets) {
@@ -221,7 +238,6 @@ pipeline_validate.tar_pipeline <- function(pipeline) {
   pipeline_validate_envirs(pipeline)
   counter_validate(pipeline$loaded)
   counter_validate(pipeline$transient)
-  stash_validate(pipeline$stash)
 }
 
 #' @export

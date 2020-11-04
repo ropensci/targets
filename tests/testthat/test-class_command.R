@@ -51,6 +51,10 @@ tar_test("command$load_packages()", {
   expect_silent(command_validate(command_good))
   expect_silent(command_load_packages(command_good))
   command_bad <- command_init(quote(a <- b + c), packages = 123)
+  expect_error(
+    suppressWarnings(command_load_packages(command_bad)),
+    class = "condition_validate"
+  )
   expect_error(command_validate(command_bad), class = "condition_validate")
   expect_error(command_validate_packages(command_bad))
 })

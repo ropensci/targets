@@ -16,8 +16,8 @@
 #' tar_target(returns_seed, tar_seed(default = 123)) # Does not return 123.
 tar_seed <- function(default = 1L) {
   trn(
-    exists(x = "seed", envir = envir_run, inherits = FALSE),
-    get(x = "seed", envir = envir_run),
+    exists(x = "seed", envir = tar_envir_run, inherits = FALSE),
+    get(x = "seed", envir = tar_envir_run),
     as.integer(default)
   )
 }

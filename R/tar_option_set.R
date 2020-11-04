@@ -170,3 +170,5 @@ tar_option_set_debug <- function(debug) {
   assert_chr(debug, "debug artument of tar_option_set() must be a character.")
   assign("debug", debug, envir = tar_envir_options)
 }
+
+tar_envir_options <- new.env(parent = emptyenv())

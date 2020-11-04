@@ -41,7 +41,8 @@ target_prepare.tar_builder <- function(target, pipeline, scheduler) {
   scheduler$progress$register_running(target_get_name(target))
   scheduler$reporter$report_running(target, scheduler$progress)
   builder_ensure_deps(target, pipeline, "main")
-  builder_ensure_subpipeline(target, pipeline)
+  builder_update_subpipeline(target, pipeline)
+  builder_serialize_subpipeline(target)
 }
 
 #' @export
@@ -65,10 +66,13 @@ target_should_run_worker.tar_builder <- function(target) {
 
 #' @export
 target_run.tar_builder <- function(target) {
-  on.exit(builder_unset_envir_run())
-  builder_set_envir_run(target)
+  on.exit(builder_unset_tar_envir_run())
+  builder_set_tar_envir_run(target)
+  builder_unserialize_subpipeline(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
+  target_cache_deps(target, target$subpipeline)
   builder_update_build(target)
+  cache_clear_objects(target$cache)
   target$subpipeline <- NULL
   builder_update_paths(target)
   builder_ensure_object(target, "worker")
@@ -97,7 +101,6 @@ target_skip.tar_builder <- function(target, pipeline, scheduler, meta) {
 target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   target_update_queue(target, scheduler)
   builder_handle_warnings(target, scheduler)
-  builder_ensure_restored(target, pipeline)
   switch(
     metrics_outcome(target$metrics),
     cancel = builder_cancel(target, pipeline, scheduler, meta),
@@ -162,22 +165,30 @@ target_validate.tar_builder <- function(target) {
 
 builder_ensure_deps <- function(target, pipeline, retrieval) {
   if (identical(target$settings$retrieval, retrieval)) {
-    target_load_deps(target, pipeline)
+    target_ensure_deps(target, pipeline)
   }
 }
 
 builder_update_subpipeline <- function(target, pipeline) {
-  subpipeline <- pipeline_produce_subpipeline(
+  target$subpipeline <- pipeline_produce_subpipeline(
     pipeline,
     target_get_name(target)
   )
-  pipeline_stash_targets(pipeline, subpipeline)
-  target$subpipeline <- subpipeline
 }
 
-builder_ensure_subpipeline <- function(target, pipeline) {
-  if (identical(target$settings$retrieval, "worker")) {
-    builder_update_subpipeline(target, pipeline)
+builder_serialize_subpipeline <- function(target) {
+  subpipeline <- target$subpipeline
+  retrieval <- target$settings$retrieval
+  if (!is.null(subpipeline) && identical(retrieval, "main")) {
+    pipeline_serialize_values(subpipeline)
+  }
+}
+
+builder_unserialize_subpipeline <- function(target) {
+  subpipeline <- target$subpipeline
+  retrieval <- target$settings$retrieval
+  if (!is.null(subpipeline) && identical(retrieval, "main")) {
+    pipeline_unserialize_values(target$subpipeline)
   }
 }
 
@@ -202,7 +213,9 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
 builder_save_workspace <- function(target, pipeline, scheduler) {
   scheduler$reporter$report_workspace(target)
   out <- as.list(target$cache$imports$envir)
-  target_load_deps(target, pipeline)
+  target_ensure_deps(target, pipeline)
+  target_cache_deps(target, pipeline)
+  on.exit(cache_clear_objects(target$cache))
   for (name in target$cache$targets$names) {
     out[[name]] <- memory_get_object(target$cache$targets, name)
   }
@@ -227,7 +240,6 @@ builder_update_build <- function(target) {
   command_load_packages(target$command)
   envir <- cache_get_envir(target$cache)
   build <- command_produce_build(target$command, envir)
-  cache_clear_objects(target$cache)
   object <- store_coerce_object(target$store, build$object)
   target$value <- value_init(object, target$settings$iteration)
   target$metrics <- build$metrics
@@ -270,42 +282,31 @@ builder_ensure_object <- function(target, storage) {
   }
 }
 
-builder_restore_targets <- function(target, pipeline) {
-  pipeline_restore_targets(pipeline)
-  target$subpipeline <- NULL
-}
-
-builder_ensure_restored <- function(target, pipeline) {
-  if (identical(target$settings$retrieval, "worker")) {
-    builder_restore_targets(target, pipeline)
-  }
-}
-
 builder_wait_correct_hash <- function(target) {
   storage <- target$settings$storage
   deployment <- target$settings$deployment
   store_ensure_correct_hash(target$store, storage, deployment)
 }
 
-builder_set_envir_run <- function(target) {
-  assign(x = "name", value = target_get_name(target), envir = envir_run)
-  assign(x = "seed", value = target$command$seed, envir = envir_run)
+builder_set_tar_envir_run <- function(target) {
+  assign(x = "name", value = target_get_name(target), envir = tar_envir_run)
+  assign(x = "seed", value = target$command$seed, envir = tar_envir_run)
 }
 
-builder_unset_envir_run <- function() {
+builder_unset_tar_envir_run <- function() {
   names <- c("name", "seed")
-  remove(list = names, envir = envir_run, inherits = FALSE)
+  remove(list = names, envir = tar_envir_run, inherits = FALSE)
 }
 
 builder_serialize_value <- function(target) {
   if (identical(target$settings$storage, "main")) {
-    store_serialize_value(target$store, target$value)
+    target_serialize_value(target)
   }
 }
 
 builder_unserialize_value <- function(target) {
   if (identical(target$settings$storage, "main")) {
-    store_unserialize_value(target$store, target$value)
+    target_unserialize_value(target)
   }
 }
 
@@ -324,3 +325,5 @@ builder_sitrep <- function(target, meta) {
     file = trn(record, NA, cue_file(cue, target, meta))
   )
 }
+
+tar_envir_run <- new.env(parent = emptyenv())
