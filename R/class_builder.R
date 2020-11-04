@@ -41,7 +41,7 @@ target_prepare.tar_builder <- function(target, pipeline, scheduler) {
   scheduler$progress$register_running(target_get_name(target))
   scheduler$reporter$report_running(target, scheduler$progress)
   builder_ensure_deps(target, pipeline, "main")
-  builder_ensure_subpipeline(target, pipeline)
+  builder_update_subpipeline(target, pipeline)
   builder_serialize_subpipeline(target)
 }
 
@@ -189,12 +189,6 @@ builder_unserialize_subpipeline <- function(target) {
   retrieval <- target$settings$retrieval
   if (!is.null(subpipeline) && identical(retrieval, "main")) {
     pipeline_unserialize_values(target$subpipeline)
-  }
-}
-
-builder_ensure_subpipeline <- function(target, pipeline) {
-  if (identical(target$settings$deployment, "worker")) {
-    builder_update_subpipeline(target, pipeline)
   }
 }
 
