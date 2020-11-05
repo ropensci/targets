@@ -80,6 +80,8 @@ install_github("wlandau/targets")
 
   - [R/Pharma 2020
     (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
+  - [LA R Users October 2020
+    (1:14:40)](https://www.youtube.com/watch?v=Qq25BUxpJu4)
 
 ## Courses
 
