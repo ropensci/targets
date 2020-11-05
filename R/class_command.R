@@ -50,11 +50,7 @@ command_load_packages <- function(command) {
 }
 
 command_produce_build <- function(command, envir) {
-  build_init(
-    command$expr,
-    new.env(parent = envir),
-    command$seed
-  )
+  build_init(command$expr, envir, command$seed)
 }
 
 command_clone <- function(command) {

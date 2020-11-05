@@ -24,6 +24,7 @@
 
 * Allow target-specific `future::plan()`s through the `resources` argument of `tar_target()` (#198, @mattwarkentin).
 * Use `library()` instead of `require()` in `command_load_packages()`.
+* Evaluate commands directly in `targets$cache$targets$envir` to improve convenience in interactive debugging (`ls()` just works now.) This is reasonably safe now that the cache is populated at the last minute and cleared as soon as possible (#209, #210).
 
 # targets 0.0.0.9000
 
