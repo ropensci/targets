@@ -47,7 +47,7 @@ tar_read <- function(name, branches = NULL, meta = tar_meta()) {
 #' }
 tar_read_raw <- function(name, branches = NULL, meta = tar_meta()) {
   assert_store()
-  assert_chr(name, "name arg of tar_read() must be a symbol.")
+  assert_chr(name, "name must be symbol in tar_read(), chr in tar_read_raw().")
   tar_read_inner(name, branches, meta)
 }
 
