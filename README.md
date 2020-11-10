@@ -106,3 +106,28 @@ the [code of
 conduct](https://github.com/wlandau/targets/blob/main/CODE_OF_CONDUCT.md)
 and the [contributing
 guide](https://github.com/wlandau/targets/blob/main/CONTRIBUTING.md).
+
+## Citation
+
+``` r
+citation("targets")
+#> Warning in citation("targets"): no date field in DESCRIPTION file of package
+#> 'targets'
+#> Warning in citation("targets"): could not determine year for 'targets' from
+#> package DESCRIPTION file
+#> 
+#> To cite package 'targets' in publications use:
+#> 
+#>   William Michael Landau (NA). targets: Dynamic Function-Oriented
+#>   'Make'-Like Declarative Workflows.
+#>   https://wlandau.github.io/targets/,
+#>   https://github.com/wlandau/targets.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {targets: Dynamic Function-Oriented 'Make'-Like Declarative Workflows},
+#>     author = {William Michael Landau},
+#>     note = {https://wlandau.github.io/targets/, https://github.com/wlandau/targets},
+#>   }
+```
