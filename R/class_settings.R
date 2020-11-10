@@ -12,12 +12,11 @@ settings_init <- function(
   storage = "main",
   retrieval = "main"
 ) {
-  growth <- all.vars(pattern, functions = TRUE, max.names = 1L) %|||% "none"
   dimensions <- all.vars(pattern, functions = FALSE)
   settings_new(
     name = name,
     format = format,
-    growth = growth,
+    pattern = pattern,
     dimensions = dimensions,
     iteration = iteration,
     error = error,
@@ -34,7 +33,7 @@ settings_init <- function(
 settings_new <- function(
   name = NULL,
   format = NULL,
-  growth = NULL,
+  pattern = NULL,
   dimensions = NULL,
   iteration = NULL,
   error = NULL,
@@ -48,7 +47,7 @@ settings_new <- function(
 ) {
   force(name)
   force(format)
-  force(growth)
+  force(pattern)
   force(dimensions)
   force(iteration)
   force(error)
@@ -70,7 +69,7 @@ settings_clone <- function(settings) {
   settings_new(
     name = settings$name,
     format = settings$format,
-    growth = settings$growth,
+    pattern = settings$pattern,
     dimensions = settings$dimensions,
     iteration = settings$iteration,
     error = settings$error,
@@ -84,14 +83,14 @@ settings_clone <- function(settings) {
   )
 }
 
-settings_validate_pattern <- function(growth, dimensions) {
-  assert_scalar(growth)
-  assert_chr(growth)
+settings_validate_pattern <- function(pattern, dimensions) {
+  assert_scalar(pattern)
+  assert_chr(pattern)
   assert_chr(dimensions)
-  if (!(growth %in% c("none", "map", "cross"))) {
+  if (!(pattern %in% c("none", "map", "cross"))) {
     throw_validate("pattern must be one of \"none\", \"map\", or \"cross\".")
   }
-  if (!identical(growth, "none") && length(dimensions) < 1L) {
+  if (!identical(pattern, "none") && length(dimensions) < 1L) {
     throw_validate("pattern must accept at least one target")
   }
 }
@@ -100,7 +99,7 @@ settings_validate <- function(settings) {
   assert_correct_fields(settings, settings_new)
   assert_name(settings$name)
   assert_format(settings$format)
-  settings_validate_pattern(settings$growth, settings$dimensions)
+  settings_validate_pattern(settings$pattern, settings$dimensions)
   assert_chr(settings$iteration)
   assert_in(settings$error, c("stop", "continue", "save"))
   assert_in(settings$memory, c("persistent", "transient"))

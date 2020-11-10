@@ -41,30 +41,22 @@ target_init <- function(
   )
   command$deps <- unique(c(command$deps, settings$dimensions))
   command$deps <- setdiff(command$deps, name)
-  switch(
-    settings$growth,
-    none = stem_new(
+  trn(
+    is.null(settings$pattern),
+    stem_new(
       command,
       settings,
       cue,
       cache,
       store = settings_produce_store(settings)
     ),
-    map = map_new(
+    pattern(
       command,
       settings,
       cue,
       cache,
       patternview = patternview_init()
-    ),
-    cross = cross_new(
-      command,
-      settings,
-      cue,
-      cache,
-      patternview = patternview_init()
-    ),
-    throw_validate("unsupported pattern")
+    )
   )
 }
 

@@ -117,27 +117,6 @@ pattern_enqueue_branches <- function(target, scheduler) {
   scheduler$queue$enqueue(children, ranks)
 }
 
-pattern_combine_niblings_siblings <- function(niblings, siblings) {
-  out <- as_data_frame(niblings)
-  for (name in siblings) {
-    out[[name]] <- name
-  }
-  out
-}
-
-pattern_get_nibling_list <- function(dimensions, pipeline) {
-  out <- map(dimensions, function(name) {
-    target_get_children(pipeline_get_target(pipeline, name))
-  })
-  names(out) <- dimensions
-  out
-}
-
-pattern_name_branches <- function(parent, niblings) {
-  suffixes <- digest_chr32(do.call(paste, niblings))
-  paste0(parent, "_", suffixes)
-}
-
 pattern_produce_branch <- function(spec, command, settings, cue, cache) {
   branch_init(
     command = command,
@@ -272,3 +251,25 @@ pattern_debug_branches <- function(target) {
     # nocov end
   }
 }
+
+pattern_combine_niblings_siblings <- function(niblings, siblings) {
+  out <- as_data_frame(niblings)
+  for (name in siblings) {
+    out[[name]] <- name
+  }
+  out
+}
+
+pattern_get_nibling_list <- function(dimensions, pipeline) {
+  out <- map(dimensions, function(name) {
+    target_get_children(pipeline_get_target(pipeline, name))
+  })
+  names(out) <- dimensions
+  out
+}
+
+pattern_name_branches <- function(parent, niblings) {
+  suffixes <- digest_chr32(do.call(paste, niblings))
+  paste0(parent, "_", suffixes)
+}
+
