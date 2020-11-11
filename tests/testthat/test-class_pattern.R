@@ -1,18 +1,20 @@
 tar_test("print pipeline", {
-  expect_true(is.character(utils::capture.output(print(pipeline_init()))))
+  x <- tar_target(x, 1)
+  y <- pipeline_init(list(x))
+  expect_true(is.character(utils::capture.output(print(y))))
 })
 
-tar_test("map pattern initializes correctly", {
+tar_test("pattern initializes correctly", {
   x <- target_init("x", expr = quote(1 + 1), pattern = quote(map(a, b)))
-  expect_true(inherits(x, "tar_map"))
+  expect_true(inherits(x, "tar_pattern"))
 })
 
-tar_test("target_get_parent(map)", {
+tar_test("target_get_parent(pattern)", {
   x <- target_init("x", expr = quote(1 + 1), pattern = quote(map(a, b)))
   expect_equal(target_get_parent(x), "x")
 })
 
-tar_test("map$patternview", {
+tar_test("pattern$patternview", {
   x <- target_init("x", expr = quote(1 + 1), pattern = quote(map(a, b)))
   expect_silent(patternview_validate(x$patternview))
 })
@@ -350,17 +352,6 @@ tar_test("branches with different names use different seeds", {
   expect_false(out[1] == out[2])
 })
 
-tar_test("map validate", {
-  x <- target_init("x", expr = quote(1 + 1), pattern = quote(map(a, b)))
-  expect_silent(target_validate(x))
-})
-
-tar_test("map validate with bad junction", {
-  x <- target_init("x", expr = quote(1 + 1), pattern = quote(map(a, b)))
-  x$junction <- junction_new()
-  expect_error(target_validate(x), class = "condition_validate")
-})
-
 tar_test("map over a stem that was not mapped over last time", {
   pipeline <- pipeline_init(
     list(
@@ -422,7 +413,7 @@ tar_test("map over empty stem", {
   expect_error(local$run(), class = "condition_pattern")
 })
 
-tar_test("map$produce_record() of a successful map", {
+tar_test("pattern$produce_record() of a successful map", {
   stem <- target_init("x", quote(sample.int(4)))
   target <- target_init("y", quote(x), pattern = quote(map(x)))
   pipeline <- pipeline_init(list(stem, target))
@@ -433,7 +424,7 @@ tar_test("map$produce_record() of a successful map", {
   expect_silent(record_validate(record))
   expect_equal(record$name, "y")
   expect_equal(record$parent, NA_character_)
-  expect_equal(record$type, "map")
+  expect_equal(record$type, "pattern")
   expect_equal(nchar(record$command), 16L)
   expect_equal(record$depend, NA_character_)
   expect_equal(record$path, NA_character_)
@@ -473,14 +464,14 @@ tar_test("inconformable mapping variables", {
   )
   expect_error(
     local_init(pipeline)$run(),
-    class = "condition_pattern"
+    class = "condition_validate"
   )
 })
 
-tar_test("map print", {
-  x <- tar_target(x, 1, map(x, y, z))
+tar_test("pattern print", {
+  x <- tar_target(w, 1, map(x, y, z))
   out <- utils::capture.output(print(x))
-  expect_true(any(grepl("map", out)))
+  expect_true(any(grepl("pattern", out)))
 })
 
 tar_test("must branch over stems and patterns", {
@@ -546,4 +537,183 @@ tar_test("prohibit branching over stem files", {
   )
   algo <- local_init(pipeline)
   expect_error(algo$run(), class = "condition_validate")
+})
+
+tar_test("cross pattern initializes correctly", {
+  x <- target_init("x", expr = quote(1 + 1), pattern = quote(cross(a, b)))
+  expect_true(inherits(x, "tar_cross"))
+})
+
+tar_test("target_get_parent(cross)", {
+  x <- target_init("x", expr = quote(1 + 1), pattern = quote(cross(a, b)))
+  expect_equal(target_get_parent(x), "x")
+})
+
+tar_test("pattern$patternview with cross", {
+  x <- target_init("x", expr = quote(1 + 1), pattern = quote(cross(a, b)))
+  expect_silent(patternview_validate(x$patternview))
+})
+
+tar_test("cross produces correct junctions and bud niblings", {
+  pipeline <- pipeline_cross()
+  local <- local_init(pipeline)
+  pipeline_prune_names(local$pipeline, local$names)
+  local$update_scheduler()
+  scheduler <- local$scheduler
+  local$ensure_meta()
+  local$process_target("data1")
+  local$process_target("data2")
+  cross2 <- pipeline_get_target(pipeline, "cross2")
+  splits <- target_produce_junction(cross2, pipeline)$splits
+  expect_true(all(grepl("cross2_", splits)))
+  target <- pipeline_get_target(pipeline, "cross2")
+  out <- target_produce_junction(target, pipeline)$deps
+  expect_equal(dim(out), c(9L, 2L))
+  expect_true(all(grepl("data1_", out$data1)))
+  expect_true(all(grepl("data2_", out$data2)))
+  buds <- map_int(seq_len(9), function(index) {
+    bud <- pipeline_get_target(pipeline, out$data1[index])
+    target_load_value(bud, pipeline)
+    bud$value$object
+  })
+  expect_equal(buds, rep(seq_len(3), each = 3))
+  buds <- map_int(seq_len(9), function(index) {
+    bud <- pipeline_get_target(pipeline, out$data2[index])
+    target_load_value(bud, pipeline)
+    pipeline_get_target(pipeline, out$data2[index])$value$object
+  })
+  expect_equal(buds, rep(rev(seq_len(3)), times = 3))
+})
+
+tar_test("correct junction of non-crossed stems", {
+  pipeline <- pipeline_cross()
+  local <- local_init(pipeline)
+  pipeline_prune_names(local$pipeline, local$names)
+  local$update_scheduler()
+  scheduler <- local$scheduler
+  local$ensure_meta()
+  local$process_target("data1")
+  local$process_target("data2")
+  cross2 <- pipeline_get_target(pipeline, "cross2")
+  splits <- target_produce_junction(cross2, pipeline)$splits
+  expect_true(all(grepl("cross2_", splits)))
+  target <- pipeline_get_target(pipeline, "cross2")
+  out <- target_produce_junction(target, pipeline)$deps
+  expect_equal(dim(out), c(9L, 2L))
+  expect_true(all(grepl("data1_", out$data1)))
+  expect_true(all(grepl("data2_", out$data2)))
+  exp <- expand_grid(data1 = unique(out$data1), data2 = unique(out$data2))
+  expect_equal(out, exp)
+})
+
+tar_test("cross pipeline gives correct values", {
+  pipeline <- pipeline_cross()
+  local <- local_init(pipeline)
+  scheduler <- local$scheduler
+  local$run()
+  value <- function(name) {
+    target_read_value(pipeline_get_target(pipeline, name))$object
+  }
+  expect_equal(value("data1"), seq_len(3L))
+  expect_equal(value("data2"), rev(seq_len(3L)))
+  branches <- target_get_children(pipeline_get_target(pipeline, "map1"))
+  children <- target_get_children(pipeline_get_target(pipeline, "map1"))
+  out <- map_int(children, value)
+  expect_equiv(out, seq(11, 13))
+  children <- target_get_children(pipeline_get_target(pipeline, "cross1"))
+  out1 <- map_int(children, value)
+  exp1 <- seq(2, 4)
+  expect_equiv(out1, exp1)
+  children <- target_get_children(pipeline_get_target(pipeline, "cross2"))
+  out2 <- map_int(children, value)
+  exp2 <- rowSums(expand_grid(x = seq_len(3L), y = rev(seq_len(3L))))
+  expect_equiv(out2, exp2)
+  children <- target_get_children(pipeline_get_target(pipeline, "cross3"))
+  out3 <- map_int(children, value)
+  exp3 <- rowSums(expand_grid(x = seq_len(3L), y = seq(11, 13)))
+  expect_equiv(out3, exp3)
+  expect_equal(value("out1"), sum(exp1))
+  expect_equal(value("out2"), sum(exp2))
+  expect_equal(value("out3"), sum(exp3))
+  expect_equal(value("out4"), sum(exp1) + sum(exp2))
+  expect_equal(value("out5"), sum(exp2) + sum(exp3))
+  expect_equiv(value("out6"), c(12, 25))
+  children <- target_get_children(pipeline_get_target(pipeline, "map2"))
+  out <- map_int(children, value)
+  expect_equiv(out, c(144, 625))
+})
+
+tar_test("empty crossing variable", {
+  pipeline <- pipeline_init(
+    list(
+      target_init("x", quote(NULL)),
+      target_init("y", quote(x), pattern = quote(cross(x)))
+    )
+  )
+  expect_error(
+    local_init(pipeline)$run(),
+    class = "condition_run"
+  )
+})
+
+tar_test("composed pattern", {
+  tar_script(
+    tar_pipeline(
+      tar_target(w, seq_len(2)),
+      tar_target(x, letters[seq_len(3)]),
+      tar_target(y, LETTERS[seq_len(3)]),
+      tar_target(
+        z,
+        data.frame(w = w, x = x, y = y, stringsAsFactors = FALSE),
+        pattern = cross(w, map(x, y))
+      )
+    )
+  )
+  tar_make(callr_function = NULL)
+  out <- tar_read(z)
+  exp <- data_frame(
+    w = rep(c(1, 2), each = 3),
+    x = rep(c("a", "b", "c"), times = 2),
+    y = rep(c("A", "B", "C"), times = 2)
+  )
+  expect_equal(out, exp)
+})
+
+tar_test("cross pattern with many inputs", {
+  tar_script(
+    tar_pipeline(
+      tar_target(w, seq_len(2)),
+      tar_target(x, letters[seq_len(3)]),
+      tar_target(y, LETTERS[seq_len(3)]),
+      tar_target(
+        z,
+        data.frame(w = w, x = x, y = y, stringsAsFactors = FALSE),
+        pattern = cross(w, x, y)
+      )
+    )
+  )
+  tar_make(callr_function = NULL)
+  out <- tar_read(z)
+  exp <- data_frame(
+    w = rep(c(1, 2), each = 9),
+    x = rep(rep(c("a", "b", "c"), each = 3), times = 2),
+    y = rep(c("A", "B", "C"), times = 6)
+  )
+  expect_equal(out, exp)
+})
+
+tar_test("pattern validate", {
+  x <- target_init("x", expr = quote(1 + 1), pattern = quote(map(a, b)))
+  expect_silent(target_validate(x))
+})
+
+tar_test("pattern validate with bad junction", {
+  x <- target_init("x", expr = quote(1 + 1), pattern = quote(map(a, b)))
+  x$junction <- junction_new()
+  expect_error(target_validate(x), class = "condition_validate")
+})
+
+tar_test("cross pattern validate", {
+  x <- target_init("x", expr = quote(1 + 1), pattern = quote(cross(a, b)))
+  expect_silent(target_validate(x))
 })

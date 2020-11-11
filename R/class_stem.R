@@ -109,7 +109,7 @@ target_validate.tar_stem <- function(target) {
 
 stem_assert_nonempty <- function(target) {
   if (value_count_slices(target$value) < 1L) {
-    throw_pattern(
+    throw_run(
       "cannot branch over empty target (",
       target_get_name(target),
       ")"

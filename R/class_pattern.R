@@ -322,13 +322,20 @@ pattern_name_branches <- function(parent, niblings) {
 }
 
 pattern_produce_grid <- function(pattern, niblings) {
-  eval(pattern, envir = niblings, enclos = pattern_functions)
+  out <- eval(pattern, envir = niblings, enclos = pattern_functions)
+  rownames(out) <- NULL
+  out
 }
 
-pattern_functions <- new.env(parent = baseenv())
+pattern_functions <- new.env(parent = environment())
 evalq({
   map <- function(...) {
-    do.call(cbind, list(...))
+    args <- list(...)
+    assert_scalar(
+      unique(map_int(args, nrow)),
+      paste("unequal lengths of vars in", deparse_safe(sys.call()))
+    )
+    do.call(cbind, args)
   }
   cross_iteration <- function(x, y) {
     n_x <- nrow(x)

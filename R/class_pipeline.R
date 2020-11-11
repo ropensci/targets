@@ -36,7 +36,7 @@ pipeline_envir <- function(targets) {
       return(target$cache$imports$envir)
     }
   }
-  throw_validate("at least one target must be a non-pattern.") 
+  throw_validate("pipeline must have at least one non-pattern target.")
 }
 
 pipeline_get_target <- function(pipeline, name) {
