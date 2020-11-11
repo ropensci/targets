@@ -1,3 +1,9 @@
+# targets 0.0.0.9003
+
+## Breaking changes
+
+* Make patterns composable (#212, @glep, @djbirke).
+
 # targets 0.0.0.9002
 
 ## Breaking changes

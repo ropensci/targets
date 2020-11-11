@@ -142,7 +142,7 @@ tar_test("visnetwork$update_colors() on cross plan", {
   expect_true("shape" %in% colnames(vertices))
   expect_equal(vertices$shape[vertices$name == "data1"], "dot")
   expect_equal(vertices$shape[vertices$name == "map1"], "square")
-  expect_equal(vertices$shape[vertices$name == "cross1"], "diamond")
+  expect_equal(vertices$shape[vertices$name == "cross1"], "square")
 })
 
 tar_test("visnetwork$update_legend() on cross plan", {
@@ -155,15 +155,15 @@ tar_test("visnetwork$update_legend() on cross plan", {
   expect_silent(vis$validate())
   legend <- vis$legend
   exp <- data_frame(
-    label = c("Map", "Stem", "Cross"),
-    color = rep("#899DA4", 3L),
-    shape = c("square", "dot", "diamond"),
-    font.size = rep(20L, 3L)
+    label = c("Stem", "Pattern"),
+    color = rep("#899DA4", 2L),
+    shape = c("dot", "square"),
+    font.size = rep(20L, 2L)
   )
   cols <- colnames(legend)
   legend <- legend[order(legend$label), cols]
   exp <- exp[order(exp$label), cols]
-  expect_equal(legend, exp)
+  expect_equiv(legend, exp)
 })
 
 tar_test("visnetwork$update() on cross pipeline", {

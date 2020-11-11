@@ -68,8 +68,6 @@ There are multiple sub-classes of targets, and the different behaviors of differ
         * Stem
         * Branch
     * Pattern
-        * Map
-        * Cross
 
 ## Stem class
 
@@ -81,21 +79,12 @@ A bud is a target that simply contains part of a stem's value in memory. The pur
 
 ## Pattern class
 
-A pattern is an abstract class responsible for creating new branches and dynamically updating the scheduler. Maps and crosses are types of patterns representing different forms of branch creation. Stems and patterns are the only targets the user manually defines in the pipeline.
+A pattern is an abstract class responsible for creating new branches and dynamically updating the scheduler. Stems and patterns are the only targets the user manually defines in the pipeline.
 
 
 ## Branch class
 
 A branch is a target that a pattern creates dynamically at runtime.
-
-## Map class
-
-A map is a pattern that creates branches along a single dimension. If `z` maps over `x` (`n` slices) and `y` (`n` slices) ten `n` branches of `z` are created, one for each corresponding slice of `x` and `y`. The behavior is similar to `purrr::pmap()`.
-
-## Cross class
-
-A cross is a pattern that creates branches in multiple dimensions. If `z` crosses over `x` (`m` slices) and `y` (`n` slices) then `m * n` branches of `z` are created, one for every unique pair of (`x`, `y`) slices.
-
 
 ## Builder class
 
@@ -103,7 +92,7 @@ Stems and branches have a lot in common: they actually run R commands, and the w
 
 ## Junction class
 
-A junction is a manifest of the buds or branches (children) that a stem or pattern dynamically creates. Different kinds of patterns (e.g. map and cross) create junctions differently, and this helps `targets` figure out how to create the right branches with the right dependencies.
+A junction is a manifest of the buds or branches (children) that a stem or pattern dynamically creates, and it depends on the user-specified `pattern` argument to `tar_target()`, e.g. `tar_target(..., pattern = cross(x, map(y, z)))`.
 
 # Orchestration
 
@@ -192,10 +181,10 @@ Notice that we never draw edges from the `validation_*` branches to `summary`. T
 
 The fine details of the branching algorithm are as follows.
 
-1. First we create a junction to describe the branches we will create. This branching specification depends on the type of pattern we have (map or cross) and the upstream dependencies of the pattern.
+1. First we create a junction to describe the branches we will create based on the user-supplied `pattern` argument to `tar_target()`.
 1. Create and insert those new branches into the pipeline.
 1. Draw graph edges to connect the branches to their individual upstream dependencies (buds or branches).
 1. Insert graph edges from the new branches to their parent pattern. Some targets may use the entire pattern in aggregate instead of iterating over individual branches, and this step makes sure all the branches are available for aggregation before a downstream target needs to use the aggregate.
 1. Push the branches onto the priority queue. The rank for each branch is the number of upstream dependencies that still need to be checked or built. 1. Increment the priority queue ranks of all downstream non-branching targets by the number of new branches just created minus 1. This ensures all the branches complete before any target calls upon the entire aggregate of the pattern.
 1. Register the branches as queued in the scheduler.
-1. Push the pattern itself back onto the queue, where the priority queue rank now equals the number of branches minus a constant between 0 and 1. (The subtracted constant just ensures the pattern gets cleaned up as soon as possible.) This step ensures we revisit the pattern after all the branches are done. At that moment, we decrement the priority queue rank of every downstream target that depends on the entire aggregated pattern (as opposed to just a single branch). This behavior drives implicit aggregation, and it ensures we do not need a special `combine()` pattern to accompany `map()` and `cross()`.
+1. Push the pattern itself back onto the queue, where the priority queue rank now equals the number of branches minus a constant between 0 and 1. (The subtracted constant just ensures the pattern gets cleaned up as soon as possible.) This step ensures we revisit the pattern after all the branches are done. At that moment, we decrement the priority queue rank of every downstream target that depends on the entire aggregated pattern (as opposed to just a single branch). This behavior drives implicit aggregation, and it ensures we do not need a special `combine()` pattern directive to accompany `map()` and `cross()`.

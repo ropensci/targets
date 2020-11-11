@@ -41,30 +41,22 @@ target_init <- function(
   )
   command$deps <- unique(c(command$deps, settings$dimensions))
   command$deps <- setdiff(command$deps, name)
-  switch(
-    settings$growth,
-    none = stem_new(
+  trn(
+    is.null(settings$pattern),
+    stem_new(
       command,
       settings,
       cue,
       cache,
       store = settings_produce_store(settings)
     ),
-    map = map_new(
+    pattern_new(
       command,
       settings,
       cue,
       cache,
       patternview = patternview_init()
-    ),
-    cross = cross_new(
-      command,
-      settings,
-      cue,
-      cache,
-      patternview = patternview_init()
-    ),
-    throw_validate("unsupported pattern")
+    )
   )
 }
 
@@ -374,7 +366,6 @@ target_validate <- function(target) {
 target_validate.tar_target <- function(target) {
   command_validate(target$command)
   settings_validate(target$settings)
-  target_validate_deps(target)
   if (!is.null(target$cue)) {
     cue_validate(target$cue)
   }
@@ -383,14 +374,5 @@ target_validate.tar_target <- function(target) {
   }
   if (!is.null(target$value)) {
     value_validate(target$value)
-  }
-}
-
-target_validate_deps <- function(target) {
-  name <- target_get_name(target)
-  deps <- target$command$deps
-  dims <- target$settings$dimensions
-  if (name %in% c(deps, dims)) {
-    throw_validate("target ", target_get_name(target), " depends on itself.")
   }
 }

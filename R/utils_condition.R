@@ -6,10 +6,6 @@ throw_file <- function(...) {
   stop(condition_file(...))
 }
 
-throw_pattern <- function(...) {
-  stop(condition_pattern(...))
-}
-
 throw_prelocal <- function(...) {
   stop(condition_prelocal(...))
 }
@@ -37,13 +33,6 @@ condition_file <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
     class = c("condition_file", "condition_targets", "error", "condition")
-  )
-}
-
-condition_pattern <- function(...) {
-  structure(
-    list(message = paste0(..., collapse = ""), call = NULL),
-    class = c("condition_pattern", "condition_targets", "error", "condition")
   )
 }
 

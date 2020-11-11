@@ -167,6 +167,27 @@ tar_target(
 )
 ```
 
+## Composable dynamic branching
+
+Because the design of `targets` is fundamentally dynamic, users can create complicated dynamic branching patterns that are never going to be possible in `drake`. Below, target `z` creates six branches, one for each combination of `w` and tuple (`x`, `y`). The pattern `cross(w, map(x, y))` is equivalent to `tidyr::crossing(w, tidyr::nesting(x, y))`.
+
+```{r, eval = FALSE}
+# _targets.R
+library(targets)
+tar_pipeline(
+  tar_target(w, seq_len(2)),
+  tar_target(x, head(letters, 3)),
+  tar_target(y, head(LETTERS, 3)),
+  tar_target(
+    z,
+    data.frame(w = w, x = x, y = y),
+    pattern = cross(w, map(x, y))
+  )
+)
+```
+
+Thanks to [@glep](https://github.com/glep) and [@djbirke](https://github.com/djbirke) for the idea.
+
 ## Improved parallel efficiency
 
 [Dynamic branching](https://books.ropensci.org/drake/dynamic.html) in [`drake`](https://github.com/ropensci/drake) is staged. In other words, all the sub-targets of a dynamic target must complete before the pipeline moves on to downstream targets. The diagram below illustrates this behavior in a pipeline with a dynamic target B that maps over another dynamic target A. For thousands of dynamic sub-targets with highly variable runtimes, this behavior consumes unnecessary runtime and computing resources. And because [`drake`](https://github.com/ropensci/drake)'s architecture was designed at a fundamental level for static branching only, this limitation is permanent.

@@ -47,7 +47,7 @@ tar_test("tar_manifest() shows patterns correctly", {
   )
   expect_equal(colnames(out), c("name", "type", "dimensions"))
   expect_equal(out$name, c("c", "m"))
-  expect_equal(out$type, c("cross", "map"))
+  expect_equal(out$type, c("pattern", "pattern"))
   expect_equal(out$dimensions, list("z", "z"))
 })
 

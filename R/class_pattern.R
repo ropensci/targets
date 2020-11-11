@@ -94,12 +94,55 @@ target_is_branchable.tar_pattern <- function(target) {
 }
 
 #' @export
+target_produce_junction.tar_pattern <- function(target, pipeline) {
+  dimensions <- target$settings$dimensions
+  pattern_assert_dimensions(target, dimensions, pipeline)
+  siblings <- setdiff(target_deps_shallow(target, pipeline), dimensions)
+  niblings <- pattern_children_columns(dimensions, pipeline)
+  niblings <- pattern_produce_grid(target$settings$pattern, niblings)
+  all_deps <- pattern_combine_niblings_siblings(niblings, siblings)
+  nibling_deps <- all_deps[, dimensions, drop = FALSE]
+  names <- pattern_name_branches(target_get_parent(target), nibling_deps)
+  junction_init(target_get_parent(target), names, all_deps)
+}
+
+#' @export
+target_get_type.tar_pattern <- function(target) {
+  "pattern"
+}
+
+#' @export
 target_validate.tar_pattern <- function(target) {
   assert_correct_fields(target, pattern_new)
   if (!is.null(target$junction)) {
     junction_validate(target$junction)
   }
   NextMethod()
+}
+
+#' @export
+print.tar_pattern <- function(x, ...) {
+  cat(
+    "<pattern target>",
+    "\n  name:", target_get_name(x),
+    "\n  command:\n   ",
+    produce_lines(string_sub_expression(x$command$string)),
+    "\n  pattern:\n   ",
+    produce_lines(string_sub_expression(deparse_safe(x$settings$pattern))),
+    "\n  format:", x$settings$format,
+    "\n  iteration method:", x$settings$iteration,
+    "\n  error mode:", x$settings$error,
+    "\n  memory mode:", x$settings$memory,
+    "\n  storage mode:", x$settings$storage,
+    "\n  retrieval mode:", x$settings$retrieval,
+    "\n  deploy to:", x$settings$deployment,
+    "\n  resources:\n   ",
+    produce_lines(paste_list(x$settings$resources)),
+    "\n  cue:\n   ",
+    produce_lines(paste_list(as.list(x$cue))),
+    "\n  packages:\n   ", produce_lines(x$command$packages),
+    "\n  library:\n   ", produce_lines(x$command$library)
+  )
 }
 
 pattern_update_junction <- function(pattern, pipeline) {
@@ -115,27 +158,6 @@ pattern_enqueue_branches <- function(target, scheduler) {
   ranks <- scheduler$queue$branch_ranks(children, scheduler)
   ranks <- ranks + rank_offset(target$settings$priority)
   scheduler$queue$enqueue(children, ranks)
-}
-
-pattern_combine_niblings_siblings <- function(niblings, siblings) {
-  out <- as_data_frame(niblings)
-  for (name in siblings) {
-    out[[name]] <- name
-  }
-  out
-}
-
-pattern_get_nibling_list <- function(dimensions, pipeline) {
-  out <- map(dimensions, function(name) {
-    target_get_children(pipeline_get_target(pipeline, name))
-  })
-  names(out) <- dimensions
-  out
-}
-
-pattern_name_branches <- function(parent, niblings) {
-  suffixes <- digest_chr32(do.call(paste, niblings))
-  paste0(parent, "_", suffixes)
 }
 
 pattern_produce_branch <- function(spec, command, settings, cue, cache) {
@@ -272,3 +294,57 @@ pattern_debug_branches <- function(target) {
     # nocov end
   }
 }
+
+pattern_children_columns <- function(dimensions, pipeline) {
+  out <- map(dimensions, ~pattern_children_column(.x, pipeline))
+  names(out) <- dimensions
+  out
+}
+
+pattern_children_column <- function(name, pipeline) {
+  niblings <- target_get_children(pipeline_get_target(pipeline, name))
+  out <- data_frame(x = niblings)
+  names(out) <- name
+  out
+}
+
+pattern_combine_niblings_siblings <- function(niblings, siblings) {
+  out <- as_data_frame(niblings)
+  for (name in siblings) {
+    out[[name]] <- name
+  }
+  out
+}
+
+pattern_name_branches <- function(parent, niblings) {
+  suffixes <- digest_chr32(do.call(paste, niblings))
+  paste0(parent, "_", suffixes)
+}
+
+pattern_produce_grid <- function(pattern, niblings) {
+  out <- eval(pattern, envir = niblings, enclos = pattern_functions)
+  rownames(out) <- NULL
+  out
+}
+
+pattern_functions <- new.env(parent = environment())
+evalq({
+  map <- function(...) {
+    args <- list(...)
+    assert_scalar(
+      unique(map_int(args, nrow)),
+      paste("unequal lengths of vars in", deparse_safe(sys.call()))
+    )
+    do.call(cbind, args)
+  }
+  cross_iteration <- function(x, y) {
+    n_x <- nrow(x)
+    n_y <- nrow(y)
+    index_x <- rep(seq_len(n_x), each = n_y)
+    index_y <- rep(seq_len(n_y), times = n_x)
+    cbind(x[index_x,, drop = FALSE], y[index_y,, drop = FALSE]) # nolint
+  }
+  cross <- function(...) {
+    Reduce(cross_iteration, list(...))
+  }
+}, envir = pattern_functions)

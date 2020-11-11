@@ -30,13 +30,18 @@ pipeline_targets_init <- function(targets) {
 }
 
 pipeline_envir <- function(targets) {
-  for (name in names(targets)) {
+  names <- names(targets)
+  for (name in names) {
     target <- targets[[name]]
     if (inherits(target, "tar_stem")) {
       return(target$cache$imports$envir)
     }
   }
-  tar_empty_envir
+  trn(
+    length(names) > 0L,
+    throw_validate("pipeline must have at least one non-pattern target."),
+    tar_empty_envir
+  )
 }
 
 pipeline_get_target <- function(pipeline, name) {

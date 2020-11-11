@@ -14,7 +14,7 @@ tar_test("tar_target_raw() gets priorities", {
 tar_test("tar_target_raw() defines pattens correctly", {
   x <- tar_target_raw("x", expression(1), pattern = expression(map(y)))
   expect_silent(target_validate(x))
-  expect_equal(x$settings$growth, "map")
+  expect_equal(x$settings$pattern, expression(map(y)))
   expect_equal(x$settings$dimensions, "y")
 })
 
