@@ -110,8 +110,10 @@ tar_test("error if unsupported pattern", {
 })
 
 tar_test("error to validate a circular target", {
-  x <- target_init(name = "abc", expr = quote(abc), pattern = quote(map(abc)))
-  expect_error(target_validate(x), class = "condition_validate")
+  expect_error(
+    target_init(name = "abc", expr = quote(abc), pattern = quote(map(abc))),
+    class = "condition_validate"
+  )
 })
 
 tar_test("targets resist self-referantiality", {

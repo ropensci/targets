@@ -395,24 +395,6 @@ tar_test("map over a stem that was not mapped over last time", {
   }
 })
 
-tar_test("map over empty stem", {
-  pipeline <- pipeline_init(
-    list(
-      target_init(
-        name = "data",
-        expr = quote(character(0))
-      ),
-      target_init(
-        name = "map",
-        expr = quote(data),
-        pattern = quote(map(data))
-      )
-    )
-  )
-  local <- local_init(pipeline)
-  expect_error(local$run(), class = "condition_pattern")
-})
-
 tar_test("pattern$produce_record() of a successful map", {
   stem <- target_init("x", quote(sample.int(4)))
   target <- target_init("y", quote(x), pattern = quote(map(x)))
@@ -441,6 +423,24 @@ tar_test("pattern$produce_record() of a successful map", {
   expect_equal(record$error, NA_character_)
 })
 
+tar_test("map over empty stem", {
+  pipeline <- pipeline_init(
+    list(
+      target_init(
+        name = "data",
+        expr = quote(character(0))
+      ),
+      target_init(
+        name = "map",
+        expr = quote(data),
+        pattern = quote(map(data))
+      )
+    )
+  )
+  local <- local_init(pipeline)
+  expect_error(local$run(), class = "condition_run")
+})
+
 tar_test("empty mapping variable", {
   pipeline <- pipeline_init(
     list(
@@ -450,7 +450,7 @@ tar_test("empty mapping variable", {
   )
   expect_error(
     local_init(pipeline)$run(),
-    class = "condition_pattern"
+    class = "condition_run"
   )
 })
 
@@ -541,10 +541,10 @@ tar_test("prohibit branching over stem files", {
 
 tar_test("cross pattern initializes correctly", {
   x <- target_init("x", expr = quote(1 + 1), pattern = quote(cross(a, b)))
-  expect_true(inherits(x, "tar_cross"))
+  expect_true(inherits(x, "tar_pattern"))
 })
 
-tar_test("target_get_parent(cross)", {
+tar_test("target_get_parent(pattern with cross)", {
   x <- target_init("x", expr = quote(1 + 1), pattern = quote(cross(a, b)))
   expect_equal(target_get_parent(x), "x")
 })

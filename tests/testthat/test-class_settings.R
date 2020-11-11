@@ -1,8 +1,8 @@
-tar_test("settings$growth", {
+tar_test("settings$pattern", {
   x <- settings_init(pattern = NULL)
-  expect_equal(x$growth, "none")
-  x <- settings_init(pattern = quote(map(data, models)))
-  expect_equal(x$growth, "map")
+  expect_null(x$pattern)
+  x <- settings_init(name = "x", pattern = quote(map(data, models)))
+  expect_equal(x$pattern, expression(map(data, models)))
 })
 
 tar_test("settings$dimensions", {
@@ -32,19 +32,23 @@ tar_test("settings_validate() with a bad name", {
   expect_error(settings_validate(x), class = "condition_validate")
 })
 
-tar_test("settings_validate() with invalid growth", {
-  x <- settings_init(
-    name = "abc",
-    format = "rds",
-    pattern = quote(cartwheel(a, b))
+tar_test("settings_validate() with invalid pattern", {
+  expect_error(
+    settings_init(
+      name = "abc",
+      format = "rds",
+      pattern = quote(cartwheel(a, b))
+    ),
+    class = "condition_validate"
   )
-  expect_error(settings_validate(x), class = "condition_validate")
-  x <- settings_init(
-    name = "abc",
-    format = "rds",
-    pattern = quote(map())
+  expect_error(
+    settings_init(
+      name = "abc",
+      format = "rds",
+      pattern = quote(map())
+    ),
+    class = "condition_validate"
   )
-  expect_error(settings_validate(x), class = "condition_validate")
 })
 
 tar_test("settings_validate() with bad field", {
