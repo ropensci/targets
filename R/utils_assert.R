@@ -94,7 +94,7 @@ assert_in <- function(x, choices, msg = NULL) {
 
 assert_not_in <- function(x, choices, msg = NULL) {
   if (any(x %in% choices)) {
-    throw_validate(msg %||% paste(deparse(x), "is in ", deparse(choices)))
+    throw_validate(msg %||% paste(deparse(x), "is in", deparse(choices)))
   }
 }
 
