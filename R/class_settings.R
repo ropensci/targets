@@ -12,8 +12,8 @@ settings_init <- function(
   storage = "main",
   retrieval = "main"
 ) {
-  pattern <- trn(is.null(pattern), pattern, as.expression(pattern))
-  dimensions <- all.vars(pattern, functions = FALSE, unique = FALSE)
+  pattern <- settings_produce_pattern(pattern)
+  dimensions <- settings_produce_dimensions(pattern)
   settings_validate_pattern(name, pattern, dimensions)
   settings_new(
     name = name,
@@ -61,6 +61,15 @@ settings_new <- function(
   force(storage)
   force(retrieval)
   environment()
+}
+
+settings_produce_pattern <- function(pattern) {
+  pattern <- as.expression(pattern)
+  trn(is.null(pattern[[1]]), NULL, pattern)
+}
+
+settings_produce_dimensions <- function(pattern) {
+  all.vars(pattern, functions = FALSE, unique = FALSE)
 }
 
 settings_produce_store <- function(settings) {
