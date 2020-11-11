@@ -13,7 +13,7 @@ tar_test("tar_target() gets priorities", {
 tar_test("tar_target() defines pattens correctly", {
   x <- tar_target(x, 1, pattern = map(y))
   expect_silent(target_validate(x))
-  expect_equal(x$settings$growth, "map")
+  expect_equal(x$settings$pattern, expression(map(y)))
   expect_equal(x$settings$dimensions, "y")
 })
 
