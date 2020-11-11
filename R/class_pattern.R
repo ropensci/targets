@@ -322,6 +322,22 @@ pattern_name_branches <- function(parent, niblings) {
 }
 
 pattern_produce_grid <- function(pattern, niblings) {
-  browser()
+  eval(pattern, envir = niblings, enclos = pattern_functions)
 }
 
+pattern_functions <- new.env(parent = baseenv())
+evalq({
+  map <- function(...) {
+    do.call(cbind, list(...))
+  }
+  cross_iteration <- function(x, y) {
+    n_x <- nrow(x)
+    n_y <- nrow(y)
+    index_x <- rep(seq_len(n_x), each = n_y)
+    index_y <- rep(seq_len(n_y), times = n_x)
+    cbind(x[index_x,, drop = FALSE], y[index_y,, drop = FALSE]) # nolint
+  }
+  cross <- function(...) {
+    Reduce(cross_iteration, list(...))
+  }
+}, envir = pattern_functions)

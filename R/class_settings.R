@@ -13,8 +13,8 @@ settings_init <- function(
   retrieval = "main"
 ) {
   pattern <- trn(is.null(pattern), pattern, as.expression(pattern))
-  dimensions <- all.vars(pattern, functions = FALSE)
-  assert_not_in(name, dimensions)
+  dimensions <- all.vars(pattern, functions = FALSE, unique = FALSE)
+  settings_validate_pattern(name, pattern, dimensions)
   settings_new(
     name = name,
     format = format,
@@ -85,15 +85,20 @@ settings_clone <- function(settings) {
   )
 }
 
-settings_validate_pattern <- function(pattern, dimensions) {
-  assert_scalar(pattern)
-  assert_chr(pattern)
-  assert_chr(dimensions)
-  if (!(pattern %in% c("none", "map", "cross"))) {
-    throw_validate("pattern must be one of \"none\", \"map\", or \"cross\".")
+settings_validate_pattern <- function(name, pattern, dimensions) {
+  if (is.null(pattern)) {
+    return()
   }
-  if (!identical(pattern, "none") && length(dimensions) < 1L) {
-    throw_validate("pattern must accept at least one target")
+  assert_expr(pattern)
+  assert_chr(dimensions)
+  assert_nonempty(dimensions)
+  assert_not_in(name, dimensions)
+  assert_unique(dimensions, "duplicate grouping variable in pattern.")
+  vars <- all.vars(pattern, functions = TRUE, unique = TRUE)
+  vars <- setdiff(vars, c("map", "cross", dimensions))
+  if (length(vars)) {
+    string <- string_sub_expression(deparse_safe(pattern))
+    throw_validate("invalid pattern: ", string)
   }
 }
 
@@ -101,7 +106,11 @@ settings_validate <- function(settings) {
   assert_correct_fields(settings, settings_new)
   assert_name(settings$name)
   assert_format(settings$format)
-  settings_validate_pattern(settings$pattern, settings$dimensions)
+  settings_validate_pattern(
+    settings$name,
+    settings$pattern,
+    settings$dimensions
+  )
   assert_chr(settings$iteration)
   assert_in(settings$error, c("stop", "continue", "save"))
   assert_in(settings$memory, c("persistent", "transient"))
