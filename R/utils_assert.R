@@ -82,19 +82,19 @@ assert_identical_chr <- function(x, y, msg = NULL) {
   if (!identical(x, y)) {
     msg_x <- paste0(deparse(x), collapse = "")
     msg_y <- paste0(deparse(y), collapse = "")
-    throw_validate(msg %||% paste(msg_x, " and ", msg_y, " not identical."))
+    throw_validate(msg %||% paste(msg_x, "and", msg_y, "not identical."))
   }
 }
 
 assert_in <- function(x, choices, msg = NULL) {
   if (!all(x %in% choices)) {
-    throw_validate(msg %||% paste(deparse(x), " is not in ", deparse(choices)))
+    throw_validate(msg %||% paste(deparse(x), "is not in ", deparse(choices)))
   }
 }
 
 assert_not_in <- function(x, choices, msg = NULL) {
   if (any(x %in% choices)) {
-    throw_validate(msg %||% paste(deparse(x), " is in ", deparse(choices)))
+    throw_validate(msg %||% paste(deparse(x), "is in ", deparse(choices)))
   }
 }
 

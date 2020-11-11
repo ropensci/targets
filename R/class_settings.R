@@ -12,7 +12,9 @@ settings_init <- function(
   storage = "main",
   retrieval = "main"
 ) {
+  pattern <- trn(is.null(pattern), pattern, as.expression(pattern))
   dimensions <- all.vars(pattern, functions = FALSE)
+  assert_not_in(name, dimensions)
   settings_new(
     name = name,
     format = format,

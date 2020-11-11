@@ -50,7 +50,7 @@ target_init <- function(
       cache,
       store = settings_produce_store(settings)
     ),
-    pattern(
+    pattern_new(
       command,
       settings,
       cue,
