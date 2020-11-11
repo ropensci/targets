@@ -107,7 +107,7 @@ target_produce_junction.tar_pattern <- function(target, pipeline) {
 }
 
 #' @export
-target_get_type.tar_pattern<- function(target) {
+target_get_type.tar_pattern <- function(target) {
   "pattern"
 }
 
