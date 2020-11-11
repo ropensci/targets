@@ -62,8 +62,7 @@ visnetwork_class <- R6::R6Class(
         object = "triangleDown",
         `function` = "triangle",
         stem = "dot",
-        map = "square",
-        cross = "diamond"
+        pattern = "square"
       )
       shapes[type]
     },
