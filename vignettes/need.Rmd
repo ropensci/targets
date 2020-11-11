@@ -186,7 +186,7 @@ tar_pipeline(
 )
 ```
 
-Thanks to [@glep](https://github.com/glep) and [@djbirke](https://github.com/djbirke) for the idea.
+Thanks to [`glep`](https://github.com/glep) and [`djbirke`](https://github.com/djbirke) on GitHub for the idea.
 
 ## Improved parallel efficiency
 
