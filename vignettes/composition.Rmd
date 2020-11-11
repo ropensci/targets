@@ -37,19 +37,19 @@ The following classes define specialized objects for the fields of targets.
 
 Some types of targets need only some of these objects as fields.
 
-Field | Builder | Stem | Branch | Bud | Pattern | Map | Cross
----|---|---|---|---|---|---|---|
-Command | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-Settings | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-Cache | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-Value | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-Metrics | ✓ | ✓ | ✓ | | | | |
-Store | ✓ | ✓ | ✓ | | | | |
-Subpipeline | ✓ | ✓ | ✓ |  | | | |
-Junction |  | ✓ |  | | ✓ | ✓ | ✓ | 
-Pedigree |  |  | ✓ | ✓ | | | |
-Cue | ✓ | ✓ | ✓ | | | | |
-Patternview | | | | | ✓ | ✓ | ✓ | 
+Field | Builder | Stem | Branch | Bud | Pattern
+---|---|---|---|---|---|
+Command | ✓ | ✓ | ✓ | ✓ | ✓ |
+Settings | ✓ | ✓ | ✓ | ✓ | ✓ |
+Cache | ✓ | ✓ | ✓ | ✓ | ✓ |
+Value | ✓ | ✓ | ✓ | ✓ | ✓ |
+Metrics | ✓ | ✓ | ✓ | | |
+Store | ✓ | ✓ | ✓ | | |
+Subpipeline | ✓ | ✓ | ✓ |  | |
+Junction |  | ✓ |  | | ✓ |
+Pedigree |  |  | ✓ | ✓ | |
+Cue | ✓ | ✓ | ✓ | | |
+Patternview | | | | | ✓ |
 
 The class inheritance hierarchy of targets is below, and the orchestration vignette explains why the package is designed this way.
 
@@ -59,8 +59,6 @@ The class inheritance hierarchy of targets is below, and the orchestration vigne
         * Stem
         * Branch
     * Pattern
-        * Map
-        * Cross
 
 # Classes
 
@@ -109,7 +107,7 @@ A `subpipeline` is not actually a class of its own, it is just a `pipeline` obje
 
 ## Junction class
 
-A `junction` serves as a branching specification for patterns and a budding specification for `stems`. It contains the name of the parent pattern or stem, the names of the children (buds or branches), and the names of the dependencies of each bud or branch. Different classes of patterns create junctions in different ways. In fact, junction creation is the only way in which the map and cross classes differ.
+A `junction` serves as a branching specification for patterns and a budding specification for `stems`. It contains the name of the parent pattern or stem, the names of the children (buds or branches), and the names of the dependencies of each bud or branch. The junction is the explicit representation of the user-defined `pattern` argument of `tar_target()` combined with the hashes of the available dependencies.
 
 ## Pedigree class
 

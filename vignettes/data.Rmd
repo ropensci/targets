@@ -52,7 +52,7 @@ In most situations, the progress file can be safely excluded from version contro
 `_targets/meta/meta` has the following columns. Global objects use only the `name`, `type`, and `data` fields.
 
 * `name`: Name of the object or target.
-* `type`: Name of the inner-most class of the object or target.
+* `type`: Class name of the object or target.
 * `data`: Hash of the global object or the file containing the target's return value.
 * `command`: Hash of the R command to run the target.
 * `depend`: Composite hash of all the target's immediate upstream dependencies.
