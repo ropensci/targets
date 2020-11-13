@@ -20,7 +20,8 @@ tar_option_set(
   storage = NULL,
   retrieval = NULL,
   cue = NULL,
-  debug = NULL
+  debug = NULL,
+  workspace = NULL
 )
 }
 \arguments{
@@ -206,6 +207,13 @@ in the settings) and pause in an interactive debugger to help you diagnose
 problems. This is like inserting a \code{browser()} statement at the
 beginning of the target's expression, but without invalidating any
 targets.}
+
+\item{workspace}{Character vector of names of targets to save workspace
+files. Workspace files let you re-create a target's runtime environment
+in an interactive R session using \code{\link[=tar_workspace]{tar_workspace()}}. \code{\link[=tar_workspace]{tar_workspace()}}
+loads a target's random number generator seed and dependency objects
+as long as those target objects are still in the data store
+(usually \verb{_targets/objects/}).}
 }
 \value{
 Nothing.

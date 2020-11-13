@@ -45,12 +45,26 @@ tar_test("tar_workspace() works", {
     )
   })
   try(tar_make(callr_function = NULL), silent = TRUE)
-  exists("x")
   seed <- .Random.seed
   envir <- new.env(parent = globalenv())
   tar_workspace(y, envir = envir)
   expect_equal(envir$x, "loaded")
   expect_false(identical(seed, .Random.seed))
+})
+
+tar_test("tar_workspace() works with workspace option", {
+  tmp <- sample(1)
+  tar_script({
+    tar_option_set(workspace = "y")
+    tar_pipeline(
+      tar_target(x, "loaded"),
+      tar_target(y, paste0(x, "nope"))
+    )
+  })
+  tar_make(callr_function = NULL)
+  envir <- new.env(parent = globalenv())
+  tar_workspace(y, envir = envir)
+  expect_equal(envir$x, "loaded")
 })
 
 tar_test("tar_workspace() on a branch", {

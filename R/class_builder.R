@@ -107,6 +107,7 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
     error = builder_error(target, pipeline, scheduler, meta),
     built = builder_conclude(target, pipeline, scheduler, meta)
   )
+  builder_ensure_workspace(target, pipeline, scheduler)
   NextMethod()
 }
 
@@ -207,6 +208,12 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   }
   if (!identical(target$settings$error, "continue")) {
     throw_run(target$metrics$error)
+  }
+}
+
+builder_ensure_workspace <- function(target, pipeline, scheduler) {
+  if (target$settings$name %in% tar_option_get("workspace")) {
+    builder_save_workspace(target, pipeline, scheduler)
   }
 }
 
