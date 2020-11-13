@@ -53,11 +53,13 @@ reference:
   - '`tar_glimpse`'
   - '`tar_manifest`'
   - '`tar_network`'
+  - '`tar_objects`'
   - '`tar_outdated`'
   - '`tar_progress`'
   - '`tar_sitrep`'
   - '`tar_validate`'
   - '`tar_visnetwork`'
+  - '`tar_workspaces`'
 - title: Run
   contents:
   - '`tar_make`'
