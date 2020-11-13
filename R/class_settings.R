@@ -103,8 +103,10 @@ settings_validate_pattern <- function(name, pattern, dimensions) {
   assert_nonempty(dimensions)
   assert_not_in(name, dimensions)
   assert_unique(dimensions, "duplicate grouping variable in pattern.")
+  methods <- ls(dynamic_methods$self, all.names = FALSE)
+  methods <- setdiff(methods, c("private", "self"))
   vars <- all.vars(pattern, functions = TRUE, unique = TRUE)
-  vars <- setdiff(vars, c("map", "cross", dimensions))
+  vars <- setdiff(vars, c(methods, dimensions))
   if (length(vars)) {
     string <- string_sub_expression(deparse_safe(pattern))
     throw_validate("invalid pattern: ", string)
