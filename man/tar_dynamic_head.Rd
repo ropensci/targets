@@ -8,16 +8,18 @@
 tar_dynamic_head(x, n = 1L)
 }
 \arguments{
-\item{...}{data frames with columns to represent targets and
+\item{x}{Data frame with columns to represent targets and
 elements to represent branches or buds. Column names must
-be unique across all the data frames.}
+be unique.}
+
+\item{n}{Number of branches to create. Cannot exceed \code{nrow(x)}.}
 }
 \description{
 Branch over the first few elements of a pattern.
 }
 \details{
-In \code{\link[=tar_target]{tar_target()}}, \code{pattern = head(x, n = 5)} makes
-branches out of the first 5 elements of \code{x}. \code{head()} can be
+In \code{\link[=tar_target]{tar_target()}}, \code{pattern = head(x, n = 5)}
+branches over the first 5 elements of \code{x}. \code{head()} can be
 composed with other kinds of patterns: for example,
 \code{pattern = head(map(x, y), n = 5)}.
 To test and experiment with this behavior outside
@@ -44,6 +46,7 @@ tar_dynamic_head(tar_dynamic_map(x, y), n = 2)
 Other Dynamic branching: 
 \code{\link{tar_dynamic_cross}()},
 \code{\link{tar_dynamic_map}()},
+\code{\link{tar_dynamic_sample}()},
 \code{\link{tar_dynamic_tail}()}
 }
 \concept{Dynamic branching}

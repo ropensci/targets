@@ -3,15 +3,16 @@
 #' @aliases head
 #' @family Dynamic branching
 #' @description Branch over the first few elements of a pattern.
-#' @details In [tar_target()], `pattern = head(x, n = 5)` makes
-#'   branches out of the first 5 elements of `x`. `head()` can be
+#' @details In [tar_target()], `pattern = head(x, n = 5)`
+#'   branches over the first 5 elements of `x`. `head()` can be
 #'   composed with other kinds of patterns: for example,
 #'   `pattern = head(map(x, y), n = 5)`.
 #'   To test and experiment with this behavior outside
 #'   the pipeline, use the `tar_dynamic_head()` function.
-#' @param ... data frames with columns to represent targets and
+#' @param x Data frame with columns to represent targets and
 #'   elements to represent branches or buds. Column names must
-#'   be unique across all the data frames.
+#'   be unique.
+#' @param n Number of branches to create. Cannot exceed `nrow(x)`.
 #' @examples
 #' # To use dynamic head for real in a pipeline,
 #' # call head() in a target's pattern.

@@ -1,0 +1,22 @@
+tar_test("tar_dynamic_sample() with one var", {
+  x <- data_frame(x = seq_len(26))
+  out <- tar_dynamic_sample(x, n = 3)
+  out2 <- tar_dynamic_sample(x, n = 3)
+  expect_equal(out, out2)
+  expect_true(is.data.frame(out))
+  expect_equal(dim(out), c(3L, 1L))
+  expect_equal(colnames(out), "x")
+  expect_true(all(out$x %in% seq_len(26)))
+})
+
+tar_test("tar_dynamic_sample() with many vars", {
+  x <- data_frame(x = seq_len(26))
+  y <- data_frame(y = letters, z = LETTERS)
+  out <- tar_dynamic_sample(tar_dynamic_map(x, y), n = 3)
+  expect_true(is.data.frame(out))
+  expect_equal(dim(out), c(3L, 3L))
+  expect_equal(colnames(out), c("x", "y", "z"))
+  expect_true(all(out$x %in% seq_len(26)))
+  expect_true(all(out$y %in% letters))
+  expect_true(all(out$z %in% LETTERS))
+})

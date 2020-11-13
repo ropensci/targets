@@ -2,16 +2,14 @@
 #' @export
 #' @aliases tail
 #' @family Dynamic branching
-#' @description Branch over the first few elements of a pattern.
-#' @details In [tar_target()], `pattern = tail(x, n = 5)` makes
-#'   branches out of the first 5 elements of `x`. `tail()` can be
+#' @description Branch over the last few elements of a pattern.
+#' @details In [tar_target()], `pattern = tail(x, n = 5)`
+#'   branches over the last 5 elements of `x`. `tail()` can be
 #'   composed with other kinds of patterns: for example,
 #'   `pattern = tail(map(x, y), n = 5)`.
 #'   To test and experiment with this behavior outside
 #'   the pipeline, use the `tar_dynamic_tail()` function.
-#' @param ... data frames with columns to represent targets and
-#'   elements to represent branches or buds. Column names must
-#'   be unique across all the data frames.
+#' @inheritParams tar_dynamic_head
 #' @examples
 #' # To use dynamic tail for real in a pipeline,
 #' # call tail() in a target's pattern.
