@@ -40,7 +40,7 @@
 #'   * `packages`: List columns of packages loaded before building the target.
 #'   * `library`: List column of library paths to load the packages.
 #' @examples
-#' if (FALSE) { # Reduce check time for examples.
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 #' tar_dir({
 #' tar_script({
 #'   tar_option_set()

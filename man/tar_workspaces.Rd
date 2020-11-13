@@ -11,7 +11,7 @@ List target workspaces currently saved to
 \verb{_targets/workspaces/}. See \code{\link[=tar_workspace]{tar_workspace()}} for more information.
 }
 \examples{
-if (FALSE) {
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tar_dir({
 tar_script({
   tar_option_set(error = "save") # Required for saving workspaces.

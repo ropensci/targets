@@ -32,7 +32,7 @@ which is only needed while \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar
 or \code{\link[=tar_make_future]{tar_make_future()}} is running.
 }
 \examples{
-\dontrun{
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tar_dir({
 tar_script(
   tar_pipeline(

@@ -49,7 +49,7 @@ and return the vertices and edges of the directed acyclic graph
 of dependency relationships.
 }
 \examples{
-\dontrun{
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tar_dir({
 tar_script({
   tar_option_set()

@@ -29,7 +29,7 @@ Do not use in \code{knitr} or R Markdown reports with \code{tarchetypes::tar_kni
 or \code{tarchetypes::tar_render()}.
 }
 \examples{
-\dontrun{
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tar_dir({
 tar_script(
   tar_pipeline(

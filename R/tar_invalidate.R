@@ -10,7 +10,7 @@
 #'   You can supply symbols, a character vector,
 #'   or `tidyselect` helpers like [starts_with()].
 #' @examples
-#' if (FALSE) { # Reduce check time for examples.
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 #' tar_dir({
 #' tar_script(
 #'   tar_pipeline(

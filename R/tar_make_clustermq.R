@@ -24,7 +24,8 @@
 #'   Same as the `log_worker` argument of `clustermq::Q()`
 #'   and `clustermq::workers()`.
 #' @examples
-#' if (FALSE) { # Does not run on Windows.
+#' if (!identical(tolower(Sys.info()[["sysname"]]), "windows")) {
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 #' tar_dir({
 #' tar_script({
 #'   options(clustermq.scheduler = "multicore")
@@ -33,6 +34,7 @@
 #' })
 #' tar_make_clustermq()
 #' })
+#' }
 #' }
 tar_make_clustermq <- function(
   names = NULL,

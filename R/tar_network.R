@@ -14,7 +14,7 @@
 #' @param targets_only Logical, whether to restrict the output to just targets
 #'   (`FALSE`) or to also include imported global functions and objects.
 #' @examples
-#' if (FALSE) { # Reduce check time for examples.
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 #' tar_dir({
 #' tar_script({
 #'   tar_option_set()

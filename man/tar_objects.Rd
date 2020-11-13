@@ -11,7 +11,7 @@ List targets currently saved to \verb{_targets/objects/}.
 Does not include dynamic files or cloud storage.
 }
 \examples{
-if (FALSE) {
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tar_dir({
 tar_script({
   tar_option_set(workspace = "x")

@@ -19,8 +19,8 @@
 #'     if `error = "workspace"` in [tar_option_set()] or [tar_target()].
 #'     Load a workspace with [tar_workspace()].
 #' @examples
-#' \dontrun{
-#' if (FALSE) { # Reduce check time for examples.
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' tar_dir({
 #' tar_script(tar_pipeline(tar_target(x, 1 + 1)))
 #' tar_make() # Creates the _targets/ data store.
 #' tar_destroy()

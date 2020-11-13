@@ -49,7 +49,7 @@ renders faster. Also, \code{tar_glimpse()} omits functions and other global
 objects by default (but you can include them with \code{targets_only = FALSE}).
 }
 \examples{
-\dontrun{
+if (FALSE) { # Interactive only.
 tar_dir({
 tar_script({
   tar_option_set()

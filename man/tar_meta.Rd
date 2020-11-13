@@ -54,7 +54,7 @@ A data frame with one row per target/object and the selected fields.
 Read the metadata of all recorded targets and global objects.
 }
 \examples{
-\dontrun{
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tar_dir({
 tar_script(
   tar_pipeline(

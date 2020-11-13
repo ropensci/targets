@@ -29,11 +29,9 @@ Read a target's return value from its file in
 the paths are returned.
 }
 \examples{
-\dontrun{
 tar_dir({
 tar_script(tar_pipeline(tar_target(x, 1 + 1)))
 tar_make()
 tar_read(x)
 })
-}
 }

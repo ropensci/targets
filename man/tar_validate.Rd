@@ -28,7 +28,7 @@ Inspect the pipeline for issues and throw an error or
 warning if a problem is detected.
 }
 \examples{
-\dontrun{
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tar_dir({
 tar_script(tar_pipeline(tar_target(x, 1 + 1)))
 tar_validate()

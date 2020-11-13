@@ -11,7 +11,7 @@
 #'   the value is invisibly returned.
 #' @inheritParams tar_validate
 #' @examples
-#' if (FALSE) { # Reduce check time for examples.
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 #' tar_dir({
 #' tar_script(
 #'   tar_pipeline(

@@ -34,7 +34,7 @@ shows how the grouping variables correspond to the integers in the
 \code{tar_group} column.
 }
 \examples{
-\dontrun{
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 # The tar_group() function simply creates
 # a tar_group column to partition the rows
 # of a data frame.

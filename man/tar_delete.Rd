@@ -23,7 +23,7 @@ will be deleted. For patterns no longer in the metadata,
 branches are left alone.
 }
 \examples{
-\dontrun{
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tar_dir({
 tar_script(
   tar_pipeline(

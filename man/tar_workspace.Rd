@@ -46,7 +46,7 @@ When you are done debugging, you can remove the workspace files
 using \code{tar_destroy(destroy = "workspaces")}.
 }
 \examples{
-\dontrun{
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tmp <- sample(1)
 tar_script({
   tar_option_set(error = "workspace")

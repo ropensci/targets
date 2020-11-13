@@ -62,7 +62,7 @@
 #'     Always `NA` if the `record` cue is activated.
 #'     Otherwise, always `FALSE` if the `file` cue is suppressed.
 #' @examples
-#' \dontrun{
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 #' tar_dir({
 #' tar_script(
 #'   tar_pipeline(

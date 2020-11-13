@@ -29,7 +29,7 @@ If a target ran with \code{error = "workspace"} and errored out,
 exist. For more information, see \code{\link[=tar_workspace]{tar_workspace()}}.
 }
 \examples{
-\dontrun{
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tmp <- sample(1)
 tar_script({
   tar_option_set(error = "workspace")

@@ -11,7 +11,7 @@ Looks for _targets.R in the current working directory.
 Requires the \code{usethis} package.
 }
 \examples{
-\dontrun{
+if (FALSE) { # Interactive only.
 tar_dir(
 # tar_edit()
 )

@@ -71,7 +71,8 @@ Wildcards in the template file are filled in with elements from
 \code{tar_option_get("resources")}.
 }
 \examples{
-\dontrun{
+if (!identical(tolower(Sys.info()[["sysname"]]), "windows")) {
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tar_dir({
 tar_script({
   options(clustermq.scheduler = "multicore")
@@ -80,5 +81,6 @@ tar_script({
 })
 tar_make_clustermq()
 })
+}
 }
 }

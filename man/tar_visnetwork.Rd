@@ -71,7 +71,7 @@ and visualize the directed acyclic graph of targets
 and imported global functions and objects.
 }
 \examples{
-\dontrun{
+if (FALSE) { # Interactive only.
 tar_dir({
 tar_script({
   tar_option_set()

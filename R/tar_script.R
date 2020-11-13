@@ -44,7 +44,6 @@
 #'   If `ask` and the `TAR_ASK` environment variable are both
 #'   indeterminate, defaults to `interactive()`.
 #' @examples
-#' \dontrun{
 #' tar_dir({
 #' tar_script() # Writes an example target script.
 #' # Writes a user-defined target script:
@@ -53,8 +52,8 @@
 #'   tar_option_set()
 #'   tar_pipeline(x)
 #' })
+#' writeLines(readLines("_targets.R"))
 #' })
-#' }
 tar_script <- function(code = NULL, library_targets = TRUE, ask = NULL) {
   if (!tar_should_overwrite(ask, "_targets.R")) {
     # covered in tests/interactive/test-tar_script.R # nolint

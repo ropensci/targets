@@ -3,7 +3,7 @@
 #' @description List target workspaces currently saved to
 #'   `_targets/workspaces/`. See [tar_workspace()] for more information.
 #' @examples
-#' if (FALSE) {
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 #' tar_dir({
 #' tar_script({
 #'   tar_option_set(error = "save") # Required for saving workspaces.

@@ -70,7 +70,7 @@ Along with \code{\link[=tar_visnetwork]{tar_visnetwork()}} and \code{\link[=tar_
 \code{tar_manifest()} helps check that you constructed your pipeline correctly.
 }
 \examples{
-\dontrun{
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tar_dir({
 tar_script({
   tar_option_set()

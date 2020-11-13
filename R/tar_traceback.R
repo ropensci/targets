@@ -14,7 +14,7 @@
 #'   should either be the global environment or inherit from the
 #'   global environment.
 #' @examples
-#' \dontrun{
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 #' tmp <- sample(1)
 #' tar_script({
 #'   tar_option_set(error = "workspace")

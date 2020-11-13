@@ -61,7 +61,6 @@ in the same function call.
 }
 
 \examples{
-\dontrun{
 tar_dir({
 tar_script() # Writes an example target script.
 # Writes a user-defined target script:
@@ -70,6 +69,6 @@ tar_script({
   tar_option_set()
   tar_pipeline(x)
 })
+writeLines(readLines("_targets.R"))
 })
-}
 }

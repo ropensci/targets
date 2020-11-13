@@ -29,7 +29,7 @@
 #'   at once, e.g. `label = c("time", "branches")`. All are disabled
 #'   by default because they clutter the graph.
 #' @examples
-#' \dontrun{
+#' if (FALSE) { # Interactive only.
 #' tar_dir({
 #' tar_script({
 #'   tar_option_set()

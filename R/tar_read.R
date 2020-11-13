@@ -9,13 +9,11 @@
 #' @inheritParams tar_read_raw
 #' @param name Symbol, name of the target to read.
 #' @examples
-#' \dontrun{
 #' tar_dir({
 #' tar_script(tar_pipeline(tar_target(x, 1 + 1)))
 #' tar_make()
 #' tar_read(x)
 #' })
-#' }
 tar_read <- function(name, branches = NULL, meta = tar_meta()) {
   name <- deparse_language(substitute(name))
   tar_read_raw(name, branches, meta)
@@ -38,7 +36,7 @@ tar_read <- function(name, branches = NULL, meta = tar_meta()) {
 #'   However, if you call [tar_meta()] beforehand and supply it to the `meta`
 #'   argument, then successive calls to `tar_read()` may run much faster.
 #' @examples
-#' \dontrun{
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 #' tar_dir({
 #' tar_script(tar_pipeline(tar_target(x, 1 + 1)))
 #' tar_make()

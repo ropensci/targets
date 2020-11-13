@@ -25,7 +25,7 @@ Read a project's target progress data for the most recent
 run of \code{\link[=tar_make]{tar_make()}} or similar. Only the most recent record is shown.
 }
 \examples{
-\dontrun{
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tar_dir({
 tar_script(
   tar_pipeline(
