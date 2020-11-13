@@ -6,6 +6,7 @@
 * Allow workspaces to load unexportable objects (#214).
 * Make workspace files super light by saving only a reference to the required dependencies (#214).
 * Add a new `workspace` argument to `tar_option_set()` to specify which targets will save their workspace files during `tar_make()` (#214).
+* Change `error = "save"` to `error = "workspace"` to so it is clearer that saving workspaces no longer duplicates data (#214). 
 
 # targets 0.0.0.9002
 

@@ -2,7 +2,7 @@ tar_test("tar_undebug()", {
   pipeline <- pipeline_init(
     list(
       target_init("y", quote(1)),
-      target_init("x", quote(stop(y)), error = "save")
+      target_init("x", quote(stop(y)), error = "workspace")
     )
   )
   local <- local_init(pipeline, reporter = "verbose")

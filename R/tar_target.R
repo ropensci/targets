@@ -208,7 +208,7 @@ tar_target <- function(
   )
   assert_format(format)
   iteration <- match.arg(iteration, c("vector", "list", "group"))
-  error <- match.arg(error, c("stop", "continue", "save"))
+  error <- match.arg(error, c("stop", "continue", "workspace"))
   memory <- match.arg(memory, c("persistent", "transient"))
   assert_lgl(garbage_collection, "garbage_collection must be logical.")
   assert_scalar(garbage_collection, "garbage_collection must be a scalar.")

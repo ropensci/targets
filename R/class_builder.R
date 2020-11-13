@@ -203,7 +203,7 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   scheduler$progress$register_errored(target_get_name(target))
   scheduler$reporter$report_errored(target, scheduler$progress)
   target_patternview_errored(target, pipeline, scheduler)
-  if (identical(target$settings$error, "save")) {
+  if (identical(target$settings$error, "workspace")) {
     builder_save_workspace(target, pipeline, scheduler)
   }
   if (!identical(target$settings$error, "continue")) {

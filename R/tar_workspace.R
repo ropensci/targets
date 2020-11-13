@@ -1,9 +1,9 @@
 #' @title Load a saved workspace and seed for debugging.
 #' @export
 #' @description Load the packages, workspace, and random number generator seed
-#'   of an errored target attempted with `error = "save"`.
+#'   of an errored target attempted with `error = "workspace"`.
 #'   Remove workspace files with [tar_undebug()] when you are done debugging.
-#' @details If you set `error = "save"` in [tar_option_set()]
+#' @details If you set `error = "workspace"` in [tar_option_set()]
 #'   or [tar_target()], then if that target throws an error
 #'   in [tar_make()], it will save its workspace to an RDS file
 #'   in `_targets/workspaces/`. The workspace is a compact reference
@@ -29,7 +29,7 @@
 #' \dontrun{
 #' tmp <- sample(1)
 #' tar_script({
-#'   tar_option_set(error = "save") # Required for saving workspaces.
+#'   tar_option_set(error = "workspace") # Required for saving workspaces.
 #'   tar_pipeline(
 #'     tar_target(x, "loaded"),
 #'     tar_target(y, stop(x))

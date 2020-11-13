@@ -6,7 +6,7 @@
 #' @examples
 #' \dontrun{
 #' tar_script({
-#'   tar_option_set(error = "save") # Required for saving workspaces.
+#'   tar_option_set(error = "workspace") # Required for saving workspaces.
 #'   tar_pipeline(
 #'     tar_target(x, "loaded"),
 #'     tar_target(y, stop(x))

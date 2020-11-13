@@ -27,7 +27,7 @@ tar_test("workspaces are saved if error = 'save'", {
   pipeline <- pipeline_init(
     list(
       target_init("y", quote(1)),
-      target_init("x", quote(stop(y)), error = "save")
+      target_init("x", quote(stop(y)), error = "workspace")
     )
   )
   local <- local_init(pipeline, reporter = "verbose")
@@ -38,7 +38,7 @@ tar_test("workspaces are saved if error = 'save'", {
 tar_test("tar_workspace() works", {
   tmp <- sample(1)
   tar_script({
-    tar_option_set(error = "save")
+    tar_option_set(error = "workspace")
     tar_pipeline(
       tar_target(x, "loaded"),
       tar_target(y, stop(x))
@@ -69,7 +69,7 @@ tar_test("tar_workspace() works with workspace option", {
 
 tar_test("tar_workspace() on a branch", {
   tar_script({
-    tar_option_set(error = "save")
+    tar_option_set(error = "workspace")
     tar_pipeline(
       tar_target(x, seq_len(4L)),
       tar_target(y, stopifnot(x < 4L), pattern = map(x))
@@ -90,7 +90,7 @@ tar_test("tar_workspace() with an unexportable object", {
   skip_on_cran()
   skip_if_not_installed("torch")
   tar_script({
-    tar_option_set(error = "save")
+    tar_option_set(error = "workspace")
     tar_pipeline(
       tar_target(tensor, torch::torch_zeros(10), format = "torch"),
       tar_target(array, stop(tensor))

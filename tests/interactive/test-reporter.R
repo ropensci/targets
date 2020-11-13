@@ -12,7 +12,7 @@ local <- local_init(pipeline, reporter = "silent")$run()
 # Should be silent except for the error message.
 tar_destroy()
 pipeline <- pipeline_init(
-  list(target_init("x", quote(stop(123)), error = "save"))
+  list(target_init("x", quote(stop(123)), error = "workspace"))
 )
 local <- local_init(pipeline, reporter = "silent")$run()
 
@@ -49,7 +49,7 @@ local <- local_init(pipeline, reporter = "verbose")$run()
 # Should show error message and save workspace.
 tar_destroy()
 pipeline <- pipeline_init(
-  list(target_init("x", quote(stop(123)), error = "save"))
+  list(target_init("x", quote(stop(123)), error = "workspace"))
 )
 local <- local_init(pipeline, reporter = "verbose")$run()
 
@@ -102,7 +102,7 @@ local <- local_init(pipeline, reporter = "timestamp")$run()
 # and save workspace.
 tar_destroy()
 pipeline <- pipeline_init(
-  list(target_init("x", quote(stop(123)), error = "save"))
+  list(target_init("x", quote(stop(123)), error = "workspace"))
 )
 local <- local_init(pipeline, reporter = "timestamp")$run()
 

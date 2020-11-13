@@ -121,7 +121,7 @@ settings_validate <- function(settings) {
     settings$dimensions
   )
   assert_chr(settings$iteration)
-  assert_in(settings$error, c("stop", "continue", "save"))
+  assert_in(settings$error, c("stop", "continue", "workspace"))
   assert_in(settings$memory, c("persistent", "transient"))
   assert_lgl(settings$garbage_collection)
   assert_scalar(settings$garbage_collection)

@@ -115,7 +115,7 @@ tar_option_set_iteration <- function(iteration) {
 
 tar_option_set_error <- function(error) {
   error <- error %||% tar_option_get("error")
-  error <- match.arg(error, c("stop", "continue", "save"))
+  error <- match.arg(error, c("stop", "continue", "workspace"))
   assign("error", error, envir = tar_envir_options)
 }
 
