@@ -99,7 +99,8 @@ target_produce_junction.tar_pattern <- function(target, pipeline) {
   pattern_assert_dimensions(target, dimensions, pipeline)
   siblings <- setdiff(target_deps_shallow(target, pipeline), dimensions)
   niblings <- pattern_children_columns(dimensions, pipeline)
-  niblings <- pattern_produce_grid(target$settings$pattern, niblings)
+  pattern <- target$settings$pattern
+  niblings <- pattern_produce_grid(pattern, niblings, target$command$seed)
   all_deps <- pattern_combine_niblings_siblings(niblings, siblings)
   nibling_deps <- all_deps[, dimensions, drop = FALSE]
   names <- pattern_name_branches(target_get_parent(target), nibling_deps)
@@ -321,8 +322,11 @@ pattern_name_branches <- function(parent, niblings) {
   paste0(parent, "_", suffixes)
 }
 
-pattern_produce_grid <- function(pattern, niblings) {
-  out <- eval(pattern, envir = niblings, enclos = dynamic_methods$self)
+pattern_produce_grid <- function(pattern, niblings, seed) {
+  out <- withr::with_seed(
+    seed,
+    eval(pattern, envir = niblings, enclos = dynamic_methods$self)
+  )
   rownames(out) <- NULL
   out
 }

@@ -8,7 +8,7 @@
 tar_dynamic_cross(...)
 }
 \arguments{
-\item{...}{data frames with columns to represent targets and
+\item{...}{Data frames with columns to represent targets and
 elements to represent branches or buds. Column names must
 be unique across all the data frames.}
 }
@@ -43,6 +43,9 @@ tar_dynamic_cross(z, tar_dynamic_map(x, y))
 }
 \seealso{
 Other Dynamic branching: 
-\code{\link{tar_dynamic_map}()}
+\code{\link{tar_dynamic_head}()},
+\code{\link{tar_dynamic_map}()},
+\code{\link{tar_dynamic_sample}()},
+\code{\link{tar_dynamic_tail}()}
 }
 \concept{Dynamic branching}

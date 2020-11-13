@@ -1,0 +1,56 @@
+tar_test("tar_dynamic_sample() with one var", {
+  x <- data_frame(x = seq_len(26))
+  out <- tar_dynamic_sample(x, n = 3)
+  out2 <- tar_dynamic_sample(x, n = 3)
+  expect_equal(out, out2)
+  expect_true(is.data.frame(out))
+  expect_equal(dim(out), c(3L, 1L))
+  expect_equal(colnames(out), "x")
+  expect_true(all(out$x %in% seq_len(26)))
+})
+
+tar_test("inner sample method", {
+  x <- data.frame(x = seq_len(10))
+  methods <- dynamic_init()
+  out <- methods$sample(x, n = 2)
+  expect_true(is.data.frame(out))
+  expect_equal(dim(out), c(2L, 1L))
+  expect_equal(colnames(out), "x")
+  expect_true(all(out$x %in% seq_len(10)))
+})
+
+tar_test("tar_dynamic_sample() with many vars", {
+  x <- data_frame(x = seq_len(26))
+  y <- data_frame(y = letters, z = LETTERS)
+  out <- tar_dynamic_sample(tar_dynamic_map(x, y), n = 3)
+  expect_true(is.data.frame(out))
+  expect_equal(dim(out), c(3L, 3L))
+  expect_equal(colnames(out), c("x", "y", "z"))
+  expect_true(all(out$x %in% seq_len(26)))
+  expect_true(all(out$y %in% letters))
+  expect_true(all(out$z %in% LETTERS))
+})
+
+tar_test("sample pattern in target", {
+  tar_script({
+    tar_pipeline(
+      tar_target(x, seq_len(26)),
+      tar_target(dynamic, x, pattern = sample(x, n = 2))
+    )
+  })
+  set.seed(1)
+  tar_make(callr_function = NULL)
+  out <- tar_read(dynamic)
+  tar_destroy()
+  set.seed(2)
+  tar_make(callr_function = NULL)
+  out2 <- tar_read(dynamic)
+  x <- data.frame(x = seq_len(26))
+  out <- tar_dynamic_sample(x, n = 3)
+  out2 <- tar_dynamic_sample(x, n = 3)
+  expect_equal(out, out2)
+  expect_true(is.data.frame(out))
+  expect_equal(dim(out), c(3L, 1L))
+  expect_equal(colnames(out), "x")
+  expect_true(all(out$x %in% seq_len(26)))
+})

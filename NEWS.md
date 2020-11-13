@@ -12,7 +12,8 @@
 
 ## New features
 
-* Add interactive helpers for dynamic branching: `tar_dynamic_map()` and `tar_dynamic_cross()` help users understand how dynamic branching works outside a pipeline.
+* Add interactive helpers for dynamic branching like `tar_dynamic_map()` and `tar_dynamic_cross()` to help users understand how dynamic branching works outside a pipeline.
+* Add new dynamic branching patterns `head()`, `tail()`, and `sample()` to replace `max_expand` from `drake` (#56).
 
 # targets 0.0.0.9002
 

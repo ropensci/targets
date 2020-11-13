@@ -31,6 +31,19 @@ dynamic_class <- R6::R6Class(
     },
     cross = function(...) {
       omit_rownames(Reduce(private$cross_iteration, list(...)))
+    },
+    head = function(x, n = 1L) {
+      omit_rownames(utils::head(x = x, n = n))
+    },
+    tail = function(x, n = 1L) {
+      omit_rownames(utils::tail(x = x, n = n))
+    },
+    slice = function(x, index = 1L) {
+      omit_rownames(x[index,, drop = FALSE]) # nolint
+    },
+    sample = function(x, n = 1L) {
+      index <- sample.int(n = nrow(x), size = n, replace = FALSE)
+      self$slice(x = x, index = index)
     }
   )
 )

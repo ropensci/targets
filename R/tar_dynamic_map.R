@@ -8,7 +8,7 @@
 #'   another for the second element of `x` and the second element of `y`,
 #'   and so on. To test and experiment with this behavior outside
 #'   the pipeline, use the `tar_dynamic_map()` function.
-#' @param ... data frames with columns to represent targets and
+#' @param ... Data frames with columns to represent targets and
 #'   elements to represent branches or buds. Column names must
 #'   be unique across all the data frames.
 #' @examples
