@@ -24,7 +24,7 @@
 #'   Same as the `log_worker` argument of `clustermq::Q()`
 #'   and `clustermq::workers()`.
 #' @examples
-#' \dontrun{
+#' if (FALSE) { # Does not run on Windows.
 #' tar_dir({
 #' tar_script({
 #'   options(clustermq.scheduler = "multicore")

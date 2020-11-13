@@ -10,7 +10,7 @@
 #'   You can supply symbols, a character vector,
 #'   or `tidyselect` helpers like [starts_with()].
 #' @examples
-#' \dontrun{
+#' if (FALSE) { # Reduce check time for examples.
 #' tar_dir({
 #' tar_script(
 #'   tar_pipeline(

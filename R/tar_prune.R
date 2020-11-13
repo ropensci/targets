@@ -11,7 +11,7 @@
 #'   the value is invisibly returned.
 #' @inheritParams tar_validate
 #' @examples
-#' \dontrun{
+#' if (FALSE) { # Reduce check time for examples.
 #' tar_dir({
 #' tar_script(
 #'   tar_pipeline(

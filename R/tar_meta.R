@@ -39,7 +39,7 @@
 #'     from the last run of the target.
 #'   * `error`: character string of the error message if the target errored.
 #' @examples
-#' \dontrun{
+#' if (FALSE) { # Reduce check time for examples.
 #' tar_dir({
 #' tar_script(
 #'   tar_pipeline(

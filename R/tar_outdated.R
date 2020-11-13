@@ -28,7 +28,7 @@
 #'     targets found so far.
 #' @inheritParams tar_validate
 #' @examples
-#' \dontrun{
+#' if (FALSE) { # Reduce check time for examples.
 #' tar_dir({
 #' tar_script(tar_pipeline(tar_target(x, 1 + 1)))
 #' tar_outdated()

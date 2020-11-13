@@ -20,7 +20,7 @@
 #'   `targets` will use to find subsets of your data frame.
 #' @param x Grouped data frame from `dplyr::group_by()`
 #' @examples
-#' \dontrun{
+#' if (FALSE) { # Reduce check time for examples.
 #' # The tar_group() function simply creates
 #' # a tar_group column to partition the rows
 #' # of a data frame.

@@ -20,7 +20,7 @@
 #'     Load a workspace with [tar_workspace()].
 #' @examples
 #' \dontrun{
-#' tar_dir({
+#' if (FALSE) { # Reduce check time for examples.
 #' tar_script(tar_pipeline(tar_target(x, 1 + 1)))
 #' tar_make() # Creates the _targets/ data store.
 #' tar_destroy()

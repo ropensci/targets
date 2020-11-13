@@ -14,7 +14,7 @@
 #' @param targets_only Logical, whether to restrict the output to just targets
 #'   (`FALSE`) or to also include imported global functions and objects.
 #' @examples
-#' \dontrun{
+#' if (FALSE) { # Reduce check time for examples.
 #' tar_dir({
 #' tar_script({
 #'   tar_option_set()

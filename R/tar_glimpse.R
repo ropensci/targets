@@ -19,7 +19,7 @@
 #'   Otherwise, you can supply symbols, a character vector, or `tidyselect`
 #'   helpers like [starts_with()].
 #' @examples
-#' \dontrun{
+#' if (FALSE) { # Interactive only.
 #' tar_dir({
 #' tar_script({
 #'   tar_option_set()

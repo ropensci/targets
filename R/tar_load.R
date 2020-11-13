@@ -10,7 +10,7 @@
 #'   check/build all the targets (default). Otherwise, you can supply
 #'   symbols, a character vector, or `tidyselect` helpers like [starts_with()].
 #' @examples
-#' \dontrun{
+#' if (FALSE) { # Reduce check time for examples.
 #' tar_dir({
 #' tar_script(
 #'   tar_pipeline(
@@ -46,7 +46,7 @@ tar_load <- function(
 #'   for any targets that are patterns.
 #' @param envir Environment to put the loaded targets.
 #' @examples
-#' \dontrun{
+#' if (FALSE) { # Reduce check time for examples.
 #' tar_dir({
 #' tar_script(
 #'   tar_pipeline(

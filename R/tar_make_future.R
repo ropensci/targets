@@ -15,7 +15,7 @@
 #' @param workers Positive integer, maximum number of transient
 #'   `future` workers allowed to run at any given time.
 #' @examples
-#' \dontrun{
+#' if (FALSE) { # Reduce check time for examples.
 #' tar_dir({
 #' tar_script({
 #'   future::plan(future::multisession)

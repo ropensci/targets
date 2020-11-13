@@ -12,7 +12,7 @@
 #' @param progress Logical, whether to deduplicate the progress database file
 #'   at `_targets/meta/progress`.
 #' @examples
-#' \dontrun{
+#' if (FALSE) { # Reduce check time for examples.
 #' tar_dir({
 #' tar_script(tar_pipeline(tar_target(x, 1 + 1)))
 #' tar_make()
