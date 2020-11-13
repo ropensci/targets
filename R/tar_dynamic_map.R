@@ -8,6 +8,7 @@
 #'   another for the second element of `x` and the second element of `y`,
 #'   and so on.
 #' @examples
+#' # _targets.R
 #' tar_pipeline(
 #'   tar_target(x, seq_len(2)),
 #'   tar_target(y, head(letters, 2)),

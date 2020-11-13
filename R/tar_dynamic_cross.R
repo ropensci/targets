@@ -7,6 +7,7 @@
 #' @details `pattern = cross(x, y)` creates one dynamic branch for
 #'   each combination of values of `x` and `y`.
 #' @examples
+#' # _targets.R
 #' tar_pipeline(
 #'   tar_target(x, seq_len(2)),
 #'   tar_target(y, head(letters, 2)),

@@ -13,6 +13,7 @@ the selected dependencies.
 each combination of values of \code{x} and \code{y}.
 }
 \examples{
+# _targets.R
 tar_pipeline(
   tar_target(x, seq_len(2)),
   tar_target(y, head(letters, 2)),

@@ -14,6 +14,7 @@ another for the second element of \code{x} and the second element of \code{y},
 and so on.
 }
 \examples{
+# _targets.R
 tar_pipeline(
   tar_target(x, seq_len(2)),
   tar_target(y, head(letters, 2)),
