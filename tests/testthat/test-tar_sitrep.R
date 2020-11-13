@@ -139,7 +139,7 @@ tar_test("tar_sitrep() on a project with a change", {
   tar_make(callr_function = NULL)
   children_y <- tar_meta(names = "y")$children[[1]]
   children_z <- tar_meta(names = "z")$children[[1]]
-  unlink(path_default(children_y[1]))
+  unlink(path_objects(children_y[1]))
   out <- tar_sitrep(callr_function = NULL)
   out <- out[order(out$name), ]
   exp <- tibble::tibble(

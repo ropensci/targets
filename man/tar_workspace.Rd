@@ -20,7 +20,7 @@ should either be the global environment or inherit from the
 global environment.}
 }
 \value{
-the function returns no value, but it does load
+This function returns \code{NULL}, but it does load
 the target's required packages, as well as multiple objects
 into the environment (\code{envir} argument) in order to replicate the
 workspace where the error happened. These objects include
@@ -30,8 +30,7 @@ target is also assigned with \code{set.seed()}
 }
 \description{
 Load the packages, workspace, and random number generator seed
-of an errored target attempted with \code{error = "workspace"}.
-Remove workspace files with \code{\link[=tar_workspaces_destroy]{tar_workspaces_destroy()}} when you are done debugging.
+of target attempted with a workspace file.
 }
 \details{
 If you set \code{error = "workspace"} in \code{\link[=tar_option_set]{tar_option_set()}}
@@ -43,6 +42,8 @@ even individual branches. The workspace is a compact reference
 that allows \code{tar_workspace()} to load the target's dependencies
 and random number generator seed as long as the data objects
 are still in the data store (usually files in \verb{_targets/objects/}).
+When you are done debugging, you can remove the workspace files
+using \code{tar_destroy(destroy = "workspaces")}.
 }
 \examples{
 \dontrun{

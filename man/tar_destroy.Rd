@@ -6,11 +6,11 @@
 current working directory}
 \usage{
 tar_destroy(
-  what = c("all", "meta", "progress", "objects", "scratch", "workspaces")
+  destroy = c("all", "meta", "progress", "objects", "scratch", "workspaces")
 )
 }
 \arguments{
-\item{what}{Character of length 1, what to destroy. Choices:
+\item{destroy}{Character of length 1, what to destroy. Choices:
 \itemize{
 \item \code{"all"}: destroy the entire data store.
 \item \code{"meta"}: just delete the metadata file at \verb{_targets/meta/meta},

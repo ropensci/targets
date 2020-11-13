@@ -4,7 +4,7 @@
 #' @description Destroy `_targets/` data store in the current working
 #'   directory. Optionally, just destroy part of the data store.
 #' @return Nothing.
-#' @param what Character of length 1, what to destroy. Choices:
+#' @param destroy Character of length 1, what to destroy. Choices:
 #'   * `"all"`: destroy the entire data store.
 #'   * `"meta"`: just delete the metadata file at `_targets/meta/meta`,
 #'     which invalidates all the targets but keeps the data.
@@ -28,10 +28,10 @@
 #' })
 #' }
 tar_destroy <- function(
-  what = c("all", "meta", "progress", "objects", "scratch", "workspaces")
+  destroy = c("all", "meta", "progress", "objects", "scratch", "workspaces")
 ) {
   switch(
-    match.arg(what),
+    match.arg(destroy),
     all = unlink("_targets", recursive = TRUE),
     meta = unlink(file.path("_targets", "meta", "meta")),
     progress = unlink(file.path("_targets", "meta", "progress")),

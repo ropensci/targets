@@ -1,8 +1,7 @@
 #' @title Load a saved workspace and seed for debugging.
 #' @export
 #' @description Load the packages, workspace, and random number generator seed
-#'   of an errored target attempted with `error = "workspace"`.
-#'   Remove workspace files with [tar_workspaces_destroy()] when you are done debugging.
+#'   of target attempted with a workspace file.
 #' @details If you set `error = "workspace"` in [tar_option_set()]
 #'   or [tar_target()], then if that target throws an error
 #'   in [tar_make()], it will save its workspace to an RDS file
@@ -12,7 +11,9 @@
 #'   that allows `tar_workspace()` to load the target's dependencies
 #'   and random number generator seed as long as the data objects
 #'   are still in the data store (usually files in `_targets/objects/`).
-#' @return the function returns no value, but it does load
+#'   When you are done debugging, you can remove the workspace files
+#'   using `tar_destroy(destroy = "workspaces")`.
+#' @return This function returns `NULL`, but it does load
 #'   the target's required packages, as well as multiple objects
 #'   into the environment (`envir` argument) in order to replicate the
 #'   workspace where the error happened. These objects include

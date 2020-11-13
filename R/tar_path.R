@@ -27,14 +27,14 @@ tar_path <- function(name = NULL, default = tempfile()) {
   trn(
     is.null(name),
     tar_path_running(default),
-    path_default(name)
+    path_objects(name)
   )
 }
 
 tar_path_running <- function(default) {
   trn(
     exists(x = "name", envir = tar_envir_run, inherits = FALSE),
-    path_default(get(x = "name", envir = tar_envir_run)),
+    path_objects(get(x = "name", envir = tar_envir_run)),
     as.character(default)
   )
 }

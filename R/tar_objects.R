@@ -13,10 +13,10 @@
 #' tar_workspaces()
 #' })
 #' }
-tar_workspaces <- function() {
+tar_objects <- function() {
   trn(
-    dir.exists(path_default_dir()),
-    sort(list.files(path_default_dir(), all.files = TRUE, no.. = TRUE)),
+    dir.exists(path_objects_dir()),
+    sort(list.files(path_objects_dir(), all.files = TRUE, no.. = TRUE)),
     character(0)
   )
 }

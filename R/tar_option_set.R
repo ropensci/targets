@@ -19,7 +19,7 @@
 #'   problems. This is like inserting a `browser()` statement at the
 #'   beginning of the target's expression, but without invalidating any
 #'   targets.
-#' @param workspace Character vector of names of targets to save workspace
+#' @param workspaces Character vector of names of targets to save workspace
 #'   files. Workspace files let you re-create a target's runtime environment
 #'   in an interactive R session using [tar_workspace()]. [tar_workspace()]
 #'   loads a target's random number generator seed and dependency objects
@@ -50,7 +50,7 @@ tar_option_set <- function(
   retrieval = NULL,
   cue = NULL,
   debug = NULL,
-  workspace = NULL
+  workspaces = NULL
 ) {
   force(envir)
   tar_option_set_tidy_eval(tidy_eval)
@@ -69,7 +69,7 @@ tar_option_set <- function(
   tar_option_set_retrieval(retrieval)
   tar_option_set_cue(cue)
   tar_option_set_debug(debug)
-  tar_option_set_workspace(workspace)
+  tar_option_set_workspaces(workspaces)
 }
 
 tar_option_set_tidy_eval <- function(tidy_eval) {
@@ -179,13 +179,13 @@ tar_option_set_debug <- function(debug) {
   assign("debug", debug, envir = tar_envir_options)
 }
 
-tar_option_set_workspace <- function(workspace) {
-  workspace <- workspace %||% tar_option_get("workspace")
+tar_option_set_workspaces <- function(workspaces) {
+  workspaces <- workspaces %||% tar_option_get("workspaces")
   assert_chr(
-    workspace,
-    "workspace argument of tar_option_set() must be a character."
+    workspaces,
+    "workspaces argument of tar_option_set() must be a character."
   )
-  assign("workspace", workspace, envir = tar_envir_options)
+  assign("workspaces", workspaces, envir = tar_envir_options)
 }
 
 tar_envir_options <- new.env(parent = emptyenv())

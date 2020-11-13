@@ -55,7 +55,7 @@ tar_test("tar_workspace() works", {
 tar_test("tar_workspace() works with workspace option", {
   tmp <- sample(1)
   tar_script({
-    tar_option_set(workspace = "y")
+    tar_option_set(workspaces = "y")
     tar_pipeline(
       tar_target(x, "loaded"),
       tar_target(y, paste0(x, "nope"))
@@ -111,7 +111,7 @@ tar_test("workspace saved on no error and when target is skipped", {
   tar_make(callr_function = NULL)
   expect_false(file.exists(path))
   tar_script({
-    tar_option_set(workspace = "z")
+    tar_option_set(workspaces = "z")
     tar_pipeline(tar_target(z, 0))
   })
   tar_make(callr_function = NULL)

@@ -77,7 +77,7 @@ store_produce_path <- function(store, name, object) {
 
 #' @export
 store_produce_path.default <- function(store, name, object) {
-  path_default(name)
+  path_objects(name)
 }
 
 store_update_stage <- function(store, name, object) {

@@ -1,8 +1,8 @@
-path_default <- function(name) {
-  file.path(path_default_dir(), name)
+path_objects <- function(name) {
+  file.path(path_objects_dir(), name)
 }
 
-path_default_dir <- function() {
+path_objects_dir <- function() {
   file.path("_targets", "objects")
 }
 
