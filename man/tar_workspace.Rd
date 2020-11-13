@@ -31,13 +31,15 @@ target is also assigned with \code{set.seed()}
 \description{
 Load the packages, workspace, and random number generator seed
 of an errored target attempted with \code{error = "workspace"}.
-Remove workspace files with \code{\link[=tar_undebug]{tar_undebug()}} when you are done debugging.
+Remove workspace files with \code{\link[=tar_workspaces_destroy]{tar_workspaces_destroy()}} when you are done debugging.
 }
 \details{
 If you set \code{error = "workspace"} in \code{\link[=tar_option_set]{tar_option_set()}}
 or \code{\link[=tar_target]{tar_target()}}, then if that target throws an error
 in \code{\link[=tar_make]{tar_make()}}, it will save its workspace to an RDS file
-in \verb{_targets/workspaces/}. The workspace is a compact reference
+in \verb{_targets/workspaces/}. Workspaces also get saved for targets
+supplied to the \code{workspace} argument of \code{\link[=tar_option_set]{tar_option_set()}},
+even individual branches. The workspace is a compact reference
 that allows \code{tar_workspace()} to load the target's dependencies
 and random number generator seed as long as the data objects
 are still in the data store (usually files in \verb{_targets/objects/}).
@@ -46,7 +48,7 @@ are still in the data store (usually files in \verb{_targets/objects/}).
 \dontrun{
 tmp <- sample(1)
 tar_script({
-  tar_option_set(error = "workspace") # Required for saving workspaces.
+  tar_option_set(error = "workspace")
   tar_pipeline(
     tar_target(x, "loaded"),
     tar_target(y, stop(x))

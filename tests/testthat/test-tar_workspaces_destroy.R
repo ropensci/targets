@@ -1,4 +1,4 @@
-tar_test("tar_undebug()", {
+tar_test("tar_workspaces_destroy()", {
   pipeline <- pipeline_init(
     list(
       target_init("y", quote(1)),
@@ -8,7 +8,7 @@ tar_test("tar_undebug()", {
   local <- local_init(pipeline, reporter = "verbose")
   expect_error(expect_message(local$run()), class = "condition_run")
   expect_true(file.exists(path_workspaces_dir()))
-  tar_undebug()
+  tar_workspaces_destroy()
   expect_false(file.exists(path_workspaces_dir()))
-  expect_silent(tar_undebug())
+  expect_silent(tar_workspaces_destroy())
 })

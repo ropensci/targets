@@ -2,11 +2,13 @@
 #' @export
 #' @description Load the packages, workspace, and random number generator seed
 #'   of an errored target attempted with `error = "workspace"`.
-#'   Remove workspace files with [tar_undebug()] when you are done debugging.
+#'   Remove workspace files with [tar_workspaces_destroy()] when you are done debugging.
 #' @details If you set `error = "workspace"` in [tar_option_set()]
 #'   or [tar_target()], then if that target throws an error
 #'   in [tar_make()], it will save its workspace to an RDS file
-#'   in `_targets/workspaces/`. The workspace is a compact reference
+#'   in `_targets/workspaces/`. Workspaces also get saved for targets
+#'   supplied to the `workspace` argument of [tar_option_set()],
+#'   even individual branches. The workspace is a compact reference
 #'   that allows `tar_workspace()` to load the target's dependencies
 #'   and random number generator seed as long as the data objects
 #'   are still in the data store (usually files in `_targets/objects/`).
@@ -29,7 +31,7 @@
 #' \dontrun{
 #' tmp <- sample(1)
 #' tar_script({
-#'   tar_option_set(error = "workspace") # Required for saving workspaces.
+#'   tar_option_set(error = "workspace")
 #'   tar_pipeline(
 #'     tar_target(x, "loaded"),
 #'     tar_target(y, stop(x))
@@ -51,6 +53,8 @@ tar_workspace <- function(
 ) {
   force(envir)
   name <- deparse_language(substitute(name))
+  assert_chr(name)
+  assert_scalar(name)
   workspace <- workspace_read(name)
   workspace_populate(workspace)
   workspace_assign(workspace, envir)

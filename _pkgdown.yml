@@ -63,6 +63,10 @@ reference:
   - '`tar_make`'
   - '`tar_make_clustermq`'
   - '`tar_make_future`'
+- title: Debug
+  contents:
+  - '`tar_traceback`'
+  - '`tar_workspace`'
 - title: Data
   contents:
   - '`tar_load`'
@@ -70,7 +74,6 @@ reference:
   - '`tar_meta`'
   - '`tar_read`'
   - '`tar_read_raw`'
-  - '`tar_workspace`'
 - title: Clean
   contents:
   - '`tar_deduplicate`'
@@ -78,7 +81,7 @@ reference:
   - '`tar_destroy`'
   - '`tar_invalidate`'
   - '`tar_prune`'
-  - '`tar_undebug`'
+  - '`tar_workspaces_destroy`'
 - title: Helpers
   contents:
   - '`tar_cancel`'

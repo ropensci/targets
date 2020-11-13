@@ -102,3 +102,18 @@ tar_test("tar_workspace() with an unexportable object", {
   expect_true(inherits(envir$tensor, "torch_tensor"))
   expect_equal(as.numeric(sum(envir$tensor)), 0)
 })
+
+tar_test("workspace saved on no error and when target is skipped", {
+  path <- path_workspace("z")
+  tar_script({
+    tar_pipeline(tar_target(z, 0))
+  })
+  tar_make(callr_function = NULL)
+  expect_false(file.exists(path))
+  tar_script({
+    tar_option_set(workspace = "z")
+    tar_pipeline(tar_target(z, 0))
+  })
+  tar_make(callr_function = NULL)
+  expect_true(file.exists(path))
+})

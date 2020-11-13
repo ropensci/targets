@@ -107,7 +107,6 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
     error = builder_error(target, pipeline, scheduler, meta),
     built = builder_conclude(target, pipeline, scheduler, meta)
   )
-  builder_ensure_workspace(target, pipeline, scheduler)
   NextMethod()
 }
 
