@@ -18,7 +18,7 @@ path_scratch_del <- function() {
   unlink(path_scratch_dir(), recursive = TRUE)
 }
 
-path_workspaces <- function(name) {
+path_workspace <- function(name) {
   file.path(path_workspaces_dir(), name)
 }
 

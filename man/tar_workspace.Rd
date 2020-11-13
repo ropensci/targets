@@ -4,7 +4,7 @@
 \alias{tar_workspace}
 \title{Load a saved workspace and seed for debugging.}
 \usage{
-tar_workspace(name, envir = parent.frame(), packages = TRUE)
+tar_workspace(name, envir = parent.frame(), packages = TRUE, source = TRUE)
 }
 \arguments{
 \item{name}{Symbol, name of the target whose workspace to read.}
@@ -12,60 +12,43 @@ tar_workspace(name, envir = parent.frame(), packages = TRUE)
 \item{envir}{Environment in which to put the objects.}
 
 \item{packages}{Logical, whether to load the required packages
-of the target. Uses \code{require()} with \code{lib.loc} equal to
-the \code{library} setting of the target
-(from \code{tar_target(library = "PATH_TO_LIB")} or
-\code{tar_option_set(library = "PATH_TO_LIB")}).}
+of the target.}
+
+\item{source}{Logical, whether to run \verb{_targets.R} to load user-defined
+global object dependencies into \code{envir}. If \code{TRUE}, then \code{envir}
+should either be the global environment or inherit from the
+global environment.}
 }
 \value{
 the function returns no value, but it does load
 the target's required packages, as well as multiple objects
 into the environment (\code{envir} argument) in order to replicate the
 workspace where the error happened. These objects include
-the global objects at the time \code{\link[=tar_make]{tar_make()}} was called, the
-dependency targets, the random number generator seed
-(assigned to \code{.targets$seed} and set with \code{set.seed()})
-and the traceback of the error (assigned to \code{.targets$traceback}).
+the global objects at the time \code{\link[=tar_make]{tar_make()}} was called and the
+dependency targets. The random number generator seed for the
+target is also assigned with \code{set.seed()}
 }
 \description{
 Load the packages, workspace, and random number generator seed
-of an errored target attempted with \code{error = "save"}.
-Remove workspace files with \code{\link[=tar_undebug]{tar_undebug()}} when you are done debugging.
+of an errored target attempted with \code{error = "workspace"}.
+Remove workspace files with \code{\link[=tar_workspaces_destroy]{tar_workspaces_destroy()}} when you are done debugging.
 }
 \details{
-If you set \code{error = "save"} in \code{\link[=tar_option_set]{tar_option_set()}}
+If you set \code{error = "workspace"} in \code{\link[=tar_option_set]{tar_option_set()}}
 or \code{\link[=tar_target]{tar_target()}}, then if that target throws an error
-in \code{\link[=tar_make]{tar_make()}}, it will save its workspace to a compressed file
-in \verb{_targets/workspaces/}. The workspace includes the
-target's required packages, the
-global objects at the time \code{\link[=tar_make]{tar_make()}} was called, the
-dependency targets, the random number generator seed
-(assigned to \code{.targets$seed} and set with \code{set.seed()})
-and the traceback of the error (assigned to \code{.targets$traceback}).
-\code{tar_workspace()} loads the packages, populates the environment
-with the objects, and sets the seed to the seed of the target.
-Workspace files can be large sometimes, so it is good practice to
-remove them with \code{\link[=tar_undebug]{tar_undebug()}} when you are done debugging.
-
-Although useful, this behavior does not perfectly replicate
-what \code{\link[=tar_make]{tar_make()}} does to set up the runtime environment
-for a target. \code{\link[=tar_make]{tar_make()}} creates a formal hierarchy of
-environments that inherit from one another in order to
-organize data and contain side effects.
-
-In addition, sometimes, you may not be able to debug with
-\code{error = "save"}. Workspace files are saved with \code{qs::qsave()},
-so if one of your dependencies cannot be properly serialized this way
-(e.g. Keras models you store with \code{format = "keras"})
-then the workspace cannot be saved properly. If this happens to you,
-either avoid non-exportable objects or use interactive debugging.
-(See the \code{debug} argument of \code{\link[=tar_option_set]{tar_option_set()}}.)
+in \code{\link[=tar_make]{tar_make()}}, it will save its workspace to an RDS file
+in \verb{_targets/workspaces/}. Workspaces also get saved for targets
+supplied to the \code{workspace} argument of \code{\link[=tar_option_set]{tar_option_set()}},
+even individual branches. The workspace is a compact reference
+that allows \code{tar_workspace()} to load the target's dependencies
+and random number generator seed as long as the data objects
+are still in the data store (usually files in \verb{_targets/objects/}).
 }
 \examples{
 \dontrun{
 tmp <- sample(1)
 tar_script({
-  tar_option_set(error = "save") # Required for saving workspaces.
+  tar_option_set(error = "workspace")
   tar_pipeline(
     tar_target(x, "loaded"),
     tar_target(y, stop(x))
@@ -78,6 +61,5 @@ tar_workspace(y)
 exists("x") # Should be TRUE.
 print(x) # "loaded"
 tail(.Random.seed) # Should be different.
-tail(.targets$traceback, 1)
 }
 }

@@ -42,6 +42,7 @@ tar_option_default <- function(option) {
     storage = "main",
     retrieval = "main",
     cue = targets::tar_cue(),
-    debug = character(0)
+    debug = character(0),
+    workspace = character(0)
   )
 }

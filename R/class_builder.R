@@ -202,7 +202,7 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   scheduler$progress$register_errored(target_get_name(target))
   scheduler$reporter$report_errored(target, scheduler$progress)
   target_patternview_errored(target, pipeline, scheduler)
-  if (identical(target$settings$error, "save")) {
+  if (identical(target$settings$error, "workspace")) {
     builder_save_workspace(target, pipeline, scheduler)
   }
   if (!identical(target$settings$error, "continue")) {
@@ -210,24 +210,15 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   }
 }
 
+builder_ensure_workspace <- function(target, pipeline, scheduler) {
+  if (target$settings$name %in% tar_option_get("workspace")) {
+    builder_save_workspace(target, pipeline, scheduler)
+  }
+}
+
 builder_save_workspace <- function(target, pipeline, scheduler) {
   scheduler$reporter$report_workspace(target)
-  out <- as.list(target$cache$imports$envir)
-  target_ensure_deps(target, pipeline)
-  target_cache_deps(target, pipeline)
-  on.exit(cache_clear_objects(target$cache))
-  for (name in target$cache$targets$names) {
-    out[[name]] <- memory_get_object(target$cache$targets, name)
-  }
-  out$.targets <- list(
-    packages = target$command$packages,
-    library = target$command$library,
-    seed = target$command$seed,
-    traceback = target$metrics$traceback
-  )
-  dir_create(path_workspaces_dir())
-  path <- path_workspaces(target$settings$name)
-  qs::qsave(x = out, file = path, preset = "high")
+  workspace_save(workspace_init(target, pipeline))
 }
 
 builder_record_error_meta <- function(target, meta) {

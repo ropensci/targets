@@ -16,7 +16,7 @@
 #'     automatically get deleted except if R crashed.
 #'   * `"workspaces"`: compressed files in `_targets/workspaces/` with
 #'     the saved workspaces of targets that errored. Only saved
-#'     if `error = "save"` in [tar_option_set()] or [tar_target()].
+#'     if `error = "workspace"` in [tar_option_set()] or [tar_target()].
 #'     Load a workspace with [tar_workspace()].
 #' @examples
 #' \dontrun{

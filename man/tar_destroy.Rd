@@ -23,7 +23,7 @@ but keep progress and metadata. Dynamic files are not deleted this way.
 automatically get deleted except if R crashed.
 \item \code{"workspaces"}: compressed files in \verb{_targets/workspaces/} with
 the saved workspaces of targets that errored. Only saved
-if \code{error = "save"} in \code{\link[=tar_option_set]{tar_option_set()}} or \code{\link[=tar_target]{tar_target()}}.
+if \code{error = "workspace"} in \code{\link[=tar_option_set]{tar_option_set()}} or \code{\link[=tar_target]{tar_target()}}.
 Load a workspace with \code{\link[=tar_workspace]{tar_workspace()}}.
 }}
 }

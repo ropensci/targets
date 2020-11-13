@@ -306,6 +306,16 @@ target_subpipeline_copy <- function(target, keep_value) {
   out
 }
 
+target_workspace_copy <- function(target) {
+  class <- class(target)
+  out <- list2env(as.list(target), parent = emptyenv(), hash = FALSE)
+  class(out) <- class
+  out$cache <- cache_clone(target$cache)
+  cache_clear_objects(out$cache)
+  out$value <- NULL
+  out
+}
+
 target_patternview_meta <- function(target, pipeline, meta) {
   UseMethod("target_patternview_meta")
 }
