@@ -1,0 +1,9 @@
+tar_test("validate workspace class", {
+  tar_script({
+    tar_option_set(workspaces = "z")
+    tar_pipeline(tar_target(z, 0))
+  })
+  tar_make(callr_function = NULL)
+  workspace <- workspace_read("z")
+  expect_silent(workspace_validate(workspace))
+})
