@@ -2,6 +2,7 @@
 % Please edit documentation in R/tar_dynamic_map.R
 \name{tar_dynamic_map}
 \alias{tar_dynamic_map}
+\alias{map}
 \title{Dynamic map}
 \usage{
 tar_dynamic_map(...)

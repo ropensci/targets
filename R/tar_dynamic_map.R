@@ -1,6 +1,6 @@
 #' @title Dynamic map
 #' @export
-#' @alias map
+#' @aliases map
 #' @family Dynamic branching
 #' @description Iterate over one or more targets in sequence.
 #' @details In [tar_target()], `pattern = map(x, y)` creates one dynamic branch

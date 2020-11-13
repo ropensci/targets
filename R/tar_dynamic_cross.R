@@ -1,6 +1,6 @@
 #' @title Dynamic cross
 #' @export
-#' @alias cross
+#' @aliases cross
 #' @family Dynamic branching
 #' @description Iterate over one or more targets in sequence.
 #' @details In [tar_target()], `pattern = cross(x, y)`

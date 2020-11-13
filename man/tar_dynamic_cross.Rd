@@ -2,6 +2,7 @@
 % Please edit documentation in R/tar_dynamic_cross.R
 \name{tar_dynamic_cross}
 \alias{tar_dynamic_cross}
+\alias{cross}
 \title{Dynamic cross}
 \usage{
 tar_dynamic_cross(...)
