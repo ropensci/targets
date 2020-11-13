@@ -13,7 +13,7 @@ elements to represent branches or buds. Column names must
 be unique across all the data frames.}
 }
 \description{
-Iterate over one or more targets in sequence.
+Branch over all combinations of elements in a pattern.
 }
 \details{
 In \code{\link[=tar_target]{tar_target()}}, \code{pattern = cross(x, y)}

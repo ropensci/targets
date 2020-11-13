@@ -2,7 +2,7 @@
 #' @export
 #' @aliases sample
 #' @family Dynamic branching
-#' @description Branch over the first few elements of a pattern.
+#' @description Branch over randomly sampled elements in a pattern.
 #' @details In [tar_target()], `pattern = sample(x, n = 5)` branches over
 #'   a random 5 elements of `x`. The number random seed is set to the seed
 #'   of the target so branch selection is reproducible.

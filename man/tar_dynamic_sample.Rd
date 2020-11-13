@@ -21,7 +21,7 @@ Instead, the seed is generated from the target name in
 a deterministic manner for the sake of reproducibility.}
 }
 \description{
-Branch over the first few elements of a pattern.
+Branch over randomly sampled elements in a pattern.
 }
 \details{
 In \code{\link[=tar_target]{tar_target()}}, \code{pattern = sample(x, n = 5)} branches over

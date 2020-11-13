@@ -15,7 +15,7 @@ be unique.}
 \item{n}{Number of branches to create. Cannot exceed \code{nrow(x)}.}
 }
 \description{
-Branch over the first few elements of a pattern.
+Branch over the first few elements in a pattern.
 }
 \details{
 In \code{\link[=tar_target]{tar_target()}}, \code{pattern = head(x, n = 5)}

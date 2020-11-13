@@ -2,7 +2,7 @@
 #' @export
 #' @aliases head
 #' @family Dynamic branching
-#' @description Branch over the first few elements of a pattern.
+#' @description Branch over the first few elements in a pattern.
 #' @details In [tar_target()], `pattern = head(x, n = 5)`
 #'   branches over the first 5 elements of `x`. `head()` can be
 #'   composed with other kinds of patterns: for example,

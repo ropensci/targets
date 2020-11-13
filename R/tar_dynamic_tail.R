@@ -2,7 +2,7 @@
 #' @export
 #' @aliases tail
 #' @family Dynamic branching
-#' @description Branch over the last few elements of a pattern.
+#' @description Branch over the last few elements in a pattern.
 #' @details In [tar_target()], `pattern = tail(x, n = 5)`
 #'   branches over the last 5 elements of `x`. `tail()` can be
 #'   composed with other kinds of patterns: for example,
