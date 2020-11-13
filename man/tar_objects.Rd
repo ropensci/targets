@@ -18,7 +18,7 @@ tar_script({
   tar_pipeline(tar_target(x, "value"))
 })
 tar_make()
-tar_workspaces()
+tar_objects()
 })
 }
 }
