@@ -38,7 +38,7 @@ the pipeline, use the \code{tar_dynamic_sample()} function.
 # The following code goes at the bottom of _targets.R.
 tar_pipeline(
   tar_target(x, seq_len(26)),
-  tar_target(dynamic, c(x, y), pattern = sample(x, n = 2)) # 2 branches
+  tar_target(dynamic, x, pattern = sample(x, n = 2)) # 2 branches
 )
 # To explore dynamic sample() outside a pipeline,
 # use the tar_dynamic_sample() helper function.

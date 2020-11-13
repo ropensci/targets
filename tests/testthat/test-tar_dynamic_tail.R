@@ -16,3 +16,14 @@ tar_test("tar_dynamic_tail() with many vars", {
   )
   expect_equal(out, exp)
 })
+
+tar_test("tail pattern in target", {
+  tar_script({
+    tar_pipeline(
+      tar_target(x, seq_len(26)),
+      tar_target(dynamic, x, pattern = tail(x, n = 2))
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(dynamic), tail(seq_len(26), 2))
+})

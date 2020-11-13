@@ -16,7 +16,7 @@
 #' # The following code goes at the bottom of _targets.R.
 #' tar_pipeline(
 #'   tar_target(x, seq_len(26)),
-#'   tar_target(dynamic, c(x, y), pattern = tail(x, n = 2)) # 2 branches
+#'   tar_target(dynamic, x, pattern = tail(x, n = 2)) # 2 branches
 #' )
 #' # To explore dynamic tail() outside a pipeline,
 #' # use the tar_dynamic_tail() helper function.

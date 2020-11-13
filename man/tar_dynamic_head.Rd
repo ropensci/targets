@@ -31,7 +31,7 @@ the pipeline, use the \code{tar_dynamic_head()} function.
 # The following code goes at the bottom of _targets.R.
 tar_pipeline(
   tar_target(x, seq_len(26)),
-  tar_target(dynamic, c(x, y), pattern = head(x, n = 2)) # 2 branches
+  tar_target(dynamic, x + 1, pattern = head(x, n = 2)) # 2 branches
 )
 # To explore dynamic head() outside a pipeline,
 # use the tar_dynamic_head() helper function.
