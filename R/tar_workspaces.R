@@ -6,7 +6,7 @@
 #' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 #' tar_dir({
 #' tar_script({
-#'   tar_option_set(error = "save") # Required for saving workspaces.
+#'   tar_option_set(error = "workspace")
 #'   tar_pipeline(
 #'     tar_target(x, "value"),
 #'     tar_target(y, x)
