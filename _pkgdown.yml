@@ -91,3 +91,6 @@ reference:
   - '`tar_name`'
   - '`tar_path`'
   - '`tar_seed`'
+- title: Dynamic branching
+  - '`dynamic-map`'
+  - '`dynamic-cross`'
