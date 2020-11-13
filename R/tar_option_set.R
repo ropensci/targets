@@ -19,6 +19,12 @@
 #'   problems. This is like inserting a `browser()` statement at the
 #'   beginning of the target's expression, but without invalidating any
 #'   targets.
+#' @param workspace Character vector of names of targets to save workspace
+#'   files. Workspace files let you re-create a target's runtime environment
+#'   in an interactive R session using [tar_workspace()]. [tar_workspace()]
+#'   loads a target's random number generator seed and dependency objects
+#'   as long as those target objects are still in the data store
+#'   (usually `_targets/objects/`).
 #' @examples
 #' tar_option_get("format") # default format before we set anything
 #' tar_target(x, 1)$settings$format
@@ -43,7 +49,8 @@ tar_option_set <- function(
   storage = NULL,
   retrieval = NULL,
   cue = NULL,
-  debug = NULL
+  debug = NULL,
+  workspace = NULL
 ) {
   force(envir)
   tar_option_set_tidy_eval(tidy_eval)
@@ -62,6 +69,7 @@ tar_option_set <- function(
   tar_option_set_retrieval(retrieval)
   tar_option_set_cue(cue)
   tar_option_set_debug(debug)
+  tar_option_set_workspace(workspace)
 }
 
 tar_option_set_tidy_eval <- function(tidy_eval) {
@@ -107,7 +115,7 @@ tar_option_set_iteration <- function(iteration) {
 
 tar_option_set_error <- function(error) {
   error <- error %||% tar_option_get("error")
-  error <- match.arg(error, c("stop", "continue", "save"))
+  error <- match.arg(error, c("stop", "continue", "workspace"))
   assign("error", error, envir = tar_envir_options)
 }
 
@@ -167,8 +175,17 @@ tar_option_set_cue <- function(cue) {
 
 tar_option_set_debug <- function(debug) {
   debug <- debug %||% tar_option_get("debug")
-  assert_chr(debug, "debug artument of tar_option_set() must be a character.")
+  assert_chr(debug, "debug argument of tar_option_set() must be a character.")
   assign("debug", debug, envir = tar_envir_options)
+}
+
+tar_option_set_workspace <- function(workspace) {
+  workspace <- workspace %||% tar_option_get("workspace")
+  assert_chr(
+    workspace,
+    "workspace argument of tar_option_set() must be a character."
+  )
+  assign("workspace", workspace, envir = tar_envir_options)
 }
 
 tar_envir_options <- new.env(parent = emptyenv())

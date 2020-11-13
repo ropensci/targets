@@ -9,7 +9,7 @@ tar_test("run timestamp reporter", {
 tar_test("run timestamp reporter with a error and saved workspace", {
   pipeline <- pipeline_init(
     list(
-      target_init("x", quote(stop(123)), error = "save")
+      target_init("x", quote(stop(123)), error = "workspace")
     )
   )
   local <- local_init(pipeline, reporter = "timestamp")

@@ -28,7 +28,7 @@ cli_uptodate <- function() {
 
 cli_workspace <- function(name, time_stamp = FALSE) {
   time <- trn(time_stamp, time_stamp(), NULL)
-  msg <- paste(c(time, "save workspace", name), collapse = " ")
+  msg <- paste(c(time, "record workspace", name), collapse = " ")
   cli_blue_bullet(msg)
 }
 
