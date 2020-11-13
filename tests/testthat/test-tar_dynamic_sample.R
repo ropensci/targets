@@ -35,6 +35,7 @@ tar_test("sample pattern in target", {
   set.seed(2)
   tar_make(callr_function = NULL)
   out2 <- tar_read(dynamic)
+  x <- data.frame(x = seq_len(26))
   out <- tar_dynamic_sample(x, n = 3)
   out2 <- tar_dynamic_sample(x, n = 3)
   expect_equal(out, out2)
