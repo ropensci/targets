@@ -31,3 +31,8 @@ dir_create <- function(x) {
 mask_pointers <- function(x) {
   gsub("<pointer: 0x[0-9a-zA-Z]*>", "", x)
 }
+
+omit_rownames <- function(x) {
+  rownames(x) <- NULL
+  x
+}

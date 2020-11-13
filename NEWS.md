@@ -10,6 +10,10 @@
 * Rename `what` to `destroy` in `tar_destroy()`.
 * Remove `tar_undebug()` because is redundant with `tar_destroy(destroy = "workspaces")`.
 
+## New features
+
+* Add interactive helpers for dynamic branching: `tar_dynamic_map()` and `tar_dynamic_cross()` help users understand how dynamic branching works outside a pipeline.
+
 # targets 0.0.0.9002
 
 ## Breaking changes

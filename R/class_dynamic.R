@@ -27,10 +27,10 @@ dynamic_class <- R6::R6Class(
         unique(map_int(args, nrow)),
         paste("unequal lengths of vars in", deparse_safe(sys.call()))
       )
-      do.call(cbind, args)
+      omit_rownames(do.call(cbind, args))
     },
     cross = function(...) {
-      Reduce(private$cross_iteration, list(...))
+      omit_rownames(Reduce(private$cross_iteration, list(...)))
     }
   )
 )
