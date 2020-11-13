@@ -15,6 +15,7 @@
 #'   global environment.
 #' @examples
 #' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' tar_dir({
 #' tmp <- sample(1)
 #' tar_script({
 #'   tar_option_set(error = "workspace")
@@ -25,6 +26,7 @@
 #' })
 #' try(tar_make())
 #' tar_traceback(y)
+#' })
 #' }
 tar_traceback <- function(
   name,

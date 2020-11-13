@@ -30,6 +30,7 @@ exist. For more information, see \code{\link[=tar_workspace]{tar_workspace()}}.
 }
 \examples{
 if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+tar_dir({
 tmp <- sample(1)
 tar_script({
   tar_option_set(error = "workspace")
@@ -40,5 +41,6 @@ tar_script({
 })
 try(tar_make())
 tar_traceback(y)
+})
 }
 }
