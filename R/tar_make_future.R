@@ -52,7 +52,6 @@ tar_make_future <- function(
 }
 
 tar_make_future_inner <- function(pipeline, names_quosure, reporter, workers) {
-  tar_make_assert_options()
   pipeline_validate_lite(pipeline)
   names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
   future_init(

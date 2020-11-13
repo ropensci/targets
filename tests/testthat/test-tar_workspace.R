@@ -7,7 +7,7 @@ tar_test("workspaces are not saved if error = 'stop'", {
   )
   local <- local_init(pipeline, reporter = "verbose")
   expect_error(expect_message(local$run()), class = "condition_run")
-  expect_false(file.exists(path_workspaces("x")))
+  expect_false(file.exists(path_workspace("x")))
 })
 
 tar_test("workspaces are not saved if error = 'continue'", {
@@ -20,7 +20,7 @@ tar_test("workspaces are not saved if error = 'continue'", {
   local <- local_init(pipeline, reporter = "verbose")
   suppressMessages(local$run())
   expect_true(grepl("12345", tar_meta(x)$error[[1]]))
-  expect_false(file.exists(path_workspaces("x")))
+  expect_false(file.exists(path_workspace("x")))
 })
 
 tar_test("workspaces are saved if error = 'save'", {
@@ -32,7 +32,7 @@ tar_test("workspaces are saved if error = 'save'", {
   )
   local <- local_init(pipeline, reporter = "verbose")
   expect_error(expect_message(local$run()), class = "condition_run")
-  expect_true(file.exists(path_workspaces("x")))
+  expect_true(file.exists(path_workspace("x")))
 })
 
 tar_test("tar_workspace() works", {
@@ -47,11 +47,9 @@ tar_test("tar_workspace() works", {
   try(tar_make(callr_function = NULL), silent = TRUE)
   exists("x")
   seed <- .Random.seed
-  envir <- new.env(parent = emptyenv())
+  envir <- new.env(parent = globalenv())
   tar_workspace(y, envir = envir)
   expect_equal(envir$x, "loaded")
-  expect_true(is.integer(envir$.targets$seed))
-  expect_true(is.character(envir$.targets$traceback))
   expect_false(identical(seed, .Random.seed))
 })
 
@@ -66,7 +64,7 @@ tar_test("tar_workspace() on a branch", {
   try(tar_make(callr_function = NULL), silent = TRUE)
   meta <- tar_meta(fields = error)
   failed <- meta[!is.na(unlist(meta$error)), ]$name
-  envir <- new.env(parent = emptyenv())
+  envir <- new.env(parent = globalenv())
   eval(substitute(
     tar_workspace(name = name, envir = envir),
     env = list(name = failed)

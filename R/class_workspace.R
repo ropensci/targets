@@ -2,7 +2,8 @@ workspace_init <- function(target, pipeline) {
   target <- target_workspace_copy(target)
   subpipeline <- pipeline_produce_subpipeline(
     pipeline,
-    target_get_name(target)
+    target_get_name(target),
+    keep_value = FALSE
   )
   workspace_new(target = target, subpipeline = subpipeline)
 }
@@ -14,26 +15,25 @@ workspace_new <- function(target = NULL, subpipeline = NULL) {
 }
 
 workspace_save <- function(workspace) {
-  assert_package("qs", "saving workspaces requires the qs package.")
-  workspace_serialize(workspace)
   path <- path_workspace(target_get_name(workspace$target))
   dir_create(path_workspaces_dir())
-  qs::qsave(x = out, file = path, preset = "high")
+  saveRDS(object = workspace, file = path)
 }
 
 workspace_read <- function(name) {
-  assert_package("qs", "reading workspaces requires the qs package.")
-  workspace <- qs::qread(path_workspace(name))
-  workspace_unserialize(workspace)
+  path <- path_workspace(name)
+  assert_path(path, paste0("no workspace found for target ", name, "."))
+  readRDS(path)
 }
 
-workspace_serialize <- function(workspace) {
+workspace_populate <- function(workspace) {
   target_ensure_deps(workspace$target, workspace$subpipeline)
-  pipeline_serialize_values(workspace$subpipeline)
+  target_cache_deps(workspace$target, workspace$subpipeline)
 }
 
-workspace_unserialize <- function(workspace) {
-  pipeline_unserialize_values(workspace$subpipeline)
+workspace_assign <- function(workspace, envir) {
+  from <- cache_get_envir(workspace$target$cache)
+  map(names(from), ~assign(x = .x, value = from[[.x]], envir = envir))
 }
 
 workspace_validate <- function(workspace) {

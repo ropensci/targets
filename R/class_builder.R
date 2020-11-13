@@ -212,8 +212,7 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
 
 builder_save_workspace <- function(target, pipeline, scheduler) {
   scheduler$reporter$report_workspace(target)
-  workspace <- workspace_init(target, pipeline)
-  workspace_save(workspace)
+  workspace_save(workspace_init(target, pipeline))
 }
 
 builder_record_error_meta <- function(target, meta) {
