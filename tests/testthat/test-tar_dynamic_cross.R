@@ -1,3 +1,15 @@
+tar_test("inner cross method", {
+  x <- data.frame(x = seq_len(2))
+  y <- data.frame(y = seq_len(2))
+  methods <- dynamic_init()
+  out <- methods$cross(x, y)
+  exp <- data.frame(
+    x = rep(seq_len(2), each = 2),
+    y = rep(seq_len(2), times = 2)
+  )
+  expect_equal(out, exp)
+})
+
 tar_test("tar_dynamic_cross() input edge cases", {
   x <- data.frame(x = seq_len(2))
   y <- data.frame(

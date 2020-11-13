@@ -1,3 +1,9 @@
+tar_test("inner head method", {
+  x <- data.frame(x = seq_len(10))
+  methods <- dynamic_init()
+  expect_equal(methods$head(x, n = 2), head(x, n = 2))
+})
+
 tar_test("tar_dynamic_head() with one var", {
   x <- data_frame(x = seq_len(26))
   out <- tar_dynamic_head(x, n = 3)

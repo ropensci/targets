@@ -1,3 +1,9 @@
+tar_test("inner tail method", {
+  x <- data.frame(x = seq_len(10))
+  methods <- dynamic_init()
+  expect_equal(methods$tail(x, n = 2), data.frame(x = c(9L, 10L)))
+})
+
 tar_test("tar_dynamic_tail() with one var", {
   x <- data_frame(x = seq_len(26))
   out <- tar_dynamic_tail(x, n = 3)

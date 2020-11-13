@@ -9,6 +9,16 @@ tar_test("tar_dynamic_sample() with one var", {
   expect_true(all(out$x %in% seq_len(26)))
 })
 
+tar_test("inner sample method", {
+  x <- data.frame(x = seq_len(10))
+  methods <- dynamic_init()
+  out <- methods$sample(x, n = 2)
+  expect_true(is.data.frame(out))
+  expect_equal(dim(out), c(2L, 1L))
+  expect_equal(colnames(out), "x")
+  expect_true(all(out$x %in% seq_len(10)))
+})
+
 tar_test("tar_dynamic_sample() with many vars", {
   x <- data_frame(x = seq_len(26))
   y <- data_frame(y = letters, z = LETTERS)

@@ -1,3 +1,9 @@
+tar_test("inner map method", {
+  x <- data.frame(x = seq_len(2))
+  methods <- dynamic_init()
+  expect_equal(methods$map(x), x)
+})
+
 tar_test("tar_dynamic_map() input edge cases", {
   x <- data.frame(x = seq_len(2))
   y <- data.frame(
