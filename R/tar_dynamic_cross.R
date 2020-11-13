@@ -3,7 +3,8 @@
 #' @alias cross
 #' @family Dynamic branching
 #' @description Iterate over one or more targets in sequence.
-#' @details In [tar_target()], `pattern = cross(x, y)` creates one dynamic branch
+#' @details In [tar_target()], `pattern = cross(x, y)`
+#'   creates one dynamic branch
 #'   for each combination of elements of `x` and `y`.
 #'   To test and experiment with this behavior outside
 #'   the pipeline, use the `tar_dynamic_cross()` function.

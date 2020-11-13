@@ -15,7 +15,8 @@ be unique across all the data frames.}
 Iterate over one or more targets in sequence.
 }
 \details{
-In \code{\link[=tar_target]{tar_target()}}, \code{pattern = cross(x, y)} creates one dynamic branch
+In \code{\link[=tar_target]{tar_target()}}, \code{pattern = cross(x, y)}
+creates one dynamic branch
 for each combination of elements of \code{x} and \code{y}.
 To test and experiment with this behavior outside
 the pipeline, use the \code{tar_dynamic_cross()} function.
