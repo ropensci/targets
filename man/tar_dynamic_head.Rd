@@ -43,6 +43,7 @@ tar_dynamic_head(tar_dynamic_map(x, y), n = 2)
 \seealso{
 Other Dynamic branching: 
 \code{\link{tar_dynamic_cross}()},
-\code{\link{tar_dynamic_map}()}
+\code{\link{tar_dynamic_map}()},
+\code{\link{tar_dynamic_tail}()}
 }
 \concept{Dynamic branching}
