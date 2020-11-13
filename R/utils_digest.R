@@ -22,8 +22,8 @@ digest_obj64 <- function(object, ...) {
   vdigest64(list(object), serialize = TRUE, serializeVersion = 3L, ...)
 }
 
-produce_seed <- function(name) {
-  digest::digest2int(as.character(name), seed = 0L)
+produce_seed <- function(scalar) {
+  digest::digest2int(as.character(scalar), seed = 0L)
 }
 
 null64 <- digest_obj64(NULL)
