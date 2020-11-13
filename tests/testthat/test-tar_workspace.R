@@ -71,3 +71,20 @@ tar_test("tar_workspace() on a branch", {
   ))
   expect_equal(envir$x, 4L)
 })
+
+tar_test("tar_workspace() with an unexportable object", {
+  skip_on_cran()
+  skip_if_not_installed("torch")
+  tar_script({
+    tar_option_set(error = "save")
+    tar_pipeline(
+      tar_target(tensor, torch::torch_zeros(10), format = "torch"),
+      tar_target(array, stop(tensor))
+    )
+  })
+  try(tar_make(callr_function = NULL), silent = TRUE)
+  envir <- new.env(parent = globalenv())
+  tar_workspace(array, envir)
+  expect_true(inherits(envir$tensor, "torch_tensor"))
+  expect_equal(as.numeric(sum(envir$tensor)), 0)
+})
