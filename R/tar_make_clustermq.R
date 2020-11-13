@@ -69,6 +69,7 @@ tar_make_clustermq_inner <- function(
   workers,
   log_worker
 ) {
+  tar_make_assert_options()
   pipeline_validate_lite(pipeline)
   names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
   clustermq_init(

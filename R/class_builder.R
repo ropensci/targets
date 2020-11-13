@@ -212,22 +212,8 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
 
 builder_save_workspace <- function(target, pipeline, scheduler) {
   scheduler$reporter$report_workspace(target)
-  out <- as.list(target$cache$imports$envir)
-  target_ensure_deps(target, pipeline)
-  target_cache_deps(target, pipeline)
-  on.exit(cache_clear_objects(target$cache))
-  for (name in target$cache$targets$names) {
-    out[[name]] <- memory_get_object(target$cache$targets, name)
-  }
-  out$.targets <- list(
-    packages = target$command$packages,
-    library = target$command$library,
-    seed = target$command$seed,
-    traceback = target$metrics$traceback
-  )
-  dir_create(path_workspaces_dir())
-  path <- path_workspaces(target$settings$name)
-  qs::qsave(x = out, file = path, preset = "high")
+  workspace <- workspace_init(target, pipeline)
+  workspace_save(workspace)
 }
 
 builder_record_error_meta <- function(target, meta) {

@@ -59,6 +59,7 @@ tar_make <- function(
 }
 
 tar_make_inner <- function(pipeline, names_quosure, reporter) {
+  tar_make_assert_options()
   pipeline_validate_lite(pipeline)
   names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
   local_init(
@@ -68,6 +69,12 @@ tar_make_inner <- function(pipeline, names_quosure, reporter) {
     reporter = reporter
   )$run()
   invisible()
+}
+
+tar_make_assert_options <- function() {
+  if (identical(tar_option_get("error"), "save")) {
+    assert_package("qs", "error = \"save\" requires the qs package.")
+  }
 }
 
 tar_make_reporters <- function() {
