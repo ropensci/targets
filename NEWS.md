@@ -3,6 +3,8 @@
 ## Breaking changes
 
 * Make patterns composable (#212, @glep, @djbirke).
+* Allow workspaces to load unexportable objects (#214).
+* Make workspace files super light by saving only a reference to the required dependencies (#214).
 
 # targets 0.0.0.9002
 
