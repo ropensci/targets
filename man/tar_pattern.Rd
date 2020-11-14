@@ -47,12 +47,8 @@ all while the pipeline is running. Use the \code{pattern} argument of
 \code{\link[=tar_target]{tar_target()}} to get started. \code{pattern} accepts a function call
 composed of target names and any of the following patterns:
 \itemize{
-\item \code{map()}: create one branch for each corresponding element of
-its arguments. \code{map(x, y)} creates one branch for the first
-elements of \code{x} and \code{y}, another branch for the second
-elements of \code{x} and \code{y}, and so on.
-\item \code{cross()}: create one branch for each combination
-of elements of the arguments.
+\item \code{map()}: iterate over one or more targets in sequence.
+\item \code{cross()}: iterate over combinations of slices of targets.
 \item \code{head()}: restrict branching to the first few elements.
 \item \code{tail()}: restrict branching to the last few elements.
 \item \code{sample()}: restrict branching to a random subset of elements.

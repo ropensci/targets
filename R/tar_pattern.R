@@ -9,12 +9,8 @@
 #'   all while the pipeline is running. Use the `pattern` argument of
 #'   [tar_target()] to get started. `pattern` accepts a function call
 #'   composed of target names and any of the following patterns:
-#'   * `map()`: create one branch for each corresponding element of
-#'     its arguments. `map(x, y)` creates one branch for the first
-#'     elements of `x` and `y`, another branch for the second
-#'     elements of `x` and `y`, and so on.
-#'   * `cross()`: create one branch for each combination
-#'     of elements of the arguments.
+#'   * `map()`: iterate over one or more targets in sequence.
+#'   * `cross()`: iterate over combinations of slices of targets.
 #'   * `head()`: restrict branching to the first few elements.
 #'   * `tail()`: restrict branching to the last few elements.
 #'   * `sample()`: restrict branching to a random subset of elements.

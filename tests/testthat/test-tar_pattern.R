@@ -10,7 +10,10 @@ tar_test("tar_pattern() input edge cases", {
 tar_test("tar_pattern() map unequal length inputs", {
   x <- head(letters, 3)
   y <- tail(LETTERS, 2)
-  expect_error(tar_pattern(map(x, y), x = x, y = y), class = "condition_validate")
+  expect_error(
+    tar_pattern(map(x, y), x = x, y = y),
+    class = "condition_validate"
+  )
 })
 
 tar_test("tar_pattern() map", {
