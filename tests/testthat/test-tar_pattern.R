@@ -24,7 +24,7 @@ tar_test("tar_pattern() map", {
     x = as.character(seq_len(2))
   )
   out <- tar_pattern(map(y, x), x = x, y = y)
-  expect_equal(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_pattern() cross", {
@@ -35,7 +35,7 @@ tar_test("tar_pattern() cross", {
     x = rep(as.character(seq_len(2)), times = 2)
   )
   out <- tar_pattern(cross(y, x), x = x, y = y)
-  expect_equal(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_pattern() composed cross", {
@@ -48,14 +48,14 @@ tar_test("tar_pattern() composed cross", {
     x = rep(as.character(seq_len(2)), times = 2)
   )
   out <- tar_pattern(cross(map(y, z), x), x = x, y = y, z = z)
-  expect_equal(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_pattern() head with one var", {
   x <- as.character(seq_len(26))
   out <- tar_pattern(head(x, n = 3), x = x)
   exp <- data_frame(x = as.character(seq_len(3)))
-  expect_equal(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_pattern() with many vars", {
@@ -68,14 +68,14 @@ tar_test("tar_pattern() with many vars", {
     y = head(letters, 3),
     z = head(LETTERS, 3)
   )
-  expect_equal(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_pattern() tail with one var", {
   x <- as.character(seq_len(26))
   out <- tar_pattern(tail(x, n = 3), x = x)
   exp <- data_frame(x = tail(as.character(seq_len(26)), 3))
-  expect_equal(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_pattern() tail with many vars", {
@@ -88,7 +88,7 @@ tar_test("tar_pattern() tail with many vars", {
     y = tail(letters, 3),
     z = tail(LETTERS, 3)
   )
-  expect_equal(out, exp)
+  expect_equiv(out, exp)
 })
 
 tar_test("tar_pattern() sample with one var", {
