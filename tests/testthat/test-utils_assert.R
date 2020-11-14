@@ -2,22 +2,6 @@ tar_test("assert_package()", {
   expect_error(assert_package("_illegal"), class = "condition_targets")
 })
 
-tar_test("assert_child_dfs", {
-  x <- data.frame(x = seq_len(2))
-  y <- data.frame(
-    y = head(letters, 2),
-    z = tail(LETTERS, 2)
-  )
-  expect_silent(assert_child_dfs(x, y))
-  expect_error(assert_child_dfs(list(x, y)), class = "condition_validate")
-  x <- data.frame(y = seq_len(2))
-  expect_error(assert_child_dfs(x, y), class = "condition_validate")
-  colnames(x) <- ""
-  expect_error(assert_child_dfs(x, y), class = "condition_validate")
-  colnames(x) <- NULL
-  expect_error(assert_child_dfs(x, y), class = "condition_validate")
-})
-
 tar_test("assert_chr_no_delim()", {
   expect_error(assert_chr_no_delim(0L), class = "condition_validate")
   expect_error(assert_chr_no_delim("a|b"), class = "condition_validate")

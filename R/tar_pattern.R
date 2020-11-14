@@ -22,19 +22,21 @@
 #'   [tar_target()] would create in a real pipeline with the given `pattern`.
 #'   Each row is a dynamic branch, each column is a dependency target,
 #'   and each element is the name of an upstream bud or branch that the
-#'   downstream branch depends on. Buds are pieces of unbranching targets
+#'   downstream branch depends on. Buds are pieces of non-branching targets
 #'   ("stems") and branches are pieces of patterns.
 #' @param pattern Function call with the pattern specification.
-#' @param ... Named character vectors to represent upstream targets.
+#' @param ... Named vectors to represent upstream targets.
 #'   Each name is the name of a whole stem or pattern,
 #'   and each vector element is a character with the name of an
-#'   upstream bud or branch. Buds are pieces of unbranching targets
+#'   upstream bud or branch. Buds are pieces of non-branching targets
 #'   ("stems") and branches are pieces of patterns. Names must be unique.
+#'   If you do not supply character vectors, they will be coerced to
+#'   character vectors.
 #' @param seed Integer of length 1, random number generator seed to
 #'   emulate the pattern reproducibly. (The `sample()` pattern is random).
 #'   In a real pipeline, the seed is automatically generated
 #'   from the target name in deterministic fashion.
-#' @example
+#' @examples
 #' # To use dynamic map for real in a pipeline,
 #' # call map() in a target's pattern.
 #' # The following code goes at the bottom of _targets.R.
@@ -75,9 +77,10 @@
 tar_pattern <- function(pattern, ..., seed = 0L) {
   pattern <- as.expression(substitute(pattern))
   assert_expr(pattern, "pattern must be language.")
-  args <- list(...)
+  args <- lapply(list(...), as.character)
   tar_pattern_assert_args(args)
   niblings <- map(names(args), ~set_names(data_frame(x = args[[.x]]), .x))
+  niblings <- set_names(niblings, names(args))
   methods <- dynamic_init()
   pattern_produce_grid(
     pattern = pattern,
@@ -96,4 +99,5 @@ tar_pattern_assert_args <- function(args) {
   assert_nonmissing(names, msg)
   assert_unique(names)
   assert_identical(length(names), length(args), msg)
+  map(args, assert_chr, "... must be character vectors of bud/branch names.")
 }

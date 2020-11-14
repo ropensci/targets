@@ -702,6 +702,47 @@ tar_test("cross pattern with many inputs", {
   expect_equal(out, exp)
 })
 
+tar_test("head pattern in pipeline", {
+  tar_script({
+    tar_pipeline(
+      tar_target(x, seq_len(26)),
+      tar_target(dynamic, x, pattern = head(x, n = 2))
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(dynamic), seq_len(2))
+})
+
+tar_test("tail pattern in pipeline", {
+  tar_script({
+    tar_pipeline(
+      tar_target(x, seq_len(26)),
+      tar_target(dynamic, x, pattern = tail(x, n = 2))
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(dynamic), tail(seq_len(26), 2))
+})
+
+tar_test("sample pattern in pipeline", {
+  tar_script({
+    tar_pipeline(
+      tar_target(x, seq_len(26)),
+      tar_target(dynamic, x, pattern = sample(x, n = 2))
+    )
+  })
+  set.seed(1)
+  tar_make(callr_function = NULL)
+  out <- tar_read(dynamic)
+  tar_destroy()
+  set.seed(2)
+  tar_make(callr_function = NULL)
+  out2 <- tar_read(dynamic)
+  expect_equal(out, out2)
+  expect_true(is.numeric(out))
+  expect_equal(length(out), 2)
+})
+
 tar_test("pattern validate", {
   x <- target_init("x", expr = quote(1 + 1), pattern = quote(map(a, b)))
   expect_silent(target_validate(x))
