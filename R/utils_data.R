@@ -36,3 +36,8 @@ omit_rownames <- function(x) {
   rownames(x) <- NULL
   x
 }
+
+set_names <- function(x, names) {
+  names(x) <- names
+  x
+}

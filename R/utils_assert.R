@@ -13,6 +13,7 @@ assert_child_df <- function(x) {
   msg <- "dynamic branching data frames must have nonempty colunm names."
   assert_nzchar(cols, msg)
   assert_identical(length(cols), ncol(x), msg)
+  map(x, assert_chr_no_delim)
 }
 
 assert_child_dfs <- function(...) {

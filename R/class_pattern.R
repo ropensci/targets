@@ -322,7 +322,12 @@ pattern_name_branches <- function(parent, niblings) {
   paste0(parent, "_", suffixes)
 }
 
-pattern_produce_grid <- function(pattern, niblings, seed) {
+pattern_produce_grid <- function(
+  pattern,
+  niblings,
+  seed,
+  methods = dynamic_methods
+) {
   out <- withr::with_seed(
     seed,
     eval(pattern, envir = niblings, enclos = dynamic_methods$self)
