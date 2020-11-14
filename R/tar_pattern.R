@@ -78,12 +78,13 @@ tar_pattern <- function(pattern, ..., seed = 0L) {
   niblings <- map(names(args), ~set_names(data_frame(x = args[[.x]]), .x))
   niblings <- set_names(niblings, names(args))
   methods <- dynamic_init()
-  pattern_produce_grid(
+  out <- pattern_produce_grid(
     pattern = pattern,
     niblings = niblings,
     seed = seed,
     methods = methods
   )
+  tibble::as_tibble(out)
 }
 
 tar_pattern_assert_args <- function(args) {
