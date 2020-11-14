@@ -2,8 +2,8 @@
 #' @export
 #' @aliases map cross head tail sample
 #' @description Emulate the dynamic branching process outside a pipeline.
-#'   `tar_pattern()` can help you understand which branches
-#'   will be created when you set the `pattern` argument of [tar_target()].
+#'   `tar_pattern()` can help you understand the overall branching structure
+#'   that comes from the `pattern` argument of [tar_target()].
 #' @details Dynamic branching is a way to programmatically
 #'   create multiple new targets based on the values of other targets,
 #'   all while the pipeline is running. Use the `pattern` argument of
@@ -19,15 +19,14 @@
 #'   Each row is a dynamic branch, each column is a dependency target,
 #'   and each element is the name of an upstream bud or branch that the
 #'   downstream branch depends on. Buds are pieces of non-branching targets
-#'   ("stems") and branches are pieces of patterns.
+#'   ("stems") and branches are pieces of patterns. The returned bud and branch
+#'   names are not the actual ones you will see when you run the pipeline,
+#'   but they do communicate the branching structure of the pattern.
 #' @param pattern Function call with the pattern specification.
-#' @param ... Named vectors to represent upstream targets.
-#'   Each name is the name of a whole stem or pattern,
-#'   and each vector element is a character with the name of an
-#'   upstream bud or branch. Buds are pieces of non-branching targets
-#'   ("stems") and branches are pieces of patterns. Names must be unique.
-#'   If you do not supply character vectors, they will be coerced to
-#'   character vectors.
+#' @param ... Named integers, each of length 1.
+#'   Each name is the name of a dependency target,
+#'   and each integer is the length of the target
+#'   (number of branches or slices). Names must be unique.
 #' @param seed Integer of length 1, random number generator seed to
 #'   emulate the pattern reproducibly. (The `sample()` pattern is random).
 #'   In a real pipeline, the seed is automatically generated
@@ -49,34 +48,31 @@
 #'   tar_target(dynamic, c(x, y, z), pattern = cross(z, map(x, y))) #4 branches
 #' )
 #' # But you can emulate dynamic branching without running a pipeline
-#' # in order to understand the patterns you are creating.
-#' # First, you have to make up some names for pieces of targets
-#' # ("buds" and branches). The following are reasonably realistic branch names
-#' # that `targets` might generate during [tar_make()], but they need not be
-#' # totally realistic for emulation purposes.
-#' x <- c("x_550d7456", "x_a20cadbf", "x_eeb00f1b")
-#' y <- c("x_42f35290", "x_f95ad1c7")
-#' z <- c("x_67188e74", "x_5512ec97")
-#' # Then, call `tar_pattern()` to emulate the pattern.
+#' # in order to understand the patterns you are creating. Simply supply
+#' # the pattern and the length of each dependency target.
+#' # The returned data frame represents the branching structure of the pattern:
+#' # One row per new branch, one column per dependency target, and
+#' # one element per bud/branch in each dependency target.
 #' tar_pattern(
 #'   cross(x, map(y, z)),
-#'   x = x,
-#'   y = y,
-#'   z = z
+#'   x = 2,
+#'   y = 3,
+#'   z = 3
 #' )
 #' tar_pattern(
 #'   head(cross(x, map(y, z)), n = 2),
-#'   x = x,
-#'   y = y,
-#'   z = z
+#'   x = 2,
+#'   y = 3,
+#'   z = 3
 #' )
 tar_pattern <- function(pattern, ..., seed = 0L) {
   pattern <- as.expression(substitute(pattern))
   assert_expr(pattern, "pattern must be language.")
-  args <- lapply(list(...), as.character)
-  tar_pattern_assert_args(args)
-  niblings <- map(names(args), ~set_names(data_frame(x = args[[.x]]), .x))
-  niblings <- set_names(niblings, names(args))
+  lengths <- list(...)
+  tar_pattern_assert_lengths(lengths)
+  lengths <- lapply(lengths, as.integer)
+  niblings <- map(names(lengths), ~tar_pattern_nibling(.x, lengths[[.x]]))
+  niblings <- set_names(niblings, names(lengths))
   methods <- dynamic_init()
   out <- pattern_produce_grid(
     pattern = pattern,
@@ -87,14 +83,20 @@ tar_pattern <- function(pattern, ..., seed = 0L) {
   tibble::as_tibble(out)
 }
 
-tar_pattern_assert_args <- function(args) {
+tar_pattern_assert_lengths <- function(lengths) {
   msg <- "all arguments in ... must be named and have unique names."
-  names <- names(args)
+  names <- names(lengths)
   assert_nonempty(names, msg)
   assert_chr(names, msg)
   assert_nzchar(names, msg)
   assert_nonmissing(names, msg)
   assert_unique(names)
-  assert_identical(length(names), length(args), msg)
-  map(args, assert_chr, "... must be character vectors of bud/branch names.")
+  assert_identical(length(names), length(lengths), msg)
+  msg <- "... must be integers of length 1."
+  map(lengths, assert_dbl, msg = msg)
+  map(lengths, assert_scalar, msg = msg)
+}
+
+tar_pattern_nibling <- function(name, length) {
+  set_names(data_frame(x = paste(name, seq_len(length), sep = "_")), name)
 }

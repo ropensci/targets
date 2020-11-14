@@ -14,13 +14,10 @@ tar_pattern(pattern, ..., seed = 0L)
 \arguments{
 \item{pattern}{Function call with the pattern specification.}
 
-\item{...}{Named vectors to represent upstream targets.
-Each name is the name of a whole stem or pattern,
-and each vector element is a character with the name of an
-upstream bud or branch. Buds are pieces of non-branching targets
-("stems") and branches are pieces of patterns. Names must be unique.
-If you do not supply character vectors, they will be coerced to
-character vectors.}
+\item{...}{Named integers, each of length 1.
+Each name is the name of a dependency target,
+and each integer is the length of the target
+(number of branches or slices). Names must be unique.}
 
 \item{seed}{Integer of length 1, random number generator seed to
 emulate the pattern reproducibly. (The \code{sample()} pattern is random).
@@ -33,12 +30,14 @@ A \code{tibble} showing the kinds of dynamic branches that
 Each row is a dynamic branch, each column is a dependency target,
 and each element is the name of an upstream bud or branch that the
 downstream branch depends on. Buds are pieces of non-branching targets
-("stems") and branches are pieces of patterns.
+("stems") and branches are pieces of patterns. The returned bud and branch
+names are not the actual ones you will see when you run the pipeline,
+but they do communicate the branching structure of the pattern.
 }
 \description{
 Emulate the dynamic branching process outside a pipeline.
-\code{tar_pattern()} can help you understand which branches
-will be created when you set the \code{pattern} argument of \code{\link[=tar_target]{tar_target()}}.
+\code{tar_pattern()} can help you understand the overall branching structure
+that comes from the \code{pattern} argument of \code{\link[=tar_target]{tar_target()}}.
 }
 \details{
 Dynamic branching is a way to programmatically
@@ -71,25 +70,21 @@ tar_pipeline(
   tar_target(dynamic, c(x, y, z), pattern = cross(z, map(x, y))) #4 branches
 )
 # But you can emulate dynamic branching without running a pipeline
-# in order to understand the patterns you are creating.
-# First, you have to make up some names for pieces of targets
-# ("buds" and branches). The following are reasonably realistic branch names
-# that `targets` might generate during [tar_make()], but they need not be
-# totally realistic for emulation purposes.
-x <- c("x_550d7456", "x_a20cadbf", "x_eeb00f1b")
-y <- c("x_42f35290", "x_f95ad1c7")
-z <- c("x_67188e74", "x_5512ec97")
-# Then, call `tar_pattern()` to emulate the pattern.
+# in order to understand the patterns you are creating. Simply supply
+# the pattern and the length of each dependency target.
+# The returned data frame represents the branching structure of the pattern:
+# One row per new branch, one column per dependency target, and
+# one element per bud/branch in each dependency target.
 tar_pattern(
   cross(x, map(y, z)),
-  x = x,
-  y = y,
-  z = z
+  x = 2,
+  y = 3,
+  z = 3
 )
 tar_pattern(
   head(cross(x, map(y, z)), n = 2),
-  x = x,
-  y = y,
-  z = z
+  x = 2,
+  y = 3,
+  z = 3
 )
 }
