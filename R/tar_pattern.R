@@ -75,8 +75,9 @@
 tar_pattern <- function(pattern, ..., seed = 0L) {
   pattern <- as.expression(substitute(pattern))
   assert_expr(pattern, "pattern must be language.")
-  niblings <- list(...)
-  tar_pattern_assert_niblings(niblings)
+  args <- list(...)
+  tar_pattern_assert_args(args)
+  niblings <- map(names(args), ~set_names(data_frame(x = args[[.x]]), .x))
   methods <- dynamic_init()
   pattern_produce_grid(
     pattern = pattern,
@@ -86,13 +87,13 @@ tar_pattern <- function(pattern, ..., seed = 0L) {
   )
 }
 
-tar_pattern_assert_niblings <- function(niblings) {
+tar_pattern_assert_args <- function(args) {
   msg <- "all arguments in ... must be named and have unique names."
-  names <- names(niblings)
+  names <- names(args)
   assert_nonempty(names, msg)
   assert_chr(names, msg)
   assert_nzchar(names, msg)
   assert_nonmissing(names, msg)
   assert_unique(names)
-  assert_identical(length(names), length(niblings), msg)
+  assert_identical(length(names), length(args), msg)
 }
