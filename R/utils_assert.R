@@ -7,22 +7,6 @@ assert_callr_function <- function(callr_function) {
   }
 }
 
-assert_child_df <- function(x) {
-  assert_df(x, "dynamic transforms must accept data frames")
-  cols <- colnames(x)
-  msg <- "dynamic branching data frames must have nonempty colunm names."
-  assert_nzchar(cols, msg)
-  assert_identical(length(cols), ncol(x), msg)
-}
-
-assert_child_dfs <- function(...) {
-  x <- list(...)
-  cols <- as.character(unlist(map(x, colnames)))
-  msg <- "column names of dynamic branching data frames must be unique."
-  assert_unique(cols, msg)
-  map(x, assert_child_df)
-}
-
 assert_chr <- function(x, msg = NULL) {
   if (!is.character(x)) {
     throw_validate(msg %||% "x must be a character.")

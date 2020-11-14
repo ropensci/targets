@@ -92,8 +92,4 @@ reference:
   - '`tar_seed`'
 - title: Dynamic branching
   contents:
-  - '`tar_dynamic_cross`'
-  - '`tar_dynamic_map`'
-  - '`tar_dynamic_head`'
-  - '`tar_dynamic_sample`'
-  - '`tar_dynamic_tail`'
+  - '`tar_pattern`'
