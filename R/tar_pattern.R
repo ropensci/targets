@@ -45,19 +45,19 @@
 #'   tar_target(y, head(letters, 2)),
 #'   tar_target(dynamic, c(x, y), pattern = map(x, y)) # 2 branches
 #' )
-#' Likewise for more complicated patterns.
+#' # Likewise for more complicated patterns.
 #' tar_pipeline(
 #'   tar_target(x, seq_len(2)),
 #'   tar_target(y, head(letters, 2)),
 #'   tar_target(z, head(LETTERS, 2)),
 #'   tar_target(dynamic, c(x, y, z), pattern = cross(z, map(x, y))) #4 branches
 #' )
-#' But you can emulate dynamic branching without running a pipeline
-#' in order to understand the patterns you are creating.
-#' First, you have to make up some names for pieces of targets
-#' ("buds" and branches). The following are reasonably realistic branch names
-#' that `targets` might generate during [tar_make()], but they need not be
-#' totally realistic for emulation purposes.
+#' # But you can emulate dynamic branching without running a pipeline
+#' # in order to understand the patterns you are creating.
+#' # First, you have to make up some names for pieces of targets
+#' # ("buds" and branches). The following are reasonably realistic branch names
+#' # that `targets` might generate during [tar_make()], but they need not be
+#' # totally realistic for emulation purposes.
 #' x <- c("x_550d7456", "x_a20cadbf", "x_eeb00f1b")
 #' y <- c("x_42f35290", "x_f95ad1c7")
 #' z <- c("x_67188e74", "x_5512ec97")
