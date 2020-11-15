@@ -33,8 +33,8 @@ tar_path <- function(name = NULL, default = tempfile()) {
 
 tar_path_running <- function(default) {
   trn(
-    exists(x = "name", envir = tar_envir_run, inherits = FALSE),
-    path_objects(get(x = "name", envir = tar_envir_run)),
+    exists(x = "target", envir = tar_envir_run, inherits = FALSE),
+    path_objects(target_get_name(get(x = "target", envir = tar_envir_run))),
     as.character(default)
   )
 }

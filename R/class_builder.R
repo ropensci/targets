@@ -282,13 +282,11 @@ builder_wait_correct_hash <- function(target) {
 }
 
 builder_set_tar_envir_run <- function(target) {
-  assign(x = "name", value = target_get_name(target), envir = tar_envir_run)
-  assign(x = "seed", value = target$command$seed, envir = tar_envir_run)
+  assign(x = "target", value = target, envir = tar_envir_run)
 }
 
 builder_unset_tar_envir_run <- function() {
-  names <- c("name", "seed")
-  remove(list = names, envir = tar_envir_run, inherits = FALSE)
+  remove(list = "target", envir = tar_envir_run, inherits = FALSE)
 }
 
 builder_serialize_value <- function(target) {

@@ -16,8 +16,8 @@
 #' tar_target(name, tar_name(default = "custom")) # Returns "name".
 tar_name <- function(default = "target") {
   trn(
-    exists(x = "name", envir = tar_envir_run, inherits = FALSE),
-    get(x = "name", envir = tar_envir_run),
+    exists(x = "target", envir = tar_envir_run, inherits = FALSE),
+    target_get_name(get(x = "target", envir = tar_envir_run)),
     as.character(default)
   )
 }
