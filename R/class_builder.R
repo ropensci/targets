@@ -66,14 +66,16 @@ target_should_run_worker.tar_builder <- function(target) {
 
 #' @export
 target_run.tar_builder <- function(target) {
-  on.exit(builder_unset_tar_envir_run())
+  on.exit({
+    builder_unset_tar_envir_run()
+    cache_clear_objects(target$cache)
+    target$subpipeline <- NULL
+  })
   builder_set_tar_envir_run(target)
   builder_unserialize_subpipeline(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
   target_cache_deps(target, target$subpipeline)
   builder_update_build(target)
-  cache_clear_objects(target$cache)
-  target$subpipeline <- NULL
   builder_update_paths(target)
   builder_ensure_object(target, "worker")
   target
