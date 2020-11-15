@@ -1,8 +1,6 @@
 #' @title Get the name of the target currently running.
 #' @export
 #' @description Get the name of the target currently running.
-#' @details If invoked inside the target's command.
-#'   Only works inside a `targets` pipeline.
 #' @return Character of length 1. If called inside a pipeline,
 #'   `tar_name()` returns name of the target currently running.
 #'   Otherwise, the return value is `default`.
@@ -15,6 +13,8 @@
 #' tar_name(default = "custom_target_name")
 #' tar_target(name, tar_name(default = "custom")) # Returns "name".
 tar_name <- function(default = "target") {
+  assert_chr(default)
+  assert_scalar(default)
   trn(
     exists(x = "target", envir = tar_envir_run, inherits = FALSE),
     target_get_name(get(x = "target", envir = tar_envir_run)),

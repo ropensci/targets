@@ -20,10 +20,6 @@ Otherwise, the return value is \code{default}.
 \description{
 Get the name of the target currently running.
 }
-\details{
-If invoked inside the target's command.
-Only works inside a \code{targets} pipeline.
-}
 \examples{
 tar_name()
 tar_name(default = "custom_target_name")

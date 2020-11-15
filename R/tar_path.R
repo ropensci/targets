@@ -24,6 +24,7 @@
 tar_path <- function(name = NULL, default = tempfile()) {
   name <- deparse_language(substitute(name))
   assert_chr(name %||% character(0), "name arg of tar_path() must be a symbol")
+  assert_chr(default)
   trn(
     is.null(name),
     tar_path_running(default),

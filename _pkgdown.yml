@@ -46,19 +46,23 @@ reference:
   - '`tar_pipeline`'
   - '`tar_target`'
   - '`tar_target_raw`'
+- title: Visualize
+  contents:
+  - '`tar_glimpse`'
+  - '`tar_network`'
+  - '`tar_visnetwork`'
 - title: Inspect
   contents:
   - '`tar_deps`'
   - '`tar_deps_raw`'
-  - '`tar_glimpse`'
+  - '`tar_pattern`'
+  - '`tar_validate`'
+- title: Introspect
   - '`tar_manifest`'
-  - '`tar_network`'
   - '`tar_objects`'
   - '`tar_outdated`'
   - '`tar_progress`'
   - '`tar_sitrep`'
-  - '`tar_validate`'
-  - '`tar_visnetwork`'
   - '`tar_workspaces`'
 - title: Run
   contents:
@@ -83,13 +87,13 @@ reference:
   - '`tar_destroy`'
   - '`tar_invalidate`'
   - '`tar_prune`'
-- title: Helpers
+- title: Runtime accessors
   contents:
-  - '`tar_cancel`'
-  - '`tar_group`'
+  - '`tar_envir`'
   - '`tar_name`'
   - '`tar_path`'
   - '`tar_seed`'
-- title: Dynamic branching
+- title: Runtime helpers
   contents:
-  - '`tar_pattern`'
+  - '`tar_cancel`'
+  - '`tar_group`'
