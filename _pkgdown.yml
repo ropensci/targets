@@ -58,6 +58,7 @@ reference:
   - '`tar_pattern`'
   - '`tar_validate`'
 - title: Introspect
+  contents:
   - '`tar_manifest`'
   - '`tar_objects`'
   - '`tar_outdated`'
