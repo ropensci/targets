@@ -31,6 +31,6 @@ packages such as \code{tarchetypes}.
 }
 \examples{
 tar_envir()
-tar_envir(default = parent.frame())
+tar_envir(default = new.env(parent = emptyenv()))
 tar_target(name, tar_envir(default = parent.frame()))
 }

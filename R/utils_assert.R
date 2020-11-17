@@ -224,8 +224,23 @@ assert_target_script <- function() {
   )
   assert_path("_targets.R", msg)
   vars <- all.vars(parse(file = "_targets.R"), functions = TRUE)
-  choices <- grep("^tar_make", getNamespaceExports("targets"), value = TRUE)
-  msg <- "_targets.R must not contain tar_make() or similar functions."
+  exclude <- c(
+    "glimpse",
+    "make",
+    "manifest",
+    "network",
+    "outdated",
+    "prune",
+    "sitrep",
+    "validate",
+    "visnetwork"
+  )
+  pattern <- paste(paste0("^tar_", exclude), collapse = "|")
+  choices <- grep(pattern, getNamespaceExports("targets"), value = TRUE)
+  msg <- paste(
+    "_targets.R must not call tar_make() or similar functions",
+    "that would source _targets.R again and cause infinite recursion."
+  )
   assert_not_in(vars, choices, msg)
 }
 
