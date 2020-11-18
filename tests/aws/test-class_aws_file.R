@@ -43,7 +43,7 @@ tar_test("aws_file format file gets stored", {
   expect_equal(readLines(tmp), "x_lines")
 })
 
-# Run once with debug(store_unload.tar_aws_s3_file) # nolint
+# Run once with debug(store_unload.tar_aws_file) # nolint
 # to make sure scratch file gets unloaded according to
 # the `memory` setting. Should run more twice for persistent
 # and then four times for transient.

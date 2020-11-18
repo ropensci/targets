@@ -8,8 +8,8 @@ aws_fst_dt_new <- function(file = NULL, resources = NULL) {
   enclass(
     environment(),
     c(
-      "tar_aws_s3_fst_dt",
-      "tar_aws_s3",
+      "tar_aws_fst_dt",
+      "tar_aws",
       "tar_fst_dt",
       "tar_fst",
       "tar_store"
