@@ -24,7 +24,6 @@ store_coerce_object.tar_fst_dt <- function(store, object) {
 }
 
 #' @export
-store_validate_packages.tar_fst_dt <- function(store) {
-  assert_package("data.table")
-  assert_package("fst")
+store_get_packages.tar_fst_dt <- function(store) {
+  c("data.table", NextMethod())
 }

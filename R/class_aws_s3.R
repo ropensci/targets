@@ -105,7 +105,6 @@ store_sync_file_meta.tar_aws_s3 <- function(store, target, meta) {
 # nocov end
 
 #' @export
-store_validate_packages.tar_aws_s3 <- function(store) {
-  assert_package("aws.s3")
-  NextMethod()
+store_get_packages.tar_aws_s3 <- function(store) {
+  c("aws.s3", NextMethod())
 }

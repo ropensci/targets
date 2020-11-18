@@ -78,6 +78,6 @@ store_has_correct_hash.tar_url <- function(store) {
 }
 
 #' @export
-store_validate_packages.tar_url <- function(store) {
-  assert_package("curl")
+store_get_packages.tar_url <- function(store) {
+  "curl"
 }

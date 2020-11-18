@@ -258,9 +258,14 @@ store_validate <- function(store) {
 }
 
 store_validate_packages <- function(store) {
-  UseMethod("store_validate_packages")
+  map(store_get_packages(store), assert_package)
+}
+
+store_get_packages <- function(store) {
+  UseMethod("store_get_packages")
 }
 
 #' @export
-store_validate_packages.default <- function(store) {
+store_get_packages.default <- function(store) {
+  character(0)
 }

@@ -94,3 +94,9 @@ tar_test("validate url format", {
   tar_script(tar_pipeline(tar_target(x, "x_value", format = "url")))
   expect_silent(tar_validate(callr_function = NULL))
 })
+
+tar_test("url packages", {
+  x <- tar_target(x, 1, format = "url")
+  out <- store_get_packages(x$store)
+  expect_equal(out, "curl")
+})

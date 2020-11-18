@@ -21,3 +21,9 @@ tar_test("default serialization/unserialization methods", {
 tar_test("store_validate()", {
   expect_silent(store_validate(store_new(resources = list())))
 })
+
+tar_test("store_file packages", {
+  x <- tar_target(x, "x", format = "file")
+  out <- store_get_packages(x$store)
+  expect_equal(out, character(0))
+})
