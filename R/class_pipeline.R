@@ -199,6 +199,14 @@ pipeline_prune_targets <- function(pipeline, names) {
   remove(list = discard, envir = pipeline$targets, inherits = FALSE)
 }
 
+pipeline_get_packages <- function(pipeline) {
+  out <- map(
+    pipeline_get_names(pipeline),
+    ~target_get_packages(pipeline_get_target(pipeline, .x))
+  )
+  sort(unique(unlist(out)))
+}
+
 pipeline_validate_targets <- function(targets) {
   eapply(targets, function(target) target_validate(target))
 }

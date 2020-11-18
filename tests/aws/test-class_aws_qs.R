@@ -19,7 +19,7 @@ tar_test("aws_qs format data gets stored", {
       tar_target(y, c(x, "y_value"), format = "aws_qs")
     )
   })
-  expr <- tidy_eval(expr, environment(), TRUE)
+  expr <- targets:::tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
