@@ -5,24 +5,29 @@
 \title{Set up package dependencies for compatibility with \code{renv}}
 \usage{
 tar_renv(
-  packages = targets::tar_option_get("packages"),
+  extras = c("targets", "clustermq", "future", "rstudioapi", "visNetwork"),
   path = "_packages.R",
-  ask = NULL
+  callr_function = callr::r,
+  callr_arguments = list()
 )
 }
 \arguments{
-\item{packages}{Character vector of packages to load right before
-the target builds. Use \code{tar_option_set()} to set packages
-globally for all subsequent targets you define.}
+\item{extras}{Character vector of additional packages to declare as
+project dependencies.}
 
 \item{path}{Character of length 1, path to the script file to
 populate with \code{library()} calls.}
 
-\item{ask}{Logical, whether to ask before writing if \verb{_packages.R}
-already exists. If \code{NULL}, defaults to \code{Sys.getenv("TAR_ASK")}.
-(Set to \code{"true"} or \code{"false"} with \code{Sys.setenv()}).
-If \code{ask} and the \code{TAR_ASK} environment variable are both
-indeterminate, defaults to \code{interactive()}.}
+\item{callr_function}{A function from \code{callr} to start a fresh clean R
+process to do the work. Set to \code{NULL} to run in the current session
+instead of an external process (but restart your R session just before
+you do in order to clear debris out of the global environment).
+\code{callr_function} needs to be \code{NULL} for interactive debugging,
+e.g. \code{tar_option_set(debug = "your_target")}.
+However, \code{callr_function} should not be \code{NULL} for serious
+reproducible work.}
+
+\item{callr_arguments}{A list of arguments to \code{callr_function}.}
 }
 \value{
 Nothing, invisibly.
@@ -32,19 +37,20 @@ Write package dependencies to a script file
 (by default, named \verb{_packages.R} in the root project directory).
 Each package is written to a separate line
 as a standard \code{\link[=library]{library()}} call (e.g. \code{library(package)}) so
-\code{renv} can identify them automatically. This is only
-necessary if the user invokes \code{\link[=tar_option_set]{tar_option_set()}} or \code{\link[=tar_target]{tar_target()}} to
-declare packages rather than the usual \code{library()} or namespaced call
+\code{renv} can identify them automatically.
+
+This function tries to identify package dependencies that would be
+hidden to \code{renv} because they are declared using the \code{targets} API.
+Thus, this is only necessary if using \code{\link[=tar_option_set]{tar_option_set()}} or
+\code{\link[=tar_target]{tar_target()}} to use specialized storage formats or manage packages,
+rather than the usual \code{library()} or namespaced call
 (i.e. \verb{package::function()}). See \code{Details} for more information.
 }
 \details{
 This function gets called for its side-effect, which writes
-package dependencies provided to the \code{packages} argument to
-a script. If you do not explicitly set the \code{packages} argument,
-\code{tar_renv()} will only detect the packages that
-\code{tar_option_get("packages")} returns at that point in the code.
-The generated file should \strong{not} be edited by hand and will be
-overwritten each time \code{tar_renv()} runs non-interactively.
+package dependencies to a script. The generated file should \strong{not} be
+edited by hand and will be overwritten each time \code{tar_renv()} runs
+non-interactively.
 
 With the script written by \code{tar_renv()}, \code{renv} is able to crawl the
 file to identify package dependencies (with \code{renv::dependencies()}).
@@ -56,7 +62,10 @@ more information.
 }
 \examples{
 tar_dir({
-  tar_option_set(packages = c("tibble", "qs"))
+  tar_script({
+    tar_option_set(packages = c("tibble", "qs"))
+    tar_pipeline()
+  })
   tar_renv()
   readLines("_packages.R")
 })

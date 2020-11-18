@@ -207,6 +207,12 @@ pipeline_get_packages <- function(pipeline) {
   sort(unique(unlist(out)))
 }
 
+pipeline_get_formats <- function(pipeline) {
+  names <- pipeline_get_names(pipeline)
+  formats <- map(names, ~pipeline$targets[[.]]$settings$format)
+  unique(unlist(formats))
+}
+
 pipeline_validate_targets <- function(targets) {
   eapply(targets, function(target) target_validate(target))
 }
