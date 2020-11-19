@@ -32,6 +32,6 @@ store_coerce_object.tar_fst <- function(store, object) {
 }
 
 #' @export
-store_validate_packages.tar_fst <- function(store) {
-  assert_package("fst")
+store_get_packages.tar_fst <- function(store) {
+  "fst"
 }

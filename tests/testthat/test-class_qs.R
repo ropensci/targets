@@ -29,3 +29,9 @@ tar_test("bad compression level throws error", {
   })
   expect_error(tar_make(callr_function = NULL), class = "condition_validate")
 })
+
+tar_test("qs packages", {
+  x <- tar_target(x, 1, format = "qs")
+  out <- store_get_packages(x$store)
+  expect_equal(out, "qs")
+})

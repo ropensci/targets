@@ -214,6 +214,15 @@ tar_test("pipeline_reset_priorities()", {
   }
 })
 
+tar_test("pipeline_get_packages()", {
+  x <- tar_target(x, 1, format = "fst_tbl", packages = "tidyr")
+  y <- tar_target(y, 1, format = "qs", packages = character(0))
+  pipeline <- tar_pipeline(x, y)
+  out <- pipeline_get_packages(pipeline)
+  exp <- sort(c("fst", "qs", "tibble", "tidyr"))
+  expect_equal(out, exp)
+})
+
 tar_test("validate a non-pipeline", {
   expect_error(pipeline_validate(stem_new()), class = "condition_validate")
   expect_error(

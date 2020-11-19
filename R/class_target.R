@@ -368,6 +368,12 @@ target_unserialize_value <- function(target) {
   }
 }
 
+target_get_packages <- function(target) {
+  command <- target$command$packages
+  store <- store_get_packages(target$store)
+  sort(unique(c(command, store)))
+}
+
 target_validate <- function(target) {
   UseMethod("target_validate")
 }

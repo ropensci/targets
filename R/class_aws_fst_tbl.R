@@ -7,7 +7,13 @@ aws_fst_tbl_new <- function(file = NULL, resources = NULL) {
   force(resources)
   enclass(
     environment(),
-    c("tar_aws_s3_fst_tbl", "tar_aws_s3", "tar_fst_tbl", "tar_store")
+    c(
+      "tar_aws_fst_tbl",
+      "tar_aws",
+      "tar_fst_tbl",
+      "tar_fst",
+      "tar_store"
+    )
   )
 }
 

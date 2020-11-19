@@ -7,7 +7,7 @@ aws_qs_new <- function(file = NULL, resources = NULL) {
   force(resources)
   enclass(
     environment(),
-    c("tar_aws_s3_qs", "tar_aws_s3", "tar_qs", "tar_store")
+    c("tar_aws_qs", "tar_aws", "tar_qs", "tar_store")
   )
 }
 

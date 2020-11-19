@@ -49,3 +49,9 @@ tar_test("validate torch format", {
   x <- target_init(name = "a", expr = quote(f()), format = "torch")
   expect_silent(target_validate(x))
 })
+
+tar_test("torch packages", {
+  x <- tar_target(x, 1, format = "torch")
+  out <- store_get_packages(x$store)
+  expect_equal(out, "torch")
+})

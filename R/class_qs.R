@@ -28,6 +28,6 @@ store_write_path.tar_qs <- function(store, object, path) {
 }
 
 #' @export
-store_validate_packages.tar_qs <- function(store) {
-  assert_package("qs")
+store_get_packages.tar_qs <- function(store) {
+  "qs"
 }

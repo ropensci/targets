@@ -16,3 +16,9 @@ tar_test("rds update_object()", {
 tar_test("misspelled format", {
   expect_error(tar_target(x, 1, format = "r2ds"), class = "condition_validate")
 })
+
+tar_test("rds packages", {
+  x <- tar_target(x, 1, format = "rds")
+  out <- store_get_packages(x$store)
+  expect_equal(out, character(0))
+})

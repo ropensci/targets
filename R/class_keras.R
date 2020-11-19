@@ -40,6 +40,6 @@ store_unserialize_object.tar_keras <- function(store, object) {
 # nocov end
 
 #' @export
-store_validate_packages.tar_keras <- function(store) {
-  assert_package("keras")
+store_get_packages.tar_keras <- function(store) {
+  "keras"
 }

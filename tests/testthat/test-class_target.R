@@ -109,6 +109,13 @@ tar_test("error if unsupported pattern", {
   )
 })
 
+tar_test("target_get_packages()", {
+  x <- tar_target(x, 1, format = "fst_tbl", packages = c("tibble", "tidyr"))
+  out <- target_get_packages(x)
+  exp <- sort(c("fst", "tibble", "tidyr"))
+  expect_equal(out, exp)
+})
+
 tar_test("error to validate a circular target", {
   expect_error(
     target_init(name = "abc", expr = quote(abc), pattern = quote(map(abc))),
