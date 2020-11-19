@@ -1,3 +1,21 @@
+visnetwork_init <- function(
+  network,
+  targets_only = FALSE,
+  allow = NULL,
+  exclude = NULL,
+  label = NULL,
+  level_separation = NULL
+) {
+  visnetwork_new(
+    network = network,
+    targets_only = targets_only,
+    allow = allow,
+    exclude = exclude,
+    label = label,
+    level_separation = level_separation
+  )
+}
+
 visnetwork_new <- function(
   network = NULL,
   targets_only = NULL,
@@ -5,6 +23,7 @@ visnetwork_new <- function(
   exclude = NULL,
   label = NULL,
   legend = NULL,
+  level_separation = NULL,
   visnetwork = NULL
 ) {
   visnetwork_class$new(
@@ -14,12 +33,13 @@ visnetwork_new <- function(
     exclude = exclude,
     label = label,
     legend = legend,
+    level_separation = level_separation,
     visnetwork = visnetwork
   )
 }
 
 visnetwork_class <- R6::R6Class(
-  classname = "tar_queue",
+  classname = "tar_visnetwork",
   inherit = visual_class,
   class = FALSE,
   portable = FALSE,
@@ -31,6 +51,7 @@ visnetwork_class <- R6::R6Class(
     exclude = NULL,
     label = NULL,
     legend = NULL,
+    level_separation = NULL,
     visnetwork = NULL,
     initialize = function(
       network = NULL,
@@ -39,11 +60,18 @@ visnetwork_class <- R6::R6Class(
       exclude = NULL,
       label = NULL,
       legend = NULL,
-      visnetwork = NULL
+      visnetwork = NULL,
+      level_separation = NULL
     ) {
-      super$initialize(network, targets_only, allow, exclude)
+      super$initialize(
+        network = network,
+        targets_only = targets_only,
+        allow = allow,
+        exclude = exclude
+      )
       self$label <- label
       self$legend <- legend
+      self$level_separation <- level_separation
       self$visnetwork <- visnetwork
     },
     produce_colors = function(status) {
@@ -104,7 +132,11 @@ visnetwork_class <- R6::R6Class(
         addNodes = self$legend,
         ncol = 1L
       )
-      visNetwork::visHierarchicalLayout(out, direction = "LR")
+      visNetwork::visHierarchicalLayout(
+        graph = out,
+        direction = "LR",
+        levelSeparation = self$level_separation
+      )
     },
     update_label = function(vertices) {
       seconds <- format_seconds(vertices$seconds)

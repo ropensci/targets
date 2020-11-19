@@ -1,22 +1,18 @@
-tar_test("misspell subclass", {
-  expect_error(visual_init(subclass = "1234"), class = "condition_validate")
-})
-
 tar_test("visnetwork$targets_only", {
   net <- glimpse_init(pipeline_init())
-  vis <- visual_init(network = net, targets_only = FALSE)
+  vis <- visnetwork_init(network = net, targets_only = FALSE)
   expect_equal(vis$targets_only, FALSE)
 })
 
 tar_test("visnetwork$allow", {
   net <- glimpse_init(pipeline_init())
-  vis <- visual_init(network = net, allow = "x")
+  vis <- visnetwork_init(network = net, allow = "x")
   expect_equal(vis$allow, "x")
 })
 
 tar_test("visnetwork$exclude", {
   net <- glimpse_init(pipeline_init())
-  vis <- visual_init(network = net, exclude = "x")
+  vis <- visnetwork_init(network = net, exclude = "x")
   expect_equal(vis$exclude, "x")
 })
 
@@ -29,7 +25,7 @@ tar_test("visnetwork$update_network()", {
   x <- target_init("x", quote(a), envir = envir)
   pipeline <- pipeline_init(list(x))
   net <- inspection_init(pipeline)
-  vis <- visual_init(network = net)
+  vis <- visnetwork_init(network = net)
   vis$update_network()
   vertices <- vis$network$vertices
   vertices <- vertices[order(vertices$name), ]
@@ -54,7 +50,7 @@ tar_test("visnetwork$update_network() with allow", {
   y <- target_init("y", quote(x))
   pipeline <- pipeline_init(list(x, y))
   net <- glimpse_init(pipeline)
-  vis <- visual_init(network = net, allow = "x")
+  vis <- visnetwork_init(network = net, allow = "x")
   vis$update_network()
   vertices <- vis$network$vertices
   exp <- data_frame(
@@ -75,7 +71,7 @@ tar_test("visnetwork$update_network() with exclude", {
   y <- target_init("y", quote(x))
   pipeline <- pipeline_init(list(x, y))
   net <- glimpse_init(pipeline)
-  vis <- visual_init(network = net, exclude = "x")
+  vis <- visnetwork_init(network = net, exclude = "x")
   vis$update_network()
   vertices <- vis$network$vertices
   exp <- data_frame(
@@ -93,7 +89,7 @@ tar_test("visnetwork$update_network() with exclude", {
 
 tar_test("visnetwork$update_positions()", {
   net <- glimpse_init(pipeline_order())
-  vis <- visual_init(network = net, exclude = "x")
+  vis <- visnetwork_init(network = net, exclude = "x")
   vis$update_network()
   vis$update_positions()
   vertices <- vis$network$vertices
@@ -116,7 +112,7 @@ tar_test("visnetwork$update_positions()", {
 
 tar_test("visnetwork$update_labels()", {
   net <- glimpse_init(pipeline_order())
-  vis <- visual_init(network = net)
+  vis <- visnetwork_init(network = net)
   vis$update_network()
   vis$update_labels()
   vertices <- vis$network$vertices
@@ -126,7 +122,7 @@ tar_test("visnetwork$update_labels()", {
 
 tar_test("visnetwork$update_colors()", {
   net <- glimpse_init(pipeline_order())
-  vis <- visual_init(network = net)
+  vis <- visnetwork_init(network = net)
   vis$update_network()
   vis$update_colors()
   vertices <- vis$network$vertices
@@ -135,7 +131,7 @@ tar_test("visnetwork$update_colors()", {
 
 tar_test("visnetwork$update_colors() on cross plan", {
   net <- glimpse_init(pipeline_cross())
-  vis <- visual_init(network = net)
+  vis <- visnetwork_init(network = net)
   vis$update_network()
   vis$update_shapes()
   vertices <- vis$network$vertices
@@ -147,7 +143,7 @@ tar_test("visnetwork$update_colors() on cross plan", {
 
 tar_test("visnetwork$update_legend() on cross plan", {
   net <- glimpse_init(pipeline_cross())
-  vis <- visual_init(network = net)
+  vis <- visnetwork_init(network = net)
   vis$update_network()
   vis$update_colors()
   vis$update_shapes()
@@ -169,7 +165,7 @@ tar_test("visnetwork$update_legend() on cross plan", {
 tar_test("visnetwork$update() on cross pipeline", {
   skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_cross())
-  vis <- visual_init(network = net)
+  vis <- visnetwork_init(network = net)
   vis$update()
   expect_silent(vis$validate())
   visnetwork <- vis$visnetwork
@@ -179,7 +175,7 @@ tar_test("visnetwork$update() on cross pipeline", {
 tar_test("visnetwork$update() on empty pipeline", {
   skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_init())
-  vis <- visual_init(network = net)
+  vis <- visnetwork_init(network = net)
   vis$update()
   expect_silent(vis$validate())
   visnetwork <- vis$visnetwork
@@ -189,7 +185,7 @@ tar_test("visnetwork$update() on empty pipeline", {
 tar_test("visnetwork$update() on edgeless pipeline", {
   skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_init(list(target_init("x", quote(1)))))
-  vis <- visual_init(network = net)
+  vis <- visnetwork_init(network = net)
   vis$update()
   expect_silent(vis$validate())
   visnetwork <- vis$visnetwork
@@ -198,13 +194,13 @@ tar_test("visnetwork$update() on edgeless pipeline", {
 
 tar_test("visnetwork$validate() with no allow or exclude", {
   net <- glimpse_init(pipeline_init())
-  vis <- visual_init(network = net)
+  vis <- visnetwork_init(network = net)
   expect_silent(vis$validate())
 })
 
 tar_test("visnetwork$validate() with allow and exclude", {
   net <- glimpse_init(pipeline_init())
-  vis <- visual_init(network = net, allow = "x", exclude = "y")
+  vis <- visnetwork_init(network = net, allow = "x", exclude = "y")
   expect_silent(vis$validate())
 })
 
@@ -212,7 +208,7 @@ tar_test("visnetwork$validate() with label", {
   pipeline <- pipeline_map()
   local_init(pipeline = pipeline, reporter = "silent")$run()
   net <- inspection_init(pipeline_map())
-  vis <- visual_init(network = net, label = c("time", "size", "branches"))
+  vis <- visnetwork_init(network = net, label = c("time", "size", "branches"))
   vis$update()
   expect_true(inherits(vis$visnetwork, "visNetwork"))
 })

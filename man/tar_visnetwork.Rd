@@ -10,6 +10,7 @@ tar_visnetwork(
   exclude = NULL,
   outdated = TRUE,
   label = NULL,
+  level_separation = NULL,
   reporter = "silent",
   callr_function = callr::r,
   callr_arguments = list(spinner = identical(reporter, "silent"))
@@ -42,6 +43,14 @@ to show total storage size, or \code{"branches"} to show the number of
 branches in each pattern. You can choose multiple aesthetics
 at once, e.g. \code{label = c("time", "branches")}. All are disabled
 by default because they clutter the graph.}
+
+\item{level_separation}{Numeric of length 1,
+\code{levelSeparation} argument of \code{visNetwork::visHierarchicalLayout()}.
+Controls the distance between hierarchical levels.
+Consider changing the value if the aspect ratio of the graph
+is far from 1. If \code{level_separation} is \code{NULL},
+the \code{levelSeparation} argument of \code{visHierarchicalLayout()}
+defaults to \code{150}.}
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets are checked. Choices:

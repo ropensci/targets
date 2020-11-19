@@ -1,19 +1,19 @@
 # Should show a glimpse.
 net <- glimpse_init(pipeline_cross())
-vis <- visual_init(network = net)
+vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
 
 # Should show an inspection with everything outdated.
 net <- inspection_init(pipeline_cross())
-vis <- visual_init(network = net)
+vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
 
 # Should show an inspection with everything up to date
 local_init(pipeline = pipeline_cross(), reporter = "silent")$run()
 net <- inspection_init(pipeline_cross())
-vis <- visual_init(network = net)
+vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
 
@@ -33,7 +33,7 @@ tar_visnetwork()
 
 # Labels for time and branches
 net <- inspection_init(pipeline_cross())
-vis <- visual_init(network = net, label = c("time", "branches"))
+vis <- visnetwork_init(network = net, label = c("time", "branches"))
 vis$update()
 vis$visnetwork
 
@@ -65,13 +65,13 @@ pipeline <- pipeline_init(
   )
 )
 net <- inspection_init(pipeline)
-vis <- visual_init(network = net)
+vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
 
 # Should show an empty widget.
 net <- glimpse_init(pipeline_init())
-vis <- visual_init(network = net)
+vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
 
@@ -83,7 +83,7 @@ local_init(pipeline = pipeline)$run()
 x <- target_init("w", quote(Sys.sleep(100)))
 pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
-vis <- visual_init(network = net)
+vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
 
@@ -92,7 +92,7 @@ pipeline <- pipeline_init(list(target_init("w", quote(targets::tar_cancel()))))
 local_init(pipeline = pipeline)$run()
 pipeline <- pipeline_init(list(target_init("w", quote(targets::tar_cancel()))))
 net <- inspection_init(pipeline)
-vis <- visual_init(network = net)
+vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
 
@@ -103,7 +103,7 @@ local_init(pipeline = pipeline)$run()
 x <- target_init("x", quote(stop("123")))
 pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
-vis <- visual_init(network = net)
+vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
 
@@ -115,7 +115,7 @@ local_init(pipeline = pipeline)$run()
 x <- target_init("x", quote(stop("123")), error = "continue")
 pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
-vis <- visual_init(network = net)
+vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
 
@@ -139,7 +139,7 @@ x <- target_init(
 )
 pipeline <- pipeline_init(list(w, x))
 net <- inspection_init(pipeline)
-vis <- visual_init(network = net)
+vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
 
@@ -162,7 +162,7 @@ x <- target_init(
 )
 pipeline <- pipeline_init(list(w, x))
 net <- inspection_init(pipeline)
-vis <- visual_init(network = net)
+vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
 
@@ -185,7 +185,7 @@ x <- target_init(
 )
 pipeline <- pipeline_init(list(w, x))
 net <- inspection_init(pipeline)
-vis <- visual_init(network = net)
+vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
 

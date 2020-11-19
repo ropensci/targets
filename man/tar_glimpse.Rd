@@ -8,6 +8,7 @@ tar_glimpse(
   targets_only = TRUE,
   allow = NULL,
   exclude = NULL,
+  level_separation = NULL,
   callr_function = callr::r,
   callr_arguments = list()
 )
@@ -25,6 +26,14 @@ Set to \code{NULL} to allow all vertices in the pipeline and environment
 Set to \code{NULL} to exclude no vertices.
 Otherwise, you can supply symbols, a character vector, or \code{tidyselect}
 helpers like \code{\link[=starts_with]{starts_with()}}.}
+
+\item{level_separation}{Numeric of length 1,
+\code{levelSeparation} argument of \code{visNetwork::visHierarchicalLayout()}.
+Controls the distance between hierarchical levels.
+Consider changing the value if the aspect ratio of the graph
+is far from 1. If \code{level_separation} is \code{NULL},
+the \code{levelSeparation} argument of \code{visHierarchicalLayout()}
+defaults to \code{150}.}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session

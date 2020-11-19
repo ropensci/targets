@@ -4,7 +4,7 @@
 #'   and visualize the directed acyclic graph of targets
 #'   and imported global functions and objects.
 #' @return A `visNetwork` HTML widget object.
-#' @inheritParams tar_validate
+#' @inheritParams tar_glimpse
 #' @inheritParams tar_outdated
 #' @param targets_only Logical, whether to restrict the output to just targets
 #'   (`FALSE`) or to also include imported global functions and objects.
@@ -49,6 +49,7 @@ tar_visnetwork <- function(
   exclude = NULL,
   outdated = TRUE,
   label = NULL,
+  level_separation = NULL,
   reporter = "silent",
   callr_function = callr::r,
   callr_arguments = list(spinner = identical(reporter, "silent"))
@@ -71,6 +72,7 @@ tar_visnetwork <- function(
     exclude_quosure = rlang::enquo(exclude),
     outdated = outdated,
     label = label,
+    level_separation = level_separation,
     reporter = reporter
   )
   callr_outer(
@@ -88,6 +90,7 @@ tar_visnetwork_inner <- function(
   exclude_quosure,
   outdated,
   label,
+  level_separation,
   reporter
 ) {
   pipeline_validate_lite(pipeline)
@@ -98,13 +101,13 @@ tar_visnetwork_inner <- function(
     outdated = outdated,
     reporter = reporter
   )
-  visual <- visual_init(
-    subclass = "visnetwork",
+  visual <- visnetwork_init(
     network = network,
     targets_only = targets_only,
     allow = allow,
     exclude = exclude,
-    label = label
+    label = label,
+    level_separation = level_separation
   )
   visual$update()
   visual$visnetwork

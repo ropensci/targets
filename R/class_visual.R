@@ -1,24 +1,3 @@
-visual_init <- function(
-  subclass = "visnetwork",
-  network,
-  targets_only = FALSE,
-  allow = NULL,
-  exclude = NULL,
-  label = NULL
-) {
-  switch(
-    subclass,
-    visnetwork = visnetwork_new(
-      network = network,
-      targets_only = targets_only,
-      allow = allow,
-      exclude = exclude,
-      label = label
-    ),
-    throw_validate("visual ", subclass, " not supported")
-  )
-}
-
 visual_new <- function(
   network = NULL,
   targets_only = NULL,

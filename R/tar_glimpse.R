@@ -18,6 +18,13 @@
 #'   Set to `NULL` to exclude no vertices.
 #'   Otherwise, you can supply symbols, a character vector, or `tidyselect`
 #'   helpers like [starts_with()].
+#' @param level_separation Numeric of length 1,
+#'   `levelSeparation` argument of `visNetwork::visHierarchicalLayout()`.
+#'   Controls the distance between hierarchical levels.
+#'   Consider changing the value if the aspect ratio of the graph
+#'   is far from 1. If `level_separation` is `NULL`,
+#'   the `levelSeparation` argument of `visHierarchicalLayout()`
+#'   defaults to `150`.
 #' @examples
 #' if (FALSE) { # Interactive only.
 #' tar_dir({
@@ -37,6 +44,7 @@ tar_glimpse <- function(
   targets_only = TRUE,
   allow = NULL,
   exclude = NULL,
+  level_separation = NULL,
   callr_function = callr::r,
   callr_arguments = list()
 ) {
@@ -48,7 +56,8 @@ tar_glimpse <- function(
   targets_arguments <- list(
     targets_only = targets_only,
     allow_quosure = rlang::enquo(allow),
-    exclude_quosure = rlang::enquo(exclude)
+    exclude_quosure = rlang::enquo(exclude),
+    level_separation = level_separation
   )
   callr_outer(
     targets_function = tar_glimpse_inner,
@@ -62,17 +71,19 @@ tar_glimpse_inner <- function(
   pipeline,
   targets_only,
   allow_quosure,
-  exclude_quosure
+  exclude_quosure,
+  level_separation
 ) {
   pipeline_validate_lite(pipeline)
   allow <- eval_tidyselect(allow_quosure, pipeline_get_names(pipeline))
   exclude <- eval_tidyselect(exclude_quosure, pipeline_get_names(pipeline))
   network <- glimpse_init(pipeline)
-  visual <- visual_init(
+  visual <- visnetwork_init(
     network = network,
     targets_only = targets_only,
     allow = allow,
-    exclude = exclude
+    exclude = exclude,
+    level_separation = level_separation
   )
   visual$update()
   visual$visnetwork
