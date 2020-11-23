@@ -5,24 +5,29 @@
 \title{Set up package dependencies for compatibility with \code{renv}}
 \usage{
 tar_renv(
-  packages = targets::tar_option_get("packages"),
+  extras = c("clustermq", "future", "rstudioapi", "visNetwork"),
   path = "_packages.R",
-  ask = NULL
+  callr_function = callr::r,
+  callr_arguments = list()
 )
 }
 \arguments{
-\item{packages}{Character vector of packages to load right before
-the target builds. Use \code{tar_option_set()} to set packages
-globally for all subsequent targets you define.}
+\item{extras}{Character vector of additional packages to declare as
+project dependencies.}
 
 \item{path}{Character of length 1, path to the script file to
 populate with \code{library()} calls.}
 
-\item{ask}{Logical, whether to ask before writing if \verb{_packages.R}
-already exists. If \code{NULL}, defaults to \code{Sys.getenv("TAR_ASK")}.
-(Set to \code{"true"} or \code{"false"} with \code{Sys.setenv()}).
-If \code{ask} and the \code{TAR_ASK} environment variable are both
-indeterminate, defaults to \code{interactive()}.}
+\item{callr_function}{A function from \code{callr} to start a fresh clean R
+process to do the work. Set to \code{NULL} to run in the current session
+instead of an external process (but restart your R session just before
+you do in order to clear debris out of the global environment).
+\code{callr_function} needs to be \code{NULL} for interactive debugging,
+e.g. \code{tar_option_set(debug = "your_target")}.
+However, \code{callr_function} should not be \code{NULL} for serious
+reproducible work.}
+
+\item{callr_arguments}{A list of arguments to \code{callr_function}.}
 }
 \value{
 Nothing, invisibly.
@@ -32,23 +37,30 @@ Write package dependencies to a script file
 (by default, named \verb{_packages.R} in the root project directory).
 Each package is written to a separate line
 as a standard \code{\link[=library]{library()}} call (e.g. \code{library(package)}) so
-\code{renv} can identify them automatically. This is only
-necessary if the user invokes \code{\link[=tar_option_set]{tar_option_set()}} or \code{\link[=tar_target]{tar_target()}} to
-declare packages rather than the usual \code{library()} or namespaced call
-(i.e. \verb{package::function()}). See \code{Details} for more information.
+\code{renv} can identify them automatically.
 }
 \details{
 This function gets called for its side-effect, which writes
-package dependencies provided to the \code{packages} argument to
-a script. If you do not explicitly set the \code{packages} argument,
-\code{tar_renv()} will only detect the packages that
-\code{tar_option_get("packages")} returns at that point in the code.
+package dependencies to a script for compatibility with \code{renv}.
 The generated file should \strong{not} be edited by hand and will be
-overwritten each time \code{tar_renv()} runs non-interactively.
+overwritten each time \code{tar_renv()} is called.
+
+The behavior of \code{renv} is to create and manage a project-local \code{R} library
+and keep a record of project dependencies in a file called \code{renv.lock}.
+To identify dependencies, \code{renv} crawls through code to find packages
+explicitly mentioned using \code{library()}, \code{require()}, or \code{::}.
+However, \code{targets} manages packages in a way that hides dependencies
+from \code{renv.} \code{tar_renv()} finds package dependencies that would be
+otherwise hidden to \code{renv} because they are declared using the \code{targets}
+API. Thus, calling \code{tar_renv} this is only necessary if using
+\code{\link[=tar_option_set]{tar_option_set()}} or \code{\link[=tar_target]{tar_target()}} to use specialized storage
+formats or manage packages.
 
 With the script written by \code{tar_renv()}, \code{renv} is able to crawl the
 file to identify package dependencies (with \code{renv::dependencies()}).
-Calling \code{renv::init()} after \code{tar_renv()} has ran will set up a
+\code{tar_renv()} only serves to make your \code{targets} project compatible with
+\code{renv}, it is still the users responsibility to call \code{renv::init()} and
+\code{renv::snapshot()} directly to initialize and manage a
 project-local \code{R} library. This allows your \code{targets} pipeline to have
 its own self-contained \code{R} library separate from your standard \code{R}
 library. See \url{https://rstudio.github.io/renv/index.html} for
@@ -56,9 +68,12 @@ more information.
 }
 \examples{
 tar_dir({
-  tar_option_set(packages = c("tibble", "qs"))
-  tar_renv()
-  readLines("_packages.R")
+  tar_script({
+    tar_option_set(packages = c("tibble", "qs"))
+    tar_pipeline()
+  })
+  tar_renv(callr_function = NULL)
+  writeLines(readLines("_packages.R"))
 })
 }
 \seealso{
