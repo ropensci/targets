@@ -10,7 +10,7 @@ tar_test("tar_manifest() with default settings", {
     )
   })
   out <- tar_manifest()
-  expect_equal(colnames(out), c("name", "command", "type", "dimensions"))
+  expect_equal(colnames(out), c("name", "command", "pattern"))
   expect_equal(nrow(out), 5L)
 })
 
@@ -41,14 +41,17 @@ tar_test("tar_manifest() shows patterns correctly", {
     )
   })
   out <- tar_manifest(
-    names = c("c", "m"),
-    fields = c("type", "dimensions"),
+    names = c,
+    fields = "pattern",
     callr_function = NULL
   )
-  expect_equal(colnames(out), c("name", "type", "dimensions"))
-  expect_equal(out$name, c("c", "m"))
-  expect_equal(out$type, c("pattern", "pattern"))
-  expect_equal(out$dimensions, list("z", "z"))
+  expect_equal(out$pattern, "cross(z)")
+  out <- tar_manifest(
+    names = m,
+    fields = "pattern",
+    callr_function = NULL
+  )
+  expect_equal(out$pattern, "map(z)")
 })
 
 tar_test("tar_manifest() shows cues correctly", {
@@ -93,5 +96,5 @@ tar_test("tar_manifest() shows all fields if the fields arg is NULL", {
     )
   })
   out <- tar_manifest(fields = NULL, callr_function = NULL)
-  expect_equal(dim(out), c(5L, 20L))
+  expect_equal(dim(out), c(5L, 19L))
 })

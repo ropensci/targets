@@ -17,10 +17,7 @@
 #'   [tar_target_raw()], or [tar_option_set()].
 #'   * `name`: Name of the target.
 #'   * `command`: the R command that runs when the target builds.
-#'   * `type`: Type of the target, either `"stem"` (non-pattern) or `"map"`
-#'     or `"cross"` (patterns).
-#'   * `dimensions`: A list column to name the targets that each pattern
-#'     branches over. Only applies to patterns.
+#'   * `pattern`: branching pattern of the target, if applicable.
 #'   * `format`: Storage format.
 #'   * `iteration`: Iteration mode for branching.
 #'   * `error`: Error mode, what to do when the target fails.
@@ -60,7 +57,7 @@
 #' }
 tar_manifest <- function(
   names = NULL,
-  fields = c("name", "command", "type", "dimensions"),
+  fields = c("name", "command", "pattern"),
   callr_function = callr::r,
   callr_arguments = list()
 ) {
@@ -97,8 +94,7 @@ tar_manifest_target <- function(target) {
   out <- list(
     name = target_get_name(target),
     command = tar_manifest_command(target$command$expr),
-    type = gsub("tar_", "", class(target)[1]),
-    dimensions = list(target$settings$dimensions),
+    pattern = tar_manifest_pattern(target$settings$pattern),
     format = target$settings$format,
     iteration = target$settings$iteration,
     error = target$settings$error,
@@ -123,4 +119,12 @@ tar_manifest_command <- function(expr) {
   out <- deparse_safe(expr, collapse = " \\n ")
   out <- mask_pointers(out)
   string_sub_expression(out)
+}
+
+tar_manifest_pattern <- function(pattern) {
+  trn(
+    is.null(pattern),
+    NA_character_,
+    string_sub_expression(deparse_safe(pattern, collapse = " "))
+  )
 }

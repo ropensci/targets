@@ -6,7 +6,7 @@
 \usage{
 tar_manifest(
   names = NULL,
-  fields = c("name", "command", "type", "dimensions"),
+  fields = c("name", "command", "pattern"),
   callr_function = callr::r,
   callr_arguments = list()
 )
@@ -27,10 +27,7 @@ Possible fields are below. All of them can be set in \code{\link[=tar_target]{ta
 \itemize{
 \item \code{name}: Name of the target.
 \item \code{command}: the R command that runs when the target builds.
-\item \code{type}: Type of the target, either \code{"stem"} (non-pattern) or \code{"map"}
-or \code{"cross"} (patterns).
-\item \code{dimensions}: A list column to name the targets that each pattern
-branches over. Only applies to patterns.
+\item \code{pattern}: branching pattern of the target, if applicable.
 \item \code{format}: Storage format.
 \item \code{iteration}: Iteration mode for branching.
 \item \code{error}: Error mode, what to do when the target fails.

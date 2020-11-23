@@ -17,6 +17,10 @@
 * Add a new `tar_pattern()` function to emulate dynamic branching outside a pipeline.
 * Add a new `level_separation` argument to `tar_visnetwork()` and `tar_glimpse()` to control the aspect ratio (#226).
 
+## Enhancements
+
+* Return full patterns from `tar_manifest()`.
+
 # targets 0.0.0.9002
 
 ## Breaking changes
