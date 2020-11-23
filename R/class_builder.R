@@ -230,7 +230,6 @@ builder_record_error_meta <- function(target, meta) {
 }
 
 builder_update_build <- function(target) {
-  command_load_packages(target$command)
   envir <- cache_get_envir(target$cache)
   build <- command_produce_build(target$command, envir)
   object <- store_coerce_object(target$store, build$object)

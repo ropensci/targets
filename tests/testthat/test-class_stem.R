@@ -309,3 +309,16 @@ tar_test("branches can use old buds if stem is cancelled (worker storage)", {
   expect_true(all(grepl("y_", buds)))
   expect_equal(tar_read(y), seq_len(3))
 })
+
+tar_test("packages load errors are recorded (#228)", {
+  tar_script(tar_pipeline(tar_target(x, 1, packages = "kls;;;hfajksdf")))
+  expect_error(
+    suppressWarnings(tar_make(callr_function = NULL)),
+    class = "condition_run"
+  )
+  out <- tar_progress()
+  expect_equal(out$progress, "errored")
+  meta <- tar_meta(x, error)
+  expect_false(anyNA(meta$error))
+  expect_true(all(nzchar(meta$error)))
+})

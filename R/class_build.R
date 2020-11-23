@@ -1,4 +1,10 @@
-build_init <- function(expr, envir, seed = 0L) {
+build_init <- function(
+  expr,
+  envir,
+  seed = 1L,
+  packages = character(0),
+  library = NULL
+) {
   start <- build_time_seconds()
   capture_error <- function(condition) {
     state$error <- build_message(condition)
@@ -17,7 +23,7 @@ build_init <- function(expr, envir, seed = 0L) {
   state <- new.env(hash = FALSE, parent = emptyenv())
   object <- tryCatch(
     withCallingHandlers(
-      withr::with_dir(getwd(), withr::with_seed(seed, eval(expr, envir))),
+      build_run_expr(expr, envir, seed, packages, library),
       error = capture_error,
       warning = capture_warning,
       condition_cancel = capture_cancel
@@ -39,6 +45,28 @@ build_new <- function(object = NULL, metrics = NULL) {
   force(object)
   force(metrics)
   environment()
+}
+
+# require() is faster than library() # nolint
+# but we should still fail early and loudly when needed.
+build_load_packages <- function(packages, library) {
+  out <- suppressPackageStartupMessages(
+    lapply(
+      packages,
+      require,
+      lib.loc = library,
+      quietly = TRUE,
+      character.only = TRUE
+    )
+  )
+  out <- as.logical(unlist(out))
+  packages <- paste(packages[!out], collapse = ", ")
+  assert_true(all(out), paste("packages not found,", packages))
+}
+
+build_run_expr <- function(expr, envir, seed, packages, library) {
+  build_load_packages(packages, library)
+  withr::with_dir(getwd(), withr::with_seed(seed, eval(expr, envir)))
 }
 
 build_validate <- function(build) {

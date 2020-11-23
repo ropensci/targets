@@ -20,6 +20,7 @@
 ## Enhancements
 
 * Return full patterns from `tar_manifest()`.
+* Record package load errors (#228, @psychelzh).
 
 # targets 0.0.0.9002
 

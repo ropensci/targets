@@ -46,19 +46,6 @@ tar_test("command$produce_build() does not change working dir", {
   expect_equal(getwd(), dir)
 })
 
-tar_test("command$load_packages()", {
-  command_good <- command_init(quote(a <- b + c))
-  expect_silent(command_validate(command_good))
-  expect_silent(command_load_packages(command_good))
-  command_bad <- command_init(quote(a <- b + c), packages = 123)
-  expect_error(
-    suppressWarnings(command_load_packages(command_bad)),
-    class = "condition_validate"
-  )
-  expect_error(command_validate(command_bad), class = "condition_validate")
-  expect_error(command_validate_packages(command_bad))
-})
-
 tar_test("command_init(deps)", {
   command <- command_init(quote(a <- b + c), deps = "custom")
   expect_equal(command$deps, "custom")
@@ -101,6 +88,14 @@ tar_test("command_validate() with empty expr field", {
 tar_test("command_validate() with bad packages field", {
   command <- command_init(expr = quote(a <- b + c), packages = 123)
   expect_error(command_validate(command), class = "condition_validate")
+})
+
+tar_test("command validation with packages (test 2)", {
+  command_good <- command_init(quote(a <- b + c))
+  expect_silent(command_validate(command_good))
+  command_bad <- command_init(quote(a <- b + c), packages = 123)
+  expect_error(command_validate(command_bad), class = "condition_validate")
+  expect_error(command_validate_packages(command_bad))
 })
 
 tar_test("command_validate() with bad library field", {

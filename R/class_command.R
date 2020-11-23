@@ -32,25 +32,14 @@ command_new <- function(
   environment()
 }
 
-# require() is faster than library() # nolint
-# but we should still fail early and loudly when needed.
-command_load_packages <- function(command) {
-  out <- suppressPackageStartupMessages(
-    lapply(
-      command$packages,
-      require,
-      lib.loc = command$library,
-      quietly = TRUE,
-      character.only = TRUE
-    )
-  )
-  out <- as.logical(unlist(out))
-  packages <- paste(command$packages[!out], collapse = ", ")
-  assert_true(all(out), paste("packages not found:", packages))
-}
-
 command_produce_build <- function(command, envir) {
-  build_init(command$expr, envir, command$seed)
+  build_init(
+    expr = command$expr,
+    envir = envir,
+    seed = command$seed,
+    packages = command$packages,
+    library = command$library
+  )
 }
 
 command_clone <- function(command) {

@@ -60,7 +60,8 @@ tar_workspace <- function(
   workspace_populate(workspace)
   workspace_assign(workspace, envir)
   if (packages) {
-    command_load_packages(workspace$target$command)
+    command <- workspace$target$command
+    build_load_packages(command$packages, command$library)
   }
   if (source) {
     source("_targets.R", local = envir)

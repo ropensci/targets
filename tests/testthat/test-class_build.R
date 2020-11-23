@@ -27,6 +27,21 @@ tar_test("run with warning", {
   expect_true(any(grepl("12345", build$metrics$warnings)))
 })
 
+tar_test("load packages", {
+  command_good <- command_init(quote(a <- b + c))
+  expect_silent(command_validate(command_good))
+  expect_silent(
+    build_load_packages(command_good$packages, command_good$library)
+  )
+  command_bad <- command_init(quote(a <- b + c), packages = 123)
+  expect_error(
+    suppressWarnings(
+      build_load_packages(command_bad$packages, command_bad$library)
+    ),
+    class = "condition_validate"
+  )
+})
+
 tar_test("validate good builds", {
   build <- build_init(quote(1L + 1L), baseenv())
   expect_silent(build_validate(build))
