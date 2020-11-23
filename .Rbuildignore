@@ -35,3 +35,4 @@
 ^LICENSE\.md$
 ^paper\.md$
 ^paper\.bib$
+_packages.R

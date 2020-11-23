@@ -21,6 +21,7 @@
 
 * Return full patterns from `tar_manifest()`.
 * Record package load errors in progress and metadata (#228, @psychelzh).
+* `tar_renv()` now invokes `_targets.R` through a background process just like `tar_outdated()` etc. so it can account for more hidden packages (#224, @mattwarkentin).
 
 # targets 0.0.0.9002
 

@@ -75,6 +75,7 @@ tar_dir({
   tar_renv(callr_function = NULL)
   writeLines(readLines("_packages.R"))
 })
+tar_option_reset()
 }
 \seealso{
 \url{https://rstudio.github.io/renv/articles/renv.html}

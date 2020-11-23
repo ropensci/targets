@@ -231,6 +231,7 @@ assert_target_script <- function() {
     "network",
     "outdated",
     "prune",
+    "renv",
     "sitrep",
     "validate",
     "visnetwork"

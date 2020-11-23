@@ -46,6 +46,7 @@
 #'   tar_renv(callr_function = NULL)
 #'   writeLines(readLines("_packages.R"))
 #' })
+#' tar_option_reset()
 tar_renv <- function(
   extras = c("clustermq", "future", "rstudioapi", "visNetwork"),
   path = "_packages.R",
