@@ -369,8 +369,13 @@ target_unserialize_value <- function(target) {
 }
 
 target_get_packages <- function(target) {
+  UseMethod("target_get_packages")
+}
+
+#' @export
+target_get_packages.default <- function(target) {
   packages_command <- target$command$packages
-  store <- target$store %||% settings_produce_store(target$settings)
+  store <- settings_produce_store(target$settings)
   packages_store <- store_get_packages(store)
   sort(unique(c(packages_command, packages_store)))
 }
