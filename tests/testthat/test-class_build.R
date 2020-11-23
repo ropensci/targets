@@ -37,7 +37,7 @@ tar_test("run with warning", {
 })
 
 tar_test("warning with no message", {
-  build <- expect_warning(build_init(quote(warning()), baseenv()),)
+  build <- expect_warning(build_init(quote(warning()), baseenv()))
   expect_equal(build$metrics$warnings, ".")
 })
 
