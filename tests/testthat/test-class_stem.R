@@ -186,7 +186,17 @@ tar_test("stem$produce_record() of a errored stem", {
   expect_equal(record$children, NA_character_)
   expect_true(is.numeric(record$seconds))
   expect_equal(record$warnings, NA_character_)
-  expect_equal(record$error, "123 .")
+  expect_equal(record$error, "123")
+})
+
+tar_test("stem$produce_record() with no error message", {
+  target <- target_init("x", quote(stop()))
+  pipeline <- pipeline_init(list(target))
+  local <- local_init(pipeline)
+  expect_error(local$run(), class = "condition_run")
+  meta <- local$meta
+  record <- target_produce_record(target, meta)
+  expect_equal(record$error, ".")
 })
 
 tar_test("stem validate", {

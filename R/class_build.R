@@ -79,5 +79,6 @@ build_time_seconds <- function() {
 }
 
 build_message <- function(condition) {
-  substr(paste(c(conditionMessage(condition), "."), collapse = " "), 0L, 128L)
+  out <- substr(paste(conditionMessage(condition), collapse = " "), 0L, 128L)
+  trn(nzchar(out), out, ".")
 }
