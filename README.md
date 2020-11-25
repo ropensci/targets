@@ -46,7 +46,7 @@ patches.
 
 ``` r
 library(remotes)
-install_github("wlandau/targets")
+install_github("wlandau/targets", dependencies = TRUE)
 ```
 
 ## Help
