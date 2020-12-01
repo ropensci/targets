@@ -11,8 +11,8 @@ imports_init.tar_imports <- function(envir) {
 imports_init.default <- function(envir) {
   imports <- new.env(parent = emptyenv())
   packages <- rev(tar_option_get("imports"))
-  lapply(packages, import_set_package, imports = imports)
-  import_envir(from = envir, into = imports)
+  lapply(packages, imports_set_package, imports = imports)
+  imports_set_envir(imports = imports, envir = envir)
   imports_new(imports)
 }
 
