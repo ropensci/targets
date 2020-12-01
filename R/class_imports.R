@@ -11,9 +11,13 @@ imports_init.tar_imports <- function(envir) {
 imports_init.default <- function(envir) {
   imports <- new.env(parent = emptyenv())
   packages <- rev(tar_option_get("imports"))
-  map(packages, ~import_envir(from = getNamespace(.x), into = imports))
+  lapply(packages, import_set_package, imports = imports)
   import_envir(from = envir, into = imports)
-  enclass(imports, "tar_imports")
+  imports_new(imports)
+}
+
+imports_new <- function(envir) {
+  enclass(envir, "tar_imports")
 }
 
 imports_set_package <- function(imports, package) {
