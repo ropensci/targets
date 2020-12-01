@@ -7,6 +7,13 @@
 #'   `_targets.R` script before calls to [tar_target()] or [tar_target_raw()].
 #' @return Nothing.
 #' @inheritParams tar_target
+#' @param imports Character vector of package names to track
+#'   global dependencies. For example, if you write
+#'   `tar_option_set(imports = "yourAnalysisPackage")` early in `_targets.R`,
+#'   then `tar_make()` will automatically rerun or skip targets
+#'   in response to changes to the R functions and objects defined in
+#'   `yourAnalysisPackage`. Does not account for low-level compiled code
+#'   such as C/C++ or Fortran.
 #' @param envir Environment containing functions and global objects
 #'   used in the R commands to run targets.
 #' @param debug Character vector of names of targets to run in debug mode.
@@ -36,6 +43,7 @@
 tar_option_set <- function(
   tidy_eval = NULL,
   packages = NULL,
+  imports = NULL,
   library = NULL,
   envir = NULL,
   format = NULL,
@@ -55,6 +63,7 @@ tar_option_set <- function(
   force(envir)
   tar_option_set_tidy_eval(tidy_eval)
   tar_option_set_packages(packages)
+  tar_option_set_imports(imports)
   tar_option_set_library(library)
   tar_option_set_envir(envir)
   tar_option_set_format(format)
@@ -82,6 +91,12 @@ tar_option_set_packages <- function(packages) {
   packages <- packages %||% tar_option_get("packages")
   assert_chr(packages, "packages in tar_option_set() must be character.")
   assign("packages", packages, envir = tar_envir_options)
+}
+
+tar_option_set_imports <- function(imports) {
+  imports <- imports %||% tar_option_get("imports")
+  assert_chr(imports, "imports in tar_option_set() must be character.")
+  assign("imports", imports, envir = tar_envir_options)
 }
 
 tar_option_set_library <- function(library) {
