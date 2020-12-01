@@ -3,6 +3,8 @@
 S3method(hash_object,"function")
 S3method(hash_object,character)
 S3method(hash_object,default)
+S3method(imports_init,default)
+S3method(imports_init,tar_imports)
 S3method(pipeline_validate,default)
 S3method(pipeline_validate,tar_pipeline)
 S3method(pipeline_validate_lite,default)
