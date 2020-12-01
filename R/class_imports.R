@@ -16,15 +16,25 @@ imports_init.default <- function(envir) {
   enclass(imports, "tar_imports")
 }
 
-import_envir <- function(from, into) {
-  lapply(names(from), import_object, from = from, into = into)
+imports_set_package <- function(imports, package) {
+  envir <- getNamespace(package)
+  imports_set_envir(imports, envir)
 }
 
-import_object <- function(name, from, into) {
+imports_set_envir <- function(imports, envir) {
+  lapply(names(envir), imports_set_object, imports = imports, envir = envir)
+}
+
+imports_set_object <- function(imports, name, envir) {
   assign(
     x = name,
-    value = get(name, envir = from, inherits = FALSE),
-    envir = into,
+    value = get(name, envir = envir, inherits = FALSE),
+    envir = imports,
     inherits = FALSE
   )
+}
+
+imports_validate <- function(imports) {
+  assert_inherits(imports, "tar_imports")
+  assert_envir(imports)
 }
