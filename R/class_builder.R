@@ -20,12 +20,12 @@ builder_new <- function(
 }
 
 #' @export
-target_update_depend.tar_builder <- function(target, meta) {
+target_update_depend.tar_builder <- function(target, pipeline, meta) {
   depends <- meta$depends
   memory_set_object(
     depends,
     target_get_name(target),
-    meta$produce_depend(target)
+    meta$produce_depend(target, produce_depend)
   )
 }
 
@@ -116,7 +116,7 @@ builder_conclude <- function(target, pipeline, scheduler, meta) {
   builder_ensure_object(target, "main")
   builder_wait_correct_hash(target)
   target_ensure_buds(target, pipeline, scheduler)
-  meta$insert_record(target_produce_record(target, meta))
+  meta$insert_record(target_produce_record(target, pipeline, meta))
   target_patternview_meta(target, pipeline, meta)
   pipeline_register_loaded(pipeline, target_get_name(target))
   scheduler$progress$register_built(target_get_name(target))
@@ -124,7 +124,7 @@ builder_conclude <- function(target, pipeline, scheduler, meta) {
 
 builder_error <- function(target, pipeline, scheduler, meta) {
   target_restore_buds(target, pipeline, scheduler, meta)
-  builder_record_error_meta(target, meta)
+  builder_record_error_meta(target, pipeline, meta)
   target_patternview_meta(target, pipeline, meta)
   builder_handle_error(target, pipeline, scheduler, meta)
 }
@@ -230,8 +230,8 @@ builder_save_workspace <- function(target, pipeline, scheduler) {
   workspace_save(workspace_init(target, pipeline))
 }
 
-builder_record_error_meta <- function(target, meta) {
-  record <- target_produce_record(target, meta)
+builder_record_error_meta <- function(target, pipeline, meta) {
+  record <- target_produce_record(target, pipeline, meta)
   meta$handle_error(record)
   meta$insert_record(record)
 }

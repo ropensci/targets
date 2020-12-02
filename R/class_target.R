@@ -204,7 +204,7 @@ target_read_value <- function(target, pipeline) {
   UseMethod("target_read_value")
 }
 
-target_produce_record <- function(target, meta) {
+target_produce_record <- function(target, pipeline, meta) {
   UseMethod("target_produce_record")
 }
 
