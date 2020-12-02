@@ -67,7 +67,7 @@ sitrep_class <- R6::R6Class(
     process_builder = function(target) {
       name <- target_get_name(target)
       target <- pipeline_get_target(self$pipeline, name)
-      target_update_depend(target, meta)
+      target_update_depend(target, self$pipeline, self$meta)
       self$sitrep[[name]] <- builder_sitrep(target, self$meta)
       trn(
         self$meta$exists_record(target_get_name(target)),

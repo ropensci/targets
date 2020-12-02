@@ -25,7 +25,7 @@ target_update_depend.tar_builder <- function(target, pipeline, meta) {
   memory_set_object(
     depends,
     target_get_name(target),
-    meta$produce_depend(target, produce_depend)
+    meta$produce_depend(target, pipeline)
   )
 }
 

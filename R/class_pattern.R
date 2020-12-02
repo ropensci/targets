@@ -83,7 +83,7 @@ target_branches_over.tar_pattern <- function(target, name) {
 }
 
 #' @export
-target_update_depend.tar_pattern <- function(target, meta) {
+target_update_depend.tar_pattern <- function(target, pipeline, meta) {
   depends <- meta$depends
   memory_set_object(depends, target_get_name(target), null64)
 }
