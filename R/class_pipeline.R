@@ -1,8 +1,11 @@
 pipeline_init <- function(targets = list()) {
   targets <- pipeline_targets_init(targets)
+  envir <- pipeline_envir(targets)
+  imports <- imports_init(envir)
   pipeline_new(
     targets = targets,
-    envir = pipeline_envir(targets),
+    envir = envir,
+    imports = imports,
     loaded = counter_init(),
     transient = counter_init()
   )
@@ -11,11 +14,13 @@ pipeline_init <- function(targets = list()) {
 pipeline_new <- function(
   targets = NULL,
   envir = NULL,
+  imports = NULL,
   loaded = NULL,
   transient = NULL
 ) {
   force(targets)
   force(envir)
+  force(imports)
   force(loaded)
   force(transient)
   enclass(environment(), "tar_pipeline")
@@ -83,6 +88,15 @@ pipeline_set_target <- function(pipeline, target) {
 pipeline_exists_target <- function(pipeline, name) {
   envir <- pipeline$targets %||% tar_empty_envir
   exists(x = name, envir = envir, inherits = FALSE)
+}
+
+pipeline_exists_import <- function(pipeline, name) {
+  exists(x = name, envir = pipeline$imports, inherits = FALSE)
+}
+
+pipeline_exists_object <- function(pipeline, name) {
+  pipeline_exists_target(pipeline, name) ||
+    pipeline_exists_import(pipeline, name)
 }
 
 pipeline_targets_only_edges <- function(edges) {
@@ -230,6 +244,7 @@ pipeline_validate_envirs <- function(pipeline) {
     "pipeline and target environments must agree."
   )
   lapply(targets, pipeline_validate_envir, envir = envir)
+  assert_envir(pipeline$imports %||% tar_empty_envir)
 }
 
 pipeline_validate_envir <- function(target, envir) {

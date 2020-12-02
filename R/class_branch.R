@@ -63,7 +63,7 @@ target_get_type.tar_branch <- function(target) {
 }
 
 #' @export
-target_produce_record.tar_branch <- function(target, meta) {
+target_produce_record.tar_branch <- function(target, pipeline, meta) {
   file <- target$store$file
   record_init(
     name = target_get_name(target),

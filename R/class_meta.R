@@ -44,7 +44,7 @@ meta_class <- R6::R6Class(
       self$database$list_rows()
     },
     restrict_records = function(pipeline) {
-      names_envir <- names(pipeline$envir)
+      names_envir <- names(pipeline$imports)
       names_records <- self$list_records()
       names_children <- fltr(
         names_records,
@@ -56,24 +56,22 @@ meta_class <- R6::R6Class(
       remove <- setdiff(names_records, names_current)
       self$del_records(remove)
     },
-    hash_dep = function(name, target) {
-      exists <- self$exists_record(name) && (
-        record_is_target(self$get_record(name)) ||
-          memory_exists_object(target$cache$imports, name)
-      )
+    hash_dep = function(name, pipeline) {
+      exists <- self$exists_record(name) &&
+        pipeline_exists_object(pipeline, name)
       trn(
         exists,
         self$get_record(name)$data,
         ""
       )
     },
-    hash_deps = function(deps, target) {
-      hashes <- map_chr(sort(deps), self$hash_dep, target = target)
+    hash_deps = function(deps, pipeline) {
+      hashes <- map_chr(sort(deps), self$hash_dep, pipeline = pipeline)
       string <- paste(c(names(hashes), hashes), collapse = "")
       digest_chr64(string)
     },
-    produce_depend = function(target) {
-      self$hash_deps(sort(target$command$deps), target)
+    produce_depend = function(target, pipeline) {
+      self$hash_deps(sort(target$command$deps), pipeline)
     },
     handle_error = function(record) {
       if (!self$exists_record(record$name)) {
