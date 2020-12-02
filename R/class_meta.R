@@ -56,7 +56,7 @@ meta_class <- R6::R6Class(
       remove <- setdiff(names_records, names_current)
       self$del_records(remove)
     },
-    hash_dep = function(name, target, pipeline) {
+    hash_dep = function(name, pipeline) {
       exists <- self$exists_record(name) &&
         pipeline_exists_object(pipeline, name)
       trn(
@@ -65,18 +65,13 @@ meta_class <- R6::R6Class(
         ""
       )
     },
-    hash_deps = function(deps, target, pipeline) {
-      hashes <- map_chr(
-        sort(deps),
-        self$hash_dep,
-        target = target,
-        pipeline = pipeline
-      )
+    hash_deps = function(deps, pipeline) {
+      hashes <- map_chr(sort(deps), self$hash_dep, pipeline = pipeline)
       string <- paste(c(names(hashes), hashes), collapse = "")
       digest_chr64(string)
     },
     produce_depend = function(target, pipeline) {
-      self$hash_deps(sort(target$command$deps), target, pipeline)
+      self$hash_deps(sort(target$command$deps), pipeline)
     },
     handle_error = function(record) {
       if (!self$exists_record(record$name)) {
