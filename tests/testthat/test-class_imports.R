@@ -16,7 +16,7 @@ tar_test("imports_set_envir()", {
   expect_null(imports$.a)
   expect_null(imports$b)
   expect_null(imports$c)
-  imports_set_envir(imports = imports,envir = envir)
+  imports_set_envir(imports = imports, envir = envir)
   expect_equal(imports$.a, "x")
   expect_equal(imports$b, "y")
   expect_equal(imports$c, "z")
@@ -66,3 +66,48 @@ tar_test("imports_validate()", {
   expect_error(imports_validate(123), class = "condition_validate")
 })
 
+tar_test("imports setting works", {
+  skip_if_not_installed("pkgload")
+  dir_create("pkg")
+  dir_create(file.path("pkg", "R"))
+  writeLines(
+    "f <- function(x) g(x); g <- function(x) x + 1L",
+    file.path("pkg", "R", "fun.R")
+  )
+  writeLines(
+    c(
+      "Package: pkgabcdefg",
+      "Maintainer: John Doe <e@mail.com>",
+      "Type: Package",
+      "Version: 0.0.1"
+    ),
+    file.path("pkg", "DESCRIPTION")
+  )
+  tar_script({
+    pkgload::load_all("pkg", quiet = TRUE)
+    tar_option_set(imports = "pkgabcdefg")
+    tar_pipeline(tar_target(x, f(1L)))
+  })
+  out <- tar_network(callr_function = NULL)$edges
+  expect_true(any(out$from == "g" & out$to == "f"))
+  expect_true(any(out$from == "f" & out$to == "x"))
+  tar_make(callr_function = NULL)
+  meta <- tar_meta(names = c("f", "g", "x"))
+  expect_true(all(c("f", "g", "x") %in% meta$name))
+  expect_equal(tar_read(x), 2L)
+  # Should be up to date.
+  tar_make(callr_function = NULL)
+  expect_equal(nrow(tar_progress()), 0L)
+  out <- tar_outdated(callr_function = NULL, targets_only = FALSE)
+  expect_equal(out, character(0))
+  # Change the inner function.
+  writeLines(
+    "f <- function(x) g(x); g <- function(x) x + 2L",
+    file.path("pkg", "R", "fun.R")
+  )
+  out <- tar_outdated(callr_function = NULL, targets_only = FALSE)
+  expect_true(all(c("f", "g", "x") %in% out))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress()$name, "x")
+  expect_equal(tar_read(x), 3L)
+})
