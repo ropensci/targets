@@ -402,7 +402,7 @@ tar_test("pattern$produce_record() of a successful map", {
   local <- local_init(pipeline)
   local$run()
   meta <- local$meta
-  record <- target_produce_record(target, meta)
+  record <- target_produce_record(target, pipeline, meta)
   expect_silent(record_validate(record))
   expect_equal(record$name, "y")
   expect_equal(record$parent, NA_character_)
