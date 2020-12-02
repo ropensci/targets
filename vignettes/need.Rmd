@@ -57,6 +57,14 @@ However, nearly four years of community feedback have exposed major user-side li
 
 The `targets` package solves all these issues by design. Functions `tar_make()`, `tar_make_clustermq()`, and `tar_make_future()` all create fresh new R sessions by default. They all require a `_targets.R` configuration file in the project root (working directory of the `tar_make()` call) so that the functions, global objects, and settings are all populated in the exact same way each session, leading to less frustration, greater consistency, and greater reproducibility. In addition, the `_targets/` data store always lives in the project root.
 
+## Enhanced debugging support
+
+`targets` has enhanced debugging support. With the `workspaces` argument to `tar_option_set()`, users can locally recreate the conditions under which a target runs. This includes packages, global functions and objects, and the random number generator seed. Similarly, `tar_option_set(error = "workspace")` automatically saves debugging workspaces for targets that encounter errors. The `debug` option lets users enter an interactive debugger for a given target while the pipeline is running. And unlike `drake`, all debugging features are fully compatible with dynamic branching.
+
+## Improved tracking of package functions
+
+By default, `targets` ignores changes to functions inside external packages. However, if a workflow centers on a custom package with methodology under development, users can make `targets` automatically watch the package's functions for changes. Simply supply the names of the relevant packages to the `imports` argument of `tar_option_set()`. Unlike `drake`, `targets` can track multiple packages this way, and the internal mechanism is much safer.
+
 ## Lighter, friendlier data management
 
 [`drake`](https://github.com/ropensci/drake)'s cache is an intricate file system in a hidden `.drake` folder. It contains multiple files for each target, and those names are not informative. (See the files in the `data/` folder in the diagram below.) Users often have trouble understanding how [`drake`](https://github.com/ropensci/drake) manages data, resolving problems when files are corrupted, placing the data under version control, collaborating with others on the same pipeline, and clearing out superfluous data when the cache grows large in storage.

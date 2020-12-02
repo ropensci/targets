@@ -16,6 +16,7 @@
 * Add new dynamic branching patterns `head()`, `tail()`, and `sample()` to provide functionality equivalent to `drake`'s `max_expand` (#56).
 * Add a new `tar_pattern()` function to emulate dynamic branching outside a pipeline.
 * Add a new `level_separation` argument to `tar_visnetwork()` and `tar_glimpse()` to control the aspect ratio (#226).
+* Track functions from multiple packages with the `imports` argument to `tar_option_set()` (#239).
 
 ## Enhancements
 

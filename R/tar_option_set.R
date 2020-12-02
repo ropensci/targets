@@ -13,7 +13,11 @@
 #'   then `tar_make()` will automatically rerun or skip targets
 #'   in response to changes to the R functions and objects defined in
 #'   `yourAnalysisPackage`. Does not account for low-level compiled code
-#'   such as C/C++ or Fortran.
+#'   such as C/C++ or Fortran. If you supply multiple packages,
+#'   e.g. `tar_option_set(imports = c("p1", "p2"))`, then the objects in
+#'   `p1` override the objects in `p2` if there are name conflicts.
+#'   Similarly, objects in `tar_option_get("envir")` override
+#'   everything in `tar_option_get("imports")`.
 #' @param envir Environment containing functions and global objects
 #'   used in the R commands to run targets.
 #' @param debug Character vector of names of targets to run in debug mode.

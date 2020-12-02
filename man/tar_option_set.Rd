@@ -41,7 +41,11 @@ global dependencies. For example, if you write
 then \code{tar_make()} will automatically rerun or skip targets
 in response to changes to the R functions and objects defined in
 \code{yourAnalysisPackage}. Does not account for low-level compiled code
-such as C/C++ or Fortran.}
+such as C/C++ or Fortran. If you supply multiple packages,
+e.g. \code{tar_option_set(imports = c("p1", "p2"))}, then the objects in
+\code{p1} override the objects in \code{p2} if there are name conflicts.
+Similarly, objects in \code{tar_option_get("envir")} override
+everything in \code{tar_option_get("imports")}.}
 
 \item{library}{Character vector of library paths to try
 when loading \code{packages}.}
