@@ -28,11 +28,11 @@ target_get_children.tar_pattern <- function(target) {
 }
 
 #' @export
-target_produce_record.tar_pattern <- function(target, meta) {
+target_produce_record.tar_pattern <- function(target, pipeline, meta) {
   record_init(
     name = target_get_name(target),
     type = target_get_type(target),
-    data = pattern_produce_data_hash(target, meta),
+    data = pattern_produce_data_hash(target, pipeline, meta),
     command = target$command$hash,
     bytes = target$patternview$bytes,
     format = target$settings$format,
@@ -83,7 +83,7 @@ target_branches_over.tar_pattern <- function(target, name) {
 }
 
 #' @export
-target_update_depend.tar_pattern <- function(target, meta) {
+target_update_depend.tar_pattern <- function(target, pipeline, meta) {
   depends <- meta$depends
   memory_set_object(depends, target_get_name(target), null64)
 }
@@ -219,8 +219,8 @@ pattern_priority <- function() {
   1.1
 }
 
-pattern_produce_data_hash <- function(target, meta) {
-  hash_branches <- meta$hash_deps(target_get_children(target))
+pattern_produce_data_hash <- function(target, pipeline, meta) {
+  hash_branches <- meta$hash_deps(target_get_children(target), pipeline)
   digest_chr64(paste(target$settings$iteration, hash_branches))
 }
 
@@ -232,7 +232,7 @@ pattern_conclude_initial <- function(target, pipeline, scheduler, meta) {
 
 pattern_conclude_final <- function(target, pipeline, scheduler, meta) {
   pattern_skip_final(target, pipeline, scheduler, meta)
-  pattern_record_meta(target, meta)
+  pattern_record_meta(target, pipeline, meta)
   patternview_register_final(target$patternview, target, scheduler)
 }
 
@@ -273,14 +273,14 @@ pipeline_assert_dimension <- function(target, pipeline, name) {
   }
 }
 
-pattern_record_meta <- function(target, meta) {
+pattern_record_meta <- function(target, pipeline, meta) {
   name <- target_get_name(target)
   old_data <- trn(
     meta$exists_record(name),
     meta$get_record(name)$data,
     NA_character_
   )
-  record <- target_produce_record(target, meta)
+  record <- target_produce_record(target, pipeline, meta)
   if (!identical(record$data, old_data)) {
     meta$insert_record(record)
   }

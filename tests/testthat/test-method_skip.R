@@ -203,3 +203,50 @@ tar_test("changing pattern iteration mode forces downstream reaggregation", {
   local$run()
   expect_true("z" %in% counter_get_names(local$scheduler$progress$built))
 })
+
+tar_test("change a nested function", {
+  tar_script({
+    envir <- new.env(parent = globalenv())
+    evalq({
+      f <- function(x) {
+        g(x)
+      }
+      g <- function(x) {
+        x + 1L
+      }
+    }, envir = envir)
+    tar_option_set(envir = envir)
+    tar_pipeline(tar_target(x, f(1L)))
+  })
+  out <- tar_network(callr_function = NULL)$edges
+  expect_true(any(out$from == "g" & out$to == "f"))
+  expect_true(any(out$from == "f" & out$to == "x"))
+  tar_make(callr_function = NULL)
+  meta <- tar_meta(names = c("f", "g", "x"))
+  expect_true(all(c("f", "g", "x") %in% meta$name))
+  expect_equal(tar_read(x), 2L)
+  # Should be up to date.
+  tar_make(callr_function = NULL)
+  expect_equal(nrow(tar_progress()), 0L)
+  out <- tar_outdated(callr_function = NULL, targets_only = FALSE)
+  expect_equal(out, character(0))
+  # Change the inner function.
+  tar_script({
+    envir <- new.env(parent = globalenv())
+    evalq({
+      f <- function(x) {
+        g(x)
+      }
+      g <- function(x) {
+        x + 2L
+      }
+    }, envir = envir)
+    tar_option_set(envir = envir)
+    tar_pipeline(tar_target(x, f(1L)))
+  })
+  out <- tar_outdated(callr_function = NULL, targets_only = FALSE)
+  expect_true(all(c("f", "g", "x") %in% out))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress()$name, "x")
+  expect_equal(tar_read(x), 3L)
+})

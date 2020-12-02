@@ -119,7 +119,7 @@ tar_test("insert stem record of a successful stem", {
   db <- meta$database
   db$ensure_storage()
   db$reset_storage()
-  record <- target_produce_record(target, meta)
+  record <- target_produce_record(target, pipeline, meta)
   db$insert_row(record_produce_row(record))
   data <- db$read_data()
   expect_equal(data$name, "x")
@@ -145,7 +145,7 @@ tar_test("stem$produce_record() of a successful stem", {
   local <- local_init(pipeline)
   local$run()
   meta <- local$meta
-  record <- target_produce_record(target, meta)
+  record <- target_produce_record(target, pipeline, meta)
   expect_silent(record_validate(record))
   expect_equal(record$name, "x")
   expect_equal(record$parent, NA_character_)
@@ -170,7 +170,7 @@ tar_test("stem$produce_record() of a errored stem", {
   local <- local_init(pipeline)
   expect_error(local$run(), class = "condition_run")
   meta <- local$meta
-  record <- target_produce_record(target, meta)
+  record <- target_produce_record(target, pipeline, meta)
   expect_silent(record_validate(record))
   expect_equal(record$name, "x")
   expect_equal(record$parent, NA_character_)
@@ -195,7 +195,7 @@ tar_test("stem$produce_record() with no error message", {
   local <- local_init(pipeline)
   expect_error(local$run(), class = "condition_run")
   meta <- local$meta
-  record <- target_produce_record(target, meta)
+  record <- target_produce_record(target, pipeline, meta)
   expect_equal(record$error, ".")
 })
 

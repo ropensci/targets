@@ -55,7 +55,7 @@ target_produce_junction.tar_stem <- function(target, pipeline) {
 }
 
 #' @export
-target_produce_record.tar_stem <- function(target, meta) {
+target_produce_record.tar_stem <- function(target, pipeline, meta) {
   file <- target$store$file
   record_init(
     name = target_get_name(target),

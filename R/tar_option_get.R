@@ -29,6 +29,7 @@ tar_option_default <- function(option) {
     option,
     tidy_eval = TRUE,
     packages = (.packages()),
+    imports = character(0),
     library = NULL,
     envir = globalenv(),
     format = "rds",

@@ -11,13 +11,13 @@ hash_imports_graph <- function(envir, graph) {
   data_frame(name = order, type = type, data = hash)
 }
 
+graph_envir <- function(envir) {
+  graph_edges(edges_envir(envir))
+}
+
 type_import <- function(name, envir) {
   object <- get(x = name, envir = envir, inherits = FALSE)
   ifelse(is.function(object), "function", "object")
-}
-
-graph_envir <- function(envir) {
-  graph_edges(edges_envir(envir))
 }
 
 graph_edges <- function(edges) {

@@ -150,7 +150,7 @@ tar_test("branch$produce_record() of a successful branch", {
   local$run()
   meta <- local$meta
   target <- pipeline_get_target(pipeline, target_get_children(map)[2L])
-  record <- target_produce_record(target, meta)
+  record <- target_produce_record(target, pipeline, meta)
   expect_silent(record_validate(record))
   expect_true(grepl("^y_", record$name))
   expect_equal(record$parent, "y")

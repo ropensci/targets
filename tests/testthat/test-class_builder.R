@@ -26,7 +26,7 @@ tar_test("target_run() on a errored builder", {
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
   target_run(x)
   meta <- meta_init()
-  target_update_depend(x, meta)
+  target_update_depend(x, pipeline_init(), meta)
   expect_error(
     target_conclude(x, pipeline_init(), scheduler_init(), meta),
     class = "condition_run"

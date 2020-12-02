@@ -7,6 +7,7 @@
 tar_option_set(
   tidy_eval = NULL,
   packages = NULL,
+  imports = NULL,
   library = NULL,
   envir = NULL,
   format = NULL,
@@ -33,6 +34,18 @@ the values of global objects.}
 \item{packages}{Character vector of packages to load right before
 the target builds. Use \code{tar_option_set()} to set packages
 globally for all subsequent targets you define.}
+
+\item{imports}{Character vector of package names to track
+global dependencies. For example, if you write
+\code{tar_option_set(imports = "yourAnalysisPackage")} early in \verb{_targets.R},
+then \code{tar_make()} will automatically rerun or skip targets
+in response to changes to the R functions and objects defined in
+\code{yourAnalysisPackage}. Does not account for low-level compiled code
+such as C/C++ or Fortran. If you supply multiple packages,
+e.g. \code{tar_option_set(imports = c("p1", "p2"))}, then the objects in
+\code{p1} override the objects in \code{p2} if there are name conflicts.
+Similarly, objects in \code{tar_option_get("envir")} override
+everything in \code{tar_option_get("imports")}.}
 
 \item{library}{Character vector of library paths to try
 when loading \code{packages}.}

@@ -31,7 +31,7 @@ tar_test("builder metadata recording", {
   db$reset_storage()
   data <- db$read_data()
   expect_equal(nrow(data), 0L)
-  meta$insert_record(target_produce_record(target, meta))
+  meta$insert_record(target_produce_record(target, pipeline, meta))
   expect_true(db$exists_row(target_get_name(target)))
   data <- db$read_data()
   expect_equal(nrow(data), 1L)
@@ -160,7 +160,7 @@ tar_test("meta$produce_depend() nonempty", {
   local <- local_init(pipeline)
   local$run()
   meta <- local$meta
-  out <- meta$produce_depend(y)
+  out <- meta$produce_depend(y, pipeline)
   expect_equal(length(out), 1L)
   expect_equal(nchar(out), 16L)
 })

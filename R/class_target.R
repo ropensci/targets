@@ -204,7 +204,7 @@ target_read_value <- function(target, pipeline) {
   UseMethod("target_read_value")
 }
 
-target_produce_record <- function(target, meta) {
+target_produce_record <- function(target, pipeline, meta) {
   UseMethod("target_produce_record")
 }
 
@@ -281,7 +281,7 @@ target_restore_buds <- function(target, pipeline, scheduler, meta) {
   UseMethod("target_restore_buds")
 }
 
-target_update_depend <- function(target, meta) {
+target_update_depend <- function(target, pipeline, meta) {
   UseMethod("target_update_depend")
 }
 

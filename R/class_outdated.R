@@ -88,7 +88,7 @@ outdated_class <- R6::R6Class(
         target_skip(target, self$pipeline, self$scheduler, self$meta),
         error = function(e) warning(e$message)
       )
-      target_update_depend(target, self$meta)
+      target_update_depend(target, self$pipeline, self$meta)
       if (target_should_run(target, self$meta)) {
         self$register_builder_outdated(target)
       }

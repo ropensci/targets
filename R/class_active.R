@@ -24,7 +24,7 @@ active_class <- R6::R6Class(
     ensure_meta = function() {
       self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
-      self$meta$record_imports(self$pipeline$envir, self$pipeline)
+      self$meta$record_imports(self$pipeline$imports, self$pipeline)
       self$meta$restrict_records(self$pipeline)
     },
     produce_exports = function(envir) {
@@ -50,7 +50,7 @@ active_class <- R6::R6Class(
     process_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
       target_debug(target)
-      target_update_depend(target, meta)
+      target_update_depend(target, self$pipeline, self$meta)
       trn(
         target_should_run(target, self$meta),
         self$run_target(name),
