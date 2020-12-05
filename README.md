@@ -80,7 +80,9 @@ install_github("wlandau/targets")
 
   - [R/Pharma 2020
     (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
-  - [LA R Users October 2020
+  - [New York Open Statistical Programming Meetup,
+    December 2020](https://youtu.be/Gqn7Xn4d5NI)
+  - [LA R Users Meetup, October 2020
     (1:14:40)](https://www.youtube.com/watch?v=Qq25BUxpJu4)
 
 ## Courses
@@ -88,11 +90,16 @@ install_github("wlandau/targets")
   - [Official half-day interactive
     tutorial](https://github.com/wlandau/targets-tutorial).
 
-## Helpers
+## Extensions
 
-  - [`tarchetypes`](https://wlandau.github.io/tarchetypes): an R package
-    to help define specialized targets such as dependency-aware R
-    Markdown reports.
+  - [`tarchetypes`](https://wlandau.github.io/tarchetypes): helpers to
+    define specialized targets such as dependency-aware R Markdown
+    reports.
+  - [`stantargets`](https://github.com/wlandau/stantargets): a workflow
+    framework for reproducible Stan pipelines.
+
+## Apps
+
   - [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny
     app to help sketch pipelines
     ([app](https://wlandau.shinyapps.io/targetsketch),
