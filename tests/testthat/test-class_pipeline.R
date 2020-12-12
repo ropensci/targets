@@ -214,6 +214,25 @@ tar_test("pipeline_reset_priorities()", {
   }
 })
 
+tar_test("pipeline_reset_deployments()", {
+  pipeline <- pipeline_init(
+    list(
+      target_init("x", quote(1), deployment = "worker"),
+      target_init("y1", quote(x), deployment = "worker"),
+      target_init("y2", quote(x), deployment = "worker")
+    )
+  )
+  for (name in pipeline_get_names(pipeline)) {
+    target <- pipeline_get_target(pipeline, name)
+    expect_equal(target$settings$deployment, "worker")
+  }
+  pipeline_reset_deployments(pipeline)
+  for (name in pipeline_get_names(pipeline)) {
+    target <- pipeline_get_target(pipeline, name)
+    expect_equal(target$settings$deployment, "main")
+  }
+})
+
 tar_test("pipeline_get_packages()", {
   x <- tar_target(x, 1, format = "fst_tbl", packages = "tidyr")
   y <- tar_target(y, 1, format = "qs", packages = character(0))

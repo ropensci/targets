@@ -74,6 +74,15 @@ pipeline_reset_priority <- function(pipeline, name) {
   target$settings$priority <- 0
 }
 
+pipeline_reset_deployments <- function(pipeline) {
+  map(pipeline_get_names(pipeline), ~pipeline_reset_deployment(pipeline, .x))
+}
+
+pipeline_reset_deployment <- function(pipeline, name) {
+  target <- pipeline_get_target(pipeline, name)
+  target$settings$deployment <- "main"
+}
+
 pipeline_set_target <- function(pipeline, target) {
   assign(
     x = target$settings$name,

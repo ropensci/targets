@@ -179,7 +179,7 @@ assert_path <- function(path, msg = NULL) {
   missing <- !file.exists(path)
   if (any(missing)) {
     throw_validate(
-      msg %||% paste(
+      msg %||% paste0(
         "missing files: ",
         paste(path[missing], collapse = ", ")
       )

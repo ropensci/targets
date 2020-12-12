@@ -23,6 +23,7 @@
 * Return full patterns from `tar_manifest()`.
 * Record package load errors in progress and metadata (#228, @psychelzh).
 * `tar_renv()` now invokes `_targets.R` through a background process just like `tar_outdated()` etc. so it can account for more hidden packages (#224, @mattwarkentin).
+* Set `deployment` equal to `"main"` for all targets in `tar_make()`. This ensures `tar_make()` does not waste time waiting for nonexistent files to ship over a nonexistent network file system (NFS). `tar_make_clustermq()` or `tar_make_future()` could use NFS, so they still leave `deployment` alone.
 
 # targets 0.0.0.9002
 
