@@ -1,5 +1,9 @@
 # targets 0.0.0.9003
 
+## Bug fixes
+
+* Ensure pattern-only pipelines can be defined so they can be combined again later with `tar_bind()` (#245, @yonicd).
+
 ## Breaking changes
 
 * Make patterns composable (#212, @glep, @djbirke).

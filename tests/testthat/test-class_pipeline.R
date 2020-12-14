@@ -242,6 +242,11 @@ tar_test("pipeline_get_packages()", {
   expect_equal(out, exp)
 })
 
+tar_test("print method", {
+  out <- utils::capture.output(pipeline_init())
+  expect_true(grepl("pipeline", out))
+})
+
 tar_test("validate a non-pipeline", {
   expect_error(pipeline_validate(stem_new()), class = "condition_validate")
   expect_error(
@@ -287,7 +292,11 @@ tar_test("pipeline_validate(pipeline) with circular graph", {
   expect_error(pipeline_validate(pipeline), class = "condition_validate")
 })
 
-tar_test("print method", {
-  out <- utils::capture.output(pipeline_init())
-  expect_true(grepl("pipeline", out))
+tar_test("valid pipeline with patterns only (#245)", {
+  expect_silent(out1 <- tar_pipeline(tar_target(x, y, pattern = map(y))))
+  expect_silent(out2 <- tar_pipeline(tar_target(z, w, pattern = map(w))))
+  expect_silent(out3 <- tar_bind(out1, out2))
+  expect_silent(pipeline_validate(out1))
+  expect_silent(pipeline_validate(out2))
+  expect_silent(pipeline_validate(out3))
 })

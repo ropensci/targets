@@ -36,17 +36,13 @@ pipeline_targets_init <- function(targets) {
 
 pipeline_envir <- function(targets) {
   names <- names(targets)
-  for (name in names) {
-    target <- targets[[name]]
-    if (inherits(target, "tar_stem")) {
-      return(target$cache$imports$envir)
-    }
-  }
-  trn(
-    length(names) > 0L,
-    throw_validate("pipeline must have at least one non-pattern target."),
+  out <- trn(
+    length(names),
+    targets[[names[1]]]$cache$imports$envir,
     tar_empty_envir
   )
+  assert_envir(out, "pipeline must initialize with only stems and patterns.")
+  out
 }
 
 pipeline_get_target <- function(pipeline, name) {
@@ -184,6 +180,7 @@ pipeline_produce_subpipeline <- function(pipeline, name, keep_value = NULL) {
   )
   pipeline_new(
     targets = targets,
+    envir = tar_empty_envir,
     loaded = counter_init(),
     transient = counter_init()
   )
@@ -241,19 +238,10 @@ pipeline_validate_dag <- function(igraph) {
 }
 
 pipeline_validate_envirs <- function(pipeline) {
-  targets <- as.list(pipeline$targets)
-  if (!length(targets)) {
-    return()
-  }
-  envir <- targets[[1]]$cache$imports$envir
-  assert_envir(envir)
-  assert_identical(
-    envir,
-    pipeline$envir,
-    "pipeline and target environments must agree."
-  )
-  lapply(targets, pipeline_validate_envir, envir = envir)
+  assert_envir(pipeline$envir)
   assert_envir(pipeline$imports %||% tar_empty_envir)
+  targets <- as.list(pipeline$targets)
+  lapply(targets, pipeline_validate_envir, envir = pipeline$envir)
 }
 
 pipeline_validate_envir <- function(target, envir) {
