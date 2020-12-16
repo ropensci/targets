@@ -13,11 +13,12 @@ tar_dir(code)
 Return value of the user-defined code.
 }
 \description{
-Creates a new directory at \code{tempfile()} and runs code
-inside with \code{withr::with_dir()}
+Runs code inside a \code{tempfile()} directory
+using \code{withr::with_dir()}. Handy for writing examples in
+\href{https://wlandau.github.io/targetopia.html}{targetopia} packages
+(extensions to \code{targets} tailored to specific use cases).
 }
 \examples{
-tar_dir(file.create("x"))
-file.exists("x") # Should be false.
+tar_dir(file.create("only_exists_in_tar_dir"))
+file.exists("only_exists_in_tar_dir")
 }
-\keyword{internal}
