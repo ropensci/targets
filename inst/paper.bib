@@ -88,17 +88,28 @@
   https://github.com/Netflix/metaflow},
 }
 
-@Manual{
+@article{
 clustermq,
-  title = {clustermq: Evaluate Function Calls on HPC Schedulers (LSF, SGE, SLURM,
-PBS/Torque)},
-  author = {Michael Schubert},
-  year = {2020},
-  note = {R package version 0.8.95.1},
-  url = {https://CRAN.R-project.org/package=clustermq},
+    author = {Schubert, Michael},
+    title = "{clustermq enables efficient parallelization of genomic analyses}",
+    journal = {Bioinformatics},
+    volume = {35},
+    number = {21},
+    pages = {4493-4495},
+    year = {2019},
+    month = {05},
+    abstract = "{High performance computing (HPC) clusters play a pivotal role in large-scale bioinformatics analysis and modeling. For the statistical computing language R, packages exist to enable a user to submit their analyses as jobs on HPC schedulers. However, these packages do not scale well to high numbers of tasks, and their processing overhead quickly becomes a prohibitive bottleneck.Here we present clustermq, an R package that can process analyses up to three orders of magnitude faster than previously published alternatives. We show this for investigating genomic associations of drug sensitivity in cancer cell lines, but it can be applied to any kind of parallelizable workflow.The package is available on CRAN and https://github.com/mschubert/clustermq. Code for performance testing is available at https://github.com/mschubert/clustermq-performance.Supplementary data are available at Bioinformatics online.}",
+    issn = {1367-4803},
+    doi = {10.1093/bioinformatics/btz284},
+    url = {https://doi.org/10.1093/bioinformatics/btz284},
+    eprint = {https://academic.oup.com/bioinformatics/article-pdf/35/21/4493/30330796/btz284.pdf},
 }
 
-@Misc{
+
+
+
+
+@article{
   future,
   author = {Henrik Bengtsson},
   title = {A Unifying Framework for Parallel and Distributed Processing in R using Futures},
