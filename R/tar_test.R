@@ -10,7 +10,7 @@
 #' @param label Character of length 1, label for the test.
 #' @param code User-defined code for the test.
 #' @examples
-#' tar_test({
+#' tar_test("example test", {
 #'   testing_variable_cafecfcb <- "only defined inside tar_test()"
 #'   file.create("only_exists_in_tar_test")
 #' })

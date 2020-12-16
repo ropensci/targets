@@ -23,7 +23,7 @@ Useful for writing tests for
 (extensions to \code{targets} tailored to specific use cases).
 }
 \examples{
-tar_test({
+tar_test("example test", {
   testing_variable_cafecfcb <- "only defined inside tar_test()"
   file.create("only_exists_in_tar_test")
 })
