@@ -210,13 +210,13 @@ tar_visnetwork(targets_only = FALSE)
 # Should show a graph of 3 targets, f(), and miscellaneous globals.
 tar_visnetwork(targets_only = FALSE, callr_function = NULL)
 
-# Should show a status of targets as undefined (gray).
+# Should show a status of targets as waiting (light purple).
 tar_visnetwork(targets_only = FALSE, outdated = FALSE)
 
 # Should show a graph of just y1 and y2.
 tar_visnetwork(allow = starts_with("y"))
 
-# Should show status undefined (gray).
+# Should show status waiting (light purple).
 tar_visnetwork(outdated = FALSE)
 
 # Should show a canceled target.

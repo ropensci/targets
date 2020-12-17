@@ -56,7 +56,7 @@ tar_test("visnetwork$update_network() with allow", {
   exp <- data_frame(
     name = "x",
     type = "stem",
-    status = "undefined"
+    status = "waiting"
   )
   rownames(vertices) <- NULL
   rownames(exp) <- NULL
@@ -77,7 +77,7 @@ tar_test("visnetwork$update_network() with exclude", {
   exp <- data_frame(
     name = "y",
     type = "stem",
-    status = "undefined"
+    status = "waiting"
   )
   rownames(vertices) <- NULL
   rownames(exp) <- NULL
@@ -151,10 +151,10 @@ tar_test("visnetwork$update_legend() on cross plan", {
   expect_silent(vis$validate())
   legend <- vis$legend
   exp <- data_frame(
-    label = c("Stem", "Pattern"),
-    color = rep("#899DA4", 2L),
-    shape = c("dot", "square"),
-    font.size = rep(20L, 2L)
+    label = c("Stem", "Pattern", "Waiting"),
+    color = c("#899DA4", "#899DA4", "#9986A5"),
+    shape = c("dot", "square", "dot"),
+    font.size = rep(20L, 3L)
   )
   cols <- colnames(legend)
   legend <- legend[order(legend$label), cols]

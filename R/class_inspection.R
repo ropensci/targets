@@ -115,7 +115,7 @@ inspection_class <- R6::R6Class(
       out$old[is.na(out$old)] <- ""
       out$status <- ifelse(out$new == out$old, "uptodate", "outdated")
       out$status <- as.character(out$status)
-      out$status[is.na(out$status)] <- "undefined"
+      out$status[is.na(out$status)] <- "waiting"
       out$seconds <- rep(NA_real_, nrow(out))
       out$bytes <- rep(NA_real_, nrow(out))
       out$branches <- rep(NA_integer_, nrow(out))
@@ -126,7 +126,7 @@ inspection_class <- R6::R6Class(
       status <- trn(
         self$outdated,
         self$produce_outdated(vertices),
-        rep("undefined", nrow(vertices))
+        rep("waiting", nrow(vertices))
       )
       pipeline <- self$pipeline
       type <- map_chr(vertices$name, function(name) {
@@ -138,7 +138,7 @@ inspection_class <- R6::R6Class(
       levels <- c("running", "cancelled", "errored")
       in_levels <- !is.na(out$progress) & out$progress %in% levels
       status <- ifelse(in_levels, out$progress, status)
-      status[is.na(status)] <- "undefined"
+      status[is.na(status)] <- "waiting"
       data_frame(name = vertices$name, type = type, status = status)
     },
     resolve_target_meta = function(vertices) {
