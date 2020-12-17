@@ -4,10 +4,12 @@
 #' @description Calls [tar_visnetwork()] and offers a GUI
 #'   to select settings.
 #' @examples
+#' if (FALSE) { # Only run interactively.
 #' tar_dir({
-#' tar_script()
-#' # tar_watch()
+#'   tar_script()
+#'   tar_watch()
 #' })
+#' }
 tar_watch <- function() {
   assert_package("bs4Dash")
   assert_package("shiny")
