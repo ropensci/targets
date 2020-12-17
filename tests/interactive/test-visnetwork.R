@@ -207,16 +207,16 @@ tar_glimpse(allow = starts_with("y"))
 # Should show a graph of 3 targets and f() and g().
 tar_visnetwork(targets_only = FALSE)
 
-# Should show a graph of 3 targets, f(), and miscellaneous globals.
+# Should show a graph of 3 targets, f(), g(), and miscellaneous globals.
 tar_visnetwork(targets_only = FALSE, callr_function = NULL)
 
-# Should show a status of targets as waiting (light purple).
+# Should show a status of targets as dormant (light purple).
 tar_visnetwork(targets_only = FALSE, outdated = FALSE)
 
 # Should show a graph of just y1 and y2.
 tar_visnetwork(allow = starts_with("y"))
 
-# Should show status waiting (light purple).
+# Should show status dormant (light purple).
 tar_visnetwork(outdated = FALSE)
 
 # Should show a canceled target.
