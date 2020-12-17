@@ -51,6 +51,9 @@ reference:
   - '`tar_glimpse`'
   - '`tar_network`'
   - '`tar_visnetwork`'
+  - '`tar_watch`'
+  - '`tar_watch_server`'
+  - '`tar_watch_ui`'
 - title: Inspect
   contents:
   - '`tar_deps`'

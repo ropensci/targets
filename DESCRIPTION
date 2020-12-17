@@ -49,6 +49,7 @@ Imports:
   withr (>= 2.1.2)
 Suggests:
   aws.s3 (>= 0.3.21),
+  bs4Dash(>= 0.5.0),
   clustermq (>= 0.8.9),
   curl (>= 4.3),
   dplyr (>= 1.0.0),
@@ -60,6 +61,8 @@ Suggests:
   pkgload (>= 1.1.0),
   qs (>= 0.23.2),
   rstudioapi (>= 0.11),
+  shiny (>= 1.5.0),
+  shinycssloaders (>= 1.0.0),
   testthat (>= 3.0.0),
   torch (>= 0.1.0),
   usethis (>= 1.6.3),
