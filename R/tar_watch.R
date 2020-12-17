@@ -51,19 +51,10 @@ tar_watch_ui <- function(id, label = "tar_watch") {
         status = "primary",
         closable = FALSE,
         width = 12,
-        shiny::selectInput(
-          ns("refresh"),
-          "refresh",
-          choices = c("TRUE", "FALSE"),
-          selected = "FALSE"
-        ),
-        shiny::sliderInput(
+        shiny::textInput(
           ns("seconds"),
           "seconds",
-          value = 5,
-          min = 0,
-          max = 360,
-          step = 1
+          value = "5"
         ),
         shiny::selectInput(
           ns("targets_only"),
@@ -124,6 +115,7 @@ tar_watch_server <- function(id, height = "600px") {
     id,
     function(input, output, session) {
       output$graph <- visNetwork::renderVisNetwork({
+        shiny::invalidateLater(millis = 1000 * as.numeric(input$seconds))
         tar_visnetwork(
           targets_only = as.logical(input$targets_only),
           outdated = as.logical(input$outdated),
