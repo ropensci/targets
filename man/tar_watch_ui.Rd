@@ -4,13 +4,65 @@
 \alias{tar_watch_ui}
 \title{Shiny module UI for tar_watch()}
 \usage{
-tar_watch_ui(id, label = "tar_watch")
+tar_watch_ui(
+  id,
+  label = "tar_watch_label",
+  seconds = 5,
+  seconds_min = 1,
+  seconds_max = 60,
+  seconds_step = 1,
+  targets_only = FALSE,
+  outdated = TRUE,
+  label_tar_visnetwork = NULL,
+  level_separation = 150,
+  height = "700px"
+)
 }
 \arguments{
 \item{id}{An ID string that corresponds with the ID used to call the module's
 UI function.}
 
 \item{label}{Label for the module.}
+
+\item{seconds}{Numeric of length 1,
+default number of seconds between refreshes of the graph.
+Can be changed in the app controls.}
+
+\item{seconds_min}{Numeric of length 1, lower bound of \code{seconds}
+in the app controls.}
+
+\item{seconds_max}{Numeric of length 1, upper bound of \code{seconds}
+in the app controls.}
+
+\item{seconds_step}{Numeric of length 1, step size of \code{seconds}
+in the app controls.}
+
+\item{targets_only}{Logical, whether to restrict the output to just targets
+(\code{FALSE}) or to also include imported global functions and objects.}
+
+\item{outdated}{Logical, whether to show colors to distinguish outdated
+targets from up-to-date targets. (Global functions and objects
+still show these colors.) Looking for outdated targets
+takes a lot of time for large pipelines with lots of branches,
+and setting \code{outdated} to \code{FALSE} is a nice way to speed up the graph
+if you only want to see dependency relationships and build progress.}
+
+\item{label_tar_visnetwork}{Character vector, \code{label} argument to
+\code{\link[=tar_visnetwork]{tar_visnetwork()}}.}
+
+\item{level_separation}{Numeric of length 1,
+\code{levelSeparation} argument of \code{visNetwork::visHierarchicalLayout()}.
+Controls the distance between hierarchical levels.
+Consider changing the value if the aspect ratio of the graph
+is far from 1. If \code{level_separation} is \code{NULL},
+the \code{levelSeparation} argument of \code{visHierarchicalLayout()}
+defaults to \code{150}.}
+
+\item{height}{Character of length 1,
+height of the \code{visNetwork} widget.}
+}
+\value{
+A Shiny module UI.
 }
 \description{
 Use \code{tar_watch_ui()} and \code{\link[=tar_watch_server]{tar_watch_server()}}
