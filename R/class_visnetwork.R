@@ -76,12 +76,14 @@ visnetwork_class <- R6::R6Class(
     },
     produce_colors = function(status) {
       colors <- c(
-        waiting = "#9986A5",
+        built = "#E1BD6D",
         uptodate = "#354823",
         outdated = "#78B7C5",
         running = "#DC863B",
         cancelled = "#FAD510",
-        errored = "#C93312"
+        errored = "#C93312",
+        dormant = "#9986A5",
+        none = "#94a4ac"
       )
       colors[status]
     },
@@ -99,7 +101,7 @@ visnetwork_class <- R6::R6Class(
     },
     produce_legend = function() {
       vertices <- self$network$vertices
-      colors <- vertices[, c("status", "color")]
+      colors <- vertices[vertices$status != "none", c("status", "color")]
       shapes <- vertices[, c("type", "shape")]
       colors <- colors[!duplicated(colors),, drop = FALSE] # nolint
       shapes <- shapes[!duplicated(shapes),, drop = FALSE] # nolint

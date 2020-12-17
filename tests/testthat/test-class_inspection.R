@@ -285,7 +285,7 @@ tar_test("turn outdated off", {
   exp <- data_frame(
     name = c("w", "x", "y", "z"),
     type = rep("stem", 4L),
-    status = c("waiting", "running", "cancelled", "errored")
+    status = c("built", "running", "cancelled", "errored")
   )
   exp <- exp[order(exp$name), ]
   rownames(vertices) <- NULL

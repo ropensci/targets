@@ -73,7 +73,7 @@ glimpse_class <- R6::R6Class(
       edges <- edges[edges$from != edges$to,, drop = FALSE] # nolint
       names <- names(envir)
       type <- map_chr(names, type_import, envir = envir)
-      status <- rep("waiting", length(names))
+      status <- rep("none", length(names))
       vertices <- data_frame(
         name = names,
         type = type,
@@ -90,7 +90,7 @@ glimpse_class <- R6::R6Class(
       type <- map_chr(names, function(name) {
         target_get_type(pipeline_get_target(pipeline, name))
       })
-      status <- rep("waiting", length(names))
+      status <- rep("none", length(names))
       vertices <- data_frame(
         name = names,
         type = type,

@@ -115,7 +115,7 @@ inspection_class <- R6::R6Class(
       out$old[is.na(out$old)] <- ""
       out$status <- ifelse(out$new == out$old, "uptodate", "outdated")
       out$status <- as.character(out$status)
-      out$status[is.na(out$status)] <- "waiting"
+      out$status[is.na(out$status)] <- "dormant"
       out$seconds <- rep(NA_real_, nrow(out))
       out$bytes <- rep(NA_real_, nrow(out))
       out$branches <- rep(NA_integer_, nrow(out))
@@ -126,19 +126,22 @@ inspection_class <- R6::R6Class(
       status <- trn(
         self$outdated,
         self$produce_outdated(vertices),
-        rep("waiting", nrow(vertices))
+        rep("dormant", nrow(vertices))
       )
       pipeline <- self$pipeline
       type <- map_chr(vertices$name, function(name) {
         target_get_type(pipeline_get_target(pipeline, name))
       })
       progress <- self$progress$database$read_condensed_data()
+      if (self$outdated) {
+        progress <- progress[progress$progress != "built",, drop = FALSE] # nolint
+      }
       out <- merge(vertices, progress, all.x = TRUE, sort = FALSE)
       out <- out[order(out$name),, drop = FALSE] # nolint
-      levels <- c("running", "cancelled", "errored")
+      levels <- c("running", "built", "cancelled", "errored")
       in_levels <- !is.na(out$progress) & out$progress %in% levels
       status <- ifelse(in_levels, out$progress, status)
-      status[is.na(status)] <- "waiting"
+      status[is.na(status)] <- "dormant"
       data_frame(name = vertices$name, type = type, status = status)
     },
     resolve_target_meta = function(vertices) {
