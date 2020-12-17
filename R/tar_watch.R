@@ -50,6 +50,20 @@ tar_watch_ui <- function(id, label = "tar_watch") {
         closable = FALSE,
         width = 12,
         shiny::selectInput(
+          ns("refresh"),
+          "refresh",
+          choices = c("TRUE", "FALSE"),
+          selected = "FALSE"
+        ),
+        shiny::sliderInput(
+          ns("seconds"),
+          "seconds",
+          value = 5,
+          min = 0,
+          max = 360,
+          step = 1
+        ),
+        shiny::selectInput(
           ns("targets_only"),
           "targets_only",
           choices = c("TRUE", "FALSE"),
