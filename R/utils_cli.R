@@ -117,6 +117,14 @@ cli_outdated <- function(checked, outdated) {
   message(msg, appendLF = FALSE)
 }
 
+cli_port <- function(host, port) {
+  cli::cli_ul()
+  cli::cli_li("url: {.path http://{host}:{port}}")
+  cli::cli_li("host: {.path {host}}")
+  cli::cli_li("port: {.path {port}}")
+  cli::cli_end()
+}
+
 cli_tally <- function(x, places = 5L, vanish = 0L) {
   out <- ifelse(x > vanish, as.character(x), "")
   max <- paste(c(rep("9", places), "+"), collapse = "")

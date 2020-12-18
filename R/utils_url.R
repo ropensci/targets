@@ -50,7 +50,9 @@ url_handle <- function(handle = NULL) {
   curl::handle_setopt(handle, nobody = TRUE)
 }
 
-url_port_browse <- function(host, port, verbose = TRUE) {
+# Covered in tests/interactive/test-tar_watch.R. # nolint
+# nocov start
+url_port <- function(host, port, verbose = TRUE) {
   spin <- cli::make_spinner()
   trn(verbose, spin$spin(), NULL)
   while (!pingr::is_up(destination = host, port = port)) {
@@ -61,11 +63,4 @@ url_port_browse <- function(host, port, verbose = TRUE) {
   url <- paste0("http://", host, ":", port)
   utils::browseURL(url)
 }
-
-url_port_message <- function(host, port) {
-  cli::cli_ul()
-  cli::cli_li("url: {.path http://{host}:{port}}")
-  cli::cli_li("host: {.path {host}}")
-  cli::cli_li("port: {.path {port}}")
-  cli::cli_end()
-}
+# nocov end

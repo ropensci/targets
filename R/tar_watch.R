@@ -103,10 +103,10 @@ tar_watch <- function(
     supervise = TRUE
   )
   if (browse) {
-    url_port_browse(host = host, port = port, verbose = verbose)
+    url_port(host = host, port = port, verbose = verbose)
   }
   if (verbose) {
-    url_port_message(host = host, port = port)
+    cli_port(host = host, port = port)
   }
   invisible(px)
 }
