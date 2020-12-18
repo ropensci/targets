@@ -220,7 +220,7 @@ assert_target_script <- function() {
   msg <- paste(
     "main functions like tar_make() require a special _targets.R script",
     "in the current working directory to define the pipeline.",
-    "The tar_script() function is a convenient way to produce one."
+    "Fucntions tar_edit() and tar_script() can help."
   )
   assert_path("_targets.R", msg)
   vars <- all.vars(parse(file = "_targets.R"), functions = TRUE)

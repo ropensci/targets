@@ -58,6 +58,7 @@ Suggests:
   keras (>= 2.2.5.0),
   knitr (>= 1.30),
   rmarkdown (>= 2.4),
+  pingr (>= 2.0.1),
   pkgload (>= 1.1.0),
   qs (>= 0.23.2),
   rstudioapi (>= 0.11),

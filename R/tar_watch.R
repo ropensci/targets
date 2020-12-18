@@ -11,13 +11,16 @@
 #'   the arguments of [`tar_visnetwork()`].
 #' @return A handle to `callr::r_bg()` background process running the app.
 #' @inheritParams tar_watch_ui
+#' @param label Label argument to [tar_visnetwork()].
 #' @param background Logical, whether to run the app in a background process
 #'   so you can still use the R console while the app is running.
 #' @param host Character of length 1, IPv4 address to listen on.
 #'   Ignored if `background` is `FALSE`.
 #' @param port Positive integer of length 1, TCP port to listen on.
 #'   Ignored if `background` is `FALSE`.
-#' @param ... Named arguments to `callr::r_bg()`.
+#' @param spinner show a command line spinner while `tar_watch()` is
+#'   waiting for the background app to initialize. Only applies to
+#'   `background = FALSE`.
 #' @examples
 #' if (FALSE) { # Only run interactively.
 #' tar_dir({
@@ -58,13 +61,11 @@ tar_watch <- function(
   background = TRUE,
   host = getOption("shiny.host", "127.0.0.1"),
   port = getOption("shiny.port", targets::tar_watch_port()),
-  ...
+  spinner = TRUE
 ) {
-  assert_package("bs4Dash")
-  assert_package("shiny")
-  assert_package("shinycssloaders")
-  assert_package("visNetwork")
-  assert_target_script()
+  pkgs <- c("bs4Dash", "pingr", "shiny", "shinycssloaders", "visNetwork")
+  msg <- paste("tar_watch() requires packages", paste(pkgs, collapse = ", "))
+  map(pkgs, ~assert_package(.x, msg = msg))
   assert_dbl(seconds, "seconds must be numeric.")
   assert_dbl(seconds_min, "seconds_min must be numeric.")
   assert_dbl(seconds_max, "seconds_max must be numeric.")
@@ -77,7 +78,6 @@ tar_watch <- function(
   seconds_max <- max(seconds_max, seconds)
   seconds_step <- min(seconds_step, seconds_max)
   args <- list(
-    dir = getwd(),
     seconds = seconds,
     seconds_min = seconds_min,
     seconds_max = seconds_max,
@@ -86,39 +86,30 @@ tar_watch <- function(
     outdated = outdated,
     label = label,
     level_separation = level_separation,
-    height = height
+    height = height,
+    host = host,
+    port = port
   )
-  call <- as.call(c(quote(targets::tar_watch_app), args))
   if (!background) {
-    return(eval(call))
+    return(do.call(tar_watch_app, args))
   }
-  text <- deparse_safe(call, collapse = " ")
-  dir <- tempfile()
-  dir_create(dir)
-  app <- file.path(dir, "app.R")
-  writeLines(text, app)
-  args <- list(
-    appDir = dir,
-    host = host,
-    port = port,
-    launch.browser = TRUE,
-    quiet = FALSE
+  spin <- cli::make_spinner()
+  trn(spinner, spin$spin(), NULL)
+  px <- callr::r_bg(
+    func = tar_watch_app,
+    args = args,
+    stdout = "|",
+    stderr = "|",
+    supervise = TRUE
   )
-  args <- list(dir = dir, port = port, host = host)
-  px <- callr::r_bg(func = tar_watch_process, args = args, ...)
-  utils::browseURL(paste0("http://", host, ":", port))
-  px
-}
-
-tar_watch_process <- function(dir, port, host) {
-  on.exit(unlink(dir, recursive = TRUE))
-  shiny::runApp(
-    appDir = dir,
-    host = host,
-    port = port,
-    launch.browser = FALSE,
-    quiet = FALSE
-  )
+  trn(spinner, spin$spin(), NULL)
+  while (!pingr::is_up(destination = host, port = port)) {
+    Sys.sleep(0.01)
+    trn(spinner, spin$spin(), NULL)
+  }
+  url <- paste0("http://", host, ":", port)
+  utils::browseURL(url)
+  invisible(px)
 }
 
 #' @title Random port for [tar_watch()]
@@ -134,50 +125,46 @@ tar_watch_port <- function(lower = 49152L, upper = 65355L) {
   sample(seq.int(from = lower, to = upper, by = 1L), size = 1L)
 }
 
-#' @title Shiny app to watch the dependency graph (process version).
-#' @export
-#' @keywords internal
-#' @description User should directly call [tar_watch()] instead
-#'   of `tar_watch_app()`. The latter is an internal utility
-#'   that blocks the main process.
-#' @return A Shiny app.
-#' @inheritParams tar_watch_ui
 tar_watch_app <- function(
-  dir = NULL,
-  seconds = 5,
-  seconds_min = 1,
-  seconds_max = 100,
-  seconds_step = 1,
-  targets_only = FALSE,
-  outdated = TRUE,
-  label = NULL,
-  level_separation = 150,
-  height = "700px"
+  seconds,
+  seconds_min,
+  seconds_max,
+  seconds_step,
+  targets_only,
+  outdated,
+  label,
+  level_separation,
+  height,
+  host,
+  port
 ) {
-  if (!is.null(dir)) {
-    # We really do need to restore the working directory because
-    # the app is in a tempfile. The app needs to be in a tempfile
-    # so we can call shiny::runApp(). That is the only way to
-    # run a non-blocking app.
-    setwd(dir) # nolint
-  }
-  ui <- tar_watch_app_ui(
+  ui <- targets::tar_watch_app_ui(
     seconds = seconds,
     seconds_min = seconds_min,
     seconds_max = seconds_max,
     seconds_step = seconds_step,
     targets_only = targets_only,
     outdated = outdated,
-    label_tar_visnetwork = label,
+    label = label,
     level_separation = level_separation,
     height = height
   )
   server <- function(input, output, session) {
-    tar_watch_server("tar_watch_id", height = height)
+    targets::tar_watch_server("tar_watch_id", height = height)
   }
-  shiny::shinyApp(ui = ui, server = server)
+  options <- list(host = host, port = port)
+  print(shiny::shinyApp(ui = ui, server = server, options = options))
 }
 
+#' @title Create the full [tar_watch()] app UI.
+#' @export
+#' @keywords internal
+#' @description Only exported for infrastructure purposes.
+#'   Not a user-side function. Users should instead
+#'   call [tar_watch()] directly.
+#' @return A Shiny UI.
+#' @inheritParams tar_watch_ui
+#' @param label Label argument to [tar_visnetwork()].
 tar_watch_app_ui <- function(
   seconds,
   seconds_min,
@@ -185,7 +172,7 @@ tar_watch_app_ui <- function(
   seconds_step,
   targets_only,
   outdated,
-  label_tar_visnetwork,
+  label,
   level_separation,
   height
 ) {
@@ -199,7 +186,7 @@ tar_watch_app_ui <- function(
       seconds_step = seconds_step,
       targets_only = targets_only,
       outdated = outdated,
-      label_tar_visnetwork = label_tar_visnetwork,
+      label_tar_visnetwork = label,
       level_separation = level_separation,
       height = height
     )

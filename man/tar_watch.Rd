@@ -17,7 +17,7 @@ tar_watch(
   background = TRUE,
   host = getOption("shiny.host", "127.0.0.1"),
   port = getOption("shiny.port", targets::tar_watch_port()),
-  ...
+  spinner = TRUE
 )
 }
 \arguments{
@@ -44,7 +44,7 @@ takes a lot of time for large pipelines with lots of branches,
 and setting \code{outdated} to \code{FALSE} is a nice way to speed up the graph
 if you only want to see dependency relationships and build progress.}
 
-\item{label}{Label for the module.}
+\item{label}{Label argument to \code{\link[=tar_visnetwork]{tar_visnetwork()}}.}
 
 \item{level_separation}{Numeric of length 1,
 \code{levelSeparation} argument of \code{visNetwork::visHierarchicalLayout()}.
@@ -66,7 +66,9 @@ Ignored if \code{background} is \code{FALSE}.}
 \item{port}{Positive integer of length 1, TCP port to listen on.
 Ignored if \code{background} is \code{FALSE}.}
 
-\item{...}{Named arguments to \code{callr::r_bg()}.}
+\item{spinner}{show a command line spinner while \code{tar_watch()} is
+waiting for the background app to initialize. Only applies to
+\code{background = FALSE}.}
 }
 \value{
 A handle to \code{callr::r_bg()} background process running the app.
