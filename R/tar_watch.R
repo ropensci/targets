@@ -107,6 +107,7 @@ tar_watch <- function(
     Sys.sleep(0.01)
     trn(spinner, spin$spin(), NULL)
   }
+  spin$finish()
   url <- paste0("http://", host, ":", port)
   utils::browseURL(url)
   invisible(px)
