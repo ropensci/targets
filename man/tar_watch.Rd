@@ -15,9 +15,10 @@ tar_watch(
   level_separation = 150,
   height = "700px",
   background = TRUE,
+  browse = TRUE,
   host = getOption("shiny.host", "127.0.0.1"),
-  port = getOption("shiny.port", targets::tar_watch_port()),
-  spinner = TRUE
+  port = getOption("shiny.port", targets::tar_random_port()),
+  verbose = TRUE
 )
 }
 \arguments{
@@ -60,15 +61,17 @@ height of the \code{visNetwork} widget.}
 \item{background}{Logical, whether to run the app in a background process
 so you can still use the R console while the app is running.}
 
+\item{browse}{Whether to open the app in a browser when the app is ready.
+Only relevant if \code{background} is \code{TRUE}.}
+
 \item{host}{Character of length 1, IPv4 address to listen on.
-Ignored if \code{background} is \code{FALSE}.}
+Only relevant if \code{background} is \code{TRUE}.}
 
 \item{port}{Positive integer of length 1, TCP port to listen on.
-Ignored if \code{background} is \code{FALSE}.}
+Only relevant if \code{background} is \code{TRUE}.}
 
-\item{spinner}{show a command line spinner while \code{tar_watch()} is
-waiting for the background app to initialize. Only applies to
-\code{background = FALSE}.}
+\item{verbose}{whether to print a spinner and informative messages.
+Only relevant if \code{background} is \code{TRUE}.}
 }
 \value{
 A handle to \code{callr::r_bg()} background process running the app.

@@ -12,7 +12,7 @@ tar_script({
 # Should just launch the app in a blocking process:
 tar_watch(background = FALSE)
 # Should not block the main process:
-tar_watch(seconds = 10, outdated = FALSE, targets_only = TRUE)
+tar_watch(seconds = 10, outdated = FALSE, targets_only = TRUE, height = "450px")
 # The main process should be free to run the pipeline.
 tar_make()
 # Restarting the session should terminate the app.

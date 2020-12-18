@@ -1,3 +1,17 @@
+#' @title Random TCP port
+#' @export
+#' @keywords internal
+#' @description Not a user-side function. Exported for infrastructure
+#'   purposes only.
+#' @return A random port not likely to be used by another process.
+#' @param lower Integer of length 1, lowest possible port.
+#' @param upper Integer of length 1, highest possible port.
+#' @examples
+#' tar_random_port()
+tar_random_port <- function(lower = 49152L, upper = 65355L) {
+  sample(seq.int(from = lower, to = upper, by = 1L), size = 1L)
+}
+
 url_exists <- function(url, handle = NULL) {
   unlist(lapply(url, url_exists_impl, handle = handle))
 }
@@ -34,4 +48,24 @@ url_handle <- function(handle = NULL) {
   handle <- handle %||% curl::new_handle()
   assert_inherits(handle, "curl_handle")
   curl::handle_setopt(handle, nobody = TRUE)
+}
+
+url_port_browse <- function(host, port, verbose = TRUE) {
+  spin <- cli::make_spinner()
+  trn(verbose, spin$spin(), NULL)
+  while (!pingr::is_up(destination = host, port = port)) {
+    Sys.sleep(0.01)
+    trn(verbose, spin$spin(), NULL)
+  }
+  trn(verbose, spin$finish(), NULL)
+  url <- paste0("http://", host, ":", port)
+  utils::browseURL(url)
+}
+
+url_port_message <- function(host, port) {
+  cli::cli_ul()
+  cli::cli_li("url: {.path http://{host}:{port}}")
+  cli::cli_li("host: {.path {host}}")
+  cli::cli_li("port: {.path {port}}")
+  cli::cli_end()
 }

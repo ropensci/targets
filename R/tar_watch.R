@@ -14,13 +14,14 @@
 #' @param label Label argument to [tar_visnetwork()].
 #' @param background Logical, whether to run the app in a background process
 #'   so you can still use the R console while the app is running.
+#' @param browse Whether to open the app in a browser when the app is ready.
+#'   Only relevant if `background` is `TRUE`.
 #' @param host Character of length 1, IPv4 address to listen on.
-#'   Ignored if `background` is `FALSE`.
+#'   Only relevant if `background` is `TRUE`.
 #' @param port Positive integer of length 1, TCP port to listen on.
-#'   Ignored if `background` is `FALSE`.
-#' @param spinner show a command line spinner while `tar_watch()` is
-#'   waiting for the background app to initialize. Only applies to
-#'   `background = FALSE`.
+#'   Only relevant if `background` is `TRUE`.
+#' @param verbose whether to print a spinner and informative messages.
+#'   Only relevant if `background` is `TRUE`.
 #' @examples
 #' if (FALSE) { # Only run interactively.
 #' tar_dir({
@@ -59,9 +60,10 @@ tar_watch <- function(
   level_separation = 150,
   height = "700px",
   background = TRUE,
+  browse = TRUE,
   host = getOption("shiny.host", "127.0.0.1"),
-  port = getOption("shiny.port", targets::tar_watch_port()),
-  spinner = TRUE
+  port = getOption("shiny.port", targets::tar_random_port()),
+  verbose = TRUE
 ) {
   pkgs <- c("bs4Dash", "pingr", "shiny", "shinycssloaders", "visNetwork")
   msg <- paste("tar_watch() requires packages", paste(pkgs, collapse = ", "))
@@ -93,8 +95,6 @@ tar_watch <- function(
   if (!background) {
     return(do.call(tar_watch_app, args))
   }
-  spin <- cli::make_spinner()
-  trn(spinner, spin$spin(), NULL)
   px <- callr::r_bg(
     func = tar_watch_app,
     args = args,
@@ -102,28 +102,13 @@ tar_watch <- function(
     stderr = "|",
     supervise = TRUE
   )
-  trn(spinner, spin$spin(), NULL)
-  while (!pingr::is_up(destination = host, port = port)) {
-    Sys.sleep(0.01)
-    trn(spinner, spin$spin(), NULL)
+  if (browse) {
+    url_port_browse(host = host, port = port, verbose = verbose)
   }
-  spin$finish()
-  url <- paste0("http://", host, ":", port)
-  utils::browseURL(url)
+  if (verbose) {
+    url_port_message(host = host, port = port)
+  }
   invisible(px)
-}
-
-#' @title Random port for [tar_watch()]
-#' @export
-#' @keywords internal
-#' @description Required for [tar_watch()]. Not a user-side function.
-#' @return A random port not likely to be used by another process.
-#' @param lower Integer of length 1, lowest possible port.
-#' @param upper Integer of length 1, highest possible port.
-#' @examples
-#' tar_watch_port()
-tar_watch_port <- function(lower = 49152L, upper = 65355L) {
-  sample(seq.int(from = lower, to = upper, by = 1L), size = 1L)
 }
 
 tar_watch_app <- function(
