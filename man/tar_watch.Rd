@@ -13,7 +13,11 @@ tar_watch(
   outdated = TRUE,
   label = NULL,
   level_separation = 150,
-  height = "700px"
+  height = "700px",
+  background = TRUE,
+  host = getOption("shiny.host", "127.0.0.1"),
+  port = getOption("shiny.port", targets::tar_watch_port()),
+  ...
 )
 }
 \arguments{
@@ -52,12 +56,26 @@ defaults to \code{150}.}
 
 \item{height}{Character of length 1,
 height of the \code{visNetwork} widget.}
+
+\item{background}{Logical, whether to run the app in a background process
+so you can still use the R console while the app is running.}
+
+\item{host}{Character of length 1, IPv4 address to listen on.
+Ignored if \code{background} is \code{FALSE}.}
+
+\item{port}{Positive integer of length 1, TCP port to listen on.
+Ignored if \code{background} is \code{FALSE}.}
+
+\item{...}{Named arguments to \code{callr::r_bg()}.}
 }
 \value{
-A Shiny app.
+A handle to \code{callr::r_bg()} background process running the app.
 }
 \description{
-Calls \code{\link[=tar_visnetwork]{tar_visnetwork()}} every few seconds.
+Launches a background process with a Shiny app
+that calls \code{\link[=tar_visnetwork]{tar_visnetwork()}} every few seconds.
+To embed this app in other apps, use the Shiny module
+in \code{\link[=tar_watch_ui]{tar_watch_ui()}} and \code{\link[=tar_watch_server]{tar_watch_server()}}.
 }
 \details{
 The controls of the app are in the left panel.
@@ -86,8 +104,10 @@ tar_script({
     tar_target(conclusions, sleep_run(c(figure1, figure2, figure3)))
   )
 })
-px <- tar_make(callr_function = callr::r_bg)
+# Launch the app in a background process.
 tar_watch(seconds = 10, outdated = FALSE, targets_only = TRUE)
+# Run the pipeline.
+tar_make()
 })
 }
 }

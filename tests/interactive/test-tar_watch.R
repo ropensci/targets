@@ -17,7 +17,11 @@ tar_script({
     tar_target(conclusions, sleep_run(c(figure1, figure2, figure3)))
   )
 })
-px <- tar_make(callr_function = callr::r_bg)
+# Should just launch the app in a blocking process:
+tar_watch(background = FALSE)
+# Should not block the main process:
 tar_watch(seconds = 10, outdated = FALSE, targets_only = TRUE)
+# The main process should be free to run the pipeline.
+tar_make()
 tar_destroy()
 unlink("_targets.R")
