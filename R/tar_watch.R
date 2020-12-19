@@ -95,7 +95,7 @@ tar_watch <- function(
   if (!background) {
     return(do.call(tar_watch_app, args))
   }
-  px <- callr::r_bg(
+  process <- callr::r_bg(
     func = tar_watch_app,
     args = args,
     stdout = "|",
@@ -103,12 +103,12 @@ tar_watch <- function(
     supervise = TRUE
   )
   if (browse) {
-    url_port(host = host, port = port, verbose = verbose)
+    url_port(host = host, port = port,  process = process, verbose = verbose)
   }
   if (verbose) {
     cli_port(host = host, port = port)
   }
-  invisible(px)
+  invisible(process)
 }
 
 tar_watch_app <- function(
