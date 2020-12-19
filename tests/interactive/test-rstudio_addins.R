@@ -37,6 +37,11 @@ tar_test("glimpse addin", {
   # Click Addins > Glimpse a targets pipeline.
 })
 
+tar_test("watch addin", {
+  tar_script()
+  # Click Addins > Launch an app to watch progress.
+})
+
 tar_test("load addin", {
   tar_script()
   tar_make()
