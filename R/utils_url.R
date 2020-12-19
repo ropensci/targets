@@ -50,13 +50,17 @@ url_handle <- function(handle = NULL) {
   curl::handle_setopt(handle, nobody = TRUE)
 }
 
-# Covered in tests/interactive/test-tar_watch.R. # nolint
+# Tested in tests/interactive/test-tar_watch.R. # nolint
 # nocov start
-url_port <- function(host, port, verbose = TRUE) {
+url_port <- function(host, port, process, verbose = TRUE) {
   spin <- cli::make_spinner()
   trn(verbose, spin$spin(), NULL)
   while (!pingr::is_up(destination = host, port = port)) {
-    Sys.sleep(0.01)
+    trn(
+      process$is_alive(),
+      Sys.sleep(0.01),
+      throw_run(process$read_all_error())
+    )
     trn(verbose, spin$spin(), NULL)
   }
   trn(verbose, spin$finish(), NULL)
