@@ -3,7 +3,8 @@
 
 [![ropensci](https://badges.ropensci.org/401_status.svg)](https://github.com/ropensci/software-review/issues/401)
 [![zenodo](https://zenodo.org/badge/200093430.svg)](https://zenodo.org/badge/latestdoi/200093430)
-[![targetopia](https://img.shields.io/badge/targetopia-member-000062?style=flat&labelColor=gray)](https://wlandau.github.io/targetopia.html)
+[![R
+Targetopia](https://img.shields.io/badge/R_Targetopia-member-000062?style=flat&labelColor=gray)](https://wlandau.github.io/targetopia.html)
 [![cran](http://www.r-pkg.org/badges/version/targets)](https://cran.r-project.org/package=targets)
 [![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![check](https://github.com/wlandau/targets/workflows/check/badge.svg)](https://github.com/wlandau/targets/actions?query=workflow%3Acheck)
@@ -91,16 +92,22 @@ install_github("wlandau/targets")
   - [Official half-day interactive
     tutorial](https://github.com/wlandau/targets-tutorial).
 
-## Extensions
+## R Targetopia
 
-  - [`tarchetypes`](https://wlandau.github.io/tarchetypes): helpers to
-    define specialized targets such as dependency-aware R Markdown
-    reports.
-  - [`stantargets`](https://github.com/wlandau/stantargets): a workflow
-    framework for reproducible Stan pipelines.
+R Targetopia packages are specialized workflow frameworks tailored to
+individual fields of Statistics and data science, and they use domain
+knowledge to abstract away most of the careful planning and engineering
+typically required to write pipelines. They leverage the full power of
+[`targets`](https://github.com/wlandau/targets) while requiring minimal
+expertise with [`targets`](https://github.com/wlandau/targets) itself.
+Examples include [`stantargets`](https://github.com/wlandau/stantargets)
+and [`tarchetypes`](https://wlandau.github.io/tarchetypes).
 
 ## Apps
 
+  - [`tar_watch()`](https://wlandau.github.io/targets/reference/tar_watch.html):
+    a built-in Shiny app to visualize progress while a pipeline is
+    running.
   - [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny
     app to help sketch pipelines
     ([app](https://wlandau.shinyapps.io/targetsketch),
