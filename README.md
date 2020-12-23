@@ -4,7 +4,7 @@
 [![ropensci](https://badges.ropensci.org/401_status.svg)](https://github.com/ropensci/software-review/issues/401)
 [![zenodo](https://zenodo.org/badge/200093430.svg)](https://zenodo.org/badge/latestdoi/200093430)
 [![R
-Targetopia](https://img.shields.io/badge/R_Targetopia-member-000062?style=flat&labelColor=gray)](https://wlandau.github.io/targetopia.html)
+Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&labelColor=gray)](https://wlandau.github.io/targetopia.html)
 [![cran](http://www.r-pkg.org/badges/version/targets)](https://cran.r-project.org/package=targets)
 [![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![check](https://github.com/wlandau/targets/workflows/check/badge.svg)](https://github.com/wlandau/targets/actions?query=workflow%3Acheck)
