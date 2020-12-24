@@ -92,9 +92,9 @@ install_github("wlandau/targets")
   - [Official half-day interactive
     tutorial](https://github.com/wlandau/targets-tutorial).
 
-## R Targetopia
+## The R Targetopia
 
-R Targetopia packages are specialized workflow frameworks tailored to
+The R Targetopia consists of specialized workflow frameworks tailored to
 individual fields of Statistics and data science, and they use domain
 knowledge to abstract away most of the careful planning and engineering
 typically required to write pipelines. They leverage the full power of
