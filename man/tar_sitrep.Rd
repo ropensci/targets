@@ -107,7 +107,7 @@ and it makes no attempt to propagate invalidation downstream.
 if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tar_dir({
 tar_script(
-  tar_pipeline(
+  list(
     tar_target(x, seq_len(2)),
     tar_target(y, 2 * x, pattern = map(x))
   )

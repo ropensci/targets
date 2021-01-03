@@ -1,16 +1,26 @@
-#' @title Combine pipelines.
+#' @title Combine pipeline objects (deprecated).
 #' @export
-#' @description Combine multiple pipeline objects
-#'   into a single pipeline object.
+#' @description Functions `tar_pipeline()` and [tar_bind()] are deprecated.
+#'   Instead, simply end your `_targets.R` file with a list of target objects.
+#'   You can nest these objects however you like.
 #' @param ... Pipeline objects or nested lists of pipeline objects.
 #'   You can generate a pipeline object with [tar_pipeline()].
 #' @examples
-#' # Include in _targets.R:
-#' pipeline1 <- tar_pipeline(tar_target(x, 1))
-#' pipeline2 <- tar_pipeline(tar_target(y, 2))
-#' # Pipeline object with both targets:
-#' pipeline <- tar_bind(pipeline1, pipeline2)
+#' # In _targets.R:
+#' library(targets)
+#' list( # You no longer need tar_pipeline() here.
+#'   tar_target(data_file, "data.csv", format = "file"),
+#'   list( # Target lists can be arbitrarily nested.
+#'     tar_target(data_object, read.csv(data_file)),
+#'     tar_target(analysis, analyze(data_object))
+#'   )
+#' )
 tar_bind <- function(...) {
+  warn_deprecate(
+    "tar_bind() and tar_pipeline() are deprecated ",
+    "in targets version >= 0.0.0.9004. Simply end your _targets.R file ",
+    "with a list of tar_target() objects (arbitrarily nested)."
+  )
   x <- unlist(list(...), recursive = TRUE)
   map(x, ~assert_inherits(.x, "tar_pipeline"))
   names <- unlist(map(x, pipeline_get_names))

@@ -1,5 +1,5 @@
 tar_test("tar_make_future() works", {
-  tar_script(tar_pipeline(tar_target(x, "x")))
+  tar_script(list(tar_target(x, "x")))
   tar_make_future(
     callr_arguments = list(show = FALSE),
     reporter = "silent"
@@ -9,7 +9,7 @@ tar_test("tar_make_future() works", {
 
 tar_test("tar_make_future() can use tidyselect", {
   tar_script(
-    tar_pipeline(
+    list(
       tar_target(y1, 1 + 1),
       tar_target(y2, 1 + 1),
       tar_target(z, y1 + y2)

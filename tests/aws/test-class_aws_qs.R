@@ -14,7 +14,7 @@ tar_test("aws_qs format data gets stored", {
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(resources = list(bucket = !!bucket_name))
-    tar_pipeline(
+    list(
       tar_target(x, "x_value", format = "aws_qs"),
       tar_target(y, c(x, "y_value"), format = "aws_qs")
     )
@@ -59,7 +59,7 @@ tar_test("aws_qs format data gets stored with worker storage", {
       storage = "worker",
       retrieval = "worker"
     )
-    tar_pipeline(
+    list(
       tar_target(x, "x_value", format = "aws_qs"),
       tar_target(y, c(x, "y_value"), format = "aws_qs")
     )
@@ -100,7 +100,7 @@ tar_test("aws_qs format invalidation", {
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(resources = list(bucket = !!bucket_name))
-    tar_pipeline(
+    list(
       tar_target(x, "x_value", format = "aws_qs"),
       tar_target(y, c(x, "y_value"), format = "aws_qs")
     )
@@ -114,7 +114,7 @@ tar_test("aws_qs format invalidation", {
   expect_equal(nrow(tar_progress()), 0L)
   expr <- quote({
     tar_option_set(resources = list(bucket = !!bucket_name))
-    tar_pipeline(
+    list(
       tar_target(x, "x_value2", format = "aws_qs"),
       tar_target(y, c(x, "y_value"), format = "aws_qs")
     )
@@ -151,7 +151,7 @@ tar_test("aws_qs format and dynamic branching", {
       retrieval = "worker",
       format = "aws_qs"
     )
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(2)),
       tar_target(y, 10L * x, pattern = map(x)),
       tar_target(z, sum(y))

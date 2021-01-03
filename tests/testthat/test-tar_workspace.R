@@ -39,7 +39,7 @@ tar_test("tar_workspace() works", {
   tmp <- sample(1)
   tar_script({
     tar_option_set(error = "workspace")
-    tar_pipeline(
+    list(
       tar_target(x, "loaded"),
       tar_target(y, stop(x))
     )
@@ -56,7 +56,7 @@ tar_test("tar_workspace() works with workspace option", {
   tmp <- sample(1)
   tar_script({
     tar_option_set(workspaces = "y")
-    tar_pipeline(
+    list(
       tar_target(x, "loaded"),
       tar_target(y, paste0(x, "nope"))
     )
@@ -70,7 +70,7 @@ tar_test("tar_workspace() works with workspace option", {
 tar_test("tar_workspace() on a branch", {
   tar_script({
     tar_option_set(error = "workspace")
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(4L)),
       tar_target(y, stopifnot(x < 4L), pattern = map(x))
     )
@@ -91,7 +91,7 @@ tar_test("tar_workspace() with an unexportable object", {
   skip_if_not_installed("torch")
   tar_script({
     tar_option_set(error = "workspace")
-    tar_pipeline(
+    list(
       tar_target(tensor, torch::torch_zeros(10), format = "torch"),
       tar_target(array, stop(tensor))
     )
@@ -106,13 +106,13 @@ tar_test("tar_workspace() with an unexportable object", {
 tar_test("workspace saved on no error and when target is skipped", {
   path <- path_workspace("z")
   tar_script({
-    tar_pipeline(tar_target(z, 0))
+    list(tar_target(z, 0))
   })
   tar_make(callr_function = NULL)
   expect_false(file.exists(path))
   tar_script({
     tar_option_set(workspaces = "z")
-    tar_pipeline(tar_target(z, 0))
+    list(tar_target(z, 0))
   })
   tar_make(callr_function = NULL)
   expect_true(file.exists(path))

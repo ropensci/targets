@@ -1,6 +1,6 @@
 tar_test("tar_network() works", {
   tar_script(
-    tar_pipeline(
+    list(
       tar_target(y1, 1 + 1),
       tar_target(y2, 1 + 1),
       tar_target(z, y1 + y2)
@@ -37,7 +37,7 @@ tar_test("targets_only = FALSE", {
     x <- 1L
     envir <- environment()
     tar_option_set(envir = envir)
-    tar_pipeline(
+    list(
       tar_target(y1, 1 + 1),
       tar_target(y2, 1 + 1),
       tar_target(z, y1 + y2)

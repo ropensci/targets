@@ -2,7 +2,7 @@ tar_test("tar_outdated() does not create a data store", {
   tar_script({
     f <- identity
     tar_option_set()
-    tar_pipeline(tar_target(x, f(1L)))
+    list(tar_target(x, f(1L)))
   })
   out <- tar_outdated(callr_function = NULL)
   expect_false(file.exists("_targets"))
@@ -13,7 +13,7 @@ tar_test("tar_outdated() without globals", {
     f <- identity
     envir <- environment()
     tar_option_set(envir = envir)
-    tar_pipeline(tar_target(x, f(1L)))
+    list(tar_target(x, f(1L)))
   })
   out <- tar_outdated(
     targets_only = TRUE,
@@ -30,7 +30,7 @@ tar_test("tar_outdated() without globals", {
     f <- function(x) x + 1L
     envir <- environment()
     tar_option_set(envir = envir)
-    tar_pipeline(tar_target(x, f(1L)))
+    list(tar_target(x, f(1L)))
   })
   out <- tar_outdated(
     targets_only = TRUE,
@@ -44,7 +44,7 @@ tar_test("tar_outdated() with globals", {
     f <- identity
     envir <- environment()
     tar_option_set(envir = envir)
-    tar_pipeline(tar_target(x, f(1L)))
+    list(tar_target(x, f(1L)))
   })
   out <- tar_outdated(
     targets_only = FALSE,
@@ -61,7 +61,7 @@ tar_test("tar_outdated() with globals", {
     f <- function(x) x + 1L
     envir <- environment()
     tar_option_set(envir = envir)
-    tar_pipeline(tar_target(x, f(1L)))
+    list(tar_target(x, f(1L)))
   })
   out <- tar_outdated(
     targets_only = FALSE,
@@ -72,14 +72,14 @@ tar_test("tar_outdated() with globals", {
 
 tar_test("tar_outdated() can include branches", {
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(2L)),
       tar_target(y, x, pattern = map(x))
     )
   })
   tar_make(reporter = "silent", callr_function = NULL)
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(2L)),
       tar_target(y, x + 1L, pattern = map(x))
     )
@@ -92,14 +92,14 @@ tar_test("tar_outdated() can include branches", {
 
 tar_test("tar_outdated() can omit branches", {
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(2L)),
       tar_target(y, x, pattern = map(x))
     )
   })
   tar_make(reporter = "silent", callr_function = NULL)
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(2L)),
       tar_target(y, x + 1L, pattern = map(x))
     )
@@ -111,7 +111,7 @@ tar_test("tar_outdated() can omit branches", {
 tar_test("tar_outdated() does not deduplicate metadata", {
   tar_script({
     tar_option_set(envir = new.env(parent = baseenv()))
-    tar_pipeline(tar_target(x, 1L, cue = tar_cue(mode = "always")))
+    list(tar_target(x, 1L, cue = tar_cue(mode = "always")))
   })
   for (index in seq_len(2L)) {
     tar_make(callr_function = NULL)
@@ -127,7 +127,7 @@ tar_test("tar_outdated() names arg works", {
    tar_script({
      envir <- new.env(parent = baseenv())
      tar_option_set(envir = envir)
-     tar_pipeline(tar_target(x, 1L), tar_target(y, x))
+     list(tar_target(x, 1L), tar_target(y, x))
    })
    out <- tar_outdated(callr_function = NULL)
    expect_equal(sort(out), sort(c("x", "y")))

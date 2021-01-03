@@ -2,7 +2,7 @@ tar_test("tar_renv() works", {
   expect_false(file.exists("_packages.R"))
   tar_script({
     tar_option_set(packages = c("tibble", "qs"))
-    tar_pipeline()
+    list()
   })
   tar_renv()
   pkgs <- c(
@@ -28,7 +28,7 @@ tar_test("tar_renv() works with custom path", {
   expect_false(file.exists(path))
   tar_script({
     tar_option_set(packages = c("tibble", "qs"))
-    tar_pipeline()
+    list()
   })
   tar_renv(path = path, callr_function = NULL)
   pkgs <- c(
@@ -52,7 +52,7 @@ tar_test("tar_renv() works with custom path", {
 tar_test("tar_renv() packages set in tar_target()", {
   tar_script({
     tar_option_set(packages = character())
-    tar_pipeline(
+    list(
       tar_target(x, "foo", packages = "tibble")
     )
   })
@@ -77,7 +77,7 @@ tar_test("tar_renv() packages set in tar_target()", {
 tar_test("tar_renv() formats set in tar_target()", {
   tar_script({
     tar_option_set(packages = character())
-    tar_pipeline(
+    list(
       tar_target(x, "foo", format = "qs")
     )
   })
@@ -102,7 +102,7 @@ tar_test("tar_renv() formats set in tar_target()", {
 tar_test("tar_renv() formats set in pattern targets", {
   tar_script({
     tar_option_set(packages = character())
-    tar_pipeline(
+    list(
       tar_target(y, "foo", packages = character(0)),
       tar_target(x, y, format = "qs", pattern = map(y))
     )
@@ -131,7 +131,7 @@ tar_test("tar_renv() packages set in tar_option_set()", {
       packages = "tibble",
       format = "qs"
     )
-    tar_pipeline()
+    list()
   })
   tar_renv(callr_function = NULL)
   pkgs <- c(
@@ -155,7 +155,7 @@ tar_test("tar_renv() packages set in tar_option_set()", {
 tar_test("tar_renv() non-default extra packages", {
   tar_script({
     tar_option_set(packages = character())
-    tar_pipeline()
+    list()
   })
   tar_renv(extras = "tibble", callr_function = NULL)
   pkgs <- "tibble"
@@ -172,7 +172,7 @@ tar_test("tar_renv() non-default extra packages", {
 tar_test("tar_env() cannot go inside _targets.R", {
   tar_script({
     tar_renv()
-    tar_pipeline(tar_target(x, 1))
+    list(tar_target(x, 1))
   })
   expect_error(
     tar_validate(callr_function = NULL),

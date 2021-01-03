@@ -1,7 +1,7 @@
 tar_test("debug mode does not break tar_make()", {
   tar_script({
     tar_option_set(debug = "a")
-    tar_pipeline(tar_target(a, "a"))
+    list(tar_target(a, "a"))
   })
   tar_make(reporter = "silent")
   expect_equal(tar_read(a), "a")
@@ -11,7 +11,7 @@ tar_test("debug mode starts a browser()", {
   tar_script({
     envir <- new.env(parent = baseenv())
     tar_option_set(debug = "b", envir = envir, packages = "targets")
-    tar_pipeline(tar_target(a, "a"), tar_target(b, a))
+    list(tar_target(a, "a"), tar_target(b, a))
   })
   tar_make(callr_function = NULL) # Should launch an interactive debugger.
   # Also print out targets::tar_name() in the debugger. Should be "b".
@@ -23,7 +23,7 @@ tar_test("debug mode starts a browser() even with 'never' mode", {
     envir <- new.env(parent = baseenv())
     cue <- tar_cue(mode = "never")
     tar_option_set(debug = "b", envir = envir, cue = cue)
-    tar_pipeline(tar_target(a, "a", cue = cue), tar_target(b, a, cue = cue))
+    list(tar_target(a, "a", cue = cue), tar_target(b, a, cue = cue))
   })
   tar_make() # Pre-build all targets.
   tar_make(callr_function = NULL) # Should launch an interactive debugger.
@@ -36,7 +36,7 @@ tar_test("debug mode works for branches.", {
   tar_script({
     envir <- new.env(parent = baseenv())
     tar_option_set(envir = envir)
-    tar_pipeline(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
+    list(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
   })
   tar_make() # Look at the branch names.
   # Pick one of the b_* branches branches and
@@ -44,7 +44,7 @@ tar_test("debug mode works for branches.", {
   tar_script({
     envir <- new.env(parent = baseenv())
     tar_option_set(envir = envir, debug = "b_0a91b2ed")
-    tar_pipeline(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
+    list(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
   })
   # Now verify that we launch a debugger.
   tar_make(callr_function = NULL)
@@ -58,7 +58,7 @@ tar_test("debug mode works for entire patterns", {
   tar_script({
     envir <- new.env(parent = baseenv())
     tar_option_set(envir = envir, debug = character(0))
-    tar_pipeline(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
+    list(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
   })
   tar_make(callr_function = NULL) # Should not debug.
   # Pick one of the b_* branches branches and
@@ -66,7 +66,7 @@ tar_test("debug mode works for entire patterns", {
   tar_script({
     envir <- new.env(parent = baseenv())
     tar_option_set(envir = envir, debug = "b")
-    tar_pipeline(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
+    list(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
   }, ask = FALSE)
   # Now verify that we launch a debugger.
   tar_make(callr_function = NULL)
@@ -83,7 +83,7 @@ tar_test("debug mode works in tar_make_clustermq()", {
   tar_script({
     envir <- new.env(parent = baseenv())
     tar_option_set(debug = "b", envir = envir)
-    tar_pipeline(tar_target(a, "a"), tar_target(b, a))
+    list(tar_target(a, "a"), tar_target(b, a))
   })
   # Should launch an interactive debugger.
   tar_make_clustermq(callr_function = NULL)
@@ -98,7 +98,7 @@ tar_test("debug mode works in tar_make_future()", {
   tar_script({
     envir <- new.env(parent = baseenv())
     tar_option_set(debug = "b", envir = envir)
-    tar_pipeline(tar_target(a, "a"), tar_target(b, a))
+    list(tar_target(a, "a"), tar_target(b, a))
   })
   # Should launch an interactive debugger.
   tar_make_future(callr_function = NULL)

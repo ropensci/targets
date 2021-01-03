@@ -19,7 +19,7 @@ vis$visnetwork
 
 # Should show all optional labels.
 tar_script({
-  tar_pipeline(
+  list(
     tar_target(x, seq_len(3)),
     tar_target(y, x, pattern = map(x)),
     tar_target(z, y, pattern = map(y))
@@ -193,7 +193,7 @@ vis$visnetwork
 tar_script({
   g <- function(x) x - 1
   f <- function(x) g(x) + 1
-  tar_pipeline(
+  list(
     tar_target(y1, f(1)),
     tar_target(y2, 1 + 1),
     tar_target(z, y1 + y2)
@@ -220,7 +220,7 @@ tar_visnetwork(allow = starts_with("y"))
 tar_visnetwork(outdated = FALSE)
 
 # Should show a canceled target.
-tar_script(tar_pipeline(tar_target(y1, tar_cancel())))
+tar_script(list(tar_target(y1, tar_cancel())))
 tar_make()
 tar_visnetwork(outdated = FALSE)
            

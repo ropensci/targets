@@ -41,7 +41,7 @@
 #' tar_dir({
 #'   tar_script({
 #'     tar_option_set(packages = c("tibble", "qs"))
-#'     tar_pipeline()
+#'     list()
 #'   })
 #'   tar_renv(callr_function = NULL)
 #'   writeLines(readLines("_packages.R"))

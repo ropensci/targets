@@ -5,7 +5,7 @@ tar_test("clustermq iteration loop can wait and shut down workers", {
   options(clustermq.scheduler = "multicore")
   x <- tar_target_raw("x", quote(Sys.sleep(2)), garbage_collection = TRUE)
   y <- tar_target_raw("y", quote(list(x, a = "x")), garbage_collection = TRUE)
-  pipeline <- tar_pipeline(list(x, y))
+  pipeline <- pipeline_init(list(x, y))
   out <- clustermq_init(pipeline, reporter = "silent")
   out$run()
   target <- pipeline_get_target(pipeline, "y")
@@ -41,7 +41,7 @@ test_that("packages are actually loaded", {
     quote(tibble(x = "x")),
     packages = "tibble"
   )
-  pipeline <- tar_pipeline(x)
+  pipeline <- pipeline_init(list(x))
   out <- clustermq_init(pipeline)
   out$run()
   exp <- tibble::tibble(x = "x")
@@ -77,7 +77,7 @@ test_that("nontrivial common data", {
     x + 1L
   }
   x <- tar_target_raw("x", quote(f(1L)))
-  pipeline <- tar_pipeline(x)
+  pipeline <- pipeline_init(list(x))
   cmq <- clustermq_init(pipeline)
   cmq$run()
   target <- pipeline_get_target(pipeline, "x")
@@ -229,14 +229,14 @@ test_that("clustermq with a dynamic file", {
     file
   }
   x <- tar_target_raw("x", quote(save1()), format = "file")
-  pipeline <- tar_pipeline(list(x))
+  pipeline <- pipeline_init(list(x))
   cmq <- clustermq_init(pipeline)
   cmq$run()
   out <- names(cmq$scheduler$progress$built$envir)
   expect_equal(out, "x")
   saveRDS(2L, pipeline_get_target(pipeline, "x")$store$file$path)
   x <- tar_target_raw("x", quote(save1()), format = "file")
-  pipeline <- tar_pipeline(list(x))
+  pipeline <- pipeline_init(list(x))
   cmq <- clustermq_init(pipeline)
   cmq$run()
   out <- names(cmq$scheduler$progress$built$envir)

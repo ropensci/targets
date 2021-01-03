@@ -30,7 +30,7 @@ the paths are returned.
 }
 \examples{
 tar_dir({
-tar_script(tar_pipeline(tar_target(x, 1 + 1)))
+tar_script(list(tar_target(x, 1 + 1)))
 tar_make()
 tar_read(x)
 })

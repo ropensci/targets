@@ -2,7 +2,7 @@ tar_test("future workers actually launch", {
   skip_on_cran()
   tar_script({
     future::plan(future.callr::callr)
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(4)),
       tar_target(
         y,
@@ -22,7 +22,7 @@ tar_test("custom future plans through resources", {
     future::plan(future::multisession, workers = 4)
     plan_multisession <- future::plan()
     future::plan(future::sequential)
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(4)),
       tar_target(
         y,
@@ -33,8 +33,10 @@ tar_test("custom future plans through resources", {
     )
   })
   # The following should launch 4 targets running simultaneously.
-  # Terminate early if necessary.
   tar_make_future(workers = 4)
+  # After those 4 targets launch, terminate early and show progress.
+  # x should be built, and y and its 4 branches should be listed as running.
+  tar_progress()
 })
 
 test_that("packages are actually loaded", {
@@ -57,7 +59,7 @@ test_that("packages are actually loaded", {
     quote(tibble(x = "x")),
     packages = "tibble"
   )
-  pipeline <- tar_pipeline(list(x))
+  pipeline <- pipeline_init(list(x))
   out <- future_init(pipeline)
   out$run()
   exp <- tibble::tibble(x = "x")
@@ -88,7 +90,7 @@ test_that("nontrivial globals", {
     }
   }, envir = envir)
   x <- tar_target_raw("x", quote(f(1L)))
-  pipeline <- tar_pipeline(list(x))
+  pipeline <- pipeline_init(list(x))
   algo <- future_init(pipeline)
   algo$run()
   target <- pipeline_get_target(pipeline, "x")

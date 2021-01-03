@@ -2,7 +2,7 @@ tar_test("torch format", {
   skip_on_cran()
   skip_if_not_installed("torch")
   tar_script({
-    tar_pipeline(tar_target(a, torch::torch_tensor(c(1, 2)), format = "torch"))
+    list(tar_target(a, torch::torch_tensor(c(1, 2)), format = "torch"))
   })
   tar_make(callr_function = NULL)
   out <- tar_read(a)
@@ -15,7 +15,7 @@ tar_test("torch format with in-memory serialization", {
   skip_if_not_installed("torch")
   future::plan(future::sequential)
   tar_script({
-    tar_pipeline(tar_target(a, torch::torch_tensor(c(1, 2)), format = "torch"))
+    list(tar_target(a, torch::torch_tensor(c(1, 2)), format = "torch"))
   })
   tar_make_future(callr_function = NULL)
   out <- tar_read(a)
@@ -31,7 +31,7 @@ tar_test("torch in-memory serialization of deps", {
   tar_script({
     tar_option_set(packages = "torch", retrieval = "main")
     options(clustermq.scheduler = "multicore")
-    tar_pipeline(
+    list(
       tar_target(tensor, torch_zeros(10), format = "torch"),
       tar_target(array, as.array(tensor))
     )

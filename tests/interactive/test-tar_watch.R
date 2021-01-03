@@ -1,7 +1,7 @@
 library(targets)
 tar_script({
   sleep_run <- function(...) Sys.sleep(10)
-  tar_pipeline(
+  list(
     tar_target(data1, sleep_run()),
     tar_target(data2, sleep_run()),
     tar_target(model1, sleep_run(data1)),

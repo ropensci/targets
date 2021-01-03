@@ -34,7 +34,7 @@ tar_dir({
 tmp <- sample(1)
 tar_script({
   tar_option_set(error = "workspace")
-  tar_pipeline(
+  list(
     tar_target(x, "loaded"),
     tar_target(y, stop(x))
   )

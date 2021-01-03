@@ -18,7 +18,7 @@ tar_test("qs format", {
 tar_test("bad compression level throws error", {
   skip_if_not_installed("qs")
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(
         abc,
         1,

@@ -8,6 +8,6 @@ tar_test("aws_keras packages", {
 tar_test("validate aws_keras", {
   skip_if_not_installed("aws.s3")
   skip_if_not_installed("keras")
-  tar_script(tar_pipeline(tar_target(x, "x_value", format = "aws_keras")))
+  tar_script(list(tar_target(x, "x_value", format = "aws_keras")))
   expect_silent(tar_validate(callr_function = NULL))
 })

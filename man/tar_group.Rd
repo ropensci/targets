@@ -49,7 +49,7 @@ data.frame(
 tar_dir({
 tar_script({
 library(dplyr)
-tar_pipeline(
+list(
   tar_target(
     data,
     data.frame(

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_pipeline.R
 \name{tar_pipeline}
 \alias{tar_pipeline}
-\title{Declare a pipeline of targets.}
+\title{Declare a pipeline (deprecated).}
 \usage{
 tar_pipeline(...)
 }
@@ -10,26 +10,21 @@ tar_pipeline(...)
 \item{...}{Targets or lists of targets defined with \code{\link[=tar_target]{tar_target()}}.}
 }
 \value{
-A pipeline object. The \verb{_targets.R} file of a project must
-end with a call \code{tar_pipeline()}.
-Otherwise, users do not work pipeline objects directly.
+A pipeline object.
 }
 \description{
-A pipeline is similar to a \code{Makefile} or a \code{drake} plan.
-It is a collection of targets, or skippable steps,
-in an automated reproducible workflow.
+Functions \code{tar_pipeline()} and \code{\link[=tar_bind]{tar_bind()}} are deprecated.
+Instead, simply end your \verb{_targets.R} file with a list of target objects.
+You can nest these objects however you like.
 }
 \examples{
-file <- tar_target(data_file, "data.csv", format = "file")
-object <- tar_target(data_object, read.csv(data_file))
-analysis <- tar_target(analysis, analyze(data_object))
-pipeline <- tar_pipeline(file, object, analysis)
-print(pipeline)
-# Equivalent:
-target_list <- list(
+# In _targets.R:
+library(targets)
+list( # You no longer need tar_pipeline() here.
   tar_target(data_file, "data.csv", format = "file"),
-  tar_target(data_object, read.csv(data_file)),
-  tar_target(analysis, analyze(data_object))
+  list( # Target lists can be arbitrarily nested.
+    tar_target(data_object, read.csv(data_file)),
+    tar_target(analysis, analyze(data_object))
+  )
 )
-pipeline <- tar_pipeline(target_list)
 }

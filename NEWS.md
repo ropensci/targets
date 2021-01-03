@@ -1,3 +1,8 @@
+# targets 0.0.0.9004
+
+* Accept lists of target objects at the end of `_targets.R` (#253).
+* Deprecate `tar_pipeline()` and `tar_bind()` because of the above (#253).
+
 # targets 0.0.0.9003
 
 ## Bug fixes

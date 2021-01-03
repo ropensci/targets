@@ -26,10 +26,10 @@
 #'       specific options to set, it is still recommended to call
 #'       [tar_option_set()] in order to register the proper environment.
 #'     3. Targets: define one or more target objects using [tar_target()].
-#'     4. Pipeline: call [tar_pipeline()] to bring the targets from (3)
+#'     4. Pipeline: call [list()] to bring the targets from (3)
 #'       together in a pipeline object. Every `_targets.R` script must return
 #'       a pipeline object, which usually means ending with a call to
-#'       [tar_pipeline()]. In practice, (3) and (4) can be combined together
+#'       [list()]. In practice, (3) and (4) can be combined together
 #'       in the same function call.
 #' @return Nothing.
 #' @param code R code to write to `_targets.R`. If `NULL`, an example
@@ -50,7 +50,7 @@
 #' tar_script({
 #'   x <- tar_target(x, 1 + 1)
 #'   tar_option_set()
-#'   tar_pipeline(x)
+#'   list(x)
 #' })
 #' writeLines(readLines("_targets.R"))
 #' })

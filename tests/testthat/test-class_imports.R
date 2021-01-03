@@ -86,7 +86,7 @@ tar_test("imports setting works", {
   tar_script({
     pkgload::load_all("pkg", quiet = TRUE)
     tar_option_set(imports = "pkgabcdefg")
-    tar_pipeline(tar_target(x, f(1L)))
+    list(tar_target(x, f(1L)))
   })
   out <- tar_network(callr_function = NULL)$edges
   expect_true(any(out$from == "g" & out$to == "f"))

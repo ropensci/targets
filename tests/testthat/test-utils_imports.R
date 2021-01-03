@@ -111,11 +111,9 @@ tar_test("exclude special objects from imports", {
     tar_option_set(envir = envir)
     envir$regular_object <- "object"
     envir$target_object <- tar_target(x, regular_object)
-    envir$pipeline_object <- tar_pipeline(
-      envir$target_object,
-      tar_target(y, x)
-    )
-    envir$pipeline_object
+    envir$pipeline_object <- "pipeline"
+    class(envir$pipeline_object) <- "tar_pipeline"
+    list(envir$target_object)
   })
   out <- tar_network(callr_function = NULL, targets_only = FALSE)
   expect_true(length(out$vertices$name) > 0L)

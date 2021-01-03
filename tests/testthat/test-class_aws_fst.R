@@ -8,6 +8,6 @@ tar_test("aws_fst packages", {
 tar_test("validate aws_fst", {
   skip_if_not_installed("aws.s3")
   skip_if_not_installed("fst")
-  tar_script(tar_pipeline(tar_target(x, "x_value", format = "aws_fst")))
+  tar_script(list(tar_target(x, "x_value", format = "aws_fst")))
   expect_silent(tar_validate(callr_function = NULL))
 })

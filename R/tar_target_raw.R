@@ -7,7 +7,7 @@
 #'   instead of [tar_target()] if you are creating entire batches
 #'   of targets programmatically (metaprogramming, static branching).
 #' @return A target object. Users should not modify these directly,
-#'   just feed them to [tar_pipeline()] in your `_targets.R` file.
+#'   just feed them to [list()] in your `_targets.R` file.
 #' @inheritParams tar_target
 #' @inheritParams tar_option_set
 #' @param name Character of length 1, name of the target.

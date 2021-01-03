@@ -103,6 +103,22 @@ tar_test("assert_store()", {
   expect_silent(assert_store())
 })
 
+tar_test("assert_target", {
+  expect_silent(assert_target(tar_target(x, 1)))
+  expect_error(assert_target(1), class = "condition_validate")
+  expect_error(assert_target(list()), class = "condition_validate")
+})
+
+tar_test("assert_target_list", {
+  expect_silent(assert_target_list(list(tar_target(x, 1))))
+  expect_silent(assert_target_list(list()))
+  expect_error(
+    assert_target_list(tar_target(x, 1)),
+    class = "condition_validate"
+  )
+  expect_error(assert_target_list(123), class = "condition_validate")
+})
+
 tar_test("assert_target_script()", {
   expect_error(assert_target_script(), class = "condition_validate")
   file.create("_targets.R")

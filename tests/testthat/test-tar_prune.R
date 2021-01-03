@@ -7,7 +7,7 @@ tar_test("tar_prune() works", {
     )
   )
   local_init(pipeline = pipeline)$run()
-  tar_script(tar_pipeline(tar_target(y1, quote(1))))
+  tar_script(list(tar_target(y1, quote(1))))
   tar_prune(callr_arguments = list(show = FALSE))
   data <- meta_init()$database$read_data()
   expect_equal(data$name, "y1")
@@ -24,7 +24,7 @@ tar_test("tar_prune() works with patterns", {
     )
   )
   local_init(pipeline = pipeline)$run()
-  tar_script(tar_pipeline(tar_target(x, seq_len(2)), tar_target(y, x, map(x))))
+  tar_script(list(tar_target(x, seq_len(2)), tar_target(y, x, map(x))))
   tar_prune(callr_arguments = list(show = FALSE))
   names <- meta_init()$database$read_data()$name
   expect_equal(length(names), 4L)
@@ -43,7 +43,7 @@ tar_test("tar_prune() does not remove global objects from metadata", {
   x <- target_init("x", quote(f(a)), envir = envir)
   pipeline <- pipeline_init(list(x))
   local_init(pipeline = pipeline)$run()
-  tar_script(tar_pipeline(tar_target(x, quote(1))))
+  tar_script(list(tar_target(x, quote(1))))
   tar_prune(callr_arguments = list(show = FALSE))
   names <- meta_init()$database$read_data()$name
   expect_equal(sort(names), sort(c("a", "f", "x")))
@@ -57,7 +57,7 @@ tar_test("tar_delete() does not delete dynamic files", {
   local_init(pipeline = pipeline)$run()
   names <- meta_init()$database$read_data()$name
   expect_equal(names, "x")
-  tar_script(tar_pipeline(tar_target(y, quote(1))))
+  tar_script(list(tar_target(y, quote(1))))
   tar_prune(callr_arguments = list(show = FALSE))
   expect_true(file.exists("x"))
   names <- meta_init()$database$read_data()$name

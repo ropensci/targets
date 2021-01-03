@@ -133,7 +133,7 @@ The `conclude()` method decrements ranks in the priority queue to signal that do
 # _targets.R
 library(targets)
 source("functions.R") # Defines all the functions below prefixed with "user_".
-tar_pipeline(
+list(
   tar_target(data1, user_data1()),
   tar_target(data2, list(user_data2_slice1(), user_data2_slice2())),
   tar_target(analysis, user_analyze(data2), pattern = map(data2)),

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_bind.R
 \name{tar_bind}
 \alias{tar_bind}
-\title{Combine pipelines.}
+\title{Combine pipeline objects (deprecated).}
 \usage{
 tar_bind(...)
 }
@@ -11,13 +11,18 @@ tar_bind(...)
 You can generate a pipeline object with \code{\link[=tar_pipeline]{tar_pipeline()}}.}
 }
 \description{
-Combine multiple pipeline objects
-into a single pipeline object.
+Functions \code{tar_pipeline()} and \code{\link[=tar_bind]{tar_bind()}} are deprecated.
+Instead, simply end your \verb{_targets.R} file with a list of target objects.
+You can nest these objects however you like.
 }
 \examples{
-# Include in _targets.R:
-pipeline1 <- tar_pipeline(tar_target(x, 1))
-pipeline2 <- tar_pipeline(tar_target(y, 2))
-# Pipeline object with both targets:
-pipeline <- tar_bind(pipeline1, pipeline2)
+# In _targets.R:
+library(targets)
+list( # You no longer need tar_pipeline() here.
+  tar_target(data_file, "data.csv", format = "file"),
+  list( # Target lists can be arbitrarily nested.
+    tar_target(data_object, read.csv(data_file)),
+    tar_target(analysis, analyze(data_object))
+  )
+)
 }

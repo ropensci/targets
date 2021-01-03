@@ -10,7 +10,7 @@
 #' @param name Symbol, name of the target to read.
 #' @examples
 #' tar_dir({
-#' tar_script(tar_pipeline(tar_target(x, 1 + 1)))
+#' tar_script(list(tar_target(x, 1 + 1)))
 #' tar_make()
 #' tar_read(x)
 #' })
@@ -38,7 +38,7 @@ tar_read <- function(name, branches = NULL, meta = tar_meta()) {
 #' @examples
 #' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 #' tar_dir({
-#' tar_script(tar_pipeline(tar_target(x, 1 + 1)))
+#' tar_script(list(tar_target(x, 1 + 1)))
 #' tar_make()
 #' tar_read_raw("x")
 #' })

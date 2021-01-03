@@ -43,7 +43,7 @@ test_that("keras and future with main storage and retrieval", {
     command = quote(f()),
     format = "keras"
   )
-  pipeline <- tar_pipeline(x)
+  pipeline <- pipeline_init(list(x))
   future <- future_init(pipeline)
   future$run()
   expect_true(
@@ -102,7 +102,7 @@ test_that("keras and future with worker storage and retrieval", {
     storage = "worker",
     retrieval = "worker"
   )
-  pipeline <- tar_pipeline(x)
+  pipeline <- pipeline_init(list(x))
   future <- future_init(pipeline)
   future$run()
   expect_true(

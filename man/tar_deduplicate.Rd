@@ -27,7 +27,7 @@ this is simply a form of garbage collection.
 \examples{
 if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
 tar_dir({
-tar_script(tar_pipeline(tar_target(x, 1 + 1)))
+tar_script(list(tar_target(x, 1 + 1)))
 tar_make()
 tar_make()
 tar_deduplicate() # Compare the file _targets/meta/meta before and after.

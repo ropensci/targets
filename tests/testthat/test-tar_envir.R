@@ -18,7 +18,7 @@ tar_test("tar_envir() in a pipeline with automatic default", {
     g <- function(z) {
       ls(tar_envir())
     }
-    tar_pipeline(
+    list(
       tar_target(x_target, "x_value"),
       tar_target(y, f(x_target))
     )
@@ -36,7 +36,7 @@ tar_test("tar_envir() in a pipeline with custom default", {
       default <- new.env(parent = emptyenv())
       ls(tar_envir(default = default))
     }
-    tar_pipeline(
+    list(
       tar_target(x_target, "x_value"),
       tar_target(y, f(x_target))
     )
