@@ -8,7 +8,12 @@ tar_test("tar_bind() works", {
     pipeline3 <- tar_pipeline(tar_target(e, a + d))
     tar_bind(pipeline1, list(pipeline2, pipeline3))
   })
-  expect_warning(tar_make(callr_function = NULL), class = "condition_deprecate")
+  suppressWarnings(
+    expect_warning(
+      tar_make(callr_function = NULL),
+      class = "condition_deprecate"
+    )
+  )
   expect_equal(tar_read(a), 1L)
   expect_equal(tar_read(b), 2L)
   expect_equal(tar_read(c), 3L)

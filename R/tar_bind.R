@@ -11,7 +11,7 @@
 #' list( # You no longer need tar_pipeline() here.
 #'   tar_target(data_file, "data.csv", format = "file")
 #'   list( # Target lists can be arbitrarily nested.
-#'     tar_target(data_object, read.csv(data_file))
+#'     tar_target(data_object, read.csv(data_file)),
 #'     tar_target(analysis, analyze(data_object))
 #'   )
 #' )

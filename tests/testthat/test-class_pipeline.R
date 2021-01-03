@@ -291,4 +291,3 @@ tar_test("pipeline_validate(pipeline) with circular graph", {
   )
   expect_error(pipeline_validate(pipeline), class = "condition_validate")
 })
-
