@@ -21,7 +21,7 @@ You can nest these objects however you like.
 # In _targets.R:
 library(targets)
 list( # You no longer need tar_pipeline() here.
-  tar_target(data_file, "data.csv", format = "file")
+  tar_target(data_file, "data.csv", format = "file"),
   list( # Target lists can be arbitrarily nested.
     tar_target(data_object, read.csv(data_file)),
     tar_target(analysis, analyze(data_object))

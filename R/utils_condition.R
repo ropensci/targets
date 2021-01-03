@@ -64,7 +64,12 @@ condition_validate <- function(...) {
 warning_deprecate <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
-    class = c("condition_deprecate", "condition_targets", "warning", "condition")
+    class = c(
+      "condition_deprecate",
+      "condition_targets",
+      "warning",
+      "condition"
+    )
   )
 }
 
