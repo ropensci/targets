@@ -7,7 +7,7 @@ tar_test("seconds has the right object", {
 
 tar_test("branches complete even if patterns do not", {
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, c(0, 100)),
       tar_target(y, Sys.sleep(x), pattern = map(x))
     )

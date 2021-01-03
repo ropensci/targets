@@ -15,16 +15,16 @@ tar_test("print cross", {
 })
 
 tar_test("print empty pipeline", {
-  print(tar_pipeline())
+  print(pipeline_init())
 })
 
 tar_test("print pipeline with 1 target", {
-  print(tar_pipeline(tar_target(x, 1, cross(x, y, z))))
+  print(pipeline_init(tar_target(x, 1, cross(x, y, z))))
 })
 
 tar_test("print pipeline with 2 targets", {
   print(
-    tar_pipeline(
+    pipeline_init(
       tar_target(x, 1),
       tar_target(y, 1)
     )

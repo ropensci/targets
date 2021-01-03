@@ -36,7 +36,7 @@ test_that("keras and clustermq with main storage and retrieval", {
       )
       model
     }
-    tar_pipeline(
+    list(
       tar_target_raw(
         name = "abc",
         command = quote(f()),
@@ -86,7 +86,7 @@ test_that("keras and clustermq with worker storage and retrieval", {
       )
       model
     }
-    tar_pipeline(
+    list(
       tar_target_raw(
         name = "abc",
         command = quote(f()),

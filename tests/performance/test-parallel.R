@@ -5,7 +5,7 @@
 library(targets)
 tar_script({
   options(clustermq.scheduler = "multicore")
-  tar_pipeline(
+  list(
     tar_target(x1, c(0, 0, 5)),
     tar_target(x2, Sys.sleep(x1), pattern = map(x1)),
     tar_target(x3, x2, pattern = map(x2)),

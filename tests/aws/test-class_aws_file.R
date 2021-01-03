@@ -18,7 +18,7 @@ tar_test("aws_file format file gets stored", {
       writeLines(lines, tmp)
       tmp
     }
-    tar_pipeline(
+    list(
       tar_target(x, write_tempfile("x_lines"), format = "aws_file"),
       tar_target(y, readLines(x))
     )
@@ -63,7 +63,7 @@ tar_test("aws_file format invalidation", {
         writeLines(lines, tmp)
         tmp
       }
-      tar_pipeline(
+      list(
         tar_target(x, write_tempfile("x_lines"), format = "aws_file"),
         tar_target(y, readLines(x))
       )
@@ -85,7 +85,7 @@ tar_test("aws_file format invalidation", {
         writeLines(lines, tmp)
         tmp
       }
-      tar_pipeline(
+      list(
         tar_target(x, write_tempfile("x_lines2"), format = "aws_file"),
         tar_target(y, readLines(x))
       )

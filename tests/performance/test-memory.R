@@ -4,7 +4,7 @@ library(pryr)
 tar_script({
   # Comment out and see memory increase:
   tar_option_set(memory = "transient", garbage_collection = TRUE)
-  targets <- lapply(
+  lapply(
     seq_len(50),
     function(index) {
       tar_target_raw(
@@ -16,7 +16,6 @@ tar_script({
       )
     }
   )
-  tar_pipeline(targets)
 })
 
 # Memory usage should stay constant over time.
@@ -37,7 +36,7 @@ targets <- lapply(
     )
   }
 )
-pipeline <- tar_pipeline(targets)
+pipeline <- pipeline_init(targets)
 local <- local_init(pipeline)
 local$run()
 pryr::object_size(pipeline)
@@ -46,9 +45,11 @@ pryr::object_size(local)
 # Pipeline should still be acceptably small even with lots of targets.
 pkgload::load_all()
 tar_destroy()
-pipeline <- tar_pipeline(
-  tar_target(x, seq_len(1000)),
-  tar_target(y, x, pattern = map(x))
+pipeline <- pipeline_init(
+  list(
+    tar_target(x, seq_len(1000)),
+    tar_target(y, x, pattern = map(x))
+  )
 )
 local <- local_init(pipeline)
 local$run()

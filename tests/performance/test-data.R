@@ -14,7 +14,7 @@ targets <- lapply(
     )
   }
 )
-pipeline <- tar_pipeline(targets)
+pipeline <- pipeline_init(targets)
 local <- local_init(pipeline)
 px <- pprof(local$run())
 tar_destroy()

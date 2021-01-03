@@ -113,7 +113,7 @@ Thanks to the simplified data store and simplified internals, `targets` can auto
 ```{r, eval = FALSE}
 # _targets.R
 tar_option_set(resources = list(bucket = "my-bucket-name"))
-tar_pipeline(
+list(
   tar_target(dataset, get_large_dataset(), format = "aws_fst_tbl"),
   tar_target(analysis, analyze_dataset(dataset), format = "aws_qs")
 )
@@ -182,7 +182,7 @@ Because the design of `targets` is fundamentally dynamic, users can create compl
 ```{r, eval = FALSE}
 # _targets.R
 library(targets)
-tar_pipeline(
+list(
   tar_target(w, seq_len(2)),
   tar_target(x, head(letters, 3)),
   tar_target(y, head(LETTERS, 3)),
