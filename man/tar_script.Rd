@@ -53,10 +53,10 @@ settings such as the names of required packages. Even if you have no
 specific options to set, it is still recommended to call
 \code{\link[=tar_option_set]{tar_option_set()}} in order to register the proper environment.
 3. Targets: define one or more target objects using \code{\link[=tar_target]{tar_target()}}.
-4. Pipeline: call \code{\link[=tar_pipeline]{tar_pipeline()}} to bring the targets from (3)
+4. Pipeline: call \code{\link[=list]{list()}} to bring the targets from (3)
 together in a pipeline object. Every \verb{_targets.R} script must return
 a pipeline object, which usually means ending with a call to
-\code{\link[=tar_pipeline]{tar_pipeline()}}. In practice, (3) and (4) can be combined together
+\code{\link[=list]{list()}}. In practice, (3) and (4) can be combined together
 in the same function call.
 }
 
@@ -67,7 +67,7 @@ tar_script() # Writes an example target script.
 tar_script({
   x <- tar_target(x, 1 + 1)
   tar_option_set()
-  tar_pipeline(x)
+  list(x)
 })
 writeLines(readLines("_targets.R"))
 })

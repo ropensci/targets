@@ -52,12 +52,12 @@ values in \verb{_targets/objects/}.
 tar_dir({
 tar_script({
   tar_option_set()
-  tar_pipeline(tar_target(x, 1 + 1))
+  list(tar_target(x, 1 + 1))
 })
 tar_make()
 tar_script({
   tar_option_set()
-  tar_pipeline(
+  list(
     tar_target(y1, 1 + 1),
     tar_target(y2, 1 + 1),
     tar_target(z, y1 + y2)

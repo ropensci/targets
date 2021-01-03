@@ -206,7 +206,7 @@ rules that decide whether the target is up to date.}
 }
 \value{
 A target object. Users should not modify these directly,
-just feed them to \code{\link[=tar_pipeline]{tar_pipeline()}} in your \verb{_targets.R} file.
+just feed them to \code{\link[=list]{list()}} in your \verb{_targets.R} file.
 }
 \description{
 A target is a single step of computation in a pipeline.
@@ -221,7 +221,7 @@ for more details.
 data <- tar_target(target_name, get_data(), packages = "tidyverse")
 analysis <- tar_target(analysis, analyze(x), pattern = map(x))
 # Pipelines accept targets.
-pipeline <- tar_pipeline(data, analysis)
+pipeline <- list(data, analysis)
 # Tidy evaluation
 tar_option_set(envir = environment())
 n_rows <- 30L

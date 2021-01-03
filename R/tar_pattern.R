@@ -35,13 +35,13 @@
 #' # To use dynamic map for real in a pipeline,
 #' # call map() in a target's pattern.
 #' # The following code goes at the bottom of _targets.R.
-#' tar_pipeline(
+#' list(
 #'   tar_target(x, seq_len(2)),
 #'   tar_target(y, head(letters, 2)),
 #'   tar_target(dynamic, c(x, y), pattern = map(x, y)) # 2 branches
 #' )
 #' # Likewise for more complicated patterns.
-#' tar_pipeline(
+#' list(
 #'   tar_target(x, seq_len(2)),
 #'   tar_target(y, head(letters, 2)),
 #'   tar_target(z, head(LETTERS, 2)),

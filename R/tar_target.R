@@ -7,7 +7,7 @@
 #'   are already up to date are skipped. See the user manual
 #'   for more details.
 #' @return A target object. Users should not modify these directly,
-#'   just feed them to [tar_pipeline()] in your `_targets.R` file.
+#'   just feed them to [list()] in your `_targets.R` file.
 #' @param name Symbol, name of the target.
 #' @param command R code to run the target.
 #' @param pattern Language to define branching for a target.
@@ -169,7 +169,7 @@
 #' data <- tar_target(target_name, get_data(), packages = "tidyverse")
 #' analysis <- tar_target(analysis, analyze(x), pattern = map(x))
 #' # Pipelines accept targets.
-#' pipeline <- tar_pipeline(data, analysis)
+#' pipeline <- list(data, analysis)
 #' # Tidy evaluation
 #' tar_option_set(envir = environment())
 #' n_rows <- 30L

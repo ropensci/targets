@@ -29,7 +29,7 @@
 #'   sleep_run <- function(...) {
 #'     Sys.sleep(10)
 #'   }
-#'   tar_pipeline(
+#'   list(
 #'     tar_target(settings, sleep_run()),
 #'     tar_target(data1, sleep_run(settings)),
 #'     tar_target(data2, sleep_run(settings)),

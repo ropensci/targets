@@ -7,7 +7,7 @@
 #' tar_dir({
 #' tar_script({
 #'   tar_option_set(error = "workspace")
-#'   tar_pipeline(
+#'   list(
 #'     tar_target(x, "value"),
 #'     tar_target(y, x)
 #'   )

@@ -20,7 +20,7 @@
 #' tar_script({
 #'   future::plan(future::multisession)
 #'   tar_option_set()
-#'   tar_pipeline(tar_target(x, 1 + 1))
+#'   list(tar_target(x, 1 + 1))
 #' })
 #' tar_make_future()
 #' })

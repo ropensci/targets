@@ -215,7 +215,7 @@ rules that decide whether the target is up to date.}
 }
 \value{
 A target object. Users should not modify these directly,
-just feed them to \code{\link[=tar_pipeline]{tar_pipeline()}} in your \verb{_targets.R} file.
+just feed them to \code{\link[=list]{list()}} in your \verb{_targets.R} file.
 }
 \description{
 \code{tar_target_raw()} is just like \code{\link[=tar_target]{tar_target()}} except
