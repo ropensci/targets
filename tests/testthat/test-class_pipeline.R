@@ -236,7 +236,7 @@ tar_test("pipeline_reset_deployments()", {
 tar_test("pipeline_get_packages()", {
   x <- tar_target(x, 1, format = "fst_tbl", packages = "tidyr")
   y <- tar_target(y, 1, format = "qs", packages = character(0))
-  pipeline <- pipeline_init(x, y)
+  pipeline <- pipeline_init(list(x, y))
   out <- pipeline_get_packages(pipeline)
   exp <- sort(c("fst", "qs", "tibble", "tidyr"))
   expect_equal(out, exp)
