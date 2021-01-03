@@ -216,6 +216,25 @@ assert_store <- function() {
   )
 }
 
+assert_target <- function(x, msg = NULL) {
+  msg <- msg %||% paste(
+    "Found a non-target object.",
+    "_targets.R must end with a list of tar_target() objects (recommended)",
+    "or a tar_pipeline() object (deprecated)."
+  )
+  assert_inherits(x = x, class = "tar_target", msg = msg)
+
+}
+
+assert_target_list <- function(x) {
+  msg <- paste(
+    "_targets.R must end with a list of tar_target() objects (recommended)",
+    "or a tar_pipeline() object (deprecated)."
+  )
+  assert_list(x, msg = msg)
+  map(x, assert_target, msg = msg)
+}
+
 assert_target_script <- function() {
   msg <- paste(
     "main functions like tar_make() require a special _targets.R script",
