@@ -269,7 +269,7 @@ pipeline_validate.tar_pipeline <- function(pipeline) {
 #' @export
 #' @keywords internal
 pipeline_validate.default <- function(pipeline) {
-  throw_validate("not a tar_pipeline() object. _targets.R must end with one.")
+  throw_validate("invalid pipeline.")
 }
 
 pipeline_validate_lite <- function(pipeline) {
