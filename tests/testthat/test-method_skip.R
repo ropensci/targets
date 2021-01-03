@@ -216,7 +216,7 @@ tar_test("change a nested function", {
       }
     }, envir = envir)
     tar_option_set(envir = envir)
-    tar_pipeline(tar_target(x, f(1L)))
+    list(tar_target(x, f(1L)))
   })
   out <- tar_network(callr_function = NULL)$edges
   expect_true(any(out$from == "g" & out$to == "f"))
@@ -242,7 +242,7 @@ tar_test("change a nested function", {
       }
     }, envir = envir)
     tar_option_set(envir = envir)
-    tar_pipeline(tar_target(x, f(1L)))
+    list(tar_target(x, f(1L)))
   })
   out <- tar_outdated(callr_function = NULL, targets_only = FALSE)
   expect_true(all(c("f", "g", "x") %in% out))

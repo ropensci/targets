@@ -4,7 +4,7 @@ tar_test("dynamic urls work", {
   url <- "https://httpbin.org/etag/test"
   skip_if(!url_exists(url))
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(
         abc,
         rep("https://httpbin.org/etag/test", 2),
@@ -32,7 +32,7 @@ tar_test("custom handle can be supplied without error", {
   url <- "https://httpbin.org/etag/test"
   skip_if(!url_exists(url))
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(
         abc,
         rep("https://httpbin.org/etag/test", 2),
@@ -77,7 +77,7 @@ tar_test("bad curl handle throws an error", {
   url <- "https://httpbin.org/etag/test"
   skip_if(!url_exists(url))
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(
         abc,
         rep("https://httpbin.org/etag/test", 2),
@@ -91,7 +91,7 @@ tar_test("bad curl handle throws an error", {
 
 tar_test("validate url format", {
   skip_if_not_installed("curl")
-  tar_script(tar_pipeline(tar_target(x, "x_value", format = "url")))
+  tar_script(list(tar_target(x, "x_value", format = "url")))
   expect_silent(tar_validate(callr_function = NULL))
 })
 

@@ -9,6 +9,6 @@ tar_test("validate aws_fst_tbl", {
   skip_if_not_installed("aws.s3")
   skip_if_not_installed("fst")
   skip_if_not_installed("tibble")
-  tar_script(tar_pipeline(tar_target(x, "x_value", format = "aws_fst_tbl")))
+  tar_script(list(tar_target(x, "x_value", format = "aws_fst_tbl")))
   expect_silent(tar_validate(callr_function = NULL))
 })

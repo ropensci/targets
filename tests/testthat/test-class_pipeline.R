@@ -236,7 +236,7 @@ tar_test("pipeline_reset_deployments()", {
 tar_test("pipeline_get_packages()", {
   x <- tar_target(x, 1, format = "fst_tbl", packages = "tidyr")
   y <- tar_target(y, 1, format = "qs", packages = character(0))
-  pipeline <- tar_pipeline(x, y)
+  pipeline <- list(x, y)
   out <- pipeline_get_packages(pipeline)
   exp <- sort(c("fst", "qs", "tibble", "tidyr"))
   expect_equal(out, exp)
@@ -293,8 +293,8 @@ tar_test("pipeline_validate(pipeline) with circular graph", {
 })
 
 tar_test("valid pipeline with patterns only (#245)", {
-  expect_silent(out1 <- tar_pipeline(tar_target(x, y, pattern = map(y))))
-  expect_silent(out2 <- tar_pipeline(tar_target(z, w, pattern = map(w))))
+  expect_silent(out1 <- list(tar_target(x, y, pattern = map(y))))
+  expect_silent(out2 <- list(tar_target(z, w, pattern = map(w))))
   expect_silent(out3 <- tar_bind(out1, out2))
   expect_silent(pipeline_validate(out1))
   expect_silent(pipeline_validate(out2))

@@ -1,7 +1,7 @@
 tar_test("tar_objects()", {
   expect_equal(tar_objects(), character(0))
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, "value"),
       tar_target(y, x)
     )

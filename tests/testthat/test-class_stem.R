@@ -223,7 +223,7 @@ tar_test("stem print", {
 
 tar_test("buds names make it into metadata so junctions can be restored", {
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(3)),
       tar_target(y, x, pattern = map(x))
     )
@@ -236,14 +236,14 @@ tar_test("buds names make it into metadata so junctions can be restored", {
 
 tar_test("buds names stay in metadata on error", {
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(3)),
       tar_target(y, x, pattern = map(x))
     )
   })
   tar_make(callr_function = NULL)
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, stop(seq_len(3))),
       tar_target(y, x, pattern = map(x))
     )
@@ -256,7 +256,7 @@ tar_test("buds names stay in metadata on error", {
 
 tar_test("branches can use old buds if continuing on error", {
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(3)),
       tar_target(y, x, pattern = map(x))
     )
@@ -264,7 +264,7 @@ tar_test("branches can use old buds if continuing on error", {
   tar_make(callr_function = NULL)
   tar_script({
     tar_option_set(error = "continue")
-    tar_pipeline(
+    list(
       tar_target(x, stop(seq_len(3))),
       tar_target(y, x, pattern = map(x))
     )
@@ -278,7 +278,7 @@ tar_test("branches can use old buds if continuing on error", {
 
 tar_test("branches can use old buds if stem is cancelled", {
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(3)),
       tar_target(y, x, pattern = map(x))
     )
@@ -286,7 +286,7 @@ tar_test("branches can use old buds if stem is cancelled", {
   tar_make(callr_function = NULL)
   tar_script({
     tar_option_set(error = "continue")
-    tar_pipeline(
+    list(
       tar_target(x, tar_cancel()),
       tar_target(y, x, pattern = map(x))
     )
@@ -300,7 +300,7 @@ tar_test("branches can use old buds if stem is cancelled", {
 
 tar_test("branches can use old buds if stem is cancelled (worker storage)", {
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(3), storage = "worker"),
       tar_target(y, x, pattern = map(x))
     )
@@ -308,7 +308,7 @@ tar_test("branches can use old buds if stem is cancelled (worker storage)", {
   tar_make(callr_function = NULL)
   tar_script({
     tar_option_set(error = "continue")
-    tar_pipeline(
+    list(
       tar_target(x, tar_cancel(), storage = "worker"),
       tar_target(y, x, pattern = map(x))
     )
@@ -321,7 +321,7 @@ tar_test("branches can use old buds if stem is cancelled (worker storage)", {
 })
 
 tar_test("packages load errors are recorded (#228)", {
-  tar_script(tar_pipeline(tar_target(x, 1, packages = "kls;;;hfajksdf")))
+  tar_script(list(tar_target(x, 1, packages = "kls;;;hfajksdf")))
   expect_error(
     suppressWarnings(tar_make(callr_function = NULL)),
     class = "condition_run"

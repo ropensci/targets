@@ -45,7 +45,7 @@ tar_test("bad compression level throws error", {
   skip_if_not_installed("fst")
   skip_if_not_installed("tibble")
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(
         abc,
         data.frame(x = 1, y = 2),

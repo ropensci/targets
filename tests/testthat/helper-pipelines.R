@@ -1,5 +1,5 @@
 pipeline_order <- function() {
-  tar_pipeline(
+  pipeline_init(
     list(
       tar_target_raw(name = "data1", command = quote(seq_len(10))),
       tar_target_raw(name = "data2", command = quote(seq_len(20))),
@@ -15,7 +15,7 @@ pipeline_order <- function() {
 }
 
 pipeline_map <- function(storage = "main") {
-  tar_pipeline(
+  pipeline_init(
     list(
       tar_target_raw(
         name = "data0",
@@ -73,7 +73,7 @@ pipeline_map <- function(storage = "main") {
 }
 
 pipeline_cross <- function() {
-  tar_pipeline(
+  pipeline_init(
     list(
       tar_target_raw(
         name = "data1",

@@ -5,6 +5,6 @@ tar_test("aws_rds packages", {
 
 tar_test("validate aws_rds", {
   skip_if_not_installed("aws.s3")
-  tar_script(tar_pipeline(tar_target(x, "x_value", format = "aws_rds")))
+  tar_script(list(tar_target(x, "x_value", format = "aws_rds")))
   expect_silent(tar_validate(callr_function = NULL))
 })

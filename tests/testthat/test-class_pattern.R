@@ -658,7 +658,7 @@ tar_test("empty crossing variable", {
 
 tar_test("composed pattern", {
   tar_script(
-    tar_pipeline(
+    list(
       tar_target(w, seq_len(2)),
       tar_target(x, letters[seq_len(3)]),
       tar_target(y, LETTERS[seq_len(3)]),
@@ -681,7 +681,7 @@ tar_test("composed pattern", {
 
 tar_test("cross pattern with many inputs", {
   tar_script(
-    tar_pipeline(
+    list(
       tar_target(w, seq_len(2)),
       tar_target(x, letters[seq_len(3)]),
       tar_target(y, LETTERS[seq_len(3)]),
@@ -704,7 +704,7 @@ tar_test("cross pattern with many inputs", {
 
 tar_test("head pattern in pipeline", {
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(26)),
       tar_target(dynamic, x, pattern = head(x, n = 2))
     )
@@ -715,7 +715,7 @@ tar_test("head pattern in pipeline", {
 
 tar_test("tail pattern in pipeline", {
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(26)),
       tar_target(dynamic, x, pattern = tail(x, n = 2))
     )
@@ -726,7 +726,7 @@ tar_test("tail pattern in pipeline", {
 
 tar_test("sample pattern in pipeline", {
   tar_script({
-    tar_pipeline(
+    list(
       tar_target(x, seq_len(26)),
       tar_target(dynamic, x, pattern = sample(x, n = 2))
     )
