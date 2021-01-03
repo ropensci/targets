@@ -289,6 +289,12 @@ pipeline_validate_lite.default <- function(pipeline) {
   throw_validate("not a tar_pipeline() object. _targets.R must end with one.")
 }
 
+#' @title Convert to a pipeline object.
+#' @export
+#' @keywords internal
+#' @description Not a user-side function. Do not invoke directly.
+#' @return An object of class `"tar_pipeline"`.
+#' @param x A list of target objects or a pipeline object.
 as_pipeline <- function(x) {
   UseMethod("as_pipeline")
 }

@@ -22,7 +22,8 @@ callr_outer <- function(
 }
 
 callr_inner <- function(targets_script, targets_function, targets_arguments) {
-  targets_arguments$pipeline <- as_pipeline(source(targets_script)$value)
+  value <- source(targets_script)$value
+  targets_arguments$pipeline <- targets::as_pipeline(value)
   do.call(targets_function, targets_arguments)
 }
 
