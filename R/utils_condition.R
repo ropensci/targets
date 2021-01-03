@@ -18,6 +18,10 @@ throw_validate <- function(...) {
   stop(condition_validate(...))
 }
 
+warn_deprecate <- function(...) {
+  warning(warning_deprecate(...))
+}
+
 warn_run <- function(...) {
   warning(warning_run(...))
 }
@@ -54,6 +58,13 @@ condition_validate <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
     class = c("condition_validate", "condition_targets", "error", "condition")
+  )
+}
+
+warning_deprecate <- function(...) {
+  structure(
+    list(message = paste0(..., collapse = ""), call = NULL),
+    class = c("condition_deprecate", "condition_targets", "warning", "condition")
   )
 }
 
