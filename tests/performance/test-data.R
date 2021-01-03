@@ -1,4 +1,4 @@
-# Test that data storage is be the bottleneck.
+# Test that data storage is a bottleneck.
 library(proffer)
 devtools::load_all()
 tar_destroy()
