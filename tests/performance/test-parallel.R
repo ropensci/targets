@@ -59,3 +59,4 @@ local$run()
 # should show downstream branches ready to build.
 # tar_name() # nolint
 # should show the target currently running.
+tar_destroy()
