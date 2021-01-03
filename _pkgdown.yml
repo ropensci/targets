@@ -39,11 +39,9 @@ reference:
   - '`tar_option_get`'
   - '`tar_option_reset`'
   - '`tar_option_set`'
-- title: Pipeline
+- title: Targets
   contents:
-  - '`tar_bind`'
   - '`tar_cue`'
-  - '`tar_pipeline`'
   - '`tar_target`'
   - '`tar_target_raw`'
 - title: Visualize

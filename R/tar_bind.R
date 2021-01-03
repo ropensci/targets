@@ -1,8 +1,10 @@
 #' @title Combine pipeline objects (deprecated).
 #' @export
+#' @keywords internal
 #' @description Functions `tar_pipeline()` and [tar_bind()] are deprecated.
 #'   Instead, simply end your `_targets.R` file with a list of target objects.
 #'   You can nest these objects however you like.
+#' @details Deprecated on 2021-01-03
 #' @param ... Pipeline objects or nested lists of pipeline objects.
 #'   You can generate a pipeline object with [tar_pipeline()].
 #' @examples

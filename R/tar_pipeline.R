@@ -1,8 +1,10 @@
 #' @title Declare a pipeline (deprecated).
 #' @export
+#' @keywords internal
 #' @description Functions `tar_pipeline()` and [tar_bind()] are deprecated.
 #'   Instead, simply end your `_targets.R` file with a list of target objects.
 #'   You can nest these objects however you like.
+#' @details Deprecated on 2021-01-03.
 #' @return A pipeline object.
 #' @param ... Targets or lists of targets defined with [tar_target()].
 #' @examples

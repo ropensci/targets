@@ -15,6 +15,9 @@ Functions \code{tar_pipeline()} and \code{\link[=tar_bind]{tar_bind()}} are depr
 Instead, simply end your \verb{_targets.R} file with a list of target objects.
 You can nest these objects however you like.
 }
+\details{
+Deprecated on 2021-01-03
+}
 \examples{
 # In _targets.R:
 library(targets)
@@ -26,3 +29,4 @@ list( # You no longer need tar_pipeline() here.
   )
 )
 }
+\keyword{internal}
