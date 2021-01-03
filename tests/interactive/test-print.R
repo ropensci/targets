@@ -7,11 +7,11 @@ tar_test("print stem", {
 })
 
 tar_test("print map", {
-  print(tar_target(x, 1, map(x, y, z)))
+  print(tar_target(x, 1, pattern = map(y, z)))
 })
 
 tar_test("print cross", {
-  print(tar_target(x, 1, cross(x, y, z)))
+  print(tar_target(x, 1, cross(y, z)))
 })
 
 tar_test("print empty pipeline", {
@@ -19,14 +19,16 @@ tar_test("print empty pipeline", {
 })
 
 tar_test("print pipeline with 1 target", {
-  print(pipeline_init(tar_target(x, 1, cross(x, y, z))))
+  print(suppressWarnings(pipeline_init(list(tar_target(x, 1, cross(y, z))))))
 })
 
 tar_test("print pipeline with 2 targets", {
   print(
     pipeline_init(
-      tar_target(x, 1),
-      tar_target(y, 1)
+      list(
+        tar_target(x, 1),
+        tar_target(y, 1)
+      )
     )
   )
 })
