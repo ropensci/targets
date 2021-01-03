@@ -1,18 +1,21 @@
 tar_test("tar_pipeline() works with loose targets", {
   a <- tar_target(a, "a")
   b <- tar_target(b, c(a, "b"))
-  pipeline <- tar_pipeline(a, b)
+  expect_warning(pipeline <- tar_pipeline(a, b), class = "condition_deprecate")
   expect_silent(pipeline_validate(pipeline))
   local_init(pipeline = pipeline)$run()
   expect_equal(target_read_value(b)$object, c("a", "b"))
 })
 
 tar_test("tar_pipeline() works with target lists", {
-  pipeline <- tar_pipeline(
-    list(
-      tar_target(a, "a"),
-      tar_target(b, c(a, "b"))
-    )
+  expect_warning(
+    pipeline <- tar_pipeline(
+      list(
+        tar_target(a, "a"),
+        tar_target(b, c(a, "b"))
+      )
+    ),
+    class = "condition_deprecate"
   )
   expect_silent(pipeline_validate(pipeline))
   local_init(pipeline = pipeline)$run()
@@ -21,16 +24,19 @@ tar_test("tar_pipeline() works with target lists", {
 })
 
 tar_test("tar_pipeline() works with weird lists", {
-  pipeline <- tar_pipeline(
-    list(
-      tar_target(ct, c(b, "c")),
-      tar_target(d, c(ct, "d"))
+  expect_warning(
+    pipeline <- tar_pipeline(
+      list(
+        tar_target(ct, c(b, "c")),
+        tar_target(d, c(ct, "d"))
+      ),
+      tar_target(e, c(d, "e")),
+      list(
+        tar_target(a, "a"),
+        tar_target(b, c(a, "b"))
+      )
     ),
-    tar_target(e, c(d, "e")),
-    list(
-      tar_target(a, "a"),
-      tar_target(b, c(a, "b"))
-    )
+    class = "condition_deprecate"
   )
   expect_silent(pipeline_validate(pipeline))
   local_init(pipeline = pipeline)$run()

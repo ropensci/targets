@@ -16,5 +16,10 @@
 #'   )
 #' )
 tar_pipeline <- function(...) {
+  warn_deprecate(
+    "tar_pipelines() is deprecated. ",
+    "Simply end your _targets.R file ",
+    "with a list of tar_target() objects (arbitrarily nested)."
+  )
   pipeline_init(unlist(list(...), recursive = TRUE))
 }

@@ -16,6 +16,11 @@
 #'   )
 #' )
 tar_bind <- function(...) {
+  warn_deprecate(
+    "tar_bind() and tar_pipeline() are deprecated. ",
+    "Simply end your _targets.R file ",
+    "with a list of tar_target() objects (arbitrarily nested)."
+  )
   x <- unlist(list(...), recursive = TRUE)
   map(x, ~assert_inherits(.x, "tar_pipeline"))
   names <- unlist(map(x, pipeline_get_names))
