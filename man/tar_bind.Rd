@@ -16,7 +16,7 @@ Instead, simply end your \verb{_targets.R} file with a list of target objects.
 You can nest these objects however you like.
 }
 \details{
-Deprecated on 2021-01-03
+Deprecated on 2021-01-03.
 }
 \examples{
 # In _targets.R:
