@@ -308,7 +308,7 @@ as_pipeline.tar_pipeline <- function(x) {
 #' @export
 #' @keywords internal
 as_pipeline.default <- function(x) {
-  pipeline_init(unlist(x, recursive = TRUE))
+  pipeline_init(unlist(list(x), recursive = TRUE))
 }
 
 #' @export

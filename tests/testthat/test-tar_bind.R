@@ -35,7 +35,9 @@ tar_test("tar_bind() errors if names are duplicated", {
 tar_test("valid pipeline with patterns only (#245)", {
   expect_silent(out1 <- pipeline_init(list(tar_target(x, y, pattern = map(y)))))
   expect_silent(out2 <- pipeline_init(list(tar_target(z, w, pattern = map(w)))))
-  expect_warning(out3 <- tar_bind(out1, out2), class = "condition_deprecate")
+  suppressWarnings(
+    expect_warning(out3 <- tar_bind(out1, out2), class = "condition_deprecate")
+  )
   expect_silent(pipeline_validate(out1))
   expect_silent(pipeline_validate(out2))
   expect_silent(pipeline_validate(out3))

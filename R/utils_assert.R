@@ -229,7 +229,8 @@ assert_target <- function(x, msg = NULL) {
 assert_target_list <- function(x) {
   msg <- paste(
     "_targets.R must end with a list of tar_target() objects (recommended)",
-    "or a tar_pipeline() object (deprecated)."
+    "or a tar_pipeline() object (deprecated). Each element of the target list",
+    "must be a target object or nested list of target objects."
   )
   assert_list(x, msg = msg)
   map(x, assert_target, msg = msg)
