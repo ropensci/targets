@@ -37,28 +37,6 @@ reference:
   - '`tar_cue`'
   - '`tar_target`'
   - '`tar_target_raw`'
-- title: Visualize
-  contents:
-  - '`tar_glimpse`'
-  - '`tar_network`'
-  - '`tar_visnetwork`'
-  - '`tar_watch`'
-  - '`tar_watch_server`'
-  - '`tar_watch_ui`'
-- title: Inspect
-  contents:
-  - '`tar_deps`'
-  - '`tar_deps_raw`'
-  - '`tar_pattern`'
-  - '`tar_validate`'
-- title: Introspect
-  contents:
-  - '`tar_manifest`'
-  - '`tar_objects`'
-  - '`tar_outdated`'
-  - '`tar_progress`'
-  - '`tar_sitrep`'
-  - '`tar_workspaces`'
 - title: Run
   contents:
   - '`tar_make`'
@@ -82,6 +60,31 @@ reference:
   - '`tar_destroy`'
   - '`tar_invalidate`'
   - '`tar_prune`'
+- title: Visualize
+  contents:
+  - '`tar_glimpse`'
+  - '`tar_network`'
+  - '`tar_visnetwork`'
+  - '`tar_watch`'
+  - '`tar_watch_server`'
+  - '`tar_watch_ui`'
+- title: Inspect
+  contents:
+  - '`tar_deps`'
+  - '`tar_deps_raw`'
+  - '`tar_validate`'
+- title: Introspect
+  contents:
+  - '`tar_manifest`'
+  - '`tar_objects`'
+  - '`tar_outdated`'
+  - '`tar_progress`'
+  - '`tar_sitrep`'
+  - '`tar_workspaces`'
+- title: Branching
+  contents:
+  - '`tar_branches`'
+  - '`tar_pattern`'
 - title: Runtime accessors
   contents:
   - '`tar_envir`'
