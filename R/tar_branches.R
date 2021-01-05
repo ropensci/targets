@@ -1,0 +1,78 @@
+#' @title Reconstruct the branch names and the names of their dependencies.
+#' @export
+#' @description Given a branching pattern, use available metadata
+#'   to reconstruct branch names and the names of each
+#'   branch's dependencies. The metadata of each target
+#'   must already exist and be consistent with the metadata
+#'   of the other targets involved.
+#' @details The results from this function can help you retroactively
+#'   figure out correspondences between upstream branches and downstream
+#'   branches. However, it does not always correctly predict what the
+#'   names of the branches will be after the next run of the pipeline.
+#'   Dynamic branching happens while the pipeline is running,
+#'   so we cannot always know what the names of the branches will be
+#'   in advance (or even how many there will be).
+#' @return A `tibble` with one row per branch and one column for each target
+#'   (including the branched-over targets and the target with the pattern.)
+#' @inheritParams tar_target
+#' @examples
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' tar_dir({
+#' tar_script(
+#'   list(
+#'     tar_target(x, seq_len(2)),
+#'     tar_target(y, head(letters, 2)),
+#'     tar_target(z, head(LETTERS, 2)),
+#'     tar_target(dynamic, c(x, y, z), pattern = cross(z, map(x, y)))
+#'   )
+#' )
+#' tar_make()
+#' tar_branches(dynamic, pattern = cross(z, map(x, y)))
+#' })
+#' }
+tar_branches <- function(name, pattern) {
+  name <- deparse_language(substitute(name))
+  assert_chr(name, "name arg of tar_target() must be a symbol")
+  assert_store()
+  assert_path(file.path("_targets/meta/meta"))
+  pattern <- as.expression(substitute(pattern))
+  deps <- all.vars(pattern, functions = FALSE, unique = TRUE)
+  vars <- c(name, deps)
+  meta <- tibble::as_tibble(meta_init()$database$read_condensed_data())
+  diffs <- setdiff(vars, meta$name)
+  msg <- paste("targets not in metadata:", paste(diffs, collapse = ", "))
+  assert_in(vars, choices = meta$name, msg = msg)
+  niblings <- set_names(map(deps, ~tar_branches_nibling(.x, meta)), deps)
+  seed <- as.integer(meta[meta$name == name, "seed"])
+  methods <- dynamic_init()
+  out <- pattern_produce_grid(
+    pattern = pattern[[1]],
+    niblings = niblings,
+    seed = seed,
+    methods = methods
+  )
+  children <- data_frame(x = meta[meta$name == name, "children"][[1]])
+  colnames(children) <- name
+  assert_identical(
+    nrow(out),
+    nrow(children),
+    paste0(
+      "number of predicted branches (",
+      nrow(out),
+      ") disagrees with number of past observed branches (",
+      nrow(children),
+      ")"
+    )
+  )
+  out <- cbind(children, out)
+  tibble::as_tibble(out)
+}
+
+tar_branches_nibling <- function(x, meta) {
+  children <- unname(unlist(meta[meta$name == x, "children"]))
+  assert_nonempty(children, paste(x, "has no children."))
+  assert_nonmissing(children, paste(x, "has no children."))
+  out <- data_frame(x = children)
+  colnames(out) <- x
+  out
+}
