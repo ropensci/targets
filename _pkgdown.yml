@@ -5,20 +5,14 @@ navbar:
   left:
   - icon: fa-home fa-lg
     href: index.html
+  - text: Start
+    href: articles/start.html
   - text: Functions
     href: reference/index.html
   - text: Manual
     href: https://wlandau.github.io/targets-manual
   - text: Design
-    menu:
-    - text: Data storage model
-      href: articles/data.html
-    - text: Major internal classes
-      href: articles/classes.html
-    - text: Composition of target objects
-      href: articles/composition.html
-    - text: Orchestration and branching model
-      href: articles/orchestration.html
+    href: https://wlandau.github.io/targets-design
   - text: News
     href: news/index.html
   right:

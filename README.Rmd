@@ -47,6 +47,7 @@ The easiest way to quickly get started is to read the [walkthrough chapter of th
 
 * [User manual](https://wlandau.github.io/targets-manual): in-depth discussion about how to use `targets`.
 * [Reference website](https://wlandau.github.io/targets/): formal documentation of all user-side functions, the statement of need, and multiple design documents of the internal architecture.
+* [Developer documentation](https://wlandau.github.io/targets-design): software design documents for developers contributing to the deep internal architecture of `targets`.
 
 ## Examples
 
