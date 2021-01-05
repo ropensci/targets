@@ -189,8 +189,6 @@ tar_watch_app_ui <- function(
 #' @export
 #' @description Use `tar_watch_ui()` and [tar_watch_server()]
 #'   to include [tar_watch()] as a Shiny module in an app.
-#' @examples
-#' str(tar_watch_ui("my_id"))
 #' @return A Shiny module UI.
 #' @inheritParams shiny::moduleServer
 #' @inheritParams tar_watch_server
@@ -207,6 +205,8 @@ tar_watch_app_ui <- function(
 #'   in the app controls.
 #' @param label_tar_visnetwork Character vector, `label` argument to
 #'   [tar_visnetwork()].
+#' @examples
+#' # str(tar_watch_ui("my_id"))
 tar_watch_ui <- function(
   id,
   label = "tar_watch_label",

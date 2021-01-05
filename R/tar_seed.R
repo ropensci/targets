@@ -13,7 +13,13 @@
 #' @examples
 #' tar_seed()
 #' tar_seed(default = 123L)
-#' tar_target(returns_seed, tar_seed(default = 123)) # Does not return 123.
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' tar_dir({
+#' tar_script(tar_target(returns_seed, tar_seed()))
+#' tar_make()
+#' tar_read(returns_seed)
+#' })
+#' }
 tar_seed <- function(default = 1L) {
   default <- as.integer(default)
   assert_int(default)

@@ -41,6 +41,13 @@
 #'   })
 #'   print(target_list[[1]])
 #'   print(target_list[[2]])
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' tar_dir({
+#' tar_script(tar_target_raw("x", quote(1 + 1)))
+#' tar_make()
+#' tar_read(x)
+#' })
+#' }
 tar_target_raw <- function(
   name,
   command,
