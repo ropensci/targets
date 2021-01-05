@@ -12,13 +12,13 @@ navbar:
   - text: Design
     menu:
     - text: Data storage model
-      href: articles/articles/data.html
+      href: articles/data.html
     - text: Major internal classes
-      href: articles/articles/classes.html
+      href: articles/classes.html
     - text: Composition of target objects
-      href: articles/articles/composition.html
+      href: articles/composition.html
     - text: Orchestration and branching model
-      href: articles/articles/orchestration.html
+      href: articles/orchestration.html
   - text: News
     href: news/index.html
   right:
