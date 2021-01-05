@@ -33,6 +33,13 @@ library(remotes)
 install_github("wlandau/targets")
 ```
 
+## Get started
+
+The easiest way to quickly get started is to read the [walkthrough
+chapter of the user
+manual](https://wlandau.github.io/targets-manual/walkthrough.html). You
+might also watch the recorded talks linked below.
+
 ## Help
 
   - Post to the [GitHub issue

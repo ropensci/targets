@@ -12,7 +12,7 @@ vignette: >
 
 # A design document for developers
 
-This vignette is for developers who are designing and implementing the internal architecture of [`targets`](https://github.com/wlandau/targets). For help using the package, please visit the other resources linked from the [reference website](https://wlandau.github.io/targets/), such as the [user manual](https://wlandau.github.io/targets-manual/)
+This vignette is for developers who are designing and implementing the internal architecture of [`targets`](https://github.com/wlandau/targets). For help using the package, please start with the [walkthrough chapter of the manual](https://wlandau.github.io/targets-manual/walkthrough.html). The [reference website](https://wlandau.github.io/targets/) links to other useful resources such as recorded talks and example projects.
 
 # About
 
