@@ -59,6 +59,9 @@ might also watch the recorded talks linked below.
   - [Reference website](https://wlandau.github.io/targets/): formal
     documentation of all user-side functions, the statement of need, and
     multiple design documents of the internal architecture.
+  - [Developer documentation](https://wlandau.github.io/targets-design):
+    software design documents for developers contributing to the deep
+    internal architecture of `targets`.
 
 ## Examples
 
