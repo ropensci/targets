@@ -34,6 +34,7 @@ target_produce_record.tar_pattern <- function(target, pipeline, meta) {
     type = target_get_type(target),
     data = pattern_produce_data_hash(target, pipeline, meta),
     command = target$command$hash,
+    seed = target$command$seed,
     bytes = target$patternview$bytes,
     format = target$settings$format,
     iteration = target$settings$iteration,
