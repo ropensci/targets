@@ -6,10 +6,12 @@
 #'   cannot interrupt a target from another process.
 #' @param condition Logical of length 1, whether to cancel the target.
 #' @examples
-#' refresh_data_on_mondays <- function() {
-#'   tar_cancel(!is_monday())
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' tar_dir({
+#' tar_script(tar_target(x, tar_cancel(1 > 0)))
+#' tar_make() # Should cancel target x.
+#' })
 #' }
-#' x <- tar_target(x, refresh_data_on_mondays())
 tar_cancel <- function(condition = TRUE) {
   condition <- force(condition)
   assert_lgl(condition, "condition in tar_cancel() must be logical")

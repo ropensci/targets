@@ -18,8 +18,10 @@ Must be invoked by the target itself. \code{tar_cancel()}
 cannot interrupt a target from another process.
 }
 \examples{
-refresh_data_on_mondays <- function() {
-  tar_cancel(!is_monday())
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+tar_dir({
+tar_script(tar_target(x, tar_cancel(1 > 0)))
+tar_make() # Should cancel target x.
+})
 }
-x <- tar_target(x, refresh_data_on_mondays())
 }
