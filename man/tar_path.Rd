@@ -2,12 +2,12 @@
 % Please edit documentation in R/tar_path.R
 \name{tar_path}
 \alias{tar_path}
-\title{Get the file path of a target's stored value.}
+\title{Identify the file path where a target will be stored.}
 \usage{
-tar_path(name = NULL, default = tempfile())
+tar_path(name = NULL, default = NA_character_)
 }
 \arguments{
-\item{name}{Symbol, name of the target.
+\item{name}{Symbol, name of a target.
 If \code{NULL}, \code{tar_path()} returns the path of the target currently running
 in a pipeline.}
 
@@ -17,20 +17,20 @@ Having a default lets users run things without \code{\link[=tar_make]{tar_make()
 which helps peel back layers of code and troubleshoot bugs.}
 }
 \value{
-Character, file path to the target.
+Character, file path to a hypothetical target.
 }
 \description{
-Get the file path of a target's stored value. Could be the
-target currently running in a pipeline or a target of your choice.
+Identify the file path where a target will be stored
+after the target finishes running in the pipeline.
 }
 \details{
-Call \code{tar_path(name = "your_target")} to get the file path
-of a selected target. Inside the command of a target, call
-\code{tar_path()} with no arguments to get the path to the target
-currently running. (Does not apply to dynamic files
-(\code{format = "file"}) because those paths are not known in advance.)
-If you call \code{tar_path()} outside a pipeline without specifying \code{name},
-the return value is \code{default}.
+\code{tar_path(name = your_target)} just returns
+\verb{_targets/objects/your_target}, the file path where \code{your_target}
+will be saved unless \code{format} is equal to \code{"file"} or any of the
+supported cloud-based storage formats. If you call \code{tar_path()}
+with no arguments while target \code{x} is running, the \code{name}
+argument defaults to the name of the target,
+so \code{tar_path()} returns \verb{_targets/objects/x}.
 }
 \examples{
 tar_path()

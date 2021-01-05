@@ -1,16 +1,16 @@
-#' @title Get the file path of a target's stored value.
+#' @title Identify the file path where a target will be stored.
 #' @export
-#' @description Get the file path of a target's stored value. Could be the
-#'   target currently running in a pipeline or a target of your choice.
-#' @details Call `tar_path(name = "your_target")` to get the file path
-#'   of a selected target. Inside the command of a target, call
-#'   `tar_path()` with no arguments to get the path to the target
-#'   currently running. (Does not apply to dynamic files
-#'   (`format = "file"`) because those paths are not known in advance.)
-#'   If you call `tar_path()` outside a pipeline without specifying `name`,
-#'   the return value is `default`.
-#' @return Character, file path to the target.
-#' @param name Symbol, name of the target.
+#' @description Identify the file path where a target will be stored
+#'   after the target finishes running in the pipeline.
+#' @details `tar_path(name = your_target)` just returns
+#'   `_targets/objects/your_target`, the file path where `your_target`
+#'   will be saved unless `format` is equal to `"file"` or any of the
+#'   supported cloud-based storage formats. If you call `tar_path()`
+#'   with no arguments while target `x` is running, the `name`
+#'   argument defaults to the name of the target,
+#'   so `tar_path()` returns `_targets/objects/x`.
+#' @return Character, file path to a hypothetical target.
+#' @param name Symbol, name of a target.
 #'   If `NULL`, `tar_path()` returns the path of the target currently running
 #'   in a pipeline.
 #' @param default Character, value to return if `tar_path()`
@@ -27,7 +27,7 @@
 #' tar_read(returns_path)
 #' })
 #' }
-tar_path <- function(name = NULL, default = tempfile()) {
+tar_path <- function(name = NULL, default = NA_character_) {
   name <- deparse_language(substitute(name))
   assert_chr(name %||% character(0), "name arg of tar_path() must be a symbol")
   assert_chr(default)
