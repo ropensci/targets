@@ -49,12 +49,6 @@ The easiest way to quickly get started is to read the [walkthrough chapter of th
 * [Reference website](https://wlandau.github.io/targets/): formal documentation of all user-side functions, the statement of need, and multiple design documents of the internal architecture.
 * [Developer documentation](https://wlandau.github.io/targets-design): software design documents for developers contributing to the deep internal architecture of `targets`.
 
-## Examples
-
-* [Minimal example](https://github.com/wlandau/targets-minimal).
-* [Machine learning with Keras](https://github.com/wlandau/targets-keras).
-* [Validating a Stan model](https://github.com/wlandau/targets-stan).
-
 ## Recorded talks
 
 * [R/Pharma 2020 (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
@@ -64,6 +58,12 @@ The easiest way to quickly get started is to read the [walkthrough chapter of th
 ## Courses
 
 * [Official half-day interactive tutorial](https://github.com/wlandau/targets-tutorial).
+
+## Example projects
+
+* [Minimal example](https://github.com/wlandau/targets-minimal).
+* [Machine learning with Keras](https://github.com/wlandau/targets-keras).
+* [Validating a Stan model](https://github.com/wlandau/targets-stan).
 
 ## The R Targetopia
 

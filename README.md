@@ -63,13 +63,6 @@ might also watch the recorded talks linked below.
     software design documents for developers contributing to the deep
     internal architecture of `targets`.
 
-## Examples
-
-  - [Minimal example](https://github.com/wlandau/targets-minimal).
-  - [Machine learning with
-    Keras](https://github.com/wlandau/targets-keras).
-  - [Validating a Stan model](https://github.com/wlandau/targets-stan).
-
 ## Recorded talks
 
   - [R/Pharma 2020
@@ -83,6 +76,13 @@ might also watch the recorded talks linked below.
 
   - [Official half-day interactive
     tutorial](https://github.com/wlandau/targets-tutorial).
+
+## Example projects
+
+  - [Minimal example](https://github.com/wlandau/targets-minimal).
+  - [Machine learning with
+    Keras](https://github.com/wlandau/targets-keras).
+  - [Validating a Stan model](https://github.com/wlandau/targets-stan).
 
 ## The R Targetopia
 
