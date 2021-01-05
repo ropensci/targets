@@ -9,22 +9,21 @@ navbar:
     href: reference/index.html
   - text: Manual
     href: https://wlandau.github.io/targets-manual
-  - text: Vignettes
-    href: articles/index.html
+  - text: Design
+    menu:
+    - text: Data storage model
+      href: articles/articles/data.html
+    - text: Major internal classes
+      href: articles/articles/classes.html
+    - text: Composition of target objects
+      href: articles/articles/composition.html
+    - text: Orchestration and branching model
+      href: articles/articles/orchestration.html
   - text: News
     href: news/index.html
   right:
   - icon: fa-github fa-lg
     href: https://github.com/wlandau/targets
-articles:
-- title: Background
-  contents:
-  - '`need`'
-- title: Design
-  contents:
-  - '`data`'
-  - '`orchestration`'
-  - '`composition`'
 reference:
 - title: Help
   contents:

@@ -19,27 +19,9 @@ your pipeline fits together, skips costly runtime for tasks that are
 already up to date, runs only the necessary computation, supports
 implicit parallel computing, abstracts files as R objects, and shows
 tangible evidence that the results match the underlying code and data.
-For deep dives into why and how to use `targets`, please see the [user
-manual](https://wlandau.github.io/targets-manual).
-
-## What about `drake`?
-
-The [`drake`](https://github.com/ropensci/drake) package is an older and
-more established R-focused pipeline toolkit. It has become a key piece
-of the R ecosystem, and development will continue. However, nearly four
-years of community feedback have exposed major user-side limitations
-regarding data management, collaboration, and parallel efficiency.
-Unfortunately, these limitations are permanent. Solutions in
-[`drake`](https://github.com/ropensci/drake) itself would make the
-package incompatible with existing projects that use it, and the
-internal architecture is too copious, elaborate, and mature for such
-extreme refactoring. That is why `targets` was created. The `targets`
-package borrows from past learnings, user suggestions, discussions,
-complaints, success stories, and feature requests, and it improves the
-user experience in ways that will never be possible in
-[`drake`](https://github.com/ropensci/drake). Please see the [statement
-of need](https://wlandau.github.io/targets/articles/need.html) for
-details.
+For deep dives into why and how to use `targets`, as well as help
+transitioning from [`drake`](https://github.com/ropensci/drake), please
+see the [user manual](https://wlandau.github.io/targets-manual).
 
 ## Installation
 
@@ -128,12 +110,10 @@ guide](https://github.com/wlandau/targets/blob/main/CONTRIBUTING.md).
 citation("targets")
 #> Warning in citation("targets"): no date field in DESCRIPTION file of package
 #> 'targets'
-#> Warning in citation("targets"): could not determine year for 'targets' from
-#> package DESCRIPTION file
 #> 
 #> To cite package 'targets' in publications use:
 #> 
-#>   William Michael Landau (NA). targets: Dynamic Function-Oriented
+#>   William Michael Landau (2021). targets: Dynamic Function-Oriented
 #>   'Make'-Like Declarative Workflows.
 #>   https://wlandau.github.io/targets/,
 #>   https://github.com/wlandau/targets.
@@ -143,6 +123,8 @@ citation("targets")
 #>   @Manual{,
 #>     title = {targets: Dynamic Function-Oriented 'Make'-Like Declarative Workflows},
 #>     author = {William Michael Landau},
-#>     note = {https://wlandau.github.io/targets/, https://github.com/wlandau/targets},
+#>     year = {2021},
+#>     note = {https://wlandau.github.io/targets/,
+#> https://github.com/wlandau/targets},
 #>   }
 ```
