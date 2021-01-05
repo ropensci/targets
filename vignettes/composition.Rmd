@@ -14,6 +14,12 @@ knitr::opts_chunk$set(
 )
 ```
 
+# A design document for developers
+
+This vignette is for developers who are designing and implementing the internal architecture of [`targets`](https://github.com/wlandau/targets). For help using the package, please visit the other resources linked from the [reference website](https://wlandau.github.io/targets/), such as the [user manual](https://wlandau.github.io/targets-manual/)
+
+# About
+
 Most of the package's conceptual challenges and intricacies are expressed in the `"target"` class, and this decentralization helps `targets` effectively reason about entire pipelines. This vignette describes the classes that form the building blocks of a target.
 
 # Overall structure

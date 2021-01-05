@@ -1,18 +1,24 @@
 ---
-title: "Major internal classes"
+title: "The orchestration and branching model"
 output:
   rmarkdown::html_vignette:
     toc: true
     number_sections: true
 vignette: >
-  %\VignetteIndexEntry{Major internal classes}
+  %\VignetteIndexEntry{The orchestration and branching model}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
+# A design document for developers
+
+This vignette is for developers who are designing and implementing the internal architecture of [`targets`](https://github.com/wlandau/targets). For help using the package, please visit the other resources linked from the [reference website](https://wlandau.github.io/targets/), such as the [user manual](https://wlandau.github.io/targets-manual/)
+
+# About
+
 The `targets` package runs the correct targets in the correct order (orchestration) and creates new targets dynamically at runtime (branching). This vignette describes the underlying package structure and mental model that gives `targets` its flexibility and parallel efficiency.
 
-
+# Orchestration
 
 To orchestrate targets, we iterate on the following loop while there is still at least one target in the queue.
 

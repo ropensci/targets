@@ -1,13 +1,21 @@
 ---
-title: "Classes for orchestration"
+title: "Major internal classes"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{classes}
+  %\VignetteIndexEntry{Major internal classes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
+# A design document for developers
+
+This vignette is for developers who are designing and implementing the internal architecture of [`targets`](https://github.com/wlandau/targets). For help using the package, please visit the other resources linked from the [reference website](https://wlandau.github.io/targets/), such as the [user manual](https://wlandau.github.io/targets-manual/)
+
+# About
+
 `targets` relies heavily on object-oriented programming, and the following subsections describe the major classes of objects relevant to orchestration and branching. Objects that appear once per workflow are instances of `R6` classes. To maximize performance, target-specific data structures are lower-tech classes: simple environments with formal constructors, helpers, and validators.
+
+# Classes
 
 ## Algorithm class
 

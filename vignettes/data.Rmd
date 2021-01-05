@@ -7,6 +7,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+# A design document for developers
+
+This vignette is for developers who are designing and implementing the internal architecture of [`targets`](https://github.com/wlandau/targets). For help using the package, please visit the other resources linked from the [reference website](https://wlandau.github.io/targets/), such as the [user manual](https://wlandau.github.io/targets-manual/)
+
+# About
+
 Like its predecessor, `drake`, the `targets` package
 
 1. Abstracts files as R objects.
