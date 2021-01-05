@@ -44,6 +44,16 @@
 #' tar_target(x, 1)$settings$format
 #' tar_option_reset() # reset the format
 #' tar_target(x, 1)$settings$format
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' tar_dir({
+#' tar_script({
+#'   tar_option_set(cue = tar_cue(mode = "always")) # All targets always run.
+#'   list(tar_target(x, 1), tar_target(y, 2))
+#' })
+#' tar_make()
+#' tar_make()
+#' })
+#' }
 tar_option_set <- function(
   tidy_eval = NULL,
   packages = NULL,

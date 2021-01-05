@@ -23,5 +23,11 @@ Get the name of the target currently running.
 \examples{
 tar_name()
 tar_name(default = "custom_target_name")
-tar_target(name, tar_name(default = "custom")) # Returns "name".
+if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+tar_dir({
+tar_script(tar_target(x, tar_name()))
+tar_make()
+tar_read(x)
+})
+}
 }

@@ -12,6 +12,17 @@
 #' tar_target(x, 1)$settings$format
 #' tar_option_reset() # reset all options
 #' tar_target(x, 1)$settings$format
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' tar_dir({
+#' tar_script({
+#'   tar_option_set(cue = tar_cue(mode = "always"))
+#'   tar_option_reset() # Undo option above.
+#'   list(tar_target(x, 1), tar_target(y, 2))
+#' })
+#' tar_make()
+#' tar_make()
+#' })
+#' }
 tar_option_reset <- function() {
   remove(list = names(tar_envir_options), envir = tar_envir_options)
   invisible()

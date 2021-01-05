@@ -18,7 +18,13 @@
 #' @examples
 #' tar_envir()
 #' tar_envir(default = new.env(parent = emptyenv()))
-#' tar_target(name, tar_envir(default = parent.frame()))
+#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' tar_dir({
+#' tar_script(tar_target(x, tar_envir(default = parent.frame())))
+#' tar_make(x)
+#' tar_read(x)
+#' })
+#' }
 tar_envir <- function(default = parent.frame()) {
   assert_envir(default)
   trn(
