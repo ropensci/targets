@@ -23,34 +23,57 @@ For deep dives into why and how to use `targets`, as well as help
 transitioning from [`drake`](https://github.com/ropensci/drake), please
 see the [user manual](https://wlandau.github.io/targets-manual).
 
+## How to get started
+
+If you are new to `targets`, here is the easiest way to begin.
+
+1.  First, watch minutes 6 through 40 of the [New York Open Statistical
+    Programming Meetup from
+    December 2020](https://youtu.be/Gqn7Xn4d5NI).
+2.  Next, read the [short walkthrough
+    chapter](https://wlandau.github.io/targets-manual/walkthrough.html)
+    of the [user manual](https://wlandau.github.io/targets-manual/).
+3.  For some guided hand-on practice, sign up for a free [RStudio
+    Cloud](https://rstudio.cloud) account and log into the [cloud
+    workspace](https://rstudio.cloud/project/1699460) of the [official
+    short
+    course](https://github.com/wlandau/targets-tutorial/blob/main/README.md).
+    The [R notebooks](https://github.com/wlandau/targets-tutorial) have
+    interactive exercises to practice the machine learning workflow from
+    [these slides](https://wlandau.github.io/targets-tutorial/). For new
+    users, notebooks
+    [`1-functions.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/1-functions.Rmd),
+    [`2-pipelines.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/2-pipelines.Rmd),
+    and
+    [`3-changes.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/3-changes.Rmd)
+    are more than enough.
+4.  Try out one of the [example
+    projects](https://wlandau.github.io/targets/index.html#example-projects)
+    linked from the [reference
+    website](https://wlandau.github.io/targets/index.html#example-projects).
+    Each project has all the components of a real-world workflow, and
+    each one links to a public [RStudio Cloud](https://rstudio.cloud)
+    workspace where you can try out the code without needing to install
+    anything locally.
+
 ## Installation
 
-Install the GitHub development version to access the latest features and
-patches.
+You can install the GitHub development version of `targets` to access
+the latest features and patches.
 
 ``` r
 library(remotes)
 install_github("wlandau/targets")
 ```
 
-## Get started
+## Recorded talks
 
-The easiest way to quickly get started is to read the [walkthrough
-chapter of the user
-manual](https://wlandau.github.io/targets-manual/walkthrough.html). You
-might also watch the recorded talks linked below.
-
-## Help
-
-  - Post to the [GitHub issue
-    tracker](https://github.com/wlandau/targets/issues) to elicit help
-    from the maintainer.
-  - The [RStudio Community](https://community.rstudio.com/) forum is
-    full of friendly enthusiasts of R and the tidyverse. Use the
-    [`targets` tag](https://community.rstudio.com/tag/targets).
-  - [Stack Overflow](https://stackoverflow.com/) broadcasts to the
-    entire open source community. Use the [`targets-r-package`
-    tag](https://stackoverflow.com/questions/tagged/targets-r-package).
+  - [R/Pharma 2020
+    (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
+  - [New York Open Statistical Programming Meetup, December 2020
+    (1:54:28)](https://youtu.be/Gqn7Xn4d5NI)
+  - [LA R Users Meetup, October 2020
+    (1:14:40)](https://www.youtube.com/watch?v=Qq25BUxpJu4)
 
 ## Documentation
 
@@ -62,15 +85,6 @@ might also watch the recorded talks linked below.
   - [Developer documentation](https://wlandau.github.io/targets-design):
     software design documents for developers contributing to the deep
     internal architecture of `targets`.
-
-## Recorded talks
-
-  - [R/Pharma 2020
-    (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
-  - [New York Open Statistical Programming Meetup, December 2020
-    (1:54:28)](https://youtu.be/Gqn7Xn4d5NI)
-  - [LA R Users Meetup, October 2020
-    (1:14:40)](https://www.youtube.com/watch?v=Qq25BUxpJu4)
 
 ## Courses
 
@@ -84,6 +98,16 @@ might also watch the recorded talks linked below.
     Keras](https://github.com/wlandau/targets-keras).
   - [Validating a Stan model](https://github.com/wlandau/targets-stan).
 
+## Apps
+
+  - [`tar_watch()`](https://wlandau.github.io/targets/reference/tar_watch.html):
+    a built-in Shiny app to visualize progress while a pipeline is
+    running.
+  - [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny
+    app to help sketch pipelines
+    ([app](https://wlandau.shinyapps.io/targetsketch),
+    [source](https://github.com/wlandau/targetsketch)).
+
 ## The R Targetopia
 
 The R Targetopia consists of specialized workflow frameworks tailored to
@@ -95,15 +119,17 @@ expertise with [`targets`](https://github.com/wlandau/targets) itself.
 Examples include [`stantargets`](https://github.com/wlandau/stantargets)
 and [`tarchetypes`](https://wlandau.github.io/tarchetypes).
 
-## Apps
+## Help
 
-  - [`tar_watch()`](https://wlandau.github.io/targets/reference/tar_watch.html):
-    a built-in Shiny app to visualize progress while a pipeline is
-    running.
-  - [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny
-    app to help sketch pipelines
-    ([app](https://wlandau.shinyapps.io/targetsketch),
-    [source](https://github.com/wlandau/targetsketch)).
+  - Post to the [GitHub issue
+    tracker](https://github.com/wlandau/targets/issues) to elicit help
+    from the maintainer.
+  - The [RStudio Community](https://community.rstudio.com/) forum is
+    full of friendly enthusiasts of R and the tidyverse. Use the
+    [`targets` tag](https://community.rstudio.com/tag/targets).
+  - [Stack Overflow](https://stackoverflow.com/) broadcasts to the
+    entire open source community. Use the [`targets-r-package`
+    tag](https://stackoverflow.com/questions/tagged/targets-r-package).
 
 ## Participation
 
@@ -120,10 +146,12 @@ guide](https://github.com/wlandau/targets/blob/main/CONTRIBUTING.md).
 citation("targets")
 #> Warning in citation("targets"): no date field in DESCRIPTION file of package
 #> 'targets'
+#> Warning in citation("targets"): could not determine year for 'targets' from
+#> package DESCRIPTION file
 #> 
 #> To cite package 'targets' in publications use:
 #> 
-#>   William Michael Landau (2021). targets: Dynamic Function-Oriented
+#>   William Michael Landau (NA). targets: Dynamic Function-Oriented
 #>   'Make'-Like Declarative Workflows.
 #>   https://wlandau.github.io/targets/,
 #>   https://github.com/wlandau/targets.
@@ -133,8 +161,6 @@ citation("targets")
 #>   @Manual{,
 #>     title = {targets: Dynamic Function-Oriented 'Make'-Like Declarative Workflows},
 #>     author = {William Michael Landau},
-#>     year = {2021},
-#>     note = {https://wlandau.github.io/targets/,
-#> https://github.com/wlandau/targets},
+#>     note = {https://wlandau.github.io/targets/, https://github.com/wlandau/targets},
 #>   }
 ```
