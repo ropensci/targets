@@ -144,6 +144,13 @@ progress_class <- R6::R6Class(
         self$cancelled$count == 0L &&
         self$errored$count == 0L
     },
+    cli_end = function(time_stamp = FALSE) {
+      trn(
+        self$uptodate(),
+        cli_uptodate(time_stamp = time_stamp),
+        cli_done(time_stamp = time_stamp)
+      )
+    },
     any_remaining = function() {
       self$queued$count > 0L || self$running$count > 0L
     },

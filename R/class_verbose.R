@@ -25,12 +25,8 @@ verbose_class <- R6::R6Class(
       cli_workspace(target_get_name(target))
     },
     report_end = function(progress = NULL) {
-      if (progress$uptodate()) {
-        cli_uptodate()
-      }
-      if (any(progress$warned$count > 0L)) {
-        cli_warned(progress$warned$count)
-      }
+      progress$cli_end()
+      super$report_end(progress)
     }
   )
 )

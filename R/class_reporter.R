@@ -23,6 +23,9 @@ reporter_class <- R6::R6Class(
     report_start = function() {
     },
     report_end = function(progress = NULL) {
+      if (any(progress$warned$count > 0L)) {
+        cli_warned(progress$warned$count)
+      }
     },
     report_running = function(target = NULL, progress = NULL) {
     },

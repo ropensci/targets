@@ -22,8 +22,16 @@ cli_cancel <- function(name, prefix = NULL, time_stamp = FALSE) {
   cli_yellow_bullet(msg)
 }
 
-cli_uptodate <- function() {
-  cli_green_check("Already up to date.")
+cli_uptodate <- function(time_stamp = FALSE) {
+  time <- trn(time_stamp, time_stamp(), NULL)
+  msg <- paste(c(time, "skip pipeline (already up to date)"), collapse = " ")
+  cli_green_check(msg)
+}
+
+cli_done <- function(time_stamp = FALSE) {
+  time <- trn(time_stamp, time_stamp(), NULL)
+  msg <- paste(c(time, "end pipeline"), collapse = " ")
+  cli_blue_bullet(msg)
 }
 
 cli_workspace <- function(name, time_stamp = FALSE) {
