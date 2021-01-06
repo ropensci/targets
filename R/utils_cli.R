@@ -24,7 +24,7 @@ cli_cancel <- function(name, prefix = NULL, time_stamp = FALSE) {
 
 cli_uptodate <- function(time_stamp = FALSE) {
   time <- trn(time_stamp, time_stamp(), NULL)
-  msg <- paste(c(time, "skip pipeline (already up to date)"), collapse = " ")
+  msg <- paste(c(time, "skip pipeline"), collapse = " ")
   cli_green_check(msg)
 }
 

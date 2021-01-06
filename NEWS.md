@@ -1,7 +1,10 @@
 # targets 0.0.0.9004
 
+## Enhancements
+
 * Accept lists of target objects at the end of `_targets.R` (#253).
 * Deprecate `tar_pipeline()` and `tar_bind()` because of the above (#253).
+* Always show a special message when the pipeline finishes (#258, @petrbouchal).
 
 # targets 0.0.0.9003
 
