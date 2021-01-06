@@ -25,7 +25,7 @@ see the [user manual](https://wlandau.github.io/targets-manual).
 
 ## How to get started
 
-If you are new to `targets`, here is the easiest way to begin.
+If you are new to `targets`, here is the smoothest way to begin.
 
 1.  First, watch minutes 6 through 40 of the [New York Open Statistical
     Programming Meetup from

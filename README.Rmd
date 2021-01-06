@@ -26,7 +26,7 @@ The `targets` package is a [Make](https://www.gnu.org/software/make/)-like pipel
 
 ## How to get started
 
-If you are new to `targets`, here is the easiest way to begin.
+If you are new to `targets`, here is the smoothest way to begin.
 
 1. First, watch minutes 6 through 40 of the [New York Open Statistical Programming Meetup from December 2020](https://youtu.be/Gqn7Xn4d5NI).
 1. Next, read the [short walkthrough chapter](https://wlandau.github.io/targets-manual/walkthrough.html) of the [user manual](https://wlandau.github.io/targets-manual/).
