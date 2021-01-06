@@ -5,8 +5,6 @@ navbar:
   left:
   - icon: fa-home fa-lg
     href: index.html
-  - text: Start
-    href: articles/start.html
   - text: Functions
     href: reference/index.html
   - text: Manual
