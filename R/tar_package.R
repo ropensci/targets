@@ -9,7 +9,7 @@
 #'   R objects, and provides tangible evidence that the results match
 #'   the underlying code and data. The methodology in this package
 #'   borrows from GNU Make (2015, ISBN:978-9881443519)
-#'   and 'drake' by Will Landau (2018, <doi:10.21105/joss.00550>).
+#'   and `drake` by Will Landau (2018, <doi:10.21105/joss.00550>).
 #' @name targets-package
 #' @importFrom callr r
 #' @importFrom cli col_green make_spinner symbol
