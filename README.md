@@ -23,38 +23,45 @@ For deep dives into why and how to use `targets`, as well as help
 transitioning from [`drake`](https://github.com/ropensci/drake), please
 see the [user manual](https://wlandau.github.io/targets-manual).
 
+## Prerequisites
+
+1.  Familiarity with the [R programming
+    language](https://www.r-project.org/), covered in [R for Data
+    Science](https://r4ds.had.co.nz/).
+2.  [Data science workflow management
+    techniques](https://rstats.wtf/index.html).
+3.  [How to write functions](https://r4ds.had.co.nz/functions.html) to
+    prepare data, analyze data, and summarize results in data analysis
+    projects.
+
 ## How to get started
 
-If you are new to `targets`, here is the smoothest way to begin.
-
-1.  First, watch minutes 6 through 40 of the [New York Open Statistical
+1.  Watch minutes 6 through 40 of the [New York Open Statistical
     Programming Meetup from
     December 2020](https://youtu.be/Gqn7Xn4d5NI).
-2.  Next, read the [short walkthrough
+2.  Read the [short walkthrough
     chapter](https://wlandau.github.io/targets-manual/walkthrough.html)
     of the [user manual](https://wlandau.github.io/targets-manual/).
-3.  For some guided hand-on practice, sign up for a free [RStudio
-    Cloud](https://rstudio.cloud) account and log into the [cloud
+3.  Sign up for a free [RStudio Cloud](https://rstudio.cloud) account
+    and [click here](https://rstudio.cloud/project/1430691) to open the
+    [walkthrough](https://wlandau.github.io/targets-manual/walkthrough.html)
+    code. Experiment with functions
+    [`tar_make()`](https://wlandau.github.io/targets/reference/tar_make.html)
+    and
+    [`tar_read()`](https://wlandau.github.io/targets/reference/tar_read.html).
+4.  Log into the [cloud
     workspace](https://rstudio.cloud/project/1699460) of the [official
-    short
+    `targets` short
     course](https://github.com/wlandau/targets-tutorial/blob/main/README.md).
-    The [R notebooks](https://github.com/wlandau/targets-tutorial) have
-    interactive exercises to practice the machine learning workflow from
-    [these slides](https://wlandau.github.io/targets-tutorial/). For new
-    users, notebooks
+    Work through the exercises in R notebooks
     [`1-functions.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/1-functions.Rmd),
     [`2-pipelines.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/2-pipelines.Rmd),
     and
-    [`3-changes.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/3-changes.Rmd)
-    are more than enough.
-4.  Try out one of the [example
+    [`3-changes.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/3-changes.Rmd).
+5.  Try out one of the other [example
     projects](https://wlandau.github.io/targets/index.html#example-projects)
     linked from the [reference
     website](https://wlandau.github.io/targets/index.html#example-projects).
-    Each project has all the components of a real-world workflow, and
-    each one links to a public [RStudio Cloud](https://rstudio.cloud)
-    workspace where you can try out the code without needing to install
-    anything locally.
 
 ## Installation
 
