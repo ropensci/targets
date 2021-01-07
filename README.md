@@ -14,14 +14,12 @@ Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&lab
 The `targets` package is a
 [Make](https://www.gnu.org/software/make/)-like pipeline toolkit for
 Statistics and data science in R. With `targets`, you can maintain a
-reproducible workflow without repeating yourself. `targets` learns how
-your pipeline fits together, skips costly runtime for tasks that are
-already up to date, runs only the necessary computation, supports
-implicit parallel computing, abstracts files as R objects, and shows
-tangible evidence that the results match the underlying code and data.
-For deep dives into why and how to use `targets`, as well as help
-transitioning from [`drake`](https://github.com/ropensci/drake), please
-see the [user manual](https://wlandau.github.io/targets-manual).
+reproducible workflow without repeating yourself. `targets` skips costly
+runtime for tasks that are already up to date, runs the necessary
+computation with implicit parallel computing, and abstracts files as R
+objects. A fully up-to-date `targets` pipeline is tangible evidence that
+the output aligns with the code and data, which substantiates trust in
+the results.
 
 ## Prerequisites
 
