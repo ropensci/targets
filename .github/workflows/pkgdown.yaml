@@ -50,4 +50,4 @@ jobs:
         run: |
           git config --global user.email "${{ secrets.EMAIL }}"
           git config --global user.name "wlandau"
-          Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
+          Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE, clean = TRUE)'
