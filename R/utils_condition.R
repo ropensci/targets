@@ -1,21 +1,21 @@
 throw_cancel <- function(...) {
-  stop(condition_cancel(...))
+  stop(error_cancel(...))
 }
 
 throw_file <- function(...) {
-  stop(condition_file(...))
+  stop(error_file(...))
 }
 
 throw_prelocal <- function(...) {
-  stop(condition_prelocal(...))
+  stop(error_prelocal(...))
 }
 
 throw_run <- function(...) {
-  stop(condition_run(...))
+  stop(error_run(...))
 }
 
 throw_validate <- function(...) {
-  stop(condition_validate(...))
+  stop(error_validate(...))
 }
 
 warn_deprecate <- function(...) {
@@ -26,35 +26,35 @@ warn_run <- function(...) {
   warning(warning_run(...))
 }
 
-condition_cancel <- function(...) {
+error_cancel <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
     class = c("condition_cancel", "condition_targets", "error", "condition")
   )
 }
 
-condition_file <- function(...) {
+error_file <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
     class = c("condition_file", "condition_targets", "error", "condition")
   )
 }
 
-condition_prelocal <- function(...) {
+error_prelocal <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
     class = c("condition_prelocal", "condition_targets", "error", "condition")
   )
 }
 
-condition_run <- function(...) {
+error_run <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
     class = c("condition_run", "condition_targets", "error", "condition")
   )
 }
 
-condition_validate <- function(...) {
+error_validate <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
     class = c("condition_validate", "condition_targets", "error", "condition")
