@@ -100,6 +100,8 @@ tar_target_raw <- function(
     pattern = pattern,
     packages = packages,
     library = library,
+    deps = deps,
+    string = string,
     envir = tar_option_get("envir"),
     format = format,
     iteration = iteration,
