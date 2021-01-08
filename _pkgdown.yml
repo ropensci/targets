@@ -7,6 +7,8 @@ navbar:
     href: index.html
   - text: Functions
     href: reference/index.html
+  - text: Overview
+    href: articles/overview.html
   - text: Manual
     href: https://wlandau.github.io/targets-manual
   - text: Design
