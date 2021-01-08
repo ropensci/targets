@@ -51,7 +51,6 @@ tar_network <- function(
 }
 
 tar_network_inner <- function(pipeline, targets_only, reporter) {
-  pipeline_validate_lite(pipeline)
   inspection <- inspection_init(pipeline = pipeline, reporter = reporter)
   inspection$update(targets_only = targets_only)
   list(

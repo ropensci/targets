@@ -9,6 +9,9 @@ tar_test("tar_outdated() does not create a data store", {
 })
 
 tar_test("tar_outdated() without globals", {
+  old <- Sys.getenv("TAR_WARN")
+  Sys.setenv(TAR_WARN = "false")
+  on.exit(Sys.setenv(TAR_WARN = old))
   tar_script({
     f <- identity
     envir <- environment()
@@ -40,6 +43,9 @@ tar_test("tar_outdated() without globals", {
 })
 
 tar_test("tar_outdated() with globals", {
+  old <- Sys.getenv("TAR_WARN")
+  Sys.setenv(TAR_WARN = "false")
+  on.exit(Sys.setenv(TAR_WARN = old))
   tar_script({
     f <- identity
     envir <- environment()

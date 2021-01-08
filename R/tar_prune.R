@@ -43,7 +43,6 @@ tar_prune <- function(callr_function = callr::r, callr_arguments = list()) {
 }
 
 tar_prune_inner <- function(pipeline) {
-  pipeline_validate_lite(pipeline)
   names <- pipeline_get_names(pipeline)
   meta <- meta_init()
   data <- meta$database$read_condensed_data()

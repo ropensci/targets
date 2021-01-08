@@ -69,7 +69,6 @@ tar_renv <- function(
 }
 
 tar_renv_inner <- function(pipeline, extras, path) {
-  pipeline_validate_lite(pipeline)
   option_pkgs <- tar_option_get("packages")
   targets_pkgs <- pipeline_get_packages(pipeline)
   option_format <- store_get_packages(store_init(tar_option_get("format")))

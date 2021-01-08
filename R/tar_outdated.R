@@ -81,7 +81,6 @@ tar_outdated_inner <- function(
   targets_only,
   reporter
 ) {
-  pipeline_validate_lite(pipeline)
   names_all <- pipeline_get_names(pipeline)
   names <- eval_tidyselect(names_quosure, names_all)
   meta <- meta_init()

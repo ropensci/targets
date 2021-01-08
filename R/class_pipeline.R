@@ -251,42 +251,38 @@ pipeline_validate_envir <- function(target, envir) {
   }
 }
 
-pipeline_validate <- function(pipeline) {
-  UseMethod("pipeline_validate")
+pipeline_validate_conflicts <- function(pipeline) {
+  conflicts <- intersect(names(pipeline$imports), names(pipeline$targets))
+  msg <- paste0(
+    "Targets and globals must have unique names. ",
+    "Ignoring global objects that conflict with target names: ",
+    paste(conflicts, collapse = ", "),
+    ". Suppress this warning with Sys.setenv(TAR_WARN = \"false\") ",
+    "in _targets.R."
+  )
+  if (length(conflicts) && Sys.getenv("TAR_WARN") != "false") {
+    warn_validate(msg)
+  }
 }
 
-#' @export
-#' @keywords internal
-pipeline_validate.tar_pipeline <- function(pipeline) {
-  assert_correct_fields(pipeline, pipeline_new)
+pipeline_validate <- function(pipeline) {
+  pipeline_validate_lite(pipeline)
   pipeline_validate_targets(pipeline$targets)
   pipeline_validate_dag(pipeline_produce_igraph(pipeline))
-  pipeline_validate_envirs(pipeline)
   counter_validate(pipeline$loaded)
   counter_validate(pipeline$transient)
 }
 
+#' @title Abridged pipeline validation function.
 #' @export
 #' @keywords internal
-pipeline_validate.default <- function(pipeline) {
-  throw_validate("invalid pipeline.")
-}
-
+#' @description Internal function. Do not invoke directly.
+#' @param pipeline A pipeline object.
 pipeline_validate_lite <- function(pipeline) {
-  UseMethod("pipeline_validate_lite")
-}
-
-#' @export
-#' @keywords internal
-pipeline_validate_lite.tar_pipeline <- function(pipeline) {
+  assert_inherits(pipeline, "tar_pipeline", msg = "invalid pipeline.")
   assert_correct_fields(pipeline, pipeline_new)
   pipeline_validate_envirs(pipeline)
-}
-
-#' @export
-#' @keywords internal
-pipeline_validate_lite.default <- function(pipeline) {
-  throw_validate("invalid pipeline.")
+  pipeline_validate_conflicts(pipeline)
 }
 
 #' @title Convert to a pipeline object.
