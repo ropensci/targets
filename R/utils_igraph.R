@@ -8,9 +8,6 @@ upstream_vertices <- function(graph, from) {
 }
 
 nbhd_vertices <- function(graph, vertices, mode, order) {
-  opt <- igraph::igraph_opt("return.vs.es")
-  on.exit(igraph::igraph_options(return.vs.es = opt))
-  igraph::igraph_options(return.vs.es = FALSE)
   vertices <- intersect(vertices, igraph::V(graph)$name)
   from <- vertices
   level <- 0L
@@ -24,8 +21,9 @@ nbhd_vertices <- function(graph, vertices, mode, order) {
 }
 
 targets_adjacent_vertices <- function(graph, v, mode) {
-  # The return.vs.es needs to be FALSE. # nolint
-  # Set in nbhd_vertices() for performance. # nolint
+  opt <- igraph::igraph_opt("return.vs.es")
+  on.exit(igraph::igraph_options(return.vs.es = opt))
+  igraph::igraph_options(return.vs.es = FALSE)
   index <- igraph::adjacent_vertices(graph = graph, v = v, mode = mode)
   index <- unlist(index, use.names = FALSE)
   index <- unique(index)
