@@ -9,7 +9,7 @@ labels: "type: trouble"
 
 * [ ] Read and agree to the [code of conduct](https://github.com/wlandau/targets/blob/main/CODE_OF_CONDUCT.md) and [contributing guidelines](https://github.com/wlandau/targets/blob/main/CONTRIBUTING.md).
 * [ ] If there is [already a relevant issue](https://github.com/wlandau/targets/issues), whether open or closed, comment on the existing thread instead of posting a new issue.
-* [ ] Post a [minimal reproducible example](https://www.tidyverse.org/help/) so the maintainer can troubleshoot the problems you identify. A reproducible example is:
+* [ ] Post a [minimal reproducible example](https://www.tidyverse.org/help/) like [this one](https://github.com/wlandau/targets/issues/256#issuecomment-754229683) so the maintainer can troubleshoot the problems you identify. A reproducible example is:
     * [ ] **Runnable**: post enough R code and data so any onlooker can create the error on their own computer.
     * [ ] **Minimal**: reduce runtime wherever possible and remove complicated details that are irrelevant to the issue at hand.
     * [ ] **Readable**: format your code according to the [tidyverse style guide](https://style.tidyverse.org/).
