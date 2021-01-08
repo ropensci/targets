@@ -3,6 +3,8 @@
 #' @description Along with [tar_visnetwork()] and [tar_glimpse()],
 #'   `tar_manifest()` helps check that you constructed your pipeline correctly.
 #' @return A data frame of information about the targets in the pipeline.
+#'   Rows appear in topological order (the order they will run
+#'   without any influence from parallel computing or priorities).
 #' @inheritParams tar_validate
 #' @param names Names of the targets to show. Set to `NULL` to
 #'   show all the targets (default). Otherwise, you can supply
@@ -81,8 +83,10 @@ tar_manifest_inner <- function(
   names_quosure,
   fields_quosure
 ) {
-  all_names <- pipeline_get_names(pipeline)
+  igraph <- pipeline_produce_igraph(pipeline, targets_only = TRUE)
+  all_names <- topo_sort_igraph(igraph)
   names <- eval_tidyselect(names_quosure, all_names) %||% all_names
+  names <- intersect(all_names, names)
   out <- map(names, ~tar_manifest_target(pipeline_get_target(pipeline, .x)))
   out <- do.call(rbind, out)
   fields <- eval_tidyselect(fields_quosure, colnames(out)) %||% colnames(out)

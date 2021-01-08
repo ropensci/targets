@@ -8,6 +8,9 @@ upstream_vertices <- function(graph, from) {
 }
 
 nbhd_vertices <- function(graph, vertices, mode, order) {
+  opt <- igraph::igraph_opt("return.vs.es")
+  on.exit(igraph::igraph_options(return.vs.es = opt))
+  igraph::igraph_options(return.vs.es = FALSE)
   vertices <- intersect(vertices, igraph::V(graph)$name)
   from <- vertices
   level <- 0L
@@ -21,9 +24,8 @@ nbhd_vertices <- function(graph, vertices, mode, order) {
 }
 
 targets_adjacent_vertices <- function(graph, v, mode) {
-  opt <- igraph::igraph_opt("return.vs.es")
-  on.exit(igraph::igraph_options(return.vs.es = opt))
-  igraph::igraph_options(return.vs.es = FALSE)
+  # The return.vs.es needs to be FALSE. # nolint
+  # Set in nbhd_vertices() for performance. # nolint
   index <- igraph::adjacent_vertices(graph = graph, v = v, mode = mode)
   index <- unlist(index, use.names = FALSE)
   index <- unique(index)
@@ -38,9 +40,16 @@ igraph_leaves <- function(igraph) {
 topo_sort_custom <- function(igraph, priorities) {
   trn(
     length(unique(priorities)) < 2L,
-    igraph::topo_sort(igraph)$name,
+    topo_sort_igraph(igraph),
     topo_sort_by_priority(igraph, priorities)
   )
+}
+
+topo_sort_igraph <- function(igraph) {
+  opt <- igraph::igraph_opt("return.vs.es")
+  on.exit(igraph::igraph_options(return.vs.es = opt))
+  igraph::igraph_options(return.vs.es = TRUE)
+  as.character(igraph::topo_sort(igraph)$name)
 }
 
 topo_sort_by_priority <- function(igraph, priorities) {

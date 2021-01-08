@@ -3,7 +3,7 @@ hash_imports <- function(envir) {
 }
 
 hash_imports_graph <- function(envir, graph) {
-  order <- as.character(names(igraph::topo_sort(graph)))
+  order <- topo_sort_igraph(graph)
   hashes <- new.env(parent = emptyenv())
   lapply(order, hash_import, hashes = hashes, envir = envir, graph = graph)
   hash <- map_chr(order, get_field, collection = hashes)

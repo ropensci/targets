@@ -11,6 +11,11 @@
 ## Bug fixes
 
 * Ensure pattern-only pipelines can be defined so they can be combined again later with `tar_bind()` (#245, @yonicd).
+* Implement safeguards around `igraph` topological sort.
+
+## Enhancements
+
+* Topologically sort the rows of `tar_manifest()` (#263, @sctyner).
 
 ## Breaking changes
 

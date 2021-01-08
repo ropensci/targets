@@ -61,6 +61,8 @@ reproducible work.}
 }
 \value{
 A data frame of information about the targets in the pipeline.
+Rows appear in topological order (the order they will run
+without any influence from parallel computing or priorities).
 }
 \description{
 Along with \code{\link[=tar_visnetwork]{tar_visnetwork()}} and \code{\link[=tar_glimpse]{tar_glimpse()}},

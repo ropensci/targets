@@ -98,3 +98,20 @@ tar_test("tar_manifest() shows all fields if the fields arg is NULL", {
   out <- tar_manifest(fields = NULL, callr_function = NULL)
   expect_equal(dim(out), c(5L, 19L))
 })
+
+tar_test("tar_manifest() uses topo sort", {
+  tar_script({
+    list(
+      tar_target(d, "d"),
+      tar_target(c, d),
+      tar_target(b, c),
+      tar_target(a, b)
+    )
+  })
+  out <- tar_manifest(fields = command, callr_function = NULL)
+  exp <- tibble::tibble(
+    name = c("d", "c", "b", "a"),
+    command = c("\"d\"", "d", "c", "b")
+  )
+  expect_equal(out, exp)
+})
