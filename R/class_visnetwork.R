@@ -113,7 +113,6 @@ visnetwork_class <- R6::R6Class(
       rownames(legend) <- NULL
       legend$label <- gsub("uptodate", "Up to date", legend$label)
       legend$label <- capitalize(legend$label)
-      legend$font.size <- rep(20L, nrow(legend))
       legend
     },
     produce_visnetwork = function() {
@@ -132,7 +131,12 @@ visnetwork_class <- R6::R6Class(
         graph = out,
         useGroups = FALSE,
         addNodes = self$legend,
-        ncol = 1L
+        ncol = 1L,
+        position = "left"
+      )
+      out <- visNetwork::visPhysics(
+        graph = out,
+        stabilization = FALSE
       )
       visNetwork::visHierarchicalLayout(
         graph = out,
@@ -162,7 +166,6 @@ visnetwork_class <- R6::R6Class(
       vertices <- self$network$vertices
       vertices$id <- vertices$name
       vertices$label <- self$produce_labels(vertices)
-      vertices$font.size <- rep(20L, nrow(vertices))
       self$network$vertices <- vertices
     },
     update_arrows = function() {
