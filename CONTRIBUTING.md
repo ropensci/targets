@@ -4,7 +4,7 @@ Development is a community effort, and we welcome participation.
 
 ## Code of Conduct
 
-By participating in this project, you agree to abide by the [code of conduct](https://github.com/ropensci/targets/blob/main/CODE_OF_CONDUCT.md).
+Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). 
 
 ## Issues
 
