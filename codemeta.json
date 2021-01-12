@@ -481,13 +481,18 @@
     }
   ],
   "releaseNotes": "https://github.com/ropensci/targets/blob/master/NEWS.md",
-  "fileSize": "1050.656KB",
+  "fileSize": "1050.874KB",
   "contIntegration": "https://codecov.io/gh/ropensci/targets",
   "developmentStatus": "https://www.repostatus.org/#active",
-  "relatedLink": ["https://docs.ropensci.org/targets", "https://docs.ropensci.org/targets/"],
+  "relatedLink": [
+    "https://docs.ropensci.org/targets",
+    "https://docs.ropensci.org/targets/"
+  ],
   "review": {
     "@type": "Review",
     "url": "https://github.com/ropensci/software-review/issues/401",
     "provider": "https://ropensci.org"
-  }
+  },
+  "readme": "https://github.com/ropensci/targets/blob/main/README.md",
+  "keywords": ["reproducibility", "high-performance-computing", "r", "data-science", "pipeline", "rstats", "r-package", "workflow", "targets", "reproducible-research", "make", "r-targetopia"]
 }
