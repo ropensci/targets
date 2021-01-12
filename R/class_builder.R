@@ -214,9 +214,11 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   if (identical(target$settings$error, "workspace")) {
     builder_save_workspace(target, pipeline, scheduler)
   }
-  if (!identical(target$settings$error, "continue")) {
+  trn (
+    identical(target$settings$error, "continue"),
+    msg_run("Error: ", target$metrics$error, "\n"),
     throw_run(target$metrics$error)
-  }
+  )
 }
 
 builder_ensure_workspace <- function(target, pipeline, scheduler) {

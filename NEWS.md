@@ -7,6 +7,7 @@
 * Always show a special message when the pipeline finishes (#258, @petrbouchal).
 * Disable `visNetwork` stabilization (#264, @mattwarkentin).
 * Use default `visNetwork` font size.
+* Relay errors as condition messages if `error` is `"continue"` (#267, @liutiming).
 
 # targets 0.0.0.9003
 

@@ -342,3 +342,19 @@ tar_test("validate with nonmissing file and value", {
   file$path <- tempfile()
   expect_silent(tmp <- target_validate(x))
 })
+
+tar_test("relay errors as messages if error is continue", {
+  tar_script({
+    tar_option_set(error = "continue")
+    list(
+      tar_target(data1, stop("error_data1")),
+      tar_target(data2, stop("error_data2"))
+    )
+  })
+  expect_message(
+    tar_make(callr_function = NULL),
+    class = "condition_run"
+  )
+  meta <- tar_meta(names = c("data1", "data2"), fields = error)
+  expect_equal(sort(meta$error), sort(c("error_data1", "error_data2")))
+})

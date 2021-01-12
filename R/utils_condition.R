@@ -1,3 +1,19 @@
+msg_run <- function(...) {
+  message(message_run(...))
+}
+
+warn_deprecate <- function(...) {
+  warning(warning_deprecate(...))
+}
+
+warn_run <- function(...) {
+  warning(warning_run(...))
+}
+
+warn_validate <- function(...) {
+  warning(warning_validate(...))
+}
+
 throw_cancel <- function(...) {
   stop(error_cancel(...))
 }
@@ -18,16 +34,37 @@ throw_validate <- function(...) {
   stop(error_validate(...))
 }
 
-warn_deprecate <- function(...) {
-  warning(warning_deprecate(...))
+message_run <- function(...) {
+  structure(
+    list(message = paste0(..., collapse = ""), call = NULL),
+    class = c("condition_run", "condition_targets", "message", "condition")
+  )
 }
 
-warn_run <- function(...) {
-  warning(warning_run(...))
+warning_deprecate <- function(...) {
+  structure(
+    list(message = paste0(..., collapse = ""), call = NULL),
+    class = c(
+      "condition_deprecate",
+      "condition_targets",
+      "warning",
+      "condition"
+    )
+  )
 }
 
-warn_validate <- function(...) {
-  warning(warning_validate(...))
+warning_run <- function(...) {
+  structure(
+    list(message = paste0(..., collapse = ""), call = NULL),
+    class = c("condition_run", "condition_targets", "warning", "condition")
+  )
+}
+
+warning_validate <- function(...) {
+  structure(
+    list(message = paste0(..., collapse = ""), call = NULL),
+    class = c("condition_validate", "condition_targets", "warning", "condition")
+  )
 }
 
 error_cancel <- function(...) {
@@ -62,32 +99,6 @@ error_validate <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
     class = c("condition_validate", "condition_targets", "error", "condition")
-  )
-}
-
-warning_deprecate <- function(...) {
-  structure(
-    list(message = paste0(..., collapse = ""), call = NULL),
-    class = c(
-      "condition_deprecate",
-      "condition_targets",
-      "warning",
-      "condition"
-    )
-  )
-}
-
-warning_run <- function(...) {
-  structure(
-    list(message = paste0(..., collapse = ""), call = NULL),
-    class = c("condition_run", "condition_targets", "warning", "condition")
-  )
-}
-
-warning_validate <- function(...) {
-  structure(
-    list(message = paste0(..., collapse = ""), call = NULL),
-    class = c("condition_validate", "condition_targets", "warning", "condition")
   )
 }
 
