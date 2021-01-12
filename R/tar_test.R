@@ -4,7 +4,7 @@
 #'   directory with `withr::with_dir()`. Also isolates `tar_option_set()`
 #'   options and environment variables specific to `targets`.
 #'   Useful for writing tests for
-#'   [targetopia](https://wlandau.github.io/targetopia.html) packages
+#'   [targetopia](https://wlandau.github.io/targetopia/) packages
 #'   (extensions to `targets` tailored to specific use cases).
 #' @return `NULL` (invisibly).
 #' @param label Character of length 1, label for the test.

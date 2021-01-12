@@ -15,7 +15,7 @@ Return value of the user-defined code.
 \description{
 Runs code inside a \code{tempfile()} directory
 using \code{withr::with_dir()}. Handy for writing examples in
-\href{https://wlandau.github.io/targetopia.html}{targetopia} packages
+\href{https://wlandau.github.io/targetopia/}{targetopia} packages
 (extensions to \code{targets} tailored to specific use cases).
 }
 \examples{

@@ -12,8 +12,8 @@ Description: The 'targets' package is a pipeline toolkit that brings together
   and 'drake' (2018, <doi:10.21105/joss.00550>).
 Version: 0.0.0.9004
 License: MIT + file LICENSE
-URL: https://wlandau.github.io/targets/, https://github.com/wlandau/targets
-BugReports: https://github.com/wlandau/targets/issues
+URL: https://docs.ropensci.org/targets/, https://github.com/ropensci/targets
+BugReports: https://github.com/ropensci/targets/issues
 Authors@R: c(
   person(
     given = c("William", "Michael"),

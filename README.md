@@ -7,9 +7,9 @@
 Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&labelColor=gray)](https://wlandau.github.io/targetopia/)
 [![cran](http://www.r-pkg.org/badges/version/targets)](https://cran.r-project.org/package=targets)
 [![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![check](https://github.com/wlandau/targets/workflows/check/badge.svg)](https://github.com/wlandau/targets/actions?query=workflow%3Acheck)
-[![codecov](https://codecov.io/gh/wlandau/targets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/wlandau/targets)
-[![lint](https://github.com/wlandau/targets/workflows/lint/badge.svg)](https://github.com/wlandau/targets/actions?query=workflow%3Alint)
+[![check](https://github.com/ropensci/targets/workflows/check/badge.svg)](https://github.com/ropensci/targets/actions?query=workflow%3Acheck)
+[![codecov](https://codecov.io/gh/ropensci/targets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/ropensci/targets)
+[![lint](https://github.com/ropensci/targets/workflows/lint/badge.svg)](https://github.com/ropensci/targets/actions?query=workflow%3Alint)
 
 The `targets` package is a
 [Make](https://www.gnu.org/software/make/)-like pipeline toolkit for
@@ -38,15 +38,15 @@ the results.
     Programming Meetup from
     December 2020](https://youtu.be/Gqn7Xn4d5NI).
 2.  Read the [short walkthrough
-    chapter](https://wlandau.github.io/targets-manual/walkthrough.html)
-    of the [user manual](https://wlandau.github.io/targets-manual/).
+    chapter](https://books.ropensci.org/targets/walkthrough.html) of the
+    [user manual](https://books.ropensci.org/targets/).
 3.  Sign up for a free [RStudio Cloud](https://rstudio.cloud) account
     and [click here](https://rstudio.cloud/project/1430691) to open the
-    [walkthrough](https://wlandau.github.io/targets-manual/walkthrough.html)
+    [walkthrough](https://books.ropensci.org/targets/walkthrough.html)
     code. Experiment with functions
-    [`tar_make()`](https://wlandau.github.io/targets/reference/tar_make.html)
+    [`tar_make()`](https://docs.ropensci.org/targets/reference/tar_make.html)
     and
-    [`tar_read()`](https://wlandau.github.io/targets/reference/tar_read.html).
+    [`tar_read()`](https://docs.ropensci.org/targets/reference/tar_read.html).
 4.  Log into the [cloud
     workspace](https://rstudio.cloud/project/1699460) of the [official
     `targets` short
@@ -57,9 +57,9 @@ the results.
     and
     [`3-changes.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/3-changes.Rmd).
 5.  Try out one of the other [example
-    projects](https://wlandau.github.io/targets/index.html#example-projects)
+    projects](https://docs.ropensci.org/targets/index.html#example-projects)
     linked from the [reference
-    website](https://wlandau.github.io/targets/index.html#example-projects).
+    website](https://docs.ropensci.org/targets/index.html#example-projects).
 
 ## Installation
 
@@ -68,7 +68,7 @@ the latest features and patches.
 
 ``` r
 library(remotes)
-install_github("wlandau/targets")
+install_github("ropensci/targets")
 ```
 
 ## Recorded talks
@@ -82,14 +82,15 @@ install_github("wlandau/targets")
 
 ## Documentation
 
-  - [User manual](https://wlandau.github.io/targets-manual): in-depth
+  - [User manual](https://books.ropensci.org/targets): in-depth
     discussion about how to use `targets`.
-  - [Reference website](https://wlandau.github.io/targets/): formal
+  - [Reference website](https://docs.ropensci.org/targets/): formal
     documentation of all user-side functions, the statement of need, and
     multiple design documents of the internal architecture.
-  - [Developer documentation](https://wlandau.github.io/targets-design):
-    software design documents for developers contributing to the deep
-    internal architecture of `targets`.
+  - [Developer
+    documentation](https://books.ropensci.org/targets-design): software
+    design documents for developers contributing to the deep internal
+    architecture of `targets`.
 
 ## Courses
 
@@ -105,7 +106,7 @@ install_github("wlandau/targets")
 
 ## Apps
 
-  - [`tar_watch()`](https://wlandau.github.io/targets/reference/tar_watch.html):
+  - [`tar_watch()`](https://docs.ropensci.org/targets/reference/tar_watch.html):
     a built-in Shiny app to visualize progress while a pipeline is
     running.
   - [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny
@@ -119,15 +120,15 @@ The R Targetopia consists of specialized workflow frameworks tailored to
 individual fields of Statistics and data science, and they use domain
 knowledge to abstract away most of the careful planning and engineering
 typically required to write pipelines. They leverage the full power of
-[`targets`](https://github.com/wlandau/targets) while requiring minimal
-expertise with [`targets`](https://github.com/wlandau/targets) itself.
+[`targets`](https://github.com/ropensci/targets) while requiring minimal
+expertise with [`targets`](https://github.com/ropensci/targets) itself.
 Examples include [`stantargets`](https://github.com/wlandau/stantargets)
-and [`tarchetypes`](https://wlandau.github.io/tarchetypes).
+and [`tarchetypes`](https://docs.ropensci.org/tarchetypes).
 
 ## Help
 
   - Post to the [GitHub issue
-    tracker](https://github.com/wlandau/targets/issues) to elicit help
+    tracker](https://github.com/ropensci/targets/issues) to elicit help
     from the maintainer.
   - The [RStudio Community](https://community.rstudio.com/) forum is
     full of friendly enthusiasts of R and the tidyverse. Use the
@@ -141,9 +142,9 @@ and [`tarchetypes`](https://wlandau.github.io/tarchetypes).
 Development is a community effort, and we welcome discussion and
 contribution. By participating in this project, you agree to abide by
 the [code of
-conduct](https://github.com/wlandau/targets/blob/main/CODE_OF_CONDUCT.md)
+conduct](https://github.com/ropensci/targets/blob/main/CODE_OF_CONDUCT.md)
 and the [contributing
-guide](https://github.com/wlandau/targets/blob/main/CONTRIBUTING.md).
+guide](https://github.com/ropensci/targets/blob/main/CONTRIBUTING.md).
 
 ## Citation
 
@@ -158,14 +159,14 @@ citation("targets")
 #> 
 #>   William Michael Landau (NA). targets: Dynamic Function-Oriented
 #>   'Make'-Like Declarative Workflows.
-#>   https://wlandau.github.io/targets/,
-#>   https://github.com/wlandau/targets.
+#>   https://docs.ropensci.org/targets/,
+#>   https://github.com/ropensci/targets.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
 #>     title = {targets: Dynamic Function-Oriented 'Make'-Like Declarative Workflows},
 #>     author = {William Michael Landau},
-#>     note = {https://wlandau.github.io/targets/, https://github.com/wlandau/targets},
+#>     note = {https://docs.ropensci.org/targets/, https://github.com/ropensci/targets},
 #>   }
 ```

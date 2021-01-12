@@ -2,7 +2,7 @@
 #' @export
 #' @description Runs code inside a `tempfile()` directory
 #'   using `withr::with_dir()`. Handy for writing examples in
-#'   [targetopia](https://wlandau.github.io/targetopia.html) packages
+#'   [targetopia](https://wlandau.github.io/targetopia/) packages
 #'   (extensions to `targets` tailored to specific use cases).
 #' @return Return value of the user-defined code.
 #' @param code User-defined code.

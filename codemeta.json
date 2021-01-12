@@ -5,19 +5,18 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "targets",
-  "description": "The targets package is a pipeline toolkit that brings together\n  functional programming and Make-like declarative workflows for Statistics\n  and data science in R. It implements a workflow as collection of\n  interconnected tasks, analyzes the dependency relationships among these\n  tasks, skips steps that are already up to date, runs the necessary\n  computations with optional parallel workers, abstracts files as\n  R objects, and provides tangible evidence that the results match\n  the underlying code and data. The methodology in this package best\n  resembles drake by Will Landau (2018) <doi:10.21105/joss.00550>\n  and GNU Make by Richard Stallman (2015, ISBN:978-9881443519).\n  However, the targets package is more dynamic, more efficient,\n  and less prone to usage pitfall than drake. And unlike GNU Make,\n  targets is tightly integrated with R and supports an elegant,\n  idiomatic, function-oriented style of R programming.",
-  "name": "targets: Functional Make-Like Declarative Workflows for R",
-  "codeRepository": "https://github.com/wlandau/targets",
-  "issueTracker": "https://github.com/wlandau/targets/issues",
+  "description": "The 'targets' package is a pipeline toolkit that brings together\n  function-oriented programming and 'Make'-like declarative workflows for\n  Statistics and data science in R. It implements a workflow as collection of\n  interconnected tasks, analyzes the dependency relationships among these\n  tasks, skips steps that are already up to date, runs the necessary\n  computation with optional parallel workers, abstracts files as\n  R objects, and provides tangible evidence that the results match\n  the underlying code and data. The methodology in this package\n  borrows from GNU 'Make' (2015, ISBN:978-9881443519)\n  and 'drake' (2018, <doi:10.21105/joss.00550>).",
+  "name": "targets: Dynamic Function-Oriented 'Make'-Like Declarative Workflows",
+  "codeRepository": "https://github.com/ropensci/targets",
+  "issueTracker": "https://github.com/ropensci/targets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.0.9000",
+  "version": "0.0.0.9004",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "4.0.0",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.0 (2020-04-24)",
+  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
   "author": [
     {
       "@type": "Person",
@@ -27,7 +26,13 @@
       "@id": "https://orcid.org/0000-0003-1878-3253"
     }
   ],
-  "contributor": {},
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": ["Matthew", "T."],
+      "familyName": "Warkentin"
+    }
+  ],
   "copyrightHolder": [
     {
       "@type": "Organization",
@@ -47,6 +52,32 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
+      "identifier": "aws.s3",
+      "name": "aws.s3",
+      "version": ">= 0.3.21",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=aws.s3"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "bs4Dash",
+      "name": "bs4Dash",
+      "version": ">= 0.5.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=bs4Dash"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "clustermq",
       "name": "clustermq",
       "version": ">= 0.8.9",
@@ -57,6 +88,32 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=clustermq"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "curl",
+      "name": "curl",
+      "version": ">= 4.3",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=curl"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "dplyr",
+      "name": "dplyr",
+      "version": ">= 1.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
     },
     {
       "@type": "SoftwareApplication",
@@ -75,7 +132,7 @@
       "@type": "SoftwareApplication",
       "identifier": "future",
       "name": "future",
-      "version": ">= 1.17.0",
+      "version": ">= 1.19.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -83,19 +140,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=future"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "qs",
-      "name": "qs",
-      "version": ">= 0.21.2",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=qs"
     },
     {
       "@type": "SoftwareApplication",
@@ -114,7 +158,7 @@
       "@type": "SoftwareApplication",
       "identifier": "knitr",
       "name": "knitr",
-      "version": ">= 1.28",
+      "version": ">= 1.30",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -127,7 +171,7 @@
       "@type": "SoftwareApplication",
       "identifier": "rmarkdown",
       "name": "rmarkdown",
-      "version": ">= 2.1",
+      "version": ">= 2.4",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -138,9 +182,87 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "pingr",
+      "name": "pingr",
+      "version": ">= 2.0.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=pingr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "pkgload",
+      "name": "pkgload",
+      "version": ">= 1.1.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=pkgload"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "qs",
+      "name": "qs",
+      "version": ">= 0.23.2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=qs"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rstudioapi",
+      "name": "rstudioapi",
+      "version": ">= 0.11",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rstudioapi"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "shiny",
+      "name": "shiny",
+      "version": ">= 1.5.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=shiny"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "shinycssloaders",
+      "name": "shinycssloaders",
+      "version": ">= 1.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=shinycssloaders"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
-      "version": ">= 2.3.2",
+      "version": ">= 3.0.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -148,6 +270,32 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "torch",
+      "name": "torch",
+      "version": ">= 0.1.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=torch"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "usethis",
+      "name": "usethis",
+      "version": ">= 1.6.3",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=usethis"
     },
     {
       "@type": "SoftwareApplication",
@@ -250,6 +398,19 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "R6",
+      "name": "R6",
+      "version": ">= 2.4.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=R6"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
       "version": ">= 0.4.5",
@@ -319,10 +480,14 @@
       "sameAs": "https://CRAN.R-project.org/package=withr"
     }
   ],
-  "releaseNotes": "https://github.com/wlandau/targets/blob/main/NEWS.md",
-  "fileSize": "283.81KB",
-  "contIntegration": "https://codecov.io/github/wlandau/targets?branch=main",
-  "developmentStatus": "https://www.repostatus.org/#wip",
-  "relatedLink": "https://wlandau.github.io/targets",
-  "readme": "https://github.com/wlandau/targets/blob/main/README.md"
+  "releaseNotes": "https://github.com/ropensci/targets/blob/master/NEWS.md",
+  "fileSize": "1050.656KB",
+  "contIntegration": "https://codecov.io/gh/ropensci/targets",
+  "developmentStatus": "https://www.repostatus.org/#active",
+  "relatedLink": ["https://docs.ropensci.org/targets", "https://docs.ropensci.org/targets/"],
+  "review": {
+    "@type": "Review",
+    "url": "https://github.com/ropensci/software-review/issues/401",
+    "provider": "https://ropensci.org"
+  }
 }

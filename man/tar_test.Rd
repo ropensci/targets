@@ -19,7 +19,7 @@ Runs a \code{test_that()} unit test inside a \code{tempfile()}
 directory with \code{withr::with_dir()}. Also isolates \code{tar_option_set()}
 options and environment variables specific to \code{targets}.
 Useful for writing tests for
-\href{https://wlandau.github.io/targetopia.html}{targetopia} packages
+\href{https://wlandau.github.io/targetopia/}{targetopia} packages
 (extensions to \code{targets} tailored to specific use cases).
 }
 \examples{

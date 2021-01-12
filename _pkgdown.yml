@@ -10,14 +10,14 @@ navbar:
   - text: Overview
     href: articles/overview.html
   - text: Manual
-    href: https://wlandau.github.io/targets-manual
+    href: https://books.ropensci.org/targets
   - text: Design
-    href: https://wlandau.github.io/targets-design
+    href: https://books.ropensci.org/targets-design
   - text: News
     href: news/index.html
   right:
   - icon: fa-github fa-lg
-    href: https://github.com/wlandau/targets
+    href: https://github.com/ropensci/targets
 reference:
 - title: Help
   contents:
