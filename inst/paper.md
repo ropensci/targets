@@ -7,7 +7,7 @@ tags:
 - pipeline
 - workflow
 - Make
-date: "2020"
+date: "12 January 2021"
 output: pdf_document
 authors:
 - name: William Michael Landau
