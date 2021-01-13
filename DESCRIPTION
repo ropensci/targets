@@ -28,6 +28,18 @@ Authors@R: c(
     role = "ctb"
   ),
   person(
+    given = "Samantha",
+    family = "Oliver",
+    role = "rev",
+    comment = c(ORCID = "0000-0001-5668-1165")
+  ),
+  person(
+    given = "Tristan",
+    family = "Mahr",
+    role = "rev",
+    comment = c(ORCID = "0000-0002-8890-5116")
+  ),
+  person(
     family = "Eli Lilly and Company",
     role = "cph"
   ))
