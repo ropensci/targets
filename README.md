@@ -2,6 +2,7 @@
 # targets <img src='man/figures/logo.png' align="right" height="139"/>
 
 [![ropensci](https://badges.ropensci.org/401_status.svg)](https://github.com/ropensci/software-review/issues/401)
+[![JOSS](https://joss.theoj.org/papers/10.21105/joss.02959/status.svg)](https://doi.org/10.21105/joss.02959)
 [![zenodo](https://zenodo.org/badge/200093430.svg)](https://zenodo.org/badge/latestdoi/200093430)
 [![R
 Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&labelColor=gray)](https://wlandau.github.io/targetopia/)
@@ -146,23 +147,24 @@ Conduct](https://ropensci.org/code-of-conduct/).
 
 ``` r
 citation("targets")
-#> Warning in citation("targets"): no date field in DESCRIPTION file of package
-#> 'targets'
-#> Warning in citation("targets"): could not determine year for 'targets' from
-#> package DESCRIPTION file
 #> 
-#> To cite package 'targets' in publications use:
+#> To cite targets in publications use:
 #> 
-#>   William Michael Landau (NA). targets: Dynamic Function-Oriented
-#>   'Make'-Like Declarative Workflows.
-#>   https://docs.ropensci.org/targets/,
-#>   https://github.com/ropensci/targets.
+#>   Landau, W. M., (2021). The targets R package: a dynamic Make-like
+#>   function-oriented pipeline toolkit for reproducibility and
+#>   high-performance computing. Journal of Open Source Software, 6(57),
+#>   2959, https://doi.org/10.21105/joss.02959
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
-#>   @Manual{,
-#>     title = {targets: Dynamic Function-Oriented 'Make'-Like Declarative Workflows},
+#>   @Article{,
+#>     title = {The targets R package: a dynamic Make-like function-oriented pipeline toolkit for reproducibility and high-performance computing},
 #>     author = {William Michael Landau},
-#>     note = {https://docs.ropensci.org/targets/, https://github.com/ropensci/targets},
+#>     journal = {Journal of Open Source Software},
+#>     year = {2021},
+#>     volume = {6},
+#>     number = {57},
+#>     pages = {2959},
+#>     url = {https://doi.org/10.21105/joss.02959},
 #>   }
 ```

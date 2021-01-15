@@ -1,3 +1,9 @@
+# targets 0.0.1.9000
+
+## Enhancements
+
+* Use JOSS paper in `CITATION`.
+
 # targets 0.0.1
 
 ## Enhancements
