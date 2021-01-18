@@ -72,7 +72,7 @@ tar_dir({ # Write all files to a temporary directory.
     tar_option_set(packages = c("tibble", "qs"))
     list()
   })
-  tar_renv(callr_function = NULL)
+  tar_renv()
   writeLines(readLines("_packages.R"))
 })
 tar_option_reset()

@@ -15,8 +15,8 @@ tar_test(label, code)
 \code{NULL} (invisibly).
 }
 \description{
-Runs a \code{test_that()} unit test inside a \code{tempfile()}
-directory with \code{withr::with_dir()}. Also isolates \code{tar_option_set()}
+Runs a \code{test_that()} unit test inside a temporary
+directory to comply with CRAN policies. Also isolates \code{tar_option_set()}
 options and environment variables specific to \code{targets}.
 Useful for writing tests for
 \href{https://wlandau.github.io/targetopia/}{targetopia} packages

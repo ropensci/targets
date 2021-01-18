@@ -30,6 +30,7 @@
 #'   global environment.
 #' @examples
 #' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' tar_dir({ # Write all files to a temporary directory.
 #' tmp <- sample(1)
 #' tar_script({
 #'   tar_option_set(error = "workspace")
@@ -45,6 +46,7 @@
 #' exists("x") # Should be TRUE.
 #' print(x) # "loaded"
 #' tail(.Random.seed) # Should be different.
+#' })
 #' }
 tar_workspace <- function(
   name,
