@@ -289,8 +289,6 @@ tar_watch_ui <- function(
 #' @inheritParams shiny::moduleServer
 #' @param height Character of length 1,
 #'   height of the `visNetwork` widget.
-#' @examples
-#' # tar_watch_server("my_id") # Only call inside an app.
 tar_watch_server <- function(id, height = "700px") {
   shiny::moduleServer(
     id,

@@ -20,6 +20,3 @@ A Shiny module server.
 Use \code{\link[=tar_watch_ui]{tar_watch_ui()}} and \code{tar_watch_server()}
 to include \code{\link[=tar_watch]{tar_watch()}} as a Shiny module in an app.
 }
-\examples{
-# tar_watch_server("my_id") # Only call inside an app.
-}

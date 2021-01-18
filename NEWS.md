@@ -1,5 +1,11 @@
 # targets 0.0.1.9000
 
+## CRAN response
+
+* Avoid starting the description with the package name.
+* Fix "unexecutable code" warnings in the help files of `tar_glimpse()`, `tar_visnetwork()`, and `tar_watch()`.
+* Remove commented code in the examples of `tar_
+
 ## Enhancements
 
 * Use JOSS paper in `CITATION`.
