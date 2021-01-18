@@ -4,7 +4,7 @@
 #'   `_targets/workspaces/`. See [tar_workspace()] for more information.
 #' @examples
 #' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
-#' tar_dir({
+#' tar_dir({ # Write all files to a temporary directory.
 #' tar_script({
 #'   tar_option_set(error = "workspace")
 #'   list(

@@ -67,7 +67,7 @@ library. See \url{https://rstudio.github.io/renv/index.html} for
 more information.
 }
 \examples{
-tar_dir({
+tar_dir({ # Write all files to a temporary directory.
   tar_script({
     tar_option_set(packages = c("tibble", "qs"))
     list()

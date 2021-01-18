@@ -24,7 +24,7 @@
 #'   Only relevant if `background` is `TRUE`.
 #' @examples
 #' if (FALSE) { # Only run interactively.
-#' tar_dir({
+#' tar_dir({ # Write all files to a temporary directory.
 #' tar_script({
 #'   sleep_run <- function(...) {
 #'     Sys.sleep(10)

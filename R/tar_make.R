@@ -19,7 +19,7 @@
 #'     each status category (queued, running, skipped, build, cancelled,
 #'     or errored).
 #' @examples
-#' tar_dir({
+#' tar_dir({ # Write all files to a temporary directory.
 #' tar_script({
 #'   tar_option_set()
 #'   list(tar_target(x, 1 + 1))

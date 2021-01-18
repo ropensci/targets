@@ -36,7 +36,7 @@ so \code{tar_path()} returns \verb{_targets/objects/x}.
 tar_path()
 tar_path(your_target)
 if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
-tar_dir({
+tar_dir({ # Write all files to a temporary directory.
 tar_script(tar_target(returns_path, tar_path()))
 tar_make()
 tar_read(returns_path)

@@ -26,7 +26,7 @@ this is simply a form of garbage collection.
 }
 \examples{
 if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
-tar_dir({
+tar_dir({ # Write all files to a temporary directory.
 tar_script(list(tar_target(x, 1 + 1)))
 tar_make()
 tar_make()

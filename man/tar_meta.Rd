@@ -55,7 +55,7 @@ Read the metadata of all recorded targets and global objects.
 }
 \examples{
 if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
-tar_dir({
+tar_dir({ # Write all files to a temporary directory.
 tar_script(
   list(
     tar_target(x, seq_len(2)),

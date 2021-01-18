@@ -61,7 +61,7 @@ see the \code{future.batchtools} package documentation.
 }
 \examples{
 if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
-tar_dir({
+tar_dir({ # Write all files to a temporary directory.
 tar_script({
   future::plan(future::multisession)
   tar_option_set()

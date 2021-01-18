@@ -59,7 +59,7 @@ objects by default (but you can include them with \code{targets_only = FALSE}).
 }
 \examples{
 if (FALSE) { # Interactive only.
-tar_dir({
+tar_dir({ # Write all files to a temporary directory.
 tar_script({
   tar_option_set()
   list(

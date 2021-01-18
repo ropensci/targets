@@ -12,7 +12,7 @@
 #' tar_name()
 #' tar_name(default = "custom_target_name")
 #' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
-#' tar_dir({
+#' tar_dir({ # Write all files to a temporary directory.
 #' tar_script(tar_target(x, tar_name()))
 #' tar_make()
 #' tar_read(x)

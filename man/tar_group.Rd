@@ -46,7 +46,7 @@ data.frame(
   tar_group()
 # We use tar_group() below to branch over
 # subsets of a data frame defined with dplyr::group_by().
-tar_dir({
+tar_dir({ # Write all files to a temporary directory.
 tar_script({
 library(dplyr)
 list(

@@ -61,7 +61,7 @@ in the same function call.
 }
 
 \examples{
-tar_dir({
+tar_dir({ # Write all files to a temporary directory.
 tar_script() # Writes an example target script.
 # Writes a user-defined target script:
 tar_script({

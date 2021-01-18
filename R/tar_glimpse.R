@@ -27,7 +27,7 @@
 #'   defaults to `150`.
 #' @examples
 #' if (FALSE) { # Interactive only.
-#' tar_dir({
+#' tar_dir({ # Write all files to a temporary directory.
 #' tar_script({
 #'   tar_option_set()
 #'   list(

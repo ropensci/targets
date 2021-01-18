@@ -30,7 +30,7 @@
 #'   by default because they clutter the graph.
 #' @examples
 #' if (FALSE) { # Interactive only.
-#' tar_dir({
+#' tar_dir({ # Write all files to a temporary directory.
 #' tar_script({
 #'   tar_option_set()
 #'   list(

@@ -44,7 +44,7 @@
 #'   If `ask` and the `TAR_ASK` environment variable are both
 #'   indeterminate, defaults to `interactive()`.
 #' @examples
-#' tar_dir({
+#' tar_dir({ # Write all files to a temporary directory.
 #' tar_script() # Writes an example target script.
 #' # Writes a user-defined target script:
 #' tar_script({
