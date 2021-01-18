@@ -68,6 +68,3 @@ A Shiny module UI.
 Use \code{tar_watch_ui()} and \code{\link[=tar_watch_server]{tar_watch_server()}}
 to include \code{\link[=tar_watch]{tar_watch()}} as a Shiny module in an app.
 }
-\examples{
-# str(tar_watch_ui("my_id"))
-}

@@ -205,8 +205,6 @@ tar_watch_app_ui <- function(
 #'   in the app controls.
 #' @param label_tar_visnetwork Character vector, `label` argument to
 #'   [tar_visnetwork()].
-#' @examples
-#' # str(tar_watch_ui("my_id"))
 tar_watch_ui <- function(
   id,
   label = "tar_watch_label",
