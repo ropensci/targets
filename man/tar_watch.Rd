@@ -89,7 +89,7 @@ refreshes of the graph, and the other settings match
 the arguments of \code{\link[=tar_visnetwork]{tar_visnetwork()}}.
 }
 \examples{
-if (FALSE) { # Only run interactively.
+if (identical(Sys.getenv("TARGETS_INTERACTIVE_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
 tar_script({
   sleep_run <- function(...) {

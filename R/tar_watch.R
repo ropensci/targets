@@ -23,7 +23,7 @@
 #' @param verbose whether to print a spinner and informative messages.
 #'   Only relevant if `background` is `TRUE`.
 #' @examples
-#' if (FALSE) { # Only run interactively.
+#' if (identical(Sys.getenv("TARGETS_INTERACTIVE_EXAMPLES"), "true")) {
 #' tar_dir({ # Write all files to a temporary directory.
 #' tar_script({
 #'   sleep_run <- function(...) {

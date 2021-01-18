@@ -26,7 +26,7 @@
 #'   the `levelSeparation` argument of `visHierarchicalLayout()`
 #'   defaults to `150`.
 #' @examples
-#' if (FALSE) { # Interactive only.
+#' if (identical(Sys.getenv("TARGETS_INTERACTIVE_EXAMPLES"), "true")) {
 #' tar_dir({ # Write all files to a temporary directory.
 #' tar_script({
 #'   tar_option_set()

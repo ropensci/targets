@@ -58,7 +58,7 @@ renders faster. Also, \code{tar_glimpse()} omits functions and other global
 objects by default (but you can include them with \code{targets_only = FALSE}).
 }
 \examples{
-if (FALSE) { # Interactive only.
+if (identical(Sys.getenv("TARGETS_INTERACTIVE_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
 tar_script({
   tar_option_set()

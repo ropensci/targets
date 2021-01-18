@@ -80,7 +80,7 @@ and visualize the directed acyclic graph of targets
 and imported global functions and objects.
 }
 \examples{
-if (FALSE) { # Interactive only.
+if (identical(Sys.getenv("TARGETS_INTERACTIVE_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
 tar_script({
   tar_option_set()
