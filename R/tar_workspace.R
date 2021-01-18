@@ -39,6 +39,7 @@
 #'     tar_target(y, stop(x))
 #'   )
 #' })
+#' # The following code throws an error for demonstration purposes.
 #' try(tar_make())
 #' exists("x") # Should be FALSE.
 #' tail(.Random.seed)
