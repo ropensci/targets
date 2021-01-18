@@ -5,7 +5,7 @@
 * Avoid starting the description with the package name.
 * Remove `if(FALSE)` blocks from help files to fix "unexecutable code" warnings (`tar_glimpse()`, `tar_visnetwork()`, and `tar_watch()`).
 * Remove commented code in the examples (`tar_edit()`, `tar_watch_ui()`, and `tar_watch_server()`).
-* Ensure examples, tests, and vignettes do not write to the user's home filespace.
+* Ensure that all examples, tests, and vignettes do not write to the user's home file space. (Fixed an example of `tar_workspace()`.)
 
 ## Enhancements
 
