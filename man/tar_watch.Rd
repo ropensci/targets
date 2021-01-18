@@ -89,7 +89,7 @@ refreshes of the graph, and the other settings match
 the arguments of \code{\link[=tar_visnetwork]{tar_visnetwork()}}.
 }
 \examples{
-if (identical(Sys.getenv("TARGETS_INTERACTIVE_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
 tar_script({
   sleep_run <- function(...) {
@@ -98,17 +98,9 @@ tar_script({
   list(
     tar_target(settings, sleep_run()),
     tar_target(data1, sleep_run(settings)),
-    tar_target(data2, sleep_run(settings)),
-    tar_target(data3, sleep_run(settings)),
-    tar_target(model1, sleep_run(data1)),
-    tar_target(model2, sleep_run(data2)),
-    tar_target(model3, sleep_run(data3)),
-    tar_target(figure1, sleep_run(model1)),
-    tar_target(figure2, sleep_run(model2)),
-    tar_target(figure3, sleep_run(model3)),
-    tar_target(conclusions, sleep_run(c(figure1, figure2, figure3)))
+    tar_target(data2, sleep_run(settings))
   )
-})
+}, ask = FALSE)
 # Launch the app in a background process.
 tar_watch(seconds = 10, outdated = FALSE, targets_only = TRUE)
 # Run the pipeline.

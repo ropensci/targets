@@ -13,12 +13,12 @@
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # Write all files to a temporary directory.
-#' tar_script(
+#' tar_script({
 #'   list(
 #'     tar_target(x, seq_len(2)),
 #'     tar_target(y, 2 * x, pattern = map(x))
 #'   )
-#' )
+#' }, ask = FALSE)
 #' tar_make()
 #' tar_progress()
 #' tar_progress(starts_with("y_"))

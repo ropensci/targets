@@ -29,15 +29,15 @@ Do not use in \code{knitr} or R Markdown reports with \code{tarchetypes::tar_kni
 or \code{tarchetypes::tar_render()}.
 }
 \examples{
-if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
-tar_script(
+tar_script({
   list(
     tar_target(y1, 1 + 1),
     tar_target(y2, 1 + 1),
     tar_target(z, y1 + y2)
   )
-)
+}, ask = FALSE)
 tar_make()
 tar_load_raw(c("y1", "y2"))
 y1

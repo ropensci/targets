@@ -11,7 +11,7 @@
 #'     tar_target(x, "value"),
 #'     tar_target(y, x)
 #'   )
-#' })
+#' }, ask = FALSE)
 #' tar_make()
 #' tar_workspaces()
 #' })

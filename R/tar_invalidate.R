@@ -12,13 +12,13 @@
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # Write all files to a temporary directory.
-#' tar_script(
+#' tar_script({
 #'   list(
 #'     tar_target(y1, 1 + 1),
 #'     tar_target(y2, 1 + 1),
 #'     tar_target(z, y1 + y2)
 #'   )
-#' )
+#' }, ask = FALSE)
 #' tar_make()
 #' tar_invalidate(starts_with("y")) # Only invalidates y1 and y2.
 #' tar_make() # y1 and y2 rebuild but return same values, so z is up to date.

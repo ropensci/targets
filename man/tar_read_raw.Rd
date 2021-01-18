@@ -29,9 +29,9 @@ Do not use in \code{knitr} or R Markdown reports with \code{tarchetypes::tar_kni
 or \code{tarchetypes::tar_render()}.
 }
 \examples{
-if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
-tar_script(list(tar_target(x, 1 + 1)))
+tar_script(list(tar_target(x, 1 + 1)), ask = FALSE)
 tar_make()
 tar_read_raw("x")
 })

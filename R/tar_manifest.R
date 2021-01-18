@@ -50,7 +50,7 @@
 #'     tar_target(m, z, pattern = map(z)),
 #'     tar_target(c, z, pattern = cross(z))
 #'   )
-#' })
+#' }, ask = FALSE)
 #' tar_manifest()
 #' tar_manifest(fields = c("name", "command"))
 #' tar_manifest(fields = "command")

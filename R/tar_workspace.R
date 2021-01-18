@@ -38,7 +38,7 @@
 #'     tar_target(x, "loaded"),
 #'     tar_target(y, stop(x))
 #'   )
-#' })
+#' }, ask = FALSE)
 #' # The following code throws an error for demonstration purposes.
 #' try(tar_make())
 #' exists("x") # Should be FALSE.

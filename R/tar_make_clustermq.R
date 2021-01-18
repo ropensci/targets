@@ -31,7 +31,7 @@
 #'   options(clustermq.scheduler = "multicore") # Does not work on Windows.
 #'   tar_option_set()
 #'   list(tar_target(x, 1 + 1))
-#' })
+#' }, ask = FALSE)
 #' tar_make_clustermq()
 #' })
 #' }

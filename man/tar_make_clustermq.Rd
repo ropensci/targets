@@ -72,13 +72,13 @@ Wildcards in the template file are filled in with elements from
 }
 \examples{
 if (!identical(tolower(Sys.info()[["sysname"]]), "windows")) {
-if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
 tar_script({
   options(clustermq.scheduler = "multicore") # Does not work on Windows.
   tar_option_set()
   list(tar_target(x, 1 + 1))
-})
+}, ask = FALSE)
 tar_make_clustermq()
 })
 }

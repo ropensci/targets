@@ -25,14 +25,14 @@ Read a project's target progress data for the most recent
 run of \code{\link[=tar_make]{tar_make()}} or similar. Only the most recent record is shown.
 }
 \examples{
-if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
-tar_script(
+tar_script({
   list(
     tar_target(x, seq_len(2)),
     tar_target(y, 2 * x, pattern = map(x))
   )
-)
+}, ask = FALSE)
 tar_make()
 tar_progress()
 tar_progress(starts_with("y_"))

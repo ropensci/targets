@@ -32,7 +32,7 @@
 #'     tar_target(y2, 1 + 1),
 #'     tar_target(z, y1 + y2)
 #'   )
-#' })
+#' }, ask = FALSE)
 #' tar_make(starts_with("y")) # Only builds y1 and y2.
 #' })
 tar_make <- function(

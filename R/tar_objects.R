@@ -8,7 +8,7 @@
 #' tar_script({
 #'   tar_option_set(workspace = "x")
 #'   list(tar_target(x, "value"))
-#' })
+#' }, ask = FALSE)
 #' tar_make()
 #' tar_objects()
 #' })

@@ -58,7 +58,7 @@ renders faster. Also, \code{tar_glimpse()} omits functions and other global
 objects by default (but you can include them with \code{targets_only = FALSE}).
 }
 \examples{
-if (identical(Sys.getenv("TARGETS_INTERACTIVE_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
 tar_script({
   tar_option_set()
@@ -67,7 +67,7 @@ tar_script({
     tar_target(y2, 1 + 1),
     tar_target(z, y1 + y2)
   )
-})
+}, ask = FALSE)
 tar_glimpse()
 tar_glimpse(allow = starts_with("y"))
 })

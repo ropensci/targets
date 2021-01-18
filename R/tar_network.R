@@ -23,7 +23,7 @@
 #'     tar_target(y2, 1 + 1),
 #'     tar_target(z, y1 + y2)
 #'   )
-#' })
+#' }, ask = FALSE)
 #' tar_network(targets_only = TRUE)
 #' })
 #' }

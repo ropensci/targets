@@ -32,18 +32,18 @@ which is only needed while \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar
 or \code{\link[=tar_make_future]{tar_make_future()}} is running.
 }
 \examples{
-if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
-tar_script(
+tar_script({
   list(
     tar_target(y1, 1 + 1),
     tar_target(y2, 1 + 1),
     tar_target(z, y1 + y2)
   )
-)
+}, ask = FALSE)
 tar_make()
 # Remove some targets from the pipeline.
-tar_script(list(tar_target(y1, 1 + 1)))
+tar_script(list(tar_target(y1, 1 + 1)), ask = FALSE)
 # Keep only the remaining targets in the data store.
 tar_prune()
 })

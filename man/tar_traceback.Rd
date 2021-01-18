@@ -29,7 +29,7 @@ If a target ran with \code{error = "workspace"} and errored out,
 exist. For more information, see \code{\link[=tar_workspace]{tar_workspace()}}.
 }
 \examples{
-if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
 tmp <- sample(1)
 tar_script({
@@ -38,7 +38,7 @@ tar_script({
     tar_target(x, "loaded"),
     tar_target(y, stop(x))
   )
-})
+}, ask = FALSE)
 try(tar_make())
 tar_traceback(y)
 })

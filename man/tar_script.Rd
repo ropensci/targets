@@ -68,7 +68,7 @@ tar_script({
   x <- tar_target(x, 1 + 1)
   tar_option_set()
   list(x)
-})
+}, ask = FALSE)
 writeLines(readLines("_targets.R"))
 })
 }

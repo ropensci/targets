@@ -25,9 +25,9 @@ No essential data is removed, so
 this is simply a form of garbage collection.
 }
 \examples{
-if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
-tar_script(list(tar_target(x, 1 + 1)))
+tar_script(list(tar_target(x, 1 + 1)), ask = FALSE)
 tar_make()
 tar_make()
 tar_deduplicate() # Compare the file _targets/meta/meta before and after.

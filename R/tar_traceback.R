@@ -23,7 +23,7 @@
 #'     tar_target(x, "loaded"),
 #'     tar_target(y, stop(x))
 #'   )
-#' })
+#' }, ask = FALSE)
 #' try(tar_make())
 #' tar_traceback(y)
 #' })

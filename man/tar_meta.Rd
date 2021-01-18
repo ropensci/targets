@@ -54,14 +54,14 @@ A data frame with one row per target/object and the selected fields.
 Read the metadata of all recorded targets and global objects.
 }
 \examples{
-if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
-tar_script(
+tar_script({
   list(
     tar_target(x, seq_len(2)),
     tar_target(y, 2 * x, pattern = map(x))
   )
-)
+}, ask = FALSE)
 tar_make()
 tar_meta()
 tar_meta(starts_with("y_"))

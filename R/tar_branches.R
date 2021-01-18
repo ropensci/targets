@@ -18,14 +18,14 @@
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # Write all files to a temporary directory.
-#' tar_script(
+#' tar_script({
 #'   list(
 #'     tar_target(x, seq_len(2)),
 #'     tar_target(y, head(letters, 2)),
 #'     tar_target(z, head(LETTERS, 2)),
 #'     tar_target(dynamic, c(x, y, z), pattern = cross(z, map(x, y)))
 #'   )
-#' )
+#' }, ask = FALSE)
 #' tar_make()
 #' tar_branches(dynamic, pattern = cross(z, map(x, y)))
 #' })
