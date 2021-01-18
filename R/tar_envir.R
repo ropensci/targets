@@ -18,7 +18,7 @@
 #' @examples
 #' tar_envir()
 #' tar_envir(default = new.env(parent = emptyenv()))
-#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # Write all files to a temporary directory.
 #' tar_script(tar_target(x, tar_envir(default = parent.frame())))
 #' tar_make(x)

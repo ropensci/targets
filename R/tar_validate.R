@@ -15,7 +15,7 @@
 #'   reproducible work.
 #' @param callr_arguments A list of arguments to `callr_function`.
 #' @examples
-#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # Write all files to a temporary directory.
 #' tar_script(list(tar_target(x, 1 + 1)))
 #' tar_validate()

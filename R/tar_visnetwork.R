@@ -29,7 +29,7 @@
 #'   at once, e.g. `label = c("time", "branches")`. All are disabled
 #'   by default because they clutter the graph.
 #' @examples
-#' if (identical(Sys.getenv("TARGETS_INTERACTIVE_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 #' tar_dir({ # Write all files to a temporary directory.
 #' tar_script({
 #'   tar_option_set()

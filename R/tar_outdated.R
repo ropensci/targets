@@ -28,7 +28,7 @@
 #'     targets found so far.
 #' @inheritParams tar_validate
 #' @examples
-#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # Write all files to a temporary directory.
 #' tar_script(list(tar_target(x, 1 + 1)))
 #' tar_outdated()

@@ -6,7 +6,7 @@
 #'   cannot interrupt a target from another process.
 #' @param condition Logical of length 1, whether to cancel the target.
 #' @examples
-#' if (identical(Sys.getenv("TARGETS_LONG_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # Write all files to a temporary directory.
 #' tar_script(tar_target(x, tar_cancel(1 > 0)))
 #' tar_make() # Should cancel target x.
