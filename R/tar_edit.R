@@ -2,12 +2,6 @@
 #' @export
 #' @description Looks for _targets.R in the current working directory.
 #'   Requires the `usethis` package.
-#' @examples
-#' if (FALSE) { # Interactive only.
-#' tar_dir(
-#' # tar_edit()
-#' )
-#' }
 tar_edit <- function() {
   # Covered in tests/interactive/test-tar_edit.R # nolint
   # nocov start

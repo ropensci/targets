@@ -1,9 +1,7 @@
 #' @title Execute code in a temporary directory.
 #' @export
-#' @description Runs code inside a `tempfile()` directory
-#'   using `withr::with_dir()`. Handy for writing examples in
-#'   [targetopia](https://wlandau.github.io/targetopia/) packages
-#'   (extensions to `targets` tailored to specific use cases).
+#' @description Runs code inside a new `tempfile()` directory.
+#'   Used in examples and tests in order to comply with CRAN policies.
 #' @return Return value of the user-defined code.
 #' @param code User-defined code.
 #' @examples
