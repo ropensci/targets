@@ -64,6 +64,14 @@ cli_red_x <- function(msg) {
   message(msg)
 }
 
+cli_errored <- function(errored) {
+  warn_run(
+    errored,
+    " targets produced errors. ",
+    "Run tar_meta(fields = error) for the messages."
+  )
+}
+
 cli_warned <- function(warned) {
   warn_run(
     warned,
