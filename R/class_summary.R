@@ -9,6 +9,8 @@ summary_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    report_error = function(error) {
+    },
     report_start = function() {
       cli_header_progress()
     },

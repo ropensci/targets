@@ -216,7 +216,7 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   }
   trn(
     identical(target$settings$error, "continue"),
-    msg_run("Error: ", target$metrics$error, "\n"),
+    scheduler$reporter$report_error(target$metrics$error),
     throw_run(target$metrics$error)
   )
 }

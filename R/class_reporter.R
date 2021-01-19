@@ -22,6 +22,9 @@ reporter_class <- R6::R6Class(
   public = list(
     report_start = function() {
     },
+    report_error = function(error) {
+      msg_run("Error: ", error, "\n")
+    },
     report_end = function(progress = NULL) {
       if (any(progress$warned$count > 0L)) {
         cli_warned(progress$warned$count)
