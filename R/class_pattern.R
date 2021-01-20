@@ -189,7 +189,7 @@ pattern_insert_branches <- function(target, pipeline, scheduler) {
   branches <- pattern_produce_branches(target, pipeline, scheduler)
   lapply(branches, pipeline_set_target, pipeline = pipeline)
   pattern_engraph_branches(target, pipeline, scheduler)
-  lapply(target_get_children(target), scheduler$progress$assign_queued)
+  lapply(branches, scheduler$progress$assign_queued)
   pattern_enqueue_branches(target, scheduler)
 }
 
@@ -245,7 +245,7 @@ pattern_skip_initial <- function(target, pipeline, scheduler, meta) {
 }
 
 pattern_skip_final <- function(target, pipeline, scheduler, meta) {
-  scheduler$progress$assign_dequeued(target_get_name(target))
+  scheduler$progress$assign_dequeued(target)
   pattern_requeue_downstream_nonbranching(target, pipeline, scheduler)
 }
 
