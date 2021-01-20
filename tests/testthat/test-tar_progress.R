@@ -2,8 +2,12 @@ tar_test("tar_progress() works", {
   pipeline <- pipeline_init(list(target_init("x", quote(1))))
   local_init(pipeline = pipeline)$run()
   out <- tar_progress()
-  expect_equal(dim(out), c(1L, 2L))
+  expect_equal(dim(out), c(1L, 5L))
   expect_equal(out$name, "x")
+  expect_equal(out$progress, "built")
+  expect_equal(out$type, "stem")
+  expect_equal(out$parent, "x")
+  expect_equal(out$branches, 0L)
   expect_equal(out$progress, "built")
 })
 
