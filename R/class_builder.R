@@ -38,7 +38,7 @@ target_read_value.tar_builder <- function(target, pipeline = NULL) {
 
 #' @export
 target_prepare.tar_builder <- function(target, pipeline, scheduler) {
-  scheduler$progress$register_running(target_get_name(target))
+  scheduler$progress$register_running(target)
   scheduler$reporter$report_running(target, scheduler$progress)
   builder_ensure_deps(target, pipeline, "main")
   builder_update_subpipeline(target, pipeline)
@@ -95,7 +95,7 @@ target_skip.tar_builder <- function(target, pipeline, scheduler, meta) {
   path <- meta$get_record(target_get_name(target))$path
   file <- target$store$file
   file$path <- path
-  scheduler$progress$assign_skipped(target_get_name(target))
+  scheduler$progress$assign_skipped(target)
   scheduler$reporter$report_skipped(target, scheduler$progress)
 }
 
@@ -119,7 +119,7 @@ builder_conclude <- function(target, pipeline, scheduler, meta) {
   meta$insert_record(target_produce_record(target, pipeline, meta))
   target_patternview_meta(target, pipeline, meta)
   pipeline_register_loaded(pipeline, target_get_name(target))
-  scheduler$progress$register_built(target_get_name(target))
+  scheduler$progress$register_built(target)
 }
 
 builder_error <- function(target, pipeline, scheduler, meta) {
@@ -131,7 +131,7 @@ builder_error <- function(target, pipeline, scheduler, meta) {
 
 builder_cancel <- function(target, pipeline, scheduler, meta) {
   target_restore_buds(target, pipeline, scheduler, meta)
-  scheduler$progress$register_cancelled(target_get_name(target))
+  scheduler$progress$register_cancelled(target)
   scheduler$reporter$report_cancelled(target, scheduler$progress)
   target_patternview_cancelled(target, pipeline, scheduler)
 }
@@ -203,12 +203,12 @@ builder_unserialize_subpipeline <- function(target) {
 
 builder_handle_warnings <- function(target, scheduler) {
   if (metrics_has_warnings(target$metrics)) {
-    scheduler$progress$assign_warned(target_get_name(target))
+    scheduler$progress$assign_warned(target)
   }
 }
 
 builder_handle_error <- function(target, pipeline, scheduler, meta) {
-  scheduler$progress$register_errored(target_get_name(target))
+  scheduler$progress$register_errored(target)
   scheduler$reporter$report_errored(target, scheduler$progress)
   target_patternview_errored(target, pipeline, scheduler)
   if (identical(target$settings$error, "workspace")) {
