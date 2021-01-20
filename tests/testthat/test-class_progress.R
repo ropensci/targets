@@ -179,7 +179,7 @@ tar_test("progress records dynamic branching data", {
     )
   )
   tar_make(callr_function = NULL)
-  out <- tar_progress()
+  out <- tar_progress(fields = NULL)
   branches <- out[out$type == "branch", ]
   expect_equal(dim(branches), c(2L, 5L))
   expect_true(all(grepl("^y_", branches$name)))
@@ -205,7 +205,7 @@ tar_test("progress records dynamic branching error status", {
     )
   )
   expect_error(tar_make(callr_function = NULL))
-  out <- tar_progress()
+  out <- tar_progress(fields = NULL)
   x <- out[out$progress == "errored" & out$type == "pattern", ]
   expect_equal(x$name, "y")
   expect_equal(x$type, "pattern")

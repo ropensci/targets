@@ -1,6 +1,10 @@
 #' @title Read a project's metadata.
 #' @export
 #' @description Read the metadata of all recorded targets and global objects.
+#' @details A metadata row only updates when the target is built.
+#'   [tar_progress()] shows information on targets that are running.
+#'   That is why the number of branches may disagree between [tar_meta()]
+#'   and [tar_progress()] for actively running pipelines.
 #' @return A data frame with one row per target/object and the selected fields.
 #' @param names Optional, names of the targets. If supplied, `tar_meta()`
 #'   only returns metadata on these targets.

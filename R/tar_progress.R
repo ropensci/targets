@@ -3,13 +3,22 @@
 #' @description Read a project's target progress data for the most recent
 #'   run of [tar_make()] or similar. Only the most recent record is shown.
 #' @return A data frame with one row per target and the following columns:
-#'   * `name`: name of the target or global object.
+#'   * `name`: name of the target.
+#'   * `type`: type of target: `"stem"` for non-branching targets,
+#'     `"pattern"` for dynamically branching targets, and `"branch"`
+#'     for dynamic branches.
+#'   * `parent`: name of the target's parent. For branches, this is the
+#'     name of the associated pattern. For other targets, the pattern
+#'     is just itself.
+#'   * `branches`: number of dynamic branches of a pattern. 0 for non-patterns.
 #'   * `progress`: the most recent progress update of that target.
 #'     Could be `"running"`, `"built"`, `"cancelled"`, or `"failed"`.
 #' @param names Optional, names of the targets. If supplied, `tar_progress()`
 #'   only returns progress information on these targets.
 #'   You can supply symbols, a character vector,
 #'   or `tidyselect` helpers like [starts_with()].
+#' @param fields Optional, names of progress data columns to read.
+#'   Set to `NULL` to read all fields.
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # Write all files to a temporary directory.
@@ -24,14 +33,16 @@
 #' tar_progress(starts_with("y_"))
 #' })
 #' }
-tar_progress <- function(names = NULL) {
+tar_progress <- function(names = NULL, fields = "progress") {
   assert_store()
   assert_path(file.path("_targets/meta/progress"))
   out <- tibble::as_tibble(progress_init()$database$read_condensed_data())
   names_quosure <- rlang::enquo(names)
+  fields_quosure <- rlang::enquo(fields)
   names <- eval_tidyselect(names_quosure, out$name)
+  fields <- eval_tidyselect(fields_quosure, colnames(out)) %||% colnames(out)
   if (!is.null(names)) {
     out <- out[match(names, out$name),, drop = FALSE] # nolint
   }
-  out
+  out[, base::union("name", fields), drop = FALSE]
 }

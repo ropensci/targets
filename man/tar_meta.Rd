@@ -53,6 +53,12 @@ A data frame with one row per target/object and the selected fields.
 \description{
 Read the metadata of all recorded targets and global objects.
 }
+\details{
+A metadata row only updates when the target is built.
+\code{\link[=tar_progress]{tar_progress()}} shows information on targets that are running.
+That is why the number of branches may disagree between \code{\link[=tar_meta]{tar_meta()}}
+and \code{\link[=tar_progress]{tar_progress()}} for actively running pipelines.
+}
 \examples{
 if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 tar_dir({ # Write all files to a temporary directory.
