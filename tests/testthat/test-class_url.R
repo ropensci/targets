@@ -13,7 +13,13 @@ tar_test("dynamic urls work", {
     )
   })
   tar_make(callr_function = NULL)
-  exp <- tibble::tibble(name = "abc", progress = "built")
+  exp <- tibble::tibble(
+    name = "abc",
+    type = "stem",
+    parent = "abc",
+    branches = 0L,
+    progress = "built"
+  )
   expect_equal(tar_progress(), exp)
   tar_make(callr_function = NULL)
   expect_equal(nrow(tar_progress()), 0)
