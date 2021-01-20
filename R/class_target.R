@@ -165,6 +165,11 @@ target_get_parent <- function(target) {
   UseMethod("target_get_parent")
 }
 
+#' @export
+target_get_parent.default <- function(target) {
+  target_get_name(target)
+}
+
 target_get_children <- function(target) {
   UseMethod("target_get_children")
 }
