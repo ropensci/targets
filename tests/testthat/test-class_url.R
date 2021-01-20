@@ -20,7 +20,7 @@ tar_test("dynamic urls work", {
     branches = 0L,
     progress = "built"
   )
-  expect_equal(tar_progress(), exp)
+  expect_equal(tar_progress(fields = NULL), exp)
   tar_make(callr_function = NULL)
   expect_equal(nrow(tar_progress()), 0)
   meta <- tar_meta(abc)
