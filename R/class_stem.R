@@ -22,11 +22,6 @@ stem_new <- function(
 }
 
 #' @export
-target_get_parent.tar_stem <- function(target) {
-  target_get_name(target)
-}
-
-#' @export
 target_get_children.tar_stem <- function(target) {
   trn(
     is.null(target$junction),

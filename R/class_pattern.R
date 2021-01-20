@@ -18,11 +18,6 @@ pattern_new <- function(
 }
 
 #' @export
-target_get_parent.tar_pattern <- function(target) {
-  target_get_name(target)
-}
-
-#' @export
 target_get_children.tar_pattern <- function(target) {
   target$junction$splits
 }
