@@ -171,6 +171,55 @@ tar_test("progress database gets used", {
   expect_equal(nrow(out), 0L)
 })
 
+tar_test("progress records dynamic branching data", {
+  tar_script(
+    list(
+      tar_target(x, seq_len(2)),
+      tar_target(y, x, pattern = map(x))
+    )
+  )
+  tar_make(callr_function = NULL)
+  out <- tar_progress()
+  branches <- out[out$type == "branch", ]
+  expect_equal(dim(branches), c(2L, 5L))
+  expect_true(all(grepl("^y_", branches$name)))
+  expect_equal(branches$type, rep("branch", 2))
+  expect_equal(branches$parent, rep("y", 2))
+  expect_equal(branches$branches, rep(0L, 2))
+  expect_equal(branches$progress, rep("built", 2))
+  x <- out[out$name == "x", ]
+  y <- out[out$name == "y", ]
+  nonbranches <- rbind(x, y)
+  expect_equal(nonbranches$name, c("x", "y"))
+  expect_equal(nonbranches$type, c("stem", "pattern"))
+  expect_equal(nonbranches$parent, c("x", "y"))
+  expect_equal(nonbranches$branches, c(0L, 2L))
+  expect_equal(nonbranches$progress, rep("built", 2))
+})
+
+tar_test("progress records dynamic branching error status", {
+  tar_script(
+    list(
+      tar_target(x, seq_len(2)),
+      tar_target(y, stopifnot(x < 1.5), pattern = map(x))
+    )
+  )
+  expect_error(tar_make(callr_function = NULL))
+  out <- tar_progress()
+  x <- out[out$progress == "errored" & out$type == "pattern", ]
+  expect_equal(x$name, "y")
+  expect_equal(x$type, "pattern")
+  expect_equal(x$parent, "y")
+  expect_equal(x$branches, 2L)
+  expect_equal(x$progress, "errored")
+  x <- out[out$progress == "errored" & out$type == "branch", ]
+  expect_true(all(grepl("^y_", x$name)))
+  expect_equal(x$type, "branch")
+  expect_equal(x$parent, "y")
+  expect_equal(x$branches, 0L)
+  expect_equal(x$progress, "errored")
+})
+
 tar_test("progress$validate()", {
   expect_silent(progress_init()$validate())
 })
