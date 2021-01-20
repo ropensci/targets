@@ -115,7 +115,19 @@ progress_class <- R6::R6Class(
     write_progress = function(target, progress) {
       db <- self$database
       name <- target_get_name(target)
-      row <- list(name = name, progress = progress)
+      type <- target_get_type(target)
+      branches <- trn(
+        identical(type, "stem"),
+        0L,
+        length(omit_na(target_get_children(target)))
+      )
+      row <- list(
+        name = name,
+        type = type,
+        parent = target_get_parent(target),
+        branches = branches,
+        progress = progress
+      )
       db$write_row(row)
     },
     write_running = function(target) {
@@ -196,5 +208,5 @@ path_progress <- function() {
 }
 
 header_progress <- function() {
-  c("name", "progress")
+  c("name", "type", "parent", "branches", "progress")
 }

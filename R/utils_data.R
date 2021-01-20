@@ -21,6 +21,10 @@ replace_na <- function(x, y) {
   x
 }
 
+omit_na <- function(x) {
+  x[!is.na(x)]
+}
+
 dir_create <- function(x) {
   if (!file.exists(x)) {
     dir.create(x, showWarnings = FALSE, recursive = TRUE)

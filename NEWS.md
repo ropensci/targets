@@ -1,6 +1,9 @@
 # targets 0.0.2.9000
 
+## New features
 
+* Store `type`, `parent`, and `branches` in progress data for `tar_watch()` (#273, @mattwarkentin).
+* Add a `fields` argument in `tar_progress()` and default to `"progress"` for back compatibility (#273, @mattwarkentin).
 
 # targets 0.0.2
 

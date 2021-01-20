@@ -4,18 +4,28 @@
 \alias{tar_progress}
 \title{Read the target progress of the latest run of the pipeline.}
 \usage{
-tar_progress(names = NULL)
+tar_progress(names = NULL, fields = "progress")
 }
 \arguments{
 \item{names}{Optional, names of the targets. If supplied, \code{tar_progress()}
 only returns progress information on these targets.
 You can supply symbols, a character vector,
 or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
+
+\item{fields}{Optional, names of progress data columns to read.
+Set to \code{NULL} to read all fields.}
 }
 \value{
 A data frame with one row per target and the following columns:
 \itemize{
-\item \code{name}: name of the target or global object.
+\item \code{name}: name of the target.
+\item \code{type}: type of target: \code{"stem"} for non-branching targets,
+\code{"pattern"} for dynamically branching targets, and \code{"branch"}
+for dynamic branches.
+\item \code{parent}: name of the target's parent. For branches, this is the
+name of the associated pattern. For other targets, the pattern
+is just itself.
+\item \code{branches}: number of dynamic branches of a pattern. 0 for non-patterns.
 \item \code{progress}: the most recent progress update of that target.
 Could be \code{"running"}, \code{"built"}, \code{"cancelled"}, or \code{"failed"}.
 }
