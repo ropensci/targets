@@ -24,47 +24,47 @@ tar_test("progress$errored", {
 
 tar_test("progress$assign_queued()", {
   progress <- progress_init()
-  progress$assign_queued("x")
+  progress$assign_queued(target_init("x", 1))
   expect_equal(counter_get_names(progress$built), character(0))
   expect_equal(counter_get_names(progress$queued), "x")
 })
 
 tar_test("progress$assign_running()", {
   progress <- progress_init()
-  progress$assign_queued("x")
-  progress$assign_running("x")
+  progress$assign_queued(target_init("x", 1))
+  progress$assign_running(target_init("x", 1))
   expect_equal(counter_get_names(progress$queued), character(0))
   expect_equal(counter_get_names(progress$running), "x")
 })
 
 tar_test("progress$assign_skipped()", {
   progress <- progress_init()
-  progress$assign_queued("x")
-  progress$assign_skipped("x")
+  progress$assign_queued(target_init("x", 1))
+  progress$assign_skipped(target_init("x", 1))
   expect_equal(counter_get_names(progress$queued), character(0))
   expect_equal(counter_get_names(progress$skipped), "x")
 })
 
 tar_test("progress$assign_built()", {
   progress <- progress_init()
-  progress$assign_running("x")
-  progress$assign_built("x")
+  progress$assign_running(target_init("x", 1))
+  progress$assign_built(target_init("x", 1))
   expect_equal(counter_get_names(progress$running), character(0))
   expect_equal(counter_get_names(progress$built), "x")
 })
 
 tar_test("progress$assign_cancelled()", {
   progress <- progress_init()
-  progress$assign_running("x")
-  progress$assign_cancelled("x")
+  progress$assign_running(target_init("x", 1))
+  progress$assign_cancelled(target_init("x", 1))
   expect_equal(counter_get_names(progress$running), character(0))
   expect_equal(counter_get_names(progress$cancelled), "x")
 })
 
 tar_test("progress$assign_errored()", {
   progress <- progress_init()
-  progress$assign_running("x")
-  progress$assign_errored("x")
+  progress$assign_running(target_init("x", 1))
+  progress$assign_errored(target_init("x", 1))
   expect_equal(counter_get_names(progress$running), character(0))
   expect_equal(counter_get_names(progress$errored), "x")
 })
@@ -72,7 +72,7 @@ tar_test("progress$assign_errored()", {
 tar_test("progress$register_running()", {
   progress <- progress_init()
   progress$database$reset_storage()
-  progress$register_running("x")
+  progress$register_running(target_init("x", 1))
   expect_equal(counter_get_names(progress$running), "x")
   data <- progress$database$read_data()
   expect_equal(data, data_frame(name = "x", progress = "running"))
@@ -81,7 +81,7 @@ tar_test("progress$register_running()", {
 tar_test("progress$register_built()", {
   progress <- progress_init()
   progress$database$reset_storage()
-  progress$register_built("x")
+  progress$register_built(target_init("x", 1))
   expect_equal(counter_get_names(progress$built), "x")
   data <- progress$database$read_data()
   expect_equal(data, data_frame(name = "x", progress = "built"))
@@ -90,7 +90,7 @@ tar_test("progress$register_built()", {
 tar_test("progress$register_cancelled()", {
   progress <- progress_init()
   progress$database$reset_storage()
-  progress$register_cancelled("x")
+  progress$register_cancelled(target_init("x", 1))
   expect_equal(counter_get_names(progress$cancelled), "x")
   data <- progress$database$read_data()
   expect_equal(data, data_frame(name = "x", progress = "cancelled"))
@@ -99,7 +99,7 @@ tar_test("progress$register_cancelled()", {
 tar_test("progress$register_errored()", {
   progress <- progress_init()
   progress$database$reset_storage()
-  progress$register_errored("x")
+  progress$register_errored(target_init("x", 1))
   expect_equal(counter_get_names(progress$errored), "x")
   data <- progress$database$read_data()
   expect_equal(data, data_frame(name = "x", progress = "errored"))
@@ -108,14 +108,14 @@ tar_test("progress$register_errored()", {
 tar_test("progress$any_remaining() while queued", {
   progress <- progress_init()
   expect_false(progress$any_remaining())
-  progress$assign_queued("x")
+  progress$assign_queued(target_init("x", 1))
   expect_true(progress$any_remaining())
 })
 
 tar_test("progress$any_remaining() while running", {
   progress <- progress_init()
   expect_false(progress$any_remaining())
-  progress$assign_running("x")
+  progress$assign_running(target_init("x", 1))
   expect_true(progress$any_remaining())
 })
 
