@@ -75,7 +75,14 @@ tar_test("progress$register_running()", {
   progress$register_running(target_init("x", 1))
   expect_equal(counter_get_names(progress$running), "x")
   data <- progress$database$read_data()
-  expect_equal(data, data_frame(name = "x", progress = "running"))
+  exp <- data_frame(
+    name = "x",
+    type = "stem",
+    parent = "x",
+    branches = 0L,
+    progress = "running"
+  )
+  expect_equal(data, exp)
 })
 
 tar_test("progress$register_built()", {
@@ -84,7 +91,14 @@ tar_test("progress$register_built()", {
   progress$register_built(target_init("x", 1))
   expect_equal(counter_get_names(progress$built), "x")
   data <- progress$database$read_data()
-  expect_equal(data, data_frame(name = "x", progress = "built"))
+  exp <- data_frame(
+    name = "x",
+    type = "stem",
+    parent = "x",
+    branches = 0L,
+    progress = "built"
+  )
+  expect_equal(data, exp)
 })
 
 tar_test("progress$register_cancelled()", {
@@ -93,7 +107,14 @@ tar_test("progress$register_cancelled()", {
   progress$register_cancelled(target_init("x", 1))
   expect_equal(counter_get_names(progress$cancelled), "x")
   data <- progress$database$read_data()
-  expect_equal(data, data_frame(name = "x", progress = "cancelled"))
+  exp <- data_frame(
+    name = "x",
+    type = "stem",
+    parent = "x",
+    branches = 0L,
+    progress = "cancelled"
+  )
+  expect_equal(data, exp)
 })
 
 tar_test("progress$register_errored()", {
@@ -102,7 +123,14 @@ tar_test("progress$register_errored()", {
   progress$register_errored(target_init("x", 1))
   expect_equal(counter_get_names(progress$errored), "x")
   data <- progress$database$read_data()
-  expect_equal(data, data_frame(name = "x", progress = "errored"))
+  exp <- data_frame(
+    name = "x",
+    type = "stem",
+    parent = "x",
+    branches = 0L,
+    progress = "errored"
+  )
+  expect_equal(data, exp)
 })
 
 tar_test("progress$any_remaining() while queued", {
@@ -127,6 +155,9 @@ tar_test("progress database gets used", {
   out <- local$scheduler$progress$database$read_data()
   exp <- data_frame(
     name = c("x", "x", "y", "y"),
+    type = rep("stem", 4L),
+    parent = c("x", "x", "y", "y"),
+    branches = rep(0L, 4L),
     progress = c("running", "built", "running", "built")
   )
   expect_equal(out, exp)
@@ -135,7 +166,8 @@ tar_test("progress database gets used", {
   local <- local_init(pipeline_init(list(x, y)))
   local$run()
   out <- local$scheduler$progress$database$read_data()
-  expect_equal(colnames(out), c("name", "progress"))
+  exp <- c("name", "type", "parent", "branches", "progress")
+  expect_equal(colnames(out), exp)
   expect_equal(nrow(out), 0L)
 })
 
