@@ -308,6 +308,9 @@ target_subpipeline_copy <- function(target, keep_value) {
   if (!keep_value) {
     out$value <- NULL
   }
+  # Bizarrely, this line dramatically decreases the size of target objects
+  # sent to clustermq workers and thus speeds up computation dramatically:
+  force(out$value$object)
   out
 }
 

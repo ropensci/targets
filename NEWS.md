@@ -4,6 +4,10 @@
 
 * Enable `allow` and `exclude` to work on imports in `tar_visnetwork()` and `tar_glimpse()`.
 
+## Performance
+
+* Call `force()` on subpipeline objects to avoid incorrectly high memory readouts in target objects. Allows targets to be deployed to workers much faster when `retreival` is `"main"` (#279).
+
 ## New features
 
 * Add a new box to the `tar_watch()` app to tabulate progress on dynamic branches (#273, @mattwarkentin).

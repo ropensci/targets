@@ -29,6 +29,9 @@ active_class <- R6::R6Class(
     },
     produce_exports = function(envir) {
       out <- as.list(envir, all.names = TRUE)
+      # An attempt at the same strange memory trick
+      # from target_subpipeline_copy():
+      map(names(out), ~force(out[[.x]]))
       names <- fltr(names(out), ~!is_internal_name(.x, envir))
       out[names]
     },
