@@ -2,7 +2,7 @@
 
 ## Bug fixes
 
-* Enable `allow` and `exclude` to work on imports in `tar_visnetwork()`.
+* Enable `allow` and `exclude` to work on imports in `tar_visnetwork()` and `tar_glimpse()`.
 
 ## New features
 
