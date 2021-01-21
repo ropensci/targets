@@ -329,12 +329,12 @@ target_patternview_meta <- function(target, pipeline, meta) {
 target_patternview_meta.default <- function(target, pipeline, meta) {
 }
 
-target_patternview_cancelled <- function(target, pipeline, scheduler) {
-  UseMethod("target_patternview_cancelled")
+target_patternview_canceled <- function(target, pipeline, scheduler) {
+  UseMethod("target_patternview_canceled")
 }
 
 #' @export
-target_patternview_cancelled.default <- function(target, pipeline, scheduler) {
+target_patternview_canceled.default <- function(target, pipeline, scheduler) {
 }
 
 target_patternview_errored <- function(target, pipeline, scheduler) {

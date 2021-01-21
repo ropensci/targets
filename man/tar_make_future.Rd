@@ -25,7 +25,7 @@ Controls how messages are printed as targets run in the pipeline. Choices:
 \item \code{"silent"}: print nothing.
 \item \code{"timestamp"}: print a time-stamped message for each target that runs.
 \item \code{"summary"}: print a running total of the number of each targets in
-each status category (queued, running, skipped, build, cancelled,
+each status category (queued, running, skipped, build, canceled,
 or errored).
 }}
 

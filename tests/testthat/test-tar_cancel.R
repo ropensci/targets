@@ -6,14 +6,14 @@ tar_test("tar_cancel(TRUE)", {
     local <- local_init(pipeline)
     local$run()
     out <- counter_get_names(
-      local$scheduler$progress$cancelled
+      local$scheduler$progress$canceled
     )
     expect_equal(out, "x")
     data <- local$meta$database$read_data()
     expect_equal(nrow(data), 0L)
     progress <- local$scheduler$progress$database$read_data()
     expect_equal(progress$name, c("x", "x"))
-    expect_equal(progress$progress, c("running", "cancelled"))
+    expect_equal(progress$progress, c("running", "canceled"))
     expect_false(file.exists(file.path("_targets", "objects", "x")))
   }
 })
@@ -25,7 +25,7 @@ tar_test("tar_cancel(FALSE)", {
   local <- local_init(pipeline)
   local$run()
   out <- counter_get_names(
-    local$scheduler$progress$cancelled
+    local$scheduler$progress$canceled
   )
   expect_equal(out, character(0))
   out <- counter_get_names(

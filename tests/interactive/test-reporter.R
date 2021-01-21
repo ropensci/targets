@@ -137,7 +137,7 @@ tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(warning(123)))))
 local <- local_init(pipeline, reporter = "summary")$run()
 
-# Should show one cancelled target.
+# Should show one canceled target.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(targets::tar_cancel()))))
 local <- local_init(pipeline, reporter = "summary")$run()

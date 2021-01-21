@@ -18,7 +18,7 @@ verbose_class <- R6::R6Class(
     report_errored = function(target, progress = NULL) {
       cli_error(target_get_name(target), target_get_type_cli(target))
     },
-    report_cancelled = function(target = NULL, progress = NULL) {
+    report_canceled = function(target = NULL, progress = NULL) {
       cli_cancel(target_get_name(target), target_get_type_cli(target))
     },
     report_workspace = function(target) {

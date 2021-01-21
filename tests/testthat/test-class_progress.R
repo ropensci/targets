@@ -14,8 +14,8 @@ tar_test("progress$skipped", {
   expect_silent(counter_validate(progress_init()$skipped))
 })
 
-tar_test("progress$cancelled", {
-  expect_silent(counter_validate(progress_init()$cancelled))
+tar_test("progress$canceled", {
+  expect_silent(counter_validate(progress_init()$canceled))
 })
 
 tar_test("progress$errored", {
@@ -53,12 +53,12 @@ tar_test("progress$assign_built()", {
   expect_equal(counter_get_names(progress$built), "x")
 })
 
-tar_test("progress$assign_cancelled()", {
+tar_test("progress$assign_canceled()", {
   progress <- progress_init()
   progress$assign_running(target_init("x", 1))
-  progress$assign_cancelled(target_init("x", 1))
+  progress$assign_canceled(target_init("x", 1))
   expect_equal(counter_get_names(progress$running), character(0))
-  expect_equal(counter_get_names(progress$cancelled), "x")
+  expect_equal(counter_get_names(progress$canceled), "x")
 })
 
 tar_test("progress$assign_errored()", {
@@ -101,18 +101,18 @@ tar_test("progress$register_built()", {
   expect_equal(data, exp)
 })
 
-tar_test("progress$register_cancelled()", {
+tar_test("progress$register_canceled()", {
   progress <- progress_init()
   progress$database$reset_storage()
-  progress$register_cancelled(target_init("x", 1))
-  expect_equal(counter_get_names(progress$cancelled), "x")
+  progress$register_canceled(target_init("x", 1))
+  expect_equal(counter_get_names(progress$canceled), "x")
   data <- progress$database$read_data()
   exp <- data_frame(
     name = "x",
     type = "stem",
     parent = "x",
     branches = 0L,
-    progress = "cancelled"
+    progress = "canceled"
   )
   expect_equal(data, exp)
 })

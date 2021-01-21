@@ -107,7 +107,7 @@ cli_progress <- function(
   running,
   skipped,
   built,
-  cancelled,
+  canceled,
   errored,
   warned
 ) {
@@ -116,7 +116,7 @@ cli_progress <- function(
     cli_tally(running),
     cli_tally(skipped),
     cli_tally(built),
-    cli_tally(cancelled),
+    cli_tally(canceled),
     cli_tally(errored),
     cli_tally(warned)
   )

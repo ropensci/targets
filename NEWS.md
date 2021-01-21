@@ -12,6 +12,7 @@
 ## Enhancements
 
 * Exclude `.Random.seed` by default in `tar_visnetwork()`.
+* Spelling: "cancelled" changed to "canceled".
 
 # targets 0.0.2
 

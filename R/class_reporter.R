@@ -39,7 +39,7 @@ reporter_class <- R6::R6Class(
     },
     report_errored = function(target = NULL, progress = NULL) {
     },
-    report_cancelled = function(target = NULL, progress = NULL) {
+    report_canceled = function(target = NULL, progress = NULL) {
     },
     report_outdated = function(checked, outdated) {
     },

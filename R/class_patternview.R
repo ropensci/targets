@@ -28,10 +28,10 @@ patternview_register_running <- function(patternview, target, scheduler) {
   scheduler$progress$write_running(target)
 }
 
-patternview_register_cancelled <- function(patternview, target, scheduler) {
+patternview_register_canceled <- function(patternview, target, scheduler) {
   if (!identical(patternview$progress, "errored")) {
-    patternview$progress <- "cancelled"
-    scheduler$progress$write_cancelled(target)
+    patternview$progress <- "canceled"
+    scheduler$progress$write_canceled(target)
   }
 }
 
@@ -55,6 +55,6 @@ patternview_validate <- function(patternview) {
   assert_correct_fields(patternview, patternview_new)
   assert_in(
     patternview$progress,
-    c("queued", "running", "built", "cancelled", "errored")
+    c("queued", "running", "built", "canceled", "errored")
   )
 }

@@ -20,7 +20,7 @@ tar_test("progress of successful pattern", {
   expect_equal(progress$progress, c("running", "built"))
 })
 
-tar_test("progress of a pattern with a cancelled branch", {
+tar_test("progress of a pattern with a canceled branch", {
   pipeline <- pipeline_init(
     list(
       target_init(
@@ -39,7 +39,7 @@ tar_test("progress of a pattern with a cancelled branch", {
   progress <- local$scheduler$progress$database$read_data()
   progress <- as_data_frame(progress)
   progress <- progress[progress$name == "map", ]
-  expect_equal(progress$progress, c("running", "cancelled"))
+  expect_equal(progress$progress, c("running", "canceled"))
 })
 
 tar_test("progress of a pattern with a errored branch", {

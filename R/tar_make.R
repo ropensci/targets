@@ -16,7 +16,7 @@
 #'   * `"silent"`: print nothing.
 #'   * `"timestamp"`: print a time-stamped message for each target that runs.
 #'   * `"summary"`: print a running total of the number of each targets in
-#'     each status category (queued, running, skipped, build, cancelled,
+#'     each status category (queued, running, skipped, build, canceled,
 #'     or errored).
 #' @examples
 #' tar_dir({ # Write all files to a temporary directory.

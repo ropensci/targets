@@ -131,9 +131,9 @@ builder_error <- function(target, pipeline, scheduler, meta) {
 
 builder_cancel <- function(target, pipeline, scheduler, meta) {
   target_restore_buds(target, pipeline, scheduler, meta)
-  scheduler$progress$register_cancelled(target)
-  scheduler$reporter$report_cancelled(target, scheduler$progress)
-  target_patternview_cancelled(target, pipeline, scheduler)
+  scheduler$progress$register_canceled(target)
+  scheduler$reporter$report_canceled(target, scheduler$progress)
+  target_patternview_canceled(target, pipeline, scheduler)
 }
 
 #' @export

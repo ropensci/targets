@@ -39,7 +39,7 @@ A list with two data frames: \code{vertices} and \code{edges}. The
 vertices data frame has one row per target with fields to denote
 the type of the target or object (stem, branch, map, cross, function,
 or object) and the target's status
-(up to date, outdated, running, cancelled, or errored).
+(up to date, outdated, running, canceled, or errored).
 The edges data frame has one row for every edge and columns \code{to} and
 \code{from} to mark the starting and terminating vertices.
 }
