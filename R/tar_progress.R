@@ -44,5 +44,6 @@ tar_progress <- function(names = NULL, fields = "progress") {
   if (!is.null(names)) {
     out <- out[match(names, out$name),, drop = FALSE] # nolint
   }
-  out[, base::union("name", fields), drop = FALSE]
+  out <- out[, base::union("name", fields), drop = FALSE]
+  out[order(out$name),, drop = FALSE] # nolint
 }
