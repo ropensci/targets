@@ -70,7 +70,7 @@ tar_progress_branches_summary <- function(progress) {
 }
 
 tar_progress_branches_bin <- function(level, long) {
-  out <- long[long$progress %in% level,, drop = FALSE]
+  out <- long[long$progress %in% level,, drop = FALSE] # nolint
   out[[level]] <- out[["branches"]]
   out[["branches"]] <- NULL
   out[["progress"]] <- NULL

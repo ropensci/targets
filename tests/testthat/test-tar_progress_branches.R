@@ -51,4 +51,3 @@ tar_test("tar_progress_branches() with fields", {
   exp <- tibble::tibble(name = "y", running = 0L)
   expect_equal(out, exp)
 })
-
