@@ -5,6 +5,7 @@ tar_test("clustermq$workers", {
 
 tar_test("workerless deployment works", {
   skip_on_os("windows")
+  skip_on_os("solaris")
   skip_if_not_installed("clustermq")
   x <- tar_target_raw("x", quote(1L), deployment = "main")
   y <- tar_target_raw("y", quote(x), deployment = "main")
@@ -26,6 +27,7 @@ tar_test("workerless deployment works", {
 
 tar_test("some targets up to date, some not", {
   skip_on_os("windows")
+  skip_on_os("solaris")
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
@@ -49,6 +51,7 @@ tar_test("some targets up to date, some not", {
 tar_test("clustermq algo can skip targets", {
   skip_on_cran()
   skip_on_os("windows")
+  skip_on_os("solaris")
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
@@ -72,6 +75,7 @@ tar_test("clustermq algo can skip targets", {
 tar_test("nontrivial common data", {
   skip_on_cran()
   skip_on_os("windows")
+  skip_on_os("solaris")
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
@@ -99,6 +103,7 @@ tar_test("nontrivial common data", {
 tar_test("clustermq with a dynamic file", {
   skip_on_cran()
   skip_on_os("windows")
+  skip_on_os("solaris")
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
@@ -132,6 +137,7 @@ tar_test("clustermq with a dynamic file", {
 tar_test("branching plan", {
   skip_on_cran()
   skip_on_os("windows")
+  skip_on_os("solaris")
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
