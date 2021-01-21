@@ -7,7 +7,7 @@
 tar_glimpse(
   targets_only = TRUE,
   allow = NULL,
-  exclude = NULL,
+  exclude = ".Random.seed",
   level_separation = NULL,
   callr_function = callr::r,
   callr_arguments = list()

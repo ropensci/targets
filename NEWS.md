@@ -1,9 +1,17 @@
 # targets 0.0.2.9000
 
+## Bug fixes
+
+* Enable `allow` and `exclude` to work on imports in `tar_visnetwork()` and `tar_glimpse()`.
+
 ## New features
 
 * Store `type`, `parent`, and `branches` in progress data for `tar_watch()` (#273, @mattwarkentin).
 * Add a `fields` argument in `tar_progress()` and default to `"progress"` for back compatibility (#273, @mattwarkentin).
+
+## Enhancements
+
+* Exclude `.Random.seed` by default in `tar_visnetwork()`.
 
 # targets 0.0.2
 

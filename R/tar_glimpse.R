@@ -43,7 +43,7 @@
 tar_glimpse <- function(
   targets_only = TRUE,
   allow = NULL,
-  exclude = NULL,
+  exclude = ".Random.seed",
   level_separation = NULL,
   callr_function = callr::r,
   callr_arguments = list()
@@ -74,14 +74,12 @@ tar_glimpse_inner <- function(
   exclude_quosure,
   level_separation
 ) {
-  allow <- eval_tidyselect(allow_quosure, pipeline_get_names(pipeline))
-  exclude <- eval_tidyselect(exclude_quosure, pipeline_get_names(pipeline))
   network <- glimpse_init(pipeline)
   visual <- visnetwork_init(
     network = network,
     targets_only = targets_only,
-    allow = allow,
-    exclude = exclude,
+    allow = allow_quosure,
+    exclude = exclude_quosure,
     level_separation = level_separation
   )
   visual$update()
