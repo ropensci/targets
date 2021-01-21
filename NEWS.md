@@ -20,6 +20,10 @@
 * Exclude `.Random.seed` by default in `tar_visnetwork()`.
 * Spelling: "cancelled" changed to "canceled".
 
+## Configuration
+
+* Skip `clustermq` tests on Solaris.
+
 # targets 0.0.2
 
 ## CRAN response
