@@ -50,14 +50,14 @@ tar_watch <- function(
   outdated = TRUE,
   label = NULL,
   level_separation = 150,
-  height = "700px",
+  height = "650px",
   background = TRUE,
   browse = TRUE,
   host = getOption("shiny.host", "127.0.0.1"),
   port = getOption("shiny.port", targets::tar_random_port()),
   verbose = TRUE
 ) {
-  pkgs <- c("bs4Dash", "pingr", "shiny", "shinycssloaders", "visNetwork")
+  pkgs <- c("bs4Dash", "gt", "pingr", "shiny", "shinycssloaders", "visNetwork")
   msg <- paste("tar_watch() requires packages", paste(pkgs, collapse = ", "))
   map(pkgs, ~assert_package(.x, msg = msg))
   assert_dbl(seconds, "seconds must be numeric.")
@@ -208,7 +208,7 @@ tar_watch_ui <- function(
   outdated = TRUE,
   label_tar_visnetwork = NULL,
   level_separation = 150,
-  height = "700px"
+  height = "650px"
 ) {
   ns <- shiny::NS(id)
   shiny::fluidRow(
@@ -259,14 +259,27 @@ tar_watch_ui <- function(
     ),
     shiny::column(
       width = 8,
-      bs4Dash::bs4Card(
-        inputID = ns("graph"),
-        title = "Graph",
-        status = "primary",
-        closable = FALSE,
-        width = 12,
-        shinycssloaders::withSpinner(
-          visNetwork::visNetworkOutput(ns("graph"), height = height)
+      bs4Dash::bs4Sortable(
+        bs4Dash::bs4Card(
+          inputID = ns("graph"),
+          title = "Graph",
+          status = "primary",
+          closable = FALSE,
+          width = 12,
+          shinycssloaders::withSpinner(
+            visNetwork::visNetworkOutput(ns("graph"), height = height)
+          )
+        ),
+        bs4Dash::bs4Card(
+          inputID = ns("branches"),
+          title = "Branches",
+          status = "primary",
+          closable = FALSE,
+          collapsed = TRUE,
+          width = 12,
+          shinycssloaders::withSpinner(
+            gt::gt_output(ns("branches"))
+          )
         )
       )
     )
@@ -280,8 +293,8 @@ tar_watch_ui <- function(
 #' @return A Shiny module server.
 #' @inheritParams shiny::moduleServer
 #' @param height Character of length 1,
-#'   height of the `visNetwork` widget.
-tar_watch_server <- function(id, height = "700px") {
+#'   height of the `visNetwork` widget and branches table.
+tar_watch_server <- function(id, height = "650px") {
   shiny::moduleServer(
     id,
     function(input, output, session) {
@@ -294,6 +307,14 @@ tar_watch_server <- function(id, height = "700px") {
           level_separation = as.numeric(input$level_separation)
         )
       })
+      output$branches <- gt::render_gt({
+        shiny::invalidateLater(millis = 1000 * as.numeric(input$seconds))
+        progress <- tar_progress_branches(names = NULL, fields = NULL)
+        out <- gt::gt(progress)
+        out <- gt::cols_width(out, everything() ~ pct(16.6))
+        out <- gt::cols_align(out, align = "left", columns = everything())
+        out
+      }, height = height)
     }
   )
 }

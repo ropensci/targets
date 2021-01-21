@@ -51,7 +51,7 @@ the \code{levelSeparation} argument of \code{visHierarchicalLayout()}
 defaults to \code{150}.}
 
 \item{height}{Character of length 1,
-height of the \code{visNetwork} widget.}
+height of the \code{visNetwork} widget and branches table.}
 }
 \value{
 A Shiny UI.

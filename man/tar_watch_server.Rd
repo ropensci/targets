@@ -4,14 +4,14 @@
 \alias{tar_watch_server}
 \title{Shiny module server for tar_watch()}
 \usage{
-tar_watch_server(id, height = "700px")
+tar_watch_server(id, height = "650px")
 }
 \arguments{
 \item{id}{An ID string that corresponds with the ID used to call the module's
 UI function.}
 
 \item{height}{Character of length 1,
-height of the \code{visNetwork} widget.}
+height of the \code{visNetwork} widget and branches table.}
 }
 \value{
 A Shiny module server.

@@ -13,7 +13,7 @@ tar_watch(
   outdated = TRUE,
   label = NULL,
   level_separation = 150,
-  height = "700px",
+  height = "650px",
   background = TRUE,
   browse = TRUE,
   host = getOption("shiny.host", "127.0.0.1"),
@@ -56,7 +56,7 @@ the \code{levelSeparation} argument of \code{visHierarchicalLayout()}
 defaults to \code{150}.}
 
 \item{height}{Character of length 1,
-height of the \code{visNetwork} widget.}
+height of the \code{visNetwork} widget and branches table.}
 
 \item{background}{Logical, whether to run the app in a background process
 so you can still use the R console while the app is running.}
