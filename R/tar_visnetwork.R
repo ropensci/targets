@@ -93,8 +93,6 @@ tar_visnetwork_inner <- function(
   level_separation,
   reporter
 ) {
-  allow <- eval_tidyselect(allow_quosure, pipeline_get_names(pipeline))
-  exclude <- eval_tidyselect(exclude_quosure, pipeline_get_names(pipeline))
   network <- inspection_init(
     pipeline,
     outdated = outdated,
@@ -103,8 +101,8 @@ tar_visnetwork_inner <- function(
   visual <- visnetwork_init(
     network = network,
     targets_only = targets_only,
-    allow = allow,
-    exclude = exclude,
+    allow = allow_quosure,
+    exclude = exclude_quosure,
     label = label,
     level_separation = level_separation
   )

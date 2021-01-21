@@ -29,11 +29,11 @@ visual_class <- R6::R6Class(
       self$exclude <- exclude
     },
     allow_vertices = function() {
-      allow <- self$allow
+      vertices <- self$network$vertices
+      allow <- eval_tidyselect(self$allow, vertices$name)
       if (is.null(allow)) {
         return()
       }
-      vertices <- self$network$vertices
       edges <- self$network$edges
       vertices <- vertices[vertices$name %in% allow,, drop = FALSE] # nolint
       edges <- edges[edges$from %in% allow,, drop = FALSE] # nolint
@@ -42,11 +42,11 @@ visual_class <- R6::R6Class(
       self$network$edges <- edges
     },
     exclude_vertices = function() {
-      exclude <- self$exclude
+      vertices <- self$network$vertices
+      exclude <- eval_tidyselect(self$exclude, vertices$name)
       if (is.null(exclude)) {
         return()
       }
-      vertices <- self$network$vertices
       edges <- self$network$edges
       vertices <- vertices[!(vertices$name %in% exclude),, drop = FALSE] # nolint
       edges <- edges[!(edges$from %in% exclude),, drop = FALSE] # nolint

@@ -1,5 +1,9 @@
 # targets 0.0.2.9000
 
+## Bug fixes
+
+* Enable `allow` and `exclude` to work on imports in `tar_visnetwork()`.
+
 ## New features
 
 * Store `type`, `parent`, and `branches` in progress data for `tar_watch()` (#273, @mattwarkentin).
