@@ -1,3 +1,11 @@
+tar_test("tar_progress_branches() on empty progress", {
+  tar_script()
+  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL)
+  out <- tar_progress_branches()
+  expect_equal(dim(out), c(0L, 6L))
+})
+
 tar_test("tar_progress_branches()", {
   tar_script({
     list(
@@ -30,3 +38,17 @@ tar_test("tar_progress_branches()", {
   expect_equal(out$canceled, 0)
   expect_equal(out$errored, 1)
 })
+
+tar_test("tar_progress_branches() with fields", {
+  tar_script({
+    list(
+      tar_target(x, seq_len(1)),
+      tar_target(y, x, pattern = map(x))
+    )
+  }, ask = FALSE)
+  tar_make(callr_function = NULL)
+  out <- tar_progress_branches(fields = running)
+  exp <- tibble::tibble(name = "y", running = 0L)
+  expect_equal(out, exp)
+})
+
