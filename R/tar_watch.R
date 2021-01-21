@@ -311,8 +311,20 @@ tar_watch_server <- function(id, height = "650px") {
         shiny::invalidateLater(millis = 1000 * as.numeric(input$seconds))
         progress <- tar_progress_branches(names = NULL, fields = NULL)
         out <- gt::gt(progress)
-        out <- gt::cols_width(out, everything() ~ pct(16.6))
+        out <- gt::cols_width(out, everything() ~ gt::pct(16.6))
         out <- gt::cols_align(out, align = "left", columns = everything())
+        out <- gt::tab_options(
+          out,
+          row.striping.include_table_body = TRUE,
+          table.border.top.style = "hidden",
+          table.border.bottom.style = "hidden",
+          table_body.border.bottom.style = "hidden"
+        )
+        out <- gt::tab_style(
+          out,
+          gt::cell_borders(weight = gt::px(0)),
+          locations = gt::cells_body()
+        )
         out
       }, height = height)
     }
