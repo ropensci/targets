@@ -6,6 +6,7 @@
 
 ## New features
 
+* Add a new box to the `tar_watch()` app to tabulate progress on dynamic branches (#273, @mattwarkentin).
 * Store `type`, `parent`, and `branches` in progress data for `tar_watch()` (#273, @mattwarkentin).
 * Add a `fields` argument in `tar_progress()` and default to `"progress"` for back compatibility (#273, @mattwarkentin).
 * Add a new `tar_progress_branches()` function to tabulate branch progress (#273, @mattwarkentin).
