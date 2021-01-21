@@ -7,7 +7,7 @@
 tar_visnetwork(
   targets_only = FALSE,
   allow = NULL,
-  exclude = NULL,
+  exclude = ".Random.seed",
   outdated = TRUE,
   label = NULL,
   level_separation = NULL,
