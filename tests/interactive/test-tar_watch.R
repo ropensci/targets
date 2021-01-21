@@ -24,3 +24,32 @@ tar_make()
 rstudioapi::restartSession()
 tar_destroy()
 unlink("_targets.R")
+
+# With dynamic branching panel:
+library(targets)
+tar_script({
+  tar_option_set(error = "continue")
+  sleep_run <- function(...) Sys.sleep(10)
+  sleep_run_stop <- function(...) {
+    Sys.sleep(10)
+    stop("oops")
+  }
+  list(
+    tar_target(batch, seq_len(4)),
+    tar_target(data1, sleep_run(batch), pattern = map(batch)),
+    tar_target(data2, sleep_run_stop(batch), pattern = map(batch))
+  )
+})
+# Select the "Branches" box:
+tar_watch(
+  seconds = 10,
+  outdated = FALSE,
+  targets_only = TRUE,
+  height = "450px"
+)
+# The main process should be free to run the pipeline.
+tar_make()
+# Restarting the session should terminate the app.
+rstudioapi::restartSession()
+tar_destroy()
+unlink("_targets.R")
