@@ -79,6 +79,7 @@ reference:
   - '`tar_objects`'
   - '`tar_outdated`'
   - '`tar_progress`'
+  - '`tar_progress_branches`'
   - '`tar_sitrep`'
   - '`tar_workspaces`'
 - title: Branching
