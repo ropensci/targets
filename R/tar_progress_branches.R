@@ -42,8 +42,7 @@ tar_progress_branches <- function(names = NULL, fields = NULL) {
   if (!is.null(names)) {
     out <- out[match(names, out$name),, drop = FALSE] # nolint
   }
-  out <- out[, base::union("name", fields), drop = FALSE]
-  out[order(out$name),, drop = FALSE] # nolint
+  out[, base::union("name", fields), drop = FALSE]
 }
 
 tar_progress_branches_summary <- function(progress) {
