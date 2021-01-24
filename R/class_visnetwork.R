@@ -132,7 +132,7 @@ visnetwork_class <- R6::R6Class(
         useGroups = FALSE,
         addNodes = self$legend,
         ncol = 1L,
-        position = "left"
+        position = "right"
       )
       out <- visNetwork::visPhysics(
         graph = out,
