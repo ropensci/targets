@@ -12,7 +12,7 @@ At <https://github.com/ropensci/targets/discussions>, you can post general quest
 
 ## Issues
 
-<https://github.com/ropensci/targets/issues> is for bug reports, reports of performance issues, and feature requests. When you post, please abide by the following guidelines.
+<https://github.com/ropensci/targets/issues> is for bug reports, performance issues, and feature requests. When you post, please abide by the following guidelines.
 
 * Before posting a new issue or discussion topic, please take a moment to search for existing similar threads in order to avoid duplication.
 * For bug reports: if you can, please install the latest GitHub version of `targets` (i.e. `remotes::install_github("ropensci/targets")`) and verify that the issue still persists.
