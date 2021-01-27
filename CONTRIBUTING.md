@@ -17,7 +17,7 @@ Anyone can submit an issue to <https://github.com/ropensci/targets/issues> or co
 
 Please abide by the following guidelines.
 
-* Before posting a new issue, please take a moment to search for existing similar issues in order to avoid duplication.
+* Before posting a new issue or discussion topic, please take a moment to search for existing similar threads in order to avoid duplication.
 * For bug reports: if you can, please install the latest GitHub version of `targets` (i.e. `remotes::install_github("ropensci/targets")`) and verify that the issue still persists.
 * Describe your issue in prose as clearly and concisely as possible.
 * For any problem you identify, post a [minimal reproducible example](https://www.tidyverse.org/help/) like [this one](https://github.com/ropensci/targets/issues/256#issuecomment-754229683) so the maintainer can troubleshoot. A reproducible example is:
@@ -29,7 +29,7 @@ Please abide by the following guidelines.
 
 External code contributions are extremely helpful in the right circumstances. Here are the recommended steps.
 
-1. Prior to contribution, please propose your idea in a [new issue thread](https://github.com/ropensci/targets/issues) so you and the maintainer can define the intent and scope of your work.
+1. Prior to contribution, please propose your idea in a discussion topic or issue thread so you and the maintainer can define the intent and scope of your work.
 2. [Fork the repository](https://help.github.com/articles/fork-a-repo/).
 3. Follow the [GitHub flow](https://guides.github.com/introduction/flow/index.html) to create a new branch, add commits, and open a pull request.
 4. Discuss your code with the maintainer in the pull request thread.
