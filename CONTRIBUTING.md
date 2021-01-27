@@ -6,16 +6,13 @@ Development is a community effort, and we welcome participation.
 
 Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). 
 
+## Discussions
+
+At <https://github.com/ropensci/targets/discussions>, you can post general questions, brainstorm ideas, and ask for help.
+
 ## Issues
 
-Anyone can submit an issue to <https://github.com/ropensci/targets/issues> or comment on an existing thread. Common reasons are to
-
-* Suggest features.
-* Report bugs.
-* Request help with difficult use cases.
-* Ask questions.
-
-Please abide by the following guidelines.
+<https://github.com/ropensci/targets/issues> is for bug reports, reports of performance issues, and feature requests. When you post, please abide by the following guidelines.
 
 * Before posting a new issue or discussion topic, please take a moment to search for existing similar threads in order to avoid duplication.
 * For bug reports: if you can, please install the latest GitHub version of `targets` (i.e. `remotes::install_github("ropensci/targets")`) and verify that the issue still persists.
