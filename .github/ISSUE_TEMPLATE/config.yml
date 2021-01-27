@@ -1,0 +1,14 @@
+lank_issues_enabled: true
+contact_links:
+  - name: General
+    url: https://github.com/ropensci/targets/discussions/categories/general
+    about: Chat about targets.
+  - name: Help
+    url: https://github.com/ropensci/targets/discussions/categories/help
+    about: Get help using targets and troubleshooting problems.
+  - name: Ideas
+    url: https://github.com/ropensci/targets/discussions/categories/ideas
+    about: Brainstorm ideas for new features or use cases.
+  - name: Show and tell
+    url: https://github.com/ropensci/targets/discussions/categories/ideas
+    about: Show off something you have made.
