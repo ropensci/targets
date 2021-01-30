@@ -7,7 +7,7 @@
 
 ## Performance
 
-* Call `force()` on subpipeline objects to avoid incorrectly high memory readouts in target objects. Allows targets to be deployed to workers much faster when `retreival` is `"main"` (#279).
+* Call `force()` on subpipeline objects to eliminate high-memory promises in target objects. Allows targets to be deployed to workers much faster when `retreival` is `"main"` (#279).
 
 ## New features
 
