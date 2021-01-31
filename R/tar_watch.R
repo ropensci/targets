@@ -212,76 +212,75 @@ tar_watch_ui <- function(
 ) {
   ns <- shiny::NS(id)
   shiny::fluidRow(
-    shiny::column(
-      width = 4,
-      bs4Dash::bs4Card(
-        inputID = ns("control"),
-        title = "Control",
+    bs4Dash::bs4Card(
+      inputID = ns("control"),
+      title = "Control",
+      status = "primary",
+      closable = FALSE,
+      collapsible = FALSE,
+      width = 3,
+      shinyWidgets::radioGroupButtons(
+        inputId = ns("display"),
+        label = NULL,
         status = "primary",
-        closable = FALSE,
-        width = 12,
-        shiny::sliderInput(
-          ns("seconds"),
-          "seconds",
-          value = seconds,
-          min = seconds_min,
-          max = seconds_max,
-          step = seconds_step
-        ),
-        shiny::selectInput(
-          ns("targets_only"),
-          "targets_only",
-          choices = c("TRUE", "FALSE"),
-          selected = as.character(targets_only)
-        ),
-        shiny::selectInput(
-          ns("outdated"),
-          "outdated",
-          choices = c("TRUE", "FALSE"),
-          selected = as.character(outdated)
-        ),
-        shiny::selectInput(
-          ns("label"),
-          "label",
-          choices = c("time", "size", "branches"),
-          selected = as.character(label_tar_visnetwork),
-          multiple = TRUE
-        ),
-        shiny::sliderInput(
-          ns("level_separation"),
-          "level_separation",
-          value = as.numeric(level_separation),
-          min = 0,
-          max = 1000,
-          step = 10
+        choiceNames = c("graph", "branches"),
+        choiceValues = c("graph", "branches"),
+        selected = "graph"
+      ),
+      shinyWidgets::radioGroupButtons(
+        inputId = ns("targets_only"),
+        label = NULL,
+        status = "primary",
+        choiceNames = c("globals", "targets"),
+        choiceValues = c("FALSE", "TRUE"),
+        selected = as.character(targets_only)
+      ),
+      shinyWidgets::radioGroupButtons(
+        inputId = ns("outdated"),
+        label = NULL,
+        status = "primary",
+        choiceNames = c("outdated", "progress"),
+        choiceValues = c("TRUE", "FALSE"),
+        selected = as.character(outdated)
+      ),
+      shinyWidgets::pickerInput(
+        inputId = ns("label"),
+        label = NULL,
+        choices = c("time", "size", "branches"),
+        selected = as.character(label_tar_visnetwork),
+        multiple = TRUE,
+        options = shinyWidgets::pickerOptions(
+          actionsBox = TRUE,
+          deselectAllText = "none",
+          selectAllText = "all",
+          noneSelectedText = "no label"
         )
+      ),
+      shiny::sliderInput(
+        inputId = ns("seconds"),
+        label = "seconds",
+        value = seconds,
+        min = seconds_min,
+        max = seconds_max,
+        step = seconds_step
+      ),
+      shiny::sliderInput(
+        inputId = ns("level_separation"),
+        label = "level_separation",
+        value = as.numeric(level_separation),
+        min = 0,
+        max = 1000,
+        step = 10
       )
     ),
-    shiny::column(
-      width = 8,
-      bs4Dash::bs4Sortable(
-        bs4Dash::bs4Card(
-          inputID = ns("graph"),
-          title = "Graph",
-          status = "primary",
-          closable = FALSE,
-          width = 12,
-          shinycssloaders::withSpinner(
-            visNetwork::visNetworkOutput(ns("graph"), height = height)
-          )
-        ),
-        bs4Dash::bs4Card(
-          inputID = ns("branches"),
-          title = "Branches",
-          status = "primary",
-          closable = FALSE,
-          collapsed = TRUE,
-          width = 12,
-          shinycssloaders::withSpinner(
-            gt::gt_output(ns("branches"))
-          )
-        )
-      )
+    bs4Dash::bs4Card(
+      inputID = ns("progress"),
+      title = "Progress",
+      status = "primary",
+      closable = FALSE,
+      collapsible = FALSE,
+      width = 9,
+      shiny::uiOutput(ns("display"))
     )
   )
 }
@@ -309,8 +308,24 @@ tar_watch_server <- function(id, height = "650px") {
       })
       output$branches <- gt::render_gt({
         shiny::invalidateLater(millis = 1000 * as.numeric(input$seconds))
-        tar_progress_branches_gt()
+        trn(
+          dir.exists("_targets/meta/progress"),
+          tar_progress_branches_gt(),
+          gt_borderless(data_frame(progress = "No progress recorded."))
+        )
       }, height = height)
+      output$display <- shiny::renderUI({
+        shiny::req(input$display)
+        switch(
+          input$display,
+          graph = shinycssloaders::withSpinner(
+            visNetwork::visNetworkOutput(session$ns("graph"), height = height)
+          ),
+          branches = shinycssloaders::withSpinner(
+            gt::gt_output(session$ns("branches"))
+          )
+        )
+      })
     }
   )
 }

@@ -209,9 +209,8 @@ assert_store <- function() {
   assert_path(
     "_targets",
     paste(
-      "utility functions like tar_delete() require a _targets/",
-      "data store produced by tar_make() or similar in the",
-      "current working directory."
+      "utility functions like tar_read() and tar_progress() require a",
+      " _targets/ data store produced by tar_make() or similar."
     )
   )
 }

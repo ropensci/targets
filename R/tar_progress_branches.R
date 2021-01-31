@@ -80,21 +80,7 @@ tar_progress_branches_bin <- function(level, long) {
 # Just for the tar_watch() app. # nolint
 tar_progress_branches_gt <- function() {
   progress <- tar_progress_branches(names = NULL, fields = NULL)
-  out <- gt::gt(progress)
-  out <- gt::cols_width(out, everything() ~ gt::pct(16.6))
-  out <- gt::cols_align(out, align = "left", columns = everything())
-  out <- gt::tab_options(
-    out,
-    row.striping.include_table_body = TRUE,
-    table.border.top.style = "hidden",
-    table.border.bottom.style = "hidden",
-    table_body.border.bottom.style = "hidden"
-  )
-  out <- gt::tab_style(
-    out,
-    gt::cell_borders(weight = gt::px(0)),
-    locations = gt::cells_body()
-  )
+  out <- gt_borderless(progress)
   out <- gt::tab_style(
     out,
     gt::cell_text(weight = "bold"),
@@ -119,4 +105,22 @@ tar_progress_branches_gt <- function() {
     )
   }
   out
+}
+
+gt_borderless <- function(x) {
+  out <- gt::gt(x)
+  out <- gt::cols_width(out, everything() ~ gt::pct(16.6))
+  out <- gt::cols_align(out, align = "left", columns = everything())
+  out <- gt::tab_options(
+    out,
+    row.striping.include_table_body = TRUE,
+    table.border.top.style = "hidden",
+    table.border.bottom.style = "hidden",
+    table_body.border.bottom.style = "hidden"
+  )
+  out <- gt::tab_style(
+    out,
+    gt::cell_borders(weight = gt::px(0)),
+    locations = gt::cells_body()
+  )
 }
