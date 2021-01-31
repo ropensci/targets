@@ -57,7 +57,15 @@ tar_watch <- function(
   port = getOption("shiny.port", targets::tar_random_port()),
   verbose = TRUE
 ) {
-  pkgs <- c("bs4Dash", "gt", "pingr", "shiny", "shinycssloaders", "visNetwork")
+  pkgs <- c(
+    "bs4Dash",
+    "gt",
+    "pingr",
+    "shiny",
+    "shinycssloaders",
+    "shinyWidgets",
+    "visNetwork"
+  )
   msg <- paste("tar_watch() requires packages", paste(pkgs, collapse = ", "))
   map(pkgs, ~assert_package(.x, msg = msg))
   assert_dbl(seconds, "seconds must be numeric.")
