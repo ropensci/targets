@@ -44,7 +44,7 @@
 tar_watch <- function(
   seconds = 5,
   seconds_min = 1,
-  seconds_max = 100,
+  seconds_max = 60,
   seconds_step = 1,
   targets_only = FALSE,
   outdated = TRUE,
@@ -228,6 +228,13 @@ tar_watch_ui <- function(
         selected = "graph"
       ),
       shinyWidgets::materialSwitch(
+        inputId = ns("refresh"),
+        label = "refresh",
+        value = TRUE,
+        status = "primary",
+        right = TRUE
+      ),
+      shinyWidgets::materialSwitch(
         inputId = ns("targets_only"),
         label = "targets only",
         value = targets_only,
@@ -304,7 +311,9 @@ tar_watch_server <- function(id, height = "650px") {
       ls_reactive <- shiny::reactive(input$level_separation)
       level_separation <- shiny::throttle(r = ls_reactive, millis = interval)
       output$graph <- visNetwork::renderVisNetwork({
-        shiny::invalidateLater(millis = millis())
+        if (identical(input$refresh, TRUE)) {
+          shiny::invalidateLater(millis = millis())
+        }
         tar_visnetwork(
           targets_only = as.logical(input$targets_only),
           outdated = as.logical(input$outdated),
@@ -313,7 +322,9 @@ tar_watch_server <- function(id, height = "650px") {
         )
       })
       output$branches <- gt::render_gt({
-        shiny::invalidateLater(millis = millis())
+        if (identical(input$refresh, TRUE)) {
+          shiny::invalidateLater(millis = millis())
+        }
         trn(
           file.exists(path_progress()),
           tar_progress_branches_gt(),
