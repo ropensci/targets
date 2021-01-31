@@ -15,7 +15,7 @@
 * Store `type`, `parent`, and `branches` in progress data for `tar_watch()` (#273, @mattwarkentin).
 * Add a `fields` argument in `tar_progress()` and default to `"progress"` for back compatibility (#273, @mattwarkentin).
 * Add a new `tar_progress_branches()` function to tabulate branch progress (#273, @mattwarkentin).
-* Add new "refresh" switch to `tar_watch()` to toggle automatic refreshing or force a refresh.
+* Add new "refresh" switch to `tar_watch()` to toggle automatic refreshing and force a refresh.
 
 ## Enhancements
 
