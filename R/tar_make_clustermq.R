@@ -45,7 +45,7 @@ tar_make_clustermq <- function(
   callr_arguments = list()
 ) {
   assert_package("clustermq")
-  assert_target_script()
+  assert_script()
   reporter <- match.arg(reporter, choices = tar_make_reporters())
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")

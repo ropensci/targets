@@ -58,7 +58,7 @@
 #' }
 tar_meta <- function(names = NULL, fields = NULL) {
   assert_store()
-  assert_path(file.path("_targets/meta/meta"))
+  assert_path(path_meta())
   out <- tibble::as_tibble(meta_init()$database$read_condensed_data())
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)

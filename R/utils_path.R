@@ -1,9 +1,29 @@
+path_script <- function() {
+  "_targets.R"
+}
+
+path_store <- function() {
+  "_targets"
+}
+
 path_objects <- function(name) {
   file.path(path_objects_dir(), name)
 }
 
 path_objects_dir <- function() {
-  file.path("_targets", "objects")
+  file.path(path_store(), "objects")
+}
+
+path_meta_dir <- function() {
+  file.path(path_store(), "meta")
+}
+
+path_meta <- function() {
+  file.path(path_meta_dir(), "meta")
+}
+
+path_progress <- function() {
+  file.path(path_meta_dir(), "progress")
 }
 
 path_scratch <- function(pattern = "") {
@@ -11,7 +31,7 @@ path_scratch <- function(pattern = "") {
 }
 
 path_scratch_dir <- function() {
-  file.path("_targets", "scratch")
+  file.path(path_store(), "scratch")
 }
 
 path_scratch_del <- function() {
@@ -23,5 +43,5 @@ path_workspace <- function(name) {
 }
 
 path_workspaces_dir <- function() {
-  file.path("_targets", "workspaces")
+  file.path(path_store(), "workspaces")
 }

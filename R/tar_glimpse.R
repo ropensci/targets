@@ -48,7 +48,7 @@ tar_glimpse <- function(
   callr_function = callr::r,
   callr_arguments = list()
 ) {
-  assert_target_script()
+  assert_script()
   assert_package("visNetwork")
   assert_lgl(targets_only, "targets_only must be logical.")
   assert_callr_function(callr_function)

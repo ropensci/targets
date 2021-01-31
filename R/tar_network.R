@@ -33,7 +33,7 @@ tar_network <- function(
   callr_function = callr::r,
   callr_arguments = list()
 ) {
-  assert_target_script()
+  assert_script()
   assert_lgl(targets_only, "targets_only must be logical.")
   assert_in(
     reporter,

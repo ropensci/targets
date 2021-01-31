@@ -227,21 +227,19 @@ tar_watch_ui <- function(
         choiceValues = c("graph", "branches"),
         selected = "graph"
       ),
-      shinyWidgets::radioGroupButtons(
+      shinyWidgets::materialSwitch(
         inputId = ns("targets_only"),
-        label = NULL,
+        label = "targets only",
+        value = targets_only,
         status = "primary",
-        choiceNames = c("globals", "targets"),
-        choiceValues = c("FALSE", "TRUE"),
-        selected = as.character(targets_only)
+        right = TRUE
       ),
-      shinyWidgets::radioGroupButtons(
+      shinyWidgets::materialSwitch(
         inputId = ns("outdated"),
-        label = NULL,
+        label = "outdated",
+        value = outdated,
         status = "primary",
-        choiceNames = c("outdated", "progress"),
-        choiceValues = c("TRUE", "FALSE"),
-        selected = as.character(outdated)
+        right = TRUE
       ),
       shinyWidgets::pickerInput(
         inputId = ns("label"),
@@ -256,13 +254,15 @@ tar_watch_ui <- function(
           noneSelectedText = "no label"
         )
       ),
+      shinyWidgets::chooseSliderSkin("Flat", color = "blue"),
       shiny::sliderInput(
         inputId = ns("seconds"),
         label = "seconds",
         value = seconds,
         min = seconds_min,
         max = seconds_max,
-        step = seconds_step
+        step = seconds_step,
+        ticks = FALSE
       ),
       shiny::sliderInput(
         inputId = ns("level_separation"),
@@ -270,7 +270,8 @@ tar_watch_ui <- function(
         value = as.numeric(level_separation),
         min = 0,
         max = 1000,
-        step = 10
+        step = 10,
+        ticks = FALSE
       )
     ),
     bs4Dash::bs4Card(
@@ -297,19 +298,24 @@ tar_watch_server <- function(id, height = "650px") {
   shiny::moduleServer(
     id,
     function(input, output, session) {
+      interval <- 1000
+      millis_reactive <- shiny::reactive(1000 * as.numeric(input$seconds))
+      millis <- shiny::throttle(r = millis_reactive, millis = interval)
+      ls_reactive <- shiny::reactive(input$level_separation)
+      level_separation <- shiny::throttle(r = ls_reactive, millis = interval)
       output$graph <- visNetwork::renderVisNetwork({
-        shiny::invalidateLater(millis = 1000 * as.numeric(input$seconds))
+        shiny::invalidateLater(millis = millis())
         tar_visnetwork(
           targets_only = as.logical(input$targets_only),
           outdated = as.logical(input$outdated),
           label = as.character(input$label),
-          level_separation = as.numeric(input$level_separation)
+          level_separation = as.numeric(level_separation())
         )
       })
       output$branches <- gt::render_gt({
-        shiny::invalidateLater(millis = 1000 * as.numeric(input$seconds))
+        shiny::invalidateLater(millis = millis())
         trn(
-          dir.exists("_targets/meta/progress"),
+          file.exists(path_progress()),
           tar_progress_branches_gt(),
           gt_borderless(data_frame(progress = "No progress recorded."))
         )

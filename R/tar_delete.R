@@ -37,9 +37,8 @@ tar_delete <- function(names) {
   names <- c(names, children)
   dynamic_files <- data$name[data$format == "file"]
   names <- setdiff(names, dynamic_files)
-  dir <- file.path("_targets", "objects")
-  files <- list.files(dir, all.files = TRUE)
+  files <- list.files(path_objects_dir(), all.files = TRUE)
   discard <- intersect(names, files)
-  unlink(file.path(dir, discard), recursive = TRUE)
+  unlink(file.path(path_objects_dir(), discard), recursive = TRUE)
   invisible()
 }

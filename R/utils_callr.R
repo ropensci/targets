@@ -4,16 +4,16 @@ callr_outer <- function(
   callr_function,
   callr_arguments
 ) {
-  assert_path(target_script_path())
+  assert_script()
   callr_arguments$func <- callr_inner
   callr_arguments$args <- list(
-    targets_script = target_script_path(),
+    targets_script = path_script(),
     targets_function = targets_function,
     targets_arguments = targets_arguments
   )
   trn(
     is.null(callr_function),
-    callr_inner(target_script_path(), targets_function, targets_arguments),
+    callr_inner(path_script(), targets_function, targets_arguments),
     do.call(
       callr_function,
       prepare_callr_arguments(callr_function, callr_arguments)

@@ -203,10 +203,6 @@ database_progress <- function() {
   )
 }
 
-path_progress <- function() {
-  file.path("_targets", "meta", "progress")
-}
-
 header_progress <- function() {
   c("name", "type", "parent", "branches", "progress")
 }

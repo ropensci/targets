@@ -32,10 +32,10 @@ tar_destroy <- function(
 ) {
   switch(
     match.arg(destroy),
-    all = unlink("_targets", recursive = TRUE),
-    meta = unlink(file.path("_targets", "meta", "meta")),
-    progress = unlink(file.path("_targets", "meta", "progress")),
-    objects = unlink(file.path("_targets", "objects"), recursive = TRUE),
+    all = unlink(path_store(), recursive = TRUE),
+    meta = unlink(path_meta()),
+    progress = unlink(path_progress()),
+    objects = unlink(path_objects_dir(), recursive = TRUE),
     scratch = unlink(path_scratch_dir(), recursive = TRUE),
     workspaces = unlink(path_workspaces_dir(), recursive = TRUE)
   )

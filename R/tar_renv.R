@@ -53,7 +53,7 @@ tar_renv <- function(
   callr_function = callr::r,
   callr_arguments = list()
 ) {
-  assert_target_script()
+  assert_script()
   assert_chr(extras, "extras must be a character vector")
   assert_chr(path, "path must have type character")
   assert_scalar(path, "path must have length 1")

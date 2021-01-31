@@ -55,7 +55,7 @@
 #' writeLines(readLines("_targets.R"))
 #' })
 tar_script <- function(code = NULL, library_targets = TRUE, ask = NULL) {
-  if (!tar_should_overwrite(ask, "_targets.R")) {
+  if (!tar_should_overwrite(ask, path_script())) {
     # covered in tests/interactive/test-tar_script.R # nolint
     return(invisible()) # nocov
   }
@@ -71,11 +71,11 @@ tar_script <- function(code = NULL, library_targets = TRUE, ask = NULL) {
   if (library_targets) {
     text <- c("library(targets)", text)
   }
-  writeLines(text, "_targets.R")
+  writeLines(text, path_script())
 }
 
 example_target_script <- function() {
-  path <- system.file("_targets.R", package = "targets", mustWork = TRUE)
+  path <- system.file(path_script(), package = "targets", mustWork = TRUE)
   readLines(path)
 }
 
@@ -85,8 +85,4 @@ parse_target_script_code <- function(code) {
     map_chr(code[-1], deparse_safe),
     deparse_safe(code)
   )
-}
-
-target_script_path <- function() {
-  "_targets.R"
 }

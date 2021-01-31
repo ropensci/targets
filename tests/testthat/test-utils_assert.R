@@ -119,12 +119,12 @@ tar_test("assert_target_list", {
   expect_error(assert_target_list(123), class = "condition_validate")
 })
 
-tar_test("assert_target_script()", {
-  expect_error(assert_target_script(), class = "condition_validate")
+tar_test("assert_script()", {
+  expect_error(assert_script(), class = "condition_validate")
   file.create("_targets.R")
-  expect_silent(assert_target_script())
+  expect_silent(assert_script())
   writeLines("tar_make()", "_targets.R")
-  expect_error(assert_target_script(), class = "condition_validate")
+  expect_error(assert_script(), class = "condition_validate")
 })
 
 tar_test("assert_true()", {

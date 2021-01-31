@@ -113,10 +113,6 @@ database_meta <- function() {
   )
 }
 
-path_meta <- function() {
-  file.path("_targets", "meta", "meta")
-}
-
 header_meta <- function() {
   c(
     "name",

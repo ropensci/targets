@@ -20,6 +20,8 @@
 
 * Exclude `.Random.seed` by default in `tar_visnetwork()`.
 * Spelling: "cancelled" changed to "canceled".
+* Enhance controls and use of space in the `tar_watch()` app.
+* Centralize internal path management utilities.
 
 ## Configuration
 

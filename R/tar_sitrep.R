@@ -82,7 +82,7 @@ tar_sitrep <- function(
   callr_function = callr::r,
   callr_arguments = list(spinner = identical(reporter, "silent"))
 ) {
-  assert_target_script()
+  assert_script()
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)
   assert_scalar(reporter, "reporter arg of tar_outdated() must have length 1.")

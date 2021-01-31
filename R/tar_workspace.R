@@ -67,7 +67,7 @@ tar_workspace <- function(
     build_load_packages(command$packages, command$library)
   }
   if (source) {
-    source("_targets.R", local = envir)
+    source(path_script(), local = envir)
   }
   set.seed(workspace$target$command$seed)
   invisible()

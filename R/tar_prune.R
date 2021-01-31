@@ -28,7 +28,7 @@
 #' })
 #' }
 tar_prune <- function(callr_function = callr::r, callr_arguments = list()) {
-  assert_target_script()
+  assert_script()
   assert_store()
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
@@ -55,6 +55,6 @@ tar_prune_inner <- function(pipeline) {
   discard <- setdiff(discard, dynamic_files)
   data <- as_data_frame(data)[data$name %in% keep, ]
   meta$database$overwrite_storage(data)
-  unlink(file.path("_targets", "objects", discard), recursive = TRUE)
+  unlink(file.path(path_objects_dir(), discard), recursive = TRUE)
   invisible()
 }

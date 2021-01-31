@@ -207,7 +207,7 @@ assert_scalar <- function(x, msg = NULL) {
 
 assert_store <- function() {
   assert_path(
-    "_targets",
+    path_store(),
     paste(
       "utility functions like tar_read() and tar_progress() require a",
       " _targets/ data store produced by tar_make() or similar."
@@ -235,14 +235,14 @@ assert_target_list <- function(x) {
   map(x, assert_target, msg = msg)
 }
 
-assert_target_script <- function() {
+assert_script <- function() {
   msg <- paste(
     "main functions like tar_make() require a special _targets.R script",
     "in the current working directory to define the pipeline.",
     "Fucntions tar_edit() and tar_script() can help."
   )
-  assert_path("_targets.R", msg)
-  vars <- all.vars(parse(file = "_targets.R"), functions = TRUE)
+  assert_path(path_script(), msg)
+  vars <- all.vars(parse(file = path_script()), functions = TRUE)
   exclude <- c(
     "glimpse",
     "make",

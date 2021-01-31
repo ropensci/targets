@@ -35,7 +35,7 @@
 #' }
 tar_progress <- function(names = NULL, fields = "progress") {
   assert_store()
-  assert_path(file.path("_targets/meta/progress"))
+  assert_path(path_progress())
   out <- tibble::as_tibble(progress_init()$database$read_condensed_data())
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)

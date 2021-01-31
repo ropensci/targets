@@ -54,7 +54,7 @@ tar_visnetwork <- function(
   callr_function = callr::r,
   callr_arguments = list(spinner = identical(reporter, "silent"))
 ) {
-  assert_target_script()
+  assert_script()
   assert_package("visNetwork")
   assert_lgl(targets_only, "targets_only must be logical.")
   assert_lgl(outdated, "outdated in tar_visnetwork() must be logical.")
