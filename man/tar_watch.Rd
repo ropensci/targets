@@ -7,7 +7,7 @@
 tar_watch(
   seconds = 5,
   seconds_min = 1,
-  seconds_max = 100,
+  seconds_max = 60,
   seconds_step = 1,
   targets_only = FALSE,
   outdated = TRUE,
