@@ -306,23 +306,33 @@ tar_watch_server <- function(id, height = "650px") {
     id,
     function(input, output, session) {
       interval <- 1000
-      millis_reactive <- shiny::reactive(1000 * as.numeric(input$seconds))
-      millis <- shiny::throttle(r = millis_reactive, millis = interval)
-      ls_reactive <- shiny::reactive(input$level_separation)
-      level_separation <- shiny::throttle(r = ls_reactive, millis = interval)
+      react_refresh <- shiny::reactive(input$refresh)
+      react_display <- shiny::reactive(input$display)
+      react_millis <- shiny::reactive(1000 * as.numeric(input$seconds))
+      react_targets <- shiny::reactive(as.logical(input$targets_only))
+      react_outdated <- shiny::reactive(as.logical(input$outdated))
+      react_label <- shiny::reactive(input$label)
+      react_ls <- shiny::reactive(as.numeric(input$level_separation))
+      display <- shiny::throttle(r = react_display, millis = interval)
+      refresh <- shiny::throttle(r = react_refresh, millis = interval)
+      millis <- shiny::throttle(r = react_millis, millis = interval)
+      targets_only <- shiny::throttle(r = react_targets, millis = interval)
+      outdated_tl <- shiny::throttle(r = react_outdated, millis = interval)
+      label <- shiny::throttle(r = react_label, millis = interval)
+      level_separation <- shiny::throttle(r = react_ls, millis = interval)
       output$graph <- visNetwork::renderVisNetwork({
-        if (identical(input$refresh, TRUE)) {
+        if (identical(react_refresh(), TRUE)) {
           shiny::invalidateLater(millis = millis())
         }
         tar_visnetwork(
-          targets_only = as.logical(input$targets_only),
-          outdated = as.logical(input$outdated),
-          label = as.character(input$label),
-          level_separation = as.numeric(level_separation())
+          targets_only = targets_only(),
+          outdated = outdated_tl(),
+          label = label(),
+          level_separation = level_separation()
         )
       })
       output$branches <- gt::render_gt({
-        if (identical(input$refresh, TRUE)) {
+        if (identical(react_refresh(), TRUE)) {
           shiny::invalidateLater(millis = millis())
         }
         trn(
@@ -332,9 +342,8 @@ tar_watch_server <- function(id, height = "650px") {
         )
       }, height = height)
       output$display <- shiny::renderUI({
-        shiny::req(input$display)
         switch(
-          input$display,
+          display() %||% "graph",
           graph = shinycssloaders::withSpinner(
             visNetwork::visNetworkOutput(session$ns("graph"), height = height)
           ),
