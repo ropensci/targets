@@ -19,7 +19,8 @@ Runs a \code{test_that()} unit test inside a temporary
 directory to avoid writing to the user's file space.
 This helps ensure compliance with CRAN policies.
 Also isolates \code{tar_option_set()}
-options and environment variables specific to \code{targets}.
+options and environment variables specific to \code{targets}
+and skips the test on Solaris.
 Useful for writing tests for
 \href{https://wlandau.github.io/targetopia/}{targetopia} packages
 (extensions to \code{targets} tailored to specific use cases).
