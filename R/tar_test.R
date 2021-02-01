@@ -1,7 +1,9 @@
 #' @title Test code in a temporary directory.
 #' @export
 #' @description Runs a `test_that()` unit test inside a temporary
-#'   directory to comply with CRAN policies. Also isolates `tar_option_set()`
+#'   directory to avoid writing to the user's file space.
+#'   This helps ensure compliance with CRAN policies.
+#'   Also isolates `tar_option_set()`
 #'   options and environment variables specific to `targets`.
 #'   Useful for writing tests for
 #'   [targetopia](https://wlandau.github.io/targetopia/) packages

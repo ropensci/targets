@@ -11,7 +11,7 @@
 #'   symbols, a character vector, or `tidyselect` helpers like [starts_with()].
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
-#' tar_dir({ # Write all files to a temporary directory.
+#' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script({
 #'   list(
 #'     tar_target(y1, 1 + 1),
@@ -47,7 +47,7 @@ tar_load <- function(
 #' @param envir Environment to put the loaded targets.
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
-#' tar_dir({ # Write all files to a temporary directory.
+#' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script({
 #'   list(
 #'     tar_target(y1, 1 + 1),

@@ -20,7 +20,7 @@
 #' tar_option_reset() # reset the format
 #' tar_target(x, 1)$settings$format
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
-#' tar_dir({ # Write all files to a temporary directory.
+#' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script({
 #'   tar_option_set(cue = tar_cue(mode = "always")) # All targets always run.
 #'   list(tar_target(x, 1), tar_target(y, 2))

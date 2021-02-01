@@ -49,7 +49,7 @@ runs the correct targets in the correct order and stores the return
 values in \verb{_targets/objects/}.
 }
 \examples{
-tar_dir({ # Write all files to a temporary directory.
+tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script({
   tar_option_set()
   list(tar_target(x, 1 + 1))

@@ -1,6 +1,7 @@
 #' @title Execute code in a temporary directory.
 #' @export
-#' @description Runs code inside a new `tempfile()` directory.
+#' @description Runs code inside a new `tempfile()` directory
+#'   in order to avoid writing to the user's file space.
 #'   Used in examples and tests in order to comply with CRAN policies.
 #' @return Return value of the user-defined code.
 #' @param code User-defined code.

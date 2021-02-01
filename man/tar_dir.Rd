@@ -13,7 +13,8 @@ tar_dir(code)
 Return value of the user-defined code.
 }
 \description{
-Runs code inside a new \code{tempfile()} directory.
+Runs code inside a new \code{tempfile()} directory
+in order to avoid writing to the user's file space.
 Used in examples and tests in order to comply with CRAN policies.
 }
 \examples{

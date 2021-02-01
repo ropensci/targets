@@ -29,7 +29,7 @@ Read a target's return value from its file in
 the paths are returned.
 }
 \examples{
-tar_dir({ # Write all files to a temporary directory.
+tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script(list(tar_target(x, 1 + 1)), ask = FALSE)
 tar_make()
 tar_read(x)

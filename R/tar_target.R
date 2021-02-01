@@ -181,7 +181,7 @@
 #' tar_option_reset()
 #' # In a pipeline:
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
-#' tar_dir({ # Write all files to a temporary directory.
+#' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script(tar_target(x, 1 + 1), ask = FALSE)
 #' tar_make()
 #' tar_read(x)

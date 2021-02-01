@@ -21,7 +21,7 @@
 #' tar_path()
 #' tar_path(your_target)
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
-#' tar_dir({ # Write all files to a temporary directory.
+#' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script(tar_target(returns_path, tar_path()), ask = FALSE)
 #' tar_make()
 #' tar_read(returns_path)
