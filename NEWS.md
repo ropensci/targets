@@ -4,6 +4,7 @@
 
 * Enable `allow` and `exclude` to work on imports in `tar_visnetwork()` and `tar_glimpse()`.
 * Put `visNetwork` legends on right to deal with how legend nodes always align right within the legend space.
+* `tar_test()` now skips all tests on Solaris.
 
 ## Performance
 
