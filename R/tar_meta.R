@@ -10,8 +10,10 @@
 #'   only returns metadata on these targets.
 #'   You can supply symbols, a character vector,
 #'   or `tidyselect` helpers like [starts_with()].
+#'   If `NULL`, all names are selected.
 #' @param fields Optional, names of columns/fields to select. If supplied,
 #'   `tar_meta()` only returns the selected metadata columns.
+#'   If `NULL`, all fields are selected.
 #'   You can supply symbols, a character vector, or `tidyselect` helpers
 #'   like [starts_with()]. The `name` column is always included first
 #'   no matter what you select. Choices:

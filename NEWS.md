@@ -1,6 +1,8 @@
 # targets 0.1.0.9000
 
+## New features
 
+* Add a new `names` argument to `tar_objects()` with `tidyselect` functionality.
 
 # targets 0.1.0
 

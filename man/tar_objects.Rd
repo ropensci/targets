@@ -4,7 +4,15 @@
 \alias{tar_objects}
 \title{List saved targets}
 \usage{
-tar_objects()
+tar_objects(names = NULL)
+}
+\arguments{
+\item{names}{Optional \code{tidyselect} selector to return
+a tactical subset of target names.
+If \code{NULL}, all names are selected.}
+}
+\value{
+Character vector of targets saved to \verb{_targets/objects/}.
 }
 \description{
 List targets currently saved to \verb{_targets/objects/}.
@@ -19,6 +27,7 @@ tar_script({
 }, ask = FALSE)
 tar_make()
 tar_objects()
+tar_objects(starts_with("x"))
 })
 }
 }
