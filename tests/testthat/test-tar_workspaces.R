@@ -6,4 +6,5 @@ tar_test("tar_workspaces()", {
   })
   tar_make(callr_function = NULL)
   expect_equal(tar_workspaces(), sort(c("x", "y")))
+  expect_equal(tar_workspaces(contains("x")), "x")
 })

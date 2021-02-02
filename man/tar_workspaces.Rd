@@ -4,7 +4,16 @@
 \alias{tar_workspaces}
 \title{List saved target workspaces.}
 \usage{
-tar_workspaces()
+tar_workspaces(names = NULL)
+}
+\arguments{
+\item{names}{Optional \code{tidyselect} selector to return
+a tactical subset of workspace names.
+If \code{NULL}, all names are selected.}
+}
+\value{
+Character vector of available workspaces to load with
+\code{\link[=tar_workspace]{tar_workspace()}}.
 }
 \description{
 List target workspaces currently saved to
@@ -22,6 +31,7 @@ tar_script({
 }, ask = FALSE)
 tar_make()
 tar_workspaces()
+tar_workspaces(contains("x"))
 })
 }
 }

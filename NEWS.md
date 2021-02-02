@@ -2,7 +2,7 @@
 
 ## New features
 
-* Add a new `names` argument to `tar_objects()` with `tidyselect` functionality.
+* Add a new `names` argument to `tar_objects()` and `tar_workspaces()` with `tidyselect` functionality.
 
 # targets 0.1.0
 
