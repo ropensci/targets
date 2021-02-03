@@ -75,7 +75,7 @@ tar_script <- function(code = NULL, library_targets = TRUE, ask = NULL) {
 }
 
 example_target_script <- function() {
-  path <- system.file(path_script(), package = "targets", mustWork = TRUE)
+  path <- system.file("_targets.R", package = "targets", mustWork = TRUE)
   readLines(path)
 }
 
