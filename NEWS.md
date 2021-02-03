@@ -3,6 +3,7 @@
 ## New features
 
 * Add a new `names` argument to `tar_objects()` and `tar_workspaces()` with `tidyselect` functionality.
+* Add a new `tidy_eval` argument to `tar_script()` (#290). Disabled by default because `tidy_eval` is enabled in `tar_target()` by default. 
 
 # targets 0.1.0
 
