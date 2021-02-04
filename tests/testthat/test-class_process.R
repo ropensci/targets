@@ -61,7 +61,7 @@ tar_test("pid from tar_make()", {
   x <- process_init()
   tar_script(tar_target(x, 1))
   expect_false(file.exists(path_process()))
-  tar_make()
+  tar_make(reporter = "silent")
   expect_true(file.exists(path_process()))
   out <- process_init()$read_process()
   pid <- as.integer(out$value[out$name == "pid"])
