@@ -17,7 +17,7 @@ process_class <- R6::R6Class(
       self$database <- database
     },
     get_process = function() {
-      as_data_frame(self$database$get_row("main"))
+      self$database$get_data()
     },
     read_process = function() {
       self$database$read_data()
@@ -34,7 +34,7 @@ process_class <- R6::R6Class(
       out
     },
     set_process = function(process) {
-      self$database$set_row(process)
+      self$database$set_data(process)
     },
     update_process = function() {
       self$set_process(self$produce_process())

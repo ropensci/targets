@@ -52,6 +52,11 @@ database_class <- R6::R6Class(
     del_rows = function(names) {
       memory_del_objects(self$memory, names)
     },
+    get_data = function() {
+      rows <- self$list_rows()
+      out <- map(rows, ~as_data_frame(self$get_row(.x)))
+      do.call(rbind, out)
+    },
     set_data = function(data) {
       list <- lapply(data, as.list)
       map(seq_along(list$name), ~self$set_row(lapply(list, `[[`, i = .x)))
