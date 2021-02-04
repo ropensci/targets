@@ -81,7 +81,9 @@ active_class <- R6::R6Class(
     },
     validate = function() {
       super$validate()
-      self$process$validate()
+      if (!is.null(self$process)) {
+        self$process$validate()
+      }
     }
   )
 )
