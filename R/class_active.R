@@ -21,11 +21,16 @@ active_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    process = NULL,
     ensure_meta = function() {
       self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
       self$meta$record_imports(self$pipeline$imports, self$pipeline)
       self$meta$restrict_records(self$pipeline)
+    },
+    ensure_process = function() {
+      self$process <- process_init()
+      self$process$record_process()
     },
     produce_exports = function(envir) {
       out <- as.list(envir, all.names = TRUE)
@@ -64,6 +69,7 @@ active_class <- R6::R6Class(
       pipeline_prune_names(self$pipeline, self$names)
       self$update_scheduler()
       self$ensure_meta()
+      self$ensure_process()
       self$scheduler$progress$database$reset_storage()
       self$scheduler$reporter$report_start()
     },
@@ -72,6 +78,12 @@ active_class <- R6::R6Class(
       scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress)
       path_scratch_del()
+    },
+    validate = function() {
+      super$validate()
+      if (!is.null(self$process)) {
+        self$process$validate()
+      }
     }
   )
 )

@@ -105,5 +105,7 @@ tar_test("can run on a subset of targets", {
 })
 
 tar_test("local$validate()", {
-  expect_silent(local_init(pipeline_order())$validate())
+  local <- local_init(pipeline_order())
+  local$ensure_process()
+  expect_silent(local$validate())
 })

@@ -78,6 +78,8 @@ reference:
   - '`tar_manifest`'
   - '`tar_objects`'
   - '`tar_outdated`'
+  - '`tar_pid`'
+  - '`tar_process`'
   - '`tar_progress`'
   - '`tar_progress_branches`'
   - '`tar_sitrep`'

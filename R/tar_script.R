@@ -88,7 +88,7 @@ tar_script <- function(
     parse_target_script_code(code),
     example_target_script()
   )
-  assert_chr(text, "code arg of tar_script() must be parseable R code.")
+  assert_chr(text, "code argument must be parseable R code.")
   if (library_targets) {
     text <- c("library(targets)", text)
   }
