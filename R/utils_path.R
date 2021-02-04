@@ -26,6 +26,10 @@ path_progress <- function() {
   file.path(path_meta_dir(), "progress")
 }
 
+path_process <- function() {
+  file.path(path_meta_dir(), "process")
+}
+
 path_scratch <- function(pattern = "") {
   tempfile(pattern = pattern, tmpdir = path_scratch_dir())
 }
