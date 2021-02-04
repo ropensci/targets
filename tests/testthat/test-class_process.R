@@ -45,6 +45,29 @@ tar_test("process$record_process()", {
   expect_true(any(grepl("version_targets", out)))
 })
 
+tar_test("pid from tar_make(callr_function = NULL)", {
+  x <- process_init()
+  tar_script(tar_target(x, 1))
+  expect_false(file.exists(path_process()))
+  tar_make(callr_function = NULL)
+  expect_true(file.exists(path_process()))
+  out <- process_init()$read_process()
+  pid <- as.integer(out$value[out$name == "pid"])
+  expect_equal(pid, Sys.getpid())
+})
+
+tar_test("pid from tar_make()", {
+  skip_on_cran()
+  x <- process_init()
+  tar_script(tar_target(x, 1))
+  expect_false(file.exists(path_process()))
+  tar_make()
+  expect_true(file.exists(path_process()))
+  out <- process_init()$read_process()
+  pid <- as.integer(out$value[out$name == "pid"])
+  expect_false(pid == Sys.getpid())
+})
+
 tar_test("process$validate()", {
   x <- process_init()
   expect_silent(x$validate())
