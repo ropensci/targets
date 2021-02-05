@@ -245,7 +245,6 @@ assert_target <- function(x, msg = NULL) {
     "or a tar_pipeline() object (deprecated)."
   )
   assert_inherits(x = x, class = "tar_target", msg = msg)
-  
 }
 
 assert_target_list <- function(x) {
