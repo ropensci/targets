@@ -8,7 +8,7 @@
 ## Enhancements
 
 * Improve error messages of invalid arguments (#298, @brunocarlin). Removes partial argument matching in most cases.
-* Locally enable `crayon` colors (#302, @ginolhac). Can still be disabled with `options(crayon.enabled = FALSE)` in `_targets.R`.
+* By default, locally enable `crayon` if an only if the calling process is interactive (#302, @ginolhac). Can still be disabled with `options(crayon.enabled = FALSE)` in `_targets.R`.
 
 # targets 0.1.0
 

@@ -9,7 +9,8 @@ callr_outer <- function(
   callr_arguments$args <- list(
     targets_script = path_script(),
     targets_function = targets_function,
-    targets_arguments = targets_arguments
+    targets_arguments = targets_arguments,
+    targets_options = list(crayon.enabled = interactive())
   )
   trn(
     is.null(callr_function),
@@ -21,9 +22,13 @@ callr_outer <- function(
   )
 }
 
-callr_inner <- function(targets_script, targets_function, targets_arguments) {
-  options <- list(crayon.enabled = interactive())
-  withr::local_options(options)
+callr_inner <- function(
+  targets_script,
+  targets_function,
+  targets_arguments,
+  targets_options
+) {
+  withr::local_options(targets_options)
   value <- source(targets_script)$value
   targets_arguments$pipeline <- targets::as_pipeline(value)
   targets::pipeline_validate_lite(targets_arguments$pipeline)
