@@ -44,6 +44,8 @@
 #'   * `warnings`: character string of warning messages
 #'     from the last run of the target.
 #'   * `error`: character string of the error message if the target errored.
+#' @param targets_only Logical, whether to just show information about targets
+#'   or also return metadata on functions and other global objects.
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -58,7 +60,7 @@
 #' tar_meta(starts_with("y_"))
 #' })
 #' }
-tar_meta <- function(names = NULL, fields = NULL) {
+tar_meta <- function(names = NULL, fields = NULL, targets_only = FALSE) {
   assert_store()
   assert_path(path_meta())
   out <- tibble::as_tibble(meta_init()$database$read_condensed_data())
@@ -68,6 +70,10 @@ tar_meta <- function(names = NULL, fields = NULL) {
   fields <- eval_tidyselect(fields_quosure, colnames(out)) %||% colnames(out)
   if (!is.null(names)) {
     out <- out[match(names, out$name),, drop = FALSE] # nolint
+  }
+  if (targets_only) {
+    index <- out$type %in% c("function", "object")
+    out <- out[!index,, drop = FALSE] # nolint
   }
   out[, base::union("name", fields), drop = FALSE]
 }

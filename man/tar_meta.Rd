@@ -4,7 +4,7 @@
 \alias{tar_meta}
 \title{Read a project's metadata.}
 \usage{
-tar_meta(names = NULL, fields = NULL)
+tar_meta(names = NULL, fields = NULL, targets_only = FALSE)
 }
 \arguments{
 \item{names}{Optional, names of the targets. If supplied, \code{tar_meta()}
@@ -48,6 +48,9 @@ have them. These include buds of stems and branches of patterns.
 from the last run of the target.
 \item \code{error}: character string of the error message if the target errored.
 }}
+
+\item{targets_only}{Logical, whether to just show information about targets
+or also return metadata on functions and other global objects.}
 }
 \value{
 A data frame with one row per target/object and the selected fields.

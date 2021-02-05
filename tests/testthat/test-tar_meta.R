@@ -39,3 +39,20 @@ tar_test("tar_meta() with field selection", {
   expect_equal(nrow(out), 4L)
   expect_equal(colnames(out), c("name", "command"))
 })
+
+tar_test("tar_meta() targets_only", {
+  skip_on_cran()
+  tar_script({
+    envir <- new.env(parent = baseenv())
+    tar_option_set(envir = envir)
+    envir$f <- function() {
+      "y"
+    }
+    list(tar_target(x, f()))
+  })
+  tar_make(callr_function = NULL)
+  out <- tar_meta(targets_only = FALSE)
+  expect_true("f" %in% out$name)
+  out <- tar_meta(targets_only = TRUE)
+  expect_false("f" %in% out$name)
+})

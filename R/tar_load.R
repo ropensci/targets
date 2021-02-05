@@ -26,12 +26,10 @@
 tar_load <- function(
   names,
   branches = NULL,
-  meta = tar_meta(),
+  meta = tar_meta(targets_only = TRUE),
   envir = parent.frame()
 ) {
   force(envir)
-  index <- meta$type %in% c("function", "object")
-  meta <- meta[!index,, drop = FALSE] # nolint
   names <- eval_tidyselect(rlang::enquo(names), meta$name)
   tar_load_raw(names = names, branches = branches, meta = meta, envir = envir)
 }

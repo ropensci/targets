@@ -4,7 +4,12 @@
 \alias{tar_load}
 \title{Load the values of targets.}
 \usage{
-tar_load(names, branches = NULL, meta = tar_meta(), envir = parent.frame())
+tar_load(
+  names,
+  branches = NULL,
+  meta = tar_meta(targets_only = TRUE),
+  envir = parent.frame()
+)
 }
 \arguments{
 \item{names}{Names of the targets to build or check. Set to \code{NULL} to
