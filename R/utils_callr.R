@@ -5,16 +5,22 @@ callr_outer <- function(
   callr_arguments
 ) {
   assert_script()
+  targets_options <- list(crayon.enabled = interactive())
   callr_arguments$func <- callr_inner
   callr_arguments$args <- list(
     targets_script = path_script(),
     targets_function = targets_function,
     targets_arguments = targets_arguments,
-    targets_options = list(crayon.enabled = interactive())
+    targets_options = targets_options
   )
   trn(
     is.null(callr_function),
-    callr_inner(path_script(), targets_function, targets_arguments),
+    callr_inner(
+      targets_script = path_script(),
+      targets_function = targets_function,
+      targets_arguments = targets_arguments,
+      targets_options = targets_options
+    ),
     do.call(
       callr_function,
       prepare_callr_arguments(callr_function, callr_arguments)
