@@ -3,7 +3,6 @@
 ## New features
 
 * Add a new `names` argument to `tar_objects()` and `tar_workspaces()` with `tidyselect` functionality.
-* Add a new `tidy_eval` argument to `tar_script()` (#290). Disabled by default because `tidy_eval` is enabled in `tar_target()` by default. 
 * Record info on the main process (PID, R version, `targets` version) in `_targets/meta/process` and write new functions `tar_process()` and `tar_pid()` to retrieve the data (#291, #292).
 
 # targets 0.1.0

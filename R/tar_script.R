@@ -43,10 +43,6 @@
 #'   (Set to `"true"` or `"false"` with `Sys.setenv()`).
 #'   If `ask` and the `TAR_ASK` environment variable are both
 #'   indeterminate, defaults to `interactive()`.
-#' @param tidy_eval Logical, whether to enable tidy evaluation
-#'   to customize the script output. Disabled by default
-#'   because [tar_target()] also has a `tidy_eval` argument.
-#' @param envir Environment for tidy evaluation.
 #' @examples
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script() # Writes an example target script.
@@ -57,32 +53,19 @@
 #'   list(x)
 #' }, ask = FALSE)
 #' writeLines(readLines("_targets.R"))
-#' # With tidy eval:
-#' name <- quote(my_target)
-#' tar_script({
-#'   x <- tar_target(!!name, 1 + 1)
-#'   tar_option_set()
-#'   list(x)
-#' }, ask = FALSE, tidy_eval = TRUE)
-#' writeLines(readLines("_targets.R"))
 #' })
 tar_script <- function(
   code = NULL,
   library_targets = TRUE,
-  ask = NULL,
-  tidy_eval = FALSE,
-  envir = parent.frame()
+  ask = NULL
 ) {
   if (!tar_should_overwrite(ask, path_script())) {
     # covered in tests/interactive/test-tar_script.R # nolint
     return(invisible()) # nocov
   }
-  force(envir)
   assert_lgl(library_targets, "library_targets must be logical.")
   assert_scalar(library_targets, "library_targets must have length 1.")
-  assert_lgl(tidy_eval, "tidy_eval must be logical.")
-  assert_envir(envir, "envir must be an environment.")
-  code <- tidy_eval(substitute(code), envir, tidy_eval)
+  code <- substitute(code)
   text <- trn(
     length(code),
     parse_target_script_code(code),
@@ -96,7 +79,11 @@ tar_script <- function(
 }
 
 example_target_script <- function() {
-  path <- system.file("_targets.R", package = "targets", mustWork = TRUE)
+  path <- system.file(
+    path_script_basename(),
+    package = "targets",
+    mustWork = TRUE
+  )
   readLines(path)
 }
 

@@ -1,4 +1,8 @@
 path_script <- function() {
+  path_script_basename()
+}
+
+path_script_basename <- function() {
   "_targets.R"
 }
 

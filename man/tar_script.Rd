@@ -4,13 +4,7 @@
 \alias{tar_script}
 \title{Write a \verb{_targets.R} script to the current working directory.}
 \usage{
-tar_script(
-  code = NULL,
-  library_targets = TRUE,
-  ask = NULL,
-  tidy_eval = FALSE,
-  envir = parent.frame()
-)
+tar_script(code = NULL, library_targets = TRUE, ask = NULL)
 }
 \arguments{
 \item{code}{R code to write to \verb{_targets.R}. If \code{NULL}, an example
@@ -26,12 +20,6 @@ already exists. If \code{NULL}, defaults to \code{Sys.getenv("TAR_ASK")}.
 (Set to \code{"true"} or \code{"false"} with \code{Sys.setenv()}).
 If \code{ask} and the \code{TAR_ASK} environment variable are both
 indeterminate, defaults to \code{interactive()}.}
-
-\item{tidy_eval}{Logical, whether to enable tidy evaluation
-to customize the script output. Disabled by default
-because \code{\link[=tar_target]{tar_target()}} also has a \code{tidy_eval} argument.}
-
-\item{envir}{Environment for tidy evaluation.}
 }
 \value{
 \code{NULL} (invisibly).
@@ -81,14 +69,6 @@ tar_script({
   tar_option_set()
   list(x)
 }, ask = FALSE)
-writeLines(readLines("_targets.R"))
-# With tidy eval:
-name <- quote(my_target)
-tar_script({
-  x <- tar_target(!!name, 1 + 1)
-  tar_option_set()
-  list(x)
-}, ask = FALSE, tidy_eval = TRUE)
 writeLines(readLines("_targets.R"))
 })
 }
