@@ -22,7 +22,7 @@ callr_outer <- function(
 }
 
 callr_inner <- function(targets_script, targets_function, targets_arguments) {
-  options <- list(crayon.enabled = TRUE)
+  options <- list(crayon.enabled = interactive())
   withr::local_options(options)
   value <- source(targets_script)$value
   targets_arguments$pipeline <- targets::as_pipeline(value)
