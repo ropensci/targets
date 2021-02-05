@@ -1,5 +1,9 @@
 # targets 0.1.0.9000
 
+## Bug fixes
+
+* In `tar_load()`, subset metadata to avoid accidental attempts to load global objects in `tidyselect` calls.
+
 ## New features
 
 * Add a new `names` argument to `tar_objects()` and `tar_workspaces()` with `tidyselect` functionality.
