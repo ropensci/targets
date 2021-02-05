@@ -26,7 +26,7 @@
 #'   last_col matches num_range one_of starts_with
 #' @importFrom utils browseURL globalVariables head menu stack tail
 #' @importFrom vctrs vec_c vec_rbind vec_size vec_slice
-#' @importFrom withr local_dir local_envvar with_dir with_seed
+#' @importFrom withr local_dir local_envvar local_options with_dir with_seed
 NULL
 
 utils::globalVariables(
