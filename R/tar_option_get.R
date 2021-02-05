@@ -30,7 +30,7 @@
 #' })
 #' }
 tar_option_get <- function(option) {
-  option <- match.arg(option, choices = names(formals(tar_option_set)))
+  assert_flag(option, choices = names(formals(tar_option_set)))
   tar_envir_options[[option]] %||% tar_option_default(option)
 }
 

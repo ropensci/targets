@@ -138,19 +138,19 @@ tar_option_set_format <- function(format) {
 
 tar_option_set_iteration <- function(iteration) {
   iteration <- iteration %||% tar_option_get("iteration")
-  iteration <- match.arg(iteration, c("vector", "list", "group"))
+  assert_flag(iteration, c("vector", "list", "group"))
   assign("iteration", iteration, envir = tar_envir_options)
 }
 
 tar_option_set_error <- function(error) {
   error <- error %||% tar_option_get("error")
-  error <- match.arg(error, c("stop", "continue", "workspace"))
+  assert_flag(error, c("stop", "continue", "workspace"))
   assign("error", error, envir = tar_envir_options)
 }
 
 tar_option_set_memory <- function(memory) {
   memory <- memory %||% tar_option_get("memory")
-  memory <- match.arg(memory, c("persistent", "transient"))
+  assert_flag(memory, c("persistent", "transient"))
   assign("memory", memory, envir = tar_envir_options)
 }
 
@@ -165,7 +165,7 @@ tar_option_set_garbage_collection <- function(garbage_collection) {
 
 tar_option_set_deployment <- function(deployment) {
   deployment <- deployment %||% tar_option_get("deployment")
-  deployment <- match.arg(deployment, c("worker", "main"))
+  assert_flag(deployment, c("worker", "main"))
   assign("deployment", deployment, envir = tar_envir_options)
 }
 
@@ -186,13 +186,13 @@ tar_option_set_resources <- function(resources) {
 
 tar_option_set_storage <- function(storage) {
   storage <- storage %||% tar_option_get("storage")
-  storage <- match.arg(storage, c("main", "worker"))
+  assert_flag(storage, c("main", "worker"))
   assign("storage", storage, envir = tar_envir_options)
 }
 
 tar_option_set_retrieval <- function(retrieval) {
   retrieval <- retrieval %||% tar_option_get("retrieval")
-  retrieval <- match.arg(retrieval, c("main", "worker"))
+  assert_flag(retrieval, c("main", "worker"))
   assign("retrieval", retrieval, envir = tar_envir_options)
 }
 

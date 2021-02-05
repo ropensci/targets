@@ -54,6 +54,22 @@ assert_expr <- function(x, msg = NULL) {
   }
 }
 
+assert_flag <- function(x, choices, msg = NULL) {
+  name <- deparse(substitute(x))
+  assert_chr(x, msg %||% paste(name, "must be a character"))
+  assert_scalar(x, msg %||% paste(name, "must have length 1"))
+  if (!all(x %in% choices)) {
+    msg <- msg %||% paste(
+      name,
+      "equals",
+      deparse(x),
+      "but must be in",
+      deparse(choices)
+    )
+    throw_validate(msg)
+  }
+}
+
 assert_format <- function(format) {
   assert_scalar(format)
   assert_chr(format)
@@ -88,7 +104,14 @@ assert_identical_chr <- function(x, y, msg = NULL) {
 
 assert_in <- function(x, choices, msg = NULL) {
   if (!all(x %in% choices)) {
-    throw_validate(msg %||% paste(deparse(x), "is not in ", deparse(choices)))
+    msg <- msg %||% paste(
+      deparse(substitute(x)),
+      "equals",
+      deparse(x),
+      "but must be in",
+      deparse(choices)
+    )
+    throw_validate(msg)
   }
 }
 
@@ -222,7 +245,7 @@ assert_target <- function(x, msg = NULL) {
     "or a tar_pipeline() object (deprecated)."
   )
   assert_inherits(x = x, class = "tar_target", msg = msg)
-
+  
 }
 
 assert_target_list <- function(x) {

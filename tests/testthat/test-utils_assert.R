@@ -30,6 +30,11 @@ tar_test("assert_ge()", {
   expect_error(assert_ge(1L, 2L), class = "condition_validate")
 })
 
+tar_test("assert_flag()", {
+  expect_silent(assert_flag("x", letters))
+  expect_error(assert_flag("xyz", letters), class = "condition_validate")
+})
+
 tar_test("assert_function()", {
   expect_error(assert_function("not"), class = "condition_validate")
 })

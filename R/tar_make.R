@@ -42,7 +42,7 @@ tar_make <- function(
   callr_arguments = list()
 ) {
   assert_script()
-  reporter <- match.arg(reporter, choices = tar_make_reporters())
+  assert_flag(reporter, tar_make_reporters())
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(

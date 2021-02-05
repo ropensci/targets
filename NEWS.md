@@ -5,6 +5,10 @@
 * Add a new `names` argument to `tar_objects()` and `tar_workspaces()` with `tidyselect` functionality.
 * Record info on the main process (PID, R version, `targets` version) in `_targets/meta/process` and write new functions `tar_process()` and `tar_pid()` to retrieve the data (#291, #292).
 
+## Enhancements
+
+* Improve error messages of invalid arguments (#298, @brunocarlin). Removes partial argument matching in most cases.
+
 # targets 0.1.0
 
 ## Bug fixes

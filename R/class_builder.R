@@ -222,7 +222,7 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
 }
 
 builder_ensure_workspace <- function(target, pipeline, scheduler) {
-  if (target$settings$name %in% tar_option_get("workspace")) {
+  if (target$settings$name %in% tar_option_get("workspaces")) {
     builder_save_workspace(target, pipeline, scheduler)
   }
 }
