@@ -35,8 +35,8 @@ url_hash_impl <- function(url, handle) {
   assert_internet()
   handle <- url_handle(handle)
   req <- curl::curl_fetch_memory(url, handle = handle)
-  assert_identical(req$status_code, 200L, paste("could not access url:", url))
   headers <- curl::parse_headers_list(req$headers)
+  url_process_error(url, req, headers)
   etag <- paste(headers[["etag"]], collapse = "")
   mtime <- paste(headers[["last-modified"]], collapse = "")
   out <- paste0(etag, mtime)
@@ -48,6 +48,23 @@ url_handle <- function(handle = NULL) {
   handle <- handle %||% curl::new_handle()
   assert_inherits(handle, "curl_handle")
   curl::handle_setopt(handle, nobody = TRUE)
+}
+
+url_process_error <- function(url, req, headers) {
+  if (identical(req$status_code, 200L)) {
+    return()
+  }
+  header_text <- paste0("  ", names(headers), " = ", headers)
+  header_text <- paste0(header_text, collapse = "\n")
+  msg <- paste0(
+    "HTTP response status code ",
+    req$status_code,
+    "\nCould not access url:\n  ",
+    url,
+    "\nHTTP response headers:\n",
+    header_text
+  )
+  throw_run(msg)
 }
 
 # Tested in tests/interactive/test-tar_watch.R. # nolint

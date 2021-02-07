@@ -32,6 +32,13 @@ tar_test("dynamic urls work", {
   expect_false(file.exists(file.path("_targets", "objects", "abc")))
 })
 
+tar_test("condition_run error on bad URL", {
+  skip_if_not_installed("curl")
+  skip_if_offline()
+  tar_script(tar_target(abc, "https://httpbin.org/status/404", format = "url"))
+  expect_error(tar_make(callr_function = NULL), class = "condition_run")
+})
+
 tar_test("custom handle can be supplied without error", {
   skip_if_not_installed("curl")
   skip_if_offline()
