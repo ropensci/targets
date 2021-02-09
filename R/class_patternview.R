@@ -24,7 +24,7 @@ patternview_register_bytes <- function(patternview, record) {
 }
 
 patternview_register_running <- function(patternview, target, scheduler) {
-  if (!identical(patternview$progress, "running")) {
+  if (identical(patternview$progress, "queued")) {
     patternview$progress <- "running"
     scheduler$progress$write_running(target)
   }
