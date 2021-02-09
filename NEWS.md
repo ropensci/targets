@@ -14,6 +14,7 @@
 
 * Improve error messages of invalid arguments (#298, @brunocarlin). Removes partial argument matching in most cases.
 * By default, locally enable `crayon` if an only if the calling process is interactive (#302, @ginolhac). Can still be disabled with `options(crayon.enabled = FALSE)` in `_targets.R`.
+* Improve error handling and message for `format = "url"` when the HTTP response status code is not 200 (#303, @petrbouchal).
 
 # targets 0.1.0
 
