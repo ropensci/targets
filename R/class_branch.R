@@ -109,6 +109,16 @@ target_patternview_meta.tar_branch <- function(target, pipeline, meta) {
 }
 
 #' @export
+target_patternview_running.tar_branch <- function(
+  target,
+  pipeline,
+  scheduler
+) {
+  parent <- pipeline_get_target(pipeline, target_get_parent(target))
+  patternview_register_running(parent$patternview, parent, scheduler)
+}
+
+#' @export
 target_patternview_canceled.tar_branch <- function(
   target,
   pipeline,

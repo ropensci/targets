@@ -222,7 +222,6 @@ pattern_produce_data_hash <- function(target, pipeline, meta) {
 
 pattern_conclude_initial <- function(target, pipeline, scheduler, meta) {
   pattern_skip_initial(target, pipeline, scheduler, meta)
-  patternview_register_running(target$patternview, target, scheduler)
   pattern_debug_branches(target)
 }
 
