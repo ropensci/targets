@@ -5,14 +5,7 @@ tar_test("tar_renv() works", {
     list()
   })
   tar_renv()
-  pkgs <- c(
-    "clustermq",
-    "future",
-    "qs",
-    "rstudioapi",
-    "tibble",
-    "visNetwork"
-  )
+  pkgs <- sort(c("tibble", "qs", eval(formals(tar_renv)$extras)))
   expect_true(file.exists("_packages.R"))
   expect_equal(
     readLines("_packages.R"),
@@ -31,14 +24,7 @@ tar_test("tar_renv() works with custom path", {
     list()
   })
   tar_renv(path = path, callr_function = NULL)
-  pkgs <- c(
-    "clustermq",
-    "future",
-    "qs",
-    "rstudioapi",
-    "tibble",
-    "visNetwork"
-  )
+  pkgs <- sort(c("tibble", "qs", eval(formals(tar_renv)$extras)))
   expect_true(file.exists(path))
   expect_equal(
     readLines(path),
@@ -57,13 +43,7 @@ tar_test("tar_renv() packages set in tar_target()", {
     )
   })
   tar_renv(callr_function = NULL)
-  pkgs <- c(
-    "clustermq",
-    "future",
-    "rstudioapi",
-    "tibble",
-    "visNetwork"
-  )
+  pkgs <- sort(c("tibble", eval(formals(tar_renv)$extras)))
   expect_true(file.exists("_packages.R"))
   expect_equal(
     readLines("_packages.R"),
@@ -82,13 +62,7 @@ tar_test("tar_renv() formats set in tar_target()", {
     )
   })
   tar_renv(callr_function = NULL)
-  pkgs <- c(
-    "clustermq",
-    "future",
-    "qs",
-    "rstudioapi",
-    "visNetwork"
-  )
+  pkgs <- sort(c("qs", eval(formals(tar_renv)$extras)))
   expect_true(file.exists("_packages.R"))
   expect_equal(
     readLines("_packages.R"),
@@ -108,13 +82,7 @@ tar_test("tar_renv() formats set in pattern targets", {
     )
   })
   tar_renv(callr_function = NULL)
-  pkgs <- c(
-    "clustermq",
-    "future",
-    "qs",
-    "rstudioapi",
-    "visNetwork"
-  )
+  pkgs <- sort(c("qs", eval(formals(tar_renv)$extras)))
   expect_true(file.exists("_packages.R"))
   expect_equal(
     readLines("_packages.R"),
@@ -134,14 +102,7 @@ tar_test("tar_renv() packages set in tar_option_set()", {
     list()
   })
   tar_renv(callr_function = NULL)
-  pkgs <- c(
-    "clustermq",
-    "future",
-    "qs",
-    "rstudioapi",
-    "tibble",
-    "visNetwork"
-  )
+  pkgs <- sort(c("tibble", "qs", eval(formals(tar_renv)$extras)))
   expect_true(file.exists("_packages.R"))
   expect_equal(
     readLines("_packages.R"),
