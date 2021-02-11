@@ -48,7 +48,18 @@
 #' })
 #' tar_option_reset()
 tar_renv <- function(
-  extras = c("clustermq", "future", "rstudioapi", "visNetwork"),
+  extras = c(
+    "bs4Dash",
+    "clustermq",
+    "future",
+    "gt",
+    "pingr",
+    "rstudioapi",
+    "shiny",
+    "shinycssloaders",
+    "shinyWidgets",
+    "visNetwork"
+  ),
   path = "_packages.R",
   callr_function = callr::r,
   callr_arguments = list()
