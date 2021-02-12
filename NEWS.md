@@ -3,7 +3,7 @@
 ## Bug fixes
 
 * In `tar_load()`, subset metadata to avoid accidental attempts to load global objects in `tidyselect` calls.
-* Do not register a pattern as running unless an actual branch starts (#304).
+* Do not register a pattern as running unless an actual branch is about to start (#304).
 
 ## New features
 
