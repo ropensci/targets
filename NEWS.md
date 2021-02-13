@@ -10,6 +10,7 @@
 * Add a new `names` argument to `tar_objects()` and `tar_workspaces()` with `tidyselect` functionality.
 * Record info on the main process (PID, R version, `targets` version) in `_targets/meta/process` and write new functions `tar_process()` and `tar_pid()` to retrieve the data (#291, #292).
 * Add a new `targets_only` argument to `tar_meta()`.
+* Add new functions `tar_helper()` and `tar_helper_raw()` to write general-purpose R scripts, using tidy evaluation for as a template mechanism (#290, #291, #292, #306).
 
 ## Enhancements
 

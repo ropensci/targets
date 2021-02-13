@@ -66,16 +66,13 @@ tar_script <- function(
   assert_lgl(library_targets, "library_targets must be logical.")
   assert_scalar(library_targets, "library_targets must have length 1.")
   code <- substitute(code)
-  text <- trn(
-    length(code),
-    parse_target_script_code(code),
-    example_target_script()
-  )
+  text <- trn(length(code), deparse_script_code(code), example_target_script())
   assert_chr(text, "code argument must be parseable R code.")
   if (library_targets) {
     text <- c("library(targets)", text)
   }
   writeLines(text, path_script())
+  invisible()
 }
 
 example_target_script <- function() {
@@ -85,12 +82,4 @@ example_target_script <- function() {
     mustWork = TRUE
   )
   readLines(path)
-}
-
-parse_target_script_code <- function(code) {
-  trn(
-    length(code) > 1L && identical(deparse_safe(code[[1]]), "`{`"),
-    map_chr(code[-1], deparse_safe),
-    deparse_safe(code)
-  )
 }

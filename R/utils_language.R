@@ -1,3 +1,11 @@
+deparse_script_code <- function(code) {
+  trn(
+    length(code) > 1L && identical(deparse_safe(code[[1]]), "`{`"),
+    map_chr(code[-1], deparse_safe),
+    deparse_safe(code)
+  )
+}
+
 deps_function <- function(fun) {
   env <- list(`~` = `identity`)
   body(fun) <- eval(call("substitute", body(fun), env), envir = baseenv())

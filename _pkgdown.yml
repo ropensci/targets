@@ -25,6 +25,8 @@ reference:
 - title: Setup
   contents:
   - '`tar_edit`'
+  - '`tar_helper`'
+  - '`tar_helper_raw`'
   - '`tar_renv`'
   - '`tar_script`'
 - title: Options
