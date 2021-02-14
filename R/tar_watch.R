@@ -177,11 +177,22 @@ tar_watch_app_ui <- function(
       height = height
     )
   )
-  bs4Dash::bs4DashPage(
-    title = "",
-    body = body,
-    navbar = bs4Dash::bs4DashNavbar(controlbarIcon = NULL),
-    sidebar = bs4Dash::bs4DashSidebar(disable = TRUE)
+  # TODO: update when bs4Dash 2 is on CRAN:
+  trn(
+    utils::packageVersion("bs4Dash") >= 2L,
+    bs4Dash::bs4DashPage(
+      title = "",
+      body = body,
+      header = bs4Dash::bs4DashNavbar(controlbarIcon = NULL),
+      sidebar = bs4Dash::bs4DashSidebar(disable = TRUE),
+      dark = FALSE
+    ),
+    bs4Dash::bs4DashPage(
+      title = "",
+      body = body,
+      navbar = bs4Dash::bs4DashNavbar(controlbarIcon = NULL),
+      sidebar = bs4Dash::bs4DashSidebar(disable = TRUE)
+    )
   )
 }
 
@@ -227,6 +238,8 @@ tar_watch_ui <- function(
       closable = FALSE,
       collapsible = FALSE,
       width = 3,
+      # TODO: update when bs4Dash 2 is on CRAN:
+      solidHeader = utils::packageVersion("bs4Dash") >= 2L,
       shinyWidgets::radioGroupButtons(
         inputId = ns("display"),
         label = NULL,
@@ -295,6 +308,8 @@ tar_watch_ui <- function(
       status = "primary",
       closable = FALSE,
       collapsible = FALSE,
+      # TODO: update when bs4Dash 2 is on CRAN:
+      solidHeader = utils::packageVersion("bs4Dash") >= 2L,
       width = 9,
       shiny::uiOutput(ns("display"))
     )

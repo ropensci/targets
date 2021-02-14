@@ -120,7 +120,8 @@ gt_borderless <- function(x) {
   )
   out <- gt::tab_style(
     out,
-    gt::cell_borders(weight = gt::px(0)),
+    style = gt::cell_borders(weight = gt::px(0)),
     locations = gt::cells_body()
   )
+  out
 }
