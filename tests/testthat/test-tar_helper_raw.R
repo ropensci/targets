@@ -4,6 +4,12 @@ tar_test("tar_helper_raw() with one line", {
   expect_equal(readLines(path), "x <- 1")
 })
 
+tar_test("tar_helper_raw() with nonexistent parent dir", {
+  path <- file.path(tempfile(), "x", "y", "z")
+  tar_helper_raw(quote(x <- 1), path)
+  expect_equal(readLines(path), "x <- 1")
+})
+
 tar_test("tar_helper_raw() with more than one line", {
   path <- tempfile()
   expr <- quote({
