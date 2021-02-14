@@ -4,14 +4,14 @@
 \alias{tar_helper_raw}
 \title{Write a helper R script (raw version).}
 \usage{
-tar_helper_raw(code = NULL, path = NULL)
+tar_helper_raw(path = NULL, code = NULL)
 }
 \arguments{
-\item{code}{Expression object. \code{tar_helper_raw()} deparses and writes
-this code to a file at \code{path}, overwriting it if the file already exists.}
-
 \item{path}{Character of length 1, path to write (or overwrite) \code{code}.
 If the parent directory does not exist, \code{tar_helper_raw()} creates it.}
+
+\item{code}{Expression object. \code{tar_helper_raw()} deparses and writes
+this code to a file at \code{path}, overwriting it if the file already exists.}
 }
 \value{
 \code{NULL} (invisibly)
@@ -27,6 +27,6 @@ except that \code{code} is an "evaluated" argument rather than a quoted one.
 }
 \examples{
 path <- tempfile()
-tar_helper_raw(quote(x <- 1), path)
+tar_helper_raw(path, quote(x <- 1))
 writeLines(readLines(path))
 }

@@ -4,14 +4,14 @@
 \alias{tar_helper}
 \title{Write a helper R script.}
 \usage{
-tar_helper(code = NULL, path = NULL, tidy_eval = TRUE, envir = parent.frame())
+tar_helper(path = NULL, code = NULL, tidy_eval = TRUE, envir = parent.frame())
 }
 \arguments{
-\item{code}{Quoted code to write to \code{path}.
-\code{tar_helper()} overwrites the file if it already exists.}
-
 \item{path}{Character of length 1, path to write (or overwrite) \code{code}.
 If the parent directory does not exist, \code{tar_helper_raw()} creates it.}
+
+\item{code}{Quoted code to write to \code{path}.
+\code{tar_helper()} overwrites the file if it already exists.}
 
 \item{tidy_eval}{Logical, whether to use tidy evaluation on \code{code}. If
 turned on, you can substitute expressions and symbols using \verb{!!} and \verb{!!!}.
@@ -33,10 +33,10 @@ with flexible paths and tidy evaluation.
 \examples{
 # Without tidy evaluation:
 path <- tempfile()
-tar_helper(x <- 1, path)
+tar_helper(path, x <- 1)
 writeLines(readLines(path))
 # With tidy evaluation:
 y <- 123
-tar_helper(x <- !!y, path)
+tar_helper(path, x <- !!y)
 writeLines(readLines(path))
 }

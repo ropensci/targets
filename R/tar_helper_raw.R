@@ -12,9 +12,9 @@
 #'   If the parent directory does not exist, `tar_helper_raw()` creates it.
 #' @examples
 #' path <- tempfile()
-#' tar_helper_raw(quote(x <- 1), path)
+#' tar_helper_raw(path, quote(x <- 1))
 #' writeLines(readLines(path))
-tar_helper_raw <- function(code = NULL, path = NULL) {
+tar_helper_raw <- function(path = NULL, code = NULL) {
   assert_chr(path, "path must be a character.")
   assert_scalar(path, "path must have length 1.")
   dir_create(dirname(path))

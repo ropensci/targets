@@ -16,15 +16,15 @@
 #' @examples
 #' # Without tidy evaluation:
 #' path <- tempfile()
-#' tar_helper(x <- 1, path)
+#' tar_helper(path, x <- 1)
 #' writeLines(readLines(path))
 #' # With tidy evaluation:
 #' y <- 123
-#' tar_helper(x <- !!y, path)
+#' tar_helper(path, x <- !!y)
 #' writeLines(readLines(path))
 tar_helper <- function(
-  code = NULL,
   path = NULL,
+  code = NULL,
   tidy_eval = TRUE,
   envir = parent.frame()
 ) {
@@ -32,5 +32,5 @@ tar_helper <- function(
   assert_lgl(tidy_eval, "tidy_eval must be a character.")
   assert_scalar(tidy_eval, "tidy_eval must have length 1.")
   assert_envir(envir)
-  tar_helper_raw(tidy_eval(substitute(code), envir, tidy_eval), path)
+  tar_helper_raw(path, tidy_eval(substitute(code), envir, tidy_eval))
 }
