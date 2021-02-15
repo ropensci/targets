@@ -86,6 +86,13 @@ reference:
   - '`tar_progress_branches`'
   - '`tar_sitrep`'
   - '`tar_workspaces`'
+- title: Existence
+  contents:
+  - '`tar_exist_meta`'
+  - '`tar_exist_objects`'
+  - '`tar_exist_process`'
+  - '`tar_exist_progress`'
+  - '`tar_exist_script`'
 - title: Branching
   contents:
   - '`tar_branches`'
