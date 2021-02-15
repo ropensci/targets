@@ -347,11 +347,21 @@ tar_watch_server <- function(id, height = "650px") {
         if (identical(react_refresh(), TRUE)) {
           shiny::invalidateLater(millis = millis())
         }
-        tar_visnetwork(
-          targets_only = targets_only(),
-          outdated = outdated_tl(),
-          label = label(),
-          level_separation = level_separation()
+        trn(
+          tar_exist_script(),
+          tar_visnetwork(
+            targets_only = targets_only(),
+            outdated = outdated_tl(),
+            label = label(),
+            level_separation = level_separation()
+          ),
+          visNetwork::visNetwork(
+            data_frame(
+              label = "No _targets.R file detected.",
+              shape = "text",
+              font.size = "30"
+            )
+          )
         )
       })
       output$branches <- gt::render_gt({
@@ -359,7 +369,7 @@ tar_watch_server <- function(id, height = "650px") {
           shiny::invalidateLater(millis = millis())
         }
         trn(
-          file.exists(path_progress()),
+          tar_exist_progress(),
           tar_progress_branches_gt(),
           gt_borderless(data_frame(progress = "No progress recorded."))
         )
