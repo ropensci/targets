@@ -10,6 +10,7 @@
 #'   refreshes of the graph, and the other settings match
 #'   the arguments of [`tar_visnetwork()`].
 #' @return A handle to `callr::r_bg()` background process running the app.
+#' @inheritParams callr::r_bg
 #' @inheritParams tar_watch_ui
 #' @param label Label argument to [tar_visnetwork()].
 #' @param background Logical, whether to run the app in a background process
@@ -55,7 +56,8 @@ tar_watch <- function(
   browse = TRUE,
   host = getOption("shiny.host", "127.0.0.1"),
   port = getOption("shiny.port", targets::tar_random_port()),
-  verbose = TRUE
+  verbose = TRUE,
+  supervise = TRUE
 ) {
   pkgs <- c(
     "bs4Dash",
@@ -100,7 +102,7 @@ tar_watch <- function(
     args = args,
     stdout = "|",
     stderr = "|",
-    supervise = TRUE
+    supervise = supervise
   )
   if (browse) {
     url_port(host = host, port = port,  process = process, verbose = verbose)

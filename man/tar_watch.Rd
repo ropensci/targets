@@ -18,7 +18,8 @@ tar_watch(
   browse = TRUE,
   host = getOption("shiny.host", "127.0.0.1"),
   port = getOption("shiny.port", targets::tar_random_port()),
-  verbose = TRUE
+  verbose = TRUE,
+  supervise = TRUE
 )
 }
 \arguments{
@@ -72,6 +73,10 @@ Only relevant if \code{background} is \code{TRUE}.}
 
 \item{verbose}{whether to print a spinner and informative messages.
 Only relevant if \code{background} is \code{TRUE}.}
+
+\item{supervise}{Whether to register the process with a supervisor. If \code{TRUE},
+the supervisor will ensure that the process is killed when the R process
+exits.}
 }
 \value{
 A handle to \code{callr::r_bg()} background process running the app.
