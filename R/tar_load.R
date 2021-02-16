@@ -6,8 +6,7 @@
 #'   (i.e. `format = "file"`) the paths loaded in place of the values.
 #' @return Nothing.
 #' @inheritParams tar_load_raw
-#' @param names Names of the targets to build or check. Set to `NULL` to
-#'   check/build all the targets (default). Otherwise, you can supply
+#' @param names Names of the targets to load. You can supply
 #'   symbols, a character vector, or `tidyselect` helpers like [starts_with()].
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {

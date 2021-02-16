@@ -21,6 +21,7 @@
 * Improve error handling and message for `format = "url"` when the HTTP response status code is not 200 (#303, @petrbouchal).
 * Add more `extras` packages to `tar_renv()` (to support `tar_watch()`).
 * Show informative message instead of error in `tar_watch()` if `_targets.R` does not exist.
+* Clear up the documentation of the `names` argument of `tar_load()` (#314, @jameelalsalam).
 
 # targets 0.1.0
 

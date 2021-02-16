@@ -33,7 +33,7 @@ tar_load_raw <- function(
 ) {
   force(envir)
   if (!length(names)) {
-    cli_red_x("Found no targets to load.")
+    cli_red_x("Identified no targets to load.")
   }
   assert_chr(names, "names arg of tar_load() must end up as character")
   if (!is.null(branches)) {

@@ -12,8 +12,7 @@ tar_load(
 )
 }
 \arguments{
-\item{names}{Names of the targets to build or check. Set to \code{NULL} to
-check/build all the targets (default). Otherwise, you can supply
+\item{names}{Names of the targets to load. You can supply
 symbols, a character vector, or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
 
 \item{branches}{Integer of indices of the branches to load
