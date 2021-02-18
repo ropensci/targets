@@ -142,7 +142,10 @@
 #'   * Custom target-level `future::plan()`, e.g.
 #'     `resources = list(plan = future.callr::callr)`.
 #'   * Custom `curl` handle if `format = "url"`,
-#'     e.g. `resources = list(handle = curl::new_handle())`.
+#'     e.g. `resources = list(handle = curl::new_handle(nobody = TRUE))`.
+#'     In custom handles, most users should manually set `nobody = TRUE`
+#'     so `targets` does not download the entire file when it
+#'     only needs to check the time stamp and ETag.
 #'   * Custom preset for `qs::qsave()` if `format = "qs"`, e.g.
 #'     `resources = list(handle = "archive")`.
 #'   * Custom compression level for `fst::write_fst()` if

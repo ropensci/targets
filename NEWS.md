@@ -22,6 +22,7 @@
 * Add more `extras` packages to `tar_renv()` (to support `tar_watch()`).
 * Show informative message instead of error in `tar_watch()` if `_targets.R` does not exist.
 * Clear up the documentation of the `names` argument of `tar_load()` (#314, @jameelalsalam).
+* Do not override `nobody` in custom `curl` handles (#315, @riazarbi).
 
 # targets 0.1.0
 

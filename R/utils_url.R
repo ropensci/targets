@@ -45,9 +45,9 @@ url_hash_impl <- function(url, handle) {
 }
 
 url_handle <- function(handle = NULL) {
-  handle <- handle %||% curl::new_handle()
+  handle <- handle %||% curl::new_handle(nobody = TRUE)
   assert_inherits(handle, "curl_handle")
-  curl::handle_setopt(handle, nobody = TRUE)
+  handle
 }
 
 url_process_error <- function(url, req, headers) {
