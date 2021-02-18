@@ -72,7 +72,8 @@ install_github("ropensci/targets")
 
 ## Apps
 
-* [`tar_watch()`](https://docs.ropensci.org/targets/reference/tar_watch.html): a built-in Shiny app to visualize progress while a pipeline is running.
+* [`targets-shiny`](https://github.com/wlandau/targets-shiny): a simple prototype of a Shiny app with a `targets` backend. Shows how to build powerful data pipelines inside apps.
+* [`tar_watch()`](https://docs.ropensci.org/targets/reference/tar_watch.html): a built-in Shiny app to visualize progress while a pipeline is running. Available as a Shiny module via [`tar_watch_ui()`](https://docs.ropensci.org/targets/reference/tar_watch_ui.html) and [`tar_watch_server()`](https://docs.ropensci.org/targets/reference/tar_watch_server.html).
 * [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny app to help sketch pipelines ([app](https://wlandau.shinyapps.io/targetsketch), [source](https://github.com/wlandau/targetsketch)).
 
 ## The R Targetopia
