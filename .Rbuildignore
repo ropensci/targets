@@ -31,7 +31,6 @@
 ^codemeta\.json$
 ^CONTRIBUTING.md$
 ^pkgdown$
-^README\.md$
 ^README\.Rmd$
 ^LICENSE\.md$
 ^paper\.md$
