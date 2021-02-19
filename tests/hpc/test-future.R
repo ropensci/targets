@@ -11,7 +11,7 @@ tar_test("future workers actually launch", {
       )
     )
   })
-  # The following should launch 4 targets running simultaneously.
+  # The following should run 4 targets concurrently.
   # Terminate early if necessary.
   tar_make_future(workers = 4)
 })
@@ -32,10 +32,10 @@ tar_test("custom future plans through resources", {
       )
     )
   })
-  # The following should launch 4 targets running simultaneously.
+  # The following should run 4 targets concurrently.
   tar_make_future(workers = 4)
-  # After those 4 targets launch, terminate early and show progress.
-  # x should be built, and y and its 4 branches should be listed as running.
+  # After all 4 targets start, terminate the pipeline early and show progress.
+  # x should be built, and y and its 4 branches should be listed as started.
   tar_progress()
 })
 

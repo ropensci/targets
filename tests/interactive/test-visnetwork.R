@@ -75,11 +75,10 @@ vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
 
-# Should show one running target.
+# Should show one started target.
 x <- target_init("w", quote(Sys.sleep(100))) # Sleep for a long time.
 pipeline <- pipeline_init(list(x))
-# Manually cancel (ESC or CTRL-C):
-local_init(pipeline = pipeline)$run()
+local_init(pipeline = pipeline)$run() # Manually cancel (ESC or CTRL-C)
 x <- target_init("w", quote(Sys.sleep(100)))
 pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)

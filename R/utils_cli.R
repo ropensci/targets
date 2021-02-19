@@ -83,7 +83,7 @@ cli_warned <- function(warned) {
 cli_header_progress <- function() {
   msg <- c(
     "queue ",
-    "run   ",
+    "start ",
     "skip  ",
     "built ",
     "cancel",
@@ -104,7 +104,7 @@ cli_header_outdated <- function() {
 
 cli_progress <- function(
   queued,
-  running,
+  started,
   skipped,
   built,
   canceled,
@@ -113,7 +113,7 @@ cli_progress <- function(
 ) {
   msg <- c(
     cli_tally(queued),
-    cli_tally(running),
+    cli_tally(started),
     cli_tally(skipped),
     cli_tally(built),
     cli_tally(canceled),

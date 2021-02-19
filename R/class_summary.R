@@ -14,7 +14,7 @@ summary_class <- R6::R6Class(
     report_start = function() {
       cli_header_progress()
     },
-    report_running = function(target, progress) {
+    report_started = function(target, progress) {
       progress$update_cli()
     },
     report_skipped = function(target, progress) {

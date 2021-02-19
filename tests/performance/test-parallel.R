@@ -58,5 +58,5 @@ local$run()
 # scheduler$queue$data # nolint
 # should show downstream branches ready to build.
 # tar_name() # nolint
-# should show the target currently running.
+# should show the target currently in progress.
 tar_destroy()

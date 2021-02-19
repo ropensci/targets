@@ -27,7 +27,7 @@ name of the associated pattern. For other targets, the pattern
 is just itself.
 \item \code{branches}: number of dynamic branches of a pattern. 0 for non-patterns.
 \item \code{progress}: the most recent progress update of that target.
-Could be \code{"running"}, \code{"built"}, \code{"canceled"}, or \code{"errored"}.
+Could be \code{"started"}, \code{"built"}, \code{"canceled"}, or \code{"errored"}.
 }
 }
 \description{

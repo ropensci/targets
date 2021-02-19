@@ -5,7 +5,7 @@
 #' @return A data frame with one row per target per progress status
 #'   and the following columns.
 #'   * `name`: name of the pattern.
-#'   * `progress`: progress status: `"running"`, `"built"`, `"cancelled"`,
+#'   * `progress`: progress status: `"started"`, `"built"`, `"cancelled"`,
 #'     or `"errored"`.
 #'   * `branches`: number of branches in the progress category.
 #'   * `total`: total number of branches planned for the whole pattern.
@@ -56,7 +56,7 @@ tar_progress_branches_summary <- function(progress) {
     progress = gsub(".* ", "", group),
     branches = as.integer(table)
   )
-  levels <- c("running", "built", "canceled", "errored")
+  levels <- c("started", "built", "canceled", "errored")
   bins <- map(levels, ~tar_progress_branches_bin(.x, long))
   out <- progress[progress$type == "pattern",, drop = FALSE] # nolint
   out <- tibble::tibble(name = out$name, branches = out$branches)
@@ -87,7 +87,7 @@ tar_progress_branches_gt <- function() {
     locations = gt::cells_column_labels(everything())
   )
   colors <- data_frame(
-    progress = c("running", "built", "canceled", "errored"),
+    progress = c("started", "built", "canceled", "errored"),
     fill = c("#DC863B", "#E1BD6D", "#FAD510", "#C93312"),
     color = c("black", "black", "black", "white")
   )

@@ -305,7 +305,7 @@ tar_test("basic progress responses are correct", {
     sort(counter_get_names(progress$queued)),
     sort(pipeline_get_names(pipeline))
   )
-  expect_equal(sort(counter_get_names(progress$running)), character(0))
+  expect_equal(sort(counter_get_names(progress$started)), character(0))
   expect_equal(sort(counter_get_names(progress$built)), character(0))
   expect_equal(sort(counter_get_names(progress$skipped)), character(0))
   expect_equal(sort(counter_get_names(progress$canceled)), character(0))
@@ -313,7 +313,7 @@ tar_test("basic progress responses are correct", {
   local$run()
   progress <- local$scheduler$progress
   expect_equal(sort(counter_get_names(progress$queued)), character(0))
-  expect_equal(sort(counter_get_names(progress$running)), character(0))
+  expect_equal(sort(counter_get_names(progress$started)), character(0))
   expect_equal(
     sort(counter_get_names(progress$built)),
     sort(pipeline_get_names(pipeline))

@@ -7,7 +7,7 @@
 #'   this is an external process, and the `pid` in the return value
 #'   will not agree with `Sys.getpid()` in your current interactive session.
 #'   The process may or may not be alive. You may want to
-#'   check it with `ps::ps_is_running(ps::ps_handle(targets::tar_pid()))`
+#'   check the status with `tar_pid() %in% ps::ps_pids()`
 #'   before running another call to [tar_make()]
 #'   for the same project.
 #' @return A data frame with metadata on the most recent main R process

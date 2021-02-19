@@ -6,7 +6,7 @@ tar_test("glimpse addin", {
 
 tar_test("bg addin", {
   tar_script()
-  rstudio_addin_tar_make_bg() # Should show running in the background.
+  rstudio_addin_tar_make_bg() # Should run in the background.
   Sys.sleep(5)
   expect_equal(tar_outdated(), character(0))
 })

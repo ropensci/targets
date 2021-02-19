@@ -33,7 +33,7 @@ reporter_class <- R6::R6Class(
         cli_warned(progress$warned$count)
       }
     },
-    report_running = function(target = NULL, progress = NULL) {
+    report_started = function(target = NULL, progress = NULL) {
     },
     report_skipped = function(target, progress) {
     },

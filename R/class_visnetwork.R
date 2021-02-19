@@ -79,7 +79,7 @@ visnetwork_class <- R6::R6Class(
         built = "#E1BD6D",
         uptodate = "#354823",
         outdated = "#78B7C5",
-        running = "#DC863B",
+        started = "#DC863B",
         canceled = "#FAD510",
         errored = "#C93312",
         dormant = "#9986A5",

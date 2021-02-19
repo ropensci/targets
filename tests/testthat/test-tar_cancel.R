@@ -13,7 +13,7 @@ tar_test("tar_cancel(TRUE)", {
     expect_equal(nrow(data), 0L)
     progress <- local$scheduler$progress$database$read_data()
     expect_equal(progress$name, c("x", "x"))
-    expect_equal(progress$progress, c("running", "canceled"))
+    expect_equal(progress$progress, c("started", "canceled"))
     expect_false(file.exists(file.path("_targets", "objects", "x")))
   }
 })

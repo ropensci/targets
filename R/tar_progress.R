@@ -12,7 +12,7 @@
 #'     is just itself.
 #'   * `branches`: number of dynamic branches of a pattern. 0 for non-patterns.
 #'   * `progress`: the most recent progress update of that target.
-#'     Could be `"running"`, `"built"`, `"canceled"`, or `"errored"`.
+#'     Could be `"started"`, `"built"`, `"canceled"`, or `"errored"`.
 #' @param names Optional, names of the targets. If supplied, `tar_progress()`
 #'   only returns progress information on these targets.
 #'   You can supply symbols, a character vector,

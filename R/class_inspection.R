@@ -138,7 +138,7 @@ inspection_class <- R6::R6Class(
       }
       out <- merge(vertices, progress, all.x = TRUE, sort = FALSE)
       out <- out[order(out$name),, drop = FALSE] # nolint
-      levels <- c("running", "built", "canceled", "errored")
+      levels <- c("started", "built", "canceled", "errored")
       in_levels <- !is.na(out$progress) & out$progress %in% levels
       status <- ifelse(in_levels, out$progress, status)
       status[is.na(status)] <- "dormant"

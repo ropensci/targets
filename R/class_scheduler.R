@@ -68,11 +68,11 @@ scheduler_class <- R6::R6Class(
         self$progress$queued,
         deps
       )
-      deps_running <- counter_filter_exists(
-        self$progress$running,
+      deps_started <- counter_filter_exists(
+        self$progress$started,
         deps
       )
-      length(deps_queued) + length(deps_running)
+      length(deps_queued) + length(deps_started)
     },
     validate = function() {
       self$graph$validate()

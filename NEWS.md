@@ -23,6 +23,7 @@
 * Show informative message instead of error in `tar_watch()` if `_targets.R` does not exist.
 * Clear up the documentation of the `names` argument of `tar_load()` (#314, @jameelalsalam).
 * Do not override `nobody` in custom `curl` handles (#315, @riazarbi).
+* Rename "running" to "started" in the progress metadata. This avoids the implicit claim that `targets` is somehow actively monitoring each job, e.g. through a connection or heartbeat (#318).
 
 # targets 0.1.0
 

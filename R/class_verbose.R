@@ -9,7 +9,7 @@ verbose_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    report_running = function(target, progress = NULL) {
+    report_started = function(target, progress = NULL) {
       cli_target(target_get_name(target), target_get_type_cli(target))
     },
     report_skipped = function(target, progress) {

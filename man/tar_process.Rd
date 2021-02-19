@@ -29,7 +29,7 @@ by \code{\link[=tar_make]{tar_make()}} or similar. If \code{callr_function} is n
 this is an external process, and the \code{pid} in the return value
 will not agree with \code{Sys.getpid()} in your current interactive session.
 The process may or may not be alive. You may want to
-check it with \code{ps::ps_is_running(ps::ps_handle(targets::tar_pid()))}
+check the status with \code{tar_pid() \%in\% ps::ps_pids()}
 before running another call to \code{\link[=tar_make]{tar_make()}}
 for the same project.
 }

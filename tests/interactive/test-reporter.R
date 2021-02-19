@@ -122,7 +122,7 @@ local <- local_init(pipeline, reporter = "timestamp")$run()
 tar_destroy()
 local_init(pipeline_map(), reporter = "summary")$run()
 
-# Should a running target for 2 seconds.
+# Should see a started target for 2 seconds.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(Sys.sleep(2)))))
 local <- local_init(pipeline, reporter = "summary")$run()

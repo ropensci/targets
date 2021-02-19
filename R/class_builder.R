@@ -38,9 +38,9 @@ target_read_value.tar_builder <- function(target, pipeline = NULL) {
 
 #' @export
 target_prepare.tar_builder <- function(target, pipeline, scheduler) {
-  target_patternview_running(target, pipeline, scheduler)
-  scheduler$progress$register_running(target)
-  scheduler$reporter$report_running(target, scheduler$progress)
+  target_patternview_started(target, pipeline, scheduler)
+  scheduler$progress$register_started(target)
+  scheduler$reporter$report_started(target, scheduler$progress)
   builder_ensure_deps(target, pipeline, "main")
   builder_update_subpipeline(target, pipeline)
   builder_serialize_subpipeline(target)
