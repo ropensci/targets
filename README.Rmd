@@ -41,11 +41,16 @@ The `targets` package is a [Make](https://www.gnu.org/software/make/)-like pipel
 
 ## Installation
 
-You can install the GitHub development version of `targets` to access the latest features and patches.
+You can install `targets` from CRAN.
+```{r, eval = FALSE}
+install.packages("targets")
+```
+
+
+You can also install the development version of `targets` to access the latest features and patches using the ropensci development server.
 
 ```{r, eval = FALSE}
-library(remotes)
-install_github("ropensci/targets")
+install.packages("targets", repos = "https://dev.ropensci.org")
 ```
 
 ## Recorded talks
