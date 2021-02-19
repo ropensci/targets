@@ -133,7 +133,7 @@ inspection_class <- R6::R6Class(
         target_get_type(pipeline_get_target(pipeline, name))
       })
       progress <- self$progress$database$read_condensed_data()
-      # TODO: remove when targets is on CRAN:
+      # TODO: remove when targets >= 0.2.0 is in production:
       progress$progress <- gsub("running", "started", x = progress$progress)
       if (self$outdated) {
         progress <- progress[progress$progress != "built",, drop = FALSE] # nolint
