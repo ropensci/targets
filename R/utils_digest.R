@@ -2,6 +2,8 @@ vdigest32 <- digest::getVDigest(algo = "xxhash32")
 
 vdigest64 <- digest::getVDigest(algo = "xxhash64")
 
+vdigest64_file <- digest::getVDigest(algo = "xxhash64", errormode = "warn")
+
 digest_chr32 <- function(object, ...) {
   vdigest32(object, serialize = FALSE, ...)
 }
@@ -11,7 +13,7 @@ digest_chr64 <- function(object, ...) {
 }
 
 digest_file64 <- function(object, ...) {
-  unname(map_chr(object, vdigest64, serialize = FALSE, file = TRUE, ...))
+  unname(map_chr(object, vdigest64_file, serialize = FALSE, file = TRUE, ...))
 }
 
 digest_obj32 <- function(object, ...) {

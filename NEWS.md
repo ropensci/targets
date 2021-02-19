@@ -24,6 +24,7 @@
 * Clear up the documentation of the `names` argument of `tar_load()` (#314, @jameelalsalam).
 * Do not override `nobody` in custom `curl` handles (#315, @riazarbi).
 * Rename "running" to "started" in the progress metadata. This avoids the implicit claim that `targets` is somehow actively monitoring each job, e.g. through a connection or heartbeat (#318).
+* Set `errormode = "warn"` in `getVDigest()` for files to work around https://github.com/eddelbuettel/digest/issues/49 for network drives on Windows. `targets` already runs those file checks anyway. (#316, @boshek).
 
 # targets 0.1.0
 
