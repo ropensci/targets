@@ -64,18 +64,11 @@ the results.
 
 ## Installation
 
-You can install `targets` from CRAN.
-
-``` r
-install.packages("targets")
-```
-
-You can also install the development version of `targets` to access the
-latest features and patches using the ropensci development server.
-
-``` r
-install.packages("targets", repos = "https://dev.ropensci.org")
-```
+| Type        | Source   | Command                                                           |
+|-------------|----------|-------------------------------------------------------------------|
+| Release     | CRAN     | `install.packages("targets")`                                     |
+| Development | GitHub   | `remotes::install_github("ropensci/targets")`                     |
+| Development | rOpenSci | `install.packages("targets", repos = "https://dev.ropensci.org")` |
 
 ## Recorded talks
 
