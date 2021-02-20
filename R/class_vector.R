@@ -14,5 +14,6 @@ value_produce_slice.tar_vector <- function(value, index) { # nolint
 
 #' @export
 value_produce_aggregate.tar_vector <- function(value, objects) { # nolint
-  do.call(vctrs::vec_c, unname(objects))
+  objects$.name_spec <- "{outer}_{inner}"
+  do.call(vctrs::vec_c, objects)
 }
