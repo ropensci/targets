@@ -4,6 +4,7 @@
 
 * In `tar_load()`, subset metadata to avoid accidental attempts to load global objects in `tidyselect` calls.
 * Do not register a pattern as running unless an actual branch is about to start (#304).
+* Unname objects before `vctrs::vec_c()` (#320, @joelnitta).
 
 ## New features
 
