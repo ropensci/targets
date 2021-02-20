@@ -768,4 +768,8 @@ tar_test("aggregate names of branches with length > 1 (#320)", {
     )
   })
   expect_silent(tar_make(callr_function = NULL, reporter = "silent"))
+  out <- tar_read(z)
+  expect_equal(length(names(out)), 4)
+  expect_equal(length(unique(names(out))), 4)
+  expect_equal(unname(out), c(1, 1, 2, 2))
 })
