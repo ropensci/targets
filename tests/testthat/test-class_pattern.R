@@ -758,3 +758,14 @@ tar_test("cross pattern validate", {
   x <- target_init("x", expr = quote(1 + 1), pattern = quote(cross(a, b)))
   expect_silent(target_validate(x))
 })
+
+tar_test("aggregate names of branches with length > 1 (#320)", {
+  tar_script({
+    list(
+      tar_target(x, seq_len(2), iteration = "vector"),
+      tar_target(y, rep(x, 2), pattern = map(x), iteration = "vector"),
+      tar_target(z, y, iteration = "vector")
+    )
+  })
+  expect_silent(tar_make(callr_function = NULL, reporter = "silent"))
+})
