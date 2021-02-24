@@ -14,8 +14,8 @@ callr_outer <- function(
     callr_error = function(e) {
       throw_run(
         conditionMessage(e),
-        "\nhttps://books.ropensci.org/targets/debugging.html ",
-        "has debugging advice."
+        "\nVisit https://books.ropensci.org/targets/debugging.html ",
+        "for debugging advice."
       )
     }
   )
