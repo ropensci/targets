@@ -72,3 +72,17 @@ tar_test("tar_make() finds the correct environment", {
   out <- tar_read(y)
   expect_equal(out, 3L)
 })
+
+tar_test("tar_make() handles callr errors", {
+  skip_on_cran()
+  tar_script({
+    list(
+      tar_target(x, "x"),
+      tar_target(y, stop(x))
+    )
+  })
+  expect_error(
+    tar_make(reporter = "silent", callr_arguments = list(show = FALSE)),
+    class = "condition_run"
+  )
+})
