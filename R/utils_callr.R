@@ -13,9 +13,9 @@ callr_outer <- function(
     ),
     callr_error = function(e) {
       throw_run(
-        "problem running tar_make() or similar. ",
-        "Visit https://books.ropensci.org/targets/debugging.html ",
-        "to learn how to debug and troubleshoot targets."
+        conditionMessage(e),
+        "\nhttps://books.ropensci.org/targets/debugging.html ",
+        "has debugging advice."
       )
     }
   )
