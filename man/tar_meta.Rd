@@ -4,7 +4,12 @@
 \alias{tar_meta}
 \title{Read a project's metadata.}
 \usage{
-tar_meta(names = NULL, fields = NULL, targets_only = FALSE)
+tar_meta(
+  names = NULL,
+  fields = NULL,
+  targets_only = FALSE,
+  complete_only = FALSE
+)
 }
 \arguments{
 \item{names}{Optional, names of the targets. If supplied, \code{tar_meta()}
@@ -51,6 +56,9 @@ from the last run of the target.
 
 \item{targets_only}{Logical, whether to just show information about targets
 or also return metadata on functions and other global objects.}
+
+\item{complete_only}{Logical, whether to return only complete rows
+(no \code{NA} values).}
 }
 \value{
 A data frame with one row per target/object and the selected fields.

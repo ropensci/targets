@@ -56,3 +56,18 @@ tar_test("tar_meta() targets_only", {
   out <- tar_meta(targets_only = TRUE)
   expect_false("f" %in% out$name)
 })
+
+tar_test("tar_meta() targets_only", {
+  skip_on_cran()
+  tar_script({
+    list(
+      tar_target(x, "x"),
+      tar_target(y, stop(x))
+    )
+  })
+  expect_error(tar_make(callr_function = NULL))
+  out <- tar_meta(fields = error, complete_only = TRUE)
+  expect_equal(dim(out), c(1L, 2L))
+  expect_equal(out$name, "y")
+  expect_equal(out$error, "x")
+})
