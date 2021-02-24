@@ -4,6 +4,29 @@ callr_outer <- function(
   callr_function,
   callr_arguments
 ) {
+  tryCatch(
+    callr_dispatch(
+      targets_function,
+      targets_arguments,
+      callr_function,
+      callr_arguments
+    ),
+    callr_error = function(e) {
+      throw_run(
+        "problem running tar_make() or similar. ",
+        "Visit https://books.ropensci.org/targets/debugging.html ",
+        "to learn how to debug and troubleshoot targets."
+      )
+    }
+  )
+}
+
+callr_dispatch <- function(
+  targets_function,
+  targets_arguments,
+  callr_function,
+  callr_arguments
+) {
   assert_script()
   targets_options <- list(crayon.enabled = interactive())
   callr_arguments$func <- callr_inner

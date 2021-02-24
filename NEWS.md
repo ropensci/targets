@@ -15,6 +15,7 @@
 * Export functions to check the existence of various pieces of local storage: `tar_exist_meta()`, `tar_exist_objects()`, `tar_exist_progress()`, `tar_exist_progress()`, `tar_exist_script()` (#310).
 * Add a new `supervise` argument to `tar_watch()`.
 * Add a new `complete_only` argument to `tar_meta()` to optionally return only complete rows (no `NA` values).
+* Catch `callr` errors and refer users to the debugging chapter of the manual.
 
 ## Enhancements
 
