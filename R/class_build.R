@@ -60,8 +60,13 @@ build_load_packages <- function(packages, library) {
     )
   )
   out <- as.logical(unlist(out))
-  packages <- paste(packages[!out], collapse = ", ")
-  assert_true(all(out), paste("packages not found,", packages))
+  msg <- paste(
+    "could not find packages",
+    paste(packages[!out], collapse = ", "),
+    "in library paths",
+    paste(library, collapse = ", ")
+  )
+  assert_true(all(out), msg)
 }
 
 build_run_expr <- function(expr, envir, seed, packages, library) {
