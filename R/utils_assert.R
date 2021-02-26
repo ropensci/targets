@@ -233,7 +233,7 @@ assert_store <- function() {
     path_store(),
     paste(
       "utility functions like tar_read() and tar_progress() require a",
-      " _targets/ data store produced by tar_make() or similar."
+      "_targets/ data store produced by tar_make() or similar."
     )
   )
 }
@@ -259,7 +259,7 @@ assert_target_list <- function(x) {
 
 assert_script <- function() {
   msg <- paste(
-    "main functions like tar_make() require a special _targets.R script",
+    "main functions like tar_make() require a _targets.R configuration script",
     "in the current working directory to define the pipeline.",
     "Functions tar_edit() and tar_script() can help."
   )
