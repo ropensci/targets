@@ -28,10 +28,12 @@ tar_test("file_ensure_hash() on a huge file", {
 })
 
 tar_test("file_ensure_hash() on a huge file in pipeline", {
+  # Restart the R session to run in a clean global environment.
+  # Avoids false positive slowness.
   tmp <- "tempfile"
   expr <- quote({
     tar_option_set(packages = character(0))
-    list(tar_target(x, "tempfile", format = "file"))
+    list(tar_target(x_target, "tempfile", format = "file"))
   })
   expr <- tidy_eval(expr, environment(), TRUE)
   do.call(tar_script, list(code = expr))
