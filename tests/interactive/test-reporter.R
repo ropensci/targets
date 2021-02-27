@@ -45,6 +45,7 @@ local <- local_init(pipeline, reporter = "verbose")$run()
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(stop(123)))))
 local <- local_init(pipeline, reporter = "verbose")$run()
+expect_equal(tar_workspaces(), character(0))
 
 # Should show error message and save workspace.
 tar_destroy()
@@ -52,6 +53,7 @@ pipeline <- pipeline_init(
   list(target_init("x", quote(stop(123)), error = "workspace"))
 )
 local <- local_init(pipeline, reporter = "verbose")$run()
+expect_equal(tar_workspaces(), "x")
 
 # Warnings are relayed immediately if the warn option is 1.
 tar_destroy()
@@ -85,6 +87,7 @@ local <- local_init(pipeline, reporter = "verbose")$run()
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(targets::tar_cancel()))))
 local <- local_init(pipeline, reporter = "verbose")$run()
+expect_equal(tar_progress()$progress, "canceled")
 
 # Should show one timestamped message per target.
 tar_destroy()
@@ -97,6 +100,7 @@ local_init(pipeline_map(), reporter = "timestamp")$run()
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(stop(123)))))
 local <- local_init(pipeline, reporter = "timestamp")$run()
+expect_equal(tar_progress()$progress, "errored")
 
 # Should show a timestamped failure message and an error message
 # and save workspace.
@@ -105,6 +109,7 @@ pipeline <- pipeline_init(
   list(target_init("x", quote(stop(123)), error = "workspace"))
 )
 local <- local_init(pipeline, reporter = "timestamp")$run()
+expect_equal(tar_progress()$progress, "errored")
 
 # Should show a timestamped message, a warning,
 # and a meta-warning w/ tip about tar_meta().
@@ -116,6 +121,7 @@ local <- local_init(pipeline, reporter = "timestamp")$run()
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(targets::tar_cancel()))))
 local <- local_init(pipeline, reporter = "timestamp")$run()
+expect_equal(tar_progress()$progress, "canceled")
 
 # Should show counts per target status category
 # and show all built at the end.
@@ -148,7 +154,7 @@ out <- outdated_init(pipeline_map(), reporter = "forecast")
 tmp <- out$run()
 
 # Should show more checked and no outdated.
-local <- local_init(pipeline_map())
+local <- local_init(pipeline_map(), reporter = "silent")
 local$run()
 out <- outdated_init(pipeline_map(), reporter = "forecast")
 tmp <- out$run()
