@@ -4,6 +4,6 @@
 #$ -o <%= log.file %>
 #$ -V
 #$ -N <%= job.name %>
-module load R/3.6.3
+module load R/4.0.3
 Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
 exit 0
