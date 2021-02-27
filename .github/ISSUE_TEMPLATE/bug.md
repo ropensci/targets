@@ -9,7 +9,7 @@ assignees: wlandau
 ## Prework
 
 * [ ] Read and agree to the [code of conduct](https://ropensci.org/code-of-conduct/) and [contributing guidelines](https://github.com/ropensci/targets/blob/main/CONTRIBUTING.md).
-* [ ] Confirm that your issue is most likely a genuine bug in the `targets` package itself and not a user error or known limitation. For usage issues and troubleshooting, please post to the [discussions](https://github.com/ropensci/targets/discussions) instead.
+* [ ] Confirm that your issue is most likely a genuine bug in the `targets` package itself and not a user error, a known limitation, or a bug in another package that targets depends on. For miscellaneous troubleshooting, please post to the [discussions](https://github.com/ropensci/targets/discussions) instead.
 * [ ] If there is [already a relevant issue](https://github.com/ropensci/targets/issues), whether open or closed, comment on the existing thread instead of posting a new issue.
 * [ ] Post a [minimal reproducible example](https://www.tidyverse.org/help/) like [this one](https://github.com/ropensci/targets/issues/256#issuecomment-754229683) so the maintainer can troubleshoot the problems you identify. A reproducible example is:
     * [ ] **Runnable**: post enough R code and data so any onlooker can create the error on their own computer.
