@@ -14,6 +14,7 @@ tar_test("future workers actually launch", {
   # The following should run 4 targets concurrently.
   # Terminate early if necessary.
   tar_make_future(workers = 4)
+  tar_progress()
 })
 
 tar_test("custom future plans through resources", {
