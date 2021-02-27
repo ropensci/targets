@@ -45,12 +45,13 @@ unlink("_targets.R")
 # Should see the overhead in the graph.
 tar_script({
   target_x0 <- tar_target(x0, stop(), priority = 1)
-  lapply(seq_len(1e3), function(id) {
+  out <- lapply(seq_len(1e3), function(id) {
     name <- paste0("x", as.character(id))
     dep <- paste0("x", as.character(id - 1L))
     command <- as.expression(rlang::sym(dep))
     tar_target_raw(name, command = command)
   })
+  list(target_x0, out)
 })
 system.time(try(tar_make(reporter = "summary", callr_function = NULL)))
 px <- pprof(try(tar_make(reporter = "summary", callr_function = NULL)))
