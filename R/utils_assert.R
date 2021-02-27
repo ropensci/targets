@@ -196,7 +196,7 @@ assert_package <- function(package) {
   tryCatch(
     rlang::check_installed(package),
     error = function(e) {
-      throw_validate(e$message)
+      throw_validate(conditionMessage(e))
     }
   )
 }
