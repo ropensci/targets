@@ -193,7 +193,12 @@ assert_nzchar <- function(x, msg = NULL) {
 }
 
 assert_package <- function(package) {
-  rlang::check_installed(package)
+  tryCatch(
+    rlang::check_installed(package),
+    error = function(e) {
+      throw_validate(e$message)
+    }
+  )
 }
 
 assert_path <- function(path, msg = NULL) {

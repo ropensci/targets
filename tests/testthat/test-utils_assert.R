@@ -1,5 +1,5 @@
 tar_test("assert_package()", {
-  expect_error(assert_package("_illegal"), class = "rlang_error")
+  expect_error(assert_package("_illegal"), class = "condition_validate")
 })
 
 tar_test("assert_chr_no_delim()", {
