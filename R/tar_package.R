@@ -20,7 +20,7 @@
 #'   graph_from_data_frame igraph_opt igraph_options is_dag simplify topo_sort
 #'   V
 #' @importFrom R6 R6Class
-#' @importFrom rlang as_function as_quosure enquo quo quo_squash sym 
+#' @importFrom rlang as_function as_quosure enquo quo quo_squash sym
 #'   check_installed
 #' @importFrom stats complete.cases
 #' @importFrom tibble as_tibble

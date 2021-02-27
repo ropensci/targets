@@ -194,7 +194,7 @@ assert_nzchar <- function(x, msg = NULL) {
 
 assert_package <- function(package) {
   tryCatch(
-    check_installed(package),
+    rlang::check_installed(package),
     error = function(e) {
       throw_validate(e$message)
     }
