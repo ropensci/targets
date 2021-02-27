@@ -258,7 +258,7 @@ store_validate <- function(store) {
 }
 
 store_validate_packages <- function(store) {
-  map(store_get_packages(store), assert_package)
+  assert_package(store_get_packages(store))
 }
 
 store_get_packages <- function(store) {
