@@ -10,15 +10,15 @@ tar_test("AWS S3 + HPC", {
     aws.s3::delete_object(object = "_targets", bucket = bucket_name)
     aws.s3::delete_bucket(bucket = bucket_name)
   })
-  bucket_name <- "BucephalusTheBucket"
-  aws.s3::put_bucket(bucket = "BucephalusTheBucket")
+  bucket_name <- "targets-testing-aws-bucket"
+  aws.s3::put_bucket(bucket = "targets-testing-aws-bucket")
   tar_script({
     library(targets)
     library(future)
     future::plan(future::multisession)
     tar_option_set(
       format = "aws_rds",
-      resources = list(bucket = "BucephalusTheBucket"),
+      resources = list(bucket = "targets-testing-aws-bucket"),
       storage = "worker",
       retrieval = "worker"
     )

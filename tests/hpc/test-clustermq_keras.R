@@ -1,8 +1,6 @@
-test_that("keras and clustermq with main storage and retrieval", {
+tar_test("keras and clustermq with main storage and retrieval", {
   # Requires Python TensorFlow and Keras.
   # Cannot test inside the RStudio IDE.
-  unlink("_targets", recursive = TRUE)
-  on.exit(unlink("_targets", recursive = TRUE))
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
   skip_if_not_installed("keras")
@@ -48,11 +46,9 @@ test_that("keras and clustermq with main storage and retrieval", {
   expect_true(inherits(tar_read(abc), "keras.engine.training.Model"))
 })
 
-test_that("keras and clustermq with worker storage and retrieval", {
+tar_test("keras and clustermq with worker storage and retrieval", {
   # Requires Python TensorFlow and Keras.
   # Cannot test inside the RStudio IDE.
-  unlink("_targets", recursive = TRUE)
-  on.exit(unlink("_targets", recursive = TRUE))
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
   skip_if_not_installed("keras")

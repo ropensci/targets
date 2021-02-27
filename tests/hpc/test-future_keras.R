@@ -1,8 +1,6 @@
-test_that("keras and future with main storage and retrieval", {
+tar_test("keras and future with main storage and retrieval", {
   # Requires Python TensorFlow and Keras.
   # Cannot test inside the RStudio IDE.
-  unlink("_targets", recursive = TRUE)
-  on.exit(unlink("_targets", recursive = TRUE))
   skip_if_not_installed("future")
   skip_if_not_installed("keras")
   on.exit(future::plan(future::sequential), add = TRUE)
@@ -54,12 +52,10 @@ test_that("keras and future with main storage and retrieval", {
   )
 })
 
-test_that("keras and future with worker storage and retrieval", {
+tar_test("keras and future with worker storage and retrieval", {
   # Requires Python TensorFlow and Keras.
   # Start up a new process for this one.
   # Also cannot test inside the RStudio IDE.
-  unlink("_targets", recursive = TRUE)
-  on.exit(unlink("_targets", recursive = TRUE))
   skip_if_not_installed("future")
   skip_if_not_installed("keras")
   on.exit(future::plan(future::sequential), add = TRUE)
