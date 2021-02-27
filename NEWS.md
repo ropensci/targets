@@ -1,4 +1,4 @@
-# targets 0.1.0.9000
+# targets 0.2.0
 
 ## Bug fixes
 
