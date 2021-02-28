@@ -1,3 +1,10 @@
+# targets 0.2.0.9000
+
+## Enhancements
+
+* Use `rlang::check_installed()` inside `assert_package()` (#331, @malcolmbarrett).
+
+
 # targets 0.2.0
 
 ## Bug fixes
