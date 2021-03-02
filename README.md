@@ -121,16 +121,19 @@ the results.
     ([app](https://wlandau.shinyapps.io/targetsketch),
     [source](https://github.com/wlandau/targetsketch)).
 
-## The R Targetopia
+## Extending and customizing targets
 
-The R Targetopia consists of specialized workflow frameworks tailored to
-individual fields of Statistics and data science, and they use domain
-knowledge to abstract away most of the careful planning and engineering
-typically required to write pipelines. They leverage the full power of
-[`targets`](https://github.com/ropensci/targets) while requiring minimal
-expertise with [`targets`](https://github.com/ropensci/targets) itself.
-Examples include [`stantargets`](https://github.com/wlandau/stantargets)
-and [`tarchetypes`](https://docs.ropensci.org/tarchetypes).
+  - [R Targetopia](https://wlandau.github.io/targetopia/): a collection
+    of [R packages](https://wlandau.github.io/targetopia/packages.html)
+    that extend `targets`. [These
+    packages](https://wlandau.github.io/targetopia/packages.html)
+    simplify pipeline construction for specific fields of Statistics and
+    data science.
+  - [Target factories](): a programming technique to write specialized
+    interfaces for custom pipelines. Posts
+    [here](https://ropensci.org/blog/2021/02/03/targets/) and
+    [here](https://wlandau.github.io/targetopia/contributing.html)
+    describe how.
 
 ## Help
 
