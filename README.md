@@ -36,8 +36,8 @@ the results.
 ## How to get started
 
 1.  Watch minutes 6 through 40 of the [New York Open Statistical
-    Programming Meetup from December
-    2020](https://youtu.be/Gqn7Xn4d5NI).
+    Programming Meetup from
+    December 2020](https://youtu.be/Gqn7Xn4d5NI).
 2.  Read the [short walkthrough
     chapter](https://books.ropensci.org/targets/walkthrough.html) of the
     [user manual](https://books.ropensci.org/targets/).
@@ -65,56 +65,58 @@ the results.
 ## Installation
 
 | Type        | Source   | Command                                                           |
-|-------------|----------|-------------------------------------------------------------------|
+| ----------- | -------- | ----------------------------------------------------------------- |
 | Release     | CRAN     | `install.packages("targets")`                                     |
 | Development | GitHub   | `remotes::install_github("ropensci/targets")`                     |
 | Development | rOpenSci | `install.packages("targets", repos = "https://dev.ropensci.org")` |
 
 ## Recorded talks
 
--   [R/Pharma 2020
+  - [R/Pharma 2020
     (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
--   [New York Open Statistical Programming Meetup, December 2020
-    (1:54:28)](https://youtu.be/Gqn7Xn4d5NI)
--   [LA R Users Meetup, October 2020
+  - [LA R Users Meetup, October 2020
     (1:14:40)](https://www.youtube.com/watch?v=Qq25BUxpJu4)
+  - [New York Open Statistical Programming Meetup, December 2020
+    (1:54:28)](https://youtu.be/Gqn7Xn4d5NI)
+  - [ds-incubator
+    series, 2021](https://youtube.com/playlist?list=PLvgdJdJDL-APJqHy5CXs6m4N7hUVp5rb4)
 
 ## Documentation
 
--   [User manual](https://books.ropensci.org/targets): in-depth
+  - [User manual](https://books.ropensci.org/targets): in-depth
     discussion about how to use `targets`.
--   [Reference website](https://docs.ropensci.org/targets/): formal
+  - [Reference website](https://docs.ropensci.org/targets/): formal
     documentation of all user-side functions, the statement of need, and
     multiple design documents of the internal architecture.
--   [Developer
+  - [Developer
     documentation](https://books.ropensci.org/targets-design): software
     design documents for developers contributing to the deep internal
     architecture of `targets`.
 
 ## Courses
 
--   [Official half-day interactive
+  - [Official half-day interactive
     tutorial](https://github.com/wlandau/targets-tutorial).
 
 ## Example projects
 
--   [Minimal example](https://github.com/wlandau/targets-minimal).
--   [Machine learning with
+  - [Minimal example](https://github.com/wlandau/targets-minimal).
+  - [Machine learning with
     Keras](https://github.com/wlandau/targets-keras).
--   [Validating a Stan model](https://github.com/wlandau/targets-stan).
+  - [Validating a Stan model](https://github.com/wlandau/targets-stan).
 
 ## Apps
 
--   [`targets-shiny`](https://github.com/wlandau/targets-shiny): a
+  - [`targets-shiny`](https://github.com/wlandau/targets-shiny): a
     simple prototype of a Shiny app with a `targets` backend. Shows how
     to build powerful data pipelines inside apps.
--   [`tar_watch()`](https://docs.ropensci.org/targets/reference/tar_watch.html):
+  - [`tar_watch()`](https://docs.ropensci.org/targets/reference/tar_watch.html):
     a built-in Shiny app to visualize progress while a pipeline is
     running. Available as a Shiny module via
     [`tar_watch_ui()`](https://docs.ropensci.org/targets/reference/tar_watch_ui.html)
     and
     [`tar_watch_server()`](https://docs.ropensci.org/targets/reference/tar_watch_server.html).
--   [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny
+  - [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny
     app to help sketch pipelines
     ([app](https://wlandau.shinyapps.io/targetsketch),
     [source](https://github.com/wlandau/targetsketch)).
@@ -132,13 +134,13 @@ and [`tarchetypes`](https://docs.ropensci.org/tarchetypes).
 
 ## Help
 
--   Post to the [GitHub issue
+  - Post to the [GitHub issue
     tracker](https://github.com/ropensci/targets/issues) to elicit help
     from the maintainer.
--   The [RStudio Community](https://community.rstudio.com/) forum is
+  - The [RStudio Community](https://community.rstudio.com/) forum is
     full of friendly enthusiasts of R and the tidyverse. Use the
     [`targets` tag](https://community.rstudio.com/tag/targets).
--   [Stack Overflow](https://stackoverflow.com/) broadcasts to the
+  - [Stack Overflow](https://stackoverflow.com/) broadcasts to the
     entire open source community. Use the [`targets-r-package`
     tag](https://stackoverflow.com/questions/tagged/targets-r-package).
 

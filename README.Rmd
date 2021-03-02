@@ -50,8 +50,9 @@ Development | rOpenSci | `install.packages("targets", repos = "https://dev.ropen
 ## Recorded talks
 
 * [R/Pharma 2020 (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
-* [New York Open Statistical Programming Meetup, December 2020 (1:54:28)](https://youtu.be/Gqn7Xn4d5NI)
 * [LA R Users Meetup, October 2020 (1:14:40)](https://www.youtube.com/watch?v=Qq25BUxpJu4)
+* [New York Open Statistical Programming Meetup, December 2020 (1:54:28)](https://youtu.be/Gqn7Xn4d5NI)
+* [ds-incubator series, 2021](https://youtube.com/playlist?list=PLvgdJdJDL-APJqHy5CXs6m4N7hUVp5rb4)
 
 ## Documentation
 
