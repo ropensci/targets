@@ -129,8 +129,10 @@ the results.
     packages](https://wlandau.github.io/targetopia/packages.html)
     simplify pipeline construction for specific fields of Statistics and
     data science.
-  - [Target factories](): a programming technique to write specialized
-    interfaces for custom pipelines. Posts
+  - [Target
+    factories](https://wlandau.github.io/targetopia/contributing.html#target-factories):
+    a programming technique to write specialized interfaces for custom
+    pipelines. Posts
     [here](https://ropensci.org/blog/2021/02/03/targets/) and
     [here](https://wlandau.github.io/targetopia/contributing.html)
     describe how.
