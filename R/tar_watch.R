@@ -68,8 +68,8 @@ tar_watch <- function(
     "shinyWidgets",
     "visNetwork"
   )
-  msg <- paste("tar_watch() requires packages", paste(pkgs, collapse = ", "))
-  map(pkgs, ~assert_package(.x, msg = msg))
+
+  assert_package(pkgs)
   assert_dbl(seconds, "seconds must be numeric.")
   assert_dbl(seconds_min, "seconds_min must be numeric.")
   assert_dbl(seconds_max, "seconds_max must be numeric.")
