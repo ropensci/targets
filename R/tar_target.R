@@ -52,7 +52,9 @@
 #'   * `"file"`: A dynamic file. To use this format,
 #'     the target needs to manually identify or save some data
 #'     and return a character vector of paths
-#'     to the data. Then, `targets` automatically checks those files and cues
+#'     to the data. (These paths must be existing files
+#'     and nonempty directories.)
+#'     Then, `targets` automatically checks those files and cues
 #'     the appropriate build decisions if those files are out of date.
 #'     Those paths must point to files or directories,
 #'     and they must not contain characters `|` or `*`.
