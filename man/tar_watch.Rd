@@ -5,7 +5,7 @@
 \title{Shiny app to watch the dependency graph.}
 \usage{
 tar_watch(
-  seconds = 5,
+  seconds = 15,
   seconds_min = 1,
   seconds_max = 60,
   seconds_step = 1,
