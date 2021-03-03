@@ -5,7 +5,7 @@ backoff_init <- function(start = 0.01, max = 20, rate = 2) {
     start = start,
     max = max,
     rate = rate,
-    interval = start
+    index = 0L
   )
 }
 
@@ -13,13 +13,13 @@ backoff_new <- function(
   start = NULL,
   max = NULL,
   rate = NULL,
-  interval = NULL
+  index = NULL
 ) {
   backoff_class$new(
     start = start,
     max = max,
     rate = rate,
-    interval = interval
+    index = index
   )
 }
 
@@ -32,32 +32,31 @@ backoff_class <- R6::R6Class(
     start = NULL,
     max = NULL,
     rate = NULL,
-    interval = NULL,
+    index = NULL,
     initialize = function(
       start = NULL,
       max = NULL,
       rate = NULL,
-      interval = NULL
+      index = NULL
     ) {
       self$start <- start
       self$max <- max
       self$rate <- rate
-      self$interval <- interval
+      self$index <- index
     },
     validate = function() {
       assert_scalar(self$start)
       assert_scalar(self$max)
       assert_scalar(self$rate)
-      assert_scalar(self$interval)
+      assert_scalar(self$index)
       assert_dbl(self$start)
       assert_dbl(self$max)
       assert_dbl(self$rate)
-      assert_dbl(self$interval)
+      assert_int(self$index)
       assert_ge(self$start, 0)
       assert_ge(self$max, self$start)
       assert_ge(self$rate, 1)
-      assert_ge(self$interval, self$start)
-      assert_ge(self$max, self$interval)
+      assert_ge(self$index, 0L)
     }
   )
 )
