@@ -122,7 +122,7 @@ future_class <- R6::R6Class(
       self$unload_transient()
     },
     wait = function() {
-      Sys.sleep(0.001)
+      self$scheduler$backoff$wait()
     },
     next_target = function() {
       queue <- self$scheduler$queue

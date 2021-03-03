@@ -136,7 +136,7 @@ clustermq_class <- R6::R6Class(
     # nocov start
     wait = function() {
       self$crew$send_wait()
-      Sys.sleep(0.001)
+      self$scheduler$backoff$wait()
     },
     # nocov end
     next_target = function() {
