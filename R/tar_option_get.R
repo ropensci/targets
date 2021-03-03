@@ -49,6 +49,7 @@ tar_option_default <- function(option) {
     garbage_collection = FALSE,
     deployment = "worker",
     priority = 0,
+    backoff = 5,
     resources = list(),
     storage = "main",
     retrieval = "main",

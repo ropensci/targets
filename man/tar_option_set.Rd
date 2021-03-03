@@ -17,6 +17,7 @@ tar_option_set(
   garbage_collection = NULL,
   deployment = NULL,
   priority = NULL,
+  backoff = NULL,
   resources = NULL,
   storage = NULL,
   retrieval = NULL,
@@ -177,6 +178,21 @@ simultaneously. Targets with priorities closer to 1 get built earlier.
 Only applies to \code{\link[=tar_make_future]{tar_make_future()}} and \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}
 (not \code{\link[=tar_make]{tar_make()}}). \code{\link[=tar_make_future]{tar_make_future()}} with no extra settings is
 a drop-in replacement for \code{\link[=tar_make]{tar_make()}} in this case.}
+
+\item{backoff}{Numeric of length 1, must be greater than or equal to 0.01.
+Maximum upper bound of the random polling interval
+for the priority queue (seconds).
+In high-performance computing (e.g. \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}
+and \code{\link[=tar_make_future]{tar_make_future()}}) it can be expensive to repeatedly poll the
+priority queue if no targets are ready to process. The number of seconds
+between polls is \code{runif(1, 0.01, max(backoff, 0.01 * 1.5 ^ index))},
+where \code{index} is the number of consecutive polls so far that found
+no targets ready to skip or run.
+(If no target is ready, \code{index} goes up by 1. If a target is ready,
+\code{index} resets to 0. For more information on exponential,
+backoff, visit \url{https://en.wikipedia.org/wiki/Exponential_backoff}).
+Raising \code{backoff} is kinder to the CPU etc. but may incur delays
+in some instances.}
 
 \item{resources}{A named list of computing resources. Uses:
 \itemize{

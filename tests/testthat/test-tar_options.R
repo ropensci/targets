@@ -6,3 +6,7 @@ tar_test("tar_option_set() works", {
 tar_test("tar_option_get() must take a valid option name", {
   expect_error(tar_option_get("nope"))
 })
+
+tar_test("tar_option_get() must take a valid option name", {
+  expect_error(tar_option_get("nope"))
+})

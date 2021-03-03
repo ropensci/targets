@@ -20,6 +20,20 @@
 #'   everything in `tar_option_get("imports")`.
 #' @param envir Environment containing functions and global objects
 #'   used in the R commands to run targets.
+#' @param backoff Numeric of length 1, must be greater than or equal to 0.01.
+#'   Maximum upper bound of the random polling interval
+#'   for the priority queue (seconds).
+#'   In high-performance computing (e.g. [tar_make_clustermq()]
+#'   and [tar_make_future()]) it can be expensive to repeatedly poll the
+#'   priority queue if no targets are ready to process. The number of seconds
+#'   between polls is `runif(1, 0.01, max(backoff, 0.01 * 1.5 ^ index))`,
+#'   where `index` is the number of consecutive polls so far that found
+#'   no targets ready to skip or run.
+#'   (If no target is ready, `index` goes up by 1. If a target is ready,
+#'   `index` resets to 0. For more information on exponential,
+#'   backoff, visit <https://en.wikipedia.org/wiki/Exponential_backoff>).
+#'   Raising `backoff` is kinder to the CPU etc. but may incur delays
+#'   in some instances.
 #' @param debug Character vector of names of targets to run in debug mode.
 #'   To use effectively, you must set `callr_function = NULL` and
 #'   restart your R session just before running. You should also
@@ -67,6 +81,7 @@ tar_option_set <- function(
   garbage_collection = NULL,
   deployment = NULL,
   priority = NULL,
+  backoff = NULL,
   resources = NULL,
   storage = NULL,
   retrieval = NULL,
@@ -87,6 +102,7 @@ tar_option_set <- function(
   tar_option_set_garbage_collection(garbage_collection)
   tar_option_set_deployment(deployment)
   tar_option_set_priority(priority)
+  tar_option_set_backoff(backoff)
   tar_option_set_resources(resources)
   tar_option_set_storage(storage)
   tar_option_set_retrieval(retrieval)
@@ -176,6 +192,15 @@ tar_option_set_priority <- function(priority) {
   assert_ge(priority, 0, msg = "priority cannot be less than 0")
   assert_le(priority, 1, msg = "priority cannot be greater than 1")
   assign("priority", priority, envir = tar_envir_options)
+}
+
+tar_option_set_backoff <- function(backoff) {
+  backoff <- backoff %||% tar_option_get("backoff")
+  assert_dbl(backoff, msg = "backoff must be numeric")
+  assert_scalar(backoff, msg = "backoff must have length 1")
+  assert_ge(backoff, 0.01, msg = "backoff cannot be less than 0.01")
+  assert_le(backoff, 1e9, msg = "backoff cannot be greater than 1e9")
+  assign("backoff", backoff, envir = tar_envir_options)
 }
 
 tar_option_set_resources <- function(resources) {

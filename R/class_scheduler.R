@@ -13,7 +13,7 @@ scheduler_init <- function(
   queued <- counter_init(names)
   progress <- progress_init(queued = queued)
   reporter <- reporter_init(reporter)
-  backoff <- backoff_init()
+  backoff <- backoff_init(max = tar_option_get("backoff"))
   scheduler_new(graph, queue, progress, reporter, backoff)
 }
 
