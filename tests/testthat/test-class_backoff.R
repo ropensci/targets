@@ -6,9 +6,14 @@ test_that("backoff$increment_base() and backoff$reset()", {
   x <- backoff_init(min = 1, rate = 2)
   expect_equal(x$index, 0L)
   expect_equal(x$interval_base(), x$min)
-  map(seq_len(5), ~x$increment())
-  expect_equal(x$index, 5L)
-  expect_equal(x$interval_base(), 2 ^ 5)
+  for (index in seq_len(5L)) {
+    x$increment()
+    expect_equal(x$index, index)
+    expect_equal(x$interval_base(), 2 ^ index)
+  }
+  x$reset()
+  expect_equal(x$index, 0L)
+  expect_equal(x$interval_base(), x$min)
 })
 
 test_that("backoff$interval()", {
@@ -19,4 +24,7 @@ test_that("backoff$interval()", {
   map(seq_len(5), ~x$increment())
   expect_gt(x$interval(), x$interval_base())
   expect_lt(x$interval() - 1, x$interval_base())
+  x$reset()
+  expect_gt(x$interval(), 1)
+  expect_lt(x$interval(), 1.11)
 })
