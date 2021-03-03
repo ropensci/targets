@@ -62,7 +62,6 @@ jobs:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
         run: |
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
-          Rscript -e "cat(sysreqs::current_platform())"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
 
