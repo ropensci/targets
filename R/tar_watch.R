@@ -330,7 +330,7 @@ tar_watch_server <- function(id, height = "650px") {
   shiny::moduleServer(
     id,
     function(input, output, session) {
-      interval <- 1000
+      interval <- 200
       react_refresh <- shiny::reactive(input$refresh)
       react_display <- shiny::reactive(input$display)
       react_millis <- shiny::reactive(1000 * as.numeric(input$seconds))
@@ -338,17 +338,18 @@ tar_watch_server <- function(id, height = "650px") {
       react_outdated <- shiny::reactive(as.logical(input$outdated))
       react_label <- shiny::reactive(input$label)
       react_ls <- shiny::reactive(as.numeric(input$level_separation))
-      display <- shiny::throttle(r = react_display, millis = interval)
-      refresh <- shiny::throttle(r = react_refresh, millis = interval)
-      millis <- shiny::throttle(r = react_millis, millis = interval)
-      targets_only <- shiny::throttle(r = react_targets, millis = interval)
-      outdated_tl <- shiny::throttle(r = react_outdated, millis = interval)
-      label <- shiny::throttle(r = react_label, millis = interval)
-      level_separation <- shiny::throttle(r = react_ls, millis = interval)
+      display <- shiny::debounce(r = react_display, millis = interval)
+      refresh <- shiny::debounce(r = react_refresh, millis = interval)
+      millis <- shiny::debounce(r = react_millis, millis = interval)
+      targets_only <- shiny::debounce(r = react_targets, millis = interval)
+      outdated_tl <- shiny::debounce(r = react_outdated, millis = interval)
+      label <- shiny::debounce(r = react_label, millis = interval)
+      level_separation <- shiny::debounce(r = react_ls, millis = interval)
       output$graph <- visNetwork::renderVisNetwork({
         if (identical(react_refresh(), TRUE)) {
           shiny::invalidateLater(millis = millis())
         }
+        print(paste("graph", runif(1)))
         trn(
           tar_exist_script(),
           tar_visnetwork(
