@@ -1,6 +1,6 @@
 # Exponential backoff algorithm
 # similar to https://en.wikipedia.org/wiki/Exponential_backoff
-backoff_init <- function(min = 0.01, max = 20, rate = 2) {
+backoff_init <- function(min = 0.01, max = 5, rate = 1.25) {
   backoff_new(
     min = min,
     max = max,
