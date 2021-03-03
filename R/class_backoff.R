@@ -1,8 +1,8 @@
 # Exponential backoff algorithm
 # similar to https://en.wikipedia.org/wiki/Exponential_backoff
-backoff_init <- function(min = 0.01, max = 5, rate = 1.25) {
+backoff_init <- function(min = 0.01, max = 10, rate = 1.5) {
   backoff_new(
-    min = min,
+    min = max(sqrt(.Machine$double.eps), min),
     max = max,
     rate = rate,
     index = 0L
@@ -50,16 +50,11 @@ backoff_class <- R6::R6Class(
     increment = function() {
       self$index <- min(self$index + 1L, as.integer(1e9))
     },
-    interval_base = function() {
+    bound = function() {
       min(self$max, (self$min) * ((self$rate) ^ (self$index)))
     },
-    random_offset = function(interval) {
-      max_offset <- min(1, 0.1 * interval)
-      stats::runif(n = 1, min = sqrt(.Machine$double.eps), max = max_offset)
-    },
     interval = function() {
-      base <- self$interval_base()
-      base + self$random_offset(base)
+      stats::runif(n = 1L, min = self$min, max = self$bound())
     },
     sleep = function() {
       Sys.sleep(self$interval())
@@ -74,7 +69,7 @@ backoff_class <- R6::R6Class(
       assert_dbl(self$max)
       assert_dbl(self$rate)
       assert_int(self$index)
-      assert_ge(self$min, 0)
+      assert_ge(self$min, sqrt(.Machine$double.eps))
       assert_ge(self$max, self$min)
       assert_ge(self$rate, 1)
       assert_ge(self$index, 0L)
