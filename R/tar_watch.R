@@ -250,6 +250,17 @@ tar_watch_ui <- function(
         choiceValues = c("graph", "branches"),
         selected = "graph"
       ),
+      shinyWidgets::actionBttn(
+        inputId = ns("refresh"),
+        label = "refresh",
+        style = "simple",
+        color = "primary",
+        size = "sm",
+        block = FALSE,
+        no_outline = TRUE
+      ),
+      br(),
+      br(),
       shinyWidgets::materialSwitch(
         inputId = ns("watch"),
         label = "watch",
@@ -348,6 +359,7 @@ tar_watch_server <- function(id, height = "650px") {
           refresh$refresh <- tempfile()
         }
       })
+      observeEvent(input$refresh, refresh$refresh <- tempfile())
       output$graph <- visNetwork::renderVisNetwork({
         req(refresh$refresh)
         trn(
