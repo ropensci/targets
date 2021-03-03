@@ -13,7 +13,8 @@ scheduler_init <- function(
   queued <- counter_init(names)
   progress <- progress_init(queued = queued)
   reporter <- reporter_init(reporter)
-  scheduler_new(graph, queue, progress, reporter, backoff_init())
+  backoff <- backoff_init()
+  scheduler_new(graph, queue, progress, reporter, backoff)
 }
 
 scheduler_topo_sort <- function(igraph, priorities, queue) {
