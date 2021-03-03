@@ -51,7 +51,7 @@ backoff_class <- R6::R6Class(
       self$index <- min(self$index + 1L, as.integer(1e9))
     },
     interval_base = function() {
-      (self$min) * ((self$rate) ^ (self$index))
+      min(self$max, (self$min) * ((self$rate) ^ (self$index)))
     },
     random_offset = function(interval) {
       max_offset <- min(1, 0.1 * interval)
