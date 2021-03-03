@@ -1,25 +1,63 @@
 # Exponential backoff algorithm
 # similar to https://en.wikipedia.org/wiki/Exponential_backoff
-backoff_init <- function(interval = 0.01, max = 20, rate = 2) {
-  backoff_new(interval = interval, max = max, rate = rate)
+backoff_init <- function(start = 0.01, max = 20, rate = 2) {
+  backoff_new(
+    start = start,
+    max = max,
+    rate = rate,
+    interval = start
+  )
 }
 
-backoff_new <- function(interval = NULL, max = NULL, rate = NULL) {
-  force(interval)
-  force(max)
-  force(rate)
-  environment()
+backoff_new <- function(
+  start = NULL,
+  max = NULL,
+  rate = NULL,
+  interval = NULL
+) {
+  backoff_class$new(
+    start = start,
+    max = max,
+    rate = rate,
+    interval = interval
+  )
 }
 
-backoff_validate <- function(backoff) {
-  assert_correct_fields(backoff, backoff_new)
-  assert_scalar(backoff$interval)
-  assert_scalar(backoff$max)
-  assert_scalar(backoff$rate)
-  assert_dbl(backoff$interval)
-  assert_dbl(backoff$max)
-  assert_dbl(backoff$rate)
-  assert_ge(backoff$interval, 0)
-  assert_ge(backoff$max, backoff$interval)
-  assert_ge(backoff$rate, 1)
-}
+backoff_class <- R6::R6Class(
+  classname = "tar_backoff",
+  class = FALSE,
+  portable = FALSE,
+  cloneable = FALSE,
+  public = list(
+    start = NULL,
+    max = NULL,
+    rate = NULL,
+    interval = NULL,
+    initialize = function(
+      start = NULL,
+      max = NULL,
+      rate = NULL,
+      interval = NULL
+    ) {
+      self$start <- start
+      self$max <- max
+      self$rate <- rate
+      self$interval <- interval
+    },
+    validate = function() {
+      assert_scalar(self$start)
+      assert_scalar(self$max)
+      assert_scalar(self$rate)
+      assert_scalar(self$interval)
+      assert_dbl(self$start)
+      assert_dbl(self$max)
+      assert_dbl(self$rate)
+      assert_dbl(self$interval)
+      assert_ge(self$start, 0)
+      assert_ge(self$max, self$start)
+      assert_ge(self$rate, 1)
+      assert_ge(self$interval, self$start)
+      assert_ge(self$max, self$interval)
+    }
+  )
+)
