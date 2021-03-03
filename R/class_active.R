@@ -55,6 +55,7 @@ active_class <- R6::R6Class(
       target_sync_file_meta(target, self$meta)
     },
     process_target = function(name) {
+      self$scheduler$backoff$reset()
       target <- pipeline_get_target(self$pipeline, name)
       target_debug(target)
       target_update_depend(target, self$pipeline, self$meta)
