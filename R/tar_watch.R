@@ -251,8 +251,8 @@ tar_watch_ui <- function(
         selected = "graph"
       ),
       shinyWidgets::materialSwitch(
-        inputId = ns("refresh"),
-        label = "refresh",
+        inputId = ns("watch"),
+        label = "watch",
         value = TRUE,
         status = "primary",
         right = TRUE
@@ -331,25 +331,25 @@ tar_watch_server <- function(id, height = "650px") {
     id,
     function(input, output, session) {
       interval <- 200
-      react_refresh <- shiny::reactive(input$refresh)
-      react_display <- shiny::reactive(input$display)
+      refresh <- reactiveValues(refresh = tempfile())
       react_millis <- shiny::reactive(1000 * as.numeric(input$seconds))
       react_targets <- shiny::reactive(as.logical(input$targets_only))
       react_outdated <- shiny::reactive(as.logical(input$outdated))
       react_label <- shiny::reactive(input$label)
       react_ls <- shiny::reactive(as.numeric(input$level_separation))
-      display <- shiny::debounce(r = react_display, millis = interval)
-      refresh <- shiny::debounce(r = react_refresh, millis = interval)
       millis <- shiny::debounce(r = react_millis, millis = interval)
       targets_only <- shiny::debounce(r = react_targets, millis = interval)
       outdated_tl <- shiny::debounce(r = react_outdated, millis = interval)
       label <- shiny::debounce(r = react_label, millis = interval)
       level_separation <- shiny::debounce(r = react_ls, millis = interval)
-      output$graph <- visNetwork::renderVisNetwork({
-        if (identical(react_refresh(), TRUE)) {
+      observe({
+        if (identical(input$watch, TRUE)) {
           shiny::invalidateLater(millis = millis())
+          refresh$refresh <- tempfile()
         }
-        print(paste("graph", runif(1)))
+      })
+      output$graph <- visNetwork::renderVisNetwork({
+        req(refresh$refresh)
         trn(
           tar_exist_script(),
           tar_visnetwork(
@@ -368,9 +368,7 @@ tar_watch_server <- function(id, height = "650px") {
         )
       })
       output$branches <- gt::render_gt({
-        if (identical(react_refresh(), TRUE)) {
-          shiny::invalidateLater(millis = millis())
-        }
+        req(refresh$refresh)
         trn(
           tar_exist_progress(),
           tar_progress_branches_gt(),
@@ -379,7 +377,7 @@ tar_watch_server <- function(id, height = "650px") {
       }, height = height)
       output$display <- shiny::renderUI({
         switch(
-          display() %||% "graph",
+          input$display %||% "graph",
           graph = shinycssloaders::withSpinner(
             visNetwork::visNetworkOutput(session$ns("graph"), height = height)
           ),
