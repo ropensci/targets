@@ -13,7 +13,7 @@ scheduler_init <- function(
   queued <- counter_init(names)
   progress <- progress_init(queued = queued)
   reporter <- reporter_init(reporter)
-  scheduler_new(graph, queue, progress, reporter)
+  scheduler_new(graph, queue, progress, reporter, backoff_init())
 }
 
 scheduler_topo_sort <- function(igraph, priorities, queue) {
@@ -36,9 +36,10 @@ scheduler_new <- function(
   graph = NULL,
   queue = NULL,
   progress = NULL,
-  reporter = NULL
+  reporter = NULL,
+  backoff = NULL
 ) {
-  scheduler_class$new(graph, queue, progress, reporter)
+  scheduler_class$new(graph, queue, progress, reporter, backoff)
 }
 
 scheduler_class <- R6::R6Class(
@@ -51,16 +52,19 @@ scheduler_class <- R6::R6Class(
     queue = NULL,
     progress = NULL,
     reporter = NULL,
+    backoff = NULL,
     initialize = function(
       graph = NULL,
       queue = NULL,
       progress = NULL,
-      reporter = NULL
+      reporter = NULL,
+      backoff = NULL
     ) {
       self$graph <- graph
       self$queue <- queue
       self$progress <- progress
       self$reporter <- reporter
+      self$backoff <- backoff
     },
     count_unfinished_deps = function(name) {
       deps <- self$graph$produce_upstream(name)
@@ -79,6 +83,7 @@ scheduler_class <- R6::R6Class(
       self$queue$validate()
       self$progress$validate()
       self$reporter$validate()
+      self$backoff$validate()
     }
   )
 )

@@ -56,7 +56,7 @@ backoff_class <- R6::R6Class(
     interval = function() {
       stats::runif(n = 1L, min = self$min, max = self$bound())
     },
-    sleep = function() {
+    wait = function() {
       Sys.sleep(self$interval())
       self$increment()
     },

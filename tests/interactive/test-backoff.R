@@ -4,7 +4,7 @@ tar_test("backoff actually slows down and then resets", {
     begin <- unname(proc.time()["elapsed"])
     for (index in seq_len(30L)) {
       bound <- round(backoff$bound(), 4L)
-      backoff$sleep()
+      backoff$wait()
       end <- unname(proc.time()["elapsed"])
       elapsed <- end - begin
       begin <- end

@@ -24,12 +24,12 @@ tar_test("maximum interval", {
   expect_equal(x$bound(), 10)
 })
 
-tar_test("backoff$sleep() increments index and bound", {
+tar_test("backoff$wait() increments index and bound", {
   set.seed(0)
   x <- backoff_init(min = 0.001, rate = 2, max = 10)
   expect_equal(x$index, 0L)
   expect_equal(x$bound(), 0.001)
-  x$sleep()
+  x$wait()
   expect_equal(x$index, 1L)
   expect_equal(x$bound(), 0.002)
 })

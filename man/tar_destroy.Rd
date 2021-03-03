@@ -6,7 +6,7 @@
 current working directory}
 \usage{
 tar_destroy(
-  destroy = c("all", "meta", "progress", "objects", "scratch", "workspaces")
+  destroy = c("all", "meta", "process", "progress", "objects", "scratch", "workspaces")
 )
 }
 \arguments{
@@ -15,6 +15,9 @@ tar_destroy(
 \item \code{"all"}: destroy the entire data store.
 \item \code{"meta"}: just delete the metadata file at \verb{_targets/meta/meta},
 which invalidates all the targets but keeps the data.
+\item \code{"process"}: just delete the progress data file at
+\verb{_targets/meta/process}, which resets the metadata
+of the main process.
 \item \code{"progress"}: just delete the progress data file at
 \verb{_targets/meta/progress}, which resets the progress tracking info.
 \item \code{"objects"}: delete all the target return values in \verb{_targets/objects/}
