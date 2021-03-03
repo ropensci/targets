@@ -1,8 +1,8 @@
 # Exponential backoff algorithm
 # similar to https://en.wikipedia.org/wiki/Exponential_backoff
-backoff_init <- function(start = 0.01, max = 20, rate = 2) {
+backoff_init <- function(min = 0.01, max = 20, rate = 2) {
   backoff_new(
-    start = start,
+    min = min,
     max = max,
     rate = rate,
     index = 0L
@@ -10,13 +10,13 @@ backoff_init <- function(start = 0.01, max = 20, rate = 2) {
 }
 
 backoff_new <- function(
-  start = NULL,
+  min = NULL,
   max = NULL,
   rate = NULL,
   index = NULL
 ) {
   backoff_class$new(
-    start = start,
+    min = min,
     max = max,
     rate = rate,
     index = index
@@ -29,32 +29,53 @@ backoff_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    start = NULL,
+    min = NULL,
     max = NULL,
     rate = NULL,
     index = NULL,
     initialize = function(
-      start = NULL,
+      min = NULL,
       max = NULL,
       rate = NULL,
       index = NULL
     ) {
-      self$start <- start
+      self$min <- min
       self$max <- max
       self$rate <- rate
       self$index <- index
     },
+    reset = function() {
+      self$index <- 0L
+    },
+    increment = function() {
+      self$index <- min(self$index + 1L, as.integer(1e9))
+    },
+    interval_base = function() {
+      (self$min) * ((self$rate) ^ (self$index))
+    },
+    random_offset = function(interval) {
+      max_offset <- min(1, 0.1 * interval)
+      stats::runif(n = 1, min = sqrt(.Machine$double.eps), max = max_offset)
+    },
+    interval = function() {
+      base <- self$interval_base()
+      base + self$random_offset(base)
+    },
+    sleep = function() {
+      Sys.sleep(self$interval())
+      self$increment()
+    },
     validate = function() {
-      assert_scalar(self$start)
+      assert_scalar(self$min)
       assert_scalar(self$max)
       assert_scalar(self$rate)
       assert_scalar(self$index)
-      assert_dbl(self$start)
+      assert_dbl(self$min)
       assert_dbl(self$max)
       assert_dbl(self$rate)
       assert_int(self$index)
-      assert_ge(self$start, 0)
-      assert_ge(self$max, self$start)
+      assert_ge(self$min, 0)
+      assert_ge(self$max, self$min)
       assert_ge(self$rate, 1)
       assert_ge(self$index, 0L)
     }

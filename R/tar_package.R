@@ -22,7 +22,7 @@
 #' @importFrom R6 R6Class
 #' @importFrom rlang as_function as_quosure enquo quo quo_squash sym
 #'   check_installed
-#' @importFrom stats complete.cases
+#' @importFrom stats complete.cases runif
 #' @importFrom tibble as_tibble
 #' @importFrom tidyselect all_of any_of contains ends_with everything
 #'   last_col matches num_range one_of starts_with
