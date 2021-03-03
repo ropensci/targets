@@ -3,7 +3,7 @@
 ## Enhancements
 
 * Use `rlang::check_installed()` inside `assert_package()` (#331, @malcolmbarrett).
-
+* Allow `tar_destroy(destroy = "process")`.
 
 # targets 0.2.0
 

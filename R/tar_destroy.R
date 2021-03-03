@@ -8,6 +8,9 @@
 #'   * `"all"`: destroy the entire data store.
 #'   * `"meta"`: just delete the metadata file at `_targets/meta/meta`,
 #'     which invalidates all the targets but keeps the data.
+#'   * `"process"`: just delete the progress data file at
+#'     `_targets/meta/process`, which resets the metadata
+#'     of the main process.
 #'   * `"progress"`: just delete the progress data file at
 #'     `_targets/meta/progress`, which resets the progress tracking info.
 #'   * `"objects"`: delete all the target return values in `_targets/objects/`
@@ -28,12 +31,21 @@
 #' })
 #' }
 tar_destroy <- function(
-  destroy = c("all", "meta", "progress", "objects", "scratch", "workspaces")
+  destroy = c(
+    "all",
+    "meta",
+    "process",
+    "progress",
+    "objects",
+    "scratch",
+    "workspaces"
+  )
 ) {
   switch(
     match.arg(destroy),
     all = unlink(path_store(), recursive = TRUE),
     meta = unlink(path_meta()),
+    process = unlink(path_process()),
     progress = unlink(path_progress()),
     objects = unlink(path_objects_dir(), recursive = TRUE),
     scratch = unlink(path_scratch_dir(), recursive = TRUE),
