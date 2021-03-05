@@ -2,8 +2,13 @@
 
 ## New features
 
-* Implement an exponential backoff algorithm for polling the priority queue in `tar_make_clustermq()` and `tar_make_future()` (#333). 
 * Add a `backoff` option in `tar_option_set()` to set the maximum upper bound (seconds) for the polling interval (#333).
+
+## Performance
+
+* Implement an exponential backoff algorithm for polling the priority queue in `tar_make_clustermq()` and `tar_make_future()` (#333). 
+* Set `timeout = 0` in `future::resolve()` to work around `future` issue 99.
+* In `tar_make_future()`, try to submit a target every time a worker is polled.
 
 ## Enhancements
 
@@ -12,7 +17,6 @@
 * In `tar_watch()`, increase default `seconds` to 15 (previously 5).
 * In `tar_watch()`, debounce instead of throttle inputs.
 * In `tar_watch()`, add an action button to refresh the outputs.
-* Set `timeout = 0` in `future::resolve()` to work around `future` issue 99.
 
 # targets 0.2.0
 

@@ -140,27 +140,33 @@ future_class <- R6::R6Class(
         self$meta
       )
     },
-    scan_worker = function(name) {
+    can_submit = function() {
+      self$crew$count < self$workers &&
+        self$scheduler$queue$is_nonempty()
+    },
+    try_submit = function(wait) {
+      if (self$can_submit()) {
+        self$next_target()
+      } else if (wait) {
+        self$wait()
+      }
+    },
+    process_worker = function(name) {
       worker <- memory_get_object(self$crew, name)
       if (future::resolved(worker, timeout = 0)) {
         self$conclude_worker_target(future::value(worker))
         memory_del_objects(self$crew, name)
       }
+      self$try_submit(wait = FALSE)
     },
-    iterate = function() {
-      lapply(self$crew$names, self$scan_worker)
-      should_submit <- self$crew$count < self$workers &&
-        self$scheduler$queue$is_nonempty()
-      trn(
-        should_submit,
-        self$next_target(),
-        self$wait()
-      )
+    loop = function() {
+      lapply(self$crew$names, self$process_worker)
+      self$try_submit(wait = TRUE)
     },
     run = function() {
       self$start()
       while (self$scheduler$progress$any_remaining()) {
-        self$iterate()
+        self$loop()
       }
       self$end()
     },
