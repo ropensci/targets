@@ -159,14 +159,25 @@ future_class <- R6::R6Class(
       }
       self$try_submit(wait = FALSE)
     },
-    loop = function() {
-      lapply(self$crew$names, self$process_worker)
+    process_workers = function() {
+      names <- self$crew$names
+      if (!length(names)) {
+        return()
+      }
+      targets <- map(names, ~pipeline_get_target(self$pipeline, .x))
+      priorities <- map_dbl(targets, ~.x$settings$priority)
+      names(priorities) <- names
+      names <- names(sort(priorities, decreasing = TRUE))
+      lapply(names, self$process_worker)
+    },
+    iterate = function() {
+      self$process_workers()
       self$try_submit(wait = TRUE)
     },
     run = function() {
       self$start()
       while (self$scheduler$progress$any_remaining()) {
-        self$loop()
+        self$iterate()
       }
       self$end()
     },

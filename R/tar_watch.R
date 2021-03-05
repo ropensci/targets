@@ -259,8 +259,8 @@ tar_watch_ui <- function(
         block = FALSE,
         no_outline = TRUE
       ),
-      br(),
-      br(),
+      shiny::br(),
+      shiny::br(),
       shinyWidgets::materialSwitch(
         inputId = ns("watch"),
         label = "watch",
@@ -342,7 +342,7 @@ tar_watch_server <- function(id, height = "650px") {
     id,
     function(input, output, session) {
       interval <- 200
-      refresh <- reactiveValues(refresh = tempfile())
+      refresh <- shiny::reactiveValues(refresh = tempfile())
       react_millis <- shiny::reactive(1000 * as.numeric(input$seconds))
       react_targets <- shiny::reactive(as.logical(input$targets_only))
       react_outdated <- shiny::reactive(as.logical(input$outdated))
@@ -353,15 +353,15 @@ tar_watch_server <- function(id, height = "650px") {
       outdated_tl <- shiny::debounce(r = react_outdated, millis = interval)
       label <- shiny::debounce(r = react_label, millis = interval)
       level_separation <- shiny::debounce(r = react_ls, millis = interval)
-      observe({
+      shiny::observe({
         if (identical(input$watch, TRUE)) {
           shiny::invalidateLater(millis = millis())
           refresh$refresh <- tempfile()
         }
       })
-      observeEvent(input$refresh, refresh$refresh <- tempfile())
+      shiny::observeEvent(input$refresh, refresh$refresh <- tempfile())
       output$graph <- visNetwork::renderVisNetwork({
-        req(refresh$refresh)
+        shiny::req(refresh$refresh)
         trn(
           tar_exist_script(),
           tar_visnetwork(
@@ -380,7 +380,7 @@ tar_watch_server <- function(id, height = "650px") {
         )
       })
       output$branches <- gt::render_gt({
-        req(refresh$refresh)
+        shiny::req(refresh$refresh)
         trn(
           tar_exist_progress(),
           tar_progress_branches_gt(),
