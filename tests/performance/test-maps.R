@@ -27,3 +27,19 @@ px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
 
 unlink("_targets.R")
 tar_destroy()
+
+# Metadata deduplication is not a bottleneck.
+tar_script({
+  list(
+    tar_target(x, seq_len(1e4)),
+    tar_target(y, x, pattern = map(x))
+  )
+})
+px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
+tar_script({
+  list(
+    tar_target(x, seq_len(1e4)),
+    tar_target(y, 2 * x, pattern = map(x))
+  )
+})
+px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
