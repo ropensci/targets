@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_deduplicate.R
 \name{tar_deduplicate}
 \alias{tar_deduplicate}
-\title{Deduplicate meta and progress databases.}
+\title{Deduplicate meta and progress databases (deprecated).}
 \usage{
 tar_deduplicate(meta = TRUE, progress = TRUE)
 }
@@ -17,20 +17,15 @@ at \verb{_targets/meta/progress}.}
 Nothing.
 }
 \description{
-Remove duplicated entries in the meta and progress
+Deprecated in version 0.3.0 (2020-03-06).
+Deduplication happens automatically before and after the pipeline runs.
+}
+\details{
+Removes duplicated entries in the meta and progress
 databases in order to lighten storage. These databases are located
 in the \verb{_targets/meta/meta} and \verb{_targets/meta/progress} files,
 and the \verb{_targets} data store lives in the current working directory.
 No essential data is removed, so
 this is simply a form of garbage collection.
 }
-\examples{
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
-tar_dir({ # tar_dir() runs code from a temporary directory.
-tar_script(list(tar_target(x, 1 + 1)), ask = FALSE)
-tar_make()
-tar_make()
-tar_deduplicate() # Compare the file _targets/meta/meta before and after.
-})
-}
-}
+\keyword{internal}
