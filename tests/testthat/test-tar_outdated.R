@@ -123,10 +123,19 @@ tar_test("tar_outdated() does not deduplicate metadata", {
     tar_make(callr_function = NULL)
   }
   out <- meta_init()$database$read_data()
+  expect_equal(nrow(out), 1L)
+  meta_lines <- readLines(path_meta())
+  expect_equal(length(meta_lines), 2L)
+  meta_lines <- c(meta_lines, meta_lines[2])
+  writeLines(meta_lines, path_meta())
+  out <- meta_init()$database$read_data()
   expect_equal(nrow(out), 2L)
   out <- tar_outdated(callr_arguments = list(show = FALSE))
   out <- meta_init()$database$read_data()
   expect_equal(nrow(out), 2L)
+  tar_make(callr_function = NULL)
+  out <- meta_init()$database$read_data()
+  expect_equal(nrow(out), 1L)
 })
 
 tar_test("tar_outdated() names arg works", {

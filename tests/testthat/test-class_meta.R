@@ -80,7 +80,7 @@ tar_test("metadata recorded in local algo", {
   expect_equal(sort(data$name), sort(c("a", "b")))
 })
 
-tar_test("metadata storage is not duplicated", {
+tar_test("metadata storage is duplicated", {
   envir <- new.env(parent = baseenv())
   envir$file_create <- function(x) {
     file.create(x)
@@ -100,9 +100,9 @@ tar_test("metadata storage is not duplicated", {
     local$run()
   }
   data <- local$meta$database$read_data()
-  expect_equal(nrow(data), 6L)
-  expect_equal(unique(table(data$name)), 2L)
-  expect_equal(sort(unique(unlist(data$path))), sort(c("d", "e")))
+  expect_equal(nrow(data), 3L)
+  expect_equal(unique(table(data$name)), 1L)
+  expect_equal(sort(unique(unlist(data$path))), sort(c("e")))
 })
 
 tar_test("errored targets get old path and old format in meta", {
@@ -123,17 +123,18 @@ tar_test("errored targets get old path and old format in meta", {
   expect_equal(data$format, "qs")
 })
 
-tar_test("can read old metadata with a error & a non-error", {
+tar_test("can read metadata with a error & a non-error", {
   skip_if_not_installed("qs")
-  x <- target_init(name = "abc", expr = quote(123), format = "qs")
-  local_init(pipeline_init(list(x)))$run()
-  x <- target_init(
-    name = "abc",
-    expr = quote(stop(123)),
-    format = "rds",
-    error = "continue"
+  targets <- list(
+    target_init(name = "abc", expr = quote(123), format = "qs"),
+    target_init(
+      name = "xyz",
+      expr = quote(stop(abc)),
+      format = "qs",
+      error = "continue"
+    )
   )
-  local_init(pipeline_init(list(x)))$run()
+  local_init(pipeline_init(targets))$run()
   data <- meta_init()$database$read_data()
   expect_equal(nrow(data), 2L)
   expect_equal(colnames(data), header_meta())

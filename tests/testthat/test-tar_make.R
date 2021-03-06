@@ -34,7 +34,7 @@ tar_test("tar_make() deduplicates metadata", {
     tar_make(callr_function = NULL)
   }
   out <- meta_init()$database$read_data()
-  expect_equal(nrow(out), 2L)
+  expect_equal(nrow(out), 1L)
 })
 
 tar_test("tar_make() can use tidyselect", {

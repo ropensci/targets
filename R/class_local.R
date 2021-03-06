@@ -58,11 +58,11 @@ local_class <- R6::R6Class(
     },
     run = function() {
       self$start()
+      on.exit(self$end())
       queue <- self$scheduler$queue
       while (queue$should_dequeue()) {
         self$process_next()
       }
-      self$end()
       invisible()
     }
   )

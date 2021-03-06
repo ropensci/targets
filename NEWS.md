@@ -18,6 +18,7 @@
 * In `tar_watch()`, increase default `seconds` to 15 (previously 5).
 * In `tar_watch()`, debounce instead of throttle inputs.
 * In `tar_watch()`, add an action button to refresh the outputs.
+* Always deduplicate metadata after `tar_make()`. Will help compute a cache key on GitHub Actions and similar services.
 
 # targets 0.2.0
 

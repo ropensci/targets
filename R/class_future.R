@@ -176,10 +176,10 @@ future_class <- R6::R6Class(
     },
     run = function() {
       self$start()
+      on.exit(self$end())
       while (self$scheduler$progress$any_remaining()) {
         self$iterate()
       }
-      self$end()
     },
     end = function() {
       # Cleans up psock clusters.

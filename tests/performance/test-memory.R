@@ -1,3 +1,52 @@
+# local_init(pipeline)$run() retains correct memory:
+library(testthat)
+tar_option_set()
+pipeline <- pipeline_init(
+  list(
+    target_init(name = "data1", expr = quote(seq_len(10))),
+    target_init(name = "data2", expr = quote(seq_len(20))),
+    target_init(name = "min1", expr = quote(min(data1))),
+    target_init(name = "min2", expr = quote(min(data2))),
+    target_init(name = "max1", expr = quote(max(data1))),
+    target_init(name = "max2", expr = quote(max(data2))),
+    target_init(name = "mins", expr = quote(c(min1, min2))),
+    target_init(name = "maxes", expr = quote(c(max1, max2))),
+    target_init(
+      name = "all",
+      expr = quote(c(browser(), mins, maxes)),
+      envir = globalenv()
+    )
+  )
+)
+# Enter the debugger:
+local_init(pipeline)$run()
+# Run these tests inside the debugger:
+names <- paste0(rep(c("data", "min", "max"), each = 2), seq_len(2))
+testthat::expect_equal(
+  pipeline_get_target(pipeline, "mins")$cache$targets$names,
+  character(0)
+)
+expect_equal(
+  pipeline_get_target(pipeline, "mins")$cache$targets$names,
+  character(0)
+)
+expect_equal(
+  pipeline_get_target(pipeline, "mins")$cache$targets$names,
+  character(0)
+)
+expect_false(is.null(pipeline_get_target(pipeline, "mins")$value))
+expect_false(is.null(pipeline_get_target(pipeline, "maxes")$value))
+expect_true(is.null(pipeline_get_target(pipeline, "all")$value))
+expect_equal(
+  sort(pipeline_get_target(pipeline, "all")$cache$targets$names),
+  sort(c("maxes", "mins"))
+)
+# Exit the debugger and clean up.
+tar_option_reset()
+tar_destroy()
+rstudioapi::restartSession()
+
+# Memory usage tests:
 library(targets)
 library(pryr)
 
