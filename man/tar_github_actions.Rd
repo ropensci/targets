@@ -41,11 +41,10 @@ You may have to visit the Settings tab.
 \item Call \code{targets::tar_renv(extras = character(0))}
 to expose hidden package dependencies.
 \item Set up \code{renv} for your project (with \code{renv::init()}
-or \code{renv::snapshot()}. Details at
-\url{https://rstudio.github.io/renv/articles/ci.html}.)
-\item At minimum, commit files \code{.Rprofile}, \code{renv.lock}, and
-\code{renv/activate.R} to the \code{main} (recommended)
-or \code{master} branch in Git.
+or \code{renv::snapshot()}). Details at
+\url{https://rstudio.github.io/renv/articles/ci.html}.
+\item Commit the \code{renv.lock} file to the \code{main} (recommended)
+or \code{master} Git branch.
 \item Run \code{tar_github_actions()} to create the workflow file.
 Commit this file to \code{main} (recommended) or \code{master} in Git.
 \item Push your project to GitHub. Verify that a GitHub Actions

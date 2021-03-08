@@ -14,11 +14,10 @@
 #'   2. Call `targets::tar_renv(extras = character(0))`
 #'     to expose hidden package dependencies.
 #'   3. Set up `renv` for your project (with `renv::init()`
-#'     or `renv::snapshot()`. Details at
-#'     <https://rstudio.github.io/renv/articles/ci.html>.)
-#'   4. At minimum, commit files `.Rprofile`, `renv.lock`, and
-#'     `renv/activate.R` to the `main` (recommended)
-#'     or `master` branch in Git.
+#'     or `renv::snapshot()`). Details at
+#'     <https://rstudio.github.io/renv/articles/ci.html>.
+#'   4. Commit the `renv.lock` file to the `main` (recommended)
+#'     or `master` Git branch.
 #'   5. Run `tar_github_actions()` to create the workflow file.
 #'     Commit this file to `main` (recommended) or `master` in Git.
 #'   6. Push your project to GitHub. Verify that a GitHub Actions
