@@ -11,7 +11,8 @@
 #'     AWS-backed storage formats like `"aws_qs"`.
 #'   2. Ensure Actions are enabled in your GitHub repository.
 #'     You may have to visit the Settings tab.
-#'   2. Call [tar_renv()] to expose hidden package dependencies.
+#'   2. Call `targets::tar_renv(extras = character(0))`
+#'     to expose hidden package dependencies.
 #'   3. Set up `renv` for your project (with `renv::init()`
 #'     or `renv::snapshot()`. Details at
 #'     <https://rstudio.github.io/renv/articles/ci.html>.)

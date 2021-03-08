@@ -38,7 +38,8 @@ For storage, you may wish to reduce the burden with
 AWS-backed storage formats like \code{"aws_qs"}.
 \item Ensure Actions are enabled in your GitHub repository.
 You may have to visit the Settings tab.
-\item Call \code{\link[=tar_renv]{tar_renv()}} to expose hidden package dependencies.
+\item Call \code{targets::tar_renv(extras = character(0))}
+to expose hidden package dependencies.
 \item Set up \code{renv} for your project (with \code{renv::init()}
 or \code{renv::snapshot()}. Details at
 \url{https://rstudio.github.io/renv/articles/ci.html}.)
