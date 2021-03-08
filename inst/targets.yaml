@@ -36,6 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUBPAT }}
+      RENV_PATHS_ROOT: ~/.local/share/renv
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@master
@@ -52,17 +53,18 @@ jobs:
           sudo apt-get install libssl-dev
           sudo apt-get install libzmq3-dev
 
-      - name: Cache renv packages
-        uses: actions/cache@v2
+      - name: Cache packages
+        uses: actions/cache@v1
         with:
-          path: $HOME/.local/share/renv
-          key: r-${{ hashFiles('renv.lock') }}
-          restore-keys: r-
+          path: ${{ env.RENV_PATHS_ROOT }}
+          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+          restore-keys: ${{ runner.os }}-renv-
 
-      - name: Install R packages
+      - name: Restore packages
+        shell: Rscript {0}
         run: |
-          R -e 'install.packages("renv")'
-          R -e 'if (file.exists("renv.lock")) renv::restore()'
+          if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+          renv::restore()
 
       - name: Check if previous runs exist
         id: runs-exist
@@ -90,9 +92,10 @@ jobs:
       - name: Run targets pipeline
         run: targets::tar_make()
         shell: Rscript {0}
+        continue-on-error: true
 
       - name: Identify files that the targets pipeline produced
-        run: git ls-files -om > .targets-files
+        run: git ls-files -mo --exclude=renv > .targets-files
 
       - name: Create the runs branch if it does not already exist
         if: steps.runs-exist.outcome != 'success'
@@ -109,11 +112,10 @@ jobs:
         run: |
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
-          rm -rf .gitignore .github
-          git add -f * .targets-files
-          for file in $(git ls-files -om)
+          rm .gitignore
+          git add --all -- ':!renv'
+          for file in $(git ls-files -mo --exclude=renv)
           do
-            echo $file
             git add $file
           done
           git commit -am "Run pipeline"
