@@ -9,8 +9,6 @@
 ^.*\.Rout$
 ^.*\.Rproj$
 ^.*\.svg$
-^.*\.yaml$
-^.*\.yml$
 ^\.DS_Store
 ^\.future$
 ^\.git$

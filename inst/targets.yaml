@@ -1,0 +1,122 @@
+# MIT License
+# Copyright (c) 2021 Eli Lilly and Company
+# Author: William Michael Landau (will.landau at gmail)
+# Written with help from public domain (CC0 1.0 Universal) workflow files by Jim Hester:
+# * https://github.com/r-lib/actions/blob/master/examples/check-full.yaml
+# * https://github.com/r-lib/actions/blob/master/examples/blogdown.yaml
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+name: targets
+
+jobs:
+  targets:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUBPAT }}
+      RENV_PATHS_ROOT: ~/.local/share/renv
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-pandoc@master
+
+      - name: Install Mac system dependencies
+        if: runner.os == 'macOS'
+        run: brew install zeromq
+
+      - name: Install Linux system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get install libcurl4-openssl-dev
+          sudo apt-get install libssl-dev
+          sudo apt-get install libzmq3-dev
+
+      - name: Cache packages
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.RENV_PATHS_ROOT }}
+          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+          restore-keys: ${{ runner.os }}-renv-
+
+      - name: Restore packages
+        shell: Rscript {0}
+        run: |
+          if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+          renv::restore()
+
+      - name: Check if previous runs exist
+        id: runs-exist
+        run: git ls-remote --exit-code --heads origin targets-runs
+        continue-on-error: true
+
+      - name: Checkout previous run
+        if: steps.runs-exist.outcome == 'success'
+        uses: actions/checkout@v2
+        with:
+          ref: targets-runs
+          fetch-depth: 1
+          path: .targets-runs
+
+      - name: Restore output files from the previous run
+        if: steps.runs-exist.outcome == 'success'
+        run: |
+          for (dest in scan(".targets-runs/.targets-files", what = character())) {
+            source <- file.path(".targets-runs", dest)
+            if (!file.exists(dirname(dest))) dir.create(dirname(dest), recursive = TRUE)
+            if (file.exists(source)) file.rename(source, dest)
+          }
+        shell: Rscript {0}
+
+      - name: Run targets pipeline
+        run: targets::tar_make()
+        shell: Rscript {0}
+        continue-on-error: true
+
+      - name: Identify files that the targets pipeline produced
+        run: git ls-files -mo --exclude=renv > .targets-files
+
+      - name: Create the runs branch if it does not already exist
+        if: steps.runs-exist.outcome != 'success'
+        run: git checkout --orphan targets-runs
+
+      - name: Put the worktree in the runs branch if the latter already exists
+        if: steps.runs-exist.outcome == 'success'
+        run: |
+          rm -r .git
+          mv .targets-runs/.git .
+          rm -r .targets-runs
+
+      - name: Upload latest run
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+          rm .gitignore
+          git add --all -- ':!renv'
+          for file in $(git ls-files -mo --exclude=renv)
+          do
+            git add $file
+          done
+          git commit -am "Run pipeline"
+          git push origin targets-runs

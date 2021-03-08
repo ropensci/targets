@@ -25,6 +25,7 @@ reference:
 - title: Setup
   contents:
   - '`tar_edit`'
+  - '`tar_github_actions`'
   - '`tar_helper`'
   - '`tar_helper_raw`'
   - '`tar_renv`'
