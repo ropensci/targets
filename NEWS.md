@@ -8,7 +8,6 @@
 ## Performance
 
 * Implement an exponential backoff algorithm for polling the priority queue in `tar_make_clustermq()` and `tar_make_future()` (#333). 
-* Set `timeout = 0` in `future::resolve()` to work around `future` issue 99.
 * In `tar_make_future()`, try to submit a target every time a worker is polled.
 * In `tar_make_future()`, poll workers in order of target priority.
 

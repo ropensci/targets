@@ -153,7 +153,7 @@ future_class <- R6::R6Class(
     },
     process_worker = function(name) {
       worker <- memory_get_object(self$crew, name)
-      if (future::resolved(worker, timeout = 0)) {
+      if (future::resolved(worker)) {
         self$conclude_worker_target(future::value(worker))
         memory_del_objects(self$crew, name)
       }
