@@ -150,5 +150,5 @@ cli_tally <- function(x, places = 5L, vanish = 0L) {
 }
 
 time_stamp <- function() {
-  format(Sys.time(), "%Y-%m-%d %H:%M:%OS2 %z GMT")
+  format(Sys.time(), "%z GMT %Y-%m-%d %H:%M %OS2")
 }

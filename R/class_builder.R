@@ -218,8 +218,19 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   trn(
     identical(target$settings$error, "continue"),
     scheduler$reporter$report_error(target$metrics$error),
-    throw_run(target$metrics$error)
+    builder_exit(target, pipeline, scheduler, meta)
   )
+}
+
+builder_exit <- function(target, pipeline, scheduler, meta) {
+  # TODO: remove this hack that compensates for
+  # https://github.com/r-lib/callr/issues/185:
+  if (!identical(Sys.getenv("TAR_TEST"), "true")) {
+    target$value <- NULL
+    pipeline$targets <- NULL
+  }
+  # Keep this:
+  throw_run(target$metrics$error)
 }
 
 builder_ensure_workspace <- function(target, pipeline, scheduler) {

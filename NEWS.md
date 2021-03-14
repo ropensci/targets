@@ -10,6 +10,7 @@
 * Implement an exponential backoff algorithm for polling the priority queue in `tar_make_clustermq()` and `tar_make_future()` (#333). 
 * In `tar_make_future()`, try to submit a target every time a worker is polled.
 * In `tar_make_future()`, poll workers in order of target priority.
+* Avoid the time delay in exiting on error (from https://github.com/r-lib/callr/issues/185).
 
 ## Enhancements
 
@@ -20,6 +21,7 @@
 * In `tar_watch()`, add an action button to refresh the outputs.
 * Always deduplicate metadata after `tar_make()`. Will help compute a cache key on GitHub Actions and similar services.
 * Deprecate `tar_deduplicate()` due to the item above.
+* Reorder information in timestamped messages.
 
 # targets 0.2.0
 
