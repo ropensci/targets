@@ -74,6 +74,7 @@ tar_test("tar_make() finds the correct environment", {
 })
 
 tar_test("tar_make() handles callr errors", {
+  withr::local_envvar(list(TAR_TEST = "false")) # covers some lines
   skip_on_cran()
   tar_script({
     list(
