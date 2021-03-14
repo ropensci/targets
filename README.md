@@ -79,17 +79,17 @@ the results.
   - [New York Open Statistical Programming Meetup, December 2020
     (1:54:28)](https://youtu.be/Gqn7Xn4d5NI)
   - [ds-incubator
-    series, 2021](https://youtube.com/playlist?list=PLvgdJdJDL-APJqHy5CXs6m4N7hUVp5rb4)
+    series, 2021](https://www.youtube.com/playlist?list=PLvgdJdJDL-APJqHy5CXs6m4N7hUVp5rb4)
 
 ## Documentation
 
-  - [User manual](https://books.ropensci.org/targets): in-depth
+  - [User manual](https://books.ropensci.org/targets/): in-depth
     discussion about how to use `targets`.
   - [Reference website](https://docs.ropensci.org/targets/): formal
     documentation of all user-side functions, the statement of need, and
     multiple design documents of the internal architecture.
   - [Developer
-    documentation](https://books.ropensci.org/targets-design): software
+    documentation](https://books.ropensci.org/targets-design/): software
     design documents for developers contributing to the deep internal
     architecture of `targets`.
 
