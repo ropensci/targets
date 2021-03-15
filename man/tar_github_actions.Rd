@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_github_actions.R
 \name{tar_github_actions}
 \alias{tar_github_actions}
-\title{Set up GitHub Actions for targets}
+\title{Set up GitHub Actions to run a targets pipeline}
 \usage{
 tar_github_actions(
   path = file.path(".github", "workflows", "targets.yaml"),

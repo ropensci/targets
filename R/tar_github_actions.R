@@ -1,4 +1,4 @@
-#' @title Set up GitHub Actions for targets
+#' @title Set up GitHub Actions to run a targets pipeline
 #' @export
 #' @description Writes a GitHub Actions workflow file so the pipeline
 #'   runs on every push to GitHub. Historical runs accumulate in the
