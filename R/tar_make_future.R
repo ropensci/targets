@@ -27,7 +27,7 @@
 #' }
 tar_make_future <- function(
   names = NULL,
-  reporter = "verbose",
+  reporter = Sys.getenv("TAR_MAKE_REPORTER", unset = "verbose"),
   workers = 1L,
   callr_function = callr::r,
   callr_arguments = list()

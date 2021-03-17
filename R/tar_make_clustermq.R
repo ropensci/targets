@@ -38,7 +38,7 @@
 #' }
 tar_make_clustermq <- function(
   names = NULL,
-  reporter = "verbose",
+  reporter = Sys.getenv("TAR_MAKE_REPORTER", unset = "verbose"),
   workers = 1L,
   log_worker = FALSE,
   callr_function = callr::r,
