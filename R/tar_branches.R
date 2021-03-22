@@ -15,6 +15,7 @@
 #' @return A `tibble` with one row per branch and one column for each target
 #'   (including the branched-over targets and the target with the pattern.)
 #' @inheritParams tar_target
+#' @param name Symbol, name of the target.
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
