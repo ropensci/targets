@@ -4,7 +4,7 @@
 
 * Add a `backoff` option in `tar_option_set()` to set the maximum upper bound (seconds) for the polling interval (#333).
 * Add a new `tar_github_actions()` function to write a GitHub Actions workflow file for continuous deployment of data analysis pipelines (#339, @jaredlander).
-* Add a new `TAR_MAKE_REPORTER` environment variable to globally set the reporter of the `tar_make*()` functions (#345, @alexpghayes). 
+* Add a new `TAR_MAKE_REPORTER` environment variable to globally set the reporter of the `tar_make*()` functions (#345, @alexpghayes).
 
 ## Performance
 
@@ -23,6 +23,7 @@
 * Always deduplicate metadata after `tar_make()`. Will help compute a cache key on GitHub Actions and similar services.
 * Deprecate `tar_deduplicate()` due to the item above.
 * Reorder information in timestamped messages.
+* Document RNG seed generation in `tar_target_raw()`, `tar_meta()`, and `tar_seed()` (#357, @alexpghayes).
 
 # targets 0.2.0
 
