@@ -25,6 +25,15 @@
 #'   * `command`: hash of the target's deparsed command.
 #'   * `depend`: hash of the immediate upstream dependencies of the target.
 #'   * `seed`: random number generator seed with which the target was built.
+#'     A target's random number generator seed
+#'     is a deterministic function of its name. In this way,
+#'     each target runs with a reproducible seed so someone else
+#'     running the same pipeline should get the same results,
+#'     and no two targets in the same pipeline share the same seed.
+#'     (Even dynamic branches have different names and thus different seeds.)
+#'     You can recover the seed of a completed target
+#'     with `tar_meta(your_target, seed)` and run `set.seed()`
+#'     on the result to locally recreate the target's initial RNG state.
 #'   * `path`: A list column of paths to target data. Usually, each element
 #'     is a single path, but there could be multiple paths per target
 #'     for dynamic files (i.e. `tar_target(format = "file")`).
