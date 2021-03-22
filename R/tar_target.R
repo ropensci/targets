@@ -8,7 +8,19 @@
 #'   for more details.
 #' @return A target object. Users should not modify these directly,
 #'   just feed them to [list()] in your `_targets.R` file.
-#' @param name Symbol, name of the target.
+#' @param name Symbol, name of the target. Subsequent targets
+#'   can refer to this name symbolically to induce a dependency relationship:
+#'   e.g. `tar_target(downstream_target, f(upstream_target))` is a
+#'   target named `downstream_target` which depends on a target
+#'   `upstream_target` and a function `f()`. In addition, a target's
+#'   name determines its random number generator seed. In this way,
+#'   each target runs with a reproducible seed so someone else
+#'   running the same pipeline should get the same results,
+#'   and no two targets in the same pipeline share the same seed.
+#'   (Even dynamic branches have different names and thus different seeds.)
+#'   You can recover the seed of a completed target
+#'   with `tar_meta(your_target, seed)` and run `set.seed()` on the result
+#'   to locally recreate the target's initial RNG state.
 #' @param command R code to run the target.
 #' @param pattern Language to define branching for a target.
 #'   For example, in a pipeline with numeric vector targets `x` and `y`,
