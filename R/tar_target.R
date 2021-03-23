@@ -47,6 +47,12 @@
 #'     most objects, much faster than `"rds"`. Optionally set the
 #'     preset for `qsave()` through the `resources` argument, e.g.
 #'     `tar_target(..., resources = list(preset = "archive"))`.
+#'   * `"parquet"`: Uses `arrow::write_parquet()` and
+#'     `arrow::read_parquet()` (version 2.0). Much faster than `"rds"`,
+#'     but the value must be a data frame. Optionally set
+#'     `compression` and `compression_level` in `arrow::write_parquet()`
+#'     through the `resources` argument, e.g.
+#'     `tar_target(..., resources = list(compression = ...))`.
 #'   * `"fst"`: Uses `fst::write_fst()` and `fst::read_fst()`.
 #'     Much faster than `"rds"`, but the value must be
 #'     a data frame. Optionally set the compression level for
@@ -86,7 +92,7 @@
 #'     certain the ETag and Last-Modified time stamp are fully updated
 #'     and available by the time the target's command finishes running.
 #'     `targets` makes no attempt to wait for the web server.
-#'   * `"aws_rds"`, `"aws_qs"`, `"aws_fst"`, `"aws_fst_dt"`,
+#'   * `"aws_rds"`, `"aws_qs"`, `"aws_parquet"`, `"aws_fst"`, `"aws_fst_dt"`,
 #'     `"aws_fst_tbl"`, `"aws_keras"`: AWS-powered versions of the
 #'     respective formats `"rds"`, `"qs"`, etc. The only difference
 #'     is that the data file is uploaded to the AWS S3 bucket
