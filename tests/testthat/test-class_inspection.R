@@ -22,11 +22,12 @@ tar_test("inspection$outdated", {
 
 tar_test("vertices and edges of empty imports", {
   envir <- new.env(parent = baseenv())
+  tar_option_set(envir = envir)
   pipeline <- pipeline_init(
     list(
-      target_init("x", quote(f(1)), envir = envir),
-      target_init("y", quote(g(2)), envir = envir),
-      target_init("z", quote(x + y), envir = envir)
+      target_init("x", quote(f(1))),
+      target_init("y", quote(g(2))),
+      target_init("z", quote(x + y))
     )
   )
   vis <- inspection_init(pipeline)
@@ -54,20 +55,22 @@ tar_test("vertices and edges of nonempty imports", {
     h <- 1
     i <- 1
   }, envir = envir)
+  tar_option_set(envir = envir)
   pipeline <- pipeline_init(
     list(
-      target_init("x", quote(f(1)), envir = envir),
-      target_init("y", quote(g(2)), envir = envir),
-      target_init("z", quote(x + y), envir = envir)
+      target_init("x", quote(f(1))),
+      target_init("y", quote(g(2))),
+      target_init("z", quote(x + y))
     )
   )
   local_init(pipeline)$run()
   evalq(g <- function(x) i + 1L, envir = envir)
+  tar_option_set(envir = envir)
   pipeline <- pipeline_init(
     list(
-      target_init("x", quote(f(1)), envir = envir),
-      target_init("y", quote(g(2)), envir = envir),
-      target_init("z", quote(x + y), envir = envir)
+      target_init("x", quote(f(1))),
+      target_init("y", quote(g(2))),
+      target_init("z", quote(x + y))
     )
   )
   vis <- inspection_init(pipeline)
@@ -99,22 +102,23 @@ tar_test("same for targets", {
     h <- 1
     i <- 1
   }, envir = envir)
+  tar_option_set(envir = envir)
   pipeline <- pipeline_init(
     list(
-      target_init("w", quote(1), envir = envir),
-      target_init("x", quote(f(1)), envir = envir),
-      target_init("y", quote(g(2)), envir = envir),
-      target_init("z", quote(x + y), envir = envir)
+      target_init("w", quote(1)),
+      target_init("x", quote(f(1))),
+      target_init("y", quote(g(2))),
+      target_init("z", quote(x + y))
     )
   )
   local_init(pipeline)$run()
   evalq(g <- function(x) i + 1L, envir = envir)
   pipeline <- pipeline_init(
     list(
-      target_init("w", quote(1), envir = envir),
-      target_init("x", quote(f(1)), envir = envir),
-      target_init("y", quote(g(2)), envir = envir),
-      target_init("z", quote(x + y), envir = envir)
+      target_init("w", quote(1)),
+      target_init("x", quote(f(1))),
+      target_init("y", quote(g(2))),
+      target_init("z", quote(x + y))
     )
   )
   vis <- inspection_init(pipeline)
@@ -147,18 +151,19 @@ tar_test("same for targets", {
 
 tar_test("branches get counted in network data", {
   envir <- new.env(parent = baseenv())
+  tar_option_set(envir = envir)
   pipeline <- pipeline_init(
     list(
-      target_init("w", quote(seq_len(3)), envir = envir),
-      target_init("x", quote(w), pattern = quote(map(w)), envir = envir)
+      target_init("w", quote(seq_len(3))),
+      target_init("x", quote(w), pattern = quote(map(w)))
     )
   )
   local_init(pipeline)$run()
   evalq(g <- function(x) i + 1L, envir = envir)
   pipeline <- pipeline_init(
     list(
-      target_init("w", quote(seq_len(3)), envir = envir),
-      target_init("x", quote(w), pattern = quote(map(w)), envir = envir)
+      target_init("w", quote(seq_len(3))),
+      target_init("x", quote(w), pattern = quote(map(w)))
     )
   )
   vis <- inspection_init(pipeline)
@@ -176,20 +181,21 @@ tar_test("targets and imports bound together", {
     h <- 1
     i <- 1
   }, envir = envir)
+  tar_option_set(envir = envir)
   pipeline <- pipeline_init(
     list(
-      target_init("x", quote(f(1)), envir = envir),
-      target_init("y", quote(g(2)), envir = envir),
-      target_init("z", quote(x + y), envir = envir)
+      target_init("x", quote(f(1))),
+      target_init("y", quote(g(2))),
+      target_init("z", quote(x + y))
     )
   )
   local_init(pipeline)$run()
   evalq(g <- function(x) i + 1L, envir = envir)
   pipeline <- pipeline_init(
     list(
-      target_init("x", quote(f(1)), envir = envir),
-      target_init("y", quote(g(2)), envir = envir),
-      target_init("z", quote(x + y), envir = envir)
+      target_init("x", quote(f(1))),
+      target_init("y", quote(g(2))),
+      target_init("z", quote(x + y))
     )
   )
   vis <- inspection_init(pipeline)
@@ -227,12 +233,13 @@ tar_test("targets and imports bound together", {
 
 tar_test("target vertices get progress", {
   envir <- new.env(parent = baseenv())
+  tar_option_set(envir = envir)
   pipeline <- pipeline_init(
     list(
-      target_init("w", quote(1), envir = envir),
-      target_init("x", quote(1), envir = envir),
-      target_init("y", quote(1), envir = envir),
-      target_init("z", quote(x + y), envir = envir)
+      target_init("w", quote(1)),
+      target_init("x", quote(1)),
+      target_init("y", quote(1)),
+      target_init("z", quote(x + y))
     )
   )
   lines <- c(
@@ -261,12 +268,13 @@ tar_test("target vertices get progress", {
 
 tar_test("turn outdated off", {
   envir <- new.env(parent = baseenv())
+  tar_option_set(envir = envir)
   pipeline <- pipeline_init(
     list(
-      target_init("w", quote(1), envir = envir),
-      target_init("x", quote(1), envir = envir),
-      target_init("y", quote(1), envir = envir),
-      target_init("z", quote(x + y), envir = envir)
+      target_init("w", quote(1)),
+      target_init("x", quote(1)),
+      target_init("y", quote(1)),
+      target_init("z", quote(x + y))
     )
   )
   lines <- c(

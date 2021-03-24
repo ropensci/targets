@@ -13,11 +13,12 @@ tar_test("vertices and edges", {
     h <- 1
     i <- 1
   }, envir = envir)
+  tar_option_set(envir = envir)
   pipeline <- pipeline_init(
     list(
-      target_init("x", quote(f(1)), envir = envir),
-      target_init("y", quote(g(2)), envir = envir),
-      target_init("z", quote(x + y), envir = envir)
+      target_init("x", quote(f(1))),
+      target_init("y", quote(g(2))),
+      target_init("z", quote(x + y))
     )
   )
   vis <- glimpse_init(pipeline)
