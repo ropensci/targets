@@ -9,7 +9,7 @@
 #'   `rstudioapi::getActiveDocumentContext()`.
 rstudio_addin_tar_target <- function(context = NULL) {
   assert_package("rstudioapi")
-  context <- context %|||% rstudioapi::getActiveDocumentContext()
+  context <- context %||% rstudioapi::getActiveDocumentContext()
   rstudioapi::insertText(text = "tar_target()", id = context$id)
 }
 # nocov end

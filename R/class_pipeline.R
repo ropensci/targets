@@ -27,7 +27,7 @@ pipeline_new <- function(
 }
 
 pipeline_targets_init <- function(targets) {
-  targets <- targets %||% list()
+  targets <- targets %|||% list()
   assert_target_list(targets)
   names <- map_chr(targets, ~.x$settings$name)
   assert_unique_targets(names)
@@ -92,7 +92,7 @@ pipeline_set_target <- function(pipeline, target) {
 }
 
 pipeline_exists_target <- function(pipeline, name) {
-  envir <- pipeline$targets %||% tar_empty_envir
+  envir <- pipeline$targets %|||% tar_empty_envir
   exists(x = name, envir = envir, inherits = FALSE)
 }
 
@@ -113,7 +113,7 @@ pipeline_upstream_edges <- function(pipeline, targets_only = TRUE) {
   edge_list <- map(pipeline$targets, ~target_upstream_edges(.x))
   edges <- do.call(rbind, edge_list)
   edges <- trn(targets_only, pipeline_targets_only_edges(edges), edges)
-  edges <- edges %||% data_frame(from = character(0), to = character(0))
+  edges <- edges %|||% data_frame(from = character(0), to = character(0))
   rownames(edges) <- NULL
   edges
 }
@@ -171,7 +171,7 @@ pipeline_produce_subpipeline <- function(pipeline, name, keep_value = NULL) {
   target <- pipeline_get_target(pipeline, name)
   deps <- target_deps_deep(target, pipeline)
   targets <- new.env(parent = emptyenv())
-  keep_value <- keep_value %||% identical(target$settings$retrieval, "main")
+  keep_value <- keep_value %|||% identical(target$settings$retrieval, "main")
   lapply(
     deps,
     pipeline_assign_target_copy,
@@ -240,7 +240,7 @@ pipeline_validate_dag <- function(igraph) {
 
 pipeline_validate_envirs <- function(pipeline) {
   assert_envir(pipeline$envir)
-  assert_envir(pipeline$imports %||% tar_empty_envir)
+  assert_envir(pipeline$imports %|||% tar_empty_envir)
   targets <- as.list(pipeline$targets)
   lapply(targets, pipeline_validate_envir, envir = pipeline$envir)
 }

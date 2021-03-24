@@ -66,10 +66,10 @@ callr_inner <- function(
 
 prepare_callr_arguments <- function(callr_function, callr_arguments) {
   if ("show" %in% names(formals(callr_function))) {
-    callr_arguments$show <- callr_arguments$show %|||% TRUE
+    callr_arguments$show <- callr_arguments$show %||% TRUE
   }
   if ("env" %in% names(formals(callr_function))) {
-    callr_arguments$env <- callr_arguments$env %|||% callr::rcmd_safe_env()
+    callr_arguments$env <- callr_arguments$env %||% callr::rcmd_safe_env()
     callr_arguments$env <- c(
       callr_arguments$env,
       PROCESSX_NOTIFY_OLD_SIGCHLD = "true"

@@ -35,7 +35,7 @@ parallel_class <- R6::R6Class(
       head
     },
     enqueue = function(names, ranks = NULL) {
-      new_ranks <- ranks %||% rep(0L, length(names))
+      new_ranks <- ranks %|||% rep(0L, length(names))
       ranks <- c(self$get_ranks(), new_ranks)
       names <- c(self$get_names(), names)
       names(ranks) <- names

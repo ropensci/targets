@@ -40,7 +40,7 @@ tar_progress <- function(names = NULL, fields = "progress") {
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)
   names <- eval_tidyselect(names_quosure, out$name)
-  fields <- eval_tidyselect(fields_quosure, colnames(out)) %||% colnames(out)
+  fields <- eval_tidyselect(fields_quosure, colnames(out)) %|||% colnames(out)
   if (!is.null(names)) {
     out <- out[match(names, out$name),, drop = FALSE] # nolint
   }

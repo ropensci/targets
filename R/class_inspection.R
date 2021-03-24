@@ -162,7 +162,7 @@ inspection_class <- R6::R6Class(
           )
         }
       })
-      meta <- do.call(rbind, meta) %||% data_frame(
+      meta <- do.call(rbind, meta) %|||% data_frame(
         name = character(0),
         seconds = numeric(0),
         bytes = numeric(0),

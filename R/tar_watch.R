@@ -389,7 +389,7 @@ tar_watch_server <- function(id, height = "650px") {
       }, height = height)
       output$display <- shiny::renderUI({
         switch(
-          input$display %||% "graph",
+          input$display %|||% "graph",
           graph = shinycssloaders::withSpinner(
             visNetwork::visNetworkOutput(session$ns("graph"), height = height)
           ),

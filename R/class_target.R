@@ -20,10 +20,10 @@ target_init <- function(
   cue = NULL
 ) {
   force(envir)
-  envir <- envir %||% tar_empty_envir
+  envir <- envir %|||% tar_empty_envir
   seed <- produce_seed(name)
   command <- command_init(expr, packages, library, seed, deps, string)
-  cue <- cue %||% cue_default
+  cue <- cue %|||% cue_default
   cache <- cache_init(memory_init(envir))
   settings <- settings_init(
     name = name,

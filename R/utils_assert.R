@@ -9,14 +9,14 @@ assert_callr_function <- function(callr_function) {
 
 assert_chr <- function(x, msg = NULL) {
   if (!is.character(x)) {
-    throw_validate(msg %||% "x must be a character.")
+    throw_validate(msg %|||% "x must be a character.")
   }
 }
 
 assert_chr_no_delim <- function(x, msg = NULL) {
   assert_chr(x)
   if (any(grepl("|", x, fixed = TRUE) | grepl("*", x, fixed = TRUE))) {
-    throw_validate(msg %||% "x must not contain | or *")
+    throw_validate(msg %|||% "x must not contain | or *")
   }
 }
 
@@ -26,40 +26,40 @@ assert_correct_fields <- function(object, constructor) {
 
 assert_dag <- function(x, msg = NULL) {
   if (!inherits(x, "igraph") || !igraph::is_dag(x)) {
-    throw_validate(msg %||% "x must be an igraph and directed acyclic graph.")
+    throw_validate(msg %|||% "x must be an igraph and directed acyclic graph.")
   }
 }
 
 assert_dbl <- function(x, msg = NULL) {
   if (!is.numeric(x)) {
-    throw_validate(msg %||% "x must be numeric.")
+    throw_validate(msg %|||% "x must be numeric.")
   }
 }
 
 assert_df <- function(x, msg = NULL) {
   if (!is.data.frame(x)) {
-    throw_validate(msg %||% "x must be a data frame.")
+    throw_validate(msg %|||% "x must be a data frame.")
   }
 }
 
 assert_envir <- function(x, msg = NULL) {
   if (!is.environment(x)) {
-    throw_validate(msg %||% "x must be an environment")
+    throw_validate(msg %|||% "x must be an environment")
   }
 }
 
 assert_expr <- function(x, msg = NULL) {
   if (!is.expression(x)) {
-    throw_validate(msg %||% "x must be an expression.")
+    throw_validate(msg %|||% "x must be an expression.")
   }
 }
 
 assert_flag <- function(x, choices, msg = NULL) {
   name <- deparse(substitute(x))
-  assert_chr(x, msg %||% paste(name, "must be a character"))
-  assert_scalar(x, msg %||% paste(name, "must have length 1"))
+  assert_chr(x, msg %|||% paste(name, "must be a character"))
+  assert_scalar(x, msg %|||% paste(name, "must have length 1"))
   if (!all(x %in% choices)) {
-    msg <- msg %||% paste(
+    msg <- msg %|||% paste(
       name,
       "equals",
       deparse(x),
@@ -78,19 +78,19 @@ assert_format <- function(format) {
 
 assert_function <- function(x, msg = NULL) {
   if (!is.function(x)) {
-    throw_validate(msg %||% "x must be a function.")
+    throw_validate(msg %|||% "x must be a function.")
   }
 }
 
 assert_ge <- function(x, threshold, msg = NULL) {
   if (any(x < threshold)) {
-    throw_validate(msg %||% paste("x is less than", threshold))
+    throw_validate(msg %|||% paste("x is less than", threshold))
   }
 }
 
 assert_identical <- function(x, y, msg = NULL) {
   if (!identical(x, y)) {
-    throw_validate(msg %||% "x and y are not identical.")
+    throw_validate(msg %|||% "x and y are not identical.")
   }
 }
 
@@ -98,13 +98,13 @@ assert_identical_chr <- function(x, y, msg = NULL) {
   if (!identical(x, y)) {
     msg_x <- paste0(deparse(x), collapse = "")
     msg_y <- paste0(deparse(y), collapse = "")
-    throw_validate(msg %||% paste(msg_x, "and", msg_y, "not identical."))
+    throw_validate(msg %|||% paste(msg_x, "and", msg_y, "not identical."))
   }
 }
 
 assert_in <- function(x, choices, msg = NULL) {
   if (!all(x %in% choices)) {
-    msg <- msg %||% paste(
+    msg <- msg %|||% paste(
       deparse(substitute(x)),
       "equals",
       deparse(x),
@@ -117,19 +117,19 @@ assert_in <- function(x, choices, msg = NULL) {
 
 assert_not_in <- function(x, choices, msg = NULL) {
   if (any(x %in% choices)) {
-    throw_validate(msg %||% paste(deparse(x), "is in", deparse(choices)))
+    throw_validate(msg %|||% paste(deparse(x), "is in", deparse(choices)))
   }
 }
 
 assert_inherits <- function(x, class, msg = NULL) {
   if (!inherits(x, class)) {
-    throw_validate(msg %||% paste("x does not inherit from", class))
+    throw_validate(msg %|||% paste("x does not inherit from", class))
   }
 }
 
 assert_int <- function(x, msg = NULL) {
   if (!is.integer(x)) {
-    throw_validate(msg %||% "x must be an integer vector.")
+    throw_validate(msg %|||% "x must be an integer vector.")
   }
 }
 
@@ -144,19 +144,19 @@ assert_internet <- function(msg = NULL) {
 
 assert_le <- function(x, threshold, msg = NULL) {
   if (any(x > threshold)) {
-    throw_validate(msg %||% paste("x is greater than", threshold))
+    throw_validate(msg %|||% paste("x is greater than", threshold))
   }
 }
 
 assert_list <- function(x, msg = NULL) {
   if (!is.list(x)) {
-    throw_validate(msg %||% "x must be a list.")
+    throw_validate(msg %|||% "x must be a list.")
   }
 }
 
 assert_lgl <- function(x, msg = NULL) {
   if (!is.logical(x)) {
-    throw_validate(msg %||% "x must be logical.")
+    throw_validate(msg %|||% "x must be logical.")
   }
 }
 
@@ -176,19 +176,19 @@ assert_name <- function(name) {
 
 assert_nonempty <- function(x, msg = NULL) {
   if (!length(x)) {
-    throw_validate(msg %||% "x must not be empty")
+    throw_validate(msg %|||% "x must not be empty")
   }
 }
 
 assert_nonmissing <- function(x, msg = NULL) {
   if (anyNA(x)) {
-    throw_validate(msg %||% "x must have no missing values (NA's)")
+    throw_validate(msg %|||% "x must have no missing values (NA's)")
   }
 }
 
 assert_nzchar <- function(x, msg = NULL) {
   if (any(!nzchar(x))) {
-    throw_validate(msg %||% "x has empty character strings")
+    throw_validate(msg %|||% "x has empty character strings")
   }
 }
 
@@ -205,7 +205,7 @@ assert_path <- function(path, msg = NULL) {
   missing <- !file.exists(path)
   if (any(missing)) {
     throw_validate(
-      msg %||% paste0(
+      msg %|||% paste0(
         "missing files: ",
         paste(path[missing], collapse = ", ")
       )
@@ -215,19 +215,19 @@ assert_path <- function(path, msg = NULL) {
 
 assert_match <- function(x, pattern, msg = NULL) {
   if (!grepl(pattern = pattern, x = x)) {
-    throw_validate(msg %||% paste(x, "does not match pattern", pattern))
+    throw_validate(msg %|||% paste(x, "does not match pattern", pattern))
   }
 }
 
 assert_positive <- function(x, msg = NULL) {
   if (any(x <= 0)) {
-    throw_validate(msg %||% paste("x is not all positive."))
+    throw_validate(msg %|||% paste("x is not all positive."))
   }
 }
 
 assert_scalar <- function(x, msg = NULL) {
   if (length(x) != 1) {
-    throw_validate(msg %||% "x must have length 1.")
+    throw_validate(msg %|||% "x must have length 1.")
   }
 }
 
@@ -242,7 +242,7 @@ assert_store <- function() {
 }
 
 assert_target <- function(x, msg = NULL) {
-  msg <- msg %||% paste(
+  msg <- msg %|||% paste(
     "Found a non-target object.",
     "_targets.R must end with a list of tar_target() objects (recommended)",
     "or a tar_pipeline() object (deprecated)."
@@ -291,14 +291,14 @@ assert_script <- function() {
 
 assert_true <- function(condition, msg = NULL) {
   if (!condition) {
-    throw_validate(msg %||% "condition does not evaluate not TRUE")
+    throw_validate(msg %|||% "condition does not evaluate not TRUE")
   }
 }
 
 assert_unique <- function(x, msg = NULL) {
   if (anyDuplicated(x)) {
     dups <- paste(unique(x[duplicated(x)]), collapse = ", ")
-    throw_validate(paste(msg %||% "duplicated entries:", dups))
+    throw_validate(paste(msg %|||% "duplicated entries:", dups))
   }
 }
 

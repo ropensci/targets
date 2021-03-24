@@ -48,11 +48,11 @@ algorithm_class <- R6::R6Class(
     },
     validate = function() {
       pipeline_validate(self$pipeline)
-      (self$scheduler %||% scheduler_init())$validate()
+      (self$scheduler %|||% scheduler_init())$validate()
       self$meta$validate()
-      assert_chr(self$names %||% character(0))
-      assert_chr(self$queue %||% character(0))
-      assert_chr(self$reporter %||% character(0))
+      assert_chr(self$names %|||% character(0))
+      assert_chr(self$queue %|||% character(0))
+      assert_chr(self$reporter %|||% character(0))
     }
   )
 )

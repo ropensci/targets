@@ -1,5 +1,5 @@
 tar_should_overwrite <- function(ask = NULL, file = character(0)) {
-  ask <- ask %||% tar_ask_env() %||% interactive()
+  ask <- ask %|||% tar_ask_env() %|||% interactive()
   assert_lgl(ask, "ask argument must be logical.")
   assert_scalar(ask, "ask argument must have length 1.")
   if (!file.exists(file) || !ask) {

@@ -29,7 +29,7 @@ record_init <- function(
     command = as.character(command),
     seed = as.integer(seed),
     depend = as.character(depend),
-    path = as.character(path) %|||% NA_character_,
+    path = as.character(path) %||% NA_character_,
     data = as.character(data),
     time = as.character(time),
     size = as.character(size),
@@ -37,10 +37,10 @@ record_init <- function(
     format = as.character(format),
     iteration = as.character(iteration),
     parent = as.character(parent),
-    children = as.character(children) %|||% NA_character_,
+    children = as.character(children) %||% NA_character_,
     seconds = as.numeric(seconds),
-    warnings = as.character(warnings) %|||% NA_character_,
-    error = as.character(error) %|||% NA_character_
+    warnings = as.character(warnings) %||% NA_character_,
+    error = as.character(error) %||% NA_character_
   )
 }
 

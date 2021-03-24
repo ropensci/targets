@@ -7,8 +7,8 @@ command_init <- function(
   string = NULL
 ) {
   expr <- as.expression(expr)
-  deps <- deps %||% deps_function(embody_expr(expr))
-  string <- string %||% mask_pointers(deparse_safe(expr))
+  deps <- deps %|||% deps_function(embody_expr(expr))
+  string <- string %|||% mask_pointers(deparse_safe(expr))
   hash <- digest_chr64(string)
   command_new(expr, packages, library, deps, seed, string, hash)
 }
@@ -59,7 +59,7 @@ command_validate <- function(command) {
   assert_correct_fields(command, command_new)
   assert_expr(command$expr)
   assert_chr(command$packages)
-  assert_chr(command$library %||% character(0))
+  assert_chr(command$library %|||% character(0))
   assert_chr(command$deps)
   assert_int(command$seed)
   assert_scalar(command$seed)

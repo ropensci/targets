@@ -83,7 +83,7 @@ tar_target_raw <- function(
   assert_chr(name, "name arg of tar_target_raw() must be character")
   assert_chr(packages, "packages in tar_target_raw() must be character.")
   assert_chr(
-    library %||% character(0),
+    library %|||% character(0),
     "library in tar_target_raw() must be NULL or character."
   )
   assert_format(format)

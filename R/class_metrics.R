@@ -41,9 +41,9 @@ metrics_validate <- function(metrics) {
   assert_correct_fields(metrics, metrics_new)
   assert_dbl(metrics$seconds)
   assert_scalar(metrics$seconds)
-  assert_chr(metrics$warnings %||% character(0))
-  assert_chr(metrics$error %||% character(0))
-  assert_chr(metrics$traceback %||% character(0))
-  assert_lgl(metrics$cancel %||% FALSE)
+  assert_chr(metrics$warnings %|||% character(0))
+  assert_chr(metrics$error %|||% character(0))
+  assert_chr(metrics$traceback %|||% character(0))
+  assert_lgl(metrics$cancel %|||% FALSE)
   invisible()
 }

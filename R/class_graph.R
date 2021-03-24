@@ -1,5 +1,5 @@
 graph_init <- function(edges = NULL) {
-  edges <- edges %||% data_frame(from = character(0), to = character(0))
+  edges <- edges %|||% data_frame(from = character(0), to = character(0))
   upstream <- adjacency_list(edges$from, edges$to)
   downstream <- adjacency_list(edges$to, edges$from)
   graph_new(upstream, downstream)

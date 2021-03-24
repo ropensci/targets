@@ -250,7 +250,7 @@ tar_target <- function(
   assert_lgl(tidy_eval, "tidy_eval in tar_target() must be logical.")
   assert_chr(packages, "packages in tar_target() must be character.")
   assert_chr(
-    library %||% character(0),
+    library %|||% character(0),
     "library in tar_target() must be NULL or character."
   )
   assert_format(format)

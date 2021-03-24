@@ -25,6 +25,7 @@
 * Deprecate `tar_deduplicate()` due to the item above.
 * Reorder information in timestamped messages.
 * Document RNG seed generation in `tar_target_raw()`, `tar_meta()`, and `tar_seed()` (#357, @alexpghayes).
+* Switch meaning of `%||%` and `%|||%` to conform to historical precedent.
 
 # targets 0.2.0
 

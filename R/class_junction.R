@@ -4,7 +4,7 @@ junction_init <- function(
   deps = list()
 ) {
   splits <- make.unique(splits, sep = "_")
-  names(deps) <- names(deps) %||% seq_along(deps)
+  names(deps) <- names(deps) %|||% seq_along(deps)
   deps <- as_data_frame(deps)
   junction_new(nexus, splits, deps)
 }
@@ -25,7 +25,7 @@ junction_upstream_edges <- function(junction) {
 junction_transpose <- function(junction) {
   splits <- junction$splits
   deps <- junction$deps
-  out <- map_rows(deps, ~list(deps = unname(.x))) %|||%
+  out <- map_rows(deps, ~list(deps = unname(.x))) %||%
     replicate(length(splits), list(deps = character(0)), simplify = FALSE)
   for (index in seq_along(splits)) {
     out[[index]]$split <- splits[index]

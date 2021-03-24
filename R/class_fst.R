@@ -20,7 +20,7 @@ store_read_path.tar_fst <- function(store, path) {
 
 #' @export
 store_write_path.tar_fst <- function(store, object, path) {
-  compress <- store$resources$compress %||% 50
+  compress <- store$resources$compress %|||% 50
   assert_dbl(compress)
   assert_scalar(compress)
   fst::write_fst(x = object, path = path, compress = compress)
