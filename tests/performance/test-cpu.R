@@ -1,5 +1,7 @@
-# Restart R and monitor CPU usage.
+# Restart R.
 rstudioapi::restartSession()
+
+# Set up pipeline.
 library(targets)
 tar_script({
   library(targets)
@@ -12,8 +14,10 @@ tar_script({
 # as exponential backoff kicks in.
 tar_make_future(callr_function = NULL)
 
-# Restart R and monitor CPU usage.
+# Restart R.
 rstudioapi::restartSession()
+
+# Set up pipeline.
 library(targets)
 tar_script({
   library(targets)
