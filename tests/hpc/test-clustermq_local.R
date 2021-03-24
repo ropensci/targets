@@ -51,7 +51,7 @@ tar_test("prevent high-memory data via target objects in globalenv", {
   pryr::object_size(envir$t[[1]])
   # The pipeline's copy of the target object should be much larger:
   pryr::object_size(pipeline_get_target(self$pipeline, "x")$value$object)
-  # as well as the algorithm object itself:
+  # The algorithm object itself should be large too, and it is not exported.
   pryr::object_size(self)
 })
 
