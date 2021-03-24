@@ -112,7 +112,7 @@ tar_test("target_deps_deep()", {
 
 tar_test("insert stem record of a successful stem", {
   target <- target_init("x", quote(sample.int(100)))
-  pipeline <- pipeline_init(list(target))
+  pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
   meta <- local$meta
@@ -166,7 +166,7 @@ tar_test("stem$produce_record() of a successful stem", {
 
 tar_test("stem$produce_record() of a errored stem", {
   target <- target_init("x", quote(stop(123)))
-  pipeline <- pipeline_init(list(target))
+  pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
   expect_error(local$run(), class = "condition_run")
   meta <- local$meta
@@ -191,7 +191,7 @@ tar_test("stem$produce_record() of a errored stem", {
 
 tar_test("stem$produce_record() with no error message", {
   target <- target_init("x", quote(stop()))
-  pipeline <- pipeline_init(list(target))
+  pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
   expect_error(local$run(), class = "condition_run")
   meta <- local$meta

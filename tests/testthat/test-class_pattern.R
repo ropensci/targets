@@ -345,7 +345,7 @@ tar_test("branches with different names use different seeds", {
     expr = quote(sample.int(1e9, a)),
     pattern = quote(map(a))
   )
-  pipeline <- pipeline_init(list(a, b))
+  pipeline <- pipeline_init(list(a, b), clone_targets = FALSE)
   local_init(pipeline)$run()
   target_load_value(b, pipeline)
   out <- b$value$object
@@ -398,7 +398,7 @@ tar_test("map over a stem that was not mapped over last time", {
 tar_test("pattern$produce_record() of a successful map", {
   stem <- target_init("x", quote(sample.int(4)))
   target <- target_init("y", quote(x), pattern = quote(map(x)))
-  pipeline <- pipeline_init(list(stem, target))
+  pipeline <- pipeline_init(list(stem, target), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
   meta <- local$meta
