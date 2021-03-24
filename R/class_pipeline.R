@@ -1,6 +1,6 @@
-pipeline_init <- function(targets = list()) {
+pipeline_init <- function(targets = list(), clone_targets = TRUE) {
   targets <- pipeline_targets_init(targets)
-  imports <- imports_init(tar_option_get("envir"))
+  imports <- imports_init(tar_option_get("envir"), clone_targets)
   pipeline_new(
     targets = targets,
     imports = imports,
@@ -22,12 +22,14 @@ pipeline_new <- function(
   enclass(environment(), "tar_pipeline")
 }
 
-pipeline_targets_init <- function(targets) {
+pipeline_targets_init <- function(targets, clone_targets) {
   targets <- targets %|||% list()
   assert_target_list(targets)
   names <- map_chr(targets, ~.x$settings$name)
   assert_unique_targets(names)
-  targets <- map(targets, ~target_subpipeline_copy(.x, keep_value = FALSE))
+  if (clone_targets) {
+    targets <- map(targets, ~target_subpipeline_copy(.x, keep_value = FALSE))
+  }
   names(targets) <- names
   list2env(targets, parent = emptyenv(), hash = TRUE)
 }
