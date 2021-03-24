@@ -36,6 +36,7 @@ test_that("packages are actually loaded", {
 test_that("nontrivial common data with custom environment", {
   skip_on_cran()
   skip_if_not_installed("clustermq")
+  tar_destroy()
   on.exit(tar_destroy())
   tar_script({
     options(
@@ -64,6 +65,7 @@ test_that("nontrivial common data with custom environment", {
 test_that("nontrivial globals with global environment", {
   skip_on_cran()
   skip_if_not_installed("clustermq")
+  tar_destroy()
   on.exit(tar_destroy())
   tar_script({
     options(
