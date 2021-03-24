@@ -1,6 +1,5 @@
 # Test that data storage is a bottleneck.
 library(proffer)
-devtools::load_all()
 tar_destroy()
 tar_option_set(memory = "transient")
 targets <- lapply(
