@@ -15,16 +15,6 @@ tar_test("pipeline_get_target()", {
   )
 })
 
-tar_test("get envir of an empty pipeline", {
-  expect_true(is.environment(pipeline_init()$envir))
-})
-
-tar_test("get envir of a nonempty pipeline", {
-  envir <- new.env(parent = emptyenv())
-  pipeline <- pipeline_init(list(target_init("x", envir = envir)))
-  expect_identical(pipeline$envir, envir)
-})
-
 tar_test("pipeline_get_priorities", {
   pipeline <- pipeline_init(
     list(
@@ -269,17 +259,6 @@ tar_test("pipeline_validate(pipeline) with a bad target", {
   pipeline <- pipeline_order()
   pipeline_set_target(pipeline, target_init("x."))
   expect_error(pipeline_validate(pipeline), class = "condition_validate")
-})
-
-tar_test("pipeline_validate(pipeline) on targets with different envirs", {
-  pipeline <- pipeline_init(
-    list(
-      target_init("x", envir = new.env()),
-      target_init("y", envir = new.env())
-    )
-  )
-  expect_error(pipeline_validate(pipeline), class = "condition_validate")
-  expect_error(pipeline_validate_lite(pipeline), class = "condition_validate")
 })
 
 tar_test("pipeline_validate(pipeline) with circular graph", {
