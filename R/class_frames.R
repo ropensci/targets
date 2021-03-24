@@ -21,10 +21,6 @@ frames_clear_objects <- function(frames) {
   frames$targets <- memory_init(new.env(parent = frames$imports$envir))
 }
 
-frames_clone <- function(frames) {
-  frames_new(frames$imports, frames$targets)
-}
-
 frames_set_dep <- function(frames, dep, pipeline) {
   object <- dep$value$object
   frames_set_object(frames, target_get_parent(dep), object)
