@@ -96,8 +96,8 @@ clustermq_class <- R6::R6Class(
     },
     run_worker = function(target) {
       self$crew$send_call(
-        expr = target_run_worker(target),
-        env = list(target = target)
+        expr = target_run_worker(target, envir),
+        env = list(target = target, envir = tar_option_get("envir"))
       )
     },
     run_main = function(target) {
@@ -186,7 +186,7 @@ clustermq_class <- R6::R6Class(
     },
     run_clustermq = function() {
       on.exit(try(self$crew$finalize()))
-      self$start_crew(self$pipeline$envir)
+      self$start_crew(tar_option_get("envir"))
       while (self$scheduler$progress$any_remaining()) {
         self$iterate()
       }
