@@ -73,9 +73,9 @@ clustermq_class <- R6::R6Class(
     },
     set_common_data = function(envir) {
       self$crew$set_common_data(
-        export = self$produce_exports(envir),
         fun = identity,
         const = list(),
+        export = self$produce_exports(envir),
         rettype = list(),
         pkgs = "targets",
         common_seed = 0L,
@@ -96,8 +96,8 @@ clustermq_class <- R6::R6Class(
     },
     run_worker = function(target) {
       self$crew$send_call(
-        expr = target_run_worker(target, envir),
-        env = list(target = target, envir = tar_option_get("envir"))
+        expr = target_run_worker(target, .tar_envir_5048826d),
+        env = list(target = target)
       )
     },
     run_main = function(target) {

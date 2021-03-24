@@ -33,11 +33,13 @@ active_class <- R6::R6Class(
       self$process$record_process()
     },
     produce_exports = function(envir) {
-      out <- as.list(envir, all.names = TRUE)
       # Eliminate high-memory promise objects:
-      map(names(out), ~force(out[[.x]]))
+      map(names(envir), ~force(envir[[.x]]))
+      out <- as.list(envir, all.names = TRUE)
       names <- fltr(names(out), ~!is_internal_name(.x, envir))
-      out[names]
+      out <- out[names]
+      out[[".tar_envir_5048826d"]] <- envir
+      out
     },
     unload_transient = function() {
       pipeline_unload_transient(self$pipeline)

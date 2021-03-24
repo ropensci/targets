@@ -74,7 +74,6 @@ future_class <- R6::R6Class(
       self$ensure_globals()
       globals <- self$globals
       globals$.tar_target_5048826d <- target
-      globals$.tar_envir_5048826d <- tar_option_get("envir")
       plan_new <- target$settings$resources$plan
       if (!is.null(plan_new)) {
         # Temporary solution to allow heterogeneous workers
