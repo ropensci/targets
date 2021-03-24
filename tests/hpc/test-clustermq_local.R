@@ -13,6 +13,26 @@ tar_test("clustermq iteration loop can wait and shut down workers", {
   options(clustermq.scheduler = old)
 })
 
+tar_test("nontrivial globals with global environment", {
+  skip_on_cran()
+  skip_if_not_installed("clustermq")
+  tar_script({
+    options(clustermq.scheduler = "multiprocess")
+    f <- function(x) {
+      g(x) + 1L
+    }
+    g <- function(x) {
+      x + 1L
+    }
+    list(
+      tar_target(x, 1),
+      tar_target(y, f(x))
+    )
+  })
+  tar_make_clustermq()
+  expect_equal(tar_read(y), 3L)
+})
+
 tar_test("profile heavily parallel workload", {
   tar_script({
     library(targets)
