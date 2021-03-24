@@ -32,7 +32,7 @@ active_class <- R6::R6Class(
       self$process$record_process()
     },
     produce_exports = function(envir, copy = identical(envir, globalenv())) {
-      map(names(envir), ~force(envir[[.x]])) # try to eliminate high-memory promise objects
+      map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
       out <- trn(copy, as.list(envir, all.names = TRUE), list())
       names <- fltr(names(out), ~!is_internal_name(.x, envir))
       out <- out[names]
