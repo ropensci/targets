@@ -3,15 +3,14 @@ tar_test("dynamic files work", {
   x <- target_init(
     name = "abc",
     expr = quote(f()),
-    format = "file",
-    envir = envir
+    format = "file"
   )
   envir$f <- function() {
     file <- tempfile()
     writeLines("lines", con = file)
     file
   }
-  builder_update_build(x)
+  builder_update_build(x, envir)
   expect_equal(x$store$file$path, character(0))
   expect_true(is.na(x$store$file$hash))
   builder_update_paths(x)

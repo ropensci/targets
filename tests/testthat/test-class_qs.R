@@ -5,7 +5,7 @@ tar_test("qs format", {
     expr = quote(1L + 1L),
     format = "qs"
   )
-  builder_update_build(x, envir)
+  builder_update_build(x, baseenv())
   builder_update_paths(x)
   builder_update_object(x)
   exp <- 2L

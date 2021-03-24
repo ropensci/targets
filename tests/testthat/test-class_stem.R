@@ -18,7 +18,7 @@ tar_test("target_load_value()", {
 
 tar_test("stem$update_junction() on a good stem", {
   x <- target_init(name = "abc", expr = quote(seq_len(10)), iteration = "list")
-  target_run(x)
+  target_run(x, baseenv())
   expect_null(x$junction)
   pipeline <- pipeline_init(list(x))
   stem_update_junction(x, pipeline)
@@ -30,7 +30,7 @@ tar_test("stem$update_junction() on a good stem", {
 
 tar_test("stem_produce_buds()", {
   x <- target_init(name = "abc", expr = quote(letters))
-  target_run(x)
+  target_run(x, baseenv())
   pipeline <- pipeline_init(list(x))
   stem_update_junction(x, pipeline)
   children <- stem_produce_buds(x)

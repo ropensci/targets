@@ -19,10 +19,11 @@ tar_test("visnetwork$exclude", {
 tar_test("visnetwork$update_network()", {
   envir <- new.env(parent = baseenv())
   envir$a <- 1L
-  x <- target_init("x", quote(a), envir = envir)
+  tar_option_set(envir = envir)
+  x <- target_init("x", quote(a))
   pipeline <- pipeline_init(list(x))
   local_init(pipeline)$run()
-  x <- target_init("x", quote(a), envir = envir)
+  x <- target_init("x", quote(a))
   pipeline <- pipeline_init(list(x))
   net <- inspection_init(pipeline)
   vis <- visnetwork_init(network = net)
