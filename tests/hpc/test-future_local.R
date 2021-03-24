@@ -80,3 +80,25 @@ tar_test("profile heavily parallel workload", {
   expect_equal(tar_read(fit_continuous), seq_len(100))
   expect_equal(tar_read(fit_discrete), seq_len(100))
 })
+
+tar_test("prevent high-memory data via target objects in globalenv", {
+  future::plan(future.callr::callr)
+  t <- list(tar_target(x, runif(1e7), deployment = "main", format = "qs"))
+  pipeline <- pipeline_init(list(t[[1]], tar_target(y, x)))
+  algo <- future_init(pipeline)
+  debug(algo$update_globals)
+  # should enter a debugger:
+  algo$run()
+  # In the debugger verify that the exported data is much smaller than
+  # the value of x because we cloned the target objects in pipeline_init().
+  o <- self$produce_exports(tar_option_get("envir"))
+  # Exported data should be small:
+  pryr::object_size(o)
+  # So should the target object in the global environment:
+  expect_true(inherits(tar_option_get("envir")$t[[1]], "tar_target"))
+  pryr::object_size(tar_option_get("envir")$t[[1]])
+  # The pipeline's copy of the target object should be much larger:
+  pryr::object_size(pipeline_get_target(self$pipeline, "x")$value$object)
+  # The algorithm object itself should be large too, and it is not exported.
+  pryr::object_size(self)
+})
