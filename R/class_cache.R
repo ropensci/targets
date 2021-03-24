@@ -38,7 +38,7 @@ cache_set_deps <- function(cache, target, pipeline) {
 }
 
 cache_produce <- function(envir, target, pipeline) {
-  cache <- memory_init(new.env(parent = envir))
+  cache <- cache_init(memory_init(new.env(parent = envir)))
   cache_set_deps(cache = cache, target = target, pipeline = pipeline)
   cache
 }
