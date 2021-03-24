@@ -7,10 +7,9 @@ tar_test("parquet format", {
   x <- target_init(
     name = "abc",
     expr = quote(f()),
-    format = "parquet",
-    envir = envir
+    format = "parquet"
   )
-  builder_update_build(x)
+  builder_update_build(x, envir)
   builder_update_paths(x)
   builder_update_object(x)
   exp <- envir$f()

@@ -54,11 +54,12 @@ tar_test("full branching run with forecast reporter", {
 tar_test("Outdated is idempotent (no overwriting imports)", {
   envir <- new.env(parent = baseenv())
   envir$f <- function(x) x
-  x <- target_init("x", quote(f(1L)), envir = envir)
+  tar_option_set(envir = envir)
+  x <- target_init("x", quote(f(1L)))
   local_init(pipeline_init(list(x)))$run()
   envir$f <- function(x) x + 1L
   for (index in seq_len(2L)) {
-    x <- target_init("x", quote(f(1L)), envir = envir)
+    x <- target_init("x", quote(f(1L)))
     out <- outdated_init(
       pipeline_init(list(x)),
       queue = "sequential",
