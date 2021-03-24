@@ -1,10 +1,8 @@
 pipeline_init <- function(targets = list()) {
   targets <- pipeline_targets_init(targets)
-  envir <- pipeline_envir(targets)
-  imports <- imports_init(envir)
+  imports <- imports_init(tar_option_get("envir"))
   pipeline_new(
     targets = targets,
-    envir = envir,
     imports = imports,
     loaded = counter_init(),
     transient = counter_init()
@@ -13,13 +11,11 @@ pipeline_init <- function(targets = list()) {
 
 pipeline_new <- function(
   targets = NULL,
-  envir = NULL,
   imports = NULL,
   loaded = NULL,
   transient = NULL
 ) {
   force(targets)
-  force(envir)
   force(imports)
   force(loaded)
   force(transient)
@@ -33,17 +29,6 @@ pipeline_targets_init <- function(targets) {
   assert_unique_targets(names)
   names(targets) <- names
   list2env(targets, parent = emptyenv(), hash = TRUE)
-}
-
-pipeline_envir <- function(targets) {
-  names <- names(targets)
-  out <- trn(
-    length(names),
-    targets[[names[1]]]$cache$imports$envir,
-    tar_empty_envir
-  )
-  assert_envir(out, "pipeline must initialize with only stems and patterns.")
-  out
 }
 
 pipeline_get_target <- function(pipeline, name) {
@@ -181,7 +166,6 @@ pipeline_produce_subpipeline <- function(pipeline, name, keep_value = NULL) {
   )
   pipeline_new(
     targets = targets,
-    envir = tar_empty_envir,
     loaded = counter_init(),
     transient = counter_init()
   )
@@ -238,19 +222,6 @@ pipeline_validate_dag <- function(igraph) {
   }
 }
 
-pipeline_validate_envirs <- function(pipeline) {
-  assert_envir(pipeline$envir)
-  assert_envir(pipeline$imports %|||% tar_empty_envir)
-  targets <- as.list(pipeline$targets)
-  lapply(targets, pipeline_validate_envir, envir = pipeline$envir)
-}
-
-pipeline_validate_envir <- function(target, envir) {
-  if (!identical(target$cache$imports$envir, envir)) {
-    throw_validate("all targets must share the same environment")
-  }
-}
-
 pipeline_validate_conflicts <- function(pipeline) {
   conflicts <- intersect(names(pipeline$imports), names(pipeline$targets))
   msg <- paste0(
@@ -281,7 +252,6 @@ pipeline_validate <- function(pipeline) {
 pipeline_validate_lite <- function(pipeline) {
   assert_inherits(pipeline, "tar_pipeline", msg = "invalid pipeline.")
   assert_correct_fields(pipeline, pipeline_new)
-  pipeline_validate_envirs(pipeline)
   pipeline_validate_conflicts(pipeline)
 }
 

@@ -79,9 +79,6 @@ active_class <- R6::R6Class(
       scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress)
       path_scratch_del()
-      # Deduplication is a potential performance bottleneck
-      # but could prove useful if we want to hash the metadata file
-      # and use it as a cache key. Need to profile.
       self$meta$database$deduplicate_storage()
     },
     validate = function() {

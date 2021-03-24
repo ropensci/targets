@@ -2,7 +2,6 @@ builder_new <- function(
   command = NULL,
   settings = NULL,
   cue = NULL,
-  cache = NULL,
   value = NULL,
   metrics = NULL,
   store = NULL,
@@ -11,7 +10,6 @@ builder_new <- function(
   force(command)
   force(settings)
   force(cue)
-  force(cache)
   force(value)
   force(metrics)
   force(store)
@@ -66,26 +64,25 @@ target_should_run_worker.tar_builder <- function(target) {
 }
 
 #' @export
-target_run.tar_builder <- function(target) {
+target_run.tar_builder <- function(target, envir) {
   on.exit({
     builder_unset_tar_envir_run()
-    cache_clear_objects(target$cache)
     target$subpipeline <- NULL
   })
   builder_set_tar_envir_run(target)
   builder_unserialize_subpipeline(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
-  target_cache_deps(target, target$subpipeline)
-  builder_update_build(target)
+  cache <- cache_produce(envir, target, target$subpipeline)
+  builder_update_build(target, cache_get_envir(cache))
   builder_update_paths(target)
   builder_ensure_object(target, "worker")
   target
 }
 
 #' @export
-target_run_worker.tar_builder <- function(target) {
+target_run_worker.tar_builder <- function(target, envir) {
   target_gc(target)
-  target_run(target)
+  target_run(target, envir)
   builder_serialize_value(target)
   target
 }
@@ -250,8 +247,7 @@ builder_record_error_meta <- function(target, pipeline, meta) {
   meta$insert_record(record)
 }
 
-builder_update_build <- function(target) {
-  envir <- cache_get_envir(target$cache)
+builder_update_build <- function(target, envir) {
   build <- command_produce_build(target$command, envir)
   object <- store_coerce_object(target$store, build$object)
   target$value <- value_init(object, target$settings$iteration)

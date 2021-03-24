@@ -25,6 +25,24 @@ cache_clone <- function(cache) {
   cache_new(cache$imports, cache$targets)
 }
 
+cache_set_dep <- function(cache, dep, pipeline) {
+  object <- dep$value$object
+  cache_set_object(cache, target_get_parent(dep), object)
+}
+
+cache_set_deps <- function(cache, target, pipeline) {
+  map(
+    target_deps_shallow(target, pipeline),
+    ~cache_set_dep(cache, pipeline_get_target(pipeline, .x), pipeline)
+  )
+}
+
+cache_produce <- function(envir, target, pipeline) {
+  cache <- memory_init(new.env(parent = envir))
+  cache_set_deps(cache = cache, target = target, pipeline = pipeline)
+  cache
+}
+
 cache_validate_inheritance <- function(cache) {
   envir1 <- parent.env(cache$targets$envir)
   envir2 <- cache$imports$envir

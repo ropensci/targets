@@ -2,7 +2,6 @@ stem_new <- function(
   command = NULL,
   settings = NULL,
   cue = NULL,
-  cache = NULL,
   value = NULL,
   metrics = NULL,
   store = NULL,
@@ -12,7 +11,6 @@ stem_new <- function(
   force(command)
   force(settings)
   force(cue)
-  force(cache)
   force(value)
   force(metrics)
   force(store)

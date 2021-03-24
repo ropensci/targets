@@ -38,21 +38,18 @@ tar_test("target_ensure_value() loads values", {
   }
 })
 
-tar_test("target_ensure_dep() and target_cache_dep()", {
-  x <- target_init(name = "abc", format = "rds")
-  y <- target_init(name = "xyz", format = "rds")
+tar_test("target_ensure_dep()", {
+  x <- target_init(name = "abc", quote(1), format = "rds")
+  y <- target_init(name = "xyz", quote(abc), format = "rds")
   pipeline <- pipeline_init(list(x, y))
   tmp <- tempfile()
   saveRDS("value", tmp)
   file <- y$store$file
   file$path <- tmp
-  expect_false(memory_exists_object(x$cache$targets, "xyz"))
-  expect_error(x$cache$get_object("xyz"))
+  expect_null(y$value$object)
   for (index in seq_len(2)) {
     target_ensure_dep(x, y, pipeline)
-    target_cache_dep(x, y, pipeline)
-    expect_equal(memory_get_object(x$cache$targets, "xyz"), "value")
-    cache_clear_objects(x$cache)
+    expect_equal(y$value$object, "value")
   }
 })
 

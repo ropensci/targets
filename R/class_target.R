@@ -5,7 +5,6 @@ target_init <- function(
   library = NULL,
   deps = NULL,
   string = NULL,
-  envir = NULL,
   format = "rds",
   pattern = NULL,
   iteration = "vector",
@@ -19,12 +18,9 @@ target_init <- function(
   retrieval = "main",
   cue = NULL
 ) {
-  force(envir)
-  envir <- envir %|||% tar_empty_envir
   seed <- produce_seed(name)
   command <- command_init(expr, packages, library, seed, deps, string)
   cue <- cue %|||% cue_default
-  cache <- cache_init(memory_init(envir))
   settings <- settings_init(
     name = name,
     format = format,
@@ -47,14 +43,12 @@ target_init <- function(
       command,
       settings,
       cue,
-      cache,
       store = settings_produce_store(settings)
     ),
     pattern_new(
       command,
       settings,
       cue,
-      cache,
       patternview = patternview_init()
     )
   )
@@ -64,31 +58,17 @@ target_new <- function(
   command = NULL,
   settings = NULL,
   cue = NULL,
-  cache = NULL,
   value = NULL
 ) {
   force(command)
   force(settings)
   force(cue)
-  force(cache)
   force(value)
   enclass(environment(), "tar_target")
 }
 
 target_get_name <- function(target) {
   target$settings$name
-}
-
-target_cache_dep <- function(target, dep, pipeline) {
-  object <- dep$value$object
-  cache_set_object(target$cache, target_get_parent(dep), object)
-}
-
-target_cache_deps <- function(target, pipeline) {
-  map(
-    target_deps_shallow(target, pipeline),
-    ~target_cache_dep(target, pipeline_get_target(pipeline, .x), pipeline)
-  )
 }
 
 target_ensure_dep <- function(target, dep, pipeline) {
@@ -243,12 +223,12 @@ target_should_run_worker.default <- function(target) {
   FALSE
 }
 
-target_run <- function(target) {
+target_run <- function(target, envir) {
   UseMethod("target_run")
 }
 
 #' @export
-target_run.default <- function(target) {
+target_run.default <- function(target, envir) {
 }
 
 #' @title Internal function to run a target on a worker.
@@ -256,12 +236,12 @@ target_run.default <- function(target) {
 #' @keywords internal
 #' @description For internal purposes only. Not a user-side function.
 #' @param target A target object.
-target_run_worker <- function(target) {
+target_run_worker <- function(target, envir) {
   UseMethod("target_run_worker")
 }
 
 #' @export
-target_run_worker.default <- function(target) {
+target_run_worker.default <- function(target, envir) {
 }
 
 target_gc <- function(target) {
@@ -304,7 +284,6 @@ target_subpipeline_copy <- function(target, keep_value) {
   out <- list2env(as.list(target), parent = emptyenv(), hash = FALSE)
   class(out) <- class
   out$metrics <- NULL
-  out$cache <- NULL
   if (!keep_value) {
     out$value <- NULL
   }
@@ -317,8 +296,6 @@ target_workspace_copy <- function(target) {
   class <- class(target)
   out <- list2env(as.list(target), parent = emptyenv(), hash = FALSE)
   class(out) <- class
-  out$cache <- cache_clone(target$cache)
-  cache_clear_objects(out$cache)
   out$value <- NULL
   out
 }
@@ -405,9 +382,6 @@ target_validate.tar_target <- function(target) {
   settings_validate(target$settings)
   if (!is.null(target$cue)) {
     cue_validate(target$cue)
-  }
-  if (!is.null(target$cache)) {
-    cache_validate(target$cache)
   }
   if (!is.null(target$value)) {
     value_validate(target$value)

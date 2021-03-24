@@ -2,7 +2,6 @@ pattern_new <- function(
   command = NULL,
   settings = NULL,
   cue = NULL,
-  cache = NULL,
   value = NULL,
   junction = NULL,
   patternview = NULL
@@ -10,7 +9,6 @@ pattern_new <- function(
   force(command)
   force(settings)
   force(cue)
-  force(cache)
   force(value)
   force(junction)
   force(patternview)
@@ -157,12 +155,11 @@ pattern_enqueue_branches <- function(target, scheduler) {
   scheduler$queue$enqueue(children, ranks)
 }
 
-pattern_produce_branch <- function(spec, command, settings, cue, cache) {
+pattern_produce_branch <- function(spec, command, settings, cue) {
   branch_init(
     command = command,
     settings = settings,
     cue = cue,
-    cache = cache,
     deps = spec$deps,
     child = spec$split,
     index = spec$index
@@ -175,8 +172,7 @@ pattern_produce_branches <- function(target, pipeline, scheduler) {
     pattern_produce_branch,
     command = target$command,
     settings = target$settings,
-    cue = target$cue,
-    cache = target$cache
+    cue = target$cue
   )
 }
 

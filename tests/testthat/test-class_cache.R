@@ -83,3 +83,18 @@ tar_test("cache_clear_objects()", {
     out$imports$envir
   )
 })
+
+tar_test("target_cache_deps()", {
+  x <- target_init(name = "abc", quote(1), format = "rds")
+  y <- target_init(name = "def", quote(1), format = "rds")
+  z <- target_init(name = "xyz", quote(c(abc, def)), format = "rds")
+  pipeline <- pipeline_init(list(x, y, z))
+  cache <- cache_init()
+  tmp <- tempfile()
+  saveRDS("value", tmp)
+  file <- x$store$file$path <- tmp
+  file <- y$store$file$path <- tmp
+  expect_equal(names(cache_get_envir(cache)), character(0))
+  cache_set_deps(cache, z, pipeline)
+  expect_equal(sort(names(cache_get_envir(cache))), sort(c("abc", "def")))
+})
