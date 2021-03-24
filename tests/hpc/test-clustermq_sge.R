@@ -33,40 +33,56 @@ test_that("packages are actually loaded", {
   expect_equal(tar_read(x), exp)
 })
 
-test_that("nontrivial common data", {
-  unlink("_targets", recursive = TRUE)
-  on.exit(unlink("_targets", recursive = TRUE))
-  skip_on_os("windows")
+test_that("nontrivial common data with custom environment", {
+  skip_on_cran()
   skip_if_not_installed("clustermq")
-  old_schd <- getOption("clustermq.scheduler")
-  old_tmpl <- getOption("clustermq.template")
-  options(
-    clustermq.scheduler = "sge",
-    clustermq.template = "sge_clustermq.tmpl"
-  )
-  on.exit(
+  on.exit(tar_destroy())
+  tar_script({
     options(
-      clustermq.scheduler = old_schd,
-      clustermq.template = old_tmpl
-    ),
-    add = TRUE
-  )
-  old_envir <- tar_option_get("envir")
-  on.exit(tar_option_set(envir = old_envir), add = TRUE)
-  envir <- new.env(parent = globalenv())
-  tar_option_set(envir = envir)
-  envir$f <- function(x) {
-    g(x) + 1L
-  }
-  envir$g <- function(x) {
-    x + 1L
-  }
-  x <- tar_target_raw("x", quote(f(1L)))
-  pipeline <- pipeline_init(list(x))
-  cmq <- clustermq_init(pipeline)
-  cmq$run()
-  target <- pipeline_get_target(pipeline, "x")
-  expect_equal(tar_read(x), 3L)
+      clustermq.scheduler = "sge",
+      clustermq.template = "sge_clustermq.tmpl"
+    )
+    envir <- new.env(parent = globalenv())
+    evalq({
+      f <- function(x) {
+        g(x) + 1L
+      }
+      g <- function(x) {
+        x + 1L
+      }
+    }, envir = envir)
+    tar_option_set(envir = envir)
+    list(
+      tar_target(x, 1),
+      tar_target(y, f(x))
+    )
+  })
+  tar_make_clustermq()
+  expect_equal(tar_read(y), 3L)
+})
+
+test_that("nontrivial globals with global environment", {
+  skip_on_cran()
+  skip_if_not_installed("clustermq")
+  on.exit(tar_destroy())
+  tar_script({
+    options(
+      clustermq.scheduler = "sge",
+      clustermq.template = "sge_clustermq.tmpl"
+    )
+    f <- function(x) {
+      g(x) + 1L
+    }
+    g <- function(x) {
+      x + 1L
+    }
+    list(
+      tar_target(x, 1),
+      tar_target(y, f(x))
+    )
+  })
+  tar_make_clustermq()
+  expect_equal(tar_read(y), 3L)
 })
 
 test_that("branching plan on SGE", {
