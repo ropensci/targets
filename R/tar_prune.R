@@ -27,10 +27,7 @@
 #' tar_prune()
 #' })
 #' }
-tar_prune <- function(
-  callr_function = callr::r,
-  callr_arguments = list(spinner = identical(reporter, "silent"))
-) {
+tar_prune <- function(callr_function = callr::r, callr_arguments = list()) {
   assert_script()
   assert_store()
   assert_callr_function(callr_function)
