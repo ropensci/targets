@@ -1,6 +1,6 @@
 pipeline_init <- function(targets = list(), clone_targets = TRUE) {
-  targets <- pipeline_targets_init(targets)
-  imports <- imports_init(tar_option_get("envir"), clone_targets)
+  targets <- pipeline_targets_init(targets, clone_targets)
+  imports <- imports_init(tar_option_get("envir"))
   pipeline_new(
     targets = targets,
     imports = imports,
@@ -28,6 +28,9 @@ pipeline_targets_init <- function(targets, clone_targets) {
   names <- map_chr(targets, ~.x$settings$name)
   assert_unique_targets(names)
   if (clone_targets) {
+    # If the user has target objects in the global environment,
+    # loading data into them may cause huge data transfers to workers.
+    # Best to not modify the user's copies of target objects.
     targets <- map(targets, ~target_subpipeline_copy(.x, keep_value = FALSE))
   }
   names(targets) <- names

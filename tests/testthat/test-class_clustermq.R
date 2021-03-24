@@ -103,7 +103,7 @@ tar_test("nontrivial common data", {
   skip_on_os("solaris")
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
-  options(clustermq.scheduler = "multiprocess")
+  options(clustermq.scheduler = "multicore")
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
