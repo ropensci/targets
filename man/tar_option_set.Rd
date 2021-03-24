@@ -66,20 +66,38 @@ most objects, but slow.
 most objects, much faster than \code{"rds"}. Optionally set the
 preset for \code{qsave()} through the \code{resources} argument, e.g.
 \code{tar_target(..., resources = list(preset = "archive"))}.
+Requires the \code{qs} package (not installed by default).
+\item \code{"feather"}: Uses \code{arrow::write_feather()} and
+\code{arrow::read_feather()} (version 2.0). Much faster than \code{"rds"},
+but the value must be a data frame. Optionally set
+\code{compression} and \code{compression_level} in \code{arrow::write_feather()}
+through the \code{resources} argument, e.g.
+\code{tar_target(..., resources = list(compression = ...))}.
+Requires the \code{arrow} package (not installed by default).
+\item \code{"parquet"}: Uses \code{arrow::write_parquet()} and
+\code{arrow::read_parquet()} (version 2.0). Much faster than \code{"rds"},
+but the value must be a data frame. Optionally set
+\code{compression} and \code{compression_level} in \code{arrow::write_parquet()}
+through the \code{resources} argument, e.g.
+\code{tar_target(..., resources = list(compression = ...))}.
+Requires the \code{arrow} package (not installed by default).
 \item \code{"fst"}: Uses \code{fst::write_fst()} and \code{fst::read_fst()}.
 Much faster than \code{"rds"}, but the value must be
 a data frame. Optionally set the compression level for
 \code{fst::write_fst()} through the \code{resources} argument, e.g.
 \code{tar_target(..., resources = list(compress = 100))}.
+Requires the \code{fst} package (not installed by default).
 \item \code{"fst_dt"}: Same as \code{"fst"}, but the value is a \code{data.table}.
 Optionally set the compression level the same way as for \code{"fst"}.
 \item \code{"fst_tbl"}: Same as \code{"fst"}, but the value is a \code{tibble}.
 Optionally set the compression level the same way as for \code{"fst"}.
 \item \code{"keras"}: Uses \code{keras::save_model_hdf5()} and
 \code{keras::load_model_hdf5()}. The value must be a Keras model.
+Requires the \code{keras} package (not installed by default).
 \item \code{"torch"}: Uses \code{torch::torch_save()} and \code{torch::torch_load()}.
 The value must be an object from the \code{torch} package
 such as a tensor or neural network module.
+Requires the \code{torch} package (not installed by default).
 \item \code{"file"}: A dynamic file. To use this format,
 the target needs to manually identify or save some data
 and return a character vector of paths
@@ -105,7 +123,7 @@ trying to use \code{format = "url"} to track uploads. You must be absolutely
 certain the ETag and Last-Modified time stamp are fully updated
 and available by the time the target's command finishes running.
 \code{targets} makes no attempt to wait for the web server.
-\item \code{"aws_rds"}, \code{"aws_qs"}, \code{"aws_fst"}, \code{"aws_fst_dt"},
+\item \code{"aws_rds"}, \code{"aws_qs"}, \code{"aws_parquet"}, \code{"aws_fst"}, \code{"aws_fst_dt"},
 \code{"aws_fst_tbl"}, \code{"aws_keras"}: AWS-powered versions of the
 respective formats \code{"rds"}, \code{"qs"}, etc. The only difference
 is that the data file is uploaded to the AWS S3 bucket
@@ -208,6 +226,9 @@ so \code{targets} does not download the entire file when it
 only needs to check the time stamp and ETag.
 \item Custom preset for \code{qs::qsave()} if \code{format = "qs"}, e.g.
 \code{resources = list(handle = "archive")}.
+\item Arguments \code{compression} and \code{compression_level} to
+\code{arrow::write_feather()} and \code{arrow:write_parquet()} if \code{format} is
+\code{"feather"}, \code{"parquet"}, \code{"aws_feather"}, or \code{"aws_parquet"}.
 \item Custom compression level for \code{fst::write_fst()} if
 \code{format} is \code{"fst"}, \code{"fst_dt"}, or \code{"fst_tbl"}, e.g.
 \code{resources = list(compress = 100)}.

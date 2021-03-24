@@ -61,6 +61,7 @@ Imports:
   vctrs (>= 0.2.4),
   withr (>= 2.1.2)
 Suggests:
+  arrow (>= 3.0.0),
   aws.s3 (>= 0.3.21),
   bs4Dash(>= 0.5.0),
   clustermq (>= 0.8.9),

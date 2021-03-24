@@ -47,20 +47,38 @@
 #'     most objects, much faster than `"rds"`. Optionally set the
 #'     preset for `qsave()` through the `resources` argument, e.g.
 #'     `tar_target(..., resources = list(preset = "archive"))`.
+#'     Requires the `qs` package (not installed by default).
+#'   * `"feather"`: Uses `arrow::write_feather()` and
+#'     `arrow::read_feather()` (version 2.0). Much faster than `"rds"`,
+#'     but the value must be a data frame. Optionally set
+#'     `compression` and `compression_level` in `arrow::write_feather()`
+#'     through the `resources` argument, e.g.
+#'     `tar_target(..., resources = list(compression = ...))`.
+#'     Requires the `arrow` package (not installed by default).
+#'   * `"parquet"`: Uses `arrow::write_parquet()` and
+#'     `arrow::read_parquet()` (version 2.0). Much faster than `"rds"`,
+#'     but the value must be a data frame. Optionally set
+#'     `compression` and `compression_level` in `arrow::write_parquet()`
+#'     through the `resources` argument, e.g.
+#'     `tar_target(..., resources = list(compression = ...))`.
+#'     Requires the `arrow` package (not installed by default).
 #'   * `"fst"`: Uses `fst::write_fst()` and `fst::read_fst()`.
 #'     Much faster than `"rds"`, but the value must be
 #'     a data frame. Optionally set the compression level for
 #'     `fst::write_fst()` through the `resources` argument, e.g.
 #'     `tar_target(..., resources = list(compress = 100))`.
+#'     Requires the `fst` package (not installed by default).
 #'   * `"fst_dt"`: Same as `"fst"`, but the value is a `data.table`.
 #'     Optionally set the compression level the same way as for `"fst"`.
 #'   * `"fst_tbl"`: Same as `"fst"`, but the value is a `tibble`.
 #'     Optionally set the compression level the same way as for `"fst"`.
 #'   * `"keras"`: Uses `keras::save_model_hdf5()` and
 #'     `keras::load_model_hdf5()`. The value must be a Keras model.
+#'     Requires the `keras` package (not installed by default).
 #'   * `"torch"`: Uses `torch::torch_save()` and `torch::torch_load()`.
 #'     The value must be an object from the `torch` package
 #'     such as a tensor or neural network module.
+#'     Requires the `torch` package (not installed by default).
 #'   * `"file"`: A dynamic file. To use this format,
 #'     the target needs to manually identify or save some data
 #'     and return a character vector of paths
@@ -86,7 +104,7 @@
 #'     certain the ETag and Last-Modified time stamp are fully updated
 #'     and available by the time the target's command finishes running.
 #'     `targets` makes no attempt to wait for the web server.
-#'   * `"aws_rds"`, `"aws_qs"`, `"aws_fst"`, `"aws_fst_dt"`,
+#'   * `"aws_rds"`, `"aws_qs"`, `"aws_parquet"`, `"aws_fst"`, `"aws_fst_dt"`,
 #'     `"aws_fst_tbl"`, `"aws_keras"`: AWS-powered versions of the
 #'     respective formats `"rds"`, `"qs"`, etc. The only difference
 #'     is that the data file is uploaded to the AWS S3 bucket
@@ -163,6 +181,9 @@
 #'     only needs to check the time stamp and ETag.
 #'   * Custom preset for `qs::qsave()` if `format = "qs"`, e.g.
 #'     `resources = list(handle = "archive")`.
+#'   * Arguments `compression` and `compression_level` to
+#'     `arrow::write_feather()` and `arrow:write_parquet()` if `format` is
+#'     `"feather"`, `"parquet"`, `"aws_feather"`, or `"aws_parquet"`.
 #'   * Custom compression level for `fst::write_fst()` if
 #'     `format` is `"fst"`, `"fst_dt"`, or `"fst_tbl"`, e.g.
 #'     `resources = list(compress = 100)`.
