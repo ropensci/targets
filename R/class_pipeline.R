@@ -274,7 +274,9 @@ as_pipeline.tar_pipeline <- function(x) {
 #' @export
 #' @keywords internal
 as_pipeline.default <- function(x) {
-  pipeline_init(unlist(list(x), recursive = TRUE))
+  targets <- unlist(list(x), recursive = TRUE)
+  targets <- map(targets, ~target_subpipeline_copy(.x, keep_value = FALSE))
+  pipeline_init(targets)
 }
 
 #' @export

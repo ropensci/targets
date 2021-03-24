@@ -32,9 +32,9 @@ active_class <- R6::R6Class(
       self$process <- process_init()
       self$process$record_process()
     },
-    produce_exports = function(envir) {
+    produce_exports = function(envir, copy = identical(envir, globalenv())) {
       map(names(envir), ~force(envir[[.x]])) # try to eliminate high-memory promise objects
-      out <- trn(identical(envir, globalenv()), as.list(envir, all.names = TRUE), list())
+      out <- trn(copy, as.list(envir, all.names = TRUE), list())
       names <- fltr(names(out), ~!is_internal_name(.x, envir))
       out <- out[names]
       out[[".tar_envir_5048826d"]] <- envir

@@ -41,6 +41,9 @@ tar_test("nontrivial globals with global environment", {
       tar_target(y, f(x))
     )
   })
-  tar_make_future()
+  tar_make_future(
+    reporter = "silent",
+    callr_arguments = list(spinner = FALSE)
+  )
   expect_equal(tar_read(y), 3L)
 })

@@ -13,34 +13,6 @@ tar_test("clustermq iteration loop can wait and shut down workers", {
   options(clustermq.scheduler = old)
 })
 
-tar_test("nontrivial common data with global environment", {
-  skip_on_cran()
-  skip_on_os("windows")
-  skip_on_os("solaris")
-  skip_if_not_installed("clustermq")
-  old <- getOption("clustermq.scheduler")
-  options(clustermq.scheduler = "multiprocess")
-  old_envir <- tar_option_get("envir")
-  envir <- new.env(parent = globalenv())
-  tar_option_set(envir = envir)
-  evalq({
-    f <- function(x) {
-      g(x) + 1L
-    }
-    g <- function(x) {
-      x + 1L
-    }
-  }, envir = envir)
-  x <- tar_target_raw("x", quote(f(1L)))
-  pipeline <- pipeline_init(list(x))
-  cmq <- clustermq_init(pipeline)
-  cmq$run()
-  value <- target_read_value(pipeline_get_target(pipeline, "x"))
-  expect_equal(value$object, 3L)
-  tar_option_set(envir = old_envir)
-  options(clustermq.scheduler = old)
-})
-
 tar_test("profile heavily parallel workload", {
   tar_script({
     library(targets)
