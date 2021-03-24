@@ -11,7 +11,7 @@ tar_make_clustermq(
   workers = 1L,
   log_worker = FALSE,
   callr_function = callr::r,
-  callr_arguments = list()
+  callr_arguments = list(spinner = identical(reporter, "silent"))
 )
 }
 \arguments{

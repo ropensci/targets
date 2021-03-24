@@ -10,7 +10,7 @@ tar_make_future(
   reporter = Sys.getenv("TAR_MAKE_REPORTER", unset = "verbose"),
   workers = 1L,
   callr_function = callr::r,
-  callr_arguments = list()
+  callr_arguments = list(spinner = identical(reporter, "silent"))
 )
 }
 \arguments{

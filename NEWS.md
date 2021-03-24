@@ -26,6 +26,7 @@
 * Reorder information in timestamped messages.
 * Document RNG seed generation in `tar_target_raw()`, `tar_meta()`, and `tar_seed()` (#357, @alexpghayes).
 * Switch meaning of `%||%` and `%|||%` to conform to historical precedent.
+* Only show a command line spinner if `reporter = "silent"` (#364, @matthiasgomolka).
 
 # targets 0.2.0
 

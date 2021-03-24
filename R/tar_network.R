@@ -31,7 +31,7 @@ tar_network <- function(
   targets_only = FALSE,
   reporter = "silent",
   callr_function = callr::r,
-  callr_arguments = list()
+  callr_arguments = list(spinner = identical(reporter, "silent"))
 ) {
   assert_script()
   assert_lgl(targets_only, "targets_only must be logical.")
