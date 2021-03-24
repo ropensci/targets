@@ -27,6 +27,11 @@
 * Document RNG seed generation in `tar_target_raw()`, `tar_meta()`, and `tar_seed()` (#357, @alexpghayes).
 * Switch meaning of `%||%` and `%|||%` to conform to historical precedent.
 * Only show a command line spinner if `reporter = "silent"` (#364, @matthiasgomolka).
+* Target and pipeline objects no longer have an `envir` element.
+
+## Deprecations
+
+* Deprecate `tar_envir()`. Because target and pipeline objects no longer have an `envir` element, it is no longer possible to do anything helpful with `tar_envir()`.
 
 # targets 0.2.0
 
