@@ -133,7 +133,7 @@ tar_test("target_deps_deep()", {
 tar_test("branch$produce_record() of a successful branch", {
   stem <- target_init("x", quote(sample.int(4)))
   map <- target_init("y", quote(x), pattern = quote(map(x)))
-  pipeline <- pipeline_init(list(stem, map))
+  pipeline <- pipeline_init(list(stem, map), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
   meta <- local$meta
