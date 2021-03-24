@@ -27,6 +27,7 @@ pipeline_targets_init <- function(targets) {
   assert_target_list(targets)
   names <- map_chr(targets, ~.x$settings$name)
   assert_unique_targets(names)
+  targets <- map(targets, ~target_subpipeline_copy(.x, keep_value = FALSE))
   names(targets) <- names
   list2env(targets, parent = emptyenv(), hash = TRUE)
 }
@@ -274,9 +275,7 @@ as_pipeline.tar_pipeline <- function(x) {
 #' @export
 #' @keywords internal
 as_pipeline.default <- function(x) {
-  targets <- unlist(list(x), recursive = TRUE)
-  targets <- map(targets, ~target_subpipeline_copy(.x, keep_value = FALSE))
-  pipeline_init(targets)
+  pipeline_init(unlist(list(x), recursive = TRUE))
 }
 
 #' @export

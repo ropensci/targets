@@ -33,6 +33,28 @@ tar_test("nontrivial globals with global environment", {
   expect_equal(tar_read(y), 3L)
 })
 
+tar_test("prevent high-memory data via target objects in globalenv", {
+  options(clustermq.scheduler = "multiprocess")
+  t <- list(tar_target(x, runif(1e7), deployment = "main", format = "qs"))
+  pipeline <- pipeline_init(list(t[[1]], tar_target(y, x)))
+  algo <- clustermq_init(pipeline)
+  debug(algo$set_common_data)
+  # should enter a debugger:
+  algo$run()
+  # In the debugger verify that the exported data is much smaller than
+  # the value of x because we cloned the target objects in pipeline_init().
+  o <- self$produce_exports(envir)
+  # Exported data should be small:
+  pryr::object_size(o)
+  # So should the target object in the global environment:
+  expect_true(inherits(envir$t[[1]], "tar_target"))
+  pryr::object_size(envir$t[[1]])
+  # The pipeline's copy of the target object should be much larger:
+  pryr::object_size(pipeline_get_target(self$pipeline, "x")$value$object)
+  # as well as the algorithm object itself:
+  pryr::object_size(self)
+})
+
 tar_test("profile heavily parallel workload", {
   tar_script({
     library(targets)

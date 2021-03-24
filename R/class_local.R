@@ -33,7 +33,6 @@ local_new <- function(
 local_class <- R6::R6Class(
   classname = "tar_local",
   inherit = active_class,
-  class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
   public = list(

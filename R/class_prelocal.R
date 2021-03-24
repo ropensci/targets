@@ -19,7 +19,6 @@ prelocal_new <- function(
 prelocal_class <- R6::R6Class(
   classname = "tar_prelocal",
   inherit = local_class,
-  class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
   public = list(

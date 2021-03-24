@@ -17,7 +17,6 @@ active_new <- function(
 active_class <- R6::R6Class(
   classname = "tar_active",
   inherit = algorithm_class,
-  class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
   public = list(
