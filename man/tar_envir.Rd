@@ -9,7 +9,7 @@ tar_envir(default = parent.frame())
 \arguments{
 \item{default}{Environment, value to return if \code{tar_envir()}
 is called on its own outside a \code{targets} pipeline.
-Since \verb{targets >= 0.3.0},}
+Since \verb{targets >= 0.3.0}, the default is always the return value.}
 }
 \value{
 An environment, just the parent frame.

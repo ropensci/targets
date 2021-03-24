@@ -16,7 +16,7 @@
 #'   infrastructure changes make this no longer possible.
 #' @param default Environment, value to return if `tar_envir()`
 #'   is called on its own outside a `targets` pipeline.
-#'   Since `targets >= 0.3.0`, 
+#'   Since `targets >= 0.3.0`, the default is always the return value.
 #' @examples
 #' tar_envir()
 tar_envir <- function(default = parent.frame()) {
