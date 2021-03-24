@@ -283,7 +283,9 @@ target_subpipeline_copy <- function(target, keep_value) {
   class <- class(target)
   out <- list2env(as.list(target), parent = emptyenv(), hash = FALSE)
   class(out) <- class
-  out$metrics <- NULL
+  if (!is.null(out$metrics)) {
+    out$metrics <- metrics_new()
+  }
   if (!keep_value) {
     out$value <- NULL
   }
