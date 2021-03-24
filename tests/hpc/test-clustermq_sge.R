@@ -1,94 +1,21 @@
-tar_test("future workers actually launch", {
-  skip_on_cran()
-  tar_script({
-    future::plan(future::multisession)
-    list(
-      tar_target(x, seq_len(4)),
-      tar_target(
-        y,
-        Sys.sleep(30),
-        pattern = map(x)
-      )
-    )
-  })
-  # The following should run 4 targets concurrently.
-  # Terminate early if necessary.
-  tar_make_future(workers = 4)
-  tar_progress()
-})
-
-tar_test("custom future plans through resources", {
-  skip_on_cran()
-  tar_script({
-    future::plan(future::multisession, workers = 4)
-    plan_multisession <- future::plan()
-    future::plan(future::sequential)
-    list(
-      tar_target(x, seq_len(4)),
-      tar_target(
-        y,
-        Sys.sleep(30),
-        pattern = map(x),
-        resources = list(plan = plan_multisession)
-      )
-    )
-  })
-  # The following should run 4 targets concurrently.
-  tar_make_future(workers = 4)
-  # After all 4 targets start, terminate the pipeline early and show progress.
-  # x should be built, and y and its 4 branches should be listed as started.
-  tar_progress()
-})
-
-tar_test("profile heavily parallel workload", {
-  tar_script({
-    library(targets)
-    message("starting psock")
-    future::plan(future::multisession, workers = 4)
-    list(
-      tar_target(
-        index_batch,
-        seq_len(100),
-      ),
-      tar_target(
-        data_continuous,
-        index_batch,
-        pattern = map(index_batch)
-      ),
-      tar_target(
-        data_discrete,
-        index_batch,
-        pattern = map(index_batch)
-      ),
-      tar_target(
-        fit_continuous,
-        data_continuous,
-        pattern = map(data_continuous)
-      ),
-      tar_target(
-        fit_discrete,
-        data_discrete,
-        pattern = map(data_discrete)
-      )
-    )
-  })
-  # Should deploy targets in a timely manner.
-  proffer::pprof(tar_make_future(workers = 4, callr_function = NULL))
-  expect_equal(tar_outdated(), character(0))
-  expect_equal(tar_read(fit_continuous), seq_len(100))
-  expect_equal(tar_read(fit_discrete), seq_len(100))
-})
-
 test_that("packages are actually loaded", {
-  # Needs sge_batchtools.tmpl (in current directory).
+  # Needs sge_clustermq.tmpl (in current directory).
   unlink("_targets", recursive = TRUE)
   on.exit(unlink("_targets", recursive = TRUE))
-  skip_if_not_installed("future")
-  skip_if_not_installed("future.batchtools")
-  on.exit(future::plan(future::sequential), add = TRUE)
-  future::plan(
-    future.batchtools::batchtools_sge,
-    template = "sge_batchtools.tmpl"
+  skip_on_os("windows")
+  skip_if_not_installed("clustermq")
+  old_schd <- getOption("clustermq.scheduler")
+  old_tmpl <- getOption("clustermq.template")
+  options(
+    clustermq.scheduler = "sge",
+    clustermq.template = "sge_clustermq.tmpl"
+  )
+  on.exit(
+    options(
+      clustermq.scheduler = old_schd,
+      clustermq.template = old_tmpl
+    ),
+    add = TRUE
   )
   old_envir <- tar_option_get("envir")
   on.exit(tar_option_set(envir = old_envir), add = TRUE)
@@ -100,60 +27,73 @@ test_that("packages are actually loaded", {
     packages = "tibble"
   )
   pipeline <- pipeline_init(list(x))
-  out <- future_init(pipeline)
+  out <- clustermq_init(pipeline)
   out$run()
   exp <- tibble::tibble(x = "x")
-  target <- pipeline_get_target(pipeline, "x")
   expect_equal(tar_read(x), exp)
 })
 
-test_that("nontrivial globals", {
+test_that("nontrivial common data", {
   unlink("_targets", recursive = TRUE)
   on.exit(unlink("_targets", recursive = TRUE))
-  skip_if_not_installed("future")
-  skip_if_not_installed("future.batchtools")
-  on.exit(future::plan(future::sequential), add = TRUE)
-  future::plan(
-    future.batchtools::batchtools_sge,
-    template = "sge_batchtools.tmpl"
+  skip_on_os("windows")
+  skip_if_not_installed("clustermq")
+  old_schd <- getOption("clustermq.scheduler")
+  old_tmpl <- getOption("clustermq.template")
+  options(
+    clustermq.scheduler = "sge",
+    clustermq.template = "sge_clustermq.tmpl"
+  )
+  on.exit(
+    options(
+      clustermq.scheduler = old_schd,
+      clustermq.template = old_tmpl
+    ),
+    add = TRUE
   )
   old_envir <- tar_option_get("envir")
   on.exit(tar_option_set(envir = old_envir), add = TRUE)
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
-  evalq({
-    f <- function(x) {
-      g(x) + 1L
-    }
-    g <- function(x) {
-      x + 1L
-    }
-  }, envir = envir)
+  envir$f <- function(x) {
+    g(x) + 1L
+  }
+  envir$g <- function(x) {
+    x + 1L
+  }
   x <- tar_target_raw("x", quote(f(1L)))
   pipeline <- pipeline_init(list(x))
-  algo <- future_init(pipeline)
-  algo$run()
+  cmq <- clustermq_init(pipeline)
+  cmq$run()
   target <- pipeline_get_target(pipeline, "x")
   expect_equal(tar_read(x), 3L)
 })
 
 test_that("branching plan on SGE", {
-  # Needs sge_batchtools.tmpl (in current directory).
+  # Needs sge_clustermq.tmpl (in current directory).
   unlink("_targets", recursive = TRUE)
-  on.exit(unlink("_targets", recursive = TRUE))
-  skip_if_not_installed("future")
-  skip_if_not_installed("future.batchtools")
-  on.exit(future::plan(future::sequential), add = TRUE)
-  future::plan(
-    future.batchtools::batchtools_sge,
-    template = "sge_batchtools.tmpl"
+  on.exit(on.exit(unlink("_targets", recursive = TRUE)))
+  skip_on_os("windows")
+  skip_if_not_installed("clustermq")
+  old_schd <- getOption("clustermq.scheduler")
+  old_tmpl <- getOption("clustermq.template")
+  options(
+    clustermq.scheduler = "sge",
+    clustermq.template = "sge_clustermq.tmpl"
+  )
+  on.exit(
+    options(
+      clustermq.scheduler = old_schd,
+      clustermq.template = old_tmpl
+    ),
+    add = TRUE
   )
   pipeline <- pipeline_map()
-  out <- future_init(pipeline, workers = 4L)
+  out <- clustermq_init(pipeline, workers = 4L)
   out$run()
   skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))
-  out2 <- future_init(pipeline_map(), workers = 2L)
+  out2 <- clustermq_init(pipeline_map(), workers = 2L)
   out2$run()
   built <- names(out2$scheduler$progress$built$envir)
   expect_equal(built, character(0))
@@ -190,18 +130,26 @@ test_that("branching plan on SGE", {
 })
 
 test_that("Same with worker-side storage", {
-  # Needs sge_batchtools.tmpl (in current directory).
+  # Needs sge_clustermq.tmpl (in current directory).
   unlink("_targets", recursive = TRUE)
   on.exit(unlink("_targets", recursive = TRUE))
-  skip_if_not_installed("future")
-  skip_if_not_installed("future.batchtools")
-  on.exit(future::plan(future::sequential), add = TRUE)
-  future::plan(
-    future.batchtools::batchtools_sge,
-    template = "sge_batchtools.tmpl"
+  skip_on_os("windows")
+  skip_if_not_installed("clustermq")
+  old_schd <- getOption("clustermq.scheduler")
+  old_tmpl <- getOption("clustermq.template")
+  options(
+    clustermq.scheduler = "sge",
+    clustermq.template = "sge_clustermq.tmpl"
+  )
+  on.exit(
+    options(
+      clustermq.scheduler = old_schd,
+      clustermq.template = old_tmpl
+    ),
+    add = TRUE
   )
   pipeline <- pipeline_map(storage = "worker")
-  out <- future_init(pipeline, workers = 4L)
+  out <- clustermq_init(pipeline, workers = 4L)
   out$run()
   skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))
@@ -235,4 +183,47 @@ test_that("Same with worker-side storage", {
   for (index in seq_along(branches)) {
     expect_equal(value(branches[index]), index + 15L)
   }
+})
+
+test_that("clustermq with a dynamic file", {
+  # Needs sge_clustermq.tmpl (in current directory).
+  unlink("_targets", recursive = TRUE)
+  on.exit(unlink(c("saved.out", "_targets"), recursive = TRUE))
+  skip_on_os("windows")
+  skip_if_not_installed("clustermq")
+  old_schd <- getOption("clustermq.scheduler")
+  old_tmpl <- getOption("clustermq.template")
+  options(
+    clustermq.scheduler = "sge",
+    clustermq.template = "sge_clustermq.tmpl"
+  )
+  on.exit(
+    options(
+      clustermq.scheduler = old_schd,
+      clustermq.template = old_tmpl
+    ),
+    add = TRUE
+  )
+  old_envir <- tar_option_get("envir")
+  on.exit(tar_option_set(envir = old_envir), add = TRUE)
+  envir <- new.env(parent = globalenv())
+  tar_option_set(envir = envir)
+  envir$save1 <- function() {
+    file <- "saved.out"
+    saveRDS(1L, file)
+    file
+  }
+  x <- tar_target_raw("x", quote(save1()), format = "file")
+  pipeline <- pipeline_init(list(x))
+  cmq <- clustermq_init(pipeline)
+  cmq$run()
+  out <- names(cmq$scheduler$progress$built$envir)
+  expect_equal(out, "x")
+  saveRDS(2L, pipeline_get_target(pipeline, "x")$store$file$path)
+  x <- tar_target_raw("x", quote(save1()), format = "file")
+  pipeline <- pipeline_init(list(x))
+  cmq <- clustermq_init(pipeline)
+  cmq$run()
+  out <- names(cmq$scheduler$progress$built$envir)
+  expect_equal(out, "x")
 })
