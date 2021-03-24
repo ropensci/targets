@@ -103,7 +103,7 @@ future_class <- R6::R6Class(
       )
     },
     run_main = function(target) {
-      target_run(target)
+      target_run(target, tar_option_get("envir"))
       target_conclude(
         target,
         self$pipeline,

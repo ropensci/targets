@@ -7,10 +7,9 @@ tar_test("feather format", {
   x <- target_init(
     name = "abc",
     expr = quote(f()),
-    format = "feather",
-    envir = envir
+    format = "feather"
   )
-  builder_update_build(x)
+  builder_update_build(x, envir = envir)
   builder_update_paths(x)
   builder_update_object(x)
   exp <- envir$f()

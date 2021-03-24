@@ -102,7 +102,7 @@ clustermq_class <- R6::R6Class(
     },
     run_main = function(target) {
       self$crew$send_wait()
-      target_run(target)
+      target_run(target, tar_option_get("envir"))
       target_conclude(
         target,
         self$pipeline,
