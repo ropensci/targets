@@ -28,11 +28,11 @@ workspace_read <- function(name) {
 
 workspace_populate <- function(workspace) {
   target_ensure_deps(workspace$target, workspace$subpipeline)
-  target_cache_deps(workspace$target, workspace$subpipeline)
+  target_frames_deps(workspace$target, workspace$subpipeline)
 }
 
 workspace_assign <- function(workspace, envir) {
-  from <- cache_get_envir(workspace$target$cache)
+  from <- frames_get_envir(workspace$target$frames)
   map(names(from), ~assign(x = .x, value = from[[.x]], envir = envir))
 }
 

@@ -12,7 +12,7 @@ tar_test("builder$metrics", {
 
 tar_test("target_run() on a good builder", {
   x <- target_init(name = "abc", expr = quote(a))
-  cache_set_object(x$cache, "a", "x")
+  frames_set_object(x$frames, "a", "x")
   target_run(x)
   expect_silent(metrics_validate(x$metrics))
   expect_silent(value_validate(x$value))
@@ -72,7 +72,7 @@ tar_test("read and write objects", {
   file <- x$store$file
   file$path <- tmp
   file$stage <- tempfile()
-  cache_set_object(x$cache, "a", "123")
+  frames_set_object(x$frames, "a", "123")
   builder_update_build(x)
   builder_update_object(x)
   expect_equal(readRDS(tmp), "123")
@@ -143,7 +143,7 @@ tar_test("builder writing from main", {
   x <- target_init("abc", expr = quote(a), format = "rds", storage = "main")
   pipeline <- pipeline_init(list(x))
   scheduler <- pipeline_produce_scheduler(pipeline)
-  cache_set_object(x$cache, "a", "123")
+  frames_set_object(x$frames, "a", "123")
   target_run(x)
   expect_false(file.exists(x$store$file$path))
   expect_true(is.na(x$store$file$hash))
@@ -168,7 +168,7 @@ tar_test("builder writing from worker", {
     retrieval = "main",
     deployment = "worker"
   )
-  cache_set_object(x$cache, "a", "123")
+  frames_set_object(x$frames, "a", "123")
   target_run(x)
   expect_true(file.exists(x$store$file$path))
   expect_false(is.na(x$store$file$hash))

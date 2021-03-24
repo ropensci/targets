@@ -29,7 +29,7 @@ tar_envir <- function(default = parent.frame()) {
   assert_envir(default)
   trn(
     exists(x = "target", envir = tar_envir_run, inherits = FALSE),
-    get(x = "target", envir = tar_envir_run)$cache$targets$envir,
+    get(x = "target", envir = tar_envir_run)$frames$targets$envir,
     default
   )
 }

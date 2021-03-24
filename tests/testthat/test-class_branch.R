@@ -2,12 +2,12 @@ tar_test("branch$pedigree", {
   command <- command_init(quote(1 + 1))
   settings <- settings_init(name = "x", pattern = quote(map(y)))
   cue <- cue_init()
-  cache <- cache_init()
+  frames <- frames_init()
   branch <- branch_init(
     command,
     settings,
     cue,
-    cache,
+    frames,
     NULL,
     character(0),
     "y",
@@ -20,12 +20,12 @@ tar_test("branch$pedigree", {
   command <- command_init(quote(1 + 1))
   settings <- settings_init(name = "x", pattern = quote(map(y)))
   cue <- cue_init()
-  cache <- cache_init()
+  frames <- frames_init()
   branch <- branch_init(
     command,
     settings,
     cue,
-    cache,
+    frames,
     NULL,
     character(0),
     "x_1",
@@ -44,12 +44,12 @@ tar_test("branch priority", {
     priority = 0.5
   )
   cue <- cue_init()
-  cache <- cache_init()
+  frames <- frames_init()
   branch <- branch_init(
     command,
     settings,
     cue,
-    cache,
+    frames,
     NULL,
     character(0),
     "y",
@@ -62,12 +62,12 @@ tar_test("branches are not branchable", {
   command <- command_init(quote(1 + 1))
   settings <- settings_init(name = "x", pattern = quote(map(y)))
   cue <- cue_init()
-  cache <- cache_init()
+  frames <- frames_init()
   branch <- branch_init(
     command,
     settings,
     cue,
-    cache,
+    frames,
     NULL,
     character(0),
     "y",
@@ -80,12 +80,12 @@ tar_test("target_get_name()", {
   command <- command_init(quote(1 + 1))
   settings <- settings_init(name = "x", pattern = quote(map(y)))
   cue <- cue_init()
-  cache <- cache_init()
+  frames <- frames_init()
   branch <- branch_init(
     command,
     settings,
     cue,
-    cache,
+    frames,
     NULL,
     character(0),
     "y",
@@ -99,12 +99,12 @@ tar_test("target_get_parent(branch)", {
   command <- command_init(quote(1 + 1))
   settings <- settings_init(name = "x", pattern = quote(map(y)))
   cue <- cue_init()
-  cache <- cache_init()
+  frames <- frames_init()
   branch <- branch_init(
     command,
     settings,
     cue,
-    cache,
+    frames,
     NULL,
     character(0),
     "y",
@@ -173,13 +173,13 @@ tar_test("branch$produce_record() of a successful branch", {
 tar_test("branch_validate()", {
   command <- command_init(quote(1 + 1))
   settings <- settings_init(name = "x", pattern = quote(map(y)))
-  cache <- cache_init()
+  frames <- frames_init()
   cue <- cue_init()
   branch <- branch_init(
     command,
     settings,
     cue,
-    cache,
+    frames,
     NULL,
     character(0),
     "x_f4acd87c52d4e62b",

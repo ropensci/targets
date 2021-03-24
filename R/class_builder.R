@@ -72,8 +72,8 @@ target_run.tar_builder <- function(target, envir) {
   builder_set_tar_envir_run(target)
   builder_unserialize_subpipeline(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
-  cache <- cache_produce(envir, target, target$subpipeline)
-  builder_update_build(target, cache_get_envir(cache))
+  frames <- frames_produce(envir, target, target$subpipeline)
+  builder_update_build(target, frames_get_envir(frames))
   builder_update_paths(target)
   builder_ensure_object(target, "worker")
   target
