@@ -1,7 +1,8 @@
 tar_test("future workers actually launch", {
-  skip_on_cran()
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.callr")
   tar_script({
-    future::plan(future::multisession)
+    future::plan(future.callr::callr)
     list(
       tar_target(x, seq_len(4)),
       tar_target(
@@ -18,7 +19,7 @@ tar_test("future workers actually launch", {
 })
 
 tar_test("custom future plans through resources", {
-  skip_on_cran()
+  skip_if_not_installed("future")
   tar_script({
     future::plan(future::multisession, workers = 4)
     plan_multisession <- future::plan()
@@ -41,10 +42,11 @@ tar_test("custom future plans through resources", {
 })
 
 tar_test("profile heavily parallel workload", {
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.callr")
   tar_script({
     library(targets)
-    message("starting psock")
-    future::plan(future::multisession, workers = 4)
+    future::plan(future.callr::callr)
     list(
       tar_target(
         index_batch,

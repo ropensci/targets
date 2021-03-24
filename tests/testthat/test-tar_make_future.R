@@ -23,3 +23,24 @@ tar_test("tar_make_future() can use tidyselect", {
   out <- sort(list.files(file.path("_targets", "objects")))
   expect_equal(out, sort(c("y1", "y2")))
 })
+
+tar_test("nontrivial globals with global environment", {
+  skip_on_cran()
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.callr")
+  tar_script({
+    future::plan(future.callr::callr)
+    f <- function(x) {
+      g(x) + 1L
+    }
+    g <- function(x) {
+      x + 1L
+    }
+    list(
+      tar_target(x, 1),
+      tar_target(y, f(x))
+    )
+  })
+  tar_make_future()
+  expect_equal(tar_read(y), 3L)
+})

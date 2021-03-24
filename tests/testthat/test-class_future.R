@@ -100,6 +100,8 @@ tar_test("future algo can skip targets", {
 tar_test("nontrivial globals", {
   skip_on_cran()
   skip_if_not_installed("future")
+  skip_if_not_installed("future.callr")
+  future::plan(future.callr::callr)
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
