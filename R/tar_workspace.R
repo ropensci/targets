@@ -42,11 +42,12 @@
 #' # The following code throws an error for demonstration purposes.
 #' try(tar_make())
 #' exists("x") # Should be FALSE.
-#' tail(.Random.seed)
+#' tail(.Random.seed) # for comparison to the RNG state after tar_workspace(y)
 #' tar_workspace(y)
 #' exists("x") # Should be TRUE.
 #' print(x) # "loaded"
-#' tail(.Random.seed) # Should be different.
+#' # Should be different: tar_workspace() runs set.seed(tar_meta(y, seed)$seed)
+#' tail(.Random.seed)
 #' })
 #' }
 tar_workspace <- function(

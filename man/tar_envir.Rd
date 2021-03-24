@@ -2,26 +2,27 @@
 % Please edit documentation in R/tar_envir.R
 \name{tar_envir}
 \alias{tar_envir}
-\title{For developers only: get the environment of the current target.}
+\title{Deprecated: get the environment of the current target.}
 \usage{
 tar_envir(default = parent.frame())
 }
 \arguments{
 \item{default}{Environment, value to return if \code{tar_envir()}
 is called on its own outside a \code{targets} pipeline.
-Having a default lets users run things without \code{\link[=tar_make]{tar_make()}},
-which helps peel back layers of code and troubleshoot bugs.}
+Since \verb{targets >= 0.3.0},}
 }
 \value{
-If called from a running target, \code{tar_envir()} returns
-the environment where the target runs its command.
-If called outside a pipeline, the return value is
-whatever the user supplies to \code{default}
-(which defaults to \code{parent.frame()}).
+An environment, just the parent frame.
+In \code{targets} <= 0.2.0, \code{tar_envir()} returned the top-level
+environment where the target was running. Recent
+infrastructure changes make this no longer possible.
 }
 \description{
-For developers only: get the environment where a
-target runs its command. Inherits from \code{tar_option_get("envir")}.
+Deprecated in \code{targets} version 0.3.0 (2020-03-24).
+Gets the parent frame. In earlier versions,
+\code{tar_envir()} could return the environment where a
+target runs its command (inherits from \code{tar_option_get("envir")}).
+Recent infrastructure changes make this no longer possible.
 }
 \details{
 Users should not call \code{tar_envir()} directly because accidental
@@ -31,12 +32,5 @@ packages such as \code{tarchetypes}.
 }
 \examples{
 tar_envir()
-tar_envir(default = new.env(parent = emptyenv()))
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
-tar_dir({ # tar_dir() runs code from a temporary directory.
-tar_script(tar_target(x, tar_envir(default = parent.frame())))
-tar_make(x)
-tar_read(x)
-})
 }
-}
+\keyword{internal}
