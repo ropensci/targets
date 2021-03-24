@@ -22,7 +22,7 @@ tar_test("meta$get_record()", {
 tar_test("builder metadata recording", {
   out <- meta_init()
   target <- target_init("x", quote(sample.int(100)))
-  pipeline <- pipeline_init(list(target))
+  pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
   meta <- local$meta

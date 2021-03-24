@@ -95,7 +95,7 @@ tar_test("Update the file of a branch", {
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
-  pipeline <- pipeline_init(list(x, y, z))
+  pipeline <- pipeline_init(list(x, y, z), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
   child_y <- target_get_children(y)[1]
@@ -122,7 +122,7 @@ tar_test("Update the file of a branch and aggregate", {
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y))
-  pipeline <- pipeline_init(list(x, y, z))
+  pipeline <- pipeline_init(list(x, y, z), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
   child_y <- target_get_children(y)[1]
@@ -148,7 +148,7 @@ tar_test("Corrupt a branch", {
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
-  pipeline <- pipeline_init(list(x, y, z))
+  pipeline <- pipeline_init(list(x, y, z), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
   branch_y <- target_get_children(y)[2]
@@ -157,7 +157,7 @@ tar_test("Corrupt a branch", {
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
-  pipeline <- pipeline_init(list(x, y, z))
+  pipeline <- pipeline_init(list(x, y, z), clone_targets = FALSE)
   outdated <- outdated_init(
     pipeline,
     queue = "sequential",
@@ -173,7 +173,7 @@ tar_test("Corrupt a branch but turn off the depend cue", {
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
   w <- target_init("w", quote(y))
-  pipeline <- pipeline_init(list(x, y, z, w))
+  pipeline <- pipeline_init(list(x, y, z, w), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
   branch_y <- target_get_children(y)[2]
@@ -198,7 +198,7 @@ tar_test("Depend on all branches", {
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y))
-  pipeline <- pipeline_init(list(x, y, z))
+  pipeline <- pipeline_init(list(x, y, z), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
   branch <- target_get_children(y)[2]
@@ -223,7 +223,8 @@ tar_test("map over a stem with no branches previously", {
       target_init("x", quote(seq_len(2))),
       target_init("y", quote(seq_len(2))),
       target_init("z", quote(x), pattern = quote(map(x)))
-    )
+    ),
+    clone_targets = FALSE
   )
   local_init(pipeline = pipeline)$run()
   pipeline <- pipeline_init(
