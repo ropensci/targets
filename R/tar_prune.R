@@ -27,7 +27,10 @@
 #' tar_prune()
 #' })
 #' }
-tar_prune <- function(callr_function = callr::r, callr_arguments = list()) {
+tar_prune <- function(
+  callr_function = callr::r,
+  callr_arguments = targets::callr_args_default(callr_function)
+) {
   assert_script()
   assert_store()
   assert_callr_function(callr_function)

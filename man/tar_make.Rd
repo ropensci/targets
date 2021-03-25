@@ -8,7 +8,7 @@ tar_make(
   names = NULL,
   reporter = Sys.getenv("TAR_MAKE_REPORTER", unset = "verbose"),
   callr_function = callr::r,
-  callr_arguments = list(spinner = identical(reporter, "silent"))
+  callr_arguments = targets::callr_args_default(callr_function, reporter)
 )
 }
 \arguments{

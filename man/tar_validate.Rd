@@ -4,7 +4,10 @@
 \alias{tar_validate}
 \title{Validate a pipeline of targets.}
 \usage{
-tar_validate(callr_function = callr::r, callr_arguments = list())
+tar_validate(
+  callr_function = callr::r,
+  callr_arguments = targets::callr_args_default(callr_function)
+)
 }
 \arguments{
 \item{callr_function}{A function from \code{callr} to start a fresh clean R

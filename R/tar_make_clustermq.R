@@ -42,7 +42,7 @@ tar_make_clustermq <- function(
   workers = 1L,
   log_worker = FALSE,
   callr_function = callr::r,
-  callr_arguments = list(spinner = identical(reporter, "silent"))
+  callr_arguments = targets::callr_args_default(callr_function, reporter)
 ) {
   assert_package("clustermq")
   assert_script()

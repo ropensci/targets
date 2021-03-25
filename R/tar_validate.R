@@ -23,7 +23,7 @@
 #' }
 tar_validate <- function(
   callr_function = callr::r,
-  callr_arguments = list()
+  callr_arguments = targets::callr_args_default(callr_function)
 ) {
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")

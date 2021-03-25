@@ -10,7 +10,7 @@ tar_glimpse(
   exclude = ".Random.seed",
   level_separation = NULL,
   callr_function = callr::r,
-  callr_arguments = list()
+  callr_arguments = targets::callr_args_default(callr_function)
 )
 }
 \arguments{

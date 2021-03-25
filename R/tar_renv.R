@@ -62,7 +62,7 @@ tar_renv <- function(
   ),
   path = "_packages.R",
   callr_function = callr::r,
-  callr_arguments = list()
+  callr_arguments = targets::callr_args_default(callr_function)
 ) {
   assert_script()
   assert_chr(extras, "extras must be a character vector")

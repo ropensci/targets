@@ -8,7 +8,7 @@ tar_manifest(
   names = NULL,
   fields = c("name", "command", "pattern"),
   callr_function = callr::r,
-  callr_arguments = list()
+  callr_arguments = targets::callr_args_default(callr_function)
 )
 }
 \arguments{

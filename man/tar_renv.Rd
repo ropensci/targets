@@ -9,7 +9,7 @@ tar_renv(
     "shinycssloaders", "shinyWidgets", "visNetwork"),
   path = "_packages.R",
   callr_function = callr::r,
-  callr_arguments = list()
+  callr_arguments = targets::callr_args_default(callr_function)
 )
 }
 \arguments{

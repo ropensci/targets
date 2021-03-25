@@ -52,7 +52,7 @@ tar_visnetwork <- function(
   level_separation = NULL,
   reporter = "silent",
   callr_function = callr::r,
-  callr_arguments = list(spinner = identical(reporter, "silent"))
+  callr_arguments = targets::callr_args_default(callr_function)
 ) {
   assert_script()
   assert_package("visNetwork")

@@ -4,7 +4,10 @@
 \alias{tar_prune}
 \title{Remove targets that are no longer part of the pipeline.}
 \usage{
-tar_prune(callr_function = callr::r, callr_arguments = list())
+tar_prune(
+  callr_function = callr::r,
+  callr_arguments = targets::callr_args_default(callr_function)
+)
 }
 \arguments{
 \item{callr_function}{A function from \code{callr} to start a fresh clean R

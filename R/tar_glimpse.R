@@ -46,7 +46,7 @@ tar_glimpse <- function(
   exclude = ".Random.seed",
   level_separation = NULL,
   callr_function = callr::r,
-  callr_arguments = list()
+  callr_arguments = targets::callr_args_default(callr_function)
 ) {
   assert_script()
   assert_package("visNetwork")
