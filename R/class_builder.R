@@ -69,6 +69,7 @@ target_run.tar_builder <- function(target, envir) {
     builder_unset_tar_envir_run()
     target$subpipeline <- NULL
   })
+  envir <- trn(identical(envir, "globalenv"), globalenv(), envir)
   builder_unserialize_subpipeline(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
   frames <- frames_produce(envir, target, target$subpipeline)

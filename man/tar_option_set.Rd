@@ -52,7 +52,28 @@ everything in \code{tar_option_get("imports")}.}
 when loading \code{packages}.}
 
 \item{envir}{Environment containing functions and global objects
-used in the R commands to run targets.}
+used in the R commands to run targets. Defaults to the global environment.
+If \code{envir} is the global environment, all the promise objects
+are diffused before sending the data to parallel workers
+in \code{\link[=tar_make_future]{tar_make_future()}} and \code{\link[=tar_make_clustermq]{tar_make_clustermq()}},
+but otherwise the environment is unmodified.
+This behavior improves performance by decreasing
+the size of data sent to workers.
+
+If \code{envir} is not the global environment, then it should at least inherit
+from the global environment or base environment
+so \code{targets} can access attached packages.
+In the case of a non-global \code{envir}, \code{targets} attempts to remove
+potentially high memory objects that come directly from \code{targets}.
+That includes \code{tar_target()} objects of class \code{"tar_target"},
+as well as objects of class \code{"tar_pipeline"} or \code{"tar_algorithm"}.
+This behavior improves performance by decreasing
+the size of data sent to workers.
+
+Package environments should not be assigned to \code{envir}.
+To include package objects as upstream dependencies in the pipeline,
+assign the package to the \code{packages} and \code{imports} arguments
+of \code{tar_option_set()}.}
 
 \item{format}{Optional storage format for the target's return value.
 With the exception of \code{format = "file"}, each target

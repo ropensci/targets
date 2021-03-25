@@ -57,12 +57,15 @@ tar_test("nontrivial globals with global environment", {
   expect_equal(tar_read(y), 3L)
 })
 
-tar_test("prevent high-memory data via target objects in globalenv", {
+tar_test("prevent high-memory data via target objects", {
+  # Run this test once inside tar_test() (test environment)
+  # and once outside tar_test() global environment.
   options(clustermq.scheduler = "multiprocess")
   t <- list(tar_target(x, runif(1e7), deployment = "main", format = "qs"))
   pipeline <- pipeline_init(list(t[[1]], tar_target(y, x)))
   algo <- clustermq_init(pipeline)
   debug(algo$set_common_data)
+  tar_option_set(envir = environment())
   # should enter a debugger:
   algo$run()
   # In the debugger verify that the exported data is much smaller than
@@ -70,9 +73,9 @@ tar_test("prevent high-memory data via target objects in globalenv", {
   o <- self$produce_exports(envir)
   # Exported data should be small:
   pryr::object_size(o)
-  # So should the target object in the global environment:
-  expect_true(inherits(envir$t[[1]], "tar_target"))
-  pryr::object_size(envir$t[[1]])
+  # The target object should not be in the environment.
+  expect_true(inherits(tar_option_get("envir")$t[[1]], "tar_target"))
+  pryr::object_size(tar_option_get("envir")$t[[1]])
   # The pipeline's copy of the target object should be much larger:
   pryr::object_size(pipeline_get_target(self$pipeline, "x")$value$object)
   # The algorithm object itself should be large too, and it is not exported.

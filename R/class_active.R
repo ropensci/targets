@@ -31,12 +31,17 @@ active_class <- R6::R6Class(
       self$process <- process_init()
       self$process$record_process()
     },
-    produce_exports = function(envir, copy = identical(envir, globalenv())) {
+    produce_exports = function(envir, is_globalenv = NULL) {
       map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
-      out <- trn(copy, as.list(envir, all.names = TRUE), list())
-      names <- fltr(names(out), ~!is_internal_name(.x, envir))
-      out <- out[names]
-      out[[".tar_envir_5048826d"]] <- envir
+      if (is_globalenv %||% identical(envir, globalenv())) {
+        out <- as.list(envir, all.names = TRUE)
+        out <- out[fltr(names(out), ~!is_internal_name(.x, envir))]
+        out[[".tar_envir_5048826d"]] <- "globalenv"
+      } else {
+        discard <- fltr(names(envir), ~is_internal_name(.x, envir))
+        remove(list = discard, envir = envir)
+        out <- list(.tar_envir_5048826d = envir)
+      }
       out
     },
     unload_transient = function() {

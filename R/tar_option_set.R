@@ -19,7 +19,28 @@
 #'   Similarly, objects in `tar_option_get("envir")` override
 #'   everything in `tar_option_get("imports")`.
 #' @param envir Environment containing functions and global objects
-#'   used in the R commands to run targets.
+#'   used in the R commands to run targets. Defaults to the global environment.
+#'   If `envir` is the global environment, all the promise objects
+#'   are diffused before sending the data to parallel workers
+#'   in [tar_make_future()] and [tar_make_clustermq()],
+#'   but otherwise the environment is unmodified.
+#'   This behavior improves performance by decreasing
+#'   the size of data sent to workers.
+#'
+#'   If `envir` is not the global environment, then it should at least inherit
+#'   from the global environment or base environment
+#'   so `targets` can access attached packages.
+#'   In the case of a non-global `envir`, `targets` attempts to remove
+#'   potentially high memory objects that come directly from `targets`.
+#'   That includes `tar_target()` objects of class `"tar_target"`,
+#'   as well as objects of class `"tar_pipeline"` or `"tar_algorithm"`.
+#'   This behavior improves performance by decreasing
+#'   the size of data sent to workers.
+#'
+#'   Package environments should not be assigned to `envir`.
+#'   To include package objects as upstream dependencies in the pipeline,
+#'   assign the package to the `packages` and `imports` arguments
+#'   of `tar_option_set()`.
 #' @param backoff Numeric of length 1, must be greater than or equal to 0.01.
 #'   Maximum upper bound of the random polling interval
 #'   for the priority queue (seconds).

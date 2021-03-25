@@ -17,7 +17,7 @@
 * In `tar_make_future()`, try to submit a target every time a worker is polled.
 * In `tar_make_future()`, poll workers in order of target priority.
 * Avoid the time delay in exiting on error (from https://github.com/r-lib/callr/issues/185).
-* Clone target objects before using them in order to avoid accidental massive data transfers to workers.
+* Clone target objects for the pipeline and scrape more `targets` internal objects out of the environment in order to avoid accidental massive data transfers to workers.
 
 ## Enhancements
 
