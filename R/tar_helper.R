@@ -32,5 +32,5 @@ tar_helper <- function(
   assert_lgl(tidy_eval, "tidy_eval must be a character.")
   assert_scalar(tidy_eval, "tidy_eval must have length 1.")
   assert_envir(envir)
-  tar_helper_raw(path, tidy_eval(substitute(code), envir, tidy_eval))
+  tar_helper_raw(path, tar_tidy_eval(substitute(code), envir, tidy_eval))
 }

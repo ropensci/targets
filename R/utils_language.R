@@ -47,7 +47,7 @@ produce_deparse_direct <- function() {
   deparse
 }
 
-tidy_eval <- function(expr, envir, tidy_eval) {
+tar_tidy_eval <- function(expr, envir, tidy_eval) {
   if (tidy_eval) {
     expr <- as.call(c(quote(rlang::expr), expr))
     expr <- rlang::quo_squash(eval(expr, envir = envir))

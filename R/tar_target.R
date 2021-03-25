@@ -275,8 +275,8 @@ tar_target <- function(
   pattern <- as.expression(substitute(pattern))
   target_init(
     name = name,
-    expr = tidy_eval(expr, envir, tidy_eval),
-    pattern = tidy_eval(pattern, envir, tidy_eval),
+    expr = tar_tidy_eval(expr, envir, tidy_eval),
+    pattern = tar_tidy_eval(pattern, envir, tidy_eval),
     packages = packages,
     library = library,
     format = format,
