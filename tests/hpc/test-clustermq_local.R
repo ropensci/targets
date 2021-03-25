@@ -1,3 +1,18 @@
+tar_test("packages are actually loaded", {
+  options(clustermq.scheduler = "multiprocess")
+  tar_option_set(envir = environment())
+  x <- tar_target_raw(
+    "x",
+    quote(tibble(x = "x")),
+    packages = "tibble"
+  )
+  pipeline <- pipeline_init(list(x))
+  out <- clustermq_init(pipeline)
+  out$run()
+  exp <- tibble::tibble(x = "x")
+  expect_equal(tar_read(x), exp)
+})
+
 tar_test("clustermq iteration loop can wait and shut down workers", {
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
