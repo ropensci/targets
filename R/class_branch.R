@@ -2,7 +2,6 @@ branch_init <- function(
   command = NULL,
   settings = NULL,
   cue = NULL,
-  cache = NULL,
   value = NULL,
   deps = character(0),
   child = character(0),
@@ -17,15 +16,14 @@ branch_init <- function(
   settings$name <- child
   store <- settings_produce_store(settings)
   branch_new(
-    command,
-    settings,
-    cue,
-    cache_clone(cache),
-    value,
-    NULL,
-    store,
-    NULL,
-    pedigree
+    command = command,
+    settings = settings,
+    cue = cue,
+    value = value,
+    metrics = NULL,
+    store = store,
+    subpipeline = NULL,
+    pedigree = pedigree
   )
 }
 
@@ -33,7 +31,6 @@ branch_new <- function(
   command = NULL,
   settings = NULL,
   cue = NULL,
-  cache = NULL,
   value = NULL,
   metrics = NULL,
   store = NULL,
@@ -43,7 +40,6 @@ branch_new <- function(
   force(command)
   force(settings)
   force(cue)
-  force(cache)
   force(value)
   force(metrics)
   force(store)

@@ -8,10 +8,9 @@ tar_test("fst_tbl format", {
   x <- target_init(
     name = "abc",
     expr = quote(f()),
-    format = "fst_tbl",
-    envir = envir
+    format = "fst_tbl"
   )
-  builder_update_build(x)
+  builder_update_build(x, envir = envir)
   builder_update_paths(x)
   builder_update_object(x)
   exp <- envir$f()
@@ -31,10 +30,9 @@ tar_test("fst_tbl coercion", {
   x <- target_init(
     name = "abc",
     expr = quote(f()),
-    format = "fst_tbl",
-    envir = envir
+    format = "fst_tbl"
   )
-  builder_update_build(x)
+  builder_update_build(x, envir)
   expect_true(inherits(x$value$object, "tbl_df"))
   builder_update_paths(x)
   builder_update_object(x)

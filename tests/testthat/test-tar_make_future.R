@@ -23,3 +23,55 @@ tar_test("tar_make_future() can use tidyselect", {
   out <- sort(list.files(file.path("_targets", "objects")))
   expect_equal(out, sort(c("y1", "y2")))
 })
+
+tar_test("nontrivial globals with global environment", {
+  skip_on_cran()
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.callr")
+  tar_script({
+    future::plan(future.callr::callr)
+    f <- function(x) {
+      g(x) + 1L
+    }
+    g <- function(x) {
+      x + 1L
+    }
+    list(
+      tar_target(x, 1),
+      tar_target(y, f(x))
+    )
+  })
+  tar_make_future(
+    reporter = "silent",
+    callr_arguments = list(spinner = FALSE)
+  )
+  expect_equal(tar_read(y), 3L)
+})
+
+tar_test("nontrivial globals with non-global environment", {
+  skip_on_cran()
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.callr")
+  tar_script({
+    future::plan(future.callr::callr)
+    envir <- new.env(parent = globalenv())
+    evalq({
+      f <- function(x) {
+        g(x) + 1L
+      }
+      g <- function(x) {
+        x + 1L
+      }
+    }, envir = envir)
+    tar_option_set(envir = envir)
+    list(
+      tar_target(x, 1),
+      tar_target(y, f(x))
+    )
+  })
+  tar_make_future(
+    reporter = "silent",
+    callr_arguments = list(spinner = FALSE)
+  )
+  expect_equal(tar_read(y), 3L)
+})

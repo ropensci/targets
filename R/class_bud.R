@@ -8,12 +8,11 @@ bud_init <- function(
   settings <- settings_clone(settings)
   settings$name <- child
   bud_new(
-    command,
-    settings,
-    NULL,
-    NULL,
-    NULL,
-    pedigree_new(parent, child, index)
+    command = command,
+    settings = settings,
+    cue = NULL,
+    value = NULL,
+    pedigree = pedigree_new(parent, child, index)
   )
 }
 
@@ -21,14 +20,12 @@ bud_new <- function(
   command = NULL,
   settings = NULL,
   cue = NULL,
-  cache = NULL,
   value = NULL,
   pedigree = NULL
 ) {
   force(command)
   force(settings)
   force(cue)
-  force(cache)
   force(value)
   force(pedigree)
   enclass(environment(), c("tar_bud", "tar_target"))

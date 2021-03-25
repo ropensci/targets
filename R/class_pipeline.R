@@ -1,10 +1,8 @@
-pipeline_init <- function(targets = list()) {
-  targets <- pipeline_targets_init(targets)
-  envir <- pipeline_envir(targets)
-  imports <- imports_init(envir)
+pipeline_init <- function(targets = list(), clone_targets = TRUE) {
+  targets <- pipeline_targets_init(targets, clone_targets)
+  imports <- imports_init(tar_option_get("envir"))
   pipeline_new(
     targets = targets,
-    envir = envir,
     imports = imports,
     loaded = counter_init(),
     transient = counter_init()
@@ -13,37 +11,30 @@ pipeline_init <- function(targets = list()) {
 
 pipeline_new <- function(
   targets = NULL,
-  envir = NULL,
   imports = NULL,
   loaded = NULL,
   transient = NULL
 ) {
   force(targets)
-  force(envir)
   force(imports)
   force(loaded)
   force(transient)
   enclass(environment(), "tar_pipeline")
 }
 
-pipeline_targets_init <- function(targets) {
+pipeline_targets_init <- function(targets, clone_targets) {
   targets <- targets %|||% list()
   assert_target_list(targets)
   names <- map_chr(targets, ~.x$settings$name)
   assert_unique_targets(names)
+  if (clone_targets) {
+    # If the user has target objects in the global environment,
+    # loading data into them may cause huge data transfers to workers.
+    # Best to not modify the user's copies of target objects.
+    targets <- map(targets, ~target_subpipeline_copy(.x, keep_value = FALSE))
+  }
   names(targets) <- names
   list2env(targets, parent = emptyenv(), hash = TRUE)
-}
-
-pipeline_envir <- function(targets) {
-  names <- names(targets)
-  out <- trn(
-    length(names),
-    targets[[names[1]]]$cache$imports$envir,
-    tar_empty_envir
-  )
-  assert_envir(out, "pipeline must initialize with only stems and patterns.")
-  out
 }
 
 pipeline_get_target <- function(pipeline, name) {
@@ -181,7 +172,6 @@ pipeline_produce_subpipeline <- function(pipeline, name, keep_value = NULL) {
   )
   pipeline_new(
     targets = targets,
-    envir = tar_empty_envir,
     loaded = counter_init(),
     transient = counter_init()
   )
@@ -238,19 +228,6 @@ pipeline_validate_dag <- function(igraph) {
   }
 }
 
-pipeline_validate_envirs <- function(pipeline) {
-  assert_envir(pipeline$envir)
-  assert_envir(pipeline$imports %|||% tar_empty_envir)
-  targets <- as.list(pipeline$targets)
-  lapply(targets, pipeline_validate_envir, envir = pipeline$envir)
-}
-
-pipeline_validate_envir <- function(target, envir) {
-  if (!identical(target$cache$imports$envir, envir)) {
-    throw_validate("all targets must share the same environment")
-  }
-}
-
 pipeline_validate_conflicts <- function(pipeline) {
   conflicts <- intersect(names(pipeline$imports), names(pipeline$targets))
   msg <- paste0(
@@ -281,7 +258,6 @@ pipeline_validate <- function(pipeline) {
 pipeline_validate_lite <- function(pipeline) {
   assert_inherits(pipeline, "tar_pipeline", msg = "invalid pipeline.")
   assert_correct_fields(pipeline, pipeline_new)
-  pipeline_validate_envirs(pipeline)
   pipeline_validate_conflicts(pipeline)
 }
 

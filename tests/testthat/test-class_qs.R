@@ -3,10 +3,9 @@ tar_test("qs format", {
   x <- target_init(
     name = "abc",
     expr = quote(1L + 1L),
-    format = "qs",
-    envir = baseenv()
+    format = "qs"
   )
-  builder_update_build(x)
+  builder_update_build(x, baseenv())
   builder_update_paths(x)
   builder_update_object(x)
   exp <- 2L

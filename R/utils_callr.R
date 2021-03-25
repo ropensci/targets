@@ -46,7 +46,7 @@ callr_dispatch <- function(
     ),
     do.call(
       callr_function,
-      prepare_callr_arguments(callr_function, callr_arguments)
+      callr_prepare_arguments(callr_function, callr_arguments)
     )
   )
 }
@@ -64,7 +64,7 @@ callr_inner <- function(
   do.call(targets_function, targets_arguments)
 }
 
-prepare_callr_arguments <- function(callr_function, callr_arguments) {
+callr_prepare_arguments <- function(callr_function, callr_arguments) {
   if ("show" %in% names(formals(callr_function))) {
     callr_arguments$show <- callr_arguments$show %||% TRUE
   }
@@ -76,4 +76,24 @@ prepare_callr_arguments <- function(callr_function, callr_arguments) {
     )
   }
   callr_arguments
+}
+
+#' @title Default `callr` arguments.
+#' @export
+#' @keywords internal
+#' @description Default `callr` arguments for the `callr_arguments`
+#'   argument of [tar_make()] and related functions.
+#' @details Not a user-side function. Do not invoke directly.
+#'   Exported for internal purposes only.
+#' @return A list of arguments to `callr_function`.
+#' @param callr_function A function from the `callr` package
+#'   that starts an external R process.
+#' @param reporter Character of length 1, choice of reporter
+#'   for [tar_make()] or a related function.
+callr_args_default <- function(callr_function, reporter = NULL) {
+  if (is.null(callr_function)) {
+    return(list())
+  }
+  out <- list(spinner = identical(reporter, "silent"))
+  out[intersect(names(out), names(formals(callr_function)))]
 }

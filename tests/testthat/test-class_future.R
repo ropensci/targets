@@ -23,6 +23,26 @@ tar_test("workerless deployment works", {
   expect_equal(built, character(0))
 })
 
+tar_test("semi-workerless deployment works", {
+  skip_if_not_installed("future")
+  x <- tar_target_raw("x", quote(1L), deployment = "main")
+  y <- tar_target_raw("y", quote(x), deployment = "worker")
+  z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
+  pipeline <- pipeline_init(list(x, y, z))
+  future_init(pipeline)$run()
+  expect_equal(target_read_value(x)$object, 1L)
+  expect_equal(target_read_value(y)$object, 1L)
+  expect_equal(target_read_value(z)$object, 2L)
+  x <- tar_target_raw("x", quote(1L), deployment = "main")
+  y <- tar_target_raw("y", quote(x), deployment = "worker")
+  z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
+  pipeline <- pipeline_init(list(x, y, z))
+  out <- future_init(pipeline)
+  out$run()
+  built <- names(out$scheduler$progress$built$envir)
+  expect_equal(built, character(0))
+})
+
 tar_test("some targets up to date, some not", {
   skip_if_not_installed("future")
   x <- tar_target_raw("x", quote(1L))
@@ -80,6 +100,8 @@ tar_test("future algo can skip targets", {
 tar_test("nontrivial globals", {
   skip_on_cran()
   skip_if_not_installed("future")
+  skip_if_not_installed("future.callr")
+  future::plan(future.callr::callr)
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)

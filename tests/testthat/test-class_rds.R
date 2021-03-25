@@ -1,7 +1,6 @@
 tar_test("rds update_object()", {
   x <- target_init(name = "abc", expr = quote(a), format = "rds")
-  cache_set_object(x$cache, "a", "123")
-  builder_update_build(x)
+  builder_update_build(x, tmpenv(a = "123"))
   builder_update_paths(x)
   expect_false(file.exists(x$store$file$path))
   expect_true(is.na(x$store$file$hash))

@@ -279,7 +279,6 @@ tar_target <- function(
     pattern = tidy_eval(pattern, envir, tidy_eval),
     packages = packages,
     library = library,
-    envir = envir,
     format = format,
     iteration = iteration,
     error = error,

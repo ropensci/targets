@@ -33,7 +33,6 @@ local_new <- function(
 local_class <- R6::R6Class(
   classname = "tar_local",
   inherit = active_class,
-  class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
   public = list(
@@ -44,7 +43,7 @@ local_class <- R6::R6Class(
       target_gc(target)
       self$assert_deployment(target)
       target_prepare(target, self$pipeline, self$scheduler)
-      target_run(target)
+      target_run(target = target, envir = tar_option_get("envir"))
       target_conclude(
         target,
         self$pipeline,

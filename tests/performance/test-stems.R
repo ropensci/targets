@@ -26,30 +26,34 @@ px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
 tar_destroy()
 unlink("_targets.R")
 
-# Same, but with a target chain.
+# Same, but with a target chain that fails early.
+# Should not see overhead due to topo_sort_by_priority()
+# since all priorities are equal.
 tar_script({
   target_x0 <- tar_target(x0, stop())
-  lapply(seq_len(1e3), function(id) {
+  out <- lapply(seq_len(1e3), function(id) {
     name <- paste0("x", as.character(id))
     dep <- paste0("x", as.character(id - 1L))
     command <- as.expression(rlang::sym(dep))
     tar_target_raw(name, command = command)
   })
+  list(target_x0, out)
 })
 system.time(try(tar_make(reporter = "summary", callr_function = NULL)))
 px <- pprof(try(tar_make(reporter = "summary", callr_function = NULL)))
 tar_destroy()
 unlink("_targets.R")
 
-# Same, but with setup overhead due to custom topo sort.
-# Should see the overhead in the graph.
+# Same, but with setup overhead due to topo_sort_by_priority().
+# Should see the overhead in the graph since not all
+# priorities are equal.
 tar_script({
   target_x0 <- tar_target(x0, stop(), priority = 1)
   out <- lapply(seq_len(1e3), function(id) {
     name <- paste0("x", as.character(id))
     dep <- paste0("x", as.character(id - 1L))
     command <- as.expression(rlang::sym(dep))
-    tar_target_raw(name, command = command)
+    tar_target_raw(name, command = command, priority = 0)
   })
   list(target_x0, out)
 })

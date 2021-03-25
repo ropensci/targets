@@ -42,7 +42,7 @@ is_internal_name <- function(name, envir) {
 }
 
 is_internal_object <- function(object) {
-  inherits(object, c("tar_pipeline", "tar_target"))
+  inherits(object, c("tar_algorithm", "tar_pipeline", "tar_target"))
 }
 
 envir_deps <- function(name, envir, names) {

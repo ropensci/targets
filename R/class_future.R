@@ -37,7 +37,6 @@ future_new <- function(
 future_class <- R6::R6Class(
   classname = "tar_future",
   inherit = active_class,
-  class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
   public = list(
@@ -63,7 +62,7 @@ future_class <- R6::R6Class(
       self$crew <- memory_init()
     },
     update_globals = function() {
-      self$globals <- self$produce_exports(self$pipeline$envir)
+      self$globals <- self$produce_exports(tar_option_get("envir"))
     },
     ensure_globals = function() {
       if (is.null(self$globals)) {
@@ -73,7 +72,7 @@ future_class <- R6::R6Class(
     run_worker = function(target) {
       self$ensure_globals()
       globals <- self$globals
-      globals$.targets_target_5048826d <- target
+      globals$.tar_target_5048826d <- target
       plan_new <- target$settings$resources$plan
       if (!is.null(plan_new)) {
         # Temporary solution to allow heterogeneous workers
@@ -87,7 +86,7 @@ future_class <- R6::R6Class(
         future::plan(plan_new, .cleanup = FALSE)
       }
       future <- future::future(
-        expr = target_run_worker(.targets_target_5048826d),
+        expr = target_run_worker(.tar_target_5048826d, .tar_envir_5048826d),
         packages = "targets",
         globals = globals,
         label = target_get_name(target),
@@ -102,7 +101,7 @@ future_class <- R6::R6Class(
       )
     },
     run_main = function(target) {
-      target_run(target)
+      target_run(target, tar_option_get("envir"))
       target_conclude(
         target,
         self$pipeline,

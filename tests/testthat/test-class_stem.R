@@ -18,7 +18,7 @@ tar_test("target_load_value()", {
 
 tar_test("stem$update_junction() on a good stem", {
   x <- target_init(name = "abc", expr = quote(seq_len(10)), iteration = "list")
-  target_run(x)
+  target_run(x, baseenv())
   expect_null(x$junction)
   pipeline <- pipeline_init(list(x))
   stem_update_junction(x, pipeline)
@@ -30,7 +30,7 @@ tar_test("stem$update_junction() on a good stem", {
 
 tar_test("stem_produce_buds()", {
   x <- target_init(name = "abc", expr = quote(letters))
-  target_run(x)
+  target_run(x, baseenv())
   pipeline <- pipeline_init(list(x))
   stem_update_junction(x, pipeline)
   children <- stem_produce_buds(x)
@@ -112,7 +112,7 @@ tar_test("target_deps_deep()", {
 
 tar_test("insert stem record of a successful stem", {
   target <- target_init("x", quote(sample.int(100)))
-  pipeline <- pipeline_init(list(target))
+  pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
   meta <- local$meta
@@ -166,7 +166,7 @@ tar_test("stem$produce_record() of a successful stem", {
 
 tar_test("stem$produce_record() of a errored stem", {
   target <- target_init("x", quote(stop(123)))
-  pipeline <- pipeline_init(list(target))
+  pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
   expect_error(local$run(), class = "condition_run")
   meta <- local$meta
@@ -191,7 +191,7 @@ tar_test("stem$produce_record() of a errored stem", {
 
 tar_test("stem$produce_record() with no error message", {
   target <- target_init("x", quote(stop()))
-  pipeline <- pipeline_init(list(target))
+  pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
   expect_error(local$run(), class = "condition_run")
   meta <- local$meta

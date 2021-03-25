@@ -1,4 +1,8 @@
-# targets 0.2.0.9000
+# targets 0.2.0.9001
+
+## Bug fixes
+
+* Fix the "write target at cursor" RStudio addin and move cursor between the parentheses.
 
 ## New features
 
@@ -13,6 +17,7 @@
 * In `tar_make_future()`, try to submit a target every time a worker is polled.
 * In `tar_make_future()`, poll workers in order of target priority.
 * Avoid the time delay in exiting on error (from https://github.com/r-lib/callr/issues/185).
+* Clone target objects before using them in order to avoid accidental massive data transfers to workers.
 
 ## Enhancements
 
@@ -27,6 +32,11 @@
 * Document RNG seed generation in `tar_target_raw()`, `tar_meta()`, and `tar_seed()` (#357, @alexpghayes).
 * Switch meaning of `%||%` and `%|||%` to conform to historical precedent.
 * Only show a command line spinner if `reporter = "silent"` (#364, @matthiasgomolka).
+* Target and pipeline objects no longer have an `envir` element.
+
+## Deprecations
+
+* Deprecate `tar_envir()`. Because target and pipeline objects no longer have an `envir` element, it is no longer possible to do anything helpful with `tar_envir()`.
 
 # targets 0.2.0
 

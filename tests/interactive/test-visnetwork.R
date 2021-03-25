@@ -46,22 +46,23 @@ evalq({
   h <- 1
   i <- 1
 }, envir = envir)
+tar_option_set(envir = envir)
 pipeline <- pipeline_init(
   list(
-    target_init("w", quote(1), envir = envir),
-    target_init("x", quote(f(1)), envir = envir),
-    target_init("y", quote(g(2)), envir = envir),
-    target_init("z", quote(x + y), envir = envir)
+    target_init("w", quote(1)),
+    target_init("x", quote(f(1))),
+    target_init("y", quote(g(2))),
+    target_init("z", quote(x + y))
   )
 )
 local_init(pipeline)$run()
 evalq(h <- 2, envir = envir)
 pipeline <- pipeline_init(
   list(
-    target_init("w", quote(1), envir = envir),
-    target_init("x", quote(f(1)), envir = envir),
-    target_init("y", quote(g(2)), envir = envir),
-    target_init("z", quote(x + y), envir = envir)
+    target_init("w", quote(1)),
+    target_init("x", quote(f(1))),
+    target_init("y", quote(g(2))),
+    target_init("z", quote(x + y))
   )
 )
 net <- inspection_init(pipeline)
@@ -76,6 +77,7 @@ vis$update()
 vis$visnetwork
 
 # Should show one started target.
+tar_option_set(envir = new.env(parent = globalenv()))
 x <- target_init("w", quote(Sys.sleep(100))) # Sleep for a long time.
 pipeline <- pipeline_init(list(x))
 local_init(pipeline = pipeline)$run() # Manually cancel (ESC or CTRL-C)

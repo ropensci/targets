@@ -1,56 +1,3 @@
-tar_test("clustermq iteration loop can wait and shut down workers", {
-  skip_on_os("windows")
-  skip_if_not_installed("clustermq")
-  old <- getOption("clustermq.scheduler")
-  options(clustermq.scheduler = "multicore")
-  x <- tar_target_raw("x", quote(Sys.sleep(2)), garbage_collection = TRUE)
-  y <- tar_target_raw("y", quote(list(x, a = "x")), garbage_collection = TRUE)
-  pipeline <- pipeline_init(list(x, y))
-  out <- clustermq_init(pipeline, reporter = "silent")
-  out$run()
-  target <- pipeline_get_target(pipeline, "y")
-  expect_equal(target_read_value(target)$object$a, "x")
-  options(clustermq.scheduler = old)
-})
-
-tar_test("profile heavily parallel workload", {
-  tar_script({
-    library(targets)
-    options(clustermq.scheduler = "multicore")
-    list(
-      tar_target(
-        index_batch,
-        seq_len(100),
-      ),
-      tar_target(
-        data_continuous,
-        index_batch,
-        pattern = map(index_batch)
-      ),
-      tar_target(
-        data_discrete,
-        index_batch,
-        pattern = map(index_batch)
-      ),
-      tar_target(
-        fit_continuous,
-        data_continuous,
-        pattern = map(data_continuous)
-      ),
-      tar_target(
-        fit_discrete,
-        data_discrete,
-        pattern = map(data_discrete)
-      )
-    )
-  })
-  # Should deploy targets in a timely manner.
-  proffer::pprof(tar_make_clustermq(workers = 4, callr_function = NULL))
-  expect_equal(tar_outdated(callr_function = NULL), character(0))
-  expect_equal(tar_read(fit_continuous), seq_len(100))
-  expect_equal(tar_read(fit_discrete), seq_len(100))
-})
-
 test_that("packages are actually loaded", {
   # Needs sge_clustermq.tmpl (in current directory).
   unlink("_targets", recursive = TRUE)
@@ -86,40 +33,58 @@ test_that("packages are actually loaded", {
   expect_equal(tar_read(x), exp)
 })
 
-test_that("nontrivial common data", {
-  unlink("_targets", recursive = TRUE)
-  on.exit(unlink("_targets", recursive = TRUE))
-  skip_on_os("windows")
+test_that("nontrivial common data with custom environment", {
+  skip_on_cran()
   skip_if_not_installed("clustermq")
-  old_schd <- getOption("clustermq.scheduler")
-  old_tmpl <- getOption("clustermq.template")
-  options(
-    clustermq.scheduler = "sge",
-    clustermq.template = "sge_clustermq.tmpl"
-  )
-  on.exit(
+  tar_destroy()
+  on.exit(tar_destroy())
+  tar_script({
     options(
-      clustermq.scheduler = old_schd,
-      clustermq.template = old_tmpl
-    ),
-    add = TRUE
-  )
-  old_envir <- tar_option_get("envir")
-  on.exit(tar_option_set(envir = old_envir), add = TRUE)
-  envir <- new.env(parent = globalenv())
-  tar_option_set(envir = envir)
-  envir$f <- function(x) {
-    g(x) + 1L
-  }
-  envir$g <- function(x) {
-    x + 1L
-  }
-  x <- tar_target_raw("x", quote(f(1L)))
-  pipeline <- pipeline_init(list(x))
-  cmq <- clustermq_init(pipeline)
-  cmq$run()
-  target <- pipeline_get_target(pipeline, "x")
-  expect_equal(tar_read(x), 3L)
+      clustermq.scheduler = "sge",
+      clustermq.template = "sge_clustermq.tmpl"
+    )
+    envir <- new.env(parent = globalenv())
+    evalq({
+      f <- function(x) {
+        g(x) + 1L
+      }
+      g <- function(x) {
+        x + 1L
+      }
+    }, envir = envir)
+    tar_option_set(envir = envir)
+    list(
+      tar_target(x, 1),
+      tar_target(y, f(x))
+    )
+  })
+  tar_make_clustermq()
+  expect_equal(tar_read(y), 3L)
+})
+
+test_that("nontrivial globals with global environment", {
+  skip_on_cran()
+  skip_if_not_installed("clustermq")
+  tar_destroy()
+  on.exit(tar_destroy())
+  tar_script({
+    options(
+      clustermq.scheduler = "sge",
+      clustermq.template = "sge_clustermq.tmpl"
+    )
+    f <- function(x) {
+      g(x) + 1L
+    }
+    g <- function(x) {
+      x + 1L
+    }
+    list(
+      tar_target(x, 1),
+      tar_target(y, f(x))
+    )
+  })
+  tar_make_clustermq()
+  expect_equal(tar_read(y), 3L)
 })
 
 test_that("branching plan on SGE", {

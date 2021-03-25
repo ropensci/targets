@@ -22,7 +22,7 @@ tar_test("meta$get_record()", {
 tar_test("builder metadata recording", {
   out <- meta_init()
   target <- target_init("x", quote(sample.int(100)))
-  pipeline <- pipeline_init(list(target))
+  pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
   meta <- local$meta
@@ -59,7 +59,8 @@ tar_test("meta$record_imports()", {
 tar_test("metadata recorded in local algo", {
   envir <- new.env(parent = baseenv())
   envir$b <- "x"
-  target <- target_init(name = "a", expr = quote(c(1, 1)), envir = envir)
+  tar_option_set(envir = envir)
+  target <- target_init(name = "a", expr = quote(c(1, 1)))
   pipeline <- pipeline_init(list(target))
   local <- local_init(pipeline)
   local$run()
@@ -86,13 +87,13 @@ tar_test("metadata storage is duplicated", {
     file.create(x)
     x
   }
+  tar_option_set(envir = envir)
   for (index in seq_len(5)) {
     unlink(file.path("_targets", "objects"), recursive = TRUE)
     envir$b <- letters[index]
     target <- target_init(
       name = "a",
       expr = quote(file_create(b)),
-      envir = envir,
       format = "file"
     )
     pipeline <- pipeline_init(list(target))
@@ -142,7 +143,8 @@ tar_test("can read metadata with a error & a non-error", {
 
 tar_test("meta$produce_depend() empty", {
   envir <- new.env(parent = globalenv())
-  x <- target_init(name = "x", expr = quote(1), envir = envir)
+  tar_option_set(envir = envir)
+  x <- target_init(name = "x", expr = quote(1))
   pipeline <- pipeline_init(list(x))
   local <- local_init(pipeline)
   local$run()
@@ -155,8 +157,9 @@ tar_test("meta$produce_depend() empty", {
 tar_test("meta$produce_depend() nonempty", {
   envir <- new.env(parent = baseenv())
   envir$w <- "w"
-  x <- target_init(name = "x", expr = quote(w), envir = envir)
-  y <- target_init(name = "y", expr = quote(c(w, x)), envir = envir)
+  tar_option_set(envir = envir)
+  x <- target_init(name = "x", expr = quote(w))
+  y <- target_init(name = "y", expr = quote(c(w, x)))
   pipeline <- pipeline_init(list(x, y))
   local <- local_init(pipeline)
   local$run()

@@ -4,7 +4,7 @@
 \alias{target_run_worker}
 \title{Internal function to run a target on a worker.}
 \usage{
-target_run_worker(target)
+target_run_worker(target, envir)
 }
 \arguments{
 \item{target}{A target object.}

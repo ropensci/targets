@@ -61,7 +61,7 @@ tar_manifest <- function(
   names = NULL,
   fields = c("name", "command", "pattern"),
   callr_function = callr::r,
-  callr_arguments = list()
+  callr_arguments = targets::callr_args_default(callr_function)
 ) {
   assert_script()
   assert_callr_function(callr_function)

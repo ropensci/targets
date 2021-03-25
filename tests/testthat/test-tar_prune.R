@@ -40,7 +40,8 @@ tar_test("tar_prune() does not remove global objects from metadata", {
   envir <- new.env(parent = baseenv())
   envir$a <- 1L
   envir$f <- identity
-  x <- target_init("x", quote(f(a)), envir = envir)
+  tar_option_set(envir = envir)
+  x <- target_init("x", quote(f(a)))
   pipeline <- pipeline_init(list(x))
   local_init(pipeline = pipeline)$run()
   tar_script(list(tar_target(x, quote(1))))

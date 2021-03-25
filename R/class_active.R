@@ -17,7 +17,6 @@ active_new <- function(
 active_class <- R6::R6Class(
   classname = "tar_active",
   inherit = algorithm_class,
-  class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
   public = list(
@@ -32,12 +31,13 @@ active_class <- R6::R6Class(
       self$process <- process_init()
       self$process$record_process()
     },
-    produce_exports = function(envir) {
-      out <- as.list(envir, all.names = TRUE)
-      # Eliminate high-memory promise objects:
-      map(names(out), ~force(out[[.x]]))
+    produce_exports = function(envir, copy = identical(envir, globalenv())) {
+      map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
+      out <- trn(copy, as.list(envir, all.names = TRUE), list())
       names <- fltr(names(out), ~!is_internal_name(.x, envir))
-      out[names]
+      out <- out[names]
+      out[[".tar_envir_5048826d"]] <- envir
+      out
     },
     unload_transient = function() {
       pipeline_unload_transient(self$pipeline)
@@ -79,9 +79,6 @@ active_class <- R6::R6Class(
       scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress)
       path_scratch_del()
-      # Deduplication is a potential performance bottleneck
-      # but could prove useful if we want to hash the metadata file
-      # and use it as a cache key. Need to profile.
       self$meta$database$deduplicate_storage()
     },
     validate = function() {

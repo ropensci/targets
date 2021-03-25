@@ -12,8 +12,7 @@ tar_test("builder$metrics", {
 
 tar_test("target_run() on a good builder", {
   x <- target_init(name = "abc", expr = quote(a))
-  cache_set_object(x$cache, "a", "x")
-  target_run(x)
+  target_run(x, envir = tmpenv(a = "x"))
   expect_silent(metrics_validate(x$metrics))
   expect_silent(value_validate(x$value))
   expect_equal(x$value$object, "x")
@@ -24,7 +23,7 @@ tar_test("target_run() on a good builder", {
 tar_test("target_run() on a errored builder", {
   local_init(pipeline_init())$start()
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
-  target_run(x)
+  target_run(x, tmpenv())
   meta <- meta_init()
   target_update_depend(x, pipeline_init(), meta)
   expect_error(
@@ -38,7 +37,7 @@ tar_test("target_run() on a errored builder", {
 tar_test("target_run_worker()", {
   local_init(pipeline_init())$start()
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
-  y <- target_run_worker(x)
+  y <- target_run_worker(x, tmpenv())
   expect_true(inherits(y, "tar_builder"))
   expect_silent(target_validate(y))
 })
@@ -46,22 +45,19 @@ tar_test("target_run_worker()", {
 tar_test("builders with different names use different seeds", {
   a <- target_init(
     name = "a",
-    expr = quote(sample.int(1e9, 1L)),
-    envir = baseenv()
+    expr = quote(sample.int(1e9, 1L))
   )
   b <- target_init(
     name = "b",
-    expr = quote(sample.int(1e9, 1L)),
-    envir = baseenv()
+    expr = quote(sample.int(1e9, 1L))
   )
   c <- target_init(
     name = "b",
-    expr = quote(sample.int(1e9, 1L)),
-    envir = baseenv()
+    expr = quote(sample.int(1e9, 1L))
   )
-  builder_update_build(a)
-  builder_update_build(b)
-  builder_update_build(c)
+  builder_update_build(a, baseenv())
+  builder_update_build(b, baseenv())
+  builder_update_build(c, baseenv())
   expect_false(a$value$object == b$value$object)
   expect_equal(b$value$object, c$value$object)
 })
@@ -72,8 +68,7 @@ tar_test("read and write objects", {
   file <- x$store$file
   file$path <- tmp
   file$stage <- tempfile()
-  cache_set_object(x$cache, "a", "123")
-  builder_update_build(x)
+  builder_update_build(x, tmpenv(a = "123"))
   builder_update_object(x)
   expect_equal(readRDS(tmp), "123")
   expect_equal(target_read_value(x)$object, "123")
@@ -143,8 +138,7 @@ tar_test("builder writing from main", {
   x <- target_init("abc", expr = quote(a), format = "rds", storage = "main")
   pipeline <- pipeline_init(list(x))
   scheduler <- pipeline_produce_scheduler(pipeline)
-  cache_set_object(x$cache, "a", "123")
-  target_run(x)
+  target_run(x, tmpenv(a = "123"))
   expect_false(file.exists(x$store$file$path))
   expect_true(is.na(x$store$file$hash))
   meta <- meta_init()
@@ -168,8 +162,7 @@ tar_test("builder writing from worker", {
     retrieval = "main",
     deployment = "worker"
   )
-  cache_set_object(x$cache, "a", "123")
-  target_run(x)
+  target_run(x, tmpenv(a = "123"))
   expect_true(file.exists(x$store$file$path))
   expect_false(is.na(x$store$file$hash))
   path <- file.path("_targets", "objects", "abc")
@@ -189,7 +182,6 @@ tar_test("dynamic file writing from main", {
     name = "abc",
     expr = quote(f()),
     format = "file",
-    envir = envir,
     storage = "main"
   )
   envir$f <- function() {
@@ -197,7 +189,7 @@ tar_test("dynamic file writing from main", {
     writeLines("lines", con = file)
     file
   }
-  target_run(x)
+  target_run(x, envir)
   expect_true(file.exists(x$store$file$path))
   expect_false(is.na(x$store$file$hash))
   pipeline <- pipeline_init(list(x))
@@ -255,7 +247,6 @@ tar_test("dynamic file writing from worker", {
     name = "abc",
     expr = quote(f()),
     format = "file",
-    envir = envir,
     storage = "worker",
     retrieval = "main"
   )
@@ -264,7 +255,7 @@ tar_test("dynamic file writing from worker", {
     writeLines("lines", con = file)
     file
   }
-  target_run(x)
+  target_run(x, envir)
   expect_null(x$value)
   expect_true(file.exists(x$store$file$path))
   expect_false(is.na(x$store$file$hash))
@@ -282,7 +273,6 @@ tar_test("value kept if storage is local", {
     name = "abc",
     expr = quote(f()),
     format = "file",
-    envir = envir,
     storage = "main",
     retrieval = "main"
   )
@@ -291,7 +281,7 @@ tar_test("value kept if storage is local", {
     writeLines("lines", con = file)
     file
   }
-  target_run(x)
+  target_run(x, envir)
   expect_equal(readLines(x$value$object), "lines")
 })
 
@@ -324,12 +314,10 @@ tar_test("basic progress responses are correct", {
 })
 
 tar_test("builders load their packages", {
-  envir <- new.env(parent = globalenv())
   x <- target_init(
     "x",
     quote(tibble(x = "x")),
-    packages = "tibble",
-    envir = envir
+    packages = "tibble"
   )
   pipeline <- pipeline_init(list(x))
   out <- local_init(pipeline)

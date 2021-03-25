@@ -8,10 +8,9 @@ tar_test("fst_dt format", {
   x <- target_init(
     name = "abc",
     expr = quote(f()),
-    format = "fst_dt",
-    envir = envir
+    format = "fst_dt"
   )
-  builder_update_build(x)
+  builder_update_build(x, envir = envir)
   builder_update_paths(x)
   builder_update_object(x)
   exp <- envir$f()

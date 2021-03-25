@@ -41,7 +41,7 @@ tar_make <- function(
   names = NULL,
   reporter = Sys.getenv("TAR_MAKE_REPORTER", unset = "verbose"),
   callr_function = callr::r,
-  callr_arguments = list(spinner = identical(reporter, "silent"))
+  callr_arguments = targets::callr_args_default(callr_function, reporter)
 ) {
   assert_script()
   assert_flag(reporter, tar_make_reporters())

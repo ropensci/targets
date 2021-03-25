@@ -1,55 +1,67 @@
-# local_init(pipeline)$run() retains correct memory:
+# local_init(pipeline)$run() retains correct objects in persistent memory
 library(testthat)
-tar_option_set()
+tar_destroy()
+tar_option_set(envir = environment(), memory = "persistent")
 pipeline <- pipeline_init(
   list(
-    target_init(name = "data1", expr = quote(seq_len(10))),
-    target_init(name = "data2", expr = quote(seq_len(20))),
-    target_init(name = "min1", expr = quote(min(data1))),
-    target_init(name = "min2", expr = quote(min(data2))),
-    target_init(name = "max1", expr = quote(max(data1))),
-    target_init(name = "max2", expr = quote(max(data2))),
-    target_init(name = "mins", expr = quote(c(min1, min2))),
-    target_init(name = "maxes", expr = quote(c(max1, max2))),
-    target_init(
+    tar_target_raw(name = "data1", quote(seq_len(10))),
+    tar_target_raw(name = "data2", quote(seq_len(20))),
+    tar_target_raw(name = "min1", quote(min(data1))),
+    tar_target_raw(name = "min2", quote(min(data2))),
+    tar_target_raw(name = "max1", quote(max(data1))),
+    tar_target_raw(name = "max2", quote(max(data2))),
+    tar_target_raw(name = "mins", quote(c(min1, min2))),
+    tar_target_raw(name = "maxes", quote(c(max1, max2))),
+    tar_target_raw(
       name = "all",
-      expr = quote(c(browser(), mins, maxes)),
-      envir = globalenv()
+      quote(c(browser(), mins, maxes))
     )
   )
 )
 # Enter the debugger:
 local_init(pipeline)$run()
 # Run these tests inside the debugger:
-names <- paste0(rep(c("data", "min", "max"), each = 2), seq_len(2))
-testthat::expect_equal(
-  pipeline_get_target(pipeline, "mins")$cache$targets$names,
-  character(0)
+names <- pipeline_get_names(pipeline)
+result <- map_lgl(names, ~is.null(pipeline_get_target(pipeline, .x)$value))
+expect_true(result["all"])
+expect_false(any(result[setdiff(names(result), "all")]))
+# Exit the debugger.
+
+# Same test with transient memory:
+tar_destroy()
+tar_option_set(envir = environment(), memory = "transient")
+pipeline <- pipeline_init(
+  list(
+    tar_target_raw(name = "data1", quote(seq_len(10))),
+    tar_target_raw(name = "data2", quote(seq_len(20))),
+    tar_target_raw(name = "min1", quote(min(data1))),
+    tar_target_raw(name = "min2", quote(min(data2))),
+    tar_target_raw(name = "max1", quote(max(data1))),
+    tar_target_raw(name = "max2", quote(max(data2))),
+    tar_target_raw(name = "mins", quote(c(min1, min2))),
+    tar_target_raw(name = "maxes", quote(c(max1, max2))),
+    tar_target_raw(
+      name = "all",
+      quote(c(browser(), mins, maxes))
+    )
+  )
 )
-expect_equal(
-  pipeline_get_target(pipeline, "mins")$cache$targets$names,
-  character(0)
-)
-expect_equal(
-  pipeline_get_target(pipeline, "mins")$cache$targets$names,
-  character(0)
-)
-expect_false(is.null(pipeline_get_target(pipeline, "mins")$value))
-expect_false(is.null(pipeline_get_target(pipeline, "maxes")$value))
-expect_true(is.null(pipeline_get_target(pipeline, "all")$value))
-expect_equal(
-  sort(pipeline_get_target(pipeline, "all")$cache$targets$names),
-  sort(c("maxes", "mins"))
-)
-# Exit the debugger and clean up.
+# Enter the debugger:
+local_init(pipeline)$run()
+# Run these tests inside the debugger:
+names <- pipeline_get_names(pipeline)
+result <- map_lgl(names, ~is.null(pipeline_get_target(pipeline, .x)$value))
+expect_true(all(result[setdiff(names(result), c("mins", "maxes"))]))
+expect_false(any(result[c("mins", "maxes")]))
+# Exit the debugger.
+
+# Clean up and restart.
 tar_option_reset()
 tar_destroy()
 rstudioapi::restartSession()
 
 # Memory usage tests:
-library(targets)
 library(pryr)
-
 tar_script({
   # Comment out and see memory increase:
   tar_option_set(memory = "transient", garbage_collection = TRUE)
@@ -72,7 +84,6 @@ tar_destroy()
 tar_make()
 
 # The final size of the pipeline object should be small.
-pkgload::load_all()
 tar_destroy()
 tar_option_set(memory = "transient")
 targets <- lapply(
@@ -92,7 +103,6 @@ pryr::object_size(pipeline)
 pryr::object_size(local)
 
 # Pipeline should still be acceptably small even with lots of targets.
-pkgload::load_all()
 tar_destroy()
 pipeline <- pipeline_init(
   list(

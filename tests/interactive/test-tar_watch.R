@@ -40,7 +40,7 @@ tar_script({
     tar_target(data2, sleep_run_stop(batch), pattern = map(batch))
   )
 })
-# Select the "Branches" box:
+# Select the "branches" box:
 tar_watch(
   seconds = 10,
   outdated = FALSE,
@@ -49,6 +49,15 @@ tar_watch(
 )
 # The main process should be free to run the pipeline.
 tar_make()
+# Look at the canceled branches in the "branches" view.
+tar_script({
+  list(
+    tar_target(batch, seq_len(4)),
+    tar_target(data1, tar_cancel(), pattern = map(batch))
+  )
+})
+tar_make()
+
 # Restarting the session should terminate the app.
 rstudioapi::restartSession()
 tar_destroy()

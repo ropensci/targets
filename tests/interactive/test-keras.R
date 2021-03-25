@@ -34,11 +34,10 @@ tar_test("keras format", {
   x <- target_init(
     name = "abc",
     expr = quote(f()),
-    format = "keras",
-    envir = envir
+    format = "keras"
   )
   expect_silent(target_validate(x))
-  builder_update_build(x)
+  builder_update_build(x, envir)
   expect_true(
     inherits(x$value$object, "keras.engine.training.Model")
   )
