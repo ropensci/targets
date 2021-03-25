@@ -33,7 +33,7 @@ active_class <- R6::R6Class(
     },
     produce_exports = function(envir, is_globalenv = NULL) {
       map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
-      if (is_globalenv %||% identical(envir, globalenv())) {
+      if (is_globalenv %|||% identical(envir, globalenv())) {
         out <- as.list(envir, all.names = TRUE)
         out <- out[fltr(names(out), ~!is_internal_name(.x, envir))]
         out[[".tar_envir_5048826d"]] <- "globalenv"
