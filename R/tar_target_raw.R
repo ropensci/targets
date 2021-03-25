@@ -48,7 +48,7 @@
 #'   target_list <- lapply(seq_len(4), function(i) {
 #'     tar_target_raw(
 #'       letters[i + 1],
-#'       substitute(do_something(x), env = list(x = rlang::sym(letters[i])))
+#'       substitute(do_something(x), env = list(x = as.symbol(letters[i])))
 #'     )
 #'   })
 #'   print(target_list[[1]])
