@@ -10,6 +10,11 @@
 rstudio_addin_tar_target <- function(context = NULL) {
   assert_package("rstudioapi")
   context <- context %||% rstudioapi::getActiveDocumentContext()
-  rstudioapi::insertText(text = "tar_target()", id = context$id)
+  location <- context$selection[[1L]]$range$start
+  rstudioapi::insertText(
+    text = "tar_target()",
+    location = location,
+    id = context$id
+  )
 }
 # nocov end
