@@ -16,5 +16,8 @@ rstudio_addin_tar_target <- function(context = NULL) {
     location = location,
     id = context$id
   )
+  cursor <- location
+  cursor[2L] <- cursor[2L] + nchar("tar_target(")
+  rstudioapi::setCursorPosition(cursor, id = context$id)
 }
 # nocov end
