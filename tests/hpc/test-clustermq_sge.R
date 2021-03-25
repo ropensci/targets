@@ -226,11 +226,13 @@ test_that("clustermq with a dynamic file", {
   on.exit(tar_option_set(envir = old_envir), add = TRUE)
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
-  envir$save1 <- function() {
-    file <- "saved.out"
-    saveRDS(1L, file)
-    file
-  }
+  evalq({
+    save1 <- function() {
+      file <- "saved.out"
+      saveRDS(1L, file)
+      file
+    }
+  }, envir = envir)
   x <- tar_target_raw("x", quote(save1()), format = "file")
   pipeline <- pipeline_init(list(x))
   cmq <- clustermq_init(pipeline)
