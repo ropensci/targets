@@ -1,5 +1,9 @@
 # targets 0.2.0.9000
 
+## Bug fixes
+
+* Fix the "write target at cursor" RStudio addin and move cursor between the parentheses.
+
 ## New features
 
 * Add a `backoff` option in `tar_option_set()` to set the maximum upper bound (seconds) for the polling interval (#333).
