@@ -5,9 +5,9 @@ tar_test("sequential$dequeue()", {
   expect_equal(q$data, letters[c(-1L, -2L)])
 })
 
-tar_test("sequential$enqueue()", {
+tar_test("sequential$prepend()", {
   q <- sequential_init(c("a", "b"))
-  q$enqueue(c("c", "d"))
+  q$prepend(c("c", "d"))
   expect_equal(q$data, c("c", "d", "a", "b"))
 })
 

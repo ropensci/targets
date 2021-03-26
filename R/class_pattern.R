@@ -148,11 +148,11 @@ pattern_engraph_branches <- function(target, pipeline, scheduler) {
   scheduler$queue$engraph_branches(target, pipeline, scheduler)
 }
 
-pattern_enqueue_branches <- function(target, scheduler) {
+pattern_prepend_branches <- function(target, scheduler) {
   children <- target_get_children(target)
   ranks <- scheduler$queue$branch_ranks(children, scheduler)
   ranks <- ranks + rank_offset(target$settings$priority)
-  scheduler$queue$enqueue(children, ranks)
+  scheduler$queue$prepend(children, ranks)
 }
 
 pattern_produce_branch <- function(spec, command, settings, cue) {
@@ -181,7 +181,7 @@ pattern_insert_branches <- function(target, pipeline, scheduler) {
   lapply(branches, pipeline_set_target, pipeline = pipeline)
   pattern_engraph_branches(target, pipeline, scheduler)
   lapply(branches, scheduler$progress$assign_queued)
-  pattern_enqueue_branches(target, scheduler)
+  pattern_prepend_branches(target, scheduler)
 }
 
 pattern_requeue_downstream_branching <- function(
@@ -204,7 +204,7 @@ pattern_requeue_downstream_nonbranching <- function(
 
 pattern_requeue_self <- function(target, scheduler) {
   rank <- length(target_get_children(target)) + rank_offset(pattern_priority())
-  scheduler$queue$enqueue(target_get_name(target), ranks = rank)
+  scheduler$queue$prepend(target_get_name(target), ranks = rank)
 }
 
 pattern_priority <- function() {

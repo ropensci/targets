@@ -49,7 +49,7 @@ prelocal_class <- R6::R6Class(
       if (should_abort) {
         name <- target_get_name(target)
         rank <- rank_offset(target$settings$priority)
-        self$scheduler$queue$enqueue(name, rank)
+        self$scheduler$queue$prepend(name, rank)
         throw_prelocal("requires workers")
       }
     }

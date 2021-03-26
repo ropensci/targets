@@ -1,3 +1,9 @@
+# targets 0.3.0.9000
+
+## Bug fixes
+
+* `queue$enqueue()` is now `queue$prepend()` and always appends to the front of the queue (#371).
+
 # targets 0.3.0
 
 ## Bug fixes
