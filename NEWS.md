@@ -6,7 +6,7 @@
 
 ## Enhancements
 
-* Throw a warning if `devtools::load_all()` or similar is inside `_targets.R` (#374).
+* Throw a warning if `devtools::load_all()` or similar is detected inside `_targets.R` (#374).
 
 # targets 0.3.0
 
