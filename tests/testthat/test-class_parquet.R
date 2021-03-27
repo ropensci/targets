@@ -1,4 +1,5 @@
 tar_test("parquet format", {
+  skip_on_cran()
   skip_if_not_installed("arrow")
   envir <- new.env(parent = baseenv())
   envir$f <- function() {
@@ -19,6 +20,7 @@ tar_test("parquet format", {
 })
 
 tar_test("bad compression level throws error", {
+  skip_on_cran()
   skip_if_not_installed("arrow")
   tar_script({
     list(

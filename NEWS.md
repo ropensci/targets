@@ -1,4 +1,4 @@
-# targets 0.3.0.9000
+# targets 0.3.1
 
 ## Bug fixes
 
@@ -7,6 +7,10 @@
 ## Enhancements
 
 * Throw a warning if `devtools::load_all()` or similar is detected inside `_targets.R` (#374).
+
+## CRAN
+
+* Skip `feather` and `parquet` tests on CRAN.
 
 # targets 0.3.0
 

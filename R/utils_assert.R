@@ -295,7 +295,7 @@ assert_script <- function() {
     "parallel workers created by tar_make_clustermq() or tar_make_future(). ",
     "Read https://books.ropensci.org/targets/practices.html#loading-and-configuring-r-packages ", # nolint
     "and https://books.ropensci.org/targets/practices.html#packages-based-invalidation ", # nolint
-    "for the correct way to load and configure packages for {targets} pipelines. ",
+    "for the correct way to load packages for {targets} pipelines. ",
     "Suppress this warning with Sys.getenv(TAR_WARN = \"false\")."
   )
   for (loader in c("load_all", "load_code", "load_data", "load_dll")) {
