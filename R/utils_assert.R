@@ -288,14 +288,14 @@ assert_script <- function() {
   )
   assert_not_in(vars, choices, msg)
   msg <- paste(
-    "Do not use %s() from {devtools} or {pkgload} to load ",
-    "packages or custom functions/globals for {targets}. If you do, ",
-    "custom functions will go to a package environment where {targets} ",
-    "may not track them, and the loaded data will not be available in ",
-    "parallel workers created by tar_make_clustermq() or tar_make_future(). ",
-    "Read https://books.ropensci.org/targets/practices.html#loading-and-configuring-r-packages ", # nolint
-    "and https://books.ropensci.org/targets/practices.html#packages-based-invalidation ", # nolint
-    "for the correct way to load packages for {targets} pipelines. ",
+    "Do not use %s() from {devtools} or {pkgload} to load",
+    "packages or custom functions/globals for {targets}. If you do,",
+    "custom functions will go to a package environment where {targets}",
+    "may not track them, and the loaded data will not be available in",
+    "parallel workers created by tar_make_clustermq() or tar_make_future().",
+    "Read https://books.ropensci.org/targets/practices.html#loading-and-configuring-r-packages", # nolint
+    "and https://books.ropensci.org/targets/practices.html#packages-based-invalidation", # nolint
+    "for the correct way to load packages for {targets} pipelines.",
     "Suppress this warning with Sys.getenv(TAR_WARN = \"false\")."
   )
   for (loader in c("load_all", "load_code", "load_data", "load_dll")) {
