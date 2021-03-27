@@ -125,11 +125,20 @@ tar_test("assert_target_list", {
 })
 
 tar_test("assert_script()", {
+  old <- Sys.getenv("TAR_WARN")
+  on.exit(Sys.setenv(TAR_WARN = old))
+  Sys.setenv(TAR_WARN = "true")
   expect_error(assert_script(), class = "condition_validate")
   file.create("_targets.R")
   expect_silent(assert_script())
   writeLines("tar_make()", "_targets.R")
   expect_error(assert_script(), class = "condition_validate")
+  tar_script({
+    library(targets)
+    pkgload::load_all()
+    list(tar_target(x, 1))
+  })
+  expect_warning(assert_script(), class = "condition_validate")
 })
 
 tar_test("assert_true()", {

@@ -4,6 +4,10 @@
 
 * `queue$enqueue()` is now `queue$prepend()` and always appends to the front of the queue (#371).
 
+## Enhancements
+
+* Throw a warning if `devtools::load_all()` or similar is inside `_targets.R` (#374).
+
 # targets 0.3.0
 
 ## Bug fixes
