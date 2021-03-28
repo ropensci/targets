@@ -25,12 +25,22 @@ rstudioapi::restartSession()
 tar_destroy()
 unlink("_targets.R")
 
-# View the progress tables. 
+# View the progress tables. Should see some of each status except started.
 library(targets)
-
+tar_script({
+  list(
+    tar_target(x, 1:2),
+    tar_target(y, stop(123), pattern = map(x), error = "continue"),
+    tar_target(z, tar_cancel(), pattern = map(x)),
+    tar_target(w, x, pattern = map(x))
+  )
+})
+tar_make()
+tar_watch(background = FALSE)
 
 # Should see running branches in the table.
 library(targets)
+tar_destroy()
 tar_script({
   tar_option_set(error = "continue")
   sleep_run <- function(...) Sys.sleep(10)
