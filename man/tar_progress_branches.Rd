@@ -5,18 +5,18 @@
 \alias{tar_progress_branches}
 \title{Tabulate the progress of dynamic branches.}
 \usage{
-tar_progress_branches(fields = NULL)
+tar_progress_branches(names = NULL, fields = NULL)
 
-tar_progress_branches(fields = NULL)
+tar_progress_branches(names = NULL, fields = NULL)
 }
 \arguments{
-\item{fields}{Optional, names of progress data columns to read.
-Set to \code{NULL} to read all fields.}
-
 \item{names}{Optional, names of the targets. If supplied, \code{tar_progress()}
 only returns progress information on these targets.
 You can supply symbols, a character vector,
 or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
+
+\item{fields}{Optional, names of progress data columns to read.
+Set to \code{NULL} to read all fields.}
 }
 \value{
 A data frame with one row per target per progress status
