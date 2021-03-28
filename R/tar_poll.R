@@ -28,7 +28,7 @@ tar_poll <- function(
 ) {
   start <- proc.time()["elapsed"]
   if (!tar_exist_progress()) {
-    cli_blue_bullet("Waiting for progress data.")
+    cli_blue_bullet("Waiting for progress data in _targets/meta/progress.")
     spinner <- cli::make_spinner()
     while (!tar_exist_progress() && tar_poll_go(start, timeout)) {
       Sys.sleep(interval)
