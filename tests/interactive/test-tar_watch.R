@@ -29,13 +29,18 @@ unlink("_targets.R")
 library(targets)
 tar_script({
   list(
-    tar_target(x, 1:2),
-    tar_target(y, stop(123), pattern = map(x), error = "continue"),
+    tar_target(x, seq_len(2)),
+    tar_target(y, stop("error message"), pattern = map(x), error = "continue"),
     tar_target(z, tar_cancel(), pattern = map(x)),
-    tar_target(w, x, pattern = map(x))
+    tar_target(w, x, pattern = map(x)),
+    tar_target(
+      forever, {
+      Sys.sleep(Inf)
+      c(x, y, z, w)
+    })
   )
 })
-tar_make()
+tar_make() # Stop early.
 tar_watch(background = FALSE)
 
 # Should see running branches in the table.

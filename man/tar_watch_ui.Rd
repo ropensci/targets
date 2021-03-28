@@ -7,7 +7,7 @@
 tar_watch_ui(
   id,
   label = "tar_watch_label",
-  seconds = 5,
+  seconds = 10,
   seconds_min = 1,
   seconds_max = 60,
   seconds_step = 1,

@@ -57,7 +57,7 @@ tar_renv <- function(
     "pingr",
     "rstudioapi",
     "shiny",
-    "shinycssloaders",
+    "shinybusy",
     "shinyWidgets",
     "visNetwork"
   ),

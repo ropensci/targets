@@ -1,22 +1,26 @@
 {
-  "@context": [
-    "https://doi.org/10.5063/schema/codemeta-2.0",
-    "http://schema.org"
-  ],
+  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
   "@type": "SoftwareSourceCode",
   "identifier": "targets",
-  "description": "The 'targets' package is a pipeline toolkit that brings together\n  function-oriented programming and 'Make'-like declarative workflows for\n  Statistics and data science in R. It implements a workflow as collection of\n  interconnected tasks, analyzes the dependency relationships among these\n  tasks, skips steps that are already up to date, runs the necessary\n  computation with optional parallel workers, abstracts files as\n  R objects, and provides tangible evidence that the results match\n  the underlying code and data. The methodology in this package\n  borrows from GNU 'Make' (2015, ISBN:978-9881443519)\n  and 'drake' (2018, <doi:10.21105/joss.00550>).",
+  "description": "As a pipeline toolkit for Statistics and data science in R,\n  the 'targets' package brings together function-oriented programming and\n  'Make'-like declarative workflows.\n  It analyzes the dependency relationships among the tasks of a workflow,\n  skips steps that are already up to date, runs the necessary\n  computation with optional parallel workers, abstracts files as\n  R objects, and provides tangible evidence that the results match\n  the underlying code and data. The methodology in this package\n  borrows from GNU 'Make' (2015, ISBN:978-9881443519)\n  and 'drake' (2018, <doi:10.21105/joss.00550>).",
   "name": "targets: Dynamic Function-Oriented 'Make'-Like Declarative Workflows",
   "codeRepository": "https://github.com/ropensci/targets",
+  "relatedLink": "https://docs.ropensci.org/targets/",
   "issueTracker": "https://github.com/ropensci/targets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.1",
+  "version": "0.3.1.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
   "runtimePlatform": "R version 4.0.3 (2020-10-10)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -52,6 +56,19 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
+      "identifier": "arrow",
+      "name": "arrow",
+      "version": ">= 3.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=arrow"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "aws.s3",
       "name": "aws.s3",
       "version": ">= 0.3.21",
@@ -80,7 +97,7 @@
       "@type": "SoftwareApplication",
       "identifier": "clustermq",
       "name": "clustermq",
-      "version": ">= 0.8.9",
+      "version": ">= 0.8.95.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -143,6 +160,32 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "future.callr",
+      "name": "future.callr",
+      "version": ">= 0.6.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=future.callr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "gt",
+      "name": "gt",
+      "version": ">= 0.2.2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=gt"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "keras",
       "name": "keras",
       "version": ">= 2.2.5.0",
@@ -166,6 +209,19 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "markdown",
+      "name": "markdown",
+      "version": ">= 1.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=markdown"
     },
     {
       "@type": "SoftwareApplication",
@@ -247,16 +303,29 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "shinycssloaders",
-      "name": "shinycssloaders",
-      "version": ">= 1.0.0",
+      "identifier": "shinybusy",
+      "name": "shinybusy",
+      "version": ">= 0.2.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=shinycssloaders"
+      "sameAs": "https://CRAN.R-project.org/package=shinybusy"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "shinyWidgets",
+      "name": "shinyWidgets",
+      "version": ">= 0.5.4",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=shinyWidgets"
     },
     {
       "@type": "SoftwareApplication",
@@ -413,7 +482,7 @@
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
-      "version": ">= 0.4.5",
+      "version": ">= 0.4.10",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -421,6 +490,11 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "stats",
+      "name": "stats"
     },
     {
       "@type": "SoftwareApplication",
@@ -481,31 +555,40 @@
     }
   ],
   "releaseNotes": "https://github.com/ropensci/targets/blob/master/NEWS.md",
-  "fileSize": "1052.866KB",
+  "readme": "https://github.com/ropensci/targets/blob/main/README.md",
+  "fileSize": "1183.339KB",
   "contIntegration": "https://codecov.io/gh/ropensci/targets",
   "developmentStatus": "https://www.repostatus.org/#active",
-  "relatedLink": [
-    "https://docs.ropensci.org/targets",
-    "https://docs.ropensci.org/targets/"
-  ],
   "review": {
     "@type": "Review",
     "url": "https://github.com/ropensci/software-review/issues/401",
     "provider": "https://ropensci.org"
   },
-  "readme": "https://github.com/ropensci/targets/blob/main/README.md",
-  "keywords": [
-    "reproducibility",
-    "high-performance-computing",
-    "r",
-    "data-science",
-    "pipeline",
-    "rstats",
-    "r-package",
-    "workflow",
-    "targets",
-    "reproducible-research",
-    "make",
-    "r-targetopia"
+  "keywords": ["reproducibility", "high-performance-computing", "r", "data-science", "pipeline", "rstats", "r-package", "workflow", "targets", "reproducible-research", "make", "r-targetopia", "peer-reviewed"],
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "datePublished": "2021",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": ["William", "Michael"],
+          "familyName": "Landau"
+        }
+      ],
+      "name": "The targets R package: a dynamic Make-like function-oriented pipeline toolkit for reproducibility and high-performance computing",
+      "url": "https://doi.org/10.21105/joss.02959",
+      "pagination": "2959",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "issueNumber": "57",
+        "datePublished": "2021",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "volumeNumber": "6",
+          "name": "Journal of Open Source Software"
+        }
+      }
+    }
   ]
 }

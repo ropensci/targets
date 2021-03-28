@@ -6,7 +6,7 @@
 \usage{
 tar_renv(
   extras = c("bs4Dash", "clustermq", "future", "gt", "markdown", "pingr", "rstudioapi",
-    "shiny", "shinycssloaders", "shinyWidgets", "visNetwork"),
+    "shiny", "shinybusy", "shinyWidgets", "visNetwork"),
   path = "_packages.R",
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function)

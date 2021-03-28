@@ -43,7 +43,7 @@
 #' })
 #' }
 tar_watch <- function(
-  seconds = 15,
+  seconds = 10,
   seconds_min = 1,
   seconds_max = 60,
   seconds_step = 1,
@@ -65,7 +65,7 @@ tar_watch <- function(
     "markdown",
     "pingr",
     "shiny",
-    "shinycssloaders",
+    "shinybusy",
     "shinyWidgets",
     "visNetwork"
   )
@@ -166,6 +166,7 @@ tar_watch_app_ui <- function(
   height
 ) {
   body <- bs4Dash::bs4DashBody(
+    shinybusy::add_busy_spinner(position = "top-left"),
     tar_watch_ui(
       id = "tar_watch_id",
       label = "tar_watch_label",
@@ -222,7 +223,7 @@ tar_watch_app_ui <- function(
 tar_watch_ui <- function(
   id,
   label = "tar_watch_label",
-  seconds = 5,
+  seconds = 10,
   seconds_min = 1,
   seconds_max = 60,
   seconds_step = 1,
@@ -345,6 +346,7 @@ tar_watch_server <- function(id, height = "650px") {
     function(input, output, session) {
       interval <- 200
       refresh <- shiny::reactiveValues(refresh = tempfile())
+      out <- reactiveValues(graph = NULL, summary = NULL, branches = NULL)
       react_millis <- shiny::reactive(1000 * as.numeric(input$seconds))
       react_targets <- shiny::reactive(as.logical(input$targets_only))
       react_outdated <- shiny::reactive(as.logical(input$outdated))
@@ -355,16 +357,16 @@ tar_watch_server <- function(id, height = "650px") {
       outdated_tl <- shiny::debounce(r = react_outdated, millis = interval)
       label <- shiny::debounce(r = react_label, millis = interval)
       level_separation <- shiny::debounce(r = react_ls, millis = interval)
+      shiny::observeEvent(input$refresh, refresh$refresh <- tempfile())
       shiny::observe({
         if (identical(input$watch, TRUE)) {
           shiny::invalidateLater(millis = millis())
           refresh$refresh <- tempfile()
         }
       })
-      shiny::observeEvent(input$refresh, refresh$refresh <- tempfile())
-      output$graph <- visNetwork::renderVisNetwork({
+      shiny::observe({
         shiny::req(refresh$refresh)
-        trn(
+        out$graph <- trn(
           tar_exist_script(),
           tar_visnetwork(
             targets_only = targets_only(),
@@ -380,35 +382,38 @@ tar_watch_server <- function(id, height = "650px") {
             )
           )
         )
-      })
-      output$summary <- gt::render_gt({
-        shiny::req(refresh$refresh)
-        trn(
+        out$summary <- trn(
           tar_exist_progress(),
           tar_progress_summary_gt(),
           gt_borderless(data_frame(progress = "No progress recorded."))
         )
-      }, height = height)
-      output$branches <- gt::render_gt({
-        shiny::req(refresh$refresh)
-        trn(
+        out$branches <- trn(
           tar_exist_progress(),
           tar_progress_branches_gt(),
           gt_borderless(data_frame(progress = "No progress recorded."))
         )
+      })
+      output$graph <- visNetwork::renderVisNetwork({
+        req(out$graph)
+        out$graph
+      })
+      output$summary <- gt::render_gt({
+        shiny::req(out$summary)
+        out$summary
+      }, height = height)
+      output$branches <- gt::render_gt({
+        shiny::req(out$branches)
+        out$branches
       }, height = height)
       output$display <- shiny::renderUI({
         switch(
           input$display %|||% "graph",
-          graph = shinycssloaders::withSpinner(
-            visNetwork::visNetworkOutput(session$ns("graph"), height = height)
+          graph = visNetwork::visNetworkOutput(
+            session$ns("graph"),
+            height = height
           ),
-          summary = shinycssloaders::withSpinner(
-            gt::gt_output(session$ns("summary")),
-          ),
-          branches = shinycssloaders::withSpinner(
-            gt::gt_output(session$ns("branches")),
-          ),
+          summary = gt::gt_output(session$ns("summary")),
+          branches = gt::gt_output(session$ns("branches")),
           about = tar_watch_about()
         )
       })

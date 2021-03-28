@@ -13,8 +13,9 @@ tar_progress_summary(
 Set to \code{NULL} to read all fields.}
 }
 \value{
-A data frame with one row and the following optional columns that can be
-selected with \code{fields}. (\code{time} is omitted by default.)
+A data frame with one row and the following
+optional columns that can be selected with \code{fields}.
+(\code{time} is omitted by default.)
 \itemize{
 \item \code{started}: number of targets that started and did not (yet) finish.
 \item \code{built}: number of targets that completed without error or cancellation.

@@ -80,7 +80,7 @@ Suggests:
   qs (>= 0.23.2),
   rstudioapi (>= 0.11),
   shiny (>= 1.5.0),
-  shinycssloaders (>= 1.0.0),
+  shinybusy (>= 0.2.2),
   shinyWidgets (>= 0.5.4),
   testthat (>= 3.0.0),
   torch (>= 0.1.0),
