@@ -49,7 +49,7 @@ tar_script({
   )
 }, ask = FALSE)
 try(tar_make())
-tar_traceback(y, characters = 80)
+tar_traceback(y, characters = 60)
 })
 }
 }

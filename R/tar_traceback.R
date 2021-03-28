@@ -27,7 +27,7 @@
 #'   )
 #' }, ask = FALSE)
 #' try(tar_make())
-#' tar_traceback(y, characters = 80)
+#' tar_traceback(y, characters = 60)
 #' })
 #' }
 tar_traceback <- function(
