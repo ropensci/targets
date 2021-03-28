@@ -72,12 +72,13 @@ reference:
   - '`tar_glimpse`'
   - '`tar_network`'
   - '`tar_visnetwork`'
-- title: Monitor
+- title: Watch
   - '`tar_watch`'
   - '`tar_watch_server`'
   - '`tar_watch_ui`'
 - title: Progress
   contents:
+  - '`tar_poll`'
   - '`tar_progress`'
   - '`tar_progress_branches`'
   - '`tar_progress_summary`'

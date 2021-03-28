@@ -9,7 +9,7 @@ tar_test("default progress", {
       tar_target(x, seq_len(2)),
       tar_target(x5, seq_len(5)),
       tar_target(y, stop(123), pattern = map(x), error = "continue"),
-      tar_target(z, tar_cancel(), pattern = map(x5)), 
+      tar_target(z, tar_cancel(), pattern = map(x5)),
       tar_target(w, x, pattern = map(x))
     )
   )
@@ -33,7 +33,7 @@ tar_test("progress with tidyselect fields", {
       tar_target(x, seq_len(2)),
       tar_target(x5, seq_len(5)),
       tar_target(y, stop(123), pattern = map(x), error = "continue"),
-      tar_target(z, tar_cancel(), pattern = map(x5)), 
+      tar_target(z, tar_cancel(), pattern = map(x5)),
       tar_target(w, x, pattern = map(x))
     )
   )
@@ -51,7 +51,7 @@ tar_test("tar_progress_summary_gt()", {
       tar_target(x, seq_len(2)),
       tar_target(x5, seq_len(5)),
       tar_target(y, stop(123), pattern = map(x), error = "continue"),
-      tar_target(z, tar_cancel(), pattern = map(x5)), 
+      tar_target(z, tar_cancel(), pattern = map(x5)),
       tar_target(w, x, pattern = map(x))
     )
   )

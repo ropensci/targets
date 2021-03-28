@@ -28,6 +28,7 @@ summary_class <- R6::R6Class(
     },
     report_end = function(progress) {
       progress$update_cli()
+      message("")
     }
   )
 )

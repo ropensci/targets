@@ -1,8 +1,9 @@
 #' @title Summarize target progress.
 #' @export
 #' @description Summarize the progress of a run of the pipeline.
-#' @return A data frame with one row and the following optional columns that can be
-#'   selected with `fields`. (`time` is omitted by default.)
+#' @return A data frame with one row and the following
+#'   optional columns that can be selected with `fields`.
+#'   (`time` is omitted by default.)
 #'   * `started`: number of targets that started and did not (yet) finish.
 #'   * `built`: number of targets that completed without error or cancellation.
 #'   * `errored`: number of targets that threw an error.
