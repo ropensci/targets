@@ -11,6 +11,8 @@
 ## Enhancements
 
 * Attempt to print only the useful part of the traceback in `tar_traceback()` (#383).
+* Right-align the headers and counts in the "summary" and "forecast" reporters.
+* Add a line break at the end of the "summary" reporter so warnings do not mangle the output.
 
 # targets 0.3.1
 
