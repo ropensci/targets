@@ -1,7 +1,8 @@
-#' @title Read the target progress of the latest run of the pipeline.
+#' @title Tabulate the progress of dynamic branches.
 #' @export
 #' @description Read a project's target progress data for the most recent
-#'   run of [tar_make()] or similar. Only the most recent record is shown.
+#'   run of the pipeline and display the tabulated status
+#'   of dynamic branches. Only the most recent record is shown.
 #' @return A data frame with one row per target per progress status
 #'   and the following columns.
 #'   * `name`: name of the pattern.
@@ -56,7 +57,7 @@ tar_progress_branches_summary <- function(progress) {
     progress = gsub(".* ", "", group),
     branches = as.integer(table)
   )
-  levels <- c("started", "built", "canceled", "errored")
+  levels <- c("started", "built", "errored", "canceled")
   bins <- map(levels, ~tar_progress_branches_bin(.x, long))
   out <- progress[progress$type == "pattern",, drop = FALSE] # nolint
   out <- tibble::tibble(name = out$name, branches = out$branches)

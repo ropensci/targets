@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_progress.R
 \name{tar_progress}
 \alias{tar_progress}
-\title{Read the target progress of the latest run of the pipeline.}
+\title{Read progress.}
 \usage{
 tar_progress(names = NULL, fields = "progress")
 }
