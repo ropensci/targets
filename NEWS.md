@@ -1,6 +1,8 @@
 # targets 0.3.1.9000
 
+## New features
 
+* Implement `tar_timestamp()` to get the last modified timestamp of a target's data (#378).
 
 # targets 0.3.1
 

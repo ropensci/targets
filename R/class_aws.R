@@ -102,6 +102,18 @@ store_ensure_correct_hash.tar_aws <- function(store, storage, deployment) {
 #' @export
 store_sync_file_meta.tar_aws <- function(store, target, meta) {
 }
+
+#' @export
+store_get_timestamp.tar_aws <- function(store) {
+  key <- store_aws_key(store$file$path)
+  bucket <- store_aws_bucket(store$file$path)
+  if (!store_aws_exists(key = key, bucket = bucket)) {
+    return(tar_timestamp_default)
+  }
+  head <- head_object(object = key, bucket = bucket)
+  timestamp <- attr(head, "last-modified")
+  as.POSIXct(timestamp, format = "%a, %d %b %Y %H:%M:%S", tz = "GMT")
+}
 # nocov end
 
 #' @export
