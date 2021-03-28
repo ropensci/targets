@@ -85,6 +85,7 @@ reference:
   - '`tar_progress`'
   - '`tar_progress_branches`'
   - '`tar_sitrep`'
+  - '`tar_timestamp()`'
   - '`tar_workspaces`'
 - title: Existence
   contents:
