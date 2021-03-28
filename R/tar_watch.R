@@ -62,6 +62,7 @@ tar_watch <- function(
   pkgs <- c(
     "bs4Dash",
     "gt",
+    "markdown",
     "pingr",
     "shiny",
     "shinycssloaders",
@@ -246,8 +247,8 @@ tar_watch_ui <- function(
         inputId = ns("display"),
         label = NULL,
         status = "primary",
-        choiceNames = c("graph", "summary", "branches"),
-        choiceValues = c("graph", "summary", "branches"),
+        choiceNames = c("graph", "summary", "branches", "about"),
+        choiceValues = c("graph", "summary", "branches", "about"),
         selected = "graph",
         direction = "vertical"
       ),
@@ -317,8 +318,8 @@ tar_watch_ui <- function(
       )
     ),
     bs4Dash::bs4Card(
-      inputID = ns("progress"),
-      title = "Progress",
+      inputID = ns("output"),
+      title = "Output",
       status = "primary",
       closable = FALSE,
       collapsible = FALSE,
@@ -407,10 +408,20 @@ tar_watch_server <- function(id, height = "650px") {
           ),
           branches = shinycssloaders::withSpinner(
             gt::gt_output(session$ns("branches")),
-          )
+          ),
+          about = tar_watch_about()
         )
       })
     }
   )
+}
+
+tar_watch_about <- function() {
+  path <- system.file(
+    "tar_watch_about.md",
+    package = "targets",
+    mustWork = TRUE
+  )
+  shiny::includeMarkdown(path)
 }
 # nocov end

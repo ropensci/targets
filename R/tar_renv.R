@@ -53,6 +53,7 @@ tar_renv <- function(
     "clustermq",
     "future",
     "gt",
+    "markdown",
     "pingr",
     "rstudioapi",
     "shiny",
