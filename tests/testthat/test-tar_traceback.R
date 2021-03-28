@@ -15,5 +15,17 @@ tar_test("tar_traceback()", {
   })
   tar_make(callr_function = NULL)
   out <- tar_traceback(z)
-  expect_null(out)
+  expect_equal(out, character(0))
+})
+
+tar_test("tar_traceback() deprecated arguments", {
+  tar_script({
+    tar_option_set(workspace = "z")
+    list(tar_target(z, 0))
+  })
+  tar_make(callr_function = NULL)
+  expect_warning(
+    tar_traceback(z, envir = emptyenv()),
+    class = "condition_deprecate"
+  )
 })

@@ -4,6 +4,10 @@
 
 * Implement `tar_timestamp()` to get the last modified timestamp of a target's data (#378).
 
+## Enhancements
+
+* Attempt to print only the useful part of the traceback in `tar_traceback()` (#383).
+
 # targets 0.3.1
 
 ## Bug fixes

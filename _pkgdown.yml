@@ -49,6 +49,7 @@ reference:
   contents:
   - '`tar_traceback`'
   - '`tar_workspace`'
+  - '`tar_validate`'
 - title: Data
   contents:
   - '`tar_load`'
@@ -56,37 +57,38 @@ reference:
   - '`tar_meta`'
   - '`tar_read`'
   - '`tar_read_raw`'
+- title: List
+  contents:
+  - '`tar_manifest`'
+  - '`tar_objects`'
 - title: Clean
   contents:
   - '`tar_delete`'
   - '`tar_destroy`'
   - '`tar_invalidate`'
   - '`tar_prune`'
-- title: Visualize
+- title: Graph
   contents:
   - '`tar_glimpse`'
   - '`tar_network`'
   - '`tar_visnetwork`'
+- title: Monitor
   - '`tar_watch`'
   - '`tar_watch_server`'
   - '`tar_watch_ui`'
-- title: Inspect
+- title: Progress
   contents:
-  - '`tar_deps`'
-  - '`tar_deps_raw`'
-  - '`tar_validate`'
-- title: Introspect
-  contents:
-  - '`tar_manifest`'
-  - '`tar_objects`'
-  - '`tar_outdated`'
-  - '`tar_pid`'
-  - '`tar_process`'
   - '`tar_progress`'
   - '`tar_progress_branches`'
+  - '`tar_progress_summary`'
+- title: Process
+  contents:
+  - '`tar_pid`'
+  - '`tar_process`'
+- title: Invalidation
+  contents:
+  - '`tar_outdated`'
   - '`tar_sitrep`'
-  - '`tar_timestamp()`'
-  - '`tar_workspaces`'
 - title: Existence
   contents:
   - '`tar_exist_meta`'
@@ -104,10 +106,15 @@ reference:
   - '`tar_name`'
   - '`tar_path`'
   - '`tar_seed`'
+  - '`tar_timestamp`'
 - title: Runtime helpers
   contents:
   - '`tar_cancel`'
   - '`tar_group`'
+- title: Dependencies
+  contents:
+  - '`tar_deps`'
+  - '`tar_deps_raw`'
 - title: Targetopia
   contents:
   - '`tar_dir`'

@@ -8,7 +8,7 @@ build_init <- function(
   start <- build_time_seconds()
   capture_error <- function(condition) {
     state$error <- build_message(condition)
-    state$traceback <- as.character(sys.calls())
+    state$traceback <- build_traceback(condition, sys.calls())
     NULL
   }
   capture_warning <- function(condition) {
@@ -71,12 +71,27 @@ build_load_packages <- function(packages, library) {
 
 build_run_expr <- function(expr, envir, seed, packages, library) {
   build_load_packages(packages, library)
-  withr::with_dir(getwd(), withr::with_seed(seed, eval(expr, envir)))
+  withr::with_dir(
+    getwd(),
+    withr::with_seed(seed, build_eval_fce17be7(expr, envir))
+  )
 }
 
-build_validate <- function(build) {
-  assert_correct_fields(build, build_new)
-  metrics_validate(build$metrics)
+# Marker to shorten tracebacks.
+build_eval_fce17be7 <- base::eval
+
+build_traceback <- function(condition, calls) {
+  UseMethod("build_traceback")
+}
+
+#' @export
+build_traceback.condition_cancel <- function(condition, calls) {
+  NULL
+}
+
+#' @export
+build_traceback.default <- function(condition, calls) {
+  as.character(calls)
 }
 
 build_time_seconds <- function() {
@@ -86,4 +101,9 @@ build_time_seconds <- function() {
 build_message <- function(condition) {
   out <- substr(paste(conditionMessage(condition), collapse = " "), 0L, 128L)
   trn(nzchar(out), out, ".")
+}
+
+build_validate <- function(build) {
+  assert_correct_fields(build, build_new)
+  metrics_validate(build$metrics)
 }
