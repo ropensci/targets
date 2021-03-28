@@ -55,5 +55,6 @@ tar_traceback <- function(
   if (is.finite(min) && length(min) == 1L) {
     out <- out[seq(min + 1, length(out))]
   }
+  characters <- min(characters, max(nchar(out)))
   substr(out, 0, characters)
 }

@@ -4,7 +4,7 @@ tar_test("tar_traceback()", {
     list(tar_target(y, stop("3c47b24bd4a7ad8e5ce70f05eefe7c9c")))
   })
   try(tar_make(callr_function = NULL), silent = TRUE)
-  out <- tar_traceback(y, characters = 1000)
+  out <- tar_traceback(y, characters = Inf)
   expect_true(any(grepl("3c47b24bd4a7ad8e5ce70f05eefe7c9c", out)))
 })
 
