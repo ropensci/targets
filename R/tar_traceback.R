@@ -37,6 +37,9 @@ tar_traceback <- function(
   source = NULL,
   characters = getOption("width")
 ) {
+  assert_scalar(characters, "characters must have length 1.")
+  assert_dbl(characters, "characters must be numeric.")
+  assert_positive(characters, "characters must be positive.")
   if (!is.null(envir) || !is.null(packages) || !is.null(source)) {
     warn_deprecate(
       "The envir, packages, and source arguments of tar_traceback() ",
