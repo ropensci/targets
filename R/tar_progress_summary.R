@@ -47,40 +47,13 @@ tar_progress_summary <- function(
   out[, fields, drop = FALSE]
 }
 
-tar_progress_branches_summary <- function(progress) {
-  branches <- progress[progress$type == "branch",, drop = FALSE] # nolint
-  group <- paste(branches$parent, branches$progress)
-  table <- table(group)
-  group <- names(table)
-  long <- tibble::tibble(
-    name = gsub(" .*", "", group),
-    progress = gsub(".* ", "", group),
-    branches = as.integer(table)
-  )
-  levels <- c("started", "built", "errored", "canceled")
-  bins <- map(levels, ~tar_progress_branches_bin(.x, long))
-  out <- progress[progress$type == "pattern",, drop = FALSE] # nolint
-  out <- tibble::tibble(name = out$name, branches = out$branches)
-  for (bin in bins) {
-    out <- base::merge(x = out, y = bin, by = "name", all.x = TRUE)
-  }
-  for (level in levels) {
-    out[[level]] <- replace_na(out[[level]], 0L)
-  }
-  tibble::as_tibble(out)
-}
-
-tar_progress_branches_bin <- function(level, long) {
-  out <- long[long$progress %in% level,, drop = FALSE] # nolint
-  out[[level]] <- out[["branches"]]
-  out[["branches"]] <- NULL
-  out[["progress"]] <- NULL
-  out
-}
-
 # Just for the tar_watch() app. # nolint
-tar_progress_branches_gt <- function() {
-  progress <- tar_progress_branches(names = NULL, fields = NULL)
+tar_progress_summary_gt <- function() {
+  progress <- tar_progress_summary(fields = NULL)
+  tar_progress_display_gt(progress)
+}
+
+tar_progress_display_gt <- function(progress) {
   out <- gt_borderless(progress)
   out <- gt::tab_style(
     out,
@@ -88,9 +61,9 @@ tar_progress_branches_gt <- function() {
     locations = gt::cells_column_labels(everything())
   )
   colors <- data_frame(
-    progress = c("started", "built", "errored", "canceled"),
-    fill = c("#DC863B", "#E1BD6D", "#C93312", "#FAD510"),
-    color = c("black", "black", "white", "black")
+    progress = c("started", "built", "canceled", "errored"),
+    fill = c("#DC863B", "#E1BD6D", "#FAD510", "#C93312"),
+    color = c("black", "black", "black", "white")
   )
   for (index in seq_len(nrow(colors))) {
     out <- gt::tab_style(
