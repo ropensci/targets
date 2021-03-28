@@ -72,7 +72,7 @@ reference:
   - '`tar_glimpse`'
   - '`tar_network`'
   - '`tar_visnetwork`'
-- title: Monitor
+- title: Watch
   - '`tar_watch`'
   - '`tar_watch_server`'
   - '`tar_watch_ui`'
