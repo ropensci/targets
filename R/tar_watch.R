@@ -62,6 +62,7 @@ tar_watch <- function(
   pkgs <- c(
     "bs4Dash",
     "gt",
+    "markdown",
     "pingr",
     "shiny",
     "shinycssloaders",
@@ -246,9 +247,10 @@ tar_watch_ui <- function(
         inputId = ns("display"),
         label = NULL,
         status = "primary",
-        choiceNames = c("graph", "branches"),
-        choiceValues = c("graph", "branches"),
-        selected = "graph"
+        choiceNames = c("graph", "summary", "branches", "about"),
+        choiceValues = c("graph", "summary", "branches", "about"),
+        selected = "graph",
+        direction = "vertical"
       ),
       shinyWidgets::actionBttn(
         inputId = ns("refresh"),
@@ -316,8 +318,8 @@ tar_watch_ui <- function(
       )
     ),
     bs4Dash::bs4Card(
-      inputID = ns("progress"),
-      title = "Progress",
+      inputID = ns("output"),
+      title = "Output",
       status = "primary",
       closable = FALSE,
       collapsible = FALSE,
@@ -379,6 +381,14 @@ tar_watch_server <- function(id, height = "650px") {
           )
         )
       })
+      output$summary <- gt::render_gt({
+        shiny::req(refresh$refresh)
+        trn(
+          tar_exist_progress(),
+          tar_progress_summary_gt(),
+          gt_borderless(data_frame(progress = "No progress recorded."))
+        )
+      }, height = height)
       output$branches <- gt::render_gt({
         shiny::req(refresh$refresh)
         trn(
@@ -393,12 +403,25 @@ tar_watch_server <- function(id, height = "650px") {
           graph = shinycssloaders::withSpinner(
             visNetwork::visNetworkOutput(session$ns("graph"), height = height)
           ),
+          summary = shinycssloaders::withSpinner(
+            gt::gt_output(session$ns("summary")),
+          ),
           branches = shinycssloaders::withSpinner(
-            gt::gt_output(session$ns("branches"))
-          )
+            gt::gt_output(session$ns("branches")),
+          ),
+          about = tar_watch_about()
         )
       })
     }
   )
+}
+
+tar_watch_about <- function() {
+  path <- system.file(
+    "tar_watch_about.md",
+    package = "targets",
+    mustWork = TRUE
+  )
+  shiny::includeMarkdown(path)
 }
 # nocov end

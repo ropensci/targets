@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_progress_branches.R
 \name{tar_progress_branches}
 \alias{tar_progress_branches}
-\title{Read the target progress of the latest run of the pipeline.}
+\title{Tabulate the progress of dynamic branches.}
 \usage{
 tar_progress_branches(names = NULL, fields = NULL)
 }
@@ -29,7 +29,8 @@ Values within the same pattern should all be equal.
 }
 \description{
 Read a project's target progress data for the most recent
-run of \code{\link[=tar_make]{tar_make()}} or similar. Only the most recent record is shown.
+run of the pipeline and display the tabulated status
+of dynamic branches. Only the most recent record is shown.
 }
 \examples{
 if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {

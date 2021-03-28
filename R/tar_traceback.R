@@ -4,9 +4,11 @@
 #'   `tar_traceback()` returns its traceback. The workspace file must
 #'   exist. For more information, see [tar_workspace()].
 #' @return Character vector, the traceback of a failed target
-#'   if it exists
+#'   if it exists.
 #' @param name Symbol, name of the target whose workspace to read.
-#' @param envir Environment in which to put the objects.
+#' @param characters Positive integer. Each line of the traceback
+#'   is shortened to this number of characters.
+#' @param envir Deprecated in `targets` > 0.3.1 (2021-03-28).
 #' @param packages Logical, whether to load the required packages
 #'   of the target.
 #' @param source Logical, whether to run `_targets.R` to load user-defined
@@ -25,19 +27,37 @@
 #'   )
 #' }, ask = FALSE)
 #' try(tar_make())
-#' tar_traceback(y)
+#' tar_traceback(y, characters = 60)
 #' })
 #' }
 tar_traceback <- function(
   name,
-  envir = parent.frame(),
-  packages = TRUE,
-  source = TRUE
+  envir = NULL,
+  packages = NULL,
+  source = NULL,
+  characters = getOption("width")
 ) {
-  force(envir)
+  assert_scalar(characters, "characters must have length 1.")
+  assert_dbl(characters, "characters must be numeric.")
+  assert_positive(characters, "characters must be positive.")
+  if (!is.null(envir) || !is.null(packages) || !is.null(source)) {
+    warn_deprecate(
+      "The envir, packages, and source arguments of tar_traceback() ",
+      "are deprectaed in targets > 0.3.1 (2021-03-28)."
+    )
+  }
   name <- deparse_language(substitute(name))
   assert_chr(name)
   assert_scalar(name)
   workspace <- workspace_read(name)
-  workspace$target$metrics$traceback
+  out <- workspace$target$metrics$traceback
+  if (is.null(out)) {
+    return(character(0))
+  }
+  min <- max(which(grepl("^build_eval_fce17be7", out))) %||% 1 %||NA% 1
+  if (is.finite(min) && length(min) == 1L) {
+    out <- out[seq(min + 1, length(out))]
+  }
+  characters <- min(characters, max(nchar(out)))
+  substr(out, 0, characters)
 }

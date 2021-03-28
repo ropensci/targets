@@ -110,7 +110,7 @@ store_get_timestamp.tar_aws <- function(store) {
   if (!store_aws_exists(key = key, bucket = bucket)) {
     return(tar_timestamp_default)
   }
-  head <- head_object(object = key, bucket = bucket)
+  head <- aws.s3::head_object(object = key, bucket = bucket)
   timestamp <- attr(head, "last-modified")
   as.POSIXct(timestamp, format = "%a, %d %b %Y %H:%M:%S", tz = "GMT")
 }

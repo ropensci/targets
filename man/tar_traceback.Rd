@@ -4,12 +4,18 @@
 \alias{tar_traceback}
 \title{Get a target's traceback}
 \usage{
-tar_traceback(name, envir = parent.frame(), packages = TRUE, source = TRUE)
+tar_traceback(
+  name,
+  envir = NULL,
+  packages = NULL,
+  source = NULL,
+  characters = getOption("width")
+)
 }
 \arguments{
 \item{name}{Symbol, name of the target whose workspace to read.}
 
-\item{envir}{Environment in which to put the objects.}
+\item{envir}{Deprecated in \code{targets} > 0.3.1 (2021-03-28).}
 
 \item{packages}{Logical, whether to load the required packages
 of the target.}
@@ -18,10 +24,13 @@ of the target.}
 global object dependencies into \code{envir}. If \code{TRUE}, then \code{envir}
 should either be the global environment or inherit from the
 global environment.}
+
+\item{characters}{Positive integer. Each line of the traceback
+is shortened to this number of characters.}
 }
 \value{
 Character vector, the traceback of a failed target
-if it exists
+if it exists.
 }
 \description{
 If a target ran with \code{error = "workspace"} and errored out,
@@ -40,7 +49,7 @@ tar_script({
   )
 }, ask = FALSE)
 try(tar_make())
-tar_traceback(y)
+tar_traceback(y, characters = 60)
 })
 }
 }

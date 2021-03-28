@@ -86,9 +86,9 @@ cli_header_progress <- function() {
     "start ",
     "skip  ",
     "built ",
-    "cancel",
     "error ",
-    "warn"
+    "warn  ",
+    "cancel"
   )
   msg <- paste(msg, collapse = " | ")
   msg <- paste0(msg, "\n")
@@ -107,18 +107,18 @@ cli_progress <- function(
   started,
   skipped,
   built,
-  canceled,
   errored,
-  warned
+  warned,
+  canceled
 ) {
   msg <- c(
     cli_tally(queued),
     cli_tally(started),
     cli_tally(skipped),
     cli_tally(built),
-    cli_tally(canceled),
     cli_tally(errored),
-    cli_tally(warned)
+    cli_tally(warned),
+    cli_tally(canceled)
   )
   msg <- paste0("\r", paste(msg, collapse = " | "))
   message(msg, appendLF = FALSE)
@@ -149,6 +149,6 @@ cli_tally <- function(x, places = 5L, vanish = 0L) {
   paste0(out, spaces)
 }
 
-time_stamp <- function() {
-  format(Sys.time(), "%z GMT %Y-%m-%d %H:%M %OS2")
+time_stamp <- function(time = Sys.time()) {
+  format(time, "%z GMT %Y-%m-%d %H:%M %OS2")
 }

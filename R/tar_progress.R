@@ -1,4 +1,4 @@
-#' @title Read the target progress of the latest run of the pipeline.
+#' @title Read progress.
 #' @export
 #' @description Read a project's target progress data for the most recent
 #'   run of [tar_make()] or similar. Only the most recent record is shown.

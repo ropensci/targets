@@ -73,6 +73,7 @@ Suggests:
   gt (>= 0.2.2),
   keras (>= 2.2.5.0),
   knitr (>= 1.30),
+  markdown (>= 1.1),
   rmarkdown (>= 2.4),
   pingr (>= 2.0.1),
   pkgload (>= 1.1.0),
