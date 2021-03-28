@@ -246,9 +246,10 @@ tar_watch_ui <- function(
         inputId = ns("display"),
         label = NULL,
         status = "primary",
-        choiceNames = c("graph", "branches"),
-        choiceValues = c("graph", "branches"),
-        selected = "graph"
+        choiceNames = c("graph", "summary", "branches"),
+        choiceValues = c("graph", "summary", "branches"),
+        selected = "graph",
+        direction = "vertical"
       ),
       shinyWidgets::actionBttn(
         inputId = ns("refresh"),
@@ -379,6 +380,14 @@ tar_watch_server <- function(id, height = "650px") {
           )
         )
       })
+      output$summary <- gt::render_gt({
+        shiny::req(refresh$refresh)
+        trn(
+          tar_exist_progress(),
+          tar_progress_summary_gt(),
+          gt_borderless(data_frame(progress = "No progress recorded."))
+        )
+      }, height = height)
       output$branches <- gt::render_gt({
         shiny::req(refresh$refresh)
         trn(
@@ -393,8 +402,11 @@ tar_watch_server <- function(id, height = "650px") {
           graph = shinycssloaders::withSpinner(
             visNetwork::visNetworkOutput(session$ns("graph"), height = height)
           ),
+          summary = shinycssloaders::withSpinner(
+            gt::gt_output(session$ns("summary")),
+          ),
           branches = shinycssloaders::withSpinner(
-            gt::gt_output(session$ns("branches"))
+            gt::gt_output(session$ns("branches")),
           )
         )
       })
