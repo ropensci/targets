@@ -296,7 +296,7 @@ assert_script <- function() {
     "Read https://books.ropensci.org/targets/practices.html#loading-and-configuring-r-packages", # nolint
     "and https://books.ropensci.org/targets/practices.html#packages-based-invalidation", # nolint
     "for the correct way to load packages for {targets} pipelines.",
-    "Suppress this warning with Sys.getenv(TAR_WARN = \"false\")."
+    "Suppress this warning with Sys.setenv(TAR_WARN = \"false\")."
   )
   for (loader in c("load_all", "load_code", "load_data", "load_dll")) {
     if (Sys.getenv("TAR_WARN") != "false" && loader %in% vars) {
