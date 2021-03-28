@@ -78,7 +78,9 @@ build_run_expr <- function(expr, envir, seed, packages, library) {
 }
 
 # Marker to shorten tracebacks.
-build_eval_fce17be7 <- base::eval
+build_eval_fce17be7 <- function(expr, envir) {
+  eval(expr = expr, envir = envir)
+}
 
 build_traceback <- function(condition, calls) {
   UseMethod("build_traceback")
