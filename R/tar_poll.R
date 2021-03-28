@@ -43,14 +43,11 @@ tar_poll <- function(
   assert_dbl(timeout, "timeout must be numeric.")
   assert_positive(timeout, "timeout must be positive.")
   fields_quosure <- rlang::enquo(fields)
-  text <- tar_poll_text(fields_quosure, carriage_return = FALSE)
   if (tar_poll_go(start, timeout)) {
-    message(text[1])
-    message(text[2], appendLF = FALSE)
+    tar_poll_header(fields_quosure)
   }
   while (tar_poll_go(start, timeout)) {
-    text <- tar_poll_text(fields_quosure, length = nchar(text[2]))
-    message(text[2], appendLF = FALSE)
+    tar_poll_body(fields_quosure)
     Sys.sleep(interval)
   }
   message("")
@@ -61,33 +58,47 @@ tar_poll_go <- function(start, timeout) {
   (proc.time()["elapsed"] - start) < timeout
 }
 
-tar_poll_text <- function(
-  fields_quosure,
-  carriage_return = TRUE,
-  length = NULL
-) {
+tar_poll_df <- function(fields_quosure) {
   progress <- tar_progress_summary(fields = NULL)
   fields <- eval_tidyselect(fields_quosure, colnames(progress)) %|||%
     colnames(progress)
-  progress <- progress[, fields, drop = FALSE]
-  cols <- colnames(progress)[-ncol(progress)]
-  colnames(progress)[-ncol(progress)] <- paste(cols, "|")
-  for (col in seq_len(ncol(progress) - 1L)) {
-    progress[[col]] <- paste(progress[[col]], "|")
+  progress[, fields, drop = FALSE]
+}
+
+tar_poll_header <- function(fields_quosure) {
+  progress <- tar_poll_df(fields_quosure)
+  cli_df_header(progress)
+}
+
+tar_poll_body <- function(fields_quosure) {
+  progress <- tar_poll_df(fields_quosure)
+  cli_df_body(progress)
+}
+
+cli_df_header <- function(x) {
+  message(cli_df_text(x)[1L], appendLF = FALSE)
+}
+
+cli_df_body <- function(x) {
+  message(cli_df_text(x)[2L], appendLF = FALSE)
+}
+
+cli_df_text <- function(x) {
+  cols <- colnames(x)[-ncol(x)]
+  colnames(x)[-ncol(x)] <- paste(cols, "|")
+  for (col in seq_len(ncol(x) - 1L)) {
+    x[[col]] <- paste(x[[col]], "|")
   }
-  out <- utils::capture.output(print(as.data.frame(progress)))
+  out <- utils::capture.output(print(as.data.frame(x)))
   substr(out[2L], 0L, 1L) <- " "
   nchar_start <- nchar(out[1L])
   out[1L] <- trimws(out[1L], which = "left")
   n_trimmed <- nchar_start - nchar(out[1L])
   out[2L] <- substr(out[2L], n_trimmed + 1L, nchar(out[2]))
-  if (carriage_return) {
-    out[2L] <- paste0("\r", out[2L])
-  }
-  if (!is.null(length)) {
-    diff <- max(0L, length - nchar(out[2L]))
-    out[2L] <- paste(c(out[2L], rep(" ", diff)), collapse = "")
-  }
+  out[2L] <- paste0("\r", out[2L])
+  diff <- max(0L, getOption("width") - nchar(out[2L]))
+  out[1L] <- paste0(out[1L], "\n")
+  out[2L] <- paste(c(out[2L], rep(" ", diff)), collapse = "")
   out
 }
 # nocov end
