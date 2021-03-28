@@ -11,7 +11,7 @@ The `tar_watch()` app visualizes the status and progress of a `targets` pipeline
 * __refresh__: click this button to force the displays in the app to refresh.
 * __watch__: toggle whether the app refreshes automatically every few seconds.
 * __targets_only__: whether to show only the targets or also show functions and other global objects.
-* __outdated: whether to color-code nodes depending on whether they are up to date. This feature may cause if the number of targets is enormous, so you may consider turning it off to just color by runtime progress in some cases.
+* __outdated__: whether to color-code nodes depending on whether they are up to date. This feature may cause if the number of targets is enormous, so you may consider turning it off to just color by runtime progress in some cases.
 * __label__: labels to append to the node names to optionally show the size, runtime, and number of branches of targets based on past recorded info in the metadata.
 * __seconds__: how often to refresh the displays in the app when the "watch" switch is turned on.
 * __level_separation__: how wide the graph should be.
