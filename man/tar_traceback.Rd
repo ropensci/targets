@@ -4,7 +4,13 @@
 \alias{tar_traceback}
 \title{Get a target's traceback}
 \usage{
-tar_traceback(name, envir = NULL, packages = NULL, source = NULL)
+tar_traceback(
+  name,
+  envir = NULL,
+  packages = NULL,
+  source = NULL,
+  characters = getOption("width")
+)
 }
 \arguments{
 \item{name}{Symbol, name of the target whose workspace to read.}
@@ -18,6 +24,9 @@ of the target.}
 global object dependencies into \code{envir}. If \code{TRUE}, then \code{envir}
 should either be the global environment or inherit from the
 global environment.}
+
+\item{characters}{Positive integer. Each line of the traceback
+is shortened to this number of characters.}
 }
 \value{
 Character vector, the traceback of a failed target
@@ -40,7 +49,7 @@ tar_script({
   )
 }, ask = FALSE)
 try(tar_make())
-tail(tar_traceback(y))
+tar_traceback(y, characters = 80)
 })
 }
 }

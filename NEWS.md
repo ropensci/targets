@@ -4,6 +4,7 @@
 
 * Implement `tar_timestamp()` to get the last modified timestamp of a target's data (#378).
 * Implement `tar_progress_summary()` to compactly summarize all pipeline progress (#380).
+* Add a `characters` argument of `tar_traceback()` to cap the traceback line lengths (#383).
 
 ## Enhancements
 

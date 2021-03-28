@@ -6,6 +6,8 @@
 #' @return Character vector, the traceback of a failed target
 #'   if it exists.
 #' @param name Symbol, name of the target whose workspace to read.
+#' @param characters Positive integer. Each line of the traceback
+#'   is shortened to this number of characters.
 #' @param envir Deprecated in `targets` > 0.3.1 (2021-03-28).
 #' @param packages Logical, whether to load the required packages
 #'   of the target.
@@ -25,14 +27,15 @@
 #'   )
 #' }, ask = FALSE)
 #' try(tar_make())
-#' tail(tar_traceback(y))
+#' tar_traceback(y, characters = 80)
 #' })
 #' }
 tar_traceback <- function(
   name,
   envir = NULL,
   packages = NULL,
-  source = NULL
+  source = NULL,
+  characters = getOption("width")
 ) {
   if (!is.null(envir) || !is.null(packages) || !is.null(source)) {
     warn_deprecate(
@@ -48,10 +51,9 @@ tar_traceback <- function(
   if (is.null(out)) {
     return(character(0))
   }
-  n <- length(out)
   min <- max(which(grepl("^build_eval_fce17be7", out))) %||% 1 %||NA% 1
-  if (length(min) == 1L && length(max) == 1L && (max - min) >= 2L) {
-    out <- out[seq(min + 1, n)]
+  if (is.finite(min) && length(min) == 1L) {
+    out <- out[seq(min + 1, length(out))]
   }
-  out
+  substr(out, 0, characters)
 }
