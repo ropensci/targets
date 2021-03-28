@@ -6,6 +6,7 @@
 * Implement `tar_progress_summary()` to compactly summarize all pipeline progress (#380).
 * Add a `characters` argument of `tar_traceback()` to cap the traceback line lengths (#383).
 * Add new "summary" and "about" views to `tar_watch()` (#382).
+* Implement `tar_poll()` to repeatedly poll runtime progress in the R console (#381). `tar_poll()` is a lightweight alternative to `tar_watch()`.
 
 ## Enhancements
 

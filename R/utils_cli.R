@@ -82,12 +82,12 @@ cli_warned <- function(warned) {
 
 cli_header_progress <- function() {
   msg <- c(
-    "queue ",
-    "start ",
-    "skip  ",
-    "built ",
-    "error ",
-    "warn  ",
+    "queue",
+    "start",
+    " skip",
+    "built",
+    "error",
+    " warn",
     "cancel"
   )
   msg <- paste(msg, collapse = " | ")
@@ -126,8 +126,8 @@ cli_progress <- function(
 
 cli_outdated <- function(checked, outdated) {
   msg <- c(
-    cli_tally(checked, places = 6L, vanish = -1L),
-    cli_tally(outdated, places = 6L, vanish = -1L)
+    cli_tally(checked, places = 7L, vanish = -1L),
+    cli_tally(outdated, places = 8L, vanish = -1L)
   )
   msg <- paste0("\r", paste(msg, collapse = " | "))
   message(msg, appendLF = FALSE)
@@ -145,8 +145,8 @@ cli_tally <- function(x, places = 5L, vanish = 0L) {
   out <- ifelse(x > vanish, as.character(x), "")
   max <- paste(c(rep("9", places), "+"), collapse = "")
   out <- trn(nchar(out) > places, max, out)
-  spaces <- paste(rep(" ", max(0L, places + 1L - nchar(out))), collapse = "")
-  paste0(out, spaces)
+  spaces <- paste(rep(" ", max(0L, places - nchar(out))), collapse = "")
+  paste0(spaces, out)
 }
 
 time_stamp <- function(time = Sys.time()) {

@@ -78,6 +78,7 @@ reference:
   - '`tar_watch_ui`'
 - title: Progress
   contents:
+  - '`tar_poll`'
   - '`tar_progress`'
   - '`tar_progress_branches`'
   - '`tar_progress_summary`'
