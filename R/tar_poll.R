@@ -53,6 +53,7 @@ tar_poll <- function(
     message(text[2], appendLF = FALSE)
     Sys.sleep(interval)
   }
+  message("")
   cli_blue_bullet("tar_poll() timed out.")
 }
 
