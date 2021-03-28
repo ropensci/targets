@@ -50,9 +50,8 @@ tar_traceback <- function(
   }
   n <- length(out)
   min <- max(which(grepl("^build_eval_fce17be7", out))) %||% 1 %||NA% 1
-  max <- max(which(grepl("^\\.handleSimpleError", out))) %||% n %||NA% n
   if (length(min) == 1L && length(max) == 1L && (max - min) >= 2L) {
-    out <- out[seq(min + 1, max - 1)]
+    out <- out[seq(min + 1, n)]
   }
   out
 }
