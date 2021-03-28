@@ -3,7 +3,7 @@ The `tar_watch()` app visualizes the status and progress of a `targets` pipeline
 ## Views
 
 * __graph__: show the `tar_visnetwork()` dependency graph. If this graph may be slow to refesh, consider toggling the outdated switch, speeding up your `_targets.R` file, or selecting another view.
-* __summary__: overall runtime progress summary of the pipeline. In the table, the time column shows the last time a target started, finished, errored, or canceled itself. The since columns shows how long ago that was.
+* __summary__: overall runtime progress summary of the pipeline. In the table, the "time" column shows the last time a target started, finished, errored, or canceled itself. The "since" columns shows how long ago that was.
 * __branches__: like the summary view except with specific information about dynamic branching progress.
 
 ## Controls
