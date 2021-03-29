@@ -1,3 +1,4 @@
+#' @export
 store_new.aws_torch <- function(class, file = NULL, resources = NULL) {
   aws_torch_new(file = file, resources = resources)
 }

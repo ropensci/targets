@@ -1,3 +1,4 @@
+#' @export
 store_new.aws_keras <- function(class, file = NULL, resources = NULL) {
   aws_keras_new(file = file, resources = resources)
 }

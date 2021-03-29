@@ -1,3 +1,4 @@
+#' @export
 store_new.aws_parquet <- function(class, file = NULL, resources = NULL) {
   aws_parquet_new(file = file, resources = resources)
 }

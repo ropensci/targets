@@ -1,3 +1,4 @@
+#' @export
 store_new.aws_rds <- function(class, file = NULL, resources = NULL) {
   aws_rds_new(file = file, resources = resources)
 }

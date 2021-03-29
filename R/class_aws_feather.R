@@ -1,3 +1,4 @@
+#' @export
 store_new.aws_feather <- function(class, file = NULL, resources = NULL) {
   aws_feather_new(file = file, resources = resources)
 }

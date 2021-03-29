@@ -1,3 +1,4 @@
+#' @export
 store_new.aws_qs <- function(class, file = NULL, resources = NULL) {
   aws_qs_new(file = file, resources = resources)
 }

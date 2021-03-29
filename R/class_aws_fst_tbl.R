@@ -1,3 +1,4 @@
+#' @export
 store_new.aws_fst_tbl <- function(class, file = NULL, resources = NULL) {
   aws_fst_tbl_new(file = file, resources = resources)
 }

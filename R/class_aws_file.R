@@ -1,3 +1,4 @@
+#' @export
 store_new.aws_file <- function(class, file = NULL, resources = NULL) {
   aws_file_new(file = file, resources = resources)
 }
