@@ -12,9 +12,10 @@
 ## Enhancements
 
 * Attempt to print only the useful part of the traceback in `tar_traceback()` (#383).
-* Right-align the headers and counts in the "summary" and "forecast" reporters.
 * Add a line break at the end of the "summary" reporter so warnings do not mangle the output.
 * In `tar_watch()`, use `shinybusy` instead of `shinycssloaders` and keep current output on display while new output is rendering (#386, @rcorty).
+* Right-align the headers and counts in the "summary" and "forecast" reporters.
+* Add a timestamp to the "summary" reporter.
 
 # targets 0.3.1
 

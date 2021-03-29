@@ -26,7 +26,8 @@ and \code{"verbose"} otherwise. Choices:
 \item \code{"timestamp"}: print a time-stamped message for each target that runs.
 \item \code{"summary"}: print a running total of the number of each targets in
 each status category (queued, running, skipped, build, canceled,
-or errored).
+or errored). Also show a timestamp (\code{"\%H:\%M \%OS2"} \code{strptime()} format)
+of the last time the progress changed and printed to the screen.
 }}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R

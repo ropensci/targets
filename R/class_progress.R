@@ -174,16 +174,23 @@ progress_class <- R6::R6Class(
     any_remaining = function() {
       self$queued$count > 0L || self$started$count > 0L
     },
-    update_cli = function() {
-      cli_progress(
-        queued = self$queued$count,
-        skipped = self$skipped$count,
-        started = self$started$count,
+    cli_data = function() {
+      data_frame(
+        queue = self$queued$count,
+        skip = self$skipped$count,
+        start = self$started$count,
         built = self$built$count,
-        errored = self$errored$count,
-        warned = self$warned$count,
-        canceled = self$canceled$count
+        error = self$errored$count,
+        warn = self$warned$count,
+        cancel = self$canceled$count,
+        time = time_stamp_short()
       )
+    },
+    cli_header = function() {
+      cli_df_header(self$cli_data())
+    },
+    cli_update = function() {
+      cli_df_body(self$cli_data())
     },
     validate = function() {
       counter_validate(self$queued)

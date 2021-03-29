@@ -80,47 +80,10 @@ cli_warned <- function(warned) {
   )
 }
 
-cli_header_progress <- function() {
-  msg <- c(
-    "queue",
-    "start",
-    " skip",
-    "built",
-    "error",
-    " warn",
-    "cancel"
-  )
-  msg <- paste(msg, collapse = " | ")
-  msg <- paste0(msg, "\n")
-  message(msg, appendLF = FALSE)
-}
-
 cli_header_outdated <- function() {
   msg <- c("checked", "outdated")
   msg <- paste(msg, collapse = " | ")
   msg <- paste0(msg, "\n")
-  message(msg, appendLF = FALSE)
-}
-
-cli_progress <- function(
-  queued,
-  started,
-  skipped,
-  built,
-  errored,
-  warned,
-  canceled
-) {
-  msg <- c(
-    cli_tally(queued),
-    cli_tally(started),
-    cli_tally(skipped),
-    cli_tally(built),
-    cli_tally(errored),
-    cli_tally(warned),
-    cli_tally(canceled)
-  )
-  msg <- paste0("\r", paste(msg, collapse = " | "))
   message(msg, appendLF = FALSE)
 }
 
@@ -151,4 +114,8 @@ cli_tally <- function(x, places = 5L, vanish = 0L) {
 
 time_stamp <- function(time = Sys.time()) {
   format(time, "%z GMT %Y-%m-%d %H:%M %OS2")
+}
+
+time_stamp_short <- function(time = Sys.time()) {
+  format(time, "%H:%M %OS2")
 }
