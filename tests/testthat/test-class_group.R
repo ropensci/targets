@@ -68,11 +68,11 @@ tar_test("group validate()", {
 
 tar_test("group validate() on a non data frame", {
   x <- value_init(object = "abc", iteration = "group")
-  expect_error(value_validate(x), class = "condition_validate")
+  expect_error(value_validate(x), class = "tar_condition_validate")
 })
 
 tar_test("group validate() without tar_group column", {
   object <- data_frame(x = letters[seq_len(6)])
   x <- value_init(object = object, iteration = "group")
-  expect_error(value_validate(x), class = "condition_validate")
+  expect_error(value_validate(x), class = "tar_condition_validate")
 })

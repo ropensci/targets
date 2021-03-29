@@ -201,7 +201,7 @@ tar_test("error relaying", {
     )
   )
   local <- local_init(pipeline)
-  expect_error(local$run(), class = "condition_run")
+  expect_error(local$run(), class = "tar_condition_run")
 })
 
 tar_test("maps produce correct junctions and bud niblings", {
@@ -438,7 +438,7 @@ tar_test("map over empty stem", {
     )
   )
   local <- local_init(pipeline)
-  expect_error(local$run(), class = "condition_run")
+  expect_error(local$run(), class = "tar_condition_run")
 })
 
 tar_test("empty mapping variable", {
@@ -450,7 +450,7 @@ tar_test("empty mapping variable", {
   )
   expect_error(
     local_init(pipeline)$run(),
-    class = "condition_run"
+    class = "tar_condition_run"
   )
 })
 
@@ -464,7 +464,7 @@ tar_test("inconformable mapping variables", {
   )
   expect_error(
     local_init(pipeline)$run(),
-    class = "condition_validate"
+    class = "tar_condition_validate"
   )
 })
 
@@ -482,7 +482,7 @@ tar_test("must branch over stems and patterns", {
     )
   )
   algo <- local_init(pipeline = pipeline)
-  expect_error(algo$run(), class = "condition_validate")
+  expect_error(algo$run(), class = "tar_condition_validate")
 })
 
 tar_test("pattern dims are always deps", {
@@ -536,7 +536,7 @@ tar_test("prohibit branching over stem files", {
     )
   )
   algo <- local_init(pipeline)
-  expect_error(algo$run(), class = "condition_validate")
+  expect_error(algo$run(), class = "tar_condition_validate")
 })
 
 tar_test("cross pattern initializes correctly", {
@@ -652,7 +652,7 @@ tar_test("empty crossing variable", {
   )
   expect_error(
     local_init(pipeline)$run(),
-    class = "condition_run"
+    class = "tar_condition_run"
   )
 })
 
@@ -751,7 +751,7 @@ tar_test("pattern validate", {
 tar_test("pattern validate with bad junction", {
   x <- target_init("x", expr = quote(1 + 1), pattern = quote(map(a, b)))
   x$junction <- junction_new()
-  expect_error(target_validate(x), class = "condition_validate")
+  expect_error(target_validate(x), class = "tar_condition_validate")
 })
 
 tar_test("cross pattern validate", {

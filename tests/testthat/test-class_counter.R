@@ -83,5 +83,5 @@ tar_test("counter_validate() empty counter", {
 tar_test("counter_validate() with a count mismatch", {
   x <- counter_init(letters)
   x$count <- 0L
-  expect_error(counter_validate(x), class = "condition_validate")
+  expect_error(counter_validate(x), class = "tar_condition_validate")
 })

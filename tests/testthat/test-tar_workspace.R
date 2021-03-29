@@ -6,7 +6,7 @@ tar_test("workspaces are not saved if error = 'stop'", {
     )
   )
   local <- local_init(pipeline, reporter = "verbose")
-  expect_error(expect_message(local$run()), class = "condition_run")
+  expect_error(expect_message(local$run()), class = "tar_condition_run")
   expect_false(file.exists(path_workspace("x")))
 })
 
@@ -31,7 +31,7 @@ tar_test("workspaces are saved if error = 'save'", {
     )
   )
   local <- local_init(pipeline, reporter = "verbose")
-  expect_error(expect_message(local$run()), class = "condition_run")
+  expect_error(expect_message(local$run()), class = "tar_condition_run")
   expect_true(file.exists(path_workspace("x")))
 })
 

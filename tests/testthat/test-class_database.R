@@ -313,12 +313,12 @@ tar_test("database$validate()", {
 
 tar_test("database$validate() with bad list columns", {
   out <- database_init(header = c("name", "a"), list_columns = "b")
-  expect_error(out$validate(), class = "condition_validate")
+  expect_error(out$validate(), class = "tar_condition_validate")
 })
 
 tar_test("database$validate() without name column", {
   out <- database_init(header = letters)
-  expect_error(out$validate(), class = "condition_validate")
+  expect_error(out$validate(), class = "tar_condition_validate")
 })
 
 
@@ -346,6 +346,6 @@ tar_test("fail to validate incompatible header", {
   meta$database$overwrite_storage(data)
   expect_error(
     tar_make(callr_function = NULL),
-    class = "condition_file"
+    class = "tar_condition_file"
   )
 })

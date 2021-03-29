@@ -14,7 +14,7 @@ tar_test("misspell reporter name", {
   pipeline <- pipeline_init(list(target_init("x", quote(0))))
   expect_error(
     local_init(pipeline, reporter = "sillllent")$run(),
-    class = "condition_validate"
+    class = "tar_condition_validate"
   )
 })
 

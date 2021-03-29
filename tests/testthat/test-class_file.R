@@ -217,7 +217,7 @@ tar_test("file_validate() with an extra field", {
     time = "f123456789012345"
   )
   file$nope <- 123
-  expect_error(file_validate(file), class = "condition_validate")
+  expect_error(file_validate(file), class = "tar_condition_validate")
 })
 
 tar_test("file_validate() on a bad path", {
@@ -227,7 +227,7 @@ tar_test("file_validate() on a bad path", {
     bytes = 123,
     time = "f123456789012345"
   )
-  expect_error(file_validate(file), class = "condition_validate")
+  expect_error(file_validate(file), class = "tar_condition_validate")
 })
 
 tar_test("file_validate() on a bad hash", {
@@ -237,7 +237,7 @@ tar_test("file_validate() on a bad hash", {
     bytes = 123,
     time = "f123456789012345"
   )
-  expect_error(file_validate(file), class = "condition_validate")
+  expect_error(file_validate(file), class = "tar_condition_validate")
 })
 
 tar_test("file_validate() on a bad bytes", {
@@ -247,7 +247,7 @@ tar_test("file_validate() on a bad bytes", {
     bytes = "xyz",
     time = "f123456789012345"
   )
-  expect_error(file_validate(file), class = "condition_validate")
+  expect_error(file_validate(file), class = "tar_condition_validate")
 })
 
 tar_test("file_validate() on a bad time", {
@@ -257,5 +257,5 @@ tar_test("file_validate() on a bad time", {
     bytes = 123,
     time = NA_real_
   )
-  expect_error(file_validate(file), class = "condition_validate")
+  expect_error(file_validate(file), class = "tar_condition_validate")
 })

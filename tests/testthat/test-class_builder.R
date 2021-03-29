@@ -28,7 +28,7 @@ tar_test("target_run() on a errored builder", {
   target_update_depend(x, pipeline_init(), meta)
   expect_error(
     target_conclude(x, pipeline_init(), scheduler_init(), meta),
-    class = "condition_run"
+    class = "tar_condition_run"
   )
   expect_null(x$value$object)
   expect_true(metrics_has_error(x$metrics))
@@ -78,7 +78,7 @@ tar_test("error = \"stop\" means stop on error", {
   x <- target_init("x", expr = quote(stop(123)), error = "stop")
   y <- target_init("y", expr = quote(stop(456)), error = "stop")
   pipeline <- pipeline_init(list(x, y))
-  expect_error(local_init(pipeline)$run(), class = "condition_run")
+  expect_error(local_init(pipeline)$run(), class = "tar_condition_run")
   expect_equal(x$store$file$path, character(0))
   meta <- meta_init()$database$read_condensed_data()
   expect_true(all(nzchar(meta$error)))
@@ -93,7 +93,7 @@ tar_test("error = \"continue\" means continue on error", {
   suppressWarnings(
     expect_warning(
       suppressMessages(local_init(pipeline)$run()),
-      class = "condition_run"
+      class = "tar_condition_run"
     )
   )
   expect_equal(x$store$file$path, character(0))
@@ -113,7 +113,7 @@ tar_test("errored targets are not up to date", {
     pipeline <- pipeline_init(list(x))
     expect_error(
       local_init(pipeline)$run(),
-      class = "condition_run"
+      class = "tar_condition_run"
     )
   }
 })
@@ -206,7 +206,7 @@ tar_test("dynamic file has illegal path", {
     format = "file"
   )
   local <- local_init(pipeline_init(list(x)))
-  expect_error(local$run(), class = "condition_validate")
+  expect_error(local$run(), class = "tar_condition_validate")
 })
 
 tar_test("dynamic file has empty path", {
@@ -216,7 +216,7 @@ tar_test("dynamic file has empty path", {
     format = "file"
   )
   local <- local_init(pipeline_init(list(x)))
-  expect_error(local$run(), class = "condition_validate")
+  expect_error(local$run(), class = "tar_condition_validate")
 })
 
 tar_test("dynamic file has missing path value", {
@@ -226,7 +226,7 @@ tar_test("dynamic file has missing path value", {
     format = "file"
   )
   local <- local_init(pipeline_init(list(x)))
-  expect_error(local$run(), class = "condition_validate")
+  expect_error(local$run(), class = "tar_condition_validate")
 })
 
 tar_test("dynamic file is missing at path", {
@@ -237,7 +237,7 @@ tar_test("dynamic file is missing at path", {
     deployment = "main"
   )
   local <- local_init(pipeline_init(list(x)))
-  expect_error(local$run(), class = "condition_validate")
+  expect_error(local$run(), class = "tar_condition_validate")
 })
 
 tar_test("dynamic file writing from worker", {
@@ -348,9 +348,9 @@ tar_test("relay errors as messages if error is continue", {
     expect_message(
       expect_warning(
         tar_make(callr_function = NULL),
-        class = "condition_run"
+        class = "tar_condition_run"
       ),
-      class = "condition_run"
+      class = "tar_condition_run"
     )
   )
   meta <- tar_meta(names = c("data1", "data2"), fields = error)

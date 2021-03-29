@@ -13,14 +13,14 @@ tar_test("run timestamp reporter with a error and saved workspace", {
     )
   )
   local <- local_init(pipeline, reporter = "timestamp")
-  expect_error(expect_message(local$run()), class = "condition_run")
+  expect_error(expect_message(local$run()), class = "tar_condition_run")
 })
 
 tar_test("run timestamp reporter with a warning", {
   pipeline <- pipeline_init(list(target_init("x", quote(warning(123)))))
   local <- local_init(pipeline, reporter = "timestamp")
   suppressWarnings(
-    expect_warning(local$run(), class = "condition_run")
+    expect_warning(local$run(), class = "tar_condition_run")
   )
 })
 

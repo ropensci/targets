@@ -198,7 +198,7 @@ clustermq_class <- R6::R6Class(
       on.exit(self$end())
       tryCatch(
         self$produce_prelocal()$run(),
-        condition_prelocal = function(e) NULL
+        tar_condition_prelocal = function(e) NULL
       )
       if (self$scheduler$queue$is_nonempty()) {
         self$run_clustermq()

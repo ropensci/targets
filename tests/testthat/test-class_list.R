@@ -6,7 +6,7 @@ tar_test("value$object", {
 tar_test("misspell list", {
   expect_error(
     value_init(object = "abc", iteration = "lst_dlkfjks"),
-    class = "condition_validate"
+    class = "tar_condition_validate"
   )
 })
 

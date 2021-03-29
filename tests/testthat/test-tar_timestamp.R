@@ -1,5 +1,5 @@
 tar_test("NULL name outside target", {
-  expect_error(tar_timestamp(), class = "condition_validate")
+  expect_error(tar_timestamp(), class = "tar_condition_validate")
 })
 
 tar_test("empty timestamp", {

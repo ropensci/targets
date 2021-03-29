@@ -23,13 +23,13 @@ tar_test("settings_validate() with resources", {
 
 tar_test("settings_validate() with a bad name", {
   x <- settings_init(name = "")
-  expect_error(settings_validate(x), class = "condition_validate")
+  expect_error(settings_validate(x), class = "tar_condition_validate")
   x <- settings_init(name = 123)
-  expect_error(settings_validate(x), class = "condition_validate")
+  expect_error(settings_validate(x), class = "tar_condition_validate")
   x <- settings_init(name = "_abc")
-  expect_error(settings_validate(x), class = "condition_validate")
+  expect_error(settings_validate(x), class = "tar_condition_validate")
   x <- settings_init(name = "abc.")
-  expect_error(settings_validate(x), class = "condition_validate")
+  expect_error(settings_validate(x), class = "tar_condition_validate")
 })
 
 tar_test("settings_validate() with invalid pattern", {
@@ -39,7 +39,7 @@ tar_test("settings_validate() with invalid pattern", {
       format = "rds",
       pattern = quote(cartwheel(a, b))
     ),
-    class = "condition_validate"
+    class = "tar_condition_validate"
   )
   expect_error(
     settings_init(
@@ -47,27 +47,27 @@ tar_test("settings_validate() with invalid pattern", {
       format = "rds",
       pattern = quote(map())
     ),
-    class = "condition_validate"
+    class = "tar_condition_validate"
   )
 })
 
 tar_test("settings_validate() with bad field", {
   x <- settings_init(name = "abc")
   x$bad <- 123
-  expect_error(settings_validate(x), class = "condition_validate")
+  expect_error(settings_validate(x), class = "tar_condition_validate")
 })
 
 tar_test("settings_validate() with bad memory", {
   x <- settings_init(name = "abc", memory = "fancy")
-  expect_error(settings_validate(x), class = "condition_validate")
+  expect_error(settings_validate(x), class = "tar_condition_validate")
 })
 
 tar_test("settings_validate() with bad storage", {
   x <- settings_init(name = "abc", storage = "fancy")
-  expect_error(settings_validate(x), class = "condition_validate")
+  expect_error(settings_validate(x), class = "tar_condition_validate")
 })
 
 tar_test("settings_validate() with bad retrieval", {
   x <- settings_init(name = "abc", retrieval = "fancy")
-  expect_error(settings_validate(x), class = "condition_validate")
+  expect_error(settings_validate(x), class = "tar_condition_validate")
 })

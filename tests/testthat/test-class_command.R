@@ -76,37 +76,37 @@ tar_test("command_validate() on a good expr", {
 tar_test("command_validate() with an extra field", {
   command <- command_init(quote(a <- b + c))
   command$nope <- 123
-  expect_error(command_validate(command), class = "condition_validate")
+  expect_error(command_validate(command), class = "tar_condition_validate")
 })
 
 tar_test("command_validate() with empty expr field", {
   command <- command_init()
   command$expr <- NULL
-  expect_error(command_validate(command), class = "condition_validate")
+  expect_error(command_validate(command), class = "tar_condition_validate")
 })
 
 tar_test("command_validate() with bad packages field", {
   command <- command_init(expr = quote(a <- b + c), packages = 123)
-  expect_error(command_validate(command), class = "condition_validate")
+  expect_error(command_validate(command), class = "tar_condition_validate")
 })
 
 tar_test("command validation with packages (test 2)", {
   command_good <- command_init(quote(a <- b + c))
   expect_silent(command_validate(command_good))
   command_bad <- command_init(quote(a <- b + c), packages = 123)
-  expect_error(command_validate(command_bad), class = "condition_validate")
+  expect_error(command_validate(command_bad), class = "tar_condition_validate")
   expect_error(command_validate_packages(command_bad))
 })
 
 tar_test("command_validate() with bad library field", {
   command <- command_init(expr = quote(a <- b + c), library = 123)
-  expect_error(command_validate(command), class = "condition_validate")
+  expect_error(command_validate(command), class = "tar_condition_validate")
 })
 
 tar_test("command_validate() with bad deps field", {
   command <- command_init(expr = quote(a <- b + c))
   command$deps <- 123L
-  expect_error(command_validate(command), class = "condition_validate")
+  expect_error(command_validate(command), class = "tar_condition_validate")
 })
 
 tar_test("command_validate() with bad string field", {
@@ -116,7 +116,7 @@ tar_test("command_validate() with bad string field", {
     deps = character(0),
     seed = 0L
   )
-  expect_error(command_validate(command), class = "condition_validate")
+  expect_error(command_validate(command), class = "tar_condition_validate")
 })
 
 tar_test("command_validate() with bad hash field", {
@@ -127,13 +127,13 @@ tar_test("command_validate() with bad hash field", {
     string = "abcde",
     seed = 0L
   )
-  expect_error(command_validate(command), class = "condition_validate")
+  expect_error(command_validate(command), class = "tar_condition_validate")
 })
 
 tar_test("command_validate() with a bad seed", {
   x <- command_init(expr = quote(a <- b + c))
   x$seed <- "123"
-  expect_error(command_validate(x), class = "condition_validate")
+  expect_error(command_validate(x), class = "tar_condition_validate")
   x$seed <- integer(0)
-  expect_error(command_validate(x), class = "condition_validate")
+  expect_error(command_validate(x), class = "tar_condition_validate")
 })

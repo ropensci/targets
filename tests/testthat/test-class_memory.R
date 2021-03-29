@@ -73,18 +73,18 @@ tar_test("memory_validate() on a good memory object", {
 
 tar_test("memory_validate() on a memory object with no environment", {
   out <- memory_new(names = character(0))
-  expect_error(memory_validate(out), class = "condition_validate")
+  expect_error(memory_validate(out), class = "tar_condition_validate")
 })
 
 tar_test("memory_validate() on a memory object with no names", {
   out <- memory_new(envir = new.env())
-  expect_error(memory_validate(out), class = "condition_validate")
+  expect_error(memory_validate(out), class = "tar_condition_validate")
 })
 
 tar_test("memory_validate() with an extra field", {
   out <- memory_new(envir = new.env())
   out$bad <- 123
-  expect_error(memory_validate(out), class = "condition_validate")
+  expect_error(memory_validate(out), class = "tar_condition_validate")
 })
 
 tar_test("memory_validate() with incorrect names", {
@@ -93,5 +93,5 @@ tar_test("memory_validate() with incorrect names", {
   memory_set_object(out, "b", "456")
   memory_set_object(out, "c", "789")
   out$names <- c("a", "b")
-  expect_error(memory_validate(out), class = "condition_validate")
+  expect_error(memory_validate(out), class = "tar_condition_validate")
 })

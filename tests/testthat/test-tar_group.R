@@ -22,5 +22,5 @@ tar_test("tar_group() needs group_by()", {
     x = seq_len(6),
     id = rep(letters[seq_len(3)], each = 2)
   )
-  expect_error(tar_group(out), class = "condition_validate")
+  expect_error(tar_group(out), class = "tar_condition_validate")
 })

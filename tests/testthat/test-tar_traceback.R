@@ -26,6 +26,6 @@ tar_test("tar_traceback() deprecated arguments", {
   tar_make(callr_function = NULL)
   expect_warning(
     tar_traceback(z, envir = emptyenv()),
-    class = "condition_deprecate"
+    class = "tar_condition_deprecate"
   )
 })

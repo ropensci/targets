@@ -52,7 +52,7 @@ tar_test("load packages", {
     suppressWarnings(
       build_load_packages(command_bad$packages, command_bad$library)
     ),
-    class = "condition_validate"
+    class = "tar_condition_validate"
   )
 })
 
@@ -64,5 +64,5 @@ tar_test("validate good builds", {
 tar_test("validate builds with bad metrics", {
   build <- build_init(quote(1L + 1L), baseenv())
   build$metrics$seconds <- NULL
-  expect_error(build_validate(build), class = "condition_validate")
+  expect_error(build_validate(build), class = "tar_condition_validate")
 })

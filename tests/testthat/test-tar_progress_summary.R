@@ -1,5 +1,5 @@
 tar_test("progress does not exist", {
-  expect_error(tar_progress_summary(), class = "condition_validate")
+  expect_error(tar_progress_summary(), class = "tar_condition_validate")
 })
 
 tar_test("default progress", {

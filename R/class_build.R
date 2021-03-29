@@ -26,7 +26,7 @@ build_init <- function(
       build_run_expr(expr, envir, seed, packages, library),
       error = capture_error,
       warning = capture_warning,
-      condition_cancel = capture_cancel
+      tar_condition_cancel = capture_cancel
     ),
     error = function(condition) {
     }
@@ -87,7 +87,7 @@ build_traceback <- function(condition, calls) {
 }
 
 #' @export
-build_traceback.condition_cancel <- function(condition, calls) {
+build_traceback.tar_condition_cancel <- function(condition, calls) {
   NULL
 }
 

@@ -180,7 +180,7 @@ tar_test("pipeline_prune_targets() with multiple names", {
 tar_test("pipeline with duplicated targets", {
   x <- target_init("x", quote(1))
   y <- target_init("x", quote(1))
-  expect_error(pipeline_init(list(x, y)), class = "condition_validate")
+  expect_error(pipeline_init(list(x, y)), class = "tar_condition_validate")
 })
 
 tar_test("pipeline_reset_priorities()", {
@@ -238,10 +238,10 @@ tar_test("print method", {
 })
 
 tar_test("validate a non-pipeline", {
-  expect_error(pipeline_validate(stem_new()), class = "condition_validate")
+  expect_error(pipeline_validate(stem_new()), class = "tar_condition_validate")
   expect_error(
     pipeline_validate_lite(stem_new()),
-    class = "condition_validate"
+    class = "tar_condition_validate"
   )
 })
 
@@ -258,7 +258,7 @@ tar_test("validate an empty pipeline", {
 tar_test("pipeline_validate(pipeline) with a bad target", {
   pipeline <- pipeline_order()
   pipeline_set_target(pipeline, target_init("x."))
-  expect_error(pipeline_validate(pipeline), class = "condition_validate")
+  expect_error(pipeline_validate(pipeline), class = "tar_condition_validate")
 })
 
 tar_test("pipeline_validate(pipeline) with circular graph", {
@@ -268,5 +268,5 @@ tar_test("pipeline_validate(pipeline) with circular graph", {
       target_init("y", quote(x + 1))
     )
   )
-  expect_error(pipeline_validate(pipeline), class = "condition_validate")
+  expect_error(pipeline_validate(pipeline), class = "tar_condition_validate")
 })

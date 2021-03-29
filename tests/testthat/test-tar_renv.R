@@ -155,6 +155,6 @@ tar_test("tar_env() cannot go inside _targets.R", {
   })
   expect_error(
     tar_validate(callr_function = NULL),
-    class = "condition_validate"
+    class = "tar_condition_validate"
   )
 })

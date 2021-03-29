@@ -1,13 +1,13 @@
 tar_test("tar_pattern() input edge cases", {
-  expect_error(tar_pattern(2), class = "condition_validate")
-  expect_error(tar_pattern(map(x), x = "x"), class = "condition_validate")
-  expect_error(tar_pattern(map(x), 3, x = 1), class = "condition_validate")
+  expect_error(tar_pattern(2), class = "tar_condition_validate")
+  expect_error(tar_pattern(map(x), x = "x"), class = "tar_condition_validate")
+  expect_error(tar_pattern(map(x), 3, x = 1), class = "tar_condition_validate")
 })
 
 tar_test("tar_pattern() map unequal length inputs", {
   expect_error(
     tar_pattern(map(x, y), x = 2, y = 3),
-    class = "condition_validate"
+    class = "tar_condition_validate"
   )
 })
 

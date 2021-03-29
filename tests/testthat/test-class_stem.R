@@ -168,7 +168,7 @@ tar_test("stem$produce_record() of a errored stem", {
   target <- target_init("x", quote(stop(123)))
   pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
-  expect_error(local$run(), class = "condition_run")
+  expect_error(local$run(), class = "tar_condition_run")
   meta <- local$meta
   record <- target_produce_record(target, pipeline, meta)
   expect_silent(record_validate(record))
@@ -193,7 +193,7 @@ tar_test("stem$produce_record() with no error message", {
   target <- target_init("x", quote(stop()))
   pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
-  expect_error(local$run(), class = "condition_run")
+  expect_error(local$run(), class = "tar_condition_run")
   meta <- local$meta
   record <- target_produce_record(target, pipeline, meta)
   expect_equal(record$error, ".")
@@ -248,7 +248,7 @@ tar_test("buds names stay in metadata on error", {
       tar_target(y, x, pattern = map(x))
     )
   })
-  expect_error(tar_make(callr_function = NULL), class = "condition_run")
+  expect_error(tar_make(callr_function = NULL), class = "tar_condition_run")
   buds <- tar_meta(x, children)$children[[1]]
   expect_equal(length(unique(buds)), 3L)
   expect_true(all(grepl("x_", buds)))
@@ -324,7 +324,7 @@ tar_test("packages load errors are recorded (#228)", {
   tar_script(list(tar_target(x, 1, packages = "kls;;;hfajksdf")))
   expect_error(
     suppressWarnings(tar_make(callr_function = NULL)),
-    class = "condition_run"
+    class = "tar_condition_run"
   )
   out <- tar_progress()
   expect_equal(out$progress, "errored")

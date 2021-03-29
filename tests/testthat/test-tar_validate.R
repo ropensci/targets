@@ -22,7 +22,7 @@ tar_test("tar_validate() warns about name conflicts", {
   suppressWarnings(
     expect_warning(
       tar_validate(callr_function = NULL),
-      class = "condition_validate"
+      class = "tar_condition_validate"
     )
   )
 })

@@ -1,7 +1,7 @@
 tar_test("tar_read() on missing builder", {
   pipeline <- pipeline_init(list(target_init("x", quote(1L))))
   local_init(pipeline = pipeline)$run()
-  expect_error(tar_read(y), class = "condition_validate")
+  expect_error(tar_read(y), class = "tar_condition_validate")
 })
 
 tar_test("tar_read() works on builders", {
@@ -38,7 +38,7 @@ tar_test("tar_read() on patterns with vector iteration", {
   expect_equal(tar_read(y), letters[seq_len(4L)])
   out <- tar_read(y, branches = c(2L, 3L))
   expect_equal(out, letters[c(2L, 3L)])
-  expect_error(tar_read(y, branches = 99L), class = "condition_validate")
+  expect_error(tar_read(y, branches = 99L), class = "tar_condition_validate")
 })
 
 tar_test("tar_read() on patterns with list iteration", {

@@ -9,7 +9,7 @@ tar_test("frames$validate() with broken inheritance", {
   imports$envir <- new.env(parent = emptyenv())
   targets <- out$targets
   targets$envir <- new.env(parent = emptyenv())
-  expect_error(frames_validate(out), class = "condition_validate")
+  expect_error(frames_validate(out), class = "tar_condition_validate")
 })
 
 tar_test("frames$imports", {

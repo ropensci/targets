@@ -35,20 +35,20 @@ tar_test("metrics_terminated_early() without cancel", {
 
 tar_test("validate metrics with bad seconds", {
   metrics <- metrics_new()
-  expect_error(metrics_validate(metrics), class = "condition_validate")
+  expect_error(metrics_validate(metrics), class = "tar_condition_validate")
 })
 
 tar_test("validate metrics with bad warnings", {
   metrics <- metrics_new(seconds = 1, warnings = 123)
-  expect_error(metrics_validate(metrics), class = "condition_validate")
+  expect_error(metrics_validate(metrics), class = "tar_condition_validate")
 })
 
 tar_test("validate metrics with bad error", {
   metrics <- metrics_new(seconds = 1, error = 123)
-  expect_error(metrics_validate(metrics), class = "condition_validate")
+  expect_error(metrics_validate(metrics), class = "tar_condition_validate")
 })
 
 tar_test("validate metrics with bad traceback", {
   metrics <- metrics_new(seconds = 1, traceback = 123)
-  expect_error(metrics_validate(metrics), class = "condition_validate")
+  expect_error(metrics_validate(metrics), class = "tar_condition_validate")
 })

@@ -162,39 +162,39 @@ tar_test("parallel$validate() on a good queue", {
 
 tar_test("parallel$validate() with empty names", {
   q <- parallel_init(names = NULL, ranks = seq_len(3))
-  expect_error(q$validate(), class = "condition_validate")
+  expect_error(q$validate(), class = "tar_condition_validate")
 })
 
 tar_test("parallel$validate() with duplicated names", {
   q <- parallel_init(names = rep("a", 3), ranks = seq_len(3))
-  expect_error(q$validate(), class = "condition_validate")
+  expect_error(q$validate(), class = "tar_condition_validate")
 })
 
 tar_test("parallel$validate() with missing names", {
   q <- parallel_init(names = c("a", NA_character_), ranks = c(1L, 2L))
-  expect_error(q$validate(), class = "condition_validate")
+  expect_error(q$validate(), class = "tar_condition_validate")
 })
 
 tar_test("parallel$validate() with non-integer ranks", {
   data <- letters[seq_len(3)]
   names(data) <- data
   q <- parallel_new(data)
-  expect_error(q$validate(), class = "condition_validate")
+  expect_error(q$validate(), class = "tar_condition_validate")
 })
 
 tar_test("parallel$validate() with negative ranks", {
   q <- parallel_init(names = letters[seq_len(3)], ranks = -seq_len(3))
-  expect_error(q$validate(), class = "condition_validate")
+  expect_error(q$validate(), class = "tar_condition_validate")
 })
 
 tar_test("parallel$validate() with missing ranks", {
   q <- parallel_init(names = c("a", "b"), ranks = c(1L, NA_integer_))
-  expect_error(q$validate(), class = "condition_validate")
+  expect_error(q$validate(), class = "tar_condition_validate")
 })
 
 tar_test("parallel$validate() with bad counter", {
   q <- parallel_init(names = c("a", "b"), ranks = c(1L, 2L))
   counter <- q$counter
   counter$count <- 0L
-  expect_error(q$validate(), class = "condition_validate")
+  expect_error(q$validate(), class = "tar_condition_validate")
 })

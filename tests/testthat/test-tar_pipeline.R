@@ -1,7 +1,10 @@
 tar_test("tar_pipeline() works with loose targets", {
   a <- tar_target(a, "a")
   b <- tar_target(b, c(a, "b"))
-  expect_warning(pipeline <- tar_pipeline(a, b), class = "condition_deprecate")
+  expect_warning(
+    pipeline <- tar_pipeline(a, b),
+    class = "tar_condition_deprecate"
+  )
   expect_silent(pipeline_validate(pipeline))
   local_init(pipeline = pipeline)$run()
   expect_equal(target_read_value(b)$object, c("a", "b"))
@@ -15,7 +18,7 @@ tar_test("tar_pipeline() works with target lists", {
         tar_target(b, c(a, "b"))
       )
     ),
-    class = "condition_deprecate"
+    class = "tar_condition_deprecate"
   )
   expect_silent(pipeline_validate(pipeline))
   local_init(pipeline = pipeline)$run()
@@ -36,7 +39,7 @@ tar_test("tar_pipeline() works with weird lists", {
         tar_target(b, c(a, "b"))
       )
     ),
-    class = "condition_deprecate"
+    class = "tar_condition_deprecate"
   )
   expect_silent(pipeline_validate(pipeline))
   local_init(pipeline = pipeline)$run()

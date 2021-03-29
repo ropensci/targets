@@ -37,7 +37,12 @@ throw_validate <- function(...) {
 message_run <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
-    class = c("condition_run", "condition_targets", "message", "condition")
+    class = c(
+      "tar_condition_run",
+      "tar_condition_targets",
+      "message",
+      "condition"
+    )
   )
 }
 
@@ -45,8 +50,8 @@ warning_deprecate <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
     class = c(
-      "condition_deprecate",
-      "condition_targets",
+      "tar_condition_deprecate",
+      "tar_condition_targets",
       "warning",
       "condition"
     )
@@ -56,49 +61,84 @@ warning_deprecate <- function(...) {
 warning_run <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
-    class = c("condition_run", "condition_targets", "warning", "condition")
+    class = c(
+      "tar_condition_run",
+      "tar_condition_targets",
+      "warning",
+      "condition"
+    )
   )
 }
 
 warning_validate <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
-    class = c("condition_validate", "condition_targets", "warning", "condition")
+    class = c(
+      "tar_condition_validate",
+      "tar_condition_targets",
+      "warning",
+      "condition"
+    )
   )
 }
 
 error_cancel <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
-    class = c("condition_cancel", "condition_targets", "error", "condition")
+    class = c(
+      "tar_condition_cancel",
+      "tar_condition_targets",
+      "error",
+      "condition"
+    )
   )
 }
 
 error_file <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
-    class = c("condition_file", "condition_targets", "error", "condition")
+    class = c(
+      "tar_condition_file",
+      "tar_condition_targets",
+      "error",
+      "condition"
+    )
   )
 }
 
 error_prelocal <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
-    class = c("condition_prelocal", "condition_targets", "error", "condition")
+    class = c(
+      "tar_condition_prelocal",
+      "tar_condition_targets",
+      "error",
+      "condition"
+    )
   )
 }
 
 error_run <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
-    class = c("condition_run", "condition_targets", "error", "condition")
+    class = c(
+      "tar_condition_run",
+      "tar_condition_targets",
+      "error",
+      "condition"
+    )
   )
 }
 
 error_validate <- function(...) {
   structure(
     list(message = paste0(..., collapse = ""), call = NULL),
-    class = c("condition_validate", "condition_targets", "error", "condition")
+    class = c(
+      "tar_condition_validate",
+      "tar_condition_targets",
+      "error",
+      "condition"
+    )
   )
 }
 

@@ -32,11 +32,11 @@ tar_test("dynamic urls work", {
   expect_false(file.exists(file.path("_targets", "objects", "abc")))
 })
 
-tar_test("condition_run error on bad URL", {
+tar_test("tar_condition_run error on bad URL", {
   skip_if_not_installed("curl")
   skip_if_offline()
   tar_script(tar_target(abc, "https://httpbin.org/status/404", format = "url"))
-  expect_error(tar_make(callr_function = NULL), class = "condition_run")
+  expect_error(tar_make(callr_function = NULL), class = "tar_condition_run")
 })
 
 tar_test("custom handle can be supplied without error", {
@@ -69,7 +69,7 @@ tar_test("dynamic urls must return characters", {
   )
   pipeline <- pipeline_init(list(x))
   local <- local_init(pipeline = pipeline)
-  expect_error(local$run(), class = "condition_validate")
+  expect_error(local$run(), class = "tar_condition_validate")
 })
 
 tar_test("url target store gets custom curl handle", {
@@ -99,7 +99,10 @@ tar_test("bad curl handle throws an error", {
       )
     )
   })
-  expect_error(tar_make(callr_function = NULL), class = "condition_validate")
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_validate"
+  )
 })
 
 tar_test("validate url format", {

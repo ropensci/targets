@@ -102,7 +102,7 @@ tar_test("target_upstream_edges()", {
 tar_test("error if unsupported pattern", {
   expect_error(
     target_init(name = "abc", expr = quote(xyz), pattern = quote(nope(xyz))),
-    class = "condition_validate"
+    class = "tar_condition_validate"
   )
 })
 
@@ -116,7 +116,7 @@ tar_test("target_get_packages()", {
 tar_test("error to validate a circular target", {
   expect_error(
     target_init(name = "abc", expr = quote(abc), pattern = quote(map(abc))),
-    class = "condition_validate"
+    class = "tar_condition_validate"
   )
 })
 
@@ -299,7 +299,7 @@ tar_test("invalidation: remove a function to cue a rebuild", {
   x <- target_init("x", quote(f(1)))
   pipeline <- pipeline_init(list(x))
   local <- local_init(pipeline)
-  expect_error(local$run(), class = "condition_run")
+  expect_error(local$run(), class = "tar_condition_run")
   out <- counter_get_names(local$scheduler$progress$errored)
   expect_equal(out, "x")
 })

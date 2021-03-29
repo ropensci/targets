@@ -26,7 +26,10 @@ tar_test("bad compression level throws error", {
       )
     )
   })
-  expect_error(tar_make(callr_function = NULL), class = "condition_validate")
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_validate"
+  )
 })
 
 tar_test("qs packages", {

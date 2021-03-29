@@ -49,11 +49,11 @@ tar_test("junction_validate()", {
 tar_test("junction_validate() with an extra field", {
   x <- junction_init("x", letters, list(LETTERS, rev = rev(letters)))
   x$bad <- 123
-  expect_error(junction_validate(x), class = "condition_validate")
+  expect_error(junction_validate(x), class = "tar_condition_validate")
 })
 
 tar_test("junction_validate() with bad deps", {
   x <- junction_init("x", letters, list(LETTERS, rev = rev(letters)))
   x$deps <- list(x = 123)
-  expect_error(junction_validate(x), class = "condition_validate")
+  expect_error(junction_validate(x), class = "tar_condition_validate")
 })

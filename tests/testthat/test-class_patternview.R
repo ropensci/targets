@@ -57,7 +57,7 @@ tar_test("progress of a pattern with a errored branch", {
     )
   )
   local <- local_init(pipeline)
-  expect_error(local$run(), class = "condition_run")
+  expect_error(local$run(), class = "tar_condition_run")
   progress <- local$scheduler$progress$database$read_data()
   progress <- as_data_frame(progress)
   progress <- progress[progress$name == "map", ]

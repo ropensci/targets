@@ -62,8 +62,8 @@ tar_test("imports_init() idempotence", {
 
 tar_test("imports_validate()", {
   expect_silent(imports_validate(imports_new(new.env())))
-  expect_error(imports_validate(new.env()), class = "condition_validate")
-  expect_error(imports_validate(123), class = "condition_validate")
+  expect_error(imports_validate(new.env()), class = "tar_condition_validate")
+  expect_error(imports_validate(123), class = "tar_condition_validate")
 })
 
 tar_test("imports setting works", {
