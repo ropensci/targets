@@ -1,5 +1,8 @@
 {
-  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "http://schema.org"
+  ],
   "@type": "SoftwareSourceCode",
   "identifier": "targets",
   "description": "As a pipeline toolkit for Statistics and data science in R,\n  the 'targets' package brings together function-oriented programming and\n  'Make'-like declarative workflows.\n  It analyzes the dependency relationships among the tasks of a workflow,\n  skips steps that are already up to date, runs the necessary\n  computation with optional parallel workers, abstracts files as\n  R objects, and provides tangible evidence that the results match\n  the underlying code and data. The methodology in this package\n  borrows from GNU 'Make' (2015, ISBN:978-9881443519)\n  and 'drake' (2018, <doi:10.21105/joss.00550>).",
@@ -556,7 +559,7 @@
   ],
   "releaseNotes": "https://github.com/ropensci/targets/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/targets/blob/main/README.md",
-  "fileSize": "1183.339KB",
+  "fileSize": "1202.964KB",
   "contIntegration": "https://codecov.io/gh/ropensci/targets",
   "developmentStatus": "https://www.repostatus.org/#active",
   "review": {
@@ -564,7 +567,21 @@
     "url": "https://github.com/ropensci/software-review/issues/401",
     "provider": "https://ropensci.org"
   },
-  "keywords": ["reproducibility", "high-performance-computing", "r", "data-science", "pipeline", "rstats", "r-package", "workflow", "targets", "reproducible-research", "make", "r-targetopia", "peer-reviewed"],
+  "keywords": [
+    "reproducibility",
+    "high-performance-computing",
+    "r",
+    "data-science",
+    "pipeline",
+    "rstats",
+    "r-package",
+    "workflow",
+    "targets",
+    "reproducible-research",
+    "make",
+    "r-targetopia",
+    "peer-reviewed"
+  ],
   "citation": [
     {
       "@type": "ScholarlyArticle",
