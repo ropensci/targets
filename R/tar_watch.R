@@ -398,7 +398,7 @@ tar_watch_server <- function(id, height = "650px") {
         )
       })
       output$graph <- visNetwork::renderVisNetwork({
-        req(out$graph)
+        shiny::req(out$graph)
         out$graph
       })
       output$summary <- gt::render_gt({
