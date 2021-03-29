@@ -80,36 +80,12 @@ cli_warned <- function(warned) {
   )
 }
 
-cli_header_outdated <- function() {
-  msg <- c("checked", "outdated")
-  msg <- paste(msg, collapse = " | ")
-  msg <- paste0(msg, "\n")
-  message(msg, appendLF = FALSE)
-}
-
-cli_outdated <- function(checked, outdated) {
-  msg <- c(
-    cli_tally(checked, places = 7L, vanish = -1L),
-    cli_tally(outdated, places = 8L, vanish = -1L)
-  )
-  msg <- paste0("\r", paste(msg, collapse = " | "))
-  message(msg, appendLF = FALSE)
-}
-
 cli_port <- function(host, port) {
   cli::cli_ul()
   cli::cli_li("url: {.path http://{host}:{port}}")
   cli::cli_li("host: {.path {host}}")
   cli::cli_li("port: {.path {port}}")
   cli::cli_end()
-}
-
-cli_tally <- function(x, places = 5L, vanish = 0L) {
-  out <- ifelse(x > vanish, as.character(x), "")
-  max <- paste(c(rep("9", places), "+"), collapse = "")
-  out <- trn(nchar(out) > places, max, out)
-  spaces <- paste(rep(" ", max(0L, places - nchar(out))), collapse = "")
-  paste0(spaces, out)
 }
 
 time_stamp <- function(time = Sys.time()) {

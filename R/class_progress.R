@@ -186,12 +186,6 @@ progress_class <- R6::R6Class(
         time = time_stamp_short()
       )
     },
-    cli_header = function() {
-      cli_df_header(self$cli_data())
-    },
-    cli_update = function() {
-      cli_df_body(self$cli_data())
-    },
     validate = function() {
       counter_validate(self$queued)
       counter_validate(self$started)

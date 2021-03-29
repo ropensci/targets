@@ -12,22 +12,22 @@ summary_class <- R6::R6Class(
     report_error = function(error) {
     },
     report_start = function() {
-      progress_init()$cli_header()
+      cli_df_header(progress_init()$cli_data())
     },
     report_started = function(target, progress) {
-      progress$cli_update()
+      cli_df_body(progress$cli_data())
     },
     report_skipped = function(target, progress) {
-      progress$cli_update()
+      cli_df_body(progress$cli_data())
     },
     report_errored = function(target, progress) {
-      progress$cli_update()
+      cli_df_body(progress$cli_data())
     },
     report_canceled = function(target = NULL, progress = NULL) {
-      progress$cli_update()
+      cli_df_body(progress$cli_data())
     },
     report_end = function(progress) {
-      progress$cli_update()
+      cli_df_body(progress$cli_data())
       message("")
     }
   )

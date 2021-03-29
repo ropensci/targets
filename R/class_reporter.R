@@ -41,7 +41,7 @@ reporter_class <- R6::R6Class(
     },
     report_canceled = function(target = NULL, progress = NULL) {
     },
-    report_outdated = function(checked, outdated) {
+    report_outdated = function(outdated) {
     },
     report_workspace = function(target) {
     },

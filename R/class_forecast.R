@@ -10,12 +10,12 @@ forecast_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     report_start = function() {
-      cli_header_outdated()
+      cli_df_header(outdated_init()$cli_data())
     },
     report_skipped = function(target, progress) {
     },
-    report_outdated = function(checked, outdated) {
-      cli_outdated(checked$count, outdated$count)
+    report_outdated = function(outdated) {
+      cli_df_body(outdated$cli_data())
     },
     report_end = function(progress = NULL) {
       message("")

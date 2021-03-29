@@ -10,7 +10,9 @@ outdated_init <- function(
     meta = meta,
     names = names,
     queue = queue,
-    reporter = reporter
+    reporter = reporter,
+    checked = counter_init(),
+    outdated = counter_init()
   )
 }
 
@@ -19,14 +21,18 @@ outdated_new <- function(
   meta = NULL,
   names = NULL,
   queue = NULL,
-  reporter = NULL
+  reporter = NULL,
+  checked = NULL,
+  outdated = NULL
 ) {
   outdated_class$new(
     pipeline = pipeline,
     meta = meta,
     names = names,
     queue = queue,
-    reporter = reporter
+    reporter = reporter,
+    checked = checked,
+    outdated = outdated
   )
 }
 
@@ -44,7 +50,9 @@ outdated_class <- R6::R6Class(
       meta = NULL,
       names = NULL,
       queue = NULL,
-      reporter = NULL
+      reporter = NULL,
+      checked = NULL,
+      outdated = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -53,8 +61,11 @@ outdated_class <- R6::R6Class(
         queue = queue,
         reporter = reporter
       )
-      self$checked <- counter_init()
-      self$outdated <- counter_init()
+      self$checked <- checked
+      self$outdated <- outdated
+    },
+    cli_data = function() {
+      data_frame(checked = self$checked$count, outdated = self$outdated$count)
     },
     is_outdated = function(name) {
       counter_exists_name(self$outdated, name)
@@ -126,7 +137,7 @@ outdated_class <- R6::R6Class(
         self$process_builder(target)
       )
       self$register_checked(name)
-      self$scheduler$reporter$report_outdated(self$checked, self$outdated)
+      self$scheduler$reporter$report_outdated(self)
     },
     run = function() {
       self$start()
