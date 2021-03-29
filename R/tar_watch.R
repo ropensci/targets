@@ -346,7 +346,11 @@ tar_watch_server <- function(id, height = "650px") {
     function(input, output, session) {
       interval <- 200
       refresh <- shiny::reactiveValues(refresh = tempfile())
-      out <- reactiveValues(graph = NULL, summary = NULL, branches = NULL)
+      out <- shiny::reactiveValues(
+        graph = NULL,
+        summary = NULL,
+        branches = NULL
+      )
       react_millis <- shiny::reactive(1000 * as.numeric(input$seconds))
       react_targets <- shiny::reactive(as.logical(input$targets_only))
       react_outdated <- shiny::reactive(as.logical(input$outdated))
