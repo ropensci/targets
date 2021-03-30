@@ -2,7 +2,7 @@
 
 ## Bug fixes
 
-* Return correct error messages from feather and parquet formats (#388). Now calling `assert_df()` from `store_assert_format()` instead of `store_coerce_object()`. And now those last two functions are not called at all if the target throws an error.
+* Return correct error messages from feather and parquet formats (#388). Now calling `assert_df()` from `store_assert_format()` instead of `store_cast_object()`. And now those last two functions are not called at all if the target throws an error.
 
 ## New features
 

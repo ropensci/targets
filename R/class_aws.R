@@ -41,14 +41,14 @@ store_read_object.tar_aws <- function(store) {
   tmp <- tempfile()
   on.exit(unlink(tmp))
   aws.s3::save_object(object = key, bucket = bucket, file = tmp)
-  store_coerce_object(store, store_read_path(store, tmp))
+  store_cast_object(store, store_read_path(store, tmp))
 }
 
 #' @export
 store_write_object.tar_aws <- function(store, object) {
   stage <- store$file$stage
   dir_create(dirname(stage))
-  store_write_path(store, store_coerce_object(store, object), stage)
+  store_write_path(store, store_cast_object(store, object), stage)
 }
 
 #' @export

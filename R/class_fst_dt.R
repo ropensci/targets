@@ -19,7 +19,7 @@ store_read_path.tar_fst_dt <- function(store, path) {
 }
 
 #' @export
-store_coerce_object.tar_fst_dt <- function(store, object) {
+store_cast_object.tar_fst_dt <- function(store, object) {
   data.table::as.data.table(object)
 }
 

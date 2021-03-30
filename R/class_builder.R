@@ -253,7 +253,7 @@ builder_update_build <- function(target, envir) {
   object <- build$object
   if (is.null(build$metrics$error)) {
     store_assert_format(target$store, build$object, target_get_name(target))
-    object <- store_coerce_object(target$store, object)
+    object <- store_cast_object(target$store, object)
   }
   target$value <- value_init(object, target$settings$iteration)
   target$metrics <- build$metrics

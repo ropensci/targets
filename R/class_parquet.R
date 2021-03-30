@@ -27,7 +27,7 @@ store_write_path.tar_parquet <- function(store, object, path) {
 }
 
 #' @export
-store_coerce_object.tar_parquet <- function(store, object) {
+store_cast_object.tar_parquet <- function(store, object) {
   object
 }
 

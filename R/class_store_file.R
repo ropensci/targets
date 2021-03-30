@@ -32,7 +32,7 @@ store_produce_path.tar_store_file <- function(store, name, object) { # nolint
 }
 
 #' @export
-store_coerce_object.tar_store_file <- function(store, object) { # nolint
+store_cast_object.tar_store_file <- function(store, object) { # nolint
   as.character(object)
 }
 

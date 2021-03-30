@@ -35,7 +35,7 @@ store_read_object <- function(store) {
 }
 
 store_read_object.default <- function(store) {
-  store_coerce_object(store, store_read_path(store, store$file$path))
+  store_cast_object(store, store_read_path(store, store$file$path))
 }
 
 store_read_path <- function(store, path) {
@@ -52,7 +52,7 @@ store_write_object.default <- function(store, object) {
   stage <- store$file$stage
   dir_create(dirname(path))
   dir_create(dirname(stage))
-  store_write_path(store, store_coerce_object(store, object), stage)
+  store_write_path(store, store_cast_object(store, object), stage)
   file.rename(stage, path)
 }
 
@@ -93,11 +93,11 @@ store_produce_stage.default <- function(store, name, object) {
   path_scratch(pattern = name)
 }
 
-store_coerce_object <- function(store, object) {
-  UseMethod("store_coerce_object")
+store_cast_object <- function(store, object) {
+  UseMethod("store_cast_object")
 }
 
-store_coerce_object.default <- function(store, object) {
+store_cast_object.default <- function(store, object) {
   object
 }
 
