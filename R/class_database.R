@@ -114,7 +114,7 @@ database_class <- R6::R6Class(
           throw_run(
             "timed out after ",
             max_attempts,
-            "trying to append to ",
+            " attempts trying to append to ",
             self$path
           )
         }

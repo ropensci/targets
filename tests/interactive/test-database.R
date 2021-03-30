@@ -21,7 +21,7 @@ tar_test("test on Windows: pipeline keeps going #393", {
   tar_poll()
   # Pipline should be up to date now.
   expect_equal(tar_outdated(), character(0))
-  # Should see error messages that it cannot append
+  # Should see error messages that it could not append
   # to progress but reattempted to do so.
   writeLines(readLines("err.txt"))
 })
