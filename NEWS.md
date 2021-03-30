@@ -22,6 +22,7 @@
 * Add a timestamp to the "summary" reporter.
 * Make the reporters show when a target ends (#391, @mattwarkentin).
 * Make the reporters show when a pattern ends if the pattern built at least one target and none of the targets errored or canceled.
+* Use words "start" and "built" in reporters.
 
 # targets 0.3.1
 
