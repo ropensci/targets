@@ -1,12 +1,12 @@
 cli_start <- function(name, prefix = NULL, time_stamp = FALSE) {
   time <- trn(time_stamp, time_stamp(), NULL)
-  msg <- paste(c(time, "run", prefix, name), collapse = " ")
+  msg <- paste(c(time, "start", prefix, name), collapse = " ")
   cli_blue_bullet(msg)
 }
 
 cli_built <- function(name, prefix = NULL, time_stamp = FALSE) {
   time <- trn(time_stamp, time_stamp(), NULL)
-  msg <- paste(c(time, "end", prefix, name), collapse = " ")
+  msg <- paste(c(time, "built", prefix, name), collapse = " ")
   cli_green_bullet(msg)
 }
 
