@@ -156,3 +156,9 @@ tar_test("assert_unique_targets()", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("warn_df()", {
+  expect_silent(warn_df(data_frame(x = 1)))
+  expect_warning(warn_df(TRUE), class = "tar_condition_validate")
+})
+

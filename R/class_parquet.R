@@ -28,7 +28,7 @@ store_write_path.tar_parquet <- function(store, object, path) {
 
 #' @export
 store_coerce_object.tar_parquet <- function(store, object) {
-  assert_df(object, "target with format = \"parquet\" must be a data frame.")
+  warn_df(object, "target with format = \"parquet\" must be a data frame.")
   object
 }
 
