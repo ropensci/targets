@@ -101,11 +101,21 @@ database_class <- R6::R6Class(
       line <- self$produce_line(self$select_cols(row))
       self$append_line(line)
     },
-    append_line = function(line) {
+    append_line = function(line, max_attempts = 500) {
+      attempt <- 0L
       while(!is.null(try(self$try_append_line(line)))) {
         msg <- paste("Reattempting to append line to", self$path)
         cli::cli_alert_info(msg)
-        Sys.sleep(stats::runif(1, 0.1, 0.2))
+        Sys.sleep(stats::runif(1, 0.2, 0.25))
+        attempt <- attempt + 1L
+        if (attempt > max_attempts) {
+          throw_run(
+            "timed out after ",
+            max_attempts,
+            "trying to append to ",
+            self$path
+          )
+        }
       }
     },
     try_append_line = function(line) {
