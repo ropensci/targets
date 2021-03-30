@@ -105,7 +105,7 @@ database_class <- R6::R6Class(
       attempt <- 0L
       # Tested in tests/interactive/test-database.R
       # nocov start
-      while(!is.null(try(self$try_append_line(line)))) {
+      while (!is.null(try(self$try_append_line(line)))) {
         msg <- paste("Reattempting to append line to", self$path)
         cli::cli_alert_info(msg)
         Sys.sleep(stats::runif(1, 0.2, 0.25))
