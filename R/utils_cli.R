@@ -1,7 +1,13 @@
-cli_target <- function(name, prefix = NULL, time_stamp = FALSE) {
+cli_start <- function(name, prefix = NULL, time_stamp = FALSE) {
   time <- trn(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "run", prefix, name), collapse = " ")
   cli_blue_bullet(msg)
+}
+
+cli_built <- function(name, prefix = NULL, time_stamp = FALSE) {
+  time <- trn(time_stamp, time_stamp(), NULL)
+  msg <- paste(c(time, "end", prefix, name), collapse = " ")
+  cli_green_bullet(msg)
 }
 
 cli_skip <- function(name, prefix = NULL, time_stamp = FALSE) {
@@ -42,6 +48,12 @@ cli_workspace <- function(name, time_stamp = FALSE) {
 
 cli_blue_bullet <- function(msg) {
   symbol <- cli::col_blue(cli::symbol$bullet)
+  msg <- paste(symbol, msg)
+  message(msg)
+}
+
+cli_green_bullet <- function(msg) {
+  symbol <- cli::col_green(cli::symbol$bullet)
   msg <- paste(symbol, msg)
   message(msg)
 }

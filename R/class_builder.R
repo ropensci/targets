@@ -119,6 +119,7 @@ builder_conclude <- function(target, pipeline, scheduler, meta) {
   target_patternview_meta(target, pipeline, meta)
   pipeline_register_loaded(pipeline, target_get_name(target))
   scheduler$progress$register_built(target)
+  scheduler$reporter$report_built(target, scheduler$progress)
 }
 
 builder_error <- function(target, pipeline, scheduler, meta) {

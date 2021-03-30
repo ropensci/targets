@@ -10,7 +10,14 @@ timestamp_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     report_started = function(target, progress = NULL) {
-      cli_target(
+      cli_start(
+        target_get_name(target),
+        target_get_type_cli(target),
+        time_stamp = TRUE
+      )
+    },
+    report_built = function(target, progress) {
+      cli_built(
         target_get_name(target),
         target_get_type_cli(target),
         time_stamp = TRUE

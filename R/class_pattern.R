@@ -225,6 +225,9 @@ pattern_conclude_final <- function(target, pipeline, scheduler, meta) {
   pattern_skip_final(target, pipeline, scheduler, meta)
   pattern_record_meta(target, pipeline, meta)
   patternview_register_final(target$patternview, target, scheduler)
+  if (identical(target$patternview$progress, "built")) {
+    scheduler$reporter$report_built(target, scheduler$progress)
+  }
 }
 
 pattern_skip_initial <- function(target, pipeline, scheduler, meta) {

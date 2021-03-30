@@ -10,9 +10,12 @@ verbose_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     report_started = function(target, progress = NULL) {
-      cli_target(target_get_name(target), target_get_type_cli(target))
+      cli_start(target_get_name(target), target_get_type_cli(target))
     },
-    report_skipped = function(target, progress) {
+    report_built = function(target, progress = NULL) {
+      cli_built(target_get_name(target), target_get_type_cli(target))
+    },
+    report_skipped = function(target, progress = NULL) {
       cli_skip(target_get_name(target), target_get_type_cli(target))
     },
     report_errored = function(target, progress = NULL) {

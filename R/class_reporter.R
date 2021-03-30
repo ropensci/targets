@@ -35,7 +35,9 @@ reporter_class <- R6::R6Class(
     },
     report_started = function(target = NULL, progress = NULL) {
     },
-    report_skipped = function(target, progress) {
+    report_built = function(target = NULL, progress = NULL) {
+    },
+    report_skipped = function(target = NULL, progress = NULL) {
     },
     report_errored = function(target = NULL, progress = NULL) {
     },

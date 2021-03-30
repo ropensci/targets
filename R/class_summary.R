@@ -14,16 +14,19 @@ summary_class <- R6::R6Class(
     report_start = function() {
       cli_df_header(progress_init()$cli_data())
     },
-    report_started = function(target, progress) {
+    report_started = function(target = NULL, progress) {
       cli_df_body(progress$cli_data())
     },
-    report_skipped = function(target, progress) {
+    report_built = function(target = NULL, progress) {
       cli_df_body(progress$cli_data())
     },
-    report_errored = function(target, progress) {
+    report_skipped = function(target = NULL, progress) {
       cli_df_body(progress$cli_data())
     },
-    report_canceled = function(target = NULL, progress = NULL) {
+    report_errored = function(target = NULL, progress) {
+      cli_df_body(progress$cli_data())
+    },
+    report_canceled = function(target = NULL, progress) {
       cli_df_body(progress$cli_data())
     },
     report_end = function(progress) {
