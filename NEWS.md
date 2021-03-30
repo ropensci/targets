@@ -1,5 +1,9 @@
 # targets 0.3.1.9000
 
+## Bug fixes
+
+* Return correct error messages from feather and parquet formats (#388). Now calling `assert_df()` from `store_assert_format()` instead of `store_coerce_object()`. And now those last two functions are not called at all if the target throws an error.
+
 ## New features
 
 * Implement `tar_timestamp()` to get the last modified timestamp of a target's data (#378).

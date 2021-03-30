@@ -37,9 +37,10 @@ store_coerce_object.tar_store_file <- function(store, object) { # nolint
 }
 
 #' @export
-store_assert_format.tar_store_file <- function(store, object) { # nolint
-  if (!is.null(object) && !is.character(object)) {
+store_assert_format.tar_store_file <- function(store, object, name) { # nolint
+  if (!is.character(object)) {
     throw_validate(
+      "target ", name, " did not return a character. ",
       "dynamic files (targets with format = \"file\") must return ",
       "character vectors of file or directory paths."
     )

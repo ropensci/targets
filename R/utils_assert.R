@@ -321,9 +321,3 @@ assert_unique <- function(x, msg = NULL) {
 assert_unique_targets <- function(x) {
   assert_unique(x, "duplicated target names:")
 }
-
-warn_df <- function(x, msg = NULL) {
-  if (!is.data.frame(x)) {
-    warn_validate(msg %|||% "x must be a data frame.")
-  }
-}

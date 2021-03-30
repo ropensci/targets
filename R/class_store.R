@@ -94,7 +94,6 @@ store_produce_stage.default <- function(store, name, object) {
 }
 
 store_coerce_object <- function(store, object) {
-  store_assert_format(store, object)
   UseMethod("store_coerce_object")
 }
 
@@ -102,12 +101,12 @@ store_coerce_object.default <- function(store, object) {
   object
 }
 
-store_assert_format <- function(store, object) {
+store_assert_format <- function(store, object, name) {
   UseMethod("store_assert_format")
 }
 
 #' @export
-store_assert_format.default <- function(store, object) {
+store_assert_format.default <- function(store, object, name) {
 }
 
 store_early_hash <- function(store) {

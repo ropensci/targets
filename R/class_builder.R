@@ -250,7 +250,11 @@ builder_record_error_meta <- function(target, pipeline, meta) {
 
 builder_update_build <- function(target, envir) {
   build <- command_produce_build(target$command, envir)
-  object <- store_coerce_object(target$store, build$object)
+  object <- build$object
+  if (is.null(build$metrics$error)) {
+    store_assert_format(target$store, build$object, target_get_name(target))
+    object <- store_coerce_object(target$store, object)
+  }
   target$value <- value_init(object, target$settings$iteration)
   target$metrics <- build$metrics
   invisible()

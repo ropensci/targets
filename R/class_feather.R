@@ -28,8 +28,16 @@ store_write_path.tar_feather <- function(store, object, path) {
 
 #' @export
 store_coerce_object.tar_feather <- function(store, object) {
-  warn_df(object, "target with format = \"feather\" must be a data frame.")
   object
+}
+
+#' @export
+store_assert_format.tar_feather <- function(store, object, name) { # nolint
+  msg <- paste0(
+    "target ", name, " did not return a data frame. ",
+    "Target with format = \"feather\" must return data frames."
+  )
+  assert_df(object, msg)
 }
 
 #' @export

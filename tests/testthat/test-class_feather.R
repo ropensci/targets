@@ -40,3 +40,36 @@ tar_test("feather packages", {
   out <- store_get_packages(x$store)
   expect_equal(out, "arrow")
 })
+
+tar_test("feather format captures error messages", {
+  tar_script(tar_target(x, stop("message123"), format = "feather"))
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_run"
+  )
+  expect_equal(tar_meta(x, error)$error, "message123")
+})
+
+tar_test("same with error = \"continue\"", {
+  tar_script(
+    tar_target(x, stop("message123"), format = "feather", error = "continue")
+  )
+  tar_make(callr_function = NULL)
+  expect_equal(tar_meta(x, error)$error, "message123")
+})
+
+tar_test("feather format cannot store non-data-frames", {
+  tar_script(tar_target(x, 1:2, format = "feather"))
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_validate"
+  )
+})
+
+tar_test("same with error = \"continue\"", {
+  tar_script(tar_target(x, 1:2, format = "feather", error = "continue"))
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_validate"
+  )
+})
