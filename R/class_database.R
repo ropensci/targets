@@ -98,9 +98,19 @@ database_class <- R6::R6Class(
       as.list(data)[self$header]
     },
     write_row = function(row) {
-      row <- self$select_cols(row)
-      line <- self$produce_line(row)
+      line <- self$produce_line(self$select_cols(row))
+      self$append_line(line)
+    },
+    append_line = function(line) {
+      while(!is.null(try(self$try_append_line(line)))) {
+        msg <- paste("Reattempting to append line to", self$path)
+        cli::cli_alert_info(msg)
+        Sys.sleep(stats::runif(1, 0.1, 0.2))
+      }
+    },
+    try_append_line = function(line) {
       write(line, self$path, ncolumns = 1L, append = TRUE, sep = "")
+      invisible()
     },
     append_storage = function(data) {
       dir_create(dirname(self$path))
