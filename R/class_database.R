@@ -103,6 +103,8 @@ database_class <- R6::R6Class(
     },
     append_line = function(line, max_attempts = 500) {
       attempt <- 0L
+      # Tested in tests/interactive/test-database.R
+      # nocov start
       while(!is.null(try(self$try_append_line(line)))) {
         msg <- paste("Reattempting to append line to", self$path)
         cli::cli_alert_info(msg)
@@ -117,6 +119,7 @@ database_class <- R6::R6Class(
           )
         }
       }
+      # nocov end
     },
     try_append_line = function(line) {
       write(line, self$path, ncolumns = 1L, append = TRUE, sep = "")
