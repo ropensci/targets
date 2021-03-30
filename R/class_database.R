@@ -98,9 +98,32 @@ database_class <- R6::R6Class(
       as.list(data)[self$header]
     },
     write_row = function(row) {
-      row <- self$select_cols(row)
-      line <- self$produce_line(row)
+      line <- self$produce_line(self$select_cols(row))
+      self$append_line(line)
+    },
+    append_line = function(line, max_attempts = 500) {
+      attempt <- 0L
+      # Tested in tests/interactive/test-database.R
+      # nocov start
+      while (!is.null(try(self$try_append_line(line)))) {
+        msg <- paste("Reattempting to append line to", self$path)
+        cli::cli_alert_info(msg)
+        Sys.sleep(stats::runif(1, 0.2, 0.25))
+        attempt <- attempt + 1L
+        if (attempt > max_attempts) {
+          throw_run(
+            "timed out after ",
+            max_attempts,
+            " attempts trying to append to ",
+            self$path
+          )
+        }
+      }
+      # nocov end
+    },
+    try_append_line = function(line) {
       write(line, self$path, ncolumns = 1L, append = TRUE, sep = "")
+      invisible()
     },
     append_storage = function(data) {
       dir_create(dirname(self$path))

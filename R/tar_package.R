@@ -12,7 +12,7 @@
 #'   and `drake` by Will Landau (2018, \doi{doi:10.21105/joss.00550}).
 #' @name targets-package
 #' @importFrom callr r r_bg
-#' @importFrom cli col_green make_spinner symbol
+#' @importFrom cli cli_alert_info col_green make_spinner symbol
 #' @importFrom codetools findGlobals
 #' @importFrom data.table data.table fread fwrite set
 #' @importFrom digest digest digest2int
