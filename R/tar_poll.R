@@ -22,7 +22,7 @@
 # nocov start
 # Covered in tests/interactive/test-tar_poll.R.
 tar_poll <- function(
-  interval = 0.25,
+  interval = 1,
   timeout = Inf,
   fields = c("started", "built", "errored", "canceled", "since")
 ) {
