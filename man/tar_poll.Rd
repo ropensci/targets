@@ -5,7 +5,7 @@
 \title{Repeatedly poll progress in the R console.}
 \usage{
 tar_poll(
-  interval = 0.25,
+  interval = 1,
   timeout = Inf,
   fields = c("started", "built", "errored", "canceled", "since")
 )
