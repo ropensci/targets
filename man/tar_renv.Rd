@@ -7,7 +7,7 @@
 tar_renv(
   extras = c("bs4Dash", "clustermq", "future", "gt", "markdown", "pingr", "rstudioapi",
     "shiny", "shinybusy", "shinyWidgets", "visNetwork"),
-  path = "_packages.R",
+  path = "_targets_packages.R",
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function)
 )
@@ -35,7 +35,7 @@ Nothing, invisibly.
 }
 \description{
 Write package dependencies to a script file
-(by default, named \verb{_packages.R} in the root project directory).
+(by default, named \verb{_targets_packages.R} in the root project directory).
 Each package is written to a separate line
 as a standard \code{\link[=library]{library()}} call (e.g. \code{library(package)}) so
 \code{renv} can identify them automatically.
@@ -74,7 +74,7 @@ tar_dir({ # tar_dir() runs code from a temporary directory.
     list()
   }, ask = FALSE)
   tar_renv()
-  writeLines(readLines("_packages.R"))
+  writeLines(readLines("_targets_packages.R"))
 })
 tar_option_reset()
 }
