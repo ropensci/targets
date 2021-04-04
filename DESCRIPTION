@@ -63,7 +63,7 @@ Imports:
 Suggests:
   arrow (>= 3.0.0),
   aws.s3 (>= 0.3.21),
-  bs4Dash(>= 0.5.0),
+  bs4Dash (>= 0.5.0),
   clustermq (>= 0.8.95.1),
   curl (>= 4.3),
   dplyr (>= 1.0.0),
