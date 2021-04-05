@@ -17,7 +17,7 @@
 
 ## Performance
 
-* Shut down superfluous workers earlier in dynamic branching and when all remaining targets have `deployment = "main"` (#398).
+* Shut down superfluous persistent workers earlier in dynamic branching and when all remaining targets have `deployment = "main"` (#398).
 
 ## Enhancements
 
