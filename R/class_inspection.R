@@ -123,7 +123,7 @@ inspection_class <- R6::R6Class(
     },
     resolve_target_status = function(vertices) {
       vertices <- vertices[order(vertices$name),, drop = FALSE] # nolint
-      status <- trn(
+      status <- if_any(
         self$outdated,
         self$produce_outdated(vertices),
         rep("dormant", nrow(vertices))
@@ -154,7 +154,7 @@ inspection_class <- R6::R6Class(
             name = name,
             seconds = record$seconds,
             bytes = record$bytes,
-            branches = trn(
+            branches = if_any(
               anyNA(record$children) || identical(record$type, "stem"),
               NA_integer_,
               length(record$children)

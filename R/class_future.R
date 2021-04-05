@@ -113,7 +113,7 @@ future_class <- R6::R6Class(
       target <- pipeline_get_target(self$pipeline, name)
       target_gc(target)
       target_prepare(target, self$pipeline, self$scheduler)
-      trn(
+      if_any(
         target_should_run_worker(target),
         self$run_worker(target),
         self$run_main(target)

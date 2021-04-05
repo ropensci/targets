@@ -103,7 +103,7 @@ pipeline_targets_only_edges <- function(edges) {
 pipeline_upstream_edges <- function(pipeline, targets_only = TRUE) {
   edge_list <- map(pipeline$targets, ~target_upstream_edges(.x))
   edges <- do.call(rbind, edge_list)
-  edges <- trn(targets_only, pipeline_targets_only_edges(edges), edges)
+  edges <- if_any(targets_only, pipeline_targets_only_edges(edges), edges)
   edges <- edges %|||% data_frame(from = character(0), to = character(0))
   rownames(edges) <- NULL
   edges
@@ -291,7 +291,7 @@ print.tar_pipeline <- function(x, ...) {
     "<pipeline with ",
     count,
     " target",
-    trn(identical(count, 1L), "", "s"),
+    if_any(identical(count, 1L), "", "s"),
     ">"
   )
   cat(msg)

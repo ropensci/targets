@@ -1,5 +1,5 @@
 deparse_script_code <- function(code) {
-  trn(
+  if_any(
     length(code) > 1L && identical(deparse_safe(code[[1]]), "`{`"),
     map_chr(code[-1], deparse_safe),
     deparse_safe(code)
@@ -13,7 +13,7 @@ deps_function <- function(fun) {
 }
 
 deparse_language <- function(x) {
-  trn(!is.character(x) && !is.null(x), deparse_safe(x), x)
+  if_any(!is.character(x) && !is.null(x), deparse_safe(x), x)
 }
 
 deparse_safe <- function(x, collapse = "\n", backtick = TRUE) {

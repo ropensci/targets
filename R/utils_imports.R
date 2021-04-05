@@ -47,7 +47,7 @@ is_internal_object <- function(object) {
 
 envir_deps <- function(name, envir, names) {
   value <- get(x = name, envir = envir, inherits = FALSE)
-  deps <- trn(is.function(value), deps_function(value), character(0))
+  deps <- if_any(is.function(value), deps_function(value), character(0))
   deps <- c(deps, name)
   intersect(deps, names)
 }

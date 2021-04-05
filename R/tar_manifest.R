@@ -125,7 +125,7 @@ tar_manifest_command <- function(expr) {
 }
 
 tar_manifest_pattern <- function(pattern) {
-  trn(
+  if_any(
     is.null(pattern),
     NA_character_,
     string_sub_expression(deparse_safe(pattern, collapse = " "))

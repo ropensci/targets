@@ -69,7 +69,7 @@ sitrep_class <- R6::R6Class(
       target <- pipeline_get_target(self$pipeline, name)
       target_update_depend(target, self$pipeline, self$meta)
       self$sitrep[[name]] <- builder_sitrep(target, self$meta)
-      trn(
+      if_any(
         self$meta$exists_record(target_get_name(target)),
         target_skip(target, self$pipeline, self$scheduler, self$meta),
         target_update_queue(target, self$scheduler)
@@ -77,7 +77,7 @@ sitrep_class <- R6::R6Class(
     },
     process_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
-      trn(
+      if_any(
         inherits(target, "tar_pattern"),
         self$process_pattern(target),
         self$process_builder(target)

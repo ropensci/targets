@@ -21,7 +21,7 @@ stem_new <- function(
 
 #' @export
 target_get_children.tar_stem <- function(target) {
-  trn(
+  if_any(
     is.null(target$junction),
     character(0),
     target$junction$splits
@@ -150,7 +150,7 @@ stem_restore_junction <- function(target, pipeline, meta) {
     return()
   }
   children <- meta$get_record(name)$children
-  junction <- trn(
+  junction <- if_any(
     anyNA(children),
     target_produce_junction(target, pipeline),
     junction_init(nexus = name, splits = children)

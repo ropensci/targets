@@ -23,7 +23,7 @@
 #' })
 #' }
 tar_workspaces <- function(names = NULL) {
-  choices <- trn(
+  choices <- if_any(
     dir.exists(path_workspaces_dir()),
     sort(list.files(path_workspaces_dir(), all.files = TRUE, no.. = TRUE)),
     character(0)

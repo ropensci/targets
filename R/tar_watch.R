@@ -182,7 +182,7 @@ tar_watch_app_ui <- function(
     )
   )
   # TODO: update when bs4Dash 2 is on CRAN:
-  trn(
+  if_any(
     utils::packageVersion("bs4Dash") >= 2L,
     bs4Dash::bs4DashPage(
       title = "",
@@ -370,7 +370,7 @@ tar_watch_server <- function(id, height = "650px") {
       })
       shiny::observe({
         shiny::req(refresh$refresh)
-        out$graph <- trn(
+        out$graph <- if_any(
           tar_exist_script(),
           tar_visnetwork(
             targets_only = targets_only(),
@@ -386,12 +386,12 @@ tar_watch_server <- function(id, height = "650px") {
             )
           )
         )
-        out$summary <- trn(
+        out$summary <- if_any(
           tar_exist_progress(),
           tar_progress_summary_gt(),
           gt_borderless(data_frame(progress = "No progress recorded."))
         )
-        out$branches <- trn(
+        out$branches <- if_any(
           tar_exist_progress(),
           tar_progress_branches_gt(),
           gt_borderless(data_frame(progress = "No progress recorded."))

@@ -37,7 +37,7 @@ target_init <- function(
   )
   command$deps <- unique(c(command$deps, settings$dimensions))
   command$deps <- setdiff(command$deps, name)
-  trn(
+  if_any(
     is.null(settings$pattern),
     stem_new(
       command,

@@ -175,7 +175,7 @@ database_class <- R6::R6Class(
       }
     },
     read_data = function() {
-      trn(
+      if_any(
         file.exists(self$path),
         self$read_existing_data(),
         self$produce_mock_data()

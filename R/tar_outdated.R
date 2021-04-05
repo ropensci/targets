@@ -84,7 +84,7 @@ tar_outdated_inner <- function(
   names_all <- pipeline_get_names(pipeline)
   names <- eval_tidyselect(names_quosure, names_all)
   meta <- meta_init()
-  outdated_globals <- trn(
+  outdated_globals <- if_any(
     targets_only,
     character(0),
     tar_outdated_globals(pipeline, meta)

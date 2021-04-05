@@ -116,7 +116,7 @@ progress_class <- R6::R6Class(
       db <- self$database
       name <- target_get_name(target)
       type <- target_get_type(target)
-      branches <- trn(
+      branches <- if_any(
         identical(type, "stem"),
         0L,
         length(omit_na(target_get_children(target)))
@@ -165,7 +165,7 @@ progress_class <- R6::R6Class(
         self$canceled$count == 0L
     },
     cli_end = function(time_stamp = FALSE) {
-      trn(
+      if_any(
         self$uptodate(),
         cli_uptodate(time_stamp = time_stamp),
         cli_done(time_stamp = time_stamp)

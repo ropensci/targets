@@ -71,16 +71,16 @@ url_process_error <- function(url, req, headers) {
 # nocov start
 url_port <- function(host, port, process, verbose = TRUE) {
   spin <- cli::make_spinner()
-  trn(verbose, spin$spin(), NULL)
+  if_any(verbose, spin$spin(), NULL)
   while (!pingr::is_up(destination = host, port = port)) {
-    trn(
+    if_any(
       process$is_alive(),
       Sys.sleep(0.01),
       throw_run(process$read_all_error())
     )
-    trn(verbose, spin$spin(), NULL)
+    if_any(verbose, spin$spin(), NULL)
   }
-  trn(verbose, spin$finish(), NULL)
+  if_any(verbose, spin$finish(), NULL)
   url <- paste0("http://", host, ":", port)
   utils::browseURL(url)
 }

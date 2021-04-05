@@ -19,7 +19,7 @@
 #' })
 #' }
 tar_objects <- function(names = NULL) {
-  choices <- trn(
+  choices <- if_any(
     dir.exists(path_objects_dir()),
     list.files(path_objects_dir(), all.files = TRUE, no.. = TRUE),
     character(0)

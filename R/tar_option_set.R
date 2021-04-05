@@ -244,7 +244,7 @@ tar_option_set_retrieval <- function(retrieval) {
 
 tar_option_set_cue <- function(cue) {
   cue <- cue %|||% tar_option_get("cue")
-  trn(is.null(cue), NULL, cue_validate(cue))
+  if_any(is.null(cue), NULL, cue_validate(cue))
   assign("cue", cue, envir = tar_envir_options)
 }
 

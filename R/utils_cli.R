@@ -1,47 +1,47 @@
 cli_start <- function(name, prefix = NULL, time_stamp = FALSE) {
-  time <- trn(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "start", prefix, name), collapse = " ")
   cli_blue_bullet(msg)
 }
 
 cli_built <- function(name, prefix = NULL, time_stamp = FALSE) {
-  time <- trn(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "built", prefix, name), collapse = " ")
   cli_green_bullet(msg)
 }
 
 cli_skip <- function(name, prefix = NULL, time_stamp = FALSE) {
-  time <- trn(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "skip", prefix, name), collapse = " ")
   cli_green_check(msg)
 }
 
 cli_error <- function(name, prefix = NULL, time_stamp = FALSE) {
-  time <- trn(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "error", prefix, name), collapse = " ")
   cli_red_x(msg)
 }
 
 cli_cancel <- function(name, prefix = NULL, time_stamp = FALSE) {
-  time <- trn(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "cancel", prefix, name), collapse = " ")
   cli_yellow_bullet(msg)
 }
 
 cli_uptodate <- function(time_stamp = FALSE) {
-  time <- trn(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "skip pipeline"), collapse = " ")
   cli_green_check(msg)
 }
 
 cli_done <- function(time_stamp = FALSE) {
-  time <- trn(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "end pipeline"), collapse = " ")
   cli_blue_bullet(msg)
 }
 
 cli_workspace <- function(name, time_stamp = FALSE) {
-  time <- trn(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "record workspace", name), collapse = " ")
   cli_blue_bullet(msg)
 }

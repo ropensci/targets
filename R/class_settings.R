@@ -65,7 +65,7 @@ settings_new <- function(
 
 settings_produce_pattern <- function(pattern) {
   pattern <- as.expression(pattern)
-  trn(is.null(pattern[[1]]), NULL, pattern)
+  if_any(is.null(pattern[[1]]), NULL, pattern)
 }
 
 settings_produce_dimensions <- function(pattern) {

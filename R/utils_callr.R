@@ -36,7 +36,7 @@ callr_dispatch <- function(
     targets_arguments = targets_arguments,
     targets_options = targets_options
   )
-  trn(
+  if_any(
     is.null(callr_function),
     callr_inner(
       targets_script = path_script(),

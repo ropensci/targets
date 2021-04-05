@@ -102,7 +102,7 @@ build_time_seconds <- function() {
 
 build_message <- function(condition) {
   out <- substr(paste(conditionMessage(condition), collapse = " "), 0L, 128L)
-  trn(nzchar(out), out, ".")
+  if_any(nzchar(out), out, ".")
 }
 
 build_validate <- function(build) {

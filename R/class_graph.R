@@ -25,7 +25,7 @@ graph_class <- R6::R6Class(
       self$downstream <- downstream
     },
     produce_degrees = function(names, mode) {
-      list <- trn(
+      list <- if_any(
         identical(mode, "upstream"),
         self$upstream,
         self$downstream

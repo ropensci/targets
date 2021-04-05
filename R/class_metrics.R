@@ -30,10 +30,10 @@ metrics_terminated_early <- function(metrics) {
 }
 
 metrics_outcome <- function(metrics) {
-  trn(
+  if_any(
     metrics_has_cancel(metrics),
     "cancel",
-    trn(metrics_has_error(metrics), "error", "built")
+    if_any(metrics_has_error(metrics), "error", "built")
   )
 }
 

@@ -68,7 +68,7 @@ file_ensure_hash <- function(file) {
     size = size,
     bytes = bytes
   )
-  hash <- trn(do, file_hash(files), file$hash)
+  hash <- if_any(do, file_hash(files), file$hash)
   file$hash <- hash
   file$time <- time
   file$size <- size
@@ -81,7 +81,7 @@ file_has_correct_hash <- function(file) {
   time <- file_time(info)
   bytes <- file_bytes(info)
   size <- file_size(bytes)
-  trn(
+  if_any(
     file_should_rehash(
       file = file,
       time = time,

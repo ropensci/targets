@@ -59,7 +59,7 @@ meta_class <- R6::R6Class(
     hash_dep = function(name, pipeline) {
       exists <- self$exists_record(name) &&
         pipeline_exists_object(pipeline, name)
-      trn(
+      if_any(
         exists,
         self$get_record(name)$data,
         ""

@@ -120,7 +120,7 @@ clustermq_class <- R6::R6Class(
       target <- pipeline_get_target(self$pipeline, name)
       target_gc(target)
       target_prepare(target, self$pipeline, self$scheduler)
-      trn(
+      if_any(
         target_should_run_worker(target),
         self$run_worker(target),
         self$run_main(target)
@@ -143,7 +143,7 @@ clustermq_class <- R6::R6Class(
     # and tests/hpc/test-clustermq.R.
     # nocov start
     wait_or_shutdown = function() {
-      trn(
+      if_any(
         self$any_upcoming_jobs(),
         self$crew$send_wait(),
         self$crew$send_shutdown_worker()
@@ -156,7 +156,7 @@ clustermq_class <- R6::R6Class(
     # nocov end
     next_target = function() {
       queue <- self$scheduler$queue
-      trn(
+      if_any(
         queue$should_dequeue(),
         self$process_target(queue$dequeue()),
         self$backoff()

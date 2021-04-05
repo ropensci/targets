@@ -109,7 +109,7 @@ outdated_class <- R6::R6Class(
       self$register_builder_outdated(target)
     },
     process_builder = function(target) {
-      trn(
+      if_any(
         self$meta$exists_record(target_get_name(target)),
         self$process_builder_exists(target),
         self$process_builder_missing(target)
@@ -131,7 +131,7 @@ outdated_class <- R6::R6Class(
     },
     process_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
-      trn(
+      if_any(
         inherits(target, "tar_pattern"),
         self$process_pattern(target),
         self$process_builder(target)

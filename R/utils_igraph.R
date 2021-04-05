@@ -36,7 +36,7 @@ igraph_leaves <- function(igraph) {
 }
 
 topo_sort_custom <- function(igraph, priorities) {
-  trn(
+  if_any(
     length(unique(priorities)) < 2L,
     topo_sort_igraph(igraph),
     topo_sort_by_priority(igraph, priorities)

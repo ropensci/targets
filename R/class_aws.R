@@ -87,7 +87,7 @@ store_late_hash.tar_aws <- function(store) {
 store_has_correct_hash.tar_aws <- function(store) {
   bucket <- store_aws_bucket(store$file$path)
   key <- store_aws_key(store$file$path)
-  trn(
+  if_any(
     store_aws_exists(key, bucket),
     identical(store_aws_hash(key, bucket), store$file$hash),
     FALSE

@@ -34,7 +34,7 @@ tar_read_inner <- function(name, branches, meta) {
     throw_validate("target ", name, " not found")
   }
   record <- do.call(record_init, lapply(meta[max(which(index)), ], unlist))
-  trn(
+  if_any(
     record$type %in% c("stem", "branch"),
     read_builder(record),
     read_pattern(name, record, meta, branches)
@@ -53,7 +53,7 @@ read_pattern <- function(name, record, meta, branches) {
     names <- names[branches]
   }
   if (length(diff <- setdiff(names, meta$name))) {
-    diff <- trn(anyNA(diff), "branches out of range", diff)
+    diff <- if_any(anyNA(diff), "branches out of range", diff)
     throw_validate("branches not in metadata: ", paste(diff, collapse = ", "))
   }
   meta <- meta[meta$name %in% names,, drop = FALSE] # nolint

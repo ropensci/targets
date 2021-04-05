@@ -12,7 +12,7 @@ string_sub_expression <- function(x) {
 
 produce_lines <- function(x) {
   lines <- unlist(strsplit(as.character(x), split = "\n"))
-  trn(
+  if_any(
     length(x),
     paste(lines, collapse = "\n    "),
     deparse_safe(x)
@@ -20,7 +20,7 @@ produce_lines <- function(x) {
 }
 
 paste_list <- function(x) {
-  trn(
+  if_any(
     length(x),
     paste0(names(x), ": ", x),
     list()
