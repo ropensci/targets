@@ -3,6 +3,7 @@
 # before we move on to `x3`-`x6` branches downstream of the
 # first x1 branches.
 library(targets)
+library(testthat)
 tar_script({
   options(clustermq.scheduler = "multiprocess")
   list(
@@ -26,7 +27,7 @@ tar_script({
     tar_target(x1, Sys.sleep(1)),
     tar_target(x2, list(Sys.sleep(1), x1)),
     tar_target(x3, list(Sys.sleep(0), x2)),
-    tar_target(x4, list(Sys.sleep(20), x3))
+    tar_target(x4, list(Sys.sleep(5), x3))
   )
 })
 tar_make_clustermq(workers = 4L, reporter = "timestamp", callr_function = NULL)
@@ -42,14 +43,14 @@ tar_script({
     value
   }
   list(
-    tar_target(x1, c(0, 0, 0, 20)),
+    tar_target(x1, c(0, 0, 0, 5)),
     tar_target(x2, sleep(x1, 5), pattern = map(x1)),
     tar_target(x3, sleep(x2, 5), pattern = map(x2)),
     tar_target(x4, sleep(x3, x3), pattern = map(x3))
   )
 })
 tar_make_clustermq(workers = 4L, reporter = "timestamp", callr_function = NULL)
-expect_equal(tar_read(x4), c(0, 0, 0, 20))
+expect_equal(tar_read(x4), c(0, 0, 0, 5))
 expect_equal(tar_progress_branches()$built, c(4, 4, 4))
 tar_destroy()
 
