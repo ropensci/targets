@@ -94,9 +94,8 @@ clustermq_class <- R6::R6Class(
       self$set_common_data(envir)
     },
     any_upcoming_jobs = function() {
-      names <- counter_get_names(self$scheduler$progress$queued)
       need_workers <- fltr(
-        names,
+        counter_get_names(self$scheduler$progress$queued),
         ~target_needs_worker(pipeline_get_target(self$pipeline, .x))
       )
       length(need_workers) > 0L
