@@ -328,14 +328,6 @@ tar_test("builders load their packages", {
   )
 })
 
-tar_test("validate with nonmissing file and value", {
-  x <- target_init(name = "abc", expr = quote(1L + 1L))
-  x$value <- value_init(123)
-  file <- x$store$file
-  file$path <- tempfile()
-  expect_silent(tmp <- target_validate(x))
-})
-
 tar_test("relay errors as messages if error is continue", {
   tar_script({
     tar_option_set(error = "continue")
@@ -355,4 +347,19 @@ tar_test("relay errors as messages if error is continue", {
   )
   meta <- tar_meta(names = c("data1", "data2"), fields = error)
   expect_equal(sort(meta$error), sort(c("error_data1", "error_data2")))
+})
+
+tar_test("target_needs_worker(builder)", {
+  x <- tar_target(y, rep(x, 2), deployment = "worker")
+  expect_true(target_needs_worker(x))
+  x <- tar_target(y, rep(x, 2), deployment = "main")
+  expect_false(target_needs_worker(x))
+})
+
+tar_test("validate with nonmissing file and value", {
+  x <- target_init(name = "abc", expr = quote(1L + 1L))
+  x$value <- value_init(123)
+  file <- x$store$file
+  file$path <- tempfile()
+  expect_silent(tmp <- target_validate(x))
 })
