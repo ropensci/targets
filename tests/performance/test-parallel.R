@@ -4,7 +4,7 @@
 # first x1 branches.
 library(targets)
 tar_script({
-  options(clustermq.scheduler = "multicore")
+  options(clustermq.scheduler = "multiprocess")
   list(
     tar_target(x1, c(0, 0, 5)),
     tar_target(x2, Sys.sleep(x1), pattern = map(x1)),
@@ -16,3 +16,50 @@ tar_script({
 })
 tar_make_clustermq(workers = 3L, reporter = "timestamp")
 tar_destroy()
+
+# All but 1 worker should quit while the last x4 branch is running.
+# Run in a basic terminal, monitor with htop -d 1, and filter on R.home().
+library(targets)
+tar_script({
+  options(clustermq.scheduler = "multiprocess")
+  list(
+    tar_target(x1, Sys.sleep(1)),
+    tar_target(x2, list(Sys.sleep(1), x1)),
+    tar_target(x3, list(Sys.sleep(0), x2)),
+    tar_target(x4, list(Sys.sleep(20), x3))
+  )
+})
+tar_make_clustermq(workers = 4L, reporter = "timestamp", callr_function = NULL)
+tar_destroy()
+
+# All but 1 worker should quit while the last x4 branch is running.
+# Run in a basic terminal, monitor with htop -d 1, and filter on R.home().
+library(targets)
+tar_script({
+  options(clustermq.scheduler = "multiprocess")
+  list(
+    tar_target(x1, c(0, 0, 0, 20)),
+    tar_target(x2, Sys.sleep(5), pattern = map(x1)),
+    tar_target(x3, Sys.sleep(5), pattern = map(x2)),
+    tar_target(x4, Sys.sleep(x1), pattern = map(x1, x3))
+  )
+})
+tar_make_clustermq(workers = 4L, reporter = "timestamp", callr_function = NULL)
+tar_destroy()
+
+# All but 1 worker should quit while x3 is running,
+# then all workers should quit while x4 is running.
+# Run in a basic terminal, monitor with htop -d 1, and filter on R.home().
+library(targets)
+tar_script({
+  options(clustermq.scheduler = "multiprocess")
+  list(
+    tar_target(x1, 20),
+    tar_target(x2, list(Sys.sleep(5), x1)),
+    tar_target(x3, list(Sys.sleep(10), x2)),
+    tar_target(x4, list(Sys.sleep(10), x3), deployment = "main")
+  )
+})
+tar_make_clustermq(workers = 4L, reporter = "timestamp", callr_function = NULL)
+tar_destroy()
+unlink("_targets.R")

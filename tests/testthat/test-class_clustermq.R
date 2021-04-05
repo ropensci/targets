@@ -31,6 +31,7 @@ tar_test("semi-workerless deployment works", {
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
+  on.exit(options(clustermq.scheduler = old))
   x <- tar_target_raw("x", quote(1L), deployment = "main")
   y <- tar_target_raw("y", quote(x), deployment = "worker")
   z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
@@ -47,7 +48,6 @@ tar_test("semi-workerless deployment works", {
   out$run()
   built <- names(out$scheduler$progress$built$envir)
   expect_equal(built, character(0))
-  options(clustermq.scheduler = old)
 })
 
 tar_test("some targets up to date, some not", {
@@ -56,6 +56,7 @@ tar_test("some targets up to date, some not", {
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
+  on.exit(options(clustermq.scheduler = old))
   x <- tar_target_raw("x", quote(1L))
   y <- tar_target_raw("y", quote(x))
   pipeline <- pipeline_init(list(x, y))
@@ -70,7 +71,6 @@ tar_test("some targets up to date, some not", {
   expect_equal(out, "y")
   value <- target_read_value(pipeline_get_target(pipeline, "y"))
   expect_equal(value$object, 2L)
-  options(clustermq.scheduler = old)
 })
 
 tar_test("clustermq algo can skip targets", {
@@ -80,6 +80,7 @@ tar_test("clustermq algo can skip targets", {
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
+  on.exit(options(clustermq.scheduler = old))
   x <- tar_target_raw("x", quote(1L))
   y <- tar_target_raw("y", quote(x))
   pipeline <- pipeline_init(list(x, y))
@@ -94,7 +95,6 @@ tar_test("clustermq algo can skip targets", {
   out <- names(cmq$scheduler$progress$built$envir)
   expect_equal(out, "x")
   expect_equal(tar_read(x), 1L)
-  options(clustermq.scheduler = old)
 })
 
 tar_test("nontrivial common data", {
@@ -107,6 +107,10 @@ tar_test("nontrivial common data", {
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
+  on.exit({
+    options(clustermq.scheduler = old)
+    tar_option_set(envir = old_envir)
+  })
   evalq({
     f <- function(x) {
       g(x) + 1L
@@ -121,8 +125,6 @@ tar_test("nontrivial common data", {
   cmq$run()
   value <- target_read_value(pipeline_get_target(pipeline, "x"))
   expect_equal(value$object, 3L)
-  tar_option_set(envir = old_envir)
-  options(clustermq.scheduler = old)
 })
 
 tar_test("clustermq with a dynamic file", {
@@ -134,6 +136,10 @@ tar_test("clustermq with a dynamic file", {
   options(clustermq.scheduler = "multicore")
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
+  on.exit({
+    options(clustermq.scheduler = old)
+    tar_option_set(envir = old_envir)
+  })
   tar_option_set(envir = envir)
   evalq({
     save1 <- function() {
@@ -155,8 +161,6 @@ tar_test("clustermq with a dynamic file", {
   cmq$run()
   out <- names(cmq$scheduler$progress$built$envir)
   expect_equal(out, "x")
-  options(clustermq.scheduler = old)
-  tar_option_set(envir = old_envir)
 })
 
 tar_test("branching plan", {
@@ -166,6 +170,7 @@ tar_test("branching plan", {
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
+  on.exit(options(clustermq.scheduler = old))
   pipeline <- pipeline_map()
   out <- clustermq_init(pipeline, workers = 2L)
   out$run()
@@ -205,7 +210,26 @@ tar_test("branching plan", {
   for (index in seq_along(branches)) {
     expect_equal(value(branches[index]), index + 15L)
   }
-  options(clustermq.scheduler = old)
+})
+
+tar_test("cover the worker shutdown step in clustermq$iterate() event loop", {
+  skip_on_cran()
+  skip_on_os("windows")
+  skip_on_os("solaris")
+  skip_if_not_installed("clustermq")
+  old <- getOption("clustermq.scheduler")
+  options(clustermq.scheduler = "multicore")
+  on.exit(options(clustermq.scheduler = old))
+  targets <- list(
+    target_init("x1", quote(1)),
+    target_init("x2", quote(x1)),
+    target_init("x3", quote(x2)),
+    target_init("x4", quote(x3))
+  )
+  pipeline <- pipeline_init(targets)
+  out <- clustermq_init(pipeline, workers = 2L)
+  out$run()
+  expect_equal(tar_read(x4), 1L)
 })
 
 tar_test("clustermq$validate()", {

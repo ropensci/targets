@@ -131,7 +131,8 @@ clustermq_class <- R6::R6Class(
       target_sync_file_meta(target, self$meta)
     },
     # Requires a longer target to guarantee test coverage.
-    # Tested in tests/hpc/test-clustermq.R.
+    # Covered in tests/interactive/test-parallel.R
+    # and tests/hpc/test-clustermq.R.
     # nocov start
     wait = function() {
       self$crew$send_wait()
@@ -167,10 +168,7 @@ clustermq_class <- R6::R6Class(
       } else if (self$scheduler$queue$is_nonempty()) {
         self$next_target()
       } else {
-        # To cover this line, we need a longer and more complicated pipeline
-        # than would be appropriate for fully automated testing.
-        # tests/hpc/test-clustermq.R has a couple longer tests.
-        self$crew$send_shutdown_worker() # nocov
+        self$crew$send_shutdown_worker()
       }
     },
     produce_prelocal = function() {
