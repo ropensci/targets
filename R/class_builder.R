@@ -64,6 +64,11 @@ target_should_run_worker.tar_builder <- function(target) {
 }
 
 #' @export
+target_needs_worker.tar_builder <- function(target) {
+  identical(target$settings$deployment, "worker")
+}
+
+#' @export
 target_run.tar_builder <- function(target, envir) {
   on.exit({
     builder_unset_tar_envir_run()

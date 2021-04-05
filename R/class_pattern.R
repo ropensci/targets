@@ -107,6 +107,12 @@ target_get_type.tar_pattern <- function(target) {
 }
 
 #' @export
+target_needs_worker.tar_pattern <- function(target) {
+  identical(target$settings$deployment, "worker") &&
+    is.null(target$junction)
+}
+
+#' @export
 target_validate.tar_pattern <- function(target) {
   assert_correct_fields(target, pattern_new)
   if (!is.null(target$junction)) {

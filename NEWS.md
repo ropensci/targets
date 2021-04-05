@@ -15,6 +15,10 @@
 * Implement `tar_poll()` to repeatedly poll runtime progress in the R console (#381). `tar_poll()` is a lightweight alternative to `tar_watch()`.
 * Change the color of the "dormant" status in the graph.
 
+## Performance
+
+* Shut down superfluous persistent workers earlier in dynamic branching and when all remaining targets have `deployment = "main"` (#398).
+
 ## Enhancements
 
 * Attempt to print only the useful part of the traceback in `tar_traceback()` (#383).

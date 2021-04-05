@@ -103,6 +103,12 @@ tar_test("buds can load values from memory", {
   expect_equal(bud$value$object, 2L)
 })
 
+tar_test("target_needs_worker(bud)", {
+  settings <- settings_init(name = "x")
+  bud <- bud_init(settings, "y", 1L)
+  expect_false(target_needs_worker(bud))
+})
+
 tar_test("target_validate(bud)", {
   settings <- settings_init(name = "x")
   bud <- bud_init(settings, "x_hash", 1L)
