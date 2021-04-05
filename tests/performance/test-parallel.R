@@ -37,14 +37,20 @@ tar_destroy()
 library(targets)
 tar_script({
   options(clustermq.scheduler = "multiprocess")
+  sleep <- function(value, sleep) {
+    Sys.sleep(sleep)
+    value
+  }
   list(
     tar_target(x1, c(0, 0, 0, 20)),
-    tar_target(x2, Sys.sleep(5), pattern = map(x1)),
-    tar_target(x3, Sys.sleep(5), pattern = map(x2)),
-    tar_target(x4, Sys.sleep(x1), pattern = map(x1, x3))
+    tar_target(x2, sleep(x1, 5), pattern = map(x1)),
+    tar_target(x3, sleep(x2, 5), pattern = map(x2)),
+    tar_target(x4, sleep(x3, x3), pattern = map(x3))
   )
 })
 tar_make_clustermq(workers = 4L, reporter = "timestamp", callr_function = NULL)
+expect_equal(tar_read(x4), c(0, 0, 0, 20))
+expect_equal(tar_progress_branches()$built, c(4, 4, 4))
 tar_destroy()
 
 # All but 1 worker should quit while x3 is running,
@@ -53,11 +59,15 @@ tar_destroy()
 library(targets)
 tar_script({
   options(clustermq.scheduler = "multiprocess")
+  sleep <- function(value, sleep) {
+    Sys.sleep(sleep)
+    value
+  }
   list(
-    tar_target(x1, 20),
-    tar_target(x2, list(Sys.sleep(5), x1)),
-    tar_target(x3, list(Sys.sleep(10), x2)),
-    tar_target(x4, list(Sys.sleep(10), x3), deployment = "main")
+    tar_target(x1, "pass"),
+    tar_target(x2, sleep(x1, 5)),
+    tar_target(x3, sleep(x2, 5)),
+    tar_target(x4, sleep(x3, 5), deployment = "main")
   )
 })
 tar_make_clustermq(workers = 4L, reporter = "timestamp", callr_function = NULL)

@@ -120,7 +120,7 @@ future_class <- R6::R6Class(
       )
       self$unload_transient()
     },
-    wait = function() {
+    backoff = function() {
       self$scheduler$backoff$wait()
     },
     next_target = function() {
@@ -147,7 +147,7 @@ future_class <- R6::R6Class(
       if (self$can_submit()) {
         self$next_target()
       } else if (wait) {
-        self$wait()
+        self$backoff()
       }
     },
     process_worker = function(name) {

@@ -93,6 +93,14 @@ clustermq_class <- R6::R6Class(
       self$create_crew()
       self$set_common_data(envir)
     },
+    any_upcoming_jobs = function() {
+      names <- counter_get_names(self$scheduler$progress$queued)
+      need_workers <- fltr(
+        names,
+        ~target_needs_worker(pipeline_get_target(self$pipeline, .x))
+      )
+      length(need_workers) > 0L
+    },
     run_worker = function(target) {
       self$crew$send_call(
         expr = target_run_worker(target, .tar_envir_5048826d),
@@ -100,7 +108,7 @@ clustermq_class <- R6::R6Class(
       )
     },
     run_main = function(target) {
-      self$crew$send_wait()
+      self$wait_or_shutdown()
       target_run(target, tar_option_get("envir"))
       target_conclude(
         target,
@@ -121,7 +129,7 @@ clustermq_class <- R6::R6Class(
       self$unload_transient()
     },
     skip_target = function(target) {
-      self$crew$send_wait()
+      self$wait_or_shutdown()
       target_skip(
         target,
         self$pipeline,
@@ -130,12 +138,20 @@ clustermq_class <- R6::R6Class(
       )
       target_sync_file_meta(target, self$meta)
     },
-    # Requires a longer target to guarantee test coverage.
+    # Requires a long-running pipeline to guarantee test coverage,
+    # which is not appropriate for fully automated unit tests.
     # Covered in tests/interactive/test-parallel.R
     # and tests/hpc/test-clustermq.R.
     # nocov start
-    wait = function() {
-      self$crew$send_wait()
+    wait_or_shutdown = function() {
+      trn(
+        self$any_upcoming_jobs(),
+        self$crew$send_wait(),
+        self$crew$send_shutdown_worker()
+      )
+    },
+    backoff = function() {
+      self$wait_or_shutdown()
       self$scheduler$backoff$wait()
     },
     # nocov end
@@ -144,7 +160,7 @@ clustermq_class <- R6::R6Class(
       trn(
         queue$should_dequeue(),
         self$process_target(queue$dequeue()),
-        self$wait()
+        self$backoff()
       )
     },
     conclude_worker_target = function(target) {

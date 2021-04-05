@@ -223,6 +223,15 @@ target_should_run_worker.default <- function(target) {
   FALSE
 }
 
+target_needs_worker <- function(target) {
+  UseMethod("target_needs_worker")
+}
+
+#' @export
+target_needs_worker.default <- function(target) {
+  FALSE
+}
+
 target_run <- function(target, envir) {
   UseMethod("target_run")
 }
