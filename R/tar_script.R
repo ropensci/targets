@@ -66,7 +66,11 @@ tar_script <- function(
   assert_lgl(library_targets, "library_targets must be logical.")
   assert_scalar(library_targets, "library_targets must have length 1.")
   code <- substitute(code)
-  text <- if_any(length(code), deparse_script_code(code), example_target_script())
+  text <- if_any(
+    length(code),
+    deparse_script_code(code),
+    example_target_script()
+  )
   assert_chr(text, "code argument must be parseable R code.")
   if (library_targets) {
     text <- c("library(targets)", text)
