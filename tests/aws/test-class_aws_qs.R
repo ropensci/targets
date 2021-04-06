@@ -105,7 +105,7 @@ tar_test("aws_qs format invalidation", {
       tar_target(y, c(x, "y_value"), format = "aws_qs")
     )
   })
-  expr <- tidy_eval(expr, environment(), TRUE)
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_equal(tar_progress(x)$progress, "built")

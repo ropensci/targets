@@ -33,7 +33,12 @@ store_read_object.tar_aws_file <- function(store) {
   bucket <- store_aws_bucket(path)
   key <- store_aws_key(path)
   out <- path_scratch(pattern = basename(key))
-  aws.s3::save_object(object = key, bucket = bucket, file = out)
+  aws.s3::save_object(
+    object = key,
+    bucket = bucket,
+    file = out,
+    check_region = TRUE
+  )
   out
 }
 

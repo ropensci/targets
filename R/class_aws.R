@@ -40,7 +40,12 @@ store_read_object.tar_aws <- function(store) {
   key <- store_aws_key(path)
   tmp <- tempfile()
   on.exit(unlink(tmp))
-  aws.s3::save_object(object = key, bucket = bucket, file = tmp)
+  aws.s3::save_object(
+    object = key,
+    bucket = bucket,
+    file = tmp,
+    check_region = TRUE
+  )
   store_cast_object(store, store_read_path(store, tmp))
 }
 
@@ -61,16 +66,27 @@ store_upload_object.tar_aws <- function(store) {
     object = key,
     bucket = bucket,
     multipart = TRUE,
-    headers = c("x-amz-meta-targets-hash" = hash)
+    headers = c("x-amz-meta-targets-hash" = hash),
+    check_region = TRUE
   )
 }
 
 store_aws_exists <- function(key, bucket) {
-  suppressWarnings(aws.s3::object_exists(object = key, bucket = bucket))
+  suppressWarnings(
+    aws.s3::object_exists(
+      object = key,
+      bucket = bucket,
+      check_region = TRUE
+    )
+  )
 }
 
 store_aws_hash <- function(key, bucket) {
-  head <- aws.s3::head_object(object = key, bucket = bucket)
+  head <- aws.s3::head_object(
+    object = key,
+    bucket = bucket,
+    check_region = TRUE
+  )
   hash_worker <- attr(head, "x-amz-meta-targets-hash")
 }
 
@@ -110,7 +126,11 @@ store_get_timestamp.tar_aws <- function(store) {
   if (!store_aws_exists(key = key, bucket = bucket)) {
     return(tar_timestamp_default)
   }
-  head <- aws.s3::head_object(object = key, bucket = bucket)
+  head <- aws.s3::head_object(
+    object = key,
+    bucket = bucket,
+    check_region = TRUE
+  )
   timestamp <- attr(head, "last-modified")
   as.POSIXct(timestamp, format = "%a, %d %b %Y %H:%M:%S", tz = "GMT")
 }

@@ -29,6 +29,7 @@
 * Make the reporters show when a target ends (#391, @mattwarkentin).
 * Make the reporters show when a pattern ends if the pattern built at least one target and none of the targets errored or canceled.
 * Use words "start" and "built" in reporters.
+* Use the region of the AWS S3 bucket instead of the local `AWS_DEFAULT_REGION` environment variable (`check_region = TRUE`; #400, @tomsing1).
 
 # targets 0.3.1
 
