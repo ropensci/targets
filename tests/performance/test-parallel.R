@@ -74,3 +74,16 @@ tar_script({
 tar_make_clustermq(workers = 4L, reporter = "timestamp", callr_function = NULL)
 tar_destroy()
 unlink("_targets.R")
+
+# Should not try to communicate with workers if they all
+# shut down early: 
+tar_script({
+  options(clustermq.scheduler = "multicore")
+  tar_option_set(deployment = "main")
+  list(
+    tar_target(index, seq_len(4)),
+    tar_target(run, index, pattern = map(index), deployment = "worker"),
+    tar_target(end, run)
+  )
+})
+tar_make_clustermq()

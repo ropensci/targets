@@ -66,7 +66,7 @@ clustermq_class <- R6::R6Class(
         queue = queue,
         reporter = reporter
       )
-      self$workers <- workers
+      self$workers <- as.integer(workers)
       self$crew <- crew
       self$log_worker <- log_worker
     },
@@ -137,16 +137,24 @@ clustermq_class <- R6::R6Class(
       )
       target_sync_file_meta(target, self$meta)
     },
+    shut_down_worker = function() {
+      if (self$workers > 0L) {
+        self$crew$send_shutdown_worker()
+        self$workers <- self$workers - 1L
+      }
+    },
     # Requires a long-running pipeline to guarantee test coverage,
     # which is not appropriate for fully automated unit tests.
     # Covered in tests/interactive/test-parallel.R
     # and tests/hpc/test-clustermq.R.
     # nocov start
     wait_or_shutdown = function() {
-      if_any(
-        self$any_upcoming_jobs(),
-        self$crew$send_wait(),
-        self$crew$send_shutdown_worker()
+      try(
+        if_any(
+          self$any_upcoming_jobs(),
+          self$crew$send_wait(),
+          self$shut_down_worker()
+        )
       )
     },
     backoff = function() {
@@ -176,14 +184,15 @@ clustermq_class <- R6::R6Class(
       )
     },
     iterate = function() {
-      message <- self$crew$receive_data()
+      message <- if_any(self$workers > 0L, self$crew$receive_data(), list())
       self$conclude_worker_target(message$result)
-      if (!identical(message$token, "set_common_data_token")) {
+      token <- message$token
+      if (self$workers > 0L && !identical(token, "set_common_data_token")) {
         self$crew$send_common_data()
       } else if (self$scheduler$queue$is_nonempty()) {
         self$next_target()
       } else {
-        self$crew$send_shutdown_worker()
+        self$shut_down_worker()
       }
     },
     produce_prelocal = function() {
