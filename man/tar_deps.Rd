@@ -30,6 +30,7 @@ tar_deps(function(a = b) map_dfr(data, ~do_row(.x)))
 }
 \seealso{
 Other inspect: 
+\code{\link{tar_deps_raw}()},
 \code{\link{tar_glimpse}()},
 \code{\link{tar_manifest}()},
 \code{\link{tar_network}()},

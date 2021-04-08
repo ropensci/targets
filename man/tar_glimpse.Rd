@@ -75,6 +75,7 @@ tar_glimpse(allow = starts_with("y"))
 }
 \seealso{
 Other inspect: 
+\code{\link{tar_deps_raw}()},
 \code{\link{tar_deps}()},
 \code{\link{tar_manifest}()},
 \code{\link{tar_network}()},
