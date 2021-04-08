@@ -28,10 +28,9 @@ tar_test("store_file packages", {
   expect_equal(out, character(0))
 })
 
-tar_test("TAR_STORE environment variable", {
+tar_test("alternate storage with _targets.yaml", {
   path <- file.path(tempfile(), "custom", "store")
-  Sys.setenv(TAR_STORE = path)
-  on.exit(Sys.unsetenv("TAR_STORE"))
+  writeLines(paste("store:", path), "_targets.yaml")
   writeLines("x_line", "x_file.txt")
   tar_script({
     write_lines <- function(file) {
@@ -77,7 +76,7 @@ tar_test("TAR_STORE environment variable", {
   expect_equal(nrow(tar_progress()), 0L)
   # Moving data store should not invalidate targets.
   file.rename(path, path_store_default())
-  Sys.unsetenv("TAR_STORE")
+  unlink("_targets.yaml")
   expect_false(file.exists(path))
   expect_true(file.exists(path_store_default()))
   expect_equal(tar_outdated(callr_function = NULL), character(0))

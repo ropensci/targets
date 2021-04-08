@@ -109,10 +109,10 @@ tar_test("aws_file format invalidation", {
 # (pseudo-folders) are correct.
 tar_test("aws_file format with a custom data store", {
   skip_if_no_aws()
-  Sys.setenv(TAR_STORE = "custom_targets_store")
+  writeLines("store: custom_targets_store", "_targets.yaml")
   bucket_name <- random_bucket_name()
   on.exit({
-    Sys.unsetenv("TAR_STORE")
+    unlink("_targets.yaml")
     unlink("custom_targets_store", recursive = TRUE)
     aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
@@ -143,9 +143,9 @@ tar_test("aws_file format with a custom data store", {
     aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/x")
   )
   expect_equal(tar_read(y), "x_lines")
-  expect_equal(length(list.files("_targets/scratch/")), 0L)
+  expect_equal(length(list.files("custom_targets_store/scratch/")), 0L)
   path <- tar_read(x)
-  expect_equal(length(list.files("_targets/scratch/")), 1L)
+  expect_equal(length(list.files("custom_targets_store/scratch/")), 1L)
   expect_equal(readLines(path), "x_lines")
   tmp <- tempfile()
   aws.s3::save_object(

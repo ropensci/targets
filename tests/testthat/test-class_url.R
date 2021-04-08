@@ -47,8 +47,7 @@ tar_test("dynamic urls work from a custom data store", {
     )
   })
   path <- tempfile()
-  Sys.setenv(TAR_STORE = path)
-  on.exit(Sys.unsetenv("TAR_STORE"))
+  writeLines(paste("store:", path), "_targets.yaml")
   tar_make(callr_function = NULL)
   expect_true(dir.exists(path))
   expect_false(file.exists(path_store_default()))
@@ -73,7 +72,7 @@ tar_test("dynamic urls work from a custom data store", {
   expect_true(dir.exists(path))
   expect_false(file.exists(path_store_default()))
   # Move the data store and verify that the targets are still up to date.
-  Sys.unsetenv("TAR_STORE")
+  unlink("_targets.yaml")
   file.rename(path, path_store_default())
   expect_false(dir.exists(path))
   expect_true(file.exists(path_store_default()))

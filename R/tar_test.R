@@ -30,12 +30,8 @@ tar_test <- function(label, code) {
       env = list(label = label, code = code)
     )
     withr::local_envvar(c(TAR_ASK = "false", TAR_TEST = "true"))
-    Sys.unsetenv("TAR_STORE")
     tar_option_reset()
-    on.exit({
-      Sys.unsetenv("TAR_STORE")
-      tar_option_reset()
-    })
+    on.exit(tar_option_reset())
     tar_option_set(envir = new.env(parent = globalenv()))
     suppressMessages(eval(expr, envir = parent.frame()))
   }

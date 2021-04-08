@@ -204,11 +204,11 @@ tar_test("aws timestamp", {
 # Run this one interactively and check that the object prefixes
 # (pseudo-folders) are correct.
 tar_test("aws_qs format with an alternative data store", {
-  Sys.setenv(TAR_STORE = "custom_targets_store")
   skip_if_no_aws()
   skip_if_not_installed("qs")
+  writeLines("store: custom_targets_store", "_targets.yaml")
   on.exit({
-    Sys.unsetenv("TAR_STORE")
+    unlink("_targets.yaml")
     unlink("custom_targets_store", recursive = TRUE)
     aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)

@@ -24,6 +24,7 @@
 ^_pkgdown\.yml$
 ^_targets$
 ^_targets\.R$
+^_targets\.yaml$
 ^docs$
 ^CODE_OF_CONDUCT.md$
 ^codemeta\.json$

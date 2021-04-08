@@ -6,9 +6,8 @@
 #'   describe each environment variable, and the `tar_envvars()` function
 #'   lists their current values.
 #' @details If you modify environment variables, please set them
-#'   in project-level `.Renviron` file. That way, the same values
-#'   are shared among the main session and
-#'   the external `callr` processes of [tar_make()] etc.
+#'   in project-level `.Renviron` file so you do not lose your
+#'   configuration when you restart your R session.
 #'   Modify the project-level `.Renviron` file with
 #'   `usethis::edit_r_environ(scope = "project")`. Restart
 #'   your R session after you are done editing.
@@ -30,48 +29,6 @@
 #'   [tar_script()], [tar_github_actions()], and similar functions,
 #'   you can safely set `TAR_ASK` to `"false"` in either a project-level
 #'   or user-level `.Renviron` file.
-#' @section TAR_STORE:
-#'   `TAR_STORE` controls the location of the local data store of your
-#'   pipeline. If you do not set `TAR_STORE`, then the data store lives
-#'   in a special `_targets/` folder at the project root.
-#'   (The project root is the value of `getwd()` when you run the pipeline
-#'   with [tar_make()] or similar.) If you set `TAR_STORE` to a directory path,
-#'   then the pipeline writes its files to the path you specify
-#'   instead of the default `_targets/` folder. If you set `TAR_STORE`
-#'   to a relative path, the path must be relative to the project root.
-#'   `TAR_STORE` applies to metadata and ordinary storage formats such as
-#'   `"rds"`, but not to external storage formats
-#'   such as `"file"` or `"aws_parquet"`.
-#'
-#'   Do not set `TAR_STORE` unless your use case absolutely requires it
-#'   and you fully understand the consequences.
-#'   There are two significant risks:
-#'
-#'   1. Some functions like [tar_read()] run in your local R session,
-#'     while others like [tar_make()] run in a fresh new external
-#'     `callr` R process in order to ensure reproducibility.
-#'     The value of `Sys.getenv("TAR_STORE")` must agree
-#'     between these two R sessions. Otherwise, you risk
-#'     reading from or writing to the incorrect location.
-#'     For best results, set the value of `TAR_STORE` in
-#'     a project-level `.Renviron file` (e.g. with
-#'     `usethis::edit_r_environ(scope = "project")`)
-#'     and restart your main R session.
-#'   2. Alternative data store locations generally undermine
-#'     reproducibility. With a non-standard storage location,
-#'     your project becomes harder for others to read and understand,
-#'     and you will have more trouble refreshing your memory
-#'     if you have to put it aside for several months and then
-#'     return to it cold.
-#'
-#'   The path at `TAR_STORE` need not exist in advance,
-#'   and it does not need to end with `"_targets"`.
-#'   However, it must be locally accessible, and it must be writeable.
-#'   For performance, it should live in a physical storage
-#'   volume with fast read/write access. (Remote network drives on Windows
-#'   will cause intractable lag.) RStudio Connect users can set `TAR_STORE`
-#'   to a subdirectory of `/mnt/shared-data/` so the data store persists
-#'   across multiple deployments of the same application.
 #' @section TAR_WARN:
 #'   The `TAR_WARN` environment variable accepts values `"true"` and `"false"`.
 #'   If `TAR_WARN` is not set, or if it is set to `"true"`,
@@ -87,7 +44,6 @@ tar_envvars <- function(unset = "") {
   assert_scalar(unset, "unset must have length 1.")
   names <- c(
     "TAR_ASK",
-    "TAR_STORE",
     "TAR_WARN"
   )
   values <- map_chr(names, Sys.getenv, unset = unset, names = FALSE)

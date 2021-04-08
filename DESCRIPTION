@@ -59,7 +59,8 @@ Imports:
   tidyselect (>= 1.1.0),
   utils,
   vctrs (>= 0.2.4),
-  withr (>= 2.1.2)
+  withr (>= 2.1.2),
+  yaml (>= 2.2.1)
 Suggests:
   arrow (>= 3.0.0),
   aws.s3 (>= 0.3.21),

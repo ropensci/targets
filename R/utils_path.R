@@ -7,7 +7,7 @@ path_script_basename <- function() {
 }
 
 path_store <- function() {
-  Sys.getenv(x = "TAR_STORE", unset = path_store_default(), names = FALSE)
+  tar_object_yaml$store() %|||% path_store_default()
 }
 
 path_store_default <- function() {

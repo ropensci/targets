@@ -237,7 +237,7 @@ pipeline_validate_conflicts <- function(pipeline) {
     ". Suppress this warning with Sys.setenv(TAR_WARN = \"false\") ",
     "in _targets.R."
   )
-  if (length(conflicts) && Sys.getenv("TAR_WARN") != "false") {
+  if (length(conflicts) && !identical(Sys.getenv("TAR_WARN"), "false")) {
     warn_validate(msg)
   }
 }
