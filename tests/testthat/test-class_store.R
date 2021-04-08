@@ -31,6 +31,7 @@ tar_test("store_file packages", {
 tar_test("TAR_STORE environment variable", {
   path <- file.path(tempfile(), "custom", "store")
   Sys.setenv(TAR_STORE = path)
+  on.exit(Sys.unsetenv("TAR_STORE"))
   writeLines("x_line", "x_file.txt")
   tar_script({
     write_lines <- function(file) {

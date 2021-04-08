@@ -48,6 +48,7 @@ tar_test("dynamic urls work from a custom data store", {
   })
   path <- tempfile()
   Sys.setenv(TAR_STORE = path)
+  on.exit(Sys.unsetenv("TAR_STORE"))
   tar_make(callr_function = NULL)
   expect_true(dir.exists(path))
   expect_false(file.exists(path_store_default()))
