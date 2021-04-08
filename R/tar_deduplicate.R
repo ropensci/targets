@@ -6,7 +6,7 @@
 #' @details Removes duplicated entries in the meta and progress
 #'   databases in order to lighten storage. These databases are located
 #'   in the `_targets/meta/meta` and `_targets/meta/progress` files,
-#'   and the `_targets` data store lives in the current working directory.
+#'   where `_targets` is the a folder at the project root.
 #'   No essential data is removed, so
 #'   this is simply a form of garbage collection.
 #' @return Nothing.

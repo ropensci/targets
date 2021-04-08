@@ -2,7 +2,6 @@
 #' @export
 #' @description Delete the metadata of records in `_targets/meta/meta`
 #'   but keep the return values of targets in `_targets/objects/`.
-#'   The `_targets/` data store must be in the current working directory.
 #' @details For patterns recorded in the metadata, all the branches
 #'   will be invalidated. For patterns no longer in the metadata,
 #'   branches are left alone.

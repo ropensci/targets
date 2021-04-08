@@ -35,7 +35,7 @@ tar_branches <- function(name, pattern) {
   name <- deparse_language(substitute(name))
   assert_chr(name, "name arg of tar_target() must be a symbol")
   assert_store()
-  assert_path(file.path("_targets/meta/meta"))
+  assert_path(file.path(path_meta()))
   pattern <- as.expression(substitute(pattern))
   deps <- all.vars(pattern, functions = FALSE, unique = TRUE)
   vars <- c(name, deps)

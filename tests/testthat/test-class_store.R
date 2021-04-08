@@ -64,6 +64,13 @@ tar_test("TAR_STORE environment variable", {
   expect_equal(tar_read(z), c("a", "b", "c"))
   expect_equal(tar_read(z2), c("a", "b", "c"))
   expect_equal(tar_read(z3), c("a.txt", "b.txt", "c.txt"))
+  envir <- new.env(parent = emptyenv())
+  expect_null(envir$z)
+  tar_load(z, envir = envir)
+  expect_equal(envir$z, c("a", "b", "c"))
+  expect_null(envir$z3)
+  tar_load(z3, envir = envir)
+  expect_equal(envir$z3, c("a.txt", "b.txt", "c.txt"))
   # Should be no invalidated targets
   expect_equal(tar_outdated(callr_function = NULL), character(0))
   tar_make(callr_function = NULL)
