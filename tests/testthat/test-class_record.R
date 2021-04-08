@@ -1,4 +1,4 @@
-tar_test("record$produce_row()", {
+tar_test("record$produce_row() on an internal target", {
   record <- record_init(
     name = "x_name",
     parent = "x_parent",
@@ -10,7 +10,43 @@ tar_test("record$produce_row()", {
     time = "f12345",
     size = "f123456",
     bytes = 123,
-    format = "x_format",
+    format = "rds",
+    iteration = "x_iteration",
+    children = c("x_branch", "y_branch"),
+    error = c("stop", "msg")
+  )
+  row <- record_produce_row(record)
+  expect_true(is.list(row))
+  expect_equal(sort(names(row)), sort(header_meta()))
+  expect_equal(row$name, "x_name")
+  expect_equal(row$parent, "x_parent")
+  expect_equal(row$type, "x_target")
+  expect_equal(row$command, "x_command")
+  expect_equal(row$depend, "x_depend")
+  expect_equal(row$path, list(NA_character_))
+  expect_equal(row$data, "x_data")
+  expect_equal(row$time, "f12345")
+  expect_equal(row$size, "f123456")
+  expect_equal(row$bytes, 123)
+  expect_equal(row$format, "rds")
+  expect_equal(row$iteration, "x_iteration")
+  expect_equal(row$children, list(c("x_branch", "y_branch")))
+  expect_equal(row$error, record_encode_field(c("stop", "msg")))
+})
+
+tar_test("record$produce_row() on an external target", {
+  record <- record_init(
+    name = "x_name",
+    parent = "x_parent",
+    type = "x_target",
+    command = "x_command",
+    depend = "x_depend",
+    path = c("x_path", "y_path"),
+    data = "x_data",
+    time = "f12345",
+    size = "f123456",
+    bytes = 123,
+    format = "file",
     iteration = "x_iteration",
     children = c("x_branch", "y_branch"),
     error = c("stop", "msg")
@@ -28,7 +64,7 @@ tar_test("record$produce_row()", {
   expect_equal(row$time, "f12345")
   expect_equal(row$size, "f123456")
   expect_equal(row$bytes, 123)
-  expect_equal(row$format, "x_format")
+  expect_equal(row$format, "file")
   expect_equal(row$iteration, "x_iteration")
   expect_equal(row$children, list(c("x_branch", "y_branch")))
   expect_equal(row$error, record_encode_field(c("stop", "msg")))
