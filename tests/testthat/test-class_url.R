@@ -105,14 +105,31 @@ tar_test("bad curl handle throws an error", {
   )
 })
 
-tar_test("validate url format", {
-  skip_if_not_installed("curl")
-  tar_script(list(tar_target(x, "x_value", format = "url")))
-  expect_silent(tar_validate(callr_function = NULL))
+tar_test("inherits from tar_external", {
+  store <- tar_target(x, "x_value", format = "url")$store
+  expect_true(inherits(store, "tar_external"))
+})
+
+tar_test("store_row_path()", {
+  store <- tar_target(x, "x_value", format = "url")$store
+  store$file$path <- "path"
+  expect_equal(store_row_path(store), "path")
+})
+
+tar_test("store_path_from_record()", {
+  store <- tar_target(x, "x_value", format = "url")$store
+  record <- record_init(path = "path", format = "url")
+  expect_equal(store_path_from_record(store, record), "path")
 })
 
 tar_test("url packages", {
   x <- tar_target(x, 1, format = "url")
   out <- store_get_packages(x$store)
   expect_equal(out, "curl")
+})
+
+tar_test("validate url format", {
+  skip_if_not_installed("curl")
+  tar_script(list(tar_target(x, "x_value", format = "url")))
+  expect_silent(tar_validate(callr_function = NULL))
 })
