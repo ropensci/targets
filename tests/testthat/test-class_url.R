@@ -72,6 +72,14 @@ tar_test("dynamic urls work from a custom data store", {
   expect_false(file.exists(file.path(path_store_default(), "objects", "abc")))
   expect_true(dir.exists(path))
   expect_false(file.exists(path_store_default()))
+  # Move the data store and verify that the targets are still up to date.
+  Sys.unsetenv("TAR_STORE")
+  file.rename(path, path_store_default())
+  expect_false(dir.exists(path))
+  expect_true(file.exists(path_store_default()))
+  expect_equal(tar_outdated(callr_function = NULL), character(0))
+  tar_make(callr_function = NULL)
+  expect_equal(nrow(tar_progress()), 0)
 })
 
 tar_test("tar_condition_run error on bad URL", {
