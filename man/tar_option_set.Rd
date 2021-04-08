@@ -322,9 +322,9 @@ tar_make()
 }
 }
 \seealso{
-Other options: 
+Other configuration: 
 \code{\link{tar_envvars}()},
 \code{\link{tar_option_get}()},
 \code{\link{tar_option_reset}()}
 }
-\concept{options}
+\concept{configuration}

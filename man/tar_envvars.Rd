@@ -60,9 +60,9 @@ unless your use case absolutely requires it.
 tar_envvars()
 }
 \seealso{
-Other options: 
+Other configuration: 
 \code{\link{tar_option_get}()},
 \code{\link{tar_option_reset}()},
 \code{\link{tar_option_set}()}
 }
-\concept{options}
+\concept{configuration}

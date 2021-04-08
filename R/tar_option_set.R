@@ -1,6 +1,6 @@
 #' @title Set target options.
 #' @export
-#' @family options
+#' @family configuration
 #' @description Set target options, including default arguments to
 #'   [tar_target()] such as packages, storage format,
 #'   iteration type, and cue. See default options with [tar_option_get()].

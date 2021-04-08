@@ -1,6 +1,6 @@
 #' @title Reset all target options.
 #' @export
-#' @family options
+#' @family configuration
 #' @description Reset all target options you previously chose with
 #'   [tar_option_set()]. These options are mostly configurable default
 #'   arguments to [tar_target()] and [tar_target_raw()].

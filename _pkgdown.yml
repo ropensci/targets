@@ -22,7 +22,7 @@ reference:
 - title: Help
   contents:
   - '`targets-package`'
-- title: Setup
+- title: Scripts
   contents:
   - '`tar_edit`'
   - '`tar_github_actions`'
@@ -30,12 +30,13 @@ reference:
   - '`tar_helper_raw`'
   - '`tar_renv`'
   - '`tar_script`'
-- title: Options
+- title: Configuration
   contents:
   - '`tar_envvars`'
   - '`tar_option_get`'
   - '`tar_option_reset`'
   - '`tar_option_set`'
+  - '`tar_yaml`'
 - title: Targets
   contents:
   - '`tar_cue`'

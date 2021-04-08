@@ -81,11 +81,11 @@ tar_option_reset()
 \seealso{
 \url{https://rstudio.github.io/renv/articles/renv.html}
 
-Other setup: 
+Other scripts: 
 \code{\link{tar_edit}()},
 \code{\link{tar_github_actions}()},
 \code{\link{tar_helper_raw}()},
 \code{\link{tar_helper}()},
 \code{\link{tar_script}()}
 }
-\concept{setup}
+\concept{scripts}

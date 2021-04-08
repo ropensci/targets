@@ -1,6 +1,6 @@
 #' @title Show environment variables to customize `targets`
 #' @export
-#' @family options
+#' @family configuration
 #' @description You can customize the behavior of `targets`
 #'   with special environment variables. The sections in this help file
 #'   describe each environment variable, and the `tar_envvars()` function
