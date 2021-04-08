@@ -102,4 +102,3 @@ tar_watch_about <- function() {
   shiny::includeMarkdown(path)
 }
 # nocov end
-
