@@ -33,7 +33,8 @@ tar_read_inner <- function(name, branches, meta) {
   if (!any(index)) {
     throw_validate("target ", name, " not found")
   }
-  record <- do.call(record_init, lapply(meta[max(which(index)), ], unlist))
+  row <- meta[max(which(index)),, drop = FALSE] # nolint
+  record <- record_from_row(row)
   if_any(
     record$type %in% c("stem", "branch"),
     read_builder(record),
@@ -60,7 +61,7 @@ read_pattern <- function(name, record, meta, branches) {
   if (nrow(meta)) {
     meta <- meta[match(names, meta$name),, drop = FALSE] # nolint
   }
-  records <- map_rows(meta, ~do.call(record_init, lapply(.x, unlist)))
+  records <- map_rows(meta, ~record_from_row(.x))
   objects <- lapply(records, read_builder)
   value <- value_init(iteration = record$iteration)
   value_produce_aggregate(value, objects)

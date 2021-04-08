@@ -81,12 +81,21 @@ store_produce_path.default <- function(store, name, object) {
 }
 
 store_row_path <- function(store) {
-  UseMethod("store_produce_path")
+  UseMethod("store_row_path")
 }
 
 #' @export
 store_row_path.default <- function(store) {
   NA_character_
+}
+
+store_path_from_record <- function(store, record) {
+  UseMethod("store_path_from_record")
+}
+
+#' @export
+store_path_from_record.default <- function(store, record) {
+  path_objects(record$name)
 }
 
 store_update_stage <- function(store, name, object) {

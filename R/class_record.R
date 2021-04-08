@@ -100,7 +100,7 @@ record_produce_row <- function(record) {
     command = record$command,
     depend = record$depend,
     seed = record$seed,
-    path = list(record$path),
+    path = list(record_row_path(record)),
     time = record$time,
     size = record$size,
     bytes = record$bytes,
@@ -112,6 +112,18 @@ record_produce_row <- function(record) {
     warnings = record_encode_field(record$warnings),
     error = record_encode_field(record$error)
   )
+}
+
+record_row_path <- function(record) {
+  store <- store_init(record$format)
+  store$file$path <- record$path
+  store_row_path(store)
+}
+
+record_from_row <- function(row) {
+  record <- do.call(record_init, lapply(row, unlist))
+  record$path <- store_path_from_record(store_init(record$format), record)
+  record
 }
 
 record_encode_field <- function(field) {
