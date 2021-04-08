@@ -32,6 +32,47 @@ tar_test("dynamic urls work", {
   expect_false(file.exists(file.path("_targets", "objects", "abc")))
 })
 
+tar_test("dynamic urls work from a custom data store", {
+  skip_if_not_installed("curl")
+  skip_if_offline()
+  url <- "https://httpbin.org/etag/test"
+  skip_if(!url_exists(url))
+  tar_script({
+    list(
+      tar_target(
+        abc,
+        rep("https://httpbin.org/etag/test", 2),
+        format = "url"
+      )
+    )
+  })
+  path <- tempfile()
+  Sys.setenv(TAR_STORE = path)
+  tar_make(callr_function = NULL)
+  expect_true(dir.exists(path))
+  expect_false(file.exists(path_store_default()))
+  exp <- tibble::tibble(
+    name = "abc",
+    type = "stem",
+    parent = "abc",
+    branches = 0L,
+    progress = "built"
+  )
+  expect_equal(tar_progress(fields = NULL), exp)
+  tar_make(callr_function = NULL)
+  expect_equal(nrow(tar_progress()), 0)
+  meta <- tar_meta(abc)
+  expect_equal(nchar(meta$data), 16)
+  out <- meta$path[[1]]
+  exp <- rep(url, 2)
+  expect_equal(out, exp)
+  expect_equal(tar_read(abc), exp)
+  expect_false(file.exists(file.path(path, "objects", "abc")))
+  expect_false(file.exists(file.path(path_store_default(), "objects", "abc")))
+  expect_true(dir.exists(path))
+  expect_false(file.exists(path_store_default()))
+})
+
 tar_test("tar_condition_run error on bad URL", {
   skip_if_not_installed("curl")
   skip_if_offline()
