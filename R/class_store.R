@@ -80,6 +80,15 @@ store_produce_path.default <- function(store, name, object) {
   path_objects(name)
 }
 
+store_row_path <- function(store) {
+  UseMethod("store_produce_path")
+}
+
+#' @export
+store_row_path.default <- function(store) {
+  NA_character_
+}
+
 store_update_stage <- function(store, name, object) {
   store$file$stage <- store_produce_stage(store, name, object)
 }

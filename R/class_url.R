@@ -6,7 +6,7 @@ store_new.url <- function(class, file = NULL, resources = NULL) {
 store_url_new <- function(file = NULL, resources = NULL) {
   force(file)
   force(resources)
-  enclass(environment(), c("tar_url", "tar_store"))
+  enclass(environment(), c("tar_url", "tar_external", "tar_store"))
 }
 
 #' @export
