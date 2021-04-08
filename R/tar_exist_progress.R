@@ -1,5 +1,6 @@
 #' @title Check if progress metadata exists.
 #' @export
+#' @family existence
 #' @description Check if the progress metadata file `_targets/meta/progress`
 #'   exists for the current project.
 #' @details To learn more about local storage in `targets`, visit

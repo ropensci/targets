@@ -44,3 +44,10 @@ tar_make()
 })
 }
 }
+\seealso{
+Other options: 
+\code{\link{tar_envvars}()},
+\code{\link{tar_option_reset}()},
+\code{\link{tar_option_set}()}
+}
+\concept{options}

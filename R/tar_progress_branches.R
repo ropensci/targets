@@ -1,5 +1,6 @@
 #' @title Tabulate the progress of dynamic branches.
 #' @export
+#' @family progress
 #' @description Read a project's target progress data for the most recent
 #'   run of the pipeline and display the tabulated status
 #'   of dynamic branches. Only the most recent record is shown.

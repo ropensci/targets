@@ -73,3 +73,13 @@ tar_read(sums) # Should be c(3, 7, 11).
 })
 }
 }
+\seealso{
+Other utilities: 
+\code{\link{tar_cancel}()},
+\code{\link{tar_envir}()},
+\code{\link{tar_name}()},
+\code{\link{tar_path}()},
+\code{\link{tar_seed}()},
+\code{\link{tar_timestamp}()}
+}
+\concept{utilities}

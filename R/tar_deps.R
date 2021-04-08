@@ -1,5 +1,6 @@
 #' @title Code dependencies
 #' @export
+#' @family inspect
 #' @description List the dependencies of a function or expression.
 #' @details `targets` detects the dependencies of commands using
 #'   static code analysis. Use `tar_deps()` to run the

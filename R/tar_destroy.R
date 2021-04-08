@@ -1,5 +1,6 @@
 #' @title Destroy all or part of the data store.
 #' @export
+#' @family clean
 #' @description Destroy all or part of the data store written
 #'   by [tar_make()] and similar functions.
 #' @return Nothing.

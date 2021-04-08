@@ -16,3 +16,11 @@ exists for the current project.
 \examples{
 tar_exist_script()
 }
+\seealso{
+Other existence: 
+\code{\link{tar_exist_meta}()},
+\code{\link{tar_exist_objects}()},
+\code{\link{tar_exist_process}()},
+\code{\link{tar_exist_progress}()}
+}
+\concept{existence}

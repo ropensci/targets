@@ -15,6 +15,7 @@
 * Implement `tar_poll()` to repeatedly poll runtime progress in the R console (#381). `tar_poll()` is a lightweight alternative to `tar_watch()`.
 * Change the color of the "dormant" status in the graph.
 * Implement an optional `TAR_STORE` environment variable to choose a data store location other than `_targets/` (#297). If set, `TAR_STORE` must be set consistently both the main R session (for functions like `tar_read()`) and the background `callr` process (for functions like `tar_make()`). Should be set in a project-level `.Renviron` file. Could also be set with a combination of `Sys.setenv(TAR_STORE = <value>)` in the main session and `tar_make(callr_arguments = list(TAR_STORE = <value>))`.
+* Add a `tar_envvar()` function to list values of special environment variables supported in `targets`. The help file explains each environment variable in detail.
 
 ## Performance
 

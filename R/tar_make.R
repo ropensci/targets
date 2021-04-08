@@ -1,5 +1,6 @@
 #' @title Run a pipeline of targets.
 #' @export
+#' @family pipeline
 #' @description Run the pipeline you defined in `_targets.R`. `tar_make()`
 #'   runs the correct targets in the correct order and stores the return
 #'   values in `_targets/objects/`.

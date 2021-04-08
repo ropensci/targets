@@ -1,5 +1,6 @@
 #' @title Get the random number generator seed of the target currently running.
 #' @export
+#' @family utilities
 #' @description Get the random number generator seed
 #'   of the target currently running.
 #' @details A target's random number generator seed

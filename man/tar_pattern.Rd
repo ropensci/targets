@@ -88,3 +88,8 @@ tar_pattern(
   z = 3
 )
 }
+\seealso{
+Other branching: 
+\code{\link{tar_branches}()}
+}
+\concept{branching}

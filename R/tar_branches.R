@@ -1,5 +1,6 @@
 #' @title Reconstruct the branch names and the names of their dependencies.
 #' @export
+#' @family branching
 #' @description Given a branching pattern, use available metadata
 #'   to reconstruct branch names and the names of each
 #'   branch's dependencies. The metadata of each target

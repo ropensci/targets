@@ -1,5 +1,6 @@
 #' @title Identify the file path where a target will be stored.
 #' @export
+#' @family utilities
 #' @description Identify the file path where a target will be stored
 #'   after the target finishes running in the pipeline.
 #' @details `tar_path(name = your_target)` just returns

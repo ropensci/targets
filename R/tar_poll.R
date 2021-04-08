@@ -1,5 +1,6 @@
 #' @title Repeatedly poll progress in the R console.
 #' @export
+#' @family progress
 #' @description Print the information in [tar_progress_summary()]
 #'   at regular intervals.
 #' @inheritParams tar_progress_summary

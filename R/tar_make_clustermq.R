@@ -1,6 +1,7 @@
 #' @title Run a pipeline of targets in parallel with persistent
 #'   `clustermq` workers.
 #' @export
+#' @family pipeline
 #' @description This function is like [tar_make()] except that targets
 #'   run in parallel with persistent `clustermq` workers. It requires
 #'   that you set global options like `clustermq.scheduler` and

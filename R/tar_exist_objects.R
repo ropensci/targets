@@ -1,5 +1,6 @@
 #' @title Check if local output data exists for one or more targets.
 #' @export
+#' @family existence
 #' @description Check if the local data files exist in
 #'   `_targets/objects/` for one or more targets.
 #' @details To learn more about local storage in `targets`, visit

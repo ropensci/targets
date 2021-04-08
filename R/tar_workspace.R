@@ -1,5 +1,6 @@
 #' @title Load a saved workspace and seed for debugging.
 #' @export
+#' @family debug
 #' @description Load the packages, workspace, and random number generator seed
 #'   of target attempted with a workspace file.
 #' @details If you set `error = "workspace"` in [tar_option_set()]

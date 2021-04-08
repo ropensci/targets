@@ -1,5 +1,6 @@
 #' @title Invalidate targets and global objects in the metadata.
 #' @export
+#' @family clean
 #' @description Delete the metadata of records in `_targets/meta/meta`
 #'   but keep the return values of targets in `_targets/objects/`.
 #' @details For patterns recorded in the metadata, all the branches

@@ -1,5 +1,6 @@
 #' @title Read a target's value from storage (raw version)
 #' @export
+#' @family data
 #' @description Like [tar_read()] except `name` is a character string.
 #'   Do not use in `knitr` or R Markdown reports with `tarchetypes::tar_knit()`
 #'   or `tarchetypes::tar_render()`.

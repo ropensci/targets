@@ -1,5 +1,6 @@
 #' @title Group a data frame to iterate over subsets of rows.
 #' @export
+#' @family utilities
 #' @description Like `dplyr::group_by()`, but for patterns.
 #'   `tar_group()` allows you to map or cross over subsets of data frames.
 #'   Requires `iteration = "group"` on the target. See the example.

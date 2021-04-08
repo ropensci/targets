@@ -52,3 +52,10 @@ tar_prune()
 })
 }
 }
+\seealso{
+Other clean: 
+\code{\link{tar_delete}()},
+\code{\link{tar_destroy}()},
+\code{\link{tar_invalidate}()}
+}
+\concept{clean}

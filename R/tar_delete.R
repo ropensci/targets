@@ -1,5 +1,6 @@
 #' @title Delete locally stored target return values.
 #' @export
+#' @family clean
 #' @description Delete the return values of targets in `_targets/objects/`.
 #'   but keep the records in `_targets/meta/meta`.
 #'   Dynamic files and cloud data (e.g. `format = "file"`

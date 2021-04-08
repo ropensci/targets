@@ -1,5 +1,6 @@
 #' @title Get main process info.
 #' @export
+#' @family data
 #' @description Get info on the most recent main R process
 #'   to orchestrate the targets of the current project.
 #' @details The main process is the R process invoked

@@ -1,5 +1,6 @@
 #' @title Summarize target progress.
 #' @export
+#' @family progress
 #' @description Summarize the progress of a run of the pipeline.
 #' @return A data frame with one row and the following
 #'   optional columns that can be selected with `fields`.

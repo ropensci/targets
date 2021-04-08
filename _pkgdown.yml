@@ -41,7 +41,7 @@ reference:
   - '`tar_cue`'
   - '`tar_target`'
   - '`tar_target_raw`'
-- title: Run
+- title: Pipeline
   contents:
   - '`tar_make`'
   - '`tar_make_clustermq`'
@@ -51,48 +51,42 @@ reference:
   - '`tar_traceback`'
   - '`tar_workspace`'
   - '`tar_workspaces`'
-  - '`tar_validate`'
 - title: Data
   contents:
   - '`tar_load`'
   - '`tar_load_raw`'
   - '`tar_meta`'
+  - '`tar_objects`'
+  - '`tar_pid`'
+  - '`tar_process`'
   - '`tar_read`'
   - '`tar_read_raw`'
-- title: List
+- title: Inspect
   contents:
+  - '`tar_deps`'
+  - '`tar_deps_raw`'
   - '`tar_manifest`'
-  - '`tar_objects`'
+  - '`tar_glimpse`'
+  - '`tar_network`'
+  - '`tar_outdated`'
+  - '`tar_sitrep`'
+  - '`tar_visnetwork`'
+  - '`tar_validate`'
 - title: Clean
   contents:
   - '`tar_delete`'
   - '`tar_destroy`'
   - '`tar_invalidate`'
   - '`tar_prune`'
-- title: Graph
-  contents:
-  - '`tar_glimpse`'
-  - '`tar_network`'
-  - '`tar_visnetwork`'
-- title: Watch
-  contents:
-  - '`tar_watch`'
-  - '`tar_watch_server`'
-  - '`tar_watch_ui`'
 - title: Progress
   contents:
   - '`tar_poll`'
   - '`tar_progress`'
   - '`tar_progress_branches`'
   - '`tar_progress_summary`'
-- title: Process
-  contents:
-  - '`tar_pid`'
-  - '`tar_process`'
-- title: Invalidation
-  contents:
-  - '`tar_outdated`'
-  - '`tar_sitrep`'
+  - '`tar_watch`'
+  - '`tar_watch_server`'
+  - '`tar_watch_ui`'
 - title: Existence
   contents:
   - '`tar_exist_meta`'
@@ -104,21 +98,15 @@ reference:
   contents:
   - '`tar_branches`'
   - '`tar_pattern`'
-- title: Runtime accessors
+- title: Utilities
   contents:
+  - '`tar_cancel`'
   - '`tar_envir`'
+  - '`tar_group`'
   - '`tar_name`'
   - '`tar_path`'
   - '`tar_seed`'
   - '`tar_timestamp`'
-- title: Runtime helpers
-  contents:
-  - '`tar_cancel`'
-  - '`tar_group`'
-- title: Dependencies
-  contents:
-  - '`tar_deps`'
-  - '`tar_deps_raw`'
 - title: Targetopia
   contents:
   - '`tar_dir`'

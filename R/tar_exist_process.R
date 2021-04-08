@@ -1,5 +1,6 @@
 #' @title Check if process metadata exists.
 #' @export
+#' @family existence
 #' @description Check if the process metadata file `_targets/meta/process`
 #'   exists for the current project.
 #' @details To learn more about local storage in `targets`, visit

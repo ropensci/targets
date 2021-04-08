@@ -1,5 +1,6 @@
 #' @title Remove targets that are no longer part of the pipeline.
 #' @export
+#' @family clean
 #' @description Remove target values from `_targets/objects/` and
 #'   target metadata from `_targets/meta/meta` for targets that are no longer
 #'   part of the pipeline. Global objects and dynamic files outside the

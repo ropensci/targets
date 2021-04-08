@@ -1,5 +1,6 @@
 #' @title Load the values of targets (raw version).
 #' @export
+#' @family data
 #' @description Same as [tar_load()] except `names` is a character vector.
 #'   Do not use in `knitr` or R Markdown reports with `tarchetypes::tar_knit()`
 #'   or `tarchetypes::tar_render()`.

@@ -1,5 +1,6 @@
 #' @title Declare a target.
 #' @export
+#' @family targets
 #' @description A target is a single step of computation in a pipeline.
 #'   It runs an R command and returns a value.
 #'   This value gets treated as an R object that can be used

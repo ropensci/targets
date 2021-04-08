@@ -293,7 +293,7 @@ as long as those target objects are still in the data store
 (usually \verb{_targets/objects/}).}
 }
 \value{
-Nothing.
+\code{NULL} (invisibly).
 }
 \description{
 Set target options, including default arguments to
@@ -321,3 +321,10 @@ tar_make()
 })
 }
 }
+\seealso{
+Other options: 
+\code{\link{tar_envvars}()},
+\code{\link{tar_option_get}()},
+\code{\link{tar_option_reset}()}
+}
+\concept{options}

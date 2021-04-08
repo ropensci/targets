@@ -1,5 +1,6 @@
 #' @title Get the timestamp of a target.
 #' @export
+#' @family utilities
 #' @description Get the time that a target's data was last modified.
 #' @details If the files are stored locally, the time
 #' @return A POSIXct object. If the target does not exists,

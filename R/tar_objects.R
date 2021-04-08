@@ -1,5 +1,6 @@
 #' @title List saved targets
 #' @export
+#' @family data
 #' @description List targets currently saved to `_targets/objects/`.
 #'   Does not include dynamic files or cloud storage.
 #' @return Character vector of targets saved to `_targets/objects/`.

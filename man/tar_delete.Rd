@@ -38,3 +38,10 @@ tar_make() # y1 and y2 rebuild but return same values, so z is up to date.
 })
 }
 }
+\seealso{
+Other clean: 
+\code{\link{tar_destroy}()},
+\code{\link{tar_invalidate}()},
+\code{\link{tar_prune}()}
+}
+\concept{clean}

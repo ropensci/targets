@@ -1,5 +1,6 @@
 #' @title Test code in a temporary directory.
 #' @export
+#' @family tar_test
 #' @description Runs a `test_that()` unit test inside a temporary
 #'   directory to avoid writing to the user's file space.
 #'   This helps ensure compliance with CRAN policies.
