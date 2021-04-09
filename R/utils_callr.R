@@ -57,8 +57,10 @@ callr_inner <- function(
   targets_arguments,
   targets_options
 ) {
-  getNamespace("targets")$tar_config$set_lock()
-  on.exit(getNamespace("targets")$tar_config$unset_lock())
+  tar_config <- getNamespace("targets")$tar_config
+  tar_config$ensure()
+  tar_config$set_lock()
+  on.exit(tar_config$unset_lock())
   withr::local_options(targets_options)
   value <- source(targets_script)$value
   targets_arguments$pipeline <- targets::as_pipeline(value)
