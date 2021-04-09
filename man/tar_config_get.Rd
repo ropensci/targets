@@ -11,7 +11,10 @@ tar_config_get(name)
 \verb{_targets.yaml} configuration setting to retrieve.}
 }
 \value{
-
+The value of the configuration setting from \verb{_targets.yaml},
+or the default value if the setting is not available.
+The data type of the return value depends on your choice
+of \code{name}.
 }
 \description{
 Read the custom settings in the optional _targets.yaml
