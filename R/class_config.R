@@ -5,12 +5,14 @@ config_init <- function(path = tempfile()) {
 config_new <- function(
   path = NULL,
   data = NULL,
-  time = NULL
+  time = NULL,
+  lock = NULL
 ) {
   config_class$new(
     path = path,
     data = data,
-    time = time
+    time = time,
+    lock = lock
   )
 }
 
@@ -23,14 +25,26 @@ config_class <- R6::R6Class(
     path = NULL,
     data = NULL,
     time = NULL,
+    lock = NULL,
     initialize = function(
       path = NULL,
       data = NULL,
-      time = NULL
+      time = NULL,
+      lock = NULL
     ) {
       self$path <- path
       self$data <- data
       self$time <- time
+      self$lock <- lock
+    },
+    set_lock = function() {
+      self$lock <- TRUE
+    },
+    unset_lock = function() {
+      self$lock <- FALSE
+    },
+    is_unlocked = function() {
+      !identical(self$lock, TRUE)
     },
     path_exists = function() {
       file.exists(self$path)
@@ -42,18 +56,24 @@ config_class <- R6::R6Class(
       as.list(yaml::read_yaml(self$path))
     },
     load = function() {
-      self$data <- self$read()
-      self$time <- self$produce_time()
+      if (self$is_unlocked()) {
+        self$data <- self$read()
+        self$time <- self$produce_time()
+      }
     },
     write = function() {
-      tmp <- tempfile()
-      yaml::write_yaml(x = self$data, file = tmp)
-      file.rename(from = tmp, to = self$path)
+      if (self$is_unlocked()) {
+        tmp <- tempfile()
+        yaml::write_yaml(x = self$data, file = tmp)
+        file.rename(from = tmp, to = self$path)
+      }
       invisible()
     },
     unload = function() {
-      self$data <- NULL
-      self$time <- NULL
+      if (self$is_unlocked()) {
+        self$data <- NULL
+        self$time <- NULL
+      }
     },
     update = function() {
       if_any(self$path_exists(), self$load(), self$unload())
@@ -72,7 +92,9 @@ config_class <- R6::R6Class(
     },
     set_store = function(store) {
       self$ensure()
-      self$data$store <- store
+      if (self$is_unlocked()) {
+        self$data$store <- store
+      }
       self$write()
     },
     validate = function() {

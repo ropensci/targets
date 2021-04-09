@@ -15,7 +15,7 @@
 * Implement `tar_poll()` to repeatedly poll runtime progress in the R console (#381). `tar_poll()` is a lightweight alternative to `tar_watch()`.
 * Change the color of the "dormant" status in the graph.
 * Add a `tar_envvar()` function to list values of special environment variables supported in `targets`. The help file explains each environment variable in detail.
-* Allow extra configuration with `_targets.yaml`. Currently only supports the `store` field to set the data store path to something other than `_targets/` (#297).
+* Support extra project-level configuration settings with `_targets.yaml` (#297). New functions `tar_config_get()` and `tar_config_set()` interact with the `_targets.yaml` file. Currently only supports the `store` field to set the data store path to something other than `_targets/`.
 
 ## Performance
 

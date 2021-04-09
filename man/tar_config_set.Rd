@@ -30,9 +30,8 @@ current project. Do not invoke while the pipeline is running.
 with settings specific to a given project. You can write it
 by hand or modify it with \code{tar_config_set()}.
 In order to work properly, \verb{_targets.yaml} must live at the
-root of the project (next to \verb{_targets.R}) and not be modified
-while the pipeline is running, either by \code{tar_config_set()}
-or by hand. The currently supported configuration settings are
+root of the project (next to \verb{_targets.R}).
+The currently supported configuration settings are
 documented as the arguments of \code{tar_config_set()}.
 
 \code{tar_config_set()} always writes a \verb{_targets.yaml} file
@@ -46,7 +45,6 @@ tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script(list(tar_target(x, 1 + 1)))
 tar_config_get("store") # NULL (data store defaults to "_targets/")
 store_path <- tempfile()
-# Do not run while the pipeline is running:
 tar_config_set(store = store_path)
 tar_config_get("store") # Shows a temp file.
 tar_make() # Writes to the custom data store identified in _targets.yaml.

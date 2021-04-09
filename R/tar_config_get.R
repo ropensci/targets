@@ -7,9 +7,8 @@
 #'   with settings specific to a given project. You can write it
 #'   by hand or modify it with [tar_config_set()].
 #'   In order to work properly, `_targets.yaml` must live at the
-#'   root of the project (next to `_targets.R`) and not be modified
-#'   while the pipeline is running, either by [tar_config_set()]
-#'   or by hand. The currently supported configuration settings are
+#'   root of the project (next to `_targets.R`).
+#'   The currently supported configuration settings are
 #'   documented as the arguments of [tar_config_set()].
 #' @return The value of the configuration setting from `_targets.yaml`,
 #'   or the default value if the setting is not available.
@@ -23,7 +22,6 @@
 #' tar_script(list(tar_target(x, 1 + 1)))
 #' tar_config_get("store") # "_targets"
 #' store_path <- tempfile()
-#' # Do not run while the pipeline is running:
 #' tar_config_set(store = store_path)
 #' tar_config_get("store") # Shows a temp file.
 #' tar_make() # Writes to the custom data store identified in _targets.yaml.
