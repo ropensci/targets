@@ -10,7 +10,7 @@ tar_test("config$validate()", {
 
 tar_test("config$get_store()", {
   path <- tempfile()
-  out <- config_init(path =path)
+  out <- config_init(path = path)
   expect_null(out$get_store())
   writeLines("store: path", path)
   expect_equal(out$get_store(), "path")

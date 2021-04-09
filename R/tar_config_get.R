@@ -11,7 +11,10 @@
 #'   while the pipeline is running, either by [tar_config_set()]
 #'   or by hand. The currently supported configuration settings are
 #'   documented as the arguments of [tar_config_set()].
-#' @return 
+#' @return The value of the configuration setting from `_targets.yaml`,
+#'   or the default value if the setting is not available.
+#'   The data type of the return value depends on your choice
+#'   of `name`.
 #' @param name Character of length 1, name of the specific
 #'   `_targets.yaml` configuration setting to retrieve.
 #' @examples
