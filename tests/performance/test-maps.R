@@ -11,6 +11,9 @@ tar_script({
 })
 px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
 
+# With silent reporter
+px <- pprof(tar_make(reporter = "silent", callr_function = NULL))
+
 # Outdated targets
 px <- pprof(tar_outdated(callr_function = NULL))
 
