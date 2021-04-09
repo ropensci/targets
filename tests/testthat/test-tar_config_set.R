@@ -1,0 +1,13 @@
+tar_test("tar_config_set()", {
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("store"), "_targets")
+  path <- tempfile()
+  tar_config_set(store = path)
+  expect_equal(tar_config_get("store"), path)
+  expect_true(file.exists("_targets.yaml"))
+  tar_config_set()
+  expect_equal(tar_config_get("store"), path)
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("store"), "_targets")
+})

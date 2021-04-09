@@ -30,7 +30,8 @@ tar_test("store_file packages", {
 
 tar_test("alternate storage with _targets.yaml", {
   path <- file.path(tempfile(), "custom", "store")
-  writeLines(paste("store:", path), "_targets.yaml")
+  tar_config_set(store = path)
+  expect_equal(tar_config_get("store"), path)
   writeLines("x_line", "x_file.txt")
   tar_script({
     write_lines <- function(file) {
