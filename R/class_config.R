@@ -91,6 +91,8 @@ config_class <- R6::R6Class(
       self$data$store
     },
     set_store = function(store) {
+      assert_chr(store, "store must be a character.")
+      assert_scalar(store, "store must have length 1.")
       self$ensure()
       if (self$is_unlocked()) {
         self$data$store <- store
