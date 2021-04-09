@@ -51,3 +51,8 @@ tar_branches(dynamic, pattern = cross(z, map(x, y)))
 })
 }
 }
+\seealso{
+Other branching: 
+\code{\link{tar_pattern}()}
+}
+\concept{branching}

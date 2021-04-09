@@ -69,3 +69,9 @@ tar_script({
 tar_make(starts_with("y")) # Only builds y1 and y2.
 })
 }
+\seealso{
+Other pipeline: 
+\code{\link{tar_make_clustermq}()},
+\code{\link{tar_make_future}()}
+}
+\concept{pipeline}

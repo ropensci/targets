@@ -10,3 +10,12 @@ tar_edit()
 Looks for _targets.R in the current working directory.
 Requires the \code{usethis} package.
 }
+\seealso{
+Other scripts: 
+\code{\link{tar_github_actions}()},
+\code{\link{tar_helper_raw}()},
+\code{\link{tar_helper}()},
+\code{\link{tar_renv}()},
+\code{\link{tar_script}()}
+}
+\concept{scripts}

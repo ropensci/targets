@@ -1,5 +1,6 @@
 #' @title Get the name of the target currently running.
 #' @export
+#' @family utilities
 #' @description Get the name of the target currently running.
 #' @return Character of length 1. If called inside a pipeline,
 #'   `tar_name()` returns name of the target currently running.

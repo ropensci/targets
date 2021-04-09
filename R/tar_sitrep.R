@@ -1,5 +1,6 @@
 #' @title Show the cue-by-cue status of each target.
 #' @export
+#' @family inspect
 #' @description For each target, report which cues are activated.
 #'   Except for the `never` cue, the target will rerun in [tar_make()]
 #'   if any cue is activated. The target is suppressed if the `never`

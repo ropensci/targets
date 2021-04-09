@@ -25,3 +25,11 @@ To learn more about local storage in \code{targets}, visit
 \examples{
 tar_exist_objects(c("target1", "target2"))
 }
+\seealso{
+Other existence: 
+\code{\link{tar_exist_meta}()},
+\code{\link{tar_exist_process}()},
+\code{\link{tar_exist_progress}()},
+\code{\link{tar_exist_script}()}
+}
+\concept{existence}

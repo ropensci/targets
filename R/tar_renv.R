@@ -1,5 +1,6 @@
 #' @title Set up package dependencies for compatibility with `renv`
 #' @export
+#' @family scripts
 #' @seealso <https://rstudio.github.io/renv/articles/renv.html>
 #' @description Write package dependencies to a script file
 #'   (by default, named `_targets_packages.R` in the root project directory).

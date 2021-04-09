@@ -1,5 +1,6 @@
 #' @title For developers only: get the environment of the current target.
 #' @export
+#' @family utilities
 #' @description For developers only: get the environment where a
 #'   target runs its command. Inherits from `tar_option_get("envir")`.
 #' @details Users should not call `tar_envir()` directly because accidental

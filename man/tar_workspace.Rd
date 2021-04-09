@@ -68,3 +68,9 @@ tail(.Random.seed)
 })
 }
 }
+\seealso{
+Other debug: 
+\code{\link{tar_traceback}()},
+\code{\link{tar_workspaces}()}
+}
+\concept{debug}

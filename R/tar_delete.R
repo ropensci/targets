@@ -1,9 +1,10 @@
-#' @title Delete target return values.
+#' @title Delete locally stored target return values.
 #' @export
+#' @family clean
 #' @description Delete the return values of targets in `_targets/objects/`.
 #'   but keep the records in `_targets/meta/meta`.
-#'   Dynamic files outside the data store are unaffected.
-#'   The `_targets/` data store must be in the current working directory.
+#'   Dynamic files and cloud data (e.g. `format = "file"`
+#'   and `format = "aws_parquet"`) are not deleted.
 #' @details For patterns recorded in the metadata, all the branches
 #'   will be deleted. For patterns no longer in the metadata,
 #'   branches are left alone.

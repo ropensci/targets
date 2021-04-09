@@ -1,5 +1,6 @@
 #' @title Cancel a target mid-build under a custom condition.
 #' @export
+#' @family utilities
 #' @description Cancel a target while its command is running
 #'   if a condition is met.
 #' @details Must be invoked by the target itself. `tar_cancel()`

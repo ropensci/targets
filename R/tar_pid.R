@@ -1,5 +1,6 @@
 #' @title Get main process ID.
 #' @export
+#' @family data
 #' @description Get the process ID (PID) of the most recent main R process
 #'   to orchestrate the targets of the current project.
 #' @details The main process is the R process invoked

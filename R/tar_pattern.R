@@ -1,5 +1,6 @@
 #' @title Emulate dynamic branching.
 #' @export
+#' @family branching
 #' @aliases map cross head tail sample
 #' @description Emulate the dynamic branching process outside a pipeline.
 #'   `tar_pattern()` can help you understand the overall branching structure

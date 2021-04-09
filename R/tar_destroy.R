@@ -1,8 +1,8 @@
-#' @title Destroy a section or all of the `_targets/` data store in the
-#'   current working directory
+#' @title Destroy all or part of the data store.
 #' @export
-#' @description Destroy `_targets/` data store in the current working
-#'   directory. Optionally, just destroy part of the data store.
+#' @family clean
+#' @description Destroy all or part of the data store written
+#'   by [tar_make()] and similar functions.
 #' @return Nothing.
 #' @param destroy Character of length 1, what to destroy. Choices:
 #'   * `"all"`: destroy the entire data store.

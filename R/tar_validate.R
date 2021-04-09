@@ -1,5 +1,6 @@
 #' @title Validate a pipeline of targets.
 #' @export
+#' @family inspect
 #' @description Inspect the pipeline for issues and throw an error or
 #'   warning if a problem is detected.
 #' @return `NULL` except if `callr_function = callr::r_bg()`, in which case

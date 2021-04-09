@@ -55,3 +55,12 @@ Subsequent runs will only recompute the outdated targets.
 \examples{
 tar_github_actions(tempfile())
 }
+\seealso{
+Other scripts: 
+\code{\link{tar_edit}()},
+\code{\link{tar_helper_raw}()},
+\code{\link{tar_helper}()},
+\code{\link{tar_renv}()},
+\code{\link{tar_script}()}
+}
+\concept{scripts}

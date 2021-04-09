@@ -1,5 +1,6 @@
 #' @title Write a helper R script.
 #' @export
+#' @family scripts
 #' @description Write a helper R script for a `targets` pipeline.
 #'   Could be supporting functions or the `_targets.R` file itself.
 #' @details `tar_helper()` is a specialized version of [tar_script()]

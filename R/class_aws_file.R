@@ -8,7 +8,7 @@ aws_file_new <- function(file = NULL, resources = NULL) {
   force(resources)
   enclass(
     environment(),
-    c("tar_aws_file", "tar_aws", "tar_store_file", "tar_store")
+    c("tar_aws_file", "tar_aws", "tar_external", "tar_store_file", "tar_store")
   )
 }
 

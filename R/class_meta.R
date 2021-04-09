@@ -24,9 +24,7 @@ meta_class <- R6::R6Class(
       memory_get_object(self$depends, name)
     },
     get_record = function(name) {
-      row <- self$database$get_row(name)
-      row <- lapply(row, unlist)
-      do.call(record_init, row)
+      record_from_row(self$database$get_row(name))
     },
     set_record = function(record) {
       self$database$set_row(record_produce_row(record))

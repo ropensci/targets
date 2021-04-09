@@ -200,3 +200,51 @@ tar_test("aws timestamp", {
   expect_true(inherits(out, "POSIXct"))
   expect_false(any(out == tar_timestamp_default))
 })
+
+# Run this one interactively and check that the object prefixes
+# (pseudo-folders) are correct.
+tar_test("aws_qs format with an alternative data store", {
+  skip_if_no_aws()
+  skip_if_not_installed("qs")
+  writeLines("store: custom_targets_store", "_targets.yaml")
+  on.exit({
+    unlink("_targets.yaml")
+    unlink("custom_targets_store", recursive = TRUE)
+    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
+    aws.s3::delete_bucket(bucket = bucket_name)
+  })
+  bucket_name <- random_bucket_name()
+  aws.s3::put_bucket(bucket = bucket_name)
+  expr <- quote({
+    tar_option_set(resources = list(bucket = !!bucket_name))
+    list(
+      tar_target(x, "x_value", format = "aws_qs"),
+      tar_target(y, c(x, "y_value"), format = "aws_qs")
+    )
+  })
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
+  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
+  tar_make(callr_function = NULL)
+  expect_true(file.exists("custom_targets_store"))
+  expect_false(file.exists(path_store_default()))
+  expect_true(
+    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/x")
+  )
+  expect_true(
+    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/y")
+  )
+  expect_false(file.exists(file.path("_targets", "objects", "x")))
+  expect_false(file.exists(file.path("_targets", "objects", "y")))
+  expect_equal(tar_read(x), "x_value")
+  expect_equal(tar_read(y), c("x_value", "y_value"))
+  tmp <- tempfile()
+  aws.s3::save_object(
+    object = "_targets/objects/x",
+    bucket = bucket_name,
+    file = tmp
+  )
+  expect_equal(qs::qread(tmp), "x_value")
+})

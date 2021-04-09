@@ -1,5 +1,6 @@
 #' @title List saved target workspaces.
 #' @export
+#' @family debug
 #' @description List target workspaces currently saved to
 #'   `_targets/workspaces/`. See [tar_workspace()] for more information.
 #' @return Character vector of available workspaces to load with

@@ -44,3 +44,13 @@ tar_progress_summary()
 })
 }
 }
+\seealso{
+Other progress: 
+\code{\link{tar_poll}()},
+\code{\link{tar_progress_branches}()},
+\code{\link{tar_progress}()},
+\code{\link{tar_watch_server}()},
+\code{\link{tar_watch_ui}()},
+\code{\link{tar_watch}()}
+}
+\concept{progress}

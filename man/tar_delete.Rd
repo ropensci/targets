@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_delete.R
 \name{tar_delete}
 \alias{tar_delete}
-\title{Delete target return values.}
+\title{Delete locally stored target return values.}
 \usage{
 tar_delete(names)
 }
@@ -14,8 +14,8 @@ or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
 \description{
 Delete the return values of targets in \verb{_targets/objects/}.
 but keep the records in \verb{_targets/meta/meta}.
-Dynamic files outside the data store are unaffected.
-The \verb{_targets/} data store must be in the current working directory.
+Dynamic files and cloud data (e.g. \code{format = "file"}
+and \code{format = "aws_parquet"}) are not deleted.
 }
 \details{
 For patterns recorded in the metadata, all the branches
@@ -38,3 +38,10 @@ tar_make() # y1 and y2 rebuild but return same values, so z is up to date.
 })
 }
 }
+\seealso{
+Other clean: 
+\code{\link{tar_destroy}()},
+\code{\link{tar_invalidate}()},
+\code{\link{tar_prune}()}
+}
+\concept{clean}

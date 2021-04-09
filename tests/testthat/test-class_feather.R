@@ -73,3 +73,20 @@ tar_test("same with error = \"continue\"", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("does not inherit from tar_external", {
+  store <- tar_target(x, "x_value", format = "feather")$store
+  expect_false(inherits(store, "tar_external"))
+})
+
+tar_test("store_row_path()", {
+  store <- tar_target(x, "x_value", format = "feather")$store
+  store$file$path <- "path"
+  expect_equal(store_row_path(store), NA_character_)
+})
+
+tar_test("store_path_from_record()", {
+  store <- tar_target(x, "x_value", format = "feather")$store
+  record <- record_init(name = "x", path = "path", format = "feather")
+  expect_equal(store_path_from_record(store, record), path_objects("x"))
+})

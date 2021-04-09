@@ -279,3 +279,9 @@ tar_read(x)
 })
 }
 }
+\seealso{
+Other targets: 
+\code{\link{tar_cue}()},
+\code{\link{tar_target_raw}()}
+}
+\concept{targets}

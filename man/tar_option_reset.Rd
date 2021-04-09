@@ -7,7 +7,7 @@
 tar_option_reset()
 }
 \value{
-Nothing.
+\code{NULL} (invisibly).
 }
 \description{
 Reset all target options you previously chose with
@@ -34,3 +34,12 @@ tar_make()
 })
 }
 }
+\seealso{
+Other configuration: 
+\code{\link{tar_config_get}()},
+\code{\link{tar_config_set}()},
+\code{\link{tar_envvars}()},
+\code{\link{tar_option_get}()},
+\code{\link{tar_option_set}()}
+}
+\concept{configuration}

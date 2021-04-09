@@ -8,7 +8,13 @@ aws_feather_new <- function(file = NULL, resources = NULL) {
   force(resources)
   enclass(
     environment(),
-    c("tar_aws_feather", "tar_aws", "tar_feather", "tar_store")
+    c(
+      "tar_aws_feather",
+      "tar_aws",
+      "tar_external",
+      "tar_feather",
+      "tar_store"
+    )
   )
 }
 

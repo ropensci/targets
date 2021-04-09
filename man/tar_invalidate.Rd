@@ -14,7 +14,6 @@ or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
 \description{
 Delete the metadata of records in \verb{_targets/meta/meta}
 but keep the return values of targets in \verb{_targets/objects/}.
-The \verb{_targets/} data store must be in the current working directory.
 }
 \details{
 For patterns recorded in the metadata, all the branches
@@ -37,3 +36,10 @@ tar_make() # y1 and y2 rebuild but return same values, so z is up to date.
 })
 }
 }
+\seealso{
+Other clean: 
+\code{\link{tar_delete}()},
+\code{\link{tar_destroy}()},
+\code{\link{tar_prune}()}
+}
+\concept{clean}

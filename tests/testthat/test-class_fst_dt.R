@@ -45,3 +45,20 @@ tar_test("fst_dt packages", {
   out <- sort(store_get_packages(x$store))
   expect_equal(out, sort(c("fst", "data.table")))
 })
+
+tar_test("does not inherit from tar_external", {
+  store <- tar_target(x, "x_value", format = "fst_dt")$store
+  expect_false(inherits(store, "tar_external"))
+})
+
+tar_test("store_row_path()", {
+  store <- tar_target(x, "x_value", format = "fst_dt")$store
+  store$file$path <- "path"
+  expect_equal(store_row_path(store), NA_character_)
+})
+
+tar_test("store_path_from_record()", {
+  store <- tar_target(x, "x_value", format = "fst_dt")$store
+  record <- record_init(name = "x", path = "path", format = "fst_dt")
+  expect_equal(store_path_from_record(store, record), path_objects("x"))
+})

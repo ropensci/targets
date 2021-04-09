@@ -8,9 +8,25 @@ tar_test("meta$depends", {
   expect_silent(memory_validate(out$depends))
 })
 
-tar_test("meta$get_record()", {
+tar_test("meta$get_record() for internal storage", {
   meta <- meta_init()
   row <- list(name = "x", type = "cross", path = list(letters))
+  meta$database$set_row(row)
+  record <- meta$get_record("x")
+  expect_silent(record_validate(record))
+  expect_equal(record$name, "x")
+  expect_equal(record$type, "cross")
+  expect_equal(record$path, path_objects("x"))
+})
+
+tar_test("meta$get_record() for external storage", {
+  meta <- meta_init()
+  row <- list(
+    name = "x",
+    type = "cross",
+    path = list(letters),
+    format = "file"
+  )
   meta$database$set_row(row)
   record <- meta$get_record("x")
   expect_silent(record_validate(record))
@@ -106,7 +122,7 @@ tar_test("metadata storage is duplicated", {
   expect_equal(sort(unique(unlist(data$path))), sort(c("e")))
 })
 
-tar_test("errored targets get old path and old format in meta", {
+tar_test("errored targets keep old path and old format in meta", {
   skip_if_not_installed("qs")
   x <- target_init(name = "abc", expr = quote(123), format = "qs")
   local_init(pipeline_init(list(x)))$run()
@@ -120,8 +136,31 @@ tar_test("errored targets get old path and old format in meta", {
   meta <- meta_init()
   meta$database$preprocess(write = TRUE)
   data <- meta$database$read_data()
-  expect_equal(data$path[[1]], file.path("_targets", "objects", "abc"))
+  expect_equal(data$path[[1]], NA_character_)
+  expect_equal(
+    meta$get_record("abc")$path,
+    file.path("_targets", "objects", "abc")
+  )
   expect_equal(data$format, "qs")
+})
+
+tar_test("errored external targets keep old path and old format in meta", {
+  file.create("x")
+  x <- target_init(name = "abc", expr = quote("x"), format = "file")
+  local_init(pipeline_init(list(x)))$run()
+  x <- target_init(
+    name = "abc",
+    expr = quote(stop(123)),
+    format = "rds",
+    error = "continue"
+  )
+  local_init(pipeline_init(list(x)))$run()
+  meta <- meta_init()
+  meta$database$preprocess(write = TRUE)
+  data <- meta$database$read_data()
+  expect_equal(data$path[[1]], "x")
+  expect_equal(meta$get_record("abc")$path, "x")
+  expect_equal(data$format, "file")
 })
 
 tar_test("can read metadata with a error & a non-error", {

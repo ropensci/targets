@@ -1,5 +1,6 @@
 #' @title Define a target using unrefined names and language objects.
 #' @export
+#' @family targets
 #' @description `tar_target_raw()` is just like [tar_target()] except
 #'   it avoids non-standard evaluation for the arguments: `name`
 #'   is a character string, `command` and `pattern` are language objects,

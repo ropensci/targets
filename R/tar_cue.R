@@ -1,5 +1,6 @@
 #' @title Declare the rules that cue a target.
 #' @export
+#' @family targets
 #' @description Declare the rules that mark a target as outdated.
 #' @details `targets` uses internal metadata and special cues
 #'   to decide if a target is up to date.

@@ -2,8 +2,7 @@
 % Please edit documentation in R/tar_destroy.R
 \name{tar_destroy}
 \alias{tar_destroy}
-\title{Destroy a section or all of the \verb{_targets/} data store in the
-current working directory}
+\title{Destroy all or part of the data store.}
 \usage{
 tar_destroy(
   destroy = c("all", "meta", "process", "progress", "objects", "scratch", "workspaces")
@@ -34,8 +33,8 @@ Load a workspace with \code{\link[=tar_workspace]{tar_workspace()}}.
 Nothing.
 }
 \description{
-Destroy \verb{_targets/} data store in the current working
-directory. Optionally, just destroy part of the data store.
+Destroy all or part of the data store written
+by \code{\link[=tar_make]{tar_make()}} and similar functions.
 }
 \examples{
 if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
@@ -47,3 +46,10 @@ print(file.exists("_targets")) # Should be FALSE.
 })
 }
 }
+\seealso{
+Other clean: 
+\code{\link{tar_delete}()},
+\code{\link{tar_invalidate}()},
+\code{\link{tar_prune}()}
+}
+\concept{clean}

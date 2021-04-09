@@ -6,7 +6,7 @@ store_new.file <- function(class, file = NULL, resources = NULL) {
 store_file_new <- function(file = NULL, resources = NULL) {
   force(file)
   force(resources)
-  enclass(environment(), c("tar_store_file", "tar_store"))
+  enclass(environment(), c("tar_store_file", "tar_external", "tar_store"))
 }
 
 #' @export

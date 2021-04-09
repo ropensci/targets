@@ -1,5 +1,6 @@
 #' @title Set up GitHub Actions to run a targets pipeline
 #' @export
+#' @family scripts
 #' @description Writes a GitHub Actions workflow file so the pipeline
 #'   runs on every push to GitHub. Historical runs accumulate in the
 #'   `targets-runs` branch, and the latest output is restored before

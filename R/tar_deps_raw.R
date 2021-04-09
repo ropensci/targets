@@ -1,5 +1,6 @@
 #' @title Code dependencies (raw version)
 #' @export
+#' @family inspect
 #' @description Same as [tar_deps()] except `expr` must already be an
 #'   unquoted function or expression object.
 #' @return Character vector of the dependencies of a function or expression.

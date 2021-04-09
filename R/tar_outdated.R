@@ -1,5 +1,6 @@
 #' @title Check which targets are outdated.
 #' @export
+#' @family inspect
 #' @description Checks for outdated targets in the pipeline,
 #'   targets that will be rerun automatically if you call
 #'   [tar_make()] or similar. See [tar_cue()] for the rules

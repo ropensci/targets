@@ -1,5 +1,6 @@
 #' @title Read a project's metadata.
 #' @export
+#' @family data
 #' @description Read the metadata of all recorded targets and global objects.
 #' @details A metadata row only updates when the target is built.
 #'   [tar_progress()] shows information on targets that are running.

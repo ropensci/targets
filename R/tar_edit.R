@@ -1,5 +1,6 @@
 #' @title Open _targets.R for editing.
 #' @export
+#' @family scripts
 #' @description Looks for _targets.R in the current working directory.
 #'   Requires the `usethis` package.
 tar_edit <- function() {

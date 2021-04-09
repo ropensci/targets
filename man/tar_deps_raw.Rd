@@ -26,3 +26,15 @@ tar_deps_raw(
 )
 tar_deps_raw(function(a = b) map_dfr(data, ~do_row(.x)))
 }
+\seealso{
+Other inspect: 
+\code{\link{tar_deps}()},
+\code{\link{tar_glimpse}()},
+\code{\link{tar_manifest}()},
+\code{\link{tar_network}()},
+\code{\link{tar_outdated}()},
+\code{\link{tar_sitrep}()},
+\code{\link{tar_validate}()},
+\code{\link{tar_visnetwork}()}
+}
+\concept{inspect}

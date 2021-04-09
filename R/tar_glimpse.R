@@ -1,5 +1,6 @@
 #' @title Visualize an abridged fast dependency graph.
 #' @export
+#' @family inspect
 #' @description Analyze the pipeline defined in `_targets.R`
 #'   and visualize the directed acyclic graph of targets.
 #'   Unlike [tar_visnetwork()], `tar_glimpse()` does not account for

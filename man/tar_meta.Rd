@@ -96,3 +96,14 @@ tar_meta(starts_with("y_"))
 })
 }
 }
+\seealso{
+Other data: 
+\code{\link{tar_load_raw}()},
+\code{\link{tar_load}()},
+\code{\link{tar_objects}()},
+\code{\link{tar_pid}()},
+\code{\link{tar_process}()},
+\code{\link{tar_read_raw}()},
+\code{\link{tar_read}()}
+}
+\concept{data}

@@ -1,5 +1,6 @@
 #' @title Check if target metadata exists.
 #' @export
+#' @family existence
 #' @description Check if the target metadata file `_targets/meta/meta`
 #'   exists for the current project.
 #' @details To learn more about local storage in `targets`, visit

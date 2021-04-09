@@ -31,3 +31,13 @@ tar_read(x)
 })
 }
 }
+\seealso{
+Other utilities: 
+\code{\link{tar_cancel}()},
+\code{\link{tar_envir}()},
+\code{\link{tar_group}()},
+\code{\link{tar_path}()},
+\code{\link{tar_seed}()},
+\code{\link{tar_timestamp}()}
+}
+\concept{utilities}

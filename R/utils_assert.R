@@ -299,7 +299,7 @@ assert_script <- function() {
     "Suppress this warning with Sys.setenv(TAR_WARN = \"false\")."
   )
   for (loader in c("load_all", "load_code", "load_data", "load_dll")) {
-    if (Sys.getenv("TAR_WARN") != "false" && loader %in% vars) {
+    if (!identical(Sys.getenv("TAR_WARN"), "false") && loader %in% vars) {
       warn_validate(sprintf(msg, loader))
     }
   }

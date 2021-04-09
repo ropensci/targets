@@ -40,3 +40,12 @@ y <- 123
 tar_helper(path, x <- !!y)
 writeLines(readLines(path))
 }
+\seealso{
+Other scripts: 
+\code{\link{tar_edit}()},
+\code{\link{tar_github_actions}()},
+\code{\link{tar_helper_raw}()},
+\code{\link{tar_renv}()},
+\code{\link{tar_script}()}
+}
+\concept{scripts}

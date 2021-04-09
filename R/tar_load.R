@@ -1,5 +1,6 @@
 #' @title Load the values of targets.
 #' @export
+#' @family data
 #' @description Load the return values of targets into the current environment
 #'   (or the environment of your choosing). For a typical target, the return
 #'   value lives in a file in `_targets/objects/`. For dynamic files

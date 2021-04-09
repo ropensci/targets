@@ -1,9 +1,10 @@
 #' @title Reset all target options.
+#' @export
+#' @family configuration
 #' @description Reset all target options you previously chose with
 #'   [tar_option_set()]. These options are mostly configurable default
 #'   arguments to [tar_target()] and [tar_target_raw()].
-#' @export
-#' @return Nothing.
+#' @return `NULL` (invisibly).
 #' @examples
 #' tar_option_get("format") # default format before we set anything
 #' tar_target(x, 1)$settings$format

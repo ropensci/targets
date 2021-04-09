@@ -1,5 +1,6 @@
 #' @title Get a target's traceback
 #' @export
+#' @family debug
 #' @description If a target ran with `error = "workspace"` and errored out,
 #'   `tar_traceback()` returns its traceback. The workspace file must
 #'   exist. For more information, see [tar_workspace()].
