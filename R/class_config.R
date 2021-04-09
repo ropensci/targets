@@ -1,21 +1,21 @@
-yaml_init <- function(path = "_targets.yaml") {
-  yaml_new(path = path)
+config_init <- function(path = tempfile()) {
+  config_new(path = path)
 }
 
-yaml_new <- function(
+config_new <- function(
   path = NULL,
   data = NULL,
   time = NULL
 ) {
-  yaml_class$new(
+  config_class$new(
     path = path,
     data = data,
     time = time
   )
 }
 
-yaml_class <- R6::R6Class(
-  classname = "tar_yaml",
+config_class <- R6::R6Class(
+  classname = "tar_config",
   class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
@@ -38,9 +38,18 @@ yaml_class <- R6::R6Class(
     produce_time = function() {
       if_any(self$path_exists(), file.mtime(self$path), NULL)
     },
+    read = function() {
+      as.list(yaml::read_yaml(self$path))
+    },
     load = function() {
-      self$data <- as.list(yaml::read_yaml(self$path))
+      self$data <- self$read()
       self$time <- self$produce_time()
+    },
+    write = function() {
+      tmp <- tempfile()
+      yaml::write_yaml(x = self$data, file = tmp)
+      file.rename(from = tmp, to = self$path)
+      invisible()
     },
     unload = function() {
       self$data <- NULL
@@ -57,9 +66,14 @@ yaml_class <- R6::R6Class(
         self$update()
       }
     },
-    store = function() {
+    get_store = function() {
       self$ensure()
       self$data$store
+    },
+    set_store = function(store) {
+      self$ensure()
+      self$data$store <- store
+      self$write()
     },
     validate = function() {
       assert_chr(self$path %|||% "")
@@ -72,4 +86,4 @@ yaml_class <- R6::R6Class(
   )
 )
 
-tar_object_yaml <- yaml_init(path = "_targets.yaml")
+tar_config <- config_init(path = "_targets.yaml")

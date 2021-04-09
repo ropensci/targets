@@ -7,7 +7,7 @@ path_script_basename <- function() {
 }
 
 path_store <- function() {
-  tar_object_yaml$store() %|||% path_store_default()
+  tar_config$get_store() %|||% path_store_default()
 }
 
 path_store_default <- function() {

@@ -32,11 +32,12 @@ reference:
   - '`tar_script`'
 - title: Configuration
   contents:
+  - '`tar_config_get`'
+  - '`tar_config_set`'
   - '`tar_envvars`'
   - '`tar_option_get`'
   - '`tar_option_reset`'
   - '`tar_option_set`'
-  - '`tar_yaml`'
 - title: Targets
   contents:
   - '`tar_cue`'
