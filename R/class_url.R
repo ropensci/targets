@@ -85,11 +85,13 @@ store_get_timestamp.tar_url <- function(
   format = "%a, %d %b %Y %H:%M:%S",
   tz = "GMT"
 ) {
-  
+  urls <- store$file$path
+  handle <- store$file$handle
+  dates <- as.character(map(urls, ~url_headers(.x, handle)[["last-modified"]]))
   headers <- url_headers(
     url = store$file$path,
     handle = store$resources$handle
-  )
+  )$date
   as.POSIXct(headers$date, format = format, tz = tz)
 }
 
