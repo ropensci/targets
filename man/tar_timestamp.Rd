@@ -4,13 +4,24 @@
 \alias{tar_timestamp}
 \title{Get the timestamp of a target.}
 \usage{
-tar_timestamp(name = NULL)
+tar_timestamp(name = NULL, format = "\%a, \%d \%b \%Y \%H:\%M:\%S", tz = "GMT")
 }
 \arguments{
 \item{name}{Symbol, name of the target. If \code{NULL} (default)
 then \code{tar_timestamp()} will attempt to return the timestamp
 of the target currently running. Must be called inside a target's
 command or a supporting function in order to work.}
+
+\item{format}{Character of length 1, POSIXct format string passed to
+\code{strptime()} to parse the time stamp of a URL or AWS S3 bucket.
+Currently to targets with AWS-backed storage
+formats or \code{format = "url"}. The default works with AWS S3
+buckets and \url{https://httpbin.org} but may not work for all URLs.
+Outside \code{targets}, you can use the \code{curl} package or the \code{curl} utility
+to get time stamps of URLs.}
+
+\item{tz}{Character of length 1, time zone passed to
+\code{strptime()} to parse the time stamp of a URL or AWS S3 bucket.}
 }
 \value{
 A POSIXct object. If the target does not exists,

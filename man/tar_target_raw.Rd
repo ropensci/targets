@@ -129,7 +129,10 @@ to arrive over a network file system.)
 except the return value of the target is a URL that already exists
 and serves as input data for downstream targets. Optionally
 supply a custom \code{curl} handle through the \code{resources} argument, e.g.
-\code{tar_target(..., resources = list(handle = curl::new_handle()))}.
+\code{tar_target(..., resources = list(handle = curl::new_handle(nobody = TRUE)))}. # nolint
+in \code{new_handle()}, \code{nobody = TRUE} is important because it
+ensures \code{targets} just downloads the metadata instead of
+the entire data file when it checks time stamps and hashes.
 The data file at the URL needs to have an ETag or a Last-Modified
 time stamp, or else the target will throw an error because
 it cannot track the data. Also, use extreme caution when

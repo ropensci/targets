@@ -15,6 +15,15 @@
 #'   then `tar_timestamp()` will attempt to return the timestamp
 #'   of the target currently running. Must be called inside a target's
 #'   command or a supporting function in order to work.
+#' @param format Character of length 1, POSIXct format string passed to
+#'   `strptime()` to parse the time stamp of a URL or AWS S3 bucket.
+#'   Currently to targets with AWS-backed storage
+#'   formats or `format = "url"`. The default works with AWS S3
+#'   buckets and <https://httpbin.org> but may not work for all URLs.
+#'   Outside `targets`, you can use the `curl` package or the `curl` utility
+#'   to get time stamps of URLs.
+#' @param tz Character of length 1, time zone passed to
+#'   `strptime()` to parse the time stamp of a URL or AWS S3 bucket.
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -39,7 +48,11 @@
 #' tar_make()
 #' })
 #' }
-tar_timestamp <- function(name = NULL) {
+tar_timestamp <- function(
+  name = NULL,
+  format = "%a, %d %b %Y %H:%M:%S",
+  tz = "GMT"
+) {
   name <- deparse_language(substitute(name))
   assert_chr(name %|||% character(0), "name must be a symbol")
   if (is.null(name)) {
@@ -58,7 +71,8 @@ tar_timestamp <- function(name = NULL) {
   record <- meta$get_record(name)
   store <- store_init(format = record$format)
   store$file$path <- record$path
-  store_get_timestamp(store) %||NA% tar_timestamp_default
+  store_get_timestamp(store = store, format = format, tz = tz) %||NA%
+    tar_timestamp_default
 }
 
 tar_timestamp_default <- as.POSIXct("0000-01-01")

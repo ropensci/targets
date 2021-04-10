@@ -268,12 +268,12 @@ store_unserialize_value <- function(store, target) {
 store_unserialize_value.default <- function(store, target) {
 }
 
-store_get_timestamp <- function(store) {
+store_get_timestamp <- function(store, ...) {
   UseMethod("store_get_timestamp")
 }
 
 #' @export
-store_get_timestamp.default <- function(store) {
+store_get_timestamp.default <- function(store, ...) {
   max(file_info(store$file$path)$mtime)
 }
 

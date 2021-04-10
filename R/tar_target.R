@@ -97,7 +97,10 @@
 #'     except the return value of the target is a URL that already exists
 #'     and serves as input data for downstream targets. Optionally
 #'     supply a custom `curl` handle through the `resources` argument, e.g.
-#'     `tar_target(..., resources = list(handle = curl::new_handle()))`.
+#'     `tar_target(..., resources = list(handle = curl::new_handle(nobody = TRUE)))`. # nolint
+#'     in `new_handle()`, `nobody = TRUE` is important because it
+#'     ensures `targets` just downloads the metadata instead of
+#'     the entire data file when it checks time stamps and hashes.
 #'     The data file at the URL needs to have an ETag or a Last-Modified
 #'     time stamp, or else the target will throw an error because
 #'     it cannot track the data. Also, use extreme caution when
