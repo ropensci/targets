@@ -132,7 +132,7 @@ store_get_timestamp.tar_aws <- function(store) {
     check_region = TRUE
   )
   timestamp <- attr(head, "last-modified")
-  as.POSIXct(timestamp, format = "%a, %d %b %Y %H:%M:%S", tz = "GMT")
+  as.POSIXct(timestamp, format = "%a, %d %b %Y %H:%M:%S", tz = "UTC")
 }
 # nocov end
 

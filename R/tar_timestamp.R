@@ -2,7 +2,9 @@
 #' @export
 #' @family utilities
 #' @description Get the time that a target's data was last modified.
-#' @details If the files are stored locally, the time
+#' @details `tar_timestamp()` checks the actual data,
+#'   not the metadata, so the returned time stamps
+#'   are more up-to-date than the ones from [tar_meta()].
 #' @return A POSIXct object. If the target does not exists,
 #'   the return value is `as.POSIXct("0000-01-01")`.
 #'   If the target has a local storage

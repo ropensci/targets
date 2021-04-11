@@ -101,7 +101,7 @@ cli_port <- function(host, port) {
 }
 
 time_stamp <- function(time = Sys.time()) {
-  format(time, "%z GMT %Y-%m-%d %H:%M %OS2")
+  format(time, "%z UTC %Y-%m-%d %H:%M %OS2")
 }
 
 time_stamp_short <- function(time = Sys.time()) {

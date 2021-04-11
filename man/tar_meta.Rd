@@ -45,8 +45,8 @@ on the result to locally recreate the target's initial RNG state.
 \item \code{path}: A list column of paths to target data. Usually, each element
 is a single path, but there could be multiple paths per target
 for dynamic files (i.e. \code{tar_target(format = "file")}).
-\item \code{time}: hash of the maximum modification time stamp
-over all the files in \code{path}.
+\item \code{time}: \code{POSIXct} object with the time the target's data in storage
+was last modified. Displayed in the current time zone of the system.
 \item \code{size}: hash of the sum of all the bytes of the files at \code{path}.
 \item \code{bytes}: total file size in bytes of all files in \code{path}.
 \item \code{format}: character, one of the admissible data storage formats.

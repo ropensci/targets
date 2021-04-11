@@ -26,7 +26,9 @@ from the modification timestamp of the AWS S3 object header.
 Get the time that a target's data was last modified.
 }
 \details{
-If the files are stored locally, the time
+\code{tar_timestamp()} checks the actual data,
+not the metadata, so the returned time stamps
+are more up-to-date than the ones from \code{\link[=tar_meta]{tar_meta()}}.
 }
 \examples{
 if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {

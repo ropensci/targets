@@ -38,8 +38,8 @@
 #'   * `path`: A list column of paths to target data. Usually, each element
 #'     is a single path, but there could be multiple paths per target
 #'     for dynamic files (i.e. `tar_target(format = "file")`).
-#'   * `time`: hash of the maximum modification time stamp
-#'     over all the files in `path`.
+#'   * `time`: `POSIXct` object with the time the target's data in storage
+#'     was last modified. Displayed in the current time zone of the system.
 #'   * `size`: hash of the sum of all the bytes of the files at `path`.
 #'   * `bytes`: total file size in bytes of all files in `path`.
 #'   * `format`: character, one of the admissible data storage formats.
@@ -95,6 +95,9 @@ tar_meta <- function(
   out <- out[, base::union("name", fields), drop = FALSE]
   if (complete_only) {
     out <- out[stats::complete.cases(out),, drop = FALSE] # nolint
+  }
+  if ("time" %in% colnames(out)) {
+    out$time <- file_time_posixct(out$time)
   }
   out
 }

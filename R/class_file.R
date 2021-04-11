@@ -147,7 +147,7 @@ file_time <- function(info) {
     time1 = info$mtime,
     time2 = file_time_reference,
     units = "days",
-    tz = "GMT"
+    tz = "UTC"
   )
   file_diff_chr(max(replace_na(c(as.numeric(diff), 0), 0)))
 }
@@ -170,12 +170,13 @@ file_diff_dbl <- function(chr) {
 }
 
 file_time_posixct <- function(chr) {
-  diff <- as.difftime(file_diff_dbl(chr), units = "days", tz = "GMT")
-  diff + file_time_reference
+  diff <- as.difftime(file_diff_dbl(chr), units = "days", tz = Sys.timezone())
+  out <- diff + file_time_reference
+  as.POSIXct(as.POSIXlt(out, tz = Sys.timezone()))
 }
 
 file_time_reference <- strptime(
-  "1967-01-01 00:00:00",
+  "1970-01-01 00:00:00",
   format = "%Y-%m-%d %H:%M:%S",
-  tz = "GMT"
+  tz = "UTC"
 )
