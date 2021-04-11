@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_timestamp.R
 \name{tar_timestamp}
 \alias{tar_timestamp}
-\title{Get the timestamp of a target.}
+\title{Get the timestamp(s) of a target.}
 \usage{
 tar_timestamp(name = NULL, format = "\%a, \%d \%b \%Y \%H:\%M:\%S", tz = "UTC")
 }
@@ -20,12 +20,17 @@ buckets and \url{https://httpbin.org} but may not work for all URLs.
 Outside \code{targets}, you can use the \code{curl} package or the \code{curl} utility
 to get time stamps of URLs.}
 
-\item{tz}{Character of length 1, time zone passed to
-\code{strptime()} to parse the time stamp of a URL or AWS S3 bucket.}
+\item{tz}{Character of length 1, time zone to interpret the
+original time stamp.  The \code{tz} argument is passed to
+\code{strptime()} to parse the time stamp of a URL or AWS S3 bucket.
+The time stamp of the return value
+is the time zone of the system, not the time zone
+originally recorded in the time stamp.}
 }
 \value{
-A POSIXct object. If the target does not exists,
-the return value is \code{as.POSIXct("0000-01-01")}.
+A vector of POSIXct objects at the current time zone of the system.
+If the target does not exists,
+the return value is a \code{POSIXct} time object at \verb{1970-01-01 UTC}.
 If the target has a local storage
 format, the return value is the maximum timestamp
 over all the files. (Targets with \code{format = "file"}
@@ -35,6 +40,8 @@ from the modification timestamp of the AWS S3 object header.
 }
 \description{
 Get the time that a target's data was last modified.
+If there are multiple artifacts, as with file or URL targets,
+then multiple time stamps may be returned.
 }
 \details{
 \code{tar_timestamp()} checks the actual data,

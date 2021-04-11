@@ -175,7 +175,7 @@ file_time_posixct <- function(chr) {
   as.POSIXct(as.POSIXlt(out, tz = Sys.timezone()))
 }
 
-file_time_reference <- strptime(
+file_time_reference <- as.POSIXct(
   "1970-01-01 00:00:00",
   format = "%Y-%m-%d %H:%M:%S",
   tz = "UTC"
