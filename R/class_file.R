@@ -181,5 +181,10 @@ file_time_reference <- as.POSIXct(
 )
 
 file_time_system_tz <- function(x) {
-  as.POSIXct(as.POSIXlt(x, tz = Sys.timezone()))
+  lt <- if_any(
+    "tz" %in% names(formals),
+    as.POSIXlt(x, tz = Sys.timezone()),
+    as.POSIXlt(x)
+  )
+  as.POSIXct(lt)
 }
