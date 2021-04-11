@@ -33,7 +33,8 @@ is the time zone of the system, not the time zone
 originally recorded in the time stamp.}
 }
 \value{
-If the target is not recorded in the metadata,
+If the target is not recorded in the metadata
+or cannot be parsed correctly, then
 \code{tar_timestamp()} returns a \code{POSIXct} object at \verb{1970-01-01 UTC}.
 If the target is recorded in the metadata and stored locally
 (i.e. the target is not a URL or AWS-backed format) then \code{tar_timestamp()}
@@ -46,7 +47,8 @@ If \code{parse} is \code{TRUE}, then \code{tar_timestamp()} attempts to convert
 those character time stamps into \code{POSIXct} objects displayed
 with the time zone of the current system. If the time stamp
 cannot be parsed with the given format, \code{tar_timestamp()}
-returns \code{NA} (so \code{parse = FALSE} is helpful for debugging
+returns a \code{POSIXct} object at \verb{1970-01-01 UTC}
+(so \code{parse = FALSE} is helpful for debugging
 the \code{format} argument).
 }
 \description{

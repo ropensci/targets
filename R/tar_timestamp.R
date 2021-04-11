@@ -7,7 +7,8 @@
 #' @details `tar_timestamp()` checks the actual data,
 #'   not the metadata, so the returned time stamps
 #'   are more up-to-date than the ones from [tar_meta()].
-#' @return If the target is not recorded in the metadata,
+#' @return If the target is not recorded in the metadata
+#'   or cannot be parsed correctly, then
 #'   `tar_timestamp()` returns a `POSIXct` object at `1970-01-01 UTC`.
 #'   If the target is recorded in the metadata and stored locally
 #'   (i.e. the target is not a URL or AWS-backed format) then `tar_timestamp()`
@@ -20,7 +21,8 @@
 #'   those character time stamps into `POSIXct` objects displayed
 #'   with the time zone of the current system. If the time stamp
 #'   cannot be parsed with the given format, `tar_timestamp()`
-#'   returns `NA` (so `parse = FALSE` is helpful for debugging
+#'   returns a `POSIXct` object at `1970-01-01 UTC`
+#'   (so `parse = FALSE` is helpful for debugging
 #'   the `format` argument).
 #' @param name Symbol, name of the target. If `NULL` (default)
 #'   then `tar_timestamp()` will attempt to return the timestamp
@@ -91,5 +93,5 @@ tar_timestamp <- function(
   if (is.character(out) && parse) {
     out <- file_time_system_tz(as.POSIXct(out, format = format, tz = tz))
   }
-  out
+  out %||NA% file_time_system_tz(file_time_reference)
 }

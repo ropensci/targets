@@ -56,8 +56,7 @@ tar_test("tar_timestamp() for URLs", {
   expect_false(anyNA(out))
   # incorrectly parsed posix object
   out <- tar_timestamp(abc, format = "%h %h %h %h %h")
-  expect_equal(length(out), 2L)
-  expect_true(all(is.na(out)))
+  expect_equal(as.numeric(out), as.numeric(file_time_reference))
   # unparsed time stamp
   out <- tar_timestamp(abc, parse = FALSE, format = "%h %h %h %h %h")
   expect_equal(length(out), 2L)
