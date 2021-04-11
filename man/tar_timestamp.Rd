@@ -31,6 +31,12 @@ The \code{tz} argument is passed to
 The time stamp of the return value
 is the time zone of the system, not the time zone
 originally recorded in the time stamp.}
+
+\item{parse}{Logical, whether to attempt to parse character string
+time stamps from URLs and data in AWS S3 buckets. Set to \code{FALSE}
+to debug. Debugging is important because incorrectly parsed
+time stamps will result in a return value of
+a \code{POSIXct} object at \verb{1970-01-01 UTC} instead of \code{NA}.}
 }
 \value{
 If the target is not recorded in the metadata

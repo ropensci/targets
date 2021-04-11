@@ -41,6 +41,11 @@
 #'   The time stamp of the return value
 #'   is the time zone of the system, not the time zone
 #'   originally recorded in the time stamp.
+#' @param parse Logical, whether to attempt to parse character string
+#'   time stamps from URLs and data in AWS S3 buckets. Set to `FALSE`
+#'   to debug. Debugging is important because incorrectly parsed
+#'   time stamps will result in a return value of
+#'   a `POSIXct` object at `1970-01-01 UTC` instead of `NA`.
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
