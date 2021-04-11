@@ -194,11 +194,11 @@ tar_test("aws timestamp", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   out <- tar_timestamp(x)
   expect_true(inherits(out, "POSIXct"))
-  expect_identical(out, tar_timestamp_default)
+  expect_identical(as.numeric(out), as.numeric(file_time_reference))
   tar_make(callr_function = NULL)
   out <- tar_timestamp(x)
   expect_true(inherits(out, "POSIXct"))
-  expect_false(any(out == tar_timestamp_default))
+  expect_false(any(as.numeric(out) == as.numeric(file_time_reference)))
 })
 
 # Run this one interactively and check that the object prefixes

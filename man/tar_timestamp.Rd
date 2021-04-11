@@ -2,31 +2,70 @@
 % Please edit documentation in R/tar_timestamp.R
 \name{tar_timestamp}
 \alias{tar_timestamp}
-\title{Get the timestamp of a target.}
+\title{Get the timestamp(s) of a target.}
 \usage{
-tar_timestamp(name = NULL)
+tar_timestamp(
+  name = NULL,
+  format = "\%a, \%d \%b \%Y \%H:\%M:\%S",
+  tz = "UTC",
+  parse = TRUE
+)
 }
 \arguments{
 \item{name}{Symbol, name of the target. If \code{NULL} (default)
 then \code{tar_timestamp()} will attempt to return the timestamp
 of the target currently running. Must be called inside a target's
 command or a supporting function in order to work.}
+
+\item{format}{Character of length 1, POSIXct format string passed to
+\code{as.POSIXct()} to parse the time stamp of a URL or AWS S3 bucket.
+Currently to targets with AWS-backed storage
+formats or \code{format = "url"}. The default works with AWS S3
+buckets but may not work for all URLs.}
+
+\item{tz}{Character of length 1, time zone of the original
+modification time recorded in the remote data
+(either a URL or S3 bucket; does not apply to locally stored targets).
+The \code{tz} argument is passed to
+\code{as.POSIXct()} to parse the time stamp of a URL or AWS S3 bucket.
+The time stamp of the return value
+is the time zone of the system, not the time zone
+originally recorded in the time stamp.}
+
+\item{parse}{Logical, whether to attempt to parse character string
+time stamps from URLs and data in AWS S3 buckets. Set to \code{FALSE}
+to debug. Debugging is important because incorrectly parsed
+time stamps will result in a return value of
+a \code{POSIXct} object at \verb{1970-01-01 UTC} instead of \code{NA}.}
 }
 \value{
-A POSIXct object. If the target does not exists,
-the return value is \code{as.POSIXct("0000-01-01")}.
-If the target has a local storage
-format, the return value is the maximum timestamp
-over all the files. (Targets with \code{format = "file"}
-may have multiple files.) For AWS-backed formats
-such as \code{"aws_parquet"}, the time stamp is obtained
-from the modification timestamp of the AWS S3 object header.
+If the target is not recorded in the metadata
+or cannot be parsed correctly, then
+\code{tar_timestamp()} returns a \code{POSIXct} object at \verb{1970-01-01 UTC}.
+If the target is recorded in the metadata and stored locally
+(i.e. the target is not a URL or AWS-backed format) then \code{tar_timestamp()}
+returns a vector of \code{POSIXct} modification times of the data files
+(in the order those files are listed in \code{tar_meta(target_name, path)}).
+The return values for URL and AWS targets depends on the \code{parse} argument.
+If \code{parse} is \code{FALSE}, then \code{tar_timestamp()} returns an unparsed
+character vector of the time stamps recorded on the web.
+If \code{parse} is \code{TRUE}, then \code{tar_timestamp()} attempts to convert
+those character time stamps into \code{POSIXct} objects displayed
+with the time zone of the current system. If the time stamp
+cannot be parsed with the given format, \code{tar_timestamp()}
+returns a \code{POSIXct} object at \verb{1970-01-01 UTC}
+(so \code{parse = FALSE} is helpful for debugging
+the \code{format} argument).
 }
 \description{
 Get the time that a target's data was last modified.
+If there are multiple artifacts, as with file or URL targets,
+then multiple time stamps may be returned.
 }
 \details{
-If the files are stored locally, the time
+\code{tar_timestamp()} checks the actual data,
+not the metadata, so the returned time stamps
+are more up-to-date than the ones from \code{\link[=tar_meta]{tar_meta()}}.
 }
 \examples{
 if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {

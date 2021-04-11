@@ -79,6 +79,13 @@ store_has_correct_hash.tar_url <- function(store) {
 }
 
 #' @export
+store_get_timestamp.tar_url <- function(store) {
+  urls <- store$file$path
+  handle <- store$file$handle
+  as.character(map(urls, ~url_headers(.x, handle)[["last-modified"]]))
+}
+
+#' @export
 store_get_packages.tar_url <- function(store) {
   "curl"
 }

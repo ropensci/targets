@@ -38,8 +38,17 @@
 #'   * `path`: A list column of paths to target data. Usually, each element
 #'     is a single path, but there could be multiple paths per target
 #'     for dynamic files (i.e. `tar_target(format = "file")`).
-#'   * `time`: hash of the maximum modification time stamp
-#'     over all the files in `path`.
+#'   * `time`: `POSIXct` object with the time the target's data in storage
+#'     was last modified. Displayed in the current time zone of the system.
+#'     If there are multiple outputs for that target, as with file targets,
+#'     then the maximum time is shown. Only time stamps of actual
+#'     targets are recorded (not functions or other global objects).
+#'     No time stamp is recorded for URL targets because not all URLs
+#'     have a "last-modified" time, and the ones that do have times
+#'     do not necessarily adhere to a standardized format that `targets`
+#'     can interpret. For the latest time stamp of a URL,
+#'     use [tar_timestamp()] and specify the POSIX
+#'     format and time zone that the website uses.
 #'   * `size`: hash of the sum of all the bytes of the files at `path`.
 #'   * `bytes`: total file size in bytes of all files in `path`.
 #'   * `format`: character, one of the admissible data storage formats.
@@ -95,6 +104,9 @@ tar_meta <- function(
   out <- out[, base::union("name", fields), drop = FALSE]
   if (complete_only) {
     out <- out[stats::complete.cases(out),, drop = FALSE] # nolint
+  }
+  if ("time" %in% colnames(out)) {
+    out$time <- file_time_posixct(out$time)
   }
   out
 }
