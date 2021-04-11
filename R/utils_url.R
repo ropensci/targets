@@ -32,11 +32,7 @@ url_hash <- function(url, handle = NULL) {
 }
 
 url_hash_impl <- function(url, handle) {
-  assert_internet()
-  handle <- url_handle(handle)
-  req <- curl::curl_fetch_memory(url, handle = handle)
-  headers <- curl::parse_headers_list(req$headers)
-  url_process_error(url, req, headers)
+  headers <- url_headers(url = url, handle = handle)
   etag <- paste(headers[["etag"]], collapse = "")
   mtime <- paste(headers[["last-modified"]], collapse = "")
   out <- paste0(etag, mtime)
@@ -48,6 +44,15 @@ url_handle <- function(handle = NULL) {
   handle <- handle %|||% curl::new_handle(nobody = TRUE)
   assert_inherits(handle, "curl_handle")
   handle
+}
+
+url_headers <- function(url, handle) {
+  assert_internet()
+  handle <- url_handle(handle)
+  req <- curl::curl_fetch_memory(url, handle = handle)
+  headers <- curl::parse_headers_list(req$headers)
+  url_process_error(url, req, headers)
+  headers
 }
 
 url_process_error <- function(url, req, headers) {
