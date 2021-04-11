@@ -143,7 +143,13 @@ file_info <- function(files) {
 }
 
 file_time <- function(info) {
-  digest_obj64(max(c(-Inf, replace_na(as.numeric(info$mtime), -Inf))))
+  diff <- difftime(
+    time1 = info$mtime,
+    time2 = file_time_reference,
+    units = "days",
+    tz = "GMT"
+  )
+  file_diff_chr(max(replace_na(c(as.numeric(diff), 0), 0)))
 }
 
 file_bytes <- function(info) {
@@ -154,3 +160,22 @@ file_bytes <- function(info) {
 file_size <- function(bytes) {
   digest_obj64(bytes)
 }
+
+file_diff_chr <- function(dbl) {
+  sprintf("t%ss", as.character(dbl))
+}
+
+file_diff_dbl <- function(chr) {
+  as.numeric(gsub(pattern = "^t|s$", replacement = "", x = chr))
+}
+
+file_time_posixct <- function(chr) {
+  diff <- as.difftime(file_diff_dbl(chr), units = "days", tz = "GMT")
+  diff + file_time_reference
+}
+
+file_time_reference <- strptime(
+  "1967-01-01 00:00:00",
+  format = "%Y-%m-%d %H:%M:%S",
+  tz = "GMT"
+)
