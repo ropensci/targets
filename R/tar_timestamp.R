@@ -1,12 +1,15 @@
-#' @title Get the timestamp of a target.
+#' @title Get the timestamp(s) of a target.
 #' @export
 #' @family utilities
 #' @description Get the time that a target's data was last modified.
+#'   If there are multiple artifacts, as with file or URL targets,
+#'   then multiple time stamps may be returned.
 #' @details `tar_timestamp()` checks the actual data,
 #'   not the metadata, so the returned time stamps
 #'   are more up-to-date than the ones from [tar_meta()].
-#' @return A POSIXct object. If the target does not exists,
-#'   the return value is `as.POSIXct("0000-01-01")`.
+#' @return A vector of POSIXct objects at the current time zone of the system.
+#'   If the target does not exists,
+#'   the return value is a `POSIXct` time object at `1970-01-01 UTC`.
 #'   If the target has a local storage
 #'   format, the return value is the maximum timestamp
 #'   over all the files. (Targets with `format = "file"`
@@ -24,8 +27,12 @@
 #'   buckets and <https://httpbin.org> but may not work for all URLs.
 #'   Outside `targets`, you can use the `curl` package or the `curl` utility
 #'   to get time stamps of URLs.
-#' @param tz Character of length 1, time zone passed to
+#' @param tz Character of length 1, time zone to interpret the
+#'   original time stamp.  The `tz` argument is passed to
 #'   `strptime()` to parse the time stamp of a URL or AWS S3 bucket.
+#'   The time stamp of the return value
+#'   is the time zone of the system, not the time zone
+#'   originally recorded in the time stamp.
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -53,7 +60,7 @@
 tar_timestamp <- function(
   name = NULL,
   format = "%a, %d %b %Y %H:%M:%S",
-  tz = "GMT"
+  tz = "UTC"
 ) {
   name <- deparse_language(substitute(name))
   assert_chr(name %|||% character(0), "name must be a symbol")
@@ -68,13 +75,11 @@ tar_timestamp <- function(
   meta <- meta_init()
   meta$database$preprocess(write = FALSE)
   if (!meta$exists_record(name)) {
-    return(tar_timestamp_default)
+    return(file_time_reference)
   }
   record <- meta$get_record(name)
   store <- store_init(format = record$format)
   store$file$path <- record$path
   store_get_timestamp(store = store, format = format, tz = tz) %||NA%
-    tar_timestamp_default
+    file_time_reference
 }
-
-tar_timestamp_default <- as.POSIXct("0000-01-01")

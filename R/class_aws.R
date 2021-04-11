@@ -137,7 +137,8 @@ store_get_timestamp.tar_aws <- function(
     check_region = TRUE
   )
   timestamp <- attr(head, "last-modified")
-  as.POSIXct(timestamp, format = format, tz = tz)
+  out <- as.POSIXct(timestamp, format = format, tz = tz)
+  as.POSIXct(as.POSIXlt(out, tz = Sys.timezone()))
 }
 # nocov end
 

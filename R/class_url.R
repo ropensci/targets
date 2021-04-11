@@ -83,16 +83,13 @@ store_get_timestamp.tar_url <- function(
   store,
   ...,
   format = "%a, %d %b %Y %H:%M:%S",
-  tz = "GMT"
+  tz = "UTC"
 ) {
   urls <- store$file$path
   handle <- store$file$handle
   dates <- as.character(map(urls, ~url_headers(.x, handle)[["last-modified"]]))
-  headers <- url_headers(
-    url = store$file$path,
-    handle = store$resources$handle
-  )$date
-  as.POSIXct(headers$date, format = format, tz = tz)
+  out <- as.POSIXct(dates, format = format, tz = tz)
+  as.POSIXct(as.POSIXlt(out, tz = Sys.timezone()))
 }
 
 #' @export

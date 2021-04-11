@@ -4,7 +4,7 @@
 \alias{tar_timestamp}
 \title{Get the timestamp of a target.}
 \usage{
-tar_timestamp(name = NULL, format = "\%a, \%d \%b \%Y \%H:\%M:\%S", tz = "GMT")
+tar_timestamp(name = NULL, format = "\%a, \%d \%b \%Y \%H:\%M:\%S", tz = "UTC")
 }
 \arguments{
 \item{name}{Symbol, name of the target. If \code{NULL} (default)

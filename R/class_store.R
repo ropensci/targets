@@ -274,7 +274,7 @@ store_get_timestamp <- function(store, ...) {
 
 #' @export
 store_get_timestamp.default <- function(store, ...) {
-  max(file_info(store$file$path)$mtime)
+  file_info(store$file$path)$mtime
 }
 
 store_validate <- function(store) {
