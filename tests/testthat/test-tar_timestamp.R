@@ -48,7 +48,7 @@ tar_test("one timestamp for two files", {
   expect_true(all(file.exists(c("x", "y"))))
   out <- tar_timestamp(y)
   expect_true(inherits(out, "POSIXct"))
-  expect_false(any(out == file_time_reference))
+  expect_false(any(out == file_time_system_tz(file_time_reference)))
   expect_equal(length(out), 1L)
 })
 
@@ -67,7 +67,7 @@ tar_test("use timestamp in a target", {
   tar_make(callr_function = NULL)
   out <- tar_read(y)
   expect_true(inherits(out, "POSIXct"))
-  expect_identical(out, file_time_reference)
+  expect_identical(out, file_time_system_tz(file_time_reference))
   progress <- tar_progress()
   expect_equal(progress$progress[progress$name == "y"], "built")
   tar_make(callr_function = NULL)
