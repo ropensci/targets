@@ -5,7 +5,7 @@ tar_test("NULL name outside target", {
 tar_test("empty timestamp", {
   out <- tar_timestamp(y)
   expect_true(inherits(out, "POSIXct"))
-  expect_identical(out, file_time_reference)
+  expect_identical(out, file_time_system_tz(file_time_reference))
 })
 
 tar_test("empty file", {
@@ -14,7 +14,7 @@ tar_test("empty file", {
   unlink(path_objects("y"))
   out <- tar_timestamp(y)
   expect_true(inherits(out, "POSIXct"))
-  expect_identical(out, file_time_reference)
+  expect_identical(out, file_time_system_tz(file_time_reference))
 })
 
 tar_test("empty meta", {
@@ -23,7 +23,7 @@ tar_test("empty meta", {
   unlink(path_meta())
   out <- tar_timestamp(y)
   expect_true(inherits(out, "POSIXct"))
-  expect_identical(out, file_time_reference)
+  expect_identical(out, file_time_system_tz(file_time_reference))
 })
 
 tar_test("good timestamp outside target", {
@@ -31,7 +31,7 @@ tar_test("good timestamp outside target", {
   tar_make(callr_function = NULL)
   out <- tar_timestamp(y)
   expect_true(inherits(out, "POSIXct"))
-  expect_false(any(out == file_time_reference))
+  expect_false(any(out == file_time_system_tz(file_time_reference)))
 })
 
 tar_test("one timestamp for two files", {

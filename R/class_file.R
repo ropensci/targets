@@ -171,8 +171,7 @@ file_diff_dbl <- function(chr) {
 
 file_time_posixct <- function(chr) {
   diff <- as.difftime(file_diff_dbl(chr), units = "days", tz = Sys.timezone())
-  out <- diff + file_time_reference
-  as.POSIXct(as.POSIXlt(out, tz = Sys.timezone()))
+  file_time_system_tz(diff + file_time_reference)
 }
 
 file_time_reference <- as.POSIXct(
@@ -180,3 +179,7 @@ file_time_reference <- as.POSIXct(
   format = "%Y-%m-%d %H:%M:%S",
   tz = "UTC"
 )
+
+file_time_system_tz <- function(x) {
+  as.POSIXct(as.POSIXlt(x, tz = Sys.timezone()))
+}

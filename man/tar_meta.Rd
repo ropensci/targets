@@ -47,6 +47,15 @@ is a single path, but there could be multiple paths per target
 for dynamic files (i.e. \code{tar_target(format = "file")}).
 \item \code{time}: \code{POSIXct} object with the time the target's data in storage
 was last modified. Displayed in the current time zone of the system.
+If there are multiple outputs for that target, as with file targets,
+then the maximum time is shown. Only time stamps of actual
+targets are recorded (not functions or other global objects).
+No time stamp is recorded for URL targets because not all URLs
+have a "last-modified" time, and the ones that do have times
+do not necessarily adhere to a standardized format that \code{targets}
+can interpret. For the latest time stamp of a URL,
+use \code{\link[=tar_timestamp]{tar_timestamp()}} and specify the POSIX
+format and time zone that the website uses.
 \item \code{size}: hash of the sum of all the bytes of the files at \code{path}.
 \item \code{bytes}: total file size in bytes of all files in \code{path}.
 \item \code{format}: character, one of the admissible data storage formats.

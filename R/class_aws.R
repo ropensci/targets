@@ -120,12 +120,7 @@ store_sync_file_meta.tar_aws <- function(store, target, meta) {
 }
 
 #' @export
-store_get_timestamp.tar_aws <- function(
-  store,
-  ...,
-  format = "%a, %d %b %Y %H:%M:%S",
-  tz = "UTC"
-) {
+store_get_timestamp.tar_aws <- function(store) {
   key <- store_aws_key(store$file$path)
   bucket <- store_aws_bucket(store$file$path)
   if (!store_aws_exists(key = key, bucket = bucket)) {
@@ -136,9 +131,7 @@ store_get_timestamp.tar_aws <- function(
     bucket = bucket,
     check_region = TRUE
   )
-  timestamp <- attr(head, "last-modified")
-  out <- as.POSIXct(timestamp, format = format, tz = tz)
-  as.POSIXct(as.POSIXlt(out, tz = Sys.timezone()))
+  attr(head, "last-modified")
 }
 # nocov end
 

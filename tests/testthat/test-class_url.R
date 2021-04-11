@@ -47,11 +47,22 @@ tar_test("tar_timestamp() for URLs", {
       )
     )
   })
+  expect_equal(as.numeric(tar_timestamp(abc)), as.numeric(file_time_reference))
   tar_make(callr_function = NULL)
+  # correctly parsed posix object
   out <- tar_timestamp(abc)
   expect_equal(length(out), 2L)
   expect_true(inherits(out, "POSIXct"))
   expect_false(anyNA(out))
+  # incorrectly parsed posix object
+  out <- tar_timestamp(abc, format = "%h %h %h %h %h")
+  expect_equal(length(out), 2L)
+  expect_true(all(is.na(out)))
+  # unparsed time stamp
+  out <- tar_timestamp(abc, parse = FALSE, format = "%h %h %h %h %h")
+  expect_equal(length(out), 2L)
+  expect_false(anyNA(out))
+  expect_true(is.character(out))
 })
 
 tar_test("dynamic urls work from a custom data store", {

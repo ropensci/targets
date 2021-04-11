@@ -7,29 +7,35 @@
 #' @details `tar_timestamp()` checks the actual data,
 #'   not the metadata, so the returned time stamps
 #'   are more up-to-date than the ones from [tar_meta()].
-#' @return A vector of POSIXct objects at the current time zone of the system.
-#'   If the target does not exists,
-#'   the return value is a `POSIXct` time object at `1970-01-01 UTC`.
-#'   If the target has a local storage
-#'   format, the return value is the maximum timestamp
-#'   over all the files. (Targets with `format = "file"`
-#'   may have multiple files.) For AWS-backed formats
-#'   such as `"aws_parquet"`, the time stamp is obtained
-#'   from the modification timestamp of the AWS S3 object header.
+#' @return If the target is not recorded in the metadata,
+#'   `tar_timestamp()` returns a `POSIXct` object at `1970-01-01 UTC`.
+#'   If the target is recorded in the metadata and stored locally
+#'   (i.e. the target is not a URL or AWS-backed format) then `tar_timestamp()`
+#'   returns a vector of `POSIXct` modification times of the data files
+#'   (in the order those files are listed in `tar_meta(target_name, path)`).
+#'   The return values for URL and AWS targets depends on the `parse` argument.
+#'   If `parse` is `FALSE`, then `tar_timestamp()` returns an unparsed
+#'   character vector of the time stamps recorded on the web.
+#'   If `parse` is `TRUE`, then `tar_timestamp()` attempts to convert
+#'   those character time stamps into `POSIXct` objects displayed
+#'   with the time zone of the current system. If the time stamp
+#'   cannot be parsed with the given format, `tar_timestamp()`
+#'   returns `NA` (so `parse = FALSE` is helpful for debugging
+#'   the `format` argument).
 #' @param name Symbol, name of the target. If `NULL` (default)
 #'   then `tar_timestamp()` will attempt to return the timestamp
 #'   of the target currently running. Must be called inside a target's
 #'   command or a supporting function in order to work.
 #' @param format Character of length 1, POSIXct format string passed to
-#'   `strptime()` to parse the time stamp of a URL or AWS S3 bucket.
+#'   `as.POSIXct()` to parse the time stamp of a URL or AWS S3 bucket.
 #'   Currently to targets with AWS-backed storage
 #'   formats or `format = "url"`. The default works with AWS S3
-#'   buckets and <https://httpbin.org> but may not work for all URLs.
-#'   Outside `targets`, you can use the `curl` package or the `curl` utility
-#'   to get time stamps of URLs.
-#' @param tz Character of length 1, time zone to interpret the
-#'   original time stamp.  The `tz` argument is passed to
-#'   `strptime()` to parse the time stamp of a URL or AWS S3 bucket.
+#'   buckets but may not work for all URLs.
+#' @param tz Character of length 1, time zone of the original
+#'   modification time recorded in the remote data
+#'   (either a URL or S3 bucket; does not apply to locally stored targets).
+#'   The `tz` argument is passed to
+#'   `as.POSIXct()` to parse the time stamp of a URL or AWS S3 bucket.
 #'   The time stamp of the return value
 #'   is the time zone of the system, not the time zone
 #'   originally recorded in the time stamp.
@@ -60,7 +66,8 @@
 tar_timestamp <- function(
   name = NULL,
   format = "%a, %d %b %Y %H:%M:%S",
-  tz = "UTC"
+  tz = "UTC",
+  parse = TRUE
 ) {
   name <- deparse_language(substitute(name))
   assert_chr(name %|||% character(0), "name must be a symbol")
@@ -75,11 +82,14 @@ tar_timestamp <- function(
   meta <- meta_init()
   meta$database$preprocess(write = FALSE)
   if (!meta$exists_record(name)) {
-    return(file_time_reference)
+    return(file_time_system_tz(file_time_reference))
   }
   record <- meta$get_record(name)
   store <- store_init(format = record$format)
   store$file$path <- record$path
-  store_get_timestamp(store = store, format = format, tz = tz) %||NA%
-    file_time_reference
+  out <- store_get_timestamp(store = store)
+  if (is.character(out) && parse) {
+    out <- file_time_system_tz(as.POSIXct(out, format = format, tz = tz))
+  }
+  out
 }

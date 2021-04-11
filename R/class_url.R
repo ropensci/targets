@@ -79,17 +79,10 @@ store_has_correct_hash.tar_url <- function(store) {
 }
 
 #' @export
-store_get_timestamp.tar_url <- function(
-  store,
-  ...,
-  format = "%a, %d %b %Y %H:%M:%S",
-  tz = "UTC"
-) {
+store_get_timestamp.tar_url <- function(store) {
   urls <- store$file$path
   handle <- store$file$handle
-  dates <- as.character(map(urls, ~url_headers(.x, handle)[["last-modified"]]))
-  out <- as.POSIXct(dates, format = format, tz = tz)
-  as.POSIXct(as.POSIXlt(out, tz = Sys.timezone()))
+  as.character(map(urls, ~url_headers(.x, handle)[["last-modified"]]))
 }
 
 #' @export
