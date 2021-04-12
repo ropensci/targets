@@ -35,7 +35,7 @@ tar_test("file_ensure_hash() on a huge file in pipeline", {
     tar_option_set(packages = character(0))
     list(tar_target(x_target, "tempfile", format = "file"))
   })
-  expr <- tidy_eval(expr, environment(), TRUE)
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
   do.call(tar_script, list(code = expr))
   file <- file_init(path = tmp)
   x <- paste(letters, collapse = "")
