@@ -20,7 +20,6 @@ store_produce_path.tar_aws <- function(store, name, object) {
 # which could put an unexpected and unfair burden on
 # external contributors from the open source community.
 # nocov start
-#' @export
 store_aws_bucket <- function(path) {
   path[1]
 }
