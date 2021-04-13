@@ -46,6 +46,10 @@ path_scratch <- function(pattern = "") {
   tempfile(pattern = pattern, tmpdir = path_scratch_dir())
 }
 
+path_scratch_fixed <- function(name) {
+  file.path(path_scratch_dir(), name)
+}
+
 path_scratch_dir <- function() {
   file.path(path_store(), "scratch")
 }

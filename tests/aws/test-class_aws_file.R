@@ -3,6 +3,7 @@ tar_test("aws_file format file gets stored", {
   skip_if_no_aws()
   bucket_name <- random_bucket_name()
   on.exit({
+    unlink("example_aws_file.txt")
     aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
@@ -13,13 +14,12 @@ tar_test("aws_file format file gets stored", {
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(resources = list(bucket = !!bucket_name))
-    write_tempfile <- function(lines) {
-      tmp <- tempfile()
-      writeLines(lines, tmp)
-      tmp
+    write_local_file <- function(lines) {
+      writeLines(lines, "example_aws_file.txt")
+      "example_aws_file.txt"
     }
     list(
-      tar_target(x, write_tempfile("x_lines"), format = "aws_file"),
+      tar_target(x, write_local_file("x_lines"), format = "aws_file"),
       tar_target(y, readLines(x))
     )
   })
@@ -29,10 +29,13 @@ tar_test("aws_file format file gets stored", {
   expect_true(
     aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/x")
   )
+  unlink("_targets/scratch", recursive = TRUE)
   expect_equal(tar_read(y), "x_lines")
   expect_equal(length(list.files("_targets/scratch/")), 0L)
+  expect_false(file.exists("_targets/scratch/x"))
   path <- tar_read(x)
   expect_equal(length(list.files("_targets/scratch/")), 1L)
+  expect_true(file.exists("_targets/scratch/x"))
   expect_equal(readLines(path), "x_lines")
   tmp <- tempfile()
   aws.s3::save_object(
@@ -58,13 +61,12 @@ tar_test("aws_file format invalidation", {
         resources = list(bucket = !!bucket_name),
         memory = !!memory
       )
-      write_tempfile <- function(lines) {
-        tmp <- tempfile()
-        writeLines(lines, tmp)
-        tmp
+      write_local_file <- function(lines) {
+        writeLines(lines, "example_aws_file.txt")
+        "example_aws_file.txt"
       }
       list(
-        tar_target(x, write_tempfile("x_lines"), format = "aws_file"),
+        tar_target(x, write_local_file("x_lines"), format = "aws_file"),
         tar_target(y, readLines(x))
       )
     })
@@ -80,13 +82,12 @@ tar_test("aws_file format invalidation", {
         resources = list(bucket = !!bucket_name),
         memory = !!memory
       )
-      write_tempfile <- function(lines) {
-        tmp <- tempfile()
-        writeLines(lines, tmp)
-        tmp
+      write_local_file <- function(lines) {
+        writeLines(lines, "example_aws_file.txt")
+        "example_aws_file.txt"
       }
       list(
-        tar_target(x, write_tempfile("x_lines2"), format = "aws_file"),
+        tar_target(x, write_local_file("x_lines2"), format = "aws_file"),
         tar_target(y, readLines(x))
       )
     })
@@ -96,6 +97,7 @@ tar_test("aws_file format invalidation", {
     expect_equal(tar_progress(x)$progress, "built")
     expect_equal(tar_progress(y)$progress, "built")
     expect_equal(tar_read(y), "x_lines2")
+    unlink("example_aws_file.txt")
     aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
@@ -112,6 +114,7 @@ tar_test("aws_file format with a custom data store", {
   writeLines("store: custom_targets_store", "_targets.yaml")
   bucket_name <- random_bucket_name()
   on.exit({
+    unlink("example_aws_file.txt")
     unlink("_targets.yaml")
     unlink("custom_targets_store", recursive = TRUE)
     aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
@@ -124,13 +127,12 @@ tar_test("aws_file format with a custom data store", {
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(resources = list(bucket = !!bucket_name))
-    write_tempfile <- function(lines) {
-      tmp <- tempfile()
-      writeLines(lines, tmp)
-      tmp
+    write_local_file <- function(lines) {
+      writeLines(lines, "example_aws_file.txt")
+      "example_aws_file.txt"
     }
     list(
-      tar_target(x, write_tempfile("x_lines"), format = "aws_file"),
+      tar_target(x, write_local_file("x_lines"), format = "aws_file"),
       tar_target(y, readLines(x))
     )
   })

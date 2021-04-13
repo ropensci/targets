@@ -63,9 +63,7 @@ config_class <- R6::R6Class(
     },
     write = function() {
       if (self$is_unlocked()) {
-        tmp <- tempfile()
-        yaml::write_yaml(x = self$data, file = tmp)
-        file.rename(from = tmp, to = self$path)
+        yaml::write_yaml(x = self$data, file = self$path)
       }
       invisible()
     },

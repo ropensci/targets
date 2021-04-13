@@ -2,6 +2,7 @@
 
 ## Bug fixes
 
+* Avoid `file.rename()` errors when migrating staged temporary files (#410).
 * Return correct error messages from feather and parquet formats (#388). Now calling `assert_df()` from `store_assert_format()` instead of `store_cast_object()`. And now those last two functions are not called at all if the target throws an error.
 * Retry writing lines to database files so Windows machines can run `tar_poll()` at the same time as the pipeline (#393).
 * Rename file written by `tar_renv()` to `_targets_packages.R` (#397).

@@ -139,7 +139,7 @@ database_class <- R6::R6Class(
     overwrite_storage = function(data) {
       dir <- dirname(self$path)
       dir_create(dir)
-      tmp <- tempfile(pattern = "temporary_database_", tmpdir = dir)
+      tmp <- tempfile(pattern = "tar_temp_", tmpdir = dir)
       data.table::fwrite(
         x = data,
         file = tmp,

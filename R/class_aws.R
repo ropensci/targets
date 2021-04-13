@@ -21,10 +21,6 @@ store_produce_path.tar_aws <- function(store, name, object) {
 # external contributors from the open source community.
 # nocov start
 #' @export
-store_produce_stage.tar_aws <- function(store, name, object) {
-  tempfile(pattern = name)
-}
-
 store_aws_bucket <- function(path) {
   path[1]
 }
