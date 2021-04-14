@@ -180,7 +180,7 @@ assert_nonempty <- function(x, msg = NULL) {
   }
 }
 
-assert_nonmissing <- function(x, msg = NULL) {
+assert_none_na <- function(x, msg = NULL) {
   if (anyNA(x)) {
     throw_validate(msg %|||% "x must have no missing values (NA's)")
   }
@@ -216,6 +216,12 @@ assert_path <- function(path, msg = NULL) {
 assert_match <- function(x, pattern, msg = NULL) {
   if (!grepl(pattern = pattern, x = x)) {
     throw_validate(msg %|||% paste(x, "does not match pattern", pattern))
+  }
+}
+
+assert_nonmissing <- function(x, msg = NULL) {
+  if (rlang::is_missing(x)) {
+    throw_validate(msg %|||% "value missing with no default.")
   }
 }
 

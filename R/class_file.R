@@ -95,7 +95,7 @@ file_has_correct_hash <- function(file) {
 
 file_validate_path <- function(path) {
   assert_nonempty(path, "a target must have at least one output file.")
-  assert_nonmissing(path, paste("missing output file for target:", path))
+  assert_none_na(path, paste("missing output file for target:", path))
   assert_chr_no_delim(path, "target output file path must not contain | or *")
 }
 

@@ -90,7 +90,7 @@ tar_pattern_assert_lengths <- function(lengths) {
   assert_nonempty(names, msg)
   assert_chr(names, msg)
   assert_nzchar(names, msg)
-  assert_nonmissing(names, msg)
+  assert_none_na(names, msg)
   assert_unique(names)
   assert_identical(length(names), length(lengths), msg)
   msg <- "... must be integers of length 1."

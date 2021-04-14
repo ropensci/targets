@@ -36,3 +36,16 @@ tar_test("can disable tidy eval", {
   x <- tar_target(x, get_data(!!y), tidy_eval = FALSE)
   expect_equal(x$command$string, "expression(get_data(!!y))")
 })
+
+tar_test("no name", {
+  expect_error(tar_target(command = 1), class = "tar_condition_validate")
+})
+
+tar_test("no command", {
+  expect_error(tar_target(abc), class = "tar_condition_validate")
+})
+
+tar_test("declaring a target does not run its command", {
+  x <- tar_target(y, file.create("x"))
+  expect_false(file.exists("x"))
+})

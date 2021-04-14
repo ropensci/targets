@@ -73,7 +73,7 @@ tar_branches <- function(name, pattern) {
 tar_branches_nibling <- function(x, meta) {
   children <- unname(unlist(meta[meta$name == x, "children"]))
   assert_nonempty(children, paste(x, "has no children."))
-  assert_nonmissing(children, paste(x, "has no children."))
+  assert_none_na(children, paste(x, "has no children."))
   out <- data_frame(x = children)
   colnames(out) <- x
   out

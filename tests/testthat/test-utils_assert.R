@@ -85,10 +85,18 @@ tar_test("assert_nonempty()", {
   expect_error(assert_nonempty(character(0)), class = "tar_condition_validate")
 })
 
+tar_test("assert_none_na()", {
+  expect_silent(assert_none_na("abc"))
+  expect_error(
+    assert_none_na(NA_character_),
+    class = "tar_condition_validate"
+  )
+})
+
 tar_test("assert_nonmissing()", {
   expect_silent(assert_nonmissing("abc"))
   expect_error(
-    assert_nonmissing(NA_character_),
+    assert_nonmissing(substitute()),
     class = "tar_condition_validate"
   )
 })

@@ -55,3 +55,19 @@ tar_test("can set string", {
   expect_equal(out$command$deps, "abc")
   expect_equal(out$command$string, "xyz")
 })
+
+tar_test("no name", {
+  expect_error(
+    tar_target_raw(command = quote(1)),
+    class = "tar_condition_validate"
+  )
+})
+
+tar_test("no command", {
+  expect_error(tar_target_raw("abc"), class = "tar_condition_validate")
+})
+
+tar_test("declaring a target does not run its command", {
+  x <- tar_target_raw("y", quote(file.create("x")))
+  expect_false(file.exists("x"))
+})

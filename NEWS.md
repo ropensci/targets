@@ -34,6 +34,7 @@
 * Use words "start" and "built" in reporters.
 * Use the region of the AWS S3 bucket instead of the local `AWS_DEFAULT_REGION` environment variable (`check_region = TRUE`; #400, @tomsing1).
 * In `tar_meta()`, return `POSIXct` times in the time zone of the calling system (#131).
+* Throw informative error messages when a target's name or command is missing (#413, @liutiming).
 
 # targets 0.3.1
 
