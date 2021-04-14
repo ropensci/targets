@@ -47,6 +47,7 @@ Other utilities:
 \code{\link{tar_name}()},
 \code{\link{tar_path}()},
 \code{\link{tar_seed}()},
+\code{\link{tar_timestamp_raw}()},
 \code{\link{tar_timestamp}()}
 }
 \concept{utilities}

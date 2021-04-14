@@ -24,28 +24,11 @@
 #'   returns a `POSIXct` object at `1970-01-01 UTC`
 #'   (so `parse = FALSE` is helpful for debugging
 #'   the `format` argument).
+#' @inheritParams tar_timestamp_raw
 #' @param name Symbol, name of the target. If `NULL` (default)
 #'   then `tar_timestamp()` will attempt to return the timestamp
 #'   of the target currently running. Must be called inside a target's
 #'   command or a supporting function in order to work.
-#' @param format Character of length 1, POSIXct format string passed to
-#'   `as.POSIXct()` to parse the time stamp of a URL or AWS S3 bucket.
-#'   Currently to targets with AWS-backed storage
-#'   formats or `format = "url"`. The default works with AWS S3
-#'   buckets but may not work for all URLs.
-#' @param tz Character of length 1, time zone of the original
-#'   modification time recorded in the remote data
-#'   (either a URL or S3 bucket; does not apply to locally stored targets).
-#'   The `tz` argument is passed to
-#'   `as.POSIXct()` to parse the time stamp of a URL or AWS S3 bucket.
-#'   The time stamp of the return value
-#'   is the time zone of the system, not the time zone
-#'   originally recorded in the time stamp.
-#' @param parse Logical, whether to attempt to parse character string
-#'   time stamps from URLs and data in AWS S3 buckets. Set to `FALSE`
-#'   to debug. Debugging is important because incorrectly parsed
-#'   time stamps will result in a return value of
-#'   a `POSIXct` object at `1970-01-01 UTC` instead of `NA`.
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -77,26 +60,6 @@ tar_timestamp <- function(
   parse = TRUE
 ) {
   name <- deparse_language(substitute(name))
-  assert_chr(name %|||% character(0), "name must be a symbol")
-  if (is.null(name)) {
-    if (!exists(x = "target", envir = tar_envir_run, inherits = FALSE)) {
-      throw_validate(
-        "name cannot be NULL unless tar_timestamp() is called from a target."
-      )
-    }
-    name <- target_get_name(get(x = "target", envir = tar_envir_run))
-  }
-  meta <- meta_init()
-  meta$database$preprocess(write = FALSE)
-  if (!meta$exists_record(name)) {
-    return(file_time_system_tz(file_time_reference))
-  }
-  record <- meta$get_record(name)
-  store <- store_init(format = record$format)
-  store$file$path <- record$path
-  out <- store_get_timestamp(store = store)
-  if (is.character(out) && parse) {
-    out <- file_time_system_tz(as.POSIXct(out, format = format, tz = tz))
-  }
-  out %||NA% file_time_system_tz(file_time_reference)
+  assert_chr(name %|||% character(0), "name must be a symbol.")
+  tar_timestamp_raw(name = name, format = format, tz = tz, parse = parse)
 }

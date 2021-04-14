@@ -109,6 +109,7 @@ reference:
   - '`tar_path`'
   - '`tar_seed`'
   - '`tar_timestamp`'
+  - '`tar_timestamp_raw`'
 - title: Targetopia
   contents:
   - '`tar_dir`'
