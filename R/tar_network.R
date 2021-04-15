@@ -8,7 +8,7 @@
 #'   vertices data frame has one row per target with fields to denote
 #'   the type of the target or object (stem, branch, map, cross, function,
 #'   or object) and the target's status
-#'   (up to date, outdated, running, canceled, or errored).
+#'   (up to date, outdated, started, canceled, or errored).
 #'   The edges data frame has one row for every edge and columns `to` and
 #'   `from` to mark the starting and terminating vertices.
 #' @inheritParams tar_outdated

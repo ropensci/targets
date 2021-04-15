@@ -35,6 +35,7 @@
 * Use the region of the AWS S3 bucket instead of the local `AWS_DEFAULT_REGION` environment variable (`check_region = TRUE`; #400, @tomsing1).
 * In `tar_meta()`, return `POSIXct` times in the time zone of the calling system (#131).
 * Throw informative error messages when a target's name or command is missing (#413, @liutiming).
+* Bring back ALTREP in `qs::qread()` now that `qs` 0.24.1 requires `stringfish` >= 1.5.0 (#147, @glep).
 
 # targets 0.3.1
 

@@ -78,7 +78,7 @@ Suggests:
   rmarkdown (>= 2.4),
   pingr (>= 2.0.1),
   pkgload (>= 1.1.0),
-  qs (>= 0.23.2),
+  qs (>= 0.24.1),
   rstudioapi (>= 0.11),
   shiny (>= 1.5.0),
   shinybusy (>= 0.2.2),

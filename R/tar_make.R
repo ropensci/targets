@@ -19,7 +19,7 @@
 #'   * `"silent"`: print nothing.
 #'   * `"timestamp"`: print a time-stamped message for each target that runs.
 #'   * `"summary"`: print a running total of the number of each targets in
-#'     each status category (queued, running, skipped, build, canceled,
+#'     each status category (queued, started, skipped, build, canceled,
 #'     or errored). Also show a timestamp (`"%H:%M %OS2"` `strptime()` format)
 #'     of the last time the progress changed and printed to the screen.
 #' @examples

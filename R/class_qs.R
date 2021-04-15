@@ -15,8 +15,7 @@ store_assert_format_setting.qs <- function(class) {
 
 #' @export
 store_read_path.tar_qs <- function(store, path) {
-  # TODO: use altrep when solved in qs (#147).
-  qs::qread(file = path, use_alt_rep = FALSE)
+  qs::qread(file = path, use_alt_rep = TRUE)
 }
 
 #' @export
