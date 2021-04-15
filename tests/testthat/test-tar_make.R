@@ -82,7 +82,8 @@ tar_test("tar_make() handles callr errors", {
       tar_target(y, stop(x))
     )
   })
-  # TODO: when https://github.com/r-lib/callr/issues/196 is fixed,
+  # TODO: when https://github.com/r-lib/callr/issues/196 and
+  # https://github.com/r-lib/callr/issues/197 are fixed,
   # go back to expecting forwarded errors of class "tar_condition_validate".
   try(
     tar_make(reporter = "silent", callr_arguments = list(show = FALSE)),
