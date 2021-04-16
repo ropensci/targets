@@ -36,6 +36,7 @@
 * In `tar_meta()`, return `POSIXct` times in the time zone of the calling system (#131).
 * Throw informative error messages when a target's name or command is missing (#413, @liutiming).
 * Bring back ALTREP in `qs::qread()` now that `qs` 0.24.1 requires `stringfish` >= 1.5.0 (#147, @glep).
+* Relax dynamic branching checks so `pattern = slice(...)` can take multiple indexes (#406, #419, @djbirke, @alexgphayes)
 
 # targets 0.3.1
 

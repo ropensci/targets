@@ -48,6 +48,9 @@ composed of target names and any of the following patterns:
 \itemize{
 \item \code{map()}: iterate over one or more targets in sequence.
 \item \code{cross()}: iterate over combinations of slices of targets.
+\item \code{slice()}: select one or more slices by index, e.g.
+\code{slice(x, index = c(3, 4))} selects the third and fourth
+slice or branch of \code{x}.
 \item \code{head()}: restrict branching to the first few elements.
 \item \code{tail()}: restrict branching to the last few elements.
 \item \code{sample()}: restrict branching to a random subset of elements.

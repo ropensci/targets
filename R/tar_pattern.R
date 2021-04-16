@@ -12,6 +12,9 @@
 #'   composed of target names and any of the following patterns:
 #'   * `map()`: iterate over one or more targets in sequence.
 #'   * `cross()`: iterate over combinations of slices of targets.
+#'   * `slice()`: select one or more slices by index, e.g.
+#'     `slice(x, index = c(3, 4))` selects the third and fourth
+#'     slice or branch of `x`.
 #'   * `head()`: restrict branching to the first few elements.
 #'   * `tail()`: restrict branching to the last few elements.
 #'   * `sample()`: restrict branching to a random subset of elements.

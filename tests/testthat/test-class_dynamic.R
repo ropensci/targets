@@ -28,6 +28,16 @@ tar_test("dynamic tail method", {
   expect_equal(methods$tail(x, n = 2), data.frame(x = c(9L, 10L)))
 })
 
+tar_test("dynamic slice method", {
+  x <- data.frame(x = seq_len(10))
+  methods <- dynamic_init()
+  out <- methods$slice(x, index = c(3L, 4L))
+  expect_true(is.data.frame(out))
+  expect_equal(dim(out), c(2L, 1L))
+  expect_equal(colnames(out), "x")
+  expect_equal(out$x, c(3L, 4L))
+})
+
 tar_test("dynamic sample method", {
   x <- data.frame(x = seq_len(10))
   methods <- dynamic_init()
@@ -37,3 +47,4 @@ tar_test("dynamic sample method", {
   expect_equal(colnames(out), "x")
   expect_true(all(out$x %in% seq_len(10)))
 })
+
