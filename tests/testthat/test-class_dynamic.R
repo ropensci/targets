@@ -47,4 +47,3 @@ tar_test("dynamic sample method", {
   expect_equal(colnames(out), "x")
   expect_true(all(out$x %in% seq_len(10)))
 })
-
