@@ -1,4 +1,5 @@
 tar_test("dynamic urls work", {
+  skip_on_cran()
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
@@ -65,6 +66,7 @@ tar_test("tar_timestamp() for URLs", {
 })
 
 tar_test("dynamic urls work from a custom data store", {
+  skip_on_cran()
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
@@ -114,6 +116,7 @@ tar_test("dynamic urls work from a custom data store", {
 })
 
 tar_test("tar_condition_run error on bad URL", {
+  skip_on_cran()
   skip_if_not_installed("curl")
   skip_if_offline()
   tar_script(tar_target(abc, "https://httpbin.org/status/404", format = "url"))
@@ -121,6 +124,7 @@ tar_test("tar_condition_run error on bad URL", {
 })
 
 tar_test("custom handle can be supplied without error", {
+  skip_on_cran()
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
@@ -141,6 +145,7 @@ tar_test("custom handle can be supplied without error", {
 })
 
 tar_test("dynamic urls must return characters", {
+  skip_on_cran()
   skip_if_not_installed("curl")
   skip_if_offline()
   x <- target_init(
@@ -154,6 +159,7 @@ tar_test("dynamic urls must return characters", {
 })
 
 tar_test("url target store gets custom curl handle", {
+  skip_on_cran()
   skip_if_not_installed("curl")
   x <- target_init(
     name = "abc",
@@ -166,6 +172,7 @@ tar_test("url target store gets custom curl handle", {
 })
 
 tar_test("bad curl handle throws an error", {
+  skip_on_cran()
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
