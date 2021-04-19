@@ -7,6 +7,7 @@
 * Retry writing lines to database files so Windows machines can run `tar_poll()` at the same time as the pipeline (#393).
 * Rename file written by `tar_renv()` to `_targets_packages.R` (#397).
 
+
 ## New features
 
 * Implement `tar_timestamp()` and `tar_timestamp_raw()` to get the last modified timestamp of a target's data (#378).
