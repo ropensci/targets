@@ -228,7 +228,8 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
 
 builder_exit <- function(target, pipeline, scheduler, meta) {
   # TODO: remove this hack that compensates for
-  # https://github.com/r-lib/callr/issues/185:
+  # https://github.com/r-lib/callr/issues/185.
+  # No longer necessary in callr >= 3.7.0.
   if (!identical(Sys.getenv("TAR_TEST"), "true")) {
     target$value <- NULL
     pipeline$targets <- NULL

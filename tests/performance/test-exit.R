@@ -1,4 +1,4 @@
-# Test workaround of https://github.com/r-lib/callr/issues/185
+# Regression test for https://github.com/r-lib/callr/issues/185
 library(targets)
 tar_destroy()
 tar_script({
