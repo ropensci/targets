@@ -48,14 +48,16 @@ tar_script({
     tar_target(y, x, pattern = map(x))
   )
 })
-px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
+# Should and end start quickly:
+tar_make(reporter = "summary", callr_function = NULL)
 tar_script({
   list(
     tar_target(x, seq_len(1e4)),
     tar_target(y, 2 * x, pattern = map(x))
   )
 })
-px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
+# Should and end start quickly:
+tar_make(reporter = "summary", callr_function = NULL)
 
 # Clean up.
 tar_destroy()
