@@ -25,6 +25,7 @@ tar_script({
 px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
 tar_destroy()
 unlink("_targets.R")
+rm(x0)
 
 # Same, but with a target chain that fails early.
 # Should not see overhead due to topo_sort_by_priority()
