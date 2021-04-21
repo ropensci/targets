@@ -77,7 +77,11 @@ config_class <- R6::R6Class(
       if_any(self$path_exists(), self$load(), self$unload())
     },
     outdated = function() {
-      !identical(self$time, self$produce_time())
+      if_any(
+        self$is_unlocked(),
+        !identical(self$time, self$produce_time()),
+        FALSE
+      )
     },
     ensure = function() {
       if (self$outdated()) {
