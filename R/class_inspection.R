@@ -147,6 +147,7 @@ inspection_class <- R6::R6Class(
       data_frame(name = vertices$name, type = type, status = status)
     },
     resolve_target_meta = function(vertices) {
+      self$meta$database$ensure_preprocessed(write = FALSE)
       meta <- map(vertices$name, function(name) {
         if (self$meta$exists_record(name)) {
           record <- self$meta$get_record(name)
