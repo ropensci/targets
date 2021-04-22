@@ -78,12 +78,15 @@ store_has_correct_hash.tar_url <- function(store) {
     identical(url_hash(store$file$path, handle), store$file$hash)
 }
 
+# Tested in tests/interactive/test-class_url.R
+# nocov start
 #' @export
 store_get_timestamp.tar_url <- function(store) {
   urls <- store$file$path
   handle <- store$file$handle
   as.character(map(urls, ~url_headers(.x, handle)[["last-modified"]]))
 }
+# nocov end
 
 #' @export
 store_get_packages.tar_url <- function(store) {
