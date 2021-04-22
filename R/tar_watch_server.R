@@ -22,7 +22,7 @@ tar_watch_server <- function(id, height = "650px") {
       react_millis <- shiny::reactive(1000 * as.numeric(input$seconds))
       react_targets <- shiny::reactive(as.logical(input$targets_only))
       react_outdated <- shiny::reactive(as.logical(input$outdated))
-      react_label <- shiny::reactive(input$label)
+      react_label <- shiny::reactive(input$label_tar_visnetwork)
       react_ls <- shiny::reactive(as.numeric(input$level_separation))
       millis <- shiny::debounce(r = react_millis, millis = interval)
       targets_only <- shiny::debounce(r = react_targets, millis = interval)

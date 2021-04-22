@@ -86,7 +86,7 @@ tar_watch_ui <- function(
         right = TRUE
       ),
       shinyWidgets::pickerInput(
-        inputId = ns("label"),
+        inputId = ns("label_tar_visnetwork"),
         label = NULL,
         choices = c("time", "size", "branches"),
         selected = as.character(label_tar_visnetwork),
