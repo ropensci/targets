@@ -25,6 +25,8 @@ tar_test("file_ensure_hash() on a huge file", {
   file_ensure_hash(file) # Should be fast.
   expect_false(file$hash == hash)
   expect_gt(file$bytes, bytes)
+  # Clean up.
+  unlink(tmp)
 })
 
 tar_test("file_ensure_hash() on a huge file in pipeline", {
