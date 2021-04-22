@@ -1,3 +1,9 @@
+# targets 0.4.1
+
+* Fix CRAN test error on Windows R-devel.
+* Do not inherit `roxygen2` docstrings from `shiny`.
+* Handle more missing `Suggests:` packages.
+
 # targets 0.4.0
 
 ## Bug fixes

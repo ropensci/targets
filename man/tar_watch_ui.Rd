@@ -19,8 +19,8 @@ tar_watch_ui(
 )
 }
 \arguments{
-\item{id}{An ID string that corresponds with the ID used to call the module's
-UI function.}
+\item{id}{Character of length 1, ID corresponding to the UI function
+of the module.}
 
 \item{label}{Label for the module.}
 

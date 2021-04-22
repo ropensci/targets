@@ -1,5 +1,5 @@
 tar_test("tar_progress_branches() on empty progress", {
-  tar_script()
+  tar_script(list())
   tar_make(callr_function = NULL)
   tar_make(callr_function = NULL)
   out <- tar_progress_branches()

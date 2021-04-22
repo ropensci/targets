@@ -323,7 +323,7 @@ tar_test("database$validate() without name column", {
 
 
 tar_test("validate compatible header", {
-  tar_script()
+  tar_script(list())
   tar_make(callr_function = NULL)
   data <- tar_meta()
   meta <- meta_init()
@@ -338,7 +338,7 @@ tar_test("do not validate header of missing file", {
 })
 
 tar_test("fail to validate incompatible header", {
-  tar_script()
+  tar_script(list())
   tar_make(callr_function = NULL)
   data <- tar_meta()
   data$size <- NULL

@@ -24,6 +24,8 @@ tar_test("config$get_store()", {
 })
 
 tar_test("path_store() with config$get_store()", {
+  skip_on_cran()
+  tar_config$unset_lock()
   expect_equal(path_store(), "_targets")
   writeLines("store: path", "_targets.yaml")
   expect_equal(path_store(), "path")

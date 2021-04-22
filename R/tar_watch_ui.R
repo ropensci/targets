@@ -5,9 +5,10 @@
 #' @description Use `tar_watch_ui()` and [tar_watch_server()]
 #'   to include [tar_watch()] as a Shiny module in an app.
 #' @return A Shiny module UI.
-#' @inheritParams shiny::moduleServer
 #' @inheritParams tar_watch_server
 #' @inheritParams tar_visnetwork
+#' @param id Character of length 1, ID corresponding to the UI function
+#'   of the module.
 #' @param label Label for the module.
 #' @param seconds Numeric of length 1,
 #'   default number of seconds between refreshes of the graph.

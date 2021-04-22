@@ -7,8 +7,8 @@
 tar_watch_server(id, height = "650px")
 }
 \arguments{
-\item{id}{An ID string that corresponds with the ID used to call the module's
-UI function.}
+\item{id}{Character of length 1, ID corresponding to the UI function
+of the module.}
 
 \item{height}{Character of length 1,
 height of the \code{visNetwork} widget and branches table.}

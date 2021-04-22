@@ -1,22 +1,26 @@
 tar_test("visnetwork$targets_only", {
+  skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_init())
   vis <- visnetwork_init(network = net, targets_only = FALSE)
   expect_equal(vis$targets_only, FALSE)
 })
 
 tar_test("visnetwork$allow", {
+  skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_init())
   vis <- visnetwork_init(network = net, allow = "x")
   expect_equal(vis$allow, "x")
 })
 
 tar_test("visnetwork$exclude", {
+  skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_init())
   vis <- visnetwork_init(network = net, exclude = "x")
   expect_equal(vis$exclude, "x")
 })
 
 tar_test("visnetwork$update_network()", {
+  skip_if_not_installed("visNetwork")
   envir <- new.env(parent = baseenv())
   envir$a <- 1L
   tar_option_set(envir = envir)
@@ -47,6 +51,7 @@ tar_test("visnetwork$update_network()", {
 })
 
 tar_test("visnetwork$update_network() with allow", {
+  skip_if_not_installed("visNetwork")
   x <- target_init("x", quote(1))
   y <- target_init("y", quote(x))
   pipeline <- pipeline_init(list(x, y))
@@ -68,6 +73,7 @@ tar_test("visnetwork$update_network() with allow", {
 })
 
 tar_test("visnetwork$update_network() with exclude", {
+  skip_if_not_installed("visNetwork")
   x <- target_init("x", quote(1))
   y <- target_init("y", quote(x))
   pipeline <- pipeline_init(list(x, y))
@@ -89,6 +95,7 @@ tar_test("visnetwork$update_network() with exclude", {
 })
 
 tar_test("visnetwork$update_positions()", {
+  skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_order())
   vis <- visnetwork_init(network = net, exclude = "x")
   vis$update_network()
@@ -112,6 +119,7 @@ tar_test("visnetwork$update_positions()", {
 })
 
 tar_test("visnetwork$update_labels()", {
+  skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_order())
   vis <- visnetwork_init(network = net)
   vis$update_network()
@@ -122,6 +130,7 @@ tar_test("visnetwork$update_labels()", {
 })
 
 tar_test("visnetwork$update_colors()", {
+  skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_order())
   vis <- visnetwork_init(network = net)
   vis$update_network()
@@ -131,6 +140,7 @@ tar_test("visnetwork$update_colors()", {
 })
 
 tar_test("visnetwork$update_colors() on cross plan", {
+  skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_cross())
   vis <- visnetwork_init(network = net)
   vis$update_network()
@@ -143,6 +153,7 @@ tar_test("visnetwork$update_colors() on cross plan", {
 })
 
 tar_test("visnetwork$update_legend() on cross plan", {
+  skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_cross())
   vis <- visnetwork_init(network = net)
   vis$update_network()
@@ -194,18 +205,21 @@ tar_test("visnetwork$update() on edgeless pipeline", {
 })
 
 tar_test("visnetwork$validate() with no allow or exclude", {
+  skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_init())
   vis <- visnetwork_init(network = net)
   expect_silent(vis$validate())
 })
 
 tar_test("visnetwork$validate() with allow and exclude", {
+  skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_init())
   vis <- visnetwork_init(network = net, allow = "x", exclude = "y")
   expect_silent(vis$validate())
 })
 
 tar_test("visnetwork$validate() with label", {
+  skip_if_not_installed("visNetwork")
   pipeline <- pipeline_map()
   local_init(pipeline = pipeline, reporter = "silent")$run()
   net <- inspection_init(pipeline_map())

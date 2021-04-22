@@ -5,7 +5,8 @@
 #' @description Use [tar_watch_ui()] and `tar_watch_server()`
 #'   to include [tar_watch()] as a Shiny module in an app.
 #' @return A Shiny module server.
-#' @inheritParams shiny::moduleServer
+#' @param id Character of length 1, ID corresponding to the UI function
+#'   of the module.
 #' @param height Character of length 1,
 #'   height of the `visNetwork` widget and branches table.
 tar_watch_server <- function(id, height = "650px") {

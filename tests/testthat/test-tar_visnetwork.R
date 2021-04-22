@@ -1,4 +1,5 @@
 tar_test("tar_visnetwork() does not create a data store", {
+  skip_if_not_installed("visNetwork")
   tar_script({
     f <- identity
     tar_option_set()
@@ -9,6 +10,7 @@ tar_test("tar_visnetwork() does not create a data store", {
 })
 
 tar_test("tar_visnetwork()", {
+  skip_if_not_installed("visNetwork")
   tar_script({
     f <- identity
     tar_option_set()
@@ -26,6 +28,7 @@ tar_test("tar_visnetwork()", {
 })
 
 tar_test("tar_visnetwork() does not deduplicate metadata", {
+  skip_if_not_installed("visNetwork")
   tar_script({
     tar_option_set(envir = new.env(parent = baseenv()))
     list(tar_target(x, 1L, cue = tar_cue(mode = "always")))
