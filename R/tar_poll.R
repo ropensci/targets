@@ -52,7 +52,7 @@ tar_poll <- function(
     Sys.sleep(interval)
   }
   message("")
-  cli_blue_bullet("tar_poll() timed out.")
+  cli_blue_bullet(paste("tar_poll() timed out after", timeout, "seconds."))
 }
 
 tar_poll_go <- function(start, timeout) {
