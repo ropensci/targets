@@ -3,6 +3,7 @@
 * Fix CRAN test error on Windows R-devel.
 * Do not inherit `roxygen2` docstrings from `shiny`.
 * Handle more missing `Suggests:` packages.
+* Unset the config lock before reading `targets.yaml` in the `callr` process.
 
 # targets 0.4.0
 
