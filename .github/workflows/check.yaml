@@ -70,6 +70,7 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE, type = ifelse(tolower(Sys.info()["sysname"]) == "linux", "source", "binary"))
           remotes::install_cran("rcmdcheck")
+          torch::install_torch()
         shell: Rscript {0}
 
       - name: Check
