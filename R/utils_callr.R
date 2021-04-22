@@ -58,6 +58,7 @@ callr_inner <- function(
   targets_options
 ) {
   tar_config <- getNamespace("targets")$tar_config
+  tar_config$unset_lock()
   tar_config$ensure()
   tar_config$set_lock()
   on.exit(tar_config$unset_lock())
