@@ -24,7 +24,7 @@ for (index in seq_len(2L)) {
   local <- local_init(pipeline, reporter = "silent")$run()
 }
 
-# Should show one build message per target.
+# Should show one start and built message per target.
 tar_destroy()
 local_init(pipeline_map(), reporter = "verbose")$run()
 
@@ -89,7 +89,7 @@ pipeline <- pipeline_init(list(target_init("x", quote(targets::tar_cancel()))))
 local <- local_init(pipeline, reporter = "verbose")$run()
 expect_equal(tar_progress()$progress, "canceled")
 
-# Should show one timestamped message per target.
+# Should show one start and one built timestamped message per target.
 tar_destroy()
 local_init(pipeline_map(), reporter = "timestamp")$run()
 
