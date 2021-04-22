@@ -1,4 +1,5 @@
 tar_test("tar_glimpse()", {
+  skip_if_not_installed("visNetwork")
   tar_script({
     tar_option_set()
     list(
