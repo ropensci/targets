@@ -93,8 +93,11 @@ tar_timestamp_raw <- function(
   store <- store_init(format = record$format)
   store$file$path <- record$path
   out <- store_get_timestamp(store = store)
+  # Tested in tests/interactive/test-class_url.R
+  # nocov start
   if (is.character(out) && parse) {
     out <- file_time_system_tz(as.POSIXct(out, format = format, tz = tz))
   }
+  # nocov end
   out %||NA% file_time_system_tz(file_time_reference)
 }
