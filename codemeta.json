@@ -11,13 +11,13 @@
   "relatedLink": "https://docs.ropensci.org/targets/",
   "issueTracker": "https://github.com/ropensci/targets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.3.1.9000",
+  "version": "0.4.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
+  "runtimePlatform": "R version 4.0.5 (2021-03-31)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -269,7 +269,7 @@
       "@type": "SoftwareApplication",
       "identifier": "qs",
       "name": "qs",
-      "version": ">= 0.23.2",
+      "version": ">= 0.24.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -555,11 +555,24 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=withr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "yaml",
+      "name": "yaml",
+      "version": ">= 2.2.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=yaml"
     }
   ],
   "releaseNotes": "https://github.com/ropensci/targets/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/targets/blob/main/README.md",
-  "fileSize": "1202.964KB",
+  "fileSize": "1296.366KB",
   "contIntegration": "https://codecov.io/gh/ropensci/targets",
   "developmentStatus": "https://www.repostatus.org/#active",
   "review": {
