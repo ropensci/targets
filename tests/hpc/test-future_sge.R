@@ -181,3 +181,20 @@ test_that("Same with worker-side storage", {
     expect_equal(value(branches[index]), index + 15L)
   }
 })
+
+test_that("future.batchtools resources", {
+  # Needs sge_batchtools.tmpl (in current directory).
+  unlink("_targets", recursive = TRUE)
+  on.exit(unlink("_targets", recursive = TRUE))
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.batchtools")
+  tar_script({
+    future::plan(
+      future.batchtools::batchtools_sge,
+      template = "sge_batchtools.tmpl"
+    )
+    list(tar_target(x, Sys.sleep(10), resources = list(slots = 2)))
+  })
+  tar_make_future()
+  expect_true(tar_exist_objects("x"))
+})

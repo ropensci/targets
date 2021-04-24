@@ -4,6 +4,7 @@
 #$ -o <%= log.file %>
 #$ -V
 #$ -N <%= job.name %>
+#$ -pe smp <%= if (is.null(resources$slots)) 1 else resources$slots %>
 module load R/4.0.3
 Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
 exit 0
