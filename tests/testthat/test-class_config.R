@@ -1,4 +1,5 @@
 tar_test("config$validate()", {
+  skip_on_cran()
   path <- tempfile()
   out <- config_init(path)
   expect_silent(out$validate())
@@ -9,6 +10,7 @@ tar_test("config$validate()", {
 })
 
 tar_test("config$get_store()", {
+  skip_on_cran()
   path <- tempfile()
   out <- config_init(path = path)
   expect_null(out$get_store())
@@ -39,6 +41,7 @@ tar_test("path_store() with config$get_store()", {
 })
 
 tar_test("config$set_store() on an empty _targets.yaml", {
+  skip_on_cran()
   path <- tempfile()
   out <- config_init(path = path)
   out$set_store("path2")
@@ -47,6 +50,7 @@ tar_test("config$set_store() on an empty _targets.yaml", {
 })
 
 tar_test("config$set_store() on a _targets.yaml with other settings", {
+  skip_on_cran()
   path <- tempfile()
   lines <- c("store: path1", "other: value")
   writeLines(lines, path)
@@ -59,6 +63,7 @@ tar_test("config$set_store() on a _targets.yaml with other settings", {
 })
 
 tar_test("locking", {
+  skip_on_cran()
   path <- tempfile()
   out <- config_init(path = path)
   out$set_store("path2")
