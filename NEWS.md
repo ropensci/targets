@@ -1,6 +1,8 @@
 # targets 0.4.1.9000
 
+## Bug fixes
 
+* Fix CRAN check errors in version 0.4.1.
 
 # targets 0.4.1
 
