@@ -39,7 +39,7 @@ config_class <- R6::R6Class(
       self$lock <- FALSE
     },
     is_locked = function() {
-      isTRUE(self$lock)
+      identical(as.logical(self$lock), TRUE)
     },
     path_exists = function() {
       file.exists(self$path)
