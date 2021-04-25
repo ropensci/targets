@@ -3,6 +3,7 @@ library(proffer)
 
 # Should barely see target_load_deps() in the profiling data.
 # Use debug(store_read_path.tar_rds) to be sure readRDS() is not called. # nolint
+tar_config_set(store = "_targets")
 tar_script({
   options(clustermq.scheduler = "multicore")
   list(
@@ -62,3 +63,4 @@ tar_make(reporter = "summary", callr_function = NULL)
 # Clean up.
 tar_destroy()
 unlink("_targets.R")
+unlink("_targets.yaml")
