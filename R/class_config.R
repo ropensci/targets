@@ -70,12 +70,14 @@ config_class <- R6::R6Class(
       self$data[[name]]
     },
     set_value = function(name, value) {
-      assert_chr(name, "config name field must be a character.")
       assert_scalar(name, "config name field must have length 1.")
+      assert_nzchar(name, "config name field must be nonempty.")
+      assert_chr(name, "config name field must be a character.")
       if (self$is_locked()) {
         return()
       }
       self$ensure()
+      self$data <- as.list(self$data)
       self$data[[name]] <- value
       self$write()
     },
