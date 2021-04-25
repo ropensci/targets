@@ -34,6 +34,6 @@ tar_config_get <- function(name) {
   assert_flag(name, choices = names(formals(tar_config_set)))
   switch(
     name,
-    store = tar_config$get_store() %|||% path_store_default()
+    store = tar_config$get_value("store") %|||% path_store_default()
   )
 }

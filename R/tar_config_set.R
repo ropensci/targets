@@ -41,6 +41,6 @@
 #' })
 #' }
 tar_config_set <- function(store = NULL) {
-  tar_config$set_store(store %|||% tar_config_get("store"))
+  tar_config$set_value(name = "store", store %|||% tar_config_get("store"))
   invisible()
 }

@@ -2,7 +2,7 @@
 
 ## Bug fixes
 
-* Fix CRAN check errors in version 0.4.1.
+* Do not use time stamps to monitor the config file (e.g. `_targets.yaml`). Fixes CRAN check errors from version 0.4.1.
 
 # targets 0.4.1
 
