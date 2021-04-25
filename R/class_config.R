@@ -1,5 +1,7 @@
 config_init <- function(path = tempfile()) {
-  config_new(path = path)
+  out <- config_new(path = path)
+  out$unset_lock()
+  out
 }
 
 config_new <- function(
