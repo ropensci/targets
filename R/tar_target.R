@@ -174,9 +174,6 @@
 #'   targets get deployed first when multiple competing targets are ready
 #'   simultaneously. Targets with priorities closer to 1 get built earlier
 #'   (and polled earlier in [tar_make_future()]).
-#'   Only applies to [tar_make_future()] and [tar_make_clustermq()]
-#'   (not [tar_make()]). [tar_make_future()] with no extra settings is
-#'   a drop-in replacement for [tar_make()] in this case.
 #' @param resources A named list of computing resources. Uses:
 #'   * Template file wildcards for `future::future()` in [tar_make_future()].
 #'   * Template file wildcards `clustermq::workers()` in [tar_make_clustermq()].

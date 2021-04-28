@@ -29,6 +29,10 @@
 #'   * `retrieval`: Retrieval mode for high-performance computing scenarios.
 #'   * `deployment`: Where/whether to deploy the target in high-performance
 #'     computing scenarios.
+#'   * `priority`: Numeric of length 1 between 0 and 1. Controls which
+#'     targets get deployed first when multiple competing targets are ready
+#'     simultaneously. Targets with priorities closer to 1 get built earlier
+#'     (and polled earlier in [tar_make_future()]).
 #'   * `resources`: A list of target-specific resource requirements for
 #'     [tar_make_future()].
 #'   * `cue_mode`: Cue mode from [tar_cue()].
@@ -106,6 +110,7 @@ tar_manifest_target <- function(target) {
     storage = target$settings$storage,
     retrieval = target$settings$retrieval,
     deployment = target$settings$deployment,
+    priority = target$settings$priority,
     resources = list(target$settings$resources),
     cue_mode = target$cue$mode,
     cue_command = target$cue$command,

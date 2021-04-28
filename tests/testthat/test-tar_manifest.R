@@ -96,7 +96,7 @@ tar_test("tar_manifest() shows all fields if the fields arg is NULL", {
     )
   })
   out <- tar_manifest(fields = NULL, callr_function = NULL)
-  expect_equal(dim(out), c(5L, 19L))
+  expect_equal(dim(out), c(5L, 20L))
 })
 
 tar_test("tar_manifest() uses topo sort", {

@@ -1,6 +1,9 @@
 # targets 0.4.2.9000
 
+## Bug fixes
 
+* Optionally show priorities in `tar_manifest()`.
+* Show the priority in the print method of stem and pattern targets.
 
 # targets 0.4.2
 

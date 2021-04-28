@@ -36,6 +36,10 @@ Possible fields are below. All of them can be set in \code{\link[=tar_target]{ta
 \item \code{retrieval}: Retrieval mode for high-performance computing scenarios.
 \item \code{deployment}: Where/whether to deploy the target in high-performance
 computing scenarios.
+\item \code{priority}: Numeric of length 1 between 0 and 1. Controls which
+targets get deployed first when multiple competing targets are ready
+simultaneously. Targets with priorities closer to 1 get built earlier
+(and polled earlier in \code{\link[=tar_make_future]{tar_make_future()}}).
 \item \code{resources}: A list of target-specific resource requirements for
 \code{\link[=tar_make_future]{tar_make_future()}}.
 \item \code{cue_mode}: Cue mode from \code{\link[=tar_cue]{tar_cue()}}.
