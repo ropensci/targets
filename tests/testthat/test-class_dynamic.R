@@ -38,6 +38,15 @@ tar_test("dynamic slice method", {
   expect_equal(out$x, c(3L, 4L))
 })
 
+tar_test("dynamic slice method with out of bounds index", {
+  x <- data.frame(x = seq_len(10))
+  methods <- dynamic_init()
+  expect_error(
+    methods$slice(x, index = c(3L, 400L)),
+    class = "tar_condition_validate"
+  )
+})
+
 tar_test("dynamic sample method", {
   x <- data.frame(x = seq_len(10))
   methods <- dynamic_init()
@@ -46,4 +55,22 @@ tar_test("dynamic sample method", {
   expect_equal(dim(out), c(2L, 1L))
   expect_equal(colnames(out), "x")
   expect_true(all(out$x %in% seq_len(10)))
+})
+
+tar_test("dynamic sample method, n too low", {
+  x <- data.frame(x = seq_len(10))
+  methods <- dynamic_init()
+  expect_error(
+    methods$sample(x, n = 0),
+    class = "tar_condition_validate"
+  )
+})
+
+tar_test("dynamic sample method, n too high", {
+  x <- data.frame(x = seq_len(10))
+  methods <- dynamic_init()
+  expect_error(
+    methods$sample(x, n = 1000),
+    class = "tar_condition_validate"
+  )
 })

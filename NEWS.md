@@ -1,9 +1,10 @@
 # targets 0.4.2.9000
 
-## Bug fixes
+## Enhancements
 
 * Optionally show priorities in `tar_manifest()`.
 * Show the priority in the print method of stem and pattern targets.
+* Throw informative errors if the secondary arguments to `pattern = slice()` or `pattern = sample()` are invalid.
 
 # targets 0.4.2
 
