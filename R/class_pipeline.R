@@ -53,6 +53,10 @@ pipeline_get_priorities <- function(pipeline) {
   )
 }
 
+pipeline_uses_priorities <- function(pipeline) {
+  any(length(unique(pipeline_get_priorities(pipeline))) > 1L)
+}
+
 pipeline_reset_priorities <- function(pipeline) {
   map(pipeline_get_names(pipeline), ~pipeline_reset_priority(pipeline, .x))
 }

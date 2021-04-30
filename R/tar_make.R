@@ -65,10 +65,15 @@ tar_make <- function(
 tar_make_inner <- function(pipeline, names_quosure, reporter) {
   pipeline_reset_deployments(pipeline)
   names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
+  queue <- if_any(
+    pipeline_uses_priorities(pipeline),
+    "parallel",
+    "sequential"
+  )
   local_init(
     pipeline = pipeline,
     names = names,
-    queue = "sequential",
+    queue = queue,
     reporter = reporter
   )$run()
   invisible()
