@@ -41,6 +41,7 @@ jobs:
           install.packages(c("remotes"))
           remotes::install_deps(dependencies = TRUE, type = ifelse(tolower(Sys.info()["sysname"]) == "linux", "source", "binary"))
           remotes::install_cran("covr")
+          install.packages("arrow", type = "source")
         shell: Rscript {0}
 
       - name: Test coverage
