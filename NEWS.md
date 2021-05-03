@@ -5,6 +5,7 @@
 * Enable priorities in `tar_make()` and `tar_manifest()`.
 * Show the priority in the print method of stem and pattern targets.
 * Throw informative errors if the secondary arguments to `pattern = slice()` or `pattern = sample()` are invalid.
+* In `tar_target_raw()`, assert that commands have length 1 when converted to expressions.
 
 # targets 0.4.2
 
