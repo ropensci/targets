@@ -92,7 +92,6 @@ jobs:
       - name: Run targets pipeline
         run: targets::tar_make()
         shell: Rscript {0}
-        continue-on-error: true
 
       - name: Identify files that the targets pipeline produced
         run: git ls-files -mo --exclude=renv > .targets-files
@@ -120,3 +119,14 @@ jobs:
           done
           git commit -am "Run pipeline"
           git push origin targets-runs
+
+      - name: Prepare failure artifact
+        if: failure()
+        run: rm -rf .git .github .targets-files .targets-runs
+
+      - name: Post failure artifact
+        if: failure()
+        uses: actions/upload-artifact@main
+        with:
+          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
+          path: .
