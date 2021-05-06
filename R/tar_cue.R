@@ -2,46 +2,68 @@
 #' @export
 #' @family targets
 #' @description Declare the rules that mark a target as outdated.
-#' @details `targets` uses internal metadata and special cues
-#'   to decide if a target is up to date.
-#'   A target is outdated if one of the following cues is met
-#'   (checked in the order given below). `tar_cue()` can activate
-#'   or suppress many of these cues. See the user manual for details.
-#'   1. There is no metadata record of the target.
-#'   1. The target errored last run.
-#'   1. The target has a different class than it did before.
-#'   1. The cue mode equals `"always"`.
-#'   1. The cue mode does not equal `"never"`.
-#'   1. The `command` metadata field (the hash of the R command)
-#'     is different from last time.
-#'   1. The `depend` metadata field (the hash of the immediate upstream
-#'     dependency targets and global objects) is different from last time.
-#'   1. The storage format is different from last time.
-#'   1. The iteration mode is different from last time.
-#'   1. A target's file (either the one in `_targets/objects/`
-#'     or a dynamic file) does not exist or changed since last time.
+#' @section Target invalidation rules:
+#'   `targets` uses internal metadata and special cues
+#'   to decide whether a target is up to date (can skip)
+#'   or is outdated/invalidated (needs to rerun). By default,
+#'   `targets` moves through the following list of cues
+#'   and declares a target outdated if at least one is cue activated.
 #'
-#'    A target's dependencies can include functions, and these functions are
-#'  tracked for changes using a custom hashing procedure. When a function's
-#'  hash changes, the function is considered invalidated, and so are any
-#'  downstream targets with the `depend` cue turned on. The
-#'  `targets` package computes the hash of a function in the following way.
+#'    1. There is no metadata record of the target.
+#'    1. The target errored last run.
+#'    1. The target has a different class than it did before.
+#'    1. The cue mode equals `"always"`.
+#'    1. The cue mode does not equal `"never"`.
+#'    1. The `command` metadata field (the hash of the R command)
+#'     is different from last time.
+#'    1. The `depend` metadata field (the hash of the immediate upstream
+#'     dependency targets and global objects) is different from last time.
+#'    1. The storage format is different from last time.
+#'    1. The iteration mode is different from last time.
+#'    1. A target's file (either the one in `_targets/objects/`
+#'       or a dynamic file) does not exist or changed since last time.
+#'
+#'   The user can suppress many of the above cues using the `tar_cue()`
+#'   function, which creates the `cue` argument of [tar_target()].
+#'   Cues objects also constitute more nuanced target invalidation rules.
+#'   The `tarchetypes` package has many such examples, including
+#'   `tar_age()`, `tar_download()`, `tar_cue_age()`, `tar_cue_force()`,
+#'   and `tar_cue_skip()`.
+#'
+#' @section Dependency-based invalidation and user-defined functions:
+#'   If the cue of a target has `depend = TRUE` (default) then the target
+#'   is marked invalidated/outdated when its upstream dependencies change.
+#'   A target's dependencies include upstream targets,
+#'   user-defined functions, and other global objects populated
+#'   in `_targets.R`. To determine if a given dependency changed
+#'   since the last run of the pipeline, `targets` computes hashes.
+#'   The hash of a target is computed on its files in storage
+#'   (usually a file in `_targets/objects/`). The hash of a
+#'   non-function global object dependency is computed directly on its
+#'   in-memory data. User-defined functions are hashed in the following way:
+#'
 #'    1. Deparse the function with `targets:::deparse_safe()`. This
 #'      function computes a string representation of the function
-#'      that removes comments and standardizes whitespace so that
+#'      body and arguments. This string representation is invariant to
+#'      changes in comments and whitespace, which means
 #'      trivial changes to formatting do not cue targets to rerun.
 #'    1. Manually remove any literal pointers from the function string
 #'      using `targets:::mask_pointers()`. Such pointers arise from
 #'      inline compiled C/C++ functions.
-#'    1. Compute a hash on the preprocessed string above using
+#'    1. Using static code analysis (i.e. [tar_deps()], which is based on
+#'      `codetools::findGlobals()`) identify any user-defined functions
+#'      and global objects that the current function depends on.
+#'      Append the hashes of those dependencies to the string representation
+#'      of the current function.
+#'    1. Compute the hash of the final string representation using
 #'      `targets:::digest_chr64()`.
 #'
-#'   Those functions themselves have dependencies, and those dependencies
-#'   are detected with `codetools::findGlobals()`.
-#'   Dependencies of functions may include other global functions or
-#'   global objects. If a dependency of a function is invalidated,
-#'   the function itself is invalidated, and so are any dependent
-#'   targets with the `depend` cue turned on.
+#'   Above, (3) is important because user-defined functions
+#'   have dependencies of their own, such as other user-defined
+#'   functions and other global objects. (3) ensures that a change to
+#'   a function's dependencies invalidates the function itself, which
+#'   in turn invalidates any calling functions and any targets downstream
+#'   with the `depend` cue turned on.
 #' @param mode Cue mode. If `"thorough"`, all the cues apply unless
 #'   individually suppressed. If `"always"`, then the target always
 #'   runs. If `"never"`, then the target does not run unless the

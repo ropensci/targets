@@ -39,12 +39,13 @@ return value changed or at least one is missing.}
 \description{
 Declare the rules that mark a target as outdated.
 }
-\details{
+\section{Target invalidation rules}{
+
 \code{targets} uses internal metadata and special cues
-to decide if a target is up to date.
-A target is outdated if one of the following cues is met
-(checked in the order given below). \code{tar_cue()} can activate
-or suppress many of these cues. See the user manual for details.
+to decide whether a target is up to date (can skip)
+or is outdated/invalidated (needs to rerun). By default,
+\code{targets} moves through the following list of cues
+and declares a target outdated if at least one is cue activated.
 \enumerate{
 \item There is no metadata record of the target.
 \item The target errored last run.
@@ -61,30 +62,52 @@ dependency targets and global objects) is different from last time.
 or a dynamic file) does not exist or changed since last time.
 }
 
-A target's dependencies can include functions, and these functions are
-tracked for changes using a custom hashing procedure. When a function's
-hash changes, the function is considered invalidated, and so are any
-downstream targets with the \code{depend} cue turned on. The
-\code{targets} package computes the hash of a function in the following way.
+The user can suppress many of the above cues using the \code{tar_cue()}
+function, which creates the \code{cue} argument of \code{\link[=tar_target]{tar_target()}}.
+Cues objects also constitute more nuanced target invalidation rules.
+The \code{tarchetypes} package has many such examples, including
+\code{tar_age()}, \code{tar_download()}, \code{tar_cue_age()}, \code{tar_cue_force()},
+and \code{tar_cue_skip()}.
+}
+
+\section{Dependency-based invalidation and user-defined functions}{
+
+If the cue of a target has \code{depend = TRUE} (default) then the target
+is marked invalidated/outdated when its upstream dependencies change.
+A target's dependencies include upstream targets,
+user-defined functions, and other global objects populated
+in \verb{_targets.R}. To determine if a given dependency changed
+since the last run of the pipeline, \code{targets} computes hashes.
+The hash of a target is computed on its files in storage
+(usually a file in \verb{_targets/objects/}). The hash of a
+non-function global object dependency is computed directly on its
+in-memory data. User-defined functions are hashed in the following way:
 \enumerate{
 \item Deparse the function with \code{targets:::deparse_safe()}. This
 function computes a string representation of the function
-that removes comments and standardizes whitespace so that
+body and arguments. This string representation is invariant to
+changes in comments and whitespace, which means
 trivial changes to formatting do not cue targets to rerun.
 \item Manually remove any literal pointers from the function string
 using \code{targets:::mask_pointers()}. Such pointers arise from
 inline compiled C/C++ functions.
-\item Compute a hash on the preprocessed string above using
+\item Using static code analysis (i.e. \code{\link[=tar_deps]{tar_deps()}}, which is based on
+\code{codetools::findGlobals()}) identify any user-defined functions
+and global objects that the current function depends on.
+Append the hashes of those dependencies to the string representation
+of the current function.
+\item Compute the hash of the final string representation using
 \code{targets:::digest_chr64()}.
 }
 
-Those functions themselves have dependencies, and those dependencies
-are detected with \code{codetools::findGlobals()}.
-Dependencies of functions may include other global functions or
-global objects. If a dependency of a function is invalidated,
-the function itself is invalidated, and so are any dependent
-targets with the \code{depend} cue turned on.
+Above, (3) is important because user-defined functions
+have dependencies of their own, such as other user-defined
+functions and other global objects. (3) ensures that a change to
+a function's dependencies invalidates the function itself, which
+in turn invalidates any calling functions and any targets downstream
+with the \code{depend} cue turned on.
 }
+
 \examples{
 # The following target will always run when the pipeline runs.
 x <- tar_target(x, download_data(), cue = tar_cue(mode = "always"))

@@ -7,6 +7,7 @@
 * Throw informative errors if the secondary arguments to `pattern = slice()` or `pattern = sample()` are invalid.
 * In `tar_target_raw()`, assert that commands have length 1 when converted to expressions.
 * Handle errors and post failure artifacts in the Github Actions YAML file.
+* Rewrite the documentation on invalidation rules in `tar_cue()` (@maelle).
 
 # targets 0.4.2
 
