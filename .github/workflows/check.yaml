@@ -73,7 +73,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Mac arrow
-        if: runner.os == "macOS"
+        if: runner.os == 'macOS'
         run: install.packages("arrow", type = "source")
         shell: Rscript {0}
 
