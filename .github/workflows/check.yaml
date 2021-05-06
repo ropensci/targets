@@ -63,7 +63,6 @@ jobs:
         run: |
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
-          sudo apt-get install libzmq5
           sudo -s eval "$sysreqs"
 
       - name: Install dependencies
