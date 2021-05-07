@@ -9,7 +9,12 @@
 #'   of the module.
 #' @param height Character of length 1,
 #'   height of the `visNetwork` widget and branches table.
-tar_watch_server <- function(id, height = "650px") {
+#' @param exclude Character vector of nodes to omit from the graph.
+tar_watch_server <- function(id, height = "650px", exclude = ".Random.seed") {
+  assert_chr(
+    exclude,
+    "exclude in tar_watch_server() must be a character vector."
+  )
   shiny::moduleServer(
     id,
     function(input, output, session) {
@@ -43,6 +48,7 @@ tar_watch_server <- function(id, height = "650px") {
           tar_exist_script(),
           tar_visnetwork(
             targets_only = targets_only(),
+            exclude = exclude,
             outdated = outdated_tl(),
             label = label(),
             level_separation = level_separation()

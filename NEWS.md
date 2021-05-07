@@ -1,5 +1,9 @@
 # targets 0.4.2.9000
 
+## New features
+
+* Add a limited-scope `exclude` argument to `tar_watch()` and `tar_watch_server()` (#458, @gorkang).
+
 ## Enhancements
 
 * Enable priorities in `tar_make()` and `tar_manifest()`.

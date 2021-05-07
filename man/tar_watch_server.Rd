@@ -4,7 +4,7 @@
 \alias{tar_watch_server}
 \title{Shiny module server for tar_watch()}
 \usage{
-tar_watch_server(id, height = "650px")
+tar_watch_server(id, height = "650px", exclude = ".Random.seed")
 }
 \arguments{
 \item{id}{Character of length 1, ID corresponding to the UI function
@@ -12,6 +12,8 @@ of the module.}
 
 \item{height}{Character of length 1,
 height of the \code{visNetwork} widget and branches table.}
+
+\item{exclude}{Character vector of nodes to omit from the graph.}
 }
 \value{
 A Shiny module server.

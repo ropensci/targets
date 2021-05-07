@@ -10,6 +10,7 @@ tar_watch(
   seconds_max = 60,
   seconds_step = 1,
   targets_only = FALSE,
+  exclude = ".Random.seed",
   outdated = TRUE,
   label = NULL,
   level_separation = 150,
@@ -38,6 +39,8 @@ in the app controls.}
 
 \item{targets_only}{Logical, whether to restrict the output to just targets
 (\code{FALSE}) or to also include imported global functions and objects.}
+
+\item{exclude}{Character vector of nodes to omit from the graph.}
 
 \item{outdated}{Logical, whether to show colors to distinguish outdated
 targets from up-to-date targets. (Global functions and objects

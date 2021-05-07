@@ -13,6 +13,7 @@
 #' @return A handle to `callr::r_bg()` background process running the app.
 #' @inheritParams callr::r_bg
 #' @inheritParams tar_watch_ui
+#' @param exclude Character vector of nodes to omit from the graph.
 #' @param label Label argument to [tar_visnetwork()].
 #' @param background Logical, whether to run the app in a background process
 #'   so you can still use the R console while the app is running.
@@ -49,6 +50,7 @@ tar_watch <- function(
   seconds_max = 60,
   seconds_step = 1,
   targets_only = FALSE,
+  exclude = ".Random.seed",
   outdated = TRUE,
   label = NULL,
   level_separation = 150,
@@ -71,6 +73,7 @@ tar_watch <- function(
     "visNetwork"
   )
   assert_package(pkgs)
+  assert_chr(exclude, "exclude in tar_watch() must be a character vector.")
   assert_dbl(seconds, "seconds must be numeric.")
   assert_dbl(seconds_min, "seconds_min must be numeric.")
   assert_dbl(seconds_max, "seconds_max must be numeric.")
@@ -88,6 +91,7 @@ tar_watch <- function(
     seconds_max = seconds_max,
     seconds_step = seconds_step,
     targets_only = targets_only,
+    exclude = exclude,
     outdated = outdated,
     label = label,
     level_separation = level_separation,
@@ -120,6 +124,7 @@ tar_watch_app <- function(
   seconds_max,
   seconds_step,
   targets_only,
+  exclude,
   outdated,
   label,
   level_separation,
@@ -139,7 +144,11 @@ tar_watch_app <- function(
     height = height
   )
   server <- function(input, output, session) {
-    targets::tar_watch_server("tar_watch_id", height = height)
+    targets::tar_watch_server(
+      id = "tar_watch_id",
+      height = height,
+      exclude = exclude
+    )
   }
   options <- list(host = host, port = port)
   print(shiny::shinyApp(ui = ui, server = server, options = options))

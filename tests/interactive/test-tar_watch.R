@@ -11,6 +11,11 @@ tar_script({
 })
 # Should just launch the app in a blocking process:
 tar_watch(background = FALSE)
+# Should exclude data1
+tar_watch(background = FALSE, exclude = "data1")
+# Should exclude sleep_run() and data2
+px <- tar_watch(background = TRUE, exclude = c("sleep_run", "data2"))
+px$kill()
 # Should not block the main process:
 tar_watch(
   seconds = 10,
