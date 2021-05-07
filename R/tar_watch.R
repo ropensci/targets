@@ -70,7 +70,6 @@ tar_watch <- function(
     "shinyWidgets",
     "visNetwork"
   )
-
   assert_package(pkgs)
   assert_dbl(seconds, "seconds must be numeric.")
   assert_dbl(seconds_min, "seconds_min must be numeric.")
