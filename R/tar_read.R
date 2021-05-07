@@ -4,6 +4,14 @@
 #' @description Read a target's return value from its file in
 #'   `_targets/objects/`. For dynamic files (i.e. `format = "file"`)
 #'   the paths are returned.
+#' @section Limited scope:
+#'   `tar_read()` and `tar_load()`
+#'   are only for exploratory analysis and literate programming,
+#'   and `tar_read_raw()` and `tar_load_raw()` are only
+#'   for exploratory analysis. `targets` automatically
+#'   loads the correct dependencies into memory when the pipeline
+#'   is running, so invoking these functions
+#'   from inside a target is rarely advisable.
 #' @return The target's return value from its file in
 #'   `_targets/objects/`, or the paths to the custom files and directories
 #'   if `format = "file"` was set.

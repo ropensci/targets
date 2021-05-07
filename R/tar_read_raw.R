@@ -7,6 +7,7 @@
 #' @return The target's return value from its file in
 #'   `_targets/objects/`, or the paths to the custom files and directories
 #'   if `format = "file"` was set.
+#' @inheritSection tar_read Limited scope
 #' @param name Character, name of the target to read.
 #' @param branches Integer of indices of the branches to load
 #'   if the target is a pattern.

@@ -5,6 +5,7 @@
 #'   Do not use in `knitr` or R Markdown reports with `tarchetypes::tar_knit()`
 #'   or `tarchetypes::tar_render()`.
 #' @return Nothing.
+#' @inheritSection tar_read Limited scope
 #' @inheritParams tar_read
 #' @param names Character vector, names of the targets to build or check.
 #' @param branches Integer of indices of the branches to load

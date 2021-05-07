@@ -28,6 +28,17 @@ Like \code{\link[=tar_read]{tar_read()}} except \code{name} is a character strin
 Do not use in \code{knitr} or R Markdown reports with \code{tarchetypes::tar_knit()}
 or \code{tarchetypes::tar_render()}.
 }
+\section{Limited scope}{
+
+\code{tar_read()} and \code{tar_load()}
+are only for exploratory analysis and literate programming,
+and \code{tar_read_raw()} and \code{tar_load_raw()} are only
+for exploratory analysis. \code{targets} automatically
+loads the correct dependencies into memory when the pipeline
+is running, so invoking these functions
+from inside a target is rarely advisable.
+}
+
 \examples{
 if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.

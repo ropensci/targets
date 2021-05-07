@@ -6,6 +6,7 @@
 #'   value lives in a file in `_targets/objects/`. For dynamic files
 #'   (i.e. `format = "file"`) the paths loaded in place of the values.
 #' @return Nothing.
+#' @inheritSection tar_read Limited scope
 #' @inheritParams tar_load_raw
 #' @param names Names of the targets to load. You can supply
 #'   symbols, a character vector, or `tidyselect` helpers like [starts_with()].
