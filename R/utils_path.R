@@ -34,6 +34,10 @@ path_meta <- function() {
   file.path(path_meta_dir(), "meta")
 }
 
+path_gitignore <- function() {
+  file.path(path_meta_dir(), ".gitignore")
+}
+
 path_progress <- function() {
   file.path(path_meta_dir(), "progress")
 }
