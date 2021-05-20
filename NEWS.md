@@ -13,6 +13,7 @@
 * In `tar_target_raw()`, assert that commands have length 1 when converted to expressions.
 * Handle errors and post failure artifacts in the Github Actions YAML file.
 * Rewrite the documentation on invalidation rules in `tar_cue()` (@maelle).
+* Drop `dplyr` groups and `"grouped_df"` class in `tar_group()` (`tarchetypes` discussion #53, @kendonB).
 
 # targets 0.4.2
 
