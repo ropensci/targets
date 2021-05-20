@@ -68,6 +68,8 @@ tar_group <- function(x) {
     )
   }
   x$tar_group <- tar_group_column(x, groups)
+  attr(x, "groups") <- NULL
+  class(x) <- setdiff(class(x), "grouped_df")
   x
 }
 
