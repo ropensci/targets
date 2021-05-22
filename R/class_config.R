@@ -32,6 +32,18 @@ config_class <- R6::R6Class(
       self$data <- data
       self$lock <- lock
     },
+    export = function() {
+      list(
+        path = self$path,
+        data = self$data,
+        lock = self$lock
+      )
+    },
+    import = function(x) {
+      self$path <- x$path
+      self$data <- x$data
+      self$lock <- x$lock
+    },
     set_lock = function() {
       self$lock <- TRUE
     },
@@ -82,8 +94,9 @@ config_class <- R6::R6Class(
       self$write()
     },
     validate = function() {
-      assert_chr(self$path %|||% "")
-      assert_scalar(self$path %|||% "")
+      assert_chr(self$path)
+      assert_scalar(self$path)
+      assert_nzchar(self$path)
       assert_list(self$data %|||% list())
     }
   )

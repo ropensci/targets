@@ -1,5 +1,9 @@
 # targets 0.4.2.9000
 
+## Bug fixes
+
+* Export in-memory config settings from `_targets.yaml` to parallel workers.
+
 ## New features
 
 * Add a limited-scope `exclude` argument to `tar_watch()` and `tar_watch_server()` (#458, @gorkang).

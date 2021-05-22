@@ -245,12 +245,14 @@ target_run.default <- function(target, envir) {
 #' @keywords internal
 #' @description For internal purposes only. Not a user-side function.
 #' @param target A target object.
-target_run_worker <- function(target, envir) {
+#' @param envir An environment.
+#' @param config List, and exported object of class `"tar_config"`.
+target_run_worker <- function(target, envir, config) {
   UseMethod("target_run_worker")
 }
 
 #' @export
-target_run_worker.default <- function(target, envir) {
+target_run_worker.default <- function(target, envir, config) {
 }
 
 target_gc <- function(target) {

@@ -102,7 +102,11 @@ clustermq_class <- R6::R6Class(
     },
     run_worker = function(target) {
       self$crew$send_call(
-        expr = target_run_worker(target, .tar_envir_5048826d),
+        expr = target_run_worker(
+          target,
+          .tar_envir_5048826d,
+          .tar_config_5048826d
+        ),
         env = list(target = target)
       )
     },

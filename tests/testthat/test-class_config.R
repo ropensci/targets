@@ -75,3 +75,52 @@ tar_test("locking", {
   expect_true(any(grepl("path4", readLines(path))))
   expect_equal(out$get_value("store"), "path4")
 })
+
+tar_test("export", {
+  path <- tempfile()
+  out <- config_init(path = path)
+  out$set_value(name = "store", "path2")
+  expect_equal(out$get_value("store"), "path2")
+  out$set_lock()
+  out <- out$export()
+  exp <- list(
+    path = path,
+    data = list(store = "path2"),
+    lock = TRUE
+  )
+  expect_equal(out, exp)
+})
+
+tar_test("import a config", {
+  path <- tempfile()
+  path2 <- tempfile()
+  out <- config_init(path = path)
+  out2 <- config_init(path = path2)
+  out$set_value(name = "store", "path2")
+  expect_equal(out$get_value("store"), "path2")
+  out$set_lock()
+  expect_equal(out2$path, path2)
+  expect_equal(out2$data, NULL)
+  expect_equal(out2$lock, NULL)
+  out2$import(out)
+  expect_equal(out2$path, path)
+  expect_equal(out2$data, list(store = "path2"))
+  expect_equal(out2$lock, TRUE)
+})
+
+tar_test("import an exported list", {
+  path <- tempfile()
+  path2 <- tempfile()
+  out <- config_init(path = path)
+  out2 <- config_init(path = path2)
+  out$set_value(name = "store", "path2")
+  expect_equal(out$get_value("store"), "path2")
+  out$set_lock()
+  expect_equal(out2$path, path2)
+  expect_equal(out2$data, NULL)
+  expect_equal(out2$lock, NULL)
+  out2$import(out$export())
+  expect_equal(out2$path, path)
+  expect_equal(out2$data, list(store = "path2"))
+  expect_equal(out2$lock, TRUE)
+})

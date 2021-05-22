@@ -86,7 +86,11 @@ future_class <- R6::R6Class(
         future::plan(plan_new, .cleanup = FALSE)
       }
       future <- future::future(
-        expr = target_run_worker(.tar_target_5048826d, .tar_envir_5048826d),
+        expr = target_run_worker(
+          .tar_target_5048826d,
+          .tar_envir_5048826d,
+          .tar_config_5048826d
+        ),
         packages = "targets",
         globals = globals,
         label = target_get_name(target),

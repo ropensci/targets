@@ -86,7 +86,8 @@ target_run.tar_builder <- function(target, envir) {
 }
 
 #' @export
-target_run_worker.tar_builder <- function(target, envir) {
+target_run_worker.tar_builder <- function(target, envir, config) {
+  tar_config$import(config)
   target_gc(target)
   target_run(target, envir)
   builder_serialize_value(target)

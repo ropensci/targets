@@ -10,7 +10,11 @@ tar_test("active$produce_exports(is_globalenv = FALSE)", {
   expect_true(inherits(envir$pipeline, "tar_pipeline"))
   expect_true(inherits(envir$algo, "tar_algorithm"))
   out <- active$produce_exports(envir, is_globalenv = FALSE)
-  expect_equal(names(out), ".tar_envir_5048826d")
+  expect_equal(
+    sort(names(out)),
+    sort(c(".tar_envir_5048826d", ".tar_config_5048826d"))
+  )
+  expect_true(is.list(out[[".tar_config_5048826d"]]))
   envir2 <- out[[".tar_envir_5048826d"]]
   expect_identical(envir, envir2)
   names <- c(".hidden", "visible")
@@ -31,8 +35,14 @@ tar_test("active$produce_exports(is_globalenv = TRUE)", {
   expect_true(inherits(envir$pipeline, "tar_pipeline"))
   expect_true(inherits(envir$algo, "tar_algorithm"))
   out <- active$produce_exports(envir, is_globalenv = TRUE)
-  names <- c(".hidden", "visible", ".tar_envir_5048826d")
+  names <- c(
+    ".hidden",
+    "visible",
+    ".tar_envir_5048826d",
+    ".tar_config_5048826d"
+  )
   expect_equal(sort(names(out)), sort(names))
+  expect_true(is.list(out[[".tar_config_5048826d"]]))
   expect_equal(out[[".tar_envir_5048826d"]], "globalenv")
   expect_equal(out[[".hidden"]], "hidden")
   expect_equal(out[["visible"]], "visible")
