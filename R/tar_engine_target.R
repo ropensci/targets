@@ -121,11 +121,13 @@ tar_engine_target_noninteractive <- function(
   code
 ) {
   write_targets_r()
+  # TODO: better name conflict handling
   if (is.logical(options$error)) {
     options$error <- NULL
   }
   fun_name <- paste0(package, "::", factory)
   fun <- get(factory, envir = getNamespace(package))
+  # TODO: create better target definition text.
   lines <- c(
     options$label,
     paste(code, "= {", options[[code]]),
@@ -134,6 +136,7 @@ tar_engine_target_noninteractive <- function(
   for (arg in intersect(names(options), names(formals(fun)))) {
     lines <- c(lines, paste(arg, "=", options[[arg]]))
   }
+  # TODO: write to actual file.
   writeLines(lines, "~/Desktop/lines.txt")
   out <- paste0(
     "Wrote ", factory, "() ", options$label, " to file."
