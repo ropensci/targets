@@ -10,7 +10,7 @@ tar_engine_target(
   factory = "tar_target",
   code = "command",
   namer = identity,
-  interactive = interactive()
+  prototype = interactive()
 )
 }
 \arguments{
@@ -41,8 +41,9 @@ That way, when the user interactively runs a
 engine will assign the return value to a variable named
 \code{target_name_data}.}
 
-\item{interactive}{Logical of length 1, whether to run in interactive
-mode (prototyping) or non-interactive mode (pipeline construction).}
+\item{prototype}{Logical of length 1, whether to run in interactive
+prototype mode (\code{TRUE}) or non-interactive
+pipeline construction mode (\code{FALSE}).}
 }
 \description{
 \code{knitr} engine to prototype and construct

@@ -5,7 +5,7 @@ tar_engine_tar_target <- function(options) {
     factory = "tar_target",
     code = "command",
     namer = identity,
-    prototype = F #interactive()
+    prototype = interactive()
   )
 }
 
@@ -100,13 +100,17 @@ tar_engine_target_interactive <- function(options, namer) {
   name <- namer(options$label)
   envir_knitr <- knitr::knit_global()
   envir <- new.env(parent = envir_knitr)
-  value <- eval(parse(text = options$code), envir = envir)
+  expr <- parse(text = options$code)
+  tidy_eval <- options$tidy_eval %|||% TRUE
+  expr <- tar_tidy_eval(expr = expr, envir = envir, tidy_eval = tidy_eval)
+  value <- eval(expr, envir = envir)
   assign(x = name, value = value, envir = envir_knitr)
   out <- paste0(
-    "Assigned result to variable ",
+    "Assigned return value to variable ",
     name,
     ". Local variables dropped."
   )
+  options$eval <- FALSE
   knitr::engine_output(options = options, code = options$code, out = out)
 }
 
@@ -117,9 +121,25 @@ tar_engine_target_noninteractive <- function(
   code
 ) {
   write_targets_r()
+  if (is.logical(options$error)) {
+    options$error <- NULL
+  }
+  fun_name <- paste0(package, "::", factory)
   fun <- get(factory, envir = getNamespace(package))
-  arg_names <- intersect(names(options), names(formals(fun)))
-  browser()
+  lines <- c(
+    options$label,
+    paste(code, "= {", options[[code]]),
+    "}"
+  )
+  for (arg in intersect(names(options), names(formals(fun)))) {
+    lines <- c(lines, paste(arg, "=", options[[arg]]))
+  }
+  writeLines(lines, "~/Desktop/lines.txt")
+  out <- paste0(
+    "Wrote ", factory, "() ", options$label, " to file."
+  )
+  options$eval <- FALSE
+  knitr::engine_output(options = options, code = options$code, out = out)
 }
 
 write_targets_r <- function() {
@@ -129,5 +149,4 @@ write_targets_r <- function() {
     mustWork = TRUE
   )
   file.copy(path, path_script(), overwrite = TRUE)
-  invisible()
 }
