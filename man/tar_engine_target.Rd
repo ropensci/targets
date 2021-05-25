@@ -9,8 +9,8 @@ tar_engine_target(
   package = "targets",
   factory = "tar_target",
   code = "command",
-  interactive = interactive,
-  namer = identity
+  namer = identity,
+  interactive = interactive()
 )
 }
 \arguments{
@@ -27,9 +27,6 @@ but could be an alternative factory such as \code{"tar_render"}
 \item{code}{Character of length 1, name of a formal argument
 to the target factory to insert the code from the chunk.}
 
-\item{interactive}{Logical of length 1, whether to run in interactive
-mode (prototyping) or non-interactive mode (pipeline construction).}
-
 \item{namer}{A function that accepts a character
 argument of length 1 and returns a character of length 1.
 In interactive mode, the engine usually assigns
@@ -43,6 +40,9 @@ That way, when the user interactively runs a
 \verb{\{tar_stan_mcmc target_name\}} code chunk, the
 engine will assign the return value to a variable named
 \code{target_name_data}.}
+
+\item{interactive}{Logical of length 1, whether to run in interactive
+mode (prototyping) or non-interactive mode (pipeline construction).}
 }
 \description{
 \code{knitr} engine to prototype and construct

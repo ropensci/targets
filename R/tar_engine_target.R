@@ -1,3 +1,14 @@
+tar_engine_tar_target <- function(options) {
+  tar_engine_target(
+    options = options,
+    package = "targets",
+    factory = "tar_target",
+    code = "command",
+    namer = identity,
+    prototype = F #interactive()
+  )
+}
+
 #' @title `knitr` engine for targets
 #' @export
 #' @family Target Markdown
@@ -36,8 +47,6 @@
 #'   (from `tarchetypes`) or `"tar_stan_mcmc"` (from `stantargets`).
 #' @param code Character of length 1, name of a formal argument
 #'   to the target factory to insert the code from the chunk.
-#' @param interactive Logical of length 1, whether to run in interactive
-#'   mode (prototyping) or non-interactive mode (pipeline construction).
 #' @param namer A function that accepts a character
 #'   argument of length 1 and returns a character of length 1.
 #'   In interactive mode, the engine usually assigns
@@ -51,13 +60,16 @@
 #'   `{tar_stan_mcmc target_name}` code chunk, the
 #'   engine will assign the return value to a variable named
 #'   `target_name_data`.
+#' @param prototype Logical of length 1, whether to run in interactive
+#'   prototype mode (`TRUE`) or non-interactive
+#'   pipeline construction mode (`FALSE`).
 tar_engine_target <- function(
   options,
   package = "targets",
   factory = "tar_target",
   code = "command",
-  interactive = interactive,
-  namer = identity
+  namer = identity,
+  prototype = interactive()
 ) {
   assert_list(options, "chunk options must be a list.")
   assert_nonempty(names(options), "chunk options list must be named.")
@@ -65,19 +77,15 @@ tar_engine_target <- function(
   assert_chr(package, "package must be a character.")
   assert_chr(factory, "factory must be a character.")
   assert_chr(code, "code must be a character.")
-  assert_lgl(interactive, "interactive must be logical.")
+  assert_lgl(prototype, "interactive must be logical.")
   assert_scalar(package, "package must have length 1.")
   assert_scalar(factory, "factory must have length 1.")
   assert_scalar(code, "code must have length 1.")
-  assert_scalar(interactive, "interactive must have length 1.")
+  assert_scalar(prototype, "interactive must have length 1.")
   assert_function(namer, "namer must be a function.")
   if_any(
-    interactive,
-    tar_engine_target_interactive(
-      options = options,
-      code = code,
-      namer = namer
-    ),
+    prototype,
+    tar_engine_target_interactive(options = options, namer = namer),
     tar_engine_target_noninteractive(
       options = options,
       package = package,
@@ -87,14 +95,19 @@ tar_engine_target <- function(
   )
 }
 
-tar_engine_target_interactive <- function(
-  options,
-  code,
-  namer
-) {
+tar_engine_target_interactive <- function(options, namer) {
   assert_package("knitr")
-  envir <- knitr::knit_global()
-  browser()
+  name <- namer(options$label)
+  envir_knitr <- knitr::knit_global()
+  envir <- new.env(parent = envir_knitr)
+  value <- eval(parse(text = options$code), envir = envir)
+  assign(x = name, value = value, envir = envir_knitr)
+  out <- paste0(
+    "Assigned result to variable ",
+    name,
+    ". Local variables dropped."
+  )
+  knitr::engine_output(options = options, code = options$code, out = out)
 }
 
 tar_engine_target_noninteractive <- function(
@@ -104,6 +117,8 @@ tar_engine_target_noninteractive <- function(
   code
 ) {
   write_targets_r()
+  fun <- get(factory, envir = getNamespace(package))
+  arg_names <- intersect(names(options), names(formals(fun)))
   browser()
 }
 
