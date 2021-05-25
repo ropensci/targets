@@ -4,8 +4,8 @@ tar_engine_tar_target <- function(options) {
     package = "targets",
     factory = "tar_target",
     code = "command",
-    namer = identity,
-    prototype = interactive()
+    prototype = interactive(),
+    format_name = "%s"
   )
 }
 
@@ -47,29 +47,21 @@ tar_engine_tar_target <- function(options) {
 #'   (from `tarchetypes`) or `"tar_stan_mcmc"` (from `stantargets`).
 #' @param code Character of length 1, name of a formal argument
 #'   to the target factory to insert the code from the chunk.
-#' @param namer A function that accepts a character
-#'   argument of length 1 and returns a character of length 1.
-#'   In interactive mode, the engine usually assigns
-#'   the chunk's return value to a variable whose name is the chunk name.
-#'   This practice does not make sense for all target factories.
-#'   For example, `stantargets::tar_stan_mcmc(target_name, ...)`
-#'   creates many different targets, and the user-supplied R command
-#'   generates the upstream Stan data. In this case, the engine
-#'   should have `namer = function(name) paste0(name, "_data")`.
-#'   That way, when the user interactively runs a
-#'   `{tar_stan_mcmc target_name}` code chunk, the
-#'   engine will assign the return value to a variable named
-#'   `target_name_data`.
 #' @param prototype Logical of length 1, whether to run in interactive
 #'   prototype mode (`TRUE`) or non-interactive
 #'   pipeline construction mode (`FALSE`).
+#' @param format_name Character of length 1 supplied to the
+#'   `fmt` argument to `sprintf()` to create the variable
+#'   name to assign to the value in prototype/interactive mode.
+#'   Should have a single `%s` placeholder to mark where to insert
+#'   the chunk label.
 tar_engine_target <- function(
   options,
   package = "targets",
   factory = "tar_target",
   code = "command",
-  namer = identity,
-  prototype = interactive()
+  prototype = interactive(),
+  format_name = "%s"
 ) {
   assert_list(options, "chunk options must be a list.")
   assert_nonempty(names(options), "chunk options list must be named.")
@@ -78,14 +70,18 @@ tar_engine_target <- function(
   assert_chr(factory, "factory must be a character.")
   assert_chr(code, "code must be a character.")
   assert_lgl(prototype, "interactive must be logical.")
+  assert_chr(format_name, "format_name must be a character.")
   assert_scalar(package, "package must have length 1.")
   assert_scalar(factory, "factory must have length 1.")
   assert_scalar(code, "code must have length 1.")
   assert_scalar(prototype, "interactive must have length 1.")
-  assert_function(namer, "namer must be a function.")
+  assert_scalar(format_name, "format_name must have length 1.")
   if_any(
     prototype,
-    tar_engine_target_interactive(options = options, namer = namer),
+    tar_engine_target_interactive(
+      options = options,
+      format_name = format_name
+    ),
     tar_engine_target_noninteractive(
       options = options,
       package = package,
@@ -95,9 +91,9 @@ tar_engine_target <- function(
   )
 }
 
-tar_engine_target_interactive <- function(options, namer) {
+tar_engine_target_interactive <- function(options, format_name) {
   assert_package("knitr")
-  name <- namer(options$label)
+  name <- sprintf(format_name, options$label)
   envir_knitr <- knitr::knit_global()
   envir <- new.env(parent = envir_knitr)
   expr <- parse(text = options$code)
