@@ -40,11 +40,14 @@ tar_engine_globals_noninteractive <- function(options) {
 }
 
 tar_engine_targets_interactive <- function(options) {
-  
+  throw_validate("Need tar_make_interactive() for this.")
 }
 
 tar_engine_targets_noninteractive <- function(options) {
-  
+  write_targets_r()
+  write_targets_r_targets(options$label, options$code)
+  out <- paste("Wrote _targets.R and", path_script_r_targets(options$label))
+  tar_engine_output(options, out)
 }
 
 tar_engine_output <- function(options, out) {
@@ -83,81 +86,3 @@ warn_duplicate_labels <- function() {
     )
   }
 }
-
-
-
-
-
-
-
-
-
-
-#   if_any(
-#     prototype,
-#     tar_engine_target_interactive(
-#       options = options,
-#       format_name = format_name
-#     ),
-#     tar_engine_target_noninteractive(
-#       options = options,
-#       package = package,
-#       factory = factory,
-#       code = code
-#     )
-#   )
-# }
-# 
-# 
-# 
-# tar_engine_target_interactive <- function(options, format_name) {
-#   assert_package("knitr")
-#   name <- sprintf(format_name, options$label)
-#   envir_knitr <- knitr::knit_global()
-#   envir <- new.env(parent = envir_knitr)
-#   expr <- parse(text = options$code)
-#   tidy_eval <- options$tidy_eval %|||% TRUE
-#   expr <- tar_tidy_eval(expr = expr, envir = envir, tidy_eval = tidy_eval)
-#   value <- eval(expr, envir = envir)
-#   assign(x = name, value = value, envir = envir_knitr)
-#   out <- paste0(
-#     "Assigned return value to variable ",
-#     name,
-#     ". Local variables dropped."
-#   )
-#   options$eval <- FALSE
-#   knitr::engine_output(options = options, code = options$code, out = out)
-# }
-# 
-# tar_engine_target_noninteractive <- function(
-#   options,
-#   package,
-#   factory,
-#   code
-# ) {
-#   write_targets_r()
-#   # TODO: better name conflict handling
-#   if (is.logical(options$error)) {
-#     options$error <- NULL
-#   }
-#   fun_name <- paste0(package, "::", factory)
-#   fun <- get(factory, envir = getNamespace(package))
-#   # TODO: create better target definition text.
-#   lines <- c(
-#     options$label,
-#     paste(code, "= {", options[[code]]),
-#     "}"
-#   )
-#   for (arg in intersect(names(options), names(formals(fun)))) {
-#     lines <- c(lines, paste(arg, "=", options[[arg]]))
-#   }
-#   # TODO: write to actual file.
-#   writeLines(lines, "~/Desktop/lines.txt")
-#   out <- paste0(
-#     "Wrote ", factory, "() ", options$label, " to file."
-#   )
-#   options$eval <- FALSE
-#   knitr::engine_output(options = options, code = options$code, out = out)
-# }
-# 
-
