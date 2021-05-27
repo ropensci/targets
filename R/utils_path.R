@@ -6,6 +6,10 @@ path_script_basename <- function() {
   "_targets.R"
 }
 
+path_script_r <- function() {
+  "_targets_r"
+}
+
 path_store <- function() {
   tar_config$get_value(name = "store") %|||% path_store_default()
 }

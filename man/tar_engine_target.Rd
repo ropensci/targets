@@ -9,8 +9,8 @@ tar_engine_target(
   package = "targets",
   factory = "tar_target",
   code = "command",
-  namer = identity,
-  prototype = interactive()
+  prototype = interactive(),
+  format_name = "\%s"
 )
 }
 \arguments{
@@ -27,23 +27,15 @@ but could be an alternative factory such as \code{"tar_render"}
 \item{code}{Character of length 1, name of a formal argument
 to the target factory to insert the code from the chunk.}
 
-\item{namer}{A function that accepts a character
-argument of length 1 and returns a character of length 1.
-In interactive mode, the engine usually assigns
-the chunk's return value to a variable whose name is the chunk name.
-This practice does not make sense for all target factories.
-For example, \code{stantargets::tar_stan_mcmc(target_name, ...)}
-creates many different targets, and the user-supplied R command
-generates the upstream Stan data. In this case, the engine
-should have \code{namer = function(name) paste0(name, "_data")}.
-That way, when the user interactively runs a
-\verb{\{tar_stan_mcmc target_name\}} code chunk, the
-engine will assign the return value to a variable named
-\code{target_name_data}.}
-
 \item{prototype}{Logical of length 1, whether to run in interactive
 prototype mode (\code{TRUE}) or non-interactive
 pipeline construction mode (\code{FALSE}).}
+
+\item{format_name}{Character of length 1 supplied to the
+\code{fmt} argument to \code{sprintf()} to create the variable
+name to assign to the value in prototype/interactive mode.
+Should have a single \verb{\%s} placeholder to mark where to insert
+the chunk label.}
 }
 \description{
 \code{knitr} engine to prototype and construct
