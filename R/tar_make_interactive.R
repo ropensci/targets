@@ -30,7 +30,7 @@ tar_make_interactive <- function(code) {
 
 tar_make_interactive_load <- function(name, pipeline) {
   target <- pipeline_get_target(pipeline, name)
-  target_ensure_value(target, pipeline)
+  target_load_value(target, pipeline)
   object <- target$value$object
   assign(x = name, value = object, envir = tar_option_get("envir"))
 }
