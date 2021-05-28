@@ -72,6 +72,8 @@ the results.
 
 ## Recorded talks
 
+### English
+
   - [R/Pharma 2020
     (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
   - [LA R Users Meetup, October 2020
@@ -80,6 +82,11 @@ the results.
     (1:54:28)](https://youtu.be/Gqn7Xn4d5NI)
   - [ds-incubator
     series, 2021](https://www.youtube.com/playlist?list=PLvgdJdJDL-APJqHy5CXs6m4N7hUVp5rb4)
+
+### Español
+
+  - [R-Ladies Barcelona, 2021-05-25
+    (1:25:12)](https://www.youtube.com/watch?v=Vj312AfdpBo).
 
 ## Documentation
 
