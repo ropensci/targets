@@ -86,13 +86,19 @@ tar_make()
 
 Then, you can retrieve output from the `_targets/` data store using `tar_read()` or `tar_load()`.
 
-```{r}
+```{r, message = FALSE}
 library(biglm)
 tar_read(fit)
 ```
 
 ```{r}
 tar_read(hist)
+```
+
+The `targets` dependency graph helps your readers understand the steps of your pipeline at a high level.
+
+```{r}
+tar_visnetwork()
 ```
 
 At this point, if you go back and run <code>```{targets}```</code> code chunks in interactive mode, this will not interfere with any scripts or data created in non-interactive mode.
