@@ -29,7 +29,10 @@ tar_engine_targets <- function(options, prototype) {
 
 tar_engine_globals_prototype <- function(options) {
   eval(parse(text = options$code), envir = tar_option_get("envir"))
-  tar_engine_output(options, "Created new globals accessible by all targets.")
+  tar_engine_output(
+    options,
+    "Assigned global variables to the environment."
+  )
 }
 
 tar_engine_globals_construct <- function(options) {
@@ -40,7 +43,11 @@ tar_engine_globals_construct <- function(options) {
 }
 
 tar_engine_targets_prototype <- function(options) {
-  throw_validate("Need tar_make_prototype() for this.")
+  tar_make_interactive(options$code)
+  tar_engine_output(
+    options,
+    "Ran targets and assigned them to the environment."
+  )
 }
 
 tar_engine_targets_construct <- function(options) {
