@@ -6,6 +6,26 @@ path_script_basename <- function() {
   "_targets.R"
 }
 
+path_script_r <- function() {
+  "_targets_r"
+}
+
+path_script_r_globals_dir <- function() {
+  file.path(path_script_r(), "globals")
+}
+
+path_script_r_globals <- function(name) {
+  file.path(path_script_r_globals_dir(), paste0(name, ".R"))
+}
+
+path_script_r_targets_dir <- function() {
+  file.path(path_script_r(), "targets")
+}
+
+path_script_r_targets <- function(name) {
+  file.path(path_script_r_targets_dir(), paste0(name, ".R"))
+}
+
 path_store <- function() {
   tar_config$get_value(name = "store") %|||% path_store_default()
 }

@@ -8,6 +8,9 @@
 
 * Add a limited-scope `exclude` argument to `tar_watch()` and `tar_watch_server()` (#458, @gorkang).
 * Write a `.gitignore` file to ignore everything in `_targets/meta/` except `.gitignore` and `_targets/meta/meta`.
+* Target Markdown: add `knitr` engines for pipeline construction and prototyping from within literate programming documents (#469, @cderv, @nviets, @emilyriederer, @ijlyttle, @GShotwell, @gadenbuie, @tomsing1). Huge thanks to @cderv on this one for answering my deluge of questions, helping me figure out what was and was not possible in `knitr`, and ultimately circling me back to a successful approach.
+* Add an RStudio R Markdown template for Target Markdown (#469).
+* Implement `tar_unscript()` to clean up scripts written by Target Markdown.
 
 ## Enhancements
 
@@ -18,6 +21,7 @@
 * Handle errors and post failure artifacts in the Github Actions YAML file.
 * Rewrite the documentation on invalidation rules in `tar_cue()` (@maelle).
 * Drop `dplyr` groups and `"grouped_df"` class in `tar_group()` (`tarchetypes` discussion #53, @kendonB).
+* Assign branch names to dynamic branching return values produced by `tar_read()` and `tar_read_raw()`.
 
 # targets 0.4.2
 

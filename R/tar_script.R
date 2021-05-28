@@ -82,7 +82,7 @@ tar_script <- function(
 
 example_target_script <- function() {
   path <- system.file(
-    path_script_basename(),
+    file.path("pipelines", "example.R"),
     package = "targets",
     mustWork = TRUE
   )

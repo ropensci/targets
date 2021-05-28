@@ -28,4 +28,8 @@ produce_seed <- function(scalar) {
   digest::digest2int(as.character(scalar), seed = 0L)
 }
 
+files_identical <- function(file1, file2) {
+  identical(digest_file64(file1), digest_file64(file2))
+}
+
 null64 <- digest_obj64(NULL)

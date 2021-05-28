@@ -35,9 +35,9 @@ tar_test("tar_read() on patterns with vector iteration", {
     )
   )
   local_init(pipeline = pipeline)$run()
-  expect_equal(tar_read(y), letters[seq_len(4L)])
+  expect_equal(unname(tar_read(y)), letters[seq_len(4L)])
   out <- tar_read(y, branches = c(2L, 3L))
-  expect_equal(out, letters[c(2L, 3L)])
+  expect_equal(unname(out), letters[c(2L, 3L)])
   expect_error(tar_read(y, branches = 99L), class = "tar_condition_validate")
 })
 
@@ -49,5 +49,5 @@ tar_test("tar_read() on patterns with list iteration", {
     )
   )
   local_init(pipeline = pipeline)$run()
-  expect_equal(tar_read(y), as.list(letters[seq_len(4L)]))
+  expect_equal(unname(tar_read(y)), as.list(letters[seq_len(4L)]))
 })

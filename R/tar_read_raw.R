@@ -65,6 +65,7 @@ read_pattern <- function(name, record, meta, branches) {
   }
   records <- map_rows(meta, ~record_from_row(.x))
   objects <- lapply(records, read_builder)
+  names(objects) <- names
   value <- value_init(iteration = record$iteration)
   value_produce_aggregate(value, objects)
 }
