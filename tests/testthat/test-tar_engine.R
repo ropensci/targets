@@ -76,3 +76,22 @@ tar_test("tar_engine() prototype targets", {
   expect_false(file.exists(path_script_r_globals_dir()))
   expect_false(file.exists(path_script_r_targets("test")))
 })
+
+tar_test("tar_engine() warning if duplicate chunk labels allowed", {
+  skip_if_not_installed("knitr")
+  option <- getOption("knitr.duplicate.label")
+  on.exit(options(knitr.duplicate.label = option))
+  options(knitr.duplicate.label = "allow")
+  options <- list(
+    code = "x <- \"a\"",
+    echo = FALSE,
+    engine = "targets",
+    label = "test",
+    results = "hide",
+    targets = FALSE
+  )
+  expect_warning(
+    tar_engine(options, prototype = FALSE),
+    class = "tar_condition_validate"
+  )
+})
