@@ -16,3 +16,8 @@ the underlying code and data. The methodology in this package
 borrows from GNU Make (2015, ISBN:978-9881443519)
 and \code{drake} by Will Landau (2018, \doi{doi:10.21105/joss.00550}).
 }
+\seealso{
+Other help: 
+\code{\link{use_targets}()}
+}
+\concept{help}

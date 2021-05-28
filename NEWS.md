@@ -10,6 +10,7 @@
 * Write a `.gitignore` file to ignore everything in `_targets/meta/` except `.gitignore` and `_targets/meta/meta`.
 * Target Markdown: add `knitr` engines for pipeline construction and prototyping from within literate programming documents (#469, @cderv, @nviets, @emilyriederer, @ijlyttle, @GShotwell, @gadenbuie, @tomsing1). Huge thanks to @cderv on this one for answering my deluge of questions, helping me figure out what was and was not possible in `knitr`, and ultimately circling me back to a successful approach.
 * Add an RStudio R Markdown template for Target Markdown (#469).
+* Implement `use_targets()`, which writes the Target Markdown template to the project root (#469).
 * Implement `tar_unscript()` to clean up scripts written by Target Markdown.
 
 ## Enhancements

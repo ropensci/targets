@@ -40,6 +40,12 @@ First, load `targets` to activate the specialized `knitr` engine for Target Mark
 library(targets)
 ```
 
+Optionally set the `root.dir` `knitr` option to invoke all the code chunks from the directory of your choice.
+
+```{r, eval = FALSE}
+knitr::opts_knit$set(root.dir = getwd()) # Can be a different directory.
+```
+
 Near the top, you may also wish to remove the `_targets_r` directory where Target Markdown writes scripts in non-interactive mode. That way, you will get rid of any old superfluous target definitions you may have created in obsolete versions of your R Markdown report.
 
 ```{r}

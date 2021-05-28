@@ -11,6 +11,7 @@
 #'   borrows from GNU Make (2015, ISBN:978-9881443519)
 #'   and `drake` by Will Landau (2018, \doi{doi:10.21105/joss.00550}).
 #' @name targets-package
+#' @family help
 #' @importFrom callr r r_bg
 #' @importFrom cli cli_alert_info col_green make_spinner symbol
 #' @importFrom codetools findGlobals
