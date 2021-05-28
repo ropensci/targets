@@ -3,7 +3,11 @@ title: "Target Markdown"
 output: html_document
 ---
 
-Target Markdown is a powerful interface to the `targets` R package for reproducible analysis pipelines. In interactive mode (the green arrow to the right-hand side of the chunk in RStudio) specialized code chunks test and prototype your pipeline without modifying the `_targets` data store. In non-interactive mode (the Knit button in RStudio) these code chunks write scripts to define your pipeline, allowing you to work entirely inside a single R Markdown file.
+Target Markdown, available in `targets` > 0.4.2.9000, is a powerful R Markdown interface for reproducible analysis pipelines. With Target Markdown, you can define a fully scalable pipeline from a single R Markdown document. You get the best of both worlds: the human readable narrative of literate programming, and the superior caching and dependency management systems of `targets`.
+
+# Access
+
+This example Target Markdown report is available as a chapter in the `targets` user manual: https://books.ropensci.org/targets/markdown.html. In addition, you can open a copy for editing through  RStudio R Markdown template system: https://rstudio.github.io/rstudio-extensions/rmarkdown_templates.html.
 
 # Example
 
