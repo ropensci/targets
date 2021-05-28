@@ -3,6 +3,10 @@ title: "Target Markdown"
 output: html_document
 ---
 
+```{r setup}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
 Target Markdown, available in `targets` > 0.4.2.9000, is a powerful R Markdown interface for reproducible analysis pipelines. With Target Markdown, you can define a fully scalable pipeline from a single R Markdown document. You get the best of both worlds: the human readable narrative of literate programming, and the sophisticated caching and dependency management systems of `targets`.
 
 # Access
@@ -17,7 +21,7 @@ This example of Target Markdown is based on the minimal `targets` example from h
 
 First, load `targets` to activate the specialized `knitr` engine for Target Markdown.
 
-```{r, setup}
+```{r}
 library(targets)
 ```
 
