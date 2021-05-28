@@ -36,3 +36,5 @@
 ^paper\.md$
 ^paper\.bib$
 _packages.R
+^targets\.Rmd$
+
