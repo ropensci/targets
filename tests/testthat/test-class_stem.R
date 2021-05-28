@@ -303,7 +303,7 @@ tar_test("branches can use old buds if continuing on error", {
   buds <- tar_meta(y, children)$children[[1]]
   expect_equal(length(unique(buds)), 3L)
   expect_true(all(grepl("y_", buds)))
-  expect_equal(tar_read(y), seq_len(3))
+  expect_equal(unname(tar_read(y)), seq_len(3))
 })
 
 tar_test("branches can use old buds if stem is canceled", {
@@ -325,7 +325,7 @@ tar_test("branches can use old buds if stem is canceled", {
   buds <- tar_meta(y, children)$children[[1]]
   expect_equal(length(unique(buds)), 3L)
   expect_true(all(grepl("y_", buds)))
-  expect_equal(tar_read(y), seq_len(3))
+  expect_equal(unname(tar_read(y)), seq_len(3))
 })
 
 tar_test("branches can use old buds if stem is canceled (worker storage)", {
@@ -347,7 +347,7 @@ tar_test("branches can use old buds if stem is canceled (worker storage)", {
   buds <- tar_meta(y, children)$children[[1]]
   expect_equal(length(unique(buds)), 3L)
   expect_true(all(grepl("y_", buds)))
-  expect_equal(tar_read(y), seq_len(3))
+  expect_equal(unname(tar_read(y)), seq_len(3))
 })
 
 tar_test("packages load errors are recorded (#228)", {

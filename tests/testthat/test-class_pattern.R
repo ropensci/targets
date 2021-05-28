@@ -710,7 +710,7 @@ tar_test("head pattern in pipeline", {
     )
   })
   tar_make(callr_function = NULL)
-  expect_equal(tar_read(dynamic), seq_len(2))
+  expect_equal(unname(tar_read(dynamic)), seq_len(2))
 })
 
 tar_test("tail pattern in pipeline", {
@@ -721,7 +721,7 @@ tar_test("tail pattern in pipeline", {
     )
   })
   tar_make(callr_function = NULL)
-  expect_equal(tar_read(dynamic), tail(seq_len(26), 2))
+  expect_equal(unname(tar_read(dynamic)), tail(seq_len(26), 2))
 })
 
 tar_test("sample pattern in pipeline", {
