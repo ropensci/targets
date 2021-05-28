@@ -131,6 +131,6 @@ tar_test("profile heavily parallel workload", {
   # Should deploy targets in a timely manner.
   proffer::pprof(tar_make_clustermq(workers = 4, callr_function = NULL))
   expect_equal(tar_outdated(callr_function = NULL), character(0))
-  expect_equal(tar_read(fit_continuous), seq_len(100))
-  expect_equal(tar_read(fit_discrete), seq_len(100))
+  expect_equal(unname(tar_read(fit_continuous)), seq_len(100))
+  expect_equal(unname(tar_read(fit_discrete)), seq_len(100))
 })
