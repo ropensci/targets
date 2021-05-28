@@ -3,7 +3,7 @@ title: "Target Markdown"
 output: html_document
 ---
 
-```{r setup}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
@@ -95,7 +95,9 @@ In non-interactive mode, the above <code>```{targets}```</code> code chunks only
 tar_make()
 ```
 
-Then, you can retrieve output from the `_targets/` data store using `tar_read()` or `tar_load()`.
+# Inspect the output
+
+You can retrieve results from the `_targets/` data store using `tar_read()` or `tar_load()`.
 
 ```{r, message = FALSE}
 library(biglm)
