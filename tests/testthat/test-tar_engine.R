@@ -95,3 +95,9 @@ tar_test("tar_engine() warning if duplicate chunk labels allowed", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("tar_engine_set()", {
+  tar_engine_set()
+  engine_names <- names(knitr::knit_engines$get())
+  expect_true("targets" %in% engine_names)
+})
