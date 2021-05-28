@@ -3,6 +3,14 @@ tar_engine <- function(options, prototype = interactive()) {
   assert_list(options, "knitr chunk options must be a list.")
   assert_chr(options$label, "knitr chunk must have a label")
   assert_nzchar(options$label, "knitr chunk label must not be empty")
+  assert_scalar(
+    options$targets %|||% TRUE,
+    "targets chunk option must either be NULL or have length 1."
+  )
+  assert_scalar(
+    options$targets %|||% TRUE,
+    "targets chunk option must either be NULL or logical."
+  )
   warn_duplicate_labels()
   if_any(
     identical(options$targets, FALSE),
@@ -31,7 +39,7 @@ tar_engine_globals_prototype <- function(options) {
   eval(parse(text = options$code), envir = tar_option_get("envir"))
   tar_engine_output(
     options,
-    "Assigned global variables to the environment."
+    "Assigned objects to the environment."
   )
 }
 

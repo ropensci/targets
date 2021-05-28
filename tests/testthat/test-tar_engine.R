@@ -9,6 +9,7 @@ tar_test("tar_engine() construct globals", {
     targets = FALSE
   )
   tar_engine(options, prototype = FALSE)
+  expect_false(file.exists(path_store()))
   expect_true(file.exists(path_script()))
   expect_false(file.exists(path_script_r_targets_dir()))
   expect_true(file.exists(path_script_r_globals("test")))
@@ -32,6 +33,7 @@ tar_test("tar_engine() prototype globals", {
   tar_option_set(envir = envir)
   expect_false(exists("x", envir = envir, inherits = FALSE))
   tar_engine(options, prototype = TRUE)
+  expect_false(file.exists(path_store()))
   expect_false(file.exists(path_script()))
   expect_false(file.exists(path_script_r_targets_dir()))
   expect_false(file.exists(path_script_r_globals("test")))
@@ -50,6 +52,7 @@ tar_test("tar_engine() construct targets", {
     targets = TRUE
   )
   tar_engine(options, prototype = FALSE)
+  expect_false(file.exists(path_store()))
   expect_true(file.exists(path_script()))
   expect_false(file.exists(path_script_r_globals_dir()))
   expect_true(file.exists(path_script_r_targets("test")))

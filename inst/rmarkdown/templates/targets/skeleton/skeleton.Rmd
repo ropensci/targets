@@ -1,0 +1,94 @@
+---
+title: "Target Markdown"
+output: html_document
+---
+
+Target Markdown is a powerful interface to the `targets` R package for reproducible analysis pipelines. In interactive mode (the green arrow to the right-hand side of the chunk in RStudio) specialized code chunks test and prototype your pipeline without modifying the `_targets` data store. In non-interactive mode (the Knit button in RStudio) these code chunks write scripts to define your pipeline, allowing you to work entirely inside a single R Markdown file.
+
+# Example
+
+This example of Target Markdown is based on the minimal `targets` example from https://github.com/wlandau/targets-minimal/. In interactive mode, the code chunks test and prototype a simplistic air quality data flow. In non-interactive mode, a special `knitr` engine overwrites the `_targets.R` file and supporting function scripts analogous to https://github.com/wlandau/targets-minimal/blob/main/_targets.R and https://github.com/wlandau/targets-minimal/blob/main/R/functions.R, respectively. 
+
+# Setup
+
+First, load `targets` to activate the specialized `knitr` engine for Target Markdown.
+
+```{r, setup}
+library(targets)
+```
+
+Near the top, you may also wish to remove the `_targets_r` directory where Target Markdown writes scripts in non-interactive mode. That way, you will get rid of any old superfluous target definitions you may have created in obsolete versions of your R Markdown report.
+
+```{r}
+tar_unscript()
+```
+
+# Globals
+
+As usual, your targets depend on custom functions, global objects, and `tar_option_set()` options you define ahead of time. Write one or more code chunks using the `targets` engine with the `targets = FALSE` chunk option. In interactive mode, the chunk simply runs in the `tar_option_get("envir")` environment (usually the global environment). In non-interactive mode, the chunk overwrites the `_targets.R` file and writes a new file in `_targets_r/globals/chunk_name.R`.
+
+```{targets chunk_name, targets = FALSE}
+options(tidyverse.quiet = TRUE)
+tar_option_set(packages = c("biglm", "dplyr", "ggplot2", "readr", "tidyr"))
+create_plot <- function(data) {
+  ggplot(data) +
+    geom_histogram(aes(x = Ozone), bins = 12) +
+    theme_gray(24)
+}
+```
+
+# Targets
+
+To define targets for the workflow, use the `targets` engine with the `targets` chunk option equal to `TRUE` or `NULL` (default). The return value of the chunk must be a target object or a list of multiple target objects, created by `tar_target()` or similar function.
+
+Below, we define a target to establish the air quality dataset. If you run this chunk in interactive mode, the engine runs this target, tests if the output can be saved and loaded from disk correctly, and then stores the output in the `tar_option_get("envir")` environment (usually the global environment). None of this interferes with any existing `_targets/` data store you may already have, but any custom `format = "file"` output files outside the data store may be modified. In non-interactive mode, the chunk overwrites the `_targets.R` file and writes an new file in `_targets_r/targets/chunk_name_with_target.R`
+
+```{targets chunk_name_with_target}
+tar_target(raw_data, airquality)
+```
+At this point in interactive mode, you can print out the `raw_data` object in the R console. In non-interactive mode, the pipeline is only defined, not executed, so `raw_data` may not exist yet.
+
+```{r runs_only_if_interactive, eval = FALSE}
+head(raw_data)
+```
+
+Next, we define more targets to process the raw data, plot a histogram, and fit a model. Remember: when it comes to targets in the pipeline, only the return value of the chunk registers properly. So if you define multiple targets in a single chunk, please wrap them in a list.
+
+```{targets downstream}
+list(
+  tar_target(data, raw_data %>% filter(!is.na(Ozone))),
+  tar_target(hist, create_plot(data)),
+  tar_target(fit, biglm(Ozone ~ Wind + Temp, data))
+)
+```
+
+In interactive mode, it is good practice to inspect the outputs to make sure they ran properly. Remember: in interactive mode, these results do not exist in storage, and they will evaporate when you restart your R session.
+
+```{r, eval = FALSE}
+fit
+```
+
+```{r, eval = FALSE}
+hist
+```
+
+# Run the pipeline
+
+In non-interactive mode, the above <code>```{targets}```</code> code chunks only write R code to `_targets.R` and `_targets_r/`, they do not actually run the code or run the pipeline. To actually run the pipeline in non-interactive mode, call `tar_make()` or similar in an ordinary R code chunk. If this is not the first time you are running this report, you may see some up-to-date targets automatically skip to reduce runtime. The dependency management and caching systems in `targets` are highly recommended over the less developed `autodep` and caching features of `knitr`.
+
+```{r}
+tar_make()
+```
+
+Then, you can retrieve output from the `_targets/` data store using `tar_read()` or `tar_load()`.
+
+```{r}
+library(biglm)
+tar_read(fit)
+```
+
+```{r}
+tar_read(hist)
+```
+
+At this point, if you go back and run <code>```{targets}```</code> code chunks in interactive mode, this will not interfere with any scripts or data created in non-interactive mode.
