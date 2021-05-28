@@ -50,7 +50,7 @@ tar_script({
   )
 })
 tar_make_clustermq(workers = 4L, reporter = "timestamp", callr_function = NULL)
-expect_equal(tar_read(x4), c(0, 0, 0, 5))
+expect_equal(unname(tar_read(x4)), c(0, 0, 0, 5))
 expect_equal(tar_progress_branches()$built, c(4, 4, 4))
 tar_destroy()
 
