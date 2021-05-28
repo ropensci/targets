@@ -24,6 +24,14 @@ Target Markdown defines a new <code>```{targets}```</code> language engine for `
 
 This example of Target Markdown is based on the minimal `targets` example from https://github.com/wlandau/targets-minimal/. It processes R's built-in `airquality` dataset, fits a model, and displays a histogram of ozone concentration.
 
+# Packages
+
+This example requires several R packages, and `targets` must be version 0.4.2.9000 or above. 
+
+```{r, eval = FALSE}
+install.packages(c("biglm", "dplyr", "ggplot2", "readr", "targets", "tidyr"))
+```
+
 # Setup
 
 First, load `targets` to activate the specialized `knitr` engine for Target Markdown.
