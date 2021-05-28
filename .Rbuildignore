@@ -23,7 +23,9 @@
 ^\.Rproj\.user$
 ^_pkgdown\.yml$
 ^_targets$
+^_targets_r$
 ^_targets\.R$
+^_targets\.Rmd$
 ^_targets\.yaml$
 ^docs$
 ^CODE_OF_CONDUCT.md$
@@ -36,5 +38,3 @@
 ^paper\.md$
 ^paper\.bib$
 _packages.R
-^targets\.Rmd$
-

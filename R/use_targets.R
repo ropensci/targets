@@ -15,7 +15,7 @@
 #' use_targets(open = FALSE)
 #' })
 #' }
-use_targets <- function(path = "targets.Rmd", open = interactive()) {
+use_targets <- function(path = "_targets.Rmd", open = interactive()) {
   # Covered in tests/interactive/test-use_targets.R.
   # nocov start
   assert_package("usethis")

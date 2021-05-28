@@ -4,7 +4,7 @@
 \alias{use_targets}
 \title{Use targets}
 \usage{
-use_targets(path = "targets.Rmd", open = interactive())
+use_targets(path = "_targets.Rmd", open = interactive())
 }
 \arguments{
 \item{path}{Character of length 1, output path of the
