@@ -13,9 +13,16 @@ Target Markdown, available in `targets` > 0.4.2.9000, is a powerful R Markdown i
 
 This example Target Markdown report is available as a chapter in the `targets` user manual: https://books.ropensci.org/targets/markdown.html. In addition, you can open a copy for editing through RStudio R Markdown template system: https://rstudio.github.io/rstudio-extensions/rmarkdown_templates.html.
 
+# Modes
+
+Target Markdown defines a new <code>```{targets}```</code> language engine for `knitr`. This engine has two different modes.
+
+1. Interactive mode: when you open a report in the RStudio IDE, the notebook interface (https://bookdown.org/yihui/rmarkdown/notebook.html) shows a green play button on the right-hand side of every code chunk. If you click this green button next to a <code>```{targets}```</code> code chunk, you are running it in interactive mode. This mode is for prototyping and testing groups of targets. It runs the correct targets in the correct order, tests if the targets can be saved and loaded correctly, and assigns those targets to objects in memory (the `tar_option_get("envir")` environment, usually `globalenv()`). It does not interfere with any R scripts or `_targets/` output data saved locally, though it may modify your file system if you wrote special code in the targets' commands to create output files.
+2. Non-interactive mode: when you run the report with the Knit button in RStudio or call `rmarkdown::render()` in the R console, you are running the report in non-interactive mode. In non-interactive mode, the <code>```{targets}```</code> engine overwrites `_targets.R` and writes special scripts in a special `_targets_r/` folder to construct the pipeline. Non-interactive does not actually run any of the code in the code chunks, so you will need to call `tar_make()` or similar in subsequent R code chunks to actually run the pipeline.
+
 # Example
 
-This example of Target Markdown is based on the minimal `targets` example from https://github.com/wlandau/targets-minimal/. In interactive mode, the code chunks test and prototype a simplistic air quality data flow. In non-interactive mode, a special `knitr` engine overwrites the `_targets.R` file and supporting function scripts analogous to https://github.com/wlandau/targets-minimal/blob/main/_targets.R and https://github.com/wlandau/targets-minimal/blob/main/R/functions.R, respectively. 
+This example of Target Markdown is based on the minimal `targets` example from https://github.com/wlandau/targets-minimal/. It processes R's built-in `airquality` dataset, fits a model, and displays a histogram of ozone concentration.
 
 # Setup
 
@@ -33,7 +40,7 @@ tar_unscript()
 
 # Globals
 
-As usual, your targets depend on custom functions, global objects, and `tar_option_set()` options you define ahead of time. Write one or more code chunks using the `targets` engine with the `targets = FALSE` chunk option. In interactive mode, the chunk simply runs in the `tar_option_get("envir")` environment (usually the global environment). In non-interactive mode, the chunk overwrites the `_targets.R` file and writes a new file in `_targets_r/globals/chunk-name.R`.^[For `bookdown` projects, chunk labels should only use alphaneumeric characters and dashes.]
+As usual, your targets depend on custom functions, global objects, and `tar_option_set()` options you define ahead of time. Write one or more code chunks using the `targets` engine with the `targets = FALSE` chunk option. In interactive mode, the chunk simply runs in the `tar_option_get("envir")` environment (usually the global environment). In non-interactive mode, the chunk overwrites the `_targets.R` file and writes a new file in `_targets_r/globals/chunk-name.R`.^[For `bookdown` projects, chunk labels should only use alphanumeric characters and dashes.]
 
 ```{targets chunk-name, targets = FALSE}
 options(tidyverse.quiet = TRUE)
