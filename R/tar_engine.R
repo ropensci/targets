@@ -96,6 +96,6 @@ warn_duplicate_labels <- function() {
 
 tar_engine_set <- function() {
   if (requireNamespace("knitr", quietly = TRUE)) {
-    knitr::knit_engines$set(targets = function(options) tar_engine(options, F))
+    knitr::knit_engines$set(targets = function(options) tar_engine(options))
   }
 }
