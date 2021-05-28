@@ -160,10 +160,10 @@ tar_test("aws_qs format and dynamic branching", {
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
-  expect_equal(tar_read(x), seq_len(2))
-  expect_equal(tar_read(y, branches = 1), 10L)
-  expect_equal(tar_read(y, branches = 2), 20L)
-  expect_equal(tar_read(z), 30L)
+  expect_equal(unname(tar_read(x)), seq_len(2))
+  expect_equal(unname(tar_read(y, branches = 1)), 10L)
+  expect_equal(unname(tar_read(y, branches = 2)), 20L)
+  expect_equal(unname(tar_read(z)), 30L)
 })
 
 tar_test("aws timestamp", {
