@@ -1,35 +1,46 @@
-tar_engine <- function(options, prototype = interactive()) {
+tar_engine <- function(options) {
   assert_package("knitr")
   assert_list(options, "knitr chunk options must be a list.")
   assert_chr(options$label, "knitr chunk must have a label")
   assert_nzchar(options$label, "knitr chunk label must not be empty")
-  assert_scalar(
-    options$targets %|||% TRUE,
-    "targets chunk option must either be NULL or have length 1."
-  )
-  assert_scalar(
-    options$targets %|||% TRUE,
-    "targets chunk option must either be NULL or logical."
-  )
+  if (!is.null(options$targets)) {
+    warn_deprecate(
+      "In Target Markdown, the `targets` chunk option is deprecated.",
+      "Set the chunk option tar_globals = TRUE to define functions, ",
+      "global objects, and settings. To define targets, ",
+      "either set tar_globals = FALSE or leave tar_globals unset."
+    )
+    options$tar_globals <- options$tar_globals %|||% options$targets
+  }
+  for (option in c("tar_globals", "tar_interactive")) {
+    assert_scalar(
+      options[[option]] %|||% TRUE,
+      paste(option, "chunk option must either be NULL or have length 1.")
+    )
+    assert_scalar(
+      options[[option]] %|||% TRUE,
+      paste(option, "chunk option must either be NULL or logical.")
+    )
+  }
   warn_duplicate_labels()
   if_any(
-    identical(options$targets, FALSE),
-    tar_engine_globals(options, prototype),
-    tar_engine_targets(options, prototype)
+    identical(options$tar_globals, TRUE),
+    tar_engine_globals(options),
+    tar_engine_targets(options)
   )
 }
 
-tar_engine_globals <- function(options, prototype) {
+tar_engine_globals <- function(options) {
   if_any(
-    prototype,
+    options$tar_interactive %|||% interactive(),
     tar_engine_globals_prototype(options),
     tar_engine_globals_construct(options)
   )
 }
 
-tar_engine_targets <- function(options, prototype) {
+tar_engine_targets <- function(options) {
   if_any(
-    prototype,
+    options$tar_interactive %|||% interactive(),
     tar_engine_targets_prototype(options),
     tar_engine_targets_construct(options)
   )
@@ -67,6 +78,7 @@ tar_engine_targets_construct <- function(options) {
 
 tar_engine_output <- function(options, out) {
   code <- paste(options$code, collapse = "\n")
+  options$engine <- "r"
   knitr::engine_output(options = options, code = code, out = out)
 }
 

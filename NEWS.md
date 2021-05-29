@@ -1,3 +1,17 @@
+# targets 0.5.0.9000
+
+## New features
+
+* In Target Markdown, add a new `tar_interactive` global option to select interactive mode or non-interactive mode (#469).
+
+## Deprecations
+
+* In Target Markdown, deprecate the `targets` chunk option in favor of `tar_globals` (#469).
+
+## Enhancements
+
+* Simplify the Target Markdown example.
+
 # targets 0.5.0
 
 ## Bug fixes

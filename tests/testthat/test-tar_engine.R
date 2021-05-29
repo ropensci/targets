@@ -6,9 +6,10 @@ tar_test("tar_engine() construct globals", {
     engine = "targets",
     label = "test",
     results = "hide",
-    targets = FALSE
+    tar_globals = TRUE,
+    tar_interactive = FALSE
   )
-  tar_engine(options, prototype = FALSE)
+  tar_engine(options)
   expect_false(file.exists(path_store()))
   expect_true(file.exists(path_script()))
   expect_false(file.exists(path_script_r_targets_dir()))
@@ -25,14 +26,15 @@ tar_test("tar_engine() prototype globals", {
     engine = "targets",
     label = "test",
     results = "hide",
-    targets = FALSE
+    tar_globals = TRUE,
+    tar_interactive = TRUE
   )
   envir <- new.env(parent = baseenv())
   old <- tar_option_get("envir")
   on.exit(tar_option_set(envir = old))
   tar_option_set(envir = envir)
   expect_false(exists("x", envir = envir, inherits = FALSE))
-  tar_engine(options, prototype = TRUE)
+  tar_engine(options)
   expect_false(file.exists(path_store()))
   expect_false(file.exists(path_script()))
   expect_false(file.exists(path_script_r_targets_dir()))
@@ -49,9 +51,10 @@ tar_test("tar_engine() construct targets", {
     engine = "targets",
     label = "test",
     results = "hide",
-    targets = TRUE
+    tar_globals = FALSE,
+    tar_interactive = FALSE
   )
-  tar_engine(options, prototype = FALSE)
+  tar_engine(options)
   expect_false(file.exists(path_store()))
   expect_true(file.exists(path_script()))
   expect_false(file.exists(path_script_r_globals_dir()))
@@ -68,11 +71,12 @@ tar_test("tar_engine() prototype targets", {
     engine = "targets",
     label = "test",
     results = "hide",
-    targets = TRUE
+    tar_globals = FALSE,
+    tar_interactive = TRUE
   )
   envir <- new.env(parent = baseenv())
   tar_option_set(envir = envir)
-  tar_engine(options, prototype = TRUE)
+  tar_engine(options)
   expect_equal(envir$x, "a")
   expect_false(file.exists(path_store()))
   expect_false(file.exists(path_script()))
@@ -91,10 +95,11 @@ tar_test("tar_engine() warning if duplicate chunk labels allowed", {
     engine = "targets",
     label = "test",
     results = "hide",
-    targets = FALSE
+    tar_globals = TRUE,
+    tar_interactive = FALSE
   )
   expect_warning(
-    tar_engine(options, prototype = FALSE),
+    tar_engine(options),
     class = "tar_condition_validate"
   )
 })
@@ -103,4 +108,23 @@ tar_test("tar_engine_set()", {
   tar_engine_set()
   engine_names <- names(knitr::knit_engines$get())
   expect_true("targets" %in% engine_names)
+})
+
+tar_test("deprecated targets option", {
+  skip_if_not_installed("knitr")
+  option <- getOption("knitr.duplicate.label")
+  on.exit(options(knitr.duplicate.label = option))
+  options <- list(
+    code = "x <- \"a\"",
+    echo = FALSE,
+    engine = "targets",
+    label = "test",
+    results = "hide",
+    targets = TRUE,
+    tar_interactive = FALSE
+  )
+  expect_warning(
+    tar_engine(options),
+    class = "tar_condition_deprecate"
+  )
 })
