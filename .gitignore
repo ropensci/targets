@@ -7,7 +7,6 @@
 .RData
 .Rhistory
 .Rproj.user/
-
 docs
 inst/doc
 vignettes/*.html
@@ -20,3 +19,4 @@ _targets.R
 _targets.Rmd
 _targets_r
 _targets.yaml
+skeleton.html
