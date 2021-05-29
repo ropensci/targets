@@ -57,7 +57,10 @@ tar_engine_globals_prototype <- function(options) {
 tar_engine_globals_construct <- function(options) {
   write_targets_r()
   write_targets_r_globals(options$label, options$code)
-  out <- paste("Established _targets.R and", path_script_r_globals(options$label))
+  out <- paste(
+    "Established _targets.R and",
+    path_script_r_globals(options$label)
+  )
   tar_engine_output(options, out)
 }
 
@@ -72,7 +75,10 @@ tar_engine_targets_prototype <- function(options) {
 tar_engine_targets_construct <- function(options) {
   write_targets_r()
   write_targets_r_targets(options$label, options$code)
-  out <- paste("Established _targets.R and", path_script_r_targets(options$label))
+  out <- paste(
+    "Established _targets.R and",
+    path_script_r_targets(options$label)
+  )
   tar_engine_output(options, out)
 }
 
