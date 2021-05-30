@@ -11,6 +11,7 @@
 ## Enhancements
 
 * Simplify the Target Markdown example.
+* Warn about unnamed chunks in Target Markdown.
 
 # targets 0.5.0
 
