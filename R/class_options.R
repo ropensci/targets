@@ -160,6 +160,7 @@ options_class <- R6::R6Class(
         library = self$get_library(),
         format = self$get_format(),
         iteration = self$get_iteration(),
+        error = self$get_error(),
         memory = self$get_memory(),
         garbage_collection = self$get_garbage_collection(),
         deployment = self$get_deployment(),
@@ -180,6 +181,7 @@ options_class <- R6::R6Class(
       self$set_library(list$library)
       self$set_format(list$format)
       self$set_iteration(list$iteration)
+      self$set_error(list$error)
       self$set_memory(list$memory)
       self$set_garbage_collection(list$garbage_collection)
       self$set_deployment(list$deployment)

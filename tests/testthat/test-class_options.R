@@ -28,6 +28,101 @@ tar_test("validate filled options", {
   expect_silent(x$validate())
 })
 
+tar_test("export", {
+  x <- options_init(
+    tidy_eval = FALSE,
+    packages = character(0),
+    imports = "targets",
+    library = "path",
+    format = "qs",
+    iteration = "list",
+    error = "continue",
+    memory = "transient",
+    garbage_collection = TRUE,
+    deployment = "main",
+    priority = 0.5,
+    backoff = 10,
+    resources = list(ncpu = 2),
+    storage = "worker",
+    retrieval = "worker",
+    cue = tar_cue(mode = "never", command = FALSE),
+    debug = "x",
+    workspaces = letters
+  )
+  out <- x$export()
+  exp <- list(
+    tidy_eval = FALSE,
+    packages = character(0),
+    imports = "targets",
+    library = "path",
+    format = "qs",
+    iteration = "list",
+    error = "continue",
+    memory = "transient",
+    garbage_collection = TRUE,
+    deployment = "main",
+    priority = 0.5,
+    backoff = 10,
+    resources = list(ncpu = 2),
+    storage = "worker",
+    retrieval = "worker",
+    cue = tar_cue(mode = "never", command = FALSE),
+    debug = "x",
+    workspaces = letters
+  )
+  out$cue <- as.list(out$cue)
+  exp$cue <- as.list(exp$cue)
+  expect_equal(out, exp)
+})
+
+tar_test("import", {
+  list <- list(
+    tidy_eval = FALSE,
+    packages = character(0),
+    imports = "targets",
+    library = "path",
+    format = "qs",
+    iteration = "list",
+    error = "continue",
+    memory = "transient",
+    garbage_collection = TRUE,
+    deployment = "main",
+    priority = 0.5,
+    backoff = 10,
+    resources = list(ncpu = 2),
+    storage = "worker",
+    retrieval = "worker",
+    cue = tar_cue(mode = "never", command = FALSE),
+    debug = "x",
+    workspaces = letters
+  )
+  envir <- new.env(parent = emptyenv())
+  x <- options_init(envir = envir)
+  x$import(list)
+  expect_equal(x$get_tidy_eval(), FALSE)
+  expect_equal(x$get_packages(), character(0))
+  expect_equal(x$get_envir(), envir)
+  expect_equal(x$get_imports(), "targets")
+  expect_equal(x$get_library(), "path")
+  expect_equal(x$get_format(), "qs")
+  expect_equal(x$get_iteration(), "list")
+  expect_equal(x$get_error(), "continue")
+  expect_equal(x$get_memory(), "transient")
+  expect_equal(x$get_garbage_collection(), TRUE)
+  expect_equal(x$get_deployment(), "main")
+  expect_equal(x$get_priority(), 0.5)
+  expect_equal(x$get_backoff(), 10)
+  expect_equal(x$get_resources(), list(ncpu = 2))
+  expect_equal(x$get_storage(), "worker")
+  expect_equal(x$get_retrieval(), "worker")
+  expect_equal(
+    as.list(x$get_cue()),
+    as.list(tar_cue(mode = "never", command = FALSE))
+  )
+  expect_equal(x$get_debug(), "x")
+  expect_equal(x$get_workspaces(), letters)
+})
+
 tar_test("tidy_eval", {
   x <- options_init()
   expect_equal(x$get_tidy_eval(), TRUE)
