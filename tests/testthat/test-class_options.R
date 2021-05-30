@@ -199,3 +199,23 @@ tar_test("cue", {
   expect_equal(as.list(x$get_cue()), exp_default)
   expect_error(x$set_cue("invalid"), class = "tar_condition_validate")
 })
+
+tar_test("debug", {
+  x <- options_init()
+  expect_equal(x$get_debug(), character(0))
+  x$set_debug("x")
+  expect_equal(x$get_debug(), "x")
+  x$reset()
+  expect_equal(x$get_debug(), character(0))
+  expect_error(x$set_debug(123), class = "tar_condition_validate")
+})
+
+tar_test("workspaces", {
+  x <- options_init()
+  expect_equal(x$get_workspaces(), character(0))
+  x$set_workspaces("x")
+  expect_equal(x$get_workspaces(), "x")
+  x$reset()
+  expect_equal(x$get_workspaces(), character(0))
+  expect_error(x$set_workspaces(123), class = "tar_condition_validate")
+})
