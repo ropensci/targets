@@ -357,7 +357,10 @@ options_class <- R6::R6Class(
       assert_chr(imports, "imports option must be character.")
     },
     validate_library = function(library) {
-      assert_chr(library, "library option must be character.")
+      assert_chr(
+        library %|||% character(0),
+        "library option must be character."
+      )
     },
     validate_envir = function(envir) {
       msg <- paste(
@@ -378,6 +381,10 @@ options_class <- R6::R6Class(
     },
     validate_memory = function(memory) {
       assert_flag(memory, c("persistent", "transient"))
+    },
+    validate_garbage_collection = function(garbage_collection) {
+      assert_lgl(garbage_collection, "garbage_collection must be logical.")
+      assert_scalar(garbage_collection, "garbage_collection must be a scalar.")
     },
     validate_deployment = function(deployment) {
       assert_flag(deployment, c("worker", "main"))
