@@ -29,8 +29,8 @@
 tar_envir <- function(default = parent.frame()) {
   assert_envir(default)
   if_any(
-    exists(x = "frames", envir = tar_envir_run, inherits = FALSE),
-    frames_get_envir(get(x = "frames", envir = tar_envir_run)),
+    tar_runtime$exists_frames(),
+    frames_get_envir(tar_runtime$get_frames()),
     default
   )
 }

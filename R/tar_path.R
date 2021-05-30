@@ -41,8 +41,8 @@ tar_path <- function(name = NULL, default = NA_character_) {
 
 tar_path_running <- function(default) {
   if_any(
-    exists(x = "target", envir = tar_envir_run, inherits = FALSE),
-    path_objects(target_get_name(get(x = "target", envir = tar_envir_run))),
+    tar_runtime$exists_target(),
+    path_objects(target_get_name(tar_runtime$get_target())),
     as.character(default)
   )
 }

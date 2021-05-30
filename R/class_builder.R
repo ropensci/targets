@@ -71,13 +71,13 @@ target_needs_worker.tar_builder <- function(target) {
 #' @export
 target_run.tar_builder <- function(target) {
   on.exit({
-    builder_unset_tar_envir_run()
+    builder_unset_tar_runtime()
     target$subpipeline <- NULL
   })
   builder_unserialize_subpipeline(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
   frames <- frames_produce(tar_option_get("envir"), target, target$subpipeline)
-  builder_set_tar_envir_run(target, frames)
+  builder_set_tar_runtime(target, frames)
   builder_update_build(target, frames_get_envir(frames))
   builder_update_paths(target)
   builder_ensure_object(target, "worker")
@@ -312,14 +312,14 @@ builder_wait_correct_hash <- function(target) {
   store_ensure_correct_hash(target$store, storage, deployment)
 }
 
-builder_set_tar_envir_run <- function(target, frames) {
-  assign(x = "target", value = target, envir = tar_envir_run)
-  assign(x = "frames", value = frames, envir = tar_envir_run)
+builder_set_tar_runtime <- function(target, frames) {
+  tar_runtime$set_target(target)
+  tar_runtime$set_frames(frames)
 }
 
-builder_unset_tar_envir_run <- function() {
-  list <- c("target", "frames")
-  remove(list = list, envir = tar_envir_run, inherits = FALSE)
+builder_unset_tar_runtime <- function() {
+  tar_runtime$unset_target()
+  tar_runtime$unset_frames()
 }
 
 builder_serialize_value <- function(target) {
@@ -349,5 +349,3 @@ builder_sitrep <- function(target, meta) {
     file = if_any(record, NA, cue_file(cue, target, meta))
   )
 }
-
-tar_envir_run <- new.env(parent = emptyenv())

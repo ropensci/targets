@@ -36,8 +36,8 @@ tar_seed <- function(default = 1L) {
   assert_int(default)
   assert_scalar(default)
   if_any(
-    exists(x = "target", envir = tar_envir_run, inherits = FALSE),
-    get(x = "target", envir = tar_envir_run)$command$seed,
+    tar_runtime$exists_target(),
+    tar_runtime$get_target()$command$seed,
     as.integer(default)
   )
 }

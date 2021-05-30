@@ -23,8 +23,8 @@ tar_name <- function(default = "target") {
   assert_chr(default)
   assert_scalar(default)
   if_any(
-    exists(x = "target", envir = tar_envir_run, inherits = FALSE),
-    target_get_name(get(x = "target", envir = tar_envir_run)),
+    tar_runtime$exists_target(),
+    target_get_name(tar_runtime$get_target()),
     as.character(default)
   )
 }

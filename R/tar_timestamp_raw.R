@@ -77,12 +77,12 @@ tar_timestamp_raw <- function(
 ) {
   assert_chr(name %|||% character(0), "name must be a character.")
   if (is.null(name)) {
-    if (!exists(x = "target", envir = tar_envir_run, inherits = FALSE)) {
+    if (!tar_runtime$exists_target()) {
       throw_validate(
         "name cannot be NULL unless tar_timestamp() is called from a target."
       )
     }
-    name <- target_get_name(get(x = "target", envir = tar_envir_run))
+    name <- target_get_name(tar_runtime$get_target())
   }
   meta <- meta_init()
   meta$database$preprocess(write = FALSE)
