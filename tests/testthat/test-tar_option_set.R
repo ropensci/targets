@@ -5,6 +5,13 @@ tar_test("bad option", {
   )
 })
 
+tar_test("deprecated option argument", {
+  expect_warning(
+    tar_option_get(option = "tidy_eval"),
+    class = "tar_condition_deprecate"
+  )
+})
+
 tar_test("tidy_eval", {
   expect_equal(tar_option_get("tidy_eval"), TRUE)
   tar_option_set(tidy_eval = FALSE)

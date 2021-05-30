@@ -10,8 +10,9 @@
 #'   to defining external interfaces on top of the `targets` package to create
 #'   pipelines.
 #' @return Value of a target option.
-#' @param option Character of length 1, name of an option to get.
+#' @param name Character of length 1, name of an option to get.
 #'   Must be one of the argument names of [tar_option_set()].
+#' @param option Deprecated, use the `name` argument instead.
 #' @examples
 #' tar_option_get("format") # default format before we set anything
 #' tar_target(x, 1)$settings$format
@@ -30,7 +31,16 @@
 #' tar_make()
 #' })
 #' }
-tar_option_get <- function(option) {
+tar_option_get <- function(name = NULL, option = NULL) {
+  if (!is.null(option)) {
+    warn_deprecate(
+      "the option argument of tar_option_get() ",
+      "was deprecated in targets version 0.5.0.9000 (2021-05-30). ",
+      "use the name argument instead."
+    )
+    name <- option
+  }
+  assert_nonempty(name, "name argument of tar_option_get() cannot be empty.")
   assert_flag(option, choices = names(formals(tar_option_set)))
   switch(
     option,

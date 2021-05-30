@@ -23,7 +23,8 @@ with fast read/write access.}
 \description{
 \code{tar_config_set()} writes special custom settings
 to an optional \verb{_targets.yaml} configuration file at the
-current project. Do not invoke while the pipeline is running.
+current project. Only the non-\code{NULL} config settings
+are actually set. Do not invoke while the pipeline is running.
 }
 \details{
 \verb{_targets.yaml} is an optional YAML configuration file

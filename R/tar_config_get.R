@@ -34,7 +34,6 @@ tar_config_get <- function(name) {
   assert_flag(name, choices = names(formals(tar_config_set)))
   switch(
     name,
-    store = tar_config$get_store(),
-    throw_validate("no such config setting.")
+    store = tar_config$get_store()
   )
 }
