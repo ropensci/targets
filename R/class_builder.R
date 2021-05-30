@@ -69,15 +69,14 @@ target_needs_worker.tar_builder <- function(target) {
 }
 
 #' @export
-target_run.tar_builder <- function(target, envir) {
+target_run.tar_builder <- function(target) {
   on.exit({
     builder_unset_tar_envir_run()
     target$subpipeline <- NULL
   })
-  envir <- if_any(identical(envir, "globalenv"), globalenv(), envir)
   builder_unserialize_subpipeline(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
-  frames <- frames_produce(envir, target, target$subpipeline)
+  frames <- frames_produce(tar_option_get("envir"), target, target$subpipeline)
   builder_set_tar_envir_run(target, frames)
   builder_update_build(target, frames_get_envir(frames))
   builder_update_paths(target)
@@ -86,10 +85,13 @@ target_run.tar_builder <- function(target, envir) {
 }
 
 #' @export
-target_run_worker.tar_builder <- function(target, envir, config) {
+target_run_worker.tar_builder <- function(target, envir, options, config) {
+  tar_options$import(options)
+  envir <- if_any(identical(envir, "globalenv"), globalenv(), envir)
+  tar_option_set(envir = envir)
   tar_config$import(config)
   target_gc(target)
-  target_run(target, envir)
+  target_run(target)
   builder_serialize_value(target)
   target
 }

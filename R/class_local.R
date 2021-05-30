@@ -43,7 +43,7 @@ local_class <- R6::R6Class(
       target_gc(target)
       self$assert_deployment(target)
       target_prepare(target, self$pipeline, self$scheduler)
-      target_run(target = target, envir = tar_option_get("envir"))
+      target_run(target = target)
       target_conclude(
         target,
         self$pipeline,

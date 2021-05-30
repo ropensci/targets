@@ -13,6 +13,7 @@
 
 * Simplify the Target Markdown example.
 * Warn about unnamed chunks in Target Markdown.
+* Redesign option system to be more object-oriented and rigorous. Also export most options to HPC workers (#475).
 
 # targets 0.5.0
 

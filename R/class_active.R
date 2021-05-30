@@ -46,6 +46,7 @@ active_class <- R6::R6Class(
         remove(list = discard, envir = envir)
         out <- list(.tar_envir_5048826d = envir)
       }
+      out[[".tar_options_5048826d"]] <- tar_options$export()
       out[[".tar_config_5048826d"]] <- tar_config$export()
       out
     },

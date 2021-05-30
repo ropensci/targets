@@ -12,7 +12,13 @@ tar_test("active$produce_exports(is_globalenv = FALSE)", {
   out <- active$produce_exports(envir, is_globalenv = FALSE)
   expect_equal(
     sort(names(out)),
-    sort(c(".tar_envir_5048826d", ".tar_config_5048826d"))
+    sort(
+      c(
+        ".tar_envir_5048826d",
+        ".tar_options_5048826d",
+        ".tar_config_5048826d"
+      )
+    )
   )
   expect_true(is.list(out[[".tar_config_5048826d"]]))
   envir2 <- out[[".tar_envir_5048826d"]]
@@ -39,6 +45,7 @@ tar_test("active$produce_exports(is_globalenv = TRUE)", {
     ".hidden",
     "visible",
     ".tar_envir_5048826d",
+    ".tar_options_5048826d",
     ".tar_config_5048826d"
   )
   expect_equal(sort(names(out)), sort(names))

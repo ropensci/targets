@@ -232,12 +232,12 @@ target_needs_worker.default <- function(target) {
   FALSE
 }
 
-target_run <- function(target, envir) {
+target_run <- function(target) {
   UseMethod("target_run")
 }
 
 #' @export
-target_run.default <- function(target, envir) {
+target_run.default <- function(target) {
 }
 
 #' @title Internal function to run a target on a worker.
@@ -245,14 +245,15 @@ target_run.default <- function(target, envir) {
 #' @keywords internal
 #' @description For internal purposes only. Not a user-side function.
 #' @param target A target object.
-#' @param envir An environment.
-#' @param config List, and exported object of class `"tar_config"`.
-target_run_worker <- function(target, envir, config) {
+#' @param envir An environment or the string `"globalenv"`.
+#' @param options List, exported from an object of class `"tar_options"`.
+#' @param config List, exported from an object of class `"tar_config"`.
+target_run_worker <- function(target, envir, options, config) {
   UseMethod("target_run_worker")
 }
 
 #' @export
-target_run_worker.default <- function(target, envir, config) {
+target_run_worker.default <- function(target, envir, options, config) {
 }
 
 target_gc <- function(target) {

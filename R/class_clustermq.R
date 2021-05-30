@@ -103,16 +103,17 @@ clustermq_class <- R6::R6Class(
     run_worker = function(target) {
       self$crew$send_call(
         expr = target_run_worker(
-          target,
-          .tar_envir_5048826d,
-          .tar_config_5048826d
+          target = target,
+          envir = .tar_envir_5048826d,
+          options = .tar_options_5048826d,
+          config = .tar_config_5048826d
         ),
         env = list(target = target)
       )
     },
     run_main = function(target) {
       self$wait_or_shutdown()
-      target_run(target, tar_option_get("envir"))
+      target_run(target)
       target_conclude(
         target,
         self$pipeline,

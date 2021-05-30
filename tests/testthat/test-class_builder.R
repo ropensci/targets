@@ -11,8 +11,9 @@ tar_test("builder$metrics", {
 })
 
 tar_test("target_run() on a good builder", {
+  tar_option_set(envir = tmpenv(a = "x"))
   x <- target_init(name = "abc", expr = quote(a))
-  target_run(x, envir = tmpenv(a = "x"))
+  target_run(x)
   expect_silent(metrics_validate(x$metrics))
   expect_silent(value_validate(x$value))
   expect_equal(x$value$object, "x")
@@ -21,9 +22,10 @@ tar_test("target_run() on a good builder", {
 })
 
 tar_test("target_run() on a errored builder", {
+  tar_option_set(envir = tmpenv())
   local_init(pipeline_init())$start()
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
-  target_run(x, tmpenv())
+  target_run(x)
   meta <- meta_init()
   target_update_depend(x, pipeline_init(), meta)
   expect_error(
@@ -37,7 +39,12 @@ tar_test("target_run() on a errored builder", {
 tar_test("target_run_worker()", {
   local_init(pipeline_init())$start()
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
-  y <- target_run_worker(x, tmpenv(), tar_config)
+  y <- target_run_worker(
+    x,
+    tmpenv(),
+    tar_options$export(),
+    tar_config$export()
+  )
   expect_true(inherits(y, "tar_builder"))
   expect_silent(target_validate(y))
 })
@@ -134,11 +141,12 @@ tar_test("same if we continue on error", {
 })
 
 tar_test("builder writing from main", {
+  tar_option_set(envir = tmpenv(a = "123"))
   local_init(pipeline_init())$start()
   x <- target_init("abc", expr = quote(a), format = "rds", storage = "main")
   pipeline <- pipeline_init(list(x))
   scheduler <- pipeline_produce_scheduler(pipeline)
-  target_run(x, tmpenv(a = "123"))
+  target_run(x)
   expect_false(file.exists(x$store$file$path))
   expect_true(is.na(x$store$file$hash))
   meta <- meta_init()
@@ -153,6 +161,7 @@ tar_test("builder writing from main", {
 })
 
 tar_test("builder writing from worker", {
+  tar_option_set(envir = tmpenv(a = "123"))
   local_init(pipeline_init())$start()
   x <- target_init(
     "abc",
@@ -162,7 +171,7 @@ tar_test("builder writing from worker", {
     retrieval = "main",
     deployment = "worker"
   )
-  target_run(x, tmpenv(a = "123"))
+  target_run(x)
   expect_true(file.exists(x$store$file$path))
   expect_false(is.na(x$store$file$hash))
   path <- file.path("_targets", "objects", "abc")
@@ -178,6 +187,7 @@ tar_test("builder writing from worker", {
 tar_test("dynamic file writing from main", {
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())
+  tar_option_set(envir = envir)
   x <- target_init(
     name = "abc",
     expr = quote(f()),
@@ -189,7 +199,7 @@ tar_test("dynamic file writing from main", {
     writeLines("lines", con = file)
     file
   }
-  target_run(x, envir)
+  target_run(x)
   expect_true(file.exists(x$store$file$path))
   expect_false(is.na(x$store$file$hash))
   pipeline <- pipeline_init(list(x))
@@ -243,6 +253,7 @@ tar_test("dynamic file is missing at path", {
 tar_test("dynamic file writing from worker", {
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())
+  tar_option_set(envir = envir)
   x <- target_init(
     name = "abc",
     expr = quote(f()),
@@ -255,7 +266,7 @@ tar_test("dynamic file writing from worker", {
     writeLines("lines", con = file)
     file
   }
-  target_run(x, envir)
+  target_run(x)
   expect_null(x$value)
   expect_true(file.exists(x$store$file$path))
   expect_false(is.na(x$store$file$hash))
@@ -269,6 +280,7 @@ tar_test("dynamic file writing from worker", {
 tar_test("value kept if storage is local", {
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())
+  tar_option_set(envir = envir)
   x <- target_init(
     name = "abc",
     expr = quote(f()),
@@ -281,7 +293,7 @@ tar_test("value kept if storage is local", {
     writeLines("lines", con = file)
     file
   }
-  target_run(x, envir)
+  target_run(x)
   expect_equal(readLines(x$value$object), "lines")
 })
 
