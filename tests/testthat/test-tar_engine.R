@@ -128,3 +128,23 @@ tar_test("deprecated targets option", {
     class = "tar_condition_deprecate"
   )
 })
+
+tar_test("unnamed chunk label", {
+  skip_if_not_installed("knitr")
+  old <- Sys.getenv("TAR_WARN")
+  on.exit(Sys.setenv(TAR_WARN = old))
+  Sys.setenv(TAR_WARN = "true")
+  options <- list(
+    code = "x <- \"a\"",
+    echo = FALSE,
+    engine = "targets",
+    label = "unnamed-chunk-1",
+    results = "hide",
+    tar_globals = TRUE,
+    tar_interactive = FALSE
+  )
+  expect_warning(
+    tar_engine(options),
+    class = "tar_condition_validate"
+  )
+})

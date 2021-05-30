@@ -22,7 +22,8 @@ tar_engine <- function(options) {
       paste(option, "chunk option must either be NULL or logical.")
     )
   }
-  warn_duplicate_labels()
+  warn_labels_duplicated()
+  warn_labels_unnamed(options)
   if_any(
     identical(options$tar_globals, TRUE),
     tar_engine_globals(options),
@@ -109,13 +110,24 @@ write_targets_r_targets <- function(name, code) {
   writeLines(code, path_script_r_targets(name))
 }
 
-warn_duplicate_labels <- function() {
+warn_labels_duplicated <- function() {
   if (identical(getOption("knitr.duplicate.label"), "allow")) {
     warn_validate(
       "knitr.duplicate.label is set to \"allow\". Duplicate labels ",
       "interfere with the proper execution of Target Markdown. ",
       "Please set knitr.duplicate.label to a value other than \"allow\" ",
       "to prohibit duplicate knitr chunk labels."
+    )
+  }
+}
+
+warn_labels_unnamed <- function(options) {
+  suppressed <- identical(Sys.getenv("TAR_WARN"), "false")
+  if (!suppressed && any(grepl("unnamed-chunk-[0-9]*$", options$label))) {
+    warn_validate(
+      "Please assign explicit labels to {targets} code chunks ",
+      "in order to avoid accidental duplicated script files. ",
+      "Suppress this warning with Sys.setenv(TAR_wARN = \"false\")."
     )
   }
 }
