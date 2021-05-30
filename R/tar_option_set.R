@@ -136,4 +136,5 @@ tar_option_set <- function(
   if_any(is.null(cue), NULL, tar_options$set_cue(cue))
   if_any(is.null(debug), NULL, tar_options$set_debug(debug))
   if_any(is.null(workspaces), NULL, tar_options$set_workspaces(workspaces))
+  invisible()
 }

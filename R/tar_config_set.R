@@ -3,7 +3,8 @@
 #' @family configuration
 #' @description `tar_config_set()` writes special custom settings
 #'   to an optional `_targets.yaml` configuration file at the
-#'   current project. Do not invoke while the pipeline is running.
+#'   current project. Only the non-`NULL` config settings
+#'   are actually set. Do not invoke while the pipeline is running.
 #' @details `_targets.yaml` is an optional YAML configuration file
 #'   with settings specific to a given project. You can write it
 #'   by hand or modify it with `tar_config_set()`.
@@ -41,6 +42,6 @@
 #' })
 #' }
 tar_config_set <- function(store = NULL) {
-  tar_config$set_value(name = "store", store %|||% tar_config_get("store"))
+  if_any(is.null(store), NULL, tar_config$set_store(store))
   invisible()
 }
