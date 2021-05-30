@@ -302,7 +302,8 @@ as long as those target objects are still in the data store
 \description{
 Set target options, including default arguments to
 \code{\link[=tar_target]{tar_target()}} such as packages, storage format,
-iteration type, and cue. See default options with \code{\link[=tar_option_get]{tar_option_get()}}.
+iteration type, and cue. Only the non-null arguments are actually
+set as options. See currently set options with \code{\link[=tar_option_get]{tar_option_get()}}.
 To use \code{tar_option_set()} effectively, put it in your workflow's
 \verb{_targets.R} script before calls to \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_target_raw]{tar_target_raw()}}.
 }

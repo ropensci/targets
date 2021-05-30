@@ -31,31 +31,27 @@
 #' })
 #' }
 tar_option_get <- function(option) {
-  assert_flag(option, choices = names(formals(tar_option_set)))
-  tar_envir_options[[option]] %|||% tar_option_default(option)
-}
-
-tar_option_default <- function(option) {
   switch(
     option,
-    tidy_eval = TRUE,
-    packages = (.packages()),
-    imports = character(0),
-    library = NULL,
-    envir = globalenv(),
-    format = "rds",
-    iteration = "vector",
-    error = "stop",
-    memory = "persistent",
-    garbage_collection = FALSE,
-    deployment = "worker",
-    priority = 0,
-    backoff = 5,
-    resources = list(),
-    storage = "main",
-    retrieval = "main",
-    cue = targets::tar_cue(),
-    debug = character(0),
-    workspaces = character(0)
+    tidy_eval = tar_options$get_tidy_eval(),
+    packages = tar_options$get_packages(),
+    imports = tar_options$get_imports(),
+    library = tar_options$get_library(),
+    envir = tar_options$get_envir(),
+    format = tar_options$get_format(),
+    iteration = tar_options$get_iteration(),
+    error = tar_options$get_error(),
+    memory = tar_options$get_memory(),
+    garbage_collection = tar_options$get_garbage_collection(),
+    deployment = tar_options$get_deployment(),
+    priority = tar_options$get_priority(),
+    backoff = tar_options$get_backoff(),
+    resources = tar_options$get_resources(),
+    storage = tar_options$get_storage(),
+    retrieval = tar_options$get_retrieval(),
+    cue = tar_options$get_cue(),
+    debug = tar_options$get_debug(),
+    workspaces = tar_options$get_workspaces(),
+    throw_validate("no such option.")
   )
 }

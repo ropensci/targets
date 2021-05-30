@@ -3,7 +3,8 @@
 #' @family configuration
 #' @description Set target options, including default arguments to
 #'   [tar_target()] such as packages, storage format,
-#'   iteration type, and cue. See default options with [tar_option_get()].
+#'   iteration type, and cue. Only the non-null arguments are actually
+#'   set as options. See currently set options with [tar_option_get()].
 #'   To use `tar_option_set()` effectively, put it in your workflow's
 #'   `_targets.R` script before calls to [tar_target()] or [tar_target_raw()].
 #' @return `NULL` (invisibly).
@@ -112,156 +113,27 @@ tar_option_set <- function(
   workspaces = NULL
 ) {
   force(envir)
-  tar_option_set_tidy_eval(tidy_eval)
-  tar_option_set_packages(packages)
-  tar_option_set_imports(imports)
-  tar_option_set_library(library)
-  tar_option_set_envir(envir)
-  tar_option_set_format(format)
-  tar_option_set_iteration(iteration)
-  tar_option_set_error(error)
-  tar_option_set_memory(memory)
-  tar_option_set_garbage_collection(garbage_collection)
-  tar_option_set_deployment(deployment)
-  tar_option_set_priority(priority)
-  tar_option_set_backoff(backoff)
-  tar_option_set_resources(resources)
-  tar_option_set_storage(storage)
-  tar_option_set_retrieval(retrieval)
-  tar_option_set_cue(cue)
-  tar_option_set_debug(debug)
-  tar_option_set_workspaces(workspaces)
-}
-
-tar_option_set_tidy_eval <- function(tidy_eval) {
-  tidy_eval <- tidy_eval %|||% tar_option_get("tidy_eval")
-  assert_lgl(tidy_eval, "tidy_eval in tar_option_set() must be logical.")
-  assign("tidy_eval", tidy_eval, envir = tar_envir_options)
-}
-
-tar_option_set_packages <- function(packages) {
-  packages <- packages %|||% tar_option_get("packages")
-  assert_chr(packages, "packages in tar_option_set() must be character.")
-  assign("packages", packages, envir = tar_envir_options)
-}
-
-tar_option_set_imports <- function(imports) {
-  imports <- imports %|||% tar_option_get("imports")
-  assert_chr(imports, "imports in tar_option_set() must be character.")
-  assign("imports", imports, envir = tar_envir_options)
-}
-
-tar_option_set_library <- function(library) {
-  library <- library %|||% tar_option_get("library")
-  assert_chr(library %|||% character(0), "library must be NULL or character.")
-  assign("library", library, envir = tar_envir_options)
-}
-
-tar_option_set_envir <- function(envir) {
-  envir <- envir %|||% tar_option_get("envir")
-  msg <- paste(
-    "envir in tar_option_set() must be the environment",
-    "where you put your functions and global objects",
-    "(global environment for most users)."
+  if_any(is.null(tidy_eval), NULL, tar_options$set_tidy_eval(tidy_eval))
+  if_any(is.null(packages), NULL, tar_options$set_packages(packages))
+  if_any(is.null(imports), NULL, tar_options$set_imports(imports))
+  if_any(is.null(library), NULL, tar_options$set_library(library))
+  if_any(is.null(envir), NULL, tar_options$set_envir(envir))
+  if_any(is.null(format), NULL, tar_options$set_format(format))
+  if_any(is.null(iteration), NULL, tar_options$set_iteration(iteration))
+  if_any(is.null(error), NULL, tar_options$set_error(error))
+  if_any(is.null(memory), NULL, tar_options$set_memory(memory))
+  if_any(
+    is.null(garbage_collection),
+    NULL,
+    tar_options$set_garbage_collection(garbage_collection)
   )
-  assert_envir(envir, msg)
-  assign("envir", envir, envir = tar_envir_options)
+  if_any(is.null(deployment), NULL, tar_options$set_deployment(deployment))
+  if_any(is.null(priority), NULL, tar_options$set_priority(priority))
+  if_any(is.null(backoff), NULL, tar_options$set_backoff(backoff))
+  if_any(is.null(resources), NULL, tar_options$set_resources(resources))
+  if_any(is.null(storage), NULL, tar_options$set_storage(storage))
+  if_any(is.null(retrieval), NULL, tar_options$set_retrieval(retrieval))
+  if_any(is.null(cue), NULL, tar_options$set_cue(cue))
+  if_any(is.null(debug), NULL, tar_options$set_debug(debug))
+  if_any(is.null(workspaces), NULL, tar_options$set_workspaces(workspaces))
 }
-
-tar_option_set_format <- function(format) {
-  format <- format %|||% tar_option_get("format")
-  assert_format(format)
-  assign("format", format, envir = tar_envir_options)
-}
-
-tar_option_set_iteration <- function(iteration) {
-  iteration <- iteration %|||% tar_option_get("iteration")
-  assert_flag(iteration, c("vector", "list", "group"))
-  assign("iteration", iteration, envir = tar_envir_options)
-}
-
-tar_option_set_error <- function(error) {
-  error <- error %|||% tar_option_get("error")
-  assert_flag(error, c("stop", "continue", "workspace"))
-  assign("error", error, envir = tar_envir_options)
-}
-
-tar_option_set_memory <- function(memory) {
-  memory <- memory %|||% tar_option_get("memory")
-  assert_flag(memory, c("persistent", "transient"))
-  assign("memory", memory, envir = tar_envir_options)
-}
-
-tar_option_set_garbage_collection <- function(garbage_collection) {
-  garbage_collection <- garbage_collection %|||%
-    tar_option_get("garbage_collection")
-  garbage_collection <- as.logical(garbage_collection)
-  assert_lgl(garbage_collection, "garbage_collection must be logical.")
-  assert_scalar(garbage_collection, "garbage_collection must be a scalar.")
-  assign("garbage_collection", garbage_collection, envir = tar_envir_options)
-}
-
-tar_option_set_deployment <- function(deployment) {
-  deployment <- deployment %|||% tar_option_get("deployment")
-  assert_flag(deployment, c("worker", "main"))
-  assign("deployment", deployment, envir = tar_envir_options)
-}
-
-tar_option_set_priority <- function(priority) {
-  priority <- priority %|||% tar_option_get("priority")
-  assert_dbl(priority, msg = "priority must be numeric")
-  assert_scalar(priority, msg = "priority must have length 1")
-  assert_ge(priority, 0, msg = "priority cannot be less than 0")
-  assert_le(priority, 1, msg = "priority cannot be greater than 1")
-  assign("priority", priority, envir = tar_envir_options)
-}
-
-tar_option_set_backoff <- function(backoff) {
-  backoff <- backoff %|||% tar_option_get("backoff")
-  assert_dbl(backoff, msg = "backoff must be numeric")
-  assert_scalar(backoff, msg = "backoff must have length 1")
-  assert_ge(backoff, 0.01, msg = "backoff cannot be less than 0.01")
-  assert_le(backoff, 1e9, msg = "backoff cannot be greater than 1e9")
-  assign("backoff", backoff, envir = tar_envir_options)
-}
-
-tar_option_set_resources <- function(resources) {
-  resources <- resources %|||% tar_option_get("resources")
-  assert_list(resources, "resources in tar_option_set() must be a named list.")
-  assign("resources", resources, envir = tar_envir_options)
-}
-
-tar_option_set_storage <- function(storage) {
-  storage <- storage %|||% tar_option_get("storage")
-  assert_flag(storage, c("main", "worker"))
-  assign("storage", storage, envir = tar_envir_options)
-}
-
-tar_option_set_retrieval <- function(retrieval) {
-  retrieval <- retrieval %|||% tar_option_get("retrieval")
-  assert_flag(retrieval, c("main", "worker"))
-  assign("retrieval", retrieval, envir = tar_envir_options)
-}
-
-tar_option_set_cue <- function(cue) {
-  cue <- cue %|||% tar_option_get("cue")
-  if_any(is.null(cue), NULL, cue_validate(cue))
-  assign("cue", cue, envir = tar_envir_options)
-}
-
-tar_option_set_debug <- function(debug) {
-  debug <- debug %|||% tar_option_get("debug")
-  assert_chr(debug, "debug argument of tar_option_set() must be a character.")
-  assign("debug", debug, envir = tar_envir_options)
-}
-
-tar_option_set_workspaces <- function(workspaces) {
-  workspaces <- workspaces %|||% tar_option_get("workspaces")
-  assert_chr(
-    workspaces,
-    "workspaces argument of tar_option_set() must be a character."
-  )
-  assign("workspaces", workspaces, envir = tar_envir_options)
-}
-
-tar_envir_options <- new.env(parent = emptyenv())
