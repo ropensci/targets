@@ -1,10 +1,20 @@
+tar_test("bad option", {
+  expect_error(
+    tar_option_get("invalid"),
+    class = "tar_condition_validate"
+  )
+})
+
 tar_test("tidy_eval", {
   expect_equal(tar_option_get("tidy_eval"), TRUE)
   tar_option_set(tidy_eval = FALSE)
   expect_equal(tar_option_get("tidy_eval"), FALSE)
   tar_option_reset()
   expect_equal(tar_option_get("tidy_eval"), TRUE)
-  expect_error(tar_option_set(tidy_eval = "bad"), class = "tar_condition_validate")
+  expect_error(
+    tar_option_set(tidy_eval = "bad"),
+    class = "tar_condition_validate"
+  )
 })
 
 tar_test("packages", {
@@ -12,7 +22,10 @@ tar_test("packages", {
   expect_equal(tar_option_get("packages"), "x")
   tar_option_reset()
   expect_equal(tar_option_get("packages"), options_init()$get_packages())
-  expect_error(tar_option_set(packages = 123), class = "tar_condition_validate")
+  expect_error(
+    tar_option_set(packages = 123),
+    class = "tar_condition_validate"
+  )
 })
 
 tar_test("imports", {
@@ -50,7 +63,10 @@ tar_test("format", {
   expect_equal(tar_option_get("format"), "qs")
   tar_option_reset()
   expect_equal(tar_option_get("format"), "rds")
-  expect_error(tar_option_set(format = "invalid"), class = "tar_condition_validate")
+  expect_error(
+    tar_option_set(format = "invalid"),
+    class = "tar_condition_validate"
+  )
 })
 
 tar_test("iteration", {
