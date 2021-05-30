@@ -31,6 +31,7 @@
 #' })
 #' }
 tar_option_get <- function(option) {
+  assert_flag(option, choices = names(formals(tar_option_set)))
   switch(
     option,
     tidy_eval = tar_options$get_tidy_eval(),
@@ -51,7 +52,6 @@ tar_option_get <- function(option) {
     retrieval = tar_options$get_retrieval(),
     cue = tar_options$get_cue(),
     debug = tar_options$get_debug(),
-    workspaces = tar_options$get_workspaces(),
-    throw_validate("no such option.")
+    workspaces = tar_options$get_workspaces()
   )
 }
