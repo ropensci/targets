@@ -77,9 +77,16 @@ config_class <- R6::R6Class(
       }
       self$update()
     },
+    get_store = function() {
+      self$get_value(name = "store") %|||% path_store_default()
+    },
     get_value = function(name) {
       self$ensure()
       self$data[[name]]
+    },
+    set_store = function(store) {
+      self$validate_store(store)
+      self$set_value(name = "store", value = store)
     },
     set_value = function(name, value) {
       if (self$is_locked()) {
@@ -96,11 +103,17 @@ config_class <- R6::R6Class(
       self$data <- as.list(self$data)
       self$data[[name]] <- value
     },
+    validate_store = function(store) {
+      assert_chr(store, "store config must be a character.")
+      assert_scalar(store, "store config must have length 1.")
+      assert_nzchar(store, "store config must not be empty.")
+    },
     validate = function() {
       assert_chr(self$path)
       assert_scalar(self$path)
       assert_nzchar(self$path)
       assert_list(self$data %|||% list())
+      self$validate_store(self$get_store())
     }
   )
 )

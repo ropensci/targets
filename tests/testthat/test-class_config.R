@@ -6,6 +6,27 @@ tar_test("config$validate()", {
   expect_silent(out$validate())
   out$ensure()
   expect_silent(out$validate())
+  out$set_store("x")
+  expect_silent(out$validate())
+})
+
+tar_test("config$validate() with bad store", {
+  path <- tempfile()
+  out <- config_init(path)
+  writeLines("store: 123", path)
+  out$ensure()
+  expect_error(out$validate(), class = "tar_condition_validate")
+})
+
+tar_test("config$get_store() and config$set_store()", {
+  path <- tempfile()
+  out <- config_init(path = path)
+  expect_equal(out$get_store(), path_store_default())
+  out$set_store("x")
+  lines <- readLines(path)
+  expect_equal(lines, "store: x")
+  expect_equal(out$get_store(), "x")
+  expect_error(out$set_store(123), class = "tar_condition_validate")
 })
 
 tar_test("config$get_value()", {

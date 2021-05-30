@@ -27,7 +27,7 @@ path_script_r_targets <- function(name) {
 }
 
 path_store <- function() {
-  tar_config$get_value(name = "store") %|||% path_store_default()
+  tar_config$get_store()
 }
 
 path_store_default <- function() {
