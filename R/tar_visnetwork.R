@@ -51,6 +51,8 @@ tar_visnetwork <- function(
   outdated = TRUE,
   label = NULL,
   level_separation = NULL,
+  degree_from = 1L,
+  degree_to = 1L,
   reporter = "silent",
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function)
@@ -60,6 +62,12 @@ tar_visnetwork <- function(
   assert_lgl(targets_only, "targets_only must be logical.")
   assert_lgl(outdated, "outdated in tar_visnetwork() must be logical.")
   assert_in(label, c("time", "size", "branches"))
+  assert_scalar(degree_from, "degree_from must have length 1.")
+  assert_scalar(degree_to, "degree_to must have length 1.")
+  assert_dbl(degree_from, "degree_from must be numeric.")
+  assert_dbl(degree_to, "degree_to must be numeric.")
+  assert_ge(degree_from, 0L, "degree_from must be at least 0.")
+  assert_ge(degree_to, 0L, "degree_to must be at least 0.")
   assert_in(
     reporter,
     c("forecast", "silent"),
@@ -74,6 +82,8 @@ tar_visnetwork <- function(
     outdated = outdated,
     label = label,
     level_separation = level_separation,
+    degree_from = degree_from,
+    degree_to = degree_to,
     reporter = reporter
   )
   callr_outer(
@@ -92,6 +102,8 @@ tar_visnetwork_inner <- function(
   outdated,
   label,
   level_separation,
+  degree_from,
+  degree_to,
   reporter
 ) {
   network <- inspection_init(
@@ -105,7 +117,9 @@ tar_visnetwork_inner <- function(
     allow = allow_quosure,
     exclude = exclude_quosure,
     label = label,
-    level_separation = level_separation
+    level_separation = level_separation,
+    degree_from = degree_from,
+    degree_to = degree_to
   )
   visual$update()
   visual$visnetwork

@@ -11,6 +11,8 @@ tar_visnetwork(
   outdated = TRUE,
   label = NULL,
   level_separation = NULL,
+  degree_from = 1L,
+  degree_to = 1L,
   reporter = "silent",
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function)
@@ -51,6 +53,14 @@ Consider changing the value if the aspect ratio of the graph
 is far from 1. If \code{level_separation} is \code{NULL},
 the \code{levelSeparation} argument of \code{visHierarchicalLayout()}
 defaults to \code{150}.}
+
+\item{degree_from}{Integer of length 1. When you click on a node,
+the graph highlights a neighborhood of that node. \code{degree_from}
+controls the number of edges the neighborhood extends upstream.}
+
+\item{degree_to}{Integer of length 1. When you click on a node,
+the graph highlights a neighborhood of that node. \code{degree_to}
+controls the number of edges the neighborhood extends downstream.}
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets are checked. Choices:

@@ -4,7 +4,9 @@ visnetwork_init <- function(
   allow = NULL,
   exclude = NULL,
   label = NULL,
-  level_separation = NULL
+  level_separation = NULL,
+  degree_from = 1L,
+  degree_to = 1L
 ) {
   visnetwork_new(
     network = network,
@@ -12,7 +14,9 @@ visnetwork_init <- function(
     allow = allow,
     exclude = exclude,
     label = label,
-    level_separation = level_separation
+    level_separation = level_separation,
+    degree_from = degree_from,
+    degree_to = degree_to
   )
 }
 
@@ -22,8 +26,10 @@ visnetwork_new <- function(
   allow = NULL,
   exclude = NULL,
   label = NULL,
-  legend = NULL,
   level_separation = NULL,
+  degree_from = NULL,
+  degree_to = NULL,
+  legend = NULL,
   visnetwork = NULL
 ) {
   visnetwork_class$new(
@@ -32,8 +38,10 @@ visnetwork_new <- function(
     allow = allow,
     exclude = exclude,
     label = label,
-    legend = legend,
     level_separation = level_separation,
+    degree_from = degree_from,
+    degree_to = degree_to,
+    legend = legend,
     visnetwork = visnetwork
   )
 }
@@ -50,8 +58,10 @@ visnetwork_class <- R6::R6Class(
     allow = NULL,
     exclude = NULL,
     label = NULL,
-    legend = NULL,
     level_separation = NULL,
+    degree_from = NULL,
+    degree_to = NULL,
+    legend = NULL,
     visnetwork = NULL,
     initialize = function(
       network = NULL,
@@ -59,9 +69,11 @@ visnetwork_class <- R6::R6Class(
       allow = NULL,
       exclude = NULL,
       label = NULL,
+      level_separation = NULL,
+      degree_from = NULL,
+      degree_to = NULL,
       legend = NULL,
-      visnetwork = NULL,
-      level_separation = NULL
+      visnetwork = NULL
     ) {
       super$initialize(
         network = network,
@@ -72,6 +84,8 @@ visnetwork_class <- R6::R6Class(
       self$label <- label
       self$legend <- legend
       self$level_separation <- level_separation
+      self$degree_from <- degree_from
+      self$degree_to <- degree_to
       self$visnetwork <- visnetwork
     },
     produce_colors = function(status) {
@@ -126,7 +140,15 @@ visnetwork_class <- R6::R6Class(
         out,
         smooth = list(type = "cubicBezier", forceDirection = "horizontal")
       )
-      out <- visNetwork::visOptions(out, collapse = TRUE)
+      out <- visNetwork::visOptions(
+        graph = out,
+        collapse = TRUE,
+        highlightNearest = list(
+          enabled = TRUE,
+          algorithm = "hierarchical",
+          degree = list(from = self$degree_from, to = self$degree_to)
+        )
+      )
       out <- visNetwork::visLegend(
         graph = out,
         useGroups = FALSE,
@@ -213,6 +235,12 @@ visnetwork_class <- R6::R6Class(
       if (!is.null(self$visnetwork)) {
         assert_identical(class(self$visnetwork)[1], "visNetwork")
       }
+      assert_scalar(self$degree_from, "degree_from must have length 1.")
+      assert_scalar(self$degree_to, "degree_to must have length 1.")
+      assert_dbl(self$degree_from, "degree_from must be numeric.")
+      assert_dbl(self$degree_to, "degree_to must be numeric.")
+      assert_ge(self$degree_from, 0L, "degree_from must be at least 0.")
+      assert_ge(self$degree_to, 0L, "degree_to must be at least 0.")
     }
   )
 )

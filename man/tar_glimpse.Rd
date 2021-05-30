@@ -10,7 +10,9 @@ tar_glimpse(
   exclude = ".Random.seed",
   level_separation = NULL,
   callr_function = callr::r,
-  callr_arguments = targets::callr_args_default(callr_function)
+  callr_arguments = targets::callr_args_default(callr_function),
+  degree_from = 1L,
+  degree_to = 1L
 )
 }
 \arguments{
@@ -45,6 +47,14 @@ However, \code{callr_function} should not be \code{NULL} for serious
 reproducible work.}
 
 \item{callr_arguments}{A list of arguments to \code{callr_function}.}
+
+\item{degree_from}{Integer of length 1. When you click on a node,
+the graph highlights a neighborhood of that node. \code{degree_from}
+controls the number of edges the neighborhood extends upstream.}
+
+\item{degree_to}{Integer of length 1. When you click on a node,
+the graph highlights a neighborhood of that node. \code{degree_to}
+controls the number of edges the neighborhood extends downstream.}
 }
 \value{
 A \code{visNetwork} HTML widget object.

@@ -1,13 +1,16 @@
 # Should show a glimpse.
 net <- glimpse_init(pipeline_cross())
-vis <- visnetwork_init(network = net)
+vis <- visnetwork_init(network = net, degree_from = 1, degree_to = 1)
 vis$update()
+# Click on the nodes and see highlighted neighborhoods of degree 1.
 vis$visnetwork
 
 # Should show an inspection with everything outdated.
 net <- inspection_init(pipeline_cross())
-vis <- visnetwork_init(network = net)
+vis <- visnetwork_init(network = net, degree_from = 2, degree_to = 0)
 vis$update()
+# Click on the nodes and see highlighted neighborhoods
+# of upstream degree 2 and downstream degree 0.
 vis$visnetwork
 
 # Should show an inspection with everything up to date
@@ -224,6 +227,30 @@ tar_visnetwork(outdated = FALSE)
 tar_script(list(tar_target(y1, tar_cancel())))
 tar_make()
 tar_visnetwork(outdated = FALSE)
-           
+
+# Neighborhoods
+# Should show a glimpse of three targets.
+tar_script({
+  g <- function(x) x - 1
+  f <- function(x) g(x) + 1
+  list(
+    tar_target(y1, f(1)),
+    tar_target(y2, 1 + 1),
+    tar_target(z, y1 + y2),
+    tar_target(a, z),
+    tar_target(b, a),
+    tar_target(c, a),
+    tar_target(d, c),
+    tar_target(e, d)
+  )
+})
+
+# Click for highlighted neighborhoods
+# of upstream degree 1 and downstream degree 2.
+tar_glimpse(degree_to = 2)
+
+# Same with tar_visnetwork()
+tar_visnetwork(degree_to = 2)
+
 unlink("_targets.R")
 unlink("_targets", recursive = TRUE)
