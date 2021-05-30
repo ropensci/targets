@@ -131,7 +131,7 @@ tar_test("deployment", {
   tar_option_reset()
   expect_equal(tar_option_get("deployment"), "worker")
   expect_error(
-    tar_option_set(deployment = "invalid"), 
+    tar_option_set(deployment = "invalid"),
     class = "tar_condition_validate"
   )
 })
