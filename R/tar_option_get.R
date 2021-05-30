@@ -41,9 +41,9 @@ tar_option_get <- function(name = NULL, option = NULL) {
     name <- option
   }
   assert_nonempty(name, "name argument of tar_option_get() cannot be empty.")
-  assert_flag(option, choices = names(formals(tar_option_set)))
+  assert_flag(name, choices = names(formals(tar_option_set)))
   switch(
-    option,
+    name,
     tidy_eval = tar_options$get_tidy_eval(),
     packages = tar_options$get_packages(),
     imports = tar_options$get_imports(),
