@@ -77,12 +77,19 @@ config_class <- R6::R6Class(
       }
       self$update()
     },
+    get_script = function() {
+      self$get_value(name = "script") %|||% path_script_default()
+    },
     get_store = function() {
       self$get_value(name = "store") %|||% path_store_default()
     },
     get_value = function(name) {
       self$ensure()
       self$data[[name]]
+    },
+    set_script = function(script) {
+      self$validate_script(script)
+      self$set_value(name = "script", value = script)
     },
     set_store = function(store) {
       self$validate_store(store)
@@ -103,6 +110,11 @@ config_class <- R6::R6Class(
       self$data <- as.list(self$data)
       self$data[[name]] <- value
     },
+    validate_script = function(script) {
+      assert_chr(script, "script config must be a character.")
+      assert_scalar(script, "script config must have length 1.")
+      assert_nzchar(script, "script config must not be empty.")
+    },
     validate_store = function(store) {
       assert_chr(store, "store config must be a character.")
       assert_scalar(store, "store config must have length 1.")
@@ -113,6 +125,7 @@ config_class <- R6::R6Class(
       assert_scalar(self$path)
       assert_nzchar(self$path)
       assert_list(self$data %|||% list())
+      self$validate_script(self$get_script())
       self$validate_store(self$get_store())
     }
   )

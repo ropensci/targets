@@ -1,13 +1,13 @@
 path_script <- function() {
-  path_script_basename()
+  tar_config$get_script()
 }
 
-path_script_basename <- function() {
+path_script_default <- function() {
   "_targets.R"
 }
 
 path_script_r <- function() {
-  "_targets_r"
+  paste0(tools::file_path_sans_ext(script), "_r")
 }
 
 path_script_r_globals_dir <- function() {
