@@ -6,8 +6,8 @@ path_script_default <- function() {
   "_targets.R"
 }
 
-path_script_r <- function() {
-  paste0(tools::file_path_sans_ext(path_script()), "_r")
+path_script_r <- function(script = path_script()) {
+  paste0(tools::file_path_sans_ext(script), "_r")
 }
 
 path_script_r_globals_dir <- function() {
