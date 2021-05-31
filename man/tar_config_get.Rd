@@ -25,7 +25,7 @@ configuration file at the current project.
 with settings specific to a given project. You can write it
 by hand or modify it with \code{\link[=tar_config_set]{tar_config_set()}}.
 In order to work properly, \verb{_targets.yaml} must live at the
-root of the project (next to \verb{_targets.R}).
+root of the project.
 The currently supported configuration settings are
 documented as the arguments of \code{\link[=tar_config_set]{tar_config_set()}}.
 }

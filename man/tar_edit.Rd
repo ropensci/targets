@@ -2,13 +2,19 @@
 % Please edit documentation in R/tar_edit.R
 \name{tar_edit}
 \alias{tar_edit}
-\title{Open _targets.R for editing.}
+\title{Open the \code{targets} script file.}
 \usage{
 tar_edit()
 }
 \description{
-Looks for _targets.R in the current working directory.
+Open the \code{targets} script file for editing.
 Requires the \code{usethis} package.
+}
+\details{
+The \code{targets} script file is an R code file
+that defines the pipeline. The default path is \verb{_targets.R},
+but the default for the current project
+can be configured with \code{\link[=tar_config_set]{tar_config_set()}}.
 }
 \seealso{
 Other scripts: 

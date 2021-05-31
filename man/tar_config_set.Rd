@@ -7,8 +7,9 @@
 tar_config_set(script = NULL, store = NULL)
 }
 \arguments{
-\item{script}{Character of length 1, path to the target script that defines
-the pipeline (\verb{_targets.R} by default). This path should be either
+\item{script}{Character of length 1, path to the targets script file
+that defines the pipeline (\verb{_targets.R} by default).
+This path should be either
 an absolute path or a path relative to the project root where you will
 call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=tar_make]{tar_make()}} and friends
 \code{\link[=source]{source()}} the script, they do not change the working directory
@@ -18,7 +19,7 @@ call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=
 If \code{NULL}, the \code{store} setting is left unchanged in \verb{_targets.yaml}.
 Usually, the data store lives at \verb{_targets}.
 Set \code{store} to a custom directory
-to specify a path other than \verb{_targets}. The path need not exist
+to specify a path other than \verb{_targets/}. The path need not exist
 before the pipeline begins, and it need not end with "_targets",
 but it must be writeable.
 For optimal performance, choose a storage location
@@ -38,7 +39,7 @@ are actually set. Do not invoke while the pipeline is running.
 with settings specific to a given project. You can write it
 by hand or modify it with \code{tar_config_set()}.
 In order to work properly, \verb{_targets.yaml} must live at the
-root of the project (next to \verb{_targets.R}).
+root of the project.
 The currently supported configuration settings are
 documented as the arguments of \code{tar_config_set()}.
 

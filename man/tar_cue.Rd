@@ -76,7 +76,8 @@ If the cue of a target has \code{depend = TRUE} (default) then the target
 is marked invalidated/outdated when its upstream dependencies change.
 A target's dependencies include upstream targets,
 user-defined functions, and other global objects populated
-in \verb{_targets.R}. To determine if a given dependency changed
+in the \code{targets} script file (default: \verb{_targets.R}).
+To determine if a given dependency changed
 since the last run of the pipeline, \code{targets} computes hashes.
 The hash of a target is computed on its files in storage
 (usually a file in \verb{_targets/objects/}). The hash of a
