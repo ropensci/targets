@@ -4,6 +4,7 @@
 
 * In Target Markdown, add a new `tar_interactive` global option to select interactive mode or non-interactive mode (#469).
 * Highlight a graph neighborhood when the user clicks a node. Control the neighborhood degree with new arguments `degree_from` and `degree_to` of `tar_visnetwork()` and `tar_glimpse()` (#474, @rgayler).
+* Make the target script path configurable in `tar_config_set()` (#476).
 
 ## Deprecations
 
