@@ -18,6 +18,12 @@
 #'   arguments are supplied. To reset options completely,
 #'   simply remove `_targets.yaml`.
 #' @return `NULL` (invisibly)
+#' @param script Character of length 1, path to the target script that defines
+#'   the pipeline (`_targets.R` by default). This path should be either
+#'   an absolute path or a path relative to the project root where you will
+#'   call [tar_make()] and other functions. When [tar_make()] and friends
+#'   [source()] the script, they do not change the working directory
+#'   (i.e. the default `source(chdir = FALSE)`).
 #' @param store Character of length 1, path to the data store of the pipeline.
 #'   If `NULL`, the `store` setting is left unchanged in `_targets.yaml`.
 #'   Usually, the data store lives at `_targets`.
@@ -41,7 +47,8 @@
 #' file.exists(store_path) # TRUE
 #' })
 #' }
-tar_config_set <- function(store = NULL) {
+tar_config_set <- function(script = NULL, store = NULL) {
+  if_any(is.null(script), NULL, tar_config$set_script(script))
   if_any(is.null(store), NULL, tar_config$set_store(store))
   invisible()
 }

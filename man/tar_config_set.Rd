@@ -4,9 +4,16 @@
 \alias{tar_config_set}
 \title{Write configuration settings to _targets.yaml.}
 \usage{
-tar_config_set(store = NULL)
+tar_config_set(script = NULL, store = NULL)
 }
 \arguments{
+\item{script}{Character of length 1, path to the target script that defines
+the pipeline (\verb{_targets.R} by default). This path should be either
+an absolute path or a path relative to the project root where you will
+call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=tar_make]{tar_make()}} and friends
+\code{\link[=source]{source()}} the script, they do not change the working directory
+(i.e. the default \code{source(chdir = FALSE)}).}
+
 \item{store}{Character of length 1, path to the data store of the pipeline.
 If \code{NULL}, the \code{store} setting is left unchanged in \verb{_targets.yaml}.
 Usually, the data store lives at \verb{_targets}.

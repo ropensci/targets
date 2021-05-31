@@ -89,11 +89,11 @@ config_class <- R6::R6Class(
     },
     set_script = function(script) {
       self$validate_script(script)
-      self$set_value(name = "script", value = script)
+      self$set_value(name = "script", value = as.character(script))
     },
     set_store = function(store) {
       self$validate_store(store)
-      self$set_value(name = "store", value = store)
+      self$set_value(name = "store", value = as.character(store))
     },
     set_value = function(name, value) {
       if (self$is_locked()) {

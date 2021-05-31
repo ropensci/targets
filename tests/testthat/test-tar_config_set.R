@@ -1,6 +1,20 @@
-tar_test("tar_config_set()", {
+tar_test("tar_config_set() with script", {
   expect_false(file.exists("_targets.yaml"))
-  expect_equal(tar_config_get("store"), "_targets")
+  expect_equal(tar_config_get("script"), path_script_default())
+  path <- tempfile()
+  tar_config_set(script = path)
+  expect_equal(tar_config_get("script"), path)
+  expect_true(file.exists("_targets.yaml"))
+  tar_config_set()
+  expect_equal(tar_config_get("script"), path)
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("script"), path_script_default())
+})
+
+tar_test("tar_config_set() with store", {
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("store"), path_store_default())
   path <- tempfile()
   tar_config_set(store = path)
   expect_equal(tar_config_get("store"), path)
@@ -9,7 +23,7 @@ tar_test("tar_config_set()", {
   expect_equal(tar_config_get("store"), path)
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
-  expect_equal(tar_config_get("store"), "_targets")
+  expect_equal(tar_config_get("store"), path_store_default())
 })
 
 tar_test("_targets.yaml is locked during the pipeline then unlocked after", {
