@@ -18,7 +18,7 @@
 #'   arguments are supplied. To reset options completely,
 #'   simply remove `_targets.yaml`.
 #' @return `NULL` (invisibly)
-#' @param script Character of length 1, path to the targets script file
+#' @param script Character of length 1, path to the target script file
 #'   that defines the pipeline (`_targets.R` by default).
 #'   This path should be either
 #'   an absolute path or a path relative to the project root where you will

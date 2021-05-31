@@ -1,4 +1,4 @@
-#' @title Write a targets script file.
+#' @title Write a target script file.
 #' @export
 #' @family scripts
 #' @description The `tar_script()` function is a convenient
@@ -8,9 +8,9 @@
 #'   and it requires you to be in the working directory
 #'   where you intend to write the file, so be careful.
 #'   See the "Target script" section for details.
-#' @section Target script:
-#'   Every `targets` project requires a target script in the project root.
-#'   The target script must always be named `_targets.R`.
+#' @section Target script file:
+#'   Every `targets` project requires a target script file.
+#'   The target script file is usually a file called `_targets.R`
 #'   Functions [tar_make()] and friends look for `_targets.R` in the
 #'   current working directory and use it to set up the pipeline.
 #'   Every `_targets.R` file should run the following steps in the order below:
