@@ -25,12 +25,6 @@ First, load `targets` to activate the specialized `knitr` engine for Target Mark
 library(targets)
 ```
 
-Optionally set `root.dir` to assign a working directory for the document. This makes it easy to create different sub-pipelines from different R Markdown documents.
-
-```{r, eval = FALSE}
-knitr::opts_knit$set(root.dir = getwd()) # Can be a different directory.
-```
-
 Near the top, you may also wish to remove the `_targets_r` directory previously written by non-interactive runs of the report.
 
 ```{r}
