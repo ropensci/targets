@@ -76,6 +76,7 @@ tar_script <- function(
   if (library_targets) {
     text <- c("library(targets)", text)
   }
+  dir_create(dirname(path_script()))
   writeLines(text, path_script())
   invisible()
 }
