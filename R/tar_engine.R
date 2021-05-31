@@ -12,22 +12,32 @@ tar_engine <- function(options) {
     )
     options$tar_globals <- options$tar_globals %|||% options$targets
   }
-  for (option in c("tar_globals", "tar_interactive")) {
-    assert_scalar(
-      options[[option]] %|||% TRUE,
-      paste(option, "chunk option must either be NULL or have length 1.")
-    )
-    assert_scalar(
-      options[[option]] %|||% TRUE,
-      paste(option, "chunk option must either be NULL or logical.")
-    )
-  }
+  tar_engine_assert_options(options)
   warn_labels_duplicated()
   warn_labels_unnamed(options)
   if_any(
     identical(options$tar_globals, TRUE),
     tar_engine_globals(options),
     tar_engine_targets(options)
+  )
+}
+
+tar_engine_assert_options <- function(options) {
+  for (option in c("tar_globals", "tar_interactive", "tar_script")) {
+    assert_scalar(
+      options[[option]] %|||% TRUE,
+      paste(option, "chunk option must either be NULL or have length 1.")
+    )
+  }
+  for (option in c("tar_globals", "tar_interactive")) {
+    assert_lgl(
+      options[[option]] %|||% TRUE,
+      paste(option, "chunk option must either be NULL or logical.")
+    )
+  }
+  assert_chr(
+    options[["tar_script"]] %|||% character(0),
+    "tar_script chunk option must either be NULL or character."
   )
 }
 
@@ -56,13 +66,14 @@ tar_engine_globals_prototype <- function(options) {
 }
 
 tar_engine_globals_construct <- function(options) {
-  write_targets_r()
-  write_targets_r_globals(options$label, options$code)
+  script <- options$tar_script %|||% path_script()
+  write_targets_r(script)
+  write_targets_r_globals(options$code, options$label, script)
   out <- paste(
     "Established",
-    path_script(),
+    script,
     "and",
-    path_script_r_globals(options$label)
+    path_script_r_globals(options$label, script)
   )
   tar_engine_output(options, out)
 }
@@ -76,13 +87,14 @@ tar_engine_targets_prototype <- function(options) {
 }
 
 tar_engine_targets_construct <- function(options) {
-  write_targets_r()
-  write_targets_r_targets(options$label, options$code)
+  script <- options$tar_script %|||% path_script()
+  write_targets_r(script)
+  write_targets_r_targets(options$code, options$label, script)
   out <- paste(
     "Established",
-    path_script(),
+    script,
     "and",
-    path_script_r_targets(options$label)
+    path_script_r_targets(options$label, script)
   )
   tar_engine_output(options, out)
 }
@@ -93,25 +105,26 @@ tar_engine_output <- function(options, out) {
   knitr::engine_output(options = options, code = code, out = out)
 }
 
-write_targets_r <- function() {
+write_targets_r <- function(script) {
   path <- system.file(
     file.path("pipelines", "_targets_r.R"),
     package = "targets",
     mustWork = TRUE
   )
-  if (!file.exists(path_script()) || !files_identical(path, path_script())) {
-    file.copy(path, path_script(), overwrite = TRUE)
+  if (!file.exists(script) || !files_identical(path, script)) {
+    dir_create(dirname(script))
+    file.copy(path, script, overwrite = TRUE)
   }
 }
 
-write_targets_r_globals <- function(name, code) {
-  dir_create(path_script_r_globals_dir())
-  writeLines(code, path_script_r_globals(name))
+write_targets_r_globals <- function(code, name, script) {
+  dir_create(path_script_r_globals_dir(script))
+  writeLines(code, path_script_r_globals(name, script))
 }
 
-write_targets_r_targets <- function(name, code) {
-  dir_create(path_script_r_targets_dir())
-  writeLines(code, path_script_r_targets(name))
+write_targets_r_targets <- function(code, name, script) {
+  dir_create(path_script_r_targets_dir(script))
+  writeLines(code, path_script_r_targets(name, script))
 }
 
 warn_labels_duplicated <- function() {
