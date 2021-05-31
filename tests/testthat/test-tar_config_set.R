@@ -68,7 +68,7 @@ tar_test("tar_config_set() can configure the script and the store", {
   skip_on_cran()
   tar_config_set(script = "example/script.R", store = "example/store")
   tar_script(tar_target(x, 1L))
-  tar_make()
+  tar_make(reporter = "silent")
   expect_equal(tar_read(x), 1L)
   expect_true(file.exists("example/script.R"))
   expect_true(file.exists("example/store"))
