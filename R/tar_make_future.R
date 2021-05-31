@@ -4,7 +4,7 @@
 #' @family pipeline
 #' @description This function is like [tar_make()] except that targets
 #'   run in parallel with transient `future` workers. It requires
-#'   that you declare your `future::plan()` inside the 
+#'   that you declare your `future::plan()` inside the
 #'   target script file (default: `_targets.R`).
 #'   `future` is not a strict dependency of `targets`,
 #'   so you must install `future` yourself.
