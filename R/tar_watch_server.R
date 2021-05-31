@@ -30,11 +30,15 @@ tar_watch_server <- function(id, height = "650px", exclude = ".Random.seed") {
       react_outdated <- shiny::reactive(as.logical(input$outdated))
       react_label <- shiny::reactive(input$label_tar_visnetwork)
       react_ls <- shiny::reactive(as.numeric(input$level_separation))
+      react_degree_from <- shiny::reactive(as.numeric(input$degree_from))
+      react_degree_to <- shiny::reactive(as.numeric(input$degree_to))
       millis <- shiny::debounce(r = react_millis, millis = interval)
       targets_only <- shiny::debounce(r = react_targets, millis = interval)
       outdated_tl <- shiny::debounce(r = react_outdated, millis = interval)
       label <- shiny::debounce(r = react_label, millis = interval)
       level_separation <- shiny::debounce(r = react_ls, millis = interval)
+      degree_from <- shiny::debounce(r = react_degree_from, millis = interval)
+      degree_to <- shiny::debounce(r = react_degree_to, millis = interval)
       shiny::observeEvent(input$refresh, refresh$refresh <- tempfile())
       shiny::observe({
         if (identical(input$watch, TRUE)) {
@@ -51,7 +55,9 @@ tar_watch_server <- function(id, height = "650px", exclude = ".Random.seed") {
             exclude = exclude,
             outdated = outdated_tl(),
             label = label(),
-            level_separation = level_separation()
+            level_separation = level_separation(),
+            degree_from = degree_from(),
+            degree_to = degree_to()
           ),
           visNetwork::visNetwork(
             data_frame(

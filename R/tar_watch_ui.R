@@ -32,8 +32,27 @@ tar_watch_ui <- function(
   outdated = TRUE,
   label_tar_visnetwork = NULL,
   level_separation = 150,
+  degree_from = 1L,
+  degree_to = 1L,
   height = "650px"
 ) {
+  assert_dbl(seconds, "seconds must be numeric.")
+  assert_dbl(seconds_min, "seconds_min must be numeric.")
+  assert_dbl(seconds_max, "seconds_max must be numeric.")
+  assert_dbl(seconds_step, "seconds_step must be numeric.")
+  assert_scalar(seconds, "seconds must have length 1.")
+  assert_scalar(seconds_min, "seconds_min must have length 1.")
+  assert_scalar(seconds_max, "seconds_max must have length 1.")
+  assert_scalar(seconds_step, "seconds_step must have length 1.")
+  assert_scalar(degree_from, "degree_from must have length 1.")
+  assert_scalar(degree_to, "degree_to must have length 1.")
+  assert_dbl(degree_from, "degree_from must be numeric.")
+  assert_dbl(degree_to, "degree_to must be numeric.")
+  assert_ge(degree_from, 0L, "degree_from must be at least 0.")
+  assert_ge(degree_to, 0L, "degree_to must be at least 0.")
+  seconds_min <- min(seconds_min, seconds)
+  seconds_max <- max(seconds_max, seconds)
+  seconds_step <- min(seconds_step, seconds_max)
   ns <- shiny::NS(id)
   shiny::fluidRow(
     bs4Dash::bs4Card(
@@ -117,6 +136,20 @@ tar_watch_ui <- function(
         max = 1000,
         step = 10,
         ticks = FALSE
+      ),
+      shiny::numericInput(
+        inputId = ns("degree_from"),
+        label = "degree_from",
+        value = as.numeric(degree_from),
+        min = 0,
+        step = 1
+      ),
+      shiny::numericInput(
+        inputId = ns("degree_to"),
+        label = "degree_to",
+        value = as.numeric(degree_to),
+        min = 0,
+        step = 1
       )
     ),
     bs4Dash::bs4Card(

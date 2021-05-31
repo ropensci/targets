@@ -54,6 +54,8 @@ tar_watch <- function(
   outdated = TRUE,
   label = NULL,
   level_separation = 150,
+  degree_from = 1L,
+  degree_to = 1L,
   height = "650px",
   background = TRUE,
   browse = TRUE,
@@ -82,6 +84,12 @@ tar_watch <- function(
   assert_scalar(seconds_min, "seconds_min must have length 1.")
   assert_scalar(seconds_max, "seconds_max must have length 1.")
   assert_scalar(seconds_step, "seconds_step must have length 1.")
+  assert_scalar(degree_from, "degree_from must have length 1.")
+  assert_scalar(degree_to, "degree_to must have length 1.")
+  assert_dbl(degree_from, "degree_from must be numeric.")
+  assert_dbl(degree_to, "degree_to must be numeric.")
+  assert_ge(degree_from, 0L, "degree_from must be at least 0.")
+  assert_ge(degree_to, 0L, "degree_to must be at least 0.")
   seconds_min <- min(seconds_min, seconds)
   seconds_max <- max(seconds_max, seconds)
   seconds_step <- min(seconds_step, seconds_max)
@@ -95,6 +103,8 @@ tar_watch <- function(
     outdated = outdated,
     label = label,
     level_separation = level_separation,
+    degree_from = degree_from,
+    degree_to = degree_to,
     height = height,
     host = host,
     port = port
@@ -128,6 +138,8 @@ tar_watch_app <- function(
   outdated,
   label,
   level_separation,
+  degree_from,
+  degree_to,
   height,
   host,
   port
@@ -141,6 +153,8 @@ tar_watch_app <- function(
     outdated = outdated,
     label = label,
     level_separation = level_separation,
+    degree_from = degree_from,
+    degree_to = degree_to,
     height = height
   )
   server <- function(input, output, session) {
@@ -172,6 +186,8 @@ tar_watch_app_ui <- function(
   outdated,
   label,
   level_separation,
+  degree_from,
+  degree_to,
   height
 ) {
   body <- bs4Dash::bs4DashBody(
@@ -187,6 +203,8 @@ tar_watch_app_ui <- function(
       outdated = outdated,
       label_tar_visnetwork = label,
       level_separation = level_separation,
+      degree_from = degree_from,
+      degree_to = degree_to,
       height = height
     )
   )
