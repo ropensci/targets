@@ -1,4 +1,4 @@
-#' @title Open the `targets` script file.
+#' @title Open the `targets` script file for editing.
 #' @export
 #' @family scripts
 #' @description Open the `targets` script file for editing.

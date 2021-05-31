@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_edit.R
 \name{tar_edit}
 \alias{tar_edit}
-\title{Open the \code{targets} script file.}
+\title{Open the \code{targets} script file for editing.}
 \usage{
 tar_edit()
 }

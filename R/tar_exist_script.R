@@ -1,8 +1,10 @@
-#' @title Check if the target script exists.
+#' @title Check if the `targets` script file exists.
 #' @export
 #' @family existence
-#' @description Check if the `_targets.R` file of the current project exists.
-#'   exists for the current project.
+#' @description Check if the `targets` script file exists for the
+#'   current project. The `targets` script is `_targets.R` by default,
+#'   but the path can be configured for the current project
+#'   using [tar_config_set()].
 #' @return Logical of length 1, whether the current project's metadata exists.
 #' @examples
 #' tar_exist_script()
