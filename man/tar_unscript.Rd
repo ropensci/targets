@@ -11,10 +11,11 @@ tar_unscript()
 }
 \description{
 Target Markdown writes helper scripts in a folder accompanying
-the target script. If the target script is the default \verb{_targets.R},
+the target script file. If the target script is the default \verb{_targets.R},
 the helper scripts are in \verb{_targets_r/}. If the some other location
 like \code{custom/script.R}, the helper scripts are in \verb{custom/script_r/}.
-Use \code{\link[=tar_unscript]{tar_unscript()}} to remove all these helper scripts.
+Use \code{\link[=tar_unscript]{tar_unscript()}} to remove all these helper scripts in the \verb{*_r/}
+directory. The actual target script is not removed.
 }
 \examples{
 tar_dir({ # tar_dir() runs code from a temporary directory.

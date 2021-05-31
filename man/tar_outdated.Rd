@@ -28,7 +28,7 @@ an outdated target.}
 
 \item{targets_only}{Logical, whether to just restrict to targets
 or to include functions and other global objects from the environment
-created by running \verb{_targets.R}.}
+created by running the target script file (default: \verb{_targets.R}).}
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets are checked. Choices:
@@ -60,7 +60,7 @@ that decide whether a target needs to rerun.
 }
 \details{
 Requires that you define a pipeline
-with a \verb{_targets.R} script in your working directory.
+with a target script file (default: \verb{_targets.R}).
 (See \code{\link[=tar_script]{tar_script()}} for details.)
 }
 \examples{

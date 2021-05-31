@@ -1,7 +1,7 @@
 #' @title Return the vertices and edges of a pipeline dependency graph.
 #' @export
 #' @family inspect
-#' @description Analyze the pipeline defined in the `targets` script file
+#' @description Analyze the pipeline defined in the target script file
 #'   (default: `_targets.R`)
 #'   and return the vertices and edges of the directed acyclic graph
 #'   of dependency relationships.

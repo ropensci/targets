@@ -60,7 +60,7 @@ controls the number of edges the neighborhood extends downstream.}
 A \code{visNetwork} HTML widget object.
 }
 \description{
-Analyze the pipeline defined in the \code{targets} script file
+Analyze the pipeline defined in the target script file
 (default: \verb{_targets.R})
 and visualize the directed acyclic graph of targets.
 Unlike \code{\link[=tar_visnetwork]{tar_visnetwork()}}, \code{tar_glimpse()} does not account for

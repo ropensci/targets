@@ -11,12 +11,13 @@
 #' @section Target script file:
 #'   Every `targets` project requires a target script file.
 #'   The target script file is usually a file called `_targets.R`
-#'   Functions [tar_make()] and friends look for `_targets.R` in the
-#'   current working directory and use it to set up the pipeline.
-#'   Every `_targets.R` file should run the following steps in the order below:
+#'   Functions [tar_make()] and friends look for the target script
+#'   and [source()] it to set up the pipeline just prior to the main task.
+#'   Every target script file should run the following
+#'   steps in the order below:
 #'     1. Package: load the `targets` package. This step is automatically
-#'       inserted at the top of `_targets.R` files produced by `tar_script()`
-#'       if `library_targets` is `TRUE`,
+#'       inserted at the top of the target script file produced by
+#'       `tar_script()` if `library_targets` is `TRUE`,
 #'       so you do not need to explicitly include it in `code`.
 #'     1. Globals: load custom functions and global objects into memory.
 #'       Usually, this section is a bunch of calls to `source()` that run
@@ -28,25 +29,26 @@
 #'       [tar_option_set()] in order to register the proper environment.
 #'     3. Targets: define one or more target objects using [tar_target()].
 #'     4. Pipeline: call [list()] to bring the targets from (3)
-#'       together in a pipeline object. Every `_targets.R` script must return
+#'       together in a pipeline object. Every target script file must return
 #'       a pipeline object, which usually means ending with a call to
 #'       [list()]. In practice, (3) and (4) can be combined together
 #'       in the same function call.
 #' @return `NULL` (invisibly).
-#' @param code R code to write to `_targets.R`. If `NULL`, an example
-#'   target script is written instead.
+#' @param code R code to write to the target script file.
+#'   If `NULL`, an example target script file is written instead.
 #' @param library_targets logical, whether to write a `library(targets)`
-#'   line at the top of `_targets.R` automatically (recommended).
+#'   line at the top of the target script file automatically (recommended).
 #'   If `TRUE`, you do not need to explicitly put `library(targets)`
 #'   in `code`.
-#' @param ask Logical, whether to ask before writing if `_targets.R`
+#' @param ask Logical, whether to ask before writing if the
+#'   target script file
 #'   already exists. If `NULL`, defaults to `Sys.getenv("TAR_ASK")`.
 #'   (Set to `"true"` or `"false"` with `Sys.setenv()`).
 #'   If `ask` and the `TAR_ASK` environment variable are both
 #'   indeterminate, defaults to `interactive()`.
 #' @examples
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
-#' tar_script() # Writes an example target script.
+#' tar_script() # Writes an example target script file.
 #' # Writes a user-defined target script:
 #' tar_script({
 #'   x <- tar_target(x, 1 + 1)

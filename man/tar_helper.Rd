@@ -24,7 +24,7 @@ See examples below.}
 }
 \description{
 Write a helper R script for a \code{targets} pipeline.
-Could be supporting functions or the \code{targets} script file
+Could be supporting functions or the target script file
 (default: \verb{_targets.R}) itself.
 }
 \details{

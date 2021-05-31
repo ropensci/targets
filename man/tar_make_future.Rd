@@ -55,7 +55,7 @@ the value is invisibly returned.
 This function is like \code{\link[=tar_make]{tar_make()}} except that targets
 run in parallel with transient \code{future} workers. It requires
 that you declare your \code{future::plan()} inside the
-\code{targets} script file (default: \verb{_targets.R}).
+target script file (default: \verb{_targets.R}).
 \code{future} is not a strict dependency of \code{targets},
 so you must install \code{future} yourself.
 }

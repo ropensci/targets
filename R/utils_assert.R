@@ -249,8 +249,8 @@ assert_store <- function() {
 
 assert_target <- function(x, msg = NULL) {
   msg <- msg %|||% paste(
-    "Found a non-target object.",
-    "_targets.R must end with a list of tar_target() objects (recommended)",
+    "Found a non-target object. The target script file (default: _targets.R)",
+    "must end with a list of tar_target() objects (recommended)",
     "or a tar_pipeline() object (deprecated)."
   )
   assert_inherits(x = x, class = "tar_target", msg = msg)
@@ -258,7 +258,8 @@ assert_target <- function(x, msg = NULL) {
 
 assert_target_list <- function(x) {
   msg <- paste(
-    "_targets.R must end with a list of tar_target() objects (recommended)",
+    "The target script file (default: _targets.R)",
+    "must end with a list of tar_target() objects (recommended)",
     "or a tar_pipeline() object (deprecated). Each element of the target list",
     "must be a target object or nested list of target objects."
   )
@@ -268,8 +269,8 @@ assert_target_list <- function(x) {
 
 assert_script <- function() {
   msg <- paste(
-    "main functions like tar_make() require a _targets.R configuration script",
-    "in the current working directory to define the pipeline.",
+    "main functions like tar_make() require a target script file",
+    "(default: _targets.R) to define the pipeline.",
     "Functions tar_edit() and tar_script() can help."
   )
   assert_path(path_script(), msg)
@@ -289,8 +290,9 @@ assert_script <- function() {
   pattern <- paste(paste0("^tar_", exclude), collapse = "|")
   choices <- grep(pattern, getNamespaceExports("targets"), value = TRUE)
   msg <- paste(
-    "_targets.R must not call tar_make() or similar functions",
-    "that would source _targets.R again and cause infinite recursion."
+    "The target script file (default: _targets.R)",
+    "must not call tar_make() or similar functions",
+    "that would source the target script again and cause infinite recursion."
   )
   assert_not_in(vars, choices, msg)
   msg <- paste(

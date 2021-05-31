@@ -2,7 +2,7 @@
 #' @export
 #' @family scripts
 #' @description Write a helper R script for a `targets` pipeline.
-#'   Could be supporting functions or the `targets` script file
+#'   Could be supporting functions or the target script file
 #'   (default: `_targets.R`) itself.
 #' @details `tar_helper_raw()` is a specialized version of [tar_script()]
 #'   with flexible paths and tidy evaluation. It is like [tar_helper()]

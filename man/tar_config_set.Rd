@@ -7,7 +7,7 @@
 tar_config_set(script = NULL, store = NULL)
 }
 \arguments{
-\item{script}{Character of length 1, path to the targets script file
+\item{script}{Character of length 1, path to the target script file
 that defines the pipeline (\verb{_targets.R} by default).
 This path should be either
 an absolute path or a path relative to the project root where you will

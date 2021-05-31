@@ -23,7 +23,7 @@
 #'   The `TAR_ASK` environment variable accepts values `"true"` and `"false"`.
 #'   If `TAR_ASK` is not set, or if it is set to `"true"`,
 #'   then `targets` asks permission in a menu
-#'   before overwriting certain files, such as the `targets` script file
+#'   before overwriting certain files, such as the target script file
 #'   (default: `_targets.R`) in [tar_script()].
 #'   If `TAR_ASK` is `"false"`, then `targets` overwrites the old files
 #'   with the new ones without asking. Once you are comfortable with

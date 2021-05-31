@@ -18,7 +18,7 @@ this code to a file at \code{path}, overwriting it if the file already exists.}
 }
 \description{
 Write a helper R script for a \code{targets} pipeline.
-Could be supporting functions or the \code{targets} script file
+Could be supporting functions or the target script file
 (default: \verb{_targets.R}) itself.
 }
 \details{

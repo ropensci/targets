@@ -60,7 +60,7 @@ the value is invisibly returned.
 This function is like \code{\link[=tar_make]{tar_make()}} except that targets
 run in parallel with persistent \code{clustermq} workers. It requires
 that you set global options like \code{clustermq.scheduler} and
-\code{clustermq.template} inside the \code{targets} script file
+\code{clustermq.template} inside the target script file
 (default: \verb{_targets.R}).
 \code{clustermq} is not a strict dependency of \code{targets},
 so you must install \code{clustermq} yourself.
@@ -68,7 +68,7 @@ so you must install \code{clustermq} yourself.
 \details{
 To use with a cluster, you will need to set the global options
 \code{clustermq.scheduler} and \code{clustermq.template} inside the
-\code{targets} script file (default: \verb{_targets.R}).
+target script file (default: \verb{_targets.R}).
 To read more about configuring \code{clustermq} for your scheduler, visit
 \url{https://mschubert.github.io/clustermq/articles/userguide.html#configuration} # nolint
 and navigate to the appropriate link under "Setting up the scheduler".

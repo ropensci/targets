@@ -1,9 +1,9 @@
-#' @title Open the `targets` script file for editing.
+#' @title Open the target script file for editing.
 #' @export
 #' @family scripts
-#' @description Open the `targets` script file for editing.
+#' @description Open the target script file for editing.
 #'   Requires the `usethis` package.
-#' @details The `targets` script file is an R code file
+#' @details The target script file is an R code file
 #'   that defines the pipeline. The default path is `_targets.R`,
 #'   but the default for the current project
 #'   can be configured with [tar_config_set()].

@@ -2,7 +2,7 @@
 #' @export
 #' @keywords internal
 #' @description Functions `tar_pipeline()` and [tar_bind()] are deprecated.
-#'   Instead, simply end your `targets` script file
+#'   Instead, simply end your target script file
 #'   (default: `_targets.R`) file with a list of target objects.
 #'   You can nest these objects however you like.
 #' @details Deprecated on 2021-01-03.

@@ -35,7 +35,7 @@
 #'   is marked invalidated/outdated when its upstream dependencies change.
 #'   A target's dependencies include upstream targets,
 #'   user-defined functions, and other global objects populated
-#'   in the `targets` script file (default: `_targets.R`).
+#'   in the target script file (default: `_targets.R`).
 #'   To determine if a given dependency changed
 #'   since the last run of the pipeline, `targets` computes hashes.
 #'   The hash of a target is computed on its files in storage

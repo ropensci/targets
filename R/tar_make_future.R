@@ -5,7 +5,7 @@
 #' @description This function is like [tar_make()] except that targets
 #'   run in parallel with transient `future` workers. It requires
 #'   that you declare your `future::plan()` inside the 
-#'   `targets` script file (default: `_targets.R`).
+#'   target script file (default: `_targets.R`).
 #'   `future` is not a strict dependency of `targets`,
 #'   so you must install `future` yourself.
 #' @details To configure `tar_make_future()` with a computing cluster,

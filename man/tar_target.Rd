@@ -249,7 +249,8 @@ rules that decide whether the target is up to date.}
 }
 \value{
 A target object. Users should not modify these directly,
-just feed them to \code{\link[=list]{list()}} in your \verb{_targets.R} file.
+just feed them to \code{\link[=list]{list()}} in your target script file
+(default: \verb{_targets.R}).
 }
 \description{
 A target is a single step of computation in a pipeline.

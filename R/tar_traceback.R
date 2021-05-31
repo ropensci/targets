@@ -12,7 +12,8 @@
 #' @param envir Deprecated in `targets` > 0.3.1 (2021-03-28).
 #' @param packages Logical, whether to load the required packages
 #'   of the target.
-#' @param source Logical, whether to run `_targets.R` to load user-defined
+#' @param source Logical, whether to run the target script file
+#'   (default: `_targets.R`) to load user-defined
 #'   global object dependencies into `envir`. If `TRUE`, then `envir`
 #'   should either be the global environment or inherit from the
 #'   global environment.
