@@ -1,9 +1,10 @@
 #' @title Remove target script helper files.
 #' @export
-#' @description Target Markdown writes files to `_targets_r/`
-#'   at the project root (next to `_targets.R`).
-#'   Use [tar_unscript()] to remove all of `_targets_r/` and start with
-#'   a fresh set of targets and globals to define the pipeline.
+#' @description Target Markdown writes helper scripts in a folder accompanying
+#'   the target script. If the target script is the default `_targets.R`,
+#'   the helper scripts are in `_targets_r/`. If the some other location
+#'   like `custom/script.R`, the helper scripts are in `custom/script_r/`.
+#'   Use [tar_unscript()] to remove all these helper scripts.
 #' @return `NULL` (invisibly).
 #' @examples
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
