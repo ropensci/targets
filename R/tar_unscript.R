@@ -1,4 +1,4 @@
-#' @title Remove files from `_targets_r/`.
+#' @title Remove target script helper files.
 #' @export
 #' @description Target Markdown writes files to `_targets_r/`
 #'   at the project root (next to `_targets.R`).

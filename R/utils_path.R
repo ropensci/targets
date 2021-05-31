@@ -7,7 +7,7 @@ path_script_default <- function() {
 }
 
 path_script_r <- function() {
-  paste0(tools::file_path_sans_ext(script), "_r")
+  paste0(tools::file_path_sans_ext(path_script()), "_r")
 }
 
 path_script_r_globals_dir <- function() {
