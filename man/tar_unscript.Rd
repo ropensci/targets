@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_unscript.R
 \name{tar_unscript}
 \alias{tar_unscript}
-\title{Remove files from \verb{_targets_r/}.}
+\title{Remove target script helper files.}
 \usage{
 tar_unscript()
 }
@@ -10,10 +10,12 @@ tar_unscript()
 \code{NULL} (invisibly).
 }
 \description{
-Target Markdown writes files to \verb{_targets_r/}
-at the project root (next to \verb{_targets.R}).
-Use \code{\link[=tar_unscript]{tar_unscript()}} to remove all of \verb{_targets_r/} and start with
-a fresh set of targets and globals to define the pipeline.
+Target Markdown writes helper scripts in a folder accompanying
+the target script file. If the target script is the default \verb{_targets.R},
+the helper scripts are in \verb{_targets_r/}. If the some other location
+like \code{custom/script.R}, the helper scripts are in \verb{custom/script_r/}.
+Use \code{\link[=tar_unscript]{tar_unscript()}} to remove all these helper scripts in the \verb{*_r/}
+directory. The actual target script is not removed.
 }
 \examples{
 tar_dir({ # tar_dir() runs code from a temporary directory.

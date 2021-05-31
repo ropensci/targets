@@ -1,8 +1,12 @@
-#' @title Open _targets.R for editing.
+#' @title Open the target script file for editing.
 #' @export
 #' @family scripts
-#' @description Looks for _targets.R in the current working directory.
+#' @description Open the target script file for editing.
 #'   Requires the `usethis` package.
+#' @details The target script file is an R code file
+#'   that defines the pipeline. The default path is `_targets.R`,
+#'   but the default for the current project
+#'   can be configured with [tar_config_set()].
 tar_edit <- function() {
   # Covered in tests/interactive/test-tar_edit.R # nolint
   # nocov start

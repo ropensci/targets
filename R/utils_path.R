@@ -1,13 +1,24 @@
 path_script <- function() {
-  path_script_basename()
+  tar_config$get_script()
 }
 
-path_script_basename <- function() {
+path_script_default <- function() {
   "_targets.R"
 }
 
-path_script_r <- function() {
-  "_targets_r"
+#' @title Target script helper directory path.
+#' @export
+#' @keywords internal
+#' @description Internal function for Target Markdown.
+#'   Not a user-side function. Do not invoke directly.
+#' @return Character of length 1, target script
+#'   helper directory path.
+#' @param script Character of length 1,
+#'   path to the target script.
+#' @examples
+#' path_script_r()
+path_script_r <- function(script = NULL) {
+  paste0(tools::file_path_sans_ext(script %|||% path_script()), "_r")
 }
 
 path_script_r_globals_dir <- function() {

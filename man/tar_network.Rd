@@ -44,7 +44,8 @@ The edges data frame has one row for every edge and columns \code{to} and
 \code{from} to mark the starting and terminating vertices.
 }
 \description{
-Analyze the pipeline defined in \verb{_targets.R}
+Analyze the pipeline defined in the target script file
+(default: \verb{_targets.R})
 and return the vertices and edges of the directed acyclic graph
 of dependency relationships.
 }

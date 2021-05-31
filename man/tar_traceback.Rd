@@ -20,7 +20,8 @@ tar_traceback(
 \item{packages}{Logical, whether to load the required packages
 of the target.}
 
-\item{source}{Logical, whether to run \verb{_targets.R} to load user-defined
+\item{source}{Logical, whether to run the target script file
+(default: \verb{_targets.R}) to load user-defined
 global object dependencies into \code{envir}. If \code{TRUE}, then \code{envir}
 should either be the global environment or inherit from the
 global environment.}

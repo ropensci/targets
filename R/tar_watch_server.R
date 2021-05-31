@@ -55,7 +55,7 @@ tar_watch_server <- function(id, height = "650px", exclude = ".Random.seed") {
           ),
           visNetwork::visNetwork(
             data_frame(
-              label = "No _targets.R file detected.",
+              label = "No target script file file detected.",
               shape = "text",
               font.size = "30"
             )

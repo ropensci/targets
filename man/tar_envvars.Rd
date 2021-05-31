@@ -35,7 +35,8 @@ your R session after you are done editing.
 The \code{TAR_ASK} environment variable accepts values \code{"true"} and \code{"false"}.
 If \code{TAR_ASK} is not set, or if it is set to \code{"true"},
 then \code{targets} asks permission in a menu
-before overwriting certain files, such as \verb{_targets.R} in \code{\link[=tar_script]{tar_script()}}.
+before overwriting certain files, such as the target script file
+(default: \verb{_targets.R}) in \code{\link[=tar_script]{tar_script()}}.
 If \code{TAR_ASK} is \code{"false"}, then \code{targets} overwrites the old files
 with the new ones without asking. Once you are comfortable with
 \code{\link[=tar_script]{tar_script()}}, \code{\link[=tar_github_actions]{tar_github_actions()}}, and similar functions,

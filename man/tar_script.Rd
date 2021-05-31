@@ -2,20 +2,21 @@
 % Please edit documentation in R/tar_script.R
 \name{tar_script}
 \alias{tar_script}
-\title{Write a \verb{_targets.R} script to the current working directory.}
+\title{Write a target script file.}
 \usage{
 tar_script(code = NULL, library_targets = TRUE, ask = NULL)
 }
 \arguments{
-\item{code}{R code to write to \verb{_targets.R}. If \code{NULL}, an example
-target script is written instead.}
+\item{code}{R code to write to the target script file.
+If \code{NULL}, an example target script file is written instead.}
 
 \item{library_targets}{logical, whether to write a \code{library(targets)}
-line at the top of \verb{_targets.R} automatically (recommended).
+line at the top of the target script file automatically (recommended).
 If \code{TRUE}, you do not need to explicitly put \code{library(targets)}
 in \code{code}.}
 
-\item{ask}{Logical, whether to ask before writing if \verb{_targets.R}
+\item{ask}{Logical, whether to ask before writing if the
+target script file
 already exists. If \code{NULL}, defaults to \code{Sys.getenv("TAR_ASK")}.
 (Set to \code{"true"} or \code{"false"} with \code{Sys.setenv()}).
 If \code{ask} and the \code{TAR_ASK} environment variable are both
@@ -26,23 +27,24 @@ indeterminate, defaults to \code{interactive()}.}
 }
 \description{
 The \code{tar_script()} function is a convenient
-way to create the required target script (\verb{_targets.R} file)
+way to create the required target script file (default: \verb{_targets.R})
 in the current working directory.
 It always overwrites the existing target script,
 and it requires you to be in the working directory
 where you intend to write the file, so be careful.
 See the "Target script" section for details.
 }
-\section{Target script}{
+\section{Target script file}{
 
-Every \code{targets} project requires a target script in the project root.
-The target script must always be named \verb{_targets.R}.
-Functions \code{\link[=tar_make]{tar_make()}} and friends look for \verb{_targets.R} in the
-current working directory and use it to set up the pipeline.
-Every \verb{_targets.R} file should run the following steps in the order below:
+Every \code{targets} project requires a target script file.
+The target script file is usually a file called \verb{_targets.R}
+Functions \code{\link[=tar_make]{tar_make()}} and friends look for the target script
+and \code{\link[=source]{source()}} it to set up the pipeline just prior to the main task.
+Every target script file should run the following
+steps in the order below:
 1. Package: load the \code{targets} package. This step is automatically
-inserted at the top of \verb{_targets.R} files produced by \code{tar_script()}
-if \code{library_targets} is \code{TRUE},
+inserted at the top of the target script file produced by
+\code{tar_script()} if \code{library_targets} is \code{TRUE},
 so you do not need to explicitly include it in \code{code}.
 1. Globals: load custom functions and global objects into memory.
 Usually, this section is a bunch of calls to \code{source()} that run
@@ -54,7 +56,7 @@ specific options to set, it is still recommended to call
 \code{\link[=tar_option_set]{tar_option_set()}} in order to register the proper environment.
 3. Targets: define one or more target objects using \code{\link[=tar_target]{tar_target()}}.
 4. Pipeline: call \code{\link[=list]{list()}} to bring the targets from (3)
-together in a pipeline object. Every \verb{_targets.R} script must return
+together in a pipeline object. Every target script file must return
 a pipeline object, which usually means ending with a call to
 \code{\link[=list]{list()}}. In practice, (3) and (4) can be combined together
 in the same function call.
@@ -62,7 +64,7 @@ in the same function call.
 
 \examples{
 tar_dir({ # tar_dir() runs code from a temporary directory.
-tar_script() # Writes an example target script.
+tar_script() # Writes an example target script file.
 # Writes a user-defined target script:
 tar_script({
   x <- tar_target(x, 1 + 1)

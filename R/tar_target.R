@@ -8,7 +8,8 @@
 #'   are already up to date are skipped. See the user manual
 #'   for more details.
 #' @return A target object. Users should not modify these directly,
-#'   just feed them to [list()] in your `_targets.R` file.
+#'   just feed them to [list()] in your target script file
+#'   (default: `_targets.R`).
 #' @param name Symbol, name of the target. Subsequent targets
 #'   can refer to this name symbolically to induce a dependency relationship:
 #'   e.g. `tar_target(downstream_target, f(upstream_target))` is a

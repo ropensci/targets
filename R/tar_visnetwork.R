@@ -1,7 +1,8 @@
 #' @title Visualize an abridged fast dependency graph.
 #' @export
 #' @family inspect
-#' @description Analyze the pipeline defined in `_targets.R`
+#' @description Analyze the pipeline defined in the target script file
+#'   (default: `_targets.R`)
 #'   and visualize the directed acyclic graph of targets
 #'   and imported global functions and objects.
 #' @return A `visNetwork` HTML widget object.

@@ -85,7 +85,8 @@ reproducible work.}
 A \code{visNetwork} HTML widget object.
 }
 \description{
-Analyze the pipeline defined in \verb{_targets.R}
+Analyze the pipeline defined in the target script file
+(default: \verb{_targets.R})
 and visualize the directed acyclic graph of targets
 and imported global functions and objects.
 }

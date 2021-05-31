@@ -9,7 +9,7 @@
 #'   with settings specific to a given project. You can write it
 #'   by hand or modify it with `tar_config_set()`.
 #'   In order to work properly, `_targets.yaml` must live at the
-#'   root of the project (next to `_targets.R`).
+#'   root of the project.
 #'   The currently supported configuration settings are
 #'   documented as the arguments of `tar_config_set()`.
 #'
@@ -18,11 +18,18 @@
 #'   arguments are supplied. To reset options completely,
 #'   simply remove `_targets.yaml`.
 #' @return `NULL` (invisibly)
+#' @param script Character of length 1, path to the target script file
+#'   that defines the pipeline (`_targets.R` by default).
+#'   This path should be either
+#'   an absolute path or a path relative to the project root where you will
+#'   call [tar_make()] and other functions. When [tar_make()] and friends
+#'   [source()] the script, they do not change the working directory
+#'   (i.e. the default `source(chdir = FALSE)`).
 #' @param store Character of length 1, path to the data store of the pipeline.
 #'   If `NULL`, the `store` setting is left unchanged in `_targets.yaml`.
 #'   Usually, the data store lives at `_targets`.
 #'   Set `store` to a custom directory
-#'   to specify a path other than `_targets`. The path need not exist
+#'   to specify a path other than `_targets/`. The path need not exist
 #'   before the pipeline begins, and it need not end with "_targets",
 #'   but it must be writeable.
 #'   For optimal performance, choose a storage location
@@ -41,7 +48,8 @@
 #' file.exists(store_path) # TRUE
 #' })
 #' }
-tar_config_set <- function(store = NULL) {
+tar_config_set <- function(script = NULL, store = NULL) {
+  if_any(is.null(script), NULL, tar_config$set_script(script))
   if_any(is.null(store), NULL, tar_config$set_store(store))
   invisible()
 }

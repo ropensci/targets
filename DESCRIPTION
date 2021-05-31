@@ -57,6 +57,7 @@ Imports:
   stats,
   tibble (>= 3.0.1),
   tidyselect (>= 1.1.0),
+  tools,
   utils,
   vctrs (>= 0.2.4),
   withr (>= 2.1.2),

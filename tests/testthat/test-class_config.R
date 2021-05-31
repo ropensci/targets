@@ -29,6 +29,17 @@ tar_test("config$get_store() and config$set_store()", {
   expect_error(out$set_store(123), class = "tar_condition_validate")
 })
 
+tar_test("config$get_script() and config$set_script()", {
+  path <- tempfile()
+  out <- config_init(path = path)
+  expect_equal(out$get_script(), path_script_default())
+  out$set_script("x")
+  lines <- readLines(path)
+  expect_equal(lines, "script: x")
+  expect_equal(out$get_script(), "x")
+  expect_error(out$set_script(123), class = "tar_condition_validate")
+})
+
 tar_test("config$get_value()", {
   path <- tempfile()
   out <- config_init(path = path)

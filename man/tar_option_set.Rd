@@ -38,7 +38,8 @@ globally for all subsequent targets you define.}
 
 \item{imports}{Character vector of package names to track
 global dependencies. For example, if you write
-\code{tar_option_set(imports = "yourAnalysisPackage")} early in \verb{_targets.R},
+\code{tar_option_set(imports = "yourAnalysisPackage")} early in your
+target script file (default: \verb{_targets.R})
 then \code{tar_make()} will automatically rerun or skip targets
 in response to changes to the R functions and objects defined in
 \code{yourAnalysisPackage}. Does not account for low-level compiled code
@@ -305,7 +306,8 @@ Set target options, including default arguments to
 iteration type, and cue. Only the non-null arguments are actually
 set as options. See currently set options with \code{\link[=tar_option_get]{tar_option_get()}}.
 To use \code{tar_option_set()} effectively, put it in your workflow's
-\verb{_targets.R} script before calls to \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_target_raw]{tar_target_raw()}}.
+target script file (default: \verb{_targets.R})
+before calls to \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_target_raw]{tar_target_raw()}}.
 }
 \examples{
 tar_option_get("format") # default format before we set anything

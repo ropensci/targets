@@ -38,7 +38,8 @@
 #' @examples
 #' # To use dynamic map for real in a pipeline,
 #' # call map() in a target's pattern.
-#' # The following code goes at the bottom of _targets.R.
+#' # The following code goes at the bottom of
+#' # your target script file (default: `_targets.R`).
 #' list(
 #'   tar_target(x, seq_len(2)),
 #'   tar_target(y, head(letters, 2)),

@@ -7,7 +7,7 @@
 #'   with settings specific to a given project. You can write it
 #'   by hand or modify it with [tar_config_set()].
 #'   In order to work properly, `_targets.yaml` must live at the
-#'   root of the project (next to `_targets.R`).
+#'   root of the project.
 #'   The currently supported configuration settings are
 #'   documented as the arguments of [tar_config_set()].
 #' @return The value of the configuration setting from `_targets.yaml`,
@@ -34,6 +34,7 @@ tar_config_get <- function(name) {
   assert_flag(name, choices = names(formals(tar_config_set)))
   switch(
     name,
+    script = tar_config$get_script(),
     store = tar_config$get_store()
   )
 }

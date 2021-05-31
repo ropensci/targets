@@ -24,7 +24,8 @@ See examples below.}
 }
 \description{
 Write a helper R script for a \code{targets} pipeline.
-Could be supporting functions or the \verb{_targets.R} file itself.
+Could be supporting functions or the target script file
+(default: \verb{_targets.R}) itself.
 }
 \details{
 \code{tar_helper()} is a specialized version of \code{\link[=tar_script]{tar_script()}}
