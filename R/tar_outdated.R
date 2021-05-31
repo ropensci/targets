@@ -6,7 +6,7 @@
 #'   [tar_make()] or similar. See [tar_cue()] for the rules
 #'   that decide whether a target needs to rerun.
 #' @details Requires that you define a pipeline
-#'   with a `_targets.R` script in your working directory.
+#'   with a `targets` script file (default: `_targets.R`).
 #'   (See [tar_script()] for details.)
 #' @return Names of the outdated targets.
 #' @param names Names of the targets. `tar_outdated()` will check
@@ -21,7 +21,7 @@
 #'   an outdated target.
 #' @param targets_only Logical, whether to just restrict to targets
 #'   or to include functions and other global objects from the environment
-#'   created by running `_targets.R`.
+#'   created by running the `targets` script file (default: `_targets.R`).
 #' @param reporter Character of length 1, name of the reporter to user.
 #'   Controls how messages are printed as targets are checked. Choices:
 #'   * `"silent"`: print nothing.

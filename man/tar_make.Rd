@@ -47,7 +47,8 @@ a handle to the \code{callr} background process is returned. Either way,
 the value is invisibly returned.
 }
 \description{
-Run the pipeline you defined in \verb{_targets.R}. \code{tar_make()}
+Run the pipeline you defined in the targets
+script file (default: \verb{_targets.R}). \code{tar_make()}
 runs the correct targets in the correct order and stores the return
 values in \verb{_targets/objects/}.
 }

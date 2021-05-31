@@ -6,12 +6,14 @@
 #'   iteration type, and cue. Only the non-null arguments are actually
 #'   set as options. See currently set options with [tar_option_get()].
 #'   To use `tar_option_set()` effectively, put it in your workflow's
-#'   `_targets.R` script before calls to [tar_target()] or [tar_target_raw()].
+#'   `targets` script file (default: `_targets.R`)
+#'   before calls to [tar_target()] or [tar_target_raw()].
 #' @return `NULL` (invisibly).
 #' @inheritParams tar_target
 #' @param imports Character vector of package names to track
 #'   global dependencies. For example, if you write
-#'   `tar_option_set(imports = "yourAnalysisPackage")` early in `_targets.R`,
+#'   `tar_option_set(imports = "yourAnalysisPackage")` early in your
+#'   `targets` script file (default: `_targets.R`)
 #'   then `tar_make()` will automatically rerun or skip targets
 #'   in response to changes to the R functions and objects defined in
 #'   `yourAnalysisPackage`. Does not account for low-level compiled code

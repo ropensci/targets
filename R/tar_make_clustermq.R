@@ -5,11 +5,13 @@
 #' @description This function is like [tar_make()] except that targets
 #'   run in parallel with persistent `clustermq` workers. It requires
 #'   that you set global options like `clustermq.scheduler` and
-#'   `clustermq.template` inside the `_targets.R` script.
+#'   `clustermq.template` inside the `targets` script file
+#'   (default: `_targets.R`).
 #'   `clustermq` is not a strict dependency of `targets`,
 #'   so you must install `clustermq` yourself.
 #' @details To use with a cluster, you will need to set the global options
-#'   `clustermq.scheduler` and `clustermq.template` inside `_targets.R`.
+#'   `clustermq.scheduler` and `clustermq.template` inside the
+#'   `targets` script file (default: `_targets.R`).
 #'   To read more about configuring `clustermq` for your scheduler, visit
 #'   <https://mschubert.github.io/clustermq/articles/userguide.html#configuration> # nolint
 #'   and navigate to the appropriate link under "Setting up the scheduler".

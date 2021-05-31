@@ -1,8 +1,8 @@
-#' @title Write a `_targets.R` script to the current working directory.
+#' @title Write a targets script file.
 #' @export
 #' @family scripts
 #' @description The `tar_script()` function is a convenient
-#'   way to create the required target script (`_targets.R` file)
+#'   way to create the required target script file (default: `_targets.R`)
 #'   in the current working directory.
 #'   It always overwrites the existing target script,
 #'   and it requires you to be in the working directory
