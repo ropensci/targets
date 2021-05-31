@@ -63,3 +63,15 @@ tar_test("same with external process", {
   tar_make(callr_function = NULL)
   expect_equal(nrow(tar_progress()), 0L)
 })
+
+tar_test("tar_config_set() can configure the script and the store", {
+  skip_on_cran()
+  tar_config_set(script = "example/script.R", store = "example/store")
+  tar_script(tar_target(x, 1L))
+  tar_make()
+  expect_equal(tar_read(x), 1L)
+  expect_true(file.exists("example/script.R"))
+  expect_true(file.exists("example/store"))
+  expect_false(file.exists(path_script_default()))
+  expect_false(file.exists(path_store_default()))
+})
