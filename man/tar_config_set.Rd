@@ -4,17 +4,9 @@
 \alias{tar_config_set}
 \title{Write configuration settings to _targets.yaml.}
 \usage{
-tar_config_set(script = NULL, store = NULL)
+tar_config_set(store = NULL, script = NULL, path = NULL)
 }
 \arguments{
-\item{script}{Character of length 1, path to the target script file
-that defines the pipeline (\verb{_targets.R} by default).
-This path should be either
-an absolute path or a path relative to the project root where you will
-call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=tar_make]{tar_make()}} and friends
-\code{\link[=source]{source()}} the script, they do not change the working directory
-(i.e. the default \code{source(chdir = FALSE)}).}
-
 \item{store}{Character of length 1, path to the data store of the pipeline.
 If \code{NULL}, the \code{store} setting is left unchanged in \verb{_targets.yaml}.
 Usually, the data store lives at \verb{_targets}.
@@ -24,6 +16,21 @@ before the pipeline begins, and it need not end with "_targets",
 but it must be writeable.
 For optimal performance, choose a storage location
 with fast read/write access.}
+
+\item{script}{Character of length 1, path to the target script file
+that defines the pipeline (\verb{_targets.R} by default).
+This path should be either
+an absolute path or a path relative to the project root where you will
+call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=tar_make]{tar_make()}} and friends
+\code{\link[=source]{source()}} the script, they do not change the working directory
+(i.e. the default \code{source(chdir = FALSE)}).}
+
+\item{path}{Character of length 1, path to the YAML file with
+all the configuration settings (default: \verb{_targets.yaml}).
+Only applies to the current R session,
+the path reverts back to \verb{_targets.yaml} when you restart R.
+Intended for niche use cases only, such as \code{tar_watch()}
+embedded as a module in Shiny apps that use \code{targets}.}
 }
 \value{
 \code{NULL} (invisibly)

@@ -51,7 +51,7 @@ tar_prune <- function(
 }
 
 tar_prune_inner <- function(pipeline) {
-  assert_store()
+  assert_store(tar_config$get_store())
   names <- pipeline_get_names(pipeline)
   meta <- meta_init()
   data <- meta$database$read_condensed_data()

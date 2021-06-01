@@ -77,6 +77,9 @@ config_class <- R6::R6Class(
       }
       self$update()
     },
+    get_path = function() {
+      self$path
+    },
     get_script = function() {
       self$get_value(name = "script") %|||% path_script_default()
     },
@@ -86,6 +89,10 @@ config_class <- R6::R6Class(
     get_value = function(name) {
       self$ensure()
       self$data[[name]]
+    },
+    assign_path = function(path) {
+      self$validate_path(path)
+      self$path <- path
     },
     assign_script = function(script) {
       self$validate_script(script)
@@ -102,6 +109,10 @@ config_class <- R6::R6Class(
       self$data <- as.list(self$data)
       self$data[[name]] <- value
     },
+    set_path = function(path) {
+      self$assign_path(path)
+      self$ensure()
+    },
     set_script = function(script) {
       self$validate_script(script)
       self$set_value(name = "script", value = as.character(script))
@@ -117,6 +128,11 @@ config_class <- R6::R6Class(
       self$ensure()
       self$assign_value(name = name, value = value)
       self$write()
+    },
+    validate_path = function(path) {
+      assert_chr(path, "path must be a character.")
+      assert_scalar(path, "path must have length 1.")
+      assert_nzchar(path, "path must not be empty.")
     },
     validate_script = function(script) {
       assert_chr(script, "script config must be a character.")

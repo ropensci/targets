@@ -34,6 +34,12 @@
 #'   but it must be writeable.
 #'   For optimal performance, choose a storage location
 #'   with fast read/write access.
+#' @param path Character of length 1, path to the YAML file with
+#'   all the configuration settings (default: `_targets.yaml`).
+#'   Only applies to the current R session,
+#'   the path reverts back to `_targets.yaml` when you restart R.
+#'   Intended for niche use cases only, such as `tar_watch()`
+#'   embedded as a module in Shiny apps that use `targets`.
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -48,7 +54,8 @@
 #' file.exists(store_path) # TRUE
 #' })
 #' }
-tar_config_set <- function(script = NULL, store = NULL) {
+tar_config_set <- function(store = NULL, script = NULL, path = NULL) {
+  if_any(is.null(path), NULL, tar_config$set_path(path))
   if_any(is.null(script), NULL, tar_config$set_script(script))
   if_any(is.null(store), NULL, tar_config$set_store(store))
   invisible()

@@ -35,6 +35,7 @@ tar_config_get <- function(name) {
   switch(
     name,
     script = tar_config$get_script(),
-    store = tar_config$get_store()
+    store = tar_config$get_store(),
+    path = tar_config$get_path()
   )
 }
