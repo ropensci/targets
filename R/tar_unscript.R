@@ -13,7 +13,10 @@
 #' tar_unscript()
 #' })
 tar_unscript <- function(script = targets::tar_config_get("script")) {
-  old_config <- switch_config(script = script, assert_store = FALSE)
+  if (!tar_exist_script(script = script)) {
+    return()
+  }
+  old_config <- switch_config(script = script)
   on.exit(restore_config(old_config), add = TRUE)
   unlink(path_script_r(), recursive = TRUE)
   invisible()

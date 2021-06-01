@@ -1,6 +1,9 @@
 tar_test("tar_unscript()", {
   dir.create(path_script_r())
   tar_unscript()
+  expect_true(file.exists(path_script_r()))
+  file.create("_targets.R")
+  tar_unscript()
   expect_false(file.exists(path_script_r()))
 })
 
@@ -47,6 +50,7 @@ tar_test("custom script and store args", {
 
 tar_test("custom script and store args without running the pipeline", {
   skip_on_cran()
+  dir_create("_targets_r")
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script({
@@ -60,6 +64,7 @@ tar_test("custom script and store args without running the pipeline", {
   expect_true(file.exists("example/script_r"))
   expect_true(file.exists("example/script_r/helper.R"))
   tar_unscript(script = "example/script.R")
+  expect_true(file.exists("_targets_r"))
   expect_true(file.exists("example/script.R"))
   expect_false(file.exists("example/script_r"))
   expect_false(file.exists("example/script_r/helper.R"))

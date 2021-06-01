@@ -29,7 +29,6 @@ tar_test("custom script and store args", {
   expect_true(file.exists("example/store/workspaces/y"))
   out <- tar_workspaces(store = "example/store")
   expect_true("y" %in% out)
-  expect_equal(envir$x, "value")
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
