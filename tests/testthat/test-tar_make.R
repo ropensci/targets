@@ -113,7 +113,10 @@ tar_test("priorities apply to tar_make() (#437)", {
 tar_test("custom script and store args", {
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  tar_script(tar_target(x, "y"), script = "example/script.R")
+  tar_script(
+    tar_target(x, getNamespace("targets")$tar_config$is_locked()),
+    script = "example/script.R"
+  )
   tar_make(
     script = "example/script.R",
     store = "example/store",
@@ -130,7 +133,8 @@ tar_test("custom script and store args", {
   expect_true(file.exists("example/store"))
   expect_true(file.exists("example/store/meta/meta"))
   expect_true(file.exists("example/store/objects/x"))
-  expect_equal(readRDS("example/store/objects/x"), "y")
+  expect_equal(readRDS("example/store/objects/x"), TRUE)
+  expect_false(tar_config$is_locked())
   tar_config_set(script = "x")
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))
@@ -140,7 +144,10 @@ tar_test("custom script and store args with callr function", {
   skip_on_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  tar_script(tar_target(x, "y"), script = "example/script.R")
+  tar_script(
+    tar_target(x, getNamespace("targets")$tar_config$is_locked()),
+    script = "example/script.R"
+  )
   tar_make(
     script = "example/script.R",
     store = "example/store",
@@ -157,7 +164,8 @@ tar_test("custom script and store args with callr function", {
   expect_true(file.exists("example/store"))
   expect_true(file.exists("example/store/meta/meta"))
   expect_true(file.exists("example/store/objects/x"))
-  expect_equal(readRDS("example/store/objects/x"), "y")
+  expect_equal(readRDS("example/store/objects/x"), TRUE)
+  expect_false(tar_config$is_locked())
   tar_config_set(script = "x")
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))
