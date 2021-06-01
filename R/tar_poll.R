@@ -25,13 +25,14 @@
 tar_poll <- function(
   interval = 1,
   timeout = Inf,
-  fields = c("started", "built", "errored", "canceled", "since")
+  fields = c("started", "built", "errored", "canceled", "since"),
+  store = targets::tar_config_get("store")
 ) {
   start <- proc.time()["elapsed"]
-  if (!tar_exist_progress()) {
+  if (!tar_exist_progress(store = store)) {
     cli_blue_bullet("Waiting for progress data in _targets/meta/progress.")
     spinner <- cli::make_spinner()
-    while (!tar_exist_progress() && tar_poll_go(start, timeout)) {
+    while (!tar_exist_progress(store = store) && tar_poll_go(start, timeout)) {
       Sys.sleep(interval)
       spinner$spin()
     }
@@ -48,7 +49,7 @@ tar_poll <- function(
     tar_poll_header(fields_quosure)
   }
   while (tar_poll_go(start, timeout)) {
-    tar_poll_body(fields_quosure)
+    tar_poll_body(fields_quosure, store = store)
     Sys.sleep(interval)
   }
   message("")
@@ -59,20 +60,20 @@ tar_poll_go <- function(start, timeout) {
   (proc.time()["elapsed"] - start) < timeout
 }
 
-tar_poll_df <- function(fields_quosure) {
-  progress <- tar_progress_summary(fields = NULL)
+tar_poll_df <- function(fields_quosure, store) {
+  progress <- tar_progress_summary(fields = NULL, store = store)
   fields <- eval_tidyselect(fields_quosure, colnames(progress)) %|||%
     colnames(progress)
   progress[, fields, drop = FALSE]
 }
 
-tar_poll_header <- function(fields_quosure) {
-  progress <- tar_poll_df(fields_quosure)
+tar_poll_header <- function(fields_quosure, store) {
+  progress <- tar_poll_df(fields_quosure, store = store)
   cli_df_header(progress)
 }
 
-tar_poll_body <- function(fields_quosure) {
-  progress <- tar_poll_df(fields_quosure)
+tar_poll_body <- function(fields_quosure, store) {
+  progress <- tar_poll_df(fields_quosure, store = store)
   cli_df_body(progress)
 }
 

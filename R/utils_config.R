@@ -8,8 +8,13 @@
 #'   is thrown.
 #' @param script Character of length 1, path to the target script file.
 #' @param store Character of length 1, path to the data store.
-switch_config <- function(script = NULL, store = NULL, assert_store = TRUE) {
-  if (!is.null(script)) {
+switch_config <- function(
+  script = NULL,
+  store = NULL,
+  assert_script = TRUE,
+  assert_store = TRUE
+) {
+  if (!is.null(script) && assert_script) {
     assert_script(script)
   }
   if (!is.null(store) && assert_store) {

@@ -7,7 +7,8 @@
 tar_poll(
   interval = 1,
   timeout = Inf,
-  fields = c("started", "built", "errored", "canceled", "since")
+  fields = c("started", "built", "errored", "canceled", "since"),
+  store = targets::tar_config_get("store")
 )
 }
 \arguments{
@@ -18,6 +19,15 @@ of polling progress.}
 
 \item{fields}{Optional, names of progress data columns to read.
 Set to \code{NULL} to read all fields.}
+
+\item{store}{Character of length 1, path to the
+\code{targets} data store. Defaults to \code{tar_config_get("store")},
+which in turn defaults to \verb{_targets/}.
+When you set this argument, the value of \code{tar_config_get("store")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about how to set the data store path persistently
+for a project.}
 }
 \description{
 Print the information in \code{\link[=tar_progress_summary]{tar_progress_summary()}}

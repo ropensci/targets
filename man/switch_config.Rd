@@ -4,7 +4,12 @@
 \alias{switch_config}
 \title{Switch config settings for a function call.}
 \usage{
-switch_config(script = NULL, store = NULL, assert_store = TRUE)
+switch_config(
+  script = NULL,
+  store = NULL,
+  assert_script = TRUE,
+  assert_store = TRUE
+)
 }
 \arguments{
 \item{script}{Character of length 1, path to the target script file.}
