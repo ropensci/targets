@@ -4,7 +4,12 @@
 \alias{tar_watch_server}
 \title{Shiny module server for tar_watch()}
 \usage{
-tar_watch_server(id, height = "650px", exclude = ".Random.seed")
+tar_watch_server(
+  id,
+  height = "650px",
+  exclude = ".Random.seed",
+  config = targets::tar_config_get("config")
+)
 }
 \arguments{
 \item{id}{Character of length 1, ID corresponding to the UI function

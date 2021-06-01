@@ -36,6 +36,8 @@ tar_test("tar_make_clustermq() can use tidyselect", {
 
 tar_test("custom script and store args", {
   skip_on_cran()
+  skip_if_not_installed("clustermq")
+  skip_on_os("windows")
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   old_option <- getOption("clustermq.scheduler")
@@ -69,6 +71,8 @@ tar_test("custom script and store args", {
 
 tar_test("custom script and store args with callr function", {
   skip_on_cran()
+  skip_if_not_installed("clustermq")
+  skip_on_os("windows")
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script({

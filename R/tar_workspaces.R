@@ -5,6 +5,7 @@
 #'   `_targets/workspaces/`. See [tar_workspace()] for more information.
 #' @return Character vector of available workspaces to load with
 #'   [tar_workspace()].
+#' @inheritParams tar_validate
 #' @param names Optional `tidyselect` selector to return
 #'   a tactical subset of workspace names.
 #'   If `NULL`, all names are selected.

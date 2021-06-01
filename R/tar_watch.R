@@ -13,6 +13,7 @@
 #' @return A handle to `callr::r_bg()` background process running the app.
 #' @inheritParams callr::r_bg
 #' @inheritParams tar_watch_ui
+#' @inheritParams tar_watch_server
 #' @param exclude Character vector of nodes to omit from the graph.
 #' @param label Label argument to [tar_visnetwork()].
 #' @param background Logical, whether to run the app in a background process
@@ -56,6 +57,7 @@ tar_watch <- function(
   level_separation = 150,
   degree_from = 1L,
   degree_to = 1L,
+  config = targets::tar_config_get("config"),
   height = "650px",
   background = TRUE,
   browse = TRUE,
@@ -105,6 +107,7 @@ tar_watch <- function(
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
+    config = config,
     height = height,
     host = host,
     port = port
@@ -140,6 +143,7 @@ tar_watch_app <- function(
   level_separation,
   degree_from,
   degree_to,
+  config,
   height,
   host,
   port
@@ -161,7 +165,8 @@ tar_watch_app <- function(
     targets::tar_watch_server(
       id = "tar_watch_id",
       height = height,
-      exclude = exclude
+      exclude = exclude,
+      config = config
     )
   }
   options <- list(host = host, port = port)

@@ -5,12 +5,18 @@
 #' @description Use [tar_watch_ui()] and `tar_watch_server()`
 #'   to include [tar_watch()] as a Shiny module in an app.
 #' @return A Shiny module server.
+#' @inheritParams tar_option_set
 #' @param id Character of length 1, ID corresponding to the UI function
 #'   of the module.
 #' @param height Character of length 1,
 #'   height of the `visNetwork` widget and branches table.
 #' @param exclude Character vector of nodes to omit from the graph.
-tar_watch_server <- function(id, height = "650px", exclude = ".Random.seed") {
+tar_watch_server <- function(
+  id,
+  height = "650px",
+  exclude = ".Random.seed",
+  config = targets::tar_config_get("config")
+) {
   assert_chr(
     exclude,
     "exclude in tar_watch_server() must be a character vector."
@@ -18,6 +24,7 @@ tar_watch_server <- function(id, height = "650px", exclude = ".Random.seed") {
   shiny::moduleServer(
     id,
     function(input, output, session) {
+      targets::tar_config_set(config = config)
       interval <- 200
       refresh <- shiny::reactiveValues(refresh = tempfile())
       out <- shiny::reactiveValues(

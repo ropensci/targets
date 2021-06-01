@@ -16,6 +16,7 @@ tar_watch(
   level_separation = 150,
   degree_from = 1L,
   degree_to = 1L,
+  config = targets::tar_config_get("config"),
   height = "650px",
   background = TRUE,
   browse = TRUE,
