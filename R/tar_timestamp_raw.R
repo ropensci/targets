@@ -26,6 +26,7 @@
 #'   returns a `POSIXct` object at `1970-01-01 UTC`
 #'   (so `parse = FALSE` is helpful for debugging
 #'   the `format` argument).
+#' @inheritParams tar_validate
 #' @param name Character of length 1, name of the target.
 #' @param format Character of length 1, POSIXct format string passed to
 #'   `as.POSIXct()` to parse the time stamp of a URL or AWS S3 bucket.
@@ -73,8 +74,11 @@ tar_timestamp_raw <- function(
   name = NULL,
   format = "%a, %d %b %Y %H:%M:%S",
   tz = "UTC",
-  parse = TRUE
+  parse = TRUE,
+  store = targets::tar_config_get("store")
 ) {
+  old_config <- switch_config(store = store)
+  on.exit(restore_config(old_config), add = TRUE)
   assert_chr(name %|||% character(0), "name must be a character.")
   if (is.null(name)) {
     if (!tar_runtime$exists_target()) {
