@@ -5,7 +5,7 @@
 #' @description Use [tar_watch_ui()] and `tar_watch_server()`
 #'   to include [tar_watch()] as a Shiny module in an app.
 #' @return A Shiny module server.
-#' @inheritParams tar_option_set
+#' @inheritParams tar_config_set
 #' @param id Character of length 1, ID corresponding to the UI function
 #'   of the module.
 #' @param height Character of length 1,
