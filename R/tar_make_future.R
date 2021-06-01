@@ -34,10 +34,11 @@ tar_make_future <- function(
   reporter = Sys.getenv("TAR_MAKE_REPORTER", unset = "verbose"),
   workers = 1L,
   callr_function = callr::r,
-  callr_arguments = targets::callr_args_default(callr_function, reporter)
+  callr_arguments = targets::callr_args_default(callr_function, reporter),
+  script = targets::tar_config_get("script"),
+  store = targets::tar_config_get("store")
 ) {
   assert_package("future")
-  assert_script()
   assert_flag(reporter, choices = tar_make_reporters())
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
@@ -50,7 +51,9 @@ tar_make_future <- function(
     targets_function = tar_make_future_inner,
     targets_arguments = targets_arguments,
     callr_function = callr_function,
-    callr_arguments = callr_arguments
+    callr_arguments = callr_arguments,
+    script = script,
+    store = store
   )
   invisible(out)
 }

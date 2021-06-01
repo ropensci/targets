@@ -53,12 +53,13 @@ tar_glimpse <- function(
   allow = NULL,
   exclude = ".Random.seed",
   level_separation = NULL,
+  degree_from = 1L,
+  degree_to = 1L,
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
-  degree_from = 1L,
-  degree_to = 1L
+  script = targets::tar_config_get("script"),
+  store = targets::tar_config_get("store")
 ) {
-  assert_script()
   assert_package("visNetwork")
   assert_lgl(targets_only, "targets_only must be logical.")
   assert_scalar(degree_from, "degree_from must have length 1.")
@@ -81,7 +82,9 @@ tar_glimpse <- function(
     targets_function = tar_glimpse_inner,
     targets_arguments = targets_arguments,
     callr_function = callr_function,
-    callr_arguments = callr_arguments
+    callr_arguments = callr_arguments,
+    script = script,
+    store = store
   )
 }
 

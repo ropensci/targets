@@ -6,6 +6,7 @@
 * Highlight a graph neighborhood when the user clicks a node. Control the neighborhood degree with new arguments `degree_from` and `degree_to` of `tar_visnetwork()` and `tar_glimpse()` (#474, @rgayler).
 * Make the target script path configurable in `tar_config_set()` (#476).
 * Add a `tar_script` chunk option in Target Markdown to control where the `{targets}` language engine writes the target script and helper scripts (#478).
+* Add new arguments `script` and `store` to choose custom paths to the target script file and data store for individual function calls (#477).
 
 ## Deprecations
 

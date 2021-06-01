@@ -10,7 +10,9 @@ tar_make_future(
   reporter = Sys.getenv("TAR_MAKE_REPORTER", unset = "verbose"),
   workers = 1L,
   callr_function = callr::r,
-  callr_arguments = targets::callr_args_default(callr_function, reporter)
+  callr_arguments = targets::callr_args_default(callr_function, reporter),
+  script = targets::tar_config_get("script"),
+  store = targets::tar_config_get("store")
 )
 }
 \arguments{
@@ -45,6 +47,16 @@ However, \code{callr_function} should not be \code{NULL} for serious
 reproducible work.}
 
 \item{callr_arguments}{A list of arguments to \code{callr_function}.}
+
+\item{script}{Character of length 1, path to the
+target script file. Defaults to \code{tar_config_get("script")},
+which in turn defaults to \verb{_targets.R}. See \code{\link[=tar_script]{tar_script()}},
+\code{\link[=tar_config_get]{tar_config_get()}}, and \code{\link[=tar_config_set]{tar_config_set()}} for details.}
+
+\item{store}{Character of length 1, path to the
+\code{targets} data store. Defaults to \code{tar_config_get("store")},
+which in turn defaults to \verb{_targets/}. See
+\code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details.}
 }
 \value{
 \code{NULL} except if \code{callr_function = callr::r_bg()}, in which case
