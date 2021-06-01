@@ -33,10 +33,12 @@ tar_test("config$set_path()", {
   path <- tempfile()
   path2 <- tempfile()
   out <- config_init(path = path)
+  expect_equal(out$get_path(), path)
   expect_equal(out$get_script(), path_script_default())
   out$set_script("x")
   expect_equal(out$get_script(), "x")
   out$set_path(path2)
+  expect_equal(out$get_path(), path2)
   expect_equal(out$get_script(), path_script_default())
 })
 
