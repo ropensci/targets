@@ -4,7 +4,7 @@
 \alias{tar_process}
 \title{Get main process info.}
 \usage{
-tar_process(names = NULL)
+tar_process(names = NULL, store = targets::tar_config_get("store"))
 }
 \arguments{
 \item{names}{Optional, names of the data points to return.
@@ -13,6 +13,15 @@ returns only the rows of the names you select.
 You can supply symbols, a character vector,
 or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.
 If \code{NULL}, all names are selected.}
+
+\item{store}{Character of length 1, path to the
+\code{targets} data store. Defaults to \code{tar_config_get("store")},
+which in turn defaults to \verb{_targets/}.
+When you set this argument, the value of \code{tar_config_get("store")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about how to set the data store path persistently
+for a project.}
 }
 \value{
 A data frame with metadata on the most recent main R process

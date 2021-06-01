@@ -14,6 +14,7 @@
 #'   * `branches`: number of dynamic branches of a pattern. 0 for non-patterns.
 #'   * `progress`: the most recent progress update of that target.
 #'     Could be `"started"`, `"built"`, `"canceled"`, or `"errored"`.
+#' @inheritParams tar_validate
 #' @param names Optional, names of the targets. If supplied, `tar_progress()`
 #'   only returns progress information on these targets.
 #'   You can supply symbols, a character vector,
@@ -34,8 +35,13 @@
 #' tar_progress(starts_with("y_"))
 #' })
 #' }
-tar_progress <- function(names = NULL, fields = "progress") {
-  assert_store()
+tar_progress <- function(
+  names = NULL,
+  fields = "progress",
+  store = targets::tar_config_get("store")
+) {
+  old_store <- switch_store(store)
+  on.exit(restore_store(old_store), add = TRUE)
   assert_path(path_progress())
   out <- tibble::as_tibble(progress_init()$database$read_condensed_data())
   names_quosure <- rlang::enquo(names)

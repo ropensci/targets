@@ -27,10 +27,18 @@
 tar_load <- function(
   names,
   branches = NULL,
-  meta = tar_meta(targets_only = TRUE),
-  envir = parent.frame()
+  meta = tar_meta(targets_only = TRUE, store = store),
+  envir = parent.frame(),
+  store = targets::tar_config_get("store")
 ) {
+  force(meta)
   force(envir)
   names <- eval_tidyselect(rlang::enquo(names), meta$name)
-  tar_load_raw(names = names, branches = branches, meta = meta, envir = envir)
+  tar_load_raw(
+    names = names,
+    branches = branches,
+    meta = meta,
+    envir = envir,
+    store = store
+  )
 }

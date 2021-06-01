@@ -8,6 +8,7 @@
 #'   `_targets/objects/`, or the paths to the custom files and directories
 #'   if `format = "file"` was set.
 #' @inheritSection tar_read Limited scope
+#' @inheritParams tar_validate
 #' @param name Character, name of the target to read.
 #' @param branches Integer of indices of the branches to load
 #'   if the target is a pattern.
@@ -24,8 +25,15 @@
 #' tar_read_raw("x")
 #' })
 #' }
-tar_read_raw <- function(name, branches = NULL, meta = tar_meta()) {
-  assert_store()
+tar_read_raw <- function(
+  name,
+  branches = NULL,
+  meta = tar_meta(store = store),
+  store = targets::tar_config_get("store")
+) {
+  force(meta)
+  old_store <- switch_store(store)
+  on.exit(restore_store(old_store), add = TRUE)
   assert_chr(name, "name must be symbol in tar_read(), chr in tar_read_raw().")
   tar_read_inner(name, branches, meta)
 }

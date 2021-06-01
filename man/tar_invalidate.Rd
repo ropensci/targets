@@ -4,7 +4,7 @@
 \alias{tar_invalidate}
 \title{Invalidate targets and global objects in the metadata.}
 \usage{
-tar_invalidate(names)
+tar_invalidate(names, store = targets::tar_config_get("store"))
 }
 \arguments{
 \item{names}{Names of the targets to remove from the metadata list.

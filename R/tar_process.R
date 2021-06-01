@@ -14,6 +14,7 @@
 #' @return A data frame with metadata on the most recent main R process
 #'   to orchestrate the targets of the current project.
 #'   The output includes the `pid` of the main process.
+#' @inheritParams tar_validate
 #' @param names Optional, names of the data points to return.
 #'    If supplied, `tar_process()`
 #'   returns only the rows of the names you select.
@@ -34,8 +35,12 @@
 #' tar_process(pid)
 #' })
 #' }
-tar_process <- function(names = NULL) {
-  assert_store()
+tar_process <- function(
+  names = NULL,
+  store = targets::tar_config_get("store")
+) {
+  old_store <- switch_store(store)
+  on.exit(restore_store(old_store), add = TRUE)
   assert_path(path_process())
   out <- tibble::as_tibble(process_init()$read_process())
   names_quosure <- rlang::enquo(names)
