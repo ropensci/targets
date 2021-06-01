@@ -131,6 +131,9 @@ tar_test("custom script and store args", {
   expect_true(file.exists("example/store/meta/meta"))
   expect_true(file.exists("example/store/objects/x"))
   expect_equal(readRDS("example/store/objects/x"), "y")
+  tar_config_set(script = "x")
+  expect_equal(tar_config_get("script"), "x")
+  expect_true(file.exists("_targets.yaml"))
 })
 
 tar_test("custom script and store args with callr function", {
@@ -155,4 +158,7 @@ tar_test("custom script and store args with callr function", {
   expect_true(file.exists("example/store/meta/meta"))
   expect_true(file.exists("example/store/objects/x"))
   expect_equal(readRDS("example/store/objects/x"), "y")
+  tar_config_set(script = "x")
+  expect_equal(tar_config_get("script"), "x")
+  expect_true(file.exists("_targets.yaml"))
 })

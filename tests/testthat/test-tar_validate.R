@@ -58,6 +58,9 @@ tar_test("custom script and store args", {
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))
   expect_false(file.exists("example/store"))
+  tar_config_set(script = "x")
+  expect_equal(tar_config_get("script"), "x")
+  expect_true(file.exists("_targets.yaml"))
 })
 
 tar_test("custom script and store args with callr function", {
@@ -78,4 +81,7 @@ tar_test("custom script and store args with callr function", {
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))
   expect_false(file.exists("example/store"))
+  tar_config_set(script = "x")
+  expect_equal(tar_config_get("script"), "x")
+  expect_true(file.exists("_targets.yaml"))
 })
