@@ -46,7 +46,7 @@ tar_destroy <- function(
   ),
   store = targets::tar_config_get("store")
 ) {
-  old_config <- switch_config(store = store)
+  old_config <- switch_config(store = store, assert_store = FALSE)
   on.exit(restore_config(old_config), add = TRUE)
   switch(
     match.arg(destroy),
