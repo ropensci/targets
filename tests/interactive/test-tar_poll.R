@@ -46,11 +46,7 @@ tar_test("tar_poll() with non-default store and script", {
     store = "example/store"
   )
   # Stop after you see it is working:
-  tar_poll(
-    interval = 0.001,
-    fields = all_of(c("built", "time")),
-    store = "example/store"
-  )
+  tar_poll(interval = 0.001, store = "example/store")
   px$kill()
   expect_true(file.exists("example/store"))
   expect_false(file.exists("_targets.yaml"))
@@ -65,4 +61,5 @@ tar_test("tar_poll() with non-default store and script", {
   tar_config_set(script = "x")
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))
+  unlink("example", recursive = TRUE)
 })

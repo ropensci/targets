@@ -51,7 +51,7 @@ tar_poll <- function(
   assert_positive(timeout, "timeout must be positive.")
   fields_quosure <- rlang::enquo(fields)
   if (tar_poll_go(start, timeout)) {
-    tar_poll_header(fields_quosure)
+    tar_poll_header(fields_quosure, store = store)
   }
   while (tar_poll_go(start, timeout)) {
     tar_poll_body(fields_quosure, store = store)
