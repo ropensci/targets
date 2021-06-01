@@ -10,16 +10,22 @@
 #'   No essential data is removed, so
 #'   this is simply a form of garbage collection.
 #' @return Nothing.
+#' @inheritParams tar_validate
 #' @param meta Logical, whether to deduplicate the meta database file
 #'   at `_targets/meta/meta`.
 #' @param progress Logical, whether to deduplicate the progress database file
 #'   at `_targets/meta/progress`.
-tar_deduplicate <- function(meta = TRUE, progress = TRUE) {
+tar_deduplicate <- function(
+  meta = TRUE,
+  progress = TRUE,
+  store = targets::tar_config_get("store")
+) {
+  old_store <- switch_store(store)
+  on.exit(restore_store(old_store), add = TRUE)
   warn_deprecate(
     "tar_deduplicate() is deprecated in version 0.3.0 (2020-03-06). ",
     "The tar_make*() functions do enough deduplication now automatically."
   )
-  assert_store()
   assert_lgl(meta, "meta arg of tar_deduplicate() must be logical.")
   assert_lgl(progress, "progress arg of tar_deduplicate() must be logical.")
   if (meta) {
