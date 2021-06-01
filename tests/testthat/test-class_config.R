@@ -29,6 +29,37 @@ tar_test("config$get_store() and config$set_store()", {
   expect_error(out$set_store(123), class = "tar_condition_validate")
 })
 
+tar_test("config$set_path()", {
+  path <- tempfile()
+  path2 <- tempfile()
+  out <- config_init(path = path)
+  expect_equal(out$get_script(), path_script_default())
+  out$set_script("x")
+  expect_equal(out$get_script(), "x")
+  out$set_path(path2)
+  expect_equal(out$get_script(), path_script_default())
+})
+
+tar_test("config$assign_script()", {
+  path <- tempfile()
+  out <- config_init(path = path)
+  expect_equal(out$get_script(), path_script_default())
+  out$assign_script("x")
+  out$set_lock()
+  expect_false(file.exists(path))
+  expect_equal(out$get_script(), "x")
+})
+
+tar_test("config$assign_store()", {
+  path <- tempfile()
+  out <- config_init(path = path)
+  expect_equal(out$get_store(), path_store_default())
+  out$assign_store("x")
+  out$set_lock()
+  expect_false(file.exists(path))
+  expect_equal(out$get_store(), "x")
+})
+
 tar_test("config$get_script() and config$set_script()", {
   path <- tempfile()
   out <- config_init(path = path)
