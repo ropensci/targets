@@ -8,7 +8,8 @@ tar_timestamp_raw(
   name = NULL,
   format = "\%a, \%d \%b \%Y \%H:\%M:\%S",
   tz = "UTC",
-  parse = TRUE
+  parse = TRUE,
+  store = targets::tar_config_get("store")
 )
 }
 \arguments{
@@ -34,6 +35,15 @@ time stamps from URLs and data in AWS S3 buckets. Set to \code{FALSE}
 to debug. Debugging is important because incorrectly parsed
 time stamps will result in a return value of
 a \code{POSIXct} object at \verb{1970-01-01 UTC} instead of \code{NA}.}
+
+\item{store}{Character of length 1, path to the
+\code{targets} data store. Defaults to \code{tar_config_get("store")},
+which in turn defaults to \verb{_targets/}.
+When you set this argument, the value of \code{tar_config_get("store")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about how to set the data store path persistently
+for a project.}
 }
 \value{
 If the target is not recorded in the metadata

@@ -4,7 +4,17 @@
 \alias{tar_exist_progress}
 \title{Check if progress metadata exists.}
 \usage{
-tar_exist_progress()
+tar_exist_progress(store = targets::tar_config_get("store"))
+}
+\arguments{
+\item{store}{Character of length 1, path to the
+\code{targets} data store. Defaults to \code{tar_config_get("store")},
+which in turn defaults to \verb{_targets/}.
+When you set this argument, the value of \code{tar_config_get("store")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about how to set the data store path persistently
+for a project.}
 }
 \value{
 Logical of length 1, whether the current project's metadata exists.

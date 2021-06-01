@@ -12,6 +12,7 @@
 #'   * `since`: how long ago progress last changed (`Sys.time() - time`).
 #'   * `time`: the time when the progress last changed
 #'     (modification timestamp of the `_targets/meta/progress` file).
+#' @inheritParams tar_validate
 #' @param fields Optional, names of progress data columns to read.
 #'   Set to `NULL` to read all fields.
 #' @examples
@@ -29,9 +30,11 @@
 #' })
 #' }
 tar_progress_summary <- function(
-  fields = c("started", "built", "errored", "canceled", "since")
+  fields = c("started", "built", "errored", "canceled", "since"),
+  store = targets::tar_config_get("store")
 ) {
-  assert_store()
+  old_config <- switch_config(store = store)
+  on.exit(restore_config(old_config), add = TRUE)
   assert_path(path_progress())
   time <- file.mtime(path_progress())
   progress <- tibble::as_tibble(progress_init()$database$read_condensed_data())

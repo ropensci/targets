@@ -8,10 +8,15 @@ tar_config_get(name)
 }
 \arguments{
 \item{name}{Character of length 1, name of the specific
-\verb{_targets.yaml} configuration setting to retrieve.}
+configuration setting to retrieve. If \code{name} is \code{"config"},
+then instead of retrieving a specific setting,
+then \code{tar_config_get()} will return the path to the YAML
+file where those settings are stored for the
+current R session (default: \verb{_targets.yaml}).}
 }
 \value{
-The value of the configuration setting from \verb{_targets.yaml},
+The value of the configuration setting from
+the YAML configuration file (default: \verb{_targets.yaml})
 or the default value if the setting is not available.
 The data type of the return value depends on your choice
 of \code{name}.
@@ -21,11 +26,9 @@ Read the custom settings in the optional _targets.yaml
 configuration file at the current project.
 }
 \details{
-\verb{_targets.yaml} is an optional YAML configuration file
-with settings specific to a given project. You can write it
-by hand or modify it with \code{\link[=tar_config_set]{tar_config_set()}}.
-In order to work properly, \verb{_targets.yaml} must live at the
-root of the project.
+Each project can have an optional YAML configuration file
+(default: \verb{_targets.yaml}) with settings specific to a given project.
+You can write it by hand or modify it with \code{\link[=tar_config_set]{tar_config_set()}}.
 The currently supported configuration settings are
 documented as the arguments of \code{\link[=tar_config_set]{tar_config_set()}}.
 }

@@ -13,28 +13,26 @@ path_script_default <- function() {
 #'   Not a user-side function. Do not invoke directly.
 #' @return Character of length 1, target script
 #'   helper directory path.
-#' @param script Character of length 1,
-#'   path to the target script.
 #' @examples
 #' path_script_r()
-path_script_r <- function(script = NULL) {
-  paste0(tools::file_path_sans_ext(script %|||% path_script()), "_r")
+path_script_r <- function() {
+  paste0(tools::file_path_sans_ext(path_script()), "_r")
 }
 
-path_script_r_globals_dir <- function(script) {
-  file.path(path_script_r(script), "globals")
+path_script_r_globals_dir <- function() {
+  file.path(path_script_r(), "globals")
 }
 
-path_script_r_globals <- function(name, script) {
-  file.path(path_script_r_globals_dir(script), paste0(name, ".R"))
+path_script_r_globals <- function(name) {
+  file.path(path_script_r_globals_dir(), paste0(name, ".R"))
 }
 
-path_script_r_targets_dir <- function(script) {
-  file.path(path_script_r(script), "targets")
+path_script_r_targets_dir <- function() {
+  file.path(path_script_r(), "targets")
 }
 
-path_script_r_targets <- function(name, script) {
-  file.path(path_script_r_targets_dir(script), paste0(name, ".R"))
+path_script_r_targets <- function(name) {
+  file.path(path_script_r_targets_dir(), paste0(name, ".R"))
 }
 
 path_store <- function() {

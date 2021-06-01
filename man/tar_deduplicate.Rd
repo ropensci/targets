@@ -4,7 +4,11 @@
 \alias{tar_deduplicate}
 \title{Deduplicate meta and progress databases (deprecated).}
 \usage{
-tar_deduplicate(meta = TRUE, progress = TRUE)
+tar_deduplicate(
+  meta = TRUE,
+  progress = TRUE,
+  store = targets::tar_config_get("store")
+)
 }
 \arguments{
 \item{meta}{Logical, whether to deduplicate the meta database file
@@ -12,6 +16,15 @@ at \verb{_targets/meta/meta}.}
 
 \item{progress}{Logical, whether to deduplicate the progress database file
 at \verb{_targets/meta/progress}.}
+
+\item{store}{Character of length 1, path to the
+\code{targets} data store. Defaults to \code{tar_config_get("store")},
+which in turn defaults to \verb{_targets/}.
+When you set this argument, the value of \code{tar_config_get("store")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about how to set the data store path persistently
+for a project.}
 }
 \value{
 Nothing.

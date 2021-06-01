@@ -4,7 +4,12 @@
 \alias{tar_watch_server}
 \title{Shiny module server for tar_watch()}
 \usage{
-tar_watch_server(id, height = "650px", exclude = ".Random.seed")
+tar_watch_server(
+  id,
+  height = "650px",
+  exclude = ".Random.seed",
+  config = targets::tar_config_get("config")
+)
 }
 \arguments{
 \item{id}{Character of length 1, ID corresponding to the UI function
@@ -14,6 +19,13 @@ of the module.}
 height of the \code{visNetwork} widget and branches table.}
 
 \item{exclude}{Character vector of nodes to omit from the graph.}
+
+\item{config}{Character of length 1, path to the YAML file with
+all the configuration settings (default: \verb{_targets.yaml}).
+Only applies to the current R session,
+the path reverts back to \verb{_targets.yaml} when you restart R.
+Intended for niche use cases only, such as \code{tar_watch()}
+embedded as a module in Shiny apps that use \code{targets}.}
 }
 \value{
 A Shiny module server.

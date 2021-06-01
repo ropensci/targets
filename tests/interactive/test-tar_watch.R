@@ -81,3 +81,50 @@ tar_make()
 rstudioapi::restartSession()
 tar_destroy()
 unlink("_targets.R")
+
+# Launch using different config settings.
+tar_script({
+  sleep_run <- function(...) Sys.sleep(0.5)
+  list(
+    tar_target(data1, sleep_run()),
+    tar_target(data2, sleep_run()),
+    tar_target(model1, sleep_run(data1)),
+    tar_target(model2, sleep_run(data2)),
+    tar_target(conclusions, sleep_run(c(model1, model2)))
+  )
+}, script = "example/script.R")
+tar_config_set(config = "example/config.yaml")
+tar_config_set(
+  script = "example/script.R",
+  store = "example/store"
+)
+px <- tar_watch(
+  seconds = 5,
+  targets_only = TRUE,
+  height = "450px",
+  config = "example/config.yaml"
+)
+# Should show pipeline progress in app.
+tar_make(
+  script = "example/script.R",
+  store = "example/store"
+)
+# Files should go in the correct places.
+library(testthat)
+expect_false(file.exists("_targets"))
+expect_false(file.exists("_targets.R"))
+expect_false(file.exists("_targets.yaml"))
+expect_true(file.exists("example/config.yaml"))
+expect_true(file.exists("example/script.R"))
+expect_true(file.exists("example/store"))
+# Switching the config affects the app.
+tar_config_set(config = "_targets.yaml")
+px$kill()
+# No targets file should be detected.
+px <- tar_watch(
+  seconds = 5,
+  targets_only = TRUE,
+  height = "450px"
+)
+px$kill()
+unlink("example", recursive = TRUE)

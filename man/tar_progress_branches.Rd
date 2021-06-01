@@ -4,7 +4,11 @@
 \alias{tar_progress_branches}
 \title{Tabulate the progress of dynamic branches.}
 \usage{
-tar_progress_branches(names = NULL, fields = NULL)
+tar_progress_branches(
+  names = NULL,
+  fields = NULL,
+  store = targets::tar_config_get("store")
+)
 }
 \arguments{
 \item{names}{Optional, names of the targets. If supplied, \code{tar_progress()}
@@ -14,6 +18,15 @@ or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
 
 \item{fields}{Optional, names of progress data columns to read.
 Set to \code{NULL} to read all fields.}
+
+\item{store}{Character of length 1, path to the
+\code{targets} data store. Defaults to \code{tar_config_get("store")},
+which in turn defaults to \verb{_targets/}.
+When you set this argument, the value of \code{tar_config_get("store")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about how to set the data store path persistently
+for a project.}
 }
 \value{
 A data frame with one row per target per progress status

@@ -6,6 +6,7 @@
 #' @details For patterns recorded in the metadata, all the branches
 #'   will be invalidated. For patterns no longer in the metadata,
 #'   branches are left alone.
+#' @inheritParams tar_validate
 #' @param names Names of the targets to remove from the metadata list.
 #'   You can supply symbols, a character vector,
 #'   or `tidyselect` helpers like [starts_with()].
@@ -24,8 +25,9 @@
 #' tar_make() # y1 and y2 rebuild but return same values, so z is up to date.
 #' })
 #' }
-tar_invalidate <- function(names) {
-  assert_store()
+tar_invalidate <- function(names, store = targets::tar_config_get("store")) {
+  old_config <- switch_config(store = store)
+  on.exit(restore_config(old_config), add = TRUE)
   meta <- meta_init()
   data <- meta$database$read_condensed_data()
   names_quosure <- rlang::enquo(names)

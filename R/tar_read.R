@@ -25,7 +25,18 @@
 #' tar_read(x)
 #' })
 #' }
-tar_read <- function(name, branches = NULL, meta = tar_meta()) {
+tar_read <- function(
+  name,
+  branches = NULL,
+  meta = tar_meta(store = store),
+  store = targets::tar_config_get("store")
+) {
+  force(meta)
   name <- deparse_language(substitute(name))
-  tar_read_raw(name, branches, meta)
+  tar_read_raw(
+    name = name,
+    branches = branches,
+    meta = meta,
+    store = store
+  )
 }

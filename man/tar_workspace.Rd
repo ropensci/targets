@@ -4,7 +4,14 @@
 \alias{tar_workspace}
 \title{Load a saved workspace and seed for debugging.}
 \usage{
-tar_workspace(name, envir = parent.frame(), packages = TRUE, source = TRUE)
+tar_workspace(
+  name,
+  envir = parent.frame(),
+  packages = TRUE,
+  source = TRUE,
+  script = targets::tar_config_get("script"),
+  store = targets::tar_config_get("store")
+)
 }
 \arguments{
 \item{name}{Symbol, name of the target whose workspace to read.}
@@ -18,6 +25,25 @@ of the target.}
 global object dependencies into \code{envir}. If \code{TRUE}, then \code{envir}
 should either be the global environment or inherit from the
 global environment.}
+
+\item{script}{Character of length 1, path to the
+target script file. Defaults to \code{tar_config_get("script")},
+which in turn defaults to \verb{_targets.R}. When you set
+this argument, the value of \code{tar_config_get("script")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_script]{tar_script()}},
+\code{\link[=tar_config_get]{tar_config_get()}}, and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about the target script file and how to set it
+persistently for a project.}
+
+\item{store}{Character of length 1, path to the
+\code{targets} data store. Defaults to \code{tar_config_get("store")},
+which in turn defaults to \verb{_targets/}.
+When you set this argument, the value of \code{tar_config_get("store")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about how to set the data store path persistently
+for a project.}
 }
 \value{
 This function returns \code{NULL}, but it does load
@@ -26,7 +52,7 @@ into the environment (\code{envir} argument) in order to replicate the
 workspace where the error happened. These objects include
 the global objects at the time \code{\link[=tar_make]{tar_make()}} was called and the
 dependency targets. The random number generator seed for the
-target is also assigned with \code{set.seed()}
+target is also assigned with \code{set.seed()}.
 }
 \description{
 Load the packages, workspace, and random number generator seed

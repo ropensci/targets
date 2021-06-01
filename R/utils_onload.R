@@ -1,4 +1,4 @@
 .onLoad <- function(libname, pkgname) {
   # Cannot cover .onLoad().
-  tar_engine_set() # nocov
+  knitr_engine_set() # nocov
 }

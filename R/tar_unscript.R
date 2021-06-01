@@ -7,11 +7,17 @@
 #'   Use [tar_unscript()] to remove all these helper scripts in the `*_r/`
 #'   directory. The actual target script is not removed.
 #' @return `NULL` (invisibly).
+#' @inheritParams tar_validate
 #' @examples
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_unscript()
 #' })
-tar_unscript <- function() {
+tar_unscript <- function(script = targets::tar_config_get("script")) {
+  if (!tar_exist_script(script = script)) {
+    return(invisible())
+  }
+  old_config <- switch_config(script = script)
+  on.exit(restore_config(old_config), add = TRUE)
   unlink(path_script_r(), recursive = TRUE)
   invisible()
 }

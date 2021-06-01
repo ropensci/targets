@@ -5,29 +5,42 @@
 \title{Destroy all or part of the data store.}
 \usage{
 tar_destroy(
-  destroy = c("all", "meta", "process", "progress", "objects", "scratch", "workspaces")
+  destroy = c("all", "meta", "process", "progress", "objects", "scratch", "workspaces"),
+  store = targets::tar_config_get("store")
 )
 }
 \arguments{
 \item{destroy}{Character of length 1, what to destroy. Choices:
 \itemize{
-\item \code{"all"}: destroy the entire data store.
-\item \code{"meta"}: just delete the metadata file at \verb{_targets/meta/meta},
-which invalidates all the targets but keeps the data.
+\item \code{"all"}: destroy the entire data store (default: \verb{_targets/})
+\item \code{"meta"}: just delete the metadata file at \code{meta/meta} in the
+data store, which invalidates all the targets but keeps the data.
 \item \code{"process"}: just delete the progress data file at
-\verb{_targets/meta/process}, which resets the metadata
+\code{meta/process} in the data store, which resets the metadata
 of the main process.
 \item \code{"progress"}: just delete the progress data file at
-\verb{_targets/meta/progress}, which resets the progress tracking info.
-\item \code{"objects"}: delete all the target return values in \verb{_targets/objects/}
-but keep progress and metadata. Dynamic files are not deleted this way.
+\code{meta/progress} in the data store,
+which resets the progress tracking info.
+\item \code{"objects"}: delete all the target
+return values in \verb{objects/} in the data
+store but keep progress and metadata.
+Dynamic files are not deleted this way.
 \item \code{"scratch"}: temporary files saved during \code{\link[=tar_make]{tar_make()}} that should
 automatically get deleted except if R crashed.
-\item \code{"workspaces"}: compressed files in \verb{_targets/workspaces/} with
+\item \code{"workspaces"}: compressed files in \verb{workspaces/} in the data store with
 the saved workspaces of targets that errored. Only saved
 if \code{error = "workspace"} in \code{\link[=tar_option_set]{tar_option_set()}} or \code{\link[=tar_target]{tar_target()}}.
 Load a workspace with \code{\link[=tar_workspace]{tar_workspace()}}.
 }}
+
+\item{store}{Character of length 1, path to the
+\code{targets} data store. Defaults to \code{tar_config_get("store")},
+which in turn defaults to \verb{_targets/}.
+When you set this argument, the value of \code{tar_config_get("store")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about how to set the data store path persistently
+for a project.}
 }
 \value{
 Nothing.

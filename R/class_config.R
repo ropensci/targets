@@ -77,6 +77,9 @@ config_class <- R6::R6Class(
       }
       self$update()
     },
+    get_path = function() {
+      self$path
+    },
     get_script = function() {
       self$get_value(name = "script") %|||% path_script_default()
     },
@@ -86,6 +89,29 @@ config_class <- R6::R6Class(
     get_value = function(name) {
       self$ensure()
       self$data[[name]]
+    },
+    assign_path = function(path) {
+      self$validate_path(path)
+      self$path <- path
+    },
+    assign_script = function(script) {
+      self$validate_script(script)
+      self$assign_value(name = "script", value = as.character(script))
+    },
+    assign_store = function(store) {
+      self$validate_store(store)
+      self$assign_value(name = "store", value = as.character(store))
+    },
+    assign_value = function(name, value) {
+      assert_scalar(name, "config name field must have length 1.")
+      assert_nzchar(name, "config name field must be nonempty.")
+      assert_chr(name, "config name field must be a character.")
+      self$data <- as.list(self$data)
+      self$data[[name]] <- value
+    },
+    set_path = function(path) {
+      self$assign_path(path)
+      self$ensure()
     },
     set_script = function(script) {
       self$validate_script(script)
@@ -100,15 +126,13 @@ config_class <- R6::R6Class(
         return()
       }
       self$ensure()
-      self$force_memory(name = name, value = value)
+      self$assign_value(name = name, value = value)
       self$write()
     },
-    force_memory = function(name, value) {
-      assert_scalar(name, "config name field must have length 1.")
-      assert_nzchar(name, "config name field must be nonempty.")
-      assert_chr(name, "config name field must be a character.")
-      self$data <- as.list(self$data)
-      self$data[[name]] <- value
+    validate_path = function(path) {
+      assert_chr(path, "path must be a character.")
+      assert_scalar(path, "path must have length 1.")
+      assert_nzchar(path, "path must not be empty.")
     },
     validate_script = function(script) {
       assert_chr(script, "script config must be a character.")

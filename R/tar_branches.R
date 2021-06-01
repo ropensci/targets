@@ -16,6 +16,7 @@
 #' @return A `tibble` with one row per branch and one column for each target
 #'   (including the branched-over targets and the target with the pattern.)
 #' @inheritParams tar_target
+#' @inheritParams tar_validate
 #' @param name Symbol, name of the target.
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
@@ -32,10 +33,15 @@
 #' tar_branches(dynamic, pattern = cross(z, map(x, y)))
 #' })
 #' }
-tar_branches <- function(name, pattern) {
+tar_branches <- function(
+  name,
+  pattern,
+  store = targets::tar_config_get("store")
+) {
+  old_config <- switch_config(store = store)
+  on.exit(restore_config(old_config))
   name <- deparse_language(substitute(name))
   assert_chr(name, "name arg of tar_target() must be a symbol")
-  assert_store()
   assert_path(file.path(path_meta()))
   pattern <- as.expression(substitute(pattern))
   deps <- all.vars(pattern, functions = FALSE, unique = TRUE)

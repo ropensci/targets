@@ -114,9 +114,9 @@ tar_test("assert_path()", {
 })
 
 tar_test("assert_store()", {
-  expect_error(assert_store(), class = "tar_condition_validate")
+  expect_error(assert_store("_targets"), class = "tar_condition_validate")
   dir.create("_targets")
-  expect_silent(assert_store())
+  expect_silent(assert_store("_targets"))
 })
 
 tar_test("assert_target", {
@@ -139,17 +139,17 @@ tar_test("assert_script()", {
   old <- Sys.getenv("TAR_WARN")
   on.exit(Sys.setenv(TAR_WARN = old))
   Sys.setenv(TAR_WARN = "true")
-  expect_error(assert_script(), class = "tar_condition_validate")
+  expect_error(assert_script("_targets.R"), class = "tar_condition_validate")
   file.create("_targets.R")
-  expect_silent(assert_script())
+  expect_silent(assert_script("_targets.R"))
   writeLines("tar_make()", "_targets.R")
-  expect_error(assert_script(), class = "tar_condition_validate")
+  expect_error(assert_script("_targets.R"), class = "tar_condition_validate")
   tar_script({
     library(targets)
     pkgload::load_all()
     list(tar_target(x, 1))
   })
-  expect_warning(assert_script(), class = "tar_condition_validate")
+  expect_warning(assert_script("_targets.R"), class = "tar_condition_validate")
 })
 
 tar_test("assert_true()", {

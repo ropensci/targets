@@ -30,10 +30,12 @@
 #' }
 tar_prune <- function(
   callr_function = callr::r,
-  callr_arguments = targets::callr_args_default(callr_function)
+  callr_arguments = targets::callr_args_default(callr_function),
+  script = targets::tar_config_get("script"),
+  store = targets::tar_config_get("store")
 ) {
-  assert_script()
-  assert_store()
+  old_config <- switch_config(script = script, store = store)
+  on.exit(restore_config(old_config), add = TRUE)
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   path_scratch_del()
@@ -41,12 +43,15 @@ tar_prune <- function(
     targets_function = tar_prune_inner,
     targets_arguments = list(),
     callr_function = callr_function,
-    callr_arguments = callr_arguments
+    callr_arguments = callr_arguments,
+    script = script,
+    store = store
   )
   invisible(out)
 }
 
 tar_prune_inner <- function(pipeline) {
+  assert_store(tar_config$get_store())
   names <- pipeline_get_names(pipeline)
   meta <- meta_init()
   data <- meta$database$read_condensed_data()

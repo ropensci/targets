@@ -4,7 +4,13 @@
 \alias{tar_load_raw}
 \title{Load the values of targets (raw version).}
 \usage{
-tar_load_raw(names, branches = NULL, meta = tar_meta(), envir = parent.frame())
+tar_load_raw(
+  names,
+  branches = NULL,
+  meta = tar_meta(store = store),
+  envir = parent.frame(),
+  store = targets::tar_config_get("store")
+)
 }
 \arguments{
 \item{names}{Character vector, names of the targets to build or check.}
@@ -19,6 +25,15 @@ However, if you call \code{\link[=tar_meta]{tar_meta()}} beforehand and supply i
 argument, then successive calls to \code{tar_read()} may run much faster.}
 
 \item{envir}{Environment to put the loaded targets.}
+
+\item{store}{Character of length 1, path to the
+\code{targets} data store. Defaults to \code{tar_config_get("store")},
+which in turn defaults to \verb{_targets/}.
+When you set this argument, the value of \code{tar_config_get("store")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about how to set the data store path persistently
+for a project.}
 }
 \value{
 Nothing.

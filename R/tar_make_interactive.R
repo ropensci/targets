@@ -8,12 +8,12 @@ tar_make_interactive <- function(code) {
     "sequential"
   )
   store <- tar_config$get_value("store")
-  tar_config$force_memory(name = "store", value = tempfile())
+  tar_config$assign_value(name = "store", value = tempfile())
   tar_config$set_lock()
   on.exit({
     tar_config$unset_lock()
     unlink(tar_config$get_value("store"), recursive = TRUE)
-    tar_config$force_memory(name = "store", value = store)
+    tar_config$assign_value(name = "store", value = store)
   })
   local_init(
     pipeline = pipeline,

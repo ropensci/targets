@@ -237,12 +237,13 @@ assert_scalar <- function(x, msg = NULL) {
   }
 }
 
-assert_store <- function() {
+assert_store <- function(store) {
   assert_path(
-    path_store(),
+    store,
     paste(
+      "data store path", store, "not found.",
       "utility functions like tar_read() and tar_progress() require a",
-      "_targets/ data store produced by tar_make() or similar."
+      "data store (default: _targets/) produced by tar_make() or similar."
     )
   )
 }
@@ -267,14 +268,16 @@ assert_target_list <- function(x) {
   map(x, assert_target, msg = msg)
 }
 
-assert_script <- function() {
-  msg <- paste(
-    "main functions like tar_make() require a target script file",
-    "(default: _targets.R) to define the pipeline.",
-    "Functions tar_edit() and tar_script() can help."
+assert_script <- function(script) {
+  msg <- paste0(
+    "could not find file ",
+    script,
+    ". Main functions like tar_make() require a target script file ",
+    "(default: _targets.R) to define the pipeline. ",
+    "Functions tar_edit() and tar_script() can help. "
   )
-  assert_path(path_script(), msg)
-  vars <- all.vars(parse(file = path_script()), functions = TRUE)
+  assert_path(script, msg)
+  vars <- all.vars(parse(file = script), functions = TRUE)
   exclude <- c(
     "glimpse",
     "make",
@@ -290,7 +293,8 @@ assert_script <- function() {
   pattern <- paste(paste0("^tar_", exclude), collapse = "|")
   choices <- grep(pattern, getNamespaceExports("targets"), value = TRUE)
   msg <- paste(
-    "The target script file (default: _targets.R)",
+    "The target script file",
+    script,
     "must not call tar_make() or similar functions",
     "that would source the target script again and cause infinite recursion."
   )

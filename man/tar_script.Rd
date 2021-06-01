@@ -4,7 +4,12 @@
 \alias{tar_script}
 \title{Write a target script file.}
 \usage{
-tar_script(code = NULL, library_targets = TRUE, ask = NULL)
+tar_script(
+  code = NULL,
+  library_targets = TRUE,
+  ask = NULL,
+  script = targets::tar_config_get("script")
+)
 }
 \arguments{
 \item{code}{R code to write to the target script file.
@@ -21,6 +26,10 @@ already exists. If \code{NULL}, defaults to \code{Sys.getenv("TAR_ASK")}.
 (Set to \code{"true"} or \code{"false"} with \code{Sys.setenv()}).
 If \code{ask} and the \code{TAR_ASK} environment variable are both
 indeterminate, defaults to \code{interactive()}.}
+
+\item{script}{Character of length 1, where to write
+the target script file. Defaults to \code{tar_config_get("script")},
+which in turn defaults to \verb{_targets.R}.}
 }
 \value{
 \code{NULL} (invisibly).

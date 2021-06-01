@@ -11,6 +11,7 @@
 #'   argument defaults to the name of the target,
 #'   so `tar_path()` returns `_targets/objects/x`.
 #' @return Character, file path to a hypothetical target.
+#' @inheritParams tar_validate
 #' @param name Symbol, name of a target.
 #'   If `NULL`, `tar_path()` returns the path of the target currently running
 #'   in a pipeline.
@@ -28,7 +29,13 @@
 #' tar_read(returns_path)
 #' })
 #' }
-tar_path <- function(name = NULL, default = NA_character_) {
+tar_path <- function(
+  name = NULL,
+  default = NA_character_,
+  store = targets::tar_config_get("store")
+) {
+  old_config <- switch_config(store = store, assert_store = FALSE)
+  on.exit(restore_config(old_config), add = TRUE)
   name <- deparse_language(substitute(name))
   assert_chr(name %|||% character(0), "name arg of tar_path() must be a symbol")
   assert_chr(default)

@@ -6,8 +6,11 @@
 #'   but the path can be configured for the current project
 #'   using [tar_config_set()].
 #' @return Logical of length 1, whether the current project's metadata exists.
+#' @inheritParams tar_validate
 #' @examples
 #' tar_exist_script()
-tar_exist_script <- function() {
+tar_exist_script <- function(script = targets::tar_config_get("script")) {
+  old_config <- switch_config(script = script, assert_script = FALSE)
+  on.exit(restore_config(old_config), add = TRUE)
   file.exists(path_script())
 }

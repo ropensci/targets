@@ -5,6 +5,7 @@
 #'   `_targets/workspaces/`. See [tar_workspace()] for more information.
 #' @return Character vector of available workspaces to load with
 #'   [tar_workspace()].
+#' @inheritParams tar_validate
 #' @param names Optional `tidyselect` selector to return
 #'   a tactical subset of workspace names.
 #'   If `NULL`, all names are selected.
@@ -23,7 +24,12 @@
 #' tar_workspaces(contains("x"))
 #' })
 #' }
-tar_workspaces <- function(names = NULL) {
+tar_workspaces <- function(
+  names = NULL,
+  store = targets::tar_config_get("store")
+) {
+  old_config <- switch_config(store = store, assert_store = FALSE)
+  on.exit(restore_config(old_config), add = TRUE)
   choices <- if_any(
     dir.exists(path_workspaces_dir()),
     sort(list.files(path_workspaces_dir(), all.files = TRUE, no.. = TRUE)),

@@ -2,14 +2,18 @@ callr_outer <- function(
   targets_function,
   targets_arguments,
   callr_function,
-  callr_arguments
+  callr_arguments,
+  script,
+  store
 ) {
   tryCatch(
     callr_dispatch(
-      targets_function,
-      targets_arguments,
-      callr_function,
-      callr_arguments
+      targets_function = targets_function,
+      targets_arguments = targets_arguments,
+      callr_function = callr_function,
+      callr_arguments = callr_arguments,
+      script = script,
+      store = store
     ),
     callr_error = function(e) {
       throw_run(
@@ -25,24 +29,27 @@ callr_dispatch <- function(
   targets_function,
   targets_arguments,
   callr_function,
-  callr_arguments
+  callr_arguments,
+  script,
+  store
 ) {
-  assert_script()
-  targets_options <- list(crayon.enabled = interactive())
+  options <- list(crayon.enabled = interactive())
   callr_arguments$func <- callr_inner
   callr_arguments$args <- list(
-    targets_script = path_script(),
     targets_function = targets_function,
     targets_arguments = targets_arguments,
-    targets_options = targets_options
+    options = options,
+    script = script,
+    store = store
   )
   if_any(
     is.null(callr_function),
     callr_inner(
-      targets_script = path_script(),
       targets_function = targets_function,
       targets_arguments = targets_arguments,
-      targets_options = targets_options
+      options = options,
+      script = script,
+      store = store
     ),
     do.call(
       callr_function,
@@ -52,18 +59,20 @@ callr_dispatch <- function(
 }
 
 callr_inner <- function(
-  targets_script,
   targets_function,
   targets_arguments,
-  targets_options
+  options,
+  script,
+  store
 ) {
-  tar_config <- getNamespace("targets")$tar_config
-  tar_config$unset_lock()
-  tar_config$ensure()
-  tar_config$set_lock()
-  on.exit(tar_config$unset_lock())
-  withr::local_options(targets_options)
-  value <- source(targets_script)$value
+  old_config <- targets::switch_config(
+    script = script,
+    store = store,
+    assert_store = FALSE
+  )
+  on.exit(targets::restore_config(old_config))
+  withr::local_options(options)
+  value <- source(script)$value
   targets_arguments$pipeline <- targets::as_pipeline(value)
   targets::pipeline_validate_lite(targets_arguments$pipeline)
   do.call(targets_function, targets_arguments)

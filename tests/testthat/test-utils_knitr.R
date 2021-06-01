@@ -1,4 +1,4 @@
-tar_test("tar_engine() construct globals", {
+tar_test("knitr_engine() construct globals", {
   skip_if_not_installed("knitr")
   options <- list(
     code = "x <- \"a\"",
@@ -9,16 +9,16 @@ tar_test("tar_engine() construct globals", {
     tar_globals = TRUE,
     tar_interactive = FALSE
   )
-  tar_engine(options)
+  knitr_engine(options)
   expect_false(file.exists(path_store()))
   expect_true(file.exists(path_script()))
-  expect_false(file.exists(path_script_r_targets_dir(path_script())))
-  expect_true(file.exists(path_script_r_globals("test", path_script())))
+  expect_false(file.exists(path_script_r_targets_dir()))
+  expect_true(file.exists(path_script_r_globals("test")))
   tar_make(callr_function = NULL)
   expect_equal(x, "a")
 })
 
-tar_test("tar_engine() construct globals with alternative script path", {
+tar_test("knitr_engine() construct globals with alternative script path", {
   skip_if_not_installed("knitr")
   script <- "example/script.R"
   options <- list(
@@ -31,20 +31,24 @@ tar_test("tar_engine() construct globals with alternative script path", {
     tar_interactive = FALSE,
     tar_script = script
   )
-  tar_engine(options)
+  knitr_engine(options)
   expect_false(file.exists(path_store()))
   expect_false(file.exists(path_script()))
   expect_true(file.exists(script))
-  expect_false(file.exists(path_script_r_globals_dir(path_script())))
-  expect_false(file.exists(path_script_r_globals("test", path_script())))
-  expect_true(file.exists(path_script_r_globals_dir(script)))
-  expect_true(file.exists(path_script_r_globals("test", script)))
+  expect_false(file.exists(path_script_r_globals_dir()))
+  expect_false(file.exists(path_script_r_globals("test")))
+  expect_false(file.exists(path_script_r_targets_dir()))
+  expect_false(file.exists(path_script_r_targets("test")))
   tar_config_set(script = script)
+  expect_true(file.exists(path_script_r_globals_dir()))
+  expect_true(file.exists(path_script_r_globals("test")))
+  expect_false(file.exists(path_script_r_targets_dir()))
+  expect_false(file.exists(path_script_r_targets("test")))
   tar_make(callr_function = NULL)
   expect_equal(x, "a")
 })
 
-tar_test("tar_engine() prototype globals", {
+tar_test("knitr_engine() prototype globals", {
   skip_if_not_installed("knitr")
   options <- list(
     code = "x <- \"a\"",
@@ -60,16 +64,16 @@ tar_test("tar_engine() prototype globals", {
   on.exit(tar_option_set(envir = old))
   tar_option_set(envir = envir)
   expect_false(exists("x", envir = envir, inherits = FALSE))
-  tar_engine(options)
+  knitr_engine(options)
   expect_false(file.exists(path_store()))
   expect_false(file.exists(path_script()))
-  expect_false(file.exists(path_script_r_targets_dir(path_script())))
-  expect_false(file.exists(path_script_r_globals("test", path_script())))
+  expect_false(file.exists(path_script_r_targets_dir()))
+  expect_false(file.exists(path_script_r_globals("test")))
   expect_true(exists("x", envir = envir, inherits = FALSE))
   expect_equal(envir$x, "a")
 })
 
-tar_test("tar_engine() construct targets", {
+tar_test("knitr_engine() construct targets", {
   skip_if_not_installed("knitr")
   options <- list(
     code = "tar_target(x, \"a\")",
@@ -80,16 +84,16 @@ tar_test("tar_engine() construct targets", {
     tar_globals = FALSE,
     tar_interactive = FALSE
   )
-  tar_engine(options)
+  knitr_engine(options)
   expect_false(file.exists(path_store()))
   expect_true(file.exists(path_script()))
-  expect_false(file.exists(path_script_r_globals_dir(path_script())))
-  expect_true(file.exists(path_script_r_targets("test", path_script())))
+  expect_false(file.exists(path_script_r_globals_dir()))
+  expect_true(file.exists(path_script_r_targets("test")))
   tar_make(callr_function = NULL)
   expect_equal(tar_read(x), "a")
 })
 
-tar_test("tar_engine() construct targets with an alternative script path", {
+tar_test("knitr_engine() construct targets with an alternative script path", {
   skip_if_not_installed("knitr")
   script <- "example/script.R"
   options <- list(
@@ -102,20 +106,24 @@ tar_test("tar_engine() construct targets with an alternative script path", {
     tar_interactive = FALSE,
     tar_script = script
   )
-  tar_engine(options)
+  knitr_engine(options)
   expect_false(file.exists(path_store()))
   expect_false(file.exists(path_script()))
   expect_true(file.exists(script))
-  expect_false(file.exists(path_script_r_targets_dir(path_script())))
-  expect_false(file.exists(path_script_r_targets("test", path_script())))
-  expect_true(file.exists(path_script_r_targets_dir(script)))
-  expect_true(file.exists(path_script_r_targets("test", script)))
+  expect_false(file.exists(path_script_r_globals_dir()))
+  expect_false(file.exists(path_script_r_globals("test")))
+  expect_false(file.exists(path_script_r_targets_dir()))
+  expect_false(file.exists(path_script_r_targets("test")))
   tar_config_set(script = script)
+  expect_false(file.exists(path_script_r_globals_dir()))
+  expect_false(file.exists(path_script_r_globals("test")))
+  expect_true(file.exists(path_script_r_targets_dir()))
+  expect_true(file.exists(path_script_r_targets("test")))
   tar_make(callr_function = NULL)
   expect_equal(tar_read(x), "a")
 })
 
-tar_test("tar_engine() prototype targets", {
+tar_test("knitr_engine() prototype targets", {
   skip_if_not_installed("knitr")
   options <- list(
     code = "targets::tar_target(x, \"a\")",
@@ -128,15 +136,15 @@ tar_test("tar_engine() prototype targets", {
   )
   envir <- new.env(parent = baseenv())
   tar_option_set(envir = envir)
-  tar_engine(options)
+  knitr_engine(options)
   expect_equal(envir$x, "a")
   expect_false(file.exists(path_store()))
   expect_false(file.exists(path_script()))
-  expect_false(file.exists(path_script_r_globals_dir(path_script())))
-  expect_false(file.exists(path_script_r_targets("test", path_script())))
+  expect_false(file.exists(path_script_r_globals_dir()))
+  expect_false(file.exists(path_script_r_targets("test")))
 })
 
-tar_test("tar_engine() warning if duplicate chunk labels allowed", {
+tar_test("knitr_engine() warning if duplicate chunk labels allowed", {
   skip_if_not_installed("knitr")
   option <- getOption("knitr.duplicate.label")
   on.exit(options(knitr.duplicate.label = option))
@@ -151,13 +159,13 @@ tar_test("tar_engine() warning if duplicate chunk labels allowed", {
     tar_interactive = FALSE
   )
   expect_warning(
-    tar_engine(options),
+    knitr_engine(options),
     class = "tar_condition_validate"
   )
 })
 
-tar_test("tar_engine_set()", {
-  tar_engine_set()
+tar_test("knitr_engine_set()", {
+  knitr_engine_set()
   engine_names <- names(knitr::knit_engines$get())
   expect_true("targets" %in% engine_names)
 })
@@ -176,7 +184,7 @@ tar_test("deprecated targets option", {
     tar_interactive = FALSE
   )
   expect_warning(
-    tar_engine(options),
+    knitr_engine(options),
     class = "tar_condition_deprecate"
   )
 })
@@ -196,7 +204,7 @@ tar_test("unnamed chunk label", {
     tar_interactive = FALSE
   )
   expect_warning(
-    tar_engine(options),
+    knitr_engine(options),
     class = "tar_condition_validate"
   )
 })

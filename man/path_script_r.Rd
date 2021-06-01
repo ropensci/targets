@@ -4,11 +4,7 @@
 \alias{path_script_r}
 \title{Target script helper directory path.}
 \usage{
-path_script_r(script = NULL)
-}
-\arguments{
-\item{script}{Character of length 1,
-path to the target script.}
+path_script_r()
 }
 \value{
 Character of length 1, target script

@@ -1,0 +1,93 @@
+---
+title: "Target Markdown"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+Try some code chunks interactively, then render this report. Render again to see if the targets correctly skip. Delete the HTML file, `_targets.R`, `_targets_r/`, and `_targets/` after rendering.
+
+# Packages
+
+The example requires several R packages, and `targets` must be version 0.5.0.9000 or above. 
+
+```{r, eval = FALSE}
+install.packages(c("biglm", "dplyr", "ggplot2", "readr", "targets", "tidyr"))
+```
+
+# Setup
+
+First, load `targets` to activate the specialized `knitr` engine for Target Markdown.
+
+```{r}
+library(targets)
+```
+
+Near the top, you may also wish to remove the `_targets_r` directory previously written by non-interactive runs of the report.
+
+```{r}
+tar_unscript()
+```
+
+# Globals
+
+We first define some global options/functions common to all targets. The function below plots a histogram of ozone concentrations, and our histogram target will need it.
+
+```{targets example-globals, tar_globals = TRUE}
+options(tidyverse.quiet = TRUE)
+tar_option_set(packages = c("biglm", "dplyr", "ggplot2", "readr", "tidyr"))
+create_plot <- function(data) {
+  ggplot(data) +
+    geom_histogram(aes(x = Ozone), bins = 12) +
+    theme_gray(24)
+}
+```
+
+# Targets
+
+Our first target borrows the `airquality` dataset built into base R.
+
+```{targets raw-data}
+tar_target(raw_data, airquality)
+```
+
+Our next targets preprocess the data, make a histogram, and fit a model.
+
+```{targets downstream-targets}
+list(
+  tar_target(data, raw_data %>% filter(!is.na(Ozone))),
+  tar_target(hist, create_plot(data)),
+  tar_target(fit, biglm(Ozone ~ Wind + Temp, data))
+)
+```
+
+# Pipeline
+
+If you ran all the `{targets}` chunks in non-interactive mode, then your R scripts are set up to run the pipeline.
+
+```{r}
+tar_make()
+```
+
+# Output
+
+You can retrieve results from the `_targets/` data store using `tar_read()` or `tar_load()`.
+
+```{r, message = FALSE}
+library(biglm)
+tar_read(fit)
+```
+
+```{r}
+tar_read(hist)
+```
+
+The `targets` dependency graph helps your readers understand the steps of your pipeline at a high level.
+
+```{r}
+tar_visnetwork()
+```
+
+At this point, you can go back and run `{targets}` chunks in interactive mode without interfering with the code or data of the non-interactive pipeline.

@@ -9,7 +9,8 @@ tar_traceback(
   envir = NULL,
   packages = NULL,
   source = NULL,
-  characters = getOption("width")
+  characters = getOption("width"),
+  store = targets::tar_config_get("store")
 )
 }
 \arguments{
@@ -28,6 +29,15 @@ global environment.}
 
 \item{characters}{Positive integer. Each line of the traceback
 is shortened to this number of characters.}
+
+\item{store}{Character of length 1, path to the
+\code{targets} data store. Defaults to \code{tar_config_get("store")},
+which in turn defaults to \verb{_targets/}.
+When you set this argument, the value of \code{tar_config_get("store")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about how to set the data store path persistently
+for a project.}
 }
 \value{
 Character vector, the traceback of a failed target

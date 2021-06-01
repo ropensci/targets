@@ -7,6 +7,7 @@
 #'   That is why the number of branches may disagree between [tar_meta()]
 #'   and [tar_progress()] for actively running pipelines.
 #' @return A data frame with one row per target/object and the selected fields.
+#' @inheritParams tar_validate
 #' @param names Optional, names of the targets. If supplied, `tar_meta()`
 #'   only returns metadata on these targets.
 #'   You can supply symbols, a character vector,
@@ -85,9 +86,11 @@ tar_meta <- function(
   names = NULL,
   fields = NULL,
   targets_only = FALSE,
-  complete_only = FALSE
+  complete_only = FALSE,
+  store = targets::tar_config_get("store")
 ) {
-  assert_store()
+  old_config <- switch_config(store = store)
+  on.exit(restore_config(old_config), add = TRUE)
   assert_path(path_meta())
   out <- tibble::as_tibble(meta_init()$database$read_condensed_data())
   names_quosure <- rlang::enquo(names)
