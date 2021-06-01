@@ -81,9 +81,10 @@ tar_sitrep <- function(
   fields = NULL,
   reporter = "silent",
   callr_function = callr::r,
-  callr_arguments = targets::callr_args_default(callr_function, reporter)
+  callr_arguments = targets::callr_args_default(callr_function, reporter),
+  script = targets::tar_config_get("script"),
+  store = targets::tar_config_get("store")
 ) {
-  assert_script()
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)
   assert_scalar(reporter, "reporter arg of tar_outdated() must have length 1.")
@@ -103,7 +104,9 @@ tar_sitrep <- function(
     targets_function = tar_sitrep_inner,
     targets_arguments = targets_arguments,
     callr_function = callr_function,
-    callr_arguments = callr_arguments
+    callr_arguments = callr_arguments,
+    script = script,
+    store = store
   )
 }
 
