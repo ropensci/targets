@@ -46,7 +46,11 @@ tar_github_actions <- function(
     return(invisible()) # nocov
   }
   dir_create(dirname(path))
-  source <- system.file("targets.yaml", package = "targets", mustWork = TRUE)
+  source <- system.file(
+    file.path("templates", "github_actions.yaml"),
+    package = "targets",
+    mustWork = TRUE
+  )
   file.copy(source, path, overwrite = TRUE)
   invisible()
 }

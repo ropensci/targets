@@ -108,7 +108,7 @@ tar_watch_server <- function(id, height = "650px", exclude = ".Random.seed") {
 
 tar_watch_about <- function() {
   path <- system.file(
-    "tar_watch_about.md",
+    file.path("app_docs", "tar_watch_about.md"),
     package = "targets",
     mustWork = TRUE
   )

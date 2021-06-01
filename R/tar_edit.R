@@ -7,7 +7,8 @@
 #'   that defines the pipeline. The default path is `_targets.R`,
 #'   but the default for the current project
 #'   can be configured with [tar_config_set()].
-tar_edit <- function() {
+#' @inheritParams tar_validate
+tar_edit <- function(script = targets::tar_option_get("script")) {
   # Covered in tests/interactive/test-tar_edit.R # nolint
   # nocov start
   assert_package("usethis")
