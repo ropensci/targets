@@ -1,4 +1,4 @@
-tar_engine <- function(options) {
+knitr_engine <- function(options) {
   assert_package("knitr")
   assert_list(options, "knitr chunk options must be a list.")
   assert_chr(options$label, "knitr chunk must have a label")
@@ -12,17 +12,22 @@ tar_engine <- function(options) {
     )
     options$tar_globals <- options$tar_globals %|||% options$targets
   }
-  tar_engine_assert_options(options)
+  knitr_engine_assert_options(options)
   warn_labels_duplicated()
   warn_labels_unnamed(options)
+  old_config <- switch_config(
+    script = options$tar_script,
+    assert_script = FALSE
+  )
+  on.exit(restore_config(old_config), add = TRUE)
   if_any(
     identical(options$tar_globals, TRUE),
-    tar_engine_globals(options),
-    tar_engine_targets(options)
+    knitr_engine_globals(options),
+    knitr_engine_targets(options)
   )
 }
 
-tar_engine_assert_options <- function(options) {
+knitr_engine_assert_options <- function(options) {
   for (option in c("tar_globals", "tar_interactive", "tar_script")) {
     assert_scalar(
       options[[option]] %|||% TRUE,
@@ -41,90 +46,88 @@ tar_engine_assert_options <- function(options) {
   )
 }
 
-tar_engine_globals <- function(options) {
+knitr_engine_globals <- function(options) {
   if_any(
     options$tar_interactive %|||% interactive(),
-    tar_engine_globals_prototype(options),
-    tar_engine_globals_construct(options)
+    knitr_engine_globals_prototype(options),
+    knitr_engine_globals_construct(options)
   )
 }
 
-tar_engine_targets <- function(options) {
+knitr_engine_targets <- function(options) {
   if_any(
     options$tar_interactive %|||% interactive(),
-    tar_engine_targets_prototype(options),
-    tar_engine_targets_construct(options)
+    knitr_engine_targets_prototype(options),
+    knitr_engine_targets_construct(options)
   )
 }
 
-tar_engine_globals_prototype <- function(options) {
+knitr_engine_globals_prototype <- function(options) {
   eval(parse(text = options$code), envir = tar_option_get("envir"))
-  tar_engine_output(
+  knitr_engine_output(
     options,
     "Assigned objects to the environment."
   )
 }
 
-tar_engine_globals_construct <- function(options) {
-  script <- options$tar_script %|||% path_script()
-  write_targets_r(script)
-  write_targets_r_globals(options$code, options$label, script)
+knitr_engine_globals_construct <- function(options) {
+  write_targets_r()
+  write_targets_r_globals(options$code, options$label)
   out <- paste(
     "Established",
-    script,
+    path_script(),
     "and",
-    path_script_r_globals(options$label, script)
+    path_script_r_globals(options$label)
   )
-  tar_engine_output(options, out)
+  knitr_engine_output(options, out)
 }
 
-tar_engine_targets_prototype <- function(options) {
+knitr_engine_targets_prototype <- function(options) {
   tar_make_interactive(options$code)
-  tar_engine_output(
+  knitr_engine_output(
     options,
     "Ran targets and assigned them to the environment."
   )
 }
 
-tar_engine_targets_construct <- function(options) {
-  script <- options$tar_script %|||% path_script()
-  write_targets_r(script)
-  write_targets_r_targets(options$code, options$label, script)
+knitr_engine_targets_construct <- function(options) {
+  write_targets_r()
+  write_targets_r_targets(options$code, options$label)
   out <- paste(
     "Established",
-    script,
+    path_script(),
     "and",
-    path_script_r_targets(options$label, script)
+    path_script_r_targets(options$label)
   )
-  tar_engine_output(options, out)
+  knitr_engine_output(options, out)
 }
 
-tar_engine_output <- function(options, out) {
+knitr_engine_output <- function(options, out) {
   code <- paste(options$code, collapse = "\n")
   options$engine <- "r"
   knitr::engine_output(options = options, code = code, out = out)
 }
 
-write_targets_r <- function(script) {
+write_targets_r <- function() {
   path <- system.file(
     file.path("pipelines", "_targets_r.R"),
     package = "targets",
     mustWork = TRUE
   )
-  if (!file.exists(script) || !files_identical(path, script)) {
-    dir_create(dirname(script))
-    file.copy(path, script, overwrite = TRUE)
+  if (!file.exists(path_script()) || !files_identical(path, path_script())) {
+    dir_create(dirname(path_script()))
+    file.copy(path, path_script(), overwrite = TRUE)
   }
 }
 
-write_targets_r_globals <- function(code, name, script) {
-  dir_create(path_script_r_globals_dir(script))
-  writeLines(code, path_script_r_globals(name, script))
+write_targets_r_globals <- function(code, name) {
+  dir_create(path_script_r_globals_dir())
+  writeLines(code, path_script_r_globals(name))
 }
 
-write_targets_r_targets <- function(code, name, script) {
-  dir_create(path_script_r_targets_dir(script))
-  writeLines(code, path_script_r_targets(name, script))
+write_targets_r_targets <- function(code, name) {
+  dir_create(path_script_r_targets_dir())
+  writeLines(code, path_script_r_targets(name))
 }
 
 warn_labels_duplicated <- function() {
@@ -144,13 +147,13 @@ warn_labels_unnamed <- function(options) {
     warn_validate(
       "Please assign explicit labels to {targets} code chunks ",
       "in order to avoid accidental duplicated script files. ",
-      "Suppress this warning with Sys.setenv(TAR_wARN = \"false\")."
+      "Suppress this warning with Sys.setenv(TAR_WARN = \"false\")."
     )
   }
 }
 
-tar_engine_set <- function() {
+knitr_engine_set <- function() {
   if (requireNamespace("knitr", quietly = TRUE)) {
-    knitr::knit_engines$set(targets = function(options) tar_engine(options))
+    knitr::knit_engines$set(targets = function(options) knitr_engine(options))
   }
 }
