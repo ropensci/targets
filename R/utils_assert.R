@@ -237,12 +237,13 @@ assert_scalar <- function(x, msg = NULL) {
   }
 }
 
-assert_store <- function() {
+assert_store <- function(store) {
   assert_path(
-    path_store(),
+    store,
     paste(
+      "data store path", store, "not found.",
       "utility functions like tar_read() and tar_progress() require a",
-      "_targets/ data store produced by tar_make() or similar."
+      "data store (default: _targets/) produced by tar_make() or similar."
     )
   )
 }

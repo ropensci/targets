@@ -26,7 +26,7 @@
 #'   persistently for a project.
 #' @param store Character of length 1, path to the
 #'   `targets` data store. Defaults to `tar_config_get("store")`,
-#'   which in turn defaults to `_targets/`. 
+#'   which in turn defaults to `_targets/`.
 #'   When you set this argument, the value of `tar_config_get("store")`
 #'   is temporarily changed for the current function call.
 #'   See [tar_config_get()] and [tar_config_set()] for details

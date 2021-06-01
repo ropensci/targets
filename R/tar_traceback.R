@@ -6,6 +6,7 @@
 #'   exist. For more information, see [tar_workspace()].
 #' @return Character vector, the traceback of a failed target
 #'   if it exists.
+#' @inheritParams tar_validate
 #' @param name Symbol, name of the target whose workspace to read.
 #' @param characters Positive integer. Each line of the traceback
 #'   is shortened to this number of characters.
@@ -37,8 +38,11 @@ tar_traceback <- function(
   envir = NULL,
   packages = NULL,
   source = NULL,
-  characters = getOption("width")
+  characters = getOption("width"),
+  store = targets::tar_config_get("store")
 ) {
+  old_store <- switch_store(store)
+  on.exit(restore_store(old_store), add = TRUE)
   assert_scalar(characters, "characters must have length 1.")
   assert_dbl(characters, "characters must be numeric.")
   assert_positive(characters, "characters must be positive.")
