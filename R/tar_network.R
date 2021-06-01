@@ -33,9 +33,10 @@ tar_network <- function(
   targets_only = FALSE,
   reporter = "silent",
   callr_function = callr::r,
-  callr_arguments = targets::callr_args_default(callr_function, reporter)
+  callr_arguments = targets::callr_args_default(callr_function, reporter),
+  script = targets::tar_config_get("script"),
+  store = targets::tar_config_get("store")
 ) {
-  assert_script()
   assert_lgl(targets_only, "targets_only must be logical.")
   assert_in(
     reporter,
@@ -48,7 +49,9 @@ tar_network <- function(
     targets_function = tar_network_inner,
     targets_arguments = list(targets_only = targets_only, reporter = reporter),
     callr_function = callr_function,
-    callr_arguments = callr_arguments
+    callr_arguments = callr_arguments,
+    script = script,
+    store = store
   )
 }
 
