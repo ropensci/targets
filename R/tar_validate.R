@@ -15,6 +15,14 @@
 #'   However, `callr_function` should not be `NULL` for serious
 #'   reproducible work.
 #' @param callr_arguments A list of arguments to `callr_function`.
+#' @param script Character of length 1, path to the
+#'   target script file. Defaults to `tar_config_get("script")`,
+#'   which in turn defaults to `_targets.R`. See [tar_script()],
+#'   [tar_config_get()], and [tar_config_set()] for details.
+#' @param store Character of length 1, path to the
+#'   `targets` data store. Defaults to `tar_config_get("store")`,
+#'   which in turn defaults to `_targets/`. See
+#'   [tar_config_get()] and [tar_config_set()] for details.
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -24,7 +32,9 @@
 #' }
 tar_validate <- function(
   callr_function = callr::r,
-  callr_arguments = targets::callr_args_default(callr_function)
+  callr_arguments = targets::callr_args_default(callr_function),
+  script = targets::tar_config_get("script"),
+  store = targets::tar_config_get("store")
 ) {
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
@@ -32,7 +42,9 @@ tar_validate <- function(
     targets_function = tar_validate_inner,
     targets_arguments = list(),
     callr_function = callr_function,
-    callr_arguments = callr_arguments
+    callr_arguments = callr_arguments,
+    script = script,
+    store = store
   )
   invisible(out)
 }
