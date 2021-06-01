@@ -41,8 +41,8 @@ tar_traceback <- function(
   characters = getOption("width"),
   store = targets::tar_config_get("store")
 ) {
-  old_store <- switch_store(store)
-  on.exit(restore_store(old_store), add = TRUE)
+  old_config <- switch_config(store = store)
+  on.exit(restore_config(old_config))
   assert_scalar(characters, "characters must have length 1.")
   assert_dbl(characters, "characters must be numeric.")
   assert_positive(characters, "characters must be positive.")

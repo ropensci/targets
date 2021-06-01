@@ -268,15 +268,6 @@ assert_target_list <- function(x) {
   map(x, assert_target, msg = msg)
 }
 
-#' @title Assert the target script.
-#' @export
-#' @keywords internal
-#' @description Exported for internal purposes only. Not a
-#'   user-side function. Do not invoke directly.
-#' @return `NULL` (invisibly) if a valid target script exists.
-#'   Otherwise, an error of class `"tar_condition_validate"`
-#'   is thrown.
-#' @param script Character of length 1, path to the target script file.
 assert_script <- function(script) {
   msg <- paste0(
     "could not find file ",

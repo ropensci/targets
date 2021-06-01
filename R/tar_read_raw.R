@@ -32,8 +32,8 @@ tar_read_raw <- function(
   store = targets::tar_config_get("store")
 ) {
   force(meta)
-  old_store <- switch_store(store)
-  on.exit(restore_store(old_store), add = TRUE)
+  old_config <- switch_config(store = store)
+  on.exit(restore_config(old_config), add = TRUE)
   assert_chr(name, "name must be symbol in tar_read(), chr in tar_read_raw().")
   tar_read_inner(name, branches, meta)
 }

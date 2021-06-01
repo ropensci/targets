@@ -65,19 +65,12 @@ callr_inner <- function(
   script,
   store
 ) {
-  tar_config <- getNamespace("targets")$tar_config
-  tar_config$unset_lock()
-  old_script <- tar_config$get_script()
-  old_store <- tar_config$get_store()
-  tar_config$assign_script(script)
-  tar_config$assign_store(store)
-  tar_config$set_lock()
-  on.exit({
-    tar_config$unset_lock()
-    tar_config$assign_script(old_script)
-    tar_config$assign_store(old_store)
-  })
-  targets::assert_script(script)
+  old_config <- switch_config(
+    script = script,
+    store = store,
+    assert_store = FALSE
+  )
+  on.exit(restore_config(old_config))
   withr::local_options(options)
   value <- source(script)$value
   targets_arguments$pipeline <- targets::as_pipeline(value)

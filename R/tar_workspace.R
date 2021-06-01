@@ -20,7 +20,8 @@
 #'   workspace where the error happened. These objects include
 #'   the global objects at the time [tar_make()] was called and the
 #'   dependency targets. The random number generator seed for the
-#'   target is also assigned with `set.seed()`
+#'   target is also assigned with `set.seed()`.
+#' @inheritParams tar_validate
 #' @param name Symbol, name of the target whose workspace to read.
 #' @param envir Environment in which to put the objects.
 #' @param packages Logical, whether to load the required packages
@@ -55,9 +56,13 @@ tar_workspace <- function(
   name,
   envir = parent.frame(),
   packages = TRUE,
-  source = TRUE
+  source = TRUE,
+  script = targets::tar_config_get("script"),
+  store = targets::tar_config_get("store")
 ) {
   force(envir)
+  old_config <- switch_config(script = script, store = store)
+  on.exit(restore_config(old_config), add = TRUE)
   name <- deparse_language(substitute(name))
   assert_chr(name)
   assert_scalar(name)

@@ -36,8 +36,8 @@ tar_load_raw <- function(
 ) {
   force(meta)
   force(envir)
-  old_store <- switch_store(store)
-  on.exit(restore_store(old_store), add = TRUE)
+  old_config <- switch_config(store = store)
+  on.exit(restore_config(old_config), add = TRUE)
   if (!length(names)) {
     cli_red_x("Identified no targets to load.")
   }
