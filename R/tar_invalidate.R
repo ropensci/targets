@@ -6,6 +6,7 @@
 #' @details For patterns recorded in the metadata, all the branches
 #'   will be invalidated. For patterns no longer in the metadata,
 #'   branches are left alone.
+#' @inheritParams tar_validate
 #' @param names Names of the targets to remove from the metadata list.
 #'   You can supply symbols, a character vector,
 #'   or `tidyselect` helpers like [starts_with()].
