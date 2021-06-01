@@ -4,20 +4,24 @@
 #' @description Destroy all or part of the data store written
 #'   by [tar_make()] and similar functions.
 #' @return Nothing.
+#' @inheritParams tar_validate
 #' @param destroy Character of length 1, what to destroy. Choices:
-#'   * `"all"`: destroy the entire data store.
-#'   * `"meta"`: just delete the metadata file at `_targets/meta/meta`,
-#'     which invalidates all the targets but keeps the data.
+#'   * `"all"`: destroy the entire data store (default: `_targets/`)
+#'   * `"meta"`: just delete the metadata file at `meta/meta` in the
+#'     data store, which invalidates all the targets but keeps the data.
 #'   * `"process"`: just delete the progress data file at
-#'     `_targets/meta/process`, which resets the metadata
+#'     `meta/process` in the data store, which resets the metadata
 #'     of the main process.
 #'   * `"progress"`: just delete the progress data file at
-#'     `_targets/meta/progress`, which resets the progress tracking info.
-#'   * `"objects"`: delete all the target return values in `_targets/objects/`
-#'     but keep progress and metadata. Dynamic files are not deleted this way.
+#'     `meta/progress` in the data store,
+#'     which resets the progress tracking info.
+#'   * `"objects"`: delete all the target
+#'     return values in `objects/` in the data
+#'     store but keep progress and metadata.
+#'     Dynamic files are not deleted this way.
 #'   * `"scratch"`: temporary files saved during [tar_make()] that should
 #'     automatically get deleted except if R crashed.
-#'   * `"workspaces"`: compressed files in `_targets/workspaces/` with
+#'   * `"workspaces"`: compressed files in `workspaces/` in the data store with
 #'     the saved workspaces of targets that errored. Only saved
 #'     if `error = "workspace"` in [tar_option_set()] or [tar_target()].
 #'     Load a workspace with [tar_workspace()].
@@ -39,8 +43,11 @@ tar_destroy <- function(
     "objects",
     "scratch",
     "workspaces"
-  )
+  ),
+  store = targets::tar_config_get("store")
 ) {
+  old_config <- switch_config(store = store)
+  on.exit(restore_config(old_config), add = TRUE)
   switch(
     match.arg(destroy),
     all = unlink(path_store(), recursive = TRUE),

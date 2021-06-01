@@ -34,6 +34,8 @@ tar_prune <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  old_config <- switch_config(script = script, store = store)
+  on.exit(restore_config(old_config), add = TRUE)
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   path_scratch_del()

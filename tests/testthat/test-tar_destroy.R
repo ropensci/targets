@@ -61,3 +61,37 @@ tar_test("tar_destroy('workspaces')", {
   tar_destroy(destroy = "workspaces")
   expect_false(file.exists(path))
 })
+
+tar_test("custom script and store args", {
+  skip_on_cran()
+  expect_equal(tar_config_get("script"), path_script_default())
+  expect_equal(tar_config_get("store"), path_store_default())
+  tar_script({
+    tar_option_set(error = "workspace")
+    list(tar_target(x, "value"), tar_target(y, stop(x)))
+  }, script = "example/script.R")
+  expect_false(file.exists("example/store/workspaces/y"))
+  try(
+    tar_make(
+      callr_function = NULL,
+      script = "example/script.R",
+      store = "example/store"
+    ),
+    silent = TRUE
+  )
+  expect_true(file.exists("example/store"))
+  tar_destroy(store = "example/store")
+  expect_false(file.exists("example/store"))
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("script"), path_script_default())
+  expect_equal(tar_config_get("store"), path_store_default())
+  expect_equal(path_script(), path_script_default())
+  expect_equal(path_store(), path_store_default())
+  expect_false(file.exists(path_script_default()))
+  expect_false(file.exists(path_store_default()))
+  expect_true(file.exists("example/script.R"))
+  expect_false(tar_config$is_locked())
+  tar_config_set(script = "x")
+  expect_equal(tar_config_get("script"), "x")
+  expect_true(file.exists("_targets.yaml"))
+})
