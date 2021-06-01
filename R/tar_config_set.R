@@ -2,21 +2,22 @@
 #' @export
 #' @family configuration
 #' @description `tar_config_set()` writes special custom settings
-#'   to an optional `_targets.yaml` configuration file at the
-#'   current project. Only the non-`NULL` config settings
+#'   to an optional project-level
+#'   YAML configuration file (default: `_targets.yaml`).
+#'   Only the non-`NULL` config settings
 #'   are actually set. Do not invoke while the pipeline is running.
-#' @details `_targets.yaml` is an optional YAML configuration file
+#' @details Each project can have an optional YAML configuration file
+#'   (default: `_targets.yaml` at the project root)
 #'   with settings specific to a given project. You can write it
 #'   by hand or modify it with `tar_config_set()`.
-#'   In order to work properly, `_targets.yaml` must live at the
-#'   root of the project.
 #'   The currently supported configuration settings are
 #'   documented as the arguments of `tar_config_set()`.
 #'
-#'   `tar_config_set()` always writes a `_targets.yaml` file
+#'   `tar_config_set()` always writes a YAML file
 #'   with a full set of configuration settings even when no
 #'   arguments are supplied. To reset options completely,
-#'   simply remove `_targets.yaml`.
+#'   simply call `tar_config_set(config = "_targets.yaml")`
+#'   and remove `_targets.yaml` if it exists.
 #' @return `NULL` (invisibly)
 #' @param script Character of length 1, path to the target script file
 #'   that defines the pipeline (`_targets.R` by default).
@@ -26,7 +27,8 @@
 #'   [source()] the script, they do not change the working directory
 #'   (i.e. the default `source(chdir = FALSE)`).
 #' @param store Character of length 1, path to the data store of the pipeline.
-#'   If `NULL`, the `store` setting is left unchanged in `_targets.yaml`.
+#'   If `NULL`, the `store` setting is left unchanged in the
+#'   YAML configuration file (default: `_targets.yaml`).
 #'   Usually, the data store lives at `_targets`.
 #'   Set `store` to a custom directory
 #'   to specify a path other than `_targets/`. The path need not exist
@@ -34,7 +36,7 @@
 #'   but it must be writeable.
 #'   For optimal performance, choose a storage location
 #'   with fast read/write access.
-#' @param path Character of length 1, path to the YAML file with
+#' @param config Character of length 1, path to the YAML file with
 #'   all the configuration settings (default: `_targets.yaml`).
 #'   Only applies to the current R session,
 #'   the path reverts back to `_targets.yaml` when you restart R.
@@ -54,8 +56,8 @@
 #' file.exists(store_path) # TRUE
 #' })
 #' }
-tar_config_set <- function(store = NULL, script = NULL, path = NULL) {
-  if_any(is.null(path), NULL, tar_config$set_path(path))
+tar_config_set <- function(store = NULL, script = NULL, config = NULL) {
+  if_any(is.null(config), NULL, tar_config$set_path(config))
   if_any(is.null(script), NULL, tar_config$set_script(script))
   if_any(is.null(store), NULL, tar_config$set_store(store))
   invisible()
