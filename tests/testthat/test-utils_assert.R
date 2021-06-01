@@ -114,9 +114,9 @@ tar_test("assert_path()", {
 })
 
 tar_test("assert_store()", {
-  expect_error(assert_store(), class = "tar_condition_validate")
+  expect_error(assert_store("_targets"), class = "tar_condition_validate")
   dir.create("_targets")
-  expect_silent(assert_store())
+  expect_silent(assert_store("_targets"))
 })
 
 tar_test("assert_target", {
