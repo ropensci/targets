@@ -49,9 +49,10 @@ tar_outdated <- function(
   targets_only = TRUE,
   reporter = "silent",
   callr_function = callr::r,
-  callr_arguments = targets::callr_args_default(callr_function, reporter)
+  callr_arguments = targets::callr_args_default(callr_function, reporter),
+  script = targets::tar_config_get("script"),
+  store = targets::tar_config_get("store")
 ) {
-  assert_script()
   assert_lgl(branches, "branches arg of tar_outdated() must be logical.")
   assert_scalar(reporter, "reporter arg of tar_outdated() must have length 1.")
   assert_in(
@@ -71,7 +72,9 @@ tar_outdated <- function(
     targets_function = tar_outdated_inner,
     targets_arguments = targets_arguments,
     callr_function = callr_function,
-    callr_arguments = callr_arguments
+    callr_arguments = callr_arguments,
+    script = script,
+    store = store
   )
 }
 
