@@ -4,7 +4,7 @@
 \alias{tar_workspaces}
 \title{List saved target workspaces.}
 \usage{
-tar_workspaces(names = NULL)
+tar_workspaces(names = NULL, store = targets::tar_config_get("store"))
 }
 \arguments{
 \item{names}{Optional \code{tidyselect} selector to return

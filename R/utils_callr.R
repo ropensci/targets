@@ -8,12 +8,12 @@ callr_outer <- function(
 ) {
   tryCatch(
     callr_dispatch(
-      targets_function,
-      targets_arguments,
-      callr_function,
-      callr_arguments,
-      script,
-      store
+      targets_function = targets_function,
+      targets_arguments = targets_arguments,
+      callr_function = callr_function,
+      callr_arguments = callr_arguments,
+      script = script,
+      store = store
     ),
     callr_error = function(e) {
       throw_run(
