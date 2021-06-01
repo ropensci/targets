@@ -17,12 +17,21 @@
 #' @param callr_arguments A list of arguments to `callr_function`.
 #' @param script Character of length 1, path to the
 #'   target script file. Defaults to `tar_config_get("script")`,
-#'   which in turn defaults to `_targets.R`. See [tar_script()],
-#'   [tar_config_get()], and [tar_config_set()] for details.
+#'   which in turn defaults to `_targets.R`. When you set
+#'   this argument, the value of `tar_config_get("script")`
+#'   is temporarily changed for the current function call.
+#'   See [tar_script()],
+#'   [tar_config_get()], and [tar_config_set()] for details
+#'   about the target script file and how to set it
+#'   persistently for a project.
 #' @param store Character of length 1, path to the
 #'   `targets` data store. Defaults to `tar_config_get("store")`,
-#'   which in turn defaults to `_targets/`. See
-#'   [tar_config_get()] and [tar_config_set()] for details.
+#'   which in turn defaults to `_targets/`. 
+#'   When you set this argument, the value of `tar_config_get("store")`
+#'   is temporarily changed for the current function call.
+#'   See [tar_config_get()] and [tar_config_set()] for details
+#'   about how to set the data store path persistently
+#'   for a project.
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.

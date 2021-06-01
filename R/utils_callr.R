@@ -67,11 +67,14 @@ callr_inner <- function(
 ) {
   tar_config <- getNamespace("targets")$tar_config
   tar_config$unset_lock()
+  old_script <- tar_config$get_script()
   old_store <- tar_config$get_store()
+  tar_config$assign_script(script)
   tar_config$assign_store(store)
   tar_config$set_lock()
   on.exit({
     tar_config$unset_lock()
+    tar_config$assign_script(old_script)
     tar_config$assign_store(old_store)
   })
   targets::assert_script(script)
