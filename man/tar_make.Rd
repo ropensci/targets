@@ -8,7 +8,9 @@ tar_make(
   names = NULL,
   reporter = Sys.getenv("TAR_MAKE_REPORTER", unset = "verbose"),
   callr_function = callr::r,
-  callr_arguments = targets::callr_args_default(callr_function, reporter)
+  callr_arguments = targets::callr_args_default(callr_function, reporter),
+  script = targets::tar_config_get("script"),
+  store = targets::tar_config_get("store")
 )
 }
 \arguments{

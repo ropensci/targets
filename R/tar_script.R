@@ -46,6 +46,9 @@
 #'   (Set to `"true"` or `"false"` with `Sys.setenv()`).
 #'   If `ask` and the `TAR_ASK` environment variable are both
 #'   indeterminate, defaults to `interactive()`.
+#' @param script Character of length 1, where to write
+#'   the target script file. Defaults to `tar_config_get("script")`,
+#'   which in turn defaults to `_targets.R`.
 #' @examples
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script() # Writes an example target script file.
@@ -60,9 +63,10 @@
 tar_script <- function(
   code = NULL,
   library_targets = TRUE,
-  ask = NULL
+  ask = NULL,
+  script = targets::tar_config_get("script")
 ) {
-  if (!tar_should_overwrite(ask, path_script())) {
+  if (!tar_should_overwrite(ask, script)) {
     # covered in tests/interactive/test-tar_script.R # nolint
     return(invisible()) # nocov
   }
@@ -78,8 +82,8 @@ tar_script <- function(
   if (library_targets) {
     text <- c("library(targets)", text)
   }
-  dir_create(dirname(path_script()))
-  writeLines(text, path_script())
+  dir_create(dirname(script))
+  writeLines(text, script)
   invisible()
 }
 

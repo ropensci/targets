@@ -87,6 +87,21 @@ config_class <- R6::R6Class(
       self$ensure()
       self$data[[name]]
     },
+    assign_script = function(script) {
+      self$validate_script(script)
+      self$assign_value(name = "script", value = as.character(script))
+    },
+    assign_store = function(store) {
+      self$validate_store(store)
+      self$assign_value(name = "store", value = as.character(store))
+    },
+    assign_value = function(name, value) {
+      assert_scalar(name, "config name field must have length 1.")
+      assert_nzchar(name, "config name field must be nonempty.")
+      assert_chr(name, "config name field must be a character.")
+      self$data <- as.list(self$data)
+      self$data[[name]] <- value
+    },
     set_script = function(script) {
       self$validate_script(script)
       self$set_value(name = "script", value = as.character(script))
@@ -100,15 +115,8 @@ config_class <- R6::R6Class(
         return()
       }
       self$ensure()
-      self$force_memory(name = name, value = value)
+      self$assign_value(name = name, value = value)
       self$write()
-    },
-    force_memory = function(name, value) {
-      assert_scalar(name, "config name field must have length 1.")
-      assert_nzchar(name, "config name field must be nonempty.")
-      assert_chr(name, "config name field must be a character.")
-      self$data <- as.list(self$data)
-      self$data[[name]] <- value
     },
     validate_script = function(script) {
       assert_chr(script, "script config must be a character.")
