@@ -65,12 +65,12 @@ callr_inner <- function(
   script,
   store
 ) {
-  old_config <- switch_config(
+  old_config <- targets::switch_config(
     script = script,
     store = store,
     assert_store = FALSE
   )
-  on.exit(restore_config(old_config))
+  on.exit(targets::restore_config(old_config))
   withr::local_options(options)
   value <- source(script)$value
   targets_arguments$pipeline <- targets::as_pipeline(value)
