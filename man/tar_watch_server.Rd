@@ -21,11 +21,7 @@ height of the \code{visNetwork} widget and branches table.}
 \item{exclude}{Character vector of nodes to omit from the graph.}
 
 \item{config}{Character of length 1, path to the YAML file with
-all the configuration settings (default: \verb{_targets.yaml}).
-Only applies to the current R session,
-the path reverts back to \verb{_targets.yaml} when you restart R.
-Intended for niche use cases only, such as \code{tar_watch()}
-embedded as a module in Shiny apps that use \code{targets}.}
+all the configuration settings (default: \verb{_targets.yaml}).}
 }
 \value{
 A Shiny module server.

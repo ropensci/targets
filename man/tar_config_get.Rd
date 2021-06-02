@@ -4,7 +4,7 @@
 \alias{tar_config_get}
 \title{Get configuration settings from _targets.yaml.}
 \usage{
-tar_config_get(name)
+tar_config_get(name, config = "_targets.yaml")
 }
 \arguments{
 \item{name}{Character of length 1, name of the specific
@@ -13,6 +13,9 @@ then instead of retrieving a specific setting,
 then \code{tar_config_get()} will return the path to the YAML
 file where those settings are stored for the
 current R session (default: \verb{_targets.yaml}).}
+
+\item{config}{Character of length 1, path to the YAML file with
+all the configuration settings (default: \verb{_targets.yaml}).}
 }
 \value{
 The value of the configuration setting from
