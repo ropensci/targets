@@ -33,7 +33,8 @@ tar_test("knitr_engine() construct globals with alternative script path", {
     results = "hide",
     tar_globals = TRUE,
     tar_interactive = FALSE,
-    tar_script = script
+    tar_script = script,
+    tar_simple = TRUE # should be ignored
   )
   knitr_engine(options)
   expect_false(file.exists(path_store_default()))
@@ -101,6 +102,28 @@ tar_test("knitr_engine() construct targets", {
   expect_equal(tar_read(x), "a")
 })
 
+tar_test("knitr_engine() construct targets, simple version", {
+  skip_if_not_installed("knitr")
+  options <- list(
+    code = "\"a\"",
+    echo = FALSE,
+    engine = "targets",
+    label = "test",
+    results = "hide",
+    tar_globals = FALSE,
+    tar_interactive = FALSE,
+    tar_simple = TRUE
+  )
+  knitr_engine(options)
+  expect_false(file.exists(path_store_default()))
+  expect_true(file.exists(path_script_default()))
+  path <- path_script_default()
+  expect_false(file.exists(path_script_r_globals_dir(path)))
+  expect_true(file.exists(path_script_r_targets(path, "test")))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(test), "a")
+})
+
 tar_test("knitr_engine() construct targets with an alternative script path", {
   skip_if_not_installed("knitr")
   script <- "example/script.R"
@@ -132,6 +155,38 @@ tar_test("knitr_engine() construct targets with an alternative script path", {
   expect_equal(tar_read(x), "a")
 })
 
+tar_test("knitr_engine() construct targets, alt script path, tar_simple", {
+  skip_if_not_installed("knitr")
+  script <- "example/script.R"
+  options <- list(
+    code = "\"a\"",
+    echo = FALSE,
+    engine = "targets",
+    label = "test",
+    results = "hide",
+    tar_globals = FALSE,
+    tar_interactive = FALSE,
+    tar_script = script,
+    tar_simple = TRUE
+  )
+  knitr_engine(options)
+  expect_false(file.exists(path_store_default()))
+  expect_false(file.exists(path_script_default()))
+  expect_true(file.exists(script))
+  path <- path_script_default()
+  expect_false(file.exists(path_script_r_globals_dir(path)))
+  expect_false(file.exists(path_script_r_globals(path, "test")))
+  expect_false(file.exists(path_script_r_targets_dir(path)))
+  expect_false(file.exists(path_script_r_targets(path, "test")))
+  expect_false(file.exists(path_script_r_globals_dir(script)))
+  expect_false(file.exists(path_script_r_globals(script, "test")))
+  expect_true(file.exists(path_script_r_targets_dir(script)))
+  expect_true(file.exists(path_script_r_targets(script, "test")))
+  tar_config_set(script = script)
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(test), "a")
+})
+
 tar_test("knitr_engine() prototype targets", {
   skip_if_not_installed("knitr")
   options <- list(
@@ -147,6 +202,29 @@ tar_test("knitr_engine() prototype targets", {
   tar_option_set(envir = envir)
   knitr_engine(options)
   expect_equal(envir$x, "a")
+  expect_false(file.exists(path_store_default()))
+  expect_false(file.exists(path_script_default()))
+  path <- path_script_default()
+  expect_false(file.exists(path_script_r_globals_dir(path)))
+  expect_false(file.exists(path_script_r_targets(path, "test")))
+})
+
+tar_test("knitr_engine() prototype targets, simple version", {
+  skip_if_not_installed("knitr")
+  options <- list(
+    code = "\"a\"",
+    echo = FALSE,
+    engine = "targets",
+    label = "test",
+    results = "hide",
+    tar_globals = FALSE,
+    tar_interactive = TRUE,
+    tar_simple = TRUE
+  )
+  envir <- new.env(parent = globalenv())
+  tar_option_set(envir = envir)
+  knitr_engine(options)
+  expect_equal(envir$test, "a")
   expect_false(file.exists(path_store_default()))
   expect_false(file.exists(path_script_default()))
   path <- path_script_default()

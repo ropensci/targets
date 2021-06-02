@@ -58,9 +58,14 @@ Our next targets preprocess the data, make a histogram, and fit a model.
 ```{targets downstream-targets}
 list(
   tar_target(data, raw_data %>% filter(!is.na(Ozone))),
-  tar_target(hist, create_plot(data)),
-  tar_target(fit, biglm(Ozone ~ Wind + Temp, data))
+  tar_target(hist, create_plot(data))
 )
+```
+
+Set the `tar_simple` chunk option to `TRUE` to define a single target with the command in the code chunk. The chunk below only contains `biglm(Ozone ~ Wind + Temp, data)` in the source, but because `tar_simple` is `TRUE`, it is shorthand for `tar_target(name = fit, command = biglm(Ozone ~ Wind + Temp, data))`. All other arguments to `tar_target()` are set to their default values (configurable with `tar_option_set()`).
+
+```{targets fit, tar_simple = TRUE}
+biglm(Ozone ~ Wind + Temp, data)
 ```
 
 # Pipeline

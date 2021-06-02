@@ -24,13 +24,14 @@ knitr_engine <- function(options) {
 }
 
 knitr_engine_assert_options <- function(options) {
-  for (option in c("tar_globals", "tar_interactive", "tar_script")) {
+  choices <- c("tar_globals", "tar_interactive", "tar_script", "tar_simple")
+  for (option in choices) {
     assert_scalar(
       options[[option]] %|||% TRUE,
       paste(option, "chunk option must either be NULL or have length 1.")
     )
   }
-  for (option in c("tar_globals", "tar_interactive")) {
+  for (option in c("tar_globals", "tar_interactive", "tar_simple")) {
     assert_lgl(
       options[[option]] %|||% TRUE,
       paste(option, "chunk option must either be NULL or logical.")
@@ -51,10 +52,23 @@ knitr_engine_globals <- function(options) {
 }
 
 knitr_engine_targets <- function(options) {
+  if (options$tar_simple %|||% FALSE) {
+    options$code <- knitr_engine_targets_command(options)
+  }
   if_any(
     options$tar_interactive %|||% interactive(),
     knitr_engine_targets_prototype(options),
     knitr_engine_targets_construct(options)
+  )
+}
+
+knitr_engine_targets_command <- function(options) {
+  comment <- options$comment %|||% "#>"
+  c(
+    paste0("tar_target(", options$label, ", {"),
+    paste(" ", options$code),
+    "})",
+    paste0(comment, " Code converted to target ", options$label, ".")
   )
 }
 
