@@ -2,17 +2,6 @@ path_script_default <- function() {
   "_targets.R"
 }
 
-#' @title Target script helper directory path.
-#' @export
-#' @keywords internal
-#' @description Internal function for Target Markdown.
-#'   Not a user-side function. Do not invoke directly.
-#' @return Character of length 1, target script
-#'   helper directory path.
-#' @param path_script Character of length 1, path to the
-#'   target script file (default: `_targets.R`).
-#' @examples
-#' path_script_r()
 path_script_r <- function(path_script) {
   paste0(tools::file_path_sans_ext(path_script), "_r")
 }
