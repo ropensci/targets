@@ -61,7 +61,7 @@ tar_test("tar_progress_branches_gt() runs without error.", {
     )
   }, ask = FALSE)
   tar_make(callr_function = NULL)
-  out <- tar_progress_branches_gt()
+  out <- tar_progress_branches_gt(path_store_default())
   expect_true(inherits(out, "gt_tbl"))
 })
 

@@ -5,6 +5,7 @@ callr_outer <- function(
   callr_arguments,
   script
 ) {
+  assert_script(script)
   tryCatch(
     callr_dispatch(
       targets_function = targets_function,
