@@ -79,7 +79,8 @@ tar_make_inner <- function(pipeline, path_store, names_quosure, reporter) {
     meta = meta_init(path_store = path_store),
     names = names,
     queue = queue,
-    reporter = reporter
+    reporter = reporter,
+    envir = tar_option_get("envir")
   )$run()
   invisible()
 }
