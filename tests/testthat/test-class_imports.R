@@ -67,8 +67,12 @@ tar_test("imports_validate()", {
 })
 
 tar_test("imports setting works", {
-  old <- Sys.getenv("TAR_WARN")
-  on.exit(Sys.setenv(TAR_WARN = old))
+  old_warn <- Sys.getenv("TAR_WARN")
+  on.exit({
+    Sys.setenv(TAR_WARN = old_warn)
+    try(detach("package:pkgabcdefg"), silent = TRUE)
+    tar_option_reset()
+  })
   Sys.setenv(TAR_WARN = "false") # This test has a good reason for load_all().
   skip_if_not_installed("pkgload")
   dir_create("pkg")

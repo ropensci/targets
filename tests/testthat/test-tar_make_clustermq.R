@@ -3,7 +3,7 @@ tar_test("tar_make_clustermq() works", {
   skip_on_os("solaris")
   skip_if_not_installed("clustermq")
   tar_script({
-    options(clustermq.scheduler = "multicore")
+    options(clustermq.scheduler = "multiprocess")
     list(tar_target(x, "x"))
   })
   tar_make_clustermq(
@@ -18,7 +18,7 @@ tar_test("tar_make_clustermq() can use tidyselect", {
   skip_on_os("solaris")
   skip_if_not_installed("clustermq")
   tar_script({
-    options(clustermq.scheduler = "multicore")
+    options(clustermq.scheduler = "multiprocess")
     list(
       tar_target(y1, 1 + 1),
       tar_target(y2, 1 + 1),
@@ -43,7 +43,8 @@ tar_test("custom script and store args", {
   old_option <- getOption("clustermq.scheduler")
   on.exit(options(clustermq.scheduler = old_option))
   tar_script({
-    options(clustermq.scheduler = "multicore")
+    tar_option_set(packages = character(0))
+    options(clustermq.scheduler = "multiprocess")
     tar_target(x, TRUE)
   }, script = "example/script.R")
   tar_make_clustermq(
@@ -73,7 +74,7 @@ tar_test("custom script and store args with callr function", {
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script({
-    options(clustermq.scheduler = "multicore")
+    options(clustermq.scheduler = "multiprocess")
     tar_target(x, TRUE)
   }, script = "example/script.R")
   tmp <- utils::capture.output(

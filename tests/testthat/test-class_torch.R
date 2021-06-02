@@ -33,7 +33,7 @@ tar_test("torch in-memory serialization of deps", {
   skip_if_not_installed("torch")
   tar_script({
     tar_option_set(packages = "torch", retrieval = "main")
-    options(clustermq.scheduler = "multicore")
+    options(clustermq.scheduler = "multiprocess")
     list(
       tar_target(tensor, torch_zeros(10), format = "torch"),
       tar_target(array, as.array(tensor))
