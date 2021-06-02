@@ -7,7 +7,9 @@ tar_test("tar_poll() with default columns", {
   })
   tar_poll()
   # Open a separate R session and run the pipeline there.
-  # Watch the output of tar_poll()
+  # Watch the output of tar_poll().
+  # Then stop and destroy the pipeline and watch tar_poll() resond.
+  # Then resume the pipeline and watch tar_poll() resume.
 })
 
 tar_test("tar_poll() with non-default columns", {
