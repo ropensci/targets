@@ -48,13 +48,13 @@ tar_destroy <- function(
 ) {
   switch(
     match.arg(destroy),
-    all = unlink(path_store, recursive = TRUE),
-    meta = unlink(path_meta(path_store)),
-    process = unlink(path_process(path_store)),
-    progress = unlink(path_progress(path_store)),
-    objects = unlink(path_objects_dir(path_store), recursive = TRUE),
-    scratch = unlink(path_scratch_dir(path_store), recursive = TRUE),
-    workspaces = unlink(path_workspaces_dir(path_store), recursive = TRUE)
+    all = unlink(store, recursive = TRUE),
+    meta = unlink(path_meta(store)),
+    process = unlink(path_process(store)),
+    progress = unlink(path_progress(store)),
+    objects = unlink(path_objects_dir(store), recursive = TRUE),
+    scratch = unlink(path_scratch_dir(store), recursive = TRUE),
+    workspaces = unlink(path_workspaces_dir(store), recursive = TRUE)
   )
   invisible()
 }

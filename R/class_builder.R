@@ -219,7 +219,7 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   scheduler$reporter$report_errored(target, scheduler$progress)
   target_patternview_errored(target, pipeline, scheduler)
   if (identical(target$settings$error, "workspace")) {
-    builder_save_workspace(target, pipeline, scheduler)
+    builder_save_workspace(target, pipeline, scheduler, meta)
   }
   if_any(
     identical(target$settings$error, "continue"),
@@ -240,15 +240,18 @@ builder_exit <- function(target, pipeline, scheduler, meta) {
   throw_run(target$metrics$error)
 }
 
-builder_ensure_workspace <- function(target, pipeline, scheduler) {
+builder_ensure_workspace <- function(target, pipeline, scheduler, meta) {
   if (target$settings$name %in% tar_option_get("workspaces")) {
-    builder_save_workspace(target, pipeline, scheduler)
+    builder_save_workspace(target, pipeline, scheduler, meta)
   }
 }
 
-builder_save_workspace <- function(target, pipeline, scheduler) {
+builder_save_workspace <- function(target, pipeline, scheduler, meta) {
   scheduler$reporter$report_workspace(target)
-  workspace_save(workspace_init(target, pipeline))
+  workspace_save(
+    workspace = workspace_init(target, pipeline),
+    path_store = meta$get_path_store()
+  )
 }
 
 builder_record_error_meta <- function(target, pipeline, meta) {

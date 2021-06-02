@@ -75,7 +75,7 @@ tar_test("target_downstream_branching()", {
   z <- target_init("z", quote(x), pattern = quote(map(x)))
   w <- target_init("w", quote(x), pattern = quote(map(y)))
   pipeline <- pipeline_init(list(x, y, z, w))
-  scheduler <- pipeline_produce_scheduler(pipeline)
+  scheduler <- pipeline_produce_scheduler(pipeline, meta = meta_init())
   expect_equal(target_downstream_branching(x, pipeline, scheduler), "z")
 })
 
@@ -85,7 +85,7 @@ tar_test("target_downstream_nonbranching()", {
   z <- target_init("z", quote(x), pattern = quote(map(x)))
   w <- target_init("w", quote(x), pattern = quote(map(y)))
   pipeline <- pipeline_init(list(x, y, z, w))
-  scheduler <- pipeline_produce_scheduler(pipeline)
+  scheduler <- pipeline_produce_scheduler(pipeline, meta = meta_init())
   out <- target_downstream_nonbranching(x, pipeline, scheduler)
   expect_equal(sort(out), sort(c("w", "y")))
 })
