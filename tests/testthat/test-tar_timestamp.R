@@ -11,7 +11,7 @@ tar_test("empty timestamp", {
 tar_test("empty file", {
   tar_script(tar_target(y, 1))
   tar_make(callr_function = NULL)
-  unlink(path_objects("y"))
+  unlink(path_objects(path_store_default(), "y"))
   out <- tar_timestamp(y)
   expect_true(inherits(out, "POSIXct"))
   expect_identical(as.numeric(out), as.numeric(file_time_reference))
@@ -20,7 +20,7 @@ tar_test("empty file", {
 tar_test("empty meta", {
   tar_script(tar_target(y, 1))
   tar_make(callr_function = NULL)
-  unlink(path_meta())
+  unlink(path_meta(path_store_default()))
   out <- tar_timestamp(y)
   expect_true(inherits(out, "POSIXct"))
   expect_identical(as.numeric(out), as.numeric(file_time_reference))

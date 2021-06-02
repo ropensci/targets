@@ -7,7 +7,7 @@ tar_test("workspaces are not saved if error = 'stop'", {
   )
   local <- local_init(pipeline, reporter = "verbose")
   expect_error(expect_message(local$run()), class = "tar_condition_run")
-  expect_false(file.exists(path_workspace("x")))
+  expect_false(file.exists(path_workspace(path_store_default(), "x")))
 })
 
 tar_test("workspaces are not saved if error = 'continue'", {
@@ -20,7 +20,7 @@ tar_test("workspaces are not saved if error = 'continue'", {
   local <- local_init(pipeline, reporter = "verbose")
   suppressMessages(local$run())
   expect_true(grepl("12345", tar_meta(x)$error[[1]]))
-  expect_false(file.exists(path_workspace("x")))
+  expect_false(file.exists(path_workspace(path_store_default(), "x")))
 })
 
 tar_test("workspaces are saved if error = 'save'", {
@@ -32,7 +32,7 @@ tar_test("workspaces are saved if error = 'save'", {
   )
   local <- local_init(pipeline, reporter = "verbose")
   expect_error(expect_message(local$run()), class = "tar_condition_run")
-  expect_true(file.exists(path_workspace("x")))
+  expect_true(file.exists(path_workspace(path_store_default(), "x")))
 })
 
 tar_test("tar_workspace() works", {
@@ -104,7 +104,7 @@ tar_test("tar_workspace() with an unexportable object", {
 })
 
 tar_test("workspace saved on no error and when target is skipped", {
-  path <- path_workspace("z")
+  path <- path_workspace(path_store_default(), "z")
   tar_script({
     list(tar_target(z, 0))
   })

@@ -139,7 +139,7 @@ tar_test("tar_sitrep() on a project with a change", {
   tar_make(callr_function = NULL)
   children_y <- tar_meta(names = "y")$children[[1]]
   children_z <- tar_meta(names = "z")$children[[1]]
-  unlink(path_objects(children_y[1]))
+  unlink(path_objects(path_store_default(), children_y[1]))
   out <- tar_sitrep(callr_function = NULL)
   out <- out[order(out$name), ]
   exp <- tibble::tibble(
@@ -209,8 +209,6 @@ tar_test("custom script and store args", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  expect_equal(path_script(), path_script_default())
-  expect_equal(path_store(), path_store_default())
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))
@@ -233,8 +231,6 @@ tar_test("custom script and store args with callr function", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  expect_equal(path_script(), path_script_default())
-  expect_equal(path_store(), path_store_default())
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))
@@ -256,8 +252,6 @@ tar_test("custom script and store args", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  expect_equal(path_script(), path_script_default())
-  expect_equal(path_store(), path_store_default())
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))
@@ -279,8 +273,6 @@ tar_test("custom script and store args with callr function", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  expect_equal(path_script(), path_script_default())
-  expect_equal(path_store(), path_store_default())
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))

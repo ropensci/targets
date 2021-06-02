@@ -18,6 +18,7 @@
 * Simplify the Target Markdown example.
 * Warn about unnamed chunks in Target Markdown.
 * Redesign option system to be more object-oriented and rigorous. Also export most options to HPC workers (#475).
+* Simplify config system to let API function arguments take control (#483).
 
 # targets 0.5.0
 

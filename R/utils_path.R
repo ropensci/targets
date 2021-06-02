@@ -14,7 +14,7 @@ path_script_default <- function() {
 #' @examples
 #' path_script_r()
 path_script_r <- function(path_script) {
-  paste0(tools::file_path_sans_ext(script), "_r")
+  paste0(tools::file_path_sans_ext(path_script), "_r")
 }
 
 path_script_r_globals_dir <- function(path_script) {
