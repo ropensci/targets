@@ -15,7 +15,7 @@ tar_watch_server <- function(
   id,
   height = "650px",
   exclude = ".Random.seed",
-  config = targets::tar_config_get("config")
+  config = "_targets.yaml"
 ) {
   assert_chr(
     exclude,
@@ -24,7 +24,6 @@ tar_watch_server <- function(
   shiny::moduleServer(
     id,
     function(input, output, session) {
-      targets::tar_config_set(config = config)
       interval <- 200
       refresh <- shiny::reactiveValues(refresh = tempfile())
       out <- shiny::reactiveValues(
@@ -56,7 +55,7 @@ tar_watch_server <- function(
       shiny::observe({
         shiny::req(refresh$refresh)
         out$graph <- if_any(
-          tar_exist_script(),
+          tar_exist_script(script = tar_config_get("script", config = config)),
           tar_visnetwork(
             targets_only = targets_only(),
             exclude = exclude,
@@ -64,7 +63,9 @@ tar_watch_server <- function(
             label = label(),
             level_separation = level_separation(),
             degree_from = degree_from(),
-            degree_to = degree_to()
+            degree_to = degree_to(),
+            script = tar_config_get("script", config = config),
+            store = tar_config_get("store", config = config)
           ),
           visNetwork::visNetwork(
             data_frame(
@@ -75,13 +76,17 @@ tar_watch_server <- function(
           )
         )
         out$summary <- if_any(
-          tar_exist_progress(),
-          tar_progress_summary_gt(),
+          tar_exist_progress(store = tar_config_get("store", config = config)),
+          tar_progress_summary_gt(
+            store = tar_config_get("store", config = config)
+          ),
           gt_borderless(data_frame(progress = "No progress recorded."))
         )
         out$branches <- if_any(
-          tar_exist_progress(),
-          tar_progress_branches_gt(),
+          tar_exist_progress(store = tar_config_get("store", config = config)),
+          tar_progress_branches_gt(
+            store = tar_config_get("store", config = config)
+          ),
           gt_borderless(data_frame(progress = "No progress recorded."))
         )
       })

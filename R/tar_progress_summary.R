@@ -52,8 +52,8 @@ tar_progress_summary <- function(
 }
 
 # Just for the tar_watch() app. # nolint
-tar_progress_summary_gt <- function() {
-  progress <- tar_progress_summary(fields = NULL)
+tar_progress_summary_gt <- function(path_store) {
+  progress <- tar_progress_summary(fields = NULL, store = path_store)
   tar_progress_display_gt(progress)
 }
 

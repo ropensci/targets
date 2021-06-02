@@ -8,7 +8,7 @@ tar_watch_server(
   id,
   height = "650px",
   exclude = ".Random.seed",
-  config = targets::tar_config_get("config")
+  config = "_targets.yaml"
 )
 }
 \arguments{
