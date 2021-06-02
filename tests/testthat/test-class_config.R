@@ -88,20 +88,6 @@ tar_test("config$get_value()", {
   expect_equal(out$get_value("store"), "path3")
 })
 
-tar_test("path_store() with config$get_value(\"store\")", {
-  tar_config$unset_lock()
-  expect_equal(path_store(), "_targets")
-  writeLines("store: path", "_targets.yaml")
-  expect_equal(path_store(), "path")
-  expect_equal(path_store(), "path")
-  writeLines("store: path2", "_targets.yaml")
-  expect_equal(path_store(), "path2")
-  unlink("_targets.yaml")
-  expect_equal(path_store(), "_targets")
-  writeLines("store: path3", "_targets.yaml")
-  expect_equal(path_store(), "path3")
-})
-
 tar_test("config$set_value() on an empty _targets.yaml", {
   path <- tempfile()
   out <- config_init(path = path)
