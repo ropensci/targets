@@ -52,7 +52,7 @@ tar_make <- function(
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
-    store = store,
+    path_store = store,
     names_quosure = rlang::enquo(names),
     reporter = reporter
   )
@@ -66,7 +66,7 @@ tar_make <- function(
   invisible(out)
 }
 
-tar_make_inner <- function(pipeline, store, names_quosure, reporter) {
+tar_make_inner <- function(pipeline, path_store, names_quosure, reporter) {
   pipeline_reset_deployments(pipeline)
   names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
   queue <- if_any(
@@ -76,7 +76,7 @@ tar_make_inner <- function(pipeline, store, names_quosure, reporter) {
   )
   local_init(
     pipeline = pipeline,
-    meta = meta_init(store = store),
+    meta = meta_init(path_store = path_store),
     names = names,
     queue = queue,
     reporter = reporter

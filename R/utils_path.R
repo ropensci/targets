@@ -9,86 +9,86 @@ path_script_default <- function() {
 #'   Not a user-side function. Do not invoke directly.
 #' @return Character of length 1, target script
 #'   helper directory path.
-#' @param script Character of length 1, path to the
+#' @param path_script Character of length 1, path to the
 #'   target script file (default: `_targets.R`).
 #' @examples
 #' path_script_r()
-path_script_r <- function(script) {
+path_script_r <- function(path_script) {
   paste0(tools::file_path_sans_ext(script), "_r")
 }
 
-path_script_r_globals_dir <- function(script) {
-  file.path(path_script_r(script), "globals")
+path_script_r_globals_dir <- function(path_script) {
+  file.path(path_script_r(path_script), "globals")
 }
 
-path_script_r_globals <- function(script, name) {
-  file.path(path_script_r_globals_dir(script), paste0(name, ".R"))
+path_script_r_globals <- function(path_script, name) {
+  file.path(path_script_r_globals_dir(path_script), paste0(name, ".R"))
 }
 
-path_script_r_targets_dir <- function(script) {
-  file.path(path_script_r(script), "targets")
+path_script_r_targets_dir <- function(path_script) {
+  file.path(path_script_r(path_script), "targets")
 }
 
-path_script_r_targets <- function(script, name) {
-  file.path(path_script_r_targets_dir(script), paste0(name, ".R"))
+path_script_r_targets <- function(path_script, name) {
+  file.path(path_script_r_targets_dir(path_script), paste0(name, ".R"))
 }
 
 path_store_default <- function() {
   "_targets"
 }
 
-path_objects <- function(store, name) {
-  file.path(path_objects_dir(store), name)
+path_objects <- function(path_store, name) {
+  file.path(path_objects_dir(path_store), name)
 }
 
-path_objects_dir <- function(store) {
-  file.path(store, "objects")
+path_objects_dir <- function(path_store) {
+  file.path(path_store, "objects")
 }
 
 path_objects_dir_cloud <- function() {
   file.path(path_store_default(), "objects", fsep = "/")
 }
 
-path_meta_dir <- function(store) {
-  file.path(store, "meta")
+path_meta_dir <- function(path_store) {
+  file.path(path_store, "meta")
 }
 
-path_meta <- function(store) {
-  file.path(path_meta_dir(store), "meta")
+path_meta <- function(path_store) {
+  file.path(path_meta_dir(path_store), "meta")
 }
 
-path_gitignore <- function(store) {
-  file.path(path_meta_dir(store), ".gitignore")
+path_gitignore <- function(path_store) {
+  file.path(path_meta_dir(path_store), ".gitignore")
 }
 
-path_progress <- function(store) {
-  file.path(path_meta_dir(store), "progress")
+path_progress <- function(path_store) {
+  file.path(path_meta_dir(path_store), "progress")
 }
 
-path_process <- function(store) {
-  file.path(path_meta_dir(store), "process")
+path_process <- function(path_store) {
+  file.path(path_meta_dir(path_store), "process")
 }
 
-path_scratch <- function(store, pattern = "") {
-  tempfile(pattern = pattern, tmpdir = path_scratch_dir(store))
+path_scratch <- function(path_store, pattern = "") {
+  tempfile(pattern = pattern, tmpdir = path_scratch_dir(path_store))
 }
 
-path_scratch_fixed <- function(store, name) {
-  file.path(path_scratch_dir(store), name)
+path_scratch_fixed <- function(path_store, name) {
+  file.path(path_scratch_dir(path_store), name)
 }
 
-path_scratch_dir <- function(store) {
-  file.path(store, "scratch")
+path_scratch_dir <- function(path_store) {
+  file.path(path_store, "scratch")
 }
 
-path_scratch_del <- function(store) {
-  unlink(path_scratch_dir(store), recursive = TRUE)
+path_scratch_del <- function(path_store) {
+  unlink(path_scratch_dir(path_store), recursive = TRUE)
 }
 
-path_workspace <- function(store, name) {
-  file.path(path_workspaces_dir(store), name)
+path_workspace <- function(path_store, name) {
+  file.path(path_workspaces_dir(path_store), name)
 }
 
-path_workspaces_dir <- function(store) {
-  file.path(store, "workspaces")
+path_workspaces_dir <- function(path_store) {
+  file.path(path_store, "workspaces")
 }

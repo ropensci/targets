@@ -3,14 +3,16 @@ active_new <- function(
   meta = NULL,
   names = NULL,
   queue = NULL,
-  reporter = NULL
+  reporter = NULL,
+  envir = NULL
 ) {
   active_class$new(
     pipeline = pipeline,
     meta = meta,
     names = names,
     queue = queue,
-    reporter = reporter
+    reporter = reporter,
+    envir = envir
   )
 }
 
@@ -20,7 +22,25 @@ active_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    envir = NULL,
     process = NULL,
+    initialize = function(
+      pipeline = NULL,
+      meta = NULL,
+      names = NULL,
+      queue = NULL,
+      reporter = NULL,
+      envir = NULL
+    ) {
+      super$initialize(
+        pipeline = pipeline,
+        meta = meta,
+        names = names,
+        queue = queue,
+        reporter = reporter
+      )
+      self$envir <- envir
+    },
     ensure_meta = function() {
       self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
@@ -31,11 +51,11 @@ active_class <- R6::R6Class(
     write_gitignore = function() {
       writeLines(
         c("*", "!.gitignore", "!meta"),
-        path_gitignore(self$meta$get_store())
+        path_gitignore(self$meta$get_path_store())
       )
     },
     ensure_process = function() {
-      self$process <- process_init(store = self$meta$get_store())
+      self$process <- process_init(path_store = self$meta$get_path_store())
       self$process$record_process()
     },
     produce_exports = function(envir, is_globalenv = NULL) {
@@ -92,7 +112,7 @@ active_class <- R6::R6Class(
       pipeline_unload_loaded(self$pipeline)
       scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress)
-      path_scratch_del()
+      path_scratch_del(path_store = self$meta$get_path_store())
       self$meta$database$deduplicate_storage()
     },
     validate = function() {

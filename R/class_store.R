@@ -67,17 +67,17 @@ store_upload_object <- function(store) {
 store_upload_object.default <- function(store) {
 }
 
-store_update_path <- function(store, name, object) {
-  store$file$path <- store_produce_path(store, name, object)
+store_update_path <- function(store, name, object, path_store) {
+  store$file$path <- store_produce_path(store, name, object, path_store)
 }
 
-store_produce_path <- function(store, name, object) {
+store_produce_path <- function(store, name, object, path_store) {
   UseMethod("store_produce_path")
 }
 
 #' @export
-store_produce_path.default <- function(store, name, object) {
-  path_objects(name)
+store_produce_path.default <- function(store, name, object, path_store) {
+  path_objects(path_store = path_store, name = name)
 }
 
 store_row_path <- function(store) {
@@ -89,26 +89,31 @@ store_row_path.default <- function(store) {
   NA_character_
 }
 
-store_path_from_record <- function(store, record) {
+store_path_from_record <- function(store, record, path_store) {
   UseMethod("store_path_from_record")
 }
 
 #' @export
-store_path_from_record.default <- function(store, record) {
-  path_objects(record$name)
+store_path_from_record.default <- function(store, record, path_store) {
+  path_objects(path_store = path_store, name = record$name)
 }
 
-store_update_stage <- function(store, name, object) {
-  store$file$stage <- store_produce_stage(store, name, object)
+store_update_stage <- function(store, name, object, path_store) {
+  store$file$stage <- store_produce_stage(
+    store = store,
+    name = name,
+    object = object,
+    path_store = path_store
+  )
 }
 
-store_produce_stage <- function(store, name, object) {
+store_produce_stage <- function(store, name, object, path_store) {
   UseMethod("store_produce_stage")
 }
 
 #' @export
-store_produce_stage.default <- function(store, name, object) {
-  path_scratch(pattern = name)
+store_produce_stage.default <- function(store, name, object, path_store) {
+  path_scratch(path_store = path_store, pattern = name)
 }
 
 store_cast_object <- function(store, object) {

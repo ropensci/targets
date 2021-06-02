@@ -12,7 +12,10 @@ scheduler_init <- function(
   names <- scheduler_topo_sort(igraph, priorities, queue)
   queue <- queue_init(queue, names, initial_ranks(names, graph, priorities))
   queued <- counter_init(names)
-  progress <- progress_init(store = meta$get_store(), queued = queued)
+  progress <- progress_init(
+    path_store = meta$get_path_store(),
+    queued = queued
+  )
   reporter <- reporter_init(reporter)
   backoff <- backoff_init(max = tar_option_get("backoff"))
   scheduler_new(

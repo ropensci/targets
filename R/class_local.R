@@ -3,14 +3,16 @@ local_init <- function(
   meta = meta_init(),
   names = NULL,
   queue = "parallel",
-  reporter = "verbose"
+  reporter = "verbose",
+  envir = tar_option_get("envir")
 ) {
   local_new(
     pipeline = pipeline,
     meta = meta,
     names = names,
     queue = queue,
-    reporter = reporter
+    reporter = reporter,
+    envir = envir
   )
 }
 
@@ -19,14 +21,16 @@ local_new <- function(
   meta = NULL,
   names = NULL,
   queue = NULL,
-  reporter = NULL
+  reporter = NULL,
+  envir = NULL
 ) {
   local_class$new(
     pipeline = pipeline,
     meta = meta,
     names = names,
     queue = queue,
-    reporter = reporter
+    reporter = reporter,
+    envir = envir
   )
 }
 
@@ -43,7 +47,11 @@ local_class <- R6::R6Class(
       target_gc(target)
       self$assert_deployment(target)
       target_prepare(target, self$pipeline, self$scheduler)
-      target_run(target = target)
+      target_run(
+        target = target,
+        envir = self$envir,
+        path_store = self$meta$get_path_store()
+      )
       target_conclude(
         target,
         self$pipeline,
