@@ -86,6 +86,8 @@ unlink("_targets.R")
 tar_script({
   sleep_run <- function(...) Sys.sleep(0.5)
   list(
+    tar_target(x, seq_len(2)),
+    tar_target(y, x, pattern = map(x)),
     tar_target(data1, sleep_run()),
     tar_target(data2, sleep_run()),
     tar_target(model1, sleep_run(data1)),
@@ -93,10 +95,10 @@ tar_script({
     tar_target(conclusions, sleep_run(c(model1, model2)))
   )
 }, script = "example/script.R")
-tar_config_set(config = "example/config.yaml")
 tar_config_set(
   script = "example/script.R",
-  store = "example/store"
+  store = "example/store",
+  config = "example/config.yaml"
 )
 px <- tar_watch(
   seconds = 5,
@@ -118,7 +120,11 @@ expect_true(file.exists("example/config.yaml"))
 expect_true(file.exists("example/script.R"))
 expect_true(file.exists("example/store"))
 # Switching the config affects the app.
-tar_config_set(config = "_targets.yaml")
+tar_config_set(
+  script = tempfile(),
+  store = tempfile(),
+  config = "example/config.yaml"
+)
 px$kill()
 # No targets file should be detected.
 px <- tar_watch(
