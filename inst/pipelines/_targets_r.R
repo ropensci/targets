@@ -2,7 +2,7 @@
 library(targets)
 lapply(
   list.files(
-    file.path(path_script_r(), "globals"),
+    file.path("PATH_SCRIPT_R", "globals"),
     pattern = "\\.R$",
     full.names = TRUE
   ),
@@ -10,7 +10,7 @@ lapply(
 )
 lapply(
   list.files(
-    file.path(path_script_r(), "targets"),
+    file.path("PATH_SCRIPT_R", "targets"),
     pattern = "\\.R$",
     full.names = TRUE
   ),

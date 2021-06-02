@@ -1,10 +1,10 @@
 tar_test("tar_unscript()", {
-  dir.create(path_script_r())
+  dir.create(path_script_r(path_script_default()))
   tar_unscript()
-  expect_true(file.exists(path_script_r()))
+  expect_true(file.exists(path_script_r(path_script_default())))
   file.create("_targets.R")
   tar_unscript()
-  expect_false(file.exists(path_script_r()))
+  expect_false(file.exists(path_script_r(path_script_default())))
 })
 
 tar_test("custom script and store args", {
