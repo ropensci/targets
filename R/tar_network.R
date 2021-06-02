@@ -45,18 +45,34 @@ tar_network <- function(
   )
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
+  targets_arguments <- list(
+    path_store = store,
+    targets_only = targets_only,
+    reporter = reporter
+  )
   callr_outer(
     targets_function = tar_network_inner,
-    targets_arguments = list(targets_only = targets_only, reporter = reporter),
+    targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments,
-    script = script,
-    store = store
+    script = script
   )
 }
 
-tar_network_inner <- function(pipeline, targets_only, reporter) {
-  inspection <- inspection_init(pipeline = pipeline, reporter = reporter)
+tar_network_inner <- function(
+  pipeline,
+  path_store,
+  targets_only,
+  reporter
+) {
+  meta <- meta_init(path_store = path_store)
+  progress <- progress_init(path_store = path_store)
+  inspection <- inspection_init(
+    pipeline = pipeline,
+    meta = meta,
+    progress = progress,
+    reporter = reporter
+  )
   inspection$update(targets_only = targets_only)
   list(
     vertices = tibble::as_tibble(inspection$vertices),

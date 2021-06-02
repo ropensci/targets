@@ -249,8 +249,8 @@ tar_test("target vertices get progress", {
     "y|canceled",
     "z|errored"
   )
-  dir_create(dirname(path_progress()))
-  writeLines(lines, path_progress())
+  dir_create(dirname(path_progress(path_store_default())))
+  writeLines(lines, path_progress(path_store_default()))
   vis <- inspection_init(pipeline)
   vis$update()
   vertices <- vis$vertices_targets
@@ -284,8 +284,8 @@ tar_test("turn outdated off", {
     "y|canceled",
     "z|errored"
   )
-  dir_create(dirname(path_progress()))
-  writeLines(lines, path_progress())
+  dir_create(dirname(path_progress(path_store_default())))
+  writeLines(lines, path_progress(path_store_default()))
   vis <- inspection_init(pipeline, outdated = FALSE)
   vis$update()
   vertices <- vis$vertices_targets

@@ -391,6 +391,11 @@ tar_test("cue_file() on a dynamic file", {
   expect_equal(out, "x")
 })
 
+tar_test("cue print", {
+  out <- utils::capture.output(print(tar_cue()))
+  expect_true(any(grepl("cue", out)))
+})
+
 tar_test("cue_validate()", {
   expect_silent(cue_validate(cue_init()))
 })

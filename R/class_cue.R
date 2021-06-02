@@ -30,7 +30,7 @@ cue_new <- function(
   force(format)
   force(file)
   force(iteration)
-  environment()
+  enclass(environment(), "tar_cue")
 }
 
 cue_record <- function(cue, target, meta) {
@@ -130,4 +130,7 @@ cue_validate <- function(cue) {
   assert_scalar(cue$iteration)
 }
 
-cue_default <- cue_init()
+#' @export
+print.tar_cue <- function(x, ...) {
+  cat("<cue>\n ", paste0(paste_list(as.list(x)), collapse = "\n  "))
+}

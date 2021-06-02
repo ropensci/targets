@@ -78,6 +78,7 @@ tar_visnetwork <- function(
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
+    path_store = store,
     targets_only = targets_only,
     allow_quosure = rlang::enquo(allow),
     exclude_quosure = rlang::enquo(exclude),
@@ -93,13 +94,13 @@ tar_visnetwork <- function(
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments,
-    script = script,
-    store = store
+    script = script
   )
 }
 
 tar_visnetwork_inner <- function(
   pipeline,
+  path_store,
   targets_only,
   allow_quosure,
   exclude_quosure,
@@ -112,6 +113,8 @@ tar_visnetwork_inner <- function(
 ) {
   network <- inspection_init(
     pipeline,
+    meta = meta_init(path_store = path_store),
+    progress = progress_init(path_store = path_store),
     outdated = outdated,
     reporter = reporter
   )

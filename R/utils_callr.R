@@ -3,17 +3,16 @@ callr_outer <- function(
   targets_arguments,
   callr_function,
   callr_arguments,
-  script,
-  store
+  script
 ) {
+  assert_script(script)
   tryCatch(
     callr_dispatch(
       targets_function = targets_function,
       targets_arguments = targets_arguments,
       callr_function = callr_function,
       callr_arguments = callr_arguments,
-      script = script,
-      store = store
+      script = script
     ),
     callr_error = function(e) {
       throw_run(
@@ -30,8 +29,7 @@ callr_dispatch <- function(
   targets_arguments,
   callr_function,
   callr_arguments,
-  script,
-  store
+  script
 ) {
   options <- list(crayon.enabled = interactive())
   callr_arguments$func <- callr_inner
@@ -39,8 +37,7 @@ callr_dispatch <- function(
     targets_function = targets_function,
     targets_arguments = targets_arguments,
     options = options,
-    script = script,
-    store = store
+    script = script
   )
   if_any(
     is.null(callr_function),
@@ -48,8 +45,7 @@ callr_dispatch <- function(
       targets_function = targets_function,
       targets_arguments = targets_arguments,
       options = options,
-      script = script,
-      store = store
+      script = script
     ),
     do.call(
       callr_function,
@@ -62,15 +58,8 @@ callr_inner <- function(
   targets_function,
   targets_arguments,
   options,
-  script,
-  store
+  script
 ) {
-  old_config <- targets::switch_config(
-    script = script,
-    store = store,
-    assert_store = FALSE
-  )
-  on.exit(targets::restore_config(old_config))
   withr::local_options(options)
   value <- source(script)$value
   targets_arguments$pipeline <- targets::as_pipeline(value)

@@ -4,7 +4,7 @@
 \alias{tar_config_set}
 \title{Write configuration settings to _targets.yaml.}
 \usage{
-tar_config_set(store = NULL, script = NULL, config = NULL)
+tar_config_set(store = NULL, script = NULL, config = "_targets.yaml")
 }
 \arguments{
 \item{store}{Character of length 1, path to the data store of the pipeline.
@@ -27,11 +27,7 @@ call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=
 (i.e. the default \code{source(chdir = FALSE)}).}
 
 \item{config}{Character of length 1, path to the YAML file with
-all the configuration settings (default: \verb{_targets.yaml}).
-Only applies to the current R session,
-the path reverts back to \verb{_targets.yaml} when you restart R.
-Intended for niche use cases only, such as \code{tar_watch()}
-embedded as a module in Shiny apps that use \code{targets}.}
+all the configuration settings (default: \verb{_targets.yaml}).}
 }
 \value{
 \code{NULL} (invisibly)

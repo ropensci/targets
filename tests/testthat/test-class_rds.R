@@ -1,7 +1,7 @@
 tar_test("rds update_object()", {
   x <- target_init(name = "abc", expr = quote(a), format = "rds")
   builder_update_build(x, tmpenv(a = "123"))
-  builder_update_paths(x)
+  builder_update_paths(x, path_store_default())
   expect_false(file.exists(x$store$file$path))
   expect_true(is.na(x$store$file$hash))
   builder_update_object(x)
@@ -39,5 +39,8 @@ tar_test("store_row_path()", {
 tar_test("store_path_from_record()", {
   store <- tar_target(x, "x_value", format = "rds")$store
   record <- record_init(name = "x", path = "path", format = "rds")
-  expect_equal(store_path_from_record(store, record), path_objects("x"))
+  expect_equal(
+    store_path_from_record(store, record, path_store_default()),
+    path_objects(path_store_default(), "x")
+  )
 })

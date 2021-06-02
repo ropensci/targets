@@ -71,6 +71,7 @@ tar_glimpse <- function(
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
+    path_store = store,
     targets_only = targets_only,
     allow_quosure = rlang::enquo(allow),
     exclude_quosure = rlang::enquo(exclude),
@@ -83,13 +84,13 @@ tar_glimpse <- function(
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments,
-    script = script,
-    store = store
+    script = script
   )
 }
 
 tar_glimpse_inner <- function(
   pipeline,
+  path_store,
   targets_only,
   allow_quosure,
   exclude_quosure,
@@ -97,7 +98,13 @@ tar_glimpse_inner <- function(
   degree_from,
   degree_to
 ) {
-  network <- glimpse_init(pipeline)
+  meta <- meta_init(path_store = path_store)
+  progress <- progress_init(path_store = path_store)
+  network <- glimpse_init(
+    pipeline = pipeline,
+    meta = meta,
+    progress = progress
+  )
   visual <- visnetwork_init(
     network = network,
     targets_only = targets_only,

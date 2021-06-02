@@ -4,6 +4,6 @@ tar_test("validate workspace class", {
     list(tar_target(z, 0))
   })
   tar_make(callr_function = NULL)
-  workspace <- workspace_read("z")
+  workspace <- workspace_read("z", path_store_default())
   expect_silent(workspace_validate(workspace))
 })

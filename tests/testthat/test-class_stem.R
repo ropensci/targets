@@ -19,7 +19,7 @@ tar_test("target_load_value()", {
 tar_test("stem$update_junction() on a good stem", {
   x <- target_init(name = "abc", expr = quote(seq_len(10)), iteration = "list")
   tar_option_set(envir = baseenv())
-  target_run(x)
+  target_run(x, tar_option_get("envir"), path_store_default())
   expect_null(x$junction)
   pipeline <- pipeline_init(list(x))
   stem_update_junction(x, pipeline)
@@ -32,7 +32,7 @@ tar_test("stem$update_junction() on a good stem", {
 tar_test("stem_produce_buds()", {
   x <- target_init(name = "abc", expr = quote(letters))
   tar_option_set(envir = baseenv())
-  target_run(x)
+  target_run(x, tar_option_get("envir"), path_store_default())
   pipeline <- pipeline_init(list(x))
   stem_update_junction(x, pipeline)
   children <- stem_produce_buds(x)
@@ -61,7 +61,7 @@ tar_test("stem$ensure_children()", {
 
 tar_test("target_update_queue() updates queue correctly", {
   pipeline <- pipeline_order()
-  scheduler <- pipeline_produce_scheduler(pipeline)
+  scheduler <- pipeline_produce_scheduler(pipeline, meta = meta_init())
   target <- pipeline_get_target(pipeline, "min2")
   target_update_queue(target, scheduler)
   out <- scheduler$queue$data

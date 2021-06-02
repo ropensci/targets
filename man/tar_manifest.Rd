@@ -9,8 +9,7 @@ tar_manifest(
   fields = c("name", "command", "pattern"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
-  script = targets::tar_config_get("script"),
-  store = targets::tar_config_get("store")
+  script = targets::tar_config_get("script")
 )
 }
 \arguments{
@@ -74,15 +73,6 @@ See \code{\link[=tar_script]{tar_script()}},
 \code{\link[=tar_config_get]{tar_config_get()}}, and \code{\link[=tar_config_set]{tar_config_set()}} for details
 about the target script file and how to set it
 persistently for a project.}
-
-\item{store}{Character of length 1, path to the
-\code{targets} data store. Defaults to \code{tar_config_get("store")},
-which in turn defaults to \verb{_targets/}.
-When you set this argument, the value of \code{tar_config_get("store")}
-is temporarily changed for the current function call.
-See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
-about how to set the data store path persistently
-for a project.}
 }
 \value{
 A data frame of information about the targets in the pipeline.

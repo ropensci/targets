@@ -40,9 +40,10 @@ algorithm_class <- R6::R6Class(
     },
     update_scheduler = function() {
       self$scheduler <- pipeline_produce_scheduler(
-        self$pipeline,
-        self$queue,
-        self$reporter
+        pipeline = self$pipeline,
+        meta = self$meta,
+        queue = self$queue,
+        reporter = self$reporter
       )
     },
     validate = function() {

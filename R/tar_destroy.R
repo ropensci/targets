@@ -46,17 +46,15 @@ tar_destroy <- function(
   ),
   store = targets::tar_config_get("store")
 ) {
-  old_config <- switch_config(store = store, assert_store = FALSE)
-  on.exit(restore_config(old_config), add = TRUE)
   switch(
     match.arg(destroy),
-    all = unlink(path_store(), recursive = TRUE),
-    meta = unlink(path_meta()),
-    process = unlink(path_process()),
-    progress = unlink(path_progress()),
-    objects = unlink(path_objects_dir(), recursive = TRUE),
-    scratch = unlink(path_scratch_dir(), recursive = TRUE),
-    workspaces = unlink(path_workspaces_dir(), recursive = TRUE)
+    all = unlink(store, recursive = TRUE),
+    meta = unlink(path_meta(store)),
+    process = unlink(path_process(store)),
+    progress = unlink(path_progress(store)),
+    objects = unlink(path_objects_dir(store), recursive = TRUE),
+    scratch = unlink(path_scratch_dir(store), recursive = TRUE),
+    workspaces = unlink(path_workspaces_dir(store), recursive = TRUE)
   )
   invisible()
 }

@@ -15,7 +15,9 @@ tar_test("future workers actually launch", {
   # The following should run 4 targets concurrently.
   # Terminate early if necessary.
   tar_make_future(workers = 4)
-  tar_progress()
+  out <- tar_progress()
+  out <- out[out$name != "x", ]
+  expect_true(all(out$progress == "started"))
 })
 
 tar_test("custom future plans through resources", {
@@ -38,7 +40,9 @@ tar_test("custom future plans through resources", {
   tar_make_future(workers = 4)
   # After all 4 targets start, terminate the pipeline early and show progress.
   # x should be built, and y and its 4 branches should be listed as started.
-  tar_progress()
+  out <- tar_progress()
+  out <- out[out$name != "x", ]
+  expect_true(all(out$progress == "started"))
 })
 
 tar_test("profile heavily parallel workload", {
@@ -94,7 +98,7 @@ tar_test("prevent high-memory data via target objects", {
   algo$run()
   # In the debugger verify that the exported data is much smaller than
   # the value of x because we cloned the target objects in pipeline_init().
-  o <- self$produce_exports(tar_option_get("envir"))
+  o <- self$produce_exports(tar_option_get("envir"), path_store_default())
   # Exported data should be small:
   pryr::object_size(o)
   # The target object should not be in the environment.

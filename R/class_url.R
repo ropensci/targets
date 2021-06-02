@@ -27,7 +27,7 @@ store_write_path.tar_url <- function(store, object, path) {
 }
 
 #' @export
-store_produce_path.tar_url <- function(store, name, object) {
+store_produce_path.tar_url <- function(store, name, object, path_store) {
   object
 }
 

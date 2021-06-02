@@ -89,10 +89,9 @@ tar_meta <- function(
   complete_only = FALSE,
   store = targets::tar_config_get("store")
 ) {
-  old_config <- switch_config(store = store)
-  on.exit(restore_config(old_config), add = TRUE)
-  assert_path(path_meta())
-  out <- tibble::as_tibble(meta_init()$database$read_condensed_data())
+  assert_path(path_meta(path_store = store))
+  meta <- meta_init(path_store = store)
+  out <- tibble::as_tibble(meta$database$read_condensed_data())
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)
   names <- eval_tidyselect(names_quosure, out$name)

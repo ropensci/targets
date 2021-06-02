@@ -16,7 +16,7 @@ tar_test("meta$get_record() for internal storage", {
   expect_silent(record_validate(record))
   expect_equal(record$name, "x")
   expect_equal(record$type, "cross")
-  expect_equal(record$path, path_objects("x"))
+  expect_equal(record$path, path_objects(path_store_default(), "x"))
 })
 
 tar_test("meta$get_record() for external storage", {

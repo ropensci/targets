@@ -175,7 +175,10 @@ tar_test("store_row_path()", {
 tar_test("store_path_from_record()", {
   store <- tar_target(x, "x_value", format = "url")$store
   record <- record_init(path = "path", format = "url")
-  expect_equal(store_path_from_record(store, record), "path")
+  expect_equal(
+    store_path_from_record(store, record, path_store_default()),
+    "path"
+  )
 })
 
 tar_test("url packages", {

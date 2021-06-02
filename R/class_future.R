@@ -4,6 +4,7 @@ future_init <- function(
   names = NULL,
   queue = "parallel",
   reporter = "verbose",
+  envir = tar_option_get("envir"),
   workers = 1L
 ) {
   future_new(
@@ -12,6 +13,7 @@ future_init <- function(
     names = names,
     queue = queue,
     reporter = reporter,
+    envir = envir,
     workers = as.integer(workers)
   )
 }
@@ -22,6 +24,7 @@ future_new <- function(
   names = NULL,
   queue = NULL,
   reporter = NULL,
+  envir = NULL,
   workers = NULL
 ) {
   future_class$new(
@@ -30,6 +33,7 @@ future_new <- function(
     names = names,
     queue = queue,
     reporter = reporter,
+    envir = envir,
     workers = workers
   )
 }
@@ -49,6 +53,7 @@ future_class <- R6::R6Class(
       names = NULL,
       queue = NULL,
       reporter = NULL,
+      envir = NULL,
       workers = NULL
     ) {
       super$initialize(
@@ -56,13 +61,17 @@ future_class <- R6::R6Class(
         meta = meta,
         names = names,
         queue = queue,
-        reporter = reporter
+        reporter = reporter,
+        envir = envir
       )
       self$workers <- workers
       self$crew <- memory_init()
     },
     update_globals = function() {
-      self$globals <- self$produce_exports(tar_option_get("envir"))
+      self$globals <- self$produce_exports(
+        envir = self$envir,
+        path_store = self$meta$get_path_store()
+      )
     },
     ensure_globals = function() {
       if (is.null(self$globals)) {
@@ -89,8 +98,8 @@ future_class <- R6::R6Class(
         expr = target_run_worker(
           target = .tar_target_5048826d,
           envir = .tar_envir_5048826d,
-          options = .tar_options_5048826d,
-          config = .tar_config_5048826d
+          path_store = .tar_path_store_5048826d,
+          options = .tar_options_5048826d
         ),
         packages = "targets",
         globals = globals,
@@ -106,7 +115,11 @@ future_class <- R6::R6Class(
       )
     },
     run_main = function(target) {
-      target_run(target)
+      target_run(
+        target = target,
+        envir = self$envir,
+        path_store = self$meta$get_path_store()
+      )
       target_conclude(
         target,
         self$pipeline,

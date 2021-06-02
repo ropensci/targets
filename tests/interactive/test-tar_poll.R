@@ -7,7 +7,9 @@ tar_test("tar_poll() with default columns", {
   })
   tar_poll()
   # Open a separate R session and run the pipeline there.
-  # Watch the output of tar_poll()
+  # Watch the output of tar_poll().
+  # Then stop and destroy the pipeline and watch tar_poll() resond.
+  # Then resume the pipeline and watch tar_poll() resume.
 })
 
 tar_test("tar_poll() with non-default columns", {
@@ -52,8 +54,6 @@ tar_test("tar_poll() with non-default store and script", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  expect_equal(path_script(), path_script_default())
-  expect_equal(path_store(), path_store_default())
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))

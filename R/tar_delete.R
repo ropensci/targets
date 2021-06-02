@@ -28,9 +28,8 @@
 #' })
 #' }
 tar_delete <- function(names, store = targets::tar_config_get("store")) {
-  old_config <- switch_config(store = store)
-  on.exit(restore_config(old_config), add = TRUE)
-  meta <- meta_init()
+  assert_path(path_meta(store))
+  meta <- meta_init(path_store = store)
   data <- meta$database$read_condensed_data()
   names_quosure <- rlang::enquo(names)
   names <- eval_tidyselect(names_quosure, data$name)
@@ -40,8 +39,8 @@ tar_delete <- function(names, store = targets::tar_config_get("store")) {
   names <- c(names, children)
   dynamic_files <- data$name[data$format == "file"]
   names <- setdiff(names, dynamic_files)
-  files <- list.files(path_objects_dir(), all.files = TRUE)
+  files <- list.files(path_objects_dir(store), all.files = TRUE)
   discard <- intersect(names, files)
-  unlink(file.path(path_objects_dir(), discard), recursive = TRUE)
+  unlink(file.path(path_objects_dir(store), discard), recursive = TRUE)
   invisible()
 }

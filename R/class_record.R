@@ -120,9 +120,13 @@ record_row_path <- function(record) {
   store_row_path(store)
 }
 
-record_from_row <- function(row) {
+record_from_row <- function(row, path_store) {
   record <- do.call(record_init, lapply(row, unlist))
-  record$path <- store_path_from_record(store_init(record$format), record)
+  record$path <- store_path_from_record(
+    store = store_init(record$format),
+    record = record,
+    path_store = path_store
+  )
   record
 }
 

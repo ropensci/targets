@@ -114,7 +114,7 @@ tar_test("custom script and store args", {
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script(
-    tar_target(x, getNamespace("targets")$tar_config$is_locked()),
+    tar_target(x, TRUE),
     script = "example/script.R"
   )
   tar_make(
@@ -125,8 +125,6 @@ tar_test("custom script and store args", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  expect_equal(path_script(), path_script_default())
-  expect_equal(path_store(), path_store_default())
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))
@@ -134,7 +132,6 @@ tar_test("custom script and store args", {
   expect_true(file.exists("example/store/meta/meta"))
   expect_true(file.exists("example/store/objects/x"))
   expect_equal(readRDS("example/store/objects/x"), TRUE)
-  expect_false(tar_config$is_locked())
   tar_config_set(script = "x")
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))
@@ -145,7 +142,7 @@ tar_test("custom script and store args with callr function", {
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script(
-    tar_target(x, getNamespace("targets")$tar_config$is_locked()),
+    tar_target(x, TRUE),
     script = "example/script.R"
   )
   tar_make(
@@ -156,8 +153,6 @@ tar_test("custom script and store args with callr function", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  expect_equal(path_script(), path_script_default())
-  expect_equal(path_store(), path_store_default())
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))
@@ -165,7 +160,6 @@ tar_test("custom script and store args with callr function", {
   expect_true(file.exists("example/store/meta/meta"))
   expect_true(file.exists("example/store/objects/x"))
   expect_equal(readRDS("example/store/objects/x"), TRUE)
-  expect_false(tar_config$is_locked())
   tar_config_set(script = "x")
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))

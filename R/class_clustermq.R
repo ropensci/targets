@@ -4,6 +4,7 @@ clustermq_init <- function(
   names = NULL,
   queue = "parallel",
   reporter = "verbose",
+  envir = tar_option_get("envir"),
   workers = 1L,
   log_worker = FALSE
 ) {
@@ -13,6 +14,7 @@ clustermq_init <- function(
     names = names,
     queue = queue,
     reporter = reporter,
+    envir = envir,
     workers = as.integer(workers),
     log_worker = log_worker
   )
@@ -24,6 +26,7 @@ clustermq_new <- function(
   names = NULL,
   queue = NULL,
   reporter = NULL,
+  envir = NULL,
   workers = NULL,
   crew = NULL,
   log_worker = NULL
@@ -34,6 +37,7 @@ clustermq_new <- function(
     names = names,
     queue = queue,
     reporter = reporter,
+    envir = envir,
     workers = workers,
     crew = crew,
     log_worker = log_worker
@@ -55,6 +59,7 @@ clustermq_class <- R6::R6Class(
       names = NULL,
       queue = NULL,
       reporter = NULL,
+      envir = NULL,
       workers = NULL,
       crew = NULL,
       log_worker = NULL
@@ -64,17 +69,21 @@ clustermq_class <- R6::R6Class(
         meta = meta,
         names = names,
         queue = queue,
-        reporter = reporter
+        reporter = reporter,
+        envir = envir
       )
       self$workers <- as.integer(workers)
       self$crew <- crew
       self$log_worker <- log_worker
     },
-    set_common_data = function(envir) {
+    set_common_data = function() {
       self$crew$set_common_data(
         fun = identity,
         const = list(),
-        export = self$produce_exports(envir),
+        export = self$produce_exports(
+          envir = self$envir,
+          path_store = self$meta$get_path_store()
+        ),
         rettype = list(),
         pkgs = "targets",
         common_seed = 0L,
@@ -89,9 +98,9 @@ clustermq_class <- R6::R6Class(
       )
       self$crew <- crew
     },
-    start_crew = function(envir) {
+    start_crew = function() {
       self$create_crew()
-      self$set_common_data(envir)
+      self$set_common_data()
     },
     any_upcoming_jobs = function() {
       need_workers <- fltr(
@@ -105,15 +114,19 @@ clustermq_class <- R6::R6Class(
         expr = target_run_worker(
           target = target,
           envir = .tar_envir_5048826d,
-          options = .tar_options_5048826d,
-          config = .tar_config_5048826d
+          path_store = .tar_path_store_5048826d,
+          options = .tar_options_5048826d
         ),
         env = list(target = target)
       )
     },
     run_main = function(target) {
       self$wait_or_shutdown()
-      target_run(target)
+      target_run(
+        target = target,
+        envir = self$envir,
+        path_store = self$meta$get_path_store()
+      )
       target_conclude(
         target,
         self$pipeline,
@@ -207,12 +220,13 @@ clustermq_class <- R6::R6Class(
         names = self$names,
         queue = self$queue,
         reporter = self$reporter,
+        envir = self$envir,
         scheduler = self$scheduler
       )
     },
     run_clustermq = function() {
       on.exit(try(self$crew$finalize()))
-      self$start_crew(tar_option_get("envir"))
+      self$start_crew()
       while (self$scheduler$progress$any_remaining()) {
         self$iterate()
       }

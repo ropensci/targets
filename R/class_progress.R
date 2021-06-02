@@ -1,4 +1,5 @@
 progress_init <- function(
+  path_store = path_store_default(),
   queued = counter_init(),
   started = counter_init(),
   built = counter_init(),
@@ -7,7 +8,7 @@ progress_init <- function(
   warned = counter_init(),
   canceled = counter_init()
 ) {
-  database <- database_progress()
+  database <- database_progress(path_store = path_store)
   progress_new(
     database = database,
     queued = queued,
@@ -197,9 +198,9 @@ progress_class <- R6::R6Class(
   )
 )
 
-database_progress <- function() {
+database_progress <- function(path_store) {
   database_init(
-    path = path_progress(),
+    path = path_progress(path_store = path_store),
     header = header_progress(),
   )
 }

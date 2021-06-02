@@ -54,7 +54,14 @@ tar_poll <- function(
     tar_poll_header(fields_quosure, store = store)
   }
   while (tar_poll_go(start, timeout)) {
-    tar_poll_body(fields_quosure, store = store)
+    text <- "Lost connection to progress file."
+    df <- data.frame(text = text)
+    colnames(df) <- make.names(text)
+    if_any(
+      tar_exist_progress(store = store),
+      tar_poll_body(fields_quosure, store = store),
+      cli_df_body(df)
+    )
     Sys.sleep(interval)
   }
   message("")

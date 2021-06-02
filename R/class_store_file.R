@@ -27,7 +27,12 @@ store_write_path.tar_store_file <- function(store, object, path) {
 }
 
 #' @export
-store_produce_path.tar_store_file <- function(store, name, object) { # nolint
+store_produce_path.tar_store_file <- function( # nolint
+  store,
+  name,
+  object,
+  store_produce_path
+) {
   object
 }
 

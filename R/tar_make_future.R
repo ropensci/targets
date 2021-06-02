@@ -43,6 +43,7 @@ tar_make_future <- function(
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
+    path_store = store,
     names_quosure = rlang::enquo(names),
     reporter = reporter,
     workers = workers
@@ -52,16 +53,22 @@ tar_make_future <- function(
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments,
-    script = script,
-    store = store
+    script = script
   )
   invisible(out)
 }
 
-tar_make_future_inner <- function(pipeline, names_quosure, reporter, workers) {
+tar_make_future_inner <- function(
+  pipeline,
+  path_store,
+  names_quosure,
+  reporter,
+  workers
+) {
   names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
   future_init(
     pipeline = pipeline,
+    meta_init(path_store = path_store),
     names = names,
     queue = "parallel",
     reporter = reporter,

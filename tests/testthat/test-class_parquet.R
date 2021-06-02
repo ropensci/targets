@@ -11,7 +11,7 @@ tar_test("parquet format", {
     format = "parquet"
   )
   builder_update_build(x, envir)
-  builder_update_paths(x)
+  builder_update_paths(x, path_store_default())
   builder_update_object(x)
   exp <- envir$f()
   expect_equal(arrow::read_parquet(x$store$file$path), exp)
@@ -96,5 +96,8 @@ tar_test("store_path_from_record()", {
   skip_on_cran()
   store <- tar_target(x, "x_value", format = "parquet")$store
   record <- record_init(name = "x", path = "path", format = "parquet")
-  expect_equal(store_path_from_record(store, record), path_objects("x"))
+  expect_equal(
+    store_path_from_record(store, record, path_store_default()),
+    path_objects(path_store_default(), "x")
+  )
 })

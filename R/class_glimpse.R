@@ -1,5 +1,13 @@
-glimpse_init <- function(pipeline) {
-  glimpse_new(pipeline = pipeline)
+glimpse_init <- function(
+  pipeline,
+  meta = meta_init(),
+  progress = progress_init()
+) {
+  glimpse_new(
+    pipeline = pipeline,
+    meta = meta,
+    progress = progress
+  )
 }
 
 glimpse_new <- function(

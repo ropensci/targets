@@ -1,5 +1,5 @@
-meta_init <- function() {
-  database <- database_meta()
+meta_init <- function(path_store = path_store_default()) {
+  database <- database_meta(path_store = path_store)
   depends <- memory_init()
   meta_new(database = database, depends = depends)
 }
@@ -20,11 +20,17 @@ meta_class <- R6::R6Class(
       self$database <- database
       self$depends <- depends
     },
+    get_path_store = function() {
+      dirname(dirname(self$database$path))
+    },
     get_depend = function(name) {
       memory_get_object(self$depends, name)
     },
     get_record = function(name) {
-      record_from_row(self$database$get_row(name))
+      record_from_row(
+        row = self$database$get_row(name),
+        path_store = self$get_path_store()
+      )
     },
     set_record = function(record) {
       self$database$set_row(record_produce_row(record))
@@ -103,9 +109,9 @@ meta_class <- R6::R6Class(
   )
 )
 
-database_meta <- function() {
+database_meta <- function(path_store) {
   database_init(
-    path = path_meta(),
+    path = path_meta(path_store = path_store),
     header = header_meta(),
     list_columns = c("path", "children")
   )

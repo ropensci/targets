@@ -1,6 +1,6 @@
 tar_test("tar_exist_objects()", {
-  dir_create(dirname(path_objects("x")))
-  file.create(path_objects("x"))
+  dir_create(dirname(path_objects(path_store_default(), "x")))
+  file.create(path_objects(path_store_default(), "x"))
   expect_equal(tar_exist_objects(c("y", "x")), c(FALSE, TRUE))
 })
 
@@ -21,12 +21,9 @@ tar_test("custom script and store args", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  expect_equal(path_script(), path_script_default())
-  expect_equal(path_store(), path_store_default())
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))
-  expect_false(tar_config$is_locked())
   tar_config_set(script = "x")
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))

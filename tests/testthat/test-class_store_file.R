@@ -13,7 +13,7 @@ tar_test("dynamic files work", {
   builder_update_build(x, envir)
   expect_equal(x$store$file$path, character(0))
   expect_true(is.na(x$store$file$hash))
-  builder_update_paths(x)
+  builder_update_paths(x, path_store_default())
   expect_true(file.exists(x$store$file$path))
   expect_true(nzchar(x$store$file$path))
   expect_false(is.na(x$store$file$hash))
@@ -65,5 +65,8 @@ tar_test("store_row_path()", {
 tar_test("store_path_from_record()", {
   store <- tar_target(x, "x_value", format = "file")$store
   record <- record_init(path = "path", format = "file")
-  expect_equal(store_path_from_record(store, record), "path")
+  expect_equal(
+    store_path_from_record(store, record, path_store_default()),
+    "path"
+  )
 })

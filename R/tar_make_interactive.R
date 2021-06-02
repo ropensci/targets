@@ -7,18 +7,12 @@ tar_make_interactive <- function(code) {
     "parallel",
     "sequential"
   )
-  store <- tar_config$get_value("store")
-  tar_config$assign_value(name = "store", value = tempfile())
-  tar_config$set_lock()
-  on.exit({
-    tar_config$unset_lock()
-    unlink(tar_config$get_value("store"), recursive = TRUE)
-    tar_config$assign_value(name = "store", value = store)
-  })
   local_init(
     pipeline = pipeline,
+    meta = meta_init(path_store = tempfile()),
     queue = queue,
-    reporter = "silent"
+    reporter = "silent",
+    envir = tar_option_get("envir")
   )$run()
   map(
     pipeline_get_names(pipeline),

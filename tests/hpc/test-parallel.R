@@ -87,3 +87,5 @@ tar_script({
   )
 })
 tar_make_clustermq()
+tar_destroy()
+unlink("_targets.R")

@@ -10,7 +10,5 @@
 #' @examples
 #' tar_exist_script()
 tar_exist_script <- function(script = targets::tar_config_get("script")) {
-  old_config <- switch_config(script = script, assert_script = FALSE)
-  on.exit(restore_config(old_config), add = TRUE)
-  file.exists(path_script())
+  file.exists(script)
 }

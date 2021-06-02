@@ -96,6 +96,7 @@ tar_sitrep <- function(
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
+    path_store = store,
     names_quosure = rlang::enquo(names),
     fields_quosure = rlang::enquo(fields),
     reporter = reporter
@@ -105,22 +106,22 @@ tar_sitrep <- function(
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments,
-    script = script,
-    store = store
+    script = script
   )
 }
 
 tar_sitrep_inner <- function(
   pipeline,
+  path_store,
   names_quosure,
   fields_quosure,
   reporter
 ) {
   names_all <- pipeline_get_names(pipeline)
   names <- eval_tidyselect(names_quosure, names_all)
-  meta <- meta_init()
   sitrep <- sitrep_init(
     pipeline = pipeline,
+    meta = meta_init(path_store = path_store),
     names = names,
     queue = "sequential",
     reporter = reporter

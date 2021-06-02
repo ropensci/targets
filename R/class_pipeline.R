@@ -120,10 +120,16 @@ pipeline_produce_igraph <- function(pipeline, targets_only = TRUE) {
 
 pipeline_produce_scheduler <- function(
   pipeline,
+  meta,
   queue = "parallel",
   reporter = "verbose"
 ) {
-  scheduler_init(pipeline = pipeline, queue = queue, reporter = reporter)
+  scheduler_init(
+    pipeline = pipeline,
+    meta = meta,
+    queue = queue,
+    reporter = reporter
+  )
 }
 
 pipeline_register_loaded_target <- function(pipeline, name) { # nolint

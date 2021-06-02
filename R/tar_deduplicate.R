@@ -20,8 +20,6 @@ tar_deduplicate <- function(
   progress = TRUE,
   store = targets::tar_config_get("store")
 ) {
-  old_config <- switch_config(store = store)
-  on.exit(restore_config(old_config), add = TRUE)
   warn_deprecate(
     "tar_deduplicate() is deprecated in version 0.3.0 (2020-03-06). ",
     "The tar_make*() functions do enough deduplication now automatically."
@@ -29,10 +27,10 @@ tar_deduplicate <- function(
   assert_lgl(meta, "meta arg of tar_deduplicate() must be logical.")
   assert_lgl(progress, "progress arg of tar_deduplicate() must be logical.")
   if (meta) {
-    meta_init()$database$deduplicate_storage()
+    meta_init(path_store = store)$database$deduplicate_storage()
   }
   if (progress) {
-    progress_init()$database$deduplicate_storage()
+    progress_init(path_store = store)$database$deduplicate_storage()
   }
   invisible()
 }

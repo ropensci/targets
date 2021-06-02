@@ -69,29 +69,28 @@ target_needs_worker.tar_builder <- function(target) {
 }
 
 #' @export
-target_run.tar_builder <- function(target) {
+target_run.tar_builder <- function(target, envir, path_store) {
   on.exit({
     builder_unset_tar_runtime()
     target$subpipeline <- NULL
   })
   builder_unserialize_subpipeline(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
-  frames <- frames_produce(tar_option_get("envir"), target, target$subpipeline)
+  frames <- frames_produce(envir, target, target$subpipeline)
   builder_set_tar_runtime(target, frames)
   builder_update_build(target, frames_get_envir(frames))
-  builder_update_paths(target)
+  builder_update_paths(target, path_store)
   builder_ensure_object(target, "worker")
   target
 }
 
 #' @export
-target_run_worker.tar_builder <- function(target, envir, options, config) {
+target_run_worker.tar_builder <- function(target, envir, path_store, options) {
   tar_options$import(options)
   envir <- if_any(identical(envir, "globalenv"), globalenv(), envir)
   tar_option_set(envir = envir)
-  tar_config$import(config)
   target_gc(target)
-  target_run(target)
+  target_run(target, envir, path_store)
   builder_serialize_value(target)
   target
 }
@@ -220,7 +219,7 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   scheduler$reporter$report_errored(target, scheduler$progress)
   target_patternview_errored(target, pipeline, scheduler)
   if (identical(target$settings$error, "workspace")) {
-    builder_save_workspace(target, pipeline, scheduler)
+    builder_save_workspace(target, pipeline, scheduler, meta)
   }
   if_any(
     identical(target$settings$error, "continue"),
@@ -241,15 +240,18 @@ builder_exit <- function(target, pipeline, scheduler, meta) {
   throw_run(target$metrics$error)
 }
 
-builder_ensure_workspace <- function(target, pipeline, scheduler) {
+builder_ensure_workspace <- function(target, pipeline, scheduler, meta) {
   if (target$settings$name %in% tar_option_get("workspaces")) {
-    builder_save_workspace(target, pipeline, scheduler)
+    builder_save_workspace(target, pipeline, scheduler, meta)
   }
 }
 
-builder_save_workspace <- function(target, pipeline, scheduler) {
+builder_save_workspace <- function(target, pipeline, scheduler, meta) {
   scheduler$reporter$report_workspace(target)
-  workspace_save(workspace_init(target, pipeline))
+  workspace_save(
+    workspace = workspace_init(target, pipeline),
+    path_store = meta$get_path_store()
+  )
 }
 
 builder_record_error_meta <- function(target, pipeline, meta) {
@@ -270,13 +272,13 @@ builder_update_build <- function(target, envir) {
   invisible()
 }
 
-builder_update_paths <- function(target) {
+builder_update_paths <- function(target, path_store) {
   if (metrics_terminated_early(target$metrics)) {
     return()
   }
   name <- target_get_name(target)
-  store_update_path(target$store, name, target$value$object)
-  store_update_stage(target$store, name, target$value$object)
+  store_update_path(target$store, name, target$value$object, path_store)
+  store_update_stage(target$store, name, target$value$object, path_store)
   store_early_hash(target$store)
 }
 

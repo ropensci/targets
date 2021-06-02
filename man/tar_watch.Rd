@@ -16,7 +16,7 @@ tar_watch(
   level_separation = 150,
   degree_from = 1L,
   degree_to = 1L,
-  config = targets::tar_config_get("config"),
+  config = "_targets.yaml",
   height = "650px",
   background = TRUE,
   browse = TRUE,
@@ -71,11 +71,7 @@ the graph highlights a neighborhood of that node. \code{degree_to}
 controls the number of edges the neighborhood extends downstream.}
 
 \item{config}{Character of length 1, path to the YAML file with
-all the configuration settings (default: \verb{_targets.yaml}).
-Only applies to the current R session,
-the path reverts back to \verb{_targets.yaml} when you restart R.
-Intended for niche use cases only, such as \code{tar_watch()}
-embedded as a module in Shiny apps that use \code{targets}.}
+all the configuration settings (default: \verb{_targets.yaml}).}
 
 \item{height}{Character of length 1,
 height of the \code{visNetwork} widget and branches table.}

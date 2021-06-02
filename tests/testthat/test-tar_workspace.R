@@ -7,7 +7,7 @@ tar_test("workspaces are not saved if error = 'stop'", {
   )
   local <- local_init(pipeline, reporter = "verbose")
   expect_error(expect_message(local$run()), class = "tar_condition_run")
-  expect_false(file.exists(path_workspace("x")))
+  expect_false(file.exists(path_workspace(path_store_default(), "x")))
 })
 
 tar_test("workspaces are not saved if error = 'continue'", {
@@ -20,7 +20,7 @@ tar_test("workspaces are not saved if error = 'continue'", {
   local <- local_init(pipeline, reporter = "verbose")
   suppressMessages(local$run())
   expect_true(grepl("12345", tar_meta(x)$error[[1]]))
-  expect_false(file.exists(path_workspace("x")))
+  expect_false(file.exists(path_workspace(path_store_default(), "x")))
 })
 
 tar_test("workspaces are saved if error = 'save'", {
@@ -32,7 +32,7 @@ tar_test("workspaces are saved if error = 'save'", {
   )
   local <- local_init(pipeline, reporter = "verbose")
   expect_error(expect_message(local$run()), class = "tar_condition_run")
-  expect_true(file.exists(path_workspace("x")))
+  expect_true(file.exists(path_workspace(path_store_default(), "x")))
 })
 
 tar_test("tar_workspace() works", {
@@ -104,7 +104,7 @@ tar_test("tar_workspace() with an unexportable object", {
 })
 
 tar_test("workspace saved on no error and when target is skipped", {
-  path <- path_workspace("z")
+  path <- path_workspace(path_store_default(), "z")
   tar_script({
     list(tar_target(z, 0))
   })
@@ -146,15 +146,12 @@ tar_test("custom script and store args", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  expect_equal(path_script(), path_script_default())
-  expect_equal(path_store(), path_store_default())
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))
   expect_true(file.exists("example/store"))
   expect_true(file.exists("example/store/meta/meta"))
   expect_true(file.exists("example/store/workspaces/y"))
-  expect_false(tar_config$is_locked())
   tar_config_set(script = "x")
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))

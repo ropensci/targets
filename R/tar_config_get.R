@@ -13,6 +13,7 @@
 #'   or the default value if the setting is not available.
 #'   The data type of the return value depends on your choice
 #'   of `name`.
+#' @inheritParams tar_config_set
 #' @param name Character of length 1, name of the specific
 #'   configuration setting to retrieve. If `name` is `"config"`,
 #'   then instead of retrieving a specific setting,
@@ -33,12 +34,17 @@
 #' file.exists(store_path) # TRUE
 #' })
 #' }
-tar_config_get <- function(name) {
-  assert_flag(name, choices = names(formals(tar_config_set)))
+tar_config_get <- function(name, config = "_targets.yaml") {
+  choices <- setdiff(names(formals(tar_config_set)), "config")
+  assert_flag(name, choices = choices)
+  yaml <- tar_config_read_yaml(config)
   switch(
     name,
-    script = tar_config$get_script(),
-    store = tar_config$get_store(),
-    config = tar_config$get_path()
+    script = yaml$script %|||% path_script_default(),
+    store = yaml$store %|||% path_store_default()
   )
+}
+
+tar_config_read_yaml <- function(config) {
+  if_any(file.exists(config), as.list(yaml::read_yaml(config)), list())
 }

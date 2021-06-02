@@ -61,12 +61,10 @@ tar_workspace <- function(
   store = targets::tar_config_get("store")
 ) {
   force(envir)
-  old_config <- switch_config(script = script, store = store)
-  on.exit(restore_config(old_config), add = TRUE)
   name <- deparse_language(substitute(name))
   assert_chr(name)
   assert_scalar(name)
-  workspace <- workspace_read(name)
+  workspace <- workspace_read(name = name, path_store = store)
   workspace_populate(workspace)
   workspace_assign(workspace, envir)
   if (packages) {
@@ -74,7 +72,7 @@ tar_workspace <- function(
     build_load_packages(command$packages, command$library)
   }
   if (source) {
-    source(path_script(), local = envir)
+    source(script, local = envir)
   }
   set.seed(workspace$target$command$seed)
   invisible()

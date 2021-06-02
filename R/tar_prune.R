@@ -34,26 +34,23 @@ tar_prune <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
-  old_config <- switch_config(script = script, store = store)
-  on.exit(restore_config(old_config), add = TRUE)
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
-  path_scratch_del()
+  path_scratch_del(store)
   out <- callr_outer(
     targets_function = tar_prune_inner,
-    targets_arguments = list(),
+    targets_arguments = list(path_store = store),
     callr_function = callr_function,
     callr_arguments = callr_arguments,
-    script = script,
-    store = store
+    script = script
   )
   invisible(out)
 }
 
-tar_prune_inner <- function(pipeline) {
-  assert_store(tar_config$get_store())
+tar_prune_inner <- function(pipeline, path_store) {
+  assert_store(path_store)
   names <- pipeline_get_names(pipeline)
-  meta <- meta_init()
+  meta <- meta_init(path_store = path_store)
   data <- meta$database$read_condensed_data()
   imports <- data$name[data$type %in% c("function", "object")]
   children <- unlist(data$children[data$name %in% names])
@@ -64,6 +61,6 @@ tar_prune_inner <- function(pipeline) {
   discard <- setdiff(discard, dynamic_files)
   data <- as_data_frame(data)[data$name %in% keep, ]
   meta$database$overwrite_storage(data)
-  unlink(file.path(path_objects_dir(), discard), recursive = TRUE)
+  unlink(file.path(path_objects_dir(path_store), discard), recursive = TRUE)
   invisible()
 }

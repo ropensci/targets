@@ -1,5 +1,5 @@
-process_init <- function() {
-  process_new(database = database_process())
+process_init <- function(path_store = path_store_default()) {
+  process_new(database = database_process(path_store = path_store))
 }
 
 process_new <- function(database = NULL) {
@@ -52,9 +52,9 @@ process_class <- R6::R6Class(
   )
 )
 
-database_process <- function() {
+database_process <- function(path_store) {
   database_init(
-    path = path_process(),
+    path = path_process(path_store = path_store),
     header = header_process(),
   )
 }

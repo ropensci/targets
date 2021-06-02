@@ -4,7 +4,7 @@
 \alias{tar_edit}
 \title{Open the target script file for editing.}
 \usage{
-tar_edit(script = targets::tar_option_get("script"))
+tar_edit(script = targets::tar_config_get("script"))
 }
 \arguments{
 \item{script}{Character of length 1, path to the
