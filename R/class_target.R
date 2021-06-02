@@ -20,7 +20,7 @@ target_init <- function(
 ) {
   seed <- produce_seed(name)
   command <- command_init(expr, packages, library, seed, deps, string)
-  cue <- cue %|||% cue_default
+  cue <- cue %|||% cue_init()
   settings <- settings_init(
     name = name,
     format = format,

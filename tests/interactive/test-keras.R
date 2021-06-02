@@ -41,7 +41,7 @@ tar_test("keras format", {
   expect_true(
     inherits(x$value$object, "keras.engine.training.Model")
   )
-  builder_update_paths(x)
+  builder_update_paths(x, path_store_default())
   builder_update_object(x)
   expect_true(
     inherits(target_read_value(x)$object, "keras.engine.training.Model")
