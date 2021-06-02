@@ -246,14 +246,14 @@ target_run.default <- function(target, envir, path_store) {
 #' @description For internal purposes only. Not a user-side function.
 #' @param target A target object.
 #' @param envir An environment or the string `"globalenv"`.
+#' @param path_store Character of length 1, path to the data store.
 #' @param options List, exported from an object of class `"tar_options"`.
-#' @param config List, exported from an object of class `"tar_config"`.
-target_run_worker <- function(target, envir, options, config) {
+target_run_worker <- function(target, envir, path_store, options) {
   UseMethod("target_run_worker")
 }
 
 #' @export
-target_run_worker.default <- function(target, envir, options, config) {
+target_run_worker.default <- function(target, envir, path_store, options) {
 }
 
 target_gc <- function(target) {

@@ -89,7 +89,6 @@ target_run_worker.tar_builder <- function(target, envir, path_store, options) {
   tar_options$import(options)
   envir <- if_any(identical(envir, "globalenv"), globalenv(), envir)
   tar_option_set(envir = envir)
-  tar_config$import(config)
   target_gc(target)
   target_run(target, envir, path_store)
   builder_serialize_value(target)
