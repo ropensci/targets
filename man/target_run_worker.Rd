@@ -4,16 +4,16 @@
 \alias{target_run_worker}
 \title{Internal function to run a target on a worker.}
 \usage{
-target_run_worker(target, envir, options, config)
+target_run_worker(target, envir, path_store, options)
 }
 \arguments{
 \item{target}{A target object.}
 
 \item{envir}{An environment or the string \code{"globalenv"}.}
 
-\item{options}{List, exported from an object of class \code{"tar_options"}.}
+\item{path_store}{Character of length 1, path to the data store.}
 
-\item{config}{List, exported from an object of class \code{"tar_config"}.}
+\item{options}{List, exported from an object of class \code{"tar_options"}.}
 }
 \description{
 For internal purposes only. Not a user-side function.

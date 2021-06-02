@@ -58,7 +58,7 @@ active_class <- R6::R6Class(
       self$process <- process_init(path_store = self$meta$get_path_store())
       self$process$record_process()
     },
-    produce_exports = function(envir, is_globalenv = NULL) {
+    produce_exports = function(envir, path_store, is_globalenv = NULL) {
       map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
       if (is_globalenv %|||% identical(envir, globalenv())) {
         out <- as.list(envir, all.names = TRUE)
@@ -69,6 +69,7 @@ active_class <- R6::R6Class(
         remove(list = discard, envir = envir)
         out <- list(.tar_envir_5048826d = envir)
       }
+      out[[".tar_path_store_5048826d"]] <- path_store
       out[[".tar_options_5048826d"]] <- tar_options$export()
       out
     },
