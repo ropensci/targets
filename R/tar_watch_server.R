@@ -78,14 +78,14 @@ tar_watch_server <- function(
         out$summary <- if_any(
           tar_exist_progress(store = tar_config_get("store", config = config)),
           tar_progress_summary_gt(
-            store = tar_config_get("store", config = config)
+            path_store = tar_config_get("store", config = config)
           ),
           gt_borderless(data_frame(progress = "No progress recorded."))
         )
         out$branches <- if_any(
           tar_exist_progress(store = tar_config_get("store", config = config)),
           tar_progress_branches_gt(
-            store = tar_config_get("store", config = config)
+            path_store = tar_config_get("store", config = config)
           ),
           gt_borderless(data_frame(progress = "No progress recorded."))
         )

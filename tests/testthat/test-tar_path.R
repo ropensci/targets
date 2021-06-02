@@ -11,9 +11,10 @@ tar_test("tar_path() with a name arg", {
 
 tar_test("tar_path() inside a pipeline", {
   x <- target_init("x", quote(targets::tar_path()))
-  local_init(pipeline_init(list(x)))$run()
+  pipeline <- pipeline_init(list(x))
+  local_init(pipeline)$run()
   path <- file.path("_targets", "objects", "x")
-  expect_equal(target_read_value(x)$object, path)
+  expect_equal(target_read_value(x, pipeline)$object, path)
 })
 
 tar_test("custom script and store args", {
@@ -27,8 +28,6 @@ tar_test("custom script and store args", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  expect_equal(path_script(), path_script_default())
-  expect_equal(path_store(), path_store_default())
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
   expect_false(file.exists("example/script.R"))

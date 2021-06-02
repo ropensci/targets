@@ -85,7 +85,11 @@ tar_progress_branches_bin <- function(level, long) {
 }
 
 # Just for the tar_watch() app. # nolint
-tar_progress_branches_gt <- function() {
-  progress <- tar_progress_branches(names = NULL, fields = NULL)
+tar_progress_branches_gt <- function(path_store) {
+  progress <- tar_progress_branches(
+    names = NULL,
+    fields = NULL,
+    store = path_store
+  )
   tar_progress_display_gt(progress)
 }

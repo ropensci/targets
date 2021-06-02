@@ -36,7 +36,7 @@ tar_prune <- function(
 ) {
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
-  path_scratch_del()
+  path_scratch_del(store)
   out <- callr_outer(
     targets_function = tar_prune_inner,
     targets_arguments = list(path_store = store),

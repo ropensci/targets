@@ -4,6 +4,7 @@
 #' @description List targets currently saved to `_targets/objects/`.
 #'   Does not include dynamic files or cloud storage.
 #' @return Character vector of targets saved to `_targets/objects/`.
+#' @inheritParams tar_validate
 #' @param names Optional `tidyselect` selector to return
 #'   a tactical subset of target names.
 #'   If `NULL`, all names are selected.
@@ -19,10 +20,13 @@
 #' tar_objects(starts_with("x"))
 #' })
 #' }
-tar_objects <- function(names = NULL) {
+tar_objects <- function(
+  names = NULL,
+  store = targets::tar_config_get("store")
+) {
   choices <- if_any(
-    dir.exists(path_objects_dir()),
-    list.files(path_objects_dir(), all.files = TRUE, no.. = TRUE),
+    dir.exists(path_objects_dir(store)),
+    list.files(path_objects_dir(store), all.files = TRUE, no.. = TRUE),
     character(0)
   )
   names_quosure <- rlang::enquo(names)

@@ -39,15 +39,18 @@ tar_path <- function(
   assert_chr(default)
   if_any(
     is.null(name),
-    tar_path_running(default),
+    tar_path_running(default, path_store = store),
     path_objects(path_store = store, name = name)
   )
 }
 
-tar_path_running <- function(default) {
+tar_path_running <- function(default, path_store) {
   if_any(
     tar_runtime$exists_target(),
-    path_objects(target_get_name(tar_runtime$get_target())),
+    path_objects(
+      path_store = path_store,
+      name = target_get_name(tar_runtime$get_target())
+    ),
     as.character(default)
   )
 }

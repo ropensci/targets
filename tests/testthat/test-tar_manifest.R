@@ -123,7 +123,6 @@ tar_test("custom script and store args", {
   tar_script(tar_target(x, "y"), script = "example/script.R")
   out <- tar_manifest(
     script = "example/script.R",
-    store = "example/store",
     callr_function = NULL
   )
   expect_true(is.data.frame(out))
@@ -145,8 +144,7 @@ tar_test("custom script and store args with callr function", {
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script(tar_target(x, "y"), script = "example/script.R")
   out <- tar_manifest(
-    script = "example/script.R",
-    store = "example/store"
+    script = "example/script.R"
   )
   expect_true(is.data.frame(out))
   expect_false(file.exists("_targets.yaml"))
