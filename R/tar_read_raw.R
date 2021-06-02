@@ -32,19 +32,17 @@ tar_read_raw <- function(
   store = targets::tar_config_get("store")
 ) {
   force(meta)
-  old_config <- switch_config(store = store)
-  on.exit(restore_config(old_config), add = TRUE)
   assert_chr(name, "name must be symbol in tar_read(), chr in tar_read_raw().")
-  tar_read_inner(name, branches, meta)
+  tar_read_inner(name, branches, meta, path_store = store)
 }
 
-tar_read_inner <- function(name, branches, meta) {
+tar_read_inner <- function(name, branches, meta, path_store) {
   index <- meta$name == name
   if (!any(index)) {
     throw_validate("target ", name, " not found")
   }
   row <- meta[max(which(index)),, drop = FALSE] # nolint
-  record <- record_from_row(row)
+  record <- record_from_row(row = row, path_store = path_store)
   if_any(
     record$type %in% c("stem", "branch"),
     read_builder(record),
@@ -52,7 +50,7 @@ tar_read_inner <- function(name, branches, meta) {
   )
 }
 
-read_builder <- function(record) {
+read_builder <- function(record, path_store) {
   store <- store_init(format = record$format)
   store$file$path <- record$path
   store_read_object(store)
@@ -71,7 +69,7 @@ read_pattern <- function(name, record, meta, branches) {
   if (nrow(meta)) {
     meta <- meta[match(names, meta$name),, drop = FALSE] # nolint
   }
-  records <- map_rows(meta, ~record_from_row(.x))
+  records <- map_rows(meta, ~record_from_row(.x, path_store = path_store))
   objects <- lapply(records, read_builder)
   names(objects) <- names
   value <- value_init(iteration = record$iteration)
