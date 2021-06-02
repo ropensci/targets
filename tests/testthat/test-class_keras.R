@@ -26,6 +26,6 @@ tar_test("store_path_from_record()", {
   record <- record_init(name = "x", path = "path", format = "keras")
   expect_equal(
     store_path_from_record(store, record, path_store_default()),
-    path_objects("x")
+    path_objects(path_store_default(), "x")
   )
 })
