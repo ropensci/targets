@@ -65,8 +65,7 @@ tar_renv <- function(
   path = "_targets_packages.R",
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
-  script = targets::tar_config_get("script"),
-  store = targets::tar_config_get("store")
+  script = targets::tar_config_get("script")
 ) {
   assert_chr(extras, "extras must be a character vector")
   assert_chr(path, "path must have type character")
@@ -78,8 +77,7 @@ tar_renv <- function(
     targets_arguments = list(extras = extras, path = path),
     callr_function = callr_function,
     callr_arguments = callr_arguments,
-    script = script,
-    store = store
+    script = script
   )
   invisible()
 }

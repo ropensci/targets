@@ -77,8 +77,6 @@ tar_timestamp_raw <- function(
   parse = TRUE,
   store = targets::tar_config_get("store")
 ) {
-  old_config <- switch_config(store = store, assert_store = FALSE)
-  on.exit(restore_config(old_config), add = TRUE)
   assert_chr(name %|||% character(0), "name must be a character.")
   if (is.null(name)) {
     if (!tar_runtime$exists_target()) {
@@ -88,7 +86,7 @@ tar_timestamp_raw <- function(
     }
     name <- target_get_name(tar_runtime$get_target())
   }
-  meta <- meta_init()
+  meta <- meta_init(path_store = store)
   meta$database$preprocess(write = FALSE)
   if (!meta$exists_record(name)) {
     return(file_time_system_tz(file_time_reference))

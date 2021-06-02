@@ -63,6 +63,7 @@ tar_outdated <- function(
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
+    path_store = store,
     names_quosure = rlang::enquo(names),
     branches = branches,
     targets_only = targets_only,
@@ -73,13 +74,13 @@ tar_outdated <- function(
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments,
-    script = script,
-    store = store
+    script = script
   )
 }
 
 tar_outdated_inner <- function(
   pipeline,
+  path_store,
   names_quosure,
   branches,
   targets_only,
@@ -87,7 +88,7 @@ tar_outdated_inner <- function(
 ) {
   names_all <- pipeline_get_names(pipeline)
   names <- eval_tidyselect(names_quosure, names_all)
-  meta <- meta_init()
+  meta <- meta_init(path_store = path_store)
   outdated_globals <- if_any(
     targets_only,
     character(0),
@@ -95,6 +96,7 @@ tar_outdated_inner <- function(
   )
   outdated <- outdated_init(
     pipeline = pipeline,
+    meta = meta_init(path_store = path_store),
     names = names,
     queue = "sequential",
     reporter = reporter

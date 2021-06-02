@@ -28,10 +28,6 @@
 #' })
 #' }
 tar_delete <- function(names, store = targets::tar_config_get("store")) {
-  old_config <- switch_config(store = store)
-  on.exit(restore_config(old_config), add = TRUE)
-  meta <- meta_init()
-  data <- meta$database$read_condensed_data()
   names_quosure <- rlang::enquo(names)
   names <- eval_tidyselect(names_quosure, data$name)
   assert_chr(names, "names arg of tar_delete() must end up as character")
@@ -42,6 +38,6 @@ tar_delete <- function(names, store = targets::tar_config_get("store")) {
   names <- setdiff(names, dynamic_files)
   files <- list.files(path_objects_dir(), all.files = TRUE)
   discard <- intersect(names, files)
-  unlink(file.path(path_objects_dir(), discard), recursive = TRUE)
+  unlink(file.path(path_objects_dir(path_store), discard), recursive = TRUE)
   invisible()
 }

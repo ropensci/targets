@@ -67,8 +67,7 @@ tar_manifest <- function(
   fields = c("name", "command", "pattern"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
-  script = targets::tar_config_get("script"),
-  store = targets::tar_config_get("store")
+  script = targets::tar_config_get("script")
 ) {
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
@@ -81,8 +80,7 @@ tar_manifest <- function(
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments,
-    script = script,
-    store = store
+    script = script
   )
 }
 

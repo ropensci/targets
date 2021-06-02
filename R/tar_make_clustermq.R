@@ -65,7 +65,7 @@ tar_make_clustermq <- function(
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments,
-    path_script = script
+    script = script
   )
   invisible(out)
 }

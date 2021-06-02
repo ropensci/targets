@@ -38,15 +38,14 @@ tar_branches <- function(
   pattern,
   store = targets::tar_config_get("store")
 ) {
-  old_config <- switch_config(store = store)
-  on.exit(restore_config(old_config))
   name <- deparse_language(substitute(name))
   assert_chr(name, "name arg of tar_target() must be a symbol")
   assert_path(file.path(path_meta()))
   pattern <- as.expression(substitute(pattern))
   deps <- all.vars(pattern, functions = FALSE, unique = TRUE)
   vars <- c(name, deps)
-  meta <- tibble::as_tibble(meta_init()$database$read_condensed_data())
+  meta <- meta_init(path_store = store)
+  meta <- tibble::as_tibble(meta$database$read_condensed_data())
   diffs <- setdiff(vars, meta$name)
   msg <- paste("targets not in metadata:", paste(diffs, collapse = ", "))
   assert_in(vars, choices = meta$name, msg = msg)
