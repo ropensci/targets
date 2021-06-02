@@ -44,7 +44,7 @@ tar_test("custom script and store args", {
   on.exit(options(clustermq.scheduler = old_option))
   tar_script({
     options(clustermq.scheduler = "multicore")
-    tar_target(x, getNamespace("targets")$tar_config$is_locked())
+    tar_target(x, TRUE)
   }, script = "example/script.R")
   tar_make_clustermq(
     script = "example/script.R",
@@ -54,8 +54,6 @@ tar_test("custom script and store args", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  expect_equal(path_script(), path_script_default())
-  expect_equal(path_store(), path_store_default())
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))
@@ -77,7 +75,7 @@ tar_test("custom script and store args with callr function", {
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script({
     options(clustermq.scheduler = "multicore")
-    tar_target(x, getNamespace("targets")$tar_config$is_locked())
+    tar_target(x, TRUE)
   }, script = "example/script.R")
   tmp <- utils::capture.output(
     suppressMessages(
@@ -91,8 +89,6 @@ tar_test("custom script and store args with callr function", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  expect_equal(path_script(), path_script_default())
-  expect_equal(path_store(), path_store_default())
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))

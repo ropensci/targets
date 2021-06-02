@@ -1,7 +1,7 @@
 tar_test("tar_exist_progress()", {
   expect_false(tar_exist_progress())
-  dir_create(dirname(path_progress()))
-  file.create(path_progress())
+  dir_create(dirname(path_progress(path_store_default())))
+  file.create(path_progress(path_store_default()))
   expect_true(tar_exist_progress())
 })
 

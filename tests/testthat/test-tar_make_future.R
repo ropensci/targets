@@ -84,7 +84,7 @@ tar_test("custom script and store args", {
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script(
-    tar_target(x, getNamespace("targets")$tar_config$is_locked()),
+    tar_target(x, TRUE),
     script = "example/script.R"
   )
   tar_make_future(
@@ -114,7 +114,7 @@ tar_test("custom script and store args with callr function", {
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script(
-    tar_target(x, getNamespace("targets")$tar_config$is_locked()),
+    tar_target(x, TRUE),
     script = "example/script.R"
   )
   tar_make_future(
