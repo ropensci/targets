@@ -1,5 +1,9 @@
 # targets 0.5.0.9000
 
+## Bug fixes
+
+* Allow `tar_poll()` to lose and then regain connection to the progress file.
+
 ## New features
 
 * In Target Markdown, add a new `tar_interactive` global option to select interactive mode or non-interactive mode (#469).
