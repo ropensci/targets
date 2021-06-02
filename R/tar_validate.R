@@ -52,12 +52,11 @@ tar_validate <- function(
     targets_arguments = list(),
     callr_function = callr_function,
     callr_arguments = callr_arguments,
-    script = script,
-    store = store
+    script = script
   )
   invisible(out)
 }
   
-tar_validate_inner <- function(pipeline) {
+tar_validate_inner <- function(pipeline, store) {
   pipeline_validate(pipeline)
 }
