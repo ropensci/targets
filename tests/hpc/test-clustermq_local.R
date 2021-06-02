@@ -1,5 +1,5 @@
 tar_test("packages are actually loaded", {
-  options(clustermq.scheduler = "multiprocess")
+  options(clustermq.scheduler = "multicore")
   tar_option_set(envir = environment())
   x <- tar_target_raw(
     "x",
@@ -17,7 +17,7 @@ tar_test("clustermq iteration loop can wait and shut down workers", {
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
-  options(clustermq.scheduler = "multiprocess")
+  options(clustermq.scheduler = "multicore")
   x <- tar_target_raw("x", quote(Sys.sleep(2)), garbage_collection = TRUE)
   y <- tar_target_raw("y", quote(list(x, a = "x")), garbage_collection = TRUE)
   pipeline <- pipeline_init(list(x, y))
@@ -28,11 +28,11 @@ tar_test("clustermq iteration loop can wait and shut down workers", {
   options(clustermq.scheduler = old)
 })
 
-tar_test("nontrivial common data with multiprocess", {
+tar_test("nontrivial common data with multicore", {
   skip_on_cran()
   skip_if_not_installed("clustermq")
   tar_script({
-    options(clustermq.scheduler = "multiprocess")
+    options(clustermq.scheduler = "multicore")
     envir <- new.env(parent = globalenv())
     evalq({
       f <- function(x) {
@@ -56,7 +56,7 @@ tar_test("nontrivial globals with global environment", {
   skip_on_cran()
   skip_if_not_installed("clustermq")
   tar_script({
-    options(clustermq.scheduler = "multiprocess")
+    options(clustermq.scheduler = "multicore")
     f <- function(x) {
       g(x) + 1L
     }
@@ -75,7 +75,7 @@ tar_test("nontrivial globals with global environment", {
 tar_test("prevent high-memory data via target objects", {
   # Run this test once inside tar_test() (test environment)
   # and once outside tar_test() global environment.
-  options(clustermq.scheduler = "multiprocess")
+  options(clustermq.scheduler = "multicore")
   t <- list(tar_target(x, runif(1e7), deployment = "main", format = "qs"))
   pipeline <- pipeline_init(list(t[[1]], tar_target(y, x)))
   algo <- clustermq_init(pipeline)
@@ -95,6 +95,41 @@ tar_test("prevent high-memory data via target objects", {
   pryr::object_size(pipeline_get_target(self$pipeline, "x")$value$object)
   # The algorithm object itself should be large too, and it is not exported.
   pryr::object_size(self)
+})
+
+tar_test("heavily parallel workload should run fast", {
+  tar_script({
+    library(targets)
+    options(clustermq.scheduler = "multicore")
+    list(
+      tar_target(
+        index_batch,
+        seq_len(100),
+      ),
+      tar_target(
+        data_continuous,
+        index_batch,
+        pattern = map(index_batch)
+      ),
+      tar_target(
+        data_discrete,
+        index_batch,
+        pattern = map(index_batch)
+      ),
+      tar_target(
+        fit_continuous,
+        data_continuous,
+        pattern = map(data_continuous)
+      ),
+      tar_target(
+        fit_discrete,
+        data_discrete,
+        pattern = map(data_discrete)
+      )
+    )
+  })
+  tar_make_clustermq(workers = 4)
+  expect_equal(tar_outdated(callr_function = NULL), character(0))
 })
 
 tar_test("profile heavily parallel workload", {
