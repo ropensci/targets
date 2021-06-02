@@ -85,7 +85,7 @@ tar_test("prevent high-memory data via target objects", {
   algo$run()
   # In the debugger verify that the exported data is much smaller than
   # the value of x because we cloned the target objects in pipeline_init().
-  o <- self$produce_exports(envir)
+  o <- self$produce_exports(envir, path_store_default())
   # Exported data should be small:
   pryr::object_size(o)
   # The target object should not be in the environment.

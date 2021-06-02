@@ -84,7 +84,6 @@ tar_test("custom script and store args", {
   expect_true(file.exists("example/store"))
   expect_true(file.exists("example/store/meta/meta"))
   expect_true(file.exists("example/store/objects/w"))
-  expect_false(tar_config$is_locked())
   tar_config_set(script = "x")
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))

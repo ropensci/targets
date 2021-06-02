@@ -19,7 +19,7 @@ aws_file_new <- function(file = NULL, resources = NULL) {
 # external contributors from the open source community.
 # nocov start
 #' @export
-store_produce_path.tar_aws <- function(store, name, object, path_store) {
+store_produce_path.tar_aws_file <- function(store, name, object, path_store) {
   out <- store_produce_aws_path(
     store = store,
     name = name,
