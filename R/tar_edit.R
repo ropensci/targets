@@ -8,7 +8,7 @@
 #'   but the default for the current project
 #'   can be configured with [tar_config_set()].
 #' @inheritParams tar_validate
-tar_edit <- function(script = targets::tar_option_get("script")) {
+tar_edit <- function(script = targets::tar_config_get("script")) {
   # Covered in tests/interactive/test-tar_edit.R # nolint
   # nocov start
   assert_package("usethis")
