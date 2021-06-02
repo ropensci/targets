@@ -34,15 +34,13 @@ tar_path <- function(
   default = NA_character_,
   store = targets::tar_config_get("store")
 ) {
-  old_config <- switch_config(store = store, assert_store = FALSE)
-  on.exit(restore_config(old_config), add = TRUE)
   name <- deparse_language(substitute(name))
   assert_chr(name %|||% character(0), "name arg of tar_path() must be a symbol")
   assert_chr(default)
   if_any(
     is.null(name),
     tar_path_running(default),
-    path_objects(name)
+    path_objects(path_store = store, name = name)
   )
 }
 

@@ -9,7 +9,11 @@ tar_test("active$produce_exports(is_globalenv = FALSE)", {
   expect_true(inherits(envir$target, "tar_target"))
   expect_true(inherits(envir$pipeline, "tar_pipeline"))
   expect_true(inherits(envir$algo, "tar_algorithm"))
-  out <- active$produce_exports(envir, is_globalenv = FALSE)
+  out <- active$produce_exports(
+    envir,
+    path_store_default(),
+    is_globalenv = FALSE
+  )
   expect_equal(
     sort(names(out)),
     sort(
@@ -40,7 +44,11 @@ tar_test("active$produce_exports(is_globalenv = TRUE)", {
   expect_true(inherits(envir$target, "tar_target"))
   expect_true(inherits(envir$pipeline, "tar_pipeline"))
   expect_true(inherits(envir$algo, "tar_algorithm"))
-  out <- active$produce_exports(envir, is_globalenv = TRUE)
+  out <- active$produce_exports(
+    envir,
+    path_store_default(),
+    is_globalenv = TRUE
+  )
   names <- c(
     ".hidden",
     "visible",

@@ -6,7 +6,7 @@ tar_test("qs format", {
     format = "qs"
   )
   builder_update_build(x, baseenv())
-  builder_update_paths(x)
+  builder_update_paths(x, path_store_default())
   builder_update_object(x)
   exp <- 2L
   expect_equal(qs::qread(x$store$file$path), exp)
@@ -52,5 +52,8 @@ tar_test("store_row_path()", {
 tar_test("store_path_from_record()", {
   store <- tar_target(x, "x_value", format = "qs")$store
   record <- record_init(name = "x", path = "path", format = "qs")
-  expect_equal(store_path_from_record(store, record), path_objects("x"))
+  expect_equal(
+    store_path_from_record(store, record, path_store_default()),
+    path_objects("x")
+  )
 })

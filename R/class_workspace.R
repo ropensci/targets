@@ -14,14 +14,14 @@ workspace_new <- function(target = NULL, subpipeline = NULL) {
   environment()
 }
 
-workspace_save <- function(workspace) {
-  path <- path_workspace(target_get_name(workspace$target))
-  dir_create(path_workspaces_dir())
+workspace_save <- function(workspace, path_store) {
+  path <- path_workspace(path_store, target_get_name(workspace$target))
+  dir_create(path_workspaces_dir(path_store))
   saveRDS(object = workspace, file = path)
 }
 
-workspace_read <- function(name) {
-  path <- path_workspace(name)
+workspace_read <- function(name, path_store) {
+  path <- path_workspace(path_store = path_store, name = name)
   assert_path(path, paste0("no workspace found for target ", name, "."))
   readRDS(path)
 }

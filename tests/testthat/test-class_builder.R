@@ -266,13 +266,13 @@ tar_test("dynamic file writing from worker", {
     writeLines("lines", con = file)
     file
   }
-  target_run(x)
+  target_run(x, tar_option_get("envir"), path_store_default())
   expect_null(x$value)
   expect_true(file.exists(x$store$file$path))
   expect_false(is.na(x$store$file$hash))
   pipeline <- pipeline_init(list(x))
-  scheduler <- pipeline_produce_scheduler(pipeline)
   meta <- meta_init()
+  scheduler <- pipeline_produce_scheduler(pipeline, meta = meta)
   memory_set_object(meta$depends, "abc", NA_character_)
   target_conclude(x, pipeline, scheduler, meta)
 })

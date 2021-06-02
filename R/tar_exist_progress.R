@@ -10,7 +10,5 @@
 #' @examples
 #' tar_exist_progress()
 tar_exist_progress <- function(store = targets::tar_config_get("store")) {
-  old_config <- switch_config(store = store, assert_store = FALSE)
-  on.exit(restore_config(old_config), add = TRUE)
-  file.exists(path_progress())
+  file.exists(path_progress(path_store = store))
 }

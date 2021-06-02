@@ -10,7 +10,7 @@ tar_test("fst format", {
     format = "fst"
   )
   builder_update_build(x, envir = envir)
-  builder_update_paths(x)
+  builder_update_paths(x, path_store_default())
   builder_update_object(x)
   exp <- envir$f()
   expect_equal(fst::read_fst(x$store$file$path), exp)
@@ -56,5 +56,8 @@ tar_test("store_row_path()", {
 tar_test("store_path_from_record()", {
   store <- tar_target(x, "x_value", format = "fst")$store
   record <- record_init(name = "x", path = "path", format = "fst")
-  expect_equal(store_path_from_record(store, record), path_objects("x"))
+  expect_equal(
+    store_path_from_record(store, record, path_store_default()),
+    path_objects("x")
+  )
 })

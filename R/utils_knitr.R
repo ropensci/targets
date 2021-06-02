@@ -15,11 +15,7 @@ knitr_engine <- function(options) {
   knitr_engine_assert_options(options)
   warn_labels_duplicated()
   warn_labels_unnamed(options)
-  old_config <- switch_config(
-    script = options$tar_script,
-    assert_script = FALSE
-  )
-  on.exit(restore_config(old_config), add = TRUE)
+  options$tar_script <- options$tar_script %|||% tar_config_get("script")
   if_any(
     identical(options$tar_globals, TRUE),
     knitr_engine_globals(options),
@@ -41,7 +37,7 @@ knitr_engine_assert_options <- function(options) {
     )
   }
   assert_chr(
-    options[["tar_script"]] %|||% character(0),
+    options[["tar_script"]],
     "tar_script chunk option must either be NULL or character."
   )
 }
@@ -71,8 +67,8 @@ knitr_engine_globals_prototype <- function(options) {
 }
 
 knitr_engine_globals_construct <- function(options) {
-  write_targets_r()
-  write_targets_r_globals(options$code, options$label)
+  write_targets_r(options$tar_script)
+  write_targets_r_globals(options$code, options$label, options$tar_script)
   out <- paste(
     "Established",
     path_script(),
@@ -91,8 +87,8 @@ knitr_engine_targets_prototype <- function(options) {
 }
 
 knitr_engine_targets_construct <- function(options) {
-  write_targets_r()
-  write_targets_r_targets(options$code, options$label)
+  write_targets_r(options$tar_script)
+  write_targets_r_targets(options$code, options$label, options$tar_script)
   out <- paste(
     "Established",
     path_script(),
@@ -108,26 +104,26 @@ knitr_engine_output <- function(options, out) {
   knitr::engine_output(options = options, code = code, out = out)
 }
 
-write_targets_r <- function() {
+write_targets_r <- function(path_script) {
   path <- system.file(
     file.path("pipelines", "_targets_r.R"),
     package = "targets",
     mustWork = TRUE
   )
-  if (!file.exists(path_script()) || !files_identical(path, path_script())) {
-    dir_create(dirname(path_script()))
-    file.copy(path, path_script(), overwrite = TRUE)
+  if (!file.exists(path_script) || !files_identical(path, path_script)) {
+    dir_create(dirname(path_script))
+    file.copy(path, path_script, overwrite = TRUE)
   }
 }
 
-write_targets_r_globals <- function(code, name) {
-  dir_create(path_script_r_globals_dir())
-  writeLines(code, path_script_r_globals(name))
+write_targets_r_globals <- function(code, name, path_script) {
+  dir_create(path_script_r_globals_dir(path_script))
+  writeLines(code, path_script_r_globals(path_script, name))
 }
 
-write_targets_r_targets <- function(code, name) {
-  dir_create(path_script_r_targets_dir())
-  writeLines(code, path_script_r_targets(name))
+write_targets_r_targets <- function(code, name, path_script) {
+  dir_create(path_script_r_targets_dir(path_script))
+  writeLines(code, path_script_r_targets(path_script, name))
 }
 
 warn_labels_duplicated <- function() {

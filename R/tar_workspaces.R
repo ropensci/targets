@@ -28,11 +28,10 @@ tar_workspaces <- function(
   names = NULL,
   store = targets::tar_config_get("store")
 ) {
-  old_config <- switch_config(store = store, assert_store = FALSE)
-  on.exit(restore_config(old_config), add = TRUE)
+  dir <- path_workspaces_dir(path_store = store)
   choices <- if_any(
-    dir.exists(path_workspaces_dir()),
-    sort(list.files(path_workspaces_dir(), all.files = TRUE, no.. = TRUE)),
+    dir.exists(dir),
+    sort(list.files(dir, all.files = TRUE, no.. = TRUE)),
     character(0)
   )
   names_quosure <- rlang::enquo(names)

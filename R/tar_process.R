@@ -39,10 +39,8 @@ tar_process <- function(
   names = NULL,
   store = targets::tar_config_get("store")
 ) {
-  old_config <- switch_config(store = store)
-  on.exit(restore_config(old_config), add = TRUE)
-  assert_path(path_process())
-  out <- tibble::as_tibble(process_init()$read_process())
+  assert_path(path_process(path_store = store))
+  out <- tibble::as_tibble(process_init(path_store = store)$read_process())
   names_quosure <- rlang::enquo(names)
   names <- eval_tidyselect(names_quosure, out$name)
   if (!is.null(names)) {

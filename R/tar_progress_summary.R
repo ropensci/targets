@@ -33,11 +33,10 @@ tar_progress_summary <- function(
   fields = c("started", "built", "errored", "canceled", "since"),
   store = targets::tar_config_get("store")
 ) {
-  old_config <- switch_config(store = store)
-  on.exit(restore_config(old_config), add = TRUE)
-  assert_path(path_progress())
-  time <- file.mtime(path_progress())
-  progress <- tibble::as_tibble(progress_init()$database$read_condensed_data())
+  assert_path(path_progress(path_store = store))
+  time <- file.mtime(path_progress(path_store = store))
+  progress <- progress_init(path_store = store)
+  progress <- tibble::as_tibble(progress$database$read_condensed_data())
   progress <- progress[progress$type != "pattern",, drop = FALSE] # nolint
   out <- tibble::tibble(
     started = sum(progress$progress == "started"),
