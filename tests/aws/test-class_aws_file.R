@@ -33,10 +33,12 @@ tar_test("aws_file format file gets stored", {
   expect_equal(tar_read(y), "x_lines")
   expect_equal(length(list.files("_targets/scratch/")), 0L)
   expect_false(file.exists("_targets/scratch/x"))
+  expect_false(file.exists("example_aws_file.txt"))
   path <- tar_read(x)
-  expect_equal(length(list.files("_targets/scratch/")), 1L)
-  expect_true(file.exists("_targets/scratch/x"))
-  expect_equal(readLines(path), "x_lines")
+  expect_equal(length(list.files("_targets/scratch/")), 0L)
+  expect_false(file.exists("_targets/scratch/x"))
+  expect_true(file.exists("example_aws_file.txt"))
+  expect_equal(readLines("example_aws_file.txt"), "x_lines")
   tmp <- tempfile()
   aws.s3::save_object(
     object = "_targets/objects/x",
@@ -146,9 +148,11 @@ tar_test("aws_file format with a custom data store", {
   )
   expect_equal(tar_read(y), "x_lines")
   expect_equal(length(list.files("custom_targets_store/scratch/")), 0L)
+  expect_false(file.exists("example_aws_file.txt"))
   path <- tar_read(x)
-  expect_equal(length(list.files("custom_targets_store/scratch/")), 1L)
-  expect_equal(readLines(path), "x_lines")
+  expect_equal(length(list.files("custom_targets_store/scratch/")), 0L)
+  expect_true(file.exists("example_aws_file.txt"))
+  expect_equal(readLines("example_aws_file.txt"), "x_lines")
   tmp <- tempfile()
   aws.s3::save_object(
     object = "_targets/objects/x",

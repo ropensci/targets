@@ -19,6 +19,21 @@ aws_file_new <- function(file = NULL, resources = NULL) {
 # external contributors from the open source community.
 # nocov start
 #' @export
+store_produce_path.tar_aws <- function(store, name, object, path_store) {
+  out <- store_produce_aws_path(
+    store = store,
+    name = name,
+    object = object,
+    path_store = path_store
+  )
+  c(out, object)
+}
+
+store_aws_file_stage <- function(path) {
+  path[3]
+}
+
+#' @export
 store_produce_stage.tar_aws_file <- function(store, name, object, path_store) {
   object
 }
@@ -32,7 +47,7 @@ store_read_object.tar_aws_file <- function(store) {
   path <- store$file$path
   bucket <- store_aws_bucket(path)
   key <- store_aws_key(path)
-  out <- path_scratch_fixed(name = basename(key))
+  out <- store_aws_file_stage(path)
   aws.s3::save_object(
     object = key,
     bucket = bucket,

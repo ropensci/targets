@@ -1,5 +1,14 @@
 #' @export
 store_produce_path.tar_aws <- function(store, name, object, path_store) {
+  store_produce_aws_path(
+    store = store,
+    name = name,
+    object = object,
+    path_store = path_store
+  )
+}
+
+store_produce_aws_path <- function(store, name, object, path_store) {
   bucket <- store$resources$bucket
   assert_nonempty(bucket, "S3 bucket name cannot be empty.")
   assert_chr(bucket, "S3 bucket name must be character.")
