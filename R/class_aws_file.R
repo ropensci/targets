@@ -29,8 +29,13 @@ store_produce_path.tar_aws_file <- function(store, name, object, path_store) {
   c(out, object)
 }
 
-store_aws_file_stage <- function(path) {
-  path[3]
+store_aws_file_stage <- function(path, key) {
+  if_any(
+    length(path) > 2L,
+    path[3],
+    # For compatibility with version 0.4.2 and under:
+    file.path(path_scratch_dir(path_store_default()), basename(key))
+  )
 }
 
 #' @export
@@ -47,7 +52,8 @@ store_read_object.tar_aws_file <- function(store) {
   path <- store$file$path
   bucket <- store_aws_bucket(path)
   key <- store_aws_key(path)
-  out <- store_aws_file_stage(path)
+  out <- store_aws_file_stage(path, key)
+  dir_create(dirname(out))
   aws.s3::save_object(
     object = key,
     bucket = bucket,
