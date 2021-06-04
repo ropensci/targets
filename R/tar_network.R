@@ -38,9 +38,11 @@ tar_network <- function(
   store = targets::tar_config_get("store")
 ) {
   assert_lgl(targets_only, "targets_only must be logical.")
+  assert_scalar(reporter, "reporter must have length 1.")
+  assert_chr(reporter, "reporter must have type character.")
   assert_in(
     reporter,
-    c("forecast", "silent"),
+    c("forecast", "summary", "silent"),
     "reporter arg of tar_outdated() must either be \"silent\" or \"forecast\""
   )
   assert_callr_function(callr_function)

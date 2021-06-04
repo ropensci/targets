@@ -81,39 +81,50 @@ knitr_engine_globals_prototype <- function(options) {
 knitr_engine_globals_construct <- function(options) {
   write_targets_r(options$tar_script)
   write_targets_r_globals(options$code, options$label, options$tar_script)
-  out <- paste(
-    "Established",
+  out <- paste0(
+    "Established ",
     options$tar_script,
-    "and",
-    path_script_r_globals(options$tar_script, options$label)
+    " and ",
+    path_script_r_globals(options$tar_script, options$label),
+    "."
   )
   knitr_engine_output(options, out)
 }
 
 knitr_engine_targets_prototype <- function(options) {
   tar_make_interactive(options$code)
-  knitr_engine_output(
-    options,
+  out <- c(
+    tar_simple_message(options),
     "Ran targets and assigned them to the environment."
   )
+  knitr_engine_output(options, out)
 }
 
 knitr_engine_targets_construct <- function(options) {
   write_targets_r(options$tar_script)
   write_targets_r_targets(options$code, options$label, options$tar_script)
-  out <- paste(
-    "Established",
+  out <- paste0(
+    "Established ",
     options$tar_script,
-    "and",
-    path_script_r_targets(options$tar_script, options$label)
+    " and ",
+    path_script_r_targets(options$tar_script, options$label),
+    "."
   )
-  knitr_engine_output(options, out)
+  knitr_engine_output(options, c(tar_simple_message(options), out))
 }
 
 knitr_engine_output <- function(options, out) {
   code <- paste(options$code, collapse = "\n")
   options$engine <- "r"
   knitr::engine_output(options = options, code = code, out = out)
+}
+
+tar_simple_message <- function(options) {
+  if_any(
+    options$tar_simple %|||% FALSE,
+    paste("Defined target", options$label, "automatically from chunk code."),
+    character(0)
+  )
 }
 
 write_targets_r <- function(path_script) {
