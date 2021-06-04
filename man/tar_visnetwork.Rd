@@ -13,7 +13,7 @@ tar_visnetwork(
   level_separation = NULL,
   degree_from = 1L,
   degree_to = 1L,
-  reporter = "silent",
+  reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
   script = targets::tar_config_get("script"),

@@ -83,7 +83,3 @@ tar_make_inner <- function(pipeline, path_store, names_quosure, reporter) {
   )$run()
   invisible()
 }
-
-tar_make_reporters <- function() {
-  c("verbose", "silent", "timestamp", "summary")
-}

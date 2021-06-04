@@ -8,7 +8,7 @@ tar_outdated(
   names = NULL,
   branches = FALSE,
   targets_only = TRUE,
-  reporter = "silent",
+  reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
   script = targets::tar_config_get("script"),

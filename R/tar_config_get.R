@@ -41,6 +41,7 @@ tar_config_get <- function(name, config = "_targets.yaml") {
   switch(
     name,
     reporter_make = yaml$reporter_make %|||% "verbose",
+    reporter_outdated = yaml$reporter_outdated %|||% "silent",
     script = yaml$script %|||% path_script_default(),
     store = yaml$store %|||% path_store_default()
   )

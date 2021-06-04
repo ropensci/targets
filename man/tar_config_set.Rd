@@ -5,15 +5,22 @@
 \title{Write configuration settings to _targets.yaml.}
 \usage{
 tar_config_set(
+  config = "_targets.yaml",
   reporter_make = NULL,
+  reporter_outdated = NULL,
   store = NULL,
-  script = NULL,
-  config = "_targets.yaml"
+  script = NULL
 )
 }
 \arguments{
+\item{config}{Character of length 1, path to the YAML file with
+all the configuration settings (default: \verb{_targets.yaml}).}
+
 \item{reporter_make}{Character of length 1, \code{reporter} argument to
-\code{\link[=tar_make]{tar_make()}} and other functions that run the pipeline.}
+\code{\link[=tar_make]{tar_make()}} and related functions that run the pipeline.}
+
+\item{reporter_outdated}{Character of length 1, \code{reporter} argument to
+\code{\link[=tar_outdated]{tar_outdated()}} and related functions that do not run the pipeline.}
 
 \item{store}{Character of length 1, path to the data store of the pipeline.
 If \code{NULL}, the \code{store} setting is left unchanged in the
@@ -33,9 +40,6 @@ an absolute path or a path relative to the project root where you will
 call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=tar_make]{tar_make()}} and friends
 \code{\link[=source]{source()}} the script, they do not change the working directory
 (i.e. the default \code{source(chdir = FALSE)}).}
-
-\item{config}{Character of length 1, path to the YAML file with
-all the configuration settings (default: \verb{_targets.yaml}).}
 }
 \value{
 \code{NULL} (invisibly)

@@ -19,7 +19,7 @@
 
 ## Performance
 
-* Reset the backoff upper bound when concluding a target or shutting down a `clustemrq` worker (@rich-payne).
+* Reset the backoff upper bound when concluding a target or shutting down a `clustermq` worker (@rich-payne).
 
 ## Enhancements
 

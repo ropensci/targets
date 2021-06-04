@@ -54,7 +54,7 @@ tar_visnetwork <- function(
   level_separation = NULL,
   degree_from = 1L,
   degree_to = 1L,
-  reporter = "silent",
+  reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
   script = targets::tar_config_get("script"),
@@ -70,11 +70,7 @@ tar_visnetwork <- function(
   assert_dbl(degree_to, "degree_to must be numeric.")
   assert_ge(degree_from, 0L, "degree_from must be at least 0.")
   assert_ge(degree_to, 0L, "degree_to must be at least 0.")
-  assert_in(
-    reporter,
-    c("forecast", "silent"),
-    "reporter arg of tar_outdated() must either be \"silent\" or \"forecast\""
-  )
+  assert_flag(reporter, tar_outdated_reporters())
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(

@@ -31,20 +31,14 @@
 #' }
 tar_network <- function(
   targets_only = FALSE,
-  reporter = "silent",
+  reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
   assert_lgl(targets_only, "targets_only must be logical.")
-  assert_scalar(reporter, "reporter must have length 1.")
-  assert_chr(reporter, "reporter must have type character.")
-  assert_in(
-    reporter,
-    c("forecast", "summary", "silent"),
-    "reporter arg of tar_outdated() must either be \"silent\" or \"forecast\""
-  )
+  assert_flag(reporter, tar_outdated_reporters())
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(

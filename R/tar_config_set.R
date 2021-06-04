@@ -4,8 +4,8 @@
 #' @description `tar_config_set()` writes special custom settings
 #'   to an optional project-level
 #'   YAML configuration file (default: `_targets.yaml`).
-#'   Only the non-`NULL` config settings
-#'   are actually set. Do not invoke while the pipeline is running.
+#'   Most of these settings are default arguments shared by
+#'   a large number of functions in `targets`.
 #' @details Each project can have an optional YAML configuration file
 #'   (default: `_targets.yaml` at the project root)
 #'   with settings specific to a given project. You can write it
@@ -20,7 +20,11 @@
 #'   and remove `_targets.yaml` if it exists.
 #' @return `NULL` (invisibly)
 #' @param reporter_make Character of length 1, `reporter` argument to
-#'   [tar_make()] and other functions that run the pipeline.
+#'   [tar_make()] and related functions that run the pipeline.
+#' @param reporter_outdated Character of length 1, `reporter` argument to
+#'   [tar_outdated()] and related functions that do not run the pipeline.
+#' @param config Character of length 1, path to the YAML file with
+#'   all the configuration settings (default: `_targets.yaml`).
 #' @param script Character of length 1, path to the target script file
 #'   that defines the pipeline (`_targets.R` by default).
 #'   This path should be either
@@ -38,8 +42,6 @@
 #'   but it must be writeable.
 #'   For optimal performance, choose a storage location
 #'   with fast read/write access.
-#' @param config Character of length 1, path to the YAML file with
-#'   all the configuration settings (default: `_targets.yaml`).
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -55,16 +57,19 @@
 #' })
 #' }
 tar_config_set <- function(
+  config = "_targets.yaml",
   reporter_make = NULL,
+  reporter_outdated = NULL,
   store = NULL,
-  script = NULL,
-  config = "_targets.yaml"
+  script = NULL
 ) {
   tar_config_assert_reporter_make(reporter_make)
+  tar_config_assert_reporter_outdated(reporter_outdated)
   tar_config_assert_script(script)
   tar_config_assert_store(store)
   yaml <- tar_config_read_yaml(config)
   yaml$reporter_make <- reporter_make %|||% yaml$reporter_make
+  yaml$reporter_outdated <- reporter_outdated %|||% yaml$reporter_outdated
   yaml$script <- script %|||% yaml$script
   yaml$store <- store %|||% yaml$store
   dir_create(dirname(config))
@@ -76,9 +81,14 @@ tar_config_assert_reporter_make <- function(reporter_make) {
   if (is.null(reporter_make)) {
     return()
   }
-  assert_scalar(reporter_make, "reporter_make must have length 1.")
-  assert_chr(reporter_make, "reporter_make must be a character.")
   assert_flag(reporter_make, tar_make_reporters())
+}
+
+tar_config_assert_reporter_outdated <- function(reporter_outdated) {
+  if (is.null(reporter_outdated)) {
+    return()
+  }
+  assert_flag(reporter_outdated, tar_outdated_reporters())
 }
 
 tar_config_assert_script <- function(script) {
@@ -95,4 +105,12 @@ tar_config_assert_store <- function(store) {
   }
   assert_scalar(store, "store must have length 1.")
   assert_chr(store, "store must be a character.")
+}
+
+tar_make_reporters <- function() {
+  c("verbose", "silent", "timestamp", "summary")
+}
+
+tar_outdated_reporters <- function() {
+  c("forecast", "silent")
 }
