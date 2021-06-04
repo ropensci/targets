@@ -88,6 +88,20 @@ tar_test("tar_config_set() with store and different yaml file", {
   expect_equal(tar_config_get("store", config = path), path_store_default())
 })
 
+tar_test("tar_config_set() workers", {
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("workers"), 1L)
+  tar_config_set(workers = 2L)
+  expect_equal(tar_config_get("workers"), 2L)
+  expect_true(file.exists("_targets.yaml"))
+  expect_true(any(grepl("workers", readLines("_targets.yaml"))))
+  tar_config_set()
+  expect_equal(tar_config_get("workers"), 1L)
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("workers"), 1L)
+})
+
 tar_test("_targets.yaml is locked during the pipeline then unlocked after", {
   tar_script({
     list(

@@ -42,7 +42,7 @@
 tar_make_clustermq <- function(
   names = NULL,
   reporter = targets::tar_config_get("reporter_make"),
-  workers = 1L,
+  workers = targets::tar_config_get("workers"),
   log_worker = FALSE,
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
@@ -50,7 +50,8 @@ tar_make_clustermq <- function(
   store = targets::tar_config_get("store")
 ) {
   assert_package("clustermq")
-  assert_flag(reporter, tar_make_reporters())
+  tar_config_assert_reporter_make(reporter)
+  tar_config_assert_workers(workers)
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(

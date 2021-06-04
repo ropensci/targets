@@ -54,7 +54,7 @@ tar_outdated <- function(
   store = targets::tar_config_get("store")
 ) {
   assert_lgl(branches, "branches arg of tar_outdated() must be logical.")
-  assert_flag(reporter, tar_outdated_reporters())
+  tar_config_assert_reporter_outdated(reporter)
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(

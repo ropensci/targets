@@ -47,7 +47,7 @@ tar_make <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
-  assert_flag(reporter, tar_make_reporters())
+  tar_config_assert_reporter_make(reporter)
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(

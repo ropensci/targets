@@ -32,14 +32,15 @@
 tar_make_future <- function(
   names = NULL,
   reporter = targets::tar_config_get("reporter_make"),
-  workers = 1L,
+  workers = targets::tar_config_get("workers"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
   assert_package("future")
-  assert_flag(reporter, choices = tar_make_reporters())
+  tar_config_assert_reporter_make(reporter)
+  tar_config_assert_workers(workers)
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(

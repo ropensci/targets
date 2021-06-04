@@ -87,7 +87,7 @@ tar_sitrep <- function(
 ) {
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)
-  assert_flag(reporter, tar_outdated_reporters())
+  tar_config_assert_reporter_outdated(reporter)
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(

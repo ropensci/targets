@@ -4,8 +4,8 @@
 #' @description `tar_config_set()` writes special custom settings
 #'   to an optional project-level
 #'   YAML configuration file (default: `_targets.yaml`).
-#'   Most of these settings are default arguments shared by
-#'   a large number of functions in `targets`.
+#'   Most of these settings are default arguments shared across
+#'   multiple functions called outside `_targets.R`.
 #' @details Each project can have an optional YAML configuration file
 #'   (default: `_targets.yaml` at the project root)
 #'   with settings specific to a given project. You can write it
@@ -42,6 +42,9 @@
 #'   but it must be writeable.
 #'   For optimal performance, choose a storage location
 #'   with fast read/write access.
+#' @param workers Positive numeric of length 1, `workers` argument of
+#'   [tar_make_clustermq()] and related functions that run the pipeline
+#'   with parallel computing among targets.
 #' @examples
 #' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -61,17 +64,20 @@ tar_config_set <- function(
   reporter_make = NULL,
   reporter_outdated = NULL,
   store = NULL,
-  script = NULL
+  script = NULL,
+  workers = NULL
 ) {
   tar_config_assert_reporter_make(reporter_make)
   tar_config_assert_reporter_outdated(reporter_outdated)
   tar_config_assert_script(script)
   tar_config_assert_store(store)
+  tar_config_assert_workers(workers)
   yaml <- tar_config_read_yaml(config)
   yaml$reporter_make <- reporter_make %|||% yaml$reporter_make
   yaml$reporter_outdated <- reporter_outdated %|||% yaml$reporter_outdated
   yaml$script <- script %|||% yaml$script
   yaml$store <- store %|||% yaml$store
+  yaml$workers <- as.character(max(1L, workers) %|||% yaml$workers)
   dir_create(dirname(config))
   yaml::write_yaml(x = yaml, file = config)
   invisible()
@@ -105,6 +111,15 @@ tar_config_assert_store <- function(store) {
   }
   assert_scalar(store, "store must have length 1.")
   assert_chr(store, "store must be a character.")
+}
+
+tar_config_assert_workers <- function(workers) {
+  if (is.null(workers)) {
+    return()
+  }
+  assert_scalar(workers, "workers must have length 1.")
+  assert_dbl(workers, "workers must be numeric.")
+  assert_ge(workers, 1, "workers must be at least 1.")
 }
 
 tar_make_reporters <- function() {

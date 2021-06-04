@@ -8,7 +8,7 @@
 tar_make_clustermq(
   names = NULL,
   reporter = targets::tar_config_get("reporter_make"),
-  workers = 1L,
+  workers = targets::tar_config_get("workers"),
   log_worker = FALSE,
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),

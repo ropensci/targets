@@ -8,7 +8,7 @@
 tar_make_future(
   names = NULL,
   reporter = targets::tar_config_get("reporter_make"),
-  workers = 1L,
+  workers = targets::tar_config_get("workers"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
   script = targets::tar_config_get("script"),

@@ -9,7 +9,8 @@ tar_config_set(
   reporter_make = NULL,
   reporter_outdated = NULL,
   store = NULL,
-  script = NULL
+  script = NULL,
+  workers = NULL
 )
 }
 \arguments{
@@ -40,6 +41,10 @@ an absolute path or a path relative to the project root where you will
 call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=tar_make]{tar_make()}} and friends
 \code{\link[=source]{source()}} the script, they do not change the working directory
 (i.e. the default \code{source(chdir = FALSE)}).}
+
+\item{workers}{Positive numeric of length 1, \code{workers} argument of
+\code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and related functions that run the pipeline
+with parallel computing among targets.}
 }
 \value{
 \code{NULL} (invisibly)
@@ -48,8 +53,8 @@ call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=
 \code{tar_config_set()} writes special custom settings
 to an optional project-level
 YAML configuration file (default: \verb{_targets.yaml}).
-Only the non-\code{NULL} config settings
-are actually set. Do not invoke while the pipeline is running.
+Most of these settings are default arguments shared across
+multiple functions called outside \verb{_targets.R}.
 }
 \details{
 Each project can have an optional YAML configuration file

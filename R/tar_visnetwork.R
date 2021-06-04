@@ -70,7 +70,7 @@ tar_visnetwork <- function(
   assert_dbl(degree_to, "degree_to must be numeric.")
   assert_ge(degree_from, 0L, "degree_from must be at least 0.")
   assert_ge(degree_to, 0L, "degree_to must be at least 0.")
-  assert_flag(reporter, tar_outdated_reporters())
+  tar_config_assert_reporter_outdated(reporter)
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
