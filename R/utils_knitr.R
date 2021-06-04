@@ -63,14 +63,7 @@ knitr_engine_targets <- function(options) {
 }
 
 knitr_engine_targets_command <- function(options) {
-  comment <- paste(
-    options$comment %|||% "#>",
-    "Target",
-    options$label,
-    "declared automatically:"
-  )
   c(
-    comment,
     paste0("tar_target(", options$label, ", {"),
     paste(" ", options$code),
     "})"
