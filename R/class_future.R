@@ -156,6 +156,7 @@ future_class <- R6::R6Class(
         self$scheduler,
         self$meta
       )
+      self$scheduler$backoff$reset()
     },
     can_submit = function() {
       self$crew$count < self$workers &&

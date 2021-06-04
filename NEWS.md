@@ -17,6 +17,10 @@
 
 * In Target Markdown, deprecate the `targets` chunk option in favor of `tar_globals` (#469).
 
+## Performance
+
+* Reset the backoff upper bound when concluding a target or shutting down a `clustemrq` worker (@rich-payne).
+
 ## Enhancements
 
 * Simplify the Target Markdown example.

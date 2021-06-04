@@ -159,6 +159,7 @@ clustermq_class <- R6::R6Class(
       if (self$workers > 0L) {
         self$crew$send_shutdown_worker()
         self$workers <- self$workers - 1L
+        self$scheduler$backoff$reset()
       }
     },
     # Requires a long-running pipeline to guarantee test coverage,
@@ -200,6 +201,7 @@ clustermq_class <- R6::R6Class(
         self$scheduler,
         self$meta
       )
+      self$scheduler$backoff$reset()
     },
     iterate = function() {
       message <- if_any(self$workers > 0L, self$crew$receive_data(), list())

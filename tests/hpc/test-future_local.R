@@ -45,6 +45,45 @@ tar_test("custom future plans through resources", {
   expect_true(all(out$progress == "started"))
 })
 
+tar_test("Heavily parallel workload should run fast", {
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.callr")
+  tar_script({
+    library(targets)
+    future::plan(future.callr::callr)
+    list(
+      tar_target(
+        index_batch,
+        seq_len(100),
+      ),
+      tar_target(
+        data_continuous,
+        index_batch,
+        pattern = map(index_batch)
+      ),
+      tar_target(
+        data_discrete,
+        index_batch,
+        pattern = map(index_batch)
+      ),
+      tar_target(
+        fit_continuous,
+        data_continuous,
+        pattern = map(data_continuous)
+      ),
+      tar_target(
+        fit_discrete,
+        data_discrete,
+        pattern = map(data_discrete)
+      )
+    )
+  })
+  tar_make_future(workers = 4, callr_function = NULL)
+  expect_equal(tar_outdated(), character(0))
+  expect_equal(unname(tar_read(fit_continuous)), seq_len(100))
+  expect_equal(unname(tar_read(fit_discrete)), seq_len(100))
+})
+
 tar_test("profile heavily parallel workload", {
   skip_if_not_installed("future")
   skip_if_not_installed("future.callr")
