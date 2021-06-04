@@ -19,6 +19,8 @@
 #'   simply call `tar_config_set(config = "_targets.yaml")`
 #'   and remove `_targets.yaml` if it exists.
 #' @return `NULL` (invisibly)
+#' @param reporter_make Character of length 1, `reporter` argument to
+#'   [tar_make()] and other functions that run the pipeline.
 #' @param script Character of length 1, path to the target script file
 #'   that defines the pipeline (`_targets.R` by default).
 #'   This path should be either
@@ -53,14 +55,44 @@
 #' })
 #' }
 tar_config_set <- function(
+  reporter_make = NULL,
   store = NULL,
   script = NULL,
   config = "_targets.yaml"
 ) {
+  tar_config_assert_reporter_make(reporter_make)
+  tar_config_assert_script(script)
+  tar_config_assert_store(store)
   yaml <- tar_config_read_yaml(config)
+  yaml$reporter_make <- reporter_make %|||% yaml$reporter_make
   yaml$script <- script %|||% yaml$script
   yaml$store <- store %|||% yaml$store
   dir_create(dirname(config))
   yaml::write_yaml(x = yaml, file = config)
   invisible()
+}
+
+tar_config_assert_reporter_make <- function(reporter_make) {
+  if (is.null(reporter_make)) {
+    return()
+  }
+  assert_scalar(reporter_make, "reporter_make must have length 1.")
+  assert_chr(reporter_make, "reporter_make must be a character.")
+  assert_flag(reporter_make, tar_make_reporters())
+}
+
+tar_config_assert_script <- function(script) {
+  if (is.null(script)) {
+    return()
+  }
+  assert_scalar(script, "script must have length 1.")
+  assert_chr(script, "script must be a character.")
+}
+
+tar_config_assert_store <- function(store) {
+  if (is.null(store)) {
+    return()
+  }
+  assert_scalar(store, "store must have length 1.")
+  assert_chr(store, "store must be a character.")
 }

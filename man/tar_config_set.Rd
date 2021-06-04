@@ -4,9 +4,17 @@
 \alias{tar_config_set}
 \title{Write configuration settings to _targets.yaml.}
 \usage{
-tar_config_set(store = NULL, script = NULL, config = "_targets.yaml")
+tar_config_set(
+  reporter_make = NULL,
+  store = NULL,
+  script = NULL,
+  config = "_targets.yaml"
+)
 }
 \arguments{
+\item{reporter_make}{Character of length 1, \code{reporter} argument to
+\code{\link[=tar_make]{tar_make()}} and other functions that run the pipeline.}
+
 \item{store}{Character of length 1, path to the data store of the pipeline.
 If \code{NULL}, the \code{store} setting is left unchanged in the
 YAML configuration file (default: \verb{_targets.yaml}).

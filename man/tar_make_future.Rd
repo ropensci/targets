@@ -7,7 +7,7 @@
 \usage{
 tar_make_future(
   names = NULL,
-  reporter = Sys.getenv("TAR_MAKE_REPORTER", unset = "verbose"),
+  reporter = targets::tar_config_get("reporter_make"),
   workers = 1L,
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
@@ -22,8 +22,7 @@ symbols, a character vector, or \code{tidyselect} helpers like \code{\link[=star
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets run in the pipeline.
-Defaults to the \code{TAR_MAKE_REPORTER} environment variable if set
-and \code{"verbose"} otherwise. Choices:
+Defaults to \code{tar_config_get("reporter_make")}. Choices:
 \itemize{
 \item \code{"verbose"}: print one message for each target that runs (default).
 \item \code{"silent"}: print nothing.

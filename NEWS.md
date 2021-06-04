@@ -28,6 +28,7 @@
 * Redesign option system to be more object-oriented and rigorous. Also export most options to HPC workers (#475).
 * Simplify config system to let API function arguments take control (#483).
 * In `tar_read()` for targets with `format = "aws_file"`, download the file back to the path the user originally saved it when the target ran.
+* Replace the `TAR_MAKE_REPORTER` environment variable with `targets::tar_config_get("reporter_make")`.
 
 # targets 0.5.0
 

@@ -1,3 +1,17 @@
+tar_test("tar_config_set() reporter_make", {
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("reporter_make"), "verbose")
+  tar_config_set(reporter_make = "summary")
+  expect_equal(tar_config_get("reporter_make"), "summary")
+  expect_true(file.exists("_targets.yaml"))
+  expect_true(any(grepl("reporter_make", readLines("_targets.yaml"))))
+  tar_config_set()
+  expect_equal(tar_config_get("reporter_make"), "summary")
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("reporter_make"), "verbose")
+})
+
 tar_test("tar_config_set() with script", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())

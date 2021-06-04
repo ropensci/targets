@@ -40,6 +40,7 @@ tar_config_get <- function(name, config = "_targets.yaml") {
   yaml <- tar_config_read_yaml(config)
   switch(
     name,
+    reporter_make = yaml$reporter_make %|||% "verbose",
     script = yaml$script %|||% path_script_default(),
     store = yaml$store %|||% path_store_default()
   )
