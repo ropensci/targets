@@ -3,6 +3,7 @@ callr_outer <- function(
   targets_arguments,
   callr_function,
   callr_arguments,
+  envir,
   script
 ) {
   assert_script(script)
@@ -12,6 +13,7 @@ callr_outer <- function(
       targets_arguments = targets_arguments,
       callr_function = callr_function,
       callr_arguments = callr_arguments,
+      envir = envir,
       script = script
     ),
     callr_error = function(e) {
@@ -29,6 +31,7 @@ callr_dispatch <- function(
   targets_arguments,
   callr_function,
   callr_arguments,
+  envir,
   script
 ) {
   options <- list(crayon.enabled = interactive())
@@ -45,6 +48,7 @@ callr_dispatch <- function(
       targets_function = targets_function,
       targets_arguments = targets_arguments,
       options = options,
+      envir = envir,
       script = script
     ),
     do.call(
@@ -58,11 +62,15 @@ callr_inner <- function(
   targets_function,
   targets_arguments,
   options,
+  envir = NULL,
   script
 ) {
+  force(envir)
+  parent <- parent.frame()
+  envir <- targets::if_any(is.null(envir), parent, envir)
   withr::local_options(options)
-  value <- source(script)$value
-  targets_arguments$pipeline <- targets::as_pipeline(value)
+  targets <- eval(parse(text = readLines(script)), envir = envir)
+  targets_arguments$pipeline <- targets::as_pipeline(targets)
   targets::pipeline_validate_lite(targets_arguments$pipeline)
   do.call(targets_function, targets_arguments)
 }

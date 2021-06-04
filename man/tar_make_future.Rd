@@ -11,6 +11,7 @@ tar_make_future(
   workers = targets::tar_config_get("workers"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
+  envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 )
@@ -46,6 +47,12 @@ However, \code{callr_function} should not be \code{NULL} for serious
 reproducible work.}
 
 \item{callr_arguments}{A list of arguments to \code{callr_function}.}
+
+\item{envir}{An environment, where to run the target R script
+(default: \verb{_targets.R}) if \code{callr_function} is \code{NULL}.
+Ignored if \code{callr_function} is anything other than \code{NULL}.
+\code{callr_function} should only be \code{NULL} for debugging and
+testing purposes, not for serious runs of a pipeline, etc.}
 
 \item{script}{Character of length 1, path to the
 target script file. Defaults to \code{tar_config_get("script")},

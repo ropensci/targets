@@ -34,11 +34,13 @@ tar_test("alternate storage with _targets.yaml", {
   expect_equal(tar_config_get("store"), path)
   writeLines("x_line", "x_file.txt")
   tar_script({
-    write_lines <- function(file) {
-      file <- paste0(file, ".txt")
-      writeLines("lines", file)
-      file
-    }
+    evalq({
+      write_lines <- function(file) {
+        file <- paste0(file, ".txt")
+        writeLines("lines", file)
+        file
+      }
+    }, envir = tar_option_get("envir"))
     list(
       tar_target(x, "x_file.txt", format = "file"),
       tar_target(y, readLines(x)),
@@ -48,7 +50,7 @@ tar_test("alternate storage with _targets.yaml", {
     )
   })
   # First run
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, envir = tar_option_get("envir"))
   expect_false(file.exists(path_store_default()))
   expect_true(dir.exists(path))
   expect_true(dir.exists(file.path(path, "meta")))
@@ -73,7 +75,7 @@ tar_test("alternate storage with _targets.yaml", {
   expect_equal(unname(envir$z3), c("a.txt", "b.txt", "c.txt"))
   # Should be no invalidated targets
   expect_equal(tar_outdated(callr_function = NULL), character(0))
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, envir = tar_option_get("envir"))
   expect_equal(nrow(tar_progress()), 0L)
   # Moving data store should not invalidate targets.
   file.rename(path, path_store_default())
@@ -81,6 +83,6 @@ tar_test("alternate storage with _targets.yaml", {
   expect_false(file.exists(path))
   expect_true(file.exists(path_store_default()))
   expect_equal(tar_outdated(callr_function = NULL), character(0))
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, envir = tar_option_get("envir"))
   expect_equal(nrow(tar_progress()), 0L)
 })

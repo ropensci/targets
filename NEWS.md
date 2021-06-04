@@ -13,6 +13,7 @@
 * Add new arguments `script` and `store` to choose custom paths to the target script file and data store for individual function calls (#477).
 * Allow users to set an alternative path to the YAML configuration file for the current R session (#477). Most users have no reason to set this path, it is only for niche applications like Shiny apps with `targets` backends. Unavoidably, the path gets reset to `_targets.yaml` when the session restarts.
 * Add new `_targets.yaml` config options `reporter_make`, `reporter_outdated`, and `workers` to control function argument defaults shared across multiple functions called outside `_targets.R` (#498, @ianeveperry).
+* Add `tar_load_globals()` for debugging, testing, prototyping, and teaching (#496, @malcolmbarrett).
 
 ## Deprecations
 
@@ -30,6 +31,7 @@
 * Simplify config system to let API function arguments take control (#483).
 * In `tar_read()` for targets with `format = "aws_file"`, download the file back to the path the user originally saved it when the target ran.
 * Replace the `TAR_MAKE_REPORTER` environment variable with `targets::tar_config_get("reporter_make")`.
+* Use `eval(parse(text = readLines("_targets.R")), envir = some_envir)` and related techniques instead of the less controllable `source()`. Expose an `envir` argument to many functions for further control over evaluation if `callr_function` is `NULL`.
 
 # targets 0.5.0
 

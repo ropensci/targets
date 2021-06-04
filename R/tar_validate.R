@@ -15,6 +15,11 @@
 #'   However, `callr_function` should not be `NULL` for serious
 #'   reproducible work.
 #' @param callr_arguments A list of arguments to `callr_function`.
+#' @param envir An environment, where to run the target R script
+#'   (default: `_targets.R`) if `callr_function` is `NULL`.
+#'   Ignored if `callr_function` is anything other than `NULL`.
+#'   `callr_function` should only be `NULL` for debugging and
+#'   testing purposes, not for serious runs of a pipeline, etc.
 #' @param script Character of length 1, path to the
 #'   target script file. Defaults to `tar_config_get("script")`,
 #'   which in turn defaults to `_targets.R`. When you set
@@ -42,9 +47,11 @@
 tar_validate <- function(
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
+  envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  force(envir)
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   out <- callr_outer(
@@ -52,6 +59,7 @@ tar_validate <- function(
     targets_arguments = list(),
     callr_function = callr_function,
     callr_arguments = callr_arguments,
+    envir = envir,
     script = script
   )
   invisible(out)

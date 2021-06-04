@@ -34,9 +34,11 @@ tar_network <- function(
   reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
+  envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  force(envir)
   assert_lgl(targets_only, "targets_only must be logical.")
   tar_config_assert_reporter_outdated(reporter)
   assert_callr_function(callr_function)
@@ -51,6 +53,7 @@ tar_network <- function(
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments,
+    envir = envir,
     script = script
   )
 }

@@ -12,37 +12,45 @@ tar_test("tar_envir() custom default", {
 
 tar_test("tar_envir() in a pipeline with automatic default", {
   skip_on_cran()
+  envir <- new.env(parent = globalenv())
+  tar_option_set(envir = envir)
   tar_script({
-    f <- function(z) {
-      g(z)
-    }
-    g <- function(z) {
-      ls(tar_envir())
-    }
+    evalq({
+      f <- function(z) {
+        g(z)
+      }
+      g <- function(z) {
+        ls(tar_envir())
+      }
+    }, envir = tar_option_get("envir"))
     list(
       tar_target(x_target, "x_value"),
       tar_target(y, f(x_target))
     )
   })
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, envir = tar_option_get("envir"))
   expect_equal(tar_read(y), "x_target")
 })
 
 tar_test("tar_envir() in a pipeline with custom default", {
   skip_on_cran()
+  envir <- new.env(parent = globalenv())
+  tar_option_set(envir = envir)
   tar_script({
-    f <- function(z) {
-      g(z)
-    }
-    g <- function(z) {
-      default <- new.env(parent = emptyenv())
-      ls(tar_envir(default = default))
-    }
+    evalq({
+      f <- function(z) {
+        g(z)
+      }
+      g <- function(z) {
+        default <- new.env(parent = emptyenv())
+        ls(tar_envir(default = default))
+      }
+    }, envir = tar_option_get("envir"))
     list(
       tar_target(x_target, "x_value"),
       tar_target(y, f(x_target))
     )
   })
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, envir = tar_option_get("envir"))
   expect_equal(tar_read(y), "x_target")
 })

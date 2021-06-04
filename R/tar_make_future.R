@@ -35,9 +35,11 @@ tar_make_future <- function(
   workers = targets::tar_config_get("workers"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
+  envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  force(envir)
   assert_package("future")
   tar_config_assert_reporter_make(reporter)
   tar_config_assert_workers(workers)
@@ -54,6 +56,7 @@ tar_make_future <- function(
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments,
+    envir = envir,
     script = script
   )
   invisible(out)

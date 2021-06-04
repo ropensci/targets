@@ -31,9 +31,11 @@
 tar_prune <- function(
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
+  envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  force(envir)
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   path_scratch_del(store)
@@ -42,6 +44,7 @@ tar_prune <- function(
     targets_arguments = list(path_store = store),
     callr_function = callr_function,
     callr_arguments = callr_arguments,
+    envir = envir,
     script = script
   )
   invisible(out)

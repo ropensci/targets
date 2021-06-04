@@ -57,9 +57,11 @@ tar_visnetwork <- function(
   reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
+  envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  force(envir)
   assert_package("visNetwork")
   assert_lgl(targets_only, "targets_only must be logical.")
   assert_lgl(outdated, "outdated in tar_visnetwork() must be logical.")
@@ -90,6 +92,7 @@ tar_visnetwork <- function(
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments,
+    envir = envir,
     script = script
   )
 }
