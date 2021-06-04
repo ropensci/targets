@@ -51,6 +51,7 @@ reference:
   - '`tar_make_future`'
 - title: Debug
   contents:
+  - '`tar_load_globals`'
   - '`tar_traceback`'
   - '`tar_workspace`'
   - '`tar_workspaces`'

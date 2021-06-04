@@ -72,7 +72,7 @@ tar_workspace <- function(
     build_load_packages(command$packages, command$library)
   }
   if (source) {
-    source(script, local = envir)
+    eval(parse(text = readLines(script)), envir = envir)
   }
   set.seed(workspace$target$command$seed)
   invisible()

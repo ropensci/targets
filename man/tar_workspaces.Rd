@@ -46,6 +46,7 @@ tar_workspaces(contains("x"))
 }
 \seealso{
 Other debug: 
+\code{\link{tar_load_globals}()},
 \code{\link{tar_traceback}()},
 \code{\link{tar_workspace}()}
 }
