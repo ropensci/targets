@@ -94,8 +94,8 @@ knitr_engine_globals_construct <- function(options) {
 knitr_engine_targets_prototype <- function(options) {
   tar_make_interactive(options$code)
   out <- c(
-    tar_simple_message(options),
-    "Ran targets and assigned them to the environment."
+    knitr_engine_definition_message(options),
+    knitr_engine_prototype_message(options)
   )
   knitr_engine_output(options, out)
 }
@@ -110,7 +110,8 @@ knitr_engine_targets_construct <- function(options) {
     path_script_r_targets(options$tar_script, options$label),
     "."
   )
-  knitr_engine_output(options, c(tar_simple_message(options), out))
+  out <- c(knitr_engine_definition_message(options), out)
+  knitr_engine_output(options, out)
 }
 
 knitr_engine_output <- function(options, out) {
@@ -119,11 +120,19 @@ knitr_engine_output <- function(options, out) {
   knitr::engine_output(options = options, code = code, out = out)
 }
 
-tar_simple_message <- function(options) {
+knitr_engine_definition_message <- function(options) {
   if_any(
     options$tar_simple %|||% FALSE,
     paste("Defined target", options$label, "automatically from chunk code."),
     character(0)
+  )
+}
+
+knitr_engine_prototype_message <- function(options) {
+  if_any(
+    options$tar_simple %|||% FALSE,
+    paste("Ran target", options$label, "and assigned it to the environment."),
+    "Ran targets and assigned them to the environment."
   )
 }
 
