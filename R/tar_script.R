@@ -12,7 +12,7 @@
 #'   Every `targets` project requires a target script file.
 #'   The target script file is usually a file called `_targets.R`
 #'   Functions [tar_make()] and friends look for the target script
-#'   and [source()] it to set up the pipeline just prior to the main task.
+#'   and run it to set up the pipeline just prior to the main task.
 #'   Every target script file should run the following
 #'   steps in the order below:
 #'     1. Package: load the `targets` package. This step is automatically

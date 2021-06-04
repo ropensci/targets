@@ -30,8 +30,7 @@
 #'   This path should be either
 #'   an absolute path or a path relative to the project root where you will
 #'   call [tar_make()] and other functions. When [tar_make()] and friends
-#'   [source()] the script, they do not change the working directory
-#'   (i.e. the default `source(chdir = FALSE)`).
+#'   run the script from the current working directory.
 #' @param store Character of length 1, path to the data store of the pipeline.
 #'   If `NULL`, the `store` setting is left unchanged in the
 #'   YAML configuration file (default: `_targets.yaml`).

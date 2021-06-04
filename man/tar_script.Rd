@@ -48,7 +48,7 @@ See the "Target script" section for details.
 Every \code{targets} project requires a target script file.
 The target script file is usually a file called \verb{_targets.R}
 Functions \code{\link[=tar_make]{tar_make()}} and friends look for the target script
-and \code{\link[=source]{source()}} it to set up the pipeline just prior to the main task.
+and run it to set up the pipeline just prior to the main task.
 Every target script file should run the following
 steps in the order below:
 1. Package: load the \code{targets} package. This step is automatically

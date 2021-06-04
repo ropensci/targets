@@ -18,8 +18,7 @@ that defines the pipeline (\verb{_targets.R} by default).
 This path should be either
 an absolute path or a path relative to the project root where you will
 call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=tar_make]{tar_make()}} and friends
-\code{\link[=source]{source()}} the script, they do not change the working directory
-(i.e. the default \code{source(chdir = FALSE)}).}
+run the script from the current working directory.}
 }
 \value{
 \code{NULL} (invisibly).
