@@ -1,5 +1,5 @@
 resources_feather_init <- function(
-  compression = character(0),
+  compression = "default",
   compression_level = NULL
 ) {
   resources_feather_new(

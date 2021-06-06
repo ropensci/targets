@@ -1,5 +1,5 @@
 resources_aws_init <- function(
-  bucket = character(0),
+  bucket = NULL,
   prefix = path_objects_dir_cloud()
 ) {
   resources_aws_new(
@@ -19,9 +19,9 @@ resources_aws_new <- function(
 
 #' @export
 resources_validate.tar_resources_aws <- function(resources) {
-  assert_scalar(resources$bucket)
-  assert_chr(resources$bucket)
-  assert_nzchar(resources$bucket)
+  assert_scalar(resources$bucket %|||% "bucket")
+  assert_chr(resources$bucke %|||% "bucket")
+  assert_nzchar(resources$bucket %|||% "bucket")
   assert_scalar(resources$prefix)
   assert_chr(resources$prefix)
   assert_nzchar(resources$prefix)

@@ -1,5 +1,5 @@
 resources_parquet_init <- function(
-  compression = character(0),
+  compression = "snappy",
   compression_level = NULL
 ) {
   resources_parquet_new(

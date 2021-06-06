@@ -1,5 +1,5 @@
 resources_qs_init <- function(
-  preset = character(0)
+  preset = "high"
 ) {
   resources_qs_new(
     preset = preset

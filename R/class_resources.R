@@ -46,6 +46,11 @@ resources_validate <- function(resources) {
 }
 
 #' @export
+resources_validate.default <- function(resources) {
+  throw_validate("invalid resource object")
+}
+
+#' @export
 resources_validate.tar_resources <- function(resources) {
   resources_validate(resources$aws)
   resources_validate(resources$clustermq)

@@ -4,7 +4,7 @@ tar_test("create tar_resources_aws object", {
 })
 
 tar_test("prohibit empty tar_resources_aws object", {
-  x <- resources_aws_init(bucket = NULL, prefix = NULL)
+  x <- resources_aws_init(bucket = "", prefix = NULL)
   expect_error(resources_validate(x), class = "tar_condition_validate")
 })
 
