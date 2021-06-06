@@ -255,36 +255,16 @@ tar_target <- function(
   assert_chr(name, "target name must be a symbol")
   assert_nzchar(name, "target name must be nonempty.")
   assert_lgl(tidy_eval, "tidy_eval in tar_target() must be logical.")
-  assert_chr(packages, "packages in tar_target() must be character.")
-  assert_chr(
-    library %|||% character(0),
-    "library in tar_target() must be NULL or character."
-  )
-  assert_format(format)
-  assert_flag(iteration, c("vector", "list", "group"))
-  assert_flag(error, c("stop", "continue", "workspace"))
-  assert_flag(memory, c("persistent", "transient"))
-  assert_lgl(garbage_collection, "garbage_collection must be logical.")
-  assert_scalar(garbage_collection, "garbage_collection must be a scalar.")
-  assert_flag(deployment, c("worker", "main"))
-  assert_dbl(priority, "priority must be numeric.")
-  assert_scalar(priority, "priority must be have length 1.")
-  assert_ge(priority, 0, "priority must be positive.")
-  assert_le(priority, 1, "priority cannot be greater than 1.")
-  assert_list(resources, "resources in tar_target() must be a named list.")
-  assert_flag(storage, c("main", "worker"))
-  assert_flag(retrieval, c("main", "worker"))
-  if (!is.null(cue)) {
-    cue_validate(cue)
-  }
   envir <- tar_option_get("envir")
-  expr <- as.expression(substitute(command))
-  assert_nonmissing(expr[[1]], paste("target", name, "has no command."))
+  command <- as.expression(substitute(command))
+  assert_nonmissing(command[[1]], paste("target", name, "has no command."))
+  command <- tar_tidy_eval(command, envir, tidy_eval)
   pattern <- as.expression(substitute(pattern))
-  target_init(
+  pattern <- tar_tidy_eval(pattern, envir, tidy_eval)
+  tar_target_raw(
     name = name,
-    expr = tar_tidy_eval(expr, envir, tidy_eval),
-    pattern = tar_tidy_eval(pattern, envir, tidy_eval),
+    command = command,
+    pattern = pattern,
     packages = packages,
     library = library,
     format = format,
