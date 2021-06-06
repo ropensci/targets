@@ -3,8 +3,8 @@ tar_test("create tar_resources object", {
   expect_silent(resources_validate(x))
 })
 
-tar_test("prohibit empty resource componetn", {
-  x <- resources_init(aws = resources_aws_init(bucket = 123))
+tar_test("invalid resource component", {
+  x <- resources_init(aws = 123)
   expect_error(resources_validate(x), class = "tar_condition_validate")
 })
 
