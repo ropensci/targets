@@ -10,7 +10,7 @@ resources_fst_new <- function(
   compress = NULL
 ) {
   force(compress)
-  enclass(environment(), "tar_resources_fst")
+  enclass(environment(), c("tar_resources_fst", "tar_resources"))
 }
 
 #' @export

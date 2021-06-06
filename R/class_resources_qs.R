@@ -10,7 +10,7 @@ resources_qs_new <- function(
   preset = NULL
 ) {
   force(preset)
-  enclass(environment(), "tar_resources_qs")
+  enclass(environment(), c("tar_resources_qs", "tar_resources"))
 }
 
 #' @export

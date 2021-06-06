@@ -14,7 +14,7 @@ resources_parquet_new <- function(
 ) {
   force(compression)
   force(compression_level)
-  enclass(environment(), "tar_resources_parquet")
+  enclass(environment(), c("tar_resources_parquet", "tar_resources"))
 }
 
 #' @export

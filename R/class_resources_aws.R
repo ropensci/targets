@@ -14,7 +14,7 @@ resources_aws_new <- function(
 ) {
   force(bucket)
   force(prefix)
-  enclass(environment(), "tar_resources_aws")
+  enclass(environment(), c("tar_resources_aws", "tar_resources"))
 }
 
 #' @export

@@ -50,7 +50,7 @@ tar_test("print aws resources", {
 })
 
 tar_test("print clustermq resources", {
-  print(resources_clustermq_init(log = "dir"))
+  print(resources_clustermq_init(template = list(a = 1)))
   expect_equal(1, 1)
 })
 
@@ -65,7 +65,7 @@ tar_test("print fst resources", {
 })
 
 tar_test("print future resources", {
-  print(resources_future_init(log = "dir"))
+  print(resources_future_init(resources = list(a = 1)))
   expect_equal(1, 1)
 })
 

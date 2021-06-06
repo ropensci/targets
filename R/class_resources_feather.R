@@ -14,7 +14,7 @@ resources_feather_new <- function(
 ) {
   force(compression)
   force(compression_level)
-  enclass(environment(), "tar_resources_feather")
+  enclass(environment(), c("tar_resources_feather", "tar_resources"))
 }
 
 #' @export

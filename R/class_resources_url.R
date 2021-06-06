@@ -10,7 +10,7 @@ resources_url_new <- function(
   handle = NULL
 ) {
   force(handle)
-  enclass(environment(), "tar_resources_url")
+  enclass(environment(), c("tar_resources_url", "tar_resources"))
 }
 
 #' @export
