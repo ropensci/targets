@@ -3,8 +3,8 @@ tar_test("create tar_resources_clustermq object", {
   expect_silent(resources_validate(x))
 })
 
-tar_test("unnamed template", {
-  x <- resources_clustermq_init(template = list(1))
+tar_test("duplicated template", {
+  x <- resources_clustermq_init(template = list(a = 1, a = 2))
   expect_error(resources_validate(x), class = "tar_condition_validate")
 })
 

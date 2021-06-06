@@ -3,8 +3,8 @@ tar_test("create tar_resources_future object", {
   expect_silent(resources_validate(x))
 })
 
-tar_test("unnamed resources", {
-  x <- resources_future_init(resources = list(1))
+tar_test("duplicated resources", {
+  x <- resources_future_init(resources = list(a = 1, a = 2))
   expect_error(resources_validate(x), class = "tar_condition_validate")
 })
 
