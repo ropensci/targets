@@ -5,7 +5,7 @@ tar_test("create tar_resources_url object", {
 })
 
 tar_test("prohibit empty tar_resources_url object", {
-  x <- resources_url_init(handle = NULL)
+  x <- resources_url_init(handle = character(0))
   expect_error(resources_validate(x), class = "tar_condition_validate")
 })
 
