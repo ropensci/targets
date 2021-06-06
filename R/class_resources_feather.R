@@ -28,5 +28,8 @@ resources_validate.tar_resources_feather <- function(resources) {
 
 #' @export
 print.tar_resources_feather <- function(x, ...) {
-  cat("<feather>\n ", paste0(paste_list(as.list(x)), collapse = "\n  "))
+  cat(
+    "<tar_resources_feather>\n ",
+    paste0(paste_list(as.list(x)), collapse = "\n  ")
+  )
 }

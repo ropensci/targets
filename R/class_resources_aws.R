@@ -29,5 +29,8 @@ resources_validate.tar_resources_aws <- function(resources) {
 
 #' @export
 print.tar_resources_aws <- function(x, ...) {
-  cat("<aws>\n ", paste0(paste_list(as.list(x)), collapse = "\n  "))
+  cat(
+    "<tar_resources_aws>\n ",
+    paste0(paste_list(as.list(x)), collapse = "\n  ")
+  )
 }

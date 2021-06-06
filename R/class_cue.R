@@ -132,5 +132,5 @@ cue_validate <- function(cue) {
 
 #' @export
 print.tar_cue <- function(x, ...) {
-  cat("<cue>\n ", paste0(paste_list(as.list(x)), collapse = "\n  "))
+  cat("<tar_cue>\n ", paste0(paste_list(as.list(x)), collapse = "\n  "))
 }

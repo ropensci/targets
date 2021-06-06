@@ -21,5 +21,8 @@ resources_validate.tar_resources_qs <- function(resources) {
 
 #' @export
 print.tar_resources_qs <- function(x, ...) {
-  cat("<qs>\n ", paste0(paste_list(as.list(x)), collapse = "\n  "))
+  cat(
+    "<tar_resources_qs>\n ",
+    paste0(paste_list(as.list(x)), collapse = "\n  ")
+  )
 }

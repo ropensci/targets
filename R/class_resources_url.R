@@ -20,5 +20,8 @@ resources_validate.tar_resources_url <- function(resources) {
 
 #' @export
 print.tar_resources_url <- function(x, ...) {
-  cat("<url>\n ", paste0(paste_list(as.list(x)), collapse = "\n  "))
+  cat(
+    "<tar_resources_url>\n ",
+    paste0(paste_list(as.list(x)), collapse = "\n  ")
+  )
 }

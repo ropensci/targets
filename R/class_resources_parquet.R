@@ -28,5 +28,8 @@ resources_validate.tar_resources_parquet <- function(resources) {
 
 #' @export
 print.tar_resources_parquet <- function(x, ...) {
-  cat("<parquet>\n ", paste0(paste_list(as.list(x)), collapse = "\n  "))
+  cat(
+    "<tar_resources_parquet>\n ",
+    paste0(paste_list(as.list(x)), collapse = "\n  ")
+  )
 }

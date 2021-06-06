@@ -21,5 +21,8 @@ resources_validate.tar_resources_fst <- function(resources) {
 
 #' @export
 print.tar_resources_fst <- function(x, ...) {
-  cat("<fst>\n ", paste0(paste_list(as.list(x)), collapse = "\n  "))
+  cat(
+    "<tar_resources_fst>\n ",
+    paste0(paste_list(as.list(x)), collapse = "\n  ")
+  )
 }
