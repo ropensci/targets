@@ -47,14 +47,14 @@ resources_validate <- function(resources) {
 
 #' @export
 resources_validate.tar_resources <- function(resources) {
-  resources_aws_validate(resources$aws)
-  resources_clustermq_validate(resources$clustermq)
-  resources_feather_validate(resources$feather)
-  resources_fst_validate(resources$fst)
-  resources_future_validate(resources$future)
-  resources_parquet_validate(resources$parquet)
-  resources_qs_validate(resources$qs)
-  resources_url_validate(resources$url)
+  resources_validate(resources$aws)
+  resources_validate(resources$clustermq)
+  resources_validate(resources$feather)
+  resources_validate(resources$fst)
+  resources_validate(resources$future)
+  resources_validate(resources$parquet)
+  resources_validate(resources$qs)
+  resources_validate(resources$url)
 }
 
 #' @export
