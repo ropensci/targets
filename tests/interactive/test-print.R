@@ -84,8 +84,3 @@ tar_test("print url resources", {
   print(resources_url_init(handle = curl::new_handle()))
   expect_equal(1, 1)
 })
-
-tar_test("print resources", {
-  print(resources_init())
-  expect_equal(1, 1)
-})
