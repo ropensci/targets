@@ -1,12 +1,12 @@
 resources_init <- function(
-  aws = resources_aws_init(),
-  clustermq = resources_clustermq_init(),
-  feather = resources_feather_init(),
-  fst = resources_fst_init(),
-  future = resources_future_init(),
-  parquet = resources_parquet_init(),
-  qs = resources_qs_init(),
-  url = resources_url_init()
+  aws = NULL,
+  clustermq = NULL,
+  feather = NULL,
+  fst = NULL,
+  future = NULL,
+  parquet = NULL,
+  qs = NULL,
+  url = NULL
 ) {
   resources_new(
     aws = aws,
@@ -52,14 +52,14 @@ resources_validate.default <- function(resources) {
 
 #' @export
 resources_validate.tar_resources <- function(resources) {
-  resources_validate(resources$aws)
-  resources_validate(resources$clustermq)
-  resources_validate(resources$feather)
-  resources_validate(resources$fst)
-  resources_validate(resources$future)
-  resources_validate(resources$parquet)
-  resources_validate(resources$qs)
-  resources_validate(resources$url)
+  resources_validate(resources$aws %|||% resources_aws_init())
+  resources_validate(resources$clustermq %|||% resources_clustermq_init())
+  resources_validate(resources$feather %|||% resources_feather_init())
+  resources_validate(resources$fst %|||% resources_fst_init())
+  resources_validate(resources$future %|||% resources_future_init())
+  resources_validate(resources$parquet %|||% resources_parquet_init())
+  resources_validate(resources$qs %|||% resources_qs_init())
+  resources_validate(resources$url %|||% resources_url_init())
 }
 
 #' @export
