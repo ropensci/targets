@@ -1,14 +1,14 @@
-resources_init <- function(
+resources_aws_init <- function(
   bucket = character(0),
   prefix = path_objects_dir_cloud()
 ) {
-  resources_new(
+  resources_aws_new(
     bucket = bucket,
     prefix = prefix
   )
 }
 
-resources_new <- function(
+resources_aws_new <- function(
   bucket = NULL,
   prefix = NULL
 ) {

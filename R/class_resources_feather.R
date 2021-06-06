@@ -1,14 +1,14 @@
-resources_init <- function(
+resources_feather_init <- function(
   compression = character(0),
   compression_level = NULL
 ) {
-  resources_new(
+  resources_feather_new(
     compression = compression,
     compression_level = compression_level
   )
 }
 
-resources_new <- function(
+resources_feather_new <- function(
   compression = NULL,
   compression_level = NULL
 ) {
