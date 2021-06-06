@@ -1,5 +1,6 @@
 resources_init <- function(
   aws = resources_aws_init(),
+  clustermq = resources_clustermq_init(),
   feather = resources_feather_init(),
   fst = resources_fst_init(),
   future = resources_future_init(),
@@ -9,6 +10,7 @@ resources_init <- function(
 ) {
   resources_new(
     aws = aws,
+    clustermq = clustermq,
     feather = feather,
     fst = fst,
     future = future,
@@ -20,6 +22,7 @@ resources_init <- function(
 
 resources_new <- function(
   aws = NULL,
+  clustermq = NULL,
   feather = NULL,
   fst = NULL,
   future = NULL,
@@ -28,6 +31,7 @@ resources_new <- function(
   url = NULL
 ) {
   force(aws)
+  force(clustermq)
   force(feather)
   force(fst)
   force(future)
@@ -44,6 +48,7 @@ resources_validate <- function(resources) {
 #' @export
 resources_validate.tar_resources <- function(resources) {
   resources_aws_validate(resources$aws)
+  resources_clustermq_validate(resources$clustermq)
   resources_feather_validate(resources$feather)
   resources_fst_validate(resources$fst)
   resources_future_validate(resources$future)
@@ -54,21 +59,16 @@ resources_validate.tar_resources <- function(resources) {
 
 #' @export
 print.tar_resources <- function(x, ...) {
-  cat(
-    "<tar_resources>\n",
-    " <tar_resources_aws>\n   ",
-    paste0(paste_list(as.list(x$aws)), collapse = "\n    "),
-    " <tar_resources_feather>\n   ",
-    paste0(paste_list(as.list(x$feather)), collapse = "\n    "),
-    " <tar_resources_fst>\n   ",
-    paste0(paste_list(as.list(x$fst)), collapse = "\n    "),
-    " <tar_resources_future>\n   ",
-    paste0(paste_list(as.list(x$future)), collapse = "\n    "),
-    " <tar_resources_parquet>\n   ",
-    paste0(paste_list(as.list(x$parquet)), collapse = "\n    "),
-    " <tar_resources_qs>\n   ",
-    paste0(paste_list(as.list(x$qs)), collapse = "\n    "),
-    " <tar_resources_url>\n   ",
-    paste0(paste_list(as.list(x$url)), collapse = "\n    ")
+  lines <- map_chr(names(x), tar_resources_lines, values = x)
+  cat(paste(c("<tar_resources>", lines), collapse = "\n"))
+}
+
+tar_resources_lines <- function(name, values) {
+  header <- sprintf("  <tar_resources_%s>", name)
+  lines <- paste0(paste_list(as.list(values[[name]])), collapse = "\n    ")
+  if_any(
+    any(nzchar(lines)),
+    paste(header, paste("   ", lines), sep = "\n"),
+    header
   )
 }

@@ -43,3 +43,49 @@ tar_test("print cue", {
   print(tar_cue())
   expect_equal(1, 1)
 })
+
+tar_test("print aws resources", {
+  print(resources_aws_init(bucket = "bucket_name"))
+  expect_equal(1, 1)
+})
+
+tar_test("print clustermq resources", {
+  print(resources_clustermq_init(log = "dir"))
+  expect_equal(1, 1)
+})
+
+tar_test("print feather resources", {
+  print(resources_feather_init(compression = "zstd"))
+  expect_equal(1, 1)
+})
+
+tar_test("print fst resources", {
+  print(resources_fst_init(compress = 50))
+  expect_equal(1, 1)
+})
+
+tar_test("print future resources", {
+  print(resources_future_init(log = "dir"))
+  expect_equal(1, 1)
+})
+
+tar_test("print parquet resources", {
+  print(resources_parquet_init(compression = "zstd"))
+  expect_equal(1, 1)
+})
+
+tar_test("print qs resources", {
+  print(resources_qs_init(preset = "high"))
+  expect_equal(1, 1)
+})
+
+tar_test("print url resources", {
+  skip_if_not_installed("curl")
+  print(resources_url_init(handle = curl::new_handle()))
+  expect_equal(1, 1)
+})
+
+tar_test("print resources", {
+  print(resources_init())
+  expect_equal(1, 1)
+})
