@@ -234,7 +234,7 @@ tar_test("pipeline_get_packages()", {
 
 tar_test("print method", {
   out <- utils::capture.output(pipeline_init())
-  expect_true(grepl("pipeline", out))
+  expect_true(any(grepl("tar_pipeline", out)))
 })
 
 tar_test("validate a non-pipeline", {

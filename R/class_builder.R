@@ -44,6 +44,8 @@ target_prepare.tar_builder <- function(target, pipeline, scheduler) {
   builder_serialize_subpipeline(target)
 }
 
+# Willing to ignore high cyclomatic complexity score.
+# nolint start
 #' @export
 target_should_run.tar_builder <- function(target, meta) {
   cue <- target$cue
@@ -57,6 +59,7 @@ target_should_run.tar_builder <- function(target, meta) {
   if (cue_file(cue, target, meta)) return(TRUE)
   FALSE
 }
+# nolint end
 
 #' @export
 target_should_run_worker.tar_builder <- function(target) {

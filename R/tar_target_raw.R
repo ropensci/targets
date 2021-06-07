@@ -86,6 +86,9 @@ tar_target_raw <- function(
   assert_chr(name, "name arg of tar_target_raw() must be character")
   assert_nzchar(name, "target name must be nonempty.")
   assert_nonmissing(command, paste("target", name, "has no command."))
+  if (is.expression(command)) {
+    assert_nonmissing(command[[1]], paste("target", name, "has no command."))
+  }
   assert_scalar(
     as.expression(command),
     paste("the command of target", name, "must have length 1.")
@@ -102,14 +105,11 @@ tar_target_raw <- function(
   assert_lgl(garbage_collection, "garbage_collection must be logical.")
   assert_scalar(garbage_collection, "garbage_collection must be a scalar.")
   assert_flag(deployment, c("worker", "main"))
-  assert_dbl(priority)
-  assert_scalar(priority)
-  assert_ge(priority, 0)
-  assert_le(priority, 1)
-  assert_list(
-    resources,
-    "resources in tar_target_raw() must be a named list."
-  )
+  assert_dbl(priority, "priority must be numeric.")
+  assert_scalar(priority, "priority must be have length 1.")
+  assert_ge(priority, 0, "priority must be positive.")
+  assert_le(priority, 1, "priority cannot be greater than 1.")
+  assert_resources(resources)
   assert_flag(storage, c("main", "worker"))
   assert_flag(retrieval, c("main", "worker"))
   if (!is.null(cue)) {

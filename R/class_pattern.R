@@ -124,7 +124,7 @@ target_validate.tar_pattern <- function(target) {
 #' @export
 print.tar_pattern <- function(x, ...) {
   cat(
-    "<pattern target>",
+    "<tar_pattern>",
     "\n  name:", target_get_name(x),
     "\n  command:\n   ",
     produce_lines(string_sub_expression(x$command$string)),

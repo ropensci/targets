@@ -18,7 +18,7 @@ tar_test("validate filled options", {
     deployment = "main",
     priority = 0.5,
     backoff = 10,
-    resources = list(ncpu = 2),
+    resources = tar_resources(qs = tar_resources_qs()),
     storage = "worker",
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
@@ -76,6 +76,7 @@ tar_test("export", {
 })
 
 tar_test("import", {
+  resources <- tar_resources(qs = tar_resources_qs())
   list <- list(
     tidy_eval = FALSE,
     packages = character(0),
@@ -89,7 +90,7 @@ tar_test("import", {
     deployment = "main",
     priority = 0.5,
     backoff = 10,
-    resources = list(ncpu = 2),
+    resources = resources,
     storage = "worker",
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
@@ -112,7 +113,7 @@ tar_test("import", {
   expect_equal(x$get_deployment(), "main")
   expect_equal(x$get_priority(), 0.5)
   expect_equal(x$get_backoff(), 10)
-  expect_equal(x$get_resources(), list(ncpu = 2))
+  expect_equal(x$get_resources(), resources)
   expect_equal(x$get_storage(), "worker")
   expect_equal(x$get_retrieval(), "worker")
   expect_equal(
@@ -256,8 +257,9 @@ tar_test("backoff", {
 tar_test("resources", {
   x <- options_init()
   expect_equal(x$get_resources(), list())
-  x$set_resources(list(x = 1))
-  expect_equal(x$get_resources(), list(x = 1))
+  resources <- tar_resources(qs = tar_resources_qs())
+  x$set_resources(resources)
+  expect_equal(x$get_resources(), resources)
   x$reset()
   expect_equal(x$get_resources(), list())
   expect_error(x$set_resources(-1), class = "tar_condition_validate")

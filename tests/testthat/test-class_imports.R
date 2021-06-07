@@ -70,7 +70,7 @@ tar_test("imports setting works", {
   old_warn <- Sys.getenv("TAR_WARN")
   on.exit({
     Sys.setenv(TAR_WARN = old_warn)
-    try(detach("package:pkgabcdefg"), silent = TRUE)
+    try(detach("package:pkgabcdefg"), silent = TRUE) # nolint
     tar_option_reset()
   })
   Sys.setenv(TAR_WARN = "false") # This test has a good reason for load_all().

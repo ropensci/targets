@@ -13,7 +13,11 @@ tar_test("aws_qs format data gets stored", {
   bucket_name <- random_bucket_name()
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
-    tar_option_set(resources = list(bucket = !!bucket_name))
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name)
+      )
+    )
     list(
       tar_target(x, "x_value", format = "aws_qs"),
       tar_target(y, c(x, "y_value"), format = "aws_qs")
@@ -55,7 +59,9 @@ tar_test("aws_qs format data gets stored with worker storage", {
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(
-      resources = list(bucket = !!bucket_name),
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name)
+      ),
       storage = "worker",
       retrieval = "worker"
     )
@@ -99,7 +105,11 @@ tar_test("aws_qs format invalidation", {
   bucket_name <- random_bucket_name()
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
-    tar_option_set(resources = list(bucket = !!bucket_name))
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name)
+      )
+    )
     list(
       tar_target(x, "x_value", format = "aws_qs"),
       tar_target(y, c(x, "y_value"), format = "aws_qs")
@@ -113,7 +123,11 @@ tar_test("aws_qs format invalidation", {
   tar_make(callr_function = NULL)
   expect_equal(nrow(tar_progress()), 0L)
   expr <- quote({
-    tar_option_set(resources = list(bucket = !!bucket_name))
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name)
+      )
+    )
     list(
       tar_target(x, "x_value2", format = "aws_qs"),
       tar_target(y, c(x, "y_value"), format = "aws_qs")
@@ -146,7 +160,9 @@ tar_test("aws_qs format and dynamic branching", {
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(
-      resources = list(bucket = !!bucket_name),
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name)
+      ),
       storage = "worker",
       retrieval = "worker",
       format = "aws_qs"
@@ -183,7 +199,9 @@ tar_test("aws timestamp", {
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(
-      resources = list(bucket = !!bucket_name),
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name)
+      ),
       format = "aws_qs"
     )
     list(
@@ -219,7 +237,9 @@ tar_test("aws_qs format with an alternative data store", {
   bucket_name <- random_bucket_name()
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
-    tar_option_set(resources = list(bucket = !!bucket_name))
+    tar_option_set(resources = tar_resources(
+      aws = tar_resources_aws(bucket = !!bucket_name)
+    ))
     list(
       tar_target(x, "x_value", format = "aws_qs"),
       tar_target(y, c(x, "y_value"), format = "aws_qs")

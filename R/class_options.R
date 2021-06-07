@@ -404,7 +404,7 @@ options_class <- R6::R6Class(
       assert_le(backoff, 1e9, msg = "backoff cannot be greater than 1e9")
     },
     validate_resources = function(resources) {
-      assert_list(resources, "resources option must be a named list.")
+      assert_resources(resources)
     },
     validate_storage = function(storage) {
       assert_flag(storage, c("main", "worker"))

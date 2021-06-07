@@ -21,8 +21,10 @@ store_read_path.tar_feather <- function(store, path) {
 #' @export
 store_write_path.tar_feather <- function(store, object, path) {
   args <- list(x = object, sink = path, version = 2L)
-  args$compression <- store$resources$compression
-  args$compression_level <- store$resources$compression_level
+  args$compression <- store$resources$feather$compression %|||%
+    store$resources$compression
+  args$compression_level <- store$resources$feather$compression_level %|||%
+    store$resources$compression_level
   do.call(arrow::write_feather, args)
 }
 

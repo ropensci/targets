@@ -17,7 +17,9 @@ tar_test("aws_parquet format returns data frames", {
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
     tar_option_set(
-      resources = list(bucket = !!bucket_name),
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name)
+      ),
       format = "aws_parquet"
     )
     list(

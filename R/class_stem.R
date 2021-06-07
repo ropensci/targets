@@ -161,7 +161,7 @@ stem_restore_junction <- function(target, pipeline, meta) {
 #' @export
 print.tar_stem <- function(x, ...) {
   cat(
-    "<stem target>",
+    "<tar_stem>",
     "\n  name:", target_get_name(x),
     "\n  command:\n   ",
     produce_lines(string_sub_expression(x$command$string)),

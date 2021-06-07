@@ -34,6 +34,14 @@ path_objects_dir <- function(path_store) {
   file.path(path_store, "objects")
 }
 
+#' @title Default pseudo-directory path of target data in the cloud
+#' @export
+#' @keywords internal
+#' @description Not a user-side function. Do not invoke directly.
+#' @return Character of length,
+#'   default pseudo-directory path of target data in the cloud.
+#' @examples
+#' path_objects_dir_cloud()
 path_objects_dir_cloud <- function() {
   file.path(path_store_default(), "objects", fsep = "/")
 }

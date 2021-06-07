@@ -103,6 +103,17 @@ reference:
   contents:
   - '`tar_branches`'
   - '`tar_pattern`'
+- title: Resources
+  contents:
+  - '`tar_resources`'
+  - '`tar_resources_aws`'
+  - '`tar_resources_clustermq`'
+  - '`tar_resources_feather`'
+  - '`tar_resources_fst`'
+  - '`tar_resources_future`'
+  - '`tar_resources_parquet`'
+  - '`tar_resources_qs`'
+  - '`tar_resources_url`'
 - title: Utilities
   contents:
   - '`tar_cancel`'
