@@ -283,15 +283,15 @@ test_that("2 cores (unstructured resources)", {
       clustermq.scheduler = "sge",
       clustermq.template = "sge_clustermq.tmpl"
     )
-    resources <- list(cores = 2))
-    expect_warning(
-      tar_option_set(resources = resources)
+    resources <- list(cores = 2)
+    suppressWarnings(tar_option_set(resources = resources))
+    suppressWarnings(
+      tar_target(x, {
+        Sys.sleep(5)
+        "y"
+      })
     )
-    tar_target(x, {
-      Sys.sleep(5)
-      "y"
-    })
   })
-  tar_make_clustermq()
+  suppressWarnings(tar_make_clustermq())
   expect_equal(tar_read(x), "y")
 })

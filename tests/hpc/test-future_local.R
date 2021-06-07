@@ -20,7 +20,7 @@ tar_test("future workers actually launch", {
   expect_true(all(out$progress == "started"))
 })
 
-tar_test("custom future plans through resources", {
+tar_test("custom future plans through structured resources", {
   skip_if_not_installed("future")
   tar_script({
     future::plan(future::multisession, workers = 4)
@@ -32,7 +32,36 @@ tar_test("custom future plans through resources", {
         y,
         Sys.sleep(30),
         pattern = map(x),
-        resources = list(plan = plan_multisession)
+        resources = tar_resources(
+          future = tar_resources_future(resources = list(plan = plan_multisession))
+        )
+      )
+    )
+  })
+  # The following should run 4 targets concurrently.
+  tar_make_future(workers = 4)
+  # After all 4 targets start, terminate the pipeline early and show progress.
+  # x should be built, and y and its 4 branches should be listed as started.
+  out <- tar_progress()
+  out <- out[out$name != "x", ]
+  expect_true(all(out$progress == "started"))
+})
+
+tar_test("custom future plans through unstructured resources", {
+  skip_if_not_installed("future")
+  tar_script({
+    future::plan(future::multisession, workers = 4)
+    plan_multisession <- future::plan()
+    future::plan(future::sequential)
+    suppressWarnings(
+      list(
+        tar_target(x, seq_len(4)),
+        tar_target(
+          y,
+          Sys.sleep(30),
+          pattern = map(x),
+          resources = list(plan = plan_multisession)
+        )
       )
     )
   })
