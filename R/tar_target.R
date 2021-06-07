@@ -7,6 +7,99 @@
 #'   by the commands of targets downstream. Targets that
 #'   are already up to date are skipped. See the user manual
 #'   for more details.
+#' @section Storage formats:
+#'   * `"rds"`: Default, uses `saveRDS()` and `readRDS()`. Should work for
+#'     most objects, but slow.
+#'   * `"qs"`: Uses `qs::qsave()` and `qs::qread()`. Should work for
+#'     most objects, much faster than `"rds"`. Optionally set the
+#'     preset for `qsave()` through [tar_resources()] and [tar_resources_qs()].
+#'   * `"feather"`: Uses `arrow::write_feather()` and
+#'     `arrow::read_feather()` (version 2.0). Much faster than `"rds"`,
+#'     but the value must be a data frame. Optionally set
+#'     `compression` and `compression_level` in `arrow::write_feather()`
+#'     through [tar_resources()] and [tar_resources_feather()].
+#'     Requires the `arrow` package (not installed by default).
+#'   * `"parquet"`: Uses `arrow::write_parquet()` and
+#'     `arrow::read_parquet()` (version 2.0). Much faster than `"rds"`,
+#'     but the value must be a data frame. Optionally set
+#'     `compression` and `compression_level` in `arrow::write_parquet()`
+#'     through [tar_resources()] and [tar_resources_parquet()]..
+#'     Requires the `arrow` package (not installed by default).
+#'   * `"fst"`: Uses `fst::write_fst()` and `fst::read_fst()`.
+#'     Much faster than `"rds"`, but the value must be
+#'     a data frame. Optionally set the compression level for
+#'     `fst::write_fst()` through [tar_resources()] and [tar_resources_fst()].
+#'     Requires the `fst` package (not installed by default).
+#'   * `"fst_dt"`: Same as `"fst"`, but the value is a `data.table`.
+#'     Optionally set the compression level the same way as for `"fst"`.
+#'   * `"fst_tbl"`: Same as `"fst"`, but the value is a `tibble`.
+#'     Optionally set the compression level the same way as for `"fst"`.
+#'   * `"keras"`: Uses `keras::save_model_hdf5()` and
+#'     `keras::load_model_hdf5()`. The value must be a Keras model.
+#'     Requires the `keras` package (not installed by default).
+#'   * `"torch"`: Uses `torch::torch_save()` and `torch::torch_load()`.
+#'     The value must be an object from the `torch` package
+#'     such as a tensor or neural network module.
+#'     Requires the `torch` package (not installed by default).
+#'   * `"file"`: A dynamic file. To use this format,
+#'     the target needs to manually identify or save some data
+#'     and return a character vector of paths
+#'     to the data. (These paths must be existing files
+#'     and nonempty directories.)
+#'     Then, `targets` automatically checks those files and cues
+#'     the appropriate build decisions if those files are out of date.
+#'     Those paths must point to files or directories,
+#'     and they must not contain characters `|` or `*`.
+#'     All the files and directories you return must actually exist,
+#'     or else `targets` will throw an error. (And if `storage` is `"worker"`,
+#'     `targets` will first stall out trying to wait for the file
+#'     to arrive over a network file system.)
+#'   * `"url"`: A dynamic input URL. It works like `format = "file"`
+#'     except the return value of the target is a URL that already exists
+#'     and serves as input data for downstream targets. Optionally
+#'     supply a custom `curl` handle through
+#'     [tar_resources()] and [tar_resources_url()].
+#'     in `new_handle()`, `nobody = TRUE` is important because it
+#'     ensures `targets` just downloads the metadata instead of
+#'     the entire data file when it checks time stamps and hashes.
+#'     The data file at the URL needs to have an ETag or a Last-Modified
+#'     time stamp, or else the target will throw an error because
+#'     it cannot track the data. Also, use extreme caution when
+#'     trying to use `format = "url"` to track uploads. You must be absolutely
+#'     certain the ETag and Last-Modified time stamp are fully updated
+#'     and available by the time the target's command finishes running.
+#'     `targets` makes no attempt to wait for the web server.
+#'   * `"aws_rds"`, `"aws_qs"`, `"aws_parquet"`, `"aws_fst"`, `"aws_fst_dt"`,
+#'     `"aws_fst_tbl"`, `"aws_keras"`: AWS-powered versions of the
+#'     respective formats `"rds"`, `"qs"`, etc. The only difference
+#'     is that the data file is uploaded to the AWS S3 bucket
+#'     you supply to [tar_resources_aws()]. See the cloud computing chapter
+#'     of the manual for details.
+#'   * `"aws_file"`: arbitrary dynamic files on AWS S3. The target
+#'     should return a path to a temporary local file, then
+#'     `targets` will automatically upload this file to an S3
+#'     bucket and track it for you. Unlike `format = "file"`,
+#'     `format = "aws_file"` can only handle one single file,
+#'     and that file must not be a directory.
+#'     [tar_read()] and downstream targets
+#'     download the file to `_targets/scratch/` locally and return the path.
+#'     `_targets/scratch/` gets deleted at the end of [tar_make()].
+#'     Requires the same `resources` and other configuration details
+#'     as the other AWS-powered formats. See the cloud computing
+#'     chapter of the manual for details.
+#' @param iteration Character of length 1, name of the iteration mode
+#'   of the target. Choices:
+#'   * `"vector"`: branching happens with `vctrs::vec_slice()` and
+#'     aggregation happens with `vctrs::vec_c()`.
+#'   * `"list"`, branching happens with `[[]]` and aggregation happens with
+#'     `list()`.
+#'   * `"group"`: `dplyr::group_by()`-like functionality to branch over
+#'     subsets of a data frame. The target's return value must be a data
+#'     frame with a special `tar_group` column of consecutive integers
+#'     from 1 through the number of groups. Each integer designates a group,
+#'     and a branch is created for each collection of rows in a group.
+#'     See the [tar_group()] function to see how you can
+#'     create the special `tar_group` column with `dplyr::group_by()`.
 #' @return A target object. Users should not modify these directly,
 #'   just feed them to [list()] in your target script file
 #'   (default: `_targets.R`).
@@ -41,105 +134,8 @@
 #' @param format Optional storage format for the target's return value.
 #'   With the exception of `format = "file"`, each target
 #'   gets a file in `_targets/objects`, and each format is a different
-#'   way to save and load this file.
-#'   Possible formats:
-#'   * `"rds"`: Default, uses `saveRDS()` and `readRDS()`. Should work for
-#'     most objects, but slow.
-#'   * `"qs"`: Uses `qs::qsave()` and `qs::qread()`. Should work for
-#'     most objects, much faster than `"rds"`. Optionally set the
-#'     preset for `qsave()` through the `resources` argument, e.g.
-#'     `tar_target(..., resources = list(preset = "archive"))`.
-#'     Requires the `qs` package (not installed by default).
-#'   * `"feather"`: Uses `arrow::write_feather()` and
-#'     `arrow::read_feather()` (version 2.0). Much faster than `"rds"`,
-#'     but the value must be a data frame. Optionally set
-#'     `compression` and `compression_level` in `arrow::write_feather()`
-#'     through the `resources` argument, e.g.
-#'     `tar_target(..., resources = list(compression = ...))`.
-#'     Requires the `arrow` package (not installed by default).
-#'   * `"parquet"`: Uses `arrow::write_parquet()` and
-#'     `arrow::read_parquet()` (version 2.0). Much faster than `"rds"`,
-#'     but the value must be a data frame. Optionally set
-#'     `compression` and `compression_level` in `arrow::write_parquet()`
-#'     through the `resources` argument, e.g.
-#'     `tar_target(..., resources = list(compression = ...))`.
-#'     Requires the `arrow` package (not installed by default).
-#'   * `"fst"`: Uses `fst::write_fst()` and `fst::read_fst()`.
-#'     Much faster than `"rds"`, but the value must be
-#'     a data frame. Optionally set the compression level for
-#'     `fst::write_fst()` through the `resources` argument, e.g.
-#'     `tar_target(..., resources = list(compress = 100))`.
-#'     Requires the `fst` package (not installed by default).
-#'   * `"fst_dt"`: Same as `"fst"`, but the value is a `data.table`.
-#'     Optionally set the compression level the same way as for `"fst"`.
-#'   * `"fst_tbl"`: Same as `"fst"`, but the value is a `tibble`.
-#'     Optionally set the compression level the same way as for `"fst"`.
-#'   * `"keras"`: Uses `keras::save_model_hdf5()` and
-#'     `keras::load_model_hdf5()`. The value must be a Keras model.
-#'     Requires the `keras` package (not installed by default).
-#'   * `"torch"`: Uses `torch::torch_save()` and `torch::torch_load()`.
-#'     The value must be an object from the `torch` package
-#'     such as a tensor or neural network module.
-#'     Requires the `torch` package (not installed by default).
-#'   * `"file"`: A dynamic file. To use this format,
-#'     the target needs to manually identify or save some data
-#'     and return a character vector of paths
-#'     to the data. (These paths must be existing files
-#'     and nonempty directories.)
-#'     Then, `targets` automatically checks those files and cues
-#'     the appropriate build decisions if those files are out of date.
-#'     Those paths must point to files or directories,
-#'     and they must not contain characters `|` or `*`.
-#'     All the files and directories you return must actually exist,
-#'     or else `targets` will throw an error. (And if `storage` is `"worker"`,
-#'     `targets` will first stall out trying to wait for the file
-#'     to arrive over a network file system.)
-#'   * `"url"`: A dynamic input URL. It works like `format = "file"`
-#'     except the return value of the target is a URL that already exists
-#'     and serves as input data for downstream targets. Optionally
-#'     supply a custom `curl` handle through the `resources` argument, e.g.
-#'     `tar_target(..., resources = list(handle = curl::new_handle(nobody = TRUE)))`. # nolint
-#'     in `new_handle()`, `nobody = TRUE` is important because it
-#'     ensures `targets` just downloads the metadata instead of
-#'     the entire data file when it checks time stamps and hashes.
-#'     The data file at the URL needs to have an ETag or a Last-Modified
-#'     time stamp, or else the target will throw an error because
-#'     it cannot track the data. Also, use extreme caution when
-#'     trying to use `format = "url"` to track uploads. You must be absolutely
-#'     certain the ETag and Last-Modified time stamp are fully updated
-#'     and available by the time the target's command finishes running.
-#'     `targets` makes no attempt to wait for the web server.
-#'   * `"aws_rds"`, `"aws_qs"`, `"aws_parquet"`, `"aws_fst"`, `"aws_fst_dt"`,
-#'     `"aws_fst_tbl"`, `"aws_keras"`: AWS-powered versions of the
-#'     respective formats `"rds"`, `"qs"`, etc. The only difference
-#'     is that the data file is uploaded to the AWS S3 bucket
-#'     you supply to `resources`. See the cloud computing chapter
-#'     of the manual for details.
-#'   * `"aws_file"`: arbitrary dynamic files on AWS S3. The target
-#'     should return a path to a temporary local file, then
-#'     `targets` will automatically upload this file to an S3
-#'     bucket and track it for you. Unlike `format = "file"`,
-#'     `format = "aws_file"` can only handle one single file,
-#'     and that file must not be a directory.
-#'     [tar_read()] and downstream targets
-#'     download the file to `_targets/scratch/` locally and return the path.
-#'     `_targets/scratch/` gets deleted at the end of [tar_make()].
-#'     Requires the same `resources` and other configuration details
-#'     as the other AWS-powered formats. See the cloud computing
-#'     chapter of the manual for details.
-#' @param iteration Character of length 1, name of the iteration mode
-#'   of the target. Choices:
-#'   * `"vector"`: branching happens with `vctrs::vec_slice()` and
-#'     aggregation happens with `vctrs::vec_c()`.
-#'   * `"list"`, branching happens with `[[]]` and aggregation happens with
-#'     `list()`.
-#'   * `"group"`: `dplyr::group_by()`-like functionality to branch over
-#'     subsets of a data frame. The target's return value must be a data
-#'     frame with a special `tar_group` column of consecutive integers
-#'     from 1 through the number of groups. Each integer designates a group,
-#'     and a branch is created for each collection of rows in a group.
-#'     See the [tar_group()] function to see how you can
-#'     create the special `tar_group` column with `dplyr::group_by()`.
+#'   way to save and load this file. See the "Storage formats" section
+#'   for a detailed list of possible data storage formats.
 #' @param error Character of length 1, what to do if the target
 #'   runs into an error. If `"stop"`, the whole pipeline stops
 #'   and throws an error. If `"continue"`, the error is recorded,
@@ -175,28 +171,11 @@
 #'   targets get deployed first when multiple competing targets are ready
 #'   simultaneously. Targets with priorities closer to 1 get built earlier
 #'   (and polled earlier in [tar_make_future()]).
-#' @param resources A named list of computing resources. Uses:
-#'   * Template file wildcards for `future::future()` in [tar_make_future()].
-#'   * Template file wildcards `clustermq::workers()` in [tar_make_clustermq()].
-#'   * Custom target-level `future::plan()`, e.g.
-#'     `resources = list(plan = future.callr::callr)`.
-#'   * Custom `curl` handle if `format = "url"`,
-#'     e.g. `resources = list(handle = curl::new_handle(nobody = TRUE))`.
-#'     In custom handles, most users should manually set `nobody = TRUE`
-#'     so `targets` does not download the entire file when it
-#'     only needs to check the time stamp and ETag.
-#'   * Custom preset for `qs::qsave()` if `format = "qs"`, e.g.
-#'     `resources = list(handle = "archive")`.
-#'   * Arguments `compression` and `compression_level` to
-#'     `arrow::write_feather()` and `arrow:write_parquet()` if `format` is
-#'     `"feather"`, `"parquet"`, `"aws_feather"`, or `"aws_parquet"`.
-#'   * Custom compression level for `fst::write_fst()` if
-#'     `format` is `"fst"`, `"fst_dt"`, or `"fst_tbl"`, e.g.
-#'     `resources = list(compress = 100)`.
-#'   * AWS bucket and prefix for the `"aws_"` formats, e.g.
-#'     `resources = list(bucket = "your-bucket", prefix = "folder/name")`.
-#'     `bucket` is required for AWS formats. See the cloud computing chapter
-#'     of the manual for details.
+#' @param resources Object returned by [tar_resources()]
+#'   with optional settings for high-performance computing
+#'   functionality, alternative data storage formats,
+#'   and other optional capabilities of `targets`.
+#'   See [tar_resources()] for details.
 #' @param storage Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
 #'   If `"main"`, the target's return value is sent back to the

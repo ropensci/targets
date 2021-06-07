@@ -1,7 +1,7 @@
 #' @title Target resources: parquet storage formats
 #' @export
 #' @family resources
-#' @description Create the parquet argument of [tar_resources()]]
+#' @description Create the `parquet` argument of [tar_resources()]]
 #'   to specify optional settings for parquet data frame storage formats
 #'   powered by the `arrow` R package.
 #'   See the `format` argument of [tar_target()] for details.

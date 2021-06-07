@@ -18,7 +18,7 @@ Object of class \code{"tar_resources_parquet"}, to be supplied
 to the parquet argument of \code{\link[=tar_resources]{tar_resources()}}.
 }
 \description{
-Create the parquet argument of \code{\link[=tar_resources]{tar_resources()}}]
+Create the \code{parquet} argument of \code{\link[=tar_resources]{tar_resources()}}]
 to specify optional settings for parquet data frame storage formats
 powered by the \code{arrow} R package.
 See the \code{format} argument of \code{\link[=tar_target]{tar_target()}} for details.
@@ -50,6 +50,8 @@ Other resources:
 \code{\link{tar_resources_feather}()},
 \code{\link{tar_resources_fst}()},
 \code{\link{tar_resources_future}()},
+\code{\link{tar_resources_qs}()},
+\code{\link{tar_resources_url}()},
 \code{\link{tar_resources}()}
 }
 \concept{resources}
