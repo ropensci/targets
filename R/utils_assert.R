@@ -248,14 +248,13 @@ assert_resources <- function(resources) {
         "and various tar_resources_*() helper functions to create the ",
         "resources argument to tar_target() and tar_option_set()."
       )
-    }
-    if (!inherits(resources[[name]], "tar_resources")) {
+    } else if (!inherits(resources[[name]], "tar_resources")) {
       warn_deprecate(
         "found incorrectly formatted resource group ",
         name,
         " in resources list. Unstructrued resources list are deprecated ",
         "in targets >= 0.5.0.9000 (2021-06-07). Use tar_resources_clustermq()",
-        "and various other tar_resources_*() helper functions to create ",
+        " and various other tar_resources_*() helper functions to create ",
         "arguments to tar_resources()."
       )
     }

@@ -19,7 +19,7 @@ tar_test("parquet format", {
   expect_silent(target_validate(x))
 })
 
-tar_test("bad compression level throws error", {
+tar_test("bad compression level throws error (unstructured resources)", {
   skip_on_cran()
   skip_if_not_installed("arrow")
   tar_script({
@@ -32,7 +32,18 @@ tar_test("bad compression level throws error", {
       )
     )
   })
-  expect_error(tar_make(callr_function = NULL))
+  expect_warning(
+    tar_target(
+      abc,
+      data.frame(x = 1, y = 2),
+      format = "parquet",
+      resources = list(compression = "bad")
+    ),
+    class = "tar_condition_deprecate"
+  )
+  suppressWarnings(
+    expect_error(tar_make(callr_function = NULL))
+  )
 })
 
 tar_test("parquet packages", {

@@ -245,10 +245,13 @@ tar_test("stem validate with junction", {
 })
 
 tar_test("stem print", {
+  resources <- tar_resources(
+    future = tar_resources_future(resources = list(cpu = 1, mem = 2))
+  )
   x <- tar_target(x, {
     a <- 1
     b
-  }, resources = list(cpu = 1, mem = 2))
+  }, resources = resources)
   out <- utils::capture.output(print(x))
   expect_true(any(grepl("stem", out)))
 })

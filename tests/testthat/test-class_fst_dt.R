@@ -21,7 +21,7 @@ tar_test("fst_dt format", {
   expect_silent(target_validate(x))
 })
 
-tar_test("bad compression level throws error", {
+tar_test("bad compression level throws error (unstructured resources)", {
   skip_if_not_installed("data.table")
   skip_if_not_installed("fst")
   tar_script({
@@ -34,9 +34,20 @@ tar_test("bad compression level throws error", {
       )
     )
   })
-  expect_error(
-    tar_make(callr_function = NULL),
-    class = "tar_condition_validate"
+  expect_warning(
+    tar_target(
+      abc,
+      data.frame(x = 1, y = 2),
+      format = "fst_dt",
+      resources = list(compress = "bad")
+    ),
+    class = "tar_condition_deprecate"
+  )
+  suppressWarnings(
+    expect_error(
+      tar_make(callr_function = NULL),
+      class = "tar_condition_validate"
+    )
   )
 })
 

@@ -62,10 +62,15 @@ tar_test("some targets up to date, some not", {
   future::plan(future::sequential)
 })
 
-tar_test("specialized plans", {
+tar_test("specialized plans (unstructured resources)", {
   skip_if_not_installed("future")
   resources <- list(plan = future::sequential)
-  x <- tar_target_raw("x", quote(1L), resources = resources)
+  suppressWarnings(
+    expect_warning(
+      x <- tar_target_raw("x", quote(1L), resources = resources),
+      class = "tar_condition_deprecate"
+    )
+  )
   y <- tar_target_raw("y", quote(x))
   pipeline <- pipeline_init(list(x, y))
   future <- future_init(pipeline)

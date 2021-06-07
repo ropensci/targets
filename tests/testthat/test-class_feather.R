@@ -19,9 +19,18 @@ tar_test("feather format", {
   expect_silent(target_validate(x))
 })
 
-tar_test("bad compression level throws error", {
+tar_test("bad compression level throws error (unstructured resources)", {
   skip_on_cran()
   skip_if_not_installed("arrow")
+  expect_warning(
+    tar_target(
+      abc,
+      data.frame(x = 1, y = 2),
+      format = "feather",
+      resources = list(compression = "bad")
+    ),
+    class = "tar_condition_deprecate"
+  )
   tar_script({
     list(
       tar_target(
@@ -32,7 +41,9 @@ tar_test("bad compression level throws error", {
       )
     )
   })
-  expect_error(tar_make(callr_function = NULL))
+  suppressWarnings(
+    expect_error(tar_make(callr_function = NULL))
+  )
 })
 
 tar_test("feather packages", {
