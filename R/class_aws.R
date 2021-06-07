@@ -9,12 +9,14 @@ store_produce_path.tar_aws <- function(store, name, object, path_store) {
 }
 
 store_produce_aws_path <- function(store, name, object, path_store) {
-  bucket <- store$resources$bucket
+  bucket <- store$resources$aws$bucket %|||% store$resources$bucket
   assert_nonempty(bucket, "S3 bucket name cannot be empty.")
   assert_chr(bucket, "S3 bucket name must be character.")
   assert_scalar(bucket, "invalid S3 bucket name.")
   assert_nzchar(bucket, "invalid S3 bucket name.")
-  prefix <- store$resources$prefix %|||% path_objects_dir_cloud()
+  prefix <- store$resources$aws$prefix %|||%
+    store$resources$prefix %|||%
+    path_objects_dir_cloud()
   assert_nonempty(prefix, "S3 object prefix cannot be empty.")
   assert_chr(prefix, "invalid S3 prefix.")
   assert_scalar(prefix, "invalid S3 prefix.")

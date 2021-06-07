@@ -13,11 +13,15 @@ tar_test("aws_file format file gets stored", {
   })
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
-    tar_option_set(resources = list(bucket = !!bucket_name))
-    write_local_file <- function(lines) {
-      writeLines(lines, "example_aws_file.txt")
-      "example_aws_file.txt"
-    }
+    tar_option_set(resources = tar_resources(
+      aws = tar_resources_aws(bucket = !!bucket_name)
+    ))
+    evalq(
+      write_local_file <- function(lines) {
+        writeLines(lines, "example_aws_file.txt")
+        "example_aws_file.txt"
+      }, envir = tar_option_get("envir")
+    )
     list(
       tar_target(x, write_local_file("x_lines"), format = "aws_file"),
       tar_target(y, readLines(x))
@@ -25,7 +29,7 @@ tar_test("aws_file format file gets stored", {
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, envir = tar_option_get("envir"))
   expect_true(
     aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/x")
   )
@@ -60,13 +64,17 @@ tar_test("aws_file format invalidation", {
     aws.s3::put_bucket(bucket = bucket_name)
     expr <- quote({
       tar_option_set(
-        resources = list(bucket = !!bucket_name),
+        resources = tar_resources(
+          aws = tar_resources_aws(bucket = !!bucket_name)
+        ),
         memory = !!memory
       )
-      write_local_file <- function(lines) {
-        writeLines(lines, "example_aws_file.txt")
-        "example_aws_file.txt"
-      }
+      evalq(
+        write_local_file <- function(lines) {
+          writeLines(lines, "example_aws_file.txt")
+          "example_aws_file.txt"
+        }, envir = tar_option_get("envir")
+      )
       list(
         tar_target(x, write_local_file("x_lines"), format = "aws_file"),
         tar_target(y, readLines(x))
@@ -74,20 +82,24 @@ tar_test("aws_file format invalidation", {
     })
     expr <- tar_tidy_eval(expr, environment(), TRUE)
     eval(as.call(list(`tar_script`, expr, ask = FALSE)))
-    tar_make(callr_function = NULL)
+    tar_make(callr_function = NULL, envir = tar_option_get("envir"))
     expect_equal(tar_progress(x)$progress, "built")
     expect_equal(tar_progress(y)$progress, "built")
     tar_make(callr_function = NULL)
     expect_equal(nrow(tar_progress()), 0L)
     expr <- quote({
       tar_option_set(
-        resources = list(bucket = !!bucket_name),
+        resources = tar_resources(
+          aws = tar_resources_aws(bucket = !!bucket_name)
+        ),
         memory = !!memory
       )
-      write_local_file <- function(lines) {
-        writeLines(lines, "example_aws_file.txt")
-        "example_aws_file.txt"
-      }
+      evalq(
+        write_local_file <- function(lines) {
+          writeLines(lines, "example_aws_file.txt")
+          "example_aws_file.txt"
+        }, envir = tar_option_get("envir")
+      )
       list(
         tar_target(x, write_local_file("x_lines2"), format = "aws_file"),
         tar_target(y, readLines(x))
@@ -95,7 +107,7 @@ tar_test("aws_file format invalidation", {
     })
     expr <- tar_tidy_eval(expr, environment(), TRUE)
     eval(as.call(list(`tar_script`, expr, ask = FALSE)))
-    tar_make(callr_function = NULL)
+    tar_make(callr_function = NULL, envir = tar_option_get("envir"))
     expect_equal(tar_progress(x)$progress, "built")
     expect_equal(tar_progress(y)$progress, "built")
     expect_equal(tar_read(y), "x_lines2")
@@ -128,11 +140,15 @@ tar_test("aws_file format with a custom data store", {
   })
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
-    tar_option_set(resources = list(bucket = !!bucket_name))
-    write_local_file <- function(lines) {
-      writeLines(lines, "example_aws_file.txt")
-      "example_aws_file.txt"
-    }
+    tar_option_set(resources = tar_resources(
+      aws = tar_resources_aws(bucket = !!bucket_name)
+    ))
+    evalq(
+      write_local_file <- function(lines) {
+        writeLines(lines, "example_aws_file.txt")
+        "example_aws_file.txt"
+      }, envir = tar_option_get("envir")
+    )
     list(
       tar_target(x, write_local_file("x_lines"), format = "aws_file"),
       tar_target(y, readLines(x))
@@ -140,7 +156,7 @@ tar_test("aws_file format with a custom data store", {
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, envir = tar_option_get("envir"))
   expect_true(file.exists("custom_targets_store"))
   expect_false(file.exists(path_store_default()))
   expect_true(

@@ -1,0 +1,31 @@
+tar_test("AWS S3 with old resources", {
+  skip_if_no_aws()
+  on.exit({
+    aws.s3::delete_object(object = "_targets/objects/a", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects/b", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects/c", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
+    aws.s3::delete_bucket(bucket = bucket_name)
+  })
+  bucket_name <- "targets-testing-aws-bucket"
+  aws.s3::put_bucket(bucket = "targets-testing-aws-bucket")
+  tar_script({
+    library(targets)
+    library(future)
+    tar_option_set(
+      format = "aws_rds",
+      resources = list(bucket = "targets-testing-aws-bucket")
+    )
+    list(
+      tar_target(a, 1L),
+      tar_target(b, a),
+      tar_target(c, a + b)
+    )
+  })
+  expect_warning(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_deprecate"
+  )
+  expect_equal(tar_read(c), 2L)
+})
