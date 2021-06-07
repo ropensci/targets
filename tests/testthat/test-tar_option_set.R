@@ -158,9 +158,10 @@ tar_test("backoff", {
 })
 
 tar_test("resources", {
+  resources <- tar_resources(qs = tar_resources_qs())
   expect_equal(tar_option_get("resources"), list())
-  tar_option_set(resources = list(x = 1))
-  expect_equal(tar_option_get("resources"), list(x = 1))
+  tar_option_set(resources = resources)
+  expect_equal(tar_option_get("resources"), resources)
   tar_option_reset()
   expect_equal(tar_option_get("resources"), list())
   expect_error(

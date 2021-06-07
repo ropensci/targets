@@ -93,7 +93,9 @@ clustermq_class <- R6::R6Class(
     create_crew = function() {
       crew <- clustermq::workers(
         n_jobs = self$workers,
-        template = tar_option_get("resources"),
+        template = tar_option_get("resources")$clustermq$template %|||%
+          tar_option_get("resources") %|||%
+          list(),
         log_worker = self$log_worker
       )
       self$crew <- crew

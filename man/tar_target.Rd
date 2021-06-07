@@ -62,94 +62,8 @@ when loading \code{packages}.}
 \item{format}{Optional storage format for the target's return value.
 With the exception of \code{format = "file"}, each target
 gets a file in \verb{_targets/objects}, and each format is a different
-way to save and load this file.
-Possible formats:
-\itemize{
-\item \code{"rds"}: Default, uses \code{saveRDS()} and \code{readRDS()}. Should work for
-most objects, but slow.
-\item \code{"qs"}: Uses \code{qs::qsave()} and \code{qs::qread()}. Should work for
-most objects, much faster than \code{"rds"}. Optionally set the
-preset for \code{qsave()} through the \code{resources} argument, e.g.
-\code{tar_target(..., resources = list(preset = "archive"))}.
-Requires the \code{qs} package (not installed by default).
-\item \code{"feather"}: Uses \code{arrow::write_feather()} and
-\code{arrow::read_feather()} (version 2.0). Much faster than \code{"rds"},
-but the value must be a data frame. Optionally set
-\code{compression} and \code{compression_level} in \code{arrow::write_feather()}
-through the \code{resources} argument, e.g.
-\code{tar_target(..., resources = list(compression = ...))}.
-Requires the \code{arrow} package (not installed by default).
-\item \code{"parquet"}: Uses \code{arrow::write_parquet()} and
-\code{arrow::read_parquet()} (version 2.0). Much faster than \code{"rds"},
-but the value must be a data frame. Optionally set
-\code{compression} and \code{compression_level} in \code{arrow::write_parquet()}
-through the \code{resources} argument, e.g.
-\code{tar_target(..., resources = list(compression = ...))}.
-Requires the \code{arrow} package (not installed by default).
-\item \code{"fst"}: Uses \code{fst::write_fst()} and \code{fst::read_fst()}.
-Much faster than \code{"rds"}, but the value must be
-a data frame. Optionally set the compression level for
-\code{fst::write_fst()} through the \code{resources} argument, e.g.
-\code{tar_target(..., resources = list(compress = 100))}.
-Requires the \code{fst} package (not installed by default).
-\item \code{"fst_dt"}: Same as \code{"fst"}, but the value is a \code{data.table}.
-Optionally set the compression level the same way as for \code{"fst"}.
-\item \code{"fst_tbl"}: Same as \code{"fst"}, but the value is a \code{tibble}.
-Optionally set the compression level the same way as for \code{"fst"}.
-\item \code{"keras"}: Uses \code{keras::save_model_hdf5()} and
-\code{keras::load_model_hdf5()}. The value must be a Keras model.
-Requires the \code{keras} package (not installed by default).
-\item \code{"torch"}: Uses \code{torch::torch_save()} and \code{torch::torch_load()}.
-The value must be an object from the \code{torch} package
-such as a tensor or neural network module.
-Requires the \code{torch} package (not installed by default).
-\item \code{"file"}: A dynamic file. To use this format,
-the target needs to manually identify or save some data
-and return a character vector of paths
-to the data. (These paths must be existing files
-and nonempty directories.)
-Then, \code{targets} automatically checks those files and cues
-the appropriate build decisions if those files are out of date.
-Those paths must point to files or directories,
-and they must not contain characters \code{|} or \code{*}.
-All the files and directories you return must actually exist,
-or else \code{targets} will throw an error. (And if \code{storage} is \code{"worker"},
-\code{targets} will first stall out trying to wait for the file
-to arrive over a network file system.)
-\item \code{"url"}: A dynamic input URL. It works like \code{format = "file"}
-except the return value of the target is a URL that already exists
-and serves as input data for downstream targets. Optionally
-supply a custom \code{curl} handle through the \code{resources} argument, e.g.
-\code{tar_target(..., resources = list(handle = curl::new_handle(nobody = TRUE)))}. # nolint
-in \code{new_handle()}, \code{nobody = TRUE} is important because it
-ensures \code{targets} just downloads the metadata instead of
-the entire data file when it checks time stamps and hashes.
-The data file at the URL needs to have an ETag or a Last-Modified
-time stamp, or else the target will throw an error because
-it cannot track the data. Also, use extreme caution when
-trying to use \code{format = "url"} to track uploads. You must be absolutely
-certain the ETag and Last-Modified time stamp are fully updated
-and available by the time the target's command finishes running.
-\code{targets} makes no attempt to wait for the web server.
-\item \code{"aws_rds"}, \code{"aws_qs"}, \code{"aws_parquet"}, \code{"aws_fst"}, \code{"aws_fst_dt"},
-\code{"aws_fst_tbl"}, \code{"aws_keras"}: AWS-powered versions of the
-respective formats \code{"rds"}, \code{"qs"}, etc. The only difference
-is that the data file is uploaded to the AWS S3 bucket
-you supply to \code{resources}. See the cloud computing chapter
-of the manual for details.
-\item \code{"aws_file"}: arbitrary dynamic files on AWS S3. The target
-should return a path to a temporary local file, then
-\code{targets} will automatically upload this file to an S3
-bucket and track it for you. Unlike \code{format = "file"},
-\code{format = "aws_file"} can only handle one single file,
-and that file must not be a directory.
-\code{\link[=tar_read]{tar_read()}} and downstream targets
-download the file to \verb{_targets/scratch/} locally and return the path.
-\verb{_targets/scratch/} gets deleted at the end of \code{\link[=tar_make]{tar_make()}}.
-Requires the same \code{resources} and other configuration details
-as the other AWS-powered formats. See the cloud computing
-chapter of the manual for details.
-}}
+way to save and load this file. See the "Storage formats" section
+for a detailed list of possible data storage formats.}
 
 \item{iteration}{Character of length 1, name of the iteration mode
 of the target. Choices:
@@ -207,30 +121,11 @@ targets get deployed first when multiple competing targets are ready
 simultaneously. Targets with priorities closer to 1 get built earlier
 (and polled earlier in \code{\link[=tar_make_future]{tar_make_future()}}).}
 
-\item{resources}{A named list of computing resources. Uses:
-\itemize{
-\item Template file wildcards for \code{future::future()} in \code{\link[=tar_make_future]{tar_make_future()}}.
-\item Template file wildcards \code{clustermq::workers()} in \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}.
-\item Custom target-level \code{future::plan()}, e.g.
-\code{resources = list(plan = future.callr::callr)}.
-\item Custom \code{curl} handle if \code{format = "url"},
-e.g. \code{resources = list(handle = curl::new_handle(nobody = TRUE))}.
-In custom handles, most users should manually set \code{nobody = TRUE}
-so \code{targets} does not download the entire file when it
-only needs to check the time stamp and ETag.
-\item Custom preset for \code{qs::qsave()} if \code{format = "qs"}, e.g.
-\code{resources = list(handle = "archive")}.
-\item Arguments \code{compression} and \code{compression_level} to
-\code{arrow::write_feather()} and \code{arrow:write_parquet()} if \code{format} is
-\code{"feather"}, \code{"parquet"}, \code{"aws_feather"}, or \code{"aws_parquet"}.
-\item Custom compression level for \code{fst::write_fst()} if
-\code{format} is \code{"fst"}, \code{"fst_dt"}, or \code{"fst_tbl"}, e.g.
-\code{resources = list(compress = 100)}.
-\item AWS bucket and prefix for the \code{"aws_"} formats, e.g.
-\code{resources = list(bucket = "your-bucket", prefix = "folder/name")}.
-\code{bucket} is required for AWS formats. See the cloud computing chapter
-of the manual for details.
-}}
+\item{resources}{Object returned by \code{\link[=tar_resources]{tar_resources()}}
+with optional settings for high-performance computing
+functionality, alternative data storage formats,
+and other optional capabilities of \code{targets}.
+See \code{\link[=tar_resources]{tar_resources()}} for details.}
 
 \item{storage}{Character of length 1, only relevant to
 \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}.
@@ -260,6 +155,91 @@ by the commands of targets downstream. Targets that
 are already up to date are skipped. See the user manual
 for more details.
 }
+\section{Storage formats}{
+
+\itemize{
+\item \code{"rds"}: Default, uses \code{saveRDS()} and \code{readRDS()}. Should work for
+most objects, but slow.
+\item \code{"qs"}: Uses \code{qs::qsave()} and \code{qs::qread()}. Should work for
+most objects, much faster than \code{"rds"}. Optionally set the
+preset for \code{qsave()} through \code{\link[=tar_resources]{tar_resources()}} and \code{\link[=tar_resources_qs]{tar_resources_qs()}}.
+\item \code{"feather"}: Uses \code{arrow::write_feather()} and
+\code{arrow::read_feather()} (version 2.0). Much faster than \code{"rds"},
+but the value must be a data frame. Optionally set
+\code{compression} and \code{compression_level} in \code{arrow::write_feather()}
+through \code{\link[=tar_resources]{tar_resources()}} and \code{\link[=tar_resources_feather]{tar_resources_feather()}}.
+Requires the \code{arrow} package (not installed by default).
+\item \code{"parquet"}: Uses \code{arrow::write_parquet()} and
+\code{arrow::read_parquet()} (version 2.0). Much faster than \code{"rds"},
+but the value must be a data frame. Optionally set
+\code{compression} and \code{compression_level} in \code{arrow::write_parquet()}
+through \code{\link[=tar_resources]{tar_resources()}} and \code{\link[=tar_resources_parquet]{tar_resources_parquet()}}..
+Requires the \code{arrow} package (not installed by default).
+\item \code{"fst"}: Uses \code{fst::write_fst()} and \code{fst::read_fst()}.
+Much faster than \code{"rds"}, but the value must be
+a data frame. Optionally set the compression level for
+\code{fst::write_fst()} through \code{\link[=tar_resources]{tar_resources()}} and \code{\link[=tar_resources_fst]{tar_resources_fst()}}.
+Requires the \code{fst} package (not installed by default).
+\item \code{"fst_dt"}: Same as \code{"fst"}, but the value is a \code{data.table}.
+Optionally set the compression level the same way as for \code{"fst"}.
+\item \code{"fst_tbl"}: Same as \code{"fst"}, but the value is a \code{tibble}.
+Optionally set the compression level the same way as for \code{"fst"}.
+\item \code{"keras"}: Uses \code{keras::save_model_hdf5()} and
+\code{keras::load_model_hdf5()}. The value must be a Keras model.
+Requires the \code{keras} package (not installed by default).
+\item \code{"torch"}: Uses \code{torch::torch_save()} and \code{torch::torch_load()}.
+The value must be an object from the \code{torch} package
+such as a tensor or neural network module.
+Requires the \code{torch} package (not installed by default).
+\item \code{"file"}: A dynamic file. To use this format,
+the target needs to manually identify or save some data
+and return a character vector of paths
+to the data. (These paths must be existing files
+and nonempty directories.)
+Then, \code{targets} automatically checks those files and cues
+the appropriate build decisions if those files are out of date.
+Those paths must point to files or directories,
+and they must not contain characters \code{|} or \code{*}.
+All the files and directories you return must actually exist,
+or else \code{targets} will throw an error. (And if \code{storage} is \code{"worker"},
+\code{targets} will first stall out trying to wait for the file
+to arrive over a network file system.)
+\item \code{"url"}: A dynamic input URL. It works like \code{format = "file"}
+except the return value of the target is a URL that already exists
+and serves as input data for downstream targets. Optionally
+supply a custom \code{curl} handle through
+\code{\link[=tar_resources]{tar_resources()}} and \code{\link[=tar_resources_url]{tar_resources_url()}}.
+in \code{new_handle()}, \code{nobody = TRUE} is important because it
+ensures \code{targets} just downloads the metadata instead of
+the entire data file when it checks time stamps and hashes.
+The data file at the URL needs to have an ETag or a Last-Modified
+time stamp, or else the target will throw an error because
+it cannot track the data. Also, use extreme caution when
+trying to use \code{format = "url"} to track uploads. You must be absolutely
+certain the ETag and Last-Modified time stamp are fully updated
+and available by the time the target's command finishes running.
+\code{targets} makes no attempt to wait for the web server.
+\item \code{"aws_rds"}, \code{"aws_qs"}, \code{"aws_parquet"}, \code{"aws_fst"}, \code{"aws_fst_dt"},
+\code{"aws_fst_tbl"}, \code{"aws_keras"}: AWS-powered versions of the
+respective formats \code{"rds"}, \code{"qs"}, etc. The only difference
+is that the data file is uploaded to the AWS S3 bucket
+you supply to \code{\link[=tar_resources_aws]{tar_resources_aws()}}. See the cloud computing chapter
+of the manual for details.
+\item \code{"aws_file"}: arbitrary dynamic files on AWS S3. The target
+should return a path to a temporary local file, then
+\code{targets} will automatically upload this file to an S3
+bucket and track it for you. Unlike \code{format = "file"},
+\code{format = "aws_file"} can only handle one single file,
+and that file must not be a directory.
+\code{\link[=tar_read]{tar_read()}} and downstream targets
+download the file to \verb{_targets/scratch/} locally and return the path.
+\verb{_targets/scratch/} gets deleted at the end of \code{\link[=tar_make]{tar_make()}}.
+Requires the same \code{resources} and other configuration details
+as the other AWS-powered formats. See the cloud computing
+chapter of the manual for details.
+}
+}
+
 \examples{
 # Defining targets does not run them.
 data <- tar_target(target_name, get_data(), packages = "tidyverse")

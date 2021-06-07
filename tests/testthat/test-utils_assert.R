@@ -113,6 +113,19 @@ tar_test("assert_path()", {
   expect_silent(assert_path(c("x", "y")))
 })
 
+tar_test("assert_resources()", {
+  expect_warning(
+    assert_resources(list(a = 1)),
+    class = "tar_condition_deprecate"
+  )
+  expect_warning(
+    assert_resources(list(aws = 1)),
+    class = "tar_condition_deprecate"
+  )
+  aws <- tar_resources_aws(bucket = "bucket")
+  expect_silent(assert_resources(tar_resources(aws = aws)))
+})
+
 tar_test("assert_store()", {
   expect_error(assert_store("_targets"), class = "tar_condition_validate")
   dir.create("_targets")

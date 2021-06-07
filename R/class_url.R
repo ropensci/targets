@@ -51,7 +51,7 @@ store_assert_format.tar_url <- function(store, object, name) {
 store_early_hash.tar_url <- function(store) { # nolint
   store$file$hash <- url_hash(
     url = store$file$path,
-    handle = store$resources$handle
+    handle = store$resources$url$handle %|||% store$resources$handle
   )
 }
 
@@ -73,7 +73,7 @@ store_sync_file_meta.tar_url <- function(store, target, meta) {
 
 #' @export
 store_has_correct_hash.tar_url <- function(store) {
-  handle <- store$resources$handle
+  handle <- store$resources$url$handle %|||% store$resources$handle
   all(url_exists(store$file$path, handle)) &&
     identical(url_hash(store$file$path, handle), store$file$hash)
 }

@@ -297,12 +297,6 @@ as_pipeline.default <- function(x) {
 #' @keywords internal
 print.tar_pipeline <- function(x, ...) {
   count <- length(pipeline_get_names(x))
-  msg <- paste0(
-    "<pipeline with ",
-    count,
-    " target",
-    if_any(identical(count, 1L), "", "s"),
-    ">"
-  )
+  msg <- paste("<tar_pipeline>\n  targets:", count)
   cat(msg)
 }

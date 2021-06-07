@@ -91,7 +91,7 @@ tar_test("tar_condition_run error on bad URL", {
   expect_error(tar_make(callr_function = NULL), class = "tar_condition_run")
 })
 
-tar_test("custom handle can be supplied without error", {
+tar_test("custom handle without error (unstructured resources)", {
   skip_on_cran()
   skip_if_not_installed("curl")
   skip_if_offline()
@@ -107,7 +107,16 @@ tar_test("custom handle can be supplied without error", {
       )
     )
   })
-  tar_make(callr_function = NULL)
+  expect_warning(
+    tar_target(
+      abc,
+      rep("https://httpbin.org/etag/test", 2),
+      format = "url",
+      resources = list(handle = curl::new_handle())
+    ),
+    class = "tar_condition_deprecate"
+  )
+  suppressWarnings(tar_make(callr_function = NULL))
   expect_equal(tar_read(abc), rep("https://httpbin.org/etag/test", 2))
   expect_false(file.exists(file.path("_targets", "objects", "abc")))
 })
@@ -126,20 +135,62 @@ tar_test("dynamic urls must return characters", {
   expect_error(local$run(), class = "tar_condition_validate")
 })
 
-tar_test("url target store gets custom curl handle", {
+tar_test("url target gets custom curl handle (structured resources)", {
   skip_on_cran()
   skip_if_not_installed("curl")
-  x <- target_init(
+  x <- tar_target_raw(
     name = "abc",
-    expr = quote(list(list("illegal"))),
+    command = quote(list(list("illegal"))),
     format = "url",
-    resources = list(handle = curl::new_handle())
+    resources = tar_resources(
+      url = tar_resources_url(handle = curl::new_handle())
+    )
+  )
+  handle <- x$store$resources$url$handle
+  expect_true(inherits(handle, "curl_handle"))
+})
+
+tar_test("url target gets custom curl handle (unstructured resources)", {
+  skip_on_cran()
+  skip_if_not_installed("curl")
+  expect_warning(
+    x <- tar_target_raw(
+      name = "abc",
+      command = quote(list(list("illegal"))),
+      format = "url",
+      resources = list(handle = curl::new_handle())
+    ),
+    class = "tar_condition_deprecate"
   )
   handle <- x$store$resources$handle
   expect_true(inherits(handle, "curl_handle"))
 })
 
-tar_test("bad curl handle throws an error", {
+tar_test("bad curl handle throws an error (structrued resources)", {
+  skip_on_cran()
+  skip_if_not_installed("curl")
+  skip_if_offline()
+  url <- "https://httpbin.org/etag/test"
+  skip_if(!url_exists(url))
+  tar_script({
+    list(
+      tar_target(
+        abc,
+        rep("https://httpbin.org/etag/test", 2),
+        format = "url",
+        resources = tar_resources(
+          url = tar_resources_url(handle = "invalid")
+        )
+      )
+    )
+  })
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_validate"
+  )
+})
+
+tar_test("bad curl handle throws an error (unstructrued resources)", {
   skip_on_cran()
   skip_if_not_installed("curl")
   skip_if_offline()
@@ -155,9 +206,20 @@ tar_test("bad curl handle throws an error", {
       )
     )
   })
-  expect_error(
-    tar_make(callr_function = NULL),
-    class = "tar_condition_validate"
+  expect_warning(
+    tar_target(
+      abc,
+      rep("https://httpbin.org/etag/test", 2),
+      format = "url",
+      resources = list(handle = "invalid")
+    ),
+    class = "tar_condition_deprecate"
+  )
+  suppressWarnings(
+    expect_error(
+      tar_make(callr_function = NULL),
+      class = "tar_condition_validate"
+    )
   )
 })
 
