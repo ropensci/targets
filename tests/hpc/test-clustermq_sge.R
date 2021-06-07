@@ -247,3 +247,27 @@ test_that("clustermq with a dynamic file", {
   out <- names(cmq$scheduler$progress$built$envir)
   expect_equal(out, "x")
 })
+
+test_that("2 cores", {
+  skip_on_cran()
+  skip_if_not_installed("clustermq")
+  tar_destroy()
+  on.exit(tar_destroy())
+  tar_script({
+    options(
+      clustermq.scheduler = "sge",
+      clustermq.template = "sge_clustermq.tmpl"
+    )
+    resources <- tar_resources(
+      clustermq = tar_resources_clustermq(
+        template = list(cores = 2)
+      )
+    )
+    tar_target(x, {
+      Sys.sleep(5)
+      "y"
+    })
+  })
+  tar_make_clustermq()
+  expect_equal(tar_read(x), "y")
+})

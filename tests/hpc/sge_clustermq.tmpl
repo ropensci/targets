@@ -4,5 +4,6 @@
 #$ -o /dev/null
 #$ -cwd
 #$ -V
+#$ -pe smp {{ cores | 1 }}
 module load R/4.0.3
 CMQ_AUTH={{ auth }} R --no-save --no-restore -e 'clustermq:::worker("{{ master }}")'

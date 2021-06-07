@@ -4,12 +4,9 @@
 \alias{tar_resources_clustermq}
 \title{Target resources: \code{clustermq} high-performance computing}
 \usage{
-tar_resources_clustermq(log_worker = FALSE, template = list())
+tar_resources_clustermq(template = list())
 }
 \arguments{
-\item{log_worker}{Logical of length 1, \code{log_worker}
-argument to \code{clustermq::workers()}.}
-
 \item{template}{Named list, \code{template} argument to
 \code{clustermq::workers()}.}
 }

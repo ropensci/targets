@@ -9,8 +9,6 @@
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_clustermq"`, to be supplied
 #'   to the `clustermq` argument of [tar_resources()].
-#' @param log_worker Logical of length 1, `log_worker`
-#'   argument to `clustermq::workers()`.
 #' @param template Named list, `template` argument to
 #'   `clustermq::workers()`.
 #' @examples
@@ -23,11 +21,9 @@
 #'   )
 #' )
 tar_resources_clustermq <- function(
-  log_worker = FALSE,
   template = list()
 ) {
   out <- resources_clustermq_init(
-    log_worker = log_worker,
     template = template
   )
   resources_validate(out)
