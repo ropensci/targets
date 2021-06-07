@@ -13,15 +13,15 @@
 #'     If `TRUE`, the chunk code defines functions, objects, and options
 #'     common to all the targets. If `FALSE` or `NULL` (default),
 #'     then the chunk returns formal targets for the pipeline.
+#'   * `tar_interactive`: Logical of length 1, whether to run in
+#'     interactive mode or non-interactive mode.
+#'     Defaults to the return value of `interactive()`.
 #'   * `tar_name`: name to use for writing helper script files
 #'     (e.g. `_targets_r/targets/target_script.R`)
 #'     and specifying target names if the `tar_simple` chunk option
 #'     is `TRUE`. All helper scripts and target names must have
 #'     unique names, so please do not set this option globally
 #'     with `knitr::opts_chunk$set()`.
-#'   * `tar_interactive`: Logical of length 1, whether to run in
-#'     interactive mode or non-interactive mode.
-#'     Defaults to the return value of `interactive()`.
 #'   * `tar_script`: Character of length 1, where to write the
 #'     target script file in non-interactive mode. Most users can
 #'     skip this option and stick with the default `_targets.R` script path.

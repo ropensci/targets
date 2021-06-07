@@ -25,15 +25,15 @@ whether to define globals or targets.
 If \code{TRUE}, the chunk code defines functions, objects, and options
 common to all the targets. If \code{FALSE} or \code{NULL} (default),
 then the chunk returns formal targets for the pipeline.
+\item \code{tar_interactive}: Logical of length 1, whether to run in
+interactive mode or non-interactive mode.
+Defaults to the return value of \code{interactive()}.
 \item \code{tar_name}: name to use for writing helper script files
 (e.g. \verb{_targets_r/targets/target_script.R})
 and specifying target names if the \code{tar_simple} chunk option
 is \code{TRUE}. All helper scripts and target names must have
 unique names, so please do not set this option globally
 with \code{knitr::opts_chunk$set()}.
-\item \code{tar_interactive}: Logical of length 1, whether to run in
-interactive mode or non-interactive mode.
-Defaults to the return value of \code{interactive()}.
 \item \code{tar_script}: Character of length 1, where to write the
 target script file in non-interactive mode. Most users can
 skip this option and stick with the default \verb{_targets.R} script path.
