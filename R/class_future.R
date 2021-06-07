@@ -82,7 +82,8 @@ future_class <- R6::R6Class(
       self$ensure_globals()
       globals <- self$globals
       globals$.tar_target_5048826d <- target
-      plan_new <- target$settings$resources$plan
+      plan_new <- target$settings$resources$future$plan %|||%
+        target$settings$resources$plan
       if (!is.null(plan_new)) {
         # Temporary solution to allow heterogeneous workers
         # from different plans. Uses .cleanup = FALSE # nolint
@@ -104,7 +105,8 @@ future_class <- R6::R6Class(
         packages = "targets",
         globals = globals,
         label = target_get_name(target),
-        resources = target$settings$resources,
+        resources = target$settings$resources$future$resources %|||%
+          target$settings$resources,
         lazy = FALSE,
         seed = 0L
       )

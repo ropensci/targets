@@ -1,14 +1,18 @@
 resources_future_init <- function(
+  plan = NULL,
   resources = list()
 ) {
   resources_future_new(
+    plan = plan,
     resources = resources
   )
 }
 
 resources_future_new <- function(
+  plan = NULL,
   resources = NULL
 ) {
+  force(plan)
   force(resources)
   enclass(environment(), c("tar_resources_future", "tar_resources"))
 }

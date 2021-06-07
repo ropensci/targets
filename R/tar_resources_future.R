@@ -9,6 +9,8 @@
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_future"`, to be supplied
 #'   to the `future` argument of [tar_resources()].
+#' @param plan A `future::plan()` object or `NULL`,
+#'   a `target`-specific `future` plan.
 #' @param resources Named list, `resources` argument to
 #'   `future::future()`.
 #' @examples
@@ -21,9 +23,11 @@
 #'   )
 #' )
 tar_resources_future <- function(
+  plan = NULL,
   resources = list()
 ) {
   out <- resources_future_init(
+    plan = plan,
     resources = resources
   )
   resources_validate(out)
