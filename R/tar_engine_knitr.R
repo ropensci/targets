@@ -267,7 +267,9 @@ warn_labels_unnamed <- function(options) {
 knitr_engine_set <- function() {
   if (requireNamespace("knitr", quietly = TRUE)) {
     knitr::knit_engines$set(targets = function(options) {
-      tar_engine_knitr(options)
+      # Covered in tests/interactive/test-target_markdown_default.Rmd
+      # and tests/interactive/test-target_markdown_paths.Rmd.
+      tar_engine_knitr(options) # nocov
     })
   }
 }
