@@ -4,7 +4,7 @@
 \alias{tar_resources_feather}
 \title{Target resources: feather storage formats}
 \usage{
-tar_resources_feather(compression = "lz4", compression_level = NULL)
+tar_resources_feather(compression = "default", compression_level = NULL)
 }
 \arguments{
 \item{compression}{Character of length 1, \code{compression}
@@ -49,6 +49,7 @@ Other resources:
 \code{\link{tar_resources_clustermq}()},
 \code{\link{tar_resources_fst}()},
 \code{\link{tar_resources_future}()},
+\code{\link{tar_resources_parquet}()},
 \code{\link{tar_resources}()}
 }
 \concept{resources}

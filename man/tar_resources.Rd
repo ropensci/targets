@@ -99,6 +99,7 @@ Other resources:
 \code{\link{tar_resources_clustermq}()},
 \code{\link{tar_resources_feather}()},
 \code{\link{tar_resources_fst}()},
-\code{\link{tar_resources_future}()}
+\code{\link{tar_resources_future}()},
+\code{\link{tar_resources_parquet}()}
 }
 \concept{resources}
