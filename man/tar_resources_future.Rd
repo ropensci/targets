@@ -4,9 +4,12 @@
 \alias{tar_resources_future}
 \title{Target resources: \code{future} high-performance computing}
 \usage{
-tar_resources_future(resources = list())
+tar_resources_future(plan = NULL, resources = list())
 }
 \arguments{
+\item{plan}{A \code{future::plan()} object or \code{NULL},
+a \code{target}-specific \code{future} plan.}
+
 \item{resources}{Named list, \code{resources} argument to
 \code{future::future()}.}
 }
