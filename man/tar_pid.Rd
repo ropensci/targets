@@ -35,7 +35,7 @@ before running another call to \code{\link[=tar_make]{tar_make()}}
 for the same project.
 }
 \examples{
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script({
   list(

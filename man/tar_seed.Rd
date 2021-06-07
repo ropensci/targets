@@ -37,7 +37,7 @@ recreate the target's initial RNG state.
 \examples{
 tar_seed()
 tar_seed(default = 123L)
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script(tar_target(returns_seed, tar_seed()), ask = FALSE)
 tar_make()

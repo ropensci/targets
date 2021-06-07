@@ -9,7 +9,7 @@
 #'   to the url argument of [tar_resources()].
 #' @param handle Object returned by `curl::new_handle` or `NULL`.
 #' @examples
-#' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' # Somewhere in you target script file (usually _targets.R):
 #' tar_target(
 #'   name,

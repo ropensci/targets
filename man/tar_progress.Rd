@@ -48,7 +48,7 @@ Read a project's target progress data for the most recent
 run of \code{\link[=tar_make]{tar_make()}} or similar. Only the most recent record is shown.
 }
 \examples{
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script({
   list(

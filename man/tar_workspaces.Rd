@@ -29,7 +29,7 @@ List target workspaces currently saved to
 \verb{_targets/workspaces/}. See \code{\link[=tar_workspace]{tar_workspace()}} for more information.
 }
 \examples{
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script({
   tar_option_set(error = "workspace")

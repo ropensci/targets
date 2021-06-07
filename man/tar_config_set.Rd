@@ -70,7 +70,7 @@ simply call \code{tar_config_set(config = "_targets.yaml")}
 and remove \verb{_targets.yaml} if it exists.
 }
 \examples{
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script(list(tar_target(x, 1 + 1)))
 tar_config_get("store") # NULL (data store defaults to "_targets/")

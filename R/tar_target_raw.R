@@ -55,7 +55,7 @@
 #'   })
 #'   print(target_list[[1]])
 #'   print(target_list[[2]])
-#' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script(tar_target_raw("x", quote(1 + 1)), ask = FALSE)
 #' tar_make()

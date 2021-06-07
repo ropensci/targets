@@ -20,7 +20,7 @@
 #' @param fields Optional, names of progress data columns to read.
 #'   Set to `NULL` to read all fields.
 #' @examples
-#' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script({
 #'   list(

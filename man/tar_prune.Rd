@@ -63,7 +63,7 @@ which is only needed while \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar
 or \code{\link[=tar_make_future]{tar_make_future()}} is running.
 }
 \examples{
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script({
   list(

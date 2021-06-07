@@ -47,7 +47,7 @@
 #'   time stamps will result in a return value of
 #'   a `POSIXct` object at `1970-01-01 UTC` instead of `NA`.
 #' @examples
-#' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script({
 #'   list(tar_target(x, 1))

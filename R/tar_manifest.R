@@ -44,7 +44,7 @@
 #'   * `packages`: List columns of packages loaded before building the target.
 #'   * `library`: List column of library paths to load the packages.
 #' @examples
-#' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script({
 #'   tar_option_set()

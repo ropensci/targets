@@ -36,7 +36,7 @@ The currently supported configuration settings are
 documented as the arguments of \code{\link[=tar_config_set]{tar_config_set()}}.
 }
 \examples{
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script(list(tar_target(x, 1 + 1)))
 tar_config_get("store") # "_targets"

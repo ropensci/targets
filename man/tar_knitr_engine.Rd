@@ -17,12 +17,14 @@ Character, output generated from \code{knitr::engine_output()}.
 code chunks in Target Markdown.
 }
 \examples{
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 # Register the engine.
 if (requireNamespace("knitr", quietly = TRUE)) {
-  knitr::knit_engines$set(targets = tar_knitr_engine)
+  knitr::knit_engines$set(targets = targets::tar_knitr_engine)
 }
 # Then, {targets} code chunks in a knitr report will run
 # as described at https://books.ropensci.org/targets/markdown.html.
+}
 }
 \seealso{
 \url{https://books.ropensci.org/targets/markdown.html}

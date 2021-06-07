@@ -19,7 +19,7 @@
 #'   should either be the global environment or inherit from the
 #'   global environment.
 #' @examples
-#' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tmp <- sample(1)
 #' tar_script({

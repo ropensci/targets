@@ -15,7 +15,7 @@
 #'   main R process to orchestrate the targets of the current project.
 #' @inheritParams tar_validate
 #' @examples
-#' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script({
 #'   list(

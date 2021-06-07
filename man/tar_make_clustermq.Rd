@@ -104,7 +104,7 @@ Wildcards in the template file are filled in with elements from
 }
 \examples{
 if (!identical(tolower(Sys.info()[["sysname"]]), "windows")) {
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script({
   options(clustermq.scheduler = "multicore") # Does not work on Windows.

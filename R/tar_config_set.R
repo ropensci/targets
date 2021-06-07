@@ -45,7 +45,7 @@
 #'   [tar_make_clustermq()] and related functions that run the pipeline
 #'   with parallel computing among targets.
 #' @examples
-#' if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script(list(tar_target(x, 1 + 1)))
 #' tar_config_get("store") # NULL (data store defaults to "_targets/")

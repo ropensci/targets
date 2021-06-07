@@ -40,7 +40,7 @@ optional columns that can be selected with \code{fields}.
 Summarize the progress of a run of the pipeline.
 }
 \examples{
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script({
   list(

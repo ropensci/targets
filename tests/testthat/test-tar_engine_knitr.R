@@ -124,7 +124,7 @@ tar_test("tar_knitr_engine() construct targets, simple version", {
   expect_equal(tar_read(test), "a")
 })
 
-tar_test("tar_knitr_engine() construct targets with an alternative script path", {
+tar_test("tar_knitr_engine() construct targets with custom script path", {
   skip_if_not_installed("knitr")
   script <- "example/script.R"
   options <- list(

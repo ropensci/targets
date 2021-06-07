@@ -23,7 +23,7 @@ Get the name of the target currently running.
 \examples{
 tar_name()
 tar_name(default = "custom_target_name")
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script(tar_target(x, tar_name()), ask = FALSE)
 tar_make()

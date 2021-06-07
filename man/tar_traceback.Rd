@@ -49,7 +49,7 @@ If a target ran with \code{error = "workspace"} and errored out,
 exist. For more information, see \code{\link[=tar_workspace]{tar_workspace()}}.
 }
 \examples{
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tmp <- sample(1)
 tar_script({

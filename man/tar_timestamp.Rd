@@ -78,7 +78,7 @@ not the metadata, so the returned time stamps
 are more up-to-date than the ones from \code{\link[=tar_meta]{tar_meta()}}.
 }
 \examples{
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script({
   list(tar_target(x, 1))

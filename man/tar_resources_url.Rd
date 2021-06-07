@@ -28,7 +28,7 @@ is a helper to supply those settings in the correct manner.
 }
 
 \examples{
-if (identical(Sys.getenv("TAR_LONG_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 # Somewhere in you target script file (usually _targets.R):
 tar_target(
   name,
