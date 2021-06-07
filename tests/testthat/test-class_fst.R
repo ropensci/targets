@@ -18,6 +18,26 @@ tar_test("fst format", {
   expect_silent(target_validate(x))
 })
 
+tar_test("bad compression level throws error (structured resources)", {
+  skip_if_not_installed("fst")
+  tar_script({
+    list(
+      tar_target(
+        abc,
+        data.frame(x = 1, y = 2),
+        format = "fst",
+        resources = tar_resources(
+          fst = tar_resources_fst(compress = "bad")
+        )
+      )
+    )
+  })
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_validate"
+  )
+})
+
 tar_test("bad compression level throws error (unstructured resources)", {
   skip_if_not_installed("fst")
   tar_script({
