@@ -7,10 +7,18 @@
 tar_engine_knitr(options)
 }
 \arguments{
-\item{options}{A named list of \code{knitr} chunk options.
-Target Markdown uses a special \code{knitr} language engine.
-R Markdown code chunks begin with \code{{targets}} rather than\code{{r}},
-and there are special chunk options:
+\item{options}{A named list of \code{knitr} chunk options.}
+}
+\value{
+Character, output generated from \code{knitr::engine_output()}.
+}
+\description{
+\code{knitr} language engine that runs \code{{targets}}
+code chunks in Target Markdown.
+}
+\section{Target Markdown chunk options}{
+
+Target Markdown supports the following \code{knitr} code chunk options:
 \itemize{
 \item \code{tar_globals}: Logical of length 1,
 whether to define globals or targets.
@@ -52,18 +60,7 @@ command \code{mycommand()} automatically gets converted to
 All other arguments of \code{tar_target()} remain at their default
 values (configurable with \code{tar_option_set()} in a
 \code{tar_globals = TRUE} chunk).
-}}
 }
-\value{
-Character, output generated from \code{knitr::engine_output()}.
-}
-\description{
-\code{knitr} language engine that runs \code{{targets}}
-code chunks in Target Markdown.
-}
-\section{Target Markdown chunk options}{
-
-Target Markdown supports
 }
 
 \examples{

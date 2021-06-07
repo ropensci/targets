@@ -5,12 +5,9 @@
 #' @description `knitr` language engine that runs `{targets}`
 #'   code chunks in Target Markdown.
 #' @return Character, output generated from `knitr::engine_output()`.
-#' @section Target Markdown chunk options:
-#'   Target Markdown supports 
 #' @param options A named list of `knitr` chunk options.
-#'   Target Markdown uses a special `knitr` language engine.
-#'   R Markdown code chunks begin with `{targets}` rather than`{r}`,
-#'   and there are special chunk options:
+#' @section Target Markdown chunk options:
+#'   Target Markdown supports the following `knitr` code chunk options:
 #'   * `tar_globals`: Logical of length 1,
 #'     whether to define globals or targets.
 #'     If `TRUE`, the chunk code defines functions, objects, and options
@@ -199,7 +196,11 @@ knitr_engine_definition_message <- function(options) {
 knitr_engine_prototype_message <- function(options) {
   if_any(
     options$tar_simple %|||% FALSE,
-    paste("Ran target", options$tar_name, "and assigned it to the environment."),
+    paste(
+      "Ran target",
+      options$tar_name,
+      "and assigned it to the environment."
+    ),
     "Ran targets and assigned them to the environment."
   )
 }
