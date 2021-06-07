@@ -135,6 +135,21 @@ tar_test("dynamic urls must return characters", {
   expect_error(local$run(), class = "tar_condition_validate")
 })
 
+tar_test("url target gets custom curl handle (structured resources)", {
+  skip_on_cran()
+  skip_if_not_installed("curl")
+  x <- tar_target_raw(
+    name = "abc",
+    command = quote(list(list("illegal"))),
+    format = "url",
+    resources = tar_resources(
+      url = tar_resources_url(handle = curl::new_handle())
+    )
+  )
+  handle <- x$store$resources$url$handle
+  expect_true(inherits(handle, "curl_handle"))
+})
+
 tar_test("url target gets custom curl handle (unstructured resources)", {
   skip_on_cran()
   skip_if_not_installed("curl")
@@ -149,6 +164,30 @@ tar_test("url target gets custom curl handle (unstructured resources)", {
   )
   handle <- x$store$resources$handle
   expect_true(inherits(handle, "curl_handle"))
+})
+
+tar_test("bad curl handle throws an error (structrued resources)", {
+  skip_on_cran()
+  skip_if_not_installed("curl")
+  skip_if_offline()
+  url <- "https://httpbin.org/etag/test"
+  skip_if(!url_exists(url))
+  tar_script({
+    list(
+      tar_target(
+        abc,
+        rep("https://httpbin.org/etag/test", 2),
+        format = "url",
+        resources = tar_resources(
+          url = tar_resources_url(handle = "invalid")
+        )
+      )
+    )
+  })
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_validate"
+  )
 })
 
 tar_test("bad curl handle throws an error (unstructrued resources)", {
