@@ -87,7 +87,7 @@ tar_target_raw <- function(
   assert_nzchar(name, "target name must be nonempty.")
   assert_nonmissing(command, paste("target", name, "has no command."))
   if (is.expression(command)) {
-    assert_nonmissing(expr[[1]], paste("target", name, "has no command."))
+    assert_nonmissing(command[[1]], paste("target", name, "has no command."))
   }
   assert_scalar(
     as.expression(command),
