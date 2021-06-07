@@ -263,6 +263,30 @@ test_that("2 cores", {
         template = list(cores = 2)
       )
     )
+    tar_option_set(resources = resources)
+    tar_target(x, {
+      Sys.sleep(5)
+      "y"
+    })
+  })
+  tar_make_clustermq()
+  expect_equal(tar_read(x), "y")
+})
+
+test_that("2 cores (unstructured resources)", {
+  skip_on_cran()
+  skip_if_not_installed("clustermq")
+  tar_destroy()
+  on.exit(tar_destroy())
+  tar_script({
+    options(
+      clustermq.scheduler = "sge",
+      clustermq.template = "sge_clustermq.tmpl"
+    )
+    resources <- list(cores = 2))
+    expect_warning(
+      tar_option_set(resources = resources)
+    )
     tar_target(x, {
       Sys.sleep(5)
       "y"
