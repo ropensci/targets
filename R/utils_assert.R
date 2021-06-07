@@ -231,6 +231,37 @@ assert_positive <- function(x, msg = NULL) {
   }
 }
 
+assert_resources <- function(resources) {
+  assert_list(resources, "resources must be list. Use tar_resources().")
+  if (length(resources)) {
+    assert_nonempty(names(resources), "resources list must have names.")
+    assert_nzchar(names(resources), "resources names must be nonempty")
+    assert_unique(names(resources), "resources names must be unique.")
+  }
+  for (name in names(resources)) {
+    if (!(name %in% names(formals(tar_resources)))) {
+      warn_deprecate(
+        "found non-standard resource group ",
+        name,
+        " in resources list. Unstructrued resources list are deprecated ",
+        "in targets >= 0.5.0.9000 (2021-06-07). Use tar_resources() ",
+        "and various tar_resources_*() helper functions to create the ",
+        "resources argument to tar_target() and tar_option_set()."
+      )
+    }
+    if (!inherits(resources[[name]], "tar_resources")) {
+      warn_deprecate(
+        "found incorrectly formatted resource group ",
+        name,
+        " in resources list. Unstructrued resources list are deprecated ",
+        "in targets >= 0.5.0.9000 (2021-06-07). Use tar_resources_clustermq()",
+        "and various other tar_resources_*() helper functions to create ",
+        "arguments to tar_resources()."
+      )
+    }
+  }
+}
+
 assert_scalar <- function(x, msg = NULL) {
   if (length(x) != 1) {
     throw_validate(msg %|||% "x must have length 1.")

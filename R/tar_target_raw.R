@@ -109,10 +109,7 @@ tar_target_raw <- function(
   assert_scalar(priority, "priority must be have length 1.")
   assert_ge(priority, 0, "priority must be positive.")
   assert_le(priority, 1, "priority cannot be greater than 1.")
-  assert_list(
-    resources,
-    "resources in tar_target_raw() must be a named list."
-  )
+  assert_resources(resources)
   assert_flag(storage, c("main", "worker"))
   assert_flag(retrieval, c("main", "worker"))
   if (!is.null(cue)) {
