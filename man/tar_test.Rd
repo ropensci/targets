@@ -33,4 +33,9 @@ tar_test("example test", {
 exists("testing_variable_cafecfcb")
 file.exists("only_exists_in_tar_test")
 }
-\concept{tar_test}
+\seealso{
+Other targetopia: 
+\code{\link{tar_dir}()},
+\code{\link{tar_knitr_engine}()}
+}
+\concept{targetopia}

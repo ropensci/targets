@@ -1,4 +1,19 @@
-knitr_engine <- function(options) {
+#' @title Target Markdown `knitr` engine
+#' @export
+#' @family targetopia
+#' @seealso <https://books.ropensci.org/targets/markdown.html>
+#' @description `knitr` language engine that runs `{targets}`
+#'   code chunks in Target Markdown.
+#' @return Character, output generated from `knitr::engine_output()`.
+#' @param options A named list of `knitr` chunk options.
+#' @examples
+#' # Register the engine.
+#' if (requireNamespace("knitr", quietly = TRUE)) {
+#'   knitr::knit_engines$set(targets = tar_knitr_engine)
+#' }
+#' # Then, {targets} code chunks in a knitr report will run
+#' # as described at https://books.ropensci.org/targets/markdown.html.
+tar_knitr_engine <- function(options) {
   assert_package("knitr")
   assert_list(options, "knitr chunk options must be a list.")
   assert_chr(options$label, "knitr chunk must have a label")
@@ -193,6 +208,6 @@ warn_labels_unnamed <- function(options) {
 
 knitr_engine_set <- function() {
   if (requireNamespace("knitr", quietly = TRUE)) {
-    knitr::knit_engines$set(targets = function(options) knitr_engine(options))
+    knitr::knit_engines$set(targets = function(options) tar_knitr_engine(options))
   }
 }
