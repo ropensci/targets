@@ -124,8 +124,10 @@ reference:
   - '`tar_seed`'
   - '`tar_timestamp`'
   - '`tar_timestamp_raw`'
+- title: Engines
+  contents:
+  - '`tar_engine_knitr`'
 - title: Targetopia
   contents:
   - '`tar_dir`'
-  - '`tar_knitr_engine`'
   - '`tar_test`'

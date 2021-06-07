@@ -35,7 +35,6 @@ file.exists("only_exists_in_tar_test")
 }
 \seealso{
 Other targetopia: 
-\code{\link{tar_dir}()},
-\code{\link{tar_knitr_engine}()}
+\code{\link{tar_dir}()}
 }
 \concept{targetopia}

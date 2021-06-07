@@ -50,8 +50,8 @@ create_plot <- function(data) {
 
 Our first target borrows the `airquality` dataset built into base R.
 
-```{targets raw-data}
-tar_target(raw_data, airquality)
+```{targets othername, tar_name = "raw_data", tar_simple = TRUE}
+airquality
 ```
 
 Our next targets preprocess the data, make a histogram, and fit a model.
