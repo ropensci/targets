@@ -89,7 +89,7 @@ tar_target(
   format = "qs",
   resources = tar_resources(
     qs = tar_resources_qs(preset = "fast"),
-    future = tar_resources_future(n_cores = 1)
+    future = tar_resources_future(resources = list(n_cores = 1))
   )
 )
 }
