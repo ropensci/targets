@@ -14,6 +14,23 @@ tar_test("qs format", {
   expect_silent(target_validate(x))
 })
 
+tar_test("bad compression level throws error (structured resources)", {
+  skip_if_not_installed("qs")
+  tar_script({
+    list(
+      tar_target(
+        abc,
+        1,
+        format = "qs",
+        resources = tar_resources(
+          qs = tar_resources_qs(preset = "bad")
+        )
+      )
+    )
+  })
+  expect_error(tar_make(callr_function = NULL))
+})
+
 tar_test("bad compression level throws error (unstructured resources)", {
   skip_if_not_installed("qs")
   tar_script({
@@ -22,7 +39,7 @@ tar_test("bad compression level throws error (unstructured resources)", {
         abc,
         1,
         format = "qs",
-        resources = list(preset = NA_real_)
+        resources = list(preset = "bad")
       )
     )
   })
@@ -31,15 +48,12 @@ tar_test("bad compression level throws error (unstructured resources)", {
       abc,
       1,
       format = "qs",
-      resources = list(preset = NA_real_)
+      resources = list(preset = "bad")
     ),
     class = "tar_condition_deprecate"
   )
   suppressWarnings(
-    expect_error(
-      tar_make(callr_function = NULL),
-      class = "tar_condition_validate"
-    )
+    expect_error(tar_make(callr_function = NULL))
   )
 })
 
