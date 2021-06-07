@@ -116,11 +116,11 @@ tar_test("assert_path()", {
 tar_test("assert_resources()", {
   expect_warning(
     assert_resources(list(a = 1)),
-    class = "tar_warn_deprecate"
+    class = "tar_condition_deprecate"
   )
   expect_warning(
     assert_resources(list(aws = 1)),
-    class = "tar_warn_deprecate"
+    class = "tar_condition_deprecate"
   )
   aws <- tar_resources_aws(bucket = "bucket")
   expect_silent(assert_resources(tar_resources(aws = aws)))
