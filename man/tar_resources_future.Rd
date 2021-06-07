@@ -9,9 +9,6 @@ tar_resources_future(resources = list())
 \arguments{
 \item{resources}{Named list, \code{resources} argument to
 \code{future::future()}.}
-
-\item{log_worker}{Logical of length 1, \code{log_worker}
-argument to \code{future::workers()}.}
 }
 \value{
 Object of class \code{"tar_resources_future"}, to be supplied

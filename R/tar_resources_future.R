@@ -9,8 +9,6 @@
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_future"`, to be supplied
 #'   to the `future` argument of [tar_resources()].
-#' @param log_worker Logical of length 1, `log_worker`
-#'   argument to `future::workers()`.
 #' @param resources Named list, `resources` argument to
 #'   `future::future()`.
 #' @examples
