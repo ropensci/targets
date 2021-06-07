@@ -18,7 +18,11 @@ tar_test("AWS S3 + HPC", {
     future::plan(future::multisession)
     tar_option_set(
       format = "aws_rds",
-      resources = list(bucket = "targets-testing-aws-bucket"),
+      resources = tar_resources(
+        aws = tar_resources_aws(
+          bucket = "targets-testing-aws-bucket"
+        )
+      ),
       storage = "worker",
       retrieval = "worker"
     )

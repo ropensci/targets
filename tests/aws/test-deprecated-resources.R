@@ -1,13 +1,9 @@
+# Use sparingly. We do not want to max out any AWS quotas.
+# After this test runs, log into the AWS console,
+# check that the data and prefix are correct,
+# and MANUALLY CLEAR OUT THE BUCKET.
 tar_test("AWS S3 with old resources", {
   skip_if_no_aws()
-  on.exit({
-    aws.s3::delete_object(object = "_targets/objects/a", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/b", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/c", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
   bucket_name <- "targets-testing-aws-bucket"
   aws.s3::put_bucket(bucket = "targets-testing-aws-bucket")
   tar_script({
@@ -15,7 +11,10 @@ tar_test("AWS S3 with old resources", {
     library(future)
     tar_option_set(
       format = "aws_rds",
-      resources = list(bucket = "targets-testing-aws-bucket")
+      resources = list(
+        bucket = "targets-testing-aws-bucket",
+        prefix = "customprefix/customdir"
+      )
     )
     list(
       tar_target(a, 1L),
