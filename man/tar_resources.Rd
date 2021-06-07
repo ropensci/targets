@@ -95,6 +95,7 @@ tar_target(
 }
 \seealso{
 Other resources: 
-\code{\link{tar_resources_aws}()}
+\code{\link{tar_resources_aws}()},
+\code{\link{tar_resources_clustermq}()}
 }
 \concept{resources}

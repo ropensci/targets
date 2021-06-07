@@ -19,12 +19,16 @@ resources_clustermq_new <- function(
 
 #' @export
 resources_validate.tar_resources_clustermq <- function(resources) {
-  assert_lgl(resources$log_worker)
-  assert_list(resources$template)
+  assert_lgl(resources$log_worker, "log_worker must be logical.")
+  assert_scalar(resources$log_worker, "log_worker must have length 1.")
+  assert_list(resources$template, "template must be a named list.")
   if (length(resources$template)) {
-    assert_nonempty(names(resources$template))
-    assert_nzchar(names(resources$template))
-    assert_unique(names(resources$template))
+    assert_nonempty(names(resources$template), "template must have names.")
+    assert_nzchar(
+      names(resources$template),
+      "template names must be nonempty"
+    )
+    assert_unique(names(resources$template), "template names must be unique.")
   }
 }
 

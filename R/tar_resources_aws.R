@@ -27,14 +27,10 @@ tar_resources_aws <- function(
   bucket,
   prefix = targets::path_objects_dir_cloud()
 ) {
-  assert_chr(bucket, "bucket must be a character.")
-  assert_scalar(bucket, "bucket must have length 1")
-  assert_nzchar(bucket, "bucket must be nonempty")
-  assert_chr(prefix, "prefix must be a character.")
-  assert_scalar(prefix, "prefix must have length 1")
-  assert_nzchar(prefix, "prefix must be nonempty")
-  resources_aws_init(
+  out <- resources_aws_init(
     bucket = bucket,
     prefix = prefix
   )
+  resources_validate(out)
+  out
 }
