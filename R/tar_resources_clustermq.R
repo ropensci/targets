@@ -1,4 +1,4 @@
-#' @title Target resources: `clustermq`
+#' @title Target resources: `clustermq` high-performance computing
 #' @export
 #' @family resources
 #' @description Create the `clustermq` argument of [tar_resources()]]
