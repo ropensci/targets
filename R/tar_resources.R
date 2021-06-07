@@ -3,7 +3,8 @@
 #' @family resources
 #' @description Create a `resources` argument for [tar_target()]
 #'   or [tar_option_set()].
-#' @details Functions[tar_target()] and [tar_option_set()]
+#' @section Resources:
+#'   Functions [tar_target()] and [tar_option_set()]
 #'   each takes an optional `resources` argument to supply
 #'   non-default settings of various optional backends for data storage
 #'   and high-performance computing. The `tar_resources()` function
@@ -51,7 +52,7 @@
 #'   requests. For details on formats, see the `format` argument of
 #'   [tar_target()].
 #' @examples
-#' # In you target script file (usually _targets.R):
+#' # Somewhere in you target script file (usually _targets.R):
 #' tar_target(
 #'   name,
 #'   command(),

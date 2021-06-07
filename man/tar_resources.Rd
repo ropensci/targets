@@ -72,15 +72,17 @@ and high-performance computing.
 Create a \code{resources} argument for \code{\link[=tar_target]{tar_target()}}
 or \code{\link[=tar_option_set]{tar_option_set()}}.
 }
-\details{
-Functions\code{\link[=tar_target]{tar_target()}} and \code{\link[=tar_option_set]{tar_option_set()}}
+\section{Resources}{
+
+Functions \code{\link[=tar_target]{tar_target()}} and \code{\link[=tar_option_set]{tar_option_set()}}
 each takes an optional \code{resources} argument to supply
 non-default settings of various optional backends for data storage
 and high-performance computing. The \code{tar_resources()} function
 is a helper to supply those settings in the correct manner.
 }
+
 \examples{
-# In you target script file (usually _targets.R):
+# Somewhere in you target script file (usually _targets.R):
 tar_target(
   name,
   command(),
@@ -90,5 +92,9 @@ tar_target(
     future = tar_resources_future(n_cores = 1)
   )
 )
+}
+\seealso{
+Other resources: 
+\code{\link{tar_resources_aws}()}
 }
 \concept{resources}
