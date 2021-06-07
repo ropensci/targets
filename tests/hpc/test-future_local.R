@@ -33,7 +33,7 @@ tar_test("custom future plans through structured resources", {
         Sys.sleep(30),
         pattern = map(x),
         resources = tar_resources(
-          future = tar_resources_future(resources = list(plan = plan_multisession))
+          future = tar_resources_future(plan = plan_multisession)
         )
       )
     )
