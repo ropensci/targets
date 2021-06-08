@@ -8,8 +8,9 @@
 #'   multiple functions called outside `_targets.R`.
 #' @details Each project can have an optional YAML configuration file
 #'   (default: `_targets.yaml` at the project root)
-#'   with settings specific to a given project. You can write it
-#'   by hand or modify it with `tar_config_set()`.
+#'   with settings specific to a given project. You can either write it
+#'   by hand or modify it with `tar_config_set()`, but `tar_config_set()`
+#'   is recommended because it has guardrails to validate user input.
 #'   The currently supported configuration settings are
 #'   documented as the arguments of `tar_config_set()`.
 #'
