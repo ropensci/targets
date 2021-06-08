@@ -139,7 +139,7 @@ knitr_engine_globals_prototype <- function(options) {
   eval(parse(text = options$code), envir = tar_option_get("envir"))
   knitr_engine_output(
     options,
-    "Assigned objects to the environment."
+    "Ran code and assigned objects to the environment."
   )
 }
 
