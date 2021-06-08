@@ -53,7 +53,17 @@ everything in \code{tar_option_get("imports")}.}
 when loading \code{packages}.}
 
 \item{envir}{Environment containing functions and global objects
-used in the R commands to run targets. Defaults to the global environment.
+common to all targets in the pipeline.
+The \code{envir} argument of \code{\link[=tar_make]{tar_make()}} and related functions
+always overrides the current value of \code{tar_option_get("envir")}
+in the current R session just before running the target script file,
+so whenever you need to set an alternative \code{envir}, you should always set
+it with \code{tar_option_set()} from within the target script file.
+In other words, if you call \code{tar_option_set(envir = envir1)} in an
+interactive session and then
+\code{tar_make(envir = envir2, callr_function = NULL)},
+then \code{envir2} will be used.
+
 If \code{envir} is the global environment, all the promise objects
 are diffused before sending the data to parallel workers
 in \code{\link[=tar_make_future]{tar_make_future()}} and \code{\link[=tar_make_clustermq]{tar_make_clustermq()}},

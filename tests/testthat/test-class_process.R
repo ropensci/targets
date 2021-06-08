@@ -47,7 +47,7 @@ tar_test("process$record_process()", {
 
 tar_test("pid from tar_make(callr_function = NULL)", {
   x <- process_init()
-  tar_script(tar_target(x, 1))
+  tar_script(tar_target(x_target, 1))
   expect_false(file.exists(path_process(path_store_default())))
   tar_make(callr_function = NULL)
   expect_true(file.exists(path_process(path_store_default())))

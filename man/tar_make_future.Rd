@@ -52,7 +52,18 @@ reproducible work.}
 (default: \verb{_targets.R}) if \code{callr_function} is \code{NULL}.
 Ignored if \code{callr_function} is anything other than \code{NULL}.
 \code{callr_function} should only be \code{NULL} for debugging and
-testing purposes, not for serious runs of a pipeline, etc.}
+testing purposes, not for serious runs of a pipeline, etc.
+
+The \code{envir} argument of \code{\link[=tar_make]{tar_make()}} and related
+functions always overrides
+the current value of \code{tar_option_get("envir")} in the current R session
+just before running the target script file,
+so whenever you need to set an alternative \code{envir}, you should always set
+it with \code{tar_option_set()} from within the target script file.
+In other words, if you call \code{tar_option_set(envir = envir1)} in an
+interactive session and then
+\code{tar_make(envir = envir2, callr_function = NULL)},
+then \code{envir2} will be used.}
 
 \item{script}{Character of length 1, path to the
 target script file. Defaults to \code{tar_config_get("script")},

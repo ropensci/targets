@@ -23,7 +23,17 @@
 #'   Similarly, objects in `tar_option_get("envir")` override
 #'   everything in `tar_option_get("imports")`.
 #' @param envir Environment containing functions and global objects
-#'   used in the R commands to run targets. Defaults to the global environment.
+#'   common to all targets in the pipeline.
+#'   The `envir` argument of [tar_make()] and related functions
+#'   always overrides the current value of `tar_option_get("envir")`
+#'   in the current R session just before running the target script file,
+#'   so whenever you need to set an alternative `envir`, you should always set
+#'   it with `tar_option_set()` from within the target script file.
+#'   In other words, if you call `tar_option_set(envir = envir1)` in an
+#'   interactive session and then
+#'   `tar_make(envir = envir2, callr_function = NULL)`,
+#'   then `envir2` will be used.
+#'
 #'   If `envir` is the global environment, all the promise objects
 #'   are diffused before sending the data to parallel workers
 #'   in [tar_make_future()] and [tar_make_clustermq()],
