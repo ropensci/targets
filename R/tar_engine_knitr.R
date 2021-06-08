@@ -264,12 +264,16 @@ warn_labels_unnamed <- function(options) {
   }
 }
 
+# Covered in tests/interactive/test-target_markdown_default.Rmd
+# and tests/interactive/test-target_markdown_paths.Rmd.
+# nocov start
 knitr_engine_set <- function() {
-  if (requireNamespace("knitr", quietly = TRUE)) {
+  load_engine <- requireNamespace("knitr", quietly = TRUE) &&
+    is.null(knitr::knit_engines$get("targets"))
+  if (load_engine) {
     knitr::knit_engines$set(targets = function(options) {
-      # Covered in tests/interactive/test-target_markdown_default.Rmd
-      # and tests/interactive/test-target_markdown_paths.Rmd.
-      tar_engine_knitr(options) # nocov
+      tar_engine_knitr(options)
     })
   }
 }
+# nocov end
