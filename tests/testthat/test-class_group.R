@@ -77,7 +77,8 @@ tar_test("group branch invalidation (#507)", {
         x,
         data.frame(
           x = c("b", "c"),
-          tar_group = c(1L, 2L)
+          tar_group = c(1L, 2L),
+          stringsAsFactors = FALSE
         ),
         iteration = "group"
       ),
@@ -91,7 +92,8 @@ tar_test("group branch invalidation (#507)", {
         x,
         data.frame(
           x = c("b", "c", "a"),
-          tar_group = c(2L, 3L, 1L)
+          tar_group = c(2L, 3L, 1L),
+          stringsAsFactors = FALSE
         ),
         iteration = "group"
       ),
