@@ -100,7 +100,7 @@ tar_test("group branch invalidation (#507)", {
   })
   tar_make(callr_function = NULL)
   out <- tar_progress()
-  out <- out$name[out$progress == "built" & grepl("_", out$name)]
+  out <- out$name[out$progress == "built" & grepl("^y_", out$name)]
   expect_equal(length(out), 1L)
 })
 
