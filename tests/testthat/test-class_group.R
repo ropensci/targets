@@ -31,7 +31,9 @@ tar_test("value_hash_slice(group)", {
   )
   x <- value_init(object = object, iteration = "group")
   for (index in seq_len(3)) {
-    exp <- digest_obj32(object[object$tar_group == index, ])
+    exp_object <- object[object$tar_group == index, ]
+    exp_object$tar_group <- NULL
+    exp <- digest_obj32(exp_object)
     expect_equiv(value_hash_slice(x, index), exp)
   }
 })
@@ -43,7 +45,9 @@ tar_test("value_hash_slices(group)", {
   )
   x <- value_init(object = object, iteration = "group")
   exp <- map_chr(seq_len(3), function(index) {
-    digest_obj32(object[object$tar_group == index, ])
+    exp_object <- object[object$tar_group == index, ]
+    exp_object$tar_group <- NULL
+    digest_obj32(exp_object)
   })
   expect_equal(value_hash_slices(x), exp)
 })
@@ -64,6 +68,40 @@ tar_test("group validate()", {
   )
   x <- value_init(object = object, iteration = "group")
   expect_silent(value_validate(x))
+})
+
+tar_test("group branch invalidation (#507)", {
+  tar_script({
+    list(
+      tar_target(
+        x,
+        data.frame(
+          x = c("b", "c"),
+          tar_group = c(1L, 2L)
+        ),
+        iteration = "group"
+      ),
+      tar_target(y, x, pattern = map(x))
+    )
+  })
+  tar_make(callr_function = NULL)
+  tar_script({
+    list(
+      tar_target(
+        x,
+        data.frame(
+          x = c("b", "c", "a"),
+          tar_group = c(2L, 3L, 1L)
+        ),
+        iteration = "group"
+      ),
+      tar_target(y, x, pattern = map(x))
+    )
+  })
+  tar_make(callr_function = NULL)
+  out <- tar_progress()
+  out <- out$name[out$progress == "built" & grepl("_", out$name)]
+  expect_equal(length(out), 1L)
 })
 
 tar_test("group validate() on a non data frame", {

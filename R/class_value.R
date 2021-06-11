@@ -13,7 +13,7 @@ value_new <- function(object = NULL) {
 }
 
 value_hash_slice <- function(value, index) {
-  digest_obj32(value_produce_slice(value, index))
+  digest_obj32(value_produce_slice_kernel(value, index))
 }
 
 value_hash_slices <- function(value) {
@@ -28,12 +28,21 @@ value_produce_slice <- function(value, index) {
   UseMethod("value_produce_slice")
 }
 
+value_produce_slice_kernel <- function(value, index) {
+  UseMethod("value_produce_slice_kernel")
+}
+
 value_produce_aggregate <- function(value, objects) {
   UseMethod("value_produce_aggregate")
 }
 
 value_validate <- function(value) {
   UseMethod("value_validate")
+}
+
+#' @export
+value_produce_slice_kernel.default <- function(value, index) { # nolint
+  value_produce_slice(value = value, index = index)
 }
 
 #' @export

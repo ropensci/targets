@@ -3,6 +3,7 @@
 ## Bug fixes
 
 * Allow `tar_poll()` to lose and then regain connection to the progress file.
+* Make sure changes to the `tar_group` column of `iteration = "group"` data frames do not invalidate slices (#507, @lindsayplatt).
 
 ## New features
 
