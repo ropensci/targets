@@ -246,11 +246,11 @@ tar_test("priority", {
 
 tar_test("backoff", {
   x <- options_init()
-  expect_equal(x$get_backoff(), 5)
+  expect_equal(x$get_backoff(), 0.1)
   x$set_backoff(1)
   expect_equal(x$get_backoff(), 1)
   x$reset()
-  expect_equal(x$get_backoff(), 5)
+  expect_equal(x$get_backoff(), 0.1)
   expect_error(x$set_backoff(-1), class = "tar_condition_validate")
 })
 

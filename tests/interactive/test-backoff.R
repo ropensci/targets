@@ -18,7 +18,7 @@ tar_test("backoff actually slows down and then resets", {
       cat(msg)
     }
   }
-  backoff <- backoff_init(min = 0.01, max = 2, rate = 1.5)
+  backoff <- backoff_init(min = 0.001, max = 2, rate = 1.5)
   # Should slow down exponentially.
   test_backoff(backoff)
   # Reset the backoff.

@@ -252,7 +252,7 @@ options_class <- R6::R6Class(
       self$priority %|||% 0
     },
     get_backoff = function() {
-      self$backoff %|||% 5
+      self$backoff %|||% 0.1
     },
     get_resources = function() {
       self$resources %|||% list()
@@ -400,7 +400,7 @@ options_class <- R6::R6Class(
     validate_backoff = function(backoff) {
       assert_dbl(backoff, msg = "backoff must be numeric")
       assert_scalar(backoff, msg = "backoff must have length 1")
-      assert_ge(backoff, 0.01, msg = "backoff cannot be less than 0.01")
+      assert_ge(backoff, 0.001, msg = "backoff cannot be less than 0.001")
       assert_le(backoff, 1e9, msg = "backoff cannot be greater than 1e9")
     },
     validate_resources = function(resources) {

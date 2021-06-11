@@ -154,7 +154,7 @@ for the priority queue (seconds).
 In high-performance computing (e.g. \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}
 and \code{\link[=tar_make_future]{tar_make_future()}}) it can be expensive to repeatedly poll the
 priority queue if no targets are ready to process. The number of seconds
-between polls is \code{runif(1, 0.01, max(backoff, 0.01 * 1.5 ^ index))},
+between polls is \code{runif(1, 0.001, max(backoff, 0.001 * 1.5 ^ index))},
 where \code{index} is the number of consecutive polls so far that found
 no targets ready to skip or run.
 (If no target is ready, \code{index} goes up by 1. If a target is ready,
