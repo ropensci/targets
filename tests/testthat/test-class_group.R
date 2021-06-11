@@ -77,7 +77,8 @@ tar_test("group branch invalidation (#507)", {
         x,
         data.frame(
           x = c("b", "c"),
-          tar_group = c(1L, 2L)
+          tar_group = c(1L, 2L),
+          stringsAsFactors = FALSE
         ),
         iteration = "group"
       ),
@@ -91,7 +92,8 @@ tar_test("group branch invalidation (#507)", {
         x,
         data.frame(
           x = c("b", "c", "a"),
-          tar_group = c(2L, 3L, 1L)
+          tar_group = c(2L, 3L, 1L),
+          stringsAsFactors = FALSE
         ),
         iteration = "group"
       ),
@@ -100,7 +102,7 @@ tar_test("group branch invalidation (#507)", {
   })
   tar_make(callr_function = NULL)
   out <- tar_progress()
-  out <- out$name[out$progress == "built" & grepl("_", out$name)]
+  out <- out$name[out$progress == "built" & grepl("^y_", out$name)]
   expect_equal(length(out), 1L)
 })
 
