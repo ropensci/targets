@@ -149,11 +149,11 @@ tar_test("priority", {
 })
 
 tar_test("backoff", {
-  expect_equal(tar_option_get("backoff"), 5)
+  expect_equal(tar_option_get("backoff"), 0.1)
   tar_option_set(backoff = 1)
   expect_equal(tar_option_get("backoff"), 1)
   tar_option_reset()
-  expect_equal(tar_option_get("backoff"), 5)
+  expect_equal(tar_option_get("backoff"), 0.1)
   expect_error(tar_option_set(backoff = -1), class = "tar_condition_validate")
 })
 
