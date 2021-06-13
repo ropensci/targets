@@ -18,6 +18,7 @@ value_produce_slice.tar_group <- function(value, index) { # nolint
 value_produce_slice_kernel.tar_group <- function(value, index) { # nolint
   out <- value_produce_slice(value = value, index = index)
   out$tar_group <- NULL
+  attr(out, "out.attrs") <- NULL
   out
 }
 

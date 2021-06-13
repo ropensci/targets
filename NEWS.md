@@ -35,6 +35,7 @@
 * In `tar_read()` for targets with `format = "aws_file"`, download the file back to the path the user originally saved it when the target ran.
 * Replace the `TAR_MAKE_REPORTER` environment variable with `targets::tar_config_get("reporter_make")`.
 * Use `eval(parse(text = readLines("_targets.R")), envir = some_envir)` and related techniques instead of the less controllable `source()`. Expose an `envir` argument to many functions for further control over evaluation if `callr_function` is `NULL`.
+* Drop `out.attrs` when hashing groups of data frames to extend #507 to `expand.grid()` (#508).
 
 # targets 0.5.0
 
