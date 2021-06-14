@@ -101,7 +101,11 @@ build_time_seconds <- function() {
 }
 
 build_message <- function(condition) {
-  out <- substr(paste(conditionMessage(condition), collapse = " "), 0L, 128L)
+  out <- substr(
+    paste(conditionMessage(condition), collapse = " "),
+    start = 0L,
+    stop = 2048L
+  )
   if_any(nzchar(out), out, ".")
 }
 

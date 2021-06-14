@@ -36,6 +36,7 @@
 * Replace the `TAR_MAKE_REPORTER` environment variable with `targets::tar_config_get("reporter_make")`.
 * Use `eval(parse(text = readLines("_targets.R")), envir = some_envir)` and related techniques instead of the less controllable `source()`. Expose an `envir` argument to many functions for further control over evaluation if `callr_function` is `NULL`.
 * Drop `out.attrs` when hashing groups of data frames to extend #507 to `expand.grid()` (#508).
+* Increase the number of characters in errors and warnings up to 2048.
 
 # targets 0.5.0
 
