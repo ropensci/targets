@@ -37,7 +37,13 @@ target_produce_record.tar_pattern <- function(target, pipeline, meta) {
 }
 
 #' @export
-target_skip.tar_pattern <- function(target, pipeline, scheduler, meta) {
+target_skip.tar_pattern <- function(
+  target,
+  pipeline,
+  scheduler,
+  meta,
+  active
+) {
   if_any(
     is.null(target$junction),
     pattern_skip_initial(target, pipeline, scheduler, meta),

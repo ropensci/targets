@@ -99,12 +99,22 @@ target_run_worker.tar_builder <- function(target, envir, path_store, options) {
 }
 
 #' @export
-target_skip.tar_builder <- function(target, pipeline, scheduler, meta) {
+target_skip.tar_builder <- function(
+  target,
+  pipeline,
+  scheduler,
+  meta,
+  active
+) {
   target_update_queue(target, scheduler)
   path <- meta$get_record(target_get_name(target))$path
   file <- target$store$file
   file$path <- path
-  scheduler$progress$register_skipped(target)
+  if_any(
+    active,
+    scheduler$progress$register_skipped(target),
+    scheduler$progress$assign_skipped(target)
+  )
   scheduler$reporter$report_skipped(target, scheduler$progress)
 }
 

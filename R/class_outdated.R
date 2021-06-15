@@ -96,7 +96,13 @@ outdated_class <- R6::R6Class(
     },
     process_builder_exists = function(target) {
       tryCatch(
-        target_skip(target, self$pipeline, self$scheduler, self$meta),
+        target_skip(
+          target = target,
+          pipeline = self$pipeline,
+          scheduler = self$scheduler,
+          meta = self$meta,
+          active = FALSE
+        ),
         error = function(e) warning(e$message)
       )
       target_update_depend(target, self$pipeline, self$meta)
@@ -124,7 +130,13 @@ outdated_class <- R6::R6Class(
         self$register_outdated(target_get_name(target))
         return()
       }
-      target_skip(target, self$pipeline, self$scheduler, self$meta)
+      target_skip(
+        target = target,
+        pipeline = self$pipeline,
+        scheduler = self$scheduler,
+        meta = self$meta,
+        active = FALSE
+      )
       if (any(map_lgl(target_get_children(target), self$is_outdated))) {
         self$register_outdated(target_get_name(target))
       }

@@ -71,7 +71,7 @@ target_produce_record.tar_stem <- function(target, pipeline, meta) {
 }
 
 #' @export
-target_skip.tar_stem <- function(target, pipeline, scheduler, meta) {
+target_skip.tar_stem <- function(target, pipeline, scheduler, meta, active) {
   NextMethod()
   stem_restore_buds(target, pipeline, scheduler, meta)
 }

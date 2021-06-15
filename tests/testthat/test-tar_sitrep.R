@@ -23,6 +23,21 @@ tar_test("tar_sitrep() on an empty project", {
   expect_equiv(out, exp)
 })
 
+tar_test("tar_sitrep() does not modify progress", {
+  tar_script(
+    list(
+      tar_target(x, 1:2),
+      tar_target(y, x, pattern = map(x))
+    )
+  )
+  tar_make(callr_function = NULL)
+  out1 <- tar_progress()
+  tar_sitrep(callr_function = NULL)
+  out2 <- tar_progress()
+  expect_equal(out1, out2)
+})
+
+
 tar_test("tar_sitrep() on an empty project with callr process", {
   tar_script(
     list(

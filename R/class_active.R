@@ -81,10 +81,11 @@ active_class <- R6::R6Class(
     },
     skip_target = function(target) {
       target_skip(
-        target,
-        self$pipeline,
-        self$scheduler,
-        self$meta
+        target = target,
+        pipeline = self$pipeline,
+        scheduler = self$scheduler,
+        meta = self$meta,
+        active = TRUE
       )
       target_sync_file_meta(target, self$meta)
     },
