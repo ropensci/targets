@@ -131,6 +131,9 @@ progress_class <- R6::R6Class(
       )
       db$write_row(row)
     },
+    write_skipped = function(target) {
+      self$write_progress(target, progress = "skipped")
+    },
     write_started = function(target) {
       self$write_progress(target, progress = "started")
     },
@@ -142,6 +145,10 @@ progress_class <- R6::R6Class(
     },
     write_canceled = function(target) {
       self$write_progress(target, progress = "canceled")
+    },
+    register_skipped = function(target) {
+      self$assign_skipped(target)
+      self$write_skipped(target)
     },
     register_started = function(target) {
       self$assign_started(target)

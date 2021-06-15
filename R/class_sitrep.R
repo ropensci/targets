@@ -61,7 +61,13 @@ sitrep_class <- R6::R6Class(
     },
     process_pattern = function(target) {
       if (all(map_lgl(target$settings$dimensions, self$has_children))) {
-        target_skip(target, self$pipeline, self$scheduler, self$meta)
+        target_skip(
+          target = target,
+          pipeline = self$pipeline,
+          scheduler = self$scheduler,
+          meta = self$meta,
+          active = FALSE
+        )
       }
     },
     process_builder = function(target) {
@@ -71,7 +77,13 @@ sitrep_class <- R6::R6Class(
       self$sitrep[[name]] <- builder_sitrep(target, self$meta)
       if_any(
         self$meta$exists_record(target_get_name(target)),
-        target_skip(target, self$pipeline, self$scheduler, self$meta),
+        target_skip(
+          target = target,
+          pipeline = self$pipeline,
+          scheduler = self$scheduler,
+          meta = self$meta,
+          active = FALSE
+        ),
         target_update_queue(target, self$scheduler)
       )
     },

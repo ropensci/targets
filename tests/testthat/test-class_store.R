@@ -76,7 +76,7 @@ tar_test("alternate storage with _targets.yaml", {
   # Should be no invalidated targets
   expect_equal(tar_outdated(callr_function = NULL), character(0))
   tar_make(callr_function = NULL, envir = tar_option_get("envir"))
-  expect_equal(nrow(tar_progress()), 0L)
+  expect_equal(unique(tar_progress()$progress), "skipped")
   # Moving data store should not invalidate targets.
   file.rename(path, path_store_default())
   unlink("_targets.yaml")
@@ -84,5 +84,5 @@ tar_test("alternate storage with _targets.yaml", {
   expect_true(file.exists(path_store_default()))
   expect_equal(tar_outdated(callr_function = NULL), character(0))
   tar_make(callr_function = NULL, envir = tar_option_get("envir"))
-  expect_equal(nrow(tar_progress()), 0L)
+  expect_equal(unique(tar_progress()$progress), "skipped")
 })

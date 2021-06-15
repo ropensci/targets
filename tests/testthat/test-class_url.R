@@ -23,7 +23,7 @@ tar_test("dynamic urls work", {
   )
   expect_equal(tar_progress(fields = NULL), exp)
   tar_make(callr_function = NULL)
-  expect_equal(nrow(tar_progress()), 0)
+  expect_equal(tar_progress()$progress, "skipped")
   meta <- tar_meta(abc)
   expect_equal(nchar(meta$data), 16)
   out <- meta$path[[1]]
@@ -62,7 +62,7 @@ tar_test("dynamic urls work from a custom data store", {
   )
   expect_equal(tar_progress(fields = NULL), exp)
   tar_make(callr_function = NULL)
-  expect_equal(nrow(tar_progress()), 0)
+  expect_equal(tar_progress()$progress, "skipped")
   meta <- tar_meta(abc)
   expect_equal(nchar(meta$data), 16)
   out <- meta$path[[1]]
@@ -80,7 +80,7 @@ tar_test("dynamic urls work from a custom data store", {
   expect_true(file.exists(path_store_default()))
   expect_equal(tar_outdated(callr_function = NULL), character(0))
   tar_make(callr_function = NULL)
-  expect_equal(nrow(tar_progress()), 0)
+  expect_equal(unique(tar_progress()$progress), "skipped")
 })
 
 tar_test("tar_condition_run error on bad URL", {

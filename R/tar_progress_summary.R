@@ -30,7 +30,7 @@
 #' })
 #' }
 tar_progress_summary <- function(
-  fields = c("started", "built", "errored", "canceled", "since"),
+  fields = c("skipped", "started", "built", "errored", "canceled", "since"),
   store = targets::tar_config_get("store")
 ) {
   assert_path(path_progress(path_store = store))
@@ -39,6 +39,7 @@ tar_progress_summary <- function(
   progress <- tibble::as_tibble(progress$database$read_condensed_data())
   progress <- progress[progress$type != "pattern",, drop = FALSE] # nolint
   out <- tibble::tibble(
+    skipped = sum(progress$progress == "skipped"),
     started = sum(progress$progress == "started"),
     built = sum(progress$progress == "built"),
     errored = sum(progress$progress == "errored"),
@@ -65,9 +66,9 @@ tar_progress_display_gt <- function(progress) {
     locations = gt::cells_column_labels(everything())
   )
   colors <- data_frame(
-    progress = c("started", "built", "canceled", "errored"),
-    fill = c("#DC863B", "#E1BD6D", "#FAD510", "#C93312"),
-    color = c("black", "black", "black", "white")
+    progress = c("skipped", "started", "built", "canceled", "errored"),
+    fill = c("#3e236e", "#DC863B", "#E1BD6D", "#FAD510", "#C93312"),
+    color = c("white", "black", "black", "black", "white")
   )
   for (index in seq_len(nrow(colors))) {
     out <- gt::tab_style(

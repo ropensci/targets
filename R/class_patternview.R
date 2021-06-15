@@ -48,6 +48,9 @@ patternview_register_final <- function(patternview, target, scheduler) {
   if (identical(patternview$progress, "started")) {
     patternview$progress <- "built"
     scheduler$progress$write_built(target)
+  } else if (identical(patternview$progress, "queued")) {
+    patternview$progress <- "skipped"
+    scheduler$progress$write_skipped(target)
   }
 }
 

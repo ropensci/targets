@@ -5,7 +5,7 @@
 \title{Summarize target progress.}
 \usage{
 tar_progress_summary(
-  fields = c("started", "built", "errored", "canceled", "since"),
+  fields = c("skipped", "started", "built", "errored", "canceled", "since"),
   store = targets::tar_config_get("store")
 )
 }

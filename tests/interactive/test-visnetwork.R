@@ -13,9 +13,28 @@ vis$update()
 # of upstream degree 2 and downstream degree 0.
 vis$visnetwork
 
+# Same but with everything queued.
+net <- inspection_init(pipeline_cross(), outdated = FALSE)
+vis <- visnetwork_init(network = net, degree_from = 2, degree_to = 0)
+vis$update()
+vis$visnetwork
+
 # Should show an inspection with everything up to date
-local_init(pipeline = pipeline_cross(), reporter = "silent")$run()
+local_init(pipeline = pipeline_cross(), reporter = "summary")$run()
 net <- inspection_init(pipeline_cross())
+vis <- visnetwork_init(network = net)
+vis$update()
+vis$visnetwork
+
+# Same with everything built.
+net <- inspection_init(pipeline_cross(), outdated = FALSE)
+vis <- visnetwork_init(network = net)
+vis$update()
+vis$visnetwork
+
+# Same with everything skipped.
+local_init(pipeline = pipeline_cross(), reporter = "summary")$run()
+net <- inspection_init(pipeline_cross(), outdated = FALSE)
 vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
@@ -214,13 +233,13 @@ tar_visnetwork(targets_only = FALSE)
 # Should show a graph of 3 targets, f(), g(), and miscellaneous globals.
 tar_visnetwork(targets_only = FALSE, callr_function = NULL)
 
-# Should show a status of targets as dormant (light gray).
+# Should show a status of targets as queued (light gray).
 tar_visnetwork(targets_only = FALSE, outdated = FALSE)
 
 # Should show a graph of just y1 and y2.
 tar_visnetwork(allow = starts_with("y"))
 
-# Should show status dormant (light gray).
+# Should show status queued (light gray).
 tar_visnetwork(outdated = FALSE)
 
 # Should show a canceled target.
@@ -229,7 +248,6 @@ tar_make()
 tar_visnetwork(outdated = FALSE)
 
 # Neighborhoods
-# Should show a glimpse of three targets.
 tar_script({
   g <- function(x) x - 1
   f <- function(x) g(x) + 1

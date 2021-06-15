@@ -17,7 +17,7 @@ tar_test("default progress", {
   out <- tar_progress_summary()
   expect_equal(
     colnames(out),
-    c("started", "built", "errored", "canceled", "since")
+    c("skipped", "started", "built", "errored", "canceled", "since")
   )
   expect_equal(out$started, 0L)
   expect_equal(out$built, 4L)
