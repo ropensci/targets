@@ -118,7 +118,7 @@ tar_test("_targets.yaml is locked during the pipeline then unlocked after", {
   expect_equal(tar_config_get("store"), "_targets")
   expect_equal(tar_outdated(callr_function = NULL), character(0))
   tar_make(callr_function = NULL)
-  expect_equal(nrow(tar_progress()), 0L)
+  expect_equal(unique(tar_progress()$progress), "skipped")
 })
 
 tar_test("same with external process", {
@@ -137,7 +137,7 @@ tar_test("same with external process", {
   expect_equal(tar_config_get("store"), "_targets")
   expect_equal(tar_outdated(callr_function = NULL), character(0))
   tar_make(callr_function = NULL)
-  expect_equal(nrow(tar_progress()), 0L)
+  expect_equal(unique(tar_progress()$progress), "skipped")
 })
 
 tar_test("tar_config_set() can configure the script and the store", {

@@ -63,7 +63,7 @@ tar_progress_branches_summary <- function(progress) {
     progress = gsub(".* ", "", group),
     branches = as.integer(table)
   )
-  levels <- c("started", "built", "errored", "canceled")
+  levels <- c("skipped", "started", "built", "errored", "canceled")
   bins <- map(levels, ~tar_progress_branches_bin(.x, long))
   out <- progress[progress$type == "pattern",, drop = FALSE] # nolint
   out <- tibble::tibble(name = out$name, branches = out$branches)

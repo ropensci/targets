@@ -104,7 +104,7 @@ target_skip.tar_builder <- function(target, pipeline, scheduler, meta) {
   path <- meta$get_record(target_get_name(target))$path
   file <- target$store$file
   file$path <- path
-  scheduler$progress$assign_skipped(target)
+  scheduler$progress$register_skipped(target)
   scheduler$reporter$report_skipped(target, scheduler$progress)
 }
 

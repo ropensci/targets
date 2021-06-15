@@ -168,7 +168,8 @@ tar_test("progress database gets used", {
   out <- local$scheduler$progress$database$read_data()
   exp <- c("name", "type", "parent", "branches", "progress")
   expect_equal(colnames(out), exp)
-  expect_equal(nrow(out), 0L)
+  expect_equal(nrow(out), 2L)
+  expect_equal(out$progress, rep("skipped", 2L))
 })
 
 tar_test("progress records dynamic branching data", {

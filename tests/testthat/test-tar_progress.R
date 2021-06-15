@@ -1,10 +1,12 @@
 tar_test("tar_progress() with defaults", {
-  pipeline <- pipeline_init(list(target_init("x", quote(1))))
-  local_init(pipeline = pipeline)$run()
-  out <- tar_progress()
-  expect_equal(dim(out), c(1L, 2L))
-  expect_equal(out$name, "x")
-  expect_equal(out$progress, "built")
+  for (result in c("built", "skipped")) {
+    pipeline <- pipeline_init(list(target_init("x", quote(1))))
+    local_init(pipeline = pipeline)$run()
+    out <- tar_progress()
+    expect_equal(dim(out), c(1L, 2L))
+    expect_equal(out$name, "x")
+    expect_equal(out$progress, result)
+  }
 })
 
 tar_test("tar_progress() with fields = NULL", {
