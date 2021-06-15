@@ -25,6 +25,8 @@ tar_watch(
 )
 # The main process should be free to run the pipeline.
 tar_make()
+# Run it again and see skipped targets.
+tar_make()
 # Restarting the session should terminate the app.
 rstudioapi::restartSession()
 tar_destroy()
@@ -67,6 +69,8 @@ tar_watch(
   height = "450px"
 )
 # The main process should be free to run the pipeline.
+tar_make()
+# Run it again to see skipped branches.
 tar_make()
 # Look at the canceled branches in the "branches" view.
 tar_script({
