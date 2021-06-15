@@ -13,9 +13,28 @@ vis$update()
 # of upstream degree 2 and downstream degree 0.
 vis$visnetwork
 
+# Same but with everything queued.
+net <- inspection_init(pipeline_cross(), outdated = FALSE)
+vis <- visnetwork_init(network = net, degree_from = 2, degree_to = 0)
+vis$update()
+vis$visnetwork
+
 # Should show an inspection with everything up to date
-local_init(pipeline = pipeline_cross(), reporter = "silent")$run()
+local_init(pipeline = pipeline_cross(), reporter = "summary")$run()
 net <- inspection_init(pipeline_cross())
+vis <- visnetwork_init(network = net)
+vis$update()
+vis$visnetwork
+
+# Same with everything built.
+net <- inspection_init(pipeline_cross(), outdated = FALSE)
+vis <- visnetwork_init(network = net)
+vis$update()
+vis$visnetwork
+
+# Same with everything skipped.
+local_init(pipeline = pipeline_cross(), reporter = "summary")$run()
+net <- inspection_init(pipeline_cross(), outdated = FALSE)
 vis <- visnetwork_init(network = net)
 vis$update()
 vis$visnetwork
