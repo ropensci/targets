@@ -46,8 +46,8 @@ target_skip.tar_pattern <- function(
 ) {
   if_any(
     is.null(target$junction),
-    pattern_skip_initial(target, pipeline, scheduler, meta),
-    pattern_skip_final(target, pipeline, scheduler, meta)
+    pattern_begin_initial(target, pipeline, scheduler, meta),
+    pattern_begin_final(target, pipeline, scheduler, meta)
   )
 }
 
@@ -230,12 +230,12 @@ pattern_produce_data_hash <- function(target, pipeline, meta) {
 }
 
 pattern_conclude_initial <- function(target, pipeline, scheduler, meta) {
-  pattern_skip_initial(target, pipeline, scheduler, meta)
+  pattern_begin_initial(target, pipeline, scheduler, meta)
   pattern_debug_branches(target)
 }
 
 pattern_conclude_final <- function(target, pipeline, scheduler, meta) {
-  pattern_skip_final(target, pipeline, scheduler, meta)
+  pattern_begin_final(target, pipeline, scheduler, meta)
   pattern_record_meta(target, pipeline, meta)
   patternview_register_final(target$patternview, target, scheduler)
   if (identical(target$patternview$progress, "built")) {
@@ -245,14 +245,14 @@ pattern_conclude_final <- function(target, pipeline, scheduler, meta) {
   }
 }
 
-pattern_skip_initial <- function(target, pipeline, scheduler, meta) {
+pattern_begin_initial <- function(target, pipeline, scheduler, meta) {
   pattern_update_junction(target, pipeline)
   pattern_requeue_downstream_branching(target, pipeline, scheduler)
   pattern_requeue_self(target, scheduler)
   pattern_insert_branches(target, pipeline, scheduler)
 }
 
-pattern_skip_final <- function(target, pipeline, scheduler, meta) {
+pattern_begin_final <- function(target, pipeline, scheduler, meta) {
   scheduler$progress$assign_dequeued(target)
   pattern_requeue_downstream_nonbranching(target, pipeline, scheduler)
 }
