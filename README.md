@@ -82,6 +82,8 @@ the results.
     (1:54:28)](https://youtu.be/Gqn7Xn4d5NI)
   - [ds-incubator
     series, 2021](https://www.youtube.com/playlist?list=PLvgdJdJDL-APJqHy5CXs6m4N7hUVp5rb4)
+  - [Lille R User Group, June 2021
+    (45:54)](https://youtu.be/FODSavXGjYg)
 
 ### Español
 
