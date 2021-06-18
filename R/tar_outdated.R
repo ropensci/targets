@@ -14,6 +14,8 @@
 #'   Set `names` to `NULL` to check/build all the targets (default).
 #'   Otherwise, you can supply symbols, a character vector,
 #'   or `tidyselect` helpers like [starts_with()].
+#'   Applies to ordinary targets (stem) and whole dynamic branching targets
+#'   (patterns) by not individual dynamic branches.
 #' @param branches Logical, whether to include branch names.
 #'   Including branches could get cumbersome for large pipelines.
 #'   Individual branch names are still omitted when branch-specific information

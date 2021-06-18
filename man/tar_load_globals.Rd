@@ -24,7 +24,7 @@ run the script from the current working directory.}
 \code{NULL} (invisibly).
 }
 \description{
-Load user-defined functions, global objects, and
+Load user-defined packages, functions, global objects, and
 settings defined in the target script file (default: \verb{_targets.R}).
 This function is for debugging, testing, and prototyping only.
 It is not recommended for use inside a serious pipeline

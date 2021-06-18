@@ -1,7 +1,7 @@
 #' @title Load globals for debugging, testing, and prototyping
 #' @export
 #' @family debug
-#' @description Load user-defined functions, global objects, and
+#' @description Load user-defined packages, functions, global objects, and
 #'   settings defined in the target script file (default: `_targets.R`).
 #'   This function is for debugging, testing, and prototyping only.
 #'   It is not recommended for use inside a serious pipeline

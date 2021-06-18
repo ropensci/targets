@@ -21,7 +21,9 @@ tar_outdated(
 these targets and all upstream ancestors in the dependency graph.
 Set \code{names} to \code{NULL} to check/build all the targets (default).
 Otherwise, you can supply symbols, a character vector,
-or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
+or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.
+Applies to ordinary targets (stem) and whole dynamic branching targets
+(patterns) by not individual dynamic branches.}
 
 \item{branches}{Logical, whether to include branch names.
 Including branches could get cumbersome for large pipelines.
