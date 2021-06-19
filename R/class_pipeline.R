@@ -118,20 +118,6 @@ pipeline_produce_igraph <- function(pipeline, targets_only = TRUE) {
   igraph::simplify(igraph::graph_from_data_frame(edges))
 }
 
-pipeline_produce_scheduler <- function(
-  pipeline,
-  meta,
-  queue = "parallel",
-  reporter = "verbose"
-) {
-  scheduler_init(
-    pipeline = pipeline,
-    meta = meta,
-    queue = queue,
-    reporter = reporter
-  )
-}
-
 pipeline_register_loaded_target <- function(pipeline, name) { # nolint
   counter_set_name(pipeline$loaded, name)
   target <- pipeline_get_target(pipeline, name)

@@ -61,7 +61,7 @@ tar_test("stem$ensure_children()", {
 
 tar_test("target_update_queue() updates queue correctly", {
   pipeline <- pipeline_order()
-  scheduler <- pipeline_produce_scheduler(pipeline, meta = meta_init())
+  scheduler <- scheduler_init(pipeline, meta = meta_init())
   target <- pipeline_get_target(pipeline, "min2")
   target_update_queue(target, scheduler)
   out <- scheduler$queue$data

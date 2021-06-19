@@ -39,7 +39,7 @@ algorithm_class <- R6::R6Class(
       self$reporter <- reporter
     },
     update_scheduler = function() {
-      self$scheduler <- pipeline_produce_scheduler(
+      self$scheduler <- scheduler_init(
         pipeline = self$pipeline,
         meta = self$meta,
         queue = self$queue,

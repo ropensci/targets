@@ -108,8 +108,8 @@ active_class <- R6::R6Class(
     },
     start = function() {
       pipeline_prune_names(self$pipeline, self$names)
-      self$update_scheduler()
       self$ensure_meta()
+      self$update_scheduler()
       self$ensure_process()
       self$scheduler$progress$database$reset_storage()
       self$scheduler$reporter$report_start()
