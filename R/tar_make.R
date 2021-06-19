@@ -17,9 +17,10 @@
 #' @param shortcut Logical of length 1, how to interpret the `names` argument.
 #'   If `shortcut` is `FALSE` (default) then the function checks
 #'   all targets upstream of `names` as far back as the dependency graph goes.
-#'   If `TRUE`, then the function only checks the targets in `names`
-#'   and uses stored metadata for information about upstream dependencies
-#'   as needed. Dependencies must exist in both metadata and storage.
+#'   `shortcut = TRUE` increases speed if there are a lot of
+#'   up-to-date targets, but it assumes all the dependencies
+#'   are up to date, so please use with caution.
+#'   It relies on stored metadata for information about upstream dependencies.
 #'   `shortcut = TRUE` only works if you set `names`.
 #' @param reporter Character of length 1, name of the reporter to user.
 #'   Controls how messages are printed as targets run in the pipeline.

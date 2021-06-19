@@ -21,10 +21,10 @@
 #'   all targets upstream of `names` as far back as the dependency graph goes.
 #'   If `TRUE`, then the function only checks the targets in `names`
 #'   and uses stored metadata for information about upstream dependencies
-#'   as needed. That means `shortcut = TRUE` assumes all the dependencies
-#'   of `names` are up to date, so changes to dependencies
-#'   will not ostensibly invalidate the targets in `names`.
-#'   Use caution. Also, `shortcut = TRUE` only works if you set `names`.
+#'   as needed. `shortcut = TRUE` increases speed if there are a lot of
+#'   up-to-date targets, but it assumes all the dependencies
+#'   are up to date, so please use with caution.
+#'   Also, `shortcut = TRUE` only works if you set `names`.
 #' @param branches Logical of length 1, whether to include branch names.
 #'   Including branches could get cumbersome for large pipelines.
 #'   Individual branch names are still omitted when branch-specific information
