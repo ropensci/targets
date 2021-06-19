@@ -11,13 +11,15 @@ database_new <- function(
   memory = NULL,
   path = NULL,
   header = NULL,
-  list_columns = NULL
+  list_columns = NULL,
+  queue = NULL
 ) {
   database_class$new(
     memory = memory,
     path = path,
     header = header,
-    list_columns = list_columns
+    list_columns = list_columns,
+    queue = queue
   )
 }
 
@@ -31,17 +33,20 @@ database_class <- R6::R6Class(
       memory = NULL,
       path = NULL,
       header = NULL,
-      list_columns = NULL
+      list_columns = NULL,
+      queue = NULL
     ) {
       self$memory <- memory
       self$path <- path
       self$header <- header
       self$list_columns <- list_columns
+      self$queue <- queue
     },
     memory = NULL,
     path = NULL,
     header = NULL,
     list_columns = NULL,
+    queue = NULL,
     get_row = function(name) {
       memory_get_object(self$memory, name)
     },
@@ -97,16 +102,26 @@ database_class <- R6::R6Class(
       }
       as.list(data)[self$header]
     },
+    enqueue_row = function(row) {
+      line <- self$produce_line(self$select_cols(row))
+      self$queue <- c(self$queue, line)
+    },
+    dequeue_rows = function() {
+      if (length(self$queue)) {
+        on.exit(self$queue <- NULL)
+        self$append_lines(self$queue)
+      }
+    },
     write_row = function(row) {
       line <- self$produce_line(self$select_cols(row))
-      self$append_line(line)
+      self$append_lines(line)
     },
-    append_line = function(line, max_attempts = 500) {
+    append_lines = function(lines, max_attempts = 500) {
       attempt <- 0L
       # Tested in tests/interactive/test-database.R
       # nocov start
-      while (!is.null(try(self$try_append_line(line)))) {
-        msg <- paste("Reattempting to append line to", self$path)
+      while (!is.null(try(self$try_append_lines(lines)))) {
+        msg <- paste("Reattempting to append lines to", self$path)
         cli::cli_alert_info(msg)
         Sys.sleep(stats::runif(1, 0.2, 0.25))
         attempt <- attempt + 1L
@@ -121,8 +136,8 @@ database_class <- R6::R6Class(
       }
       # nocov end
     },
-    try_append_line = function(line) {
-      write(line, self$path, ncolumns = 1L, append = TRUE, sep = "")
+    try_append_lines = function(lines) {
+      write(lines, self$path, ncolumns = 1L, append = TRUE, sep = "")
       invisible()
     },
     append_storage = function(data) {

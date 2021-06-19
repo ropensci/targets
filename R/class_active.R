@@ -115,8 +115,10 @@ active_class <- R6::R6Class(
       self$scheduler$reporter$report_start()
     },
     end = function() {
-      pipeline_unload_loaded(self$pipeline)
       scheduler <- self$scheduler
+      scheduler$progress$database$dequeue_rows()
+      self$meta$database$dequeue_rows()
+      pipeline_unload_loaded(self$pipeline)
       scheduler$reporter$report_end(scheduler$progress)
       path_scratch_del(path_store = self$meta$get_path_store())
       self$meta$database$deduplicate_storage()

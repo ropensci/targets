@@ -1,7 +1,7 @@
-tar_test("database$append_line() loops when it cannot append to the file", {
+tar_test("database$append_lines() loops when it cannot append to the file", {
   path <- file.path(tempfile(), "x", "y")
   database <- database_init(path = path)
-  database$append_line("line", max_attempts = 10)
+  database$append_lines("line", max_attempts = 10)
 })
 
 tar_test("test on Windows: pipeline keeps going #393", {

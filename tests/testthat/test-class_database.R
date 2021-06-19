@@ -349,3 +349,18 @@ tar_test("fail to validate incompatible header", {
     class = "tar_condition_file"
   )
 })
+
+tar_test("database queue", {
+  db <- database_init()
+  expect_null(db$queue)
+  db$enqueue_row(list(name = "x"))
+  db$enqueue_row(list(name = "y"))
+  expect_equal(db$queue, c("x", "y"))
+  expect_false(file.exists(db$path))
+  db$dequeue_rows()
+  lines <- readLines(db$path)
+  expect_equal(lines, c("x", "y"))
+  db$dequeue_rows()
+  lines <- readLines(db$path)
+  expect_equal(lines, c("x", "y"))
+})
