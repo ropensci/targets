@@ -2,6 +2,7 @@ local_init <- function(
   pipeline = NULL,
   meta = meta_init(),
   names = NULL,
+  shortcut = FALSE,
   queue = "parallel",
   reporter = "verbose",
   envir = tar_option_get("envir")
@@ -10,6 +11,7 @@ local_init <- function(
     pipeline = pipeline,
     meta = meta,
     names = names,
+    shortcut = shortcut,
     queue = queue,
     reporter = reporter,
     envir = envir
@@ -20,6 +22,7 @@ local_new <- function(
   pipeline = NULL,
   meta = NULL,
   names = NULL,
+  shortcut = NULL,
   queue = NULL,
   reporter = NULL,
   envir = NULL
@@ -28,6 +31,7 @@ local_new <- function(
     pipeline = pipeline,
     meta = meta,
     names = names,
+    shortcut = shortcut,
     queue = queue,
     reporter = reporter,
     envir = envir

@@ -2,6 +2,7 @@ algorithm_new <- function(
   pipeline = NULL,
   meta = NULL,
   names = NULL,
+  shortcut = NULL,
   queue = NULL,
   reporter = NULL
 ) {
@@ -9,6 +10,7 @@ algorithm_new <- function(
     pipeline = pipeline,
     meta = meta,
     names = names,
+    shortcut = shortcut,
     queue = queue,
     reporter = reporter
   )
@@ -23,18 +25,21 @@ algorithm_class <- R6::R6Class(
     meta = NULL,
     scheduler = NULL,
     names = NULL,
+    shortcut = NULL,
     queue = NULL,
     reporter = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
       names = NULL,
+      shortcut = NULL,
       queue = NULL,
       reporter = NULL
     ) {
       self$pipeline <- pipeline
       self$meta <- meta
       self$names <- names
+      self$shortcut <- shortcut
       self$queue <- queue
       self$reporter <- reporter
     },

@@ -31,6 +31,7 @@
 #' }
 tar_make_future <- function(
   names = NULL,
+  shortcut = FALSE,
   reporter = targets::tar_config_get("reporter_make"),
   workers = targets::tar_config_get("workers"),
   callr_function = callr::r,
@@ -48,6 +49,7 @@ tar_make_future <- function(
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
+    shortcut = shortcut,
     reporter = reporter,
     workers = workers
   )
@@ -66,6 +68,7 @@ tar_make_future_inner <- function(
   pipeline,
   path_store,
   names_quosure,
+  shortcut,
   reporter,
   workers
 ) {
@@ -74,6 +77,7 @@ tar_make_future_inner <- function(
     pipeline = pipeline,
     meta_init(path_store = path_store),
     names = names,
+    shortcut = shortcut,
     queue = "parallel",
     reporter = reporter,
     workers = workers

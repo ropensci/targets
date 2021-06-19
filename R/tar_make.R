@@ -14,6 +14,12 @@
 #'   symbols, a character vector, or `tidyselect` helpers like [starts_with()].
 #'   Applies to ordinary targets (stem) and whole dynamic branching targets
 #'   (patterns) by not individual dynamic branches.
+#' @param shortcut Logical of length 1, how to interpret the `names` argument.
+#'   If `shortcut` is `FALSE` (default) then the function checks
+#'   all targets upstream of `names` as far back as the dependency graph goes.
+#'   If `TRUE`, then the function only checks the targets in `names`
+#'   and uses stored metadata for information about upstream dependencies
+#'   as needed.
 #' @param reporter Character of length 1, name of the reporter to user.
 #'   Controls how messages are printed as targets run in the pipeline.
 #'   Defaults to `tar_config_get("reporter_make")`. Choices:
@@ -43,6 +49,7 @@
 #' })
 tar_make <- function(
   names = NULL,
+  shortcut = FALSE,
   reporter = targets::tar_config_get("reporter_make"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
@@ -57,6 +64,7 @@ tar_make <- function(
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
+    shortcut = shortcut,
     reporter = reporter
   )
   out <- callr_outer(
@@ -70,7 +78,13 @@ tar_make <- function(
   invisible(out)
 }
 
-tar_make_inner <- function(pipeline, path_store, names_quosure, reporter) {
+tar_make_inner <- function(
+  pipeline,
+  path_store,
+  names_quosure,
+  shortcut,
+  reporter
+) {
   pipeline_reset_deployments(pipeline)
   names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
   queue <- if_any(
@@ -82,6 +96,7 @@ tar_make_inner <- function(pipeline, path_store, names_quosure, reporter) {
     pipeline = pipeline,
     meta = meta_init(path_store = path_store),
     names = names,
+    shortcut = shortcut,
     queue = queue,
     reporter = reporter,
     envir = tar_option_get("envir")

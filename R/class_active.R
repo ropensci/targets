@@ -2,6 +2,7 @@ active_new <- function(
   pipeline = NULL,
   meta = NULL,
   names = NULL,
+  shortcut = NULL,
   queue = NULL,
   reporter = NULL,
   envir = NULL
@@ -10,6 +11,7 @@ active_new <- function(
     pipeline = pipeline,
     meta = meta,
     names = names,
+    shortcut = shortcut,
     queue = queue,
     reporter = reporter,
     envir = envir
@@ -28,6 +30,7 @@ active_class <- R6::R6Class(
       pipeline = NULL,
       meta = NULL,
       names = NULL,
+      shortcut = NULL,
       queue = NULL,
       reporter = NULL,
       envir = NULL
@@ -36,6 +39,7 @@ active_class <- R6::R6Class(
         pipeline = pipeline,
         meta = meta,
         names = names,
+        shortcut = shortcut,
         queue = queue,
         reporter = reporter
       )

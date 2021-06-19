@@ -16,12 +16,18 @@
 #'   or `tidyselect` helpers like [starts_with()].
 #'   Applies to ordinary targets (stem) and whole dynamic branching targets
 #'   (patterns) by not individual dynamic branches.
-#' @param branches Logical, whether to include branch names.
+#' @param shortcut Logical of length 1, how to interpret the `names` argument.
+#'   If `shortcut` is `FALSE` (default) then the function checks
+#'   all targets upstream of `names` as far back as the dependency graph goes.
+#'   If `TRUE`, then the function only checks the targets in `names`
+#'   and uses stored metadata for information about upstream dependencies
+#'   as needed.
+#' @param branches Logical of length 1, whether to include branch names.
 #'   Including branches could get cumbersome for large pipelines.
 #'   Individual branch names are still omitted when branch-specific information
 #'   is not reliable: for example, when a pattern branches over
 #'   an outdated target.
-#' @param targets_only Logical, whether to just restrict to targets
+#' @param targets_only Logical of length 1, whether to just restrict to targets
 #'   or to include functions and other global objects from the environment
 #'   created by running the target script file (default: `_targets.R`).
 #' @param reporter Character of length 1, name of the reporter to user.
@@ -47,6 +53,7 @@
 #' }
 tar_outdated <- function(
   names = NULL,
+  shortcut = FALSE,
   branches = FALSE,
   targets_only = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
@@ -64,6 +71,7 @@ tar_outdated <- function(
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
+    shortcut = shortcut,
     branches = branches,
     targets_only = targets_only,
     reporter = reporter
@@ -82,6 +90,7 @@ tar_outdated_inner <- function(
   pipeline,
   path_store,
   names_quosure,
+  shortcut,
   branches,
   targets_only,
   reporter
@@ -98,6 +107,7 @@ tar_outdated_inner <- function(
     pipeline = pipeline,
     meta = meta_init(path_store = path_store),
     names = names,
+    shortcut = shortcut,
     queue = "sequential",
     reporter = reporter
   )
