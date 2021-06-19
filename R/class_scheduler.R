@@ -34,7 +34,9 @@ scheduler_shortcut_pipeline <- function(pipeline, names, shortcut) {
   if (is.null(names) || !shortcut) {
     return(pipeline)
   }
-  pipeline
+  available <- intersect(names, pipeline_get_names(pipeline))
+  targets <- map(available, ~pipeline_get_target(pipeline, .x))
+  pipeline_init(targets = targets, clone_targets = FALSE)
 }
 
 scheduler_topo_sort <- function(igraph, priorities, queue) {
