@@ -128,6 +128,21 @@ target_validate.tar_pattern <- function(target) {
 }
 
 #' @export
+target_bootstrap.tar_pattern <- function(target, pipeline, meta) {
+  record <- target_bootstrap_record(target, meta)
+  name <- target$settings$name
+  children <- record$children
+  target$junction <- junction_init(nexus = name, splits = children)
+  branches <- pattern_produce_branches(target, pipeline)
+  lapply(branches, pipeline_set_target, pipeline = pipeline)
+  map(
+    children,
+    ~target_bootstrap(pipeline_get_target(pipeline, .x), pipeline, meta)
+  )
+  invisible()
+}
+
+#' @export
 print.tar_pattern <- function(x, ...) {
   cat(
     "<tar_pattern>",
@@ -179,7 +194,7 @@ pattern_produce_branch <- function(spec, command, settings, cue) {
   )
 }
 
-pattern_produce_branches <- function(target, pipeline, scheduler) {
+pattern_produce_branches <- function(target, pipeline) {
   map(
     junction_transpose(target$junction),
     pattern_produce_branch,
@@ -190,7 +205,7 @@ pattern_produce_branches <- function(target, pipeline, scheduler) {
 }
 
 pattern_insert_branches <- function(target, pipeline, scheduler) {
-  branches <- pattern_produce_branches(target, pipeline, scheduler)
+  branches <- pattern_produce_branches(target, pipeline)
   lapply(branches, pipeline_set_target, pipeline = pipeline)
   pattern_engraph_branches(target, pipeline, scheduler)
   lapply(branches, scheduler$progress$assign_queued)

@@ -31,6 +31,7 @@ target_update_depend.tar_builder <- function(target, pipeline, meta) {
 target_bootstrap.tar_builder <- function(target, pipeline, meta) {
   record <- target_bootstrap_record(target, meta)
   target$store <- record_bootstrap_store(record)
+  invisible()
 }
 
 #' @export

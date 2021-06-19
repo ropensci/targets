@@ -105,6 +105,7 @@ target_bootstrap.tar_stem <- function(target, pipeline, meta) {
   NextMethod()
   stem_restore_junction(target, pipeline, meta)
   stem_insert_buds(target, pipeline)
+  invisible()
 }
 
 stem_assert_nonempty <- function(target) {
