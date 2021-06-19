@@ -301,7 +301,9 @@ target_bootstrap_record <- function(target, meta) {
     throw_validate(
       "cannot bootstrap target ",
       name,
-      ". No record in the metadata."
+      " because there is no record of ",
+      name,
+      " the metadata. Run the pipeline with shortcut = FALSE to create it."
     )
   }
   meta$get_record(name)
