@@ -113,8 +113,7 @@ progress_class <- R6::R6Class(
       counter_del_name(self$started, name)
       counter_set_name(self$warned, name)
     },
-    write_progress = function(target, progress) {
-      db <- self$database
+    produce_row = function(target, progress) {
       name <- target_get_name(target)
       type <- target_get_type(target)
       branches <- if_any(
@@ -122,14 +121,16 @@ progress_class <- R6::R6Class(
         0L,
         length(omit_na(target_get_children(target)))
       )
-      row <- list(
+      list(
         name = name,
         type = type,
         parent = target_get_parent(target),
         branches = branches,
         progress = progress
       )
-      db$write_row(row)
+    },
+    write_progress = function(target, progress) {
+      self$database$write_row(self$produce_row(target, progress))
     },
     write_skipped = function(target) {
       self$write_progress(target, progress = "skipped")
