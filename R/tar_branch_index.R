@@ -1,6 +1,6 @@
 #' @title Integer branch indexes
 #' @export
-#' @family data
+#' @family branching
 #' @description Get the integer indexes of individual branch names
 #'   within their corresponding dynamic branching targets.
 #' @return A named integer vector of branch indexes.

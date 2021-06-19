@@ -64,7 +64,6 @@ tar_read(x)
 }
 \seealso{
 Other data: 
-\code{\link{tar_branch_index}()},
 \code{\link{tar_load_raw}()},
 \code{\link{tar_load}()},
 \code{\link{tar_meta}()},
