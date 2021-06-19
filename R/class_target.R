@@ -295,6 +295,18 @@ target_bootstrap <- function(target, pipeline, meta) {
   UseMethod("target_bootstrap")
 }
 
+target_bootstrap_record <- function(target, meta) {
+  name <- target$settings$name
+  if (!meta$exists_record(name)) {
+    throw_validate(
+      "cannot bootstrap target ",
+      name,
+      ". No record in the metadata."
+    )
+  }
+  meta$get_record(name)
+}
+
 target_subpipeline_copy <- function(target, keep_value) {
   class <- class(target)
   out <- list2env(as.list(target), parent = emptyenv(), hash = FALSE)
