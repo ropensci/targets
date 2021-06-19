@@ -49,6 +49,7 @@ algorithm_class <- R6::R6Class(
         meta = self$meta,
         queue = self$queue,
         reporter = self$reporter,
+        names = self$names,
         shortcut = self$shortcut
       )
     },

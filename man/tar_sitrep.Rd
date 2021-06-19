@@ -7,7 +7,7 @@
 tar_sitrep(
   names = NULL,
   fields = NULL,
-  shortcut = FALSE,
+  shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),

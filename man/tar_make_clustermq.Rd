@@ -7,7 +7,7 @@
 \usage{
 tar_make_clustermq(
   names = NULL,
-  shortcut = FALSE,
+  shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
   workers = targets::tar_config_get("workers"),
   log_worker = FALSE,

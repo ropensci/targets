@@ -6,7 +6,7 @@
 \usage{
 tar_outdated(
   names = NULL,
-  shortcut = FALSE,
+  shortcut = targets::tar_config_get("shortcut"),
   branches = FALSE,
   targets_only = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),

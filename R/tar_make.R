@@ -19,7 +19,7 @@
 #'   all targets upstream of `names` as far back as the dependency graph goes.
 #'   If `TRUE`, then the function only checks the targets in `names`
 #'   and uses stored metadata for information about upstream dependencies
-#'   as needed.
+#'   as needed. `shortcut = TRUE` only works if you set `names`.
 #' @param reporter Character of length 1, name of the reporter to user.
 #'   Controls how messages are printed as targets run in the pipeline.
 #'   Defaults to `tar_config_get("reporter_make")`. Choices:
@@ -49,7 +49,7 @@
 #' })
 tar_make <- function(
   names = NULL,
-  shortcut = FALSE,
+  shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
@@ -58,7 +58,9 @@ tar_make <- function(
   store = targets::tar_config_get("store")
 ) {
   force(envir)
-  tar_config_assert_reporter_make(reporter)
+  assert_scalar(shortcut, "shortcut must have length 1.")
+  assert_lgl(shortcut, "shortcut must be logical.")
+  assert_flag(reporter, tar_make_reporters())
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(

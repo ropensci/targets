@@ -32,6 +32,8 @@
 #'   an absolute path or a path relative to the project root where you will
 #'   call [tar_make()] and other functions. When [tar_make()] and friends
 #'   run the script from the current working directory.
+#' @param shortcut logical of length 1, default `shortcut` argument
+#'   to [tar_make()] and related functions.
 #' @param store Character of length 1, path to the data store of the pipeline.
 #'   If `NULL`, the `store` setting is left unchanged in the
 #'   YAML configuration file (default: `_targets.yaml`).
@@ -64,18 +66,21 @@ tar_config_set <- function(
   reporter_make = NULL,
   reporter_outdated = NULL,
   store = NULL,
+  shortcut = NULL,
   script = NULL,
   workers = NULL
 ) {
   tar_config_assert_reporter_make(reporter_make)
   tar_config_assert_reporter_outdated(reporter_outdated)
   tar_config_assert_script(script)
+  tar_config_assert_shortcut(shortcut)
   tar_config_assert_store(store)
   tar_config_assert_workers(workers)
   yaml <- tar_config_read_yaml(config)
   yaml$reporter_make <- reporter_make %|||% yaml$reporter_make
   yaml$reporter_outdated <- reporter_outdated %|||% yaml$reporter_outdated
   yaml$script <- script %|||% yaml$script
+  yaml$shortcut <- shortcut %|||% yaml$shortcut
   yaml$store <- store %|||% yaml$store
   yaml$workers <- as.character(max(1L, workers) %|||% yaml$workers)
   dir_create(dirname(config))
@@ -103,6 +108,14 @@ tar_config_assert_script <- function(script) {
   }
   assert_scalar(script, "script must have length 1.")
   assert_chr(script, "script must be a character.")
+}
+
+tar_config_assert_shortcut <- function(shortcut) {
+  if (is.null(shortcut)) {
+    return()
+  }
+  assert_scalar(shortcut, "shortcut must have length 1.")
+  assert_lgl(shortcut, "shortcut must be logical.")
 }
 
 tar_config_assert_store <- function(store) {
