@@ -100,6 +100,13 @@ target_validate.tar_stem <- function(target) {
   }
 }
 
+#' @export
+target_bootstrap.tar_stem <- function(target, pipeline, meta) {
+  NextMethod()
+  stem_restore_junction(target, pipeline, meta)
+  stem_insert_buds(target, pipeline)
+}
+
 stem_assert_nonempty <- function(target) {
   if (value_count_slices(target$value) < 1L) {
     throw_run(
@@ -116,21 +123,21 @@ stem_produce_buds <- function(target) {
   map(seq_along(names), ~bud_init(settings, names[.x], .x))
 }
 
-stem_insert_buds <- function(target, pipeline, scheduler) {
+stem_insert_buds <- function(target, pipeline) {
   map(stem_produce_buds(target), pipeline_set_target, pipeline = pipeline)
 }
 
 stem_ensure_buds <- function(target, pipeline, scheduler) {
   if (length(target_downstream_branching(target, pipeline, scheduler))) {
     stem_ensure_junction(target, pipeline)
-    stem_insert_buds(target, pipeline, scheduler)
+    stem_insert_buds(target, pipeline)
   }
 }
 
 stem_restore_buds <- function(target, pipeline, scheduler, meta) {
   if (length(target_downstream_branching(target, pipeline, scheduler))) {
     stem_restore_junction(target, pipeline, meta)
-    stem_insert_buds(target, pipeline, scheduler)
+    stem_insert_buds(target, pipeline)
   }
 }
 

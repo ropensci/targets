@@ -367,3 +367,33 @@ tar_test("packages load errors are recorded (#228)", {
   expect_false(anyNA(meta$error))
   expect_true(all(nzchar(meta$error)))
 })
+
+tar_test("bootstrap a budding and a non-budding stem for shortcut", {
+  tar_script({
+    list(
+      tar_target(x, 1L),
+      tar_target(y, seq_len(2L)),
+      tar_target(z, x + y, pattern = map(y))
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(unname(tar_read(z)), c(2L, 3L))
+  tar_make(names = "z", shortcut = TRUE, callr_function = NULL)
+  p <- tar_progress()
+  expect_equal(nrow(p), 3L)
+  expect_equal(p$progress[grepl("^z_", p$name)], rep("skipped", 2L))
+  expect_equal(p$progress[p$name == "z"], "skipped")
+  tar_script({
+    list(
+      tar_target(x, 1L),
+      tar_target(y, seq_len(2L)),
+      tar_target(z, x + y + 1L, pattern = map(y))
+    )
+  })
+  tar_make(names = "z", shortcut = TRUE, callr_function = NULL)
+  expect_equal(unname(tar_read(z)), c(3L, 4L))
+  p <- tar_progress()
+  expect_equal(nrow(p), 3L)
+  expect_equal(p$progress[grepl("^z_", p$name)], rep("built", 2L))
+  expect_equal(p$progress[p$name == "z"], "built")
+})
