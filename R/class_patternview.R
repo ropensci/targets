@@ -50,7 +50,7 @@ patternview_register_final <- function(patternview, target, scheduler) {
     scheduler$progress$write_built(target)
   } else if (identical(patternview$progress, "queued")) {
     patternview$progress <- "skipped"
-    scheduler$progress$write_skipped(target)
+    scheduler$progress$enqueue_skipped(target)
   }
 }
 

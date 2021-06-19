@@ -132,24 +132,31 @@ progress_class <- R6::R6Class(
     write_progress = function(target, progress) {
       self$database$write_row(self$produce_row(target, progress))
     },
-    write_skipped = function(target) {
-      self$write_progress(target, progress = "skipped")
+    enqueue_progress = function(target, progress) {
+      self$database$enqueue_row(self$produce_row(target, progress))
+    },
+    enqueue_skipped = function(target) {
+      self$enqueue_progress(target, progress = "skipped")
     },
     write_started = function(target) {
+      self$database$dequeue_rows()
       self$write_progress(target, progress = "started")
     },
     write_built = function(target) {
+      self$database$dequeue_rows()
       self$write_progress(target, progress = "built")
     },
     write_errored = function(target) {
+      self$database$dequeue_rows()
       self$write_progress(target, progress = "errored")
     },
     write_canceled = function(target) {
+      self$database$dequeue_rows()
       self$write_progress(target, progress = "canceled")
     },
     register_skipped = function(target) {
       self$assign_skipped(target)
-      self$write_skipped(target)
+      self$enqueue_skipped(target)
     },
     register_started = function(target) {
       self$assign_started(target)
