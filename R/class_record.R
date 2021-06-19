@@ -142,6 +142,12 @@ record_encode_field <- function(field) {
   field
 }
 
+record_bootstrap_store <- function(record) {
+  store <- store_init(format = record$format)
+  store$file$path <- record$path
+  store
+}
+
 record_validate <- function(record) {
   assert_correct_fields(record, record_new)
   assert_chr_no_delim(record$name)

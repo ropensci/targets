@@ -43,6 +43,7 @@ tar_config_get <- function(name, config = "_targets.yaml") {
     reporter_make = yaml$reporter_make %|||% "verbose",
     reporter_outdated = yaml$reporter_outdated %|||% "silent",
     script = yaml$script %|||% path_script_default(),
+    shortcut = yaml$shortcut %|||% FALSE,
     store = yaml$store %|||% path_store_default(),
     workers = as.integer(max(1L, yaml$workers)) %|||% 1L
   )

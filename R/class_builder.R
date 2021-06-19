@@ -28,6 +28,13 @@ target_update_depend.tar_builder <- function(target, pipeline, meta) {
 }
 
 #' @export
+target_bootstrap.tar_builder <- function(target, pipeline, meta) {
+  record <- target_bootstrap_record(target, meta)
+  target$store <- record_bootstrap_store(record)
+  invisible()
+}
+
+#' @export
 target_read_value.tar_builder <- function(target, pipeline = NULL) {
   object <- store_read_object(target$store)
   iteration <- target$settings$iteration

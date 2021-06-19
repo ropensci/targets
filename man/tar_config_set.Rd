@@ -9,6 +9,7 @@ tar_config_set(
   reporter_make = NULL,
   reporter_outdated = NULL,
   store = NULL,
+  shortcut = NULL,
   script = NULL,
   workers = NULL
 )
@@ -33,6 +34,9 @@ before the pipeline begins, and it need not end with "_targets",
 but it must be writeable.
 For optimal performance, choose a storage location
 with fast read/write access.}
+
+\item{shortcut}{logical of length 1, default \code{shortcut} argument
+to \code{\link[=tar_make]{tar_make()}} and related functions.}
 
 \item{script}{Character of length 1, path to the target script file
 that defines the pipeline (\verb{_targets.R} by default).

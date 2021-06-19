@@ -41,6 +41,7 @@
 #' }
 tar_make_clustermq <- function(
   names = NULL,
+  shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
   workers = targets::tar_config_get("workers"),
   log_worker = FALSE,
@@ -52,13 +53,18 @@ tar_make_clustermq <- function(
 ) {
   force(envir)
   assert_package("clustermq")
-  tar_config_assert_reporter_make(reporter)
-  tar_config_assert_workers(workers)
+  assert_scalar(shortcut, "shortcut must have length 1.")
+  assert_lgl(shortcut, "shortcut must be logical.")
+  assert_flag(reporter, tar_make_reporters())
+  assert_scalar(workers, "workers must have length 1.")
+  assert_dbl(workers, "workers must be numeric.")
+  assert_ge(workers, 1, "workers must be at least 1.")
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
+    shortcut = shortcut,
     reporter = reporter,
     workers = workers,
     log_worker = log_worker
@@ -78,6 +84,7 @@ tar_make_clustermq_inner <- function(
   pipeline,
   path_store,
   names_quosure,
+  shortcut,
   reporter,
   workers,
   log_worker
@@ -87,6 +94,7 @@ tar_make_clustermq_inner <- function(
     pipeline = pipeline,
     meta = meta_init(path_store = path_store),
     names = names,
+    shortcut = shortcut,
     queue = "parallel",
     reporter = reporter,
     envir = tar_option_get("envir"),

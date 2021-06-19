@@ -207,3 +207,33 @@ tar_test("custom script and store args with callr function", {
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))
 })
+
+tar_test("bootstrap builder for shortcut", {
+  skip_on_cran()
+  tar_script({
+    list(
+      tar_target(w, 1L),
+      tar_target(x, w),
+      tar_target(y, 1L),
+      tar_target(z, x + y)
+    )
+  })
+  tar_make(callr_function = NULL)
+  tar_script({
+    list(
+      tar_target(w, 2L),
+      tar_target(x, w),
+      tar_target(y, 2L),
+      tar_target(z, x + y + 1)
+    )
+  })
+  out <- sort(tar_outdated(callr_function = NULL))
+  exp <- sort(c("w", "x", "y", "z"))
+  expect_equal(out, exp)
+  out <- tar_outdated(
+    callr_function = NULL,
+    names = "z",
+    shortcut = TRUE
+  )
+  expect_equal(out, "z")
+})

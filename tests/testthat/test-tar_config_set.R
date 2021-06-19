@@ -26,6 +26,20 @@ tar_test("tar_config_set() reporter_outdated", {
   expect_equal(tar_config_get("reporter_outdated"), "silent")
 })
 
+tar_test("tar_config_set() shortcut", {
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("shortcut"), FALSE)
+  tar_config_set(shortcut = TRUE)
+  expect_equal(tar_config_get("shortcut"), TRUE)
+  expect_true(file.exists("_targets.yaml"))
+  expect_true(any(grepl("shortcut", readLines("_targets.yaml"))))
+  tar_config_set()
+  expect_equal(tar_config_get("shortcut"), TRUE)
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("shortcut"), FALSE)
+})
+
 tar_test("tar_config_set() with script", {
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())

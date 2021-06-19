@@ -7,6 +7,7 @@
 tar_sitrep(
   names = NULL,
   fields = NULL,
+  shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
@@ -62,6 +63,15 @@ are missing or different from last time.
 Always \code{NA} if the \code{record} cue is activated.
 Otherwise, always \code{FALSE} if the \code{file} cue is suppressed.
 }}
+
+\item{shortcut}{Logical of length 1, how to interpret the \code{names} argument.
+If \code{shortcut} is \code{FALSE} (default) then the function checks
+all targets upstream of \code{names} as far back as the dependency graph goes.
+If \code{TRUE}, then the function only checks the targets in \code{names}
+and uses stored metadata for information about upstream dependencies
+as needed. Setting \code{shortcut = TRUE} increases speed,
+but it may cause some cues to incorrectly show as not activated.
+Use with caution. \code{shortcut = TRUE} only works if you set \code{names}.}
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets are checked. Choices:

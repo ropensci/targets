@@ -145,7 +145,7 @@ tar_test("builder writing from main", {
   local_init(pipeline_init())$start()
   x <- target_init("abc", expr = quote(a), format = "rds", storage = "main")
   pipeline <- pipeline_init(list(x))
-  scheduler <- pipeline_produce_scheduler(pipeline, meta_init())
+  scheduler <- scheduler_init(pipeline, meta_init())
   target_run(x, tar_option_get("envir"), path_store_default())
   expect_false(file.exists(x$store$file$path))
   expect_true(is.na(x$store$file$hash))
@@ -178,7 +178,7 @@ tar_test("builder writing from worker", {
   expect_equal(readRDS(path), "123")
   expect_equal(target_read_value(x)$object, "123")
   pipeline <- pipeline_init(list(x))
-  scheduler <- pipeline_produce_scheduler(pipeline, meta_init())
+  scheduler <- scheduler_init(pipeline, meta_init())
   meta <- meta_init()
   memory_set_object(meta$depends, "abc", NA_character_)
   target_conclude(x, pipeline, scheduler, meta)
@@ -203,7 +203,7 @@ tar_test("dynamic file writing from main", {
   expect_true(file.exists(x$store$file$path))
   expect_false(is.na(x$store$file$hash))
   pipeline <- pipeline_init(list(x))
-  scheduler <- pipeline_produce_scheduler(pipeline, meta_init())
+  scheduler <- scheduler_init(pipeline, meta_init())
   meta <- meta_init()
   memory_set_object(meta$depends, "abc", NA_character_)
   target_conclude(x, pipeline, scheduler, meta)
@@ -272,7 +272,7 @@ tar_test("dynamic file writing from worker", {
   expect_false(is.na(x$store$file$hash))
   pipeline <- pipeline_init(list(x))
   meta <- meta_init()
-  scheduler <- pipeline_produce_scheduler(pipeline, meta = meta)
+  scheduler <- scheduler_init(pipeline, meta = meta)
   memory_set_object(meta$depends, "abc", NA_character_)
   target_conclude(x, pipeline, scheduler, meta)
 })
@@ -366,6 +366,49 @@ tar_test("target_needs_worker(builder)", {
   expect_true(target_needs_worker(x))
   x <- tar_target(y, rep(x, 2), deployment = "main")
   expect_false(target_needs_worker(x))
+})
+
+tar_test("bootstrap builder for shortcut", {
+  tar_script({
+    list(
+      tar_target(w, 1L),
+      tar_target(x, w),
+      tar_target(y, 1L),
+      tar_target(z, x + y)
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(z), 2L)
+  tar_script({
+    list(
+      tar_target(w, 1L),
+      tar_target(x, w),
+      tar_target(y, 1L),
+      tar_target(z, x + y + 1L)
+    )
+  })
+  tar_make(names = "z", shortcut = TRUE, callr_function = NULL)
+  expect_equal(tar_read(z), 3L)
+  progress <- tar_progress()
+  expect_equal(nrow(progress), 1L)
+  expect_equal(progress$name, "z")
+  expect_equal(progress$progress, "built")
+})
+
+tar_test("informative error when bootstrap fails", {
+  skip_on_cran()
+  tar_script({
+    list(
+      tar_target(w, 1L),
+      tar_target(x, w),
+      tar_target(y, 1L),
+      tar_target(z, x + y)
+    )
+  })
+  expect_error(
+    tar_make(names = "z", shortcut = TRUE, callr_function = NULL),
+    class = "tar_condition_validate"
+  )
 })
 
 tar_test("validate with nonmissing file and value", {

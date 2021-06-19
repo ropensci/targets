@@ -118,20 +118,6 @@ pipeline_produce_igraph <- function(pipeline, targets_only = TRUE) {
   igraph::simplify(igraph::graph_from_data_frame(edges))
 }
 
-pipeline_produce_scheduler <- function(
-  pipeline,
-  meta,
-  queue = "parallel",
-  reporter = "verbose"
-) {
-  scheduler_init(
-    pipeline = pipeline,
-    meta = meta,
-    queue = queue,
-    reporter = reporter
-  )
-}
-
 pipeline_register_loaded_target <- function(pipeline, name) { # nolint
   counter_set_name(pipeline$loaded, name)
   target <- pipeline_get_target(pipeline, name)
@@ -226,6 +212,16 @@ pipeline_get_packages <- function(pipeline) {
     ~target_get_packages(pipeline_get_target(pipeline, .x))
   )
   sort(unique(unlist(out)))
+}
+
+pipeline_bootstrap_deps <- function(pipeline, meta, names) {
+  deps <- map(names, ~pipeline_get_target(pipeline, .x)$command$deps)
+  deps <- intersect(unique(unlist(deps)), pipeline_get_names(pipeline))
+  deps <- setdiff(x = deps, y = names)
+  map(
+    deps,
+    ~target_bootstrap(pipeline_get_target(pipeline, .x), pipeline, meta)
+  )
 }
 
 pipeline_validate_targets <- function(targets) {

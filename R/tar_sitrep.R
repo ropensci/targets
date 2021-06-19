@@ -23,6 +23,14 @@
 #'   only returns metadata on these targets.
 #'   You can supply symbols, a character vector,
 #'   or `tidyselect` helpers like [starts_with()].
+#' @param shortcut Logical of length 1, how to interpret the `names` argument.
+#'   If `shortcut` is `FALSE` (default) then the function checks
+#'   all targets upstream of `names` as far back as the dependency graph goes.
+#'   If `TRUE`, then the function only checks the targets in `names`
+#'   and uses stored metadata for information about upstream dependencies
+#'   as needed. Setting `shortcut = TRUE` increases speed,
+#'   but it may cause some cues to incorrectly show as not activated.
+#'   Use with caution. `shortcut = TRUE` only works if you set `names`.
 #' @param fields Optional, names of columns/fields to select. If supplied,
 #'   `tar_sitrep()` only returns the selected metadata columns.
 #'   You can supply symbols, a character vector, or `tidyselect` helpers
@@ -79,6 +87,7 @@
 tar_sitrep <- function(
   names = NULL,
   fields = NULL,
+  shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
@@ -89,12 +98,15 @@ tar_sitrep <- function(
   force(envir)
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)
-  tar_config_assert_reporter_outdated(reporter)
+  assert_scalar(shortcut, "shortcut must have length 1.")
+  assert_lgl(shortcut, "shortcut must be logical.")
+  assert_flag(reporter, tar_outdated_reporters())
   assert_callr_function(callr_function)
   assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
+    shortcut = shortcut,
     fields_quosure = rlang::enquo(fields),
     reporter = reporter
   )
@@ -112,6 +124,7 @@ tar_sitrep_inner <- function(
   pipeline,
   path_store,
   names_quosure,
+  shortcut,
   fields_quosure,
   reporter
 ) {
@@ -121,6 +134,7 @@ tar_sitrep_inner <- function(
     pipeline = pipeline,
     meta = meta_init(path_store = path_store),
     names = names,
+    shortcut = shortcut,
     queue = "sequential",
     reporter = reporter
   )

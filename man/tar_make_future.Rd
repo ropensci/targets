@@ -7,6 +7,7 @@
 \usage{
 tar_make_future(
   names = NULL,
+  shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
   workers = targets::tar_config_get("workers"),
   callr_function = callr::r,
@@ -22,6 +23,14 @@ check/build all the targets (default). Otherwise, you can supply
 symbols, a character vector, or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.
 Applies to ordinary targets (stem) and whole dynamic branching targets
 (patterns) by not individual dynamic branches.}
+
+\item{shortcut}{Logical of length 1, how to interpret the \code{names} argument.
+If \code{shortcut} is \code{FALSE} (default) then the function checks
+all targets upstream of \code{names} as far back as the dependency graph goes.
+If \code{TRUE}, then the function only checks the targets in \code{names}
+and uses stored metadata for information about upstream dependencies
+as needed. Dependencies must exist in both metadata and storage.
+\code{shortcut = TRUE} only works if you set \code{names}.}
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets run in the pipeline.

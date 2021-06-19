@@ -2,8 +2,11 @@ scheduler_init <- function(
   pipeline = pipeline_init(),
   meta = meta_init(),
   queue = "parallel",
-  reporter = "verbose"
+  reporter = "verbose",
+  names = NULL,
+  shortcut = FALSE
 ) {
+  pipeline <- scheduler_shortcut_pipeline(pipeline, names, shortcut)
   edges <- pipeline_upstream_edges(pipeline, targets_only = TRUE)
   igraph <- igraph::simplify(igraph::graph_from_data_frame(edges))
   assert_dag(igraph, "dependency graph contains a cycle")
@@ -25,6 +28,15 @@ scheduler_init <- function(
     reporter = reporter,
     backoff = backoff
   )
+}
+
+scheduler_shortcut_pipeline <- function(pipeline, names, shortcut) {
+  if (is.null(names) || !shortcut) {
+    return(pipeline)
+  }
+  available <- intersect(names, pipeline_get_names(pipeline))
+  targets <- map(available, ~pipeline_get_target(pipeline, .x))
+  pipeline_init(targets = targets, clone_targets = FALSE)
 }
 
 scheduler_topo_sort <- function(igraph, priorities, queue) {

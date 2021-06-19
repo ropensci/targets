@@ -2,6 +2,7 @@ outdated_init <- function(
   pipeline = NULL,
   meta = meta_init(),
   names = NULL,
+  shortcut = FALSE,
   queue = "sequential",
   reporter = "silent"
 ) {
@@ -9,6 +10,7 @@ outdated_init <- function(
     pipeline = pipeline,
     meta = meta,
     names = names,
+    shortcut = shortcut,
     queue = queue,
     reporter = reporter,
     checked = counter_init(),
@@ -20,6 +22,7 @@ outdated_new <- function(
   pipeline = NULL,
   meta = NULL,
   names = NULL,
+  shortcut = NULL,
   queue = NULL,
   reporter = NULL,
   checked = NULL,
@@ -29,6 +32,7 @@ outdated_new <- function(
     pipeline = pipeline,
     meta = meta,
     names = names,
+    shortcut = shortcut,
     queue = queue,
     reporter = reporter,
     checked = checked,
@@ -49,6 +53,7 @@ outdated_class <- R6::R6Class(
       pipeline = NULL,
       meta = NULL,
       names = NULL,
+      shortcut = NULL,
       queue = NULL,
       reporter = NULL,
       checked = NULL,
@@ -58,6 +63,7 @@ outdated_class <- R6::R6Class(
         pipeline = pipeline,
         meta = meta,
         names = names,
+        shortcut = shortcut,
         queue = queue,
         reporter = reporter
       )
