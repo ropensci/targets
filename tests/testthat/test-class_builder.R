@@ -395,6 +395,22 @@ tar_test("bootstrap builder for shortcut", {
   expect_equal(progress$progress, "built")
 })
 
+tar_test("informative error when bootstrap fails", {
+  skip_on_cran()
+  tar_script({
+    list(
+      tar_target(w, 1L),
+      tar_target(x, w),
+      tar_target(y, 1L),
+      tar_target(z, x + y)
+    )
+  })
+  expect_error(
+    tar_make(names = "z", shortcut = TRUE, callr_function = NULL),
+    class = "tar_condition_validate"
+  )
+})
+
 tar_test("validate with nonmissing file and value", {
   x <- target_init(name = "abc", expr = quote(1L + 1L))
   x$value <- value_init(123)
