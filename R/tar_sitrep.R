@@ -28,7 +28,9 @@
 #'   all targets upstream of `names` as far back as the dependency graph goes.
 #'   If `TRUE`, then the function only checks the targets in `names`
 #'   and uses stored metadata for information about upstream dependencies
-#'   as needed. `shortcut = TRUE` only works if you set `names`.
+#'   as needed. Setting `shortcut = TRUE` increases speed,
+#'   but it may cause some cues to incorrectly show as not activated.
+#'   Use with caution. `shortcut = TRUE` only works if you set `names`.
 #' @param fields Optional, names of columns/fields to select. If supplied,
 #'   `tar_sitrep()` only returns the selected metadata columns.
 #'   You can supply symbols, a character vector, or `tidyselect` helpers

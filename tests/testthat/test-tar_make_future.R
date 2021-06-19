@@ -135,3 +135,31 @@ tar_test("custom script and store args with callr function", {
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))
 })
+
+tar_test("bootstrap builder for shortcut", {
+  skip_on_cran()
+  tar_script({
+    list(
+      tar_target(w, 1L),
+      tar_target(x, w),
+      tar_target(y, 1L),
+      tar_target(z, x + y)
+    )
+  })
+  tar_make_future(callr_function = NULL)
+  expect_equal(tar_read(z), 2L)
+  tar_script({
+    list(
+      tar_target(w, 1L),
+      tar_target(x, w),
+      tar_target(y, 1L),
+      tar_target(z, x + y + 1L)
+    )
+  })
+  tar_make_future(names = "z", shortcut = TRUE, callr_function = NULL)
+  expect_equal(tar_read(z), 3L)
+  progress <- tar_progress()
+  expect_equal(nrow(progress), 1L)
+  expect_equal(progress$name, "z")
+  expect_equal(progress$progress, "built")
+})

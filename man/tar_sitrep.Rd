@@ -69,7 +69,9 @@ If \code{shortcut} is \code{FALSE} (default) then the function checks
 all targets upstream of \code{names} as far back as the dependency graph goes.
 If \code{TRUE}, then the function only checks the targets in \code{names}
 and uses stored metadata for information about upstream dependencies
-as needed. \code{shortcut = TRUE} only works if you set \code{names}.}
+as needed. Setting \code{shortcut = TRUE} increases speed,
+but it may cause some cues to incorrectly show as not activated.
+Use with caution. \code{shortcut = TRUE} only works if you set \code{names}.}
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets are checked. Choices:
