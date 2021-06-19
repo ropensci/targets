@@ -777,7 +777,7 @@ tar_test("target_needs_worker(pattern)", {
 tar_test("bootstrap a pattern for a shortcut pattern and stem", {
   tar_script({
     list(
-      tar_target(w, seq_len(2)), 
+      tar_target(w, seq_len(2)),
       tar_target(x, w, pattern = map(w)),
       tar_target(y, x, pattern = map(x)),
       tar_target(z, sum(x))
@@ -794,7 +794,7 @@ tar_test("bootstrap a pattern for a shortcut pattern and stem", {
   expect_equal(p$progress[p$name == "z"], "skipped")
   tar_script({
     list(
-      tar_target(w, seq_len(2)), 
+      tar_target(w, seq_len(2)),
       tar_target(x, w, pattern = map(w)),
       tar_target(y, x + 1L, pattern = map(x)),
       tar_target(z, sum(x) + 1L)
