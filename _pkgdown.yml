@@ -101,6 +101,7 @@ reference:
   - '`tar_exist_script`'
 - title: Branching
   contents:
+  - '`tar_branch_index`'
   - '`tar_branches`'
   - '`tar_pattern`'
 - title: Resources

@@ -1,0 +1,59 @@
+#' @title Integer branch indexes
+#' @export
+#' @family data
+#' @description Get the integer indexes of individual branch names
+#'   within their corresponding dynamic branching targets.
+#' @return A named integer vector of branch indexes.
+#' @inheritParams tar_meta
+#' @param names Character vector of branch names
+#' @examples
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
+#' tar_dir({ # tar_dir() runs code from a temporary directory.
+#' tar_script({
+#'   list(
+#'     tar_target(x, seq_len(4)),
+#'     tar_target(y, 2 * x, pattern = map(x)),
+#'     tar_target(z, y, pattern = map(y))
+#'   )
+#' }, ask = FALSE)
+#' tar_make()
+#' names <- c(
+#'   tar_meta(y, children)$children[[1]][c(2, 3)],
+#'   tar_meta(z, children)$children[[1]][2]
+#' )
+#' names
+#' tar_branch_index(names) # c(2, 3, 2)
+#' })
+#' }
+tar_branch_index <- function(names, store = targets::tar_config_get("store")) {
+  assert_chr(names, "names must be a character vector.")
+  assert_path(path_meta(path_store = store))
+  meta <- meta_init(path_store = store)
+  meta <- tibble::as_tibble(meta$database$read_condensed_data())
+  missing_branches <- setdiff(names, meta$name[meta$type == "branch"])
+  if (length(missing_branches)) {
+    throw_validate(
+      "missing branches in metadata: ",
+      paste(missing_branches, collapse = ", ")
+    )
+  }
+  parents <- meta$parent[meta$type == "branch"]
+  missing_patterns <- setdiff(parents, meta$name)
+  if (length(missing_patterns)) {
+    throw_validate(
+      "missing dynamic targets in metadata: ",
+      paste(missing_patterns, collapse = ", ")
+    )
+  }
+  map_int(names, ~tar_branch_index_branch(.x, meta))
+}
+
+tar_branch_index_branch <- function(name, meta) {
+  parent <- meta$parent[meta$name == name]
+  children <- meta$children[meta$name == parent][[1]]
+  if_any(
+    name %in% children,
+    match(name, children),
+    throw_validate("branch ", name, " is not part of dynamic target ", parent)
+  )
+}

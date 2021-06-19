@@ -73,6 +73,7 @@ tar_load(starts_with("y"))
 }
 \seealso{
 Other data: 
+\code{\link{tar_branch_index}()},
 \code{\link{tar_load_raw}()},
 \code{\link{tar_meta}()},
 \code{\link{tar_objects}()},

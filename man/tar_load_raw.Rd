@@ -73,6 +73,7 @@ y2
 }
 \seealso{
 Other data: 
+\code{\link{tar_branch_index}()},
 \code{\link{tar_load}()},
 \code{\link{tar_meta}()},
 \code{\link{tar_objects}()},
