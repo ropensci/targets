@@ -17,7 +17,7 @@
 * Add `tar_load_globals()` for debugging, testing, prototyping, and teaching (#496, @malcolmbarrett).
 * Add structure to the `resources` argument of `tar_target()` to avoid conflicts among formats and HPC backends (#489). Includes user-side helper functions like `tar_resources()` and `tar_resources_aws()` to build the required data structures.
 * Log skipped targets in `_targets/meta/progress` and display then in `tar_progress()`, `tar_poll()`, `tar_watch()`, `tar_progress_branches()`, `tar_progress_summary()`, and `tar_visnetwork()` (#514). Instead of writing each skip line separately to `_targets/meta/progress`, accumulate skip lines in a queue and then write them all out in bulk when something interesting happens. This avoids a lot of overhead in certain cases.
-* Add a `shortcut` argument to `tar_make()`, `tar_make_clustermq()`, `tar_make_future()`, `tar_outdated()`, and `tar_sitrep()` for shortcutting (#522, %523, @jennysjaarda, @MilesMcBain, @kendonB).
+* Add a `shortcut` argument to `tar_make()`, `tar_make_clustermq()`, `tar_make_future()`, `tar_outdated()`, and `tar_sitrep()` to more efficiently skip parts of the pipeline (#522, #523, @jennysjaarda, @MilesMcBain, @kendonB).
 
 ## Deprecations
 
