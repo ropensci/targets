@@ -48,7 +48,8 @@ algorithm_class <- R6::R6Class(
         pipeline = self$pipeline,
         meta = self$meta,
         queue = self$queue,
-        reporter = self$reporter
+        reporter = self$reporter,
+        shortcut = self$shortcut
       )
     },
     validate = function() {

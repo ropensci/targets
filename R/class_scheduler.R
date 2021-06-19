@@ -2,7 +2,8 @@ scheduler_init <- function(
   pipeline = pipeline_init(),
   meta = meta_init(),
   queue = "parallel",
-  reporter = "verbose"
+  reporter = "verbose",
+  shortcut = FALSE
 ) {
   edges <- pipeline_upstream_edges(pipeline, targets_only = TRUE)
   igraph <- igraph::simplify(igraph::graph_from_data_frame(edges))
