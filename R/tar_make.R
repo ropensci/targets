@@ -19,7 +19,8 @@
 #'   all targets upstream of `names` as far back as the dependency graph goes.
 #'   If `TRUE`, then the function only checks the targets in `names`
 #'   and uses stored metadata for information about upstream dependencies
-#'   as needed. `shortcut = TRUE` only works if you set `names`.
+#'   as needed. Dependencies must exist in both metadata and storage.
+#'   `shortcut = TRUE` only works if you set `names`.
 #' @param reporter Character of length 1, name of the reporter to user.
 #'   Controls how messages are printed as targets run in the pipeline.
 #'   Defaults to `tar_config_get("reporter_make")`. Choices:

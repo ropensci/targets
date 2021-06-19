@@ -368,6 +368,33 @@ tar_test("target_needs_worker(builder)", {
   expect_false(target_needs_worker(x))
 })
 
+tar_test("bootstrap builder for shortcut", {
+  tar_script({
+    list(
+      tar_target(w, 1L),
+      tar_target(x, w),
+      tar_target(y, 1L),
+      tar_target(z, x + y)
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(z), 2L)
+  tar_script({
+    list(
+      tar_target(w, 1L),
+      tar_target(x, w),
+      tar_target(y, 1L),
+      tar_target(z, x + y + 1L)
+    )
+  })
+  tar_make(names = "z", shortcut = TRUE, callr_function = NULL)
+  expect_equal(tar_read(z), 3L)
+  progress <- tar_progress()
+  expect_equal(nrow(progress), 1L)
+  expect_equal(progress$name, "z")
+  expect_equal(progress$progress, "built")
+})
+
 tar_test("validate with nonmissing file and value", {
   x <- target_init(name = "abc", expr = quote(1L + 1L))
   x$value <- value_init(123)
