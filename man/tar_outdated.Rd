@@ -31,7 +31,7 @@ If \code{shortcut} is \code{FALSE} (default) then the function checks
 all targets upstream of \code{names} as far back as the dependency graph goes.
 If \code{TRUE}, then the function only checks the targets in \code{names}
 and uses stored metadata for information about upstream dependencies
-as needed.}
+as needed. \code{shortcut = TRUE} only works if you set \code{names}.}
 
 \item{branches}{Logical of length 1, whether to include branch names.
 Including branches could get cumbersome for large pipelines.

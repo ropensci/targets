@@ -30,9 +30,10 @@ passive_class <- R6::R6Class(
     },
     start = function() {
       pipeline_prune_names(self$pipeline, self$names)
+      self$ensure_meta()
       pipeline_reset_priorities(self$pipeline)
       self$update_scheduler()
-      self$ensure_meta()
+      self$bootstrap_shortcut_deps()
       self$scheduler$reporter$report_start()
     },
     end = function() {

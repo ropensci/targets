@@ -114,6 +114,7 @@ active_class <- R6::R6Class(
       pipeline_prune_names(self$pipeline, self$names)
       self$ensure_meta()
       self$update_scheduler()
+      self$bootstrap_shortcut_deps()
       self$ensure_process()
       self$scheduler$progress$database$reset_storage()
       self$scheduler$reporter$report_start()

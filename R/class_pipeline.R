@@ -214,6 +214,16 @@ pipeline_get_packages <- function(pipeline) {
   sort(unique(unlist(out)))
 }
 
+pipeline_bootstrap_deps <- function(pipeline, meta, names) {
+  deps <- map(names, ~pipeline_get_target(pipeline, .x)$command$deps)
+  deps <- intersect(unique(unlist(deps)), pipeline_get_names(pipeline))
+  deps <- setdiff(x = deps, y = names)
+  map(
+    deps,
+    ~target_bootstrap(pipeline_get_target(pipeline, .x), pipeline, meta)
+  )
+}
+
 pipeline_validate_targets <- function(targets) {
   eapply(targets, function(target) target_validate(target))
 }

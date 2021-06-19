@@ -50,10 +50,8 @@ tar_read_inner <- function(name, branches, meta, path_store) {
   )
 }
 
-read_builder <- function(record, path_store) {
-  store <- store_init(format = record$format)
-  store$file$path <- record$path
-  store_read_object(store)
+read_builder <- function(record) {
+  store_read_object(record_bootstrap_store(record))
 }
 
 read_pattern <- function(name, record, meta, branches, path_store) {

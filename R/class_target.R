@@ -291,6 +291,10 @@ target_is_branchable.default <- function(target) {
   FALSE
 }
 
+target_bootstrap <- function(target, pipeline, meta) {
+  UseMethod("target_bootstrap")
+}
+
 target_subpipeline_copy <- function(target, keep_value) {
   class <- class(target)
   out <- list2env(as.list(target), parent = emptyenv(), hash = FALSE)

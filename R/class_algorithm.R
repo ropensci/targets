@@ -53,6 +53,11 @@ algorithm_class <- R6::R6Class(
         shortcut = self$shortcut
       )
     },
+    bootstrap_shortcut_deps = function() {
+      if (!is.null(self$names) && self$shortcut) {
+        pipeline_bootstrap_deps(self$pipeline, self$meta, self$names)
+      }
+    },
     validate = function() {
       pipeline_validate(self$pipeline)
       (self$scheduler %|||% scheduler_init())$validate()
