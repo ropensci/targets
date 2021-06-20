@@ -8,7 +8,7 @@ tar_test("tar_branch_names()", {
     )
   }, ask = FALSE)
   tar_make(callr_function = NULL)
-  out <- tar_branch_names_raw("z", c(2, 3))
+  out <- tar_branch_names(z, c(2, 3))
   exp <- tar_meta(z, children)$children[[1]][c(2, 3)]
   expect_equal(out, exp)
 })

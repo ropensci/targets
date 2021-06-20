@@ -29,7 +29,6 @@ tar_branch_names_raw <- function(
   index,
   store = targets::tar_config_get("store")
 ) {
-  name <- deparse_language(substitute(name))
   assert_chr(name, "name must be a character.")
   assert_scalar(name, "name must have length 1.")
   assert_dbl(index, "index must be numeric.")
