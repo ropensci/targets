@@ -7,7 +7,8 @@
 tar_branch_names_raw(name, index, store = targets::tar_config_get("store"))
 }
 \arguments{
-\item{name}{Character of length 1, name of the dynamic branching target (pattern).}
+\item{name}{Character of length 1,
+name of the dynamic branching target (pattern).}
 
 \item{index}{Integer vector of branch indexes.}
 
