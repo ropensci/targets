@@ -213,16 +213,10 @@ store_sync_file_meta.default <- function(store, target, meta) {
   time <- file_time(info)
   bytes <- file_bytes(info)
   size <- file_size(bytes)
-  sync <- file_should_rehash(
-    file = file,
-    time = time,
-    size = size,
-    bytes = bytes
-  )
   # Fully automated tests do no use big files.
   # Tested in tests/interactive/test-file.R. # nolint
   # nocov start
-  if (sync) {
+  if (!identical(time, file$time) || !identical(size, file$size)) {
     record$time <- time
     record$size <- size
     record$bytes <- bytes
