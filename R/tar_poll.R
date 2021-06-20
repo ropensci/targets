@@ -88,31 +88,4 @@ tar_poll_body <- function(fields_quosure, store) {
   progress <- tar_poll_df(fields_quosure, store = store)
   cli_df_body(progress)
 }
-
-cli_df_header <- function(x) {
-  message(cli_df_text(x)[1L], appendLF = FALSE)
-}
-
-cli_df_body <- function(x) {
-  message(cli_df_text(x)[2L], appendLF = FALSE)
-}
-
-cli_df_text <- function(x) {
-  cols <- colnames(x)[-ncol(x)]
-  colnames(x)[-ncol(x)] <- paste(cols, "|")
-  for (col in seq_len(ncol(x) - 1L)) {
-    x[[col]] <- paste(x[[col]], "|")
-  }
-  out <- utils::capture.output(print(as.data.frame(x)))
-  substr(out[2L], 0L, 1L) <- " "
-  nchar_start <- nchar(out[1L])
-  out[1L] <- trimws(out[1L], which = "left")
-  n_trimmed <- nchar_start - nchar(out[1L])
-  out[2L] <- substr(out[2L], n_trimmed + 1L, nchar(out[2]))
-  out[2L] <- paste0("\r", out[2L])
-  diff <- max(0L, getOption("width") - nchar(out[2L]))
-  out[1L] <- paste0(out[1L], "\n")
-  out[2L] <- paste(c(out[2L], rep(" ", diff)), collapse = "")
-  out
-}
 # nocov end
