@@ -1,4 +1,5 @@
 tar_test("tar_branch_names()", {
+  skip_on_cran()
   tar_script({
     list(
       tar_target(w, 1),

@@ -1,4 +1,5 @@
 tar_test("tar_branch_index()", {
+  skip_on_cran()
   tar_script({
     list(
       tar_target(x, seq_len(4L)),
