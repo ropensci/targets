@@ -28,6 +28,7 @@
 * Reset the backoff upper bound when concluding a target or shutting down a `clustermq` worker (@rich-payne).
 * Set more aggressive default backoff bound of 0.1 seconds (previous: 5 seconds) and set a more aggressive minimum of 0.001 seconds (previous: 0.01 seconds) (@rich-payne).
 * Speed up the summary reporter by only printing to the console every quarter second.
+* Avoid superfluous calls to `store_sync_file_meta.default()` on small files.
 
 ## Enhancements
 
