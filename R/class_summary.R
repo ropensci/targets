@@ -27,10 +27,13 @@ summary_class <- R6::R6Class(
     },
     report_skipped = function(target = NULL, progress) {
       time <- proc.time()["elapsed"]
+      # nocov start
+      # Covered in tests/interactive/test-reporter.R.
       if (time - self$time > 0.25) {
         self$report_progress(progress)
         self$time <- time
       }
+      # nocov end
     },
     report_errored = function(target = NULL, progress) {
       self$report_progress(progress)

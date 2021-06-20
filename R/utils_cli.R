@@ -108,10 +108,13 @@ cli_df_body <- function(x) {
   message(cli_df_text(x)[2L], appendLF = FALSE)
 }
 
+# nocov start
+# Covered in tests/interactive/test-reporter.R.
 cli_df_body_oneline <- function(x) {
   msg <- paste(paste(colnames(x), x, sep = ": "), collapse = " | ")
   message(paste0("\r", msg), appendLF = FALSE)
 }
+# nocov end
 
 cli_df_text <- function(x) {
   cols <- colnames(x)[-ncol(x)]
