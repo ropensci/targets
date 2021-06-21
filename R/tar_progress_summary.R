@@ -48,7 +48,8 @@ tar_progress_summary <- function(
     time = time_stamp(time)
   )
   fields_quosure <- rlang::enquo(fields)
-  fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||% colnames(out)
+  fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||%
+    colnames(out)
   out[, fields, drop = FALSE]
 }
 

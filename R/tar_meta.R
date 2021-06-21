@@ -95,7 +95,8 @@ tar_meta <- function(
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)
   names <- tar_tidyselect_eval(names_quosure, out$name)
-  fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||% colnames(out)
+  fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||%
+    colnames(out)
   if (!is.null(names)) {
     out <- out[match(names, out$name),, drop = FALSE] # nolint
   }

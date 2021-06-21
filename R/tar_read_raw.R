@@ -61,7 +61,10 @@ read_pattern <- function(name, record, meta, branches, path_store) {
   }
   if (length(diff <- setdiff(names, meta$name))) {
     diff <- if_any(anyNA(diff), "branches out of range", diff)
-    tar_throw_validate("branches not in metadata: ", paste(diff, collapse = ", "))
+    tar_throw_validate(
+      "branches not in metadata: ",
+      paste(diff, collapse = ", ")
+    )
   }
   meta <- meta[meta$name %in% names,, drop = FALSE] # nolint
   if (nrow(meta)) {

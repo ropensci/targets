@@ -7,6 +7,12 @@ tar_assert_callr_function <- function(callr_function) {
   }
 }
 
+#' @title Assertions
+#' @name assertions
+#' @family targetopia
+#' @description These functions assert the correctness of user inputs
+#'   and generate 
+
 tar_assert_chr <- function(x, msg = NULL) {
   if (!is.character(x)) {
     default <- paste(deparse(substitute(x)), "must be a character.")

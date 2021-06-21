@@ -54,6 +54,11 @@ tar_branch_index_branch <- function(name, meta) {
   if_any(
     name %in% children,
     match(name, children),
-    tar_throw_validate("branch ", name, " is not part of dynamic target ", parent)
+    tar_throw_validate(
+      "branch ",
+      name,
+      " is not part of dynamic target ",
+      parent
+    )
   )
 }
