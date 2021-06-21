@@ -1,12 +1,3 @@
-tar_assert_callr_function <- function(callr_function) {
-  if (!is.null(callr_function)) {
-    tar_assert_function(
-      callr_function,
-      "callr_function must be a function or NULL."
-    )
-  }
-}
-
 #' @title Assertions
 #' @name tar_assert
 #' @family targetopia
@@ -21,6 +12,15 @@ tar_assert_callr_function <- function(callr_function) {
 #' tar_assert_chr("123")
 #' try(tar_assert_chr(123))
 NULL
+
+tar_assert_callr_function <- function(callr_function) {
+  if (!is.null(callr_function)) {
+    tar_assert_function(
+      callr_function,
+      "callr_function must be a function or NULL."
+    )
+  }
+}
 
 #' @export
 #' @rdname tar_assert

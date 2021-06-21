@@ -1,8 +1,20 @@
+#' @title Conditions
+#' @name tar_condition
+#' @family targetopia
+#' @description These functions throw custom `targets`-specific error conditions.
+#'   Useful for error handling in packages built on top of `targets`.
+#' @inheritParams base::stop 
+#' @examples
+#' try(tar_throw_validate("something is not valid"))
+NULL
+
 as_immediate_condition <- function(x) {
   x$call <- NULL
   enclass(x, "immediateCondition")
 }
 
+#' @export
+#' @rdname tar_condition
 tar_message_run <- function(...) {
   rlang::inform(
     message = paste0(...),
@@ -17,6 +29,8 @@ tar_throw_cancel <- function(...) {
   )
 }
 
+#' @export
+#' @rdname tar_condition
 tar_throw_file <- function(...) {
   rlang::abort(
     message = paste0(...),
@@ -31,6 +45,8 @@ tar_throw_prelocal <- function(...) {
   )
 }
 
+#' @export
+#' @rdname tar_condition
 tar_throw_run <- function(...) {
   rlang::abort(
     message = paste0(...),
@@ -38,6 +54,8 @@ tar_throw_run <- function(...) {
   )
 }
 
+#' @export
+#' @rdname tar_condition
 tar_throw_validate <- function(...) {
   rlang::abort(
     message = paste0(...),
@@ -45,6 +63,8 @@ tar_throw_validate <- function(...) {
   )
 }
 
+#' @export
+#' @rdname tar_condition
 tar_warn_deprecate <- function(...) {
   rlang::warn(
     message = paste0(...),
@@ -52,6 +72,8 @@ tar_warn_deprecate <- function(...) {
   )
 }
 
+#' @export
+#' @rdname tar_condition
 tar_warn_run <- function(...) {
   rlang::warn(
     message = paste0(...),
@@ -59,6 +81,8 @@ tar_warn_run <- function(...) {
   )
 }
 
+#' @export
+#' @rdname tar_condition
 tar_warn_validate <- function(...) {
   rlang::warn(
     message = paste0(...),

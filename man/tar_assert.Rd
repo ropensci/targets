@@ -115,7 +115,9 @@ try(tar_assert_chr(123))
 }
 \seealso{
 Other targetopia: 
+\code{\link{tar_condition}},
 \code{\link{tar_dir}()},
+\code{\link{tar_language}},
 \code{\link{tar_test}()}
 }
 \concept{targetopia}

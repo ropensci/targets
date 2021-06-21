@@ -24,6 +24,8 @@ file.exists("only_exists_in_tar_dir")
 \seealso{
 Other targetopia: 
 \code{\link{tar_assert}},
+\code{\link{tar_condition}},
+\code{\link{tar_language}},
 \code{\link{tar_test}()}
 }
 \concept{targetopia}
