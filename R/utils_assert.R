@@ -8,6 +8,15 @@
 #'   specific assertion function called.
 #' @param msg Character of length 1, a message to be printed to the console
 #'   if `x` is invalid.
+#' @param choices Character vector of choices of `x` for certain assertions.
+#' @param threshold Numeric of length 1, lower/upper bound for
+#'   assertions like `tar_assert_le()`/`tar_assert_ge()`.
+#' @param y R object, value to compare against `x`.
+#' @param class Character vector of expected class names.
+#' @param package Character of length 1, name of an R package.
+#' @param path Character, file path.
+#' @param pattern Character of length 1, a `grep` pattern for certain
+#'   assertions.
 #' @examples
 #' tar_assert_chr("123")
 #' try(tar_assert_chr(123))
@@ -251,17 +260,17 @@ tar_assert_lgl <- function(x, msg = NULL) {
 
 #' @export
 #' @rdname tar_assert
-tar_assert_name <- function(name) {
-  tar_assert_chr(name)
-  tar_assert_scalar(name)
-  if (!nzchar(name)) {
+tar_assert_name <- function(x) {
+  tar_assert_chr(x)
+  tar_assert_scalar(x)
+  if (!nzchar(x)) {
     tar_throw_validate("name must be a nonempty string.")
   }
-  if (!identical(name, make.names(name))) {
-    tar_throw_validate(name, " is not a valid symbol name.")
+  if (!identical(x, make.names(x))) {
+    tar_throw_validate(x, " is not a valid symbol name.")
   }
-  if (grepl("\\.$", name)) {
-    tar_throw_validate(name, " ends with a dot.")
+  if (grepl("\\.$", x)) {
+    tar_throw_validate(x, " ends with a dot.")
   }
 }
 

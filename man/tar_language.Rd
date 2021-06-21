@@ -52,7 +52,7 @@ some special guardrails around \code{NULL} inputs.
 }
 }
 \examples{
-tar_deparse_language(run_model())
+tar_deparse_language(quote(run_model()))
 }
 \seealso{
 Other utilities to extend targets: 

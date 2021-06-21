@@ -23,7 +23,7 @@
 #' @param choices A character vector of choices for character elements
 #'   returned by tidy evaluation.
 #' @examples
-#' tar_deparse_language(run_model())
+#' tar_deparse_language(quote(run_model()))
 NULL
 
 deparse_script_code <- function(code) {

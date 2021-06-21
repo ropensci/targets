@@ -69,7 +69,7 @@ tar_assert_list(x, msg = NULL)
 
 tar_assert_lgl(x, msg = NULL)
 
-tar_assert_name(name)
+tar_assert_name(x)
 
 tar_assert_nonempty(x, msg = NULL)
 
@@ -103,6 +103,22 @@ specific assertion function called.}
 
 \item{msg}{Character of length 1, a message to be printed to the console
 if \code{x} is invalid.}
+
+\item{choices}{Character vector of choices of \code{x} for certain assertions.}
+
+\item{threshold}{Numeric of length 1, lower/upper bound for
+assertions like \code{tar_assert_le()}/\code{tar_assert_ge()}.}
+
+\item{y}{R object, value to compare against \code{x}.}
+
+\item{class}{Character vector of expected class names.}
+
+\item{package}{Character of length 1, name of an R package.}
+
+\item{path}{Character, file path.}
+
+\item{pattern}{Character of length 1, a \code{grep} pattern for certain
+assertions.}
 }
 \description{
 These functions assert the correctness of user inputs
