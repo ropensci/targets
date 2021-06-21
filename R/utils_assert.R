@@ -8,11 +8,22 @@ tar_assert_callr_function <- function(callr_function) {
 }
 
 #' @title Assertions
-#' @name assertions
+#' @name tar_assert
 #' @family targetopia
 #' @description These functions assert the correctness of user inputs
-#'   and generate 
+#'   and generate custom error conditions as needed. Useful
+#'   for writing packages built on top of `targets`.
+#' @param x R object, input to be validated. The kind of object depends on the
+#'   specific assertion function called.
+#' @param msg Character of length 1, a message to be printed to the console
+#'   if `x` is invalid.
+#' @examples
+#' tar_assert_chr("123")
+#' try(tar_assert_chr(123))
+NULL
 
+#' @export
+#' @rdname tar_assert
 tar_assert_chr <- function(x, msg = NULL) {
   if (!is.character(x)) {
     default <- paste(deparse(substitute(x)), "must be a character.")
@@ -47,6 +58,8 @@ tar_assert_target_dag <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_dbl <- function(x, msg = NULL) {
   if (!is.numeric(x)) {
     default <- paste(deparse(substitute(x)), "must be numeric.")
@@ -54,6 +67,8 @@ tar_assert_dbl <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_df <- function(x, msg = NULL) {
   if (!is.data.frame(x)) {
     default <- paste(deparse(substitute(x)), "must be a data frame.")
@@ -61,6 +76,8 @@ tar_assert_df <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_envir <- function(x, msg = NULL) {
   if (!is.environment(x)) {
     default <- paste(deparse(substitute(x)), "must be an environment.")
@@ -68,6 +85,8 @@ tar_assert_envir <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_expr <- function(x, msg = NULL) {
   if (!is.expression(x)) {
     default <- paste(deparse(substitute(x)), "must be an expression.")
@@ -75,6 +94,8 @@ tar_assert_expr <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_flag <- function(x, choices, msg = NULL) {
   tar_assert_chr(
     x,
@@ -102,12 +123,16 @@ tar_assert_format <- function(format) {
   store_assert_format_setting(as_class(format))
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_function <- function(x, msg = NULL) {
   if (!is.function(x)) {
     tar_throw_validate(msg %|||% "input must be a function.")
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_ge <- function(x, threshold, msg = NULL) {
   if (any(x < threshold)) {
     default <- paste(
@@ -119,6 +144,8 @@ tar_assert_ge <- function(x, threshold, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_identical <- function(x, y, msg = NULL) {
   if (!identical(x, y)) {
     default <- paste(
@@ -139,6 +166,8 @@ tar_assert_identical_chr <- function(x, y, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_in <- function(x, choices, msg = NULL) {
   if (!all(x %in% choices)) {
     msg <- msg %|||% paste(
@@ -152,12 +181,16 @@ tar_assert_in <- function(x, choices, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_not_in <- function(x, choices, msg = NULL) {
   if (any(x %in% choices)) {
     tar_throw_validate(msg %|||% paste(deparse(x), "is in", deparse(choices)))
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_inherits <- function(x, class, msg = NULL) {
   if (!inherits(x, class)) {
     default <- paste(deparse(substitute(x)), "x does not inherit from", class)
@@ -165,6 +198,8 @@ tar_assert_inherits <- function(x, class, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_int <- function(x, msg = NULL) {
   if (!is.integer(x)) {
     default <- paste(deparse(substitute(x)), "must have mode integer.")
@@ -172,6 +207,8 @@ tar_assert_int <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_internet <- function(msg = NULL) {
   tar_assert_package("curl")
   if (!curl::has_internet()) {
@@ -181,6 +218,8 @@ tar_assert_internet <- function(msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_le <- function(x, threshold, msg = NULL) {
   if (any(x > threshold)) {
     default <- paste(
@@ -192,6 +231,8 @@ tar_assert_le <- function(x, threshold, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_list <- function(x, msg = NULL) {
   if (!is.list(x)) {
     default <- paste(deparse(substitute(x)), "must be a list.")
@@ -199,6 +240,8 @@ tar_assert_list <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_lgl <- function(x, msg = NULL) {
   if (!is.logical(x)) {
     default <- paste(deparse(substitute(x)), "must be logical.")
@@ -206,6 +249,8 @@ tar_assert_lgl <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_name <- function(name) {
   tar_assert_chr(name)
   tar_assert_scalar(name)
@@ -220,6 +265,8 @@ tar_assert_name <- function(name) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_nonempty <- function(x, msg = NULL) {
   if (!length(x)) {
     default <- paste(deparse(substitute(x)), "must be nonempty.")
@@ -234,6 +281,8 @@ tar_assert_none_na <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_nzchar <- function(x, msg = NULL) {
   if (any(!nzchar(x))) {
     default <- paste(deparse(substitute(x)), "has empty character strings.")
@@ -241,6 +290,8 @@ tar_assert_nzchar <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_package <- function(package) {
   tryCatch(
     rlang::check_installed(package),
@@ -250,6 +301,8 @@ tar_assert_package <- function(package) {
   )
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_path <- function(path, msg = NULL) {
   missing <- !file.exists(path)
   if (any(missing)) {
@@ -262,6 +315,8 @@ tar_assert_path <- function(path, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_match <- function(x, pattern, msg = NULL) {
   if (!grepl(pattern = pattern, x = x)) {
     default <- paste(deparse(substitute(x)), "does not match pattern", pattern)
@@ -269,6 +324,8 @@ tar_assert_match <- function(x, pattern, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_nonmissing <- function(x, msg = NULL) {
   if (rlang::is_missing(x)) {
     default <- paste(deparse(substitute(x)), "is missing with no default.")
@@ -276,6 +333,8 @@ tar_assert_nonmissing <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_positive <- function(x, msg = NULL) {
   if (any(x <= 0)) {
     default <- paste(deparse(substitute(x)), "is not all positive.")
@@ -313,6 +372,8 @@ tar_assert_resources <- function(resources) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_scalar <- function(x, msg = NULL) {
   if (length(x) != 1) {
     default <- paste(deparse(substitute(x)), "must have length 1.")
@@ -331,6 +392,8 @@ tar_assert_store <- function(store) {
   )
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_target <- function(x, msg = NULL) {
   msg <- msg %|||% paste(
     "Found a non-target object. The target script file (default: _targets.R)",
@@ -340,6 +403,8 @@ tar_assert_target <- function(x, msg = NULL) {
   tar_assert_inherits(x = x, class = "tar_target", msg = msg)
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_target_list <- function(x) {
   msg <- paste(
     "The target script file (default: _targets.R)",
@@ -400,16 +465,20 @@ tar_assert_script <- function(script) {
   }
 }
 
-tar_assert_true <- function(condition, msg = NULL) {
-  if (!condition) {
+#' @export
+#' @rdname tar_assert
+tar_assert_true <- function(x, msg = NULL) {
+  if (!x) {
     default <- paste(
-      deparse(substitute(condition)),
+      deparse(substitute(x)),
       "does not evaluate not TRUE."
     )
     tar_throw_validate(msg %|||% default)
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_unique <- function(x, msg = NULL) {
   if (anyDuplicated(x)) {
     dups <- paste(unique(x[duplicated(x)]), collapse = ", ")
@@ -422,6 +491,8 @@ tar_assert_unique <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_unique_targets <- function(x) {
   tar_assert_unique(x, "duplicated target names:")
 }

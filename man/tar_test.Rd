@@ -35,6 +35,7 @@ file.exists("only_exists_in_tar_test")
 }
 \seealso{
 Other targetopia: 
+\code{\link{tar_assert}},
 \code{\link{tar_dir}()}
 }
 \concept{targetopia}

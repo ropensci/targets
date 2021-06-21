@@ -23,6 +23,7 @@ file.exists("only_exists_in_tar_dir")
 }
 \seealso{
 Other targetopia: 
+\code{\link{tar_assert}},
 \code{\link{tar_test}()}
 }
 \concept{targetopia}

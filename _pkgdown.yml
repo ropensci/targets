@@ -130,5 +130,6 @@ reference:
   - '`tar_engine_knitr`'
 - title: Targetopia
   contents:
+  - '`tar_assert`'
   - '`tar_dir`'
   - '`tar_test`'
