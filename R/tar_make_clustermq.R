@@ -53,14 +53,14 @@ tar_make_clustermq <- function(
 ) {
   force(envir)
   assert_package("clustermq")
-  assert_scalar(shortcut, "shortcut must have length 1.")
-  assert_lgl(shortcut, "shortcut must be logical.")
+  assert_scalar(shortcut)
+  assert_lgl(shortcut)
   assert_flag(reporter, tar_make_reporters())
-  assert_scalar(workers, "workers must have length 1.")
-  assert_dbl(workers, "workers must be numeric.")
-  assert_ge(workers, 1, "workers must be at least 1.")
+  assert_scalar(workers)
+  assert_dbl(workers)
+  assert_ge(workers, 1)
   assert_callr_function(callr_function)
-  assert_list(callr_arguments, "callr_arguments mut be a list.")
+  assert_list(callr_arguments)
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),

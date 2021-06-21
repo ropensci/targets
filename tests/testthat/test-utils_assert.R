@@ -8,20 +8,20 @@ tar_test("assert_chr_no_delim()", {
   expect_error(assert_chr_no_delim("a*b"), class = "tar_condition_validate")
 })
 
-tar_test("assert_dag() on a non-igraph", {
-  expect_error(assert_dag(123), class = "tar_condition_validate")
+tar_test("assert_target_dag() on a non-igraph", {
+  expect_error(assert_target_dag(123), class = "tar_condition_validate")
 })
 
-tar_test("assert_dag() on a non-dag", {
+tar_test("assert_target_dag() on a non-dag", {
   edges <- data_frame(from = c("a", "b"), to = c("b", "a"))
   igraph <- igraph::graph_from_data_frame(edges)
-  expect_error(assert_dag(igraph), class = "tar_condition_validate")
+  expect_error(assert_target_dag(igraph), class = "tar_condition_validate")
 })
 
-tar_test("assert_dag() on a dag", {
+tar_test("assert_target_dag() on a dag", {
   edges <- data_frame(from = c("a", "b"), to = c("b", "c"))
   igraph <- igraph::graph_from_data_frame(edges)
-  expect_silent(assert_dag(igraph))
+  expect_silent(assert_target_dag(igraph))
 })
 
 tar_test("assert_ge()", {

@@ -19,12 +19,12 @@ resources_aws_new <- function(
 
 #' @export
 resources_validate.tar_resources_aws <- function(resources) {
-  assert_scalar(resources$bucket %|||% "bucket", "bucket must have length 1.")
-  assert_chr(resources$bucket %|||% "bucket must be character.")
-  assert_nzchar(resources$bucket %|||% "bucket name must be nonempty.")
-  assert_scalar(resources$prefix, "prefix must have length 1.")
-  assert_chr(resources$prefix, "prefix must be character.")
-  assert_nzchar(resources$prefix, "prefix must be nonempty.")
+  assert_scalar(resources$bucket %|||% "bucket")
+  assert_chr(resources$bucket %|||% "bucket")
+  assert_nzchar(resources$bucket %|||% "bucket")
+  assert_scalar(resources$prefix)
+  assert_chr(resources$prefix)
+  assert_nzchar(resources$prefix)
 }
 
 #' @export

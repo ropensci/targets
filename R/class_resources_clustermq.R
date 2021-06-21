@@ -15,14 +15,11 @@ resources_clustermq_new <- function(
 
 #' @export
 resources_validate.tar_resources_clustermq <- function(resources) {
-  assert_list(resources$template, "template must be a named list.")
+  assert_list(resources$template)
   if (length(resources$template)) {
-    assert_nonempty(names(resources$template), "template must have names.")
-    assert_nzchar(
-      names(resources$template),
-      "template names must be nonempty"
-    )
-    assert_unique(names(resources$template), "template names must be unique.")
+    assert_nonempty(names(resources$template))
+    assert_nzchar(names(resources$template))
+    assert_unique(names(resources$template))
   }
 }
 

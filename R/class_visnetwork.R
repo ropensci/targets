@@ -236,12 +236,12 @@ visnetwork_class <- R6::R6Class(
       if (!is.null(self$visnetwork)) {
         assert_identical(class(self$visnetwork)[1], "visNetwork")
       }
-      assert_scalar(self$degree_from, "degree_from must have length 1.")
-      assert_scalar(self$degree_to, "degree_to must have length 1.")
-      assert_dbl(self$degree_from, "degree_from must be numeric.")
-      assert_dbl(self$degree_to, "degree_to must be numeric.")
-      assert_ge(self$degree_from, 0L, "degree_from must be at least 0.")
-      assert_ge(self$degree_to, 0L, "degree_to must be at least 0.")
+      assert_scalar(self$degree_from)
+      assert_scalar(self$degree_to)
+      assert_dbl(self$degree_from)
+      assert_dbl(self$degree_to)
+      assert_ge(self$degree_from, 0L)
+      assert_ge(self$degree_to, 0L)
     }
   )
 )

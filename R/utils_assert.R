@@ -15,7 +15,7 @@ assert_chr <- function(x, msg = NULL) {
 }
 
 assert_chr_no_delim <- function(x, msg = NULL) {
-  assert_chr(x)
+  assert_chr(x, paste(deparse(substitute(x)), "must be a character"))
   if (any(grepl("|", x, fixed = TRUE) | grepl("*", x, fixed = TRUE))) {
     default <- paste(deparse(substitute(x)), "must not contain | or *")
     throw_validate(msg %|||% default)
@@ -26,9 +26,15 @@ assert_correct_fields <- function(object, constructor) {
   assert_identical_chr(sort(names(object)), sort(names(formals(constructor))))
 }
 
-assert_dag <- function(x, msg = NULL) {
+assert_target_dag <- function(x, msg = NULL) {
   if (!inherits(x, "igraph") || !igraph::is_dag(x)) {
-    throw_validate(msg %|||% "igraph must be directed and acyclic.")
+    default <- paste(
+      "dependency graph contains a cycle.",
+      "If target x depends on target y, then",
+      "target y must not depend on target x,",
+      "either directly or indirectly."
+    )
+    throw_validate(msg %|||% default)
   }
 }
 
@@ -92,7 +98,11 @@ assert_function <- function(x, msg = NULL) {
 
 assert_ge <- function(x, threshold, msg = NULL) {
   if (any(x < threshold)) {
-    default <- paste(deparse(substitute(x)), "must be >=", threshold)
+    default <- paste(
+      deparse(substitute(x)),
+      "must be less than or equal to",
+      threshold
+    )
     throw_validate(msg %|||% default)
   }
 }
@@ -161,7 +171,11 @@ assert_internet <- function(msg = NULL) {
 
 assert_le <- function(x, threshold, msg = NULL) {
   if (any(x > threshold)) {
-    default <- paste(deparse(substitute(x)), "is greater than", threshold)
+    default <- paste(
+      deparse(substitute(x)),
+      "must be less than or equal to",
+      threshold
+    )
     throw_validate(msg %|||% default)
   }
 }

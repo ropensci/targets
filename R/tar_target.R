@@ -231,9 +231,9 @@ tar_target <- function(
   cue = targets::tar_option_get("cue")
 ) {
   name <- deparse_language(substitute(name))
-  assert_chr(name, "target name must be a symbol")
-  assert_nzchar(name, "target name must be nonempty.")
-  assert_lgl(tidy_eval, "tidy_eval in tar_target() must be logical.")
+  assert_chr(name)
+  assert_nzchar(name)
+  assert_lgl(tidy_eval)
   envir <- tar_option_get("envir")
   command <- as.expression(substitute(command))
   assert_nonmissing(command[[1]], paste("target", name, "has no command."))

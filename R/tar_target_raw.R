@@ -82,9 +82,9 @@ tar_target_raw <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
-  assert_nonmissing(name, "every target must have a name.")
-  assert_chr(name, "name arg of tar_target_raw() must be character")
-  assert_nzchar(name, "target name must be nonempty.")
+  assert_nonmissing(name)
+  assert_chr(name)
+  assert_nzchar(name)
   assert_nonmissing(command, paste("target", name, "has no command."))
   if (is.expression(command)) {
     assert_nonmissing(command[[1]], paste("target", name, "has no command."))
@@ -93,7 +93,7 @@ tar_target_raw <- function(
     as.expression(command),
     paste("the command of target", name, "must have length 1.")
   )
-  assert_chr(packages, "packages in tar_target_raw() must be character.")
+  assert_chr(packages)
   assert_chr(
     library %|||% character(0),
     "library in tar_target_raw() must be NULL or character."
@@ -102,13 +102,13 @@ tar_target_raw <- function(
   assert_flag(iteration, c("vector", "list", "group"))
   assert_flag(error, c("stop", "continue", "workspace"))
   assert_flag(memory, c("persistent", "transient"))
-  assert_lgl(garbage_collection, "garbage_collection must be logical.")
-  assert_scalar(garbage_collection, "garbage_collection must be a scalar.")
+  assert_lgl(garbage_collection)
+  assert_scalar(garbage_collection)
   assert_flag(deployment, c("worker", "main"))
-  assert_dbl(priority, "priority must be numeric.")
-  assert_scalar(priority, "priority must be have length 1.")
-  assert_ge(priority, 0, "priority must be positive.")
-  assert_le(priority, 1, "priority cannot be greater than 1.")
+  assert_dbl(priority)
+  assert_scalar(priority)
+  assert_ge(priority, 0)
+  assert_le(priority, 1)
   assert_resources(resources)
   assert_flag(storage, c("main", "worker"))
   assert_flag(retrieval, c("main", "worker"))

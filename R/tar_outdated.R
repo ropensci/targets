@@ -67,12 +67,12 @@ tar_outdated <- function(
   store = targets::tar_config_get("store")
 ) {
   force(envir)
-  assert_scalar(shortcut, "shortcut must have length 1.")
-  assert_lgl(shortcut, "shortcut must be logical.")
-  assert_lgl(branches, "branches arg of tar_outdated() must be logical.")
+  assert_scalar(shortcut)
+  assert_lgl(shortcut)
+  assert_lgl(branches)
   assert_flag(reporter, tar_outdated_reporters())
   assert_callr_function(callr_function)
-  assert_list(callr_arguments, "callr_arguments mut be a list.")
+  assert_list(callr_arguments)
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),

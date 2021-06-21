@@ -32,7 +32,7 @@ tar_read_raw <- function(
   store = targets::tar_config_get("store")
 ) {
   force(meta)
-  assert_chr(name, "name must be symbol in tar_read(), chr in tar_read_raw().")
+  assert_chr(name)
   tar_read_inner(name, branches, meta, path_store = store)
 }
 

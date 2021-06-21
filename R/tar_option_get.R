@@ -40,7 +40,7 @@ tar_option_get <- function(name = NULL, option = NULL) {
     )
     name <- option
   }
-  assert_nonempty(name, "name argument of tar_option_get() cannot be empty.")
+  assert_nonempty(name)
   assert_flag(name, choices = names(formals(tar_option_set)))
   switch(
     name,

@@ -92,16 +92,16 @@ tar_cue <- function(
   iteration = TRUE,
   file = TRUE
 ) {
-  assert_lgl(command, "command arg of tar_cue() must be logical")
-  assert_lgl(depend, "depend arg of tar_cue() must be logical")
-  assert_lgl(format, "format arg of tar_cue() must be logical")
-  assert_lgl(iteration, "format arg of tar_cue() must be logical")
-  assert_lgl(file, "file arg of tar_cue() must be logical")
-  assert_scalar(command, "command arg of tar_cue() must be length 1")
-  assert_scalar(depend, "depend arg of tar_cue() must be length 1")
-  assert_scalar(format, "format arg of tar_cue() must be length 1")
-  assert_scalar(iteration, "format arg of tar_cue() must be length 1")
-  assert_scalar(file, "file arg of tar_cue() must be length 1")
+  assert_lgl(command)
+  assert_lgl(depend)
+  assert_lgl(format)
+  assert_lgl(iteration)
+  assert_lgl(file)
+  assert_scalar(command)
+  assert_scalar(depend)
+  assert_scalar(format)
+  assert_scalar(iteration)
+  assert_scalar(file)
   cue_init(
     mode = match.arg(mode),
     command = command,

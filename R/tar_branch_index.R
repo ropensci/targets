@@ -26,7 +26,7 @@
 #' })
 #' }
 tar_branch_index <- function(names, store = targets::tar_config_get("store")) {
-  assert_chr(names, "names must be a character vector.")
+  assert_chr(names)
   assert_path(path_meta(path_store = store))
   meta <- meta_init(path_store = store)
   meta <- tibble::as_tibble(meta$database$read_condensed_data())

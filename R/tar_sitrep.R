@@ -99,11 +99,11 @@ tar_sitrep <- function(
   force(envir)
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)
-  assert_scalar(shortcut, "shortcut must have length 1.")
-  assert_lgl(shortcut, "shortcut must be logical.")
+  assert_scalar(shortcut)
+  assert_lgl(shortcut)
   assert_flag(reporter, tar_outdated_reporters())
   assert_callr_function(callr_function)
-  assert_list(callr_arguments, "callr_arguments mut be a list.")
+  assert_list(callr_arguments)
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),

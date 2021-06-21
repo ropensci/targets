@@ -106,33 +106,33 @@ tar_config_assert_script <- function(script) {
   if (is.null(script)) {
     return()
   }
-  assert_scalar(script, "script must have length 1.")
-  assert_chr(script, "script must be a character.")
+  assert_scalar(script)
+  assert_chr(script)
 }
 
 tar_config_assert_shortcut <- function(shortcut) {
   if (is.null(shortcut)) {
     return()
   }
-  assert_scalar(shortcut, "shortcut must have length 1.")
-  assert_lgl(shortcut, "shortcut must be logical.")
+  assert_scalar(shortcut)
+  assert_lgl(shortcut)
 }
 
 tar_config_assert_store <- function(store) {
   if (is.null(store)) {
     return()
   }
-  assert_scalar(store, "store must have length 1.")
-  assert_chr(store, "store must be a character.")
+  assert_scalar(store)
+  assert_chr(store)
 }
 
 tar_config_assert_workers <- function(workers) {
   if (is.null(workers)) {
     return()
   }
-  assert_scalar(workers, "workers must have length 1.")
-  assert_dbl(workers, "workers must be numeric.")
-  assert_ge(workers, 1, "workers must be at least 1.")
+  assert_scalar(workers)
+  assert_dbl(workers)
+  assert_ge(workers, 1)
 }
 
 tar_make_reporters <- function() {
