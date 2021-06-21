@@ -192,6 +192,20 @@ tar_assert_in <- function(x, choices, msg = NULL) {
 
 #' @export
 #' @rdname tar_assert
+tar_assert_not_dirs <- function(x, msg = NULL) {
+  lapply(x, tar_assert_not_dir, msg = msg)
+}
+
+#' @export
+#' @rdname tar_assert
+tar_assert_not_dir <- function(x, msg = NULL) {
+  if (dir.exists(x)) {
+    tar_throw_validate(msg %|||% paste(deparse(x), "must not be a directory."))
+  }
+}
+
+#' @export
+#' @rdname tar_assert
 tar_assert_not_in <- function(x, choices, msg = NULL) {
   if (any(x %in% choices)) {
     tar_throw_validate(msg %|||% paste(deparse(x), "is in", deparse(choices)))
@@ -224,6 +238,14 @@ tar_assert_internet <- function(msg = NULL) {
     # This line cannot be covered in automated tests
     # because internet is usually on.
     tar_throw_run("no internet") # nocov
+  }
+}
+
+#' @export
+#' @rdname tar_assert
+tar_assert_lang <- function(x, msg = NULL) {
+  if (!is.language(x)) {
+    tar_throw_validate(msg %|||% "x must be a language object")
   }
 }
 
@@ -276,6 +298,14 @@ tar_assert_name <- function(x) {
 
 #' @export
 #' @rdname tar_assert
+tar_assert_names <- function(x, msg = NULL) {
+  if (any(x != make.names(x, unique = FALSE))) {
+    tar_throw_validate(msg %|||% "x must legal symbol names.")
+  }
+}
+
+#' @export
+#' @rdname tar_assert
 tar_assert_nonempty <- function(x, msg = NULL) {
   if (!length(x)) {
     default <- paste(deparse(substitute(x)), "must be nonempty.")
@@ -287,6 +317,14 @@ tar_assert_none_na <- function(x, msg = NULL) {
   if (anyNA(x)) {
     default <- paste(deparse(substitute(x)), "must have no missing values.")
     tar_throw_validate(msg %|||% default)
+  }
+}
+
+#' @export
+#' @rdname tar_assert
+tar_assert_not_expr <- function(x, msg = NULL) {
+  if (is.expression(x)) {
+    tar_throw_validate(msg %|||% "x must not be an expression object")
   }
 }
 

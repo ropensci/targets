@@ -74,6 +74,14 @@ tar_test("tar_assert_inherits()", {
   )
 })
 
+tar_test("tar_assert_lang()", {
+  expect_silent(tar_assert_lang(quote(x + 1)))
+  expect_error(
+    tar_assert_lang(TRUE),
+    class = "tar_condition_validate"
+  )
+})
+
 tar_test("tar_assert_le()", {
   expect_silent(tar_assert_le(1L, 2L))
   expect_silent(tar_assert_le(2L, 2L))
@@ -88,6 +96,11 @@ tar_test("tar_assert_lgl()", {
 tar_test("tar_assert_list()", {
   expect_silent(tar_assert_list(list("abc")))
   expect_error(tar_assert_list("abc"), class = "tar_condition_validate")
+})
+
+tar_test("tar_assert_names()", {
+  expect_silent(tar_assert_names("abc"))
+  expect_error(tar_assert_names("1 2"), class = "tar_condition_validate")
 })
 
 tar_test("tar_assert_nonempty()", {
@@ -115,6 +128,24 @@ tar_test("tar_assert_nonmissing()", {
   expect_silent(tar_assert_nonmissing("abc"))
   expect_error(
     tar_assert_nonmissing(substitute()),
+    class = "tar_condition_validate"
+  )
+})
+
+tar_test("assert_not_dirs()", {
+  tmp <- tempfile()
+  expect_silent(tar_assert_not_dirs(tmp))
+  dir.create(tmp)
+  expect_error(
+    tar_assert_not_dirs(tmp),
+    class = "tar_condition_validate"
+  )
+})
+
+tar_test("tar_assert_not_expr()", {
+  expect_silent(tar_assert_not_expr(123))
+  expect_error(
+    tar_assert_not_expr(expression(x + 1)),
     class = "tar_condition_validate"
   )
 })

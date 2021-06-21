@@ -12,15 +12,20 @@
 \alias{tar_assert_ge}
 \alias{tar_assert_identical}
 \alias{tar_assert_in}
+\alias{tar_assert_not_dirs}
+\alias{tar_assert_not_dir}
 \alias{tar_assert_not_in}
 \alias{tar_assert_inherits}
 \alias{tar_assert_int}
 \alias{tar_assert_internet}
+\alias{tar_assert_lang}
 \alias{tar_assert_le}
 \alias{tar_assert_list}
 \alias{tar_assert_lgl}
 \alias{tar_assert_name}
+\alias{tar_assert_names}
 \alias{tar_assert_nonempty}
+\alias{tar_assert_not_expr}
 \alias{tar_assert_nzchar}
 \alias{tar_assert_package}
 \alias{tar_assert_path}
@@ -55,6 +60,10 @@ tar_assert_identical(x, y, msg = NULL)
 
 tar_assert_in(x, choices, msg = NULL)
 
+tar_assert_not_dirs(x, msg = NULL)
+
+tar_assert_not_dir(x, msg = NULL)
+
 tar_assert_not_in(x, choices, msg = NULL)
 
 tar_assert_inherits(x, class, msg = NULL)
@@ -62,6 +71,8 @@ tar_assert_inherits(x, class, msg = NULL)
 tar_assert_int(x, msg = NULL)
 
 tar_assert_internet(msg = NULL)
+
+tar_assert_lang(x, msg = NULL)
 
 tar_assert_le(x, threshold, msg = NULL)
 
@@ -71,7 +82,11 @@ tar_assert_lgl(x, msg = NULL)
 
 tar_assert_name(x)
 
+tar_assert_names(x, msg = NULL)
+
 tar_assert_nonempty(x, msg = NULL)
+
+tar_assert_not_expr(x, msg = NULL)
 
 tar_assert_nzchar(x, msg = NULL)
 
