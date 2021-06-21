@@ -32,7 +32,7 @@ tar_read <- function(
   store = targets::tar_config_get("store")
 ) {
   force(meta)
-  name <- deparse_language(substitute(name))
+  name <- tar_deparse_language(substitute(name))
   tar_read_raw(
     name = name,
     branches = branches,

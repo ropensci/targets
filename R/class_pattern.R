@@ -150,7 +150,7 @@ print.tar_pattern <- function(x, ...) {
     "\n  command:\n   ",
     produce_lines(string_sub_expression(x$command$string)),
     "\n  pattern:\n   ",
-    produce_lines(string_sub_expression(deparse_safe(x$settings$pattern))),
+    produce_lines(string_sub_expression(tar_deparse_safe(x$settings$pattern))),
     "\n  format:", x$settings$format,
     "\n  iteration method:", x$settings$iteration,
     "\n  error mode:", x$settings$error,

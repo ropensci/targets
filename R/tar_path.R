@@ -34,7 +34,7 @@ tar_path <- function(
   default = NA_character_,
   store = targets::tar_config_get("store")
 ) {
-  name <- deparse_language(substitute(name))
+  name <- tar_deparse_language(substitute(name))
   tar_assert_chr(name %|||% character(0))
   tar_assert_chr(default)
   if_any(

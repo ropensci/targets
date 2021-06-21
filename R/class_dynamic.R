@@ -25,7 +25,7 @@ dynamic_class <- R6::R6Class(
       args <- list(...)
       tar_assert_scalar(
         unique(map_int(args, nrow)),
-        paste("unequal lengths of vars in", deparse_safe(sys.call()))
+        paste("unequal lengths of vars in", tar_deparse_safe(sys.call()))
       )
       omit_rownames(do.call(cbind, args))
     },

@@ -43,7 +43,7 @@
 #'   non-function global object dependency is computed directly on its
 #'   in-memory data. User-defined functions are hashed in the following way:
 #'
-#'    1. Deparse the function with `targets:::deparse_safe()`. This
+#'    1. Deparse the function with `targets:::tar_deparse_safe()`. This
 #'      function computes a string representation of the function
 #'      body and arguments. This string representation is invariant to
 #'      changes in comments and whitespace, which means

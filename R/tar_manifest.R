@@ -129,7 +129,7 @@ tar_manifest_target <- function(target) {
 }
 
 tar_manifest_command <- function(expr) {
-  out <- deparse_safe(expr, collapse = " \\n ")
+  out <- tar_deparse_safe(expr, collapse = " \\n ")
   out <- mask_pointers(out)
   string_sub_expression(out)
 }
@@ -138,6 +138,6 @@ tar_manifest_pattern <- function(pattern) {
   if_any(
     is.null(pattern),
     NA_character_,
-    string_sub_expression(deparse_safe(pattern, collapse = " "))
+    string_sub_expression(tar_deparse_safe(pattern, collapse = " "))
   )
 }

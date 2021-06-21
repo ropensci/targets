@@ -230,7 +230,7 @@ tar_target <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
-  name <- deparse_language(substitute(name))
+  name <- tar_deparse_language(substitute(name))
   tar_assert_chr(name)
   tar_assert_nzchar(name)
   tar_assert_lgl(tidy_eval)

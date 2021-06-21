@@ -60,7 +60,7 @@ tar_timestamp <- function(
   parse = TRUE,
   store = targets::tar_config_get("store")
 ) {
-  name <- deparse_language(substitute(name))
+  name <- tar_deparse_language(substitute(name))
   tar_assert_chr(name %|||% character(0), "name must be a symbol.")
   tar_timestamp_raw(
     name = name,

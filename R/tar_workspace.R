@@ -61,7 +61,7 @@ tar_workspace <- function(
   store = targets::tar_config_get("store")
 ) {
   force(envir)
-  name <- deparse_language(substitute(name))
+  name <- tar_deparse_language(substitute(name))
   tar_assert_chr(name)
   tar_assert_scalar(name)
   workspace <- workspace_read(name = name, path_store = store)

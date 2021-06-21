@@ -15,7 +15,7 @@ produce_lines <- function(x) {
   if_any(
     length(x),
     paste(lines, collapse = "\n    "),
-    deparse_safe(x)
+    tar_deparse_safe(x)
   )
 }
 

@@ -50,7 +50,7 @@ tar_traceback <- function(
       "are deprectaed in targets > 0.3.1 (2021-03-28)."
     )
   }
-  name <- deparse_language(substitute(name))
+  name <- tar_deparse_language(substitute(name))
   tar_assert_chr(name)
   tar_assert_scalar(name)
   workspace <- workspace_read(name = name, path_store = store)

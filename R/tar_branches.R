@@ -38,7 +38,7 @@ tar_branches <- function(
   pattern,
   store = targets::tar_config_get("store")
 ) {
-  name <- deparse_language(substitute(name))
+  name <- tar_deparse_language(substitute(name))
   tar_assert_chr(name)
   tar_assert_path(file.path(path_meta(path_store = store)))
   pattern <- as.expression(substitute(pattern))

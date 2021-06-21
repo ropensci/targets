@@ -1,8 +1,8 @@
 deparse_script_code <- function(code) {
   if_any(
-    length(code) > 1L && identical(deparse_safe(code[[1]]), "`{`"),
-    map_chr(code[-1], deparse_safe),
-    deparse_safe(code)
+    length(code) > 1L && identical(tar_deparse_safe(code[[1]]), "`{`"),
+    map_chr(code[-1], tar_deparse_safe),
+    tar_deparse_safe(code)
   )
 }
 
@@ -12,11 +12,11 @@ deps_function <- function(fun) {
   codetools::findGlobals(fun)
 }
 
-deparse_language <- function(x) {
-  if_any(!is.character(x) && !is.null(x), deparse_safe(x), x)
+tar_deparse_language <- function(x) {
+  if_any(!is.character(x) && !is.null(x), tar_deparse_safe(x), x)
 }
 
-deparse_safe <- function(x, collapse = "\n", backtick = TRUE) {
+tar_deparse_safe <- function(x, collapse = "\n", backtick = TRUE) {
   out <- deparse_direct(
     x,
     control = deparse_control_custom,

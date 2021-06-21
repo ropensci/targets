@@ -111,7 +111,7 @@ settings_validate_pattern <- function(name, pattern, dimensions) {
     ~!exists(.x, envir = dynamic_methods$self) & !exists(.x, envir = baseenv())
   )
   if (length(illegal) > 0L) {
-    string <- string_sub_expression(deparse_safe(pattern))
+    string <- string_sub_expression(tar_deparse_safe(pattern))
     throw_validate(
       "invalid dynamic branching pattern: ",
       string,
