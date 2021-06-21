@@ -54,6 +54,6 @@ counter_validate <- function(counter) {
   tar_assert_scalar(counter$count)
   tar_assert_envir(counter$envir)
   if (!identical(length(names(counter$envir)), counter$count)) {
-    throw_validate("envir does not match count.")
+    tar_throw_validate("envir does not match count.")
   }
 }

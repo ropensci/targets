@@ -10,7 +10,7 @@ tar_assert_callr_function <- function(callr_function) {
 tar_assert_chr <- function(x, msg = NULL) {
   if (!is.character(x)) {
     default <- paste(deparse(substitute(x)), "must be a character.")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
@@ -18,7 +18,7 @@ tar_assert_chr_no_delim <- function(x, msg = NULL) {
   tar_assert_chr(x, paste(deparse(substitute(x)), "must be a character"))
   if (any(grepl("|", x, fixed = TRUE) | grepl("*", x, fixed = TRUE))) {
     default <- paste(deparse(substitute(x)), "must not contain | or *")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
@@ -37,35 +37,35 @@ tar_assert_target_dag <- function(x, msg = NULL) {
       "target y must not depend on target x,",
       "either directly or indirectly."
     )
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
 tar_assert_dbl <- function(x, msg = NULL) {
   if (!is.numeric(x)) {
     default <- paste(deparse(substitute(x)), "must be numeric.")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
 tar_assert_df <- function(x, msg = NULL) {
   if (!is.data.frame(x)) {
     default <- paste(deparse(substitute(x)), "must be a data frame.")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
 tar_assert_envir <- function(x, msg = NULL) {
   if (!is.environment(x)) {
     default <- paste(deparse(substitute(x)), "must be an environment.")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
 tar_assert_expr <- function(x, msg = NULL) {
   if (!is.expression(x)) {
     default <- paste(deparse(substitute(x)), "must be an expression.")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
@@ -86,7 +86,7 @@ tar_assert_flag <- function(x, choices, msg = NULL) {
       "but must be in",
       deparse(choices)
     )
-    throw_validate(msg)
+    tar_throw_validate(msg)
   }
 }
 
@@ -98,7 +98,7 @@ tar_assert_format <- function(format) {
 
 tar_assert_function <- function(x, msg = NULL) {
   if (!is.function(x)) {
-    throw_validate(msg %|||% "input must be a function.")
+    tar_throw_validate(msg %|||% "input must be a function.")
   }
 }
 
@@ -109,7 +109,7 @@ tar_assert_ge <- function(x, threshold, msg = NULL) {
       "must be less than or equal to",
       threshold
     )
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
@@ -121,7 +121,7 @@ tar_assert_identical <- function(x, y, msg = NULL) {
       deparse(substitute(y)),
       "must be identical."
     )
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
@@ -129,7 +129,7 @@ tar_assert_identical_chr <- function(x, y, msg = NULL) {
   if (!identical(x, y)) {
     msg_x <- paste0(deparse(x), collapse = "")
     msg_y <- paste0(deparse(y), collapse = "")
-    throw_validate(msg %|||% paste(msg_x, "and", msg_y, "not identical."))
+    tar_throw_validate(msg %|||% paste(msg_x, "and", msg_y, "not identical."))
   }
 }
 
@@ -142,27 +142,27 @@ tar_assert_in <- function(x, choices, msg = NULL) {
       "but must be in",
       deparse(choices)
     )
-    throw_validate(msg)
+    tar_throw_validate(msg)
   }
 }
 
 tar_assert_not_in <- function(x, choices, msg = NULL) {
   if (any(x %in% choices)) {
-    throw_validate(msg %|||% paste(deparse(x), "is in", deparse(choices)))
+    tar_throw_validate(msg %|||% paste(deparse(x), "is in", deparse(choices)))
   }
 }
 
 tar_assert_inherits <- function(x, class, msg = NULL) {
   if (!inherits(x, class)) {
     default <- paste(deparse(substitute(x)), "x does not inherit from", class)
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
 tar_assert_int <- function(x, msg = NULL) {
   if (!is.integer(x)) {
     default <- paste(deparse(substitute(x)), "must have mode integer.")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
@@ -171,7 +171,7 @@ tar_assert_internet <- function(msg = NULL) {
   if (!curl::has_internet()) {
     # This line cannot be covered in automated tests
     # because internet is usually on.
-    throw_run("no internet") # nocov
+    tar_throw_run("no internet") # nocov
   }
 }
 
@@ -182,21 +182,21 @@ tar_assert_le <- function(x, threshold, msg = NULL) {
       "must be less than or equal to",
       threshold
     )
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
 tar_assert_list <- function(x, msg = NULL) {
   if (!is.list(x)) {
     default <- paste(deparse(substitute(x)), "must be a list.")
-    throw_validate(msg %|||% "x must be a list.")
+    tar_throw_validate(msg %|||% "x must be a list.")
   }
 }
 
 tar_assert_lgl <- function(x, msg = NULL) {
   if (!is.logical(x)) {
     default <- paste(deparse(substitute(x)), "must be logical.")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
@@ -204,34 +204,34 @@ tar_assert_name <- function(name) {
   tar_assert_chr(name)
   tar_assert_scalar(name)
   if (!nzchar(name)) {
-    throw_validate("name must be a nonempty string.")
+    tar_throw_validate("name must be a nonempty string.")
   }
   if (!identical(name, make.names(name))) {
-    throw_validate(name, " is not a valid symbol name.")
+    tar_throw_validate(name, " is not a valid symbol name.")
   }
   if (grepl("\\.$", name)) {
-    throw_validate(name, " ends with a dot.")
+    tar_throw_validate(name, " ends with a dot.")
   }
 }
 
 tar_assert_nonempty <- function(x, msg = NULL) {
   if (!length(x)) {
     default <- paste(deparse(substitute(x)), "must be nonempty.")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
 tar_assert_none_na <- function(x, msg = NULL) {
   if (anyNA(x)) {
     default <- paste(deparse(substitute(x)), "must have no missing values.")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
 tar_assert_nzchar <- function(x, msg = NULL) {
   if (any(!nzchar(x))) {
     default <- paste(deparse(substitute(x)), "has empty character strings.")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
@@ -239,7 +239,7 @@ tar_assert_package <- function(package) {
   tryCatch(
     rlang::check_installed(package),
     error = function(e) {
-      throw_validate(conditionMessage(e))
+      tar_throw_validate(conditionMessage(e))
     }
   )
 }
@@ -247,7 +247,7 @@ tar_assert_package <- function(package) {
 tar_assert_path <- function(path, msg = NULL) {
   missing <- !file.exists(path)
   if (any(missing)) {
-    throw_validate(
+    tar_throw_validate(
       msg %|||% paste0(
         "missing files: ",
         paste(path[missing], collapse = ", ")
@@ -259,21 +259,21 @@ tar_assert_path <- function(path, msg = NULL) {
 tar_assert_match <- function(x, pattern, msg = NULL) {
   if (!grepl(pattern = pattern, x = x)) {
     default <- paste(deparse(substitute(x)), "does not match pattern", pattern)
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
 tar_assert_nonmissing <- function(x, msg = NULL) {
   if (rlang::is_missing(x)) {
     default <- paste(deparse(substitute(x)), "is missing with no default.")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
 tar_assert_positive <- function(x, msg = NULL) {
   if (any(x <= 0)) {
     default <- paste(deparse(substitute(x)), "is not all positive.")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
@@ -286,7 +286,7 @@ tar_assert_resources <- function(resources) {
   }
   for (name in names(resources)) {
     if (!(name %in% names(formals(tar_resources)))) {
-      warn_deprecate(
+      tar_warn_deprecate(
         "found non-standard resource group ",
         name,
         " in resources list. Unstructrued resources list are deprecated ",
@@ -295,7 +295,7 @@ tar_assert_resources <- function(resources) {
         "resources argument to tar_target() and tar_option_set()."
       )
     } else if (!inherits(resources[[name]], "tar_resources")) {
-      warn_deprecate(
+      tar_warn_deprecate(
         "found incorrectly formatted resource group ",
         name,
         " in resources list. Unstructrued resources list are deprecated ",
@@ -310,7 +310,7 @@ tar_assert_resources <- function(resources) {
 tar_assert_scalar <- function(x, msg = NULL) {
   if (length(x) != 1) {
     default <- paste(deparse(substitute(x)), "must have length 1.")
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
@@ -389,7 +389,7 @@ tar_assert_script <- function(script) {
   )
   for (loader in c("load_all", "load_code", "load_data", "load_dll")) {
     if (!identical(Sys.getenv("TAR_WARN"), "false") && loader %in% vars) {
-      warn_validate(sprintf(msg, loader))
+      tar_warn_validate(sprintf(msg, loader))
     }
   }
 }
@@ -400,7 +400,7 @@ tar_assert_true <- function(condition, msg = NULL) {
       deparse(substitute(condition)),
       "does not evaluate not TRUE."
     )
-    throw_validate(msg %|||% default)
+    tar_throw_validate(msg %|||% default)
   }
 }
 
@@ -412,7 +412,7 @@ tar_assert_unique <- function(x, msg = NULL) {
       "has duplicated entries:",
       dups
     )
-    throw_validate(paste(msg %|||% default))
+    tar_throw_validate(paste(msg %|||% default))
   }
 }
 

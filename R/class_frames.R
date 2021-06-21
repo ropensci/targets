@@ -43,7 +43,7 @@ frames_validate_inheritance <- function(frames) {
   envir1 <- parent.env(frames$targets$envir)
   envir2 <- frames$imports$envir
   if (!identical(envir1, envir2)) {
-    throw_validate("broken inheritance in the frames.")
+    tar_throw_validate("broken inheritance in the frames.")
   }
 }
 

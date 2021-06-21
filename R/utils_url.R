@@ -69,7 +69,7 @@ url_process_error <- function(url, req, headers) {
     "\nHTTP response headers:\n",
     header_text
   )
-  throw_run(msg)
+  tar_throw_run(msg)
 }
 
 # Tested in tests/interactive/test-tar_watch.R. # nolint
@@ -81,7 +81,7 @@ url_port <- function(host, port, process, verbose = TRUE) {
     if_any(
       process$is_alive(),
       Sys.sleep(0.01),
-      throw_run(process$read_all_error())
+      tar_throw_run(process$read_all_error())
     )
     if_any(verbose, spin$spin(), NULL)
   }

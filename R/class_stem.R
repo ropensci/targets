@@ -110,7 +110,7 @@ target_bootstrap.tar_stem <- function(target, pipeline, meta) {
 
 stem_tar_assert_nonempty <- function(target) {
   if (value_count_slices(target$value) < 1L) {
-    throw_run(
+    tar_throw_run(
       "cannot branch over empty target (",
       target_get_name(target),
       ")"

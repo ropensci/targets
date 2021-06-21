@@ -80,7 +80,7 @@ tar_timestamp_raw <- function(
   tar_assert_chr(name %|||% character(0), "name must be a character.")
   if (is.null(name)) {
     if (!tar_runtime$exists_target()) {
-      throw_validate(
+      tar_throw_validate(
         "name cannot be NULL unless tar_timestamp() is called from a target."
       )
     }

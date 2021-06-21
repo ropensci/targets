@@ -36,7 +36,7 @@ junction_transpose <- function(junction) {
 
 junction_validate_deps <- function(deps) {
   if (!is.null(deps) && !is.data.frame(deps)) {
-    throw_validate("deps field of junction must be null or a data frame.")
+    tar_throw_validate("deps field of junction must be null or a data frame.")
   }
 }
 

@@ -69,7 +69,7 @@ tar_engine_knitr <- function(options) {
   tar_assert_chr(options$tar_name, msg)
   tar_assert_nzchar(options$tar_name, msg)
   if (!is.null(options$targets)) {
-    warn_deprecate(
+    tar_warn_deprecate(
       "In Target Markdown, the `targets` chunk option is deprecated.",
       "Set the chunk option tar_globals = TRUE to define functions, ",
       "global objects, and settings. To define targets, ",
@@ -242,7 +242,7 @@ warn_labels_duplicated <- function() {
   should_warn <- identical(getOption("knitr.duplicate.label"), "allow") &&
     !identical(Sys.getenv("TAR_WARN"), "false")
   if (should_warn) {
-    warn_validate(
+    tar_warn_validate(
       "knitr.duplicate.label is set to \"allow\". Duplicate labels ",
       "interfere with the proper execution of Target Markdown ",
       "unless you set unique values for the tar_name chunk option. ",
@@ -256,7 +256,7 @@ warn_labels_duplicated <- function() {
 warn_labels_unnamed <- function(options) {
   suppressed <- identical(Sys.getenv("TAR_WARN"), "false")
   if (!suppressed && any(grepl("unnamed-chunk-[0-9]*$", options$tar_name))) {
-    warn_validate(
+    tar_warn_validate(
       "Please assign explicit labels to {targets} code chunks ",
       "in order to avoid accidental duplicated script files. ",
       "Suppress this warning with Sys.setenv(TAR_WARN = \"false\")."

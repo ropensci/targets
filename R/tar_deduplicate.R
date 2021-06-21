@@ -20,7 +20,7 @@ tar_deduplicate <- function(
   progress = TRUE,
   store = targets::tar_config_get("store")
 ) {
-  warn_deprecate(
+  tar_warn_deprecate(
     "tar_deduplicate() is deprecated in version 0.3.0 (2020-03-06). ",
     "The tar_make*() functions do enough deduplication now automatically."
   )

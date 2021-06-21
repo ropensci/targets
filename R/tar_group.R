@@ -63,7 +63,7 @@ tar_group <- function(x) {
   tar_assert_package("dplyr")
   groups <- attr(x, "groups")
   if (is.null(groups)) {
-    throw_validate(
+    tar_throw_validate(
       "tar_group() must take a grouped data frame from dplyr::group_by()"
     )
   }

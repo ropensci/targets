@@ -230,7 +230,7 @@ pipeline_validate_targets <- function(targets) {
 
 pipeline_validate_dag <- function(igraph) {
   if (!igraph::is_dag(igraph)) {
-    throw_validate("graph contains a cycle.")
+    tar_throw_validate("graph contains a cycle.")
   }
 }
 
@@ -244,7 +244,7 @@ pipeline_validate_conflicts <- function(pipeline) {
     "in _targets.R."
   )
   if (length(conflicts) && !identical(Sys.getenv("TAR_WARN"), "false")) {
-    warn_validate(msg)
+    tar_warn_validate(msg)
   }
 }
 

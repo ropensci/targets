@@ -19,7 +19,7 @@
 #'   )
 #' )
 tar_bind <- function(...) {
-  warn_deprecate(
+  tar_warn_deprecate(
     "tar_bind() and tar_pipeline() are deprecated ",
     "in targets version >= 0.0.0.9004. Simply end your target script file ",
     "with a list of tar_target() objects (arbitrarily nested)."

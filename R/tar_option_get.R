@@ -33,7 +33,7 @@
 #' }
 tar_option_get <- function(name = NULL, option = NULL) {
   if (!is.null(option)) {
-    warn_deprecate(
+    tar_warn_deprecate(
       "the option argument of tar_option_get() ",
       "was deprecated in targets version 0.5.0.9000 (2021-05-30). ",
       "use the name argument instead."

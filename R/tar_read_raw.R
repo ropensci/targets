@@ -39,7 +39,7 @@ tar_read_raw <- function(
 tar_read_inner <- function(name, branches, meta, path_store) {
   index <- meta$name == name
   if (!any(index)) {
-    throw_validate("target ", name, " not found")
+    tar_throw_validate("target ", name, " not found")
   }
   row <- meta[max(which(index)),, drop = FALSE] # nolint
   record <- record_from_row(row = row, path_store = path_store)
@@ -61,7 +61,7 @@ read_pattern <- function(name, record, meta, branches, path_store) {
   }
   if (length(diff <- setdiff(names, meta$name))) {
     diff <- if_any(anyNA(diff), "branches out of range", diff)
-    throw_validate("branches not in metadata: ", paste(diff, collapse = ", "))
+    tar_throw_validate("branches not in metadata: ", paste(diff, collapse = ", "))
   }
   meta <- meta[meta$name %in% names,, drop = FALSE] # nolint
   if (nrow(meta)) {

@@ -45,7 +45,7 @@ tar_traceback <- function(
   tar_assert_dbl(characters, "characters must be numeric.")
   tar_assert_positive(characters, "characters must be positive.")
   if (!is.null(envir) || !is.null(packages) || !is.null(source)) {
-    warn_deprecate(
+    tar_warn_deprecate(
       "The envir, packages, and source arguments of tar_traceback() ",
       "are deprectaed in targets > 0.3.1 (2021-03-28)."
     )

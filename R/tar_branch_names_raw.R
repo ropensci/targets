@@ -38,7 +38,7 @@ tar_branch_names_raw <- function(
   children <- meta$children[meta$name == name][[1]]
   if_any(
     anyNA(children),
-    throw_validate("target ", name, " has no branches."),
+    tar_throw_validate("target ", name, " has no branches."),
     children[index]
   )
 }

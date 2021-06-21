@@ -27,7 +27,7 @@ store_assert_format_setting <- function(class) {
 
 #' @export
 store_assert_format_setting.default <- function(class) {
-  throw_validate("unsupported format")
+  tar_throw_validate("unsupported format")
 }
 
 store_read_object <- function(store) {
@@ -179,7 +179,7 @@ store_wait_correct_hash <- function(store, sleep = 0.01, timeout = 60) {
     "does not exist or has incorrect hash.",
     "File sync timed out."
   )
-  throw_file(msg)
+  tar_throw_file(msg)
 }
 
 store_has_correct_hash <- function(store) {

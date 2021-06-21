@@ -17,7 +17,7 @@ callr_outer <- function(
       script = script
     ),
     callr_error = function(e) {
-      throw_run(
+      tar_throw_run(
         conditionMessage(e),
         "\nVisit https://books.ropensci.org/targets/debugging.html ",
         "for debugging advice."

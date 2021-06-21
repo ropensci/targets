@@ -4,7 +4,7 @@ value_init <- function(object = NULL, iteration = "vector") {
     vector = vector_new(object),
     list = list_new(object),
     group = group_new(object),
-    throw_validate("unsupported iteration mode: ", iteration)
+    tar_throw_validate("unsupported iteration mode: ", iteration)
   )
 }
 

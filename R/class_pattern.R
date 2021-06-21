@@ -285,7 +285,7 @@ pipeline_tar_assert_dimension <- function(target, pipeline, name) {
     branchable <- target_is_branchable(dep)
   }
   if (!branchable) {
-    throw_validate(
+    tar_throw_validate(
       "Target ", target_get_name(target),
       " tried to branch over ", name, ", which is illegal. ",
       "Patterns must only branch over explicitly ",
