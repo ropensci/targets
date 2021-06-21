@@ -5,6 +5,7 @@
 \alias{tar_assert_chr}
 \alias{tar_assert_dbl}
 \alias{tar_assert_df}
+\alias{tar_assert_equal_lengths}
 \alias{tar_assert_envir}
 \alias{tar_assert_expr}
 \alias{tar_assert_flag}
@@ -45,6 +46,8 @@ tar_assert_chr(x, msg = NULL)
 tar_assert_dbl(x, msg = NULL)
 
 tar_assert_df(x, msg = NULL)
+
+tar_assert_equal_lengths(x, msg = NULL)
 
 tar_assert_envir(x, msg = NULL)
 

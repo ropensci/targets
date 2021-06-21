@@ -58,6 +58,14 @@ tar_test("tar_assert_in()", {
   expect_error(tar_assert_in("xyz", letters), class = "tar_condition_validate")
 })
 
+tar_test("tar_assert_equal_lengths()", {
+  expect_silent(tar_assert_equal_lengths(as.list(letters)))
+  expect_error(
+    tar_assert_equal_lengths(list(a = 1, b = letters)),
+    class = "tar_condition_validate"
+  )
+})
+
 tar_test("tar_assert_not_in()", {
   expect_silent(tar_assert_not_in("xyz", letters))
   expect_error(

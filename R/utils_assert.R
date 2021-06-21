@@ -87,6 +87,15 @@ tar_assert_df <- function(x, msg = NULL) {
 
 #' @export
 #' @rdname tar_assert
+tar_assert_equal_lengths <- function (x, msg = NULL) {
+  lengths <- map_int(x, length)
+  if (length(unique(lengths)) > 1L) {
+    targets::tar_throw_validate(msg %|||% "x must have equal-length elements.")
+  }
+}
+
+#' @export
+#' @rdname tar_assert
 tar_assert_envir <- function(x, msg = NULL) {
   if (!is.environment(x)) {
     default <- paste(deparse(substitute(x)), "must be an environment.")
