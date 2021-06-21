@@ -12,41 +12,41 @@
 #' @return A list of objects of class `"tar_resources"` with
 #'   non-default settings of various optional backends for data storage
 #'   and high-performance computing.
-#' @param aws Output of function [tar_resources_aws()].
+#' @param aws Output of function `tar_resources_aws()`.
 #'   AWS S3 storage settings for AWS backed storage formats
 #'   such as `"aws_qs"` and `"aws_parquet`. Applies to all formats
 #'   beginning with the `"aws_"` prefix. For details on formats,
 #'   see the `format` argument of [tar_target()].
-#' @param clustermq Output of function [tar_resources_clustermq()].
-#'   Optional `clustermq` settings for [tar_make_clustermq()],
+#' @param clustermq Output of function `tar_resources_clustermq()`.
+#'   Optional `clustermq` settings for `tar_make_clustermq()`,
 #'   including the `log_worker` and `template` arguments of
 #'   `clustermq::workers()`.
-#' @param feather Output of function [tar_resources_feather()].
+#' @param feather Output of function `tar_resources_feather()`.
 #'   Non-default arguments to `arrow::read_feather()` and
 #'   `arrow::write_feather()` for `arrow`/feather-based storage formats.
 #'   Applies to all formats ending with the `"_feather"` suffix.
 #'   For details on formats, see the `format` argument of [tar_target()].
-#' @param fst Output of function [tar_resources_fst()].
+#' @param fst Output of function `tar_resources_fst()`.
 #'   Non-default arguments to `fst::read_fst()` and
 #'   `fst::write_fst()` for `fst`-based storage formats.
 #'   Applies to all formats ending with `"fst"` in the name.
 #'   For details on formats, see the `format` argument of [tar_target()].
-#' @param future Output of function [tar_resources_future()].
-#'   Optional `future` settings for [tar_make_future()],
+#' @param future Output of function `tar_resources_future()`.
+#'   Optional `future` settings for `tar_make_future()`,
 #'   including the `resources` argument of
 #'   `future::future()`, which can include values to insert in
 #'   template placeholders in `future.batchtools` template files.
-#' @param parquet Output of function [tar_resources_parquet()].
+#' @param parquet Output of function `tar_resources_parquet()`.
 #'   Non-default arguments to `arrow::read_parquet()` and
 #'   `arrow::write_parquet()` for `arrow`/parquet-based storage formats.
 #'   Applies to all formats ending with the `"_parquet"` suffix.
 #'   For details on formats, see the `format` argument of [tar_target()].
-#' @param qs Output of function [tar_resources_qs()].
+#' @param qs Output of function `tar_resources_qs()`.
 #'   Non-default arguments to `qs::qread()` and
 #'   `qs::qsave()` for `qs`-based storage formats.
 #'   Applies to all formats ending with the `"_qs"` suffix.
 #'   For details on formats, see the `format` argument of [tar_target()].
-#' @param url Output of function [tar_resources_url()].
+#' @param url Output of function `tar_resources_url()`.
 #'   Non-default settings for storage formats ending with the `"_url"` suffix.
 #'   These settings include the `curl` handle for extra control over HTTP
 #'   requests. For details on formats, see the `format` argument of

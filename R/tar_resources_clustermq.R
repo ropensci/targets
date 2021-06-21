@@ -1,14 +1,14 @@
 #' @title Target resources: `clustermq` high-performance computing
 #' @export
 #' @family resources
-#' @description Create the `clustermq` argument of [tar_resources()]]
+#' @description Create the `clustermq` argument of `tar_resources()`
 #'   to specify optional high-performance computing settings
-#'   for [tar_make_clustermq()].
+#'   for `tar_make_clustermq()`.
 #'   For details, see the documentation of the `clustermq` R package
 #'   and the corresponding argument names in this help file.
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_clustermq"`, to be supplied
-#'   to the `clustermq` argument of [tar_resources()].
+#'   to the `clustermq` argument of `tar_resources()`.
 #' @param template Named list, `template` argument to
 #'   `clustermq::workers()`.
 #' @examples

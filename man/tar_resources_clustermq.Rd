@@ -12,12 +12,12 @@ tar_resources_clustermq(template = list())
 }
 \value{
 Object of class \code{"tar_resources_clustermq"}, to be supplied
-to the \code{clustermq} argument of \code{\link[=tar_resources]{tar_resources()}}.
+to the \code{clustermq} argument of \code{tar_resources()}.
 }
 \description{
-Create the \code{clustermq} argument of \code{\link[=tar_resources]{tar_resources()}}]
+Create the \code{clustermq} argument of \code{tar_resources()}
 to specify optional high-performance computing settings
-for \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}.
+for \code{tar_make_clustermq()}.
 For details, see the documentation of the \code{clustermq} R package
 and the corresponding argument names in this help file.
 }

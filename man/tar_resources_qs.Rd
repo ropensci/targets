@@ -12,10 +12,10 @@ argument of \code{qs::qsave()}.}
 }
 \value{
 Object of class \code{"tar_resources_qs"}, to be supplied
-to the qs argument of \code{\link[=tar_resources]{tar_resources()}}.
+to the qs argument of \code{tar_resources()}.
 }
 \description{
-Create the \code{qs} argument of \code{\link[=tar_resources]{tar_resources()}}]
+Create the \code{qs} argument of \code{tar_resources()}
 to specify optional settings for big data storage formats
 powered by the \code{qs} R package.
 See the \code{format} argument of \code{\link[=tar_target]{tar_target()}} for details.
