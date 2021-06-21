@@ -31,7 +31,8 @@ tar_warn_validate(...)
     condition object.}
 }
 \description{
-These functions throw custom \code{targets}-specific error conditions.
+These functions throw custom
+\code{targets}-specific error conditions.
 Useful for error handling in packages built on top of \code{targets}.
 }
 \examples{
