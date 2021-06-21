@@ -164,3 +164,9 @@ tar_test("custom script and store args with callr function", {
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))
 })
+
+tar_test("null environment", {
+  tar_script(tar_target(x, "x"))
+  tar_make(callr_function = NULL, envir = NULL)
+  expect_equal(tar_read(x), "x")
+})

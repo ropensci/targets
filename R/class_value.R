@@ -4,7 +4,7 @@ value_init <- function(object = NULL, iteration = "vector") {
     vector = vector_new(object),
     list = list_new(object),
     group = group_new(object),
-    throw_validate("unsupported iteration mode: ", iteration)
+    tar_throw_validate("unsupported iteration mode: ", iteration)
   )
 }
 
@@ -47,6 +47,6 @@ value_produce_slice_kernel.default <- function(value, index) { # nolint
 
 #' @export
 value_validate.tar_value <- function(value) {
-  assert_correct_fields(value, value_new)
-  assert_int(value_count_slices(value))
+  tar_assert_correct_fields(value, value_new)
+  tar_assert_int(value_count_slices(value))
 }

@@ -39,10 +39,10 @@ tar_network <- function(
   store = targets::tar_config_get("store")
 ) {
   force(envir)
-  assert_lgl(targets_only, "targets_only must be logical.")
+  tar_assert_lgl(targets_only)
   tar_config_assert_reporter_outdated(reporter)
-  assert_callr_function(callr_function)
-  assert_list(callr_arguments, "callr_arguments mut be a list.")
+  tar_assert_callr_function(callr_function)
+  tar_assert_list(callr_arguments)
   targets_arguments <- list(
     path_store = store,
     targets_only = targets_only,

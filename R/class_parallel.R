@@ -68,14 +68,14 @@ parallel_class <- R6::R6Class(
       unlist(lapply(children, scheduler$count_unfinished_deps))
     },
     validate_names = function(names) {
-      assert_chr(names)
+      tar_assert_chr(names)
       if (anyNA(names) || anyDuplicated(names)) {
-        throw_validate("names must unique finite character strings.")
+        tar_throw_validate("names must unique finite character strings.")
       }
     },
     validate_ranks = function(ranks) {
       if (anyNA(ranks) || any(ranks <= -1L)) {
-        throw_validate("ranks must be nonmissing numerics greater than -1.")
+        tar_throw_validate("ranks must be nonmissing numerics greater than -1.")
       }
     },
     validate = function() {

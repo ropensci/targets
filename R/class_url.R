@@ -39,7 +39,7 @@ store_cast_object.tar_url <- function(store, object) {
 #' @export
 store_assert_format.tar_url <- function(store, object, name) {
   if (!is.character(object)) {
-    throw_validate(
+    tar_throw_validate(
       "target ", name, " did not return a character. ",
       "targets with format = \"url\" must return ",
       "character vectors of URL paths."

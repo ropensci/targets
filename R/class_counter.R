@@ -49,11 +49,11 @@ counter_del_names <- function(counter, names) {
 }
 
 counter_validate <- function(counter) {
-  assert_correct_fields(counter, counter_new)
-  assert_int(counter$count)
-  assert_scalar(counter$count)
-  assert_envir(counter$envir)
+  tar_assert_correct_fields(counter, counter_new)
+  tar_assert_int(counter$count)
+  tar_assert_scalar(counter$count)
+  tar_assert_envir(counter$envir)
   if (!identical(length(names(counter$envir)), counter$count)) {
-    throw_validate("envir does not match count.")
+    tar_throw_validate("envir does not match count.")
   }
 }

@@ -34,7 +34,10 @@ exists("testing_variable_cafecfcb")
 file.exists("only_exists_in_tar_test")
 }
 \seealso{
-Other targetopia: 
-\code{\link{tar_dir}()}
+Other utilities to extend targets: 
+\code{\link{tar_assert}},
+\code{\link{tar_condition}},
+\code{\link{tar_dir}()},
+\code{\link{tar_language}}
 }
-\concept{targetopia}
+\concept{utilities to extend targets}

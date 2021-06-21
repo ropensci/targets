@@ -298,7 +298,7 @@ target_bootstrap <- function(target, pipeline, meta) {
 target_bootstrap_record <- function(target, meta) {
   name <- target$settings$name
   if (!meta$exists_record(name)) {
-    throw_validate(
+    tar_throw_validate(
       "cannot bootstrap target ",
       name,
       " because there is no record of ",

@@ -55,8 +55,8 @@ patternview_register_final <- function(patternview, target, scheduler) {
 }
 
 patternview_validate <- function(patternview) {
-  assert_correct_fields(patternview, patternview_new)
-  assert_in(
+  tar_assert_correct_fields(patternview, patternview_new)
+  tar_assert_in(
     patternview$progress,
     c("queued", "started", "built", "canceled", "errored")
   )

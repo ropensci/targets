@@ -29,16 +29,16 @@ tar_branch_names_raw <- function(
   index,
   store = targets::tar_config_get("store")
 ) {
-  assert_chr(name, "name must be a character.")
-  assert_scalar(name, "name must have length 1.")
-  assert_dbl(index, "index must be numeric.")
+  tar_assert_chr(name)
+  tar_assert_scalar(name)
+  tar_assert_dbl(index)
   meta <- meta_init(path_store = store)
   meta <- tibble::as_tibble(meta$database$read_condensed_data())
-  assert_in(name, meta$name, paste(name, "not in metadata."))
+  tar_assert_in(name, meta$name, paste(name, "not in metadata."))
   children <- meta$children[meta$name == name][[1]]
   if_any(
     anyNA(children),
-    throw_validate("target ", name, " has no branches."),
+    tar_throw_validate("target ", name, " has no branches."),
     children[index]
   )
 }

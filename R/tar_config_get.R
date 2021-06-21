@@ -36,7 +36,7 @@
 #' }
 tar_config_get <- function(name, config = "_targets.yaml") {
   choices <- setdiff(names(formals(tar_config_set)), "config")
-  assert_flag(name, choices = choices)
+  tar_assert_flag(name, choices = choices)
   yaml <- tar_config_read_yaml(config)
   switch(
     name,

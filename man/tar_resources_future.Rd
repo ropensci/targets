@@ -15,12 +15,12 @@ a \code{target}-specific \code{future} plan.}
 }
 \value{
 Object of class \code{"tar_resources_future"}, to be supplied
-to the \code{future} argument of \code{\link[=tar_resources]{tar_resources()}}.
+to the \code{future} argument of \code{tar_resources()}.
 }
 \description{
-Create the \code{future} argument of \code{\link[=tar_resources]{tar_resources()}}]
+Create the \code{future} argument of \code{tar_resources()}
 to specify optional high-performance computing settings
-for \code{\link[=tar_make_future]{tar_make_future()}}.
+for \code{tar_make_future()}.
 For details, see the documentation of the \code{future} R package
 and the corresponding argument names in this help file.
 }

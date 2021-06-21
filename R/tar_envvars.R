@@ -41,8 +41,8 @@
 #'   issues with your pipeline, so please do not set `TAR_WARN`
 #'   unless your use case absolutely requires it.
 tar_envvars <- function(unset = "") {
-  assert_chr(unset, "unset must be a character.")
-  assert_scalar(unset, "unset must have length 1.")
+  tar_assert_chr(unset, "unset must be a character.")
+  tar_assert_scalar(unset, "unset must have length 1.")
   names <- c(
     "TAR_ASK",
     "TAR_WARN"

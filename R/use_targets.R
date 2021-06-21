@@ -18,7 +18,7 @@
 use_targets <- function(path = "_targets.Rmd", open = interactive()) {
   # Covered in tests/interactive/test-use_targets.R.
   # nocov start
-  assert_package("usethis")
+  tar_assert_package("usethis")
   source <- file.path(
     "..",
     "rmarkdown",

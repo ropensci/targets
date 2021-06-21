@@ -1,13 +1,13 @@
 #' @title Target resources: feather storage formats
 #' @export
 #' @family resources
-#' @description Create the feather argument of [tar_resources()]]
+#' @description Create the feather argument of `tar_resources()`
 #'   to specify optional settings for feather data frame storage formats
 #'   powered by the `arrow` R package.
 #'   See the `format` argument of [tar_target()] for details.
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_feather"`, to be supplied
-#'   to the feather argument of [tar_resources()].
+#'   to the feather argument of `tar_resources()`.
 #' @param compression Character of length 1, `compression`
 #'   argument of `arrow::write_feather()`.
 #' @param compression_level Numeric of length 1, `compression_level`

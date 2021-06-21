@@ -12,23 +12,23 @@
 #'     most objects, but slow.
 #'   * `"qs"`: Uses `qs::qsave()` and `qs::qread()`. Should work for
 #'     most objects, much faster than `"rds"`. Optionally set the
-#'     preset for `qsave()` through [tar_resources()] and [tar_resources_qs()].
+#'     preset for `qsave()` through `tar_resources()` and `tar_resources_qs()`.
 #'   * `"feather"`: Uses `arrow::write_feather()` and
 #'     `arrow::read_feather()` (version 2.0). Much faster than `"rds"`,
 #'     but the value must be a data frame. Optionally set
 #'     `compression` and `compression_level` in `arrow::write_feather()`
-#'     through [tar_resources()] and [tar_resources_feather()].
+#'     through `tar_resources()` and `tar_resources_feather()`.
 #'     Requires the `arrow` package (not installed by default).
 #'   * `"parquet"`: Uses `arrow::write_parquet()` and
 #'     `arrow::read_parquet()` (version 2.0). Much faster than `"rds"`,
 #'     but the value must be a data frame. Optionally set
 #'     `compression` and `compression_level` in `arrow::write_parquet()`
-#'     through [tar_resources()] and [tar_resources_parquet()]..
+#'     through `tar_resources()` and `tar_resources_parquet()`.
 #'     Requires the `arrow` package (not installed by default).
 #'   * `"fst"`: Uses `fst::write_fst()` and `fst::read_fst()`.
 #'     Much faster than `"rds"`, but the value must be
 #'     a data frame. Optionally set the compression level for
-#'     `fst::write_fst()` through [tar_resources()] and [tar_resources_fst()].
+#'     `fst::write_fst()` through `tar_resources()` and `tar_resources_fst()`.
 #'     Requires the `fst` package (not installed by default).
 #'   * `"fst_dt"`: Same as `"fst"`, but the value is a `data.table`.
 #'     Optionally set the compression level the same way as for `"fst"`.
@@ -58,7 +58,7 @@
 #'     except the return value of the target is a URL that already exists
 #'     and serves as input data for downstream targets. Optionally
 #'     supply a custom `curl` handle through
-#'     [tar_resources()] and [tar_resources_url()].
+#'     `tar_resources()` and `tar_resources_url()`.
 #'     in `new_handle()`, `nobody = TRUE` is important because it
 #'     ensures `targets` just downloads the metadata instead of
 #'     the entire data file when it checks time stamps and hashes.
@@ -73,7 +73,7 @@
 #'     `"aws_fst_tbl"`, `"aws_keras"`: AWS-powered versions of the
 #'     respective formats `"rds"`, `"qs"`, etc. The only difference
 #'     is that the data file is uploaded to the AWS S3 bucket
-#'     you supply to [tar_resources_aws()]. See the cloud computing chapter
+#'     you supply to `tar_resources_aws()`. See the cloud computing chapter
 #'     of the manual for details.
 #'   * `"aws_file"`: arbitrary dynamic files on AWS S3. The target
 #'     should return a path to a temporary local file, then
@@ -171,11 +171,11 @@
 #'   targets get deployed first when multiple competing targets are ready
 #'   simultaneously. Targets with priorities closer to 1 get built earlier
 #'   (and polled earlier in [tar_make_future()]).
-#' @param resources Object returned by [tar_resources()]
+#' @param resources Object returned by `tar_resources()`
 #'   with optional settings for high-performance computing
 #'   functionality, alternative data storage formats,
 #'   and other optional capabilities of `targets`.
-#'   See [tar_resources()] for details.
+#'   See `tar_resources()` for details.
 #' @param storage Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
 #'   If `"main"`, the target's return value is sent back to the
@@ -230,13 +230,13 @@ tar_target <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
-  name <- deparse_language(substitute(name))
-  assert_chr(name, "target name must be a symbol")
-  assert_nzchar(name, "target name must be nonempty.")
-  assert_lgl(tidy_eval, "tidy_eval in tar_target() must be logical.")
+  name <- tar_deparse_language(substitute(name))
+  tar_assert_chr(name)
+  tar_assert_nzchar(name)
+  tar_assert_lgl(tidy_eval)
   envir <- tar_option_get("envir")
   command <- as.expression(substitute(command))
-  assert_nonmissing(command[[1]], paste("target", name, "has no command."))
+  tar_assert_nonmissing(command[[1]], paste("target", name, "has no command."))
   command <- tar_tidy_eval(command, envir, tidy_eval)
   pattern <- as.expression(substitute(pattern))
   pattern <- tar_tidy_eval(pattern, envir, tidy_eval)

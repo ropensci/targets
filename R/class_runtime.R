@@ -59,7 +59,7 @@ runtime_class <- R6::R6Class(
     },
     validate = function() {
       if (!is.null(self$target)) {
-        assert_inherits(self$target, "tar_target")
+        tar_assert_inherits(self$target, "tar_target")
         target_validate(self$target)
       }
       if (!is.null(self$frames)) {

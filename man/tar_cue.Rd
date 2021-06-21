@@ -84,7 +84,7 @@ The hash of a target is computed on its files in storage
 non-function global object dependency is computed directly on its
 in-memory data. User-defined functions are hashed in the following way:
 \enumerate{
-\item Deparse the function with \code{targets:::deparse_safe()}. This
+\item Deparse the function with \code{targets:::tar_deparse_safe()}. This
 function computes a string representation of the function
 body and arguments. This string representation is invariant to
 changes in comments and whitespace, which means

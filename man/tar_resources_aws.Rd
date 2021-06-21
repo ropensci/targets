@@ -16,10 +16,10 @@ in the S3 bucket where the target return values are stored.}
 }
 \value{
 Object of class \code{"tar_resources_aws"}, to be supplied
-to the \code{aws} argument of \code{\link[=tar_resources]{tar_resources()}}.
+to the \code{aws} argument of \code{tar_resources()}.
 }
 \description{
-Create the \code{aws} argument of \code{\link[=tar_resources]{tar_resources()}}]
+Create the \code{aws} argument of \code{tar_resources()}
 to specify optional settings to AWS storage formats.
 See the \code{format} argument of \code{\link[=tar_target]{tar_target()}} for details.
 }

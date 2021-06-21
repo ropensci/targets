@@ -126,7 +126,7 @@ database_class <- R6::R6Class(
         Sys.sleep(stats::runif(1, 0.2, 0.25))
         attempt <- attempt + 1L
         if (attempt > max_attempts) {
-          throw_run(
+          tar_throw_run(
             "timed out after ",
             max_attempts,
             " attempts trying to append to ",
@@ -219,10 +219,10 @@ database_class <- R6::R6Class(
       memory_validate(self$memory)
       self$validate_columns(self$header, self$list_columns)
       self$validate_file()
-      assert_chr(self$path)
-      assert_scalar(self$path)
-      assert_chr(self$header)
-      assert_chr(self$list_columns)
+      tar_assert_chr(self$path)
+      tar_assert_scalar(self$path)
+      tar_assert_chr(self$header)
+      tar_assert_chr(self$list_columns)
     }
   )
 )
@@ -255,10 +255,10 @@ database_read_existing_data <- function(database) {
 
 database_validate_columns <- function(header, list_columns) {
   if (!all(list_columns %in% header)) {
-    throw_validate("all list columns must be in the header")
+    tar_throw_validate("all list columns must be in the header")
   }
   if (!is.null(header) & !("name" %in% header)) {
-    throw_validate("header must have a column called \"name\"")
+    tar_throw_validate("header must have a column called \"name\"")
   }
 }
 
@@ -271,7 +271,7 @@ database_validate_file <- function(database) {
   if (identical(header, database$header)) {
     return()
   }
-  throw_file(
+  tar_throw_file(
     "invalid header in ", database$path, "\n",
     "  found:    ", paste(header, collapse = database_sep_outer), "\n",
     "  expected: ", paste(database$header, collapse = database_sep_outer),

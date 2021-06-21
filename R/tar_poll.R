@@ -43,12 +43,12 @@ tar_poll <- function(
     }
     spinner$finish()
   }
-  assert_scalar(interval, "interval must have length 1.")
-  assert_dbl(interval, "interval must be numeric.")
-  assert_positive(interval, "interval must be positive.")
-  assert_scalar(timeout, "timeout must have length 1.")
-  assert_dbl(timeout, "timeout must be numeric.")
-  assert_positive(timeout, "timeout must be positive.")
+  tar_assert_scalar(interval, "interval must have length 1.")
+  tar_assert_dbl(interval, "interval must be numeric.")
+  tar_assert_positive(interval, "interval must be positive.")
+  tar_assert_scalar(timeout, "timeout must have length 1.")
+  tar_assert_dbl(timeout, "timeout must be numeric.")
+  tar_assert_positive(timeout, "timeout must be positive.")
   fields_quosure <- rlang::enquo(fields)
   if (tar_poll_go(start, timeout)) {
     tar_poll_header(fields_quosure, store = store)
@@ -74,7 +74,7 @@ tar_poll_go <- function(start, timeout) {
 
 tar_poll_df <- function(fields_quosure, store) {
   progress <- tar_progress_summary(fields = NULL, store = store)
-  fields <- eval_tidyselect(fields_quosure, colnames(progress)) %|||%
+  fields <- tar_tidyselect_eval(fields_quosure, colnames(progress)) %|||%
     colnames(progress)
   progress[, fields, drop = FALSE]
 }

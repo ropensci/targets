@@ -30,7 +30,7 @@ visual_class <- R6::R6Class(
     },
     allow_vertices = function() {
       vertices <- self$network$vertices
-      allow <- eval_tidyselect(self$allow, vertices$name)
+      allow <- tar_tidyselect_eval(self$allow, vertices$name)
       if (is.null(allow)) {
         return()
       }
@@ -43,7 +43,7 @@ visual_class <- R6::R6Class(
     },
     exclude_vertices = function() {
       vertices <- self$network$vertices
-      exclude <- eval_tidyselect(self$exclude, vertices$name)
+      exclude <- tar_tidyselect_eval(self$exclude, vertices$name)
       if (is.null(exclude)) {
         return()
       }
@@ -61,12 +61,12 @@ visual_class <- R6::R6Class(
     },
     validate = function() {
       self$network$validate()
-      assert_lgl(self$targets_only)
+      tar_assert_lgl(self$targets_only)
       if (!is.null(self$allow)) {
-        assert_chr(self$allow)
+        tar_assert_chr(self$allow)
       }
       if (!is.null(self$exclude)) {
-        assert_chr(self$exclude)
+        tar_assert_chr(self$exclude)
       }
       invisible()
     }

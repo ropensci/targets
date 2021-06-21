@@ -20,8 +20,8 @@
 #' })
 #' }
 tar_name <- function(default = "target") {
-  assert_chr(default)
-  assert_scalar(default)
+  tar_assert_chr(default)
+  tar_assert_scalar(default)
   if_any(
     tar_runtime$exists_target(),
     target_get_name(tar_runtime$get_target()),

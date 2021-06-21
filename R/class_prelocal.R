@@ -47,14 +47,14 @@ prelocal_class <- R6::R6Class(
     },
     end = function() {
     },
-    assert_deployment = function(target) {
+    tar_assert_deployment = function(target) {
       should_abort <- identical(target$settings$deployment, "worker") &&
         inherits(target, "tar_builder")
       if (should_abort) {
         name <- target_get_name(target)
         rank <- rank_offset(target$settings$priority)
         self$scheduler$queue$prepend(name, rank)
-        throw_prelocal("requires workers")
+        tar_throw_prelocal("requires workers")
       }
     }
   )

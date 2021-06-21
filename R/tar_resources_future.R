@@ -1,14 +1,14 @@
 #' @title Target resources: `future` high-performance computing
 #' @export
 #' @family resources
-#' @description Create the `future` argument of [tar_resources()]]
+#' @description Create the `future` argument of `tar_resources()`
 #'   to specify optional high-performance computing settings
-#'   for [tar_make_future()].
+#'   for `tar_make_future()`.
 #'   For details, see the documentation of the `future` R package
 #'   and the corresponding argument names in this help file.
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_future"`, to be supplied
-#'   to the `future` argument of [tar_resources()].
+#'   to the `future` argument of `tar_resources()`.
 #' @param plan A `future::plan()` object or `NULL`,
 #'   a `target`-specific `future` plan.
 #' @param resources Named list, `resources` argument to

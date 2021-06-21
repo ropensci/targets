@@ -96,7 +96,7 @@ target_is_branchable.tar_pattern <- function(target) {
 #' @export
 target_produce_junction.tar_pattern <- function(target, pipeline) {
   dimensions <- target$settings$dimensions
-  pattern_assert_dimensions(target, dimensions, pipeline)
+  pattern_tar_assert_dimensions(target, dimensions, pipeline)
   siblings <- setdiff(target_deps_shallow(target, pipeline), dimensions)
   niblings <- pattern_children_columns(dimensions, pipeline)
   pattern <- target$settings$pattern
@@ -120,7 +120,7 @@ target_needs_worker.tar_pattern <- function(target) {
 
 #' @export
 target_validate.tar_pattern <- function(target) {
-  assert_correct_fields(target, pattern_new)
+  tar_assert_correct_fields(target, pattern_new)
   if (!is.null(target$junction)) {
     junction_validate(target$junction)
   }
@@ -150,7 +150,7 @@ print.tar_pattern <- function(x, ...) {
     "\n  command:\n   ",
     produce_lines(string_sub_expression(x$command$string)),
     "\n  pattern:\n   ",
-    produce_lines(string_sub_expression(deparse_safe(x$settings$pattern))),
+    produce_lines(string_sub_expression(tar_deparse_safe(x$settings$pattern))),
     "\n  format:", x$settings$format,
     "\n  iteration method:", x$settings$iteration,
     "\n  error mode:", x$settings$error,
@@ -272,20 +272,20 @@ pattern_begin_final <- function(target, pipeline, scheduler, meta) {
   pattern_requeue_downstream_nonbranching(target, pipeline, scheduler)
 }
 
-pattern_assert_dimensions <- function(target, dimensions, pipeline) {
+pattern_tar_assert_dimensions <- function(target, dimensions, pipeline) {
   for (name in dimensions) {
-    pipeline_assert_dimension(target, pipeline, name)
+    pipeline_tar_assert_dimension(target, pipeline, name)
   }
 }
 
-pipeline_assert_dimension <- function(target, pipeline, name) {
+pipeline_tar_assert_dimension <- function(target, pipeline, name) {
   branchable <- FALSE
   if (pipeline_exists_target(pipeline, name)) {
     dep <- pipeline_get_target(pipeline, name)
     branchable <- target_is_branchable(dep)
   }
   if (!branchable) {
-    throw_validate(
+    tar_throw_validate(
       "Target ", target_get_name(target),
       " tried to branch over ", name, ", which is illegal. ",
       "Patterns must only branch over explicitly ",

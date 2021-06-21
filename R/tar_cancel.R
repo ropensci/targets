@@ -15,8 +15,10 @@
 #' }
 tar_cancel <- function(condition = TRUE) {
   condition <- force(condition)
-  assert_lgl(condition, "condition in tar_cancel() must be logical")
+  tar_assert_lgl(condition, "condition in tar_cancel() must be logical")
   if (condition) {
-    throw_cancel("throw_cancel() is only valid inside a targets pipeline.")
+    tar_throw_cancel(
+      "tar_throw_cancel() is only valid inside a targets pipeline."
+    )
   }
 }

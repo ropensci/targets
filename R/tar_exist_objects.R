@@ -16,6 +16,6 @@ tar_exist_objects <- function(
   names,
   store = targets::tar_config_get("store")
 ) {
-  assert_chr(names, "names must be a character vector.")
+  tar_assert_chr(names, "names must be a character vector.")
   file.exists(path_objects(path_store = store, name = names))
 }

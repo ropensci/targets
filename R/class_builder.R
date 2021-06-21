@@ -257,7 +257,7 @@ builder_exit <- function(target, pipeline, scheduler, meta) {
     pipeline$targets <- NULL
   }
   # Keep this:
-  throw_run(target$metrics$error)
+  tar_throw_run(target$metrics$error)
 }
 
 builder_ensure_workspace <- function(target, pipeline, scheduler, meta) {

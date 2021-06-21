@@ -89,13 +89,14 @@ tar_meta <- function(
   complete_only = FALSE,
   store = targets::tar_config_get("store")
 ) {
-  assert_path(path_meta(path_store = store))
+  tar_assert_path(path_meta(path_store = store))
   meta <- meta_init(path_store = store)
   out <- tibble::as_tibble(meta$database$read_condensed_data())
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)
-  names <- eval_tidyselect(names_quosure, out$name)
-  fields <- eval_tidyselect(fields_quosure, colnames(out)) %|||% colnames(out)
+  names <- tar_tidyselect_eval(names_quosure, out$name)
+  fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||%
+    colnames(out)
   if (!is.null(names)) {
     out <- out[match(names, out$name),, drop = FALSE] # nolint
   }

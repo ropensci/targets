@@ -15,10 +15,10 @@ argument of \code{arrow::write_feather()}.}
 }
 \value{
 Object of class \code{"tar_resources_feather"}, to be supplied
-to the feather argument of \code{\link[=tar_resources]{tar_resources()}}.
+to the feather argument of \code{tar_resources()}.
 }
 \description{
-Create the feather argument of \code{\link[=tar_resources]{tar_resources()}}]
+Create the feather argument of \code{tar_resources()}
 to specify optional settings for feather data frame storage formats
 powered by the \code{arrow} R package.
 See the \code{format} argument of \code{\link[=tar_target]{tar_target()}} for details.

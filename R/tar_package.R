@@ -21,7 +21,8 @@
 #'   graph_from_data_frame igraph_opt igraph_options is_dag simplify topo_sort
 #'   V
 #' @importFrom R6 R6Class
-#' @importFrom rlang as_function check_installed enquo quo_squash
+#' @importFrom rlang abort as_function check_installed enquo inform
+#'   quo_squash warn
 #' @importFrom stats complete.cases runif
 #' @importFrom tibble as_tibble
 #' @importFrom tidyselect all_of any_of contains ends_with everything

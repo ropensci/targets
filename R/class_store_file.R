@@ -44,7 +44,7 @@ store_cast_object.tar_store_file <- function(store, object) { # nolint
 #' @export
 store_assert_format.tar_store_file <- function(store, object, name) { # nolint
   if (!is.character(object)) {
-    throw_validate(
+    tar_throw_validate(
       "target ", name, " did not return a character. ",
       "dynamic files (targets with format = \"file\") must return ",
       "character vectors of file or directory paths."
@@ -70,6 +70,6 @@ store_ensure_correct_hash.tar_store_file <- function(
   if_any(
     identical(deployment, "worker"),
     store_wait_correct_hash(store),
-    assert_path(store$file$path)
+    tar_assert_path(store$file$path)
   )
 }

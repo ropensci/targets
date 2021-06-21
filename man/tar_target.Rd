@@ -121,11 +121,11 @@ targets get deployed first when multiple competing targets are ready
 simultaneously. Targets with priorities closer to 1 get built earlier
 (and polled earlier in \code{\link[=tar_make_future]{tar_make_future()}}).}
 
-\item{resources}{Object returned by \code{\link[=tar_resources]{tar_resources()}}
+\item{resources}{Object returned by \code{tar_resources()}
 with optional settings for high-performance computing
 functionality, alternative data storage formats,
 and other optional capabilities of \code{targets}.
-See \code{\link[=tar_resources]{tar_resources()}} for details.}
+See \code{tar_resources()} for details.}
 
 \item{storage}{Character of length 1, only relevant to
 \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}.
@@ -162,23 +162,23 @@ for more details.
 most objects, but slow.
 \item \code{"qs"}: Uses \code{qs::qsave()} and \code{qs::qread()}. Should work for
 most objects, much faster than \code{"rds"}. Optionally set the
-preset for \code{qsave()} through \code{\link[=tar_resources]{tar_resources()}} and \code{\link[=tar_resources_qs]{tar_resources_qs()}}.
+preset for \code{qsave()} through \code{tar_resources()} and \code{tar_resources_qs()}.
 \item \code{"feather"}: Uses \code{arrow::write_feather()} and
 \code{arrow::read_feather()} (version 2.0). Much faster than \code{"rds"},
 but the value must be a data frame. Optionally set
 \code{compression} and \code{compression_level} in \code{arrow::write_feather()}
-through \code{\link[=tar_resources]{tar_resources()}} and \code{\link[=tar_resources_feather]{tar_resources_feather()}}.
+through \code{tar_resources()} and \code{tar_resources_feather()}.
 Requires the \code{arrow} package (not installed by default).
 \item \code{"parquet"}: Uses \code{arrow::write_parquet()} and
 \code{arrow::read_parquet()} (version 2.0). Much faster than \code{"rds"},
 but the value must be a data frame. Optionally set
 \code{compression} and \code{compression_level} in \code{arrow::write_parquet()}
-through \code{\link[=tar_resources]{tar_resources()}} and \code{\link[=tar_resources_parquet]{tar_resources_parquet()}}..
+through \code{tar_resources()} and \code{tar_resources_parquet()}.
 Requires the \code{arrow} package (not installed by default).
 \item \code{"fst"}: Uses \code{fst::write_fst()} and \code{fst::read_fst()}.
 Much faster than \code{"rds"}, but the value must be
 a data frame. Optionally set the compression level for
-\code{fst::write_fst()} through \code{\link[=tar_resources]{tar_resources()}} and \code{\link[=tar_resources_fst]{tar_resources_fst()}}.
+\code{fst::write_fst()} through \code{tar_resources()} and \code{tar_resources_fst()}.
 Requires the \code{fst} package (not installed by default).
 \item \code{"fst_dt"}: Same as \code{"fst"}, but the value is a \code{data.table}.
 Optionally set the compression level the same way as for \code{"fst"}.
@@ -208,7 +208,7 @@ to arrive over a network file system.)
 except the return value of the target is a URL that already exists
 and serves as input data for downstream targets. Optionally
 supply a custom \code{curl} handle through
-\code{\link[=tar_resources]{tar_resources()}} and \code{\link[=tar_resources_url]{tar_resources_url()}}.
+\code{tar_resources()} and \code{tar_resources_url()}.
 in \code{new_handle()}, \code{nobody = TRUE} is important because it
 ensures \code{targets} just downloads the metadata instead of
 the entire data file when it checks time stamps and hashes.
@@ -223,7 +223,7 @@ and available by the time the target's command finishes running.
 \code{"aws_fst_tbl"}, \code{"aws_keras"}: AWS-powered versions of the
 respective formats \code{"rds"}, \code{"qs"}, etc. The only difference
 is that the data file is uploaded to the AWS S3 bucket
-you supply to \code{\link[=tar_resources_aws]{tar_resources_aws()}}. See the cloud computing chapter
+you supply to \code{tar_resources_aws()}. See the cloud computing chapter
 of the manual for details.
 \item \code{"aws_file"}: arbitrary dynamic files on AWS S3. The target
 should return a path to a temporary local file, then

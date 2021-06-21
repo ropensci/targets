@@ -28,12 +28,12 @@
 #' })
 #' }
 tar_delete <- function(names, store = targets::tar_config_get("store")) {
-  assert_path(path_meta(store))
+  tar_assert_path(path_meta(store))
   meta <- meta_init(path_store = store)
   data <- meta$database$read_condensed_data()
   names_quosure <- rlang::enquo(names)
-  names <- eval_tidyselect(names_quosure, data$name)
-  assert_chr(names, "names arg of tar_delete() must end up as character")
+  names <- tar_tidyselect_eval(names_quosure, data$name)
+  tar_assert_chr(names, "names arg of tar_delete() must end up as character")
   children <- unlist(data$children[data$name %in% names])
   children <- unique(children[!is.na(children)])
   names <- c(names, children)

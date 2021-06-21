@@ -91,7 +91,7 @@ target_restore_buds.tar_branch <- function(target, pipeline, scheduler, meta) {
 
 #' @export
 target_validate.tar_branch <- function(target) {
-  assert_correct_fields(target, branch_new)
+  tar_assert_correct_fields(target, branch_new)
   pedigree_validate(target$pedigree)
   NextMethod()
 }

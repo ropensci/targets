@@ -1,12 +1,12 @@
 #' @title Target resources: AWS storage formats
 #' @export
 #' @family resources
-#' @description Create the `aws` argument of [tar_resources()]]
+#' @description Create the `aws` argument of `tar_resources()`
 #'   to specify optional settings to AWS storage formats.
 #'   See the `format` argument of [tar_target()] for details.
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_aws"`, to be supplied
-#'   to the `aws` argument of [tar_resources()].
+#'   to the `aws` argument of `tar_resources()`.
 #' @param bucket Character of length 1, name of an existing
 #'   AWS S3 bucket to upload and download the return values
 #'   of the affected targets during the pipeline.

@@ -16,48 +16,48 @@ tar_resources(
 )
 }
 \arguments{
-\item{aws}{Output of function \code{\link[=tar_resources_aws]{tar_resources_aws()}}.
+\item{aws}{Output of function \code{tar_resources_aws()}.
 AWS S3 storage settings for AWS backed storage formats
 such as \code{"aws_qs"} and \verb{"aws_parquet}. Applies to all formats
 beginning with the \code{"aws_"} prefix. For details on formats,
 see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
 
-\item{clustermq}{Output of function \code{\link[=tar_resources_clustermq]{tar_resources_clustermq()}}.
-Optional \code{clustermq} settings for \code{\link[=tar_make_clustermq]{tar_make_clustermq()}},
+\item{clustermq}{Output of function \code{tar_resources_clustermq()}.
+Optional \code{clustermq} settings for \code{tar_make_clustermq()},
 including the \code{log_worker} and \code{template} arguments of
 \code{clustermq::workers()}.}
 
-\item{feather}{Output of function \code{\link[=tar_resources_feather]{tar_resources_feather()}}.
+\item{feather}{Output of function \code{tar_resources_feather()}.
 Non-default arguments to \code{arrow::read_feather()} and
 \code{arrow::write_feather()} for \code{arrow}/feather-based storage formats.
 Applies to all formats ending with the \code{"_feather"} suffix.
 For details on formats, see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
 
-\item{fst}{Output of function \code{\link[=tar_resources_fst]{tar_resources_fst()}}.
+\item{fst}{Output of function \code{tar_resources_fst()}.
 Non-default arguments to \code{fst::read_fst()} and
 \code{fst::write_fst()} for \code{fst}-based storage formats.
 Applies to all formats ending with \code{"fst"} in the name.
 For details on formats, see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
 
-\item{future}{Output of function \code{\link[=tar_resources_future]{tar_resources_future()}}.
-Optional \code{future} settings for \code{\link[=tar_make_future]{tar_make_future()}},
+\item{future}{Output of function \code{tar_resources_future()}.
+Optional \code{future} settings for \code{tar_make_future()},
 including the \code{resources} argument of
 \code{future::future()}, which can include values to insert in
 template placeholders in \code{future.batchtools} template files.}
 
-\item{parquet}{Output of function \code{\link[=tar_resources_parquet]{tar_resources_parquet()}}.
+\item{parquet}{Output of function \code{tar_resources_parquet()}.
 Non-default arguments to \code{arrow::read_parquet()} and
 \code{arrow::write_parquet()} for \code{arrow}/parquet-based storage formats.
 Applies to all formats ending with the \code{"_parquet"} suffix.
 For details on formats, see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
 
-\item{qs}{Output of function \code{\link[=tar_resources_qs]{tar_resources_qs()}}.
+\item{qs}{Output of function \code{tar_resources_qs()}.
 Non-default arguments to \code{qs::qread()} and
 \code{qs::qsave()} for \code{qs}-based storage formats.
 Applies to all formats ending with the \code{"_qs"} suffix.
 For details on formats, see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
 
-\item{url}{Output of function \code{\link[=tar_resources_url]{tar_resources_url()}}.
+\item{url}{Output of function \code{tar_resources_url()}.
 Non-default settings for storage formats ending with the \code{"_url"} suffix.
 These settings include the \code{curl} handle for extra control over HTTP
 requests. For details on formats, see the \code{format} argument of

@@ -12,10 +12,10 @@ argument of \code{fst::write_fst()}.}
 }
 \value{
 Object of class \code{"tar_resources_fst"}, to be supplied
-to the \code{fst} argument of \code{\link[=tar_resources]{tar_resources()}}.
+to the \code{fst} argument of \code{tar_resources()}.
 }
 \description{
-Create the \code{fst} argument of \code{\link[=tar_resources]{tar_resources()}}]
+Create the \code{fst} argument of \code{tar_resources()}
 to specify optional settings for big data frame storage formats
 powered by the \code{fst} R package.
 See the \code{format} argument of \code{\link[=tar_target]{tar_target()}} for details.

@@ -349,20 +349,17 @@ options_class <- R6::R6Class(
       self$workspaces <- workspaces
     },
     validate_tidy_eval = function(tidy_eval) {
-      assert_scalar(tidy_eval, "tidy_eval option must have length 1.")
-      assert_lgl(tidy_eval, "tidy_eval option must be logical.")
+      tar_assert_scalar(tidy_eval)
+      tar_assert_lgl(tidy_eval)
     },
     validate_packages = function(packages) {
-      assert_chr(packages, "packages option must be character.")
+      tar_assert_chr(packages)
     },
     validate_imports = function(imports) {
-      assert_chr(imports, "imports option must be character.")
+      tar_assert_chr(imports)
     },
     validate_library = function(library) {
-      assert_chr(
-        library %|||% character(0),
-        "library option must be character."
-      )
+      tar_assert_chr(library %|||% character(0))
     },
     validate_envir = function(envir) {
       msg <- paste(
@@ -370,56 +367,56 @@ options_class <- R6::R6Class(
         "where you put your functions and global objects",
         "(global environment for most users)."
       )
-      assert_envir(envir, msg)
+      tar_assert_envir(envir, msg)
     },
     validate_format = function(format) {
-      assert_format(format)
+      tar_assert_format(format)
     },
     validate_iteration = function(iteration) {
-      assert_flag(iteration, c("vector", "list", "group"))
+      tar_assert_flag(iteration, c("vector", "list", "group"))
     },
     validate_error = function(error) {
-      assert_flag(error, c("stop", "continue", "workspace"))
+      tar_assert_flag(error, c("stop", "continue", "workspace"))
     },
     validate_memory = function(memory) {
-      assert_flag(memory, c("persistent", "transient"))
+      tar_assert_flag(memory, c("persistent", "transient"))
     },
     validate_garbage_collection = function(garbage_collection) {
-      assert_lgl(garbage_collection, "garbage_collection must be logical.")
-      assert_scalar(garbage_collection, "garbage_collection must be a scalar.")
+      tar_assert_lgl(garbage_collection)
+      tar_assert_scalar(garbage_collection)
     },
     validate_deployment = function(deployment) {
-      assert_flag(deployment, c("worker", "main"))
+      tar_assert_flag(deployment, c("worker", "main"))
     },
     validate_priority = function(priority) {
-      assert_dbl(priority, msg = "priority must be numeric")
-      assert_scalar(priority, msg = "priority must have length 1")
-      assert_ge(priority, 0, msg = "priority cannot be less than 0")
-      assert_le(priority, 1, msg = "priority cannot be greater than 1")
+      tar_assert_dbl(priority)
+      tar_assert_scalar(priority)
+      tar_assert_ge(priority, 0)
+      tar_assert_le(priority, 1)
     },
     validate_backoff = function(backoff) {
-      assert_dbl(backoff, msg = "backoff must be numeric")
-      assert_scalar(backoff, msg = "backoff must have length 1")
-      assert_ge(backoff, 0.001, msg = "backoff cannot be less than 0.001")
-      assert_le(backoff, 1e9, msg = "backoff cannot be greater than 1e9")
+      tar_assert_dbl(backoff)
+      tar_assert_scalar(backoff)
+      tar_assert_ge(backoff, 0.001)
+      tar_assert_le(backoff, 1e9)
     },
     validate_resources = function(resources) {
-      assert_resources(resources)
+      tar_assert_resources(resources)
     },
     validate_storage = function(storage) {
-      assert_flag(storage, c("main", "worker"))
+      tar_assert_flag(storage, c("main", "worker"))
     },
     validate_retrieval = function(retrieval) {
-      assert_flag(retrieval, c("main", "worker"))
+      tar_assert_flag(retrieval, c("main", "worker"))
     },
     validate_cue = function(cue) {
       cue_validate(cue)
     },
     validate_debug = function(debug) {
-      assert_chr(debug, "debug option must be a character.")
+      tar_assert_chr(debug)
     },
     validate_workspaces = function(workspaces) {
-      assert_chr(workspaces, "workspaces option must be a character.")
+      tar_assert_chr(workspaces)
     },
     validate = function() {
       self$validate_tidy_eval(self$get_tidy_eval())

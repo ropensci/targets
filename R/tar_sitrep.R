@@ -99,11 +99,11 @@ tar_sitrep <- function(
   force(envir)
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)
-  assert_scalar(shortcut, "shortcut must have length 1.")
-  assert_lgl(shortcut, "shortcut must be logical.")
-  assert_flag(reporter, tar_outdated_reporters())
-  assert_callr_function(callr_function)
-  assert_list(callr_arguments, "callr_arguments mut be a list.")
+  tar_assert_scalar(shortcut)
+  tar_assert_lgl(shortcut)
+  tar_assert_flag(reporter, tar_outdated_reporters())
+  tar_assert_callr_function(callr_function)
+  tar_assert_list(callr_arguments)
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
@@ -130,7 +130,7 @@ tar_sitrep_inner <- function(
   reporter
 ) {
   names_all <- pipeline_get_names(pipeline)
-  names <- eval_tidyselect(names_quosure, names_all)
+  names <- tar_tidyselect_eval(names_quosure, names_all)
   sitrep <- sitrep_init(
     pipeline = pipeline,
     meta = meta_init(path_store = path_store),
@@ -144,6 +144,7 @@ tar_sitrep_inner <- function(
   if (!is.null(names)) {
     out <- out[match(names, out$name),, drop = FALSE] # nolint
   }
-  fields <- eval_tidyselect(fields_quosure, colnames(out)) %|||% colnames(out)
+  fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||%
+    colnames(out)
   out[, base::union("name", fields), drop = FALSE]
 }

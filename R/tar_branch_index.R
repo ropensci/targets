@@ -26,13 +26,13 @@
 #' })
 #' }
 tar_branch_index <- function(names, store = targets::tar_config_get("store")) {
-  assert_chr(names, "names must be a character vector.")
-  assert_path(path_meta(path_store = store))
+  tar_assert_chr(names)
+  tar_assert_path(path_meta(path_store = store))
   meta <- meta_init(path_store = store)
   meta <- tibble::as_tibble(meta$database$read_condensed_data())
   missing_branches <- setdiff(names, meta$name[meta$type == "branch"])
   if (length(missing_branches)) {
-    throw_validate(
+    tar_throw_validate(
       "missing branches in metadata: ",
       paste(missing_branches, collapse = ", ")
     )
@@ -40,7 +40,7 @@ tar_branch_index <- function(names, store = targets::tar_config_get("store")) {
   parents <- meta$parent[meta$type == "branch"]
   missing_patterns <- setdiff(parents, meta$name)
   if (length(missing_patterns)) {
-    throw_validate(
+    tar_throw_validate(
       "missing dynamic targets in metadata: ",
       paste(missing_patterns, collapse = ", ")
     )
@@ -54,6 +54,11 @@ tar_branch_index_branch <- function(name, meta) {
   if_any(
     name %in% children,
     match(name, children),
-    throw_validate("branch ", name, " is not part of dynamic target ", parent)
+    tar_throw_validate(
+      "branch ",
+      name,
+      " is not part of dynamic target ",
+      parent
+    )
   )
 }

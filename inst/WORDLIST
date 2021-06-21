@@ -231,6 +231,7 @@ qs
 quasiquotation
 quickstart
 Quickstart
+quosure
 Rbuildignore
 RDS
 README

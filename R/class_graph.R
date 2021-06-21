@@ -51,8 +51,8 @@ graph_class <- R6::R6Class(
       invisible()
     },
     validate = function() {
-      lapply(self$upstream, assert_chr)
-      lapply(self$downstream, assert_chr)
+      lapply(self$upstream, tar_assert_chr)
+      lapply(self$downstream, tar_assert_chr)
       invisible()
     }
   )

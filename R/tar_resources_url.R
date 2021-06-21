@@ -1,12 +1,12 @@
 #' @title Target resources: URL storage formats
 #' @export
 #' @family resources
-#' @description Create the `url` argument of [tar_resources()]]
+#' @description Create the `url` argument of `tar_resources()`
 #'   to specify optional settings for URL storage formats.
 #'   See the `format` argument of [tar_target()] for details.
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_url"`, to be supplied
-#'   to the url argument of [tar_resources()].
+#'   to the url argument of `tar_resources()`.
 #' @param handle Object returned by `curl::new_handle` or `NULL`.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {

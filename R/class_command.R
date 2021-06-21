@@ -8,7 +8,7 @@ command_init <- function(
 ) {
   expr <- as.expression(expr)
   deps <- deps %|||% deps_function(embody_expr(expr))
-  string <- string %|||% mask_pointers(deparse_safe(expr))
+  string <- string %|||% mask_pointers(tar_deparse_safe(expr))
   hash <- digest_chr64(string)
   command_new(expr, packages, library, deps, seed, string, hash)
 }
@@ -56,17 +56,17 @@ command_clone <- function(command) {
 }
 
 command_validate <- function(command) {
-  assert_correct_fields(command, command_new)
-  assert_expr(command$expr)
-  assert_chr(command$packages)
-  assert_chr(command$library %|||% character(0))
-  assert_chr(command$deps)
-  assert_int(command$seed)
-  assert_scalar(command$seed)
-  assert_chr(command$string)
-  assert_scalar(command$string)
-  assert_chr(command$hash)
-  assert_scalar(command$hash)
+  tar_assert_correct_fields(command, command_new)
+  tar_assert_expr(command$expr)
+  tar_assert_chr(command$packages)
+  tar_assert_chr(command$library %|||% character(0))
+  tar_assert_chr(command$deps)
+  tar_assert_int(command$seed)
+  tar_assert_scalar(command$seed)
+  tar_assert_chr(command$string)
+  tar_assert_scalar(command$string)
+  tar_assert_chr(command$hash)
+  tar_assert_scalar(command$hash)
 }
 
 command_null <- command_new(

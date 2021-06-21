@@ -116,18 +116,18 @@ cue_file <- function(cue, target, meta) {
 }
 
 cue_validate <- function(cue) {
-  assert_correct_fields(cue, cue_new)
-  assert_chr(cue$mode)
-  assert_in(cue$mode, c("thorough", "always", "never"))
-  assert_lgl(cue$command)
-  assert_lgl(cue$depend)
-  assert_lgl(cue$format)
-  assert_lgl(cue$iteration)
-  assert_scalar(cue$mode)
-  assert_scalar(cue$command)
-  assert_scalar(cue$depend)
-  assert_scalar(cue$format)
-  assert_scalar(cue$iteration)
+  tar_assert_correct_fields(cue, cue_new)
+  tar_assert_chr(cue$mode)
+  tar_assert_in(cue$mode, c("thorough", "always", "never"))
+  tar_assert_lgl(cue$command)
+  tar_assert_lgl(cue$depend)
+  tar_assert_lgl(cue$format)
+  tar_assert_lgl(cue$iteration)
+  tar_assert_scalar(cue$mode)
+  tar_assert_scalar(cue$command)
+  tar_assert_scalar(cue$depend)
+  tar_assert_scalar(cue$format)
+  tar_assert_scalar(cue$iteration)
 }
 
 #' @export

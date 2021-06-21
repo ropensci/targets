@@ -11,10 +11,10 @@ tar_resources_url(handle = NULL)
 }
 \value{
 Object of class \code{"tar_resources_url"}, to be supplied
-to the url argument of \code{\link[=tar_resources]{tar_resources()}}.
+to the url argument of \code{tar_resources()}.
 }
 \description{
-Create the \code{url} argument of \code{\link[=tar_resources]{tar_resources()}}]
+Create the \code{url} argument of \code{tar_resources()}
 to specify optional settings for URL storage formats.
 See the \code{format} argument of \code{\link[=tar_target]{tar_target()}} for details.
 }

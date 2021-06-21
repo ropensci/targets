@@ -6,7 +6,7 @@ reporter_init <- function(reporter = "verbose") {
     timestamp = timestamp_new(),
     summary = summary_new(),
     forecast = forecast_new(),
-    throw_validate("unsupported reporter")
+    tar_throw_validate("unsupported reporter")
   )
 }
 
@@ -23,7 +23,7 @@ reporter_class <- R6::R6Class(
     report_start = function() {
     },
     report_error = function(error) {
-      msg_run("Error: ", error, "\n")
+      tar_message_run("Error: ", error, "\n")
     },
     report_end = function(progress = NULL) {
       if (any(progress$errored$count > 1L)) {

@@ -1,13 +1,13 @@
 #' @title Target resources: `fst` storage formats
 #' @export
 #' @family resources
-#' @description Create the `fst` argument of [tar_resources()]]
+#' @description Create the `fst` argument of `tar_resources()`
 #'   to specify optional settings for big data frame storage formats
 #'   powered by the `fst` R package.
 #'   See the `format` argument of [tar_target()] for details.
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_fst"`, to be supplied
-#'   to the `fst` argument of [tar_resources()].
+#'   to the `fst` argument of `tar_resources()`.
 #' @param compress Numeric of length 1, `compress`
 #'   argument of `fst::write_fst()`.
 #' @examples

@@ -43,7 +43,7 @@
 #'   non-function global object dependency is computed directly on its
 #'   in-memory data. User-defined functions are hashed in the following way:
 #'
-#'    1. Deparse the function with `targets:::deparse_safe()`. This
+#'    1. Deparse the function with `targets:::tar_deparse_safe()`. This
 #'      function computes a string representation of the function
 #'      body and arguments. This string representation is invariant to
 #'      changes in comments and whitespace, which means
@@ -92,16 +92,16 @@ tar_cue <- function(
   iteration = TRUE,
   file = TRUE
 ) {
-  assert_lgl(command, "command arg of tar_cue() must be logical")
-  assert_lgl(depend, "depend arg of tar_cue() must be logical")
-  assert_lgl(format, "format arg of tar_cue() must be logical")
-  assert_lgl(iteration, "format arg of tar_cue() must be logical")
-  assert_lgl(file, "file arg of tar_cue() must be logical")
-  assert_scalar(command, "command arg of tar_cue() must be length 1")
-  assert_scalar(depend, "depend arg of tar_cue() must be length 1")
-  assert_scalar(format, "format arg of tar_cue() must be length 1")
-  assert_scalar(iteration, "format arg of tar_cue() must be length 1")
-  assert_scalar(file, "file arg of tar_cue() must be length 1")
+  tar_assert_lgl(command)
+  tar_assert_lgl(depend)
+  tar_assert_lgl(format)
+  tar_assert_lgl(iteration)
+  tar_assert_lgl(file)
+  tar_assert_scalar(command)
+  tar_assert_scalar(depend)
+  tar_assert_scalar(format)
+  tar_assert_scalar(iteration)
+  tar_assert_scalar(file)
   cue_init(
     mode = match.arg(mode),
     command = command,

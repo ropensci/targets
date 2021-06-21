@@ -6,7 +6,7 @@ callr_outer <- function(
   envir,
   script
 ) {
-  assert_script(script)
+  tar_assert_script(script)
   tryCatch(
     callr_dispatch(
       targets_function = targets_function,
@@ -17,7 +17,7 @@ callr_outer <- function(
       script = script
     ),
     callr_error = function(e) {
-      throw_run(
+      tar_throw_run(
         conditionMessage(e),
         "\nVisit https://books.ropensci.org/targets/debugging.html ",
         "for debugging advice."
@@ -67,7 +67,9 @@ callr_inner <- function(
 ) {
   force(envir)
   parent <- parent.frame()
-  envir <- targets::if_any(is.null(envir), parent, envir)
+  if (is.null(envir)) {
+    envir <- parent
+  }
   old_envir <- targets::tar_option_get("envir")
   targets::tar_option_set(envir = envir)
   on.exit(tar_option_set(envir = old_envir))

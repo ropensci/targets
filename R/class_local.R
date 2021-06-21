@@ -44,12 +44,12 @@ local_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    assert_deployment = function(target) {
+    tar_assert_deployment = function(target) {
     },
     run_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
       target_gc(target)
-      self$assert_deployment(target)
+      self$tar_assert_deployment(target)
       target_prepare(target, self$pipeline, self$scheduler)
       target_run(
         target = target,

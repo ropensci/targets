@@ -62,16 +62,16 @@ tar_glimpse <- function(
   store = targets::tar_config_get("store")
 ) {
   force(envir)
-  assert_package("visNetwork")
-  assert_lgl(targets_only, "targets_only must be logical.")
-  assert_scalar(degree_from, "degree_from must have length 1.")
-  assert_scalar(degree_to, "degree_to must have length 1.")
-  assert_dbl(degree_from, "degree_from must be numeric.")
-  assert_dbl(degree_to, "degree_to must be numeric.")
-  assert_ge(degree_from, 0L, "degree_from must be at least 0.")
-  assert_ge(degree_to, 0L, "degree_to must be at least 0.")
-  assert_callr_function(callr_function)
-  assert_list(callr_arguments, "callr_arguments mut be a list.")
+  tar_assert_package("visNetwork")
+  tar_assert_lgl(targets_only)
+  tar_assert_scalar(degree_from)
+  tar_assert_scalar(degree_to)
+  tar_assert_dbl(degree_from)
+  tar_assert_dbl(degree_to)
+  tar_assert_ge(degree_from, 0L)
+  tar_assert_ge(degree_to, 0L)
+  tar_assert_callr_function(callr_function)
+  tar_assert_list(callr_arguments)
   targets_arguments <- list(
     path_store = store,
     targets_only = targets_only,

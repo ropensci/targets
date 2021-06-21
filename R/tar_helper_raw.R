@@ -17,8 +17,8 @@
 #' tar_helper_raw(path, quote(x <- 1))
 #' writeLines(readLines(path))
 tar_helper_raw <- function(path = NULL, code = NULL) {
-  assert_chr(path, "path must be a character.")
-  assert_scalar(path, "path must have length 1.")
+  tar_assert_chr(path)
+  tar_assert_scalar(path)
   dir_create(dirname(path))
   writeLines(deparse_script_code(code), path)
   invisible()

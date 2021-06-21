@@ -72,9 +72,9 @@
 #' )
 tar_pattern <- function(pattern, ..., seed = 0L) {
   pattern <- as.expression(substitute(pattern))
-  assert_expr(pattern, "pattern must be language.")
+  tar_assert_expr(pattern, "pattern must be language.")
   lengths <- list(...)
-  tar_pattern_assert_lengths(lengths)
+  tar_pattern_tar_assert_lengths(lengths)
   lengths <- lapply(lengths, as.integer)
   niblings <- map(names(lengths), ~tar_pattern_nibling(.x, lengths[[.x]]))
   niblings <- set_names(niblings, names(lengths))
@@ -88,18 +88,18 @@ tar_pattern <- function(pattern, ..., seed = 0L) {
   tibble::as_tibble(out)
 }
 
-tar_pattern_assert_lengths <- function(lengths) {
+tar_pattern_tar_assert_lengths <- function(lengths) {
   msg <- "all arguments in ... must be named and have unique names."
   names <- names(lengths)
-  assert_nonempty(names, msg)
-  assert_chr(names, msg)
-  assert_nzchar(names, msg)
-  assert_none_na(names, msg)
-  assert_unique(names)
-  assert_identical(length(names), length(lengths), msg)
+  tar_assert_nonempty(names, msg)
+  tar_assert_chr(names, msg)
+  tar_assert_nzchar(names, msg)
+  tar_assert_none_na(names, msg)
+  tar_assert_unique(names)
+  tar_assert_identical(length(names), length(lengths), msg)
   msg <- "... must be integers of length 1."
-  map(lengths, assert_dbl, msg = msg)
-  map(lengths, assert_scalar, msg = msg)
+  map(lengths, tar_assert_dbl, msg = msg)
+  map(lengths, tar_assert_scalar, msg = msg)
 }
 
 tar_pattern_nibling <- function(name, length) {

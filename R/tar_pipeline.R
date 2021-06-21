@@ -19,7 +19,7 @@
 #'   )
 #' )
 tar_pipeline <- function(...) {
-  warn_deprecate(
+  tar_warn_deprecate(
     "tar_pipeline() is deprecated in targets version >= 0.0.0.9004. ",
     "Simply end your target script file (default: `_targets.R`) ",
     "with a list of tar_target() objects (arbitrarily nested)."

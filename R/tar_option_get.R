@@ -33,15 +33,15 @@
 #' }
 tar_option_get <- function(name = NULL, option = NULL) {
   if (!is.null(option)) {
-    warn_deprecate(
+    tar_warn_deprecate(
       "the option argument of tar_option_get() ",
       "was deprecated in targets version 0.5.0.9000 (2021-05-30). ",
       "use the name argument instead."
     )
     name <- option
   }
-  assert_nonempty(name, "name argument of tar_option_get() cannot be empty.")
-  assert_flag(name, choices = names(formals(tar_option_set)))
+  tar_assert_nonempty(name)
+  tar_assert_flag(name, choices = names(formals(tar_option_set)))
   switch(
     name,
     tidy_eval = tar_options$get_tidy_eval(),

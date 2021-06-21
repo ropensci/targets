@@ -41,7 +41,7 @@ target_get_type_cli.tar_stem <- function(target) {
 #' @export
 target_produce_junction.tar_stem <- function(target, pipeline) {
   target_ensure_value(target, pipeline)
-  stem_assert_nonempty(target)
+  stem_tar_assert_nonempty(target)
   hashes <- value_hash_slices(target$value)
   names <- paste0(target_get_parent(target), "_", hashes)
   junction_init(target_get_parent(target), names)
@@ -93,7 +93,7 @@ target_is_branchable.tar_stem <- function(target) {
 
 #' @export
 target_validate.tar_stem <- function(target) {
-  assert_correct_fields(target, stem_new)
+  tar_assert_correct_fields(target, stem_new)
   NextMethod()
   if (!is.null(target$junction)) {
     junction_validate(target$junction)
@@ -108,9 +108,9 @@ target_bootstrap.tar_stem <- function(target, pipeline, meta) {
   invisible()
 }
 
-stem_assert_nonempty <- function(target) {
+stem_tar_assert_nonempty <- function(target) {
   if (value_count_slices(target$value) < 1L) {
-    throw_run(
+    tar_throw_run(
       "cannot branch over empty target (",
       target_get_name(target),
       ")"

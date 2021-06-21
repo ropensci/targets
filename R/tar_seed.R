@@ -33,8 +33,8 @@
 #' }
 tar_seed <- function(default = 1L) {
   default <- as.integer(default)
-  assert_int(default)
-  assert_scalar(default)
+  tar_assert_int(default)
+  tar_assert_scalar(default)
   if_any(
     tar_runtime$exists_target(),
     tar_runtime$get_target()$command$seed,

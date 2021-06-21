@@ -38,12 +38,12 @@ metrics_outcome <- function(metrics) {
 }
 
 metrics_validate <- function(metrics) {
-  assert_correct_fields(metrics, metrics_new)
-  assert_dbl(metrics$seconds)
-  assert_scalar(metrics$seconds)
-  assert_chr(metrics$warnings %|||% character(0))
-  assert_chr(metrics$error %|||% character(0))
-  assert_chr(metrics$traceback %|||% character(0))
-  assert_lgl(metrics$cancel %|||% FALSE)
+  tar_assert_correct_fields(metrics, metrics_new)
+  tar_assert_dbl(metrics$seconds)
+  tar_assert_scalar(metrics$seconds)
+  tar_assert_chr(metrics$warnings %|||% character(0))
+  tar_assert_chr(metrics$error %|||% character(0))
+  tar_assert_chr(metrics$traceback %|||% character(0))
+  tar_assert_lgl(metrics$cancel %|||% FALSE)
   invisible()
 }
