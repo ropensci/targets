@@ -1,6 +1,6 @@
 #' @title Conditions
 #' @name tar_condition
-#' @family targetopia
+#' @family utilities to extend targets
 #' @description These functions throw custom `targets`-specific error conditions.
 #'   Useful for error handling in packages built on top of `targets`.
 #' @inheritParams base::stop 

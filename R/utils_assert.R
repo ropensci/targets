@@ -1,6 +1,6 @@
 #' @title Assertions
 #' @name tar_assert
-#' @family targetopia
+#' @family utilities to extend targets
 #' @description These functions assert the correctness of user inputs
 #'   and generate custom error conditions as needed. Useful
 #'   for writing packages built on top of `targets`.

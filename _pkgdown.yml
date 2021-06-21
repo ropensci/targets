@@ -128,7 +128,7 @@ reference:
 - title: Engines
   contents:
   - '`tar_engine_knitr`'
-- title: Targetopia
+- title: Extending targets
   contents:
   - '`tar_assert`'
   - '`tar_condition`'

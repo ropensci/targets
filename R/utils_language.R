@@ -1,6 +1,6 @@
 #' @title Language
 #' @name tar_language
-#' @family targetopia
+#' @family utilities to extend targets
 #' @description These functions help with metaprogramming in
 #'   packages built on top of `targets`.
 #' @details

@@ -38,10 +38,10 @@ Useful for error handling in packages built on top of \code{targets}.
 try(tar_throw_validate("something is not valid"))
 }
 \seealso{
-Other targetopia: 
+Other utilities to extend targets: 
 \code{\link{tar_assert}},
 \code{\link{tar_dir}()},
 \code{\link{tar_language}},
 \code{\link{tar_test}()}
 }
-\concept{targetopia}
+\concept{utilities to extend targets}

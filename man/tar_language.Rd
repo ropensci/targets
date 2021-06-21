@@ -55,10 +55,10 @@ some special guardrails around \code{NULL} inputs.
 tar_deparse_language(run_model())
 }
 \seealso{
-Other targetopia: 
+Other utilities to extend targets: 
 \code{\link{tar_assert}},
 \code{\link{tar_condition}},
 \code{\link{tar_dir}()},
 \code{\link{tar_test}()}
 }
-\concept{targetopia}
+\concept{utilities to extend targets}
