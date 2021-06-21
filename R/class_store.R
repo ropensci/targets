@@ -277,13 +277,13 @@ store_get_timestamp.default <- function(store) {
 }
 
 store_validate <- function(store) {
-  assert_correct_fields(store, store_new_default)
+  tar_assert_correct_fields(store, store_new_default)
   store_validate_packages(store)
-  assert_list(store$resources)
+  tar_assert_list(store$resources)
 }
 
 store_validate_packages <- function(store) {
-  assert_package(store_get_packages(store))
+  tar_assert_package(store_get_packages(store))
 }
 
 store_get_packages <- function(store) {

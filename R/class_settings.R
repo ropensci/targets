@@ -98,11 +98,11 @@ settings_validate_pattern <- function(name, pattern, dimensions) {
   if (is.null(pattern)) {
     return()
   }
-  assert_expr(pattern)
-  assert_chr(dimensions)
-  assert_nonempty(dimensions)
-  assert_not_in(name, dimensions)
-  assert_unique(dimensions, "duplicate grouping variable in pattern.")
+  tar_assert_expr(pattern)
+  tar_assert_chr(dimensions)
+  tar_assert_nonempty(dimensions)
+  tar_assert_not_in(name, dimensions)
+  tar_assert_unique(dimensions, "duplicate grouping variable in pattern.")
   symbols <- all.vars(pattern, functions = TRUE, unique = TRUE)
   non_functions <- all.vars(pattern, functions = FALSE, unique = TRUE)
   functions <- setdiff(symbols, non_functions)
@@ -129,25 +129,25 @@ settings_validate_pattern_names <- c(
 )
 
 settings_validate <- function(settings) {
-  assert_correct_fields(settings, settings_new)
-  assert_name(settings$name)
-  assert_format(settings$format)
+  tar_assert_correct_fields(settings, settings_new)
+  tar_assert_name(settings$name)
+  tar_assert_format(settings$format)
   settings_validate_pattern(
     settings$name,
     settings$pattern,
     settings$dimensions
   )
-  assert_chr(settings$iteration)
-  assert_in(settings$error, c("stop", "continue", "workspace"))
-  assert_in(settings$memory, c("persistent", "transient"))
-  assert_lgl(settings$garbage_collection)
-  assert_scalar(settings$garbage_collection)
-  assert_in(settings$deployment, c("main", "worker"))
-  assert_scalar(settings$priority)
-  assert_ge(settings$priority, 0)
-  assert_le(settings$priority, 1)
-  assert_list(settings$resources)
-  assert_in(settings$storage, c("main", "worker"))
-  assert_in(settings$retrieval, c("main", "worker"))
+  tar_assert_chr(settings$iteration)
+  tar_assert_in(settings$error, c("stop", "continue", "workspace"))
+  tar_assert_in(settings$memory, c("persistent", "transient"))
+  tar_assert_lgl(settings$garbage_collection)
+  tar_assert_scalar(settings$garbage_collection)
+  tar_assert_in(settings$deployment, c("main", "worker"))
+  tar_assert_scalar(settings$priority)
+  tar_assert_ge(settings$priority, 0)
+  tar_assert_le(settings$priority, 1)
+  tar_assert_list(settings$resources)
+  tar_assert_in(settings$storage, c("main", "worker"))
+  tar_assert_in(settings$retrieval, c("main", "worker"))
   invisible()
 }

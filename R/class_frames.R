@@ -48,7 +48,7 @@ frames_validate_inheritance <- function(frames) {
 }
 
 frames_validate <- function(frames) {
-  assert_correct_fields(frames, frames_new)
+  tar_assert_correct_fields(frames, frames_new)
   memory_validate(frames$imports)
   memory_validate(frames$targets)
   frames_validate_inheritance(frames)

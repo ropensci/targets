@@ -30,5 +30,5 @@ tar_objects <- function(
     character(0)
   )
   names_quosure <- rlang::enquo(names)
-  sort(as.character(eval_tidyselect(names_quosure, choices) %|||% choices))
+  sort(as.character(tar_tidyselect_eval(names_quosure, choices) %|||% choices))
 }

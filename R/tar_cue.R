@@ -92,16 +92,16 @@ tar_cue <- function(
   iteration = TRUE,
   file = TRUE
 ) {
-  assert_lgl(command)
-  assert_lgl(depend)
-  assert_lgl(format)
-  assert_lgl(iteration)
-  assert_lgl(file)
-  assert_scalar(command)
-  assert_scalar(depend)
-  assert_scalar(format)
-  assert_scalar(iteration)
-  assert_scalar(file)
+  tar_assert_lgl(command)
+  tar_assert_lgl(depend)
+  tar_assert_lgl(format)
+  tar_assert_lgl(iteration)
+  tar_assert_lgl(file)
+  tar_assert_scalar(command)
+  tar_assert_scalar(depend)
+  tar_assert_scalar(format)
+  tar_assert_scalar(iteration)
+  tar_assert_scalar(file)
   cue_init(
     mode = match.arg(mode),
     command = command,

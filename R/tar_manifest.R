@@ -71,8 +71,8 @@ tar_manifest <- function(
   script = targets::tar_config_get("script")
 ) {
   force(envir)
-  assert_callr_function(callr_function)
-  assert_list(callr_arguments, "callr_arguments mut be a list.")
+  tar_assert_callr_function(callr_function)
+  tar_assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
     names_quosure = rlang::enquo(names),
     fields_quosure = rlang::enquo(fields)
@@ -94,11 +94,11 @@ tar_manifest_inner <- function(
 ) {
   igraph <- pipeline_produce_igraph(pipeline, targets_only = TRUE)
   all_names <- topo_sort_igraph(igraph)
-  names <- eval_tidyselect(names_quosure, all_names) %|||% all_names
+  names <- tar_tidyselect_eval(names_quosure, all_names) %|||% all_names
   names <- intersect(all_names, names)
   out <- map(names, ~tar_manifest_target(pipeline_get_target(pipeline, .x)))
   out <- do.call(rbind, out)
-  fields <- eval_tidyselect(fields_quosure, colnames(out)) %|||% colnames(out)
+  fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||% colnames(out)
   out[, base::union("name", fields), drop = FALSE]
 }
 

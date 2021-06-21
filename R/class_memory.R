@@ -41,9 +41,9 @@ memory_del_objects <- function(memory, names) {
 }
 
 memory_validate <- function(memory) {
-  assert_correct_fields(memory, memory_new)
-  assert_chr(memory$names)
-  assert_envir(memory$envir)
-  assert_in(sort(memory$names), sort(names(memory$envir)))
-  assert_identical(length(memory$names), memory$count)
+  tar_assert_correct_fields(memory, memory_new)
+  tar_assert_chr(memory$names)
+  tar_assert_envir(memory$envir)
+  tar_assert_in(sort(memory$names), sort(names(memory$envir)))
+  tar_assert_identical(length(memory$names), memory$count)
 }

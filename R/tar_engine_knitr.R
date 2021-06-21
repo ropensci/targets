@@ -58,16 +58,16 @@
 #' # as described at https://books.ropensci.org/targets/markdown.html.
 #' }
 tar_engine_knitr <- function(options) {
-  assert_package("knitr")
-  assert_list(options, "knitr chunk options must be a list.")
+  tar_assert_package("knitr")
+  tar_assert_list(options, "knitr chunk options must be a list.")
   options$tar_name <- options$tar_name %|||% options$label
   msg <- paste(
     "{targets} code chunks require a nonempty length-1 character string",
     "for the chunk label or the tar_name chunk option."
   )
-  assert_scalar(options$tar_name, msg)
-  assert_chr(options$tar_name, msg)
-  assert_nzchar(options$tar_name, msg)
+  tar_assert_scalar(options$tar_name, msg)
+  tar_assert_chr(options$tar_name, msg)
+  tar_assert_nzchar(options$tar_name, msg)
   if (!is.null(options$targets)) {
     warn_deprecate(
       "In Target Markdown, the `targets` chunk option is deprecated.",
@@ -78,7 +78,7 @@ tar_engine_knitr <- function(options) {
     options$tar_globals <- options$tar_globals %|||% options$targets
   }
   options$tar_script <- options$tar_script %|||% tar_config_get("script")
-  knitr_engine_assert_options(options)
+  knitr_engine_tar_assert_options(options)
   warn_labels_duplicated()
   warn_labels_unnamed(options)
   if_any(
@@ -88,21 +88,21 @@ tar_engine_knitr <- function(options) {
   )
 }
 
-knitr_engine_assert_options <- function(options) {
+knitr_engine_tar_assert_options <- function(options) {
   choices <- c("tar_globals", "tar_interactive", "tar_script", "tar_simple")
   for (option in choices) {
-    assert_scalar(
+    tar_assert_scalar(
       options[[option]] %|||% TRUE,
       paste(option, "chunk option must either be NULL or have length 1.")
     )
   }
   for (option in c("tar_globals", "tar_interactive", "tar_simple")) {
-    assert_lgl(
+    tar_assert_lgl(
       options[[option]] %|||% TRUE,
       paste(option, "chunk option must either be NULL or logical.")
     )
   }
-  assert_chr(
+  tar_assert_chr(
     options[["tar_script"]],
     "tar_script chunk option must either be NULL or character."
   )

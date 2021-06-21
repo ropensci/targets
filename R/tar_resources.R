@@ -85,7 +85,7 @@ tar_resources <- function(
       "() or NULL."
     )
     if (!is.null(value)) {
-      assert_inherits(value, class, message)
+      tar_assert_inherits(value, class, message)
       out[[name]] <- value
     }
   }

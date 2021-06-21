@@ -47,7 +47,7 @@ prelocal_class <- R6::R6Class(
     },
     end = function() {
     },
-    assert_deployment = function(target) {
+    tar_assert_deployment = function(target) {
       should_abort <- identical(target$settings$deployment, "worker") &&
         inherits(target, "tar_builder")
       if (should_abort) {

@@ -33,7 +33,7 @@ tar_progress_summary <- function(
   fields = c("skipped", "started", "built", "errored", "canceled", "since"),
   store = targets::tar_config_get("store")
 ) {
-  assert_path(path_progress(path_store = store))
+  tar_assert_path(path_progress(path_store = store))
   time <- file.mtime(path_progress(path_store = store))
   progress <- progress_init(path_store = store)
   progress <- tibble::as_tibble(progress$database$read_condensed_data())
@@ -48,7 +48,7 @@ tar_progress_summary <- function(
     time = time_stamp(time)
   )
   fields_quosure <- rlang::enquo(fields)
-  fields <- eval_tidyselect(fields_quosure, colnames(out)) %|||% colnames(out)
+  fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||% colnames(out)
   out[, fields, drop = FALSE]
 }
 

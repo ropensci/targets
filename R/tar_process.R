@@ -39,10 +39,10 @@ tar_process <- function(
   names = NULL,
   store = targets::tar_config_get("store")
 ) {
-  assert_path(path_process(path_store = store))
+  tar_assert_path(path_process(path_store = store))
   out <- tibble::as_tibble(process_init(path_store = store)$read_process())
   names_quosure <- rlang::enquo(names)
-  names <- eval_tidyselect(names_quosure, out$name)
+  names <- tar_tidyselect_eval(names_quosure, out$name)
   if (!is.null(names)) {
     out <- out[match(names, out$name),, drop = FALSE] # nolint
   }

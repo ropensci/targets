@@ -15,8 +15,8 @@ resources_qs_new <- function(
 
 #' @export
 resources_validate.tar_resources_qs <- function(resources) {
-  assert_scalar(resources$preset)
-  assert_chr(resources$preset)
+  tar_assert_scalar(resources$preset)
+  tar_assert_chr(resources$preset)
 }
 
 #' @export

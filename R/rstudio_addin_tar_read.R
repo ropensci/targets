@@ -8,7 +8,7 @@
 #' @param context RStudio API context from
 #'   `rstudioapi::getActiveDocumentContext()`.
 rstudio_addin_tar_read <- function(context = NULL) {
-  assert_package("rstudioapi")
+  tar_assert_package("rstudioapi")
   context <- context %||% rstudioapi::getActiveDocumentContext()
   target <- rstudio_symbol_at_cursor(context)
   if (!is.null(target)) {

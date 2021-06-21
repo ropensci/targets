@@ -68,7 +68,7 @@ parallel_class <- R6::R6Class(
       unlist(lapply(children, scheduler$count_unfinished_deps))
     },
     validate_names = function(names) {
-      assert_chr(names)
+      tar_assert_chr(names)
       if (anyNA(names) || anyDuplicated(names)) {
         throw_validate("names must unique finite character strings.")
       }

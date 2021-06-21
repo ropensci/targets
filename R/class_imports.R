@@ -39,6 +39,6 @@ imports_set_object <- function(imports, name, envir) {
 }
 
 imports_validate <- function(imports) {
-  assert_inherits(imports, "tar_imports")
-  assert_envir(imports)
+  tar_assert_inherits(imports, "tar_imports")
+  tar_assert_envir(imports)
 }

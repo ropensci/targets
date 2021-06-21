@@ -72,7 +72,7 @@ network_class <- R6::R6Class(
       self$edges <- edges
     },
     validate = function() {
-      assert_identical_chr(class(self$pipeline)[1], "tar_pipeline")
+      tar_assert_identical_chr(class(self$pipeline)[1], "tar_pipeline")
       if (!is.null(self$meta)) {
         self$meta$validate()
       }

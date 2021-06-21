@@ -197,7 +197,7 @@ inspection_class <- R6::R6Class(
     },
     validate = function() {
       super$validate()
-      assert_lgl(self$outdated)
+      tar_assert_lgl(self$outdated)
     }
   )
 )

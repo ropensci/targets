@@ -19,11 +19,11 @@ resources_feather_new <- function(
 
 #' @export
 resources_validate.tar_resources_feather <- function(resources) {
-  assert_scalar(resources$compression)
-  assert_chr(resources$compression)
-  assert_nzchar(resources$compression)
-  assert_scalar(resources$compression_level %|||% 1)
-  assert_dbl(resources$compression_level %|||% 1)
+  tar_assert_scalar(resources$compression)
+  tar_assert_chr(resources$compression)
+  tar_assert_nzchar(resources$compression)
+  tar_assert_scalar(resources$compression_level %|||% 1)
+  tar_assert_dbl(resources$compression_level %|||% 1)
 }
 
 #' @export

@@ -29,11 +29,11 @@ value_produce_aggregate.tar_group <- function(value, objects) { # nolint
 
 #' @export
 value_validate.tar_group <- function(value) {
-  assert_df(
+  tar_assert_df(
     value$object,
     msg = "iteration = \"group\" requires data frame targets."
   )
-  assert_in(
+  tar_assert_in(
     "tar_group",
     choices = colnames(value$object),
     msg = paste(

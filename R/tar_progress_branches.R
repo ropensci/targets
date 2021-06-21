@@ -38,14 +38,14 @@ tar_progress_branches <- function(
   fields = NULL,
   store = targets::tar_config_get("store")
 ) {
-  assert_path(path_progress(path_store = store))
+  tar_assert_path(path_progress(path_store = store))
   progress <- progress_init(path_store = store)
   out <- tibble::as_tibble(progress$database$read_condensed_data())
   out <- tar_progress_branches_summary(out)
   names_quosure <- rlang::enquo(names)
   fields_quosure <- rlang::enquo(fields)
-  names <- eval_tidyselect(names_quosure, out$name)
-  fields <- eval_tidyselect(fields_quosure, colnames(out)) %|||% colnames(out)
+  names <- tar_tidyselect_eval(names_quosure, out$name)
+  fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||% colnames(out)
   if (!is.null(names)) {
     out <- out[match(names, out$name),, drop = FALSE] # nolint
   }

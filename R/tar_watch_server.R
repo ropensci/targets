@@ -17,7 +17,7 @@ tar_watch_server <- function(
   exclude = ".Random.seed",
   config = "_targets.yaml"
 ) {
-  assert_chr(
+  tar_assert_chr(
     exclude,
     "exclude in tar_watch_server() must be a character vector."
   )

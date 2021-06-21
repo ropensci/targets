@@ -41,9 +41,9 @@ junction_validate_deps <- function(deps) {
 }
 
 junction_validate <- function(junction) {
-  assert_correct_fields(junction, junction_new)
-  assert_scalar(junction$nexus)
-  assert_chr(junction$nexus)
-  assert_chr(junction$splits)
+  tar_assert_correct_fields(junction, junction_new)
+  tar_assert_scalar(junction$nexus)
+  tar_assert_chr(junction$nexus)
+  tar_assert_chr(junction$splits)
   junction_validate_deps(junction$deps)
 }

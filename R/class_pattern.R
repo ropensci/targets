@@ -96,7 +96,7 @@ target_is_branchable.tar_pattern <- function(target) {
 #' @export
 target_produce_junction.tar_pattern <- function(target, pipeline) {
   dimensions <- target$settings$dimensions
-  pattern_assert_dimensions(target, dimensions, pipeline)
+  pattern_tar_assert_dimensions(target, dimensions, pipeline)
   siblings <- setdiff(target_deps_shallow(target, pipeline), dimensions)
   niblings <- pattern_children_columns(dimensions, pipeline)
   pattern <- target$settings$pattern
@@ -120,7 +120,7 @@ target_needs_worker.tar_pattern <- function(target) {
 
 #' @export
 target_validate.tar_pattern <- function(target) {
-  assert_correct_fields(target, pattern_new)
+  tar_assert_correct_fields(target, pattern_new)
   if (!is.null(target$junction)) {
     junction_validate(target$junction)
   }
@@ -272,13 +272,13 @@ pattern_begin_final <- function(target, pipeline, scheduler, meta) {
   pattern_requeue_downstream_nonbranching(target, pipeline, scheduler)
 }
 
-pattern_assert_dimensions <- function(target, dimensions, pipeline) {
+pattern_tar_assert_dimensions <- function(target, dimensions, pipeline) {
   for (name in dimensions) {
-    pipeline_assert_dimension(target, pipeline, name)
+    pipeline_tar_assert_dimension(target, pipeline, name)
   }
 }
 
-pipeline_assert_dimension <- function(target, pipeline, name) {
+pipeline_tar_assert_dimension <- function(target, pipeline, name) {
   branchable <- FALSE
   if (pipeline_exists_target(pipeline, name)) {
     dep <- pipeline_get_target(pipeline, name)

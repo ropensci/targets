@@ -39,13 +39,13 @@ tar_load_raw <- function(
   if (!length(names)) {
     cli_red_x("Identified no targets to load.")
   }
-  assert_chr(names, "names arg of tar_load() must end up as character")
+  tar_assert_chr(names)
   if (!is.null(branches)) {
-    assert_dbl(branches, "branches arg of tar_load() must be numeric")
-    assert_positive(branches, "branches arg of tar_load() must be positive")
+    tar_assert_dbl(branches)
+    tar_assert_positive(branches)
   }
-  assert_df(meta, "meta arg of tar_load() must be a dataframe from tar_meta()")
-  assert_envir(envir, "envir arg of tar_load must be an environment")
+  tar_assert_df(meta)
+  tar_assert_envir(envir)
   map(names, ~tar_load_target(.x, branches, meta, envir, store))
   invisible()
 }

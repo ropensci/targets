@@ -15,8 +15,8 @@ resources_fst_new <- function(
 
 #' @export
 resources_validate.tar_resources_fst <- function(resources) {
-  assert_scalar(resources$compress)
-  assert_dbl(resources$compress)
+  tar_assert_scalar(resources$compress)
+  tar_assert_dbl(resources$compress)
 }
 
 #' @export

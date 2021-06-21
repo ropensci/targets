@@ -11,7 +11,7 @@
 tar_edit <- function(script = targets::tar_config_get("script")) {
   # Covered in tests/interactive/test-tar_edit.R # nolint
   # nocov start
-  assert_package("usethis")
+  tar_assert_package("usethis")
   usethis::edit_file(path = script, open = TRUE)
   # nocov end
 }

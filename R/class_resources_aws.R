@@ -19,12 +19,12 @@ resources_aws_new <- function(
 
 #' @export
 resources_validate.tar_resources_aws <- function(resources) {
-  assert_scalar(resources$bucket %|||% "bucket")
-  assert_chr(resources$bucket %|||% "bucket")
-  assert_nzchar(resources$bucket %|||% "bucket")
-  assert_scalar(resources$prefix)
-  assert_chr(resources$prefix)
-  assert_nzchar(resources$prefix)
+  tar_assert_scalar(resources$bucket %|||% "bucket")
+  tar_assert_chr(resources$bucket %|||% "bucket")
+  tar_assert_nzchar(resources$bucket %|||% "bucket")
+  tar_assert_scalar(resources$prefix)
+  tar_assert_chr(resources$prefix)
+  tar_assert_nzchar(resources$prefix)
 }
 
 #' @export

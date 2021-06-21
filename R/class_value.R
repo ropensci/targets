@@ -47,6 +47,6 @@ value_produce_slice_kernel.default <- function(value, index) { # nolint
 
 #' @export
 value_validate.tar_value <- function(value) {
-  assert_correct_fields(value, value_new)
-  assert_int(value_count_slices(value))
+  tar_assert_correct_fields(value, value_new)
+  tar_assert_int(value_count_slices(value))
 }

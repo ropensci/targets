@@ -131,7 +131,7 @@ visnetwork_class <- R6::R6Class(
       legend
     },
     produce_visnetwork = function() {
-      assert_package("visNetwork")
+      tar_assert_package("visNetwork")
       vertices <- self$network$vertices
       edges <- self$network$edges
       vertices <- self$update_label(vertices)
@@ -229,19 +229,19 @@ visnetwork_class <- R6::R6Class(
     },
     validate = function() {
       super$validate()
-      assert_in(self$label, c("time", "size", "branches"))
+      tar_assert_in(self$label, c("time", "size", "branches"))
       if (!is.null(self$legend)) {
-        assert_df(self$legend)
+        tar_assert_df(self$legend)
       }
       if (!is.null(self$visnetwork)) {
-        assert_identical(class(self$visnetwork)[1], "visNetwork")
+        tar_assert_identical(class(self$visnetwork)[1], "visNetwork")
       }
-      assert_scalar(self$degree_from)
-      assert_scalar(self$degree_to)
-      assert_dbl(self$degree_from)
-      assert_dbl(self$degree_to)
-      assert_ge(self$degree_from, 0L)
-      assert_ge(self$degree_to, 0L)
+      tar_assert_scalar(self$degree_from)
+      tar_assert_scalar(self$degree_to)
+      tar_assert_dbl(self$degree_from)
+      tar_assert_dbl(self$degree_to)
+      tar_assert_ge(self$degree_from, 0L)
+      tar_assert_ge(self$degree_to, 0L)
     }
   )
 )

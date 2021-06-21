@@ -17,7 +17,7 @@ url_exists <- function(url, handle = NULL) {
 }
 
 url_exists_impl <- function(url, handle) {
-  assert_internet()
+  tar_assert_internet()
   handle <- url_handle(handle)
   tryCatch(url_exists_try(url, handle), error = function(e) FALSE)
 }
@@ -36,18 +36,18 @@ url_hash_impl <- function(url, handle) {
   etag <- paste(headers[["etag"]], collapse = "")
   mtime <- paste(headers[["last-modified"]], collapse = "")
   out <- paste0(etag, mtime)
-  assert_nzchar(out, paste("no ETag or Last-Modified for url:", url))
+  tar_assert_nzchar(out, paste("no ETag or Last-Modified for url:", url))
   out
 }
 
 url_handle <- function(handle = NULL) {
   handle <- handle %|||% curl::new_handle(nobody = TRUE)
-  assert_inherits(handle, "curl_handle")
+  tar_assert_inherits(handle, "curl_handle")
   handle
 }
 
 url_headers <- function(url, handle) {
-  assert_internet()
+  tar_assert_internet()
   handle <- url_handle(handle)
   req <- curl::curl_fetch_memory(url, handle = handle)
   headers <- curl::parse_headers_list(req$headers)

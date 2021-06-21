@@ -82,36 +82,36 @@ tar_target_raw <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
-  assert_nonmissing(name)
-  assert_chr(name)
-  assert_nzchar(name)
-  assert_nonmissing(command, paste("target", name, "has no command."))
+  tar_assert_nonmissing(name)
+  tar_assert_chr(name)
+  tar_assert_nzchar(name)
+  tar_assert_nonmissing(command, paste("target", name, "has no command."))
   if (is.expression(command)) {
-    assert_nonmissing(command[[1]], paste("target", name, "has no command."))
+    tar_assert_nonmissing(command[[1]], paste("target", name, "has no command."))
   }
-  assert_scalar(
+  tar_assert_scalar(
     as.expression(command),
     paste("the command of target", name, "must have length 1.")
   )
-  assert_chr(packages)
-  assert_chr(
+  tar_assert_chr(packages)
+  tar_assert_chr(
     library %|||% character(0),
     "library in tar_target_raw() must be NULL or character."
   )
-  assert_format(format)
-  assert_flag(iteration, c("vector", "list", "group"))
-  assert_flag(error, c("stop", "continue", "workspace"))
-  assert_flag(memory, c("persistent", "transient"))
-  assert_lgl(garbage_collection)
-  assert_scalar(garbage_collection)
-  assert_flag(deployment, c("worker", "main"))
-  assert_dbl(priority)
-  assert_scalar(priority)
-  assert_ge(priority, 0)
-  assert_le(priority, 1)
-  assert_resources(resources)
-  assert_flag(storage, c("main", "worker"))
-  assert_flag(retrieval, c("main", "worker"))
+  tar_assert_format(format)
+  tar_assert_flag(iteration, c("vector", "list", "group"))
+  tar_assert_flag(error, c("stop", "continue", "workspace"))
+  tar_assert_flag(memory, c("persistent", "transient"))
+  tar_assert_lgl(garbage_collection)
+  tar_assert_scalar(garbage_collection)
+  tar_assert_flag(deployment, c("worker", "main"))
+  tar_assert_dbl(priority)
+  tar_assert_scalar(priority)
+  tar_assert_ge(priority, 0)
+  tar_assert_le(priority, 1)
+  tar_assert_resources(resources)
+  tar_assert_flag(storage, c("main", "worker"))
+  tar_assert_flag(retrieval, c("main", "worker"))
   if (!is.null(cue)) {
     cue_validate(cue)
   }

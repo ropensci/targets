@@ -9,7 +9,7 @@ scheduler_init <- function(
   pipeline <- scheduler_shortcut_pipeline(pipeline, names, shortcut)
   edges <- pipeline_upstream_edges(pipeline, targets_only = TRUE)
   igraph <- igraph::simplify(igraph::graph_from_data_frame(edges))
-  assert_target_dag(igraph)
+  tar_assert_target_dag(igraph)
   graph <- graph_init(remove_loops(edges))
   priorities <- pipeline_get_priorities(pipeline)
   names <- scheduler_topo_sort(igraph, priorities, queue)

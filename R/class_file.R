@@ -94,25 +94,25 @@ file_has_correct_hash <- function(file) {
 }
 
 file_validate_path <- function(path) {
-  assert_nonempty(path, "a target must have at least one output file.")
-  assert_none_na(path, paste("missing output file for target:", path))
-  assert_chr_no_delim(
+  tar_assert_nonempty(path, "a target must have at least one output file.")
+  tar_assert_none_na(path, paste("missing output file for target:", path))
+  tar_assert_chr_no_delim(
     path,
     paste("target output file path", path, "must not contain | or *")
   )
 }
 
 file_validate <- function(file) {
-  assert_correct_fields(file, file_new)
+  tar_assert_correct_fields(file, file_new)
   file_validate_path(file$path)
-  assert_chr(file$hash)
-  assert_chr(file$time)
-  assert_chr(file$size)
-  assert_dbl(file$bytes)
-  assert_scalar(file$hash)
-  assert_scalar(file$time)
-  assert_scalar(file$size)
-  assert_scalar(file$bytes)
+  tar_assert_chr(file$hash)
+  tar_assert_chr(file$time)
+  tar_assert_chr(file$size)
+  tar_assert_dbl(file$bytes)
+  tar_assert_scalar(file$hash)
+  tar_assert_scalar(file$time)
+  tar_assert_scalar(file$size)
+  tar_assert_scalar(file$bytes)
 }
 
 file_list_files <- function(path) {

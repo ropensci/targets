@@ -258,7 +258,7 @@ clustermq_class <- R6::R6Class(
     },
     validate = function() {
       super$validate()
-      assert_int(self$workers)
+      tar_assert_int(self$workers)
     }
   )
 )

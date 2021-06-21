@@ -25,7 +25,7 @@ sequential_class <- R6::R6Class(
       self$is_nonempty()
     },
     validate = function() {
-      assert_chr(self$data)
+      tar_assert_chr(self$data)
     }
   )
 )

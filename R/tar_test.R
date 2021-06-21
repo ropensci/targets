@@ -23,7 +23,7 @@
 tar_test <- function(label, code) {
   platform <- tolower(Sys.info()[["sysname"]])
   if (platform != "solaris") {
-    assert_package("testthat")
+    tar_assert_package("testthat")
     code <- substitute(code)
     expr <- substitute(
       tar_dir(testthat::test_that(label, code)),

@@ -40,8 +40,8 @@ tar_option_get <- function(name = NULL, option = NULL) {
     )
     name <- option
   }
-  assert_nonempty(name)
-  assert_flag(name, choices = names(formals(tar_option_set)))
+  tar_assert_nonempty(name)
+  tar_assert_flag(name, choices = names(formals(tar_option_set)))
   switch(
     name,
     tidy_eval = tar_options$get_tidy_eval(),

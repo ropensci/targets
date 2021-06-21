@@ -63,8 +63,8 @@ tar_validate <- function(
   store = targets::tar_config_get("store")
 ) {
   force(envir)
-  assert_callr_function(callr_function)
-  assert_list(callr_arguments, "callr_arguments mut be a list.")
+  tar_assert_callr_function(callr_function)
+  tar_assert_list(callr_arguments, "callr_arguments mut be a list.")
   out <- callr_outer(
     targets_function = tar_validate_inner,
     targets_arguments = list(),

@@ -16,7 +16,7 @@ resources_url_new <- function(
 #' @export
 resources_validate.tar_resources_url <- function(resources) {
   if (!is.null(resources$handle)) {
-    assert_inherits(resources$handle, "curl_handle")
+    tar_assert_inherits(resources$handle, "curl_handle")
   }
 }
 

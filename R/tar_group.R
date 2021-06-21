@@ -60,7 +60,7 @@
 #' })
 #' }
 tar_group <- function(x) {
-  assert_package("dplyr")
+  tar_assert_package("dplyr")
   groups <- attr(x, "groups")
   if (is.null(groups)) {
     throw_validate(

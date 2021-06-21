@@ -10,18 +10,18 @@ store_produce_path.tar_aws <- function(store, name, object, path_store) {
 
 store_produce_aws_path <- function(store, name, object, path_store) {
   bucket <- store$resources$aws$bucket %|||% store$resources$bucket
-  assert_nonempty(bucket)
-  assert_chr(bucket)
-  assert_scalar(bucket)
-  assert_nzchar(bucket)
+  tar_assert_nonempty(bucket)
+  tar_assert_chr(bucket)
+  tar_assert_scalar(bucket)
+  tar_assert_nzchar(bucket)
   prefix <- store$resources$aws$prefix %|||%
     store$resources$prefix %|||%
     path_objects_dir_cloud()
-  assert_nonempty(prefix)
-  assert_chr(prefix)
-  assert_scalar(prefix)
+  tar_assert_nonempty(prefix)
+  tar_assert_chr(prefix)
+  tar_assert_scalar(prefix)
   object <- file.path(prefix, name)
-  assert_nzchar(object)
+  tar_assert_nzchar(object)
   c(bucket, object)
 }
 

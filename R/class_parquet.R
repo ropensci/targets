@@ -39,7 +39,7 @@ store_assert_format.tar_parquet <- function(store, object, name) { # nolint
     "target ", name, " did not return a data frame. ",
     "Target with format = \"parquet\" must return data frames."
   )
-  assert_df(object, msg)
+  tar_assert_df(object, msg)
 }
 
 #' @export

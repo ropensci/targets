@@ -24,9 +24,9 @@ pipeline_new <- function(
 
 pipeline_targets_init <- function(targets, clone_targets) {
   targets <- targets %|||% list()
-  assert_target_list(targets)
+  tar_assert_target_list(targets)
   names <- map_chr(targets, ~.x$settings$name)
-  assert_unique_targets(names)
+  tar_assert_unique_targets(names)
   if (clone_targets) {
     # If the user has target objects in the global environment,
     # loading data into them may cause huge data transfers to workers.
@@ -262,8 +262,8 @@ pipeline_validate <- function(pipeline) {
 #' @description Internal function. Do not invoke directly.
 #' @param pipeline A pipeline object.
 pipeline_validate_lite <- function(pipeline) {
-  assert_inherits(pipeline, "tar_pipeline", msg = "invalid pipeline.")
-  assert_correct_fields(pipeline, pipeline_new)
+  tar_assert_inherits(pipeline, "tar_pipeline", msg = "invalid pipeline.")
+  tar_assert_correct_fields(pipeline, pipeline_new)
   pipeline_validate_conflicts(pipeline)
 }
 

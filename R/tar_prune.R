@@ -36,8 +36,8 @@ tar_prune <- function(
   store = targets::tar_config_get("store")
 ) {
   force(envir)
-  assert_callr_function(callr_function)
-  assert_list(callr_arguments)
+  tar_assert_callr_function(callr_function)
+  tar_assert_list(callr_arguments)
   path_scratch_del(store)
   out <- callr_outer(
     targets_function = tar_prune_inner,
@@ -51,7 +51,7 @@ tar_prune <- function(
 }
 
 tar_prune_inner <- function(pipeline, path_store) {
-  assert_store(path_store)
+  tar_assert_store(path_store)
   names <- pipeline_get_names(pipeline)
   meta <- meta_init(path_store = path_store)
   data <- meta$database$read_condensed_data()

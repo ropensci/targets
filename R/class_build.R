@@ -66,7 +66,7 @@ build_load_packages <- function(packages, library) {
     "in library paths",
     paste(library, collapse = ", ")
   )
-  assert_true(all(out), msg)
+  tar_assert_true(all(out), msg)
 }
 
 build_run_expr <- function(expr, envir, seed, packages, library) {
@@ -110,6 +110,6 @@ build_message <- function(condition) {
 }
 
 build_validate <- function(build) {
-  assert_correct_fields(build, build_new)
+  tar_assert_correct_fields(build, build_new)
   metrics_validate(build$metrics)
 }

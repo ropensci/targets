@@ -60,11 +60,11 @@ tar_make <- function(
   store = targets::tar_config_get("store")
 ) {
   force(envir)
-  assert_scalar(shortcut)
-  assert_lgl(shortcut)
-  assert_flag(reporter, tar_make_reporters())
-  assert_callr_function(callr_function)
-  assert_list(callr_arguments)
+  tar_assert_scalar(shortcut)
+  tar_assert_lgl(shortcut)
+  tar_assert_flag(reporter, tar_make_reporters())
+  tar_assert_callr_function(callr_function)
+  tar_assert_list(callr_arguments)
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
@@ -90,7 +90,7 @@ tar_make_inner <- function(
   reporter
 ) {
   pipeline_reset_deployments(pipeline)
-  names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
+  names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
   queue <- if_any(
     pipeline_uses_priorities(pipeline),
     "parallel",

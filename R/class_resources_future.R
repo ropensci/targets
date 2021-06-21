@@ -19,11 +19,11 @@ resources_future_new <- function(
 
 #' @export
 resources_validate.tar_resources_future <- function(resources) {
-  assert_list(resources$resources)
+  tar_assert_list(resources$resources)
   if (length(resources$resources)) {
-    assert_nonempty(names(resources$resources))
-    assert_nzchar(names(resources$resources))
-    assert_unique(names(resources$resources))
+    tar_assert_nonempty(names(resources$resources))
+    tar_assert_nzchar(names(resources$resources))
+    tar_assert_unique(names(resources$resources))
   }
 }
 

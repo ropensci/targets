@@ -52,15 +52,15 @@ tar_make_clustermq <- function(
   store = targets::tar_config_get("store")
 ) {
   force(envir)
-  assert_package("clustermq")
-  assert_scalar(shortcut)
-  assert_lgl(shortcut)
-  assert_flag(reporter, tar_make_reporters())
-  assert_scalar(workers)
-  assert_dbl(workers)
-  assert_ge(workers, 1)
-  assert_callr_function(callr_function)
-  assert_list(callr_arguments)
+  tar_assert_package("clustermq")
+  tar_assert_scalar(shortcut)
+  tar_assert_lgl(shortcut)
+  tar_assert_flag(reporter, tar_make_reporters())
+  tar_assert_scalar(workers)
+  tar_assert_dbl(workers)
+  tar_assert_ge(workers, 1)
+  tar_assert_callr_function(callr_function)
+  tar_assert_list(callr_arguments)
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
@@ -89,7 +89,7 @@ tar_make_clustermq_inner <- function(
   workers,
   log_worker
 ) {
-  names <- eval_tidyselect(names_quosure, pipeline_get_names(pipeline))
+  names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
   clustermq_init(
     pipeline = pipeline,
     meta = meta_init(path_store = path_store),

@@ -47,7 +47,7 @@ target_read_value.tar_bud <- function(target, pipeline) {
 
 #' @export
 target_validate.tar_bud <- function(target) {
-  assert_correct_fields(target, bud_new)
+  tar_assert_correct_fields(target, bud_new)
   pedigree_validate(target$pedigree)
   NextMethod()
 }

@@ -69,11 +69,11 @@ tar_renv <- function(
   script = targets::tar_config_get("script")
 ) {
   force(envir)
-  assert_chr(extras)
-  assert_chr(path)
-  assert_scalar(path)
-  assert_callr_function(callr_function)
-  assert_list(callr_arguments)
+  tar_assert_chr(extras)
+  tar_assert_chr(path)
+  tar_assert_scalar(path)
+  tar_assert_callr_function(callr_function)
+  tar_assert_list(callr_arguments)
   callr_outer(
     targets_function = tar_renv_inner,
     targets_arguments = list(extras = extras, path = path),

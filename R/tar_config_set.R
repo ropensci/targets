@@ -92,47 +92,47 @@ tar_config_assert_reporter_make <- function(reporter_make) {
   if (is.null(reporter_make)) {
     return()
   }
-  assert_flag(reporter_make, tar_make_reporters())
+  tar_assert_flag(reporter_make, tar_make_reporters())
 }
 
 tar_config_assert_reporter_outdated <- function(reporter_outdated) {
   if (is.null(reporter_outdated)) {
     return()
   }
-  assert_flag(reporter_outdated, tar_outdated_reporters())
+  tar_assert_flag(reporter_outdated, tar_outdated_reporters())
 }
 
 tar_config_assert_script <- function(script) {
   if (is.null(script)) {
     return()
   }
-  assert_scalar(script)
-  assert_chr(script)
+  tar_assert_scalar(script)
+  tar_assert_chr(script)
 }
 
 tar_config_assert_shortcut <- function(shortcut) {
   if (is.null(shortcut)) {
     return()
   }
-  assert_scalar(shortcut)
-  assert_lgl(shortcut)
+  tar_assert_scalar(shortcut)
+  tar_assert_lgl(shortcut)
 }
 
 tar_config_assert_store <- function(store) {
   if (is.null(store)) {
     return()
   }
-  assert_scalar(store)
-  assert_chr(store)
+  tar_assert_scalar(store)
+  tar_assert_chr(store)
 }
 
 tar_config_assert_workers <- function(workers) {
   if (is.null(workers)) {
     return()
   }
-  assert_scalar(workers)
-  assert_dbl(workers)
-  assert_ge(workers, 1)
+  tar_assert_scalar(workers)
+  tar_assert_dbl(workers)
+  tar_assert_ge(workers, 1)
 }
 
 tar_make_reporters <- function() {
