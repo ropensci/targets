@@ -31,8 +31,8 @@ tar_test("visnetwork$update_network()", {
 
 tar_test("visnetwork$update_positions()", {
   skip_if_not_installed("visNetwork")
-  net <- glimpse_init(pipeline_order())
-  vis <- visnetwork_init(network = net, exclude = "x")
+  net <- glimpse_init(pipeline_order(), exclude = "x")
+  vis <- visnetwork_init(network = net)
   vis$update_network()
   vis$update_positions()
   vertices <- vis$network$vertices
@@ -148,8 +148,8 @@ tar_test("visnetwork$validate() with no allow or exclude", {
 
 tar_test("visnetwork$validate() with allow and exclude", {
   skip_if_not_installed("visNetwork")
-  net <- glimpse_init(pipeline_init())
-  vis <- visnetwork_init(network = net, allow = "x", exclude = "y")
+  net <- glimpse_init(pipeline_init(), allow = "x", exclude = "y")
+  vis <- visnetwork_init(network = net)
   expect_silent(vis$validate())
 })
 
