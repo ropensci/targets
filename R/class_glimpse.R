@@ -14,6 +14,7 @@ glimpse_init <- function(
     progress = progress,
     targets_only = targets_only,
     names = names,
+    shortcut = shortcut,
     allow = allow,
     exclude = exclude
   )

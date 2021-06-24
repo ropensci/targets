@@ -48,6 +48,6 @@ tar_test("network can instantiate", {
 })
 
 tar_test("visual can instantiate", {
-  vis <- visual_new(glimpse_init(pipeline_init()), targets_only = TRUE)
+  vis <- visual_new(glimpse_init(pipeline_init()))
   expect_true(is.environment(vis))
 })

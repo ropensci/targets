@@ -4,7 +4,7 @@ inspection_init <- function(
   progress = progress_init(),
   targets_only = FALSE,
   names = NULL,
-  shortcut = NULL,
+  shortcut = FALSE,
   allow = NULL,
   exclude = NULL,
   outdated = TRUE,

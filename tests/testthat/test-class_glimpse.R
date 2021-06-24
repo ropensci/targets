@@ -1,3 +1,23 @@
+tar_test("glimpse$targets_only", {
+  skip_if_not_installed("visNetwork")
+  net <- glimpse_init(pipeline_init(), targets_only = FALSE)
+  expect_equal(net$targets_only, FALSE)
+  net <- glimpse_init(pipeline_init(), targets_only = TRUE)
+  expect_equal(net$targets_only, TRUE)
+})
+
+tar_test("glimpse$allow", {
+  skip_if_not_installed("visNetwork")
+  net <- glimpse_init(pipeline_init(), allow = "x")
+  expect_equal(net$allow, "x")
+})
+
+tar_test("glimpse$exclude", {
+  skip_if_not_installed("visNetwork")
+  net <- glimpse_init(pipeline_init(), exclude = "x")
+  expect_equal(net$exclude, "x")
+})
+
 tar_test("glimpse$pipeline", {
   expect_equal(
     class(glimpse_init(pipeline_init())$pipeline)[1],
@@ -21,7 +41,7 @@ tar_test("vertices and edges", {
       target_init("z", quote(x + y))
     )
   )
-  vis <- glimpse_init(pipeline)
+  vis <- glimpse_init(pipeline, targets_only = FALSE)
   vis$update()
   vertices <- vis$vertices
   vertices <- vertices[order(vertices$name), ]

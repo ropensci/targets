@@ -153,10 +153,10 @@ network_class <- R6::R6Class(
       tar_assert_lgl(self$shortcut)
       tar_assert_scalar(self$shortcut)
       if (!is.null(self$allow)) {
-        tar_assert_chr(self$allow)
+        assert_inherits(self$allow, "quosure")
       }
       if (!is.null(self$exclude)) {
-        tar_assert_chr(self$exclude)
+        assert_inherits(self$exclude, "quosure")
       }
     }
   )

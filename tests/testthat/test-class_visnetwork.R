@@ -1,24 +1,3 @@
-tar_test("visnetwork$targets_only", {
-  skip_if_not_installed("visNetwork")
-  net <- glimpse_init(pipeline_init())
-  vis <- visnetwork_init(network = net, targets_only = FALSE)
-  expect_equal(vis$targets_only, FALSE)
-})
-
-tar_test("visnetwork$allow", {
-  skip_if_not_installed("visNetwork")
-  net <- glimpse_init(pipeline_init())
-  vis <- visnetwork_init(network = net, allow = "x")
-  expect_equal(vis$allow, "x")
-})
-
-tar_test("visnetwork$exclude", {
-  skip_if_not_installed("visNetwork")
-  net <- glimpse_init(pipeline_init())
-  vis <- visnetwork_init(network = net, exclude = "x")
-  expect_equal(vis$exclude, "x")
-})
-
 tar_test("visnetwork$update_network()", {
   skip_if_not_installed("visNetwork")
   envir <- new.env(parent = baseenv())

@@ -1,3 +1,23 @@
+tar_test("inspection$targets_only", {
+  skip_if_not_installed("visNetwork")
+  net <- inspection_init(pipeline_init(), targets_only = FALSE)
+  expect_equal(net$targets_only, FALSE)
+  net <- inspection_init(pipeline_init(), targets_only = TRUE)
+  expect_equal(net$targets_only, TRUE)
+})
+
+tar_test("inspection$allow", {
+  skip_if_not_installed("visNetwork")
+  net <- inspection_init(pipeline_init(), allow = "x")
+  expect_equal(net$allow, "x")
+})
+
+tar_test("inspection$exclude", {
+  skip_if_not_installed("visNetwork")
+  net <- inspection_init(pipeline_init(), exclude = "x")
+  expect_equal(net$exclude, "x")
+})
+
 tar_test("inspection$pipeline", {
   expect_equal(
     class(inspection_init(pipeline_init())$pipeline)[1],
