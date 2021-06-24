@@ -29,50 +29,6 @@ tar_test("visnetwork$update_network()", {
   expect_equal(edges, exp)
 })
 
-tar_test("visnetwork$update_network() with allow", {
-  skip_if_not_installed("visNetwork")
-  x <- target_init("x", quote(1))
-  y <- target_init("y", quote(x))
-  pipeline <- pipeline_init(list(x, y))
-  net <- glimpse_init(pipeline)
-  vis <- visnetwork_init(network = net, allow = "x")
-  vis$update_network()
-  vertices <- vis$network$vertices
-  exp <- data_frame(
-    name = "x",
-    type = "stem",
-    status = "none"
-  )
-  rownames(vertices) <- NULL
-  rownames(exp) <- NULL
-  expect_equal(vertices[, colnames(exp)], exp)
-  edges <- vis$network$edges
-  exp <- data_frame(from = character(0), to = character(0))
-  expect_equal(edges, exp)
-})
-
-tar_test("visnetwork$update_network() with exclude", {
-  skip_if_not_installed("visNetwork")
-  x <- target_init("x", quote(1))
-  y <- target_init("y", quote(x))
-  pipeline <- pipeline_init(list(x, y))
-  net <- glimpse_init(pipeline)
-  vis <- visnetwork_init(network = net, exclude = "x")
-  vis$update_network()
-  vertices <- vis$network$vertices
-  exp <- data_frame(
-    name = "y",
-    type = "stem",
-    status = "none"
-  )
-  rownames(vertices) <- NULL
-  rownames(exp) <- NULL
-  expect_equal(vertices[, colnames(exp)], exp)
-  edges <- vis$network$edges
-  exp <- data_frame(from = character(0), to = character(0))
-  expect_equal(edges, exp)
-})
-
 tar_test("visnetwork$update_positions()", {
   skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_order())
