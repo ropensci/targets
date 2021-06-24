@@ -107,19 +107,14 @@ inspection_class <- R6::R6Class(
       ifelse(is_outdated, "outdated", "uptodate")
     },
     resolve_import_status = function(vertices) {
-      self$meta$database$ensure_preprocessed(write = FALSE)
-      names <- fltr(vertices$name, ~self$meta$exists_record(.x))
-      data <- map_chr(names, ~self$meta$get_record(.x)$data)
-      meta <- data_frame(name = names, old = data)
-      out <- merge(vertices, meta, all.x = TRUE)
-      out$old[is.na(out$old)] <- ""
-      out$status <- ifelse(out$new == out$old, "uptodate", "outdated")
-      out$status <- as.character(out$status)
-      out$status[is.na(out$status)] <- "queued"
-      out$seconds <- rep(NA_real_, nrow(out))
-      out$bytes <- rep(NA_real_, nrow(out))
-      out$branches <- rep(NA_integer_, nrow(out))
-      out[, c("name", "type", "status", "seconds", "bytes", "branches")]
+      out <- tar_outdated_globals(pipeline = self$pipeline, meta = self$meta)
+      vertices$status <- ifelse(vertices$name %in% out, "outdated", "uptodate")
+      vertices$status <- as.character(vertices$status)
+      vertices$status[is.na(vertices$status)] <- "queued"
+      vertices$seconds <- rep(NA_real_, nrow(vertices))
+      vertices$bytes <- rep(NA_real_, nrow(vertices))
+      vertices$branches <- rep(NA_integer_, nrow(vertices))
+      vertices[, c("name", "type", "status", "seconds", "bytes", "branches")]
     },
     resolve_target_status = function(vertices) {
       vertices <- vertices[order(vertices$name),, drop = FALSE] # nolint
