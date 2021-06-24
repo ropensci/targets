@@ -50,6 +50,8 @@
 #' }
 tar_glimpse <- function(
   targets_only = TRUE,
+  names = NULL,
+  shortcut = FALSE,
   allow = NULL,
   exclude = ".Random.seed",
   level_separation = NULL,
@@ -75,6 +77,8 @@ tar_glimpse <- function(
   targets_arguments <- list(
     path_store = store,
     targets_only = targets_only,
+    names_quosure = rlang::enquo(names),
+    shortcut = shortcut,
     allow_quosure = rlang::enquo(allow),
     exclude_quosure = rlang::enquo(exclude),
     level_separation = level_separation,
@@ -95,6 +99,8 @@ tar_glimpse_inner <- function(
   pipeline,
   path_store,
   targets_only,
+  names_quosure,
+  shortcut,
   allow_quosure,
   exclude_quosure,
   level_separation,
@@ -103,16 +109,19 @@ tar_glimpse_inner <- function(
 ) {
   meta <- meta_init(path_store = path_store)
   progress <- progress_init(path_store = path_store)
+  names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
   network <- glimpse_init(
     pipeline = pipeline,
     meta = meta,
-    progress = progress
+    progress = progress,
+    targets_only = targets_only,
+    names = names,
+    shortcut = shortcut,
+    allow = allow_quosure,
+    exclude = exclude_quosure
   )
   visual <- visnetwork_init(
     network = network,
-    targets_only = targets_only,
-    allow = allow_quosure,
-    exclude = exclude_quosure,
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to

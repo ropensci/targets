@@ -6,6 +6,11 @@
 \usage{
 tar_network(
   targets_only = FALSE,
+  names = NULL,
+  shortcut = FALSE,
+  allow = NULL,
+  exclude = NULL,
+  outdated = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
@@ -17,6 +22,24 @@ tar_network(
 \arguments{
 \item{targets_only}{Logical, whether to restrict the output to just targets
 (\code{FALSE}) or to also include imported global functions and objects.}
+
+\item{names}{Names of the targets. \code{tar_outdated()} will check
+these targets and all upstream ancestors in the dependency graph.
+Set \code{names} to \code{NULL} to check/build all the targets (default).
+Otherwise, you can supply symbols
+or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.
+Applies to ordinary targets (stem) and whole dynamic branching targets
+(patterns) by not individual dynamic branches.}
+
+\item{shortcut}{Logical of length 1, how to interpret the \code{names} argument.
+If \code{shortcut} is \code{FALSE} (default) then the function checks
+all targets upstream of \code{names} as far back as the dependency graph goes.
+If \code{TRUE}, then the function only checks the targets in \code{names}
+and uses stored metadata for information about upstream dependencies
+as needed. \code{shortcut = TRUE} increases speed if there are a lot of
+up-to-date targets, but it assumes all the dependencies
+are up to date, so please use with caution.
+Also, \code{shortcut = TRUE} only works if you set \code{names}.}
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets are checked. Choices:

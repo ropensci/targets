@@ -206,6 +206,15 @@ pipeline_prune_targets <- function(pipeline, names) {
   remove(list = discard, envir = pipeline$targets, inherits = FALSE)
 }
 
+pipeline_prune_shortcut <- function(pipeline, names, shortcut) {
+  if (is.null(names) || !shortcut) {
+    return(pipeline)
+  }
+  available <- intersect(names, pipeline_get_names(pipeline))
+  targets <- map(available, ~pipeline_get_target(pipeline, .x))
+  pipeline_init(targets = targets, clone_targets = FALSE)
+}
+
 pipeline_get_packages <- function(pipeline) {
   out <- map(
     pipeline_get_names(pipeline),

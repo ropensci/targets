@@ -2,6 +2,7 @@ network_new <- function(
   pipeline = NULL,
   meta = NULL,
   progress = NULL,
+  targets_only = NULL,
   names = NULL,
   shortcut = NULL,
   allow = NULL,
@@ -17,6 +18,7 @@ network_new <- function(
     pipeline = pipeline,
     meta = meta,
     progress = progress,
+    targets_only = targets_only,
     names = names,
     shortcut = shortcut,
     allow = allow,
@@ -39,6 +41,7 @@ network_class <- R6::R6Class(
     pipeline = NULL,
     meta = NULL,
     progress = NULL,
+    targets_only = NULL,
     names = NULL,
     shortcut = NULL,
     allow = NULL,
@@ -53,6 +56,7 @@ network_class <- R6::R6Class(
       pipeline = NULL,
       meta = NULL,
       progress = NULL,
+      targets_only = NULL,
       names = NULL,
       shortcut = NULL,
       allow = NULL,
@@ -67,6 +71,7 @@ network_class <- R6::R6Class(
       self$pipeline <- pipeline
       self$meta <- meta
       self$progress <- progress
+      self$targets_only <- targets_only
       self$names <- names
       self$shortcut <- shortcut
       self$allow <- allow
@@ -78,8 +83,47 @@ network_class <- R6::R6Class(
       self$vertices_targets <- vertices_targets
       self$edges_targets <- edges_targets
     },
-    update = function(targets_only = FALSE) {
-      if (!targets_only) {
+    shortcut_vertices = function() {
+      if (!self$shortcut) {
+        return()
+      }
+      vertices <- self$vertices
+      edges <- self$edges
+      vertices <- vertices[vertices$name %in% self$names,, drop = FALSE] # nolint
+      edges <- edges[edges$from %in% self$names,, drop = FALSE] # nolint
+      edges <- edges[edges$to %in% self$names,, drop = FALSE] # nolint
+      self$vertices <- vertices
+      self$edges <- edges
+    },
+    allow_vertices = function() {
+      vertices <- self$vertices
+      allow <- tar_tidyselect_eval(self$allow, vertices$name)
+      if (is.null(allow)) {
+        return()
+      }
+      edges <- self$edges
+      vertices <- vertices[vertices$name %in% allow,, drop = FALSE] # nolint
+      edges <- edges[edges$from %in% allow,, drop = FALSE] # nolint
+      edges <- edges[edges$to %in% allow,, drop = FALSE] # nolint
+      self$vertices <- vertices
+      self$edges <- edges
+    },
+    exclude_vertices = function() {
+      vertices <- self$vertices
+      exclude <- tar_tidyselect_eval(self$exclude, vertices$name)
+      if (is.null(exclude)) {
+        return()
+      }
+      edges <- self$edges
+      vertices <- vertices[!(vertices$name %in% exclude),, drop = FALSE] # nolint
+      edges <- edges[!(edges$from %in% exclude),, drop = FALSE] # nolint
+      edges <- edges[!(edges$to %in% exclude),, drop = FALSE] # nolint
+      self$vertices <- vertices
+      self$edges <- edges
+    },
+    update = function() {
+      pipeline_prune_names(self$pipeline, self$names)
+      if (!self$targets_only) {
         self$update_imports()
       }
       self$update_targets()
@@ -90,6 +134,9 @@ network_class <- R6::R6Class(
       edges <- edges[edges$to %in% vertices$name,, drop = FALSE] # nolint
       self$vertices <- vertices
       self$edges <- edges
+      self$shortcut_vertices()
+      self$allow_vertices()
+      self$exclude_vertices()
     },
     validate = function() {
       tar_assert_identical_chr(class(self$pipeline)[1], "tar_pipeline")
@@ -98,6 +145,18 @@ network_class <- R6::R6Class(
       }
       if (!is.null(self$progress)) {
         self$progress$validate()
+      }
+      tar_assert_lgl(self$targets_only)
+      if (!is.null(self$names)) {
+        tar_assert_chr(self$names)
+      }
+      tar_assert_lgl(self$shortcut)
+      tar_assert_scalar(self$shortcut)
+      if (!is.null(self$allow)) {
+        tar_assert_chr(self$allow)
+      }
+      if (!is.null(self$exclude)) {
+        tar_assert_chr(self$exclude)
       }
     }
   )

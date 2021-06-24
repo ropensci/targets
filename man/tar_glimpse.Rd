@@ -6,6 +6,8 @@
 \usage{
 tar_glimpse(
   targets_only = TRUE,
+  names = NULL,
+  shortcut = FALSE,
   allow = NULL,
   exclude = ".Random.seed",
   level_separation = NULL,

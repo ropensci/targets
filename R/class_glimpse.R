@@ -2,14 +2,20 @@ glimpse_init <- function(
   pipeline,
   meta = meta_init(),
   progress = progress_init(),
+  targets_only = TRUE,
   names = NULL,
+  shortcut = FALSE,
   allow = NULL,
   exclude = NULL
 ) {
   glimpse_new(
     pipeline = pipeline,
     meta = meta,
-    progress = progress
+    progress = progress,
+    targets_only = targets_only,
+    names = names,
+    allow = allow,
+    exclude = exclude
   )
 }
 
@@ -17,7 +23,9 @@ glimpse_new <- function(
   pipeline = NULL,
   meta = NULL,
   progress = NULL,
+  targets_only = NULL,
   names = NULL,
+  shortcut = NULL,
   allow = NULL,
   exclude = NULL,
   vertices = NULL,
@@ -31,7 +39,9 @@ glimpse_new <- function(
     pipeline = pipeline,
     meta = meta,
     progress = progress,
+    targets_only = targets_only,
     names = names,
+    shortcut = shortcut,
     allow = allow,
     exclude = exclude,
     vertices = vertices,

@@ -47,6 +47,8 @@
 #' }
 tar_visnetwork <- function(
   targets_only = FALSE,
+  names = NULL,
+  shortcut = FALSE,
   allow = NULL,
   exclude = ".Random.seed",
   outdated = TRUE,
@@ -78,6 +80,8 @@ tar_visnetwork <- function(
   targets_arguments <- list(
     path_store = store,
     targets_only = targets_only,
+    names_quosure = rlang::enquo(names),
+    shortcut = shortcut,
     allow_quosure = rlang::enquo(allow),
     exclude_quosure = rlang::enquo(exclude),
     outdated = outdated,
@@ -101,6 +105,8 @@ tar_visnetwork_inner <- function(
   pipeline,
   path_store,
   targets_only,
+  names_quosure,
+  shortcut,
   allow_quosure,
   exclude_quosure,
   outdated,
@@ -110,18 +116,21 @@ tar_visnetwork_inner <- function(
   degree_to,
   reporter
 ) {
+  names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
   network <- inspection_init(
     pipeline,
     meta = meta_init(path_store = path_store),
     progress = progress_init(path_store = path_store),
+    targets_only = targets_only,
+    names = names,
+    shortcut = shortcut,
+    allow = allow_quosure,
+    exclude = exclude_quosure,
     outdated = outdated,
     reporter = reporter
   )
   visual <- visnetwork_init(
     network = network,
-    targets_only = targets_only,
-    allow = allow_quosure,
-    exclude = exclude_quosure,
     label = label,
     level_separation = level_separation,
     degree_from = degree_from,

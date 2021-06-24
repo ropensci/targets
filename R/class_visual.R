@@ -1,10 +1,9 @@
 visual_new <- function(
-  network = NULL,
-  targets_only = NULL,
-  allow = NULL,
-  exclude = NULL
+  network = NULL
 ) {
-  visual_class$new(network, targets_only, allow, exclude)
+  visual_class$new(
+    network = network
+  )
 }
 
 visual_class <- R6::R6Class(
@@ -14,60 +13,16 @@ visual_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     network = NULL,
-    targets_only = NULL,
-    allow = NULL,
-    exclude = NULL,
     initialize = function(
-      network = NULL,
-      targets_only = NULL,
-      allow = NULL,
-      exclude = NULL
+      network = NULL
     ) {
       self$network <- network
-      self$targets_only <- targets_only
-      self$allow <- allow
-      self$exclude <- exclude
-    },
-    allow_vertices = function() {
-      vertices <- self$network$vertices
-      allow <- tar_tidyselect_eval(self$allow, vertices$name)
-      if (is.null(allow)) {
-        return()
-      }
-      edges <- self$network$edges
-      vertices <- vertices[vertices$name %in% allow,, drop = FALSE] # nolint
-      edges <- edges[edges$from %in% allow,, drop = FALSE] # nolint
-      edges <- edges[edges$to %in% allow,, drop = FALSE] # nolint
-      self$network$vertices <- vertices
-      self$network$edges <- edges
-    },
-    exclude_vertices = function() {
-      vertices <- self$network$vertices
-      exclude <- tar_tidyselect_eval(self$exclude, vertices$name)
-      if (is.null(exclude)) {
-        return()
-      }
-      edges <- self$network$edges
-      vertices <- vertices[!(vertices$name %in% exclude),, drop = FALSE] # nolint
-      edges <- edges[!(edges$from %in% exclude),, drop = FALSE] # nolint
-      edges <- edges[!(edges$to %in% exclude),, drop = FALSE] # nolint
-      self$network$vertices <- vertices
-      self$network$edges <- edges
     },
     update_network = function() {
-      self$network$update(targets_only = self$targets_only)
-      self$allow_vertices()
-      self$exclude_vertices()
+      self$network$update()
     },
     validate = function() {
       self$network$validate()
-      tar_assert_lgl(self$targets_only)
-      if (!is.null(self$allow)) {
-        tar_assert_chr(self$allow)
-      }
-      if (!is.null(self$exclude)) {
-        tar_assert_chr(self$exclude)
-      }
       invisible()
     }
   )

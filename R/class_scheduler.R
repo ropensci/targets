@@ -6,7 +6,7 @@ scheduler_init <- function(
   names = NULL,
   shortcut = FALSE
 ) {
-  pipeline <- scheduler_shortcut_pipeline(pipeline, names, shortcut)
+  pipeline <- pipeline_prune_shortcut(pipeline, names, shortcut)
   edges <- pipeline_upstream_edges(pipeline, targets_only = TRUE)
   igraph <- igraph::simplify(igraph::graph_from_data_frame(edges))
   tar_assert_target_dag(igraph)
@@ -28,15 +28,6 @@ scheduler_init <- function(
     reporter = reporter,
     backoff = backoff
   )
-}
-
-scheduler_shortcut_pipeline <- function(pipeline, names, shortcut) {
-  if (is.null(names) || !shortcut) {
-    return(pipeline)
-  }
-  available <- intersect(names, pipeline_get_names(pipeline))
-  targets <- map(available, ~pipeline_get_target(pipeline, .x))
-  pipeline_init(targets = targets, clone_targets = FALSE)
 }
 
 scheduler_topo_sort <- function(igraph, priorities, queue) {

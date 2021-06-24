@@ -31,6 +31,11 @@
 #' }
 tar_network <- function(
   targets_only = FALSE,
+  names = NULL,
+  shortcut = FALSE,
+  allow = NULL,
+  exclude = NULL,
+  outdated = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function, reporter),
@@ -46,6 +51,11 @@ tar_network <- function(
   targets_arguments <- list(
     path_store = store,
     targets_only = targets_only,
+    names_quosure = rlang::enquo(names),
+    shortcut = shortcut,
+    allow_quosure = rlang::enquo(allow),
+    exclude_quosure = rlang::enquo(exclude),
+    outdated = outdated,
     reporter = reporter
   )
   callr_outer(
@@ -62,17 +72,29 @@ tar_network_inner <- function(
   pipeline,
   path_store,
   targets_only,
+  names_quosure,
+  shortcut = shortcut,
+  allow_quosure = allow_quosure,
+  exclude_quosure = exclude_quosure,
+  outdated = outdated,
   reporter
 ) {
   meta <- meta_init(path_store = path_store)
   progress <- progress_init(path_store = path_store)
+  names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
   inspection <- inspection_init(
     pipeline = pipeline,
     meta = meta,
     progress = progress,
+    targets_only = targets_only,
+    names = names,
+    shortcut = shortcut,
+    allow = allow_quosure,
+    exclude = exclude_quosure,
+    outdated = outdated,
     reporter = reporter
   )
-  inspection$update(targets_only = targets_only)
+  inspection$update()
   list(
     vertices = tibble::as_tibble(inspection$vertices),
     edges = tibble::as_tibble(inspection$edges)

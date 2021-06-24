@@ -1,8 +1,5 @@
 visnetwork_init <- function(
   network,
-  targets_only = FALSE,
-  allow = NULL,
-  exclude = NULL,
   label = NULL,
   level_separation = NULL,
   degree_from = 1L,
@@ -10,9 +7,6 @@ visnetwork_init <- function(
 ) {
   visnetwork_new(
     network = network,
-    targets_only = targets_only,
-    allow = allow,
-    exclude = exclude,
     label = label,
     level_separation = level_separation,
     degree_from = degree_from,
@@ -22,9 +16,6 @@ visnetwork_init <- function(
 
 visnetwork_new <- function(
   network = NULL,
-  targets_only = NULL,
-  allow = NULL,
-  exclude = NULL,
   label = NULL,
   level_separation = NULL,
   degree_from = NULL,
@@ -34,9 +25,6 @@ visnetwork_new <- function(
 ) {
   visnetwork_class$new(
     network = network,
-    targets_only = targets_only,
-    allow = allow,
-    exclude = exclude,
     label = label,
     level_separation = level_separation,
     degree_from = degree_from,
@@ -54,9 +42,6 @@ visnetwork_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     network = NULL,
-    targets_only = NULL,
-    allow = NULL,
-    exclude = NULL,
     label = NULL,
     level_separation = NULL,
     degree_from = NULL,
@@ -65,9 +50,6 @@ visnetwork_class <- R6::R6Class(
     visnetwork = NULL,
     initialize = function(
       network = NULL,
-      targets_only = NULL,
-      allow = NULL,
-      exclude = NULL,
       label = NULL,
       level_separation = NULL,
       degree_from = NULL,
@@ -76,10 +58,7 @@ visnetwork_class <- R6::R6Class(
       visnetwork = NULL
     ) {
       super$initialize(
-        network = network,
-        targets_only = targets_only,
-        allow = allow,
-        exclude = exclude
+        network = network
       )
       self$label <- label
       self$legend <- legend

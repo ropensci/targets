@@ -2,6 +2,11 @@ inspection_init <- function(
   pipeline,
   meta = meta_init(),
   progress = progress_init(),
+  targets_only = FALSE,
+  names = NULL,
+  shortcut = NULL,
+  allow = NULL,
+  exclude = NULL,
   outdated = TRUE,
   reporter = "silent"
 ) {
@@ -9,6 +14,11 @@ inspection_init <- function(
     pipeline = pipeline,
     meta = meta,
     progress = progress,
+    targets_only = targets_only,
+    names = names,
+    shortcut = shortcut,
+    allow = allow,
+    exclude = exclude,
     outdated = outdated,
     reporter = reporter
   )
@@ -18,6 +28,7 @@ inspection_new <- function(
   pipeline = NULL,
   meta = NULL,
   progress = NULL,
+  targets_only = NULL,
   names = NULL,
   shortcut = NULL,
   allow = NULL,
@@ -35,6 +46,7 @@ inspection_new <- function(
     pipeline = pipeline,
     meta = meta,
     progress = progress,
+    targets_only = targets_only,
     names = names,
     shortcut = shortcut,
     allow = allow,
@@ -63,6 +75,7 @@ inspection_class <- R6::R6Class(
       pipeline = NULL,
       meta = NULL,
       progress = NULL,
+      targets_only = NULL,
       names = NULL,
       shortcut = NULL,
       allow = NULL,
@@ -80,6 +93,7 @@ inspection_class <- R6::R6Class(
         pipeline = pipeline,
         meta = meta,
         progress = progress,
+        targets_only = targets_only,
         names = names,
         shortcut = shortcut,
         allow = allow,
@@ -106,6 +120,8 @@ inspection_class <- R6::R6Class(
         pipeline = self$pipeline,
         queue = "sequential",
         meta = self$meta,
+        names = self$names,
+        shortcut = self$shortcut,
         reporter = self$reporter
       )
       outdated$run()
