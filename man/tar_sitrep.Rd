@@ -19,12 +19,12 @@ tar_sitrep(
 \arguments{
 \item{names}{Optional, names of the targets. If supplied, \code{tar_sitrep()}
 only returns metadata on these targets.
-You can supply symbols, a character vector,
+You can supply symbols
 or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
 
 \item{fields}{Optional, names of columns/fields to select. If supplied,
 \code{tar_sitrep()} only returns the selected metadata columns.
-You can supply symbols, a character vector, or \code{tidyselect} helpers
+You can supply symbols or \code{tidyselect} helpers
 like \code{\link[=starts_with]{starts_with()}}. The \code{name} column is always included first
 no matter what you select. Choices:
 \itemize{

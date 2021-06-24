@@ -12,7 +12,7 @@
 #' @param names Names of the targets. `tar_outdated()` will check
 #'   these targets and all upstream ancestors in the dependency graph.
 #'   Set `names` to `NULL` to check/build all the targets (default).
-#'   Otherwise, you can supply symbols, a character vector,
+#'   Otherwise, you can supply symbols
 #'   or `tidyselect` helpers like [starts_with()].
 #'   Applies to ordinary targets (stem) and whole dynamic branching targets
 #'   (patterns) by not individual dynamic branches.

@@ -15,20 +15,20 @@ tar_meta(
 \arguments{
 \item{names}{Optional, names of the targets. If supplied, \code{tar_meta()}
 only returns metadata on these targets.
-You can supply symbols, a character vector,
+You can supply symbols
 or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.
 If \code{NULL}, all names are selected.}
 
 \item{fields}{Optional, names of columns/fields to select. If supplied,
 \code{tar_meta()} only returns the selected metadata columns.
 If \code{NULL}, all fields are selected.
-You can supply symbols, a character vector, or \code{tidyselect} helpers
+You can supply symbols or \code{tidyselect} helpers
 like \code{\link[=starts_with]{starts_with()}}. The \code{name} column is always included first
 no matter what you select. Choices:
 \itemize{
 \item \code{name}: name of the target or global object.
 \item \code{type}: type of the object: either \code{"function"} or \code{"object"}
-for imported global objects, and \code{"stem"}, \code{"branch"},
+for global objects, and \code{"stem"}, \code{"branch"},
 \code{"map"}, or \code{"cross"} for targets.
 \item \code{data}: hash of the output data.
 \item \code{command}: hash of the target's deparsed command.

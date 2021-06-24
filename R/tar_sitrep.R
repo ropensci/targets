@@ -21,7 +21,7 @@
 #' @inheritParams tar_outdated
 #' @param names Optional, names of the targets. If supplied, `tar_sitrep()`
 #'   only returns metadata on these targets.
-#'   You can supply symbols, a character vector,
+#'   You can supply symbols
 #'   or `tidyselect` helpers like [starts_with()].
 #' @param shortcut Logical of length 1, how to interpret the `names` argument.
 #'   If `shortcut` is `FALSE` (default) then the function checks
@@ -34,7 +34,7 @@
 #'   Use with caution. `shortcut = TRUE` only works if you set `names`.
 #' @param fields Optional, names of columns/fields to select. If supplied,
 #'   `tar_sitrep()` only returns the selected metadata columns.
-#'   You can supply symbols, a character vector, or `tidyselect` helpers
+#'   You can supply symbols or `tidyselect` helpers
 #'   like [starts_with()]. The `name` column is always included first
 #'   no matter what you select. Choices:
 #'   * `name`: name of the target or global object.

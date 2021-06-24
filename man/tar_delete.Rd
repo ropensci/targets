@@ -8,7 +8,7 @@ tar_delete(names, store = targets::tar_config_get("store"))
 }
 \arguments{
 \item{names}{Names of the targets to remove from \verb{_targets/objects/}.
-You can supply symbols, a character vector,
+You can supply symbols
 or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
 
 \item{store}{Character of length 1, path to the

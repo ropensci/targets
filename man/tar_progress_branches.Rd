@@ -13,7 +13,7 @@ tar_progress_branches(
 \arguments{
 \item{names}{Optional, names of the targets. If supplied, \code{tar_progress()}
 only returns progress information on these targets.
-You can supply symbols, a character vector,
+You can supply symbols
 or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
 
 \item{fields}{Optional, names of progress data columns to read.

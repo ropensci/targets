@@ -20,16 +20,16 @@ tar_glimpse(
 }
 \arguments{
 \item{targets_only}{Logical, whether to restrict the output to just targets
-(\code{FALSE}) or to also include imported global functions and objects.}
+(\code{FALSE}) or to also include global functions and objects.}
 
 \item{allow}{Optional, define the set of allowable vertices in the graph.
 Set to \code{NULL} to allow all vertices in the pipeline and environment
-(default). Otherwise, you can supply symbols, a character vector, or
+(default). Otherwise, you can supply symbols or
 \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
 
 \item{exclude}{Optional, define the set of exclude vertices from the graph.
 Set to \code{NULL} to exclude no vertices.
-Otherwise, you can supply symbols, a character vector, or \code{tidyselect}
+Otherwise, you can supply symbols or \code{tidyselect}
 helpers like \code{\link[=starts_with]{starts_with()}}.}
 
 \item{level_separation}{Numeric of length 1,

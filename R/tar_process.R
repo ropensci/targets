@@ -18,7 +18,7 @@
 #' @param names Optional, names of the data points to return.
 #'    If supplied, `tar_process()`
 #'   returns only the rows of the names you select.
-#'   You can supply symbols, a character vector,
+#'   You can supply symbols
 #'   or `tidyselect` helpers like [starts_with()].
 #'   If `NULL`, all names are selected.
 #' @examples

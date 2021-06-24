@@ -10,7 +10,7 @@ tar_process(names = NULL, store = targets::tar_config_get("store"))
 \item{names}{Optional, names of the data points to return.
 If supplied, \code{tar_process()}
 returns only the rows of the names you select.
-You can supply symbols, a character vector,
+You can supply symbols
 or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.
 If \code{NULL}, all names are selected.}
 

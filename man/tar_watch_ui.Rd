@@ -40,7 +40,7 @@ in the app controls.}
 in the app controls.}
 
 \item{targets_only}{Logical, whether to restrict the output to just targets
-(\code{FALSE}) or to also include imported global functions and objects.}
+(\code{FALSE}) or to also include global functions and objects.}
 
 \item{outdated}{Logical, whether to show colors to distinguish outdated
 targets from up-to-date targets. (Global functions and objects

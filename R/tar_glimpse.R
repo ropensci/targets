@@ -11,14 +11,14 @@
 #' @return A `visNetwork` HTML widget object.
 #' @inheritParams tar_validate
 #' @param targets_only Logical, whether to restrict the output to just targets
-#'   (`FALSE`) or to also include imported global functions and objects.
+#'   (`FALSE`) or to also include global functions and objects.
 #' @param allow Optional, define the set of allowable vertices in the graph.
 #'   Set to `NULL` to allow all vertices in the pipeline and environment
-#'   (default). Otherwise, you can supply symbols, a character vector, or
+#'   (default). Otherwise, you can supply symbols or
 #'   `tidyselect` helpers like [starts_with()].
 #' @param exclude Optional, define the set of exclude vertices from the graph.
 #'   Set to `NULL` to exclude no vertices.
-#'   Otherwise, you can supply symbols, a character vector, or `tidyselect`
+#'   Otherwise, you can supply symbols or `tidyselect`
 #'   helpers like [starts_with()].
 #' @param level_separation Numeric of length 1,
 #'   `levelSeparation` argument of `visNetwork::visHierarchicalLayout()`.

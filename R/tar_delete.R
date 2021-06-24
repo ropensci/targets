@@ -10,7 +10,7 @@
 #'   branches are left alone.
 #' @inheritParams tar_validate
 #' @param names Names of the targets to remove from `_targets/objects/`.
-#'   You can supply symbols, a character vector,
+#'   You can supply symbols
 #'   or `tidyselect` helpers like [starts_with()].
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {

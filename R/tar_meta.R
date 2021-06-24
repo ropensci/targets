@@ -10,18 +10,18 @@
 #' @inheritParams tar_validate
 #' @param names Optional, names of the targets. If supplied, `tar_meta()`
 #'   only returns metadata on these targets.
-#'   You can supply symbols, a character vector,
+#'   You can supply symbols
 #'   or `tidyselect` helpers like [starts_with()].
 #'   If `NULL`, all names are selected.
 #' @param fields Optional, names of columns/fields to select. If supplied,
 #'   `tar_meta()` only returns the selected metadata columns.
 #'   If `NULL`, all fields are selected.
-#'   You can supply symbols, a character vector, or `tidyselect` helpers
+#'   You can supply symbols or `tidyselect` helpers
 #'   like [starts_with()]. The `name` column is always included first
 #'   no matter what you select. Choices:
 #'   * `name`: name of the target or global object.
 #'   * `type`: type of the object: either `"function"` or `"object"`
-#'     for imported global objects, and `"stem"`, `"branch"`,
+#'     for global objects, and `"stem"`, `"branch"`,
 #'     `"map"`, or `"cross"` for targets.
 #'   * `data`: hash of the output data.
 #'   * `command`: hash of the target's deparsed command.
