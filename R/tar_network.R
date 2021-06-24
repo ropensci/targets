@@ -15,6 +15,29 @@
 #' @inheritParams tar_outdated
 #' @param targets_only Logical, whether to restrict the output to just targets
 #'   (`FALSE`) or to also include imported global functions and objects.
+#' @param names Names of targets. The graph visualization will operate
+#'   only on these targets (and unless `shortcut` is `TRUE`,
+#'   all the targets upstream as well). Selecting a small subgraph
+#'   using `names` could speed up the load time of the visualization.
+#'   Unlike `allow`, `names` is invoked before the graph
+#'   is generated.
+#'   Set to NULL to check/build all the targets (default).
+#'   Otherwise, you can supply symbols or tidyselect helpers
+#'   like starts_with().
+#'   Applies to ordinary targets (stem) and whole dynamic branching
+#'   targets (patterns) but not individual dynamic branches.
+#' @param allow Optional, define the set of allowable vertices in the graph.
+#'   Unlike `names`, `allow` is invoked only after the graph is mostly
+#'   resolved, so it will not speed up execution.
+#'   Set to `NULL` to allow all vertices in the pipeline and environment
+#'   (default). Otherwise, you can supply symbols or
+#'   `tidyselect` helpers like [starts_with()].
+#' @param exclude Optional, define the set of exclude vertices from the graph.
+#'   Unlike `names`, `exclude` is invoked only after the graph is mostly
+#'   resolved, so it will not speed up execution.
+#'   Set to `NULL` to exclude no vertices.
+#'   Otherwise, you can supply symbols or `tidyselect`
+#'   helpers like [starts_with()].
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.

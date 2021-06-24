@@ -7,17 +7,6 @@
 #'   and global functions and objects.
 #' @return A `visNetwork` HTML widget object.
 #' @inheritParams tar_glimpse
-#' @inheritParams tar_outdated
-#' @param targets_only Logical, whether to restrict the output to just targets
-#'   (`FALSE`) or to also include global functions and objects.
-#' @param allow Optional, define the set of allowable vertices in the graph.
-#'   Set to `NULL` to allow all vertices in the pipeline and environment
-#'   (default). Otherwise, you can supply symbols or
-#'   `tidyselect` helpers like [starts_with()].
-#' @param exclude Optional, define the set of exclude vertices from the graph.
-#'   Set to `NULL` to exclude no vertices.
-#'   Otherwise, you can supply symbols or `tidyselect`
-#'   helpers like [starts_with()].
 #' @param outdated Logical, whether to show colors to distinguish outdated
 #'   targets from up-to-date targets. (Global functions and objects
 #'   still show these colors.) Looking for outdated targets
