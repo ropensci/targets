@@ -2,6 +2,10 @@ network_new <- function(
   pipeline = NULL,
   meta = NULL,
   progress = NULL,
+  names = NULL,
+  shortcut = NULL,
+  allow = NULL,
+  exclude = NULL,
   vertices = NULL,
   edges = NULL,
   vertices_imports = NULL,
@@ -13,6 +17,10 @@ network_new <- function(
     pipeline = pipeline,
     meta = meta,
     progress = progress,
+    names = names,
+    shortcut = shortcut,
+    allow = allow,
+    exclude = exclude,
     vertices = vertices,
     edges = edges,
     vertices_imports = vertices_imports,
@@ -31,6 +39,10 @@ network_class <- R6::R6Class(
     pipeline = NULL,
     meta = NULL,
     progress = NULL,
+    names = NULL,
+    shortcut = NULL,
+    allow = NULL,
+    exclude = NULL,
     vertices = NULL,
     edges = NULL,
     vertices_imports = NULL,
@@ -41,6 +53,10 @@ network_class <- R6::R6Class(
       pipeline = NULL,
       meta = NULL,
       progress = NULL,
+      names = NULL,
+      shortcut = NULL,
+      allow = NULL,
+      exclude = NULL,
       vertices = NULL,
       edges = NULL,
       vertices_imports = NULL,
@@ -51,6 +67,10 @@ network_class <- R6::R6Class(
       self$pipeline <- pipeline
       self$meta <- meta
       self$progress <- progress
+      self$names <- names
+      self$shortcut <- shortcut
+      self$allow <- allow
+      self$exclude <- exclude
       self$vertices <- vertices
       self$edges <- edges
       self$vertices_imports <- vertices_imports
