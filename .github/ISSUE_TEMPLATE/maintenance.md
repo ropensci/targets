@@ -2,7 +2,7 @@
 name: Maintenance
 about: "Something in targets needs work: updates, documentation, etc. Not a bug, performance issue, or new feature."
 title: ""
-labels: "type: new maintenance"
+labels: "type: maintenance"
 assignees: ""
 ---
 
