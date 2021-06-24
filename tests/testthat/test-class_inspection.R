@@ -345,6 +345,37 @@ tar_test("inspection$update() with allow", {
   expect_equal(edges, exp)
 })
 
+tar_test("inspection$update() with names", {
+  skip_if_not_installed("visNetwork")
+  x <- target_init("x", quote(1))
+  y <- target_init("y", quote(x))
+  z <- target_init("z", quote(y))
+  pipeline <- pipeline_init(list(x, y, z))
+  net <- inspection_init(pipeline, names = "y", targets_only = TRUE)
+  net$update()
+  expect_equal(sort(net$vertices$name), sort(c("x", "y")))
+  expect_equal(net$edges$from, "x")
+  expect_equal(net$edges$to, "y")
+})
+
+tar_test("inspection$update() with names and shortcut", {
+  skip_if_not_installed("visNetwork")
+  x <- target_init("x", quote(1))
+  y <- target_init("y", quote(x))
+  z <- target_init("z", quote(y))
+  pipeline <- pipeline_init(list(x, y, z))
+  local_init(pipeline)$run()
+  net <- inspection_init(
+    pipeline,
+    names = "y",
+    targets_only = TRUE,
+    shortcut = TRUE
+  )
+  net$update()
+  expect_equal(net$vertices$name, "y")
+  expect_equal(nrow(net$edges), 0L)
+})
+
 tar_test("inspection$update() with exclude", {
   skip_if_not_installed("visNetwork")
   x <- target_init("x", quote(1))

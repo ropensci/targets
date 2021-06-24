@@ -125,6 +125,37 @@ tar_test("glimpse$update() with exclude", {
   expect_equal(edges, exp)
 })
 
+tar_test("glimpse$update() with names", {
+  skip_if_not_installed("visNetwork")
+  x <- target_init("x", quote(1))
+  y <- target_init("y", quote(x))
+  z <- target_init("z", quote(y))
+  pipeline <- pipeline_init(list(x, y, z))
+  net <- glimpse_init(pipeline, names = "y", targets_only = TRUE)
+  net$update()
+  expect_equal(sort(net$vertices$name), sort(c("x", "y")))
+  expect_equal(net$edges$from, "x")
+  expect_equal(net$edges$to, "y")
+})
+
+tar_test("glimpse$update() with names and shortcut", {
+  skip_if_not_installed("visNetwork")
+  x <- target_init("x", quote(1))
+  y <- target_init("y", quote(x))
+  z <- target_init("z", quote(y))
+  pipeline <- pipeline_init(list(x, y, z))
+  local_init(pipeline)$run()
+  net <- glimpse_init(
+    pipeline,
+    names = "y",
+    targets_only = TRUE,
+    shortcut = TRUE
+  )
+  net$update()
+  expect_equal(net$vertices$name, "y")
+  expect_equal(nrow(net$edges), 0L)
+})
+
 tar_test("glimpse$validate()", {
   expect_silent(glimpse_init(pipeline_init())$validate())
 })
