@@ -93,6 +93,14 @@ controls the number of edges the neighborhood extends upstream.}
 the graph highlights a neighborhood of that node. \code{degree_to}
 controls the number of edges the neighborhood extends downstream.}
 
+\item{reporter}{Character of length 1, name of the reporter to user.
+Controls how messages are printed as targets are checked. Choices:
+\itemize{
+\item \code{"silent"}: print nothing.
+\item \code{"forecast"}: print running totals of the checked and outdated
+targets found so far.
+}}
+
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session
 instead of an external process (but restart your R session just before

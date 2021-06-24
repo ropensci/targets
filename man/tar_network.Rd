@@ -59,6 +59,13 @@ Set to \code{NULL} to exclude no vertices.
 Otherwise, you can supply symbols or \code{tidyselect}
 helpers like \code{\link[=starts_with]{starts_with()}}.}
 
+\item{outdated}{Logical, whether to show colors to distinguish outdated
+targets from up-to-date targets. (Global functions and objects
+still show these colors.) Looking for outdated targets
+takes a lot of time for large pipelines with lots of branches,
+and setting \code{outdated} to \code{FALSE} is a nice way to speed up the graph
+if you only want to see dependency relationships and build progress.}
+
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets are checked. Choices:
 \itemize{
