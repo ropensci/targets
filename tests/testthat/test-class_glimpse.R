@@ -159,3 +159,13 @@ tar_test("glimpse$update() with names and shortcut", {
 tar_test("glimpse$validate()", {
   expect_silent(glimpse_init(pipeline_init())$validate())
 })
+
+tar_test("glimpse$validate() with names, allow, and exclude", {
+  x <- glimpse_init(
+    pipeline_init(),
+    names = "x",
+    allow = "x",
+    exclude = "y"
+  )
+  expect_silent(x$validate())
+})

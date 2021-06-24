@@ -38,6 +38,12 @@
 #'   Set to `NULL` to exclude no vertices.
 #'   Otherwise, you can supply symbols or `tidyselect`
 #'   helpers like [starts_with()].
+#' @param outdated Logical, whether to show colors to distinguish outdated
+#'   targets from up-to-date targets. (Global functions and objects
+#'   still show these colors.) Looking for outdated targets
+#'   takes a lot of time for large pipelines with lots of branches,
+#'   and setting `outdated` to `FALSE` is a nice way to speed up the graph
+#'   if you only want to see dependency relationships and build progress.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -96,10 +102,10 @@ tar_network_inner <- function(
   path_store,
   targets_only,
   names_quosure,
-  shortcut = shortcut,
-  allow_quosure = allow_quosure,
-  exclude_quosure = exclude_quosure,
-  outdated = outdated,
+  shortcut,
+  allow_quosure,
+  exclude_quosure,
+  outdated,
   reporter
 ) {
   meta <- meta_init(path_store = path_store)

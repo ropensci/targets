@@ -7,12 +7,7 @@
 #'   and global functions and objects.
 #' @return A `visNetwork` HTML widget object.
 #' @inheritParams tar_glimpse
-#' @param outdated Logical, whether to show colors to distinguish outdated
-#'   targets from up-to-date targets. (Global functions and objects
-#'   still show these colors.) Looking for outdated targets
-#'   takes a lot of time for large pipelines with lots of branches,
-#'   and setting `outdated` to `FALSE` is a nice way to speed up the graph
-#'   if you only want to see dependency relationships and build progress.
+#' @inheritParams tar_network
 #' @param label Character vector of one or more aesthetics to add to the
 #'   vertex labels. Can contain `"time"` to show total runtime, `"size"`
 #'   to show total storage size, or `"branches"` to show the number of
