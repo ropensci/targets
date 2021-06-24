@@ -7,23 +7,7 @@
 #'   and global functions and objects.
 #' @return A `visNetwork` HTML widget object.
 #' @inheritParams tar_glimpse
-#' @inheritParams tar_outdated
-#' @param targets_only Logical, whether to restrict the output to just targets
-#'   (`FALSE`) or to also include global functions and objects.
-#' @param allow Optional, define the set of allowable vertices in the graph.
-#'   Set to `NULL` to allow all vertices in the pipeline and environment
-#'   (default). Otherwise, you can supply symbols or
-#'   `tidyselect` helpers like [starts_with()].
-#' @param exclude Optional, define the set of exclude vertices from the graph.
-#'   Set to `NULL` to exclude no vertices.
-#'   Otherwise, you can supply symbols or `tidyselect`
-#'   helpers like [starts_with()].
-#' @param outdated Logical, whether to show colors to distinguish outdated
-#'   targets from up-to-date targets. (Global functions and objects
-#'   still show these colors.) Looking for outdated targets
-#'   takes a lot of time for large pipelines with lots of branches,
-#'   and setting `outdated` to `FALSE` is a nice way to speed up the graph
-#'   if you only want to see dependency relationships and build progress.
+#' @inheritParams tar_network
 #' @param label Character vector of one or more aesthetics to add to the
 #'   vertex labels. Can contain `"time"` to show total runtime, `"size"`
 #'   to show total storage size, or `"branches"` to show the number of
@@ -47,6 +31,8 @@
 #' }
 tar_visnetwork <- function(
   targets_only = FALSE,
+  names = NULL,
+  shortcut = FALSE,
   allow = NULL,
   exclude = ".Random.seed",
   outdated = TRUE,
@@ -78,6 +64,8 @@ tar_visnetwork <- function(
   targets_arguments <- list(
     path_store = store,
     targets_only = targets_only,
+    names_quosure = rlang::enquo(names),
+    shortcut = shortcut,
     allow_quosure = rlang::enquo(allow),
     exclude_quosure = rlang::enquo(exclude),
     outdated = outdated,
@@ -101,6 +89,8 @@ tar_visnetwork_inner <- function(
   pipeline,
   path_store,
   targets_only,
+  names_quosure,
+  shortcut,
   allow_quosure,
   exclude_quosure,
   outdated,
@@ -110,18 +100,21 @@ tar_visnetwork_inner <- function(
   degree_to,
   reporter
 ) {
+  names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
   network <- inspection_init(
     pipeline,
     meta = meta_init(path_store = path_store),
     progress = progress_init(path_store = path_store),
+    targets_only = targets_only,
+    names = names,
+    shortcut = shortcut,
+    allow = allow_quosure,
+    exclude = exclude_quosure,
     outdated = outdated,
     reporter = reporter
   )
   visual <- visnetwork_init(
     network = network,
-    targets_only = targets_only,
-    allow = allow_quosure,
-    exclude = exclude_quosure,
     label = label,
     level_separation = level_separation,
     degree_from = degree_from,

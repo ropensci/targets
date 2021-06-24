@@ -1,12 +1,22 @@
 glimpse_init <- function(
   pipeline,
   meta = meta_init(),
-  progress = progress_init()
+  progress = progress_init(),
+  targets_only = TRUE,
+  names = NULL,
+  shortcut = FALSE,
+  allow = NULL,
+  exclude = NULL
 ) {
   glimpse_new(
     pipeline = pipeline,
     meta = meta,
-    progress = progress
+    progress = progress,
+    targets_only = targets_only,
+    names = names,
+    shortcut = shortcut,
+    allow = allow,
+    exclude = exclude
   )
 }
 
@@ -14,6 +24,11 @@ glimpse_new <- function(
   pipeline = NULL,
   meta = NULL,
   progress = NULL,
+  targets_only = NULL,
+  names = NULL,
+  shortcut = NULL,
+  allow = NULL,
+  exclude = NULL,
   vertices = NULL,
   edges = NULL,
   vertices_imports = NULL,
@@ -25,6 +40,11 @@ glimpse_new <- function(
     pipeline = pipeline,
     meta = meta,
     progress = progress,
+    targets_only = targets_only,
+    names = names,
+    shortcut = shortcut,
+    allow = allow,
+    exclude = exclude,
     vertices = vertices,
     edges = edges,
     vertices_imports = vertices_imports,
@@ -41,38 +61,6 @@ glimpse_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    pipeline = NULL,
-    meta = NULL,
-    progress = NULL,
-    vertices = NULL,
-    edges = NULL,
-    vertices_imports = NULL,
-    edges_imports = NULL,
-    vertices_targets = NULL,
-    edges_targets = NULL,
-    initialize = function(
-      pipeline = NULL,
-      meta = NULL,
-      progress = NULL,
-      vertices = NULL,
-      edges = NULL,
-      vertices_imports = NULL,
-      edges_imports = NULL,
-      vertices_targets = NULL,
-      edges_targets = NULL
-    ) {
-      super$initialize(
-        pipeline = pipeline,
-        meta = meta,
-        progress = progress,
-        vertices = vertices,
-        edges = edges,
-        vertices_imports = vertices_imports,
-        edges_imports = edges_imports,
-        vertices_targets = vertices_targets,
-        edges_targets = edges_targets
-      )
-    },
     update_imports = function() {
       envir <- self$pipeline$imports
       graph <- graph_envir(envir)

@@ -51,6 +51,87 @@ tar_test("targets_only = FALSE", {
   expect_true("x" %in% out$vertices$name)
 })
 
+tar_test("allow", {
+  tar_script({
+    x <- 1L
+    envir <- environment()
+    tar_option_set(envir = envir)
+    list(
+      tar_target(y1, 1 + 1),
+      tar_target(y2, 1 + 1),
+      tar_target(z, y1 + y2)
+    )
+  })
+  out <- tar_network(
+    callr_function = NULL,
+    callr_arguments = list(show = FALSE),
+    allow = "z"
+  )
+  expect_equal(out$vertices$name, "z")
+})
+
+tar_test("exclude", {
+  tar_script({
+    x <- 1L
+    envir <- environment()
+    tar_option_set(envir = envir)
+    list(
+      tar_target(y1, 1 + 1),
+      tar_target(y2, 1 + 1),
+      tar_target(z, y1 + y2)
+    )
+  })
+  out <- tar_network(
+    callr_function = NULL,
+    callr_arguments = list(show = FALSE),
+    targets_only = TRUE,
+    exclude = c("y1", "z")
+  )
+  expect_equal(out$vertices$name, "y2")
+})
+
+tar_test("names", {
+  tar_script({
+    x <- 1L
+    envir <- environment()
+    tar_option_set(envir = envir)
+    list(
+      tar_target(y1, 1 + 1),
+      tar_target(y2, 1 + 1),
+      tar_target(z, y1 + y2)
+    )
+  })
+  out <- tar_network(
+    callr_function = NULL,
+    callr_arguments = list(show = FALSE),
+    names = "y1",
+    targets_only = TRUE
+  )
+  expect_equal(out$vertices$name, "y1")
+})
+
+tar_test("names and shortcut", {
+  tar_script({
+    x <- 1L
+    envir <- environment()
+    tar_option_set(envir = envir)
+    list(
+      tar_target(y1, 1 + 1),
+      tar_target(y2, 1 + 1),
+      tar_target(z, y1 + y2)
+    )
+  })
+  tar_make(callr_function = NULL)
+  out <- tar_network(
+    callr_function = NULL,
+    callr_arguments = list(show = FALSE),
+    names = "z",
+    targets_only = TRUE,
+    shortcut = TRUE
+  )
+  expect_equal(out$vertices$name, "z")
+})
+
 tar_test("custom script and store args", {
   skip_on_cran()
   expect_equal(tar_config_get("script"), path_script_default())

@@ -1,3 +1,23 @@
+tar_test("glimpse$targets_only", {
+  skip_if_not_installed("visNetwork")
+  net <- glimpse_init(pipeline_init(), targets_only = FALSE)
+  expect_equal(net$targets_only, FALSE)
+  net <- glimpse_init(pipeline_init(), targets_only = TRUE)
+  expect_equal(net$targets_only, TRUE)
+})
+
+tar_test("glimpse$allow", {
+  skip_if_not_installed("visNetwork")
+  net <- glimpse_init(pipeline_init(), allow = "x")
+  expect_equal(net$allow, "x")
+})
+
+tar_test("glimpse$exclude", {
+  skip_if_not_installed("visNetwork")
+  net <- glimpse_init(pipeline_init(), exclude = "x")
+  expect_equal(net$exclude, "x")
+})
+
 tar_test("glimpse$pipeline", {
   expect_equal(
     class(glimpse_init(pipeline_init())$pipeline)[1],
@@ -21,7 +41,7 @@ tar_test("vertices and edges", {
       target_init("z", quote(x + y))
     )
   )
-  vis <- glimpse_init(pipeline)
+  vis <- glimpse_init(pipeline, targets_only = FALSE)
   vis$update()
   vertices <- vis$vertices
   vertices <- vertices[order(vertices$name), ]
@@ -60,6 +80,92 @@ tar_test("vertices and edges", {
   expect_equal(edges, exp)
 })
 
+tar_test("glimpse$update() with allow", {
+  skip_if_not_installed("visNetwork")
+  x <- target_init("x", quote(1))
+  y <- target_init("y", quote(x))
+  pipeline <- pipeline_init(list(x, y))
+  net <- glimpse_init(pipeline, allow = "x")
+  net$update()
+  vertices <- net$vertices
+  exp <- data_frame(
+    name = "x",
+    type = "stem",
+    status = "none",
+    seconds = NA_real_,
+    bytes = NA_real_,
+    branches = NA_integer_
+  )
+  rownames(vertices) <- NULL
+  rownames(exp) <- NULL
+  expect_equal(vertices[, colnames(exp)], exp)
+  edges <- net$edges
+  exp <- data_frame(from = character(0), to = character(0))
+  expect_equal(edges, exp)
+})
+
+tar_test("glimpse$update() with exclude", {
+  skip_if_not_installed("visNetwork")
+  x <- target_init("x", quote(1))
+  y <- target_init("y", quote(x))
+  pipeline <- pipeline_init(list(x, y))
+  net <- glimpse_init(pipeline, exclude = "x")
+  net$update()
+  vertices <- net$vertices
+  exp <- data_frame(
+    name = "y",
+    type = "stem",
+    status = "none"
+  )
+  rownames(vertices) <- NULL
+  rownames(exp) <- NULL
+  expect_equal(vertices[, colnames(exp)], exp)
+  edges <- net$edges
+  exp <- data_frame(from = character(0), to = character(0))
+  expect_equal(edges, exp)
+})
+
+tar_test("glimpse$update() with names", {
+  skip_if_not_installed("visNetwork")
+  x <- target_init("x", quote(1))
+  y <- target_init("y", quote(x))
+  z <- target_init("z", quote(y))
+  pipeline <- pipeline_init(list(x, y, z))
+  net <- glimpse_init(pipeline, names = "y", targets_only = TRUE)
+  net$update()
+  expect_equal(sort(net$vertices$name), sort(c("x", "y")))
+  expect_equal(net$edges$from, "x")
+  expect_equal(net$edges$to, "y")
+})
+
+tar_test("glimpse$update() with names and shortcut", {
+  skip_if_not_installed("visNetwork")
+  x <- target_init("x", quote(1))
+  y <- target_init("y", quote(x))
+  z <- target_init("z", quote(y))
+  pipeline <- pipeline_init(list(x, y, z))
+  local_init(pipeline)$run()
+  net <- glimpse_init(
+    pipeline,
+    names = "y",
+    targets_only = TRUE,
+    shortcut = TRUE
+  )
+  net$update()
+  expect_equal(net$vertices$name, "y")
+  expect_equal(nrow(net$edges), 0L)
+})
+
 tar_test("glimpse$validate()", {
   expect_silent(glimpse_init(pipeline_init())$validate())
+})
+
+tar_test("glimpse$validate() with names, allow, and exclude", {
+  x <- glimpse_init(
+    pipeline_init(),
+    names = "x",
+    allow = "x",
+    exclude = "y"
+  )
+  expect_silent(x$validate())
 })

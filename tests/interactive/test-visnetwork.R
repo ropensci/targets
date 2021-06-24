@@ -227,6 +227,15 @@ tar_glimpse()
 # Should show a glimpse of just y1 and y2.
 tar_glimpse(allow = starts_with("y"))
 
+# Should show a glimpse of just z.
+tar_glimpse(exclude = starts_with("y"))
+
+# Should show a glimpse of y1, y2, and z.
+tar_glimpse(names = starts_with("z"))
+
+# Should show a glimpse of just z.
+tar_glimpse(names = starts_with("z"), shortcut = TRUE)
+
 # Should show a graph of 3 targets and f() and g().
 tar_visnetwork(targets_only = FALSE)
 
@@ -239,7 +248,18 @@ tar_visnetwork(targets_only = FALSE, outdated = FALSE)
 # Should show a graph of just y1 and y2.
 tar_visnetwork(allow = starts_with("y"))
 
+# Should show a graph of z, f, and g.
+tar_visnetwork(exclude = starts_with("y"))
+
+# Should show a graph of everything.
+tar_visnetwork(names = starts_with("z"))
+
+# Should show a graph of just z.
+tar_make()
+tar_visnetwork(names = starts_with("z"), shortcut = TRUE)
+
 # Should show status queued (light gray).
+tar_destroy()
 tar_visnetwork(outdated = FALSE)
 
 # Should show a canceled target.

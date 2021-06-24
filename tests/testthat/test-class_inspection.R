@@ -1,3 +1,23 @@
+tar_test("inspection$targets_only", {
+  skip_if_not_installed("visNetwork")
+  net <- inspection_init(pipeline_init(), targets_only = FALSE)
+  expect_equal(net$targets_only, FALSE)
+  net <- inspection_init(pipeline_init(), targets_only = TRUE)
+  expect_equal(net$targets_only, TRUE)
+})
+
+tar_test("inspection$allow", {
+  skip_if_not_installed("visNetwork")
+  net <- inspection_init(pipeline_init(), allow = "x")
+  expect_equal(net$allow, "x")
+})
+
+tar_test("inspection$exclude", {
+  skip_if_not_installed("visNetwork")
+  net <- inspection_init(pipeline_init(), exclude = "x")
+  expect_equal(net$exclude, "x")
+})
+
 tar_test("inspection$pipeline", {
   expect_equal(
     class(inspection_init(pipeline_init())$pipeline)[1],
@@ -299,6 +319,82 @@ tar_test("turn outdated off", {
   rownames(vertices) <- NULL
   rownames(exp) <- NULL
   expect_equal(vertices[, colnames(exp)], exp)
+})
+
+tar_test("inspection$update() with allow", {
+  skip_if_not_installed("visNetwork")
+  x <- target_init("x", quote(1))
+  y <- target_init("y", quote(x))
+  pipeline <- pipeline_init(list(x, y))
+  net <- inspection_init(pipeline, allow = "x")
+  net$update()
+  vertices <- net$vertices
+  exp <- data_frame(
+    name = "x",
+    type = "stem",
+    status = "outdated",
+    seconds = NA_real_,
+    bytes = NA_real_,
+    branches = NA_integer_
+  )
+  rownames(vertices) <- NULL
+  rownames(exp) <- NULL
+  expect_equal(vertices[, colnames(exp)], exp)
+  edges <- net$edges
+  exp <- data_frame(from = character(0), to = character(0))
+  expect_equal(edges, exp)
+})
+
+tar_test("inspection$update() with names", {
+  skip_if_not_installed("visNetwork")
+  x <- target_init("x", quote(1))
+  y <- target_init("y", quote(x))
+  z <- target_init("z", quote(y))
+  pipeline <- pipeline_init(list(x, y, z))
+  net <- inspection_init(pipeline, names = "y", targets_only = TRUE)
+  net$update()
+  expect_equal(sort(net$vertices$name), sort(c("x", "y")))
+  expect_equal(net$edges$from, "x")
+  expect_equal(net$edges$to, "y")
+})
+
+tar_test("inspection$update() with names and shortcut", {
+  skip_if_not_installed("visNetwork")
+  x <- target_init("x", quote(1))
+  y <- target_init("y", quote(x))
+  z <- target_init("z", quote(y))
+  pipeline <- pipeline_init(list(x, y, z))
+  local_init(pipeline)$run()
+  net <- inspection_init(
+    pipeline,
+    names = "y",
+    targets_only = TRUE,
+    shortcut = TRUE
+  )
+  net$update()
+  expect_equal(net$vertices$name, "y")
+  expect_equal(nrow(net$edges), 0L)
+})
+
+tar_test("inspection$update() with exclude", {
+  skip_if_not_installed("visNetwork")
+  x <- target_init("x", quote(1))
+  y <- target_init("y", quote(x))
+  pipeline <- pipeline_init(list(x, y))
+  net <- inspection_init(pipeline, exclude = "x")
+  net$update()
+  vertices <- net$vertices
+  exp <- data_frame(
+    name = "y",
+    type = "stem",
+    status = "outdated"
+  )
+  rownames(vertices) <- NULL
+  rownames(exp) <- NULL
+  expect_equal(vertices[, colnames(exp)], exp)
+  edges <- net$edges
+  exp <- data_frame(from = character(0), to = character(0))
+  expect_equal(edges, exp)
 })
 
 tar_test("inspection$validate()", {

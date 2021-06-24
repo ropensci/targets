@@ -6,6 +6,8 @@
 \usage{
 tar_visnetwork(
   targets_only = FALSE,
+  names = NULL,
+  shortcut = FALSE,
   allow = NULL,
   exclude = ".Random.seed",
   outdated = TRUE,
@@ -25,12 +27,38 @@ tar_visnetwork(
 \item{targets_only}{Logical, whether to restrict the output to just targets
 (\code{FALSE}) or to also include global functions and objects.}
 
+\item{names}{Names of targets. The graph visualization will operate
+only on these targets (and unless \code{shortcut} is \code{TRUE},
+all the targets upstream as well). Selecting a small subgraph
+using \code{names} could speed up the load time of the visualization.
+Unlike \code{allow}, \code{names} is invoked before the graph
+is generated.
+Set to NULL to check/build all the targets (default).
+Otherwise, you can supply symbols or tidyselect helpers
+like starts_with().
+Applies to ordinary targets (stem) and whole dynamic branching
+targets (patterns) but not individual dynamic branches.}
+
+\item{shortcut}{Logical of length 1, how to interpret the \code{names} argument.
+If \code{shortcut} is \code{FALSE} (default) then the function checks
+all targets upstream of \code{names} as far back as the dependency graph goes.
+If \code{TRUE}, then the function only checks the targets in \code{names}
+and uses stored metadata for information about upstream dependencies
+as needed. \code{shortcut = TRUE} increases speed if there are a lot of
+up-to-date targets, but it assumes all the dependencies
+are up to date, so please use with caution.
+Also, \code{shortcut = TRUE} only works if you set \code{names}.}
+
 \item{allow}{Optional, define the set of allowable vertices in the graph.
+Unlike \code{names}, \code{allow} is invoked only after the graph is mostly
+resolved, so it will not speed up execution.
 Set to \code{NULL} to allow all vertices in the pipeline and environment
 (default). Otherwise, you can supply symbols or
 \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
 
 \item{exclude}{Optional, define the set of exclude vertices from the graph.
+Unlike \code{names}, \code{exclude} is invoked only after the graph is mostly
+resolved, so it will not speed up execution.
 Set to \code{NULL} to exclude no vertices.
 Otherwise, you can supply symbols or \code{tidyselect}
 helpers like \code{\link[=starts_with]{starts_with()}}.}

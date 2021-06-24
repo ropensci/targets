@@ -4,6 +4,8 @@
 
 * Allow `tar_poll()` to lose and then regain connection to the progress file.
 * Make sure changes to the `tar_group` column of `iteration = "group"` data frames do not invalidate slices (#507, @lindsayplatt).
+* Move `allow` and `exclude` to the network behind the graph visuals rather than the visuals themselves (#529).
+* Support `names` and `shortcut` in graph data frames and graph visuals (#529).
 
 ## New features
 
