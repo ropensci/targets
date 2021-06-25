@@ -11,13 +11,15 @@ tar_watch(
   seconds_step = 1,
   targets_only = FALSE,
   exclude = ".Random.seed",
-  outdated = TRUE,
+  outdated = FALSE,
   label = NULL,
   level_separation = 150,
   degree_from = 1L,
   degree_to = 1L,
   config = "_targets.yaml",
   height = "650px",
+  display = "summary",
+  displays = c("summary", "branches", "graph", "about"),
   background = TRUE,
   browse = TRUE,
   host = getOption("shiny.host", "127.0.0.1"),
@@ -75,6 +77,12 @@ all the configuration settings (default: \verb{_targets.yaml}).}
 
 \item{height}{Character of length 1,
 height of the \code{visNetwork} widget and branches table.}
+
+\item{display}{Character of length 1, which display to show first.}
+
+\item{displays}{Character vector of choices for the display.
+Elements can be any of
+\code{"graph"}, \code{"summary"}, \code{"branches"}, or \code{"about"}.}
 
 \item{background}{Logical, whether to run the app in a background process
 so you can still use the R console while the app is running.}

@@ -15,7 +15,9 @@ tar_watch_app_ui(
   level_separation,
   degree_from,
   degree_to,
-  height
+  height,
+  display,
+  displays
 )
 }
 \arguments{
@@ -62,6 +64,12 @@ controls the number of edges the neighborhood extends downstream.}
 
 \item{height}{Character of length 1,
 height of the \code{visNetwork} widget and branches table.}
+
+\item{display}{Character of length 1, which display to show first.}
+
+\item{displays}{Character vector of choices for the display.
+Elements can be any of
+\code{"graph"}, \code{"summary"}, \code{"branches"}, or \code{"about"}.}
 }
 \value{
 A Shiny UI.

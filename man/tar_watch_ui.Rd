@@ -12,12 +12,14 @@ tar_watch_ui(
   seconds_max = 60,
   seconds_step = 1,
   targets_only = FALSE,
-  outdated = TRUE,
+  outdated = FALSE,
   label_tar_visnetwork = NULL,
   level_separation = 150,
   degree_from = 1L,
   degree_to = 1L,
-  height = "650px"
+  height = "650px",
+  display = "summary",
+  displays = c("summary", "branches", "graph", "about")
 )
 }
 \arguments{
@@ -70,6 +72,12 @@ controls the number of edges the neighborhood extends downstream.}
 
 \item{height}{Character of length 1,
 height of the \code{visNetwork} widget and branches table.}
+
+\item{display}{Character of length 1, which display to show first.}
+
+\item{displays}{Character vector of choices for the display.
+Elements can be any of
+\code{"graph"}, \code{"summary"}, \code{"branches"}, or \code{"about"}.}
 }
 \value{
 A Shiny module UI.

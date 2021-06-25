@@ -26,11 +26,7 @@ tar_watch_server <- function(
     function(input, output, session) {
       interval <- 200
       refresh <- shiny::reactiveValues(refresh = tempfile())
-      out <- shiny::reactiveValues(
-        graph = NULL,
-        summary = NULL,
-        branches = NULL
-      )
+      out <- shiny::reactiveValues(summary = NULL, branches = NULL)
       react_millis <- shiny::reactive(1000 * as.numeric(input$seconds))
       react_targets <- shiny::reactive(as.logical(input$targets_only))
       react_outdated <- shiny::reactive(as.logical(input$outdated))
@@ -54,7 +50,24 @@ tar_watch_server <- function(
       })
       shiny::observe({
         shiny::req(refresh$refresh)
-        out$graph <- if_any(
+        out$summary <- if_any(
+          tar_exist_progress(store = tar_config_get("store", config = config)),
+          tar_progress_summary_gt(
+            path_store = tar_config_get("store", config = config)
+          ),
+          gt_borderless(data_frame(progress = "No progress recorded."))
+        )
+        out$branches <- if_any(
+          tar_exist_progress(store = tar_config_get("store", config = config)),
+          tar_progress_branches_gt(
+            path_store = tar_config_get("store", config = config)
+          ),
+          gt_borderless(data_frame(progress = "No progress recorded."))
+        )
+      })
+      output$graph <- visNetwork::renderVisNetwork({
+        shiny::req(refresh$refresh)
+        if_any(
           tar_exist_script(script = tar_config_get("script", config = config)),
           tar_visnetwork(
             targets_only = targets_only(),
@@ -75,24 +88,6 @@ tar_watch_server <- function(
             )
           )
         )
-        out$summary <- if_any(
-          tar_exist_progress(store = tar_config_get("store", config = config)),
-          tar_progress_summary_gt(
-            path_store = tar_config_get("store", config = config)
-          ),
-          gt_borderless(data_frame(progress = "No progress recorded."))
-        )
-        out$branches <- if_any(
-          tar_exist_progress(store = tar_config_get("store", config = config)),
-          tar_progress_branches_gt(
-            path_store = tar_config_get("store", config = config)
-          ),
-          gt_borderless(data_frame(progress = "No progress recorded."))
-        )
-      })
-      output$graph <- visNetwork::renderVisNetwork({
-        shiny::req(out$graph)
-        out$graph
       })
       output$summary <- gt::render_gt({
         shiny::req(out$summary)
@@ -120,7 +115,7 @@ tar_watch_server <- function(
 
 tar_watch_about <- function() {
   path <- system.file(
-    file.path("app_docs", "tar_watch_about.md"),
+    file.path("tar_watch", "about.md"),
     package = "targets",
     mustWork = TRUE
   )

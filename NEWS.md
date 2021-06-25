@@ -4,8 +4,6 @@
 
 * Allow `tar_poll()` to lose and then regain connection to the progress file.
 * Make sure changes to the `tar_group` column of `iteration = "group"` data frames do not invalidate slices (#507, @lindsayplatt).
-* Move `allow` and `exclude` to the network behind the graph visuals rather than the visuals themselves (#529).
-* Support `names` and `shortcut` in graph data frames and graph visuals (#529).
 
 ## New features
 
@@ -20,6 +18,8 @@
 * Add structure to the `resources` argument of `tar_target()` to avoid conflicts among formats and HPC backends (#489). Includes user-side helper functions like `tar_resources()` and `tar_resources_aws()` to build the required data structures.
 * Log skipped targets in `_targets/meta/progress` and display then in `tar_progress()`, `tar_poll()`, `tar_watch()`, `tar_progress_branches()`, `tar_progress_summary()`, and `tar_visnetwork()` (#514). Instead of writing each skip line separately to `_targets/meta/progress`, accumulate skip lines in a queue and then write them all out in bulk when something interesting happens. This avoids a lot of overhead in certain cases.
 * Add a `shortcut` argument to `tar_make()`, `tar_make_clustermq()`, `tar_make_future()`, `tar_outdated()`, and `tar_sitrep()` to more efficiently skip parts of the pipeline (#522, #523, @jennysjaarda, @MilesMcBain, @kendonB).
+* Support `names` and `shortcut` in graph data frames and graph visuals (#529).
+* Move `allow` and `exclude` to the network behind the graph visuals rather than the visuals themselves (#529).
 
 ## Deprecations
 
@@ -31,6 +31,10 @@
 * Set more aggressive default backoff bound of 0.1 seconds (previous: 5 seconds) and set a more aggressive minimum of 0.001 seconds (previous: 0.01 seconds) (@rich-payne).
 * Speed up the summary and forecast reporters by only printing to the console every quarter second.
 * Avoid superfluous calls to `store_sync_file_meta.default()` on small files.
+* In `tar_watch()`, take several measures to avoid long computation times rendering the graph:
+    * Expose arguments `display` and `displays` to `tar_watch()` so the user can select which display shows first.
+    * Make `"summary"` the default display instead of `"graph"`.
+    * Set `outdated` to `FALSE` by default.
 
 ## Enhancements
 
@@ -45,6 +49,7 @@
 * Increase the number of characters in errors and warnings up to 2048.
 * Refactor assertions to automatically generate better messages.
 * Export assertions, conditions, and language utilities in packages that build on top of `targets`.
+
 
 # targets 0.5.0
 

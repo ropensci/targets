@@ -52,13 +52,15 @@ tar_watch <- function(
   seconds_step = 1,
   targets_only = FALSE,
   exclude = ".Random.seed",
-  outdated = TRUE,
+  outdated = FALSE,
   label = NULL,
   level_separation = 150,
   degree_from = 1L,
   degree_to = 1L,
   config = "_targets.yaml",
   height = "650px",
+  display = "summary",
+  displays = c("summary", "branches", "graph", "about"),
   background = TRUE,
   browse = TRUE,
   host = getOption("shiny.host", "127.0.0.1"),
@@ -95,6 +97,8 @@ tar_watch <- function(
   seconds_min <- min(seconds_min, seconds)
   seconds_max <- max(seconds_max, seconds)
   seconds_step <- min(seconds_step, seconds_max)
+  tar_assert_in(displays, c("summary", "branches", "graph", "about"))
+  tar_assert_in(display, displays)
   args <- list(
     seconds = seconds,
     seconds_min = seconds_min,
@@ -109,6 +113,8 @@ tar_watch <- function(
     degree_to = degree_to,
     config = config,
     height = height,
+    display = display,
+    displays = displays,
     host = host,
     port = port
   )
@@ -145,6 +151,8 @@ tar_watch_app <- function(
   degree_to,
   config,
   height,
+  display,
+  displays,
   host,
   port
 ) {
@@ -159,7 +167,9 @@ tar_watch_app <- function(
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
-    height = height
+    height = height,
+    display = display,
+    displays = displays
   )
   server <- function(input, output, session) {
     targets::tar_watch_server(
@@ -193,7 +203,9 @@ tar_watch_app_ui <- function(
   level_separation,
   degree_from,
   degree_to,
-  height
+  height,
+  display,
+  displays
 ) {
   body <- bs4Dash::bs4DashBody(
     shinybusy::add_busy_spinner(position = "top-left"),
@@ -210,7 +222,9 @@ tar_watch_app_ui <- function(
       level_separation = level_separation,
       degree_from = degree_from,
       degree_to = degree_to,
-      height = height
+      height = height,
+      display = display,
+      displays = displays
     )
   )
   # TODO: update when bs4Dash 2 is on CRAN:
