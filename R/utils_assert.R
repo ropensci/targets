@@ -552,3 +552,21 @@ tar_assert_unique <- function(x, msg = NULL) {
 tar_assert_unique_targets <- function(x) {
   tar_assert_unique(x, "duplicated target names:")
 }
+
+# nocov start
+# tested in tests/interactive/test-tar_watch.R
+tar_assert_watch_packages <- function() {
+  pkgs <- c(
+    "bs4Dash",
+    "DT",
+    "gt",
+    "markdown",
+    "pingr",
+    "shiny",
+    "shinybusy",
+    "shinyWidgets",
+    "visNetwork"
+  )
+  tar_assert_package(pkgs)
+}
+# nocov end

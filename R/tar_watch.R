@@ -60,7 +60,7 @@ tar_watch <- function(
   config = "_targets.yaml",
   height = "650px",
   display = "summary",
-  displays = c("summary", "branches", "graph", "about"),
+  displays = c("summary", "branches", "progress", "graph", "about"),
   background = TRUE,
   browse = TRUE,
   host = getOption("shiny.host", "127.0.0.1"),
@@ -68,17 +68,7 @@ tar_watch <- function(
   verbose = TRUE,
   supervise = TRUE
 ) {
-  pkgs <- c(
-    "bs4Dash",
-    "gt",
-    "markdown",
-    "pingr",
-    "shiny",
-    "shinybusy",
-    "shinyWidgets",
-    "visNetwork"
-  )
-  tar_assert_package(pkgs)
+  tar_assert_watch_packages()
   tar_assert_chr(exclude)
   tar_assert_dbl(seconds)
   tar_assert_dbl(seconds_min)
@@ -97,7 +87,10 @@ tar_watch <- function(
   seconds_min <- min(seconds_min, seconds)
   seconds_max <- max(seconds_max, seconds)
   seconds_step <- min(seconds_step, seconds_max)
-  tar_assert_in(displays, c("summary", "branches", "graph", "about"))
+  tar_assert_in(
+    displays,
+    c("summary", "branches", "progress", "graph", "about")
+  )
   tar_assert_in(display, displays)
   args <- list(
     seconds = seconds,

@@ -19,7 +19,7 @@ tar_watch(
   config = "_targets.yaml",
   height = "650px",
   display = "summary",
-  displays = c("summary", "branches", "graph", "about"),
+  displays = c("summary", "branches", "progress", "graph", "about"),
   background = TRUE,
   browse = TRUE,
   host = getOption("shiny.host", "127.0.0.1"),

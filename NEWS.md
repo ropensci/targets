@@ -20,6 +20,7 @@
 * Add a `shortcut` argument to `tar_make()`, `tar_make_clustermq()`, `tar_make_future()`, `tar_outdated()`, and `tar_sitrep()` to more efficiently skip parts of the pipeline (#522, #523, @jennysjaarda, @MilesMcBain, @kendonB).
 * Support `names` and `shortcut` in graph data frames and graph visuals (#529).
 * Move `allow` and `exclude` to the network behind the graph visuals rather than the visuals themselves (#529).
+* Add a new "progress" display to the `tar_watch()` app to show verbose progress info and metadata.
 
 ## Deprecations
 

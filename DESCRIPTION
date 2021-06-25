@@ -68,6 +68,7 @@ Suggests:
   bs4Dash (>= 0.5.0),
   clustermq (>= 0.8.95.1),
   curl (>= 4.3),
+  DT (>= 0.14),
   dplyr (>= 1.0.0),
   fst (>= 0.9.2),
   future (>= 1.19.1),

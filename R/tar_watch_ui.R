@@ -40,8 +40,9 @@ tar_watch_ui <- function(
   degree_to = 1L,
   height = "650px",
   display = "summary",
-  displays = c("summary", "branches", "graph", "about")
+  displays = c("summary", "branches", "progress", "graph", "about")
 ) {
+  tar_assert_watch_packages()
   tar_assert_dbl(seconds)
   tar_assert_dbl(seconds_min)
   tar_assert_dbl(seconds_max)
@@ -56,7 +57,10 @@ tar_watch_ui <- function(
   tar_assert_dbl(degree_to)
   tar_assert_ge(degree_from, 0L)
   tar_assert_ge(degree_to, 0L)
-  tar_assert_in(displays, c("summary", "branches", "graph", "about"))
+  tar_assert_in(
+    displays,
+    c("summary", "branches", "progress", "graph", "about")
+  )
   tar_assert_in(display, displays)
   seconds_min <- min(seconds_min, seconds)
   seconds_max <- max(seconds_max, seconds)

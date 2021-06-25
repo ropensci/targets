@@ -17,6 +17,7 @@ tar_watch_server <- function(
   exclude = ".Random.seed",
   config = "_targets.yaml"
 ) {
+  tar_assert_watch_packages()
   tar_assert_chr(
     exclude,
     "exclude in tar_watch_server() must be a character vector."
@@ -26,7 +27,6 @@ tar_watch_server <- function(
     function(input, output, session) {
       interval <- 200
       refresh <- shiny::reactiveValues(refresh = tempfile())
-      out <- shiny::reactiveValues(summary = NULL, branches = NULL)
       react_millis <- shiny::reactive(1000 * as.numeric(input$seconds))
       react_targets <- shiny::reactive(as.logical(input$targets_only))
       react_outdated <- shiny::reactive(as.logical(input$outdated))
@@ -48,23 +48,60 @@ tar_watch_server <- function(
           refresh$refresh <- tempfile()
         }
       })
-      shiny::observe({
+      output$display <- shiny::renderUI({
+        switch(
+          input$display %|||% "summary",
+          graph = visNetwork::visNetworkOutput(
+            session$ns("graph"),
+            height = height
+          ),
+          summary = gt::gt_output(session$ns("summary")),
+          branches = gt::gt_output(session$ns("branches")),
+          progress = DT::dataTableOutput(session$ns("progress")),
+          about = tar_watch_about()
+        )
+      })
+      output$summary <- gt::render_gt({
         shiny::req(refresh$refresh)
-        out$summary <- if_any(
+        if_any(
           tar_exist_progress(store = tar_config_get("store", config = config)),
           tar_progress_summary_gt(
             path_store = tar_config_get("store", config = config)
           ),
           gt_borderless(data_frame(progress = "No progress recorded."))
         )
-        out$branches <- if_any(
+      }, height = height)
+      output$branches <- gt::render_gt({
+        shiny::req(refresh$refresh)
+        if_any(
           tar_exist_progress(store = tar_config_get("store", config = config)),
           tar_progress_branches_gt(
             path_store = tar_config_get("store", config = config)
           ),
           gt_borderless(data_frame(progress = "No progress recorded."))
         )
-      })
+      }, height = height)
+      output$progress <- DT::renderDataTable({
+        shiny::req(refresh$refresh)
+        path_store <- tar_config_get("store", config = config)
+        if (!tar_exist_progress(store = path_store)) {
+          return(data_frame(progress = "No progress recorded."))
+        }
+        out <- tar_progress(fields = everything(), store = path_store)
+        if (tar_exist_meta(store = path_store)) {
+          fields <- c("name", "time", "seconds", "bytes", "error", "warnings")
+          meta <- tar_meta(fields = all_of(fields), store = path_store)
+          meta$finished <- as.character(meta$time)
+          meta$time <- format_seconds(meta$seconds)
+          meta$size <- format_bytes(meta$bytes)
+          meta$seconds <- NULL
+          meta$bytes <- NULL
+          fields <- c("name", "finished", "time", "size", "error", "warnings")
+          meta <- meta[, fields, drop = FALSE]
+          out <- merge(x = out, y = meta, by = "name", all.x = TRUE)
+        }
+        out
+      }, height = height, filter = "top")
       output$graph <- visNetwork::renderVisNetwork({
         shiny::req(refresh$refresh)
         if_any(
@@ -87,26 +124,6 @@ tar_watch_server <- function(
               font.size = "30"
             )
           )
-        )
-      })
-      output$summary <- gt::render_gt({
-        shiny::req(out$summary)
-        out$summary
-      }, height = height)
-      output$branches <- gt::render_gt({
-        shiny::req(out$branches)
-        out$branches
-      }, height = height)
-      output$display <- shiny::renderUI({
-        switch(
-          input$display %|||% "graph",
-          graph = visNetwork::visNetworkOutput(
-            session$ns("graph"),
-            height = height
-          ),
-          summary = gt::gt_output(session$ns("summary")),
-          branches = gt::gt_output(session$ns("branches")),
-          about = tar_watch_about()
         )
       })
     }

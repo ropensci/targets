@@ -19,7 +19,7 @@ tar_watch_ui(
   degree_to = 1L,
   height = "650px",
   display = "summary",
-  displays = c("summary", "branches", "graph", "about")
+  displays = c("summary", "branches", "progress", "graph", "about")
 )
 }
 \arguments{
