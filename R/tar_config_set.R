@@ -82,7 +82,11 @@ tar_config_set <- function(
   yaml$script <- script %|||% yaml$script
   yaml$shortcut <- shortcut %|||% yaml$shortcut
   yaml$store <- store %|||% yaml$store
-  yaml$workers <- as.character(max(1L, workers) %|||% yaml$workers)
+  yaml$workers <- if_any(
+    is.null(workers),
+    yaml$workers,
+    as.character(max(1L, workers))
+  )
   dir_create(dirname(config))
   yaml::write_yaml(x = yaml, file = config)
   invisible()
