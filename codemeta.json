@@ -8,16 +8,19 @@
   "description": "As a pipeline toolkit for Statistics and data science in R,\n  the 'targets' package brings together function-oriented programming and\n  'Make'-like declarative workflows.\n  It analyzes the dependency relationships among the tasks of a workflow,\n  skips steps that are already up to date, runs the necessary\n  computation with optional parallel workers, abstracts files as\n  R objects, and provides tangible evidence that the results match\n  the underlying code and data. The methodology in this package\n  borrows from GNU 'Make' (2015, ISBN:978-9881443519)\n  and 'drake' (2018, <doi:10.21105/joss.00550>).",
   "name": "targets: Dynamic Function-Oriented 'Make'-Like Declarative Workflows",
   "codeRepository": "https://github.com/ropensci/targets",
-  "relatedLink": "https://docs.ropensci.org/targets/",
+  "relatedLink": [
+    "https://docs.ropensci.org/targets/",
+    "https://CRAN.R-project.org/package=targets"
+  ],
   "issueTracker": "https://github.com/ropensci/targets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.4.0",
+  "version": "0.5.0.9001",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.5 (2021-03-31)",
+  "runtimePlatform": "R version 4.0.2 (2020-06-22)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -121,6 +124,19 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=curl"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "DT",
+      "name": "DT",
+      "version": ">= 0.14",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=DT"
     },
     {
       "@type": "SoftwareApplication",
@@ -527,6 +543,11 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "tools",
+      "name": "tools"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
@@ -572,7 +593,7 @@
   ],
   "releaseNotes": "https://github.com/ropensci/targets/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/targets/blob/main/README.md",
-  "fileSize": "1296.366KB",
+  "fileSize": "1485.125KB",
   "contIntegration": "https://codecov.io/gh/ropensci/targets",
   "developmentStatus": "https://www.repostatus.org/#active",
   "review": {
