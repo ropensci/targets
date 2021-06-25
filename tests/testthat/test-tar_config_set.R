@@ -110,7 +110,7 @@ tar_test("tar_config_set() workers", {
   expect_true(file.exists("_targets.yaml"))
   expect_true(any(grepl("workers", readLines("_targets.yaml"))))
   tar_config_set()
-  expect_equal(tar_config_get("workers"), 1L)
+  expect_equal(tar_config_get("workers"), 2L)
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
   expect_equal(tar_config_get("workers"), 1L)
