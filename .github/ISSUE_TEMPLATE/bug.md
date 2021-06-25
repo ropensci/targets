@@ -1,6 +1,6 @@
 ---
 name: Bug
-about: Something is wrong with targets.
+about: Please do not submit a bug report unless your issue is a genuine bug in targets and not a known limitation, usage error, or issue from another package that targets depends on.
 title: ""
 labels: "type: bug"
 assignees: wlandau
@@ -9,7 +9,7 @@ assignees: wlandau
 ## Prework
 
 * [ ] Read and agree to the [code of conduct](https://ropensci.org/code-of-conduct/) and [contributing guidelines](https://github.com/ropensci/targets/blob/main/CONTRIBUTING.md).
-* [ ] Confirm that your issue is most likely a genuine bug in the `targets` package itself and not a user error, known limitation, or bug in another package that `targets` depends on. For example, if you get errors running `tar_make_clustermq()`, try isolating the problem in a reproducible example that runs `clustermq` and not `targets`. And for miscellaneous troubleshooting, please post to [discussions](https://github.com/ropensci/targets/discussions) instead of [issues](https://github.com/ropensci/targets/issues).
+* [ ] Confirm that your issue is a genuine bug in the `targets` package itself and not a user error, known limitation, or issue from another package that `targets` depends on. For example, if you get errors running `tar_make_clustermq()`, try isolating the problem in a reproducible example that runs `clustermq` and not `targets`. And for miscellaneous troubleshooting, please post to [discussions](https://github.com/ropensci/targets/discussions) instead of [issues](https://github.com/ropensci/targets/issues).
 * [ ] If there is [already a relevant issue](https://github.com/ropensci/targets/issues), whether open or closed, comment on the existing thread instead of posting a new issue.
 * [ ] Post a [minimal reproducible example](https://www.tidyverse.org/help/) like [this one](https://github.com/ropensci/targets/issues/256#issuecomment-754229683) so the maintainer can troubleshoot the problems you identify. A reproducible example is:
     * [ ] **Runnable**: post enough R code and data so any onlooker can create the error on their own computer.
