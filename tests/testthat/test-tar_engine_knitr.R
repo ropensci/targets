@@ -346,3 +346,17 @@ tar_test("unnamed chunk label", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("conflicting target scripts", {
+  skip_if_not_installed("knitr")
+  write_targets_r("_targets.R")
+  expect_silent(write_targets_r("_targets.R"))
+  lines1 <- readLines("_targets.R")
+  lines2 <- lines1[-length(lines1)]
+  writeLines(lines2, "_targets.R")
+  expect_equal(readLines("_targets.R"), lines2)
+  expect_silent(write_targets_r("_targets.R"))
+  expect_equal(readLines("_targets.R"), lines1)
+  writeLines(lines1[-1], "_targets.R")
+  expect_error(write_targets_r("_targets.R"), class = "tar_condition_validate")
+})
