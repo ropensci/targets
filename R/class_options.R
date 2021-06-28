@@ -346,7 +346,14 @@ options_class <- R6::R6Class(
     },
     set_workspaces = function(workspaces) {
       self$validate_workspaces(workspaces)
+      workspaces <- self$migrate_workspaces(workspaces)
       self$workspaces <- workspaces
+    },
+    migrate_workspaces = function(workspaces) {
+      if (is.character(workspaces)) {
+        workspaces <- workspace_policy_init(always = workspaces)
+      }
+      workspaces
     },
     validate_tidy_eval = function(tidy_eval) {
       tar_assert_scalar(tidy_eval)

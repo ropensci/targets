@@ -209,11 +209,6 @@ target_should_run <- function(target, meta) {
   UseMethod("target_should_run")
 }
 
-#' @export
-target_should_run.default <- function(target, meta) {
-  TRUE
-}
-
 target_should_run_worker <- function(target) {
   UseMethod("target_should_run_worker")
 }

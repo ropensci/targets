@@ -37,6 +37,11 @@ target_produce_record.tar_pattern <- function(target, pipeline, meta) {
 }
 
 #' @export
+target_should_run.tar_pattern <- function(target, meta) {
+  TRUE
+}
+
+#' @export
 target_skip.tar_pattern <- function(
   target,
   pipeline,

@@ -10,7 +10,7 @@ tar_test("workspaces are not saved if error = 'stop'", {
   expect_false(file.exists(path_workspace(path_store_default(), "x")))
 })
 
-tar_test("workspaces are not saved if error = 'continue'", {
+tar_test("workspaces are not saved by default", {
   pipeline <- pipeline_init(
     list(
       target_init("y", quote(12345)),
@@ -33,6 +33,31 @@ tar_test("workspaces are saved if requested on error", {
   )
   local <- local_init(pipeline, reporter = "verbose")
   expect_error(expect_message(local$run()), class = "tar_condition_run")
+  expect_true(file.exists(path_workspace(path_store_default(), "x")))
+})
+
+tar_test("deprecated workspace error option works", {
+  pipeline <- pipeline_init(
+    list(
+      target_init("y", quote(1)),
+      target_init("x", quote(stop(y)), error = "workspace")
+    )
+  )
+  local <- local_init(pipeline, reporter = "verbose")
+  expect_error(expect_message(local$run()), class = "tar_condition_run")
+  expect_true(file.exists(path_workspace(path_store_default(), "x")))
+})
+
+tar_test("deprecated workspaces option works", {
+  suppressWarnings(tar_option_set(workspaces = "x"))
+  pipeline <- pipeline_init(
+    list(
+      target_init("y", quote(1)),
+      target_init("x", quote(y))
+    )
+  )
+  local <- local_init(pipeline, reporter = "verbose")
+  local$run()
   expect_true(file.exists(path_workspace(path_store_default(), "x")))
 })
 
