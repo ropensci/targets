@@ -18,7 +18,7 @@ workspaces. Must not include any elements of \code{never}.}
 workspaces. Must not include any elements of \code{always}.}
 
 \item{error}{Logical, whether to save a workspace for each
-target that throws and error (except for the targets in \code{never}).}
+target that throws an error (except for the targets in \code{never}).}
 }
 \value{
 An object of class \code{"tar_worspace_policy"}. Supply this object

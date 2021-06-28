@@ -41,3 +41,9 @@ tar_test("invalid workspace policy", {
   expect_equal(x$error, "z")
   expect_error(workspace_policy_validate(x), class = "tar_condition_validate")
 })
+
+tar_test("print workspace policy", {
+  x <- workspace_policy_init()
+  o <- utils::capture.output(print(x))
+  expect_true(any(grepl("tar_workspace_policy", o)))
+})

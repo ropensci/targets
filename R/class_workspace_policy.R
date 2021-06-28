@@ -30,3 +30,11 @@ workspace_policy_validate <- function(x) {
   tar_assert_scalar(x$error)
   tar_assert_lgl(x$error)
 }
+
+#' @export
+print.tar_workspace_policy <- function(x, ...) {
+  cat(
+    "<tar_workspace_policy>\n ",
+    paste0(paste_list(as.list(x)), collapse = "\n  ")
+  )
+}
