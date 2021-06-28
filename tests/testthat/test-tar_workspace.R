@@ -36,6 +36,24 @@ tar_test("workspaces are saved if requested on error", {
   expect_true(file.exists(path_workspace(path_store_default(), "x")))
 })
 
+tar_test("never arg overrides error arg", {
+  tar_option_set(
+    workspaces = tar_workspace_policy(
+      never = "x",
+      error = TRUE
+    )
+  )
+  pipeline <- pipeline_init(
+    list(
+      target_init("y", quote(1)),
+      target_init("x", quote(stop(y)))
+    )
+  )
+  local <- local_init(pipeline, reporter = "verbose")
+  expect_error(expect_message(local$run()), class = "tar_condition_run")
+  expect_false(file.exists(path_workspace(path_store_default(), "x")))
+})
+
 tar_test("tar_workspace() works", {
   tmp <- sample(1)
   tar_script({
