@@ -1,9 +1,9 @@
-tar_test("validate empty options", {
+tar_test("validate default options", {
   x <- options_init()
   expect_silent(x$validate())
 })
 
-tar_test("validate filled options", {
+tar_test("validate non-default options", {
   x <- options_init(
     tidy_eval = FALSE,
     packages = character(0),
@@ -23,7 +23,7 @@ tar_test("validate filled options", {
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
-    workspaces = letters
+    workspaces = tar_workspace_policy(always = letters)
   )
   expect_silent(x$validate())
 })
