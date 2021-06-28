@@ -23,7 +23,7 @@ workspace_policy_new <- function(
 
 workspace_policy_validate <- function(x) {
   tar_assert_inherits(x, "tar_workspace_policy")
-  tar_assert_correct_fields(junction, workspace_policy_new)
+  tar_assert_correct_fields(x, workspace_policy_new)
   tar_assert_chr(x$always)
   tar_assert_chr(x$never)
   tar_assert_not_in(x$always, x$never)

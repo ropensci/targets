@@ -11,7 +11,7 @@
 #' @param never Character vector of names of targets to never save
 #'   workspaces. Must not include any elements of `always`.
 #' @param error Logical, whether to save a workspace for each
-#'   target that throws and error (except for the targets in `never`).
+#'   target that throws an error (except for the targets in `never`).
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
