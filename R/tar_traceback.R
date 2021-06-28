@@ -1,9 +1,10 @@
 #' @title Get a target's traceback
 #' @export
 #' @family debug
-#' @description If a target ran with `error = "workspace"` and errored out,
-#'   `tar_traceback()` returns its traceback. The workspace file must
-#'   exist. For more information, see [tar_workspace()].
+#' @description Return the saved traceback of a target.
+#'   Assumes the target errored out in a previous run of the pipeline
+#'   with workspaces enabled for that target.
+#'   See [tar_workspace()] for details.
 #' @return Character vector, the traceback of a failed target
 #'   if it exists.
 #' @inheritParams tar_validate
@@ -23,7 +24,7 @@
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tmp <- sample(1)
 #' tar_script({
-#'   tar_option_set(error = "workspace")
+#'   tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
 #'   list(
 #'     tar_target(x, "loaded"),
 #'     tar_target(y, stop(x))

@@ -139,9 +139,7 @@
 #' @param error Character of length 1, what to do if the target
 #'   runs into an error. If `"stop"`, the whole pipeline stops
 #'   and throws an error. If `"continue"`, the error is recorded,
-#'   but the pipeline keeps going. `error = "workspace"` is just like
-#'   `error = "stop"` except `targets` saves a special workspace file
-#'   to support interactive debugging outside the pipeline.
+#'   but the pipeline keeps going.
 #'   (Visit <https://books.ropensci.org/targets/debugging.html>
 #'   to learn how to debug targets using saved workspaces.)
 #' @param memory Character of length 1, memory strategy.

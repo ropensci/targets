@@ -28,9 +28,7 @@ Dynamic files are not deleted this way.
 \item \code{"scratch"}: temporary files saved during \code{\link[=tar_make]{tar_make()}} that should
 automatically get deleted except if R crashed.
 \item \code{"workspaces"}: compressed files in \verb{workspaces/} in the data store with
-the saved workspaces of targets that errored. Only saved
-if \code{error = "workspace"} in \code{\link[=tar_option_set]{tar_option_set()}} or \code{\link[=tar_target]{tar_target()}}.
-Load a workspace with \code{\link[=tar_workspace]{tar_workspace()}}.
+the saved workspaces of targets. See \code{\link[=tar_workspace]{tar_workspace()}} for details.
 }}
 
 \item{store}{Character of length 1, path to the

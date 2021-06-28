@@ -204,6 +204,14 @@ tar_test("error", {
   expect_error(x$set_error("invalid"), class = "tar_condition_validate")
 })
 
+tar_test("deprecated error = \"workspace\"", {
+  x <- options_init()
+  expect_warning(
+    x$set_error("workspace"),
+    class = "tar_condition_deprecate"
+  )
+})
+
 tar_test("memory", {
   x <- options_init()
   expect_equal(x$get_memory(), "persistent")
@@ -309,10 +317,21 @@ tar_test("debug", {
 
 tar_test("workspaces", {
   x <- options_init()
-  expect_equal(x$get_workspaces(), character(0))
-  x$set_workspaces("x")
-  expect_equal(x$get_workspaces(), "x")
+  expect_equal(x$get_workspaces()$always, workspace_policy_init()$always)
+  expect_equal(x$get_workspaces()$never, workspace_policy_init()$never)
+  expect_equal(x$get_workspaces()$error, workspace_policy_init()$error)
+  x$set_workspaces(workspace_policy_init(always = "x"))
+  expect_equal(x$get_workspaces()$always, "x")
+  expect_equal(x$get_workspaces()$never, workspace_policy_init()$never)
+  expect_equal(x$get_workspaces()$error, workspace_policy_init()$error)
   x$reset()
-  expect_equal(x$get_workspaces(), character(0))
+  expect_equal(x$get_workspaces()$always, workspace_policy_init()$always)
+  expect_equal(x$get_workspaces()$never, workspace_policy_init()$never)
+  expect_equal(x$get_workspaces()$error, workspace_policy_init()$error)
   expect_error(x$set_workspaces(123), class = "tar_condition_validate")
+})
+
+tar_test("deprecated workspaces", {
+  x <- options_init()
+  expect_warning(x$set_workspaces("x"), class = "tar_condition_deprecate")
 })

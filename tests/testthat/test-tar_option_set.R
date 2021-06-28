@@ -100,6 +100,14 @@ tar_test("error", {
   )
 })
 
+tar_test("deprecated error = \"workspace\"", {
+  expect_warning(
+    tar_option_set(error = "workspace"),
+    class = "tar_condition_deprecate"
+  )
+  tar_option_reset()
+})
+
 tar_test("memory", {
   expect_equal(tar_option_get("memory"), "persistent")
   tar_option_set(memory = "transient")
@@ -221,11 +229,44 @@ tar_test("debug", {
 })
 
 tar_test("workspaces", {
-  expect_equal(tar_option_get("workspaces"), character(0))
-  tar_option_set(workspaces = "x")
-  expect_equal(tar_option_get("workspaces"), "x")
+  expect_equal(
+    tar_option_get("workspaces")$always,
+    workspace_policy_init()$always
+  )
+  expect_equal(
+    tar_option_get("workspaces")$never,
+    workspace_policy_init()$never
+  )
+  expect_equal(
+    tar_option_get("workspaces")$error,
+    workspace_policy_init()$error
+  )
+  tar_option_set(workspaces = tar_workspace_policy(always = "x"))
+  expect_equal(
+    tar_option_get("workspaces")$always,
+    "x"
+  )
+  expect_equal(
+    tar_option_get("workspaces")$never,
+    workspace_policy_init()$never
+  )
+  expect_equal(
+    tar_option_get("workspaces")$error,
+    workspace_policy_init()$error
+  )
   tar_option_reset()
-  expect_equal(tar_option_get("workspaces"), character(0))
+  expect_equal(
+    tar_option_get("workspaces")$always,
+    workspace_policy_init()$always
+  )
+  expect_equal(
+    tar_option_get("workspaces")$never,
+    workspace_policy_init()$never
+  )
+  expect_equal(
+    tar_option_get("workspaces")$error,
+    workspace_policy_init()$error
+  )
   expect_error(
     tar_option_set(workspaces = 123),
     class = "tar_condition_validate"
