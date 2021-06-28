@@ -105,6 +105,20 @@ tar_test("tar_workspace() on a branch", {
   expect_equal(envir$x, 4L)
 })
 
+tar_test("tar_workspace() on a pattern", {
+  tar_script({
+    tar_option_set(workspaces = tar_workspace_policy(always = "y"))
+    list(
+      tar_target(x, seq_len(2L)),
+      tar_target(y, x, pattern = map(x))
+    )
+  })
+  try(tar_make(callr_function = NULL), silent = TRUE)
+  branches <- tar_branch_names("y", seq_len(2))
+  result <- file.exists(path_workspace(path_store_default(), branches))
+  expect_true(all(result))
+})
+
 tar_test("tar_workspace() with an unexportable object", {
   skip_on_cran()
   skip_if_not_installed("torch")

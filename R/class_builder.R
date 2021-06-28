@@ -278,10 +278,9 @@ builder_ensure_workspace <- function(target, pipeline, scheduler, meta) {
 }
 
 builder_should_save_workspace <- function(target) {
-  name <- target$settings$name
   policy <- tar_option_get("workspaces")
-  always <- name %in% policy$always
-  never <- name %in% policy$never
+  always <- target_get_parent(target) %in% policy$always
+  never <- target_get_parent(target) %in% policy$never
   has_error <- metrics_has_error(target$metrics)
   on_error <- policy$error || identical(target$settings$error, "workspace")
   error <- has_error && on_error

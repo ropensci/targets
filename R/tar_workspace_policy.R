@@ -7,9 +7,15 @@
 #'   to the `workspaces` argument of [tar_option_set()] to control
 #'   when `targets` saves workspaces.
 #' @param always Character vector of names of targets to always save
-#'   workspaces. Must not include any elements of `never`.
+#'   workspaces. Can include non-branching targets (stems),
+#'   individual branches, or whole branching targets (patterns).
+#'   Must not include any elements of `never`.
+#'   `never` takes precedence over `always` in edge cases.
 #' @param never Character vector of names of targets to never save
-#'   workspaces. Must not include any elements of `always`.
+#'   workspaces. Can include non-branching targets (stems),
+#'   individual branches, or whole branching targets (patterns).
+#'   Must not include any elements of `always`.
+#'   `never` takes precedence over `always` in edge cases.
 #' @param error Logical, whether to save a workspace for each
 #'   target that throws an error (except for the targets in `never`).
 #' @examples

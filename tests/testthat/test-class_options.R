@@ -77,6 +77,7 @@ tar_test("export", {
 
 tar_test("import", {
   resources <- tar_resources(qs = tar_resources_qs())
+  policy <- tar_workspace_policy(always = "x", error = TRUE)
   list <- list(
     tidy_eval = FALSE,
     packages = character(0),
@@ -95,7 +96,7 @@ tar_test("import", {
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
-    workspaces = letters
+    workspaces = policy
   )
   envir <- new.env(parent = emptyenv())
   x <- options_init(envir = envir)
@@ -121,7 +122,7 @@ tar_test("import", {
     as.list(tar_cue(mode = "never", command = FALSE))
   )
   expect_equal(x$get_debug(), "x")
-  expect_equal(x$get_workspaces(), letters)
+  expect_equal(x$get_workspaces(), policy)
 })
 
 tar_test("tidy_eval", {

@@ -12,10 +12,16 @@ tar_workspace_policy(
 }
 \arguments{
 \item{always}{Character vector of names of targets to always save
-workspaces. Must not include any elements of \code{never}.}
+workspaces. Can include non-branching targets (stems),
+individual branches, or whole branching targets (patterns).
+Must not include any elements of \code{never}.
+\code{never} takes precedence over \code{always} in edge cases.}
 
 \item{never}{Character vector of names of targets to never save
-workspaces. Must not include any elements of \code{always}.}
+workspaces. Can include non-branching targets (stems),
+individual branches, or whole branching targets (patterns).
+Must not include any elements of \code{always}.
+\code{never} takes precedence over \code{always} in edge cases.}
 
 \item{error}{Logical, whether to save a workspace for each
 target that throws an error (except for the targets in \code{never}).}
