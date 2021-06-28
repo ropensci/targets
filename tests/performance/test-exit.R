@@ -14,7 +14,7 @@ tar_make(reporter = "timestamp")
 
 tar_script({
   library(targets)
-  tar_option_set(error = "workspace")
+  tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
   list(
     tar_target(x, runif(1e7)),
     tar_target(y, stop(x[1]))

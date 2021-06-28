@@ -23,11 +23,12 @@ tar_test("workspaces are not saved if error = 'continue'", {
   expect_false(file.exists(path_workspace(path_store_default(), "x")))
 })
 
-tar_test("workspaces are saved if error = 'save'", {
+tar_test("workspaces are saved if requested on error", {
+  tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
   pipeline <- pipeline_init(
     list(
       target_init("y", quote(1)),
-      target_init("x", quote(stop(y)), error = "workspace")
+      target_init("x", quote(stop(y)))
     )
   )
   local <- local_init(pipeline, reporter = "verbose")
@@ -38,7 +39,7 @@ tar_test("workspaces are saved if error = 'save'", {
 tar_test("tar_workspace() works", {
   tmp <- sample(1)
   tar_script({
-    tar_option_set(error = "workspace")
+    tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
     list(
       tar_target(x, "loaded"),
       tar_target(y, stop(x))
@@ -55,7 +56,7 @@ tar_test("tar_workspace() works", {
 tar_test("tar_workspace() works with workspace option", {
   tmp <- sample(1)
   tar_script({
-    tar_option_set(workspaces = "y")
+    tar_option_set(workspaces = tar_workspace_policy(always = "y"))
     list(
       tar_target(x, "loaded"),
       tar_target(y, paste0(x, "nope"))
@@ -69,7 +70,7 @@ tar_test("tar_workspace() works with workspace option", {
 
 tar_test("tar_workspace() on a branch", {
   tar_script({
-    tar_option_set(error = "workspace")
+    tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
     list(
       tar_target(x, seq_len(4L)),
       tar_target(y, stopifnot(x < 4L), pattern = map(x))
@@ -90,7 +91,7 @@ tar_test("tar_workspace() with an unexportable object", {
   skip_on_cran()
   skip_if_not_installed("torch")
   tar_script({
-    tar_option_set(error = "workspace")
+    tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
     list(
       tar_target(tensor, torch::torch_zeros(10), format = "torch"),
       tar_target(array, stop(tensor))
@@ -111,7 +112,7 @@ tar_test("workspace saved on no error and when target is skipped", {
   tar_make(callr_function = NULL)
   expect_false(file.exists(path))
   tar_script({
-    tar_option_set(workspaces = "z")
+    tar_option_set(workspaces = tar_workspace_policy(always = "z"))
     list(tar_target(z, 0))
   })
   tar_make(callr_function = NULL)
@@ -123,7 +124,7 @@ tar_test("custom script and store args", {
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script({
-    tar_option_set(error = "workspace")
+    tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
     list(tar_target(x, "value"), tar_target(y, stop(x)))
   }, script = "example/script.R")
   try(
