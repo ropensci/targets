@@ -117,6 +117,14 @@ target_skip.tar_builder <- function(
   path <- meta$get_record(target_get_name(target))$path
   file <- target$store$file
   file$path <- path
+  if (active) {
+    builder_ensure_workspace(
+      target = target,
+      pipeline = pipeline,
+      scheduler = scheduler,
+      meta = meta
+    )
+  }
   if_any(
     active,
     scheduler$progress$register_skipped(target),
@@ -129,6 +137,12 @@ target_skip.tar_builder <- function(
 target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   target_update_queue(target, scheduler)
   builder_handle_warnings(target, scheduler)
+  builder_ensure_workspace(
+    target = target,
+    pipeline = pipeline,
+    scheduler = scheduler,
+    meta = meta
+  )
   switch(
     metrics_outcome(target$metrics),
     cancel = builder_cancel(target, pipeline, scheduler, meta),
@@ -238,13 +252,12 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   scheduler$progress$register_errored(target)
   scheduler$reporter$report_errored(target, scheduler$progress)
   target_patternview_errored(target, pipeline, scheduler)
-  if (identical(target$settings$error, "workspace")) {
-    builder_save_workspace(target, pipeline, scheduler, meta)
-  }
-  if_any(
-    identical(target$settings$error, "continue"),
-    scheduler$reporter$report_error(target$metrics$error),
-    builder_exit(target, pipeline, scheduler, meta)
+  switch(
+    target$settings$error,
+    continue = scheduler$reporter$report_error(target$metrics$error),
+    abridge = scheduler$abridge(target),
+    stop = builder_exit(target, pipeline, scheduler, meta),
+    workspace = builder_exit(target, pipeline, scheduler, meta)
   )
 }
 
@@ -261,9 +274,22 @@ builder_exit <- function(target, pipeline, scheduler, meta) {
 }
 
 builder_ensure_workspace <- function(target, pipeline, scheduler, meta) {
-  if (target$settings$name %in% tar_option_get("workspaces")) {
+  if (builder_should_save_workspace(target)) {
     builder_save_workspace(target, pipeline, scheduler, meta)
   }
+}
+
+builder_should_save_workspace <- function(target) {
+  policy <- tar_option_get("workspaces")
+  always <- target_get_parent(target) %in% policy$always
+  never <- target_get_parent(target) %in% policy$never
+  has_error <- metrics_has_error(target$metrics)
+  on_error <- policy$error || identical(target$settings$error, "workspace")
+  error <- has_error && on_error
+  if (never) {
+    return(FALSE)
+  }
+  always || error
 }
 
 builder_save_workspace <- function(target, pipeline, scheduler, meta) {

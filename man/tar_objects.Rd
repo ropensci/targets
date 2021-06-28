@@ -31,7 +31,6 @@ Does not include dynamic files or cloud storage.
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script({
-  tar_option_set(workspace = "x")
   list(tar_target(x, "value"))
 }, ask = FALSE)
 tar_make()

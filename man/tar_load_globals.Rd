@@ -61,6 +61,7 @@ print("callr" \%in\% (.packages()))
 \seealso{
 Other debug: 
 \code{\link{tar_traceback}()},
+\code{\link{tar_workspace_policy}()},
 \code{\link{tar_workspaces}()},
 \code{\link{tar_workspace}()}
 }

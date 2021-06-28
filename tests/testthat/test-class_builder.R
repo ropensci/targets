@@ -111,6 +111,17 @@ tar_test("error = \"continue\" means continue on error", {
   expect_equal(y$store$file$path, character(0))
 })
 
+tar_test("error = \"abridge\" means do not schedule new targets", {
+  x <- target_init("x", expr = quote(stop(123)), error = "abridge")
+  y <- target_init("y", expr = quote(x))
+  pipeline <- pipeline_init(list(x, y))
+  suppressWarnings(suppressMessages(local_init(pipeline)$run()))
+  progress <- tar_progress()
+  expect_equal(nrow(progress), 1L)
+  expect_equal(progress$name, "x")
+  expect_equal(progress$progress, "errored")
+})
+
 tar_test("errored targets are not up to date", {
   x <- target_init("x", expr = quote(123))
   pipeline <- pipeline_init(list(x))

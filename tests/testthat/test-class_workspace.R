@@ -1,6 +1,6 @@
 tar_test("validate workspace class", {
   tar_script({
-    tar_option_set(workspaces = "z")
+    tar_option_set(workspaces = tar_workspace_policy(always = "z"))
     list(tar_target(z, 0))
   })
   tar_make(callr_function = NULL)

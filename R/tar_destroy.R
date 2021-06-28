@@ -22,9 +22,7 @@
 #'   * `"scratch"`: temporary files saved during [tar_make()] that should
 #'     automatically get deleted except if R crashed.
 #'   * `"workspaces"`: compressed files in `workspaces/` in the data store with
-#'     the saved workspaces of targets that errored. Only saved
-#'     if `error = "workspace"` in [tar_option_set()] or [tar_target()].
-#'     Load a workspace with [tar_workspace()].
+#'     the saved workspaces of targets. See [tar_workspace()] for details.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.

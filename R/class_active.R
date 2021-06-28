@@ -103,12 +103,6 @@ active_class <- R6::R6Class(
         self$run_target(name),
         self$skip_target(target)
       )
-      builder_ensure_workspace(
-        target = target,
-        pipeline = self$pipeline,
-        scheduler = self$scheduler,
-        meta = self$meta
-      )
     },
     start = function() {
       pipeline_prune_names(self$pipeline, self$names)

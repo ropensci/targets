@@ -92,6 +92,11 @@ scheduler_class <- R6::R6Class(
       )
       length(deps_queued) + length(deps_started)
     },
+    abridge = function(target) {
+      self$reporter$report_error(target$metrics$error)
+      self$progress$abridge()
+      self$queue$abridge()
+    },
     validate = function() {
       self$graph$validate()
       self$queue$validate()

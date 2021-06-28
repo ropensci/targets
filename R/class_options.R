@@ -270,7 +270,7 @@ options_class <- R6::R6Class(
       self$debug %|||% character(0)
     },
     get_workspaces = function() {
-      self$workspaces %|||% character(0)
+      self$workspaces %|||% workspace_policy_init()
     },
     set_tidy_eval = function(tidy_eval) {
       self$validate_tidy_eval(tidy_eval)
@@ -346,7 +346,14 @@ options_class <- R6::R6Class(
     },
     set_workspaces = function(workspaces) {
       self$validate_workspaces(workspaces)
+      workspaces <- self$migrate_workspaces(workspaces)
       self$workspaces <- workspaces
+    },
+    migrate_workspaces = function(workspaces) {
+      if (is.character(workspaces)) {
+        workspaces <- workspace_policy_init(always = workspaces)
+      }
+      workspaces
     },
     validate_tidy_eval = function(tidy_eval) {
       tar_assert_scalar(tidy_eval)
@@ -376,7 +383,8 @@ options_class <- R6::R6Class(
       tar_assert_flag(iteration, c("vector", "list", "group"))
     },
     validate_error = function(error) {
-      tar_assert_flag(error, c("stop", "continue", "workspace"))
+      deprecate_error_workspace(error)
+      tar_assert_flag(error, c("stop", "continue", "abridge", "workspace"))
     },
     validate_memory = function(memory) {
       tar_assert_flag(memory, c("persistent", "transient"))
@@ -416,7 +424,17 @@ options_class <- R6::R6Class(
       tar_assert_chr(debug)
     },
     validate_workspaces = function(workspaces) {
-      tar_assert_chr(workspaces)
+      if (is.character(workspaces)) {
+        tar_warn_deprecate(
+          "Effective 2021-06-28 (targets version 0.5.0.9002), ",
+          "character vectors are deprecated for the workspaces ",
+          "argument of tar_option_set(). ",
+          "The workspaces option should be an object returned from ",
+          "tar_workspace_policy() instead of a character vector."
+        )
+        workspaces <- workspace_policy_init(always = workspaces)
+      }
+      workspace_policy_validate(workspaces)
     },
     validate = function() {
       self$validate_tidy_eval(self$get_tidy_eval())
@@ -443,3 +461,14 @@ options_class <- R6::R6Class(
 )
 
 tar_options <- options_init()
+
+deprecate_error_workspace <- function(error) {
+  if (identical(error, "workspace")) {
+    tar_warn_deprecate(
+      "Effective 2021-06-28 (targets version 0.5.0.9002), ",
+      "error = \"workspace\" is deprecated in tar_target(), ",
+      "tar_target_raw(), and tar_option_set(). Please instead set ",
+      "tar_option_set(workspaces = tar_workspace_policy(error = TRUE))."
+    )
+  }
+}
