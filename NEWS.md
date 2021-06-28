@@ -22,7 +22,7 @@
 * Move `allow` and `exclude` to the network behind the graph visuals rather than the visuals themselves (#529).
 * Add a new "progress" display to the `tar_watch()` app to show verbose progress info and metadata.
 * Allow the `workspaces` argument of `tar_option_set()` to accept an object returned from `tar_workspace_policy()`, which controls workspace behavior independently of the `error` argument of `tar_target()` (#405, #533, @mattwarkentin, @xinstein).
-* Implement `error = "settle"` in `tar_target()` and related functions. If a target errors out with this option, then any currently running targets will keep running, but no new targets will launch after that (#533, @xinstein).
+* Implement `error = "abridge"` in `tar_target()` and related functions. If a target errors out with this option, the target itself stops, any currently running targets keeps, and no new targets launch after that (#533, @xinstein).
 
 ## Deprecations
 

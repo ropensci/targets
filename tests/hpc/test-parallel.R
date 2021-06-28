@@ -89,3 +89,32 @@ tar_script({
 tar_make_clustermq()
 tar_destroy()
 unlink("_targets.R")
+
+# error = "abridge" should keep current targets going.
+# Workers should clean up.
+tar_script({
+  options(clustermq.scheduler = "multicore")
+  error_middle <- function() {
+    Sys.sleep(4)
+    stop("time up")
+  }
+  just_sleep_short <- function() {
+    Sys.sleep(8)
+  }
+  just_sleep_long <- function() {
+    Sys.sleep(12)
+  }
+  list(
+    tar_target(w, error_middle(), error = "abridge"),
+    tar_target(x, just_sleep_short()),
+    tar_target(y, just_sleep_long()),
+    tar_target(z, list(w, x, y))
+  )
+})
+tar_make_clustermq(workers = 3)
+out <- tar_progress()
+expect_equal(nrow(out), 3L)
+expect_equal(out$progress[out$name == "w"], "errored")
+expect_equal(out$progress[out$name == "x"], "built")
+expect_equal(out$progress[out$name == "y"], "built")
+expect_false("z" %in% out$name)

@@ -252,10 +252,12 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   scheduler$progress$register_errored(target)
   scheduler$reporter$report_errored(target, scheduler$progress)
   target_patternview_errored(target, pipeline, scheduler)
-  if_any(
-    identical(target$settings$error, "continue"),
-    scheduler$reporter$report_error(target$metrics$error),
-    builder_exit(target, pipeline, scheduler, meta)
+  switch(
+    target$settings$error,
+    continue = scheduler$reporter$report_error(target$metrics$error),
+    abridge = scheduler$abridge(target),
+    stop = builder_exit(target, pipeline, scheduler, meta),
+    workspace = builder_exit(target, pipeline, scheduler, meta)
   )
 }
 

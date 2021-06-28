@@ -202,6 +202,9 @@ progress_class <- R6::R6Class(
         time = time_stamp_short()
       )
     },
+    abridge = function() {
+      counter_del_names(self$queued, counter_get_names(self$queued))
+    },
     validate = function() {
       counter_validate(self$queued)
       counter_validate(self$started)
