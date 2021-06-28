@@ -32,7 +32,7 @@ List target workspaces currently saved to
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script({
-  tar_option_set(error = "workspace")
+  tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
   list(
     tar_target(x, "value"),
     tar_target(y, x)
@@ -48,6 +48,7 @@ tar_workspaces(contains("x"))
 Other debug: 
 \code{\link{tar_load_globals}()},
 \code{\link{tar_traceback}()},
+\code{\link{tar_workspace_policy}()},
 \code{\link{tar_workspace}()}
 }
 \concept{debug}

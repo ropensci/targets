@@ -3,12 +3,10 @@
 #' @family debug
 #' @description Load the packages, workspace, and random number generator seed
 #'   of target attempted with a workspace file.
-#' @details If you set `error = "workspace"` in [tar_option_set()]
-#'   or [tar_target()], then if that target throws an error
-#'   in [tar_make()], it will save its workspace to an RDS file
-#'   in `_targets/workspaces/`. Workspaces also get saved for targets
-#'   supplied to the `workspace` argument of [tar_option_set()],
-#'   even individual branches. The workspace is a compact reference
+#' @details If you activate workspaces through the `workspaces` argument
+#'   of [tar_option_set()], then under the circumstances you specify,
+#'   `targets` will save a special workspace file to a location in
+#'   in `_targets/workspaces/`. The workspace file is a compact reference
 #'   that allows `tar_workspace()` to load the target's dependencies
 #'   and random number generator seed as long as the data objects
 #'   are still in the data store (usually files in `_targets/objects/`).
@@ -35,7 +33,7 @@
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tmp <- sample(1)
 #' tar_script({
-#'   tar_option_set(error = "workspace")
+#'   tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
 #'   list(
 #'     tar_target(x, "loaded"),
 #'     tar_target(y, stop(x))
