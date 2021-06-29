@@ -16,7 +16,7 @@ pipeline <- pipeline_init(
   list(target_init("x", quote(stop(123))))
 )
 local <- local_init(pipeline, reporter = "silent")$run()
-tar_option_set(workspaces = character(0))
+tar_option_set(workspace_on_error = FALSE)
 
 # Should be silent.
 tar_destroy()
@@ -57,7 +57,7 @@ pipeline <- pipeline_init(
 )
 local <- local_init(pipeline, reporter = "verbose")$run()
 expect_equal(tar_workspaces(), "x")
-tar_option_set(workspaces = character(0))
+tar_option_set(workspace_on_error = FALSE)
 
 # Warnings are relayed immediately if the warn option is 1.
 tar_destroy()
@@ -115,7 +115,7 @@ pipeline <- pipeline_init(
 )
 local <- local_init(pipeline, reporter = "timestamp")$run()
 expect_equal(tar_progress()$progress, "errored")
-tar_option_set(workspaces = character(0))
+tar_option_set(workspace_on_error = FALSE)
 
 # Should show a timestamped message, a warning,
 # and a meta-warning w/ tip about tar_meta().
