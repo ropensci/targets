@@ -365,6 +365,16 @@ options_class <- R6::R6Class(
       self$validate_workspace_on_error(workspace_on_error)
       self$workspace_on_error <- workspace_on_error
     },
+    deprecate_error_workspace = function(error) {
+      if (identical(error, "workspace")) {
+        tar_warn_deprecate(
+          "Effective 2021-06-28 (targets version 0.5.0.9002), ",
+          "error = \"workspace\" is deprecated in tar_target(), ",
+          "tar_target_raw(), and tar_option_set(). Please instead set ",
+          "tar_option_set(workspaces = tar_workspace_policy(error = TRUE))."
+        )
+      }
+    },
     validate_tidy_eval = function(tidy_eval) {
       tar_assert_scalar(tidy_eval)
       tar_assert_lgl(tidy_eval)
@@ -393,7 +403,7 @@ options_class <- R6::R6Class(
       tar_assert_flag(iteration, c("vector", "list", "group"))
     },
     validate_error = function(error) {
-      deprecate_error_workspace(error)
+      self$deprecate_error_workspace(error)
       tar_assert_flag(error, c("stop", "continue", "abridge", "workspace"))
     },
     validate_memory = function(memory) {

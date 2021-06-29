@@ -1,7 +1,7 @@
 tar_test("tar_workspaces()", {
   expect_equal(tar_workspaces(), character(0))
   tar_script({
-    tar_option_set(workspaces = tar_workspace_policy(always = c("x", "y")))
+    tar_option_set(workspaces = c("x", "y"))
     list(tar_target(x, "value"), tar_target(y, "value"))
   })
   tar_make(callr_function = NULL)
@@ -14,7 +14,7 @@ tar_test("custom script and store args", {
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script({
-    tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
+    tar_option_set(workspace_on_error = TRUE)
     list(tar_target(x, "value"), tar_target(y, stop(x)))
   }, script = "example/script.R")
   expect_false(file.exists("example/store/workspaces/y"))

@@ -23,7 +23,7 @@ tar_test("validate non-default options", {
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
-    workspaces = tar_workspace_policy(always = letters)
+    workspaces = letters
   )
   expect_silent(x$validate())
 })
@@ -47,7 +47,8 @@ tar_test("export", {
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
-    workspaces = letters
+    workspaces = letters,
+    workspace_on_error = TRUE
   )
   out <- x$export()
   exp <- list(
@@ -68,7 +69,8 @@ tar_test("export", {
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
-    workspaces = letters
+    workspaces = letters,
+    workspace_on_error = TRUE
   )
   out$cue <- as.list(out$cue)
   exp$cue <- as.list(exp$cue)
@@ -77,7 +79,6 @@ tar_test("export", {
 
 tar_test("import", {
   resources <- tar_resources(qs = tar_resources_qs())
-  policy <- tar_workspace_policy(always = "x", error = TRUE)
   list <- list(
     tidy_eval = FALSE,
     packages = character(0),
@@ -96,7 +97,8 @@ tar_test("import", {
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
-    workspaces = policy
+    workspaces = "x",
+    workspace_on_error = TRUE
   )
   envir <- new.env(parent = emptyenv())
   x <- options_init(envir = envir)
@@ -122,7 +124,8 @@ tar_test("import", {
     as.list(tar_cue(mode = "never", command = FALSE))
   )
   expect_equal(x$get_debug(), "x")
-  expect_equal(x$get_workspaces(), policy)
+  expect_equal(x$get_workspaces(), "x")
+  expect_equal(x$get_workspace_on_error(), TRUE)
 })
 
 tar_test("tidy_eval", {
@@ -318,21 +321,20 @@ tar_test("debug", {
 
 tar_test("workspaces", {
   x <- options_init()
-  expect_equal(x$get_workspaces()$always, workspace_policy_init()$always)
-  expect_equal(x$get_workspaces()$never, workspace_policy_init()$never)
-  expect_equal(x$get_workspaces()$error, workspace_policy_init()$error)
-  x$set_workspaces(workspace_policy_init(always = "x"))
-  expect_equal(x$get_workspaces()$always, "x")
-  expect_equal(x$get_workspaces()$never, workspace_policy_init()$never)
-  expect_equal(x$get_workspaces()$error, workspace_policy_init()$error)
+  expect_equal(x$get_workspaces(), character(0))
+  x$set_workspaces(workspaces = "x")
+  expect_equal(x$get_workspaces(), "x")
   x$reset()
-  expect_equal(x$get_workspaces()$always, workspace_policy_init()$always)
-  expect_equal(x$get_workspaces()$never, workspace_policy_init()$never)
-  expect_equal(x$get_workspaces()$error, workspace_policy_init()$error)
+  expect_equal(x$get_workspaces(), character(0))
   expect_error(x$set_workspaces(123), class = "tar_condition_validate")
 })
 
-tar_test("deprecated workspaces", {
+tar_test("workspace_on_error", {
   x <- options_init()
-  expect_warning(x$set_workspaces("x"), class = "tar_condition_deprecate")
+  expect_equal(x$get_workspace_on_error(), FALSE)
+  x$set_workspace_on_error(workspace_on_error = TRUE)
+  expect_equal(x$get_workspace_on_error(), TRUE)
+  x$reset()
+  expect_equal(x$get_workspace_on_error(), FALSE)
+  expect_error(x$set_workspace_on_error(123), class = "tar_condition_validate")
 })
