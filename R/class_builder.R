@@ -283,7 +283,9 @@ builder_should_save_workspace <- function(target) {
   names <- c(target_get_name(target), target_get_parent(target))
   because_named <- any(names %in% tar_option_get("workspaces"))
   has_error <- metrics_has_error(target$metrics)
-  because_error <- has_error && tar_option_get("workspace_on_error")
+  if_error <- tar_option_get("workspace_on_error") ||
+    identical(target$settings$error, "workspace")
+  because_error <- if_error && has_error
   because_named || because_error
 }
 

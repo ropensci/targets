@@ -467,7 +467,7 @@ options_class <- R6::R6Class(
 
 tar_options <- options_init()
 
-deprecate_error_workspace = function(error) {
+deprecate_error_workspace <- function(error) {
   if (identical(error, "workspace")) {
     tar_warn_deprecate(
       "Effective 2021-06-28 (targets version 0.5.0.9002), ",
