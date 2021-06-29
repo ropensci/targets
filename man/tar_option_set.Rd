@@ -197,12 +197,10 @@ problems. This is like inserting a \code{browser()} statement at the
 beginning of the target's expression, but without invalidating any
 targets.}
 
-\item{workspaces}{Character vector of names of targets to save workspace
-files. Workspace files let you re-create a target's runtime environment
-in an interactive R session using \code{\link[=tar_workspace]{tar_workspace()}}. \code{\link[=tar_workspace]{tar_workspace()}}
-loads a target's random number generator seed and dependency objects
-as long as those target objects are still in the data store
-(usually \verb{_targets/objects/}).}
+\item{workspaces}{Object returned from \code{\link[=tar_workspace_policy]{tar_workspace_policy()}}
+to configure the conditions under which workspace files
+are saved for debugging purposes.
+See \code{\link[=tar_workspace]{tar_workspace()}} for details about workspaces.}
 }
 \value{
 \code{NULL} (invisibly).

@@ -111,7 +111,7 @@ tar_test("tar_workspace() works with workspace option", {
   expect_equal(envir$x, "loaded")
 })
 
-tar_test("tar_workspace() on a branch", {
+tar_test("tar_workspace() on a branch on error", {
   tar_script({
     tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
     list(
@@ -130,7 +130,7 @@ tar_test("tar_workspace() on a branch", {
   expect_equal(envir$x, 4L)
 })
 
-tar_test("tar_workspace() on a pattern", {
+tar_test("tar_workspace() on a pattern by name", {
   tar_script({
     tar_option_set(workspaces = tar_workspace_policy(always = "y"))
     list(
@@ -142,6 +142,24 @@ tar_test("tar_workspace() on a pattern", {
   branches <- tar_branch_names("y", seq_len(2))
   result <- file.exists(path_workspace(path_store_default(), branches))
   expect_true(all(result))
+})
+
+tar_test("tar_workspace() on a pattern by name", {
+  tar_script({
+    tar_option_set(workspaces = tar_workspace_policy(always = "BRANCH"))
+    list(
+      tar_target(x, seq_len(2L)),
+      tar_target(y, x, pattern = map(x))
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_workspaces(), character(0))
+  lines <- readLines(path_script_default())
+  name <- tar_branch_names(y, 1)
+  lines <- gsub("BRANCH", name, lines)
+  writeLines(lines, path_script_default())
+  tar_make(callr_function = NULL)
+  expect_equal(tar_workspaces(), name)
 })
 
 tar_test("tar_workspace() with an unexportable object", {

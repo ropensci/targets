@@ -79,12 +79,10 @@
 #'   problems. This is like inserting a `browser()` statement at the
 #'   beginning of the target's expression, but without invalidating any
 #'   targets.
-#' @param workspaces Character vector of names of targets to save workspace
-#'   files. Workspace files let you re-create a target's runtime environment
-#'   in an interactive R session using [tar_workspace()]. [tar_workspace()]
-#'   loads a target's random number generator seed and dependency objects
-#'   as long as those target objects are still in the data store
-#'   (usually `_targets/objects/`).
+#' @param workspaces Object returned from [tar_workspace_policy()]
+#'   to configure the conditions under which workspace files
+#'   are saved for debugging purposes.
+#'   See [tar_workspace()] for details about workspaces.
 #' @examples
 #' tar_option_get("format") # default format before we set anything
 #' tar_target(x, 1)$settings$format
