@@ -280,17 +280,13 @@ builder_ensure_workspace <- function(target, pipeline, scheduler, meta) {
 }
 
 builder_should_save_workspace <- function(target) {
-  policy <- tar_option_get("workspaces")
   names <- c(target_get_name(target), target_get_parent(target))
-  always <- any(names %in% policy$always)
-  never <- any(names %in% policy$never)
+  because_named <- any(names %in% tar_option_get("workspaces"))
   has_error <- metrics_has_error(target$metrics)
-  on_error <- policy$error || identical(target$settings$error, "workspace")
-  error <- has_error && on_error
-  if (never) {
-    return(FALSE)
-  }
-  always || error
+  if_error <- tar_option_get("workspace_on_error") ||
+    identical(target$settings$error, "workspace")
+  because_error <- if_error && has_error
+  because_named || because_error
 }
 
 builder_save_workspace <- function(target, pipeline, scheduler, meta) {

@@ -21,14 +21,13 @@
 * Support `names` and `shortcut` in graph data frames and graph visuals (#529).
 * Move `allow` and `exclude` to the network behind the graph visuals rather than the visuals themselves (#529).
 * Add a new "progress" display to the `tar_watch()` app to show verbose progress info and metadata.
-* Allow the `workspaces` argument of `tar_option_set()` to accept an object returned from `tar_workspace_policy()`, which controls workspace behavior independently of the `error` argument of `tar_target()` (#405, #533, #534, @mattwarkentin, @xinstein).
+* Add a new `workspace_on_error` argument of `tar_option_set()` to supersede `error = "workspace"`. Helps control workspace behavior independently of the `error` argument of `tar_target()` (#405, #533, #534, @mattwarkentin, @xinstein).
 * Implement `error = "abridge"` in `tar_target()` and related functions. If a target errors out with this option, the target itself stops, any currently running targets keeps, and no new targets launch after that (#533, #534, @xinstein).
 
 ## Deprecations
 
 * In Target Markdown, deprecate the `targets` chunk option in favor of `tar_globals` (#469).
-* Deprecate character vectors in the `workspaces` argument of `tar_option_set()`. Use `tar_option_set(workspaces = tar_workspace_policy(allow = "..."))` instead (#405, #533, @mattwarkentin, @xinstein).
-* Deprecate `error = "workspace"` in `tar_target()` and related functions. Use `tar_option_set(workspaces = tar_workspace_policy(error = TRUE))` instead (#405, #533, @mattwarkentin, @xinstein).
+* Deprecate `error = "workspace"` in `tar_target()` and related functions. Use `tar_option_set(workspace_on_error = TRUE)` instead (#405, #533, @mattwarkentin, @xinstein).
 
 ## Performance
 

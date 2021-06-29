@@ -74,7 +74,7 @@ if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tmp <- sample(1)
 tar_script({
-  tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
+  tar_option_set(workspace_on_error = TRUE)
   list(
     tar_target(x, "loaded"),
     tar_target(y, stop(x))
@@ -96,7 +96,6 @@ tail(.Random.seed)
 Other debug: 
 \code{\link{tar_load_globals}()},
 \code{\link{tar_traceback}()},
-\code{\link{tar_workspace_policy}()},
 \code{\link{tar_workspaces}()}
 }
 \concept{debug}

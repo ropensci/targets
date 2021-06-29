@@ -17,7 +17,8 @@ options_init <- function(
   retrieval = NULL,
   cue = NULL,
   debug = NULL,
-  workspaces = NULL
+  workspaces = NULL,
+  workspace_on_error = NULL
 ) {
   options_new(
     tidy_eval = tidy_eval,
@@ -38,7 +39,8 @@ options_init <- function(
     retrieval = retrieval,
     cue = cue,
     debug = debug,
-    workspaces = workspaces
+    workspaces = workspaces,
+    workspace_on_error = workspace_on_error
   )
 }
 
@@ -61,7 +63,8 @@ options_new <- function(
   retrieval = NULL,
   cue = NULL,
   debug = NULL,
-  workspaces = NULL
+  workspaces = NULL,
+  workspace_on_error = NULL
 ) {
   options_class$new(
     tidy_eval = tidy_eval,
@@ -82,7 +85,8 @@ options_new <- function(
     retrieval = retrieval,
     cue = cue,
     debug = debug,
-    workspaces = workspaces
+    workspaces = workspaces,
+    workspace_on_error = workspace_on_error
   )
 }
 
@@ -111,6 +115,7 @@ options_class <- R6::R6Class(
     cue = NULL,
     debug = NULL,
     workspaces = NULL,
+    workspace_on_error = NULL,
     initialize = function(
       tidy_eval = NULL,
       packages = NULL,
@@ -130,7 +135,8 @@ options_class <- R6::R6Class(
       retrieval = NULL,
       cue = NULL,
       debug = NULL,
-      workspaces = NULL
+      workspaces = NULL,
+      workspace_on_error = NULL
     ) {
       self$tidy_eval <- tidy_eval
       self$packages <- packages
@@ -151,6 +157,7 @@ options_class <- R6::R6Class(
       self$cue <- cue
       self$debug <- debug
       self$workspaces <- workspaces
+      self$workspace_on_error <- workspace_on_error
     },
     export = function() {
       list(
@@ -171,7 +178,8 @@ options_class <- R6::R6Class(
         retrieval = self$get_retrieval(),
         cue = self$get_cue(),
         debug = self$get_debug(),
-        workspaces = self$get_workspaces()
+        workspaces = self$get_workspaces(),
+        workspace_on_error = self$get_workspace_on_error()
       )
     },
     import = function(list) {
@@ -193,6 +201,7 @@ options_class <- R6::R6Class(
       self$set_cue(list$cue)
       self$set_debug(list$debug)
       self$set_workspaces(list$workspaces)
+      self$set_workspace_on_error(list$workspace_on_error)
     },
     reset = function() {
       self$tidy_eval <- NULL
@@ -214,6 +223,7 @@ options_class <- R6::R6Class(
       self$cue <- NULL
       self$debug <- NULL
       self$workspaces <- NULL
+      self$workspace_on_error <- NULL
     },
     get_tidy_eval = function() {
       self$tidy_eval %|||% TRUE
@@ -270,7 +280,10 @@ options_class <- R6::R6Class(
       self$debug %|||% character(0)
     },
     get_workspaces = function() {
-      self$workspaces %|||% workspace_policy_init()
+      self$workspaces %|||% character(0)
+    },
+    get_workspace_on_error = function() {
+      self$workspace_on_error %|||% FALSE
     },
     set_tidy_eval = function(tidy_eval) {
       self$validate_tidy_eval(tidy_eval)
@@ -346,14 +359,11 @@ options_class <- R6::R6Class(
     },
     set_workspaces = function(workspaces) {
       self$validate_workspaces(workspaces)
-      workspaces <- self$migrate_workspaces(workspaces)
       self$workspaces <- workspaces
     },
-    migrate_workspaces = function(workspaces) {
-      if (is.character(workspaces)) {
-        workspaces <- workspace_policy_init(always = workspaces)
-      }
-      workspaces
+    set_workspace_on_error = function(workspace_on_error) {
+      self$validate_workspace_on_error(workspace_on_error)
+      self$workspace_on_error <- workspace_on_error
     },
     validate_tidy_eval = function(tidy_eval) {
       tar_assert_scalar(tidy_eval)
@@ -424,17 +434,11 @@ options_class <- R6::R6Class(
       tar_assert_chr(debug)
     },
     validate_workspaces = function(workspaces) {
-      if (is.character(workspaces)) {
-        tar_warn_deprecate(
-          "Effective 2021-06-28 (targets version 0.5.0.9002), ",
-          "character vectors are deprecated for the workspaces ",
-          "argument of tar_option_set(). ",
-          "The workspaces option should be an object returned from ",
-          "tar_workspace_policy() instead of a character vector."
-        )
-        workspaces <- workspace_policy_init(always = workspaces)
-      }
-      workspace_policy_validate(workspaces)
+      tar_assert_chr(workspaces)
+    },
+    validate_workspace_on_error = function(workspace_on_error) {
+      tar_assert_scalar(workspace_on_error)
+      tar_assert_lgl(workspace_on_error)
     },
     validate = function() {
       self$validate_tidy_eval(self$get_tidy_eval())
@@ -456,6 +460,7 @@ options_class <- R6::R6Class(
       self$validate_cue(self$get_cue())
       self$validate_debug(self$get_debug())
       self$validate_workspaces(self$get_workspaces())
+      self$validate_workspace_on_error(self$get_workspace_on_error())
     }
   )
 )
@@ -468,7 +473,7 @@ deprecate_error_workspace <- function(error) {
       "Effective 2021-06-28 (targets version 0.5.0.9002), ",
       "error = \"workspace\" is deprecated in tar_target(), ",
       "tar_target_raw(), and tar_option_set(). Please instead set ",
-      "tar_option_set(workspaces = tar_workspace_policy(error = TRUE))."
+      "tar_option_set(workspace_on_error = TRUE)."
     )
   }
 }

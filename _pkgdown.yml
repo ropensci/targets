@@ -54,7 +54,6 @@ reference:
   - '`tar_load_globals`'
   - '`tar_traceback`'
   - '`tar_workspace`'
-  - '`tar_workspace_policy`'
   - '`tar_workspaces`'
 - title: Data
   contents:

@@ -155,7 +155,7 @@
 #'   Either way, the target gets automatically loaded into memory
 #'   whenever another target needs the value.
 #'   For cloud-based dynamic files such as `format = "aws_file"`,
-#'   this memory policy applies to
+#'   this memory strategy applies to
 #'   temporary local copies of the file in `_targets/scratch/"`:
 #'   `"persistent"` means they remain until the end of the pipeline,
 #'   and `"transient"` means they get deleted from the file system

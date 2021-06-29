@@ -7,7 +7,7 @@ tar_test("run timestamp reporter", {
 })
 
 tar_test("run timestamp reporter with a error and saved workspace", {
-  tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
+  tar_option_set(workspace_on_error = TRUE)
   pipeline <- pipeline_init(
     list(
       target_init("x", quote(stop(123)))

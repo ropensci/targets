@@ -11,12 +11,12 @@ local <- local_init(pipeline, reporter = "silent")$run()
 
 # Should be silent except for the error message.
 tar_destroy()
-tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
+tar_option_set(workspace_on_error = TRUE)
 pipeline <- pipeline_init(
   list(target_init("x", quote(stop(123))))
 )
 local <- local_init(pipeline, reporter = "silent")$run()
-tar_option_set(workspaces = tar_workspace_policy())
+tar_option_set(workspace_on_error = FALSE)
 
 # Should be silent.
 tar_destroy()
@@ -51,13 +51,13 @@ expect_equal(tar_workspaces(), character(0))
 
 # Should show error message and save workspace.
 tar_destroy()
-tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
+tar_option_set(workspace_on_error = TRUE)
 pipeline <- pipeline_init(
   list(target_init("x", quote(stop(123))))
 )
 local <- local_init(pipeline, reporter = "verbose")$run()
 expect_equal(tar_workspaces(), "x")
-tar_option_set(workspaces = tar_workspace_policy())
+tar_option_set(workspace_on_error = FALSE)
 
 # Warnings are relayed immediately if the warn option is 1.
 tar_destroy()
@@ -109,13 +109,13 @@ expect_equal(tar_progress()$progress, "errored")
 # Should show a timestamped failure message and an error message
 # and save workspace.
 tar_destroy()
-tar_option_set(workspaces = tar_workspace_policy(error = TRUE))
+tar_option_set(workspace_on_error = TRUE)
 pipeline <- pipeline_init(
   list(target_init("x", quote(stop(123))))
 )
 local <- local_init(pipeline, reporter = "timestamp")$run()
 expect_equal(tar_progress()$progress, "errored")
-tar_option_set(workspaces = tar_workspace_policy())
+tar_option_set(workspace_on_error = FALSE)
 
 # Should show a timestamped message, a warning,
 # and a meta-warning w/ tip about tar_meta().

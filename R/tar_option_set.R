@@ -79,9 +79,15 @@
 #'   problems. This is like inserting a `browser()` statement at the
 #'   beginning of the target's expression, but without invalidating any
 #'   targets.
-#' @param workspaces Object returned from [tar_workspace_policy()]
-#'   to configure the conditions under which workspace files
-#'   are saved for debugging purposes.
+#' @param workspaces Character vector of target names.
+#'   Could be non-branching targets, whole dynamic branching targets,
+#'   or individual branch names. [tar_make()] and friends
+#'   will save workspace files for these targets even if
+#'   the targets are skipped. Workspace files help with debugging.
+#'   See [tar_workspace()] for details about workspaces.
+#' @param workspace_on_error Logical of length 1, whether to save
+#'   a workspace file for each target that throws an error.
+#'   Workspace files help with debugging.
 #'   See [tar_workspace()] for details about workspaces.
 #' @examples
 #' tar_option_get("format") # default format before we set anything
@@ -120,7 +126,8 @@ tar_option_set <- function(
   retrieval = NULL,
   cue = NULL,
   debug = NULL,
-  workspaces = NULL
+  workspaces = NULL,
+  workspace_on_error = NULL
 ) {
   force(envir)
   if_any(is.null(tidy_eval), NULL, tar_options$set_tidy_eval(tidy_eval))
@@ -146,5 +153,10 @@ tar_option_set <- function(
   if_any(is.null(cue), NULL, tar_options$set_cue(cue))
   if_any(is.null(debug), NULL, tar_options$set_debug(debug))
   if_any(is.null(workspaces), NULL, tar_options$set_workspaces(workspaces))
+  if_any(
+    is.null(workspace_on_error),
+    NULL,
+    tar_options$set_workspace_on_error(workspace_on_error)
+  )
   invisible()
 }

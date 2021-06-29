@@ -23,7 +23,8 @@ tar_option_set(
   retrieval = NULL,
   cue = NULL,
   debug = NULL,
-  workspaces = NULL
+  workspaces = NULL,
+  workspace_on_error = NULL
 )
 }
 \arguments{
@@ -130,7 +131,7 @@ after every new target completes.
 Either way, the target gets automatically loaded into memory
 whenever another target needs the value.
 For cloud-based dynamic files such as \code{format = "aws_file"},
-this memory policy applies to
+this memory strategy applies to
 temporary local copies of the file in \verb{_targets/scratch/"}:
 \code{"persistent"} means they remain until the end of the pipeline,
 and \code{"transient"} means they get deleted from the file system
@@ -197,9 +198,16 @@ problems. This is like inserting a \code{browser()} statement at the
 beginning of the target's expression, but without invalidating any
 targets.}
 
-\item{workspaces}{Object returned from \code{\link[=tar_workspace_policy]{tar_workspace_policy()}}
-to configure the conditions under which workspace files
-are saved for debugging purposes.
+\item{workspaces}{Character vector of target names.
+Could be non-branching targets, whole dynamic branching targets,
+or individual branch names. \code{\link[=tar_make]{tar_make()}} and friends
+will save workspace files for these targets even if
+the targets are skipped. Workspace files help with debugging.
+See \code{\link[=tar_workspace]{tar_workspace()}} for details about workspaces.}
+
+\item{workspace_on_error}{Logical of length 1, whether to save
+a workspace file for each target that throws an error.
+Workspace files help with debugging.
 See \code{\link[=tar_workspace]{tar_workspace()}} for details about workspaces.}
 }
 \value{
