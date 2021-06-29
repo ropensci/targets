@@ -103,7 +103,7 @@ after every new target completes.
 Either way, the target gets automatically loaded into memory
 whenever another target needs the value.
 For cloud-based dynamic files such as \code{format = "aws_file"},
-this memory policy applies to
+this memory strategy applies to
 temporary local copies of the file in \verb{_targets/scratch/"}:
 \code{"persistent"} means they remain until the end of the pipeline,
 and \code{"transient"} means they get deleted from the file system
