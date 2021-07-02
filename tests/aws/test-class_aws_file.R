@@ -123,8 +123,6 @@ tar_test("aws_file format invalidation", {
   }
 })
 
-# Run this one interactively and check that the object prefixes
-# (pseudo-folders) are correct.
 tar_test("aws_file format with a custom data store", {
   skip_if_no_aws()
   writeLines("store: custom_targets_store", "_targets.yaml")
