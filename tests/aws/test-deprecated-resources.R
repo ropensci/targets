@@ -7,9 +7,17 @@ tar_test("AWS S3 with old resources", {
   bucket_name <- "targets-testing-aws-bucket"
   aws.s3::put_bucket(bucket = "targets-testing-aws-bucket")
   on.exit({
-    aws.s3::delete_object(object = "customprefix/customdir/a", bucket = bucket_name)
-    aws.s3::delete_object(object = "customprefix/customdir/b", bucket = bucket_name)
-    aws.s3::delete_object(object = "customprefix/customdir/c", bucket = bucket_name)
+    aws.s3::delete_object(
+      object = "customprefix/customdir/a",
+      bucket = bucket_name)
+    aws.s3::delete_object(
+      object = "customprefix/customdir/b",
+      bucket = bucket_name
+    )
+    aws.s3::delete_object(
+      object = "customprefix/customdir/c",
+      bucket = bucket_name
+    )
     aws.s3::delete_bucket(bucket = bucket_name)
   })
   tar_script({
