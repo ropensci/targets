@@ -20,6 +20,7 @@ tar_test("branches complete even if patterns do not", {
   expect_equal(out$progress[out$name == "y_e15e8827"], "started")
   tar_make() # The first branch should skip. Again, terminate early.
   out <- tar_progress()
+  out <- out[out$progress != "skipped", ]
   expect_equal(nrow(out), 2)
   expect_equal(out$progress[out$name == "y"], "started")
   expect_equal(out$progress[out$name == "y_e15e8827"], "started")

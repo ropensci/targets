@@ -1,8 +1,13 @@
 tar_test("print stem", {
+  resources <- tar_resources(
+    clustermq = tar_resources_clustermq(
+      template = list(cpu = 1, mem = 2)
+    )
+  )
   x <- tar_target(x, {
     a <- 1
     b
-  }, resources = list(cpu = 1, mem = 2))
+  }, resources = resources)
   print(x)
   expect_equal(1, 1)
 })
