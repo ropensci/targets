@@ -76,7 +76,7 @@ visnetwork_class <- R6::R6Class(
         canceled = "#FAD510",
         errored = "#C93312",
         queued = "#D2D2D0",
-        skipped = "#8F00FF",
+        skipped = "#7500D1",
         none = "#94a4ac"
       )
       colors[status]
