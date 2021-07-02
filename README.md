@@ -88,15 +88,16 @@ the results.
 ### Español
 
   - [R-Ladies Barcelona, 2021-05-25
-    (1:25:12)](https://www.youtube.com/watch?v=Vj312AfdpBo).
-
-## Documentation
+    (1:25:12)](https://www.youtube.com/watch?v=Vj312AfdpBo). \#\#
+    Documentation
 
   - [User manual](https://books.ropensci.org/targets/): in-depth
     discussion about how to use `targets`.
+
   - [Reference website](https://docs.ropensci.org/targets/): formal
     documentation of all user-side functions, the statement of need, and
     multiple design documents of the internal architecture.
+
   - [Developer
     documentation](https://books.ropensci.org/targets-design/): software
     design documents for developers contributing to the deep internal
@@ -109,10 +110,12 @@ the results.
 
 ## Example projects
 
-  - [Minimal example](https://github.com/wlandau/targets-minimal).
-  - [Machine learning with
-    Keras](https://github.com/wlandau/targets-keras).
-  - [Validating a Stan model](https://github.com/wlandau/targets-stan).
+| Description                                                                                                        | Link                                                |
+| ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- |
+| Minimal example                                                                                                    | <https://github.com/wlandau/targets-minimal>        |
+| Machine learning with Keras                                                                                        | <https://github.com/wlandau/targets-keras>          |
+| Validating a minimal Stan model                                                                                    | <https://github.com/wlandau/targets-stan>           |
+| Using Target Markdown and `stantargets` to validate a Bayesian longitudinal model for clinical trial data analysis | <https://github.com/wlandau/rmedicine2021-pipeline> |
 
 ## Apps
 
