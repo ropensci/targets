@@ -1,6 +1,7 @@
 # Use sparingly. We do not want to max out any AWS quotas.
 # After this test runs, log into the AWS console,
 # check that the prefix is correct, and MANUALLY CLEAR OUT THE BUCKET.
+# Run interactively to check the prefix.
 tar_test("aws_parquet format returns data frames", {
   skip_if_no_aws()
   skip_if_not_installed("arrow")
@@ -25,4 +26,10 @@ tar_test("aws_parquet format returns data frames", {
   tar_make(callr_function = NULL)
   out <- tar_read(x)
   expect_equal(out, data.frame(x = seq_len(2), y = seq_len(2)))
+  aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
+  aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
+  aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
+  aws.s3::delete_object(object = "_targets", bucket = bucket_name)
+  aws.s3::delete_bucket(bucket = bucket_name)
+  tar_destroy()
 })

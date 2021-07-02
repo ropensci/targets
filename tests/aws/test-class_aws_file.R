@@ -9,7 +9,6 @@ tar_test("aws_file format file gets stored", {
     aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets", bucket = bucket_name)
     aws.s3::delete_bucket(bucket = bucket_name)
-    expect_false(aws.s3::bucket_exists(bucket = bucket_name))
   })
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
@@ -136,7 +135,6 @@ tar_test("aws_file format with a custom data store", {
     aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
     aws.s3::delete_object(object = "_targets", bucket = bucket_name)
     aws.s3::delete_bucket(bucket = bucket_name)
-    expect_false(aws.s3::bucket_exists(bucket = bucket_name))
   })
   aws.s3::put_bucket(bucket = bucket_name)
   expr <- quote({
