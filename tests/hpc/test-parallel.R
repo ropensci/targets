@@ -18,7 +18,7 @@ tar_script({
 tar_make_clustermq(workers = 3L, reporter = "timestamp")
 tar_destroy()
 
-# All but 1 worker should quit while the last x4 branch is running.
+# All but 1 worker should quit while x4 is running.
 # Run in a basic terminal, monitor with htop -d 1, and filter on R.home().
 library(targets)
 tar_script({
@@ -118,3 +118,5 @@ expect_equal(out$progress[out$name == "w"], "errored")
 expect_equal(out$progress[out$name == "x"], "built")
 expect_equal(out$progress[out$name == "y"], "built")
 expect_false("z" %in% out$name)
+tar_destroy()
+unlink("_targets.R")
