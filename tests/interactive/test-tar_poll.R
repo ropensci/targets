@@ -8,7 +8,7 @@ tar_test("tar_poll() with default columns", {
   tar_poll()
   # Open a separate R session and run the pipeline there.
   # Watch the output of tar_poll().
-  # Then stop and destroy the pipeline and watch tar_poll() resond.
+  # Then stop and destroy the pipeline and watch tar_poll() respond.
   # Then resume the pipeline and watch tar_poll() resume.
 })
 
@@ -57,7 +57,6 @@ tar_test("tar_poll() with non-default store and script", {
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("example/script.R"))
-  expect_false(tar_config$is_locked())
   tar_config_set(script = "x")
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))
