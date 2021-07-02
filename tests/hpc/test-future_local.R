@@ -1,4 +1,4 @@
-tar_test("future workers actually launch", {
+tar_test("future workers actually launch (run interactively)", {
   skip_if_not_installed("future")
   skip_if_not_installed("future.callr")
   tar_script({
@@ -18,8 +18,10 @@ tar_test("future workers actually launch", {
   out <- tar_progress()
   out <- out[out$name != "x", ]
   expect_true(all(out$progress == "started"))
+  tar_destroy()
 })
 
+# Run interactively:
 tar_test("custom future plans through structured resources", {
   skip_if_not_installed("future")
   tar_script({
@@ -45,6 +47,7 @@ tar_test("custom future plans through structured resources", {
   out <- tar_progress()
   out <- out[out$name != "x", ]
   expect_true(all(out$progress == "started"))
+  tar_destroy()
 })
 
 tar_test("custom future plans through unstructured resources", {
@@ -72,9 +75,10 @@ tar_test("custom future plans through unstructured resources", {
   out <- tar_progress()
   out <- out[out$name != "x", ]
   expect_true(all(out$progress == "started"))
+  tar_destroy()
 })
 
-tar_test("Heavily parallel workload should run fast", {
+tar_test("parallel workload should run fast", {
   skip_if_not_installed("future")
   skip_if_not_installed("future.callr")
   tar_script({
@@ -83,7 +87,7 @@ tar_test("Heavily parallel workload should run fast", {
     list(
       tar_target(
         index_batch,
-        seq_len(100),
+        seq_len(20),
       ),
       tar_target(
         data_continuous,
@@ -109,11 +113,11 @@ tar_test("Heavily parallel workload should run fast", {
   })
   tar_make_future(workers = 4, callr_function = NULL)
   expect_equal(tar_outdated(), character(0))
-  expect_equal(unname(tar_read(fit_continuous)), seq_len(100))
-  expect_equal(unname(tar_read(fit_discrete)), seq_len(100))
+  expect_equal(unname(tar_read(fit_continuous)), seq_len(20))
+  expect_equal(unname(tar_read(fit_discrete)), seq_len(20))
 })
 
-tar_test("profile heavily parallel workload", {
+tar_test("profile parallel workload", {
   skip_if_not_installed("future")
   skip_if_not_installed("future.callr")
   tar_script({
@@ -122,7 +126,7 @@ tar_test("profile heavily parallel workload", {
     list(
       tar_target(
         index_batch,
-        seq_len(100),
+        seq_len(10),
       ),
       tar_target(
         data_continuous,
@@ -148,9 +152,6 @@ tar_test("profile heavily parallel workload", {
   })
   # Should deploy targets in a timely manner.
   proffer::pprof(tar_make_future(workers = 4, callr_function = NULL))
-  expect_equal(tar_outdated(), character(0))
-  expect_equal(unname(tar_read(fit_continuous)), seq_len(100))
-  expect_equal(unname(tar_read(fit_discrete)), seq_len(100))
 })
 
 tar_test("prevent high-memory data via target objects", {
