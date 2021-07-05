@@ -66,7 +66,7 @@ tar_script <- function(
   ask = NULL,
   script = targets::tar_config_get("script")
 ) {
-  if (!tar_should_overwrite(ask, script)) {
+  if (!tar_should_overwrite(path = script, ask = ask)) {
     # covered in tests/interactive/test-tar_script.R # nolint
     return(invisible()) # nocov
   }

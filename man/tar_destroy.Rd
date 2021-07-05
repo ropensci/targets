@@ -6,6 +6,7 @@
 \usage{
 tar_destroy(
   destroy = c("all", "meta", "process", "progress", "objects", "scratch", "workspaces"),
+  ask = NULL,
   store = targets::tar_config_get("store")
 )
 }
@@ -30,6 +31,11 @@ automatically get deleted except if R crashed.
 \item \code{"workspaces"}: compressed files in \verb{workspaces/} in the data store with
 the saved workspaces of targets. See \code{\link[=tar_workspace]{tar_workspace()}} for details.
 }}
+
+\item{ask}{Logical of length 1, whether to pause with a menu prompt
+before deleting files. To disable this menu, set the \code{TAR_ASK}
+environment variable to \code{"false"}. \code{usethis::edit_r_environ()}
+can help set environment variables.}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

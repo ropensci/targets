@@ -41,7 +41,7 @@ tar_github_actions <- function(
 ) {
   tar_assert_chr(path, "path must be a character")
   tar_assert_scalar(path, "path must have length 1")
-  if (!tar_should_overwrite(ask, path)) {
+  if (!tar_should_overwrite(path = path, ask = ask)) {
     # covered in tests/interactive/test-tar_github_actions.R # nolint
     return(invisible()) # nocov
   }

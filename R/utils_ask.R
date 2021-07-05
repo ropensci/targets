@@ -1,8 +1,27 @@
-tar_should_overwrite <- function(ask = NULL, file = character(0)) {
+tar_should_delete <- function(path, ask) {
+  prompt <- paste0("Delete ", path, "?")
+  tar_should_modify_path(path = path, ask = ask, prompt = prompt)
+}
+
+tar_should_overwrite <- function(path, ask) {
+  prompt <- paste0("Overwrite ", path, "?")
+  tar_should_modify_path(path = path, ask = ask, prompt = prompt)
+}
+
+tar_should_modify_path <- function(
+  path = character(0),
+  ask = NULL,
+  prompt = character(0)
+) {
   ask <- ask %|||% tar_ask_env() %|||% interactive()
   tar_assert_lgl(ask)
   tar_assert_scalar(ask)
-  if (!file.exists(file) || !ask) {
+  prompt <- paste(
+    prompt,
+    "(Set the TAR_ASK environment variable to \"false\"",
+    "to disable this menu, e.g. usethis::edit_r_environ().)"
+  )
+  if (!file.exists(path) || !ask) {
     return(TRUE)
   }
   # This part is intrinsically interactive and cannot be covered
@@ -10,7 +29,7 @@ tar_should_overwrite <- function(ask = NULL, file = character(0)) {
   # tests/interactive/test-tar_script.R is an example of a semi-automated test
   # that coveres this.
   # nocov start
-  out <- utils::menu(c("yes", "no"), title = paste0("Overwrite ", file, "?"))
+  out <- utils::menu(c("yes", "no"), title = prompt)
   identical(as.integer(out), 1L)
   # nocov end
 }

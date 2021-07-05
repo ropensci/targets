@@ -23,6 +23,10 @@
 #'     automatically get deleted except if R crashed.
 #'   * `"workspaces"`: compressed files in `workspaces/` in the data store with
 #'     the saved workspaces of targets. See [tar_workspace()] for details.
+#' @param ask Logical of length 1, whether to pause with a menu prompt
+#'   before deleting files. To disable this menu, set the `TAR_ASK`
+#'   environment variable to `"false"`. `usethis::edit_r_environ()`
+#'   can help set environment variables.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -42,17 +46,21 @@ tar_destroy <- function(
     "scratch",
     "workspaces"
   ),
+  ask = NULL,
   store = targets::tar_config_get("store")
 ) {
-  switch(
+  path <- switch(
     match.arg(destroy),
-    all = unlink(store, recursive = TRUE),
-    meta = unlink(path_meta(store)),
-    process = unlink(path_process(store)),
-    progress = unlink(path_progress(store)),
-    objects = unlink(path_objects_dir(store), recursive = TRUE),
-    scratch = unlink(path_scratch_dir(store), recursive = TRUE),
-    workspaces = unlink(path_workspaces_dir(store), recursive = TRUE)
+    all = store,
+    meta = path_meta(store),
+    process = path_process(store),
+    progress = path_progress(store),
+    objects = path_objects_dir(store),
+    scratch = path_scratch_dir(store),
+    workspaces = path_workspaces_dir(store)
   )
+  if (tar_should_delete(path = path, ask = ask)) {
+    unlink(path, recursive = TRUE)
+  }
   invisible()
 }
