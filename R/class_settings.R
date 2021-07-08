@@ -138,7 +138,7 @@ settings_validate <- function(settings) {
     settings$dimensions
   )
   tar_assert_chr(settings$iteration)
-  tar_assert_in(settings$error, c("stop", "continue", "workspace"))
+  tar_assert_in(settings$error, c("stop", "continue", "abridge", "workspace"))
   tar_assert_in(settings$memory, c("persistent", "transient"))
   tar_assert_lgl(settings$garbage_collection)
   tar_assert_scalar(settings$garbage_collection)
