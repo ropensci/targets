@@ -54,7 +54,7 @@
 * Increase the number of characters in errors and warnings up to 2048.
 * Refactor assertions to automatically generate better messages.
 * Export assertions, conditions, and language utilities in packages that build on top of `targets`.
-
+* Change `GITHUBPAT` to `GITHUB_TOKEN` in the `tar_github_actions()` YAML file (#554, @eveyp).
 
 # targets 0.5.0
 
