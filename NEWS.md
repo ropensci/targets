@@ -55,6 +55,7 @@
 * Refactor assertions to automatically generate better messages.
 * Export assertions, conditions, and language utilities in packages that build on top of `targets`.
 * Change `GITHUBPAT` to `GITHUB_TOKEN` in the `tar_github_actions()` YAML file (#554, @eveyp).
+* Support the `eval` chunk option in Target Markdown (#552, @fkohrt).
 
 # targets 0.5.0
 

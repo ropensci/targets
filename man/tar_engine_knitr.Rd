@@ -18,7 +18,8 @@ code chunks in Target Markdown.
 }
 \section{Target Markdown chunk options}{
 
-Target Markdown supports the following \code{knitr} code chunk options:
+Target Markdown introduces the following \code{knitr} code chunk options.
+Most other standard \code{knitr} code chunk options should just work.
 \itemize{
 \item \code{tar_globals}: Logical of length 1,
 whether to define globals or targets.

@@ -22,6 +22,33 @@ tar_test("tar_engine_knitr() construct globals", {
   expect_equal(x, "a")
 })
 
+tar_test("same with eval = FALSE", {
+  skip_if_not_installed("knitr")
+  options <- list(
+    code = "x <- \"a\"",
+    echo = FALSE,
+    eval = FALSE,
+    engine = "targets",
+    label = "test",
+    results = "hide",
+    tar_globals = TRUE,
+    tar_interactive = FALSE
+  )
+  tar_engine_knitr(options)
+  expect_false(file.exists(path_store_default()))
+  expect_false(file.exists(path_script_default()))
+  expect_false(
+    file.exists(path_script_r_targets_dir(path_script_default()))
+  )
+  expect_false(
+    file.exists(path_script_r_globals(path_script_default(), "test"))
+  )
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_validate"
+  )
+})
+
 tar_test("tar_engine_knitr() construct globals with tar_name", {
   skip_if_not_installed("knitr")
   options <- list(
@@ -302,8 +329,8 @@ tar_test("tar_engine_knitr() warning if duplicate chunk labels allowed", {
   )
 })
 
-tar_test("knitr_engine_set()", {
-  knitr_engine_set()
+tar_test("engine_knitr_set()", {
+  engine_knitr_set()
   engine_names <- names(knitr::knit_engines$get())
   expect_true("targets" %in% engine_names)
 })

@@ -7,7 +7,8 @@
 #' @return Character, output generated from `knitr::engine_output()`.
 #' @param options A named list of `knitr` chunk options.
 #' @section Target Markdown chunk options:
-#'   Target Markdown supports the following `knitr` code chunk options:
+#'   Target Markdown introduces the following `knitr` code chunk options.
+#'   Most other standard `knitr` code chunk options should just work.
 #'   * `tar_globals`: Logical of length 1,
 #'     whether to define globals or targets.
 #'     If `TRUE`, the chunk code defines functions, objects, and options
@@ -58,6 +59,9 @@
 #' # as described at https://books.ropensci.org/targets/markdown.html.
 #' }
 tar_engine_knitr <- function(options) {
+  if (identical(as.logical(options$eval), FALSE)) {
+    return(engine_knitr_output(options = options, out = character(0)))
+  }
   tar_assert_package("knitr")
   tar_assert_list(options, "knitr chunk options must be a list.")
   options$tar_name <- options$tar_name %|||% options$label
@@ -78,17 +82,17 @@ tar_engine_knitr <- function(options) {
     options$tar_globals <- options$tar_globals %|||% options$targets
   }
   options$tar_script <- options$tar_script %|||% tar_config_get("script")
-  knitr_engine_tar_assert_options(options)
+  engine_knitr_tar_assert_options(options)
   warn_labels_duplicated()
   warn_labels_unnamed(options)
   if_any(
     identical(options$tar_globals, TRUE),
-    knitr_engine_globals(options),
-    knitr_engine_targets(options)
+    engine_knitr_globals(options),
+    engine_knitr_targets(options)
   )
 }
 
-knitr_engine_tar_assert_options <- function(options) {
+engine_knitr_tar_assert_options <- function(options) {
   choices <- c("tar_globals", "tar_interactive", "tar_script", "tar_simple")
   for (option in choices) {
     tar_assert_scalar(
@@ -108,26 +112,26 @@ knitr_engine_tar_assert_options <- function(options) {
   )
 }
 
-knitr_engine_globals <- function(options) {
+engine_knitr_globals <- function(options) {
   if_any(
     options$tar_interactive %|||% interactive(),
-    knitr_engine_globals_prototype(options),
-    knitr_engine_globals_construct(options)
+    engine_knitr_globals_prototype(options),
+    engine_knitr_globals_construct(options)
   )
 }
 
-knitr_engine_targets <- function(options) {
+engine_knitr_targets <- function(options) {
   if (options$tar_simple %|||% FALSE) {
-    options$code <- knitr_engine_targets_command(options)
+    options$code <- engine_knitr_targets_command(options)
   }
   if_any(
     options$tar_interactive %|||% interactive(),
-    knitr_engine_targets_prototype(options),
-    knitr_engine_targets_construct(options)
+    engine_knitr_targets_prototype(options),
+    engine_knitr_targets_construct(options)
   )
 }
 
-knitr_engine_targets_command <- function(options) {
+engine_knitr_targets_command <- function(options) {
   c(
     paste0("tar_target(", options$tar_name, ", {"),
     paste(" ", options$code),
@@ -135,15 +139,15 @@ knitr_engine_targets_command <- function(options) {
   )
 }
 
-knitr_engine_globals_prototype <- function(options) {
+engine_knitr_globals_prototype <- function(options) {
   eval(parse(text = options$code), envir = tar_option_get("envir"))
-  knitr_engine_output(
+  engine_knitr_output(
     options,
     "Ran code and assigned objects to the environment."
   )
 }
 
-knitr_engine_globals_construct <- function(options) {
+engine_knitr_globals_construct <- function(options) {
   write_targets_r(options$tar_script)
   write_targets_r_globals(options$code, options$tar_name, options$tar_script)
   out <- paste0(
@@ -153,19 +157,19 @@ knitr_engine_globals_construct <- function(options) {
     path_script_r_globals(options$tar_script, options$tar_name),
     "."
   )
-  knitr_engine_output(options, out)
+  engine_knitr_output(options, out)
 }
 
-knitr_engine_targets_prototype <- function(options) {
+engine_knitr_targets_prototype <- function(options) {
   tar_make_interactive(options$code)
   out <- c(
-    knitr_engine_definition_message(options),
-    knitr_engine_prototype_message(options)
+    engine_knitr_definition_message(options),
+    engine_knitr_prototype_message(options)
   )
-  knitr_engine_output(options, out)
+  engine_knitr_output(options, out)
 }
 
-knitr_engine_targets_construct <- function(options) {
+engine_knitr_targets_construct <- function(options) {
   write_targets_r(options$tar_script)
   write_targets_r_targets(options$code, options$tar_name, options$tar_script)
   out <- paste0(
@@ -175,17 +179,17 @@ knitr_engine_targets_construct <- function(options) {
     path_script_r_targets(options$tar_script, options$tar_name),
     "."
   )
-  out <- c(knitr_engine_definition_message(options), out)
-  knitr_engine_output(options, out)
+  out <- c(engine_knitr_definition_message(options), out)
+  engine_knitr_output(options, out)
 }
 
-knitr_engine_output <- function(options, out) {
+engine_knitr_output <- function(options, out) {
   code <- paste(options$code, collapse = "\n")
   options$engine <- "r"
   knitr::engine_output(options = options, code = code, out = out)
 }
 
-knitr_engine_definition_message <- function(options) {
+engine_knitr_definition_message <- function(options) {
   if_any(
     options$tar_simple %|||% FALSE,
     paste("Defined target", options$tar_name, "automatically from chunk code."),
@@ -193,7 +197,7 @@ knitr_engine_definition_message <- function(options) {
   )
 }
 
-knitr_engine_prototype_message <- function(options) {
+engine_knitr_prototype_message <- function(options) {
   if_any(
     options$tar_simple %|||% FALSE,
     paste(
@@ -287,7 +291,7 @@ warn_labels_unnamed <- function(options) {
 # Covered in tests/interactive/test-target_markdown_default.Rmd
 # and tests/interactive/test-target_markdown_paths.Rmd.
 # nocov start
-knitr_engine_set <- function() {
+engine_knitr_set <- function() {
   load_engine <- requireNamespace("knitr", quietly = TRUE) &&
     is.null(knitr::knit_engines$get("targets"))
   if (load_engine) {

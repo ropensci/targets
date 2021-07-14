@@ -1,4 +1,4 @@
 .onLoad <- function(libname, pkgname) {
   # Cannot cover .onLoad().
-  knitr_engine_set() # nocov
+  engine_knitr_set() # nocov
 }
