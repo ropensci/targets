@@ -9,6 +9,12 @@
 #'   non-default settings of various optional backends for data storage
 #'   and high-performance computing. The `tar_resources()` function
 #'   is a helper to supply those settings in the correct manner.
+#'   Resources are all-or-nothing: if you specify any resources
+#'   with [tar_target()], all the resources from [tar_option_get("resources")]
+#'   are dropped for that target. In other words, if you write
+#'   `tar_option_set(resources = resources_1)` and then
+#'   `tar_target(x, my_command(), resources = resources_2)`, then everything
+#'   in `resources_1` is discarded for target `x`.
 #' @return A list of objects of class `"tar_resources"` with
 #'   non-default settings of various optional backends for data storage
 #'   and high-performance computing.
@@ -36,6 +42,10 @@
 #'   including the `resources` argument of
 #'   `future::future()`, which can include values to insert in
 #'   template placeholders in `future.batchtools` template files.
+#'   This is how to supply the `resources`
+#'   argument of `future::future()` for `targets`.
+#'   Resources supplied through
+#'   `future::plan()` and `future::tweak()` are completely ignored.
 #' @param parquet Output of function `tar_resources_parquet()`.
 #'   Non-default arguments to `arrow::read_parquet()` and
 #'   `arrow::write_parquet()` for `arrow`/parquet-based storage formats.

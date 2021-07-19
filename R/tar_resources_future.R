@@ -4,6 +4,10 @@
 #' @description Create the `future` argument of `tar_resources()`
 #'   to specify optional high-performance computing settings
 #'   for `tar_make_future()`.
+#'   This is how to supply the `resources`
+#'   argument of `future::future()` for `targets`.
+#'   Resources supplied through
+#'   `future::plan()` and `future::tweak()` are completely ignored.
 #'   For details, see the documentation of the `future` R package
 #'   and the corresponding argument names in this help file.
 #' @inheritSection tar_resources Resources

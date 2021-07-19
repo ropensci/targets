@@ -28,6 +28,12 @@ each takes an optional \code{resources} argument to supply
 non-default settings of various optional backends for data storage
 and high-performance computing. The \code{tar_resources()} function
 is a helper to supply those settings in the correct manner.
+Resources are all-or-nothing: if you specify any resources
+with \code{\link[=tar_target]{tar_target()}}, all the resources from \link{tar_option_get("resources")}
+are dropped for that target. In other words, if you write
+\code{tar_option_set(resources = resources_1)} and then
+\code{tar_target(x, my_command(), resources = resources_2)}, then everything
+in \code{resources_1} is discarded for target \code{x}.
 }
 
 \examples{

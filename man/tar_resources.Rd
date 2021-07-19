@@ -43,7 +43,11 @@ For details on formats, see the \code{format} argument of \code{\link[=tar_targe
 Optional \code{future} settings for \code{tar_make_future()},
 including the \code{resources} argument of
 \code{future::future()}, which can include values to insert in
-template placeholders in \code{future.batchtools} template files.}
+template placeholders in \code{future.batchtools} template files.
+This is how to supply the \code{resources}
+argument of \code{future::future()} for \code{targets}.
+Resources supplied through
+\code{future::plan()} and \code{future::tweak()} are completely ignored.}
 
 \item{parquet}{Output of function \code{tar_resources_parquet()}.
 Non-default arguments to \code{arrow::read_parquet()} and
@@ -79,6 +83,12 @@ each takes an optional \code{resources} argument to supply
 non-default settings of various optional backends for data storage
 and high-performance computing. The \code{tar_resources()} function
 is a helper to supply those settings in the correct manner.
+Resources are all-or-nothing: if you specify any resources
+with \code{\link[=tar_target]{tar_target()}}, all the resources from \link{tar_option_get("resources")}
+are dropped for that target. In other words, if you write
+\code{tar_option_set(resources = resources_1)} and then
+\code{tar_target(x, my_command(), resources = resources_2)}, then everything
+in \code{resources_1} is discarded for target \code{x}.
 }
 
 \examples{

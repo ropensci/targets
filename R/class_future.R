@@ -112,7 +112,7 @@ future_class <- R6::R6Class(
         globals = globals,
         label = target_get_name(target),
         resources = target$settings$resources$future$resources %|||%
-          target$settings$resources,
+          target$settings$resources, # compat deprecated unstructured resources
         lazy = FALSE,
         seed = 0L
       )
