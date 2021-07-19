@@ -1,14 +1,12 @@
-clustermq_init <- function(
-  pipeline = NULL,
-  meta = meta_init(),
-  names = NULL,
-  shortcut = FALSE,
-  queue = "parallel",
-  reporter = "verbose",
-  envir = tar_option_get("envir"),
-  workers = 1L,
-  log_worker = FALSE
-) {
+clustermq_init <- function(pipeline = NULL,
+                           meta = meta_init(),
+                           names = NULL,
+                           shortcut = FALSE,
+                           queue = "parallel",
+                           reporter = "verbose",
+                           envir = tar_option_get("envir"),
+                           workers = 1L,
+                           log_worker = FALSE) {
   clustermq_new(
     pipeline = pipeline,
     meta = meta,
@@ -22,18 +20,16 @@ clustermq_init <- function(
   )
 }
 
-clustermq_new <- function(
-  pipeline = NULL,
-  meta = NULL,
-  names = NULL,
-  shortcut = NULL,
-  queue = NULL,
-  reporter = NULL,
-  envir = NULL,
-  workers = NULL,
-  crew = NULL,
-  log_worker = NULL
-) {
+clustermq_new <- function(pipeline = NULL,
+                          meta = NULL,
+                          names = NULL,
+                          shortcut = NULL,
+                          queue = NULL,
+                          reporter = NULL,
+                          envir = NULL,
+                          workers = NULL,
+                          crew = NULL,
+                          log_worker = NULL) {
   clustermq_class$new(
     pipeline = pipeline,
     meta = meta,
@@ -57,18 +53,16 @@ clustermq_class <- R6::R6Class(
     workers = NULL,
     crew = NULL,
     log_worker = NULL,
-    initialize = function(
-      pipeline = NULL,
-      meta = NULL,
-      names = NULL,
-      shortcut = NULL,
-      queue = NULL,
-      reporter = NULL,
-      envir = NULL,
-      workers = NULL,
-      crew = NULL,
-      log_worker = NULL
-    ) {
+    initialize = function(pipeline = NULL,
+                          meta = NULL,
+                          names = NULL,
+                          shortcut = NULL,
+                          queue = NULL,
+                          reporter = NULL,
+                          envir = NULL,
+                          workers = NULL,
+                          crew = NULL,
+                          log_worker = NULL) {
       super$initialize(
         pipeline = pipeline,
         meta = meta,
@@ -113,20 +107,23 @@ clustermq_class <- R6::R6Class(
     any_upcoming_jobs = function() {
       need_workers <- fltr(
         counter_get_names(self$scheduler$progress$queued),
-        ~target_needs_worker(pipeline_get_target(self$pipeline, .x))
+        ~ target_needs_worker(pipeline_get_target(self$pipeline, .x))
       )
       length(need_workers) > 0L
     },
     run_worker = function(target) {
-      self$crew$send_call(
-        expr = target_run_worker(
-          target = target,
-          envir = .tar_envir_5048826d,
-          path_store = .tar_path_store_5048826d,
-          options = .tar_options_5048826d
+      args <- list(
+        expr = quote(
+          target_run_worker(
+            target = target,
+            envir = .tar_envir_5048826d,
+            path_store = .tar_path_store_5048826d,
+            options = .tar_options_5048826d
+          )
         ),
         env = list(target = target)
       )
+      do.call(what = self$crew$send_call, args = args)
     },
     run_main = function(target) {
       self$wait_or_shutdown()

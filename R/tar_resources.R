@@ -10,7 +10,7 @@
 #'   and high-performance computing. The `tar_resources()` function
 #'   is a helper to supply those settings in the correct manner.
 #'   Resources are all-or-nothing: if you specify any resources
-#'   with [tar_target()], all the resources from [tar_option_get("resources")]
+#'   with [tar_target()], all the resources from `tar_option_get("resources")`
 #'   are dropped for that target. In other words, if you write
 #'   `tar_option_set(resources = resources_1)` and then
 #'   `tar_target(x, my_command(), resources = resources_2)`, then everything

@@ -101,21 +101,28 @@ future_class <- R6::R6Class(
         on.exit(future::plan(plan_old, .cleanup = FALSE))
         future::plan(plan_new, .cleanup = FALSE)
       }
-      future <- future::future(
-        expr = target_run_worker(
-          target = .tar_target_5048826d,
-          envir = .tar_envir_5048826d,
-          path_store = .tar_path_store_5048826d,
-          options = .tar_options_5048826d
+      # TODO: default to resources from the future plan
+      # after unstructured resources are totally defunct.
+      resources <- target$settings$resources$future$resources %|||%
+        target$settings$resources # compat: deprecated unstructured resources
+      args <- list(
+        expr = quote(
+          target_run_worker(
+            target = .tar_target_5048826d,
+            envir = .tar_envir_5048826d,
+            path_store = .tar_path_store_5048826d,
+            options = .tar_options_5048826d
+          )
         ),
+        substitute = TRUE,
         packages = "targets",
         globals = globals,
         label = target_get_name(target),
-        resources = target$settings$resources$future$resources %|||%
-          target$settings$resources, # compat deprecated unstructured resources
+        resources = resources,
         lazy = FALSE,
         seed = 0L
       )
+      future <- do.call(what = future::future, args = args)
       memory_set_object(
         self$crew,
         name = target_get_name(target),
