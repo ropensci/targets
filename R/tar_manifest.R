@@ -9,7 +9,8 @@
 #' @inheritParams tar_validate
 #' @param names Names of the targets to show. Set to `NULL` to
 #'   show all the targets (default). Otherwise, you can supply
-#'   symbols, a character vector, or `tidyselect` helpers like [starts_with()].
+#'   symbols, a character vector, or `tidyselect` helpers like
+#'   [all_of()] and [starts_with()].
 #' @param fields Names of the fields, or columns, to show. Set to `NULL` to
 #'   show all the fields (default). Otherwise, you can supply
 #'   symbols, a character vector, or `tidyselect` helpers like [starts_with()].

@@ -14,7 +14,8 @@ tar_load(
 }
 \arguments{
 \item{names}{Names of the targets to load. You can supply
-symbols, a character vector, or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
+symbols, a character vector, or \code{tidyselect} helpers like
+\code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.}
 
 \item{branches}{Integer of indices of the branches to load
 for any targets that are patterns.}
@@ -67,7 +68,7 @@ tar_script({
   )
 }, ask = FALSE)
 tar_make()
-tar_load(starts_with("y"))
+tar_load(starts_with("y")) # see also all_of()
 })
 }
 }

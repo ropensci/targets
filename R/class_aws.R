@@ -124,21 +124,6 @@ store_ensure_correct_hash.tar_aws <- function(store, storage, deployment) {
 #' @export
 store_sync_file_meta.tar_aws <- function(store, target, meta) {
 }
-
-#' @export
-store_get_timestamp.tar_aws <- function(store) {
-  key <- store_aws_key(store$file$path)
-  bucket <- store_aws_bucket(store$file$path)
-  if (!store_aws_exists(key = key, bucket = bucket)) {
-    return(file_time_reference)
-  }
-  head <- aws.s3::head_object(
-    object = key,
-    bucket = bucket,
-    check_region = TRUE
-  )
-  attr(head, "last-modified")
-}
 # nocov end
 
 #' @export

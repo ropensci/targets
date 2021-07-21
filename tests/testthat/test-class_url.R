@@ -31,6 +31,42 @@ tar_test("dynamic urls work", {
   expect_equal(out, exp)
   expect_equal(tar_read(abc), exp)
   expect_false(file.exists(file.path("_targets", "objects", "abc")))
+  expect_true(inherits(tar_timestamp(abc), "POSIXct"))
+  expect_gt(tar_timestamp(abc), tar_timestamp(nope))
+})
+
+tar_test("dynamic urls in dynamic branches work", {
+  skip_on_cran()
+  skip_if_not_installed("curl")
+  skip_if_offline()
+  url <- "https://httpbin.org/etag/test"
+  skip_if(!url_exists(url))
+  tar_script({
+    list(
+      tar_target(x, 1),
+      tar_target(
+        abc,
+        "https://httpbin.org/etag/test",
+        format = "url",
+        pattern = map(x)
+      )
+    )
+  })
+  tar_make(callr_function = NULL)
+  branch <- tar_branch_names(abc, 1)
+  expect_equal(tar_progress(fields = NULL)$progress, rep("built", 3))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress(fields = NULL)$progress, rep("skipped", 3))
+  meta <- tar_meta()
+  meta <- meta[meta$name == branch, ]
+  expect_equal(nchar(meta$data), 16)
+  out <- meta$path[[1]]
+  expect_equal(out, url)
+  expect_equal(tar_read_raw(branch), url)
+  expect_false(file.exists(file.path("_targets", "objects", "abc")))
+  expect_false(file.exists(file.path("_targets", "objects", branch)))
+  expect_true(inherits(tar_timestamp_raw(branch), "POSIXct"))
+  expect_gt(tar_timestamp_raw(branch), tar_timestamp(nope))
 })
 
 tar_test("dynamic urls work from a custom data store", {

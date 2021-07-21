@@ -18,7 +18,8 @@ tar_make(
 \arguments{
 \item{names}{Names of the targets to build or check. Set to \code{NULL} to
 check/build all the targets (default). Otherwise, you can supply
-symbols, a character vector, or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.
+symbols, a character vector, or \code{tidyselect} helpers like
+\code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.
 Applies to ordinary targets (stem) and whole dynamic branching targets
 (patterns) by not individual dynamic branches.}
 

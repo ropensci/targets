@@ -9,7 +9,8 @@
 #' @inheritSection tar_read Limited scope
 #' @inheritParams tar_load_raw
 #' @param names Names of the targets to load. You can supply
-#'   symbols, a character vector, or `tidyselect` helpers like [starts_with()].
+#'   symbols, a character vector, or `tidyselect` helpers like
+#'    [all_of()] and [starts_with()].
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -21,7 +22,7 @@
 #'   )
 #' }, ask = FALSE)
 #' tar_make()
-#' tar_load(starts_with("y"))
+#' tar_load(starts_with("y")) # see also all_of()
 #' })
 #' }
 tar_load <- function(

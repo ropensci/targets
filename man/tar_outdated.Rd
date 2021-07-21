@@ -22,7 +22,7 @@ tar_outdated(
 these targets and all upstream ancestors in the dependency graph.
 Set \code{names} to \code{NULL} to check/build all the targets (default).
 Otherwise, you can supply symbols
-or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.
+or \code{tidyselect} helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.
 Applies to ordinary targets (stem) and whole dynamic branching targets
 (patterns) by not individual dynamic branches.}
 

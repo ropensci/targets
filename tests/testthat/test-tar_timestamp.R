@@ -14,7 +14,7 @@ tar_test("empty file", {
   unlink(path_objects(path_store_default(), "y"))
   out <- tar_timestamp(y)
   expect_true(inherits(out, "POSIXct"))
-  expect_identical(as.numeric(out), as.numeric(file_time_reference))
+  expect_true(as.numeric(out) > as.numeric(file_time_reference))
 })
 
 tar_test("empty meta", {
@@ -103,4 +103,11 @@ tar_test("custom script and store args", {
   tar_config_set(script = "x")
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))
+})
+
+tar_test("deprecated arguments", {
+  x <- "tar_condition_deprecate"
+  expect_warning(tar_timestamp(x, format = "123"), class = x)
+  expect_warning(tar_timestamp(x, tz = "UTC"), class = x)
+  expect_warning(tar_timestamp(x, parse = TRUE), class = x)
 })

@@ -16,7 +16,8 @@ tar_manifest(
 \arguments{
 \item{names}{Names of the targets to show. Set to \code{NULL} to
 show all the targets (default). Otherwise, you can supply
-symbols, a character vector, or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
+symbols, a character vector, or \code{tidyselect} helpers like
+\code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.}
 
 \item{fields}{Names of the fields, or columns, to show. Set to \code{NULL} to
 show all the fields (default). Otherwise, you can supply

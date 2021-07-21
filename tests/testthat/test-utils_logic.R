@@ -19,6 +19,13 @@ tar_test("%||NA%", {
   expect_equal(NULL %||NA% "y", NULL)
 })
 
+tar_test("%||nf%", {
+  expect_equal("x" %||nf% "y", "x")
+  expect_equal(character(0) %||nf% "y", "y")
+  expect_equal(NA_character_ %||nf% "y", "y")
+  expect_equal(NULL %||nf% "y", "y")
+})
+
 tar_test("if_any()", {
   expect_equal(if_any(TRUE, "x", "y"), "x")
   expect_equal(if_any(FALSE, "x", "y"), "y")

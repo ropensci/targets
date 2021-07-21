@@ -25,7 +25,8 @@ or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
 \item{fields}{Optional, names of columns/fields to select. If supplied,
 \code{tar_sitrep()} only returns the selected metadata columns.
 You can supply symbols or \code{tidyselect} helpers
-like \code{\link[=starts_with]{starts_with()}}. The \code{name} column is always included first
+like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.
+The \code{name} column is always included first
 no matter what you select. Choices:
 \itemize{
 \item \code{name}: name of the target or global object.
@@ -164,7 +165,7 @@ tar_script({
 }, ask = FALSE)
 tar_make()
 tar_sitrep()
-tar_meta(starts_with("y_"))
+tar_meta(starts_with("y_")) # see also all_of()
 })
 }
 }

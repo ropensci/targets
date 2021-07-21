@@ -6,35 +6,20 @@
 \usage{
 tar_timestamp_raw(
   name = NULL,
-  format = "\%a, \%d \%b \%Y \%H:\%M:\%S",
-  tz = "UTC",
-  parse = TRUE,
+  format = NULL,
+  tz = NULL,
+  parse = NULL,
   store = targets::tar_config_get("store")
 )
 }
 \arguments{
 \item{name}{Character of length 1, name of the target.}
 
-\item{format}{Character of length 1, POSIXct format string passed to
-\code{as.POSIXct()} to parse the time stamp of a URL or AWS S3 bucket.
-Currently to targets with AWS-backed storage
-formats or \code{format = "url"}. The default works with AWS S3
-buckets but may not work for all URLs.}
+\item{format}{Deprecated in \code{targets} version 0.6.0 (2021-07-21).}
 
-\item{tz}{Character of length 1, time zone of the original
-modification time recorded in the remote data
-(either a URL or S3 bucket; does not apply to locally stored targets).
-The \code{tz} argument is passed to
-\code{as.POSIXct()} to parse the time stamp of a URL or AWS S3 bucket.
-The time stamp of the return value
-is the time zone of the system, not the time zone
-originally recorded in the time stamp.}
+\item{tz}{Deprecated in \code{targets} version 0.6.0 (2021-07-21).}
 
-\item{parse}{Logical, whether to attempt to parse character string
-time stamps from URLs and data in AWS S3 buckets. Set to \code{FALSE}
-to debug. Debugging is important because incorrectly parsed
-time stamps will result in a return value of
-a \code{POSIXct} object at \verb{1970-01-01 UTC} instead of \code{NA}.}
+\item{parse}{Deprecated in \code{targets} version 0.6.0 (2021-07-21).}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},
@@ -49,32 +34,17 @@ for a project.}
 If the target is not recorded in the metadata
 or cannot be parsed correctly, then
 \code{tar_timestamp_raw()} returns a \code{POSIXct} object at \verb{1970-01-01 UTC}.
-If the target is recorded in the metadata and stored locally
-(i.e. the target is not a URL or AWS-backed format) then \code{tar_timestamp()}
-returns a vector of \code{POSIXct} modification times of the data files
-(in the order those files are listed in \code{tar_meta(target_name, path)}).
-The return values for URL and AWS targets depends on the \code{parse} argument.
-If \code{parse} is \code{FALSE}, then \code{tar_timestamp()} returns an unparsed
-character vector of the time stamps recorded on the web.
-If \code{parse} is \code{TRUE}, then \code{tar_timestamp()} attempts to convert
-those character time stamps into \code{POSIXct} objects displayed
-with the time zone of the current system. If the time stamp
-cannot be parsed with the given format, \code{tar_timestamp()}
-returns a \code{POSIXct} object at \verb{1970-01-01 UTC}
-(so \code{parse = FALSE} is helpful for debugging
-the \code{format} argument).
 }
 \description{
-Get the time that a target's data was last modified.
-If there are multiple artifacts, as with file or URL targets,
-then multiple time stamps may be returned.
+Get the time that a target last ran successfully.
 }
 \details{
 \code{tar_timestamp_raw()} is like \code{tar_timestamp()} except
 it accepts a character string for \code{name} instead of a symbol.
-\code{tar_timestamp_raw()} checks the actual data,
-not the metadata, so the returned time stamps
-are more up-to-date than the ones from \code{\link[=tar_meta]{tar_meta()}}.
+\code{tar_timestamp_raw()} checks the metadata in \verb{_targets/meta/meta},
+not the actual data. Time stamps are recorded only for targets that
+run commands: just non-branching targets and individual dynamic
+branches.
 }
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {

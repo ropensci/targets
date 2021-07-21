@@ -11,7 +11,8 @@
 #' @inheritParams tar_validate
 #' @param names Names of the targets to build or check. Set to `NULL` to
 #'   check/build all the targets (default). Otherwise, you can supply
-#'   symbols, a character vector, or `tidyselect` helpers like [starts_with()].
+#'   symbols, a character vector, or `tidyselect` helpers like
+#'   [all_of()] and [starts_with()].
 #'   Applies to ordinary targets (stem) and whole dynamic branching targets
 #'   (patterns) by not individual dynamic branches.
 #' @param shortcut Logical of length 1, how to interpret the `names` argument.

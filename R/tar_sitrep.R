@@ -35,7 +35,8 @@
 #' @param fields Optional, names of columns/fields to select. If supplied,
 #'   `tar_sitrep()` only returns the selected metadata columns.
 #'   You can supply symbols or `tidyselect` helpers
-#'   like [starts_with()]. The `name` column is always included first
+#'   like [all_of()] and [starts_with()].
+#'   The `name` column is always included first
 #'   no matter what you select. Choices:
 #'   * `name`: name of the target or global object.
 #'   * `record`: Whether the `record` cue is activated:
@@ -82,7 +83,7 @@
 #' }, ask = FALSE)
 #' tar_make()
 #' tar_sitrep()
-#' tar_meta(starts_with("y_"))
+#' tar_meta(starts_with("y_")) # see also all_of()
 #' })
 #' }
 tar_sitrep <- function(

@@ -212,7 +212,7 @@ tar_test("stem$produce_record() of a errored stem", {
   expect_equal(record$path, NA_character_)
   expect_equal(record$data, NA_character_)
   expect_equal(record$bytes, 0)
-  expect_equal(record$time, NA_character_)
+  expect_true(is.character(record$time))
   expect_equal(record$format, "rds")
   expect_equal(record$iteration, "vector")
   expect_equal(record$children, NA_character_)

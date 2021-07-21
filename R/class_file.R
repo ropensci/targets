@@ -146,8 +146,16 @@ file_info <- function(files) {
 }
 
 file_time <- function(info) {
+  file_time_impl(info$mtime)
+}
+
+file_time_now <- function() {
+  file_time_impl(Sys.time())
+}
+
+file_time_impl <- function(time) {
   diff <- difftime(
-    time1 = info$mtime,
+    time1 = time,
     time2 = file_time_reference,
     units = "days",
     tz = "UTC"

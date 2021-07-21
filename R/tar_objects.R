@@ -5,7 +5,8 @@
 #'   Does not include dynamic files or cloud storage.
 #' @return Character vector of targets saved to `_targets/objects/`.
 #' @inheritParams tar_validate
-#' @param names Optional `tidyselect` selector to return
+#' @param names Optional `tidyselect` selector such as
+#'   [all_of()] or [starts_with()] to return
 #'   a tactical subset of target names.
 #'   If `NULL`, all names are selected.
 #' @examples
@@ -16,7 +17,7 @@
 #' }, ask = FALSE)
 #' tar_make()
 #' tar_objects()
-#' tar_objects(starts_with("x"))
+#' tar_objects(starts_with("x")) # see also all_of()
 #' })
 #' }
 tar_objects <- function(

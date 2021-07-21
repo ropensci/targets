@@ -58,7 +58,7 @@ target_produce_record.tar_stem <- function(target, pipeline, meta) {
     depend = meta$get_depend(target_get_name(target)),
     path = file$path,
     data = file$hash,
-    time = file$time,
+    time = file$time %||nf% file_time_now(),
     size = file$size,
     bytes = file$bytes,
     format = target$settings$format,

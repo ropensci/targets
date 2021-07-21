@@ -14,7 +14,7 @@ tar_progress(
 \item{names}{Optional, names of the targets. If supplied, \code{tar_progress()}
 only returns progress information on these targets.
 You can supply symbols
-or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
+or \code{tidyselect} helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.}
 
 \item{fields}{Optional, names of progress data columns to read.
 Set to \code{NULL} to read all fields.}
@@ -58,7 +58,7 @@ tar_script({
 }, ask = FALSE)
 tar_make()
 tar_progress()
-tar_progress(starts_with("y_"))
+tar_progress(starts_with("y_")) # see also all_of()
 })
 }
 }

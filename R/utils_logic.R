@@ -22,6 +22,14 @@
   }
 }
 
+`%||nf%` <- function(x, y) {
+  if (length(x) <= 0L || anyNA(x)) {
+    y
+  } else {
+    x
+  }
+}
+
 if_any <- function(condition, x, y) {
   if (any(condition)) {
     x

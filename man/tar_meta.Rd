@@ -16,14 +16,15 @@ tar_meta(
 \item{names}{Optional, names of the targets. If supplied, \code{tar_meta()}
 only returns metadata on these targets.
 You can supply symbols
-or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.
+or \code{tidyselect} helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.
 If \code{NULL}, all names are selected.}
 
 \item{fields}{Optional, names of columns/fields to select. If supplied,
 \code{tar_meta()} only returns the selected metadata columns.
 If \code{NULL}, all fields are selected.
 You can supply symbols or \code{tidyselect} helpers
-like \code{\link[=starts_with]{starts_with()}}. The \code{name} column is always included first
+like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.
+The \code{name} column is always included first
 no matter what you select. Choices:
 \itemize{
 \item \code{name}: name of the target or global object.
@@ -47,16 +48,13 @@ on the result to locally recreate the target's initial RNG state.
 is a single path, but there could be multiple paths per target
 for dynamic files (i.e. \code{tar_target(format = "file")}).
 \item \code{time}: \code{POSIXct} object with the time the target's data in storage
-was last modified. Displayed in the current time zone of the system.
+was last modified. If the target stores no local file,
+then the time stamp corresponds to the time the target last
+ran successfully. Only targets that run commands have time stamps:
+just non-branching targets and individual dynamic branches.
+Displayed in the current time zone of the system.
 If there are multiple outputs for that target, as with file targets,
-then the maximum time is shown. Only time stamps of actual
-targets are recorded (not functions or other global objects).
-No time stamp is recorded for URL targets because not all URLs
-have a "last-modified" time, and the ones that do have times
-do not necessarily adhere to a standardized format that \code{targets}
-can interpret. For the latest time stamp of a URL,
-use \code{\link[=tar_timestamp]{tar_timestamp()}} and specify the POSIX
-format and time zone that the website uses.
+then the maximum time is shown.
 \item \code{size}: hash of the sum of all the bytes of the files at \code{path}.
 \item \code{bytes}: total file size in bytes of all files in \code{path}.
 \item \code{format}: character, one of the admissible data storage formats.
@@ -111,7 +109,7 @@ tar_script({
 }, ask = FALSE)
 tar_make()
 tar_meta()
-tar_meta(starts_with("y_"))
+tar_meta(starts_with("y_")) # see also all_of()
 })
 }
 }

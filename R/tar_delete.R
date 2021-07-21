@@ -11,7 +11,7 @@
 #' @inheritParams tar_validate
 #' @param names Names of the targets to remove from `_targets/objects/`.
 #'   You can supply symbols
-#'   or `tidyselect` helpers like [starts_with()].
+#'   or `tidyselect` helpers like [all_of()] and [starts_with()].
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.

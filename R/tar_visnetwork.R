@@ -26,7 +26,7 @@
 #'   )
 #' })
 #' tar_visnetwork()
-#' tar_visnetwork(allow = starts_with("y"))
+#' tar_visnetwork(allow = starts_with("y")) # see also all_of()
 #' })
 #' }
 tar_visnetwork <- function(
