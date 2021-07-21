@@ -37,8 +37,6 @@ Other utilities:
 \code{\link{tar_envir}()},
 \code{\link{tar_group}()},
 \code{\link{tar_path}()},
-\code{\link{tar_seed}()},
-\code{\link{tar_timestamp_raw}()},
-\code{\link{tar_timestamp}()}
+\code{\link{tar_seed}()}
 }
 \concept{utilities}

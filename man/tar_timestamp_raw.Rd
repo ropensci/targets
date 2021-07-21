@@ -72,13 +72,9 @@ tar_make()
 }
 }
 \seealso{
-Other utilities: 
-\code{\link{tar_cancel}()},
-\code{\link{tar_envir}()},
-\code{\link{tar_group}()},
-\code{\link{tar_name}()},
-\code{\link{tar_path}()},
-\code{\link{tar_seed}()},
+Other time: 
+\code{\link{tar_newer}()},
+\code{\link{tar_older}()},
 \code{\link{tar_timestamp}()}
 }
-\concept{utilities}
+\concept{time}

@@ -1,6 +1,6 @@
 #' @title Get the timestamp(s) of a target.
 #' @export
-#' @family utilities
+#' @family time
 #' @description Get the time that a target last ran successfully.
 #'   If there are multiple artifacts, as with file or URL targets,
 #'   then multiple time stamps may be returned.

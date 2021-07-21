@@ -24,6 +24,7 @@
 * Add a new `workspace_on_error` argument of `tar_option_set()` to supersede `error = "workspace"`. Helps control workspace behavior independently of the `error` argument of `tar_target()` (#405, #533, #534, @mattwarkentin, @xinstein).
 * Implement `error = "abridge"` in `tar_target()` and related functions. If a target errors out with this option, the target itself stops, any currently running targets keeps, and no new targets launch after that (#533, #534, @xinstein).
 * Add a menu prompt to `tar_destroy()` which can be suppressed with `TAR_ASK = "false"` (#542, @gofford).
+* Support functions `tar_older()` and `tar_newer()` to help users identify and invalidate targets at regular times or intervals.
 
 ## Deprecations
 

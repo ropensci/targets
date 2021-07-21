@@ -1,6 +1,6 @@
 #' @title Get the timestamp(s) of a target (raw version).
 #' @export
-#' @family utilities
+#' @family time
 #' @description Get the time that a target last ran successfully.
 #' @details `tar_timestamp_raw()` is like `tar_timestamp()` except
 #'   it accepts a character string for `name` instead of a symbol.
