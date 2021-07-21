@@ -36,6 +36,7 @@
 ^pkgdown$
 ^README\.md$
 ^README\.Rmd$
+^revdep$
 ^LICENSE\.md$
 ^paper\.md$
 ^paper\.bib$
