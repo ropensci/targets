@@ -66,7 +66,8 @@ tar_watch <- function(
   host = getOption("shiny.host", "127.0.0.1"),
   port = getOption("shiny.port", targets::tar_random_port()),
   verbose = TRUE,
-  supervise = TRUE
+  supervise = TRUE,
+  poll_connection = TRUE
 ) {
   tar_assert_watch_packages()
   tar_assert_chr(exclude)
@@ -119,7 +120,8 @@ tar_watch <- function(
     args = args,
     stdout = "|",
     stderr = "|",
-    supervise = supervise
+    supervise = supervise,
+    poll_connection = poll_connection
   )
   if (browse) {
     url_port(host = host, port = port,  process = process, verbose = verbose)

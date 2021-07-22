@@ -1,5 +1,11 @@
 # targets 0.6.0.9000
 
+## New features
+
+* Expose the `poll_connection` argument of `callr::r_bg()` in `tar_watch()` (@mpadge).
+
+# targets 0.6.0
+
 ## Bug fixes
 
 * Allow `tar_poll()` to lose and then regain connection to the progress file.
