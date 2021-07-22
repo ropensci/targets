@@ -67,7 +67,9 @@ tar_watch <- function(
   port = getOption("shiny.port", targets::tar_random_port()),
   verbose = TRUE,
   supervise = TRUE,
-  poll_connection = TRUE
+  poll_connection = TRUE,
+  stdout = "|",
+  stderr = "|"
 ) {
   tar_assert_watch_packages()
   tar_assert_chr(exclude)
@@ -118,8 +120,8 @@ tar_watch <- function(
   process <- callr::r_bg(
     func = tar_watch_app,
     args = args,
-    stdout = "|",
-    stderr = "|",
+    stdout = stdout,
+    stderr = stderr,
     supervise = supervise,
     poll_connection = poll_connection
   )

@@ -2,7 +2,7 @@
 
 ## New features
 
-* Expose the `poll_connection` argument of `callr::r_bg()` in `tar_watch()` (@mpadge).
+* Expose the `poll_connection`, `stdout`, and `stderr` arguments of `callr::r_bg()` in `tar_watch()` (@mpadge).
 
 # targets 0.6.0
 
