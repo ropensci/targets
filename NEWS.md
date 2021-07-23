@@ -3,7 +3,11 @@
 ## New features
 
 * Expose the `poll_connection`, `stdout`, and `stderr` arguments of `callr::r_bg()` in `tar_watch()` (@mpadge).
+
+## Enhancements
+
 * Handle `future` errors within targets (@stuvet).
+
 
 # targets 0.6.0
 
