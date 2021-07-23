@@ -162,7 +162,8 @@ future_class <- R6::R6Class(
         self$process_target(queue$dequeue())
       }
     },
-    conclude_worker_target = function(target) {
+    conclude_worker_target = function(value, name) {
+      target <- future_value_target(value, name, self$pipeline)
       pipeline_set_target(self$pipeline, target)
       self$unserialize_target(target)
       target_conclude(
@@ -184,10 +185,14 @@ future_class <- R6::R6Class(
         self$backoff()
       }
     },
+    future_value = function(worker) {
+      tryCatch(future::value(worker, signal = FALSE), error = identity)
+    },
     process_worker = function(name) {
       worker <- memory_get_object(self$crew, name)
       if (future::resolved(worker)) {
-        self$conclude_worker_target(future::value(worker))
+        value <- self$future_value(worker)
+        self$conclude_worker_target(value, name)
         memory_del_objects(self$crew, name)
       }
       self$try_submit(wait = FALSE)
@@ -228,3 +233,23 @@ future_class <- R6::R6Class(
     }
   )
 )
+
+future_value_target <- function(value, name, pipeline) {
+  UseMethod("future_value_target")
+}
+
+#' @export
+future_value_target.tar_target <- function(value, name, pipeline) {
+  value
+}
+
+#' @export
+future_value_target.condition <- function(value, name, pipeline) {
+  target <- pipeline_get_target(pipeline, name)
+  target$metrics <- metrics_new(
+    seconds = NA_real_,
+    error = build_message(value),
+    traceback = "No traceback available."
+  )
+  target
+}

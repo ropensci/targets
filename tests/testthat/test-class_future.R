@@ -173,6 +173,17 @@ tar_test("branching plan", {
   future::plan(future::sequential)
 })
 
+tar_test("future_value_target() produces target objects", {
+  pipeline <- pipeline_init(list(tar_target(x, 1)))
+  name <- "x"
+  value <- pipeline_get_target(pipeline, "x")
+  out <- future_value_target(value, name, pipeline)
+  expect_true(inherits(out, "tar_target"))
+  value <- tryCatch(stop(123), error = function(e) e)
+  out <- future_value_target(value, name, pipeline)
+  expect_true(inherits(out, "tar_target"))
+})
+
 tar_test("future$validate()", {
   out <- future_init(pipeline_init())
   expect_silent(out$validate())
