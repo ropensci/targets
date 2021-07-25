@@ -66,6 +66,7 @@ tar_test("bad compression level throws error (unstructured resources)", {
 
 tar_test("feather packages", {
   skip_on_cran()
+  skip_if_not_installed("arrow")
   x <- tar_target(x, 1, format = "feather")
   out <- store_get_packages(x$store)
   expect_equal(out, "arrow")
@@ -73,6 +74,7 @@ tar_test("feather packages", {
 
 tar_test("feather format captures error messages", {
   skip_on_cran()
+  skip_if_not_installed("arrow")
   tar_script(tar_target(x, stop("message123"), format = "feather"))
   expect_error(
     tar_make(callr_function = NULL),
@@ -83,6 +85,7 @@ tar_test("feather format captures error messages", {
 
 tar_test("same with error = \"continue\"", {
   skip_on_cran()
+  skip_if_not_installed("arrow")
   tar_script(
     tar_target(x, stop("message123"), format = "feather", error = "continue")
   )
@@ -92,30 +95,32 @@ tar_test("same with error = \"continue\"", {
 
 tar_test("feather format cannot store non-data-frames", {
   skip_on_cran()
+  skip_if_not_installed("arrow")
   tar_script(tar_target(x, 1:2, format = "feather"))
   expect_error(
     tar_make(callr_function = NULL),
-    class = "tar_condition_validate"
+    class = "tar_condition_run"
   )
 })
 
 tar_test("same with error = \"continue\"", {
   skip_on_cran()
+  skip_if_not_installed("arrow")
   tar_script(tar_target(x, 1:2, format = "feather", error = "continue"))
-  expect_error(
-    tar_make(callr_function = NULL),
-    class = "tar_condition_validate"
-  )
+  tar_make(callr_function = NULL)
+  expect_true(nchar(tar_meta(x, error)$error[1]) > 5)
 })
 
 tar_test("does not inherit from tar_external", {
   skip_on_cran()
+  skip_if_not_installed("arrow")
   store <- tar_target(x, "x_value", format = "feather")$store
   expect_false(inherits(store, "tar_external"))
 })
 
 tar_test("store_row_path()", {
   skip_on_cran()
+  skip_if_not_installed("arrow")
   store <- tar_target(x, "x_value", format = "feather")$store
   store$file$path <- "path"
   expect_equal(store_row_path(store), NA_character_)
@@ -123,6 +128,7 @@ tar_test("store_row_path()", {
 
 tar_test("store_path_from_record()", {
   skip_on_cran()
+  skip_if_not_installed("arrow")
   store <- tar_target(x, "x_value", format = "feather")$store
   record <- record_init(name = "x", path = "path", format = "feather")
   expect_equal(

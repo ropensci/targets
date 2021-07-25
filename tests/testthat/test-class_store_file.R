@@ -36,7 +36,7 @@ tar_test("dynamic files must return characters", {
   )
   pipeline <- pipeline_init(list(x))
   local <- local_init(pipeline = pipeline)
-  expect_error(local$run(), class = "tar_condition_validate")
+  expect_error(local$run(), class = "tar_condition_run")
 })
 
 tar_test("handle dynamic file errors properly", {

@@ -227,7 +227,7 @@ tar_test("dynamic file has illegal path", {
     format = "file"
   )
   local <- local_init(pipeline_init(list(x)))
-  expect_error(local$run(), class = "tar_condition_validate")
+  expect_error(local$run(), class = "tar_condition_run")
 })
 
 tar_test("dynamic file has empty path", {
@@ -237,7 +237,7 @@ tar_test("dynamic file has empty path", {
     format = "file"
   )
   local <- local_init(pipeline_init(list(x)))
-  expect_error(local$run(), class = "tar_condition_validate")
+  expect_error(local$run(), class = "tar_condition_run")
 })
 
 tar_test("dynamic file has missing path value", {
@@ -247,7 +247,7 @@ tar_test("dynamic file has missing path value", {
     format = "file"
   )
   local <- local_init(pipeline_init(list(x)))
-  expect_error(local$run(), class = "tar_condition_validate")
+  expect_error(local$run(), class = "tar_condition_run")
 })
 
 tar_test("dynamic file is missing at path", {

@@ -6,8 +6,8 @@
 
 ## Enhancements
 
-* Handle `future` errors within targets (@stuvet).
-
+* Handle `future` errors within targets (#570, @stuvet).
+* Handle storage errors within targets (#571, @stuvet).
 
 # targets 0.6.0
 

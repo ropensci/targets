@@ -168,7 +168,7 @@ tar_test("dynamic urls must return characters", {
   )
   pipeline <- pipeline_init(list(x))
   local <- local_init(pipeline = pipeline)
-  expect_error(local$run(), class = "tar_condition_validate")
+  expect_error(local$run(), class = "tar_condition_run")
 })
 
 tar_test("url target gets custom curl handle (structured resources)", {
@@ -254,7 +254,7 @@ tar_test("bad curl handle throws an error (unstructrued resources)", {
   suppressWarnings(
     expect_error(
       tar_make(callr_function = NULL),
-      class = "tar_condition_validate"
+      class = "tar_condition_run"
     )
   )
 })

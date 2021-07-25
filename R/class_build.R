@@ -100,9 +100,9 @@ build_time_seconds <- function() {
   as.numeric(proc.time()["elapsed"])
 }
 
-build_message <- function(condition) {
+build_message <- function(condition, prefix = character(0)) {
   out <- substr(
-    paste(conditionMessage(condition), collapse = " "),
+    paste(c(prefix, conditionMessage(condition)), collapse = " "),
     start = 0L,
     stop = 2048L
   )

@@ -64,29 +64,37 @@ tar_test("bad compression level throws error (unstructured resources)", {
   suppressWarnings(
     expect_error(
       tar_make(callr_function = NULL),
-      class = "tar_condition_validate"
+      class = "tar_condition_run"
     )
   )
 })
 
 tar_test("fst_tbl packages", {
+  skip_if_not_installed("fst")
+  skip_if_not_installed("tibble")
   x <- tar_target(x, 1, format = "fst_tbl")
   out <- sort(store_get_packages(x$store))
   expect_equal(out, sort(c("fst", "tibble")))
 })
 
 tar_test("does not inherit from tar_external", {
+  skip_if_not_installed("fst")
+  skip_if_not_installed("tibble")
   store <- tar_target(x, "x_value", format = "fst_tbl")$store
   expect_false(inherits(store, "tar_external"))
 })
 
 tar_test("store_row_path()", {
+  skip_if_not_installed("fst")
+  skip_if_not_installed("tibble")
   store <- tar_target(x, "x_value", format = "fst_tbl")$store
   store$file$path <- "path"
   expect_equal(store_row_path(store), NA_character_)
 })
 
 tar_test("store_path_from_record()", {
+  skip_if_not_installed("fst")
+  skip_if_not_installed("tibble")
   store <- tar_target(x, "x_value", format = "fst_tbl")$store
   record <- record_init(name = "x", path = "path", format = "fst_tbl")
   expect_equal(

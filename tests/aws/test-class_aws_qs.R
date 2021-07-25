@@ -121,7 +121,9 @@ tar_test("aws_qs format invalidation", {
   expect_equal(tar_progress(x)$progress, "built")
   expect_equal(tar_progress(y)$progress, "built")
   tar_make(callr_function = NULL)
-  expect_equal(nrow(tar_progress()), 0L)
+  progress <- tar_progress()
+  progress <- progress[progress$progress != "skipped", ]
+  expect_equal(nrow(progress), 0L)
   expr <- quote({
     tar_option_set(
       resources = tar_resources(

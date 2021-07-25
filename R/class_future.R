@@ -246,10 +246,5 @@ future_value_target.tar_target <- function(value, name, pipeline) {
 #' @export
 future_value_target.condition <- function(value, name, pipeline) {
   target <- pipeline_get_target(pipeline, name)
-  target$metrics <- metrics_new(
-    seconds = NA_real_,
-    error = build_message(value),
-    traceback = "No traceback available."
-  )
-  target
+  builder_error_internal(target, value, "_future_")
 }
