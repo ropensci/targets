@@ -34,7 +34,7 @@ file_new <- function(
 }
 
 file_exists_path <- function(file) {
-  all(file.exists(file$path))
+  length(file$path) > 0L && all(file.exists(file$path))
 }
 
 file_update_hash <- function(file) {
