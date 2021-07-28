@@ -8,6 +8,7 @@
 
 * Handle `future` errors within targets (#570, @stuvet).
 * Handle storage errors within targets (#571, @stuvet).
+* In Target Markdown in non-interactive mode, suppress messages if the `message` `knitr` chunk option is `FALSE` (#574, @jmbuhr).
 
 # targets 0.6.0
 

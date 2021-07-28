@@ -186,6 +186,7 @@ engine_knitr_targets_construct <- function(options) {
 engine_knitr_output <- function(options, out) {
   code <- paste(options$code, collapse = "\n")
   options$engine <- "r"
+  out <- if_any(options$message, out, character(0))
   knitr::engine_output(options = options, code = code, out = out)
 }
 
