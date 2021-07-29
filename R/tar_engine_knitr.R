@@ -46,7 +46,7 @@
 #' @section Target Markdown chunk options:
 #'   Target Markdown introduces the following `knitr` code chunk options.
 #'   Most other standard `knitr` code chunk options should just work
-#'   in non-interactive mode. In interactive mode, not all 
+#'   in non-interactive mode. In interactive mode, not all
 #'   * `tar_globals`: Logical of length 1,
 #'     whether to define globals or targets.
 #'     If `TRUE`, the chunk code defines functions, objects, and options
