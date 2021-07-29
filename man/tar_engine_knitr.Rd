@@ -27,8 +27,11 @@ If \code{TRUE}, the chunk code defines functions, objects, and options
 common to all the targets. If \code{FALSE} or \code{NULL} (default),
 then the chunk returns formal targets for the pipeline.
 \item \code{tar_interactive}: Logical of length 1, whether to run in
-interactive mode or non-interactive mode.
-Defaults to the return value of \code{interactive()}.
+interactive mode or non-interactive mode. If not set,
+the choice of interactive vs non-interactive mode
+defaults to  \code{isTRUE(getOption("knitr.in.progress"))}.
+(In \code{targets} 0.6.0, \code{tar_interactive} defaults to \code{interactive()}
+instead.)
 \item \code{tar_name}: name to use for writing helper script files
 (e.g. \verb{_targets_r/targets/target_script.R})
 and specifying target names if the \code{tar_simple} chunk option

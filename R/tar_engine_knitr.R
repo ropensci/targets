@@ -15,8 +15,11 @@
 #'     common to all the targets. If `FALSE` or `NULL` (default),
 #'     then the chunk returns formal targets for the pipeline.
 #'   * `tar_interactive`: Logical of length 1, whether to run in
-#'     interactive mode or non-interactive mode.
-#'     Defaults to the return value of `interactive()`.
+#'     interactive mode or non-interactive mode. If not set,
+#'     the choice of interactive vs non-interactive mode
+#'     defaults to  `isTRUE(getOption("knitr.in.progress"))`.
+#'     (In `targets` 0.6.0, `tar_interactive` defaults to `interactive()`
+#'     instead.)
 #'   * `tar_name`: name to use for writing helper script files
 #'     (e.g. `_targets_r/targets/target_script.R`)
 #'     and specifying target names if the `tar_simple` chunk option
@@ -114,7 +117,7 @@ engine_knitr_tar_assert_options <- function(options) {
 
 engine_knitr_globals <- function(options) {
   if_any(
-    options$tar_interactive %|||% interactive(),
+    options$tar_interactive %|||% isTRUE(getOption("knitr.in.progress")),
     engine_knitr_globals_prototype(options),
     engine_knitr_globals_construct(options)
   )
@@ -125,7 +128,7 @@ engine_knitr_targets <- function(options) {
     options$code <- engine_knitr_targets_command(options)
   }
   if_any(
-    options$tar_interactive %|||% interactive(),
+    options$tar_interactive %|||% isTRUE(getOption("knitr.in.progress")),
     engine_knitr_targets_prototype(options),
     engine_knitr_targets_construct(options)
   )

@@ -9,6 +9,7 @@
 * Handle `future` errors within targets (#570, @stuvet).
 * Handle storage errors within targets (#571, @stuvet).
 * In Target Markdown in non-interactive mode, suppress messages if the `message` `knitr` chunk option is `FALSE` (#574, @jmbuhr).
+* In Target Markdown, if `tar_interactive` is not set, choose interactive vs non-interactive mode based on `isTRUE(getOption("knitr.in.progress"))` instead of `interactive()`.
 
 # targets 0.6.0
 
