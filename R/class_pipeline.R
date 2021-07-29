@@ -249,8 +249,8 @@ pipeline_validate_conflicts <- function(pipeline) {
     "Targets and globals must have unique names. ",
     "Ignoring global objects that conflict with target names: ",
     paste(conflicts, collapse = ", "),
-    ". Suppress this warning with Sys.setenv(TAR_WARN = \"false\") ",
-    "in _targets.R."
+    ". Warnings like this one are important, but if you must suppress them, ",
+    "you can do so with Sys.setenv(TAR_WARN = \"false\")."
   )
   if (length(conflicts) && !identical(Sys.getenv("TAR_WARN"), "false")) {
     tar_warn_validate(msg)

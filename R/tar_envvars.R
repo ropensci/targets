@@ -37,7 +37,7 @@
 #'   such as target/global name conflicts and dangerous use of
 #'   `devtools::load_all()`. If `TAR_WARN` is `"false"`, then `targets`
 #'   does not throw warnings in these cases.
-#'   These warnings are harmless, and they can detect potentially serious
+#'   These warnings can detect potentially serious
 #'   issues with your pipeline, so please do not set `TAR_WARN`
 #'   unless your use case absolutely requires it.
 tar_envvars <- function(unset = "") {

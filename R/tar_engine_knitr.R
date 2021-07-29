@@ -6,20 +6,59 @@
 #'   code chunks in Target Markdown.
 #' @return Character, output generated from `knitr::engine_output()`.
 #' @param options A named list of `knitr` chunk options.
+#' @section Target Markdown interactive mode:
+#'   Target Markdown has two modes:
+#'   1. Non-interactive mode. This is the default when you
+#'     run `knitr::knit()` or `rmarkdown::render()`.
+#'     Here, the code in `{targets}` code chunks gets written
+#'     to special script files in order to set up a `targets`
+#'     pipeline to run later.
+#'   2. Interactive mode: here, no scripts are written to set up
+#'     a pipeline. Rather, the globals or targets in question
+#'     are run in the current environment and the values
+#'     are assigned to that environment.
+#'
+#'   The mode is interactive if `!isTRUE(getOption("knitr.in.progress"))`,
+#'   is `TRUE`. The `knitr.in.progress` option is `TRUE`
+#'   when you run `knitr::knit()` or `rmarkdown::render()`
+#'   and `NULL` if you are running one chunk at a time interactively
+#'   in an integrated development environment, e.g. the
+#'   notebook interface in RStudio:
+#'   <https://bookdown.org/yihui/rmarkdown/notebook.html>.
+#'   You can choose the mode with the `tar_interactive`
+#'   chunk option, but it is recommended to avoid
+#'   `tar_interactive = TRUE` in non-interactive settings
+#'   (e.g. `knitr::knit()`) because side effects from
+#'   text streams are not relayed.
+#'   (In `targets` 0.6.0, `tar_interactive` defaults to `interactive()`
+#'   instead of `!isTRUE(getOption("knitr.in.progress"))`.)
+#'
+#'   To elaborate: in interactive mode, `error = TRUE`,
+#'   `warning = TRUE`, `message = TRUE`, and `output = TRUE`
+#'   do not relay their respective outputs because it is assumed
+#'   you are running one chunk at a time interactively
+#'   in an integrated development environment, e.g. the
+#'   notebook interface in RStudio:
+#'   <https://bookdown.org/yihui/rmarkdown/notebook.html>.
+#'   If you force interactive mode in a non-interactive setting,
+#'   you will need to check the output logs instead of the rendered
+#'   output document.
 #' @section Target Markdown chunk options:
 #'   Target Markdown introduces the following `knitr` code chunk options.
-#'   Most other standard `knitr` code chunk options should just work.
+#'   Most other standard `knitr` code chunk options should just work
+#'   in non-interactive mode. In interactive mode, not all 
 #'   * `tar_globals`: Logical of length 1,
 #'     whether to define globals or targets.
 #'     If `TRUE`, the chunk code defines functions, objects, and options
 #'     common to all the targets. If `FALSE` or `NULL` (default),
 #'     then the chunk returns formal targets for the pipeline.
 #'   * `tar_interactive`: Logical of length 1, whether to run in
-#'     interactive mode or non-interactive mode. If not set,
-#'     the choice of interactive vs non-interactive mode
-#'     defaults to  `isTRUE(getOption("knitr.in.progress"))`.
-#'     (In `targets` 0.6.0, `tar_interactive` defaults to `interactive()`
-#'     instead.)
+#'     interactive mode or non-interactive mode.
+#'     See the "Target Markdown interactive mode" section of this
+#'     help file for details. It is recommended to avoid
+#'     `tar_interactive = TRUE` in non-interactive settings
+#'     (e.g. `knitr::knit()`) because side effects from
+#'     text streams are not relayed.
 #'   * `tar_name`: name to use for writing helper script files
 #'     (e.g. `_targets_r/targets/target_script.R`)
 #'     and specifying target names if the `tar_simple` chunk option
@@ -117,7 +156,7 @@ engine_knitr_tar_assert_options <- function(options) {
 
 engine_knitr_globals <- function(options) {
   if_any(
-    options$tar_interactive %|||% isTRUE(getOption("knitr.in.progress")),
+    options$tar_interactive %|||% !isTRUE(getOption("knitr.in.progress")),
     engine_knitr_globals_prototype(options),
     engine_knitr_globals_construct(options)
   )
@@ -128,7 +167,7 @@ engine_knitr_targets <- function(options) {
     options$code <- engine_knitr_targets_command(options)
   }
   if_any(
-    options$tar_interactive %|||% isTRUE(getOption("knitr.in.progress")),
+    options$tar_interactive %|||% !isTRUE(getOption("knitr.in.progress")),
     engine_knitr_targets_prototype(options),
     engine_knitr_targets_construct(options)
   )
@@ -144,10 +183,8 @@ engine_knitr_targets_command <- function(options) {
 
 engine_knitr_globals_prototype <- function(options) {
   eval(parse(text = options$code), envir = tar_option_get("envir"))
-  engine_knitr_output(
-    options,
-    "Ran code and assigned objects to the environment."
-  )
+  out <- "Ran code and assigned objects to the environment."
+  engine_knitr_output(options, out)
 }
 
 engine_knitr_globals_construct <- function(options) {
@@ -190,6 +227,7 @@ engine_knitr_output <- function(options, out) {
   code <- paste(options$code, collapse = "\n")
   options$engine <- "r"
   out <- if_any(options$message, out, character(0))
+  warn_interactive_relay(options)
   knitr::engine_output(options = options, code = code, out = out)
 }
 
@@ -275,8 +313,9 @@ warn_labels_duplicated <- function() {
       "interfere with the proper execution of Target Markdown ",
       "unless you set unique values for the tar_name chunk option. ",
       "Please set knitr.duplicate.label to a value other than \"allow\" ",
-      "to prohibit duplicate knitr chunk labels. Suppress this warning with ",
-      "Sys.setenv(TAR_WARN = \"false\")."
+      "to prohibit duplicate knitr chunk labels. ",
+      "Warnings like this one are important, but if you must suppress them, ",
+      "you can do so with Sys.setenv(TAR_WARN = \"false\")."
     )
   }
 }
@@ -287,9 +326,37 @@ warn_labels_unnamed <- function(options) {
     tar_warn_validate(
       "Please assign explicit labels to {targets} code chunks ",
       "in order to avoid accidental duplicated script files. ",
-      "Suppress this warning with Sys.setenv(TAR_WARN = \"false\")."
+      "Warnings like this one are important, ",
+      "but you can suppress them with Sys.setenv(TAR_WARN = \"false\")."
     )
   }
+}
+
+warn_interactive_relay <- function(options) {
+  if (should_warn_interactive_relay(options)) {
+    tar_warn_run(warning_interactive_relay(options))
+  }
+}
+
+should_warn_interactive_relay <- function(options) {
+  !identical(Sys.getenv("TAR_WARN"), "false") &&
+    isTRUE(options$tar_interactive) &&
+    isTRUE(getOption("knitr.in.progress"))
+}
+
+warning_interactive_relay <- function(options) {
+  paste0(
+    "Interactive mode is activated in Target Markdown chunk '",
+    options$label,
+    "' even though you are knitting an entire document ",
+    "via rmarkdown::render() or knitr::knit(). ",
+    "(Detected because knitr::opts_knit$get(\"tar_interactive\") ",
+    "is TRUE even though getOption(\"knitr.in.progress\") is TRUE). ",
+    "This is not recommended because interactive mode does not relay ",
+    "errors, warnings, messages, or output to the rendered document. ",
+    "Warnings like this one are important, but if you must suppress them, ",
+    "you can do so with Sys.setenv(TAR_WARN = \"false\")."
+  )
 }
 
 # Covered in tests/interactive/test-target_markdown_default.Rmd

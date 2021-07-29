@@ -387,3 +387,21 @@ tar_test("conflicting target scripts", {
   writeLines(lines1[-1], "_targets.R")
   expect_error(write_targets_r("_targets.R"), class = "tar_condition_validate")
 })
+
+tar_test("warn about interactive mode in non-interactive context", {
+  skip_if_not_installed("knitr")
+  old <- Sys.getenv("TAR_WARN")
+  on.exit(Sys.setenv(TAR_WARN = old))
+  Sys.setenv(TAR_WARN = "true")
+  on.exit(options(knitr.in.progress = NULL), add = TRUE)
+  options(knitr.in.progress = TRUE)
+  options <- list(
+    code = "x <- \"a\"",
+    echo = FALSE,
+    engine = "targets",
+    label = "chunkname",
+    tar_globals = TRUE,
+    tar_interactive = TRUE
+  )
+  expect_warning(tar_engine_knitr(options), class = "tar_condition_run")
+})

@@ -52,7 +52,7 @@ then \code{targets} throws warnings in certain edge cases,
 such as target/global name conflicts and dangerous use of
 \code{devtools::load_all()}. If \code{TAR_WARN} is \code{"false"}, then \code{targets}
 does not throw warnings in these cases.
-These warnings are harmless, and they can detect potentially serious
+These warnings can detect potentially serious
 issues with your pipeline, so please do not set \code{TAR_WARN}
 unless your use case absolutely requires it.
 }
