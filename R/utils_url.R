@@ -36,7 +36,16 @@ url_hash_impl <- function(url, handle) {
   etag <- paste(headers[["etag"]], collapse = "")
   mtime <- paste(headers[["last-modified"]], collapse = "")
   out <- paste0(etag, mtime)
-  tar_assert_nzchar(out, paste("no ETag or Last-Modified for url:", url))
+  tar_assert_nzchar(
+    out,
+    paste0(
+      "no ETag or Last-Modified for url: ",
+      url,
+      ". Please choose a storage format other than format = \"url\" ",
+      "and pursue different workarounds to rerun the target ",
+      "when the remote data changes."
+    )
+  )
   out
 }
 
