@@ -214,9 +214,22 @@ target_validate.tar_builder <- function(target) {
 }
 
 builder_ensure_deps <- function(target, pipeline, retrieval) {
-  if (identical(target$settings$retrieval, retrieval)) {
-    target_ensure_deps(target, pipeline)
+  if (!identical(target$settings$retrieval, retrieval)) {
+    return()
   }
+  tryCatch(
+    target_ensure_deps(target, pipeline),
+    error = function(error) {
+      message <- paste0(
+        "could not load dependencis of target ",
+        target_get_name(target),
+        ". ",
+        conditionMessage(error)
+      )
+      expr <- as.expression(as.call(list(quote(stop), message)))
+      target$command$expr <- expr
+    }
+  )
 }
 
 builder_update_subpipeline <- function(target, pipeline) {
@@ -254,14 +267,19 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
   target_patternview_errored(target, pipeline, scheduler)
   switch(
     target$settings$error,
-    continue = scheduler$reporter$report_error(target$metrics$error),
+    continue = builder_error_continue(target, scheduler),
     abridge = scheduler$abridge(target),
-    stop = builder_exit(target, pipeline, scheduler, meta),
-    workspace = builder_exit(target, pipeline, scheduler, meta)
+    stop = builder_error_exit(target, pipeline, scheduler, meta),
+    workspace = builder_error_exit(target, pipeline, scheduler, meta)
   )
 }
 
-builder_exit <- function(target, pipeline, scheduler, meta) {
+builder_error_continue <- function(target, scheduler) {
+  target$value <- NULL
+  scheduler$reporter$report_error(target$metrics$error)
+}
+
+builder_error_exit <- function(target, pipeline, scheduler, meta) {
   # TODO: remove this hack that compensates for
   # https://github.com/r-lib/callr/issues/185.
   # No longer necessary in callr >= 3.7.0.

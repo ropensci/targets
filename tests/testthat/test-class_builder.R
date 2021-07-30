@@ -429,3 +429,37 @@ tar_test("validate with nonmissing file and value", {
   file$path <- tempfile()
   expect_silent(tmp <- target_validate(x))
 })
+
+tar_test("convert dep loading errors into runtime errors", {
+  skip_on_cran()
+  tar_script(
+    list(
+      tar_target(
+        x1,
+        stop("test"),
+        priority = 1,
+        error = "continue"
+      ),
+      tar_target(
+        x2,
+        x1,
+        priority = 1,
+        error = "continue"
+      ),
+      tar_target(
+        x3,
+        TRUE,
+        priority = 0
+      )
+    )
+  )
+  suppressWarnings(tar_make(callr_function = NULL))
+  expect_false(anyNA(tar_meta(x1)$error))
+  expect_false(anyNA(tar_meta(x2)$error))
+  expect_true(anyNA(tar_meta(x3)$error))
+  expect_equal(tar_progress(x1)$progress, "errored")
+  expect_equal(tar_progress(x2)$progress, "errored")
+  expect_equal(tar_progress(x3)$progress, "built")
+  expect_equal(tar_objects(), "x3")
+  expect_true(tar_read(x3))
+})

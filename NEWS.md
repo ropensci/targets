@@ -1,5 +1,9 @@
 # targets 0.6.0.9000
 
+## Bug fixes
+
+* Ensure `error = "continue"` does not cause errored targets to have `NULL` values.
+
 ## New features
 
 * Expose the `poll_connection`, `stdout`, and `stderr` arguments of `callr::r_bg()` in `tar_watch()` (@mpadge).
@@ -10,6 +14,7 @@
 * Handle storage errors within targets (#571, @stuvet).
 * In Target Markdown in non-interactive mode, suppress messages if the `message` `knitr` chunk option is `FALSE` (#574, @jmbuhr).
 * In Target Markdown, if `tar_interactive` is not set, choose interactive vs non-interactive mode based on `isTRUE(getOption("knitr.in.progress"))` instead of `interactive()`.
+* Convert errors loading dependencies into errors running targets (@stuvet).
 
 # targets 0.6.0
 
