@@ -67,13 +67,23 @@ store_upload_object.tar_aws <- function(store) {
   key <- store_aws_key(store$file$path)
   bucket <- store_aws_bucket(store$file$path)
   hash <- store$file$hash
-  aws.s3::put_object(
-    file = store$file$stage,
-    object = key,
-    bucket = bucket,
-    multipart = TRUE,
-    headers = c("x-amz-meta-targets-hash" = hash),
-    check_region = TRUE
+  if_any(
+    file_exists_stage(store$file),
+    aws.s3::put_object(
+      file = store$file$stage,
+      object = key,
+      bucket = bucket,
+      multipart = TRUE,
+      headers = c("x-amz-meta-targets-hash" = hash),
+      check_region = TRUE
+    ),
+    tar_throw_file(
+      "Cannot upload non-existent AWS staging file ",
+      store$file$stage,
+      " to key ",
+      key,
+      ". The target probably encountered an error."
+    )
   )
 }
 

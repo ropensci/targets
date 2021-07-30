@@ -17,6 +17,19 @@ tar_test("file_exists_path() when both files exist", {
   expect_true(file_exists_path(file))
 })
 
+tar_test("file_exists_stage() when the file exists", {
+  tmp <- tempfile()
+  file.create(tmp)
+  file <- file_init(stage = tmp)
+  expect_true(file_exists_stage(file))
+})
+
+tar_test("file_exists_stage() when the file does not exist", {
+  tmp <- tempfile()
+  file <- file_init(stage = tmp)
+  expect_false(file_exists_stage(file))
+})
+
 tar_test("file_list_files()", {
   dir.create("x")
   file.create(file.path("x", "y"))
