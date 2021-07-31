@@ -39,23 +39,9 @@ in an integrated development environment, e.g. the
 notebook interface in RStudio:
 \url{https://bookdown.org/yihui/rmarkdown/notebook.html}.
 You can choose the mode with the \code{tar_interactive}
-chunk option, but it is recommended to avoid
-\code{tar_interactive = TRUE} in non-interactive settings
-(e.g. \code{knitr::knit()}) because side effects from
-text streams are not relayed.
+chunk option.
 (In \code{targets} 0.6.0, \code{tar_interactive} defaults to \code{interactive()}
 instead of \code{!isTRUE(getOption("knitr.in.progress"))}.)
-
-To elaborate: in interactive mode, \code{error = TRUE},
-\code{warning = TRUE}, \code{message = TRUE}, and \code{output = TRUE}
-do not relay their respective outputs because it is assumed
-you are running one chunk at a time interactively
-in an integrated development environment, e.g. the
-notebook interface in RStudio:
-\url{https://bookdown.org/yihui/rmarkdown/notebook.html}.
-If you force interactive mode in a non-interactive setting,
-you will need to check the output logs instead of the rendered
-output document.
 }
 
 \section{Target Markdown chunk options}{
@@ -72,10 +58,7 @@ then the chunk returns formal targets for the pipeline.
 \item \code{tar_interactive}: Logical of length 1, whether to run in
 interactive mode or non-interactive mode.
 See the "Target Markdown interactive mode" section of this
-help file for details. It is recommended to avoid
-\code{tar_interactive = TRUE} in non-interactive settings
-(e.g. \code{knitr::knit()}) because side effects from
-text streams are not relayed.
+help file for details.
 \item \code{tar_name}: name to use for writing helper script files
 (e.g. \verb{_targets_r/targets/target_script.R})
 and specifying target names if the \code{tar_simple} chunk option

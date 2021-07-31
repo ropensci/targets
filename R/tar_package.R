@@ -31,8 +31,8 @@
 #' @importFrom utils browseURL capture.output globalVariables head menu
 #'   packageVersion stack tail
 #' @importFrom vctrs vec_c vec_rbind vec_size vec_slice
-#' @importFrom withr local_dir local_envvar local_message_sink
-#'   local_options local_output_sink with_dir with_seed
+#' @importFrom withr local_dir local_envvar
+#'   local_options with_dir with_seed
 #' @importFrom yaml read_yaml
 NULL
 

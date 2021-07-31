@@ -108,15 +108,14 @@ tar_test("tar_engine_knitr() construct globals with alternative script path", {
 
 tar_test("tar_engine_knitr() prototype globals", {
   skip_if_not_installed("knitr")
-  options <- list(
-    code = "x <- \"a\"",
-    echo = FALSE,
-    engine = "targets",
-    label = "test",
-    results = "hide",
-    tar_globals = TRUE,
-    tar_interactive = TRUE
-  )
+  options <- knitr::opts_chunk$get()
+  options$code <- "x <- \"a\""
+  options$echo <- FALSE
+  options$engine <- "targets"
+  options$label <- "test"
+  options$results <- "hide"
+  options$tar_globals <- TRUE
+  options$tar_interactive <- TRUE
   envir <- new.env(parent = baseenv())
   old <- tar_option_get("envir")
   on.exit(tar_option_set(envir = old))

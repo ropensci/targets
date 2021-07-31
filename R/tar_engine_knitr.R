@@ -26,23 +26,9 @@
 #'   notebook interface in RStudio:
 #'   <https://bookdown.org/yihui/rmarkdown/notebook.html>.
 #'   You can choose the mode with the `tar_interactive`
-#'   chunk option, but it is recommended to avoid
-#'   `tar_interactive = TRUE` in non-interactive settings
-#'   (e.g. `knitr::knit()`) because side effects from
-#'   text streams are not relayed.
+#'   chunk option.
 #'   (In `targets` 0.6.0, `tar_interactive` defaults to `interactive()`
 #'   instead of `!isTRUE(getOption("knitr.in.progress"))`.)
-#'
-#'   To elaborate: in interactive mode, `error = TRUE`,
-#'   `warning = TRUE`, `message = TRUE`, and `output = TRUE`
-#'   do not relay their respective outputs because it is assumed
-#'   you are running one chunk at a time interactively
-#'   in an integrated development environment, e.g. the
-#'   notebook interface in RStudio:
-#'   <https://bookdown.org/yihui/rmarkdown/notebook.html>.
-#'   If you force interactive mode in a non-interactive setting,
-#'   you will need to check the output logs instead of the rendered
-#'   output document.
 #' @section Target Markdown chunk options:
 #'   Target Markdown introduces the following `knitr` code chunk options.
 #'   Most other standard `knitr` code chunk options should just work
@@ -55,10 +41,7 @@
 #'   * `tar_interactive`: Logical of length 1, whether to run in
 #'     interactive mode or non-interactive mode.
 #'     See the "Target Markdown interactive mode" section of this
-#'     help file for details. It is recommended to avoid
-#'     `tar_interactive = TRUE` in non-interactive settings
-#'     (e.g. `knitr::knit()`) because side effects from
-#'     text streams are not relayed.
+#'     help file for details.
 #'   * `tar_name`: name to use for writing helper script files
 #'     (e.g. `_targets_r/targets/target_script.R`)
 #'     and specifying target names if the `tar_simple` chunk option
@@ -182,21 +165,25 @@ engine_knitr_targets_command <- function(options) {
 }
 
 engine_knitr_globals_prototype <- function(options) {
-  message <- "Running code and assigning objects to the environment."
+  out_code <- engine_knitr_echo_code(options)
+  message <- "Run code and assign objects to the environment."
   out_message <- engine_knitr_run_message(options, message)
-  expr <- substitute(
-    knitr::knit_engines$get("R")(options = options),
-    env = list(options = options)
+  options_globals <- options
+  options_globals$echo <- FALSE
+  options_globals$code <- paste0(
+    "evalq({",
+    options_globals$code,
+    "}, envir = targets::tar_option_get(\"envir\"))"
   )
-  out <- eval(expr, envir = tar_option_get("envir"))
-  paste0(message, out_message)
+  out_globals <- knitr::knit_engines$get("R")(options = options_globals)
+  paste0(out_code, out_message, out_globals)
 }
 
 engine_knitr_globals_construct <- function(options) {
   write_targets_r(options$tar_script)
   write_targets_r_globals(options$code, options$tar_name, options$tar_script)
   out <- paste0(
-    "Established ",
+    "Establish ",
     options$tar_script,
     " and ",
     path_script_r_globals(options$tar_script, options$tar_name),
@@ -206,15 +193,13 @@ engine_knitr_globals_construct <- function(options) {
 }
 
 engine_knitr_targets_prototype <- function(options) {
-  options_code <- options
-  options_code$eval <- FALSE
-  options_code$results <- "hide"
-  out_code <- knitr::knit_engines$get("R")(options = options_code)
+  out_code <- engine_knitr_echo_code(options)
   message <- paste(
     engine_knitr_definition_message(options),
     engine_knitr_prototype_message(options),
     sep = "\n"
   )
+  message <- trimws(message)
   out_message <- engine_knitr_run_message(options, message)
   options_make <- options
   code_library <- "library(targets)"
@@ -232,7 +217,7 @@ engine_knitr_targets_construct <- function(options) {
   write_targets_r(options$tar_script)
   write_targets_r_targets(options$code, options$tar_name, options$tar_script)
   out <- paste0(
-    "Established ",
+    "Establish ",
     options$tar_script,
     " and ",
     path_script_r_targets(options$tar_script, options$tar_name),
@@ -240,6 +225,12 @@ engine_knitr_targets_construct <- function(options) {
   )
   out <- c(engine_knitr_definition_message(options), out)
   engine_knitr_output(options, out)
+}
+
+engine_knitr_echo_code <- function(options) {
+  options$eval <- FALSE
+  options$results <- "hide"
+  knitr::knit_engines$get("R")(options)
 }
 
 engine_knitr_run_message <- function(options, message) {
@@ -258,7 +249,7 @@ engine_knitr_output <- function(options, out) {
 engine_knitr_definition_message <- function(options) {
   if_any(
     options$tar_simple %|||% FALSE,
-    paste("Defining target", options$tar_name, "automatically from chunk code."),
+    paste("Define target", options$tar_name, "from chunk code."),
     character(0)
   )
 }
@@ -267,11 +258,11 @@ engine_knitr_prototype_message <- function(options) {
   if_any(
     options$tar_simple %|||% FALSE,
     paste(
-      "Running target",
+      "Run target",
       options$tar_name,
-      "and assigning it to the environment."
+      "and assign it to the environment."
     ),
-    "Running targets and assigning them to the environment."
+    "Run targets and assign them to the environment."
   )
 }
 
