@@ -170,11 +170,12 @@ engine_knitr_globals_prototype <- function(options) {
   out_message <- engine_knitr_run_message(options, message)
   options_globals <- options
   options_globals$echo <- FALSE
-  options_globals$code <- paste0(
+  code <- c(
     "evalq({",
     options_globals$code,
     "}, envir = targets::tar_option_get(\"envir\"))"
   )
+  options_globals$code <- paste(code, collapse = "\n")
   out_globals <- knitr::knit_engines$get("R")(options = options_globals)
   paste0(out_code, out_message, out_globals)
 }
@@ -203,10 +204,8 @@ engine_knitr_targets_prototype <- function(options) {
   out_message <- engine_knitr_run_message(options, message)
   options_make <- options
   code_library <- "library(targets)"
-  code_make <- paste(
-    c("targets::tar_make_interactive(", deparse(options$code), ")"),
-    collapse = ""
-  )
+  code_make <- c("targets::tar_make_interactive(", deparse(options$code), ")")
+  code_make <- paste(code_make, collapse = "")
   options_make$code <- paste(code_library, code_make, sep = "\n")
   options_make$echo <- FALSE
   out_make <- knitr::knit_engines$get("R")(options = options_make)
