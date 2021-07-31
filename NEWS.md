@@ -3,6 +3,7 @@
 ## Bug fixes
 
 * Ensure `error = "continue"` does not cause errored targets to have `NULL` values.
+* Relay output and messages in Target Markdown interactive mode (using the R/default `knitr` engine).
 
 ## New features
 
