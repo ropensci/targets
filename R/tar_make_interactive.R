@@ -1,3 +1,16 @@
+#' @title Interactive mode pipeline
+#' @export
+#' @keywords internal
+#' @description Not a user-side function. Do not invoke directly.
+#'   Only exported to on a technicality.
+#' @return `NULL` (invisibly).
+#' @param code Character vector of lines of a `_targets.R` file
+#'   to define a pipeline.
+#' @examples
+#' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
+#' tar_make_interactive("library(targets); tar_target(x, 123)")
+#' message(x)
+#' }
 tar_make_interactive <- function(code) {
   targets <- eval(parse(text = code), envir = tar_option_get("envir"))
   pipeline <- as_pipeline(targets)

@@ -182,9 +182,14 @@ engine_knitr_targets_command <- function(options) {
 }
 
 engine_knitr_globals_prototype <- function(options) {
-  eval(parse(text = options$code), envir = tar_option_get("envir"))
-  out <- "Ran code and assigned objects to the environment."
-  engine_knitr_output(options, out)
+  message <- "Running code and assigning objects to the environment."
+  out_message <- engine_knitr_run_message(options, message)
+  expr <- substitute(
+    knitr::knit_engines$get("R")(options = options),
+    env = list(options = options)
+  )
+  out <- eval(expr, envir = tar_option_get("envir"))
+  paste0(message, out_message)
 }
 
 engine_knitr_globals_construct <- function(options) {
@@ -201,12 +206,26 @@ engine_knitr_globals_construct <- function(options) {
 }
 
 engine_knitr_targets_prototype <- function(options) {
-  tar_make_interactive(options$code)
-  out <- c(
+  options_code <- options
+  options_code$eval <- FALSE
+  options_code$results <- "hide"
+  out_code <- knitr::knit_engines$get("R")(options = options_code)
+  message <- paste(
     engine_knitr_definition_message(options),
-    engine_knitr_prototype_message(options)
+    engine_knitr_prototype_message(options),
+    sep = "\n"
   )
-  engine_knitr_output(options, out)
+  out_message <- engine_knitr_run_message(options, message)
+  options_make <- options
+  code_library <- "library(targets)"
+  code_make <- paste(
+    c("targets::tar_make_interactive(", deparse(options$code), ")"),
+    collapse = ""
+  )
+  options_make$code <- paste(code_library, code_make, sep = "\n")
+  options_make$echo <- FALSE
+  out_make <- knitr::knit_engines$get("R")(options = options_make)
+  paste0(out_code, out_message, out_make)
 }
 
 engine_knitr_targets_construct <- function(options) {
@@ -223,18 +242,23 @@ engine_knitr_targets_construct <- function(options) {
   engine_knitr_output(options, out)
 }
 
+engine_knitr_run_message <- function(options, message) {
+  options$code <- sprintf("message(\"%s\")", message)
+  options$echo <- FALSE
+  knitr::knit_engines$get("R")(options)
+}
+
 engine_knitr_output <- function(options, out) {
   code <- paste(options$code, collapse = "\n")
   options$engine <- "r"
   out <- if_any(options$message, out, character(0))
-  warn_interactive_relay(options)
   knitr::engine_output(options = options, code = code, out = out)
 }
 
 engine_knitr_definition_message <- function(options) {
   if_any(
     options$tar_simple %|||% FALSE,
-    paste("Defined target", options$tar_name, "automatically from chunk code."),
+    paste("Defining target", options$tar_name, "automatically from chunk code."),
     character(0)
   )
 }
@@ -243,11 +267,11 @@ engine_knitr_prototype_message <- function(options) {
   if_any(
     options$tar_simple %|||% FALSE,
     paste(
-      "Ran target",
+      "Running target",
       options$tar_name,
-      "and assigned it to the environment."
+      "and assigning it to the environment."
     ),
-    "Ran targets and assigned them to the environment."
+    "Running targets and assigning them to the environment."
   )
 }
 
@@ -330,33 +354,6 @@ warn_labels_unnamed <- function(options) {
       "but you can suppress them with Sys.setenv(TAR_WARN = \"false\")."
     )
   }
-}
-
-warn_interactive_relay <- function(options) {
-  if (should_warn_interactive_relay(options)) {
-    tar_warn_run(warning_interactive_relay(options))
-  }
-}
-
-should_warn_interactive_relay <- function(options) {
-  !identical(Sys.getenv("TAR_WARN"), "false") &&
-    isTRUE(options$tar_interactive) &&
-    isTRUE(getOption("knitr.in.progress"))
-}
-
-warning_interactive_relay <- function(options) {
-  paste0(
-    "Interactive mode is activated in Target Markdown chunk '",
-    options$label,
-    "' even though you are knitting an entire document ",
-    "via rmarkdown::render() or knitr::knit(). ",
-    "(Detected because knitr::opts_knit$get(\"tar_interactive\") ",
-    "is TRUE even though getOption(\"knitr.in.progress\") is TRUE). ",
-    "This is not recommended because interactive mode does not relay ",
-    "errors, warnings, messages, or output to the rendered document. ",
-    "Warnings like this one are important, but if you must suppress them, ",
-    "you can do so with Sys.setenv(TAR_WARN = \"false\")."
-  )
 }
 
 # Covered in tests/interactive/test-target_markdown_default.Rmd
