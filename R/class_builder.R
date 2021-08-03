@@ -221,7 +221,7 @@ builder_ensure_deps <- function(target, pipeline, retrieval) {
     target_ensure_deps(target, pipeline),
     error = function(error) {
       message <- paste0(
-        "could not load dependencis of target ",
+        "could not load dependencies of target ",
         target_get_name(target),
         ". ",
         conditionMessage(error)
