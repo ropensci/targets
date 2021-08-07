@@ -61,7 +61,6 @@ Development | rOpenSci | `install.packages("targets", repos = "https://dev.ropen
 
 * [R-Ladies Barcelona, 2021-05-25 (1:25:12)](https://www.youtube.com/watch?v=Vj312AfdpBo).
 
-
 ## Documentation
 
 * [User manual](https://books.ropensci.org/targets/): in-depth discussion about how to use `targets`.
