@@ -8,6 +8,7 @@
 ## New features
 
 * Expose the `poll_connection`, `stdout`, and `stderr` arguments of `callr::r_bg()` in `tar_watch()` (@mpadge).
+* Add new helper functions to list targets in each progress category: `tar_started()`, `tar_skipped()`, `tar_built()`, `tar_canceled()`, and `tar_errored()`.
 
 ## Enhancements
 

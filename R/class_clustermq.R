@@ -1,12 +1,14 @@
-clustermq_init <- function(pipeline = NULL,
-                           meta = meta_init(),
-                           names = NULL,
-                           shortcut = FALSE,
-                           queue = "parallel",
-                           reporter = "verbose",
-                           envir = tar_option_get("envir"),
-                           workers = 1L,
-                           log_worker = FALSE) {
+clustermq_init <- function(
+  pipeline = NULL,
+  meta = meta_init(),
+  names = NULL,
+  shortcut = FALSE,
+  queue = "parallel",
+  reporter = "verbose",
+  envir = tar_option_get("envir"),
+  workers = 1L,
+  log_worker = FALSE
+) {
   clustermq_new(
     pipeline = pipeline,
     meta = meta,
@@ -20,16 +22,18 @@ clustermq_init <- function(pipeline = NULL,
   )
 }
 
-clustermq_new <- function(pipeline = NULL,
-                          meta = NULL,
-                          names = NULL,
-                          shortcut = NULL,
-                          queue = NULL,
-                          reporter = NULL,
-                          envir = NULL,
-                          workers = NULL,
-                          crew = NULL,
-                          log_worker = NULL) {
+clustermq_new <- function(
+  pipeline = NULL,
+  meta = NULL,
+  names = NULL,
+  shortcut = NULL,
+  queue = NULL,
+  reporter = NULL,
+  envir = NULL,
+  workers = NULL,
+  crew = NULL,
+  log_worker = NULL
+) {
   clustermq_class$new(
     pipeline = pipeline,
     meta = meta,

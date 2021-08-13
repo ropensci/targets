@@ -51,6 +51,7 @@ tar_poll()
 Other progress: 
 \code{\link{tar_built}()},
 \code{\link{tar_canceled}()},
+\code{\link{tar_errored}()},
 \code{\link{tar_progress_branches}()},
 \code{\link{tar_progress_summary}()},
 \code{\link{tar_progress}()},

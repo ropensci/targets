@@ -90,6 +90,7 @@ to include \code{\link[=tar_watch]{tar_watch()}} as a Shiny module in an app.
 Other progress: 
 \code{\link{tar_built}()},
 \code{\link{tar_canceled}()},
+\code{\link{tar_errored}()},
 \code{\link{tar_poll}()},
 \code{\link{tar_progress_branches}()},
 \code{\link{tar_progress_summary}()},
