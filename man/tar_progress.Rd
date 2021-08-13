@@ -40,7 +40,8 @@ name of the associated pattern. For other targets, the pattern
 is just itself.
 \item \code{branches}: number of dynamic branches of a pattern. 0 for non-patterns.
 \item \code{progress}: the most recent progress update of that target.
-Could be \code{"started"}, \code{"built"}, \code{"canceled"}, or \code{"errored"}.
+Could be \code{"started"}, \code{"built"}, "\code{skipped}", \code{"canceled"},
+or \code{"errored"}.
 }
 }
 \description{
@@ -67,6 +68,8 @@ Other progress:
 \code{\link{tar_poll}()},
 \code{\link{tar_progress_branches}()},
 \code{\link{tar_progress_summary}()},
+\code{\link{tar_skipped}()},
+\code{\link{tar_started}()},
 \code{\link{tar_watch_server}()},
 \code{\link{tar_watch_ui}()},
 \code{\link{tar_watch}()}
