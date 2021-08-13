@@ -62,6 +62,7 @@ tar_progress_branches()
 }
 \seealso{
 Other progress: 
+\code{\link{tar_built}()},
 \code{\link{tar_poll}()},
 \code{\link{tar_progress_summary}()},
 \code{\link{tar_progress}()},

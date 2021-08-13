@@ -44,6 +44,7 @@ tar_skipped(starts_with("y_")) # see also all_of()
 }
 \seealso{
 Other progress: 
+\code{\link{tar_built}()},
 \code{\link{tar_poll}()},
 \code{\link{tar_progress_branches}()},
 \code{\link{tar_progress_summary}()},
