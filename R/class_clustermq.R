@@ -57,16 +57,18 @@ clustermq_class <- R6::R6Class(
     workers = NULL,
     crew = NULL,
     log_worker = NULL,
-    initialize = function(pipeline = NULL,
-                          meta = NULL,
-                          names = NULL,
-                          shortcut = NULL,
-                          queue = NULL,
-                          reporter = NULL,
-                          envir = NULL,
-                          workers = NULL,
-                          crew = NULL,
-                          log_worker = NULL) {
+    initialize = function(
+      pipeline = NULL,
+      meta = NULL,
+      names = NULL,
+      shortcut = NULL,
+      queue = NULL,
+      reporter = NULL,
+      envir = NULL,
+      workers = NULL,
+      crew = NULL,
+      log_worker = NULL
+    ) {
       super$initialize(
         pipeline = pipeline,
         meta = meta,
