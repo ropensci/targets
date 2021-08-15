@@ -9,7 +9,7 @@
 
 * Expose the `poll_connection`, `stdout`, and `stderr` arguments of `callr::r_bg()` in `tar_watch()` (@mpadge).
 * Add new helper functions to list targets in each progress category: `tar_started()`, `tar_skipped()`, `tar_built()`, `tar_canceled()`, and `tar_errored()`.
-* Add new helper functions `tar_interactive()` and `tar_noninteractive()` to differentially suppress code in non-interactive and interactive mode in Target Markdown (#607, @33Vito).
+* Add new helper functions `tar_interactive()`, `tar_noninteractive()`, and `tar_toggle()` to differentially suppress code in non-interactive and interactive mode in Target Markdown (#607, @33Vito).
 
 ## Enhancements
 

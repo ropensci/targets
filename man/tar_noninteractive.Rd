@@ -25,16 +25,12 @@ Visit <books.ropensci.org/targets/markdown.html>
 to learn about Target Markdown and interactive mode.
 }
 \examples{
-tar_noninteractive(list(x = 1 + 1))
+tar_noninteractive(message("Not in interactive mode."))
 }
 \seealso{
-Other utilities: 
-\code{\link{tar_cancel}()},
-\code{\link{tar_envir}()},
-\code{\link{tar_group}()},
+Other Target Markdown: 
+\code{\link{tar_engine_knitr}()},
 \code{\link{tar_interactive}()},
-\code{\link{tar_name}()},
-\code{\link{tar_path}()},
-\code{\link{tar_seed}()}
+\code{\link{tar_toggle}()}
 }
-\concept{utilities}
+\concept{Target Markdown}

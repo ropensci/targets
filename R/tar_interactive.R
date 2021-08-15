@@ -1,6 +1,6 @@
 #' @title Run if Target Markdown interactive mode is on.
 #' @export
-#' @family utilities
+#' @family Target Markdown
 #' @description In Target Markdown, run the enclosed code
 #'   only if interactive mode is activated. Otherwise,
 #'   do not run the code.
@@ -12,7 +12,7 @@
 #' @param code R code to run if Target Markdown interactive mode
 #'   is turned on.
 #' @examples
-#' tar_interactive(list(x = 1 + 1))
+#' tar_interactive(message("In interactive mode."))
 tar_interactive <- function(code) {
   if_any(
     engine_knitr_is_interactive(),

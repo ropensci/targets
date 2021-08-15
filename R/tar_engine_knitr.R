@@ -1,6 +1,6 @@
 #' @title Target Markdown `knitr` engine
 #' @export
-#' @family engines
+#' @family Target Markdown
 #' @seealso <https://books.ropensci.org/targets/markdown.html>
 #' @description `knitr` language engine that runs `{targets}`
 #'   code chunks in Target Markdown.

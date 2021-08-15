@@ -106,5 +106,10 @@ if (requireNamespace("knitr", quietly = TRUE)) {
 }
 \seealso{
 \url{https://books.ropensci.org/targets/markdown.html}
+
+Other Target Markdown: 
+\code{\link{tar_interactive}()},
+\code{\link{tar_noninteractive}()},
+\code{\link{tar_toggle}()}
 }
-\concept{engines}
+\concept{Target Markdown}
