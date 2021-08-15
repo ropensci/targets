@@ -77,7 +77,9 @@ tar_read(sums) # Should be c(3, 7, 11).
 Other utilities: 
 \code{\link{tar_cancel}()},
 \code{\link{tar_envir}()},
+\code{\link{tar_interactive}()},
 \code{\link{tar_name}()},
+\code{\link{tar_noninteractive}()},
 \code{\link{tar_path}()},
 \code{\link{tar_seed}()}
 }

@@ -22,17 +22,43 @@ tar_test("set, get, exists, and unset frames", {
   expect_null(x$get_frames())
 })
 
+tar_test("set, get, exists, and unset interactive", {
+  x <- runtime_init()
+  expect_false(x$exists_interactive())
+  expect_null(x$get_interactive())
+  x$set_interactive(TRUE)
+  expect_true(x$exists_interactive())
+  expect_true(x$get_interactive())
+  x$unset_interactive()
+  expect_false(x$exists_interactive())
+  expect_null(x$get_interactive())
+})
+
 tar_test("validate null runtime", {
   x <- runtime_init()
   expect_silent(x$validate())
 })
 
 tar_test("validate non-null runtime", {
-  x <- runtime_init(target = tar_target(x, 1), frames = frames_init())
+  x <- runtime_init(
+    target = tar_target(x, 1),
+    frames = frames_init(),
+    interactive = FALSE
+  )
   expect_silent(x$validate())
 })
 
 tar_test("invalidate bad runtime", {
   x <- runtime_init(target = 1, frames = frames_init())
+  expect_error(x$validate(), class = "tar_condition_validate")
+})
+
+tar_test("invalidate bad interactive", {
+  x <- runtime_init(interactive = letters)
+  expect_error(x$validate(), class = "tar_condition_validate")
+})
+
+tar_test("invalidate bad interactive", {
+  x <- runtime_init(interactive = letters)
   expect_error(x$validate(), class = "tar_condition_validate")
 })

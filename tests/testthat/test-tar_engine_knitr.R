@@ -1,4 +1,4 @@
-tar_test("tar_engine_knitr() construct globals", {
+tar_test("tar_engine_knitr() noninteractive globals", {
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "x <- \"a\""
@@ -47,7 +47,7 @@ tar_test("same with eval = FALSE", {
   )
 })
 
-tar_test("tar_engine_knitr() construct globals with tar_name", {
+tar_test("tar_engine_knitr() noninteractive globals with tar_name", {
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "x <- \"a\""
@@ -70,7 +70,7 @@ tar_test("tar_engine_knitr() construct globals with tar_name", {
   expect_equal(x, "a")
 })
 
-tar_test("tar_engine_knitr() construct globals with alternative script path", {
+tar_test("tar_engine_knitr() noninteractive globals with alternative script path", {
   skip_if_not_installed("knitr")
   script <- "example/script.R"
   options <- knitr::opts_chunk$get()
@@ -102,7 +102,7 @@ tar_test("tar_engine_knitr() construct globals with alternative script path", {
   expect_equal(x, "a")
 })
 
-tar_test("tar_engine_knitr() prototype globals", {
+tar_test("tar_engine_knitr() interactive globals", {
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "x <- \"a\""
@@ -127,7 +127,7 @@ tar_test("tar_engine_knitr() prototype globals", {
   expect_equal(envir$x, "a")
 })
 
-tar_test("tar_engine_knitr() construct targets", {
+tar_test("tar_engine_knitr() noninteractive targets", {
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "tar_target(x, \"a\")"
@@ -147,7 +147,7 @@ tar_test("tar_engine_knitr() construct targets", {
   expect_equal(tar_read(x), "a")
 })
 
-tar_test("tar_engine_knitr() construct targets with tar_name", {
+tar_test("tar_engine_knitr() noninteractive targets with tar_name", {
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "tar_target(x, \"a\")"
@@ -167,7 +167,7 @@ tar_test("tar_engine_knitr() construct targets with tar_name", {
   expect_equal(tar_read(x), "a")
 })
 
-tar_test("tar_engine_knitr() construct targets, simple version", {
+tar_test("tar_engine_knitr() noninteractive targets, simple version", {
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "\"a\""
@@ -188,7 +188,7 @@ tar_test("tar_engine_knitr() construct targets, simple version", {
   expect_equal(tar_read(test), "a")
 })
 
-tar_test("tar_engine_knitr() construct targets with custom script path", {
+tar_test("tar_engine_knitr() noninteractive targets with custom script path", {
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   script <- "example/script.R"
@@ -218,7 +218,7 @@ tar_test("tar_engine_knitr() construct targets with custom script path", {
   expect_equal(tar_read(x), "a")
 })
 
-tar_test("tar_engine_knitr() construct targets, alt script path, tar_simple", {
+tar_test("tar_engine_knitr() noninteractive targets, alt script path, tar_simple", {
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   script <- "example/script.R"
@@ -249,7 +249,7 @@ tar_test("tar_engine_knitr() construct targets, alt script path, tar_simple", {
   expect_equal(tar_read(test), "a")
 })
 
-tar_test("tar_engine_knitr() prototype targets", {
+tar_test("tar_engine_knitr() interactive targets", {
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "targets::tar_target(x, \"a\")"
@@ -270,7 +270,7 @@ tar_test("tar_engine_knitr() prototype targets", {
   expect_false(file.exists(path_script_r_targets(path, "test")))
 })
 
-tar_test("tar_engine_knitr() prototype targets, simple version", {
+tar_test("tar_engine_knitr() interactive targets, simple version", {
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "\"a\""

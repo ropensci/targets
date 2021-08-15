@@ -87,29 +87,25 @@ tar_engine_knitr <- function(options) {
   if (identical(as.logical(options$eval), FALSE)) {
     return(engine_knitr_output(options = options, out = character(0)))
   }
-  tar_assert_package("knitr")
-  tar_assert_list(options, "knitr chunk options must be a list.")
   options$tar_name <- options$tar_name %|||% options$label
-  msg <- paste(
-    "{targets} code chunks require a nonempty length-1 character string",
-    "for the chunk label or the tar_name chunk option."
-  )
-  tar_assert_scalar(options$tar_name, msg)
-  tar_assert_chr(options$tar_name, msg)
-  tar_assert_nzchar(options$tar_name, msg)
+  options$tar_script <- options$tar_script %|||% tar_config_get("script")
   if (!is.null(options$targets)) {
+    options$tar_globals <- options$tar_globals %|||% options$targets
     tar_warn_deprecate(
-      "In Target Markdown, the `targets` chunk option is deprecated.",
+      "In Target Markdown, the `targets` chunk option is deprecated ",
+      "(version 0.6.0, 2021-07-21). ",
       "Set the chunk option tar_globals = TRUE to define functions, ",
       "global objects, and settings. To define targets, ",
       "either set tar_globals = FALSE or leave tar_globals unset."
     )
-    options$tar_globals <- options$tar_globals %|||% options$targets
   }
-  options$tar_script <- options$tar_script %|||% tar_config_get("script")
-  engine_knitr_tar_assert_options(options)
+  tar_assert_package("knitr")
+  tar_assert_list(options, "knitr chunk options must be a list.")
   warn_labels_duplicated()
   warn_labels_unnamed(options)
+  engine_knitr_tar_assert_options(options)
+  engine_knitr_set_interactive(options)
+  on.exit(engine_knitr_unset_interactive())
   if_any(
     identical(options$tar_globals, TRUE),
     engine_knitr_globals(options),
@@ -118,30 +114,59 @@ tar_engine_knitr <- function(options) {
 }
 
 engine_knitr_tar_assert_options <- function(options) {
-  choices <- c("tar_globals", "tar_interactive", "tar_script", "tar_simple")
-  for (option in choices) {
+  scalars <- c(
+    "tar_globals",
+    "tar_interactive",
+    "tar_name",
+    "tar_script",
+    "tar_simple"
+  )
+  logicals <- c("tar_globals", "tar_interactive", "tar_simple")
+  characters <- c("tar_name", "tar_script")
+  for (option in scalars) {
     tar_assert_scalar(
       options[[option]] %|||% TRUE,
       paste(option, "chunk option must either be NULL or have length 1.")
     )
   }
-  for (option in c("tar_globals", "tar_interactive", "tar_simple")) {
+  for (option in logicals) {
     tar_assert_lgl(
       options[[option]] %|||% TRUE,
       paste(option, "chunk option must either be NULL or logical.")
     )
   }
-  tar_assert_chr(
-    options[["tar_script"]],
-    "tar_script chunk option must either be NULL or character."
-  )
+  for (option in characters) {
+    tar_assert_chr(
+      options[[option]],
+      paste(option, "chunk option must either be NULL or character.")
+    )
+    tar_assert_nzchar(
+      options[[option]],
+      paste(option, "chunk option must not be the empty string.")
+    )
+  }
+}
+
+engine_knitr_set_interactive <- function(options) {
+  x <- options$tar_interactive %|||% !isTRUE(getOption("knitr.in.progress"))
+  tar_assert_scalar(x)
+  tar_assert_lgl(x)
+  tar_runtime$set_interactive(x)
+}
+
+engine_knitr_unset_interactive <- function() {
+  tar_runtime$unset_interactive()
+}
+
+engine_knitr_is_interactive <- function() {
+  isTRUE(tar_runtime$get_interactive())
 }
 
 engine_knitr_globals <- function(options) {
   if_any(
-    options$tar_interactive %|||% !isTRUE(getOption("knitr.in.progress")),
-    engine_knitr_globals_prototype(options),
-    engine_knitr_globals_construct(options)
+    engine_knitr_is_interactive(),
+    engine_knitr_globals_interactive(options),
+    engine_knitr_globals_noninteractive(options)
   )
 }
 
@@ -150,9 +175,9 @@ engine_knitr_targets <- function(options) {
     options$code <- engine_knitr_targets_command(options)
   }
   if_any(
-    options$tar_interactive %|||% !isTRUE(getOption("knitr.in.progress")),
-    engine_knitr_targets_prototype(options),
-    engine_knitr_targets_construct(options)
+    engine_knitr_is_interactive(),
+    engine_knitr_targets_interactive(options),
+    engine_knitr_targets_noninteractive(options)
   )
 }
 
@@ -164,7 +189,7 @@ engine_knitr_targets_command <- function(options) {
   )
 }
 
-engine_knitr_globals_prototype <- function(options) {
+engine_knitr_globals_interactive <- function(options) {
   out_code <- engine_knitr_echo_code(options)
   message <- "Run code and assign objects to the environment."
   out_message <- engine_knitr_run_message(options, message)
@@ -180,7 +205,7 @@ engine_knitr_globals_prototype <- function(options) {
   paste0(out_code, out_message, out_globals)
 }
 
-engine_knitr_globals_construct <- function(options) {
+engine_knitr_globals_noninteractive <- function(options) {
   write_targets_r(options$tar_script)
   write_targets_r_globals(options$code, options$tar_name, options$tar_script)
   out <- paste0(
@@ -193,11 +218,11 @@ engine_knitr_globals_construct <- function(options) {
   engine_knitr_output(options, out)
 }
 
-engine_knitr_targets_prototype <- function(options) {
+engine_knitr_targets_interactive <- function(options) {
   out_code <- engine_knitr_echo_code(options)
   message <- paste(
     engine_knitr_definition_message(options),
-    engine_knitr_prototype_message(options),
+    engine_knitr_interactive_message(options),
     sep = "\n"
   )
   message <- trimws(message)
@@ -212,7 +237,7 @@ engine_knitr_targets_prototype <- function(options) {
   paste0(out_code, out_message, out_make)
 }
 
-engine_knitr_targets_construct <- function(options) {
+engine_knitr_targets_noninteractive <- function(options) {
   write_targets_r(options$tar_script)
   write_targets_r_targets(options$code, options$tar_name, options$tar_script)
   out <- paste0(
@@ -253,7 +278,7 @@ engine_knitr_definition_message <- function(options) {
   )
 }
 
-engine_knitr_prototype_message <- function(options) {
+engine_knitr_interactive_message <- function(options) {
   if_any(
     options$tar_simple %|||% FALSE,
     paste(
