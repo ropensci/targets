@@ -70,7 +70,7 @@ tar_test("tar_engine_knitr() noninteractive globals with tar_name", {
   expect_equal(x, "a")
 })
 
-tar_test("tar_engine_knitr() noninteractive globals with alternative script path", {
+tar_test("tar_engine_knitr() noninteractive globals, alt script path", {
   skip_if_not_installed("knitr")
   script <- "example/script.R"
   options <- knitr::opts_chunk$get()
@@ -218,7 +218,7 @@ tar_test("tar_engine_knitr() noninteractive targets with custom script path", {
   expect_equal(tar_read(x), "a")
 })
 
-tar_test("tar_engine_knitr() noninteractive targets, alt script path, tar_simple", {
+tar_test("tar_engine_knitr() non-int targets, alt script path, tar_simple", {
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   script <- "example/script.R"
