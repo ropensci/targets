@@ -9,8 +9,10 @@
 #' @return If Target Markdown interactive mode is not turned on,
 #'   the function returns the result of running the code.
 #'   Otherwise, the function invisibly returns `NULL`.
+#' @param code R code to run if Target Markdown interactive mode
+#'   is not turned on.
 #' @examples
-#' tar_noninteractive(1 + 1)
+#' tar_noninteractive(list(x = 1 + 1))
 tar_noninteractive <- function(code) {
   if_any(
     engine_knitr_is_interactive(),

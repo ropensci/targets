@@ -6,6 +6,10 @@
 \usage{
 tar_noninteractive(code)
 }
+\arguments{
+\item{code}{R code to run if Target Markdown interactive mode
+is not turned on.}
+}
 \value{
 If Target Markdown interactive mode is not turned on,
 the function returns the result of running the code.
@@ -21,7 +25,7 @@ Visit <books.ropensci.org/targets/markdown.html>
 to learn about Target Markdown and interactive mode.
 }
 \examples{
-tar_noninteractive(1 + 1)
+tar_noninteractive(list(x = 1 + 1))
 }
 \seealso{
 Other utilities: 
