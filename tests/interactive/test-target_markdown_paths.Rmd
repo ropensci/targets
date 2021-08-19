@@ -1,5 +1,5 @@
 ---
-title: "Target Markdown"
+title: "Target Markdown: non-defaults, relaying, and edge cases"
 output: html_document
 ---
 
@@ -38,7 +38,10 @@ We first define some global options/functions common to all targets. The functio
 
 ```{targets example-globals, tar_globals = TRUE}
 options(tidyverse.quiet = TRUE)
-tar_option_set(packages = c("biglm", "dplyr", "ggplot2", "readr", "tidyr"))
+tar_option_set(
+  packages = c("biglm", "dplyr", "ggplot2", "readr", "tidyr"),
+  error = "continue"
+)
 create_plot <- function(data) {
   ggplot(data) +
     geom_histogram(aes(x = Ozone), bins = 12) +
@@ -51,6 +54,24 @@ create_plot <- function(data) {
 Our first target borrows the `airquality` dataset built into base R.
 
 ```{targets othername, tar_name = "raw_data", tar_simple = TRUE}
+airquality
+```
+
+Warnings, messages, and errors are relayed in both modes.
+
+```{targets raw_data_interactive, tar_simple = TRUE, error = TRUE, message = TRUE, output = TRUE, tar_interactive = TRUE}
+print("output_interactive")
+message("message_interactive")
+warning("warning_interactive")
+stop("error_interactive")
+airquality
+```
+
+```{targets raw_data_noninteractive, tar_simple = TRUE, error = TRUE, message = TRUE, output = TRUE, tar_interactive = FALSE}
+print("output_noninteractive")
+message("message_noninteractive")
+warning("warning_noninteractive")
+stop("error_noninteractive")
 airquality
 ```
 
