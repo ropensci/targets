@@ -175,11 +175,11 @@ tmp <- out$run()
 # tar_outdated() uses forecast reporter.
 tar_script(
   list(
-    tar_target(y1, 1 + 1),
-    tar_target(y2, 1 + 1),
-    tar_target(z, y1 + y2)
+    tar_target(y1, seq_len(1000)),
+    tar_target(y2, y1, pattern = map(y1))
   )
 )
+tar_make()
 tar_outdated(reporter = "forecast")
 
 # tar_visnetwork() uses forecast reporter.
