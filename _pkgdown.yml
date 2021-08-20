@@ -86,12 +86,17 @@ reference:
 - title: Progress
   contents:
   - '`tar_poll`'
-  - '`tar_progress`'
-  - '`tar_progress_branches`'
-  - '`tar_progress_summary`'
   - '`tar_watch`'
   - '`tar_watch_server`'
   - '`tar_watch_ui`'
+  - '`tar_progress`'
+  - '`tar_progress_branches`'
+  - '`tar_progress_summary`'
+  - '`tar_built`'
+  - '`tar_canceled`'
+  - '`tar_errored`'
+  - '`tar_skipped`'
+  - '`tar_started`'
 - title: Time
   contents:
   - '`tar_newer`'
@@ -108,6 +113,8 @@ reference:
 - title: Branching
   contents:
   - '`tar_branch_index`'
+  - '`tar_branch_names`'
+  - '`tar_branch_names_raw`'
   - '`tar_branches`'
   - '`tar_pattern`'
 - title: Resources
