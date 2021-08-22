@@ -1,5 +1,8 @@
 # targets 0.7.0.9000
 
+## Enhancements
+
+* Use `eval(parse(text = ...), envir = tar_option_set("envir")` instead of `source()` in the `_targets.R` file for Target Markdown.
 
 # targets 0.7.0
 
