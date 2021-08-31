@@ -88,7 +88,9 @@ Suggests:
   testthat (>= 3.0.0),
   torch (>= 0.1.0),
   usethis (>= 1.6.3),
-  visNetwork (>= 2.0.9)
+  visNetwork (>= 2.0.9),
+  glue (>= 1.4.2),
+  stringr (>= 1.4.0)
 Encoding: UTF-8
 Language: en-US
 VignetteBuilder: knitr

@@ -52,3 +52,8 @@ Name: Write target at cursor
 Description: Write tar_target() at the cursor position.
 Binding: rstudio_addin_tar_target
 Interactive: false
+
+Name: Convert assignment to target
+Description: Replace a selected assignment with a tar_target
+Binding: rstudio_addin_tar_assignment_to_target
+Interactive: false
