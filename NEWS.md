@@ -1,5 +1,9 @@
 # targets 0.7.0.9000
 
+## New features
+
+* Implement the `TAR_CONFIG` environment variable to set the default file path of the YAML configuration file with project settings (#622). If `TAR_CONFIG` is not set, the file path is still `_targets.yaml`.
+
 ## Enhancements
 
 * Use `eval(parse(text = ...), envir = tar_option_set("envir")` instead of `source()` in the `_targets.R` file for Target Markdown.
