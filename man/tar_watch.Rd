@@ -75,8 +75,13 @@ controls the number of edges the neighborhood extends upstream.}
 the graph highlights a neighborhood of that node. \code{degree_to}
 controls the number of edges the neighborhood extends downstream.}
 
-\item{config}{Character of length 1, path to the YAML file with
-all the configuration settings (default: \verb{_targets.yaml}).}
+\item{config}{Character of length 1, file path of the YAML
+configuration file with \code{targets} project settings.
+The \code{config} argument specifies which YAML configuration
+file that \code{tar_config_get()} reads from and \code{tar_config_set()}
+writes to.
+It does not globally change which configuration file is used
+in subsequent function calls.}
 
 \item{height}{Character of length 1,
 height of the \code{visNetwork} widget and branches table.}

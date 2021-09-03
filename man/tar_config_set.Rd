@@ -15,8 +15,13 @@ tar_config_set(
 )
 }
 \arguments{
-\item{config}{Character of length 1, path to the YAML file with
-all the configuration settings (default: \verb{_targets.yaml}).}
+\item{config}{Character of length 1, file path of the YAML
+configuration file with \code{targets} project settings.
+The \code{config} argument specifies which YAML configuration
+file that \code{tar_config_get()} reads from and \code{tar_config_set()}
+writes to.
+It does not globally change which configuration file is used
+in subsequent function calls.}
 
 \item{reporter_make}{Character of length 1, \code{reporter} argument to
 \code{\link[=tar_make]{tar_make()}} and related functions that run the pipeline.}
@@ -62,17 +67,13 @@ multiple functions called outside \verb{_targets.R}.
 \details{
 Each project can have an optional YAML configuration file
 (default: \verb{_targets.yaml} at the project root)
-with settings specific to a given project. You can either write it
-by hand or modify it with \code{tar_config_set()}, but \code{tar_config_set()}
-is recommended because it has guardrails to validate user input.
+with configuration settings specific to a given project.
+Use \code{tar_config_set()} to write to the file
+and \code{tar_config_get()} to retrieve the value of a setting.
 The currently supported configuration settings are
 documented as the arguments of \code{tar_config_set()}.
-
-\code{tar_config_set()} always writes a YAML file
-with a full set of configuration settings even when no
-arguments are supplied. To reset options completely,
-simply call \code{tar_config_set(config = "_targets.yaml")}
-and remove \verb{_targets.yaml} if it exists.
+To reset options completely,
+simply remove the YAML configuration file.
 }
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
