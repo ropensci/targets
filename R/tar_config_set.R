@@ -19,8 +19,8 @@
 #' @param config Character of length 1, file path of the YAML
 #'   configuration file with `targets` project settings.
 #'   The `config` argument specifies which YAML configuration
-#'   file that `tar_config_get()` reads from and `tar_config_set()`
-#'   writes to.
+#'   file that `tar_config_get()` reads from or `tar_config_set()`
+#'   writes to in a single function call.
 #'   It does not globally change which configuration file is used
 #'   in subsequent function calls.
 #' @param reporter_make Character of length 1, `reporter` argument to

@@ -23,8 +23,8 @@ height of the \code{visNetwork} widget and branches table.}
 \item{config}{Character of length 1, file path of the YAML
 configuration file with \code{targets} project settings.
 The \code{config} argument specifies which YAML configuration
-file that \code{tar_config_get()} reads from and \code{tar_config_set()}
-writes to.
+file that \code{tar_config_get()} reads from or \code{tar_config_set()}
+writes to in a single function call.
 It does not globally change which configuration file is used
 in subsequent function calls.}
 }
