@@ -33,16 +33,11 @@
 #' @section TAR_CONFIG:
 #'   The `TAR_CONFIG` environment variable controls the file path to the
 #'   optional YAML configuration file with project settings.
-#'   If you do not set `TAR_CONFIG`, the default YAML file path is
-#'   `_targets.yaml`. The YAML file controls the default values of various
-#'   arguments to functions like [tar_make()]. Settings include
-#'   the file path of the target script (default: `_targets.R`)
-#'   and the directory path of the data store (default: `_targets/`).
-#'   To modify the or access
-#'   the configuration settings programmatically,
-#'   use recommended functions [tar_config_set()] and [tar_config_get()].
-#'   These functions are preferred over modifying the YAML file by hand
-#'   because they have documentation and guardrails to ensure correctness.
+#'   See the help file of [tar_config_set()] for details.
+#' @section TAR_PROJECT:
+#'   The `TAR_PROJECT` environment variable sets the name of project
+#'   to set and get settings when working with the YAML configuration file.
+#'   See the help file of [tar_config_set()] for details.
 #' @section TAR_WARN:
 #'   The `TAR_WARN` environment variable accepts values `"true"` and `"false"`.
 #'   If `TAR_WARN` is not set, or if it is set to `"true"`,

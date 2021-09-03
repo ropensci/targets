@@ -1,4 +1,4 @@
-#' @title Get configuration settings from _targets.yaml.
+#' @title Get configuration settings.
 #' @export
 #' @family configuration
 #' @description Read the custom settings in the optional _targets.yaml
@@ -13,7 +13,7 @@
 #'   or the default value if the setting is not available.
 #'   The data type of the return value depends on your choice
 #'   of `name`.
-#' @inheritSection tar_envvars TAR_CONFIG
+#' @inheritSection tar_config_set Configuration
 #' @inheritParams tar_config_set
 #' @param name Character of length 1, name of the specific
 #'   configuration setting to retrieve.
@@ -33,7 +33,8 @@
 #' }
 tar_config_get <- function(
   name,
-  config = Sys.getenv("TAR_CONFIG", "_targets.yaml")
+  config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
+  project = Sys.getenv("TAR_PROJECT", "default")
 ) {
   choices <- setdiff(names(formals(tar_config_set)), "config")
   tar_assert_flag(name, choices = choices)

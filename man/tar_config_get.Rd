@@ -2,9 +2,13 @@
 % Please edit documentation in R/tar_config_get.R
 \name{tar_config_get}
 \alias{tar_config_get}
-\title{Get configuration settings from _targets.yaml.}
+\title{Get configuration settings.}
 \usage{
-tar_config_get(name, config = Sys.getenv("TAR_CONFIG", "_targets.yaml"))
+tar_config_get(
+  name,
+  config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
+  project = Sys.getenv("TAR_PROJECT", "default")
+)
 }
 \arguments{
 \item{name}{Character of length 1, name of the specific
@@ -19,11 +23,25 @@ It does not globally change which configuration file is used
 in subsequent function calls. The default file path of the YAML
 file is always \verb{_targets.yaml} unless you set another
 default path using the \code{TAR_CONFIG} environment variable,
-e.g. \verb{Sys.setenv(TAR_CONFIG = "custom.yaml)}.
-But please keep in mind that unless you set
-\code{TAR_CONFIG} permanently inside your \code{.Renviron} file, the
-environment variable will reset when your R session restarts.
-Please check \code{Sys.getenv("TAR_CONFIG")} to be sure.}
+e.g. \code{Sys.setenv(TAR_CONFIG = "custom.yaml")}. This also has the
+effect of temporarily modifying the default arguments to other functions
+such as \code{\link[=tar_make]{tar_make()}} because the default arguments
+to those functions are controlled by \code{tar_config_get()}.}
+
+\item{project}{Character of length 1, name of the current
+\code{targets} project. Thanks to the \code{config} R package,
+\code{targets} YAML configuration files can store multiple
+sets of configuration settings, with each set corresponding
+to its own project. The \code{project} argument allows you to
+set or get a configuration setting for a specific project
+for a given call to \code{tar_config_set()} or \code{tar_config_get()}.
+The default project is always \code{"default"}
+unless you set another
+default project using the \code{TAR_PROJECT} environment variable,
+e.g. \code{Sys.setenv(tar_project = "custom")}. This also has the
+effect of temporarily modifying the default arguments to other functions
+such as \code{\link[=tar_make]{tar_make()}} because the default arguments
+to those functions are controlled by \code{tar_config_get()}.}
 }
 \value{
 The value of the configuration setting from
@@ -43,20 +61,24 @@ You can write it by hand or modify it with \code{\link[=tar_config_set]{tar_conf
 The currently supported configuration settings are
 documented as the arguments of \code{\link[=tar_config_set]{tar_config_set()}}.
 }
-\section{TAR_CONFIG}{
+\section{Configuration}{
 
-The \code{TAR_CONFIG} environment variable controls the file path to the
-optional YAML configuration file with project settings.
-If you do not set \code{TAR_CONFIG}, the default YAML file path is
-\verb{_targets.yaml}. The YAML file controls the default values of various
-arguments to functions like \code{\link[=tar_make]{tar_make()}}. Settings include
-the file path of the target script (default: \verb{_targets.R})
-and the directory path of the data store (default: \verb{_targets/}).
-To modify the or access
-the configuration settings programmatically,
-use recommended functions \code{\link[=tar_config_set]{tar_config_set()}} and \code{\link[=tar_config_get]{tar_config_get()}}.
-These functions are preferred over modifying the YAML file by hand
-because they have documentation and guardrails to ensure correctness.
+For several key functions like \code{\link[=tar_make]{tar_make()}}, the
+default values of arguments are controlled though
+\code{tar_config_get()}. \code{tar_config_get()} retrieves data
+from an optional YAML configuration file.
+You can control the settings in the YAML
+file programmatically with \code{tar_config_set()}.
+The default file path of this YAML file is \verb{_targets.yaml}, and you can
+set another path globally using the \code{TAR_CONFIG}
+environment variable. The YAML file can store configuration
+settings for multiple projects, and you can globally
+set the default project with the \code{TAR_PROJECT} environment
+variable.
+The structure of the YAML file
+follows the \code{config} R package, where each named
+configuration corresponds to a \code{targets} project.
+Projects can inherit settings from one another using the \code{inherits} field.
 }
 
 \examples{

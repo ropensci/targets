@@ -1,22 +1,26 @@
-#' @title Write configuration settings to _targets.yaml.
+#' @title Set configuration settings.
 #' @export
 #' @family configuration
 #' @description `tar_config_set()` writes special custom settings
-#'   to an optional project-level
-#'   YAML configuration file (default: `_targets.yaml`).
-#'   Most of these settings are default arguments shared across
-#'   multiple functions called outside `_targets.R`.
-#' @details Each project can have an optional YAML configuration file
-#'   (default: `_targets.yaml` at the project root)
-#'   with configuration settings specific to a given project.
-#'   Use `tar_config_set()` to write to the file
-#'   and `tar_config_get()` to retrieve the value of a setting.
-#'   The currently supported configuration settings are
-#'   documented as the arguments of `tar_config_set()`.
-#'   To reset options completely,
-#'   simply remove the YAML configuration file.
+#'   to an optional YAML configuration file.
+#' @section Configuration:
+#'   For several key functions like [tar_make()], the
+#'   default values of arguments are controlled though
+#'   `tar_config_get()`. `tar_config_get()` retrieves data
+#'   from an optional YAML configuration file.
+#'   You can control the settings in the YAML
+#'   file programmatically with `tar_config_set()`.
+#'   The default file path of this YAML file is `_targets.yaml`, and you can
+#'   set another path globally using the `TAR_CONFIG`
+#'   environment variable. The YAML file can store configuration
+#'   settings for multiple projects, and you can globally
+#'   set the default project with the `TAR_PROJECT` environment
+#'   variable. 
+#'   The structure of the YAML file
+#'   follows the `config` R package, where each named
+#'   configuration corresponds to a `targets` project.
+#'   Projects can inherit settings from one another using the `inherits` field.
 #' @return `NULL` (invisibly)
-#' @inheritSection tar_envvars TAR_CONFIG
 #' @param reporter_make Character of length 1, `reporter` argument to
 #'   [tar_make()] and related functions that run the pipeline.
 #' @param reporter_outdated Character of length 1, `reporter` argument to
@@ -51,11 +55,24 @@
 #'   in subsequent function calls. The default file path of the YAML
 #'   file is always `_targets.yaml` unless you set another
 #'   default path using the `TAR_CONFIG` environment variable,
-#'   e.g. `Sys.setenv(TAR_CONFIG = "custom.yaml)`.
-#'   But please keep in mind that unless you set
-#'   `TAR_CONFIG` permanently inside your `.Renviron` file, the
-#'   environment variable will reset when your R session restarts.
-#'   Please check `Sys.getenv("TAR_CONFIG")` to be sure.
+#'   e.g. `Sys.setenv(TAR_CONFIG = "custom.yaml")`. This also has the
+#'   effect of temporarily modifying the default arguments to other functions
+#'   such as [tar_make()] because the default arguments
+#'   to those functions are controlled by `tar_config_get()`.
+#' @param project Character of length 1, name of the current
+#'   `targets` project. Thanks to the `config` R package,
+#'   `targets` YAML configuration files can store multiple
+#'   sets of configuration settings, with each set corresponding
+#'   to its own project. The `project` argument allows you to
+#'   set or get a configuration setting for a specific project
+#'   for a given call to `tar_config_set()` or `tar_config_get()`.
+#'   The default project is always `"default"`
+#'   unless you set another
+#'   default project using the `TAR_PROJECT` environment variable,
+#'   e.g. `Sys.setenv(tar_project = "custom")`. This also has the
+#'   effect of temporarily modifying the default arguments to other functions
+#'   such as [tar_make()] because the default arguments
+#'   to those functions are controlled by `tar_config_get()`.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -77,7 +94,8 @@ tar_config_set <- function(
   shortcut = NULL,
   script = NULL,
   workers = NULL,
-  config = Sys.getenv("TAR_CONFIG", "_targets.yaml")
+  config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
+  project = Sys.getenv("TAR_PROJECT", "default") 
 ) {
   tar_config_assert_reporter_make(reporter_make)
   tar_config_assert_reporter_outdated(reporter_outdated)

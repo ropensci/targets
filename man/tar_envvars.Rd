@@ -48,16 +48,14 @@ or user-level \code{.Renviron} file.
 
 The \code{TAR_CONFIG} environment variable controls the file path to the
 optional YAML configuration file with project settings.
-If you do not set \code{TAR_CONFIG}, the default YAML file path is
-\verb{_targets.yaml}. The YAML file controls the default values of various
-arguments to functions like \code{\link[=tar_make]{tar_make()}}. Settings include
-the file path of the target script (default: \verb{_targets.R})
-and the directory path of the data store (default: \verb{_targets/}).
-To modify the or access
-the configuration settings programmatically,
-use recommended functions \code{\link[=tar_config_set]{tar_config_set()}} and \code{\link[=tar_config_get]{tar_config_get()}}.
-These functions are preferred over modifying the YAML file by hand
-because they have documentation and guardrails to ensure correctness.
+See the help file of \code{\link[=tar_config_set]{tar_config_set()}} for details.
+}
+
+\section{TAR_PROJECT}{
+
+The \code{TAR_PROJECT} environment variable sets the name of project
+to set and get settings when working with the YAML configuration file.
+See the help file of \code{\link[=tar_config_set]{tar_config_set()}} for details.
 }
 
 \section{TAR_WARN}{
