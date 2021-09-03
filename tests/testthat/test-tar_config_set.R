@@ -165,3 +165,18 @@ tar_test("tar_config_set() can configure the script and the store", {
   expect_false(file.exists(path_script_default()))
   expect_false(file.exists(path_store_default()))
 })
+
+tar_test("tar_config_set() TAR_CONFIG", {
+  on.exit(Sys.unsetenv("TAR_CONFIG"))
+  Sys.setenv(TAR_CONFIG = "custom.yaml")
+  expect_false(file.exists("_targets.yaml"))
+  expect_false(file.exists("custom.yaml"))
+  tar_config_set(store = "custom")
+  expect_false(file.exists("_targets.yaml"))
+  expect_true(file.exists("custom.yaml"))
+  expect_equal(tar_config_get("store"), "custom")
+  tar_script()
+  tar_make(callr_function = NULL)
+  expect_false(file.exists(path_store_default()))
+  expect_true(file.exists("custom"))
+})

@@ -16,7 +16,7 @@ tar_watch(
   level_separation = 150,
   degree_from = 1L,
   degree_to = 1L,
-  config = "_targets.yaml",
+  config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   height = "650px",
   display = "summary",
   displays = c("summary", "branches", "progress", "graph", "about"),
@@ -81,7 +81,14 @@ The \code{config} argument specifies which YAML configuration
 file that \code{tar_config_get()} reads from or \code{tar_config_set()}
 writes to in a single function call.
 It does not globally change which configuration file is used
-in subsequent function calls.}
+in subsequent function calls. The default file path of the YAML
+file is always \verb{_targets.yaml} unless you set another
+default path using the \code{TAR_CONFIG} environment variable,
+e.g. \verb{Sys.setenv(TAR_CONFIG = "custom.yaml)}.
+But please keep in mind that unless you set
+\code{TAR_CONFIG} permanently inside your \code{.Renviron} file, the
+environment variable will reset when your R session restarts.
+Please check \code{Sys.getenv("TAR_CONFIG")} to be sure.}
 
 \item{height}{Character of length 1,
 height of the \code{visNetwork} widget and branches table.}

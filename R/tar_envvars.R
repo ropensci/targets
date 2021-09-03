@@ -30,6 +30,19 @@
 #'   [tar_script()], [tar_github_actions()], and similar functions,
 #'   you can safely set `TAR_ASK` to `"false"` in either a project-level
 #'   or user-level `.Renviron` file.
+#' @section TAR_CONFIG:
+#'   The `TAR_CONFIG` environment variable controls the file path to the
+#'   optional YAML configuration file with project settings.
+#'   If you do not set `TAR_CONFIG`, the default YAML file path is
+#'   `_targets.yaml`. The YAML file controls the default values of various
+#'   arguments to functions like [tar_make()]. Settings include
+#'   the file path of the target script (default: `_targets.R`)
+#'   and the directory path of the data store (default: `_targets/`).
+#'   To modify the or access
+#'   the configuration settings programmatically,
+#'   use recommended functions [tar_config_set()] and [tar_config_get()].
+#'   These functions are preferred over modifying the YAML file by hand
+#'   because they have documentation and guardrails to ensure correctness.
 #' @section TAR_WARN:
 #'   The `TAR_WARN` environment variable accepts values `"true"` and `"false"`.
 #'   If `TAR_WARN` is not set, or if it is set to `"true"`,
@@ -45,6 +58,7 @@ tar_envvars <- function(unset = "") {
   tar_assert_scalar(unset, "unset must have length 1.")
   names <- c(
     "TAR_ASK",
+    "TAR_CONFIG",
     "TAR_WARN"
   )
   values <- map_chr(names, Sys.getenv, unset = unset, names = FALSE)

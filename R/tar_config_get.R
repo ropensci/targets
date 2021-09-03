@@ -13,13 +13,10 @@
 #'   or the default value if the setting is not available.
 #'   The data type of the return value depends on your choice
 #'   of `name`.
+#' @inheritSection tar_envvars TAR_CONFIG
 #' @inheritParams tar_config_set
 #' @param name Character of length 1, name of the specific
-#'   configuration setting to retrieve. If `name` is `"config"`,
-#'   then instead of retrieving a specific setting,
-#'   then `tar_config_get()` will return the path to the YAML
-#'   file where those settings are stored for the
-#'   current R session (default: `_targets.yaml`).
+#'   configuration setting to retrieve.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -34,7 +31,10 @@
 #' file.exists(store_path) # TRUE
 #' })
 #' }
-tar_config_get <- function(name, config = "_targets.yaml") {
+tar_config_get <- function(
+  name,
+  config = Sys.getenv("TAR_CONFIG", "_targets.yaml")
+) {
   choices <- setdiff(names(formals(tar_config_set)), "config")
   tar_assert_flag(name, choices = choices)
   yaml <- tar_config_read_yaml(config)

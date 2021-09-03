@@ -16,13 +16,7 @@
 #'   To reset options completely,
 #'   simply remove the YAML configuration file.
 #' @return `NULL` (invisibly)
-#' @param config Character of length 1, file path of the YAML
-#'   configuration file with `targets` project settings.
-#'   The `config` argument specifies which YAML configuration
-#'   file that `tar_config_get()` reads from or `tar_config_set()`
-#'   writes to in a single function call.
-#'   It does not globally change which configuration file is used
-#'   in subsequent function calls.
+#' @inheritSection tar_envvars TAR_CONFIG
 #' @param reporter_make Character of length 1, `reporter` argument to
 #'   [tar_make()] and related functions that run the pipeline.
 #' @param reporter_outdated Character of length 1, `reporter` argument to
@@ -48,6 +42,20 @@
 #' @param workers Positive numeric of length 1, `workers` argument of
 #'   [tar_make_clustermq()] and related functions that run the pipeline
 #'   with parallel computing among targets.
+#' @param config Character of length 1, file path of the YAML
+#'   configuration file with `targets` project settings.
+#'   The `config` argument specifies which YAML configuration
+#'   file that `tar_config_get()` reads from or `tar_config_set()`
+#'   writes to in a single function call.
+#'   It does not globally change which configuration file is used
+#'   in subsequent function calls. The default file path of the YAML
+#'   file is always `_targets.yaml` unless you set another
+#'   default path using the `TAR_CONFIG` environment variable,
+#'   e.g. `Sys.setenv(TAR_CONFIG = "custom.yaml)`.
+#'   But please keep in mind that unless you set
+#'   `TAR_CONFIG` permanently inside your `.Renviron` file, the
+#'   environment variable will reset when your R session restarts.
+#'   Please check `Sys.getenv("TAR_CONFIG")` to be sure.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -63,13 +71,13 @@
 #' })
 #' }
 tar_config_set <- function(
-  config = "_targets.yaml",
   reporter_make = NULL,
   reporter_outdated = NULL,
   store = NULL,
   shortcut = NULL,
   script = NULL,
-  workers = NULL
+  workers = NULL,
+  config = Sys.getenv("TAR_CONFIG", "_targets.yaml")
 ) {
   tar_config_assert_reporter_make(reporter_make)
   tar_config_assert_reporter_outdated(reporter_outdated)

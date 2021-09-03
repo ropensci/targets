@@ -57,7 +57,7 @@ tar_watch <- function(
   level_separation = 150,
   degree_from = 1L,
   degree_to = 1L,
-  config = "_targets.yaml",
+  config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   height = "650px",
   display = "summary",
   displays = c("summary", "branches", "progress", "graph", "about"),

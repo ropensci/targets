@@ -4,15 +4,11 @@
 \alias{tar_config_get}
 \title{Get configuration settings from _targets.yaml.}
 \usage{
-tar_config_get(name, config = "_targets.yaml")
+tar_config_get(name, config = Sys.getenv("TAR_CONFIG", "_targets.yaml"))
 }
 \arguments{
 \item{name}{Character of length 1, name of the specific
-configuration setting to retrieve. If \code{name} is \code{"config"},
-then instead of retrieving a specific setting,
-then \code{tar_config_get()} will return the path to the YAML
-file where those settings are stored for the
-current R session (default: \verb{_targets.yaml}).}
+configuration setting to retrieve.}
 
 \item{config}{Character of length 1, file path of the YAML
 configuration file with \code{targets} project settings.
@@ -20,7 +16,14 @@ The \code{config} argument specifies which YAML configuration
 file that \code{tar_config_get()} reads from or \code{tar_config_set()}
 writes to in a single function call.
 It does not globally change which configuration file is used
-in subsequent function calls.}
+in subsequent function calls. The default file path of the YAML
+file is always \verb{_targets.yaml} unless you set another
+default path using the \code{TAR_CONFIG} environment variable,
+e.g. \verb{Sys.setenv(TAR_CONFIG = "custom.yaml)}.
+But please keep in mind that unless you set
+\code{TAR_CONFIG} permanently inside your \code{.Renviron} file, the
+environment variable will reset when your R session restarts.
+Please check \code{Sys.getenv("TAR_CONFIG")} to be sure.}
 }
 \value{
 The value of the configuration setting from
@@ -40,6 +43,22 @@ You can write it by hand or modify it with \code{\link[=tar_config_set]{tar_conf
 The currently supported configuration settings are
 documented as the arguments of \code{\link[=tar_config_set]{tar_config_set()}}.
 }
+\section{TAR_CONFIG}{
+
+The \code{TAR_CONFIG} environment variable controls the file path to the
+optional YAML configuration file with project settings.
+If you do not set \code{TAR_CONFIG}, the default YAML file path is
+\verb{_targets.yaml}. The YAML file controls the default values of various
+arguments to functions like \code{\link[=tar_make]{tar_make()}}. Settings include
+the file path of the target script (default: \verb{_targets.R})
+and the directory path of the data store (default: \verb{_targets/}).
+To modify the or access
+the configuration settings programmatically,
+use recommended functions \code{\link[=tar_config_set]{tar_config_set()}} and \code{\link[=tar_config_get]{tar_config_get()}}.
+These functions are preferred over modifying the YAML file by hand
+because they have documentation and guardrails to ensure correctness.
+}
+
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
