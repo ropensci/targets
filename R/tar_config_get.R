@@ -38,11 +38,12 @@ tar_config_get <- function(
   choices <- setdiff(names(formals(tar_config_set)), c("config", "project"))
   tar_assert_flag(name, choices = choices)
   yaml <- tar_config_read_yaml(config)
-  if_any(
+  value <- if_any(
     tar_config_is_multi_project(yaml, config),
     tar_config_get_multi_project(name, yaml, project, memory_init()),
     tar_config_get_project(name, yaml)
   )
+  tar_config_get_convert(name, value)
 }
 
 tar_config_is_multi_project <- function(yaml, config) {
@@ -88,6 +89,20 @@ tar_config_get_project <- function(name, yaml) {
     script = yaml$script %|||% path_script_default(),
     shortcut = yaml$shortcut %|||% FALSE,
     store = yaml$store %|||% path_store_default(),
-    workers = as.integer(max(1L, yaml$workers)) %|||% 1L
+    workers = yaml$workers %|||% 1L
   )
 }
+
+tar_config_get_convert <- function(name, value) {
+  switch(
+    name,
+    inherits = if_any(is.null(value), NULL, as.character(value)),
+    reporter_make = as.character(value),
+    reporter_outdated = as.character(value),
+    script = as.character(value),
+    shortcut = as.logical(value),
+    store = as.character(value),
+    workers = as.integer(max(1L, as.integer(value)))
+  )
+}
+

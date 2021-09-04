@@ -85,7 +85,7 @@ tar_test("dynamic urls work from a custom data store", {
     )
   })
   path <- tempfile()
-  writeLines(paste("store:", path), "_targets.yaml")
+  writeLines(paste("main:\n  store:", path), "_targets.yaml")
   tar_make(callr_function = NULL)
   expect_true(dir.exists(path))
   expect_false(file.exists(path_store_default()))

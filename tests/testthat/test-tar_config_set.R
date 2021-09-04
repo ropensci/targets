@@ -1,6 +1,6 @@
 tar_test("tar_config_set() inherits", {
   expect_false(file.exists("_targets.yaml"))
-  expect_equal(tar_config_get("inherits"), "default")
+  expect_null(tar_config_get("inherits"))
   tar_config_set(inherits = "summary")
   expect_equal(tar_config_get("inherits"), "summary")
   expect_true(file.exists("_targets.yaml"))
@@ -9,7 +9,7 @@ tar_test("tar_config_set() inherits", {
   expect_equal(tar_config_get("inherits"), "summary")
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
-  expect_equal(tar_config_get("inherits"), "default")
+  expect_null(tar_config_get("inherits"))
 })
 
 tar_test("tar_config_set() reporter_make", {
@@ -133,7 +133,7 @@ tar_test("tar_config_set() workers", {
 tar_test("_targets.yaml is locked during the pipeline then unlocked after", {
   tar_script({
     list(
-      tar_target(a, "store: _targets2"),
+      tar_target(a, c("main:", "  store: _targets2")),
       tar_target(x, writeLines(a, "_targets.yaml")),
       tar_target(y, x)
     )
@@ -152,7 +152,7 @@ tar_test("_targets.yaml is locked during the pipeline then unlocked after", {
 tar_test("same with external process", {
   tar_script({
     list(
-      tar_target(a, "store: _targets2"),
+      tar_target(a, c("main:", "  store: _targets2")),
       tar_target(x, writeLines(a, "_targets.yaml")),
       tar_target(y, x)
     )

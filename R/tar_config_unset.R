@@ -35,6 +35,9 @@ tar_config_unset <- function(
   choices <- setdiff(names(formals(tar_config_set)), c("config", "project"))
   tar_assert_in(names, choices = choices)
   yaml <- tar_config_read_yaml(config)
+  if (!tar_config_is_multi_project(yaml, config)) {
+    yaml <- tar_config_convert_multi_project(yaml, config)
+  }
   for (name in names) {
     yaml[[project]][[name]] <- NULL
   }
