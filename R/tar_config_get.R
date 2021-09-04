@@ -31,10 +31,14 @@ tar_config_get <- function(
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   project = Sys.getenv("TAR_PROJECT", "main")
 ) {
+  tar_assert_chr(config)
+  tar_assert_scalar(config)
+  tar_assert_chr(project)
+  tar_assert_scalar(project)
   choices <- setdiff(names(formals(tar_config_set)), c("config", "project"))
   tar_assert_flag(name, choices = choices)
   yaml <- tar_config_read_yaml(config)
-  ifelse(
+  if_any(
     tar_config_is_multi_project(yaml, config),
     tar_config_get_multi_project(name, yaml, project, memory_init()),
     tar_config_get_project(name, yaml)
@@ -43,7 +47,7 @@ tar_config_get <- function(
 
 tar_config_is_multi_project <- function(yaml, config) {
   out <- any(map_lgl(yaml, is.list))
-  if (!out) {
+  if (!out && any(file.exists(config))) {
     msg <- paste(
       "As of version 0.7.9001 (September 2021),",
       "targets YAML configuration files",
@@ -78,7 +82,7 @@ tar_config_get_multi_project <- function(name, yaml, project, memory) {
 tar_config_get_project <- function(name, yaml) {
   switch(
     name,
-    inherits = yaml$inherits %|||% "default",
+    inherits = yaml$inherits,
     reporter_make = yaml$reporter_make %|||% "verbose",
     reporter_outdated = yaml$reporter_outdated %|||% "silent",
     script = yaml$script %|||% path_script_default(),

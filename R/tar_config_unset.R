@@ -28,6 +28,10 @@ tar_config_unset <- function(
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   project = Sys.getenv("TAR_PROJECT", "main")
 ) {
+  tar_assert_chr(config)
+  tar_assert_scalar(config)
+  tar_assert_chr(project)
+  tar_assert_scalar(project)
   choices <- setdiff(names(formals(tar_config_set)), c("config", "project"))
   tar_assert_in(names, choices = choices)
   yaml <- tar_config_read_yaml(config)

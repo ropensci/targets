@@ -124,6 +124,10 @@ tar_config_set <- function(
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   project = Sys.getenv("TAR_PROJECT", "main")
 ) {
+  tar_assert_chr(config)
+  tar_assert_scalar(config)
+  tar_assert_chr(project)
+  tar_assert_scalar(project)
   tar_config_assert_inherits(inherits)
   tar_config_assert_reporter_make(reporter_make)
   tar_config_assert_reporter_outdated(reporter_outdated)
