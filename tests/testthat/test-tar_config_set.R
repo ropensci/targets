@@ -194,3 +194,43 @@ tar_test("tar_config_set() TAR_CONFIG", {
   expect_false(file.exists(path_store_default()))
   expect_true(file.exists("custom"))
 })
+
+tar_test("single-project format still works", {
+  stop("Remember to implement!")
+})
+
+tar_test("single-project converted to multi-project", {
+  stop("Remember to implement!")
+})
+
+tar_test("project switching with project arg", {
+  stop("Remember to implement!")
+})
+
+tar_test("project switching with TAR_PROJECT", {
+  stop("Remember to implement!")
+})
+
+tar_test("project switching with TAR_PROJECT", {
+  stop("Remember to implement!")
+})
+
+tar_test("correct project inheritance", {
+  stop("Remember to implement!")
+})
+
+tar_test("inherit from project without field", {
+  stop("Remember to implement!")
+})
+
+tar_test("inherit from nonexistent project", {
+  stop("Remember to implement!")
+})
+
+tar_test("nontrivial circular project inheritance", {
+  stop("Remember to implement!")
+})
+
+tar_test("project inherits from itself", {
+  stop("Remember to implement!")
+})
