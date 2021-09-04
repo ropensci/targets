@@ -15,7 +15,7 @@
 #'   environment variable. The YAML file can store configuration
 #'   settings for multiple projects, and you can globally
 #'   set the default project with the `TAR_PROJECT` environment
-#'   variable. 
+#'   variable.
 #'   The structure of the YAML file
 #'   follows the `config` R package, where each named
 #'   configuration corresponds to a `targets` project.
@@ -114,7 +114,7 @@ tar_config_set <- function(
   script = NULL,
   workers = NULL,
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
-  project = Sys.getenv("TAR_PROJECT", "default") 
+  project = Sys.getenv("TAR_PROJECT", "default")
 ) {
   tar_config_assert_inherits(inherits)
   tar_config_assert_reporter_make(reporter_make)
