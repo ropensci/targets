@@ -252,26 +252,45 @@ tar_test("project switching/setting with TAR_PROJECT", {
   expect_equal(tar_config_get("store"), path_store_default())
 })
 
-tar_test("correct project inheritance", {
-  stop("Remember to implement!")
+tar_test("correct project inheritance (1 level)", {
+  tar_config_set(store = "sa", project = "pa")
+  tar_config_set(inherits = "pa", project = "pb")
+  expect_equal(tar_config_get("store", project = "pb"), "sa")
+  expect_equal(tar_config_get("script", project = "pb"), path_script_default())
 })
 
 tar_test("correct project inheritance more than 2 levels deep", {
-  stop("Remember to implement!")
-})
-
-tar_test("inherit from project without field", {
-  stop("Remember to implement!")
+  tar_config_set(store = "sa", project = "pa")
+  tar_config_set(inherits = "pa", project = "pb")
+  tar_config_set(inherits = "pb", project = "pc")
+  tar_config_set(inherits = "pc", project = "pd")
+  tar_config_set(inherits = "pd", project = "pe")
+  expect_equal(tar_config_get("store", project = "pe"), "sa")
+  expect_equal(tar_config_get("script", project = "pe"), path_script_default())
 })
 
 tar_test("inherit from nonexistent project", {
-  stop("Remember to implement!")
+  tar_config_set(store = "sa", project = "pa")
+  tar_config_set(inherits = "nope", project = "pb")
+  expect_equal(tar_config_get("store", project = "pb"), path_store_default())
 })
 
 tar_test("nontrivial circular project inheritance", {
-  stop("Remember to implement!")
+  tar_config_set(store = "sa", inherits = "pe", project = "pa")
+  tar_config_set(inherits = "pa", project = "pb")
+  tar_config_set(inherits = "pb", project = "pc")
+  tar_config_set(inherits = "pc", project = "pd")
+  tar_config_set(inherits = "pd", project = "pe")
+  expect_error(
+    tar_config_get("script", project = "pa"),
+    class = "tar_condition_validate"
+  )
 })
 
 tar_test("project inherits from itself", {
-  stop("Remember to implement!")
+  tar_config_set(inherits = "pa", project = "pa")
+  expect_error(
+    tar_config_get("script", project = "pa"),
+    class = "tar_condition_validate"
+  )
 })
