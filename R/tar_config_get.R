@@ -47,7 +47,8 @@ tar_config_get <- function(
 }
 
 tar_config_is_multi_project <- function(yaml, config) {
-  out <- any(map_lgl(yaml, is.list))
+  yaml <- yaml[!map_lgl(yaml, is.null)]
+  out <- !length(yaml) || any(map_lgl(yaml, ~is.list(.x)))
   if (!out && any(file.exists(config))) {
     msg <- paste(
       "As of version 0.7.9001 (September 2021),",

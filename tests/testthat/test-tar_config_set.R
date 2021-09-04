@@ -294,3 +294,13 @@ tar_test("project inherits from itself", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("no conversion to multi-project if just a empty projects", {
+  writeLines("pa:\npb:", "_targets.yaml")
+  tar_config_set(store = "abc", project = "pc")
+  yaml <- yaml::read_yaml("_targets.yaml")
+  expect_equal(sort(names(yaml)), sort(c("pa", "pb", "pc")))
+  expect_null(yaml$pa)
+  expect_null(yaml$pb)
+  expect_equal(yaml$pc, list(store = "abc"))
+})
