@@ -215,6 +215,10 @@ tar_test("correct project inheritance", {
   stop("Remember to implement!")
 })
 
+tar_test("correct project inheritance more than 2 levels deep", {
+  stop("Remember to implement!")
+})
+
 tar_test("inherit from project without field", {
   stop("Remember to implement!")
 })
