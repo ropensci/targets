@@ -15,3 +15,7 @@ tar_test("tar_config_unset()", {
 tar_test("tar_config_unset() unsets from correct project", {
   stop("Remember to implement!")
 })
+
+tar_test("tar_config_unset() converts to multi-project format", {
+  stop("Remember to implement!")
+})
