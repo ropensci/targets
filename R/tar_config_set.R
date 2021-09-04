@@ -124,6 +124,8 @@ tar_config_set <- function(
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   project = Sys.getenv("TAR_PROJECT", "main")
 ) {
+  # TODO: remove single-project format, which was deprecated on
+  # 2021-09-03 (version 0.7.0.9001).
   tar_assert_chr(config)
   tar_assert_scalar(config)
   tar_assert_chr(project)
