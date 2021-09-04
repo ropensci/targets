@@ -9,7 +9,7 @@ tar_watch_server(
   height = "650px",
   exclude = ".Random.seed",
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
-  project = Sys.getenv("TAR_PROJECT", "default")
+  project = Sys.getenv("TAR_PROJECT", "main")
 )
 }
 \arguments{
@@ -42,7 +42,7 @@ sets of configuration settings, with each set corresponding
 to its own project. The \code{project} argument allows you to
 set or get a configuration setting for a specific project
 for a given call to \code{tar_config_set()} or \code{tar_config_get()}.
-The default project is always \code{"default"}
+The default project is always called \code{"main"}
 unless you set another
 default project using the \code{TAR_PROJECT} environment variable,
 e.g. \code{Sys.setenv(tar_project = "custom")}. This also has the

@@ -17,14 +17,22 @@
 #'   set the default project with the `TAR_PROJECT` environment
 #'   variable.
 #'   The structure of the YAML file
-#'   follows the `config` R package, where each named
-#'   configuration corresponds to a `targets` project.
-#'   Projects can inherit settings from one another using the `inherits` field.
+#'   follows rules similar to the `config` R package, e.g.
+#'   projects can inherit settings from one another using the `inherits` field.
+#'   Exceptions include:
+#'     1. There is no requirement to have a configuration named `"default"`.
+#'     2. Other projects do not inherit from the default project` automatically.
+#'     3. Not all fields need to be populated because `targets` already has
+#'       system defaults.
+#'   `targets` does not actually invoke
+#'   the `config` package. The implementation in `targets`
+#'   was written from scratch without viewing or copying any
+#'   part of the source code of `config`.
 #' @return `NULL` (invisibly)
 #' @param inherits Character of length 1, name of the project from which
 #'   the current project should inherit configuration settings.
 #'   The current project is the `project` argument, which
-#'   defaults to `Sys.getenv("TAR_PROJECT", "default")`.
+#'   defaults to `Sys.getenv("TAR_PROJECT", "main")`.
 #'   If the `inherits` argument `NULL`, the `inherits` setting is not modified.
 #'   Use [tar_config_unset()] to delete a setting.
 #' @param reporter_make Character of length 1, `reporter` argument to
@@ -84,7 +92,7 @@
 #'   to its own project. The `project` argument allows you to
 #'   set or get a configuration setting for a specific project
 #'   for a given call to `tar_config_set()` or `tar_config_get()`.
-#'   The default project is always `"default"`
+#'   The default project is always called `"main"`
 #'   unless you set another
 #'   default project using the `TAR_PROJECT` environment variable,
 #'   e.g. `Sys.setenv(tar_project = "custom")`. This also has the
@@ -114,7 +122,7 @@ tar_config_set <- function(
   script = NULL,
   workers = NULL,
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
-  project = Sys.getenv("TAR_PROJECT", "default")
+  project = Sys.getenv("TAR_PROJECT", "main")
 ) {
   tar_config_assert_inherits(inherits)
   tar_config_assert_reporter_make(reporter_make)
@@ -124,20 +132,30 @@ tar_config_set <- function(
   tar_config_assert_store(store)
   tar_config_assert_workers(workers)
   yaml <- tar_config_read_yaml(config)
-  yaml$inherits <- inherits %|||% yaml$inherits
-  yaml$reporter_make <- reporter_make %|||% yaml$reporter_make
-  yaml$reporter_outdated <- reporter_outdated %|||% yaml$reporter_outdated
-  yaml$script <- script %|||% yaml$script
-  yaml$shortcut <- shortcut %|||% yaml$shortcut
-  yaml$store <- store %|||% yaml$store
-  yaml$workers <- if_any(
+  if (!tar_config_is_multi_project(yaml, config)) {
+    yaml <- tar_config_convert_multi_project(yaml, config)
+  }
+  yaml[[project]]$inherits <- inherits %|||% yaml[[project]]$inherits
+  yaml[[project]]$reporter_make <- reporter_make %|||%
+    yaml[[project]]$reporter_make
+  yaml[[project]]$reporter_outdated <- reporter_outdated %|||%
+    yaml[[project]]$reporter_outdated
+  yaml[[project]]$script <- script %|||% yaml[[project]]$script
+  yaml[[project]]$shortcut <- shortcut %|||% yaml[[project]]$shortcut
+  yaml[[project]]$store <- store %|||% yaml[[project]]$store
+  yaml[[project]]$workers <- if_any(
     is.null(workers),
-    yaml$workers,
+    yaml[[project]]$workers,
     as.character(max(1L, workers))
   )
   dir_create(dirname(config))
   yaml::write_yaml(x = yaml, file = config)
   invisible()
+}
+
+tar_config_convert_multi_project <- function(yaml, config) {
+  cli_blue_bullet(sprintf("Converting %s to multi-project format.", config))
+  list(main = yaml)
 }
 
 tar_config_assert_inherits <- function(inherits) {
@@ -203,3 +221,8 @@ tar_make_reporters <- function() {
 tar_outdated_reporters <- function() {
   c("forecast", "silent")
 }
+
+tar_config_read_yaml <- function(config) {
+  if_any(file.exists(config), as.list(yaml::read_yaml(config)), list())
+}
+

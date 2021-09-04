@@ -29,11 +29,53 @@
 tar_config_get <- function(
   name,
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
-  project = Sys.getenv("TAR_PROJECT", "default")
+  project = Sys.getenv("TAR_PROJECT", "main")
 ) {
   choices <- setdiff(names(formals(tar_config_set)), c("config", "project"))
   tar_assert_flag(name, choices = choices)
   yaml <- tar_config_read_yaml(config)
+  ifelse(
+    tar_config_is_multi_project(yaml, config),
+    tar_config_get_multi_project(name, yaml, project, memory_init()),
+    tar_config_get_project(name, yaml)
+  )
+}
+
+tar_config_is_multi_project <- function(yaml, config) {
+  out <- any(map_lgl(yaml, is.list))
+  if (!out) {
+    msg <- paste(
+      "As of version 0.7.9001 (September 2021),",
+      "targets YAML configuration files",
+      "are moving to a format that supports multiple projects.",
+      "Call tar_config_set(config = %s) to migrate",
+      "your configuration file automatically.",
+      "Read more at",
+      "https://books.ropensci.org/targets/config.html"
+    )
+    tar_warn_deprecate(sprintf(msg, config))
+  }
+  out
+}
+
+tar_config_get_multi_project <- function(name, yaml, project, memory) {
+  value <- yaml$project[[value]]
+  if (!is.null(value)) {
+    return(value)
+  }
+  memory_set_object(memory, project, TRUE)
+  inherits <- yaml[[project]]$inherits
+  if (is.null(inherits)) {
+    return(tar_config_get_project(name, list()))
+  }
+  if (memory_exists_object(memory, inherits)) {
+    msg <- sprintf("Circular project inheritance: %s, %s", project, inherits)
+    tar_throw_validate(msg)
+  }
+  tar_config_get_multi_project(name, yaml, inherits, memory)
+}
+
+tar_config_get_project <- function(name, yaml) {
   switch(
     name,
     inherits = yaml$inherits %|||% "default",
@@ -44,8 +86,4 @@ tar_config_get <- function(
     store = yaml$store %|||% path_store_default(),
     workers = as.integer(max(1L, yaml$workers)) %|||% 1L
   )
-}
-
-tar_config_read_yaml <- function(config) {
-  if_any(file.exists(config), as.list(yaml::read_yaml(config)), list())
 }

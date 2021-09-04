@@ -16,7 +16,7 @@ tar_watch_server <- function(
   height = "650px",
   exclude = ".Random.seed",
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
-  project = Sys.getenv("TAR_PROJECT", "default")
+  project = Sys.getenv("TAR_PROJECT", "main")
 ) {
   tar_assert_watch_packages()
   tar_assert_chr(

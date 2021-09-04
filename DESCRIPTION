@@ -49,7 +49,6 @@ Imports:
   callr (>= 3.4.3),
   cli (>= 2.0.2),
   codetools (>= 0.2.16),
-  config (>= 0.3.0),
   data.table (>= 1.12.8),
   digest (>= 0.6.25),
   igraph (>= 1.2.5),

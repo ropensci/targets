@@ -15,7 +15,6 @@
 #' @importFrom callr r r_bg
 #' @importFrom cli cli_alert_info col_green make_spinner symbol
 #' @importFrom codetools findGlobals
-#' @importFrom config get
 #' @importFrom data.table data.table fread fwrite set
 #' @importFrom digest digest digest2int
 #' @importFrom igraph adjacent_vertices get.edgelist gorder

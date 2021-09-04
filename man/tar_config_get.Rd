@@ -7,7 +7,7 @@
 tar_config_get(
   name,
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
-  project = Sys.getenv("TAR_PROJECT", "default")
+  project = Sys.getenv("TAR_PROJECT", "main")
 )
 }
 \arguments{
@@ -35,7 +35,7 @@ sets of configuration settings, with each set corresponding
 to its own project. The \code{project} argument allows you to
 set or get a configuration setting for a specific project
 for a given call to \code{tar_config_set()} or \code{tar_config_get()}.
-The default project is always \code{"default"}
+The default project is always called \code{"main"}
 unless you set another
 default project using the \code{TAR_PROJECT} environment variable,
 e.g. \code{Sys.setenv(tar_project = "custom")}. This also has the
@@ -69,9 +69,11 @@ settings for multiple projects, and you can globally
 set the default project with the \code{TAR_PROJECT} environment
 variable.
 The structure of the YAML file
-follows the \code{config} R package, where each named
-configuration corresponds to a \code{targets} project.
-Projects can inherit settings from one another using the \code{inherits} field.
+follows rules similar to the \code{config} R package, e.g.
+projects can inherit settings from one another using the \code{inherits} field.
+Exceptions include:
+1. There is no requirement to have a configuration named \code{"default"}.
+2. Other projects do not inherit from the default project\verb{automatically. 3. Not all fields need to be populated because}targets\verb{already has system defaults.}targets\verb{does not actually invoke the}config\verb{package. The implementation in}targets\verb{was written from scratch without viewing or copying any part of the source code of}config`.
 }
 
 \examples{

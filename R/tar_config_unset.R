@@ -26,13 +26,13 @@
 tar_config_unset <- function(
   names = character(0),
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
-  project = Sys.getenv("TAR_PROJECT", "default")
+  project = Sys.getenv("TAR_PROJECT", "main")
 ) {
   choices <- setdiff(names(formals(tar_config_set)), c("config", "project"))
   tar_assert_in(names, choices = choices)
   yaml <- tar_config_read_yaml(config)
   for (name in names) {
-    yaml[[name]] <- NULL
+    yaml[[project]][[name]] <- NULL
   }
   dir_create(dirname(config))
   yaml::write_yaml(x = yaml, file = config)

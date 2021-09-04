@@ -58,7 +58,7 @@ tar_watch <- function(
   degree_from = 1L,
   degree_to = 1L,
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
-  project = Sys.getenv("TAR_PROJECT", "default"),
+  project = Sys.getenv("TAR_PROJECT", "main"),
   height = "650px",
   display = "summary",
   displays = c("summary", "branches", "progress", "graph", "about"),
