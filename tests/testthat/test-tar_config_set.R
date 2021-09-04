@@ -196,11 +196,23 @@ tar_test("tar_config_set() TAR_CONFIG", {
 })
 
 tar_test("single-project format still works", {
-  stop("Remember to implement!")
+  writeLines("store: abc", "_targets.yaml")
+  expect_warning(
+    out <- tar_config_get("store"),
+    class = "tar_condition_deprecate"
+  )
+  expect_equal(out, "abc")
 })
 
 tar_test("single-project converted to multi-project", {
-  stop("Remember to implement!")
+  writeLines("store: abc", "_targets.yaml")
+  expect_warning(
+    tar_config_set(store = "x123"),
+    class = "tar_condition_deprecate"
+  )
+  expect_equal(tar_config_get("store"), "x123")
+  out <- yaml::read_yaml("_targets.yaml")
+  expect_equal(out, list(main = list(store = "x123")))
 })
 
 tar_test("project switching/setting with project arg", {
