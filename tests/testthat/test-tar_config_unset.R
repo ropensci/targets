@@ -13,4 +13,5 @@ tar_test("tar_config_unset()", {
 })
 
 tar_test("tar_config_unset() unsets from correct project", {
+  stop("Remember to implement!")
 })
