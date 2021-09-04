@@ -63,7 +63,7 @@ tar_config_is_multi_project <- function(yaml, config) {
 }
 
 tar_config_get_multi_project <- function(name, yaml, project, memory) {
-  value <- yaml$project[[value]]
+  value <- yaml[[project]][[name]]
   if (!is.null(value)) {
     return(value)
   }
