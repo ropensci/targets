@@ -203,15 +203,11 @@ tar_test("single-project converted to multi-project", {
   stop("Remember to implement!")
 })
 
-tar_test("project switching with project arg", {
+tar_test("project switching/setting with project arg", {
   stop("Remember to implement!")
 })
 
-tar_test("project switching with TAR_PROJECT", {
-  stop("Remember to implement!")
-})
-
-tar_test("project switching with TAR_PROJECT", {
+tar_test("project switching/setting with TAR_PROJECT", {
   stop("Remember to implement!")
 })
 

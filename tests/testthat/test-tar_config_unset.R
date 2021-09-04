@@ -1,4 +1,4 @@
-tar_test("tar_config_unset", {
+tar_test("tar_config_unset()", {
   store <- tar_config_get("store")
   script <- tar_config_get("script")
   workers <- tar_config_get("workers")
@@ -10,4 +10,7 @@ tar_test("tar_config_unset", {
   expect_equal(tar_config_get("store"), path_store_default())
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("workers"), workers + 500L)
+})
+
+tar_test("tar_config_unset() unsets from correct project", {
 })
