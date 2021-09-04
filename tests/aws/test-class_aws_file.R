@@ -124,7 +124,7 @@ tar_test("aws_file format invalidation", {
 
 tar_test("aws_file format with a custom data store", {
   skip_if_no_aws()
-  writeLines("store: custom_targets_store", "_targets.yaml")
+  tar_config_set(store = "custom_targets_store")
   bucket_name <- random_bucket_name()
   on.exit({
     unlink("example_aws_file.txt")

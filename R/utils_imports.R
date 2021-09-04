@@ -16,7 +16,7 @@ graph_envir <- function(envir) {
 }
 
 type_import <- function(name, envir) {
-  object <- get(x = name, envir = envir, inherits = FALSE)
+  object <- base::get(x = name, envir = envir, inherits = FALSE)
   ifelse(is.function(object), "function", "object")
 }
 
@@ -38,7 +38,7 @@ edges_envir <- function(envir) {
 }
 
 is_internal_name <- function(name, envir) {
-  is_internal_object(get(x = name, envir = envir, inherits = FALSE))
+  is_internal_object(base::get(x = name, envir = envir, inherits = FALSE))
 }
 
 is_internal_object <- function(object) {
@@ -46,7 +46,7 @@ is_internal_object <- function(object) {
 }
 
 envir_deps <- function(name, envir, names) {
-  value <- get(x = name, envir = envir, inherits = FALSE)
+  value <- base::get(x = name, envir = envir, inherits = FALSE)
   deps <- if_any(is.function(value), deps_function(value), character(0))
   deps <- c(deps, name)
   intersect(deps, names)
@@ -57,7 +57,7 @@ rep_to <- function(index, names, lengths) {
 }
 
 hash_import <- function(name, hashes, envir, graph) {
-  value <- get(x = name, envir = envir, inherits = FALSE)
+  value <- base::get(x = name, envir = envir, inherits = FALSE)
   hash_object(value, name, hashes, graph)
 }
 

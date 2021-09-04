@@ -45,7 +45,7 @@ tar_test("tar_read() on patterns with vector iteration", {
   expect_equal(unname(tar_read(y)), letters[seq_len(4L)])
   envir <- new.env(parent = emptyenv())
   tar_load(y, branches = c(2L, 3L), envir = envir)
-  out <- get("y", envir = envir)
+  out <- base::get("y", envir = envir)
   expect_equal(unname(out), letters[c(2L, 3L)])
 })
 

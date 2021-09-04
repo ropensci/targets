@@ -15,7 +15,7 @@ memory_exists_object <- function(memory, name) {
 }
 
 memory_get_object <- function(memory, name) {
-  get(x = name, envir = memory$envir, inherits = FALSE)
+  base::get(x = name, envir = memory$envir, inherits = FALSE)
 }
 
 memory_set_object <- function(memory, name, object) {

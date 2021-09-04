@@ -15,7 +15,8 @@ tar_watch_server <- function(
   id,
   height = "650px",
   exclude = ".Random.seed",
-  config = "_targets.yaml"
+  config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
+  project = Sys.getenv("TAR_PROJECT", "main")
 ) {
   tar_assert_watch_packages()
   tar_assert_chr(
@@ -64,9 +65,19 @@ tar_watch_server <- function(
       output$summary <- gt::render_gt({
         shiny::req(refresh$refresh)
         if_any(
-          tar_exist_progress(store = tar_config_get("store", config = config)),
+          tar_exist_progress(
+            store = tar_config_get(
+              "store",
+              config = config,
+              project = project
+            )
+          ),
           tar_progress_summary_gt(
-            path_store = tar_config_get("store", config = config)
+            path_store = tar_config_get(
+              "store",
+              config = config,
+              project = project
+            )
           ),
           gt_borderless(data_frame(progress = "No progress recorded."))
         )
@@ -74,16 +85,30 @@ tar_watch_server <- function(
       output$branches <- gt::render_gt({
         shiny::req(refresh$refresh)
         if_any(
-          tar_exist_progress(store = tar_config_get("store", config = config)),
+          tar_exist_progress(
+            store = tar_config_get(
+              "store",
+              config = config,
+              project = project
+            )
+          ),
           tar_progress_branches_gt(
-            path_store = tar_config_get("store", config = config)
+            path_store = tar_config_get(
+              "store",
+              config = config,
+              project = project
+            )
           ),
           gt_borderless(data_frame(progress = "No progress recorded."))
         )
       }, height = height)
       output$progress <- DT::renderDataTable({
         shiny::req(refresh$refresh)
-        path_store <- tar_config_get("store", config = config)
+        path_store <- tar_config_get(
+          "store",
+          config = config,
+          project = project
+        )
         if (!tar_exist_progress(store = path_store)) {
           return(data_frame(progress = "No progress recorded."))
         }
@@ -105,7 +130,13 @@ tar_watch_server <- function(
       output$graph <- visNetwork::renderVisNetwork({
         shiny::req(refresh$refresh)
         if_any(
-          tar_exist_script(script = tar_config_get("script", config = config)),
+          tar_exist_script(
+            script = tar_config_get(
+              "script",
+              config = config,
+              project = project
+            )
+          ),
           tar_visnetwork(
             targets_only = targets_only(),
             exclude = exclude,
@@ -114,8 +145,16 @@ tar_watch_server <- function(
             level_separation = level_separation(),
             degree_from = degree_from(),
             degree_to = degree_to(),
-            script = tar_config_get("script", config = config),
-            store = tar_config_get("store", config = config)
+            script = tar_config_get(
+              "script",
+              config = config,
+              project = project
+            ),
+            store = tar_config_get(
+              "store",
+              config = config,
+              project = project
+            )
           ),
           visNetwork::visNetwork(
             data_frame(

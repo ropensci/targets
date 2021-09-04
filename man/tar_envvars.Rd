@@ -44,6 +44,20 @@ you can safely set \code{TAR_ASK} to \code{"false"} in either a project-level
 or user-level \code{.Renviron} file.
 }
 
+\section{TAR_CONFIG}{
+
+The \code{TAR_CONFIG} environment variable controls the file path to the
+optional YAML configuration file with project settings.
+See the help file of \code{\link[=tar_config_set]{tar_config_set()}} for details.
+}
+
+\section{TAR_PROJECT}{
+
+The \code{TAR_PROJECT} environment variable sets the name of project
+to set and get settings when working with the YAML configuration file.
+See the help file of \code{\link[=tar_config_set]{tar_config_set()}} for details.
+}
+
 \section{TAR_WARN}{
 
 The \code{TAR_WARN} environment variable accepts values \code{"true"} and \code{"false"}.
@@ -64,6 +78,7 @@ tar_envvars()
 Other configuration: 
 \code{\link{tar_config_get}()},
 \code{\link{tar_config_set}()},
+\code{\link{tar_config_unset}()},
 \code{\link{tar_option_get}()},
 \code{\link{tar_option_reset}()},
 \code{\link{tar_option_set}()}

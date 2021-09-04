@@ -57,7 +57,8 @@ tar_watch <- function(
   level_separation = 150,
   degree_from = 1L,
   degree_to = 1L,
-  config = "_targets.yaml",
+  config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
+  project = Sys.getenv("TAR_PROJECT", "main"),
   height = "650px",
   display = "summary",
   displays = c("summary", "branches", "progress", "graph", "about"),
@@ -108,6 +109,7 @@ tar_watch <- function(
     degree_from = degree_from,
     degree_to = degree_to,
     config = config,
+    project = project,
     height = height,
     display = display,
     displays = displays,
@@ -147,6 +149,7 @@ tar_watch_app <- function(
   degree_from,
   degree_to,
   config,
+  project,
   height,
   display,
   displays,
@@ -173,7 +176,8 @@ tar_watch_app <- function(
       id = "tar_watch_id",
       height = height,
       exclude = exclude,
-      config = config
+      config = config,
+      project = project
     )
   }
   options <- list(host = host, port = port)

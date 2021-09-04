@@ -32,7 +32,7 @@ imports_set_envir <- function(imports, envir) {
 imports_set_object <- function(imports, name, envir) {
   assign(
     x = name,
-    value = get(name, envir = envir, inherits = FALSE),
+    value = base::get(name, envir = envir, inherits = FALSE),
     envir = imports,
     inherits = FALSE
   )
