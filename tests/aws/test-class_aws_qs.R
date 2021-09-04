@@ -226,7 +226,7 @@ tar_test("aws timestamp", {
 tar_test("aws_qs format with an alternative data store", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  writeLines("store: custom_targets_store", "_targets.yaml")
+  tar_config_set(store = "custom_targets_store")
   on.exit({
     unlink("_targets.yaml")
     unlink("custom_targets_store", recursive = TRUE)
