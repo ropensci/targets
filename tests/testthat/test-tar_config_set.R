@@ -220,17 +220,6 @@ tar_test("project switching/setting with project arg", {
   tar_config_set(store = "xyz", project = "project2")
   expect_equal(tar_config_get("store", project = "project1"), "abc")
   expect_equal(tar_config_get("store", project = "project2"), "xyz")
-  tar_config_unset("store", project = "project1")
-  expect_equal(
-    tar_config_get("store", project = "project1"),
-    path_store_default()
-  )
-  expect_equal(tar_config_get("store", project = "project2"), "xyz")
-  tar_config_unset("store", project = "project2")
-  expect_equal(
-    tar_config_get("store", project = "project2"),
-    path_store_default()
-  )
 })
 
 tar_test("project switching/setting with TAR_PROJECT", {
@@ -244,12 +233,6 @@ tar_test("project switching/setting with TAR_PROJECT", {
   Sys.setenv(TAR_PROJECT = "project2")
   expect_equal(tar_config_get("store"), "xyz")
   Sys.setenv(TAR_PROJECT = "project1")
-  tar_config_unset("store")
-  expect_equal(tar_config_get("store"), path_store_default())
-  Sys.setenv(TAR_PROJECT = "project2")
-  expect_equal(tar_config_get("store"), "xyz")
-  tar_config_unset("store")
-  expect_equal(tar_config_get("store"), path_store_default())
 })
 
 tar_test("correct project inheritance (1 level)", {
