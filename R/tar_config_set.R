@@ -231,4 +231,3 @@ tar_outdated_reporters <- function() {
 tar_config_read_yaml <- function(config) {
   if_any(file.exists(config), as.list(yaml::read_yaml(config)), list())
 }
-

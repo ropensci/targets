@@ -106,4 +106,3 @@ tar_config_get_convert <- function(name, value) {
     workers = as.integer(max(1L, as.integer(value)))
   )
 }
-
