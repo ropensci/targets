@@ -21,18 +21,32 @@
 #'   configuration corresponds to a `targets` project.
 #'   Projects can inherit settings from one another using the `inherits` field.
 #' @return `NULL` (invisibly)
+#' @param inherits Character of length 1, name of the project from which
+#'   the current project should inherit configuration settings.
+#'   The current project is the `project` argument, which
+#'   defaults to `Sys.getenv("TAR_PROJECT", "default")`.
+#'   If the `inherits` argument `NULL`, the `inherits` setting is not modified.
+#'   Use [tar_config_unset()] to delete a setting.
 #' @param reporter_make Character of length 1, `reporter` argument to
 #'   [tar_make()] and related functions that run the pipeline.
+#'   If the argument `NULL`, the setting is not modified.
+#'   Use [tar_config_unset()] to delete a setting.
 #' @param reporter_outdated Character of length 1, `reporter` argument to
 #'   [tar_outdated()] and related functions that do not run the pipeline.
+#'   If the argument `NULL`, the setting is not modified.
+#'   Use [tar_config_unset()] to delete a setting.
 #' @param script Character of length 1, path to the target script file
 #'   that defines the pipeline (`_targets.R` by default).
 #'   This path should be either
 #'   an absolute path or a path relative to the project root where you will
 #'   call [tar_make()] and other functions. When [tar_make()] and friends
 #'   run the script from the current working directory.
+#'   If the argument `NULL`, the setting is not modified.
+#'   Use [tar_config_unset()] to delete a setting.
 #' @param shortcut logical of length 1, default `shortcut` argument
 #'   to [tar_make()] and related functions.
+#'   If the argument `NULL`, the setting is not modified.
+#'   Use [tar_config_unset()] to delete a setting.
 #' @param store Character of length 1, path to the data store of the pipeline.
 #'   If `NULL`, the `store` setting is left unchanged in the
 #'   YAML configuration file (default: `_targets.yaml`).
@@ -43,9 +57,13 @@
 #'   but it must be writeable.
 #'   For optimal performance, choose a storage location
 #'   with fast read/write access.
+#'   If the argument `NULL`, the setting is not modified.
+#'   Use [tar_config_unset()] to delete a setting.
 #' @param workers Positive numeric of length 1, `workers` argument of
 #'   [tar_make_clustermq()] and related functions that run the pipeline
 #'   with parallel computing among targets.
+#'   If the argument `NULL`, the setting is not modified.
+#'   Use [tar_config_unset()] to delete a setting.
 #' @param config Character of length 1, file path of the YAML
 #'   configuration file with `targets` project settings.
 #'   The `config` argument specifies which YAML configuration
@@ -88,6 +106,7 @@
 #' })
 #' }
 tar_config_set <- function(
+  inherits = NULL,
   reporter_make = NULL,
   reporter_outdated = NULL,
   store = NULL,
@@ -97,6 +116,7 @@ tar_config_set <- function(
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   project = Sys.getenv("TAR_PROJECT", "default") 
 ) {
+  tar_config_assert_inherits(inherits)
   tar_config_assert_reporter_make(reporter_make)
   tar_config_assert_reporter_outdated(reporter_outdated)
   tar_config_assert_script(script)
@@ -104,6 +124,7 @@ tar_config_set <- function(
   tar_config_assert_store(store)
   tar_config_assert_workers(workers)
   yaml <- tar_config_read_yaml(config)
+  yaml$inherits <- inherits %|||% yaml$inherits
   yaml$reporter_make <- reporter_make %|||% yaml$reporter_make
   yaml$reporter_outdated <- reporter_outdated %|||% yaml$reporter_outdated
   yaml$script <- script %|||% yaml$script
@@ -117,6 +138,15 @@ tar_config_set <- function(
   dir_create(dirname(config))
   yaml::write_yaml(x = yaml, file = config)
   invisible()
+}
+
+tar_config_assert_inherits <- function(inherits) {
+  if (is.null(inherits)) {
+    return()
+  }
+  tar_assert_scalar(inherits)
+  tar_assert_chr(inherits)
+  tar_assert_nzchar(inherits)
 }
 
 tar_config_assert_reporter_make <- function(reporter_make) {

@@ -18,7 +18,9 @@ that defines the pipeline (\verb{_targets.R} by default).
 This path should be either
 an absolute path or a path relative to the project root where you will
 call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=tar_make]{tar_make()}} and friends
-run the script from the current working directory.}
+run the script from the current working directory.
+If the argument \code{NULL}, the setting is not modified.
+Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 }
 \value{
 \code{NULL} (invisibly).

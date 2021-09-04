@@ -36,11 +36,12 @@ tar_config_get <- function(
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   project = Sys.getenv("TAR_PROJECT", "default")
 ) {
-  choices <- setdiff(names(formals(tar_config_set)), "config")
+  choices <- setdiff(names(formals(tar_config_set)), c("config", "project"))
   tar_assert_flag(name, choices = choices)
   yaml <- tar_config_read_yaml(config)
   switch(
     name,
+    inherits = yaml$inherits %|||% "default",
     reporter_make = yaml$reporter_make %|||% "verbose",
     reporter_outdated = yaml$reporter_outdated %|||% "silent",
     script = yaml$script %|||% path_script_default(),

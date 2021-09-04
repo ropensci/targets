@@ -5,6 +5,7 @@
 \title{Set configuration settings.}
 \usage{
 tar_config_set(
+  inherits = NULL,
   reporter_make = NULL,
   reporter_outdated = NULL,
   store = NULL,
@@ -16,11 +17,22 @@ tar_config_set(
 )
 }
 \arguments{
+\item{inherits}{Character of length 1, name of the project from which
+the current project should inherit configuration settings.
+The current project is the \code{project} argument, which
+defaults to \code{Sys.getenv("TAR_PROJECT", "default")}.
+If the \code{inherits} argument \code{NULL}, the \code{inherits} setting is not modified.
+Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
+
 \item{reporter_make}{Character of length 1, \code{reporter} argument to
-\code{\link[=tar_make]{tar_make()}} and related functions that run the pipeline.}
+\code{\link[=tar_make]{tar_make()}} and related functions that run the pipeline.
+If the argument \code{NULL}, the setting is not modified.
+Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 
 \item{reporter_outdated}{Character of length 1, \code{reporter} argument to
-\code{\link[=tar_outdated]{tar_outdated()}} and related functions that do not run the pipeline.}
+\code{\link[=tar_outdated]{tar_outdated()}} and related functions that do not run the pipeline.
+If the argument \code{NULL}, the setting is not modified.
+Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 
 \item{store}{Character of length 1, path to the data store of the pipeline.
 If \code{NULL}, the \code{store} setting is left unchanged in the
@@ -31,21 +43,29 @@ to specify a path other than \verb{_targets/}. The path need not exist
 before the pipeline begins, and it need not end with "_targets",
 but it must be writeable.
 For optimal performance, choose a storage location
-with fast read/write access.}
+with fast read/write access.
+If the argument \code{NULL}, the setting is not modified.
+Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 
 \item{shortcut}{logical of length 1, default \code{shortcut} argument
-to \code{\link[=tar_make]{tar_make()}} and related functions.}
+to \code{\link[=tar_make]{tar_make()}} and related functions.
+If the argument \code{NULL}, the setting is not modified.
+Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 
 \item{script}{Character of length 1, path to the target script file
 that defines the pipeline (\verb{_targets.R} by default).
 This path should be either
 an absolute path or a path relative to the project root where you will
 call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=tar_make]{tar_make()}} and friends
-run the script from the current working directory.}
+run the script from the current working directory.
+If the argument \code{NULL}, the setting is not modified.
+Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 
 \item{workers}{Positive numeric of length 1, \code{workers} argument of
 \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and related functions that run the pipeline
-with parallel computing among targets.}
+with parallel computing among targets.
+If the argument \code{NULL}, the setting is not modified.
+Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 
 \item{config}{Character of length 1, file path of the YAML
 configuration file with \code{targets} project settings.
