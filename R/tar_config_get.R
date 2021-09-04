@@ -1,13 +1,8 @@
 #' @title Get configuration settings.
 #' @export
 #' @family configuration
-#' @description Read the custom settings in the optional _targets.yaml
-#'   configuration file at the current project.
-#' @details Each project can have an optional YAML configuration file
-#'   (default: `_targets.yaml`) with settings specific to a given project.
-#'   You can write it by hand or modify it with [tar_config_set()].
-#'   The currently supported configuration settings are
-#'   documented as the arguments of [tar_config_set()].
+#' @description Read the custom settings for the current project
+#'   in the optional YAML configuration file.
 #' @return The value of the configuration setting from
 #'   the YAML configuration file (default: `_targets.yaml`)
 #'   or the default value if the setting is not available.

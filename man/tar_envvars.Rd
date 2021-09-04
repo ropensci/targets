@@ -78,6 +78,7 @@ tar_envvars()
 Other configuration: 
 \code{\link{tar_config_get}()},
 \code{\link{tar_config_set}()},
+\code{\link{tar_config_unset}()},
 \code{\link{tar_option_get}()},
 \code{\link{tar_option_reset}()},
 \code{\link{tar_option_set}()}

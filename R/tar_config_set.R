@@ -2,7 +2,7 @@
 #' @export
 #' @family configuration
 #' @description `tar_config_set()` writes special custom settings
-#'   to an optional YAML configuration file.
+#'   for the current project to an optional YAML configuration file.
 #' @section Configuration:
 #'   For several key functions like [tar_make()], the
 #'   default values of arguments are controlled though

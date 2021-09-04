@@ -2,7 +2,9 @@
 
 ## New features
 
+* Implement a new `tar_config_unset()` function to delete one or more configuration settings from the YAML configuration file.
 * Implement the `TAR_CONFIG` environment variable to set the default file path of the YAML configuration file with project settings (#622). If `TAR_CONFIG` is not set, the file path is still `_targets.yaml`.
+* Restructure the YAML configuration file to handle configuration information for multiple projects (using the `config` package) and support the `TAR_PROJECT` environment variable to select the current active project for a given R session.
 
 ## Enhancements
 

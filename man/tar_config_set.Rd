@@ -101,7 +101,7 @@ to those functions are controlled by \code{tar_config_get()}.}
 }
 \description{
 \code{tar_config_set()} writes special custom settings
-to an optional YAML configuration file.
+for the current project to an optional YAML configuration file.
 }
 \section{Configuration}{
 
@@ -141,6 +141,7 @@ file.exists(store_path) # TRUE
 \seealso{
 Other configuration: 
 \code{\link{tar_config_get}()},
+\code{\link{tar_config_unset}()},
 \code{\link{tar_envvars}()},
 \code{\link{tar_option_get}()},
 \code{\link{tar_option_reset}()},
