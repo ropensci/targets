@@ -72,8 +72,16 @@ The structure of the YAML file
 follows rules similar to the \code{config} R package, e.g.
 projects can inherit settings from one another using the \code{inherits} field.
 Exceptions include:
-1. There is no requirement to have a configuration named \code{"default"}.
-2. Other projects do not inherit from the default project\verb{automatically. 3. Not all fields need to be populated because}targets\verb{already has system defaults.}targets\verb{does not actually invoke the}config\verb{package. The implementation in}targets\verb{was written from scratch without viewing or copying any part of the source code of}config`.
+\enumerate{
+\item There is no requirement to have a configuration named \code{"default"}.
+\item Other projects do not inherit from the default project` automatically.
+\item Not all fields need values because \code{targets} already has defaults.
+}
+
+\code{targets} does not actually invoke
+the \code{config} package. The implementation in \code{targets}
+was written from scratch without viewing or copying any
+part of the source code of \code{config}.
 }
 
 \examples{

@@ -20,10 +20,11 @@
 #'   follows rules similar to the `config` R package, e.g.
 #'   projects can inherit settings from one another using the `inherits` field.
 #'   Exceptions include:
-#'     1. There is no requirement to have a configuration named `"default"`.
-#'     2. Other projects do not inherit from the default project` automatically.
-#'     3. Not all fields need to be populated because `targets` already has
-#'       system defaults.
+#'
+#'   1. There is no requirement to have a configuration named `"default"`.
+#'   2. Other projects do not inherit from the default project` automatically.
+#'   3. Not all fields need values because `targets` already has defaults.
+#'
 #'   `targets` does not actually invoke
 #'   the `config` package. The implementation in `targets`
 #'   was written from scratch without viewing or copying any
