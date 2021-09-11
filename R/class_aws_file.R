@@ -48,6 +48,12 @@ store_assert_format_setting.aws_file <- function(class) {
 }
 
 #' @export
+store_early_hash.tar_aws_file <- function(store, target) { # nolint
+  tar_assert_path(store_aws_path(store$file$path))
+  file_update_hash(store$file)
+}
+
+#' @export
 store_read_object.tar_aws_file <- function(store) {
   path <- store$file$path
   bucket <- store_aws_bucket(path)

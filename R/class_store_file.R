@@ -54,6 +54,7 @@ store_assert_format.tar_store_file <- function(store, object, name) { # nolint
 
 #' @export
 store_early_hash.tar_store_file <- function(store, target) { # nolint
+  browser()
   tar_assert_path(store$file$path)
   file_update_hash(store$file)
 }

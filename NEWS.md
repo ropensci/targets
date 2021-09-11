@@ -1,5 +1,9 @@
 # targets 0.7.0.9001
 
+## Bug fixes
+
+* Hash the correct files in `tar_target(target_name, ..., format = "aws_file")`. Previously, `_targets/objects/target_name` was also hashed if it existed.
+
 ## New features
 
 * Implement a new `tar_config_unset()` function to delete one or more configuration settings from the YAML configuration file.

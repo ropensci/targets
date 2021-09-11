@@ -32,11 +32,15 @@ store_produce_aws_path <- function(store, name, object, path_store) {
 # external contributors from the open source community.
 # nocov start
 store_aws_bucket <- function(path) {
-  path[1]
+  path[1L]
 }
 
 store_aws_key <- function(path) {
-  path[2]
+  path[2L]
+}
+
+store_aws_path <- function(path) {
+  path[-seq_len(2L)]
 }
 
 #' @export

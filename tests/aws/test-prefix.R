@@ -26,6 +26,8 @@ tar_test("aws_parquet format returns data frames", {
   tar_make(callr_function = NULL)
   out <- tar_read(x)
   expect_equal(out, data.frame(x = seq_len(2), y = seq_len(2)))
+  expect_true(aws.s3::object_exists("custom/prefix/x", bucket = bucket_name))
+  expect_false(aws.s3::object_exists("_targets/objects/x", bucket = bucket_name))
   aws.s3::delete_object(object = "custom/prefix/x", bucket = bucket_name)
   aws.s3::delete_object(object = "custom/prefix/y", bucket = bucket_name)
   aws.s3::delete_object(object = "custom/prefix", bucket = bucket_name)
