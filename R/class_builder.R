@@ -91,6 +91,7 @@ target_run.tar_builder <- function(target, envir, path_store) {
   builder_update_build(target, frames_get_envir(frames))
   builder_ensure_paths(target, path_store)
   builder_ensure_object(target, "worker")
+  builder_ensure_object(target, "none")
   target
 }
 
@@ -370,7 +371,9 @@ builder_unload_value <- function(target) {
 
 builder_update_object <- function(target) {
   file_validate_path(target$store$file$path)
-  store_write_object(target$store, target$value$object)
+  if (!identical(target$settings$storage, "none")) {
+    store_write_object(target$store, target$value$object)
+  }
   builder_unload_value(target)
   store_late_hash(target$store)
   store_upload_object(target$store)

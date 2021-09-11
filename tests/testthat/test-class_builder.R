@@ -216,10 +216,10 @@ tar_test("storage = \"none\" does not write storage", {
   expect_equal(list.files("_targets/objects"), character(0))
 })
 
-tar_test("storage = \"none\" ignores return value", {
+tar_test("storage = \"none\" ignores return value but tracks file", {
   tar_script({
     run_x <- function() {
-      if (!file.exists("_targets/object")) {
+      if (!file.exists("_targets/objects")) {
         dir.create("_targets/objects")
       }
       saveRDS("correct", "_targets/objects/x")
@@ -233,6 +233,42 @@ tar_test("storage = \"none\" ignores return value", {
   tar_make(callr_function = NULL)
   expect_equal(tar_read(x), "correct")
   expect_equal(tar_read(y), "correct")
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress()$progress, rep("skipped", 2L))
+  tar_script({
+    run_x <- function() {
+      if (!file.exists("_targets/objects")) {
+        dir.create("_targets/objects")
+      }
+      saveRDS("correct", "_targets/objects/x")
+      "incorrect"
+      "incorrect"
+    }
+    list(
+      tar_target(x, run_x(), storage = "none", memory = "persistent"),
+      tar_target(y, x)
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress(x)$progress, "built")
+  expect_equal(tar_progress(y)$progress, "skipped")
+  tar_script({
+    run_x <- function() {
+      if (!file.exists("_targets/objects")) {
+        dir.create("_targets/objects")
+      }
+      saveRDS("correct2", "_targets/objects/x")
+      "incorrect"
+      "incorrect"
+    }
+    list(
+      tar_target(x, run_x(), storage = "none", memory = "persistent"),
+      tar_target(y, x)
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress(x)$progress, "built")
+  expect_equal(tar_progress(y)$progress, "built")
 })
 
 tar_test("dynamic file writing from main", {
