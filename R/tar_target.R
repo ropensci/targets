@@ -183,9 +183,14 @@
 #'   saves the value.
 #' @param retrieval Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
-#'   If `"main"`, the target's dependencies are loaded on the host machine
-#'   and sent to the worker before the target builds.
-#'   If `"worker"`, the worker loads the targets dependencies.
+#'   Must be one of the following values:
+#'   * `"main"`: the target's dependencies are loaded on the host machine
+#'     and sent to the worker before the target builds.
+#'   * `"worker"`: the worker loads the targets dependencies.
+#'   * `"none"`: the dependencies are not loaded at all.
+#'     This choice is almost never recommended. It is only for
+#'     niche situations, e.g. the data needs to be loaded
+#'     explicitly from another language.
 #' @param cue An optional object from `tar_cue()` to customize the
 #'   rules that decide whether the target is up to date.
 #' @examples

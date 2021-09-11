@@ -5,10 +5,12 @@
 * Implement a new `tar_config_unset()` function to delete one or more configuration settings from the YAML configuration file.
 * Implement the `TAR_CONFIG` environment variable to set the default file path of the YAML configuration file with project settings (#622, @yyzeng, @atusy, @nsheff, @wdkrnls). If `TAR_CONFIG` is not set, the file path is still `_targets.yaml`.
 * Restructure the YAML configuration file format to handle configuration information for multiple projects (using the `config` package) and support the `TAR_PROJECT` environment variable to select the current active project for a given R session. The old single-project format is gracefully deprecated (#622, @yyzeng, @atusy, @nsheff, @wdkrnls).
+* Implement `retrieval = "none"` to anticipate loading targets from other languages, e.g. Julia (@MilesMcBain).
 
 ## Enhancements
 
 * Use `eval(parse(text = ...), envir = tar_option_set("envir")` instead of `source()` in the `_targets.R` file for Target Markdown.
+* Allow feather and parquet formats to accept objects of class `RecordBatch` and `Table` (@MilesMcBain).
 
 # targets 0.7.0
 

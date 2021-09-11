@@ -425,7 +425,7 @@ options_class <- R6::R6Class(
       tar_assert_flag(storage, c("main", "worker"))
     },
     validate_retrieval = function(retrieval) {
-      tar_assert_flag(retrieval, c("main", "worker"))
+      tar_assert_flag(retrieval, c("main", "worker", "none"))
     },
     validate_cue = function(cue) {
       cue_validate(cue)

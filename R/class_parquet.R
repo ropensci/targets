@@ -35,11 +35,15 @@ store_cast_object.tar_parquet <- function(store, object) {
 
 #' @export
 store_assert_format.tar_parquet <- function(store, object, name) { # nolint
-  msg <- paste0(
-    "target ", name, " did not return a data frame. ",
-    "Target with format = \"parquet\" must return data frames."
+  msg <- paste(
+    "target", name, "has parquet format, so it must have class",
+    "data.frame, RecordBatch, or Table."
   )
-  tar_assert_df(object, msg)
+  tar_assert_inherits(
+    x = object,
+    class = c("data.frame", "RecordBatch", "Table"),
+    msg = msg
+  )
 }
 
 #' @export

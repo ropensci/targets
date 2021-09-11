@@ -22,8 +22,11 @@ frames_clear_objects <- function(frames) {
 }
 
 frames_set_dep <- function(frames, dep, pipeline) {
-  object <- dep$value$object
-  frames_set_object(frames, target_get_parent(dep), object)
+  value <- dep$value
+  if (!is.null(value)) {
+    object <- dep$value$object
+    frames_set_object(frames, target_get_parent(dep), object)
+  }
 }
 
 frames_set_deps <- function(frames, target, pipeline) {

@@ -195,6 +195,20 @@ tar_test("builder writing from worker", {
   target_conclude(x, pipeline, scheduler, meta)
 })
 
+tar_test("retrieval = \"none\"", {
+  skip_on_cran()
+  tar_script({
+    list(
+      tar_target(x, 1, memory = "transient"),
+      tar_target(y, x, retrieval = "none")
+    )
+  })
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_run"
+  )
+})
+
 tar_test("dynamic file writing from main", {
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())

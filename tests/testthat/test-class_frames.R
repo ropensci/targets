@@ -95,6 +95,10 @@ tar_test("target_frames_deps()", {
   file <- x$store$file$path <- tmp
   file <- y$store$file$path <- tmp
   expect_equal(names(frames_get_envir(frames)), character(0))
+  x <- pipeline_get_target(pipeline, "abc")
+  y <- pipeline_get_target(pipeline, "def")
+  x$value <- value_init(object = "x")
+  y$value <- value_init(object = "y")
   frames_set_deps(frames, z, pipeline)
   expect_equal(sort(names(frames_get_envir(frames))), sort(c("abc", "def")))
 })

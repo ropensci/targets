@@ -146,9 +146,16 @@ saves the value.}
 
 \item{retrieval}{Character of length 1, only relevant to
 \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}.
-If \code{"main"}, the target's dependencies are loaded on the host machine
+Must be one of the following values:
+\itemize{
+\item \code{"main"}: the target's dependencies are loaded on the host machine
 and sent to the worker before the target builds.
-If \code{"worker"}, the worker loads the targets dependencies.}
+\item \code{"worker"}: the worker loads the targets dependencies.
+\item \code{"none"}: the dependencies are not loaded at all.
+This choice is almost never recommended. It is only for
+niche situations, e.g. the data needs to be loaded
+explicitly from another language.
+}}
 
 \item{cue}{An optional object from \code{tar_cue()} to customize the
 rules that decide whether the target is up to date.}

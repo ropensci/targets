@@ -115,7 +115,7 @@ tar_target_raw <- function(
   tar_assert_le(priority, 1)
   tar_assert_resources(resources)
   tar_assert_flag(storage, c("main", "worker"))
-  tar_assert_flag(retrieval, c("main", "worker"))
+  tar_assert_flag(retrieval, c("main", "worker", "none"))
   if (!is.null(cue)) {
     cue_validate(cue)
   }
