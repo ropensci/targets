@@ -10,6 +10,7 @@ tar_test("parquet format", {
     expr = quote(f()),
     format = "parquet"
   )
+  store_update_stage_early(x$store, "abc", path_store_default())
   builder_update_build(x, envir)
   builder_update_paths(x, path_store_default())
   builder_update_object(x)

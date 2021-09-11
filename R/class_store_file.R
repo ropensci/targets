@@ -53,6 +53,25 @@ store_assert_format.tar_store_file <- function(store, object, name) { # nolint
 }
 
 #' @export
+store_update_stage_early.tar_store_file <- function(store, name, path_store) {
+}
+
+#' @export
+store_update_stage_late.tar_store_file <- function(
+  store,
+  name,
+  object,
+  path_store
+) {
+  store$file$stage <- store_produce_stage(
+    store = store,
+    name = name,
+    object = object,
+    path_store = path_store
+  )
+}
+
+#' @export
 store_hash_early.tar_store_file <- function(store, target) { # nolint
   tar_assert_path(store$file$path)
   file_update_hash(store$file)

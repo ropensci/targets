@@ -5,6 +5,7 @@ tar_test("qs format", {
     expr = quote(1L + 1L),
     format = "qs"
   )
+  store_update_stage_early(x$store, "abc", path_store_default())
   builder_update_build(x, baseenv())
   builder_update_paths(x, path_store_default())
   builder_update_object(x)

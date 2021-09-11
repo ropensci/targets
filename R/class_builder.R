@@ -88,6 +88,7 @@ target_run.tar_builder <- function(target, envir, path_store) {
   builder_ensure_deps(target, target$subpipeline, "worker")
   frames <- frames_produce(envir, target, target$subpipeline)
   builder_set_tar_runtime(target, frames)
+  store_update_stage_early(target$store, target$settings$name, path_store)
   builder_update_build(target, frames_get_envir(frames))
   builder_ensure_paths(target, path_store)
   builder_ensure_object(target, "worker")
@@ -356,7 +357,7 @@ builder_ensure_paths <- function(target, path_store) {
 builder_update_paths <- function(target, path_store) {
   name <- target_get_name(target)
   store_update_path(target$store, name, target$value$object, path_store)
-  store_update_stage(target$store, name, target$value$object, path_store)
+  store_update_stage_late(target$store, name, target$value$object, path_store)
   store_hash_early(target$store)
 }
 

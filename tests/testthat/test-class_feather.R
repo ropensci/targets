@@ -10,6 +10,7 @@ tar_test("feather format", {
     expr = quote(f()),
     format = "feather"
   )
+  store_update_stage_early(x$store, "abc", path_store_default())
   builder_update_build(x, envir = envir)
   builder_update_paths(x, path_store_default())
   builder_update_object(x)

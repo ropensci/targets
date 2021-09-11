@@ -204,8 +204,14 @@
 #'     the target to save the file to the data store (i.e. to [tar_path()])
 #'     while the target is running in the pipeline.
 #'     An example target could look something like
-#'     `tar_target(x, {saveRDS("used_value", tar_path()); "ignored_value"}, storage = "none")`. # nolint
-#'     The difference here is that in the general case,
+#'     `tar_target(x, {saveRDS("value", tar_path()); "ignored"}, storage = "none")`. # nolint
+#'     For AWS-backed formats (except `"aws_file"`) use `tar_stage()` instead
+#'     of `tar_path()`, e.g.
+#'     `tar_target(x, qsave("value", tar_stage()), format = "aws_qs", storage = "none")`. # nolint
+#'
+#'     The distinguishing feature of `storage = "none"`
+#'     (as opposed to `format = "file"` or `"aws_file"`)
+#'     is that in the general case,
 #'     downstream targets will automatically try to load the data
 #'     from the data store as a dependency. As a corrolary, `storage = "none"`
 #'     is completely unnecessary if `format` is `"file"` or `"aws_file"`.
