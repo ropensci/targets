@@ -187,11 +187,12 @@ the target to save the file to the data store (i.e. to \code{\link[=tar_path]{ta
 while the target is running in the pipeline.
 
 For non-cloud storage formats, an example target could look something like
-\code{tar_target(x, {saveRDS("value", tar_path()); "ignored"}, storage = "none")}. # nolint
+\code{tar_target(x, {saveRDS("value", tar_path()); "ignored"}, storage = "none")}, # nolint
+assuming \code{dirname(tar_path())} already exists.
 For AWS-backed formats (except \code{"aws_file"}) use \code{tar_stage()} instead
 of \code{tar_path()}, e.g.
-\code{tar_target(x, qsave("value", tar_stage()), format = "aws_qs", storage = "none")}. # nolint
-
+\code{tar_target(x, qsave("value", tar_stage()), format = "aws_qs", storage = "none")}, # nolint
+assuming \code{dirname(tar_stage())} already exists.
 The distinguishing feature of \code{storage = "none"}
 (as opposed to \code{format = "file"} or \code{"aws_file"})
 is that in the general case,

@@ -268,3 +268,57 @@ tar_test("aws_qs format with an alternative data store", {
   )
   expect_equal(qs::qread(tmp), "x_value")
 })
+
+tar_test("aws_qs format works with storage = \"none\"", {
+  skip_if_no_aws()
+  skip_if_not_installed("qs")
+  on.exit({
+    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
+    aws.s3::delete_bucket(bucket = bucket_name)
+  })
+  bucket_name <- random_bucket_name()
+  aws.s3::put_bucket(bucket = bucket_name)
+  expr <- quote({
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name)
+      )
+    )
+    list(
+      tar_target(
+        x, {
+          if (!file.exists(dirname(tar_stage()))) {
+            dir.create(dirname(tar_stage()))
+          }
+          qs::qsave("x_value", tar_stage()) 
+        },
+        format = "aws_qs",
+        storage = "none"
+      ),
+      tar_target(y, c(x, "y_value"), format = "aws_qs")
+    )
+  })
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
+  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
+  tar_make(callr_function = NULL)
+  expect_true(
+    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/x")
+  )
+  expect_true(
+    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/y")
+  )
+  expect_false(file.exists(file.path("_targets", "objects", "x")))
+  expect_false(file.exists(file.path("_targets", "objects", "y")))
+  expect_equal(tar_read(x), "x_value")
+  expect_equal(tar_read(y), c("x_value", "y_value"))
+  tmp <- tempfile()
+  aws.s3::save_object(
+    object = "_targets/objects/x",
+    bucket = bucket_name,
+    file = tmp
+  )
+  expect_equal(qs::qread(tmp), "x_value")
+})

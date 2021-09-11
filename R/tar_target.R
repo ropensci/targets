@@ -205,11 +205,12 @@
 #'     while the target is running in the pipeline.
 #'
 #'     For non-cloud storage formats, an example target could look something like
-#'     `tar_target(x, {saveRDS("value", tar_path()); "ignored"}, storage = "none")`. # nolint
+#'     `tar_target(x, {saveRDS("value", tar_path()); "ignored"}, storage = "none")`, # nolint
+#'     assuming `dirname(tar_path())` already exists.
 #'     For AWS-backed formats (except `"aws_file"`) use `tar_stage()` instead
 #'     of `tar_path()`, e.g.
-#'     `tar_target(x, qsave("value", tar_stage()), format = "aws_qs", storage = "none")`. # nolint
-#'
+#'     `tar_target(x, qsave("value", tar_stage()), format = "aws_qs", storage = "none")`, # nolint
+#'     assuming `dirname(tar_stage())` already exists.
 #'     The distinguishing feature of `storage = "none"`
 #'     (as opposed to `format = "file"` or `"aws_file"`)
 #'     is that in the general case,
