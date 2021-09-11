@@ -4,7 +4,9 @@
 \alias{tar_definition}
 \title{For developers only: get the definition of the current target.}
 \usage{
-tar_definition(default = targets::tar_target(target_name, identity()))
+tar_definition(
+  default = targets::tar_target_raw("target_name", quote(identity()))
+)
 }
 \arguments{
 \item{default}{Environment, value to return if \code{tar_definition()}

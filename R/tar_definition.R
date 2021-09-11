@@ -28,7 +28,9 @@
 #' tar_read(x)
 #' })
 #' }
-tar_definition <- function(default = targets::tar_target(target_name, identity())) {
+tar_definition <- function(
+  default = targets::tar_target_raw("target_name", quote(identity()))
+) {
   tar_assert_target(default)
   if_any(tar_runtime$exists_target(), tar_runtime$get_target(), default)
 }
