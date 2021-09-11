@@ -138,6 +138,7 @@ reference:
 - title: Utilities
   contents:
   - '`tar_cancel`'
+  - '`tar_definition`'
   - '`tar_envir`'
   - '`tar_group`'
   - '`tar_name`'

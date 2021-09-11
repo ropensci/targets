@@ -21,13 +21,15 @@ whatever the user supplies to \code{default}
 }
 \description{
 For developers only: get the environment where a
-target runs its command. Inherits from \code{tar_option_get("envir")}.
+target runs its command. Designed to be called
+while the target is running. The environment
+inherits from \code{tar_option_get("envir")}.
 }
 \details{
-Users should not call \code{tar_envir()} directly because accidental
+Most users should not use \code{tar_envir()} because accidental
 modifications to \code{parent.env(tar_envir())} could break the pipeline.
 \code{tar_envir()} only exists in order to support third-party interface
-packages such as \code{tarchetypes}.
+packages, and even then the returned environment is not modified.
 }
 \examples{
 tar_envir()
@@ -43,6 +45,7 @@ tar_read(x)
 \seealso{
 Other utilities: 
 \code{\link{tar_cancel}()},
+\code{\link{tar_definition}()},
 \code{\link{tar_group}()},
 \code{\link{tar_name}()},
 \code{\link{tar_path}()},

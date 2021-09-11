@@ -10,6 +10,8 @@
 #' @return A target object. Users should not modify these directly,
 #'   just feed them to [list()] in your target script file
 #'   (default: `_targets.R`).
+#'   See the "Target objects" section for details.
+#' @inheritSection tar_target Target objects
 #' @inheritParams tar_target
 #' @inheritParams tar_option_set
 #' @param name Character of length 1, name of the target. Subsequent targets

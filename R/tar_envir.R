@@ -2,11 +2,13 @@
 #' @export
 #' @family utilities
 #' @description For developers only: get the environment where a
-#'   target runs its command. Inherits from `tar_option_get("envir")`.
-#' @details Users should not call `tar_envir()` directly because accidental
+#'   target runs its command. Designed to be called
+#'   while the target is running. The environment
+#'   inherits from `tar_option_get("envir")`.
+#' @details Most users should not use `tar_envir()` because accidental
 #'   modifications to `parent.env(tar_envir())` could break the pipeline.
 #'   `tar_envir()` only exists in order to support third-party interface
-#'   packages such as `tarchetypes`.
+#'   packages, and even then the returned environment is not modified.
 #' @return If called from a running target, `tar_envir()` returns
 #'   the environment where the target runs its command.
 #'   If called outside a pipeline, the return value is

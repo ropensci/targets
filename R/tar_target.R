@@ -7,6 +7,21 @@
 #'   by the commands of targets downstream. Targets that
 #'   are already up to date are skipped. See the user manual
 #'   for more details.
+#' @section Target objects:
+#'   Functions like `tar_target()` produce target objects,
+#'   special objects with specialized sets of S3 classes.
+#'   Target objects represent skippable steps of the analysis pipeline
+#'   as described at <https://books.ropensci.org/targets/>.
+#'   Please read the walkthrough at
+#'   <https://books.ropensci.org/targets/walkthrough.html>
+#'   to understand the role of target objects in analysis pipelines.
+#'
+#'   For developers,
+#'   <https://wlandau.github.io/targetopia/contributing.html#target-factories>
+#'   explains target factories (functions like this one which generate targets)
+#'   and the design specification at
+#'   <https://books.ropensci.org/targets-design/>
+#'   details the structure and composition of target objects.
 #' @section Storage formats:
 #'   * `"rds"`: Default, uses `saveRDS()` and `readRDS()`. Should work for
 #'     most objects, but slow.
@@ -182,8 +197,20 @@
 #'   * `"main"`: the target's return value is sent back to the
 #'   host machine and saved/uploaded locally.
 #'   * `"worker"`: the worker saves/uploads the value.
-#'   * `"none"`: the data is not saved or uploaded.
-#'     This choice is almost never recommended. It is only for
+#'   * `"none"`: the return value of the target's command is ignored,
+#'     and the data is not saved automatically.
+#'     As with dynamic files (`format = "file"` or `"aws_file"`) it is the
+#'     responsibility of the user to write custom code in the command of
+#'     the target to save the file to the data store (i.e. to [tar_path()])
+#'     while the target is running in the pipeline.
+#'     An example target could look something like
+#'     `tar_target(x, {saveRDS("used_value", tar_path()); "ignored_value"}, storage = "none")`. # nolint
+#'     The difference here is that in the general case,
+#'     downstream targets will automatically try to load the data
+#'     from the data store as a dependency. As a corrolary, `storage = "none"`
+#'     is completely unnecessary if `format` is `"file"` or `"aws_file"`.
+#'
+#'     `storage = "none"` is almost never recommended. It is only for
 #'     niche situations, e.g. the data needs to be loaded
 #'     explicitly from another language. If you do use it,
 #'     then the return value of the target is totally ignored.

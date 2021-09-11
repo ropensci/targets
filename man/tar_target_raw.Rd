@@ -145,8 +145,20 @@ Must be one of the following values:
 \item \code{"main"}: the target's return value is sent back to the
 host machine and saved/uploaded locally.
 \item \code{"worker"}: the worker saves/uploads the value.
-\item \code{"none"}: the data is not saved or uploaded.
-This choice is almost never recommended. It is only for
+\item \code{"none"}: the return value of the target's command is ignored,
+and the data is not saved automatically.
+As with dynamic files (\code{format = "file"} or \code{"aws_file"}) it is the
+responsibility of the user to write custom code in the command of
+the target to save the file to the data store (i.e. to \code{\link[=tar_path]{tar_path()}})
+while the target is running in the pipeline.
+An example target could look something like
+\code{tar_target(x, {saveRDS("used_value", tar_path()); "ignored_value"}, storage = "none")}. # nolint
+The difference here is that in the general case,
+downstream targets will automatically try to load the data
+from the data store as a dependency. As a corrolary, \code{storage = "none"}
+is completely unnecessary if \code{format} is \code{"file"} or \code{"aws_file"}.
+
+\code{storage = "none"} is almost never recommended. It is only for
 niche situations, e.g. the data needs to be loaded
 explicitly from another language. If you do use it,
 then the return value of the target is totally ignored.
@@ -176,6 +188,7 @@ rules that decide whether the target is up to date.}
 A target object. Users should not modify these directly,
 just feed them to \code{\link[=list]{list()}} in your target script file
 (default: \verb{_targets.R}).
+See the "Target objects" section for details.
 }
 \description{
 \code{tar_target_raw()} is just like \code{\link[=tar_target]{tar_target()}} except
@@ -185,6 +198,24 @@ and there is no \code{tidy_eval} argument. Use \code{tar_target_raw()}
 instead of \code{\link[=tar_target]{tar_target()}} if you are creating entire batches
 of targets programmatically (metaprogramming, static branching).
 }
+\section{Target objects}{
+
+Functions like \code{tar_target()} produce target objects,
+special objects with specialized sets of S3 classes.
+Target objects represent skippable steps of the analysis pipeline
+as described at \url{https://books.ropensci.org/targets/}.
+Please read the walkthrough at
+\url{https://books.ropensci.org/targets/walkthrough.html}
+to understand the role of target objects in analysis pipelines.
+
+For developers,
+\url{https://wlandau.github.io/targetopia/contributing.html#target-factories}
+explains target factories (functions like this one which generate targets)
+and the design specification at
+\url{https://books.ropensci.org/targets-design/}
+details the structure and composition of target objects.
+}
+
 \examples{
   # The following are equivalent.
   y <- tar_target(y, sqrt(x), pattern = map(x))
