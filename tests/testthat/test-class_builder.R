@@ -233,6 +233,7 @@ tar_test("storage = \"none\" ignores return value but tracks file", {
   tar_make(callr_function = NULL)
   expect_equal(tar_read(x), "correct")
   expect_equal(tar_read(y), "correct")
+  hash <- tar_meta(x, data)$data
   tar_make(callr_function = NULL)
   expect_equal(tar_progress()$progress, rep("skipped", 2L))
   tar_script({
@@ -252,6 +253,7 @@ tar_test("storage = \"none\" ignores return value but tracks file", {
   tar_make(callr_function = NULL)
   expect_equal(tar_progress(x)$progress, "built")
   expect_equal(tar_progress(y)$progress, "skipped")
+  expect_equal(hash, tar_meta(x, data)$data)
   tar_script({
     run_x <- function() {
       if (!file.exists("_targets/objects")) {
@@ -269,6 +271,7 @@ tar_test("storage = \"none\" ignores return value but tracks file", {
   tar_make(callr_function = NULL)
   expect_equal(tar_progress(x)$progress, "built")
   expect_equal(tar_progress(y)$progress, "built")
+  expect_false(any(hash == tar_meta(x, data)$data))
 })
 
 tar_test("dynamic file writing from main", {
