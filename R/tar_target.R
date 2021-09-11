@@ -204,7 +204,8 @@
 #'     the target to save the file to the data store (i.e. to [tar_path()])
 #'     while the target is running in the pipeline.
 #'
-#'     For non-cloud storage formats, an example target could look something like
+#'     For non-cloud storage formats, an example target
+#'     could look something like
 #'     `tar_target(x, {saveRDS("value", tar_path()); "ignored"}, storage = "none")`, # nolint
 #'     assuming `dirname(tar_path())` already exists.
 #'     For AWS-backed formats (except `"aws_file"`) use `tar_stage()` instead
