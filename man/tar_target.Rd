@@ -142,7 +142,8 @@ As with dynamic files (\code{format = "file"} or \code{"aws_file"}) it is the
 responsibility of the user to write custom code in the command of
 the target to save the file to the data store (i.e. to \code{\link[=tar_path]{tar_path()}})
 while the target is running in the pipeline.
-An example target could look something like
+
+For non-cloud storage formats, an example target could look something like
 \code{tar_target(x, {saveRDS("value", tar_path()); "ignored"}, storage = "none")}. # nolint
 For AWS-backed formats (except \code{"aws_file"}) use \code{tar_stage()} instead
 of \code{tar_path()}, e.g.
@@ -152,7 +153,7 @@ The distinguishing feature of \code{storage = "none"}
 (as opposed to \code{format = "file"} or \code{"aws_file"})
 is that in the general case,
 downstream targets will automatically try to load the data
-from the data store as a dependency. As a corrolary, \code{storage = "none"}
+from the data store as a dependency. As a corollary, \code{storage = "none"}
 is completely unnecessary if \code{format} is \code{"file"} or \code{"aws_file"}.
 
 \code{storage = "none"} is almost never recommended. It is only for

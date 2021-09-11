@@ -63,6 +63,7 @@ Other utilities:
 \code{\link{tar_envir}()},
 \code{\link{tar_group}()},
 \code{\link{tar_name}()},
-\code{\link{tar_seed}()}
+\code{\link{tar_seed}()},
+\code{\link{tar_stage}()}
 }
 \concept{utilities}
