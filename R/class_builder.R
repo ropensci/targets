@@ -357,7 +357,7 @@ builder_update_paths <- function(target, path_store) {
   name <- target_get_name(target)
   store_update_path(target$store, name, target$value$object, path_store)
   store_update_stage(target$store, name, target$value$object, path_store)
-  store_early_hash(target$store)
+  store_hash_early(target$store)
 }
 
 builder_unload_value <- function(target) {
@@ -375,7 +375,7 @@ builder_update_object <- function(target) {
     store_write_object(target$store, target$value$object)
   }
   builder_unload_value(target)
-  store_late_hash(target$store)
+  store_hash_late(target$store)
   store_upload_object(target$store)
 }
 

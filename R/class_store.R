@@ -132,20 +132,20 @@ store_assert_format <- function(store, object, name) {
 store_assert_format.default <- function(store, object, name) {
 }
 
-store_early_hash <- function(store) {
-  UseMethod("store_early_hash")
+store_hash_early <- function(store) {
+  UseMethod("store_hash_early")
 }
 
 #' @export
-store_early_hash.default <- function(store) {
+store_hash_early.default <- function(store) {
 }
 
-store_late_hash <- function(store) {
-  UseMethod("store_late_hash")
+store_hash_late <- function(store) {
+  UseMethod("store_hash_late")
 }
 
 #' @export
-store_late_hash.default <- function(store) {
+store_hash_late.default <- function(store) {
   tar_assert_path(store$file$path)
   file_update_hash(store$file)
 }

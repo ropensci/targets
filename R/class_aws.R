@@ -111,7 +111,7 @@ store_aws_hash <- function(key, bucket) {
 }
 
 #' @export
-store_late_hash.tar_aws <- function(store) {
+store_hash_late.tar_aws <- function(store) {
   tar_assert_path(store$file$stage)
   file <- file_init(path = store$file$stage)
   file_update_hash(file)

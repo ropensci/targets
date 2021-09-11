@@ -48,7 +48,7 @@ store_assert_format.tar_url <- function(store, object, name) {
 }
 
 #' @export
-store_early_hash.tar_url <- function(store) { # nolint
+store_hash_early.tar_url <- function(store) { # nolint
   store$file$hash <- url_hash(
     url = store$file$path,
     handle = store$resources$url$handle %|||% store$resources$handle
@@ -56,7 +56,7 @@ store_early_hash.tar_url <- function(store) { # nolint
 }
 
 #' @export
-store_late_hash.tar_url <- function(store) { # nolint
+store_hash_late.tar_url <- function(store) { # nolint
 }
 
 #' @export
