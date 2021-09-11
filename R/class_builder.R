@@ -329,7 +329,9 @@ builder_update_build <- function(target, envir) {
     builder_resolve_object(target, build),
     error = function(error) builder_error_internal(target, error, "_build_")
   )
-  target$value <- value_init(object, target$settings$iteration)
+  if (!identical(target$settings$storage, "none")) {
+    target$value <- value_init(object, target$settings$iteration)
+  }
   invisible()
 }
 

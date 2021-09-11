@@ -178,9 +178,19 @@
 #'   See `tar_resources()` for details.
 #' @param storage Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
-#'   If `"main"`, the target's return value is sent back to the
-#'   host machine and saved locally. If `"worker"`, the worker
-#'   saves the value.
+#'   Must be one of the following values:
+#'   * `"main"`: the target's return value is sent back to the
+#'   host machine and saved/uploaded locally.
+#'   * `"worker"`: the worker saves/uploads the value.
+#'   * `"none"`: the data is not saved or uploaded.
+#'     This choice is almost never recommended. It is only for
+#'     niche situations, e.g. the data needs to be loaded
+#'     explicitly from another language. If you do use it,
+#'     then the return value of the target is totally ignored.
+#'     Each downstream targets attempt to load the data file
+#'     (i.e. whatever you wrote manually to the data store)
+#'     using the `format` you chose for the upstream
+#'     `storage = "none"` target.
 #' @param retrieval Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
 #'   Must be one of the following values:

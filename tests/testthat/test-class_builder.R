@@ -209,6 +209,32 @@ tar_test("retrieval = \"none\"", {
   )
 })
 
+tar_test("storage = \"none\" does not write storage", {
+  skip_on_cran()
+  tar_script(tar_target(x, 1, storage = "none", memory = "persistent"))
+  tar_make(callr_function = NULL)
+  expect_equal(list.files("_targets/objects"), character(0))
+})
+
+tar_test("storage = \"none\" ignores return value", {
+  tar_script({
+    run_x <- function() {
+      if (!file.exists("_targets/object")) {
+        dir.create("_targets/objects")
+      }
+      saveRDS("correct", "_targets/objects/x")
+      "incorrect"
+    }
+    list(
+      tar_target(x, run_x(), storage = "none", memory = "persistent"),
+      tar_target(y, x)
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(x), "correct")
+  expect_equal(tar_read(y), "correct")
+})
+
 tar_test("dynamic file writing from main", {
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())

@@ -422,7 +422,7 @@ options_class <- R6::R6Class(
       tar_assert_resources(resources)
     },
     validate_storage = function(storage) {
-      tar_assert_flag(storage, c("main", "worker"))
+      tar_assert_flag(storage, c("main", "worker", "none"))
     },
     validate_retrieval = function(retrieval) {
       tar_assert_flag(retrieval, c("main", "worker", "none"))
