@@ -146,6 +146,7 @@ store_late_hash <- function(store) {
 
 #' @export
 store_late_hash.default <- function(store) {
+  tar_assert_path(store$file$path)
   file_update_hash(store$file)
 }
 

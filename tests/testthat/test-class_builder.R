@@ -209,11 +209,10 @@ tar_test("retrieval = \"none\"", {
   )
 })
 
-tar_test("storage = \"none\" does not write storage", {
+tar_test("storage = \"none\" errors if user does not write storage", {
   skip_on_cran()
   tar_script(tar_target(x, 1, storage = "none", memory = "persistent"))
-  tar_make(callr_function = NULL)
-  expect_equal(list.files("_targets/objects"), character(0))
+  expect_error(tar_make(callr_function = NULL), class = "tar_condition_run")
 })
 
 tar_test("storage = \"none\" ignores return value but tracks file", {
@@ -337,7 +336,7 @@ tar_test("dynamic file is missing at path", {
     deployment = "main"
   )
   local <- local_init(pipeline_init(list(x)))
-  expect_error(local$run(), class = "tar_condition_validate")
+  expect_error(local$run(), class = "tar_condition_run")
 })
 
 tar_test("dynamic file writing from worker", {
