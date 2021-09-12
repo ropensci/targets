@@ -21,6 +21,10 @@ The top of the [reference website](https://docs.ropensci.org/targets/) links to 
 
 The [user manual](https://books.ropensci.org/targets/) starts with a  [walkthrough](https://books.ropensci.org/targets/walkthrough.html) chapter, a short tutorial to quickly started with `targets` using a simple example project. That project also has a [repository](https://github.com/wlandau/targets-minimal) with the source code and an [RStudio Cloud workspace](https://rstudio.cloud/project/1430691) that lets you try out the workflow in a web browser. Sign up for a free RStudio Cloud account, click on the link, and try out functions `tar_make()` and `tar_read()` in the R console.
 
+## Target Markdown
+
+[Target Markdown](https://books.ropensci.org/targets/markdown.html) is an R Markdown interface for testing, prototyping, and constructing targets and pipelines. It combines the convenience of R Markdown with the power of `targets`. See the [chapter](https://books.ropensci.org/targets/markdown.html) in the manual for a tutorial.
+
 ## Debugging
 
 The [debugging chapter](https://books.ropensci.org/targets/debugging.html) describes two alternative built-in systems for troubleshooting errors. The first system uses workspaces, which let you load a target's dependencies into you R session. This way is usually preferred, especially with large pipelines on computing clusters, but it still may require some manual work. The second system launches an interactive debugger while the pipeline is actually running, which may not be feasible in some situations, but can often help you reach the problem more quickly.
@@ -29,9 +33,17 @@ The [debugging chapter](https://books.ropensci.org/targets/debugging.html) descr
 
 `targets` expects users to adopt a function-oriented style of programming. User-defined R functions are essential to express the complexities of data generation, analysis, and reporting. The [user manual](https://books.ropensci.org/targets/) has a [whole chapter](https://books.ropensci.org/targets/functions.html) dedicated to user-defined functions for data science, and it explains why they are important and how to use them in `targets`-powered pipelines.
 
-## Best practices
+## Target construction
 
-The [best practices chapter](https://books.ropensci.org/targets/practices.html) contains general recommendations about `targets` pipelines in the real world, including how to define good targets, what to do if your workflow is itself an R package, and how to diagnose performance issues.
+The [target construction chapter](https://books.ropensci.org/targets/targets.html) explains best practices for creating targets: what a good target should do, how much work a target should do, and guidelines for thinking about side effects and upstream dependencies (i.e. other targets and global objects).
+
+## Packages
+
+The [packages chapter](https://books.ropensci.org/targets/packages.html) explains best practices for working with packages in `targets`: how to load them, how to work with packages as projects, target factories inside packages, and automatically invalidating targets based on changes inside one or more packages.
+
+## Projects
+
+The [projects chapter](https://books.ropensci.org/targets/projects.html) explains best practices for working with `targets`-powered projects: the recommended file structure, recommended third-party tools, multi-project repositories, and interdependent projects.
 
 ## External files and literate programming
 
