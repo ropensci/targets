@@ -8,7 +8,14 @@ aws_torch_new <- function(file = NULL, resources = NULL) {
   force(resources)
   enclass(
     environment(),
-    c("tar_aws_torch", "tar_aws", "tar_external", "tar_torch", "tar_store")
+    c(
+      "tar_aws_torch",
+      "tar_aws",
+      "tar_cloud",
+      "tar_external",
+      "tar_torch",
+      "tar_store"
+    )
   )
 }
 

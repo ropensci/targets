@@ -8,7 +8,14 @@ aws_keras_new <- function(file = NULL, resources = NULL) {
   force(resources)
   enclass(
     environment(),
-    c("tar_aws_keras", "tar_aws", "tar_external", "tar_keras", "tar_store")
+    c(
+      "tar_aws_keras",
+      "tar_aws",
+      "tar_cloud",
+      "tar_external",
+      "tar_keras",
+      "tar_store"
+    )
   )
 }
 

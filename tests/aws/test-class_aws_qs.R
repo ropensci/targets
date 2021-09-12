@@ -290,10 +290,10 @@ tar_test("aws_qs format works with storage = \"none\"", {
     list(
       tar_target(
         x, {
-          if (!file.exists(dirname(tar_stage()))) {
-            dir.create(dirname(tar_stage()))
+          if (!file.exists(dirname(tar_path()))) {
+            dir.create(dirname(tar_path()))
           }
-          qs::qsave("x_value", tar_stage())
+          qs::qsave("x_value", tar_path())
         },
         format = "aws_qs",
         storage = "none"

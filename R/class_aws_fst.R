@@ -8,7 +8,14 @@ aws_fst_new <- function(file = NULL, resources = NULL) {
   force(resources)
   enclass(
     environment(),
-    c("tar_aws_fst", "tar_aws",  "tar_external", "tar_fst", "tar_store")
+    c(
+      "tar_aws_fst",
+      "tar_aws",
+      "tar_cloud",
+      "tar_external",
+      "tar_fst",
+      "tar_store"
+    )
   )
 }
 

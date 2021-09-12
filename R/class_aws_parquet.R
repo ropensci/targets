@@ -8,7 +8,14 @@ aws_parquet_new <- function(file = NULL, resources = NULL) {
   force(resources)
   enclass(
     environment(),
-    c("tar_aws_parquet", "tar_aws", "tar_external", "tar_parquet", "tar_store")
+    c(
+      "tar_aws_parquet",
+      "tar_aws",
+      "tar_cloud",
+      "tar_external",
+      "tar_parquet",
+      "tar_store"
+    )
   )
 }
 

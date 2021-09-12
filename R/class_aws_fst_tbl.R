@@ -11,6 +11,7 @@ aws_fst_tbl_new <- function(file = NULL, resources = NULL) {
     c(
       "tar_aws_fst_tbl",
       "tar_aws",
+      "tar_cloud",
       "tar_external",
       "tar_fst_tbl",
       "tar_fst",

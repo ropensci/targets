@@ -47,9 +47,10 @@ tar_path <- function(
 tar_path_running <- function(default, path_store) {
   if_any(
     tar_runtime$exists_target(),
-    path_objects(
-      path_store = path_store,
-      name = target_get_name(tar_runtime$get_target())
+    store_tar_path(
+      tar_runtime$get_target()$store,
+      tar_runtime$get_target(),
+      path_store
     ),
     as.character(default)
   )

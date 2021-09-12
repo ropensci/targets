@@ -98,6 +98,15 @@ store_path_from_record.default <- function(store, record, path_store) {
   path_objects(path_store = path_store, name = record$name)
 }
 
+store_tar_path <- function(store, target, path_store) {
+  UseMethod("store_tar_path")
+}
+
+#' @export
+store_tar_path.default <- function(store, target, path_store) {
+  path_objects(path_store = path_store, name = target_get_name(target))
+}
+
 store_update_stage_early <- function(store, name, path_store) {
   UseMethod("store_update_stage_early")
 }

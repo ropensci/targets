@@ -11,6 +11,7 @@ aws_feather_new <- function(file = NULL, resources = NULL) {
     c(
       "tar_aws_feather",
       "tar_aws",
+      "tar_cloud",
       "tar_external",
       "tar_feather",
       "tar_store"

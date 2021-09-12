@@ -11,6 +11,7 @@ aws_fst_dt_new <- function(file = NULL, resources = NULL) {
     c(
       "tar_aws_fst_dt",
       "tar_aws",
+      "tar_cloud",
       "tar_external",
       "tar_fst_dt",
       "tar_fst",

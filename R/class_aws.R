@@ -60,13 +60,6 @@ store_read_object.tar_aws <- function(store) {
 }
 
 #' @export
-store_write_object.tar_aws <- function(store, object) {
-  stage <- store$file$stage
-  dir_create(dirname(stage))
-  store_write_path(store, store_cast_object(store, object), stage)
-}
-
-#' @export
 store_upload_object.tar_aws <- function(store) {
   key <- store_aws_key(store$file$path)
   bucket <- store_aws_bucket(store$file$path)
@@ -111,16 +104,6 @@ store_aws_hash <- function(key, bucket) {
 }
 
 #' @export
-store_hash_late.tar_aws <- function(store) {
-  tar_assert_path(store$file$stage)
-  file <- file_init(path = store$file$stage)
-  file_update_hash(file)
-  store$file$hash <- file$hash
-  store$file$bytes <- file$bytes
-  store$file$time <- file$time
-}
-
-#' @export
 store_has_correct_hash.tar_aws <- function(store) {
   bucket <- store_aws_bucket(store$file$path)
   key <- store_aws_key(store$file$path)
@@ -129,15 +112,6 @@ store_has_correct_hash.tar_aws <- function(store) {
     identical(store_aws_hash(key, bucket), store$file$hash),
     FALSE
   )
-}
-
-#' @export
-store_ensure_correct_hash.tar_aws <- function(store, storage, deployment) {
-  store_wait_correct_hash(store)
-}
-
-#' @export
-store_sync_file_meta.tar_aws <- function(store, target, meta) {
 }
 # nocov end
 
