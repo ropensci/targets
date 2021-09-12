@@ -35,3 +35,39 @@ tar_test("custom script and store args", {
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))
 })
+
+tar_test("tar_path() idempotently creates dir if create_dir is TRUE", {
+  for (index in seq_len(2)) {
+    out <- tar_path("x", create_dir = TRUE)
+    expect_true(file.exists(dirname(out)))
+  }
+})
+
+tar_test("tar_path() does not create dir if create_dir is FALSE", {
+  out <- tar_path("x", create_dir = FALSE)
+  expect_false(file.exists(dirname(out)))
+})
+
+tar_test("tar_path() returns non-cloud path for non-cloud storage formats", {
+  x <- tar_target(x, 1, format = "parquet")
+  on.exit(tar_runtime$unset_target())
+  tar_runtime$set_target(x)
+  out <- tar_path(create_dir = FALSE)
+  expect_false(file.exists(dirname(out)))
+  out <- tar_path(create_dir = TRUE)
+  expect_true(file.exists(dirname(out)))
+  expect_equal(out, path_objects(path_store_default(), "x"))
+})
+
+tar_test("tar_path() returns stage for cloud formats", {
+  x <- tar_target(x, 1, format = "aws_parquet")
+  store_update_stage_early(x$store, x$settings$name, path_store_default())
+  on.exit(tar_runtime$unset_target())
+  tar_runtime$set_target(x)
+  out <- tar_path(create_dir = FALSE)
+  expect_false(file.exists(dirname(out)))
+  out <- tar_path(create_dir = TRUE)
+  expect_true(file.exists(dirname(out)))
+  expect_equal(dirname(out), dirname(path_scratch(path_store_default())))
+  expect_equal(out, x$store$file$stage)
+})

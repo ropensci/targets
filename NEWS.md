@@ -11,7 +11,7 @@
 * Restructure the YAML configuration file format to handle configuration information for multiple projects (using the `config` package) and support the `TAR_PROJECT` environment variable to select the current active project for a given R session. The old single-project format is gracefully deprecated (#622, @yyzeng, @atusy, @nsheff, @wdkrnls).
 * Implement `retrieval = "none"` and `storage = "none"` to anticipate loading/saving targets from other languages, e.g. Julia (@MilesMcBain).
 * Add a new `tar_definition()` function to get the target definition object of the current target while that target is running in a pipeline.
-* If called inside an AWS target, `tar_path()` now returns the path to the staging file instead of `_targets/objects/target_name`. This ensures you can still write to `tar_path()` in `storage = "none"` targets and the package will automatically hash the right file and upload it to the cloud.
+* If called inside an AWS target, `tar_path()` now returns the path to the staging file instead of `_targets/objects/target_name`. This ensures you can still write to `tar_path()` in `storage = "none"` targets and the package will automatically hash the right file and upload it to the cloud. (This behavior does not apply to formats `"file"` and `"aws_file"`, where it is never necessary to set `storage = "none"`.)
 
 ## Enhancements
 

@@ -7,6 +7,7 @@
 tar_path(
   name = NULL,
   default = NA_character_,
+  create_dir = FALSE,
   store = targets::tar_config_get("store")
 )
 }
@@ -20,6 +21,12 @@ is called on its own outside a \code{targets} pipeline.
 Having a default lets users run things without \code{\link[=tar_make]{tar_make()}},
 which helps peel back layers of code and troubleshoot bugs.}
 
+\item{create_dir}{Logical of length 1,
+whether to create \code{dirname(tar_path())} in \code{tar_path()} itself.
+This is useful if you are writing to \code{tar_path()} from inside a
+\code{storage = "none"} target and need the parent directory of the file
+to exist.}
+
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},
 which in turn defaults to \verb{_targets/}.
@@ -30,20 +37,31 @@ about how to set the data store path persistently
 for a project.}
 }
 \value{
-Character, file path to a hypothetical target.
+Character, file path of the return value of the target.
+If not called from inside a running target,
+\code{tar_path(name = your_target)} just returns
+\verb{_targets/objects/your_target}, the file path where \code{your_target}
+will be saved unless \code{format} is equal to \code{"file"} or any of the
+supported cloud-based storage formats.
+
+For non-cloud storage formats, if you call \code{tar_path()}
+with no arguments while target \code{x} is running, the \code{name}
+argument defaults to the name of the running target,
+so \code{tar_path()} returns \verb{_targets/objects/x}.
+
+For cloud-backed formats, \code{tar_path()} returns the
+path to the staging file in \verb{_targets/scratch/}.
+That way, even if you select a cloud format
+(e.g. \code{tar_target(..., format = "aws_parquet", storage = "none")})
+then you can still manually write to \code{tar_path(create_dir = TRUE)}
+and the \code{targets} package will automatically hash it and
+upload it to the AWS S3 bucket. This does not apply to formats
+\code{"file"} or \code{"aws_file"}, where you would never need \code{storage = "none"}
+anyway.
 }
 \description{
 Identify the file path where a target will be stored
 after the target finishes running in the pipeline.
-}
-\details{
-\code{tar_path(name = your_target)} just returns
-\verb{_targets/objects/your_target}, the file path where \code{your_target}
-will be saved unless \code{format} is equal to \code{"file"} or any of the
-supported cloud-based storage formats. If you call \code{tar_path()}
-with no arguments while target \code{x} is running, the \code{name}
-argument defaults to the name of the target,
-so \code{tar_path()} returns \verb{_targets/objects/x}.
 }
 \examples{
 tar_path()

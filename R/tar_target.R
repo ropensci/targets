@@ -197,14 +197,25 @@
 #'   * `"main"`: the target's return value is sent back to the
 #'   host machine and saved/uploaded locally.
 #'   * `"worker"`: the worker saves/uploads the value.
-#'   * `"none"`: the return value of the target's command is ignored,
+#'   * `"none"`: almost never recommended. It is only for
+#'     niche situations, e.g. the data needs to be loaded
+#'     explicitly from another language. If you do use it,
+#'     then the return value of the target is totally ignored
+#'     when the target ends, but
+#'     each downstream target still attempts to load the data file
+#'     (except when `retrieval = "none"`).
+#'
+#'     If you select `storage = "none"`, then
+#'     the return value of the target's command is ignored,
 #'     and the data is not saved automatically.
 #'     As with dynamic files (`format = "file"` or `"aws_file"`) it is the
-#'     responsibility of the user to write to [tar_path()] from inside the target.
+#'     responsibility of the user to write to
+#'     [tar_path()] from inside the target.
 #'     An example target
 #'     could look something like
-#'     `tar_target(x, {saveRDS("value", tar_path()); "ignored"}, storage = "none")`, # nolint
-#'     assuming `dirname(tar_path())` already exists.
+#'     tar_target(x,
+#'     {saveRDS("value", tar_path(create_dir = TRUE)); "ignored"},
+#'     storage = "none")`.
 #'
 #'     The distinguishing feature of `storage = "none"`
 #'     (as opposed to `format = "file"` or `"aws_file"`)
@@ -212,15 +223,6 @@
 #'     downstream targets will automatically try to load the data
 #'     from the data store as a dependency. As a corollary, `storage = "none"`
 #'     is completely unnecessary if `format` is `"file"` or `"aws_file"`.
-#'
-#'     `storage = "none"` is almost never recommended. It is only for
-#'     niche situations, e.g. the data needs to be loaded
-#'     explicitly from another language. If you do use it,
-#'     then the return value of the target is totally ignored.
-#'     Each downstream targets attempt to load the data file
-#'     (i.e. whatever you wrote manually to the data store)
-#'     using the `format` you chose for the upstream
-#'     `storage = "none"` target.
 #' @param retrieval Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
 #'   Must be one of the following values:

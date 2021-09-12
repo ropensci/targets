@@ -73,6 +73,7 @@ deregister
 dereferenced
 deterministically
 devtools
+dir
 discoverability
 docstring
 Dobbyn
@@ -258,6 +259,7 @@ Rüeger
 runthrough
 Sankey
 Saunak
+saveRDS
 scalability
 scalable
 Schratzur

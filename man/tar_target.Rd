@@ -136,14 +136,25 @@ Must be one of the following values:
 \item \code{"main"}: the target's return value is sent back to the
 host machine and saved/uploaded locally.
 \item \code{"worker"}: the worker saves/uploads the value.
-\item \code{"none"}: the return value of the target's command is ignored,
+\item \code{"none"}: almost never recommended. It is only for
+niche situations, e.g. the data needs to be loaded
+explicitly from another language. If you do use it,
+then the return value of the target is totally ignored
+when the target ends, but
+each downstream target still attempts to load the data file
+(except when \code{retrieval = "none"}).
+
+If you select \code{storage = "none"}, then
+the return value of the target's command is ignored,
 and the data is not saved automatically.
 As with dynamic files (\code{format = "file"} or \code{"aws_file"}) it is the
-responsibility of the user to write to \code{\link[=tar_path]{tar_path()}} from inside the target.
+responsibility of the user to write to
+\code{\link[=tar_path]{tar_path()}} from inside the target.
 An example target
 could look something like
-\code{tar_target(x, {saveRDS("value", tar_path()); "ignored"}, storage = "none")}, # nolint
-assuming \code{dirname(tar_path())} already exists.
+tar_target(x,
+{saveRDS("value", tar_path(create_dir = TRUE)); "ignored"},
+storage = "none")`.
 
 The distinguishing feature of \code{storage = "none"}
 (as opposed to \code{format = "file"} or \code{"aws_file"})
@@ -151,15 +162,6 @@ is that in the general case,
 downstream targets will automatically try to load the data
 from the data store as a dependency. As a corollary, \code{storage = "none"}
 is completely unnecessary if \code{format} is \code{"file"} or \code{"aws_file"}.
-
-\code{storage = "none"} is almost never recommended. It is only for
-niche situations, e.g. the data needs to be loaded
-explicitly from another language. If you do use it,
-then the return value of the target is totally ignored.
-Each downstream targets attempt to load the data file
-(i.e. whatever you wrote manually to the data store)
-using the \code{format} you chose for the upstream
-\code{storage = "none"} target.
 }}
 
 \item{retrieval}{Character of length 1, only relevant to
