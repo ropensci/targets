@@ -9,7 +9,7 @@
 #'   `_targets/objects/your_target`, the file path where `your_target`
 #'   will be saved unless `format` is equal to `"file"` or any of the
 #'   supported cloud-based storage formats.
-#'   
+#'
 #'   For non-cloud storage formats, if you call `tar_path()`
 #'   with no arguments while target `x` is running, the `name`
 #'   argument defaults to the name of the running target,
