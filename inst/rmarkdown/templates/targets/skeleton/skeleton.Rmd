@@ -19,7 +19,7 @@ install.packages(c("biglm", "dplyr", "ggplot2", "readr", "targets", "tidyr"))
 
 # Setup
 
-Unless your version of `knitr` is 1.34 or greater, you will need to load `targets` in order for Target Markdown to work.
+If you are using old versions of `targets` (<= 0.7.0) and/or `knitr` (<= 1.33), you will need to load the `targets` package in the R Markdown document in order for Target Markdown code chunks to work.
 
 ```{r}
 library(targets)

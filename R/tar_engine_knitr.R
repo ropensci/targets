@@ -99,7 +99,6 @@ tar_engine_knitr <- function(options) {
       "either set tar_globals = FALSE or leave tar_globals unset."
     )
   }
-  tar_assert_package("knitr")
   tar_assert_list(options, "knitr chunk options must be a list.")
   warn_labels_duplicated()
   warn_labels_unnamed(options)
