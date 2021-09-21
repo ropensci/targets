@@ -4,9 +4,14 @@
 #' @description Get the timestamp associated with a target's
 #'   last successful run.
 #' @details `tar_timestamp()` checks the metadata in `_targets/meta/meta`,
-#'   not the actual data. Time stamps are recorded only for targets that
-#'   run commands: just non-branching targets and individual dynamic
-#'   branches.
+#'   not the actual returned data of the target.
+#'   The timestamp depends on the storage format of the target.
+#'   If storage is local, e.g. formats like `"rds"` and `"file"`,
+#'   then the time stamp is the latest modification time
+#'   of the target data files at the time the target
+#'   last successfully ran. For non-local formats like
+#'   `"aws_rds"` and `"url"`, then `targets` chooses instead
+#'   to simply record the time the target last successfully ran.
 #' @return If the target is not recorded in the metadata
 #'   or cannot be parsed correctly, then
 #'   `tar_timestamp()` returns a `POSIXct` object at `1970-01-01 UTC`.
