@@ -14,7 +14,7 @@ a \code{target}-specific \code{future} plan.}
 \code{future::future()}. This argument is not supported in
 some versions of \code{future}. For versions of \code{future}
 where \code{resources} is not supported, instead supply \code{resources}
-to \code{future::plan()} and assign that plan to the \code{plan} argument
+to \code{future::tweak()} and assign the returned plan to the \code{plan} argument
 of \code{tar_resources_future()}.}
 }
 \value{

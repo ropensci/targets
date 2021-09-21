@@ -195,7 +195,7 @@ test_that("future.batchtools structured resources", {
         Sys.sleep(10),
         resources = tar_resources(
           future = tar_resources_future(
-            plan = future::plan(
+            plan = future::tweak(
               future.batchtools::batchtools_sge,
               template = "sge_batchtools.tmpl",
               resources = list(slots = 2)
@@ -205,7 +205,7 @@ test_that("future.batchtools structured resources", {
       )
     )
   })
-  suppressWarnings(tar_make_future())
+  tar_make_future()
   expect_true(tar_exist_objects("x"))
 })
 
@@ -222,7 +222,7 @@ test_that("future.batchtools unstructured resources", {
           x,
           Sys.sleep(10),
           resources = list(
-            plan = future::plan(
+            plan = future::tweak(
               future.batchtools::batchtools_sge,
               template = "sge_batchtools.tmpl",
               resources = list(slots = 2)

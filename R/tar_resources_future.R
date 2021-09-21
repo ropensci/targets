@@ -19,7 +19,7 @@
 #'   `future::future()`. This argument is not supported in
 #'   some versions of `future`. For versions of `future`
 #'   where `resources` is not supported, instead supply `resources`
-#'   to `future::plan()` and assign that plan to the `plan` argument
+#'   to `future::tweak()` and assign the returned plan to the `plan` argument
 #'   of `tar_resources_future()`.
 #' @examples
 #' # Somewhere in you target script file (usually _targets.R):
