@@ -1,4 +1,4 @@
-# targets 0.7.0.9001
+# targets 0.8.0
 
 ## Bug fixes
 
