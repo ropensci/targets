@@ -19,15 +19,16 @@ install.packages(c("biglm", "dplyr", "ggplot2", "readr", "targets", "tidyr"))
 
 # Setup
 
-First, load `targets` to activate the specialized `knitr` engine for Target Markdown.
+Unless your version of `knitr` is 1.34 or greater, you will need to load `targets` in order for Target Markdown to work.
 
 ```{r}
 library(targets)
 ```
 
-Near the top, you may also wish to remove the `_targets_r` directory previously written by non-interactive runs of the report.
+Near the top of the document, you may also wish to remove the `_targets_r` directory previously written by non-interactive runs of the report. Otherwise, your pipeline may contain superfluous targets.
 
 ```{r}
+library(targets)
 tar_unscript()
 ```
 
