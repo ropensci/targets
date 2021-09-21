@@ -11,7 +11,11 @@ tar_resources_future(plan = NULL, resources = list())
 a \code{target}-specific \code{future} plan.}
 
 \item{resources}{Named list, \code{resources} argument to
-\code{future::future()}.}
+\code{future::future()}. This argument is not supported in
+some versions of \code{future}. For versions of \code{future}
+where \code{resources} is not supported, instead supply \code{resources}
+to \code{future::plan()} and assign that plan to the \code{plan} argument
+of \code{tar_resources_future()}.}
 }
 \value{
 Object of class \code{"tar_resources_future"}, to be supplied

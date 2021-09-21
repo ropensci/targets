@@ -22,7 +22,7 @@
 #'   If `NULL`, all names are eligible.
 #' @param time A `POSIXct` object of length 1, time threshold.
 #'   Targets older than this time stamp are returned.
-#'   For example, if `time = Sys.time - as.difftime(1, units = "weeks")`
+#'   For example, if `time = Sys.time() - as.difftime(1, units = "weeks")`
 #'   then `tar_older()` returns targets older than one week ago.
 #' @param inclusive Logical of length 1, whether to include targets
 #'   built at exactly the `time` given.

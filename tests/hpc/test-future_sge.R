@@ -189,16 +189,18 @@ test_that("future.batchtools structured resources", {
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
   tar_script({
-    future::plan(
-      future.batchtools::batchtools_sge,
-      template = "sge_batchtools.tmpl"
-    )
     list(
       tar_target(
         x,
         Sys.sleep(10),
         resources = tar_resources(
-          future = tar_resources_future(resources = list(slots = 2))
+          future = tar_resources_future(
+            plan = future::plan(
+              future.batchtools::batchtools_sge,
+              template = "sge_batchtools.tmpl",
+              resources = list(slots = 2)
+            )
+          )
         )
       )
     )
@@ -214,12 +216,20 @@ test_that("future.batchtools unstructured resources", {
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
   tar_script({
-    future::plan(
-      future.batchtools::batchtools_sge,
-      template = "sge_batchtools.tmpl"
-    )
     suppressWarnings(
-      list(tar_target(x, Sys.sleep(10), resources = list(slots = 2)))
+      list(
+        tar_target(
+          x,
+          Sys.sleep(10),
+          resources = list(
+            plan = future::plan(
+              future.batchtools::batchtools_sge,
+              template = "sge_batchtools.tmpl",
+              resources = list(slots = 2)
+            )
+          )
+        )
+      )
     )
   })
   suppressWarnings(tar_make_future())

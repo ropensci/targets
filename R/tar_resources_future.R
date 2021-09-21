@@ -16,7 +16,11 @@
 #' @param plan A `future::plan()` object or `NULL`,
 #'   a `target`-specific `future` plan.
 #' @param resources Named list, `resources` argument to
-#'   `future::future()`.
+#'   `future::future()`. This argument is not supported in
+#'   some versions of `future`. For versions of `future`
+#'   where `resources` is not supported, instead supply `resources`
+#'   to `future::plan()` and assign that plan to the `plan` argument
+#'   of `tar_resources_future()`.
 #' @examples
 #' # Somewhere in you target script file (usually _targets.R):
 #' tar_target(

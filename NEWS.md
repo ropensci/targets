@@ -18,6 +18,7 @@
 * Use `eval(parse(text = ...), envir = tar_option_set("envir")` instead of `source()` in the `_targets.R` file for Target Markdown.
 * Allow feather and parquet formats to accept objects of class `RecordBatch` and `Table` (@MilesMcBain).
 * Let `knitr` load the Target Markdown engine (#469, @nviets, @yihui). Minimum `knitr` version is now `1.34`.
+* In the `tar_resources_future()` help file, encourage the use of `plan` to specify resources.
 
 # targets 0.7.0
 

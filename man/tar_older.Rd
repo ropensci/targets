@@ -14,7 +14,7 @@ tar_older(
 \arguments{
 \item{time}{A \code{POSIXct} object of length 1, time threshold.
 Targets older than this time stamp are returned.
-For example, if \code{time = Sys.time - as.difftime(1, units = "weeks")}
+For example, if \code{time = Sys.time() - as.difftime(1, units = "weeks")}
 then \code{tar_older()} returns targets older than one week ago.}
 
 \item{names}{Names of eligible targets. Targets excluded from \code{names}
