@@ -39,9 +39,8 @@ or cannot be parsed correctly, then
 \code{tar_timestamp()} returns a \code{POSIXct} object at \verb{1970-01-01 UTC}.
 }
 \description{
-Get the time that a target last ran successfully.
-If there are multiple artifacts, as with file or URL targets,
-then multiple time stamps may be returned.
+Get the timestamp associated with a target's
+last successful run.
 }
 \details{
 \code{tar_timestamp()} checks the metadata in \verb{_targets/meta/meta},

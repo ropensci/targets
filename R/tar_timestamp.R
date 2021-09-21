@@ -1,9 +1,8 @@
 #' @title Get the timestamp(s) of a target.
 #' @export
 #' @family time
-#' @description Get the time that a target last ran successfully.
-#'   If there are multiple artifacts, as with file or URL targets,
-#'   then multiple time stamps may be returned.
+#' @description Get the timestamp associated with a target's
+#'   last successful run.
 #' @details `tar_timestamp()` checks the metadata in `_targets/meta/meta`,
 #'   not the actual data. Time stamps are recorded only for targets that
 #'   run commands: just non-branching targets and individual dynamic
