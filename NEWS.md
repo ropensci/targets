@@ -1,3 +1,9 @@
+# targets 0.8.0.9000
+
+## Enhancements
+
+* Improve `tidyselect` docs in `tar_make()` (#640, @dewoller).
+
 # targets 0.8.0
 
 ## Bug fixes
