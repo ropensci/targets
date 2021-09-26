@@ -6,7 +6,7 @@ jobs:
   lint:
     runs-on: macOS-latest
     env:
-      GITHUB_PAT: ${{ secrets.GITHUBPAT }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       TORCH_INSTALL: 1
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: false
     steps:
