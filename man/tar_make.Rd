@@ -24,7 +24,7 @@ if you pass a character vector to a tidyselect helper, you will need
 to evaluate that character vector early with \verb{!!}, e.g.
 \code{tar_make(names = all_of(!!your_vector))}.
 Applies to ordinary targets (stem) and whole dynamic branching targets
-(patterns) by not individual dynamic branches.}
+(patterns) but not to individual dynamic branches.}
 
 \item{shortcut}{Logical of length 1, how to interpret the \code{names} argument.
 If \code{shortcut} is \code{FALSE} (default) then the function checks
