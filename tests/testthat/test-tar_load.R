@@ -79,3 +79,41 @@ tar_test("custom script and store args", {
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))
 })
+
+tar_test("tar_load() error in strict mode", {
+  tar_script(
+    list(
+      tar_target(x, 1),
+      tar_target(y, stop(x))
+    )
+  )
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_run"
+  )
+  envir <- new.env(parent = emptyenv())
+  expect_error(
+    suppressWarnings(
+      tar_load(everything(), silent = TRUE, envir = envir)
+    )
+  )
+})
+
+tar_test("tar_load() error in strict mode", {
+  tar_script(
+    list(
+      tar_target(x, "value"),
+      tar_target(y, stop(x))
+    )
+  )
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_run"
+  )
+  envir <- new.env(parent = emptyenv())
+  suppressWarnings(
+    tar_load(everything(), strict = FALSE, silent = TRUE, envir = envir)
+  )
+  expect_equal(names(envir), "x")
+  expect_equal(envir$x, "value")
+})

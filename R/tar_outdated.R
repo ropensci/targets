@@ -15,7 +15,7 @@
 #'   Otherwise, you can supply symbols
 #'   or `tidyselect` helpers like [all_of()] and [starts_with()].
 #'   Applies to ordinary targets (stem) and whole dynamic branching targets
-#'   (patterns) by not individual dynamic branches.
+#'   (patterns) but not to individual dynamic branches.
 #' @param shortcut Logical of length 1, how to interpret the `names` argument.
 #'   If `shortcut` is `FALSE` (default) then the function checks
 #'   all targets upstream of `names` as far back as the dependency graph goes.
