@@ -8,6 +8,8 @@ tar_load(
   names,
   branches = NULL,
   meta = tar_meta(targets_only = TRUE, store = store),
+  strict = TRUE,
+  silent = FALSE,
   envir = parent.frame(),
   store = targets::tar_config_get("store")
 )
@@ -15,7 +17,9 @@ tar_load(
 \arguments{
 \item{names}{Names of the targets to load. You can supply
 symbols, a character vector, or \code{tidyselect} helpers like
-\code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+\code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}. Names are selected
+from the metadata in \verb{_targets/meta}, which may
+include errored targets.}
 
 \item{branches}{Integer of indices of the branches to load
 for any targets that are patterns.}
@@ -25,6 +29,16 @@ for any targets that are patterns.}
 pipelines because all the metadata is stored in a single file.
 However, if you call \code{\link[=tar_meta]{tar_meta()}} beforehand and supply it to the \code{meta}
 argument, then successive calls to \code{tar_read()} may run much faster.}
+
+\item{strict}{Logical of length 1, whether to error out
+if one of the selected targets cannot be loaded.
+Set to \code{FALSE} to just load the targets that can be loaded
+and skip the others.}
+
+\item{silent}{Logical of length 1. If \code{silent} is \code{FALSE}
+and \code{strict} is \code{FALSE}, then a message will be printed
+if a target cannot be loaded, but load failures
+will not stop other targets from being loaded.}
 
 \item{envir}{Environment to put the loaded targets.}
 

@@ -1,5 +1,9 @@
 # targets 0.8.0.9000
 
+## New features
+
+* Add arguments `strict` and `silent` to allow `tar_load()` and `tar_load_raw()` to bypass targets that cannot be loaded.
+
 ## Enhancements
 
 * Improve `tidyselect` docs in `tar_make()` (#640, @dewoller).

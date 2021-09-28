@@ -10,7 +10,9 @@
 #' @inheritParams tar_load_raw
 #' @param names Names of the targets to load. You can supply
 #'   symbols, a character vector, or `tidyselect` helpers like
-#'    [all_of()] and [starts_with()].
+#'    [all_of()] and [starts_with()]. Names are selected
+#'    from the metadata in `_targets/meta`, which may
+#'    include errored targets.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -29,6 +31,8 @@ tar_load <- function(
   names,
   branches = NULL,
   meta = tar_meta(targets_only = TRUE, store = store),
+  strict = TRUE,
+  silent = FALSE,
   envir = parent.frame(),
   store = targets::tar_config_get("store")
 ) {
@@ -39,6 +43,8 @@ tar_load <- function(
     names = names,
     branches = branches,
     meta = meta,
+    strict = strict,
+    silent = silent,
     envir = envir,
     store = store
   )
