@@ -117,4 +117,3 @@ tar_test("tar_load() error in strict mode", {
   expect_equal(names(envir), "x")
   expect_equal(envir$x, "value")
 })
-
