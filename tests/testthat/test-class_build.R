@@ -30,7 +30,7 @@ tar_test("error with no message", {
 
 tar_test("run with warning", {
   skip_on_cran()
-  build <- expect_warning(
+  build <- suppressWarnings(
     build_init(quote(warning("12345")), baseenv()),
     regexp = "12345"
   )
@@ -39,7 +39,7 @@ tar_test("run with warning", {
 
 tar_test("warning with no message", {
   skip_on_cran()
-  build <- expect_warning(build_init(quote(warning()), baseenv()))
+  build <- suppressWarnings(build_init(quote(warning()), baseenv()))
   expect_equal(build$metrics$warnings, ".")
 })
 
