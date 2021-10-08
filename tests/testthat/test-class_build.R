@@ -28,19 +28,31 @@ tar_test("error with no message", {
   expect_true(any(nzchar(build$metrics$traceback)))
 })
 
-tar_test("run with warning", {
+tar_test("run with warning, warning recorded", {
   skip_on_cran()
-  build <- expect_warning(
-    build_init(quote(warning("12345")), baseenv()),
-    regexp = "12345"
+  build <- suppressWarnings(
+    build_init(quote(warning("12345")), baseenv())
   )
   expect_true(any(grepl("12345", build$metrics$warnings)))
 })
 
-tar_test("warning with no message", {
+tar_test("run with warning, warning thrown", {
+  skip_on_cran()
+  expect_warning(
+    build_init(quote(warning("12345")), baseenv()),
+    regexp = "12345"
+  )
+})
+
+tar_test("warning with no message, warning recorded", {
+  skip_on_cran()
+  build <- suppressWarnings(build_init(quote(warning()), baseenv()))
+  expect_equal(build$metrics$warnings, ".")
+})
+
+tar_test("warning with no message, warning thrown", {
   skip_on_cran()
   build <- expect_warning(build_init(quote(warning()), baseenv()))
-  expect_equal(build$metrics$warnings, ".")
 })
 
 tar_test("load packages", {
