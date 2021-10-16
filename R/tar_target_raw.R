@@ -85,8 +85,7 @@ tar_target_raw <- function(
   cue = targets::tar_option_get("cue")
 ) {
   tar_assert_nonmissing(name)
-  tar_assert_chr(name)
-  tar_assert_nzchar(name)
+  tar_assert_name(name)
   tar_assert_nonmissing(command, paste("target", name, "has no command."))
   if (is.expression(command)) {
     tar_assert_nonmissing(

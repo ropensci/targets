@@ -294,14 +294,15 @@ tar_assert_lgl <- function(x, msg = NULL) {
 tar_assert_name <- function(x) {
   tar_assert_chr(x)
   tar_assert_scalar(x)
-  if (!nzchar(x)) {
-    tar_throw_validate("name must be a nonempty string.")
-  }
+  tar_assert_nzchar(x)
   if (!identical(x, make.names(x))) {
     tar_throw_validate(x, " is not a valid symbol name.")
   }
+  if (grepl("^\\.", x)) {
+    tar_throw_validate("a target name cannot begin with a dot. Found: ", x)
+  }
   if (grepl("\\.$", x)) {
-    tar_throw_validate(x, " ends with a dot.")
+    tar_throw_validate("a target name cannot end with a dot. Found: ", x)
   }
 }
 

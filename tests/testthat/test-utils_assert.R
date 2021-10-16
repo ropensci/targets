@@ -106,6 +106,13 @@ tar_test("tar_assert_list()", {
   expect_error(tar_assert_list("abc"), class = "tar_condition_validate")
 })
 
+tar_test("tar_assert_name()", {
+  expect_silent(tar_assert_name("abc"))
+  expect_error(tar_assert_name("1 2"), class = "tar_condition_validate")
+  expect_error(tar_assert_name(".a"), class = "tar_condition_validate")
+  expect_error(tar_assert_name("a."), class = "tar_condition_validate")
+})
+
 tar_test("tar_assert_names()", {
   expect_silent(tar_assert_names("abc"))
   expect_error(tar_assert_names("1 2"), class = "tar_condition_validate")
