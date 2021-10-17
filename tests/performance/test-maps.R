@@ -11,7 +11,9 @@ tar_script({
     tar_target(y, x, pattern = map(x))
   )
 })
+start <- proc.time()["elapsed"]
 px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
+message(proc.time()["elapsed"] - start)
 
 # With silent reporter
 tar_destroy()
