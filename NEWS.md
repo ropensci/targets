@@ -1,4 +1,4 @@
-# targets 0.8.0.9000
+# targets 0.8.1
 
 ## New features
 
@@ -9,7 +9,7 @@
 * Improve `tidyselect` docs in `tar_make()` (#640, @dewoller).
 * Use namespaced call to `tar_dir()` in `tar_test()` (#642, @billdenney).
 * Improve `tar_assert_target_list()` error message (@kkami1115, #654).
-* Throw an informative error if a target (@dipterix, #662).
+* Throw an informative error if a target name starts with a dot (@dipterix, #662).
 
 # targets 0.8.0
 
