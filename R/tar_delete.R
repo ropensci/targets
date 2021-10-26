@@ -3,9 +3,11 @@
 #' @family clean
 #' @description Delete the return values of targets in `_targets/objects/`.
 #'   but keep the records in `_targets/meta/meta`.
+#' @details If you have a small number of data-heavy targets you
+#'   need to discard to conserve storage, this function can help.
 #'   Dynamic files and cloud data (e.g. `format = "file"`
 #'   and `format = "aws_parquet"`) are not deleted.
-#' @details For patterns recorded in the metadata, all the branches
+#'   For patterns recorded in the metadata, all the branches
 #'   will be deleted. For patterns no longer in the metadata,
 #'   branches are left alone.
 #' @inheritParams tar_validate

@@ -25,6 +25,14 @@ Delete the metadata of records in \verb{_targets/meta/meta}
 but keep the return values of targets in \verb{_targets/objects/}.
 }
 \details{
+This function forces one or more targets to rerun
+on the next \code{\link[=tar_make]{tar_make()}}, regardless of the cues and regardless
+of how those targets are stored. After \code{tar_invalidate()},
+you will still be able to locate the data files with \code{\link[=tar_path]{tar_path()}}
+and manually salvage them in an emergency.
+However, \code{\link[=tar_load]{tar_load()}} and \code{\link[=tar_read]{tar_read()}} will not be able to
+read the data into R, and subsequent calls to \code{\link[=tar_make]{tar_make()}}
+will attempt to rerun those targets.
 For patterns recorded in the metadata, all the branches
 will be invalidated. For patterns no longer in the metadata,
 branches are left alone.
@@ -41,7 +49,7 @@ tar_script({
 }, ask = FALSE)
 tar_make()
 tar_invalidate(starts_with("y")) # Only invalidates y1 and y2.
-tar_make() # y1 and y2 rebuild but return same values, so z is up to date.
+tar_make() # y1 and y2 rerun but return same values, so z is up to date.
 })
 }
 }

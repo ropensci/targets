@@ -3,7 +3,15 @@
 #' @family clean
 #' @description Delete the metadata of records in `_targets/meta/meta`
 #'   but keep the return values of targets in `_targets/objects/`.
-#' @details For patterns recorded in the metadata, all the branches
+#' @details This function forces one or more targets to rerun
+#'   on the next [tar_make()], regardless of the cues and regardless
+#'   of how those targets are stored. After `tar_invalidate()`,
+#'   you will still be able to locate the data files with [tar_path()]
+#'   and manually salvage them in an emergency.
+#'   However, [tar_load()] and [tar_read()] will not be able to
+#'   read the data into R, and subsequent calls to [tar_make()]
+#'   will attempt to rerun those targets.
+#'   For patterns recorded in the metadata, all the branches
 #'   will be invalidated. For patterns no longer in the metadata,
 #'   branches are left alone.
 #' @inheritParams tar_validate
@@ -22,7 +30,7 @@
 #' }, ask = FALSE)
 #' tar_make()
 #' tar_invalidate(starts_with("y")) # Only invalidates y1 and y2.
-#' tar_make() # y1 and y2 rebuild but return same values, so z is up to date.
+#' tar_make() # y1 and y2 rerun but return same values, so z is up to date.
 #' })
 #' }
 tar_invalidate <- function(names, store = targets::tar_config_get("store")) {

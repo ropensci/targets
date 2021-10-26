@@ -53,6 +53,13 @@ Nothing.
 Destroy all or part of the data store written
 by \code{\link[=tar_make]{tar_make()}} and similar functions.
 }
+\details{
+\code{tar_destroy()} is a hard reset. Use it if you
+intend to start the pipeline from scratch without
+any trace of a previous run in \verb{_targets/}.
+Global objects and dynamic files outside the
+data store are unaffected.
+}
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.

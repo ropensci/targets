@@ -3,6 +3,11 @@
 #' @family clean
 #' @description Destroy all or part of the data store written
 #'   by [tar_make()] and similar functions.
+#' @details `tar_destroy()` is a hard reset. Use it if you
+#'   intend to start the pipeline from scratch without
+#'   any trace of a previous run in `_targets/`.
+#'   Global objects and dynamic files outside the
+#'   data store are unaffected.
 #' @return Nothing.
 #' @inheritParams tar_validate
 #' @param destroy Character of length 1, what to destroy. Choices:

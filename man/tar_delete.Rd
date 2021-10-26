@@ -23,10 +23,12 @@ for a project.}
 \description{
 Delete the return values of targets in \verb{_targets/objects/}.
 but keep the records in \verb{_targets/meta/meta}.
-Dynamic files and cloud data (e.g. \code{format = "file"}
-and \code{format = "aws_parquet"}) are not deleted.
 }
 \details{
+If you have a small number of data-heavy targets you
+need to discard to conserve storage, this function can help.
+Dynamic files and cloud data (e.g. \code{format = "file"}
+and \code{format = "aws_parquet"}) are not deleted.
 For patterns recorded in the metadata, all the branches
 will be deleted. For patterns no longer in the metadata,
 branches are left alone.
