@@ -4,7 +4,10 @@
 #'   that were created by Target Markdown.
 #' @details Target Markdown code chunks create R scripts in a folder
 #'   called `_targets_r/` in order to aid the automatically supplied
-#'   `_targets.R` file. To keep your pipeline up to date
+#'   `_targets.R` file. Over time, the number of script files
+#'   starts to build up, and `targets` has no way of automatically
+#'   removing helper script files that are no longer necessary.
+#'   To keep your pipeline up to date
 #'   with the code chunks in the Target Markdown document(s),
 #'   it is good practice to call `tar_unscript()` at the beginning
 #'   of your first Target Markdown document. That way,

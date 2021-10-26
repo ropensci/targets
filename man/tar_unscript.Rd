@@ -27,7 +27,10 @@ that were created by Target Markdown.
 \details{
 Target Markdown code chunks create R scripts in a folder
 called \verb{_targets_r/} in order to aid the automatically supplied
-\verb{_targets.R} file. To keep your pipeline up to date
+\verb{_targets.R} file. Over time, the number of script files
+starts to build up, and \code{targets} has no way of automatically
+removing helper script files that are no longer necessary.
+To keep your pipeline up to date
 with the code chunks in the Target Markdown document(s),
 it is good practice to call \code{tar_unscript()} at the beginning
 of your first Target Markdown document. That way,
