@@ -1,11 +1,21 @@
 #' @title Remove target script helper files.
 #' @export
-#' @description Target Markdown writes helper scripts in a folder accompanying
-#'   the target script file. If the target script is the default `_targets.R`,
-#'   the helper scripts are in `_targets_r/`. If the some other location
-#'   like `custom/script.R`, the helper scripts are in `custom/script_r/`.
-#'   Use [tar_unscript()] to remove all these helper scripts in the `*_r/`
-#'   directory. The actual target script is not removed.
+#' @description Remove target script helper files (default: `_targets_r/`)
+#'   that were created by Target Markdown.
+#' @details Target Markdown code chunks create R scripts in a folder
+#'   called `_targets_r/` in order to aid the automatically supplied
+#'   `_targets.R` file. To keep your pipeline up to date
+#'   with the code chunks in the Target Markdown document(s),
+#'   it is good practice to call `tar_unscript()` at the beginning
+#'   of your first Target Markdown document. That way,
+#'   extraneous/discarded targets are automatically
+#'   removed from the pipeline when the document starts render.
+#'
+#'   If the target script is at some alternative path,
+#'   e.g. `custom/script.R`, the helper scripts are in `custom/script_r/`.
+#'   [tar_unscript()] works on the helper scripts as long as your
+#'   project configuration settings correctly identify the correct
+#'   target script.
 #' @return `NULL` (invisibly).
 #' @inheritParams tar_validate
 #' @examples

@@ -21,12 +21,24 @@ persistently for a project.}
 \code{NULL} (invisibly).
 }
 \description{
-Target Markdown writes helper scripts in a folder accompanying
-the target script file. If the target script is the default \verb{_targets.R},
-the helper scripts are in \verb{_targets_r/}. If the some other location
-like \code{custom/script.R}, the helper scripts are in \verb{custom/script_r/}.
-Use \code{\link[=tar_unscript]{tar_unscript()}} to remove all these helper scripts in the \verb{*_r/}
-directory. The actual target script is not removed.
+Remove target script helper files (default: \verb{_targets_r/})
+that were created by Target Markdown.
+}
+\details{
+Target Markdown code chunks create R scripts in a folder
+called \verb{_targets_r/} in order to aid the automatically supplied
+\verb{_targets.R} file. To keep your pipeline up to date
+with the code chunks in the Target Markdown document(s),
+it is good practice to call \code{tar_unscript()} at the beginning
+of your first Target Markdown document. That way,
+extraneous/discarded targets are automatically
+removed from the pipeline when the document starts render.
+
+If the target script is at some alternative path,
+e.g. \code{custom/script.R}, the helper scripts are in \verb{custom/script_r/}.
+\code{\link[=tar_unscript]{tar_unscript()}} works on the helper scripts as long as your
+project configuration settings correctly identify the correct
+target script.
 }
 \examples{
 tar_dir({ # tar_dir() runs code from a temporary directory.

@@ -10,6 +10,7 @@
 * Use namespaced call to `tar_dir()` in `tar_test()` (#642, @billdenney).
 * Improve `tar_assert_target_list()` error message (@kkami1115, #654).
 * Throw an informative error if a target name starts with a dot (@dipterix, #662).
+* Improve help files of `tar_destroy()` and related cleanup functions (@billdenney, #675).
 
 # targets 0.8.0
 
