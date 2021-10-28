@@ -1,6 +1,8 @@
 # targets 0.8.1.9000
 
+## Enhancements
 
+* Document target name requirements in `tar_target()` and `tar_target_raw()` (@tjmahr, #679).
 
 # targets 0.8.1
 
