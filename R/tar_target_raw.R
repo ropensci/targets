@@ -14,7 +14,9 @@
 #' @inheritSection tar_target Target objects
 #' @inheritParams tar_target
 #' @inheritParams tar_option_set
-#' @param name Character of length 1, name of the target. Subsequent targets
+#' @param name Character of length 1, name of the target. A target
+#'   name must be a valid name for a symbol in R, and it
+#'   must not start with a dot. Subsequent targets
 #'   can refer to this name symbolically to induce a dependency relationship:
 #'   e.g. `tar_target(downstream_target, f(upstream_target))` is a
 #'   target named `downstream_target` which depends on a target
