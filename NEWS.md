@@ -7,6 +7,7 @@
 ## Enhancements
 
 * Document target name requirements in `tar_target()` and `tar_target_raw()` (@tjmahr, #679).
+* Catch and relay any the error if a target cannot be checked in `target_should_run.tar_builder()`. These kinds of errors sometimes come up with AWS storage.
 
 # targets 0.8.1
 

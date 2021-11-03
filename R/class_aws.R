@@ -18,7 +18,6 @@ store_produce_aws_path <- function(store, name, object, path_store) {
   tar_assert_nonempty(region %|||% "region")
   tar_assert_chr(region %|||% "region")
   tar_assert_scalar(region %|||% "region")
-  tar_assert_nzchar(region %|||% "region")
   prefix <- store$resources$aws$prefix %|||%
     store$resources$prefix %|||%
     path_objects_dir_cloud()

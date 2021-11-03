@@ -31,7 +31,6 @@ resources_validate.tar_resources_aws <- function(resources) {
   tar_assert_nzchar(resources$prefix)
   tar_assert_scalar(resources$region %|||% "region")
   tar_assert_chr(resources$region %|||% "region")
-  tar_assert_nzchar(resources$region %|||% "region")
 }
 
 #' @export

@@ -7,7 +7,7 @@
 tar_resources_aws(
   bucket,
   prefix = targets::path_objects_dir_cloud(),
-  region = character(0)
+  region = NULL
 )
 }
 \arguments{

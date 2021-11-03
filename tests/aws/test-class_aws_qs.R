@@ -375,3 +375,32 @@ tar_test("aws_qs format with custom region", {
   )
   expect_equal(qs::qread(tmp), "x_value")
 })
+
+tar_test("aws_qs format empty region string", {
+  skip_if_no_aws()
+  skip_if_not_installed("qs")
+  on.exit({
+    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
+    aws.s3::delete_bucket(bucket = bucket_name)
+  })
+  bucket_name <- random_bucket_name()
+  aws.s3::put_bucket(bucket = bucket_name)
+  expr <- quote({
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name, region = "")
+      )
+    )
+    list(
+      tar_target(x, "x_value", format = "aws_qs"),
+      tar_target(y, c(x, "y_value"), format = "aws_qs")
+    )
+  })
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
+  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(x), "x_value")
+})

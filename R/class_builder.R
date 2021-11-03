@@ -51,10 +51,31 @@ target_prepare.tar_builder <- function(target, pipeline, scheduler) {
   builder_serialize_subpipeline(target)
 }
 
-# Willing to ignore high cyclomatic complexity score.
-# nolint start
+# nocov start
+# Tested in tests/aws/test-class_aws_qs.R (bucket deleted later).
 #' @export
 target_should_run.tar_builder <- function(target, meta) {
+  tryCatch(
+    builder_should_run(target, meta),
+    error = function(error) {
+      message <- paste0(
+        "could not check target ",
+        target_get_name(target),
+        ". ",
+        conditionMessage(error)
+      )
+      expr <- as.expression(as.call(list(quote(stop), message)))
+      target$command$expr <- expr
+      target$settings$deployment <- "main"
+      TRUE
+    }
+  )
+}
+# nocov end
+
+# Willing to ignore high cyclomatic complexity score.
+# nolint start
+builder_should_run <- function(target, meta) {
   cue <- target$cue
   if (cue_record(cue, target, meta)) return(TRUE)
   if (cue_always(cue, target, meta)) return(TRUE)
@@ -230,6 +251,7 @@ builder_ensure_deps <- function(target, pipeline, retrieval) {
       )
       expr <- as.expression(as.call(list(quote(stop), message)))
       target$command$expr <- expr
+      target$settings$deployment <- "main"
     }
   )
 }
