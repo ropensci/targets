@@ -10,29 +10,46 @@ store_produce_path.tar_aws <- function(store, name, object, path_store) {
 
 store_produce_aws_path <- function(store, name, object, path_store) {
   bucket <- store$resources$aws$bucket %|||% store$resources$bucket
+  region <- store$resources$aws$region %|||% store$resources$region
   tar_assert_nonempty(bucket)
   tar_assert_chr(bucket)
   tar_assert_scalar(bucket)
   tar_assert_nzchar(bucket)
+  tar_assert_nonempty(region %|||% "region")
+  tar_assert_chr(region %|||% "region")
+  tar_assert_scalar(region %|||% "region")
+  tar_assert_nzchar(region %|||% "region")
   prefix <- store$resources$aws$prefix %|||%
     store$resources$prefix %|||%
     path_objects_dir_cloud()
   tar_assert_nonempty(prefix)
   tar_assert_chr(prefix)
   tar_assert_scalar(prefix)
+  metabucket <- store_produce_aws_metabucket(bucket = bucket, region = region)
   object <- file.path(prefix, name)
   tar_assert_nzchar(object)
-  c(bucket, object)
+  c(metabucket, object)
 }
 
-# Semi-automated tests of Amazon S3 integration live in tests/aws/. # nolint
-# These tests should not be fully automated because they
-# automatically create S3 buckets and upload data,
-# which could put an unexpected and unfair burden on
-# external contributors from the open source community.
-# nocov start
+store_produce_aws_metabucket <- function(bucket, region) {
+  bucket <- paste0("bucket=", bucket)
+  region <- paste0("region=", region)
+  paste(c(bucket, region), collapse = ":")
+}
+
 store_aws_bucket <- function(path) {
-  path[1L]
+  metabucket <- unlist(strsplit(x = path[1L], split = ":"))
+  pattern <- "^bucket="
+  bucket <- grep(pattern = pattern, x = metabucket, value = TRUE)
+  gsub(pattern = pattern, replacement = "", x = bucket)
+}
+
+store_aws_region <- function(path) {
+  metabucket <- unlist(strsplit(x = path[1L], split = ":"))
+  pattern <- "^region="
+  region <- grep(pattern = pattern, x = metabucket, value = TRUE)
+  out <- gsub(pattern = pattern, replacement = "", x = region)
+  if_any(length(out) > 0L && any(nzchar(out)), out, NULL)
 }
 
 store_aws_key <- function(path) {
@@ -43,6 +60,12 @@ store_aws_path <- function(path) {
   path[-seq_len(2L)]
 }
 
+# Semi-automated tests of Amazon S3 integration live in tests/aws/. # nolint
+# These tests should not be fully automated because they
+# automatically create S3 buckets and upload data,
+# which could put an unexpected and unfair burden on
+# external contributors from the open source community.
+# nocov start
 #' @export
 store_read_object.tar_aws <- function(store) {
   path <- store$file$path
