@@ -24,7 +24,7 @@ tar_test("store_produce_path()", {
   store <- tar_target(x, "x_value", format = "aws_rds")$store
   store$resources <- list(bucket = "x_bucket")
   out <- store_produce_path(store, "x_name", "x_object")
-  expect_equal(out, c("x_bucket", "_targets/objects/x_name"))
+  expect_equal(out, c("bucket=x_bucket:region=", "_targets/objects/x_name"))
 })
 
 tar_test("validate aws_rds", {
