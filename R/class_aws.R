@@ -38,15 +38,20 @@ store_produce_aws_metabucket <- function(bucket, region) {
 }
 
 store_aws_bucket <- function(path) {
-  metabucket <- unlist(strsplit(x = path[1L], split = ":"))
   pattern <- "^bucket="
+  # compatibility with targets <= 0.8.1:
+  if (!any(grepl(pattern = pattern, x = path[1L]))) {
+    return(path[1L])
+  }
+  # with metadata written by targets > 0.8.1:
+  metabucket <- unlist(strsplit(x = path[1L], split = ":"))
   bucket <- grep(pattern = pattern, x = metabucket, value = TRUE)
   gsub(pattern = pattern, replacement = "", x = bucket)
 }
 
 store_aws_region <- function(path) {
-  metabucket <- unlist(strsplit(x = path[1L], split = ":"))
   pattern <- "^region="
+  metabucket <- unlist(strsplit(x = path[1L], split = ":"))
   region <- grep(pattern = pattern, x = metabucket, value = TRUE)
   out <- gsub(pattern = pattern, replacement = "", x = region)
   if_any(length(out) > 0L && any(nzchar(out)), out, NULL)
@@ -70,6 +75,7 @@ store_aws_path <- function(path) {
 store_read_object.tar_aws <- function(store) {
   path <- store$file$path
   bucket <- store_aws_bucket(path)
+  region <- store_aws_region(path)
   key <- store_aws_key(path)
   tmp <- tempfile()
   on.exit(unlink(tmp))
@@ -77,6 +83,7 @@ store_read_object.tar_aws <- function(store) {
     object = key,
     bucket = bucket,
     file = tmp,
+    region = region,
     check_region = TRUE
   )
   store_cast_object(store, store_read_path(store, tmp))
@@ -86,6 +93,7 @@ store_read_object.tar_aws <- function(store) {
 store_upload_object.tar_aws <- function(store) {
   key <- store_aws_key(store$file$path)
   bucket <- store_aws_bucket(store$file$path)
+  region <- store_aws_region(store$file$path)
   hash <- store$file$hash
   if_any(
     file_exists_stage(store$file),
@@ -95,6 +103,7 @@ store_upload_object.tar_aws <- function(store) {
       bucket = bucket,
       multipart = TRUE,
       headers = c("x-amz-meta-targets-hash" = hash),
+      region = region,
       check_region = TRUE
     ),
     tar_throw_file(
@@ -107,20 +116,22 @@ store_upload_object.tar_aws <- function(store) {
   )
 }
 
-store_aws_exists <- function(key, bucket) {
+store_aws_exists <- function(key, bucket, region) {
   suppressWarnings(
     aws.s3::object_exists(
       object = key,
       bucket = bucket,
+      region = region,
       check_region = TRUE
     )
   )
 }
 
-store_aws_hash <- function(key, bucket) {
+store_aws_hash <- function(key, bucket, region) {
   head <- aws.s3::head_object(
     object = key,
     bucket = bucket,
+    region = region,
     check_region = TRUE
   )
   hash_worker <- attr(head, "x-amz-meta-targets-hash")
@@ -128,11 +139,13 @@ store_aws_hash <- function(key, bucket) {
 
 #' @export
 store_has_correct_hash.tar_aws <- function(store) {
-  bucket <- store_aws_bucket(store$file$path)
-  key <- store_aws_key(store$file$path)
+  path <- store$file$path
+  bucket <- store_aws_bucket(path)
+  region <- store_aws_region(path)
+  key <- store_aws_key(path)
   if_any(
-    store_aws_exists(key, bucket),
-    identical(store_aws_hash(key, bucket), store$file$hash),
+    store_aws_exists(key, bucket, region),
+    identical(store_aws_hash(key, bucket, region), store$file$hash),
     FALSE
   )
 }

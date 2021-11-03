@@ -64,6 +64,7 @@ store_hash_early.tar_aws_file <- function(store, target) { # nolint
 store_read_object.tar_aws_file <- function(store) {
   path <- store$file$path
   bucket <- store_aws_bucket(path)
+  region <- store_aws_region(path)
   key <- store_aws_key(path)
   out <- store_aws_file_stage(path, key)
   dir_create(dirname(out))
@@ -71,6 +72,7 @@ store_read_object.tar_aws_file <- function(store) {
     object = key,
     bucket = bucket,
     file = out,
+    region = region,
     check_region = TRUE
   )
   out

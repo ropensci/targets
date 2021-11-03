@@ -13,3 +13,9 @@ tar_test("metabucket without region", {
   expect_equal(store_aws_bucket(path), "abc")
   expect_null(store_aws_region(path))
 })
+
+tar_test("metabucket compat with targets <= 0.8.1", {
+  path <- c("bucket_name", "object_name")
+  expect_equal(store_aws_bucket(path), "bucket_name")
+  expect_null(store_aws_region(path))
+})
