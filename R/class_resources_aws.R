@@ -1,7 +1,7 @@
 resources_aws_init <- function(
   bucket = NULL,
   prefix = path_objects_dir_cloud(),
-  region = character(0)
+  region = NULL
 ) {
   resources_aws_new(
     bucket = bucket,
