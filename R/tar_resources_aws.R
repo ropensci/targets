@@ -12,6 +12,8 @@
 #'   of the affected targets during the pipeline.
 #' @param prefix Character of length 1, "directory path"
 #'   in the S3 bucket where the target return values are stored.
+#' @param region Character of length 1, AWS region containing the S3 bucket.
+#'   Set to `NULL` to use the default region.
 #' @examples
 #' # Somewhere in you target script file (usually _targets.R):
 #' tar_target(
@@ -25,11 +27,13 @@
 #' )
 tar_resources_aws <- function(
   bucket,
-  prefix = targets::path_objects_dir_cloud()
+  prefix = targets::path_objects_dir_cloud(),
+  region = NULL
 ) {
   out <- resources_aws_init(
     bucket = bucket,
-    prefix = prefix
+    prefix = prefix,
+    region = region
   )
   resources_validate(out)
   out

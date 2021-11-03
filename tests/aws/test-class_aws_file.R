@@ -175,3 +175,63 @@ tar_test("aws_file format with a custom data store", {
   )
   expect_equal(readLines(tmp), "x_lines")
 })
+
+tar_test("aws_file format file with different region", {
+  skip_if_no_aws()
+  bucket_name <- random_bucket_name()
+  on.exit({
+    unlink("example_aws_file.txt")
+    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
+    aws.s3::delete_bucket(bucket = bucket_name)
+  })
+  aws.s3::put_bucket(bucket = bucket_name, region = "us-west-2")
+  expr <- quote({
+    tar_option_set(resources = tar_resources(
+      aws = tar_resources_aws(bucket = !!bucket_name, region = "us-west-2")
+    ))
+    evalq(
+      write_local_file <- function(lines) {
+        writeLines(lines, "example_aws_file.txt")
+        "example_aws_file.txt"
+      }, envir = tar_option_get("envir")
+    )
+    list(
+      tar_target(x, write_local_file("x_lines"), format = "aws_file"),
+      tar_target(y, readLines(x))
+    )
+  })
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
+  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
+  tar_make(callr_function = NULL, envir = tar_option_get("envir"))
+  expect_true(
+    aws.s3::object_exists(
+      bucket = bucket_name,
+      object = "_targets/objects/x",
+      region = "us-west-2"
+    )
+  )
+  unlink("_targets/scratch", recursive = TRUE)
+  expect_equal(tar_read(y), "x_lines")
+  expect_equal(length(list.files("_targets/scratch/")), 0L)
+  expect_false(file.exists("_targets/scratch/x"))
+  expect_false(file.exists("example_aws_file.txt"))
+  path <- tar_read(x)
+  expect_equal(length(list.files("_targets/scratch/")), 0L)
+  expect_false(file.exists("_targets/scratch/x"))
+  expect_true(file.exists("example_aws_file.txt"))
+  expect_equal(readLines("example_aws_file.txt"), "x_lines")
+  out <- tar_meta(x)$path[[1]][1]
+  exp <- paste0("bucket=", bucket_name, ":region=us-west-2")
+  expect_equal(out, exp)
+  tmp <- tempfile()
+  aws.s3::save_object(
+    object = "_targets/objects/x",
+    bucket = bucket_name,
+    file = tmp,
+    region = "us-west-2"
+  )
+  expect_equal(readLines(tmp), "x_lines")
+})

@@ -318,3 +318,89 @@ tar_test("aws_qs format works with storage = \"none\"", {
   )
   expect_equal(qs::qread(tmp), "x_value")
 })
+
+tar_test("aws_qs format with custom region", {
+  skip_if_no_aws()
+  skip_if_not_installed("qs")
+  on.exit({
+    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
+    aws.s3::delete_bucket(bucket = bucket_name)
+  })
+  bucket_name <- random_bucket_name()
+  aws.s3::put_bucket(bucket = bucket_name, region = "us-west-2")
+  expr <- quote({
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name, region = "us-west-2")
+      )
+    )
+    list(
+      tar_target(x, "x_value", format = "aws_qs"),
+      tar_target(y, c(x, "y_value"), format = "aws_qs")
+    )
+  })
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
+  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
+  tar_make(callr_function = NULL)
+  expect_true(
+    aws.s3::object_exists(
+      bucket = bucket_name,
+      object = "_targets/objects/x",
+      region = "us-west-2"
+    )
+  )
+  expect_true(
+    aws.s3::object_exists(
+      bucket = bucket_name,
+      object = "_targets/objects/y",
+      region = "us-west-2"
+    )
+  )
+  expect_false(file.exists(file.path("_targets", "objects", "x")))
+  expect_false(file.exists(file.path("_targets", "objects", "y")))
+  expect_equal(tar_read(x), "x_value")
+  expect_equal(tar_read(y), c("x_value", "y_value"))
+  out <- tar_meta(x)$path[[1]][1]
+  exp <- paste0("bucket=", bucket_name, ":region=us-west-2")
+  expect_equal(out, exp)
+  tmp <- tempfile()
+  aws.s3::save_object(
+    object = "_targets/objects/x",
+    bucket = bucket_name,
+    file = tmp,
+    region = "us-west-2"
+  )
+  expect_equal(qs::qread(tmp), "x_value")
+})
+
+tar_test("aws_qs format empty region string", {
+  skip_if_no_aws()
+  skip_if_not_installed("qs")
+  on.exit({
+    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
+    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
+    aws.s3::delete_bucket(bucket = bucket_name)
+  })
+  bucket_name <- random_bucket_name()
+  aws.s3::put_bucket(bucket = bucket_name)
+  expr <- quote({
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name, region = "")
+      )
+    )
+    list(
+      tar_target(x, "x_value", format = "aws_qs"),
+      tar_target(y, c(x, "y_value"), format = "aws_qs")
+    )
+  })
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
+  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(x), "x_value")
+})
