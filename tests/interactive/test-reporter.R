@@ -159,6 +159,20 @@ tar_destroy()
 out <- outdated_init(pipeline_map(), reporter = "forecast")
 tmp <- out$run()
 
+# Should show build messages for all targets.
+tar_destroy()
+local_init(pipeline_map(), reporter = "verbose_positives")$run()
+
+# Should skip skipped messages.
+local_init(pipeline_map(), reporter = "verbose_positives")$run()
+
+# Should show timestamped build messages for all targets.
+tar_destroy()
+local_init(pipeline_map(), reporter = "timestamp_positives")$run()
+
+# Should skip skipped messages.
+local_init(pipeline_map(), reporter = "timestamp_positives")$run()
+
 # Should show more checked and no outdated.
 local <- local_init(pipeline_map(), reporter = "silent")
 local$run()

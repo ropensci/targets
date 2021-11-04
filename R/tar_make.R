@@ -29,13 +29,19 @@
 #' @param reporter Character of length 1, name of the reporter to user.
 #'   Controls how messages are printed as targets run in the pipeline.
 #'   Defaults to `tar_config_get("reporter_make")`. Choices:
-#'   * `"verbose"`: print one message for each target that runs (default).
 #'   * `"silent"`: print nothing.
-#'   * `"timestamp"`: print a time-stamped message for each target that runs.
 #'   * `"summary"`: print a running total of the number of each targets in
 #'     each status category (queued, started, skipped, build, canceled,
 #'     or errored). Also show a timestamp (`"%H:%M %OS2"` `strptime()` format)
 #'     of the last time the progress changed and printed to the screen.
+#'   * `"timestamp"`: same as the `"verbose"` reporter except that each
+#'     .message begins with a time stamp.
+#'   * `"timestamp_positives"`: same as the `"timestamp"` reporter
+#'     except without messages for skipped targets.
+#'   * `"verbose"`: print messages for individual targets
+#'     as they start, finish, or are skipped.
+#'   * `"verbose_positives"`: same as the `"verbose"` reporter
+#'     except without messages for skipped targets.
 #' @examples
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script({
@@ -67,7 +73,7 @@ tar_make <- function(
   force(envir)
   tar_assert_scalar(shortcut)
   tar_assert_lgl(shortcut)
-  tar_assert_flag(reporter, tar_make_reporters())
+  tar_assert_flag(reporter, tar_reporters_make())
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
   targets_arguments <- list(

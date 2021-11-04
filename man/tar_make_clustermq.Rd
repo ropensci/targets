@@ -42,13 +42,19 @@ It relies on stored metadata for information about upstream dependencies.
 Controls how messages are printed as targets run in the pipeline.
 Defaults to \code{tar_config_get("reporter_make")}. Choices:
 \itemize{
-\item \code{"verbose"}: print one message for each target that runs (default).
 \item \code{"silent"}: print nothing.
-\item \code{"timestamp"}: print a time-stamped message for each target that runs.
 \item \code{"summary"}: print a running total of the number of each targets in
 each status category (queued, started, skipped, build, canceled,
 or errored). Also show a timestamp (\code{"\%H:\%M \%OS2"} \code{strptime()} format)
 of the last time the progress changed and printed to the screen.
+\item \code{"timestamp"}: same as the \code{"verbose"} reporter except that each
+.message begins with a time stamp.
+\item \code{"timestamp_positives"}: same as the \code{"timestamp"} reporter
+except without messages for skipped targets.
+\item \code{"verbose"}: print messages for individual targets
+as they start, finish, or are skipped.
+\item \code{"verbose_positives"}: same as the \code{"verbose"} reporter
+except without messages for skipped targets.
 }}
 
 \item{workers}{Positive integer, number of persistent \code{clustermq} workers

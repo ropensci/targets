@@ -178,14 +178,14 @@ tar_config_assert_reporter_make <- function(reporter_make) {
   if (is.null(reporter_make)) {
     return()
   }
-  tar_assert_flag(reporter_make, tar_make_reporters())
+  tar_assert_flag(reporter_make, tar_reporters_make())
 }
 
 tar_config_assert_reporter_outdated <- function(reporter_outdated) {
   if (is.null(reporter_outdated)) {
     return()
   }
-  tar_assert_flag(reporter_outdated, tar_outdated_reporters())
+  tar_assert_flag(reporter_outdated, tar_reporters_outdated())
 }
 
 tar_config_assert_script <- function(script) {
@@ -221,11 +221,18 @@ tar_config_assert_workers <- function(workers) {
   tar_assert_ge(workers, 1)
 }
 
-tar_make_reporters <- function() {
-  c("verbose", "silent", "timestamp", "summary")
+tar_reporters_make <- function() {
+  c(
+    "silent",
+    "summary",
+    "timestamp",
+    "timestamp_positives",
+    "verbose",
+    "verbose_positives"
+  )
 }
 
-tar_outdated_reporters <- function() {
+tar_reporters_outdated <- function() {
   c("forecast", "silent")
 }
 

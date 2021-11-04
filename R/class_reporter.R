@@ -1,11 +1,13 @@
 reporter_init <- function(reporter = "verbose") {
   switch(
     reporter,
-    silent = silent_new(),
-    verbose = verbose_new(),
-    timestamp = timestamp_new(),
-    summary = summary_new(),
     forecast = forecast_new(),
+    silent = silent_new(),
+    summary = summary_new(),
+    timestamp = timestamp_new(),
+    timestamp_positives = timestamp_positives_new(),
+    verbose = verbose_new(),
+    verbose_positives = verbose_positives_new(),
     tar_throw_validate("unsupported reporter")
   )
 }

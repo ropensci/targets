@@ -70,7 +70,7 @@ tar_outdated <- function(
   tar_assert_scalar(shortcut)
   tar_assert_lgl(shortcut)
   tar_assert_lgl(branches)
-  tar_assert_flag(reporter, tar_outdated_reporters())
+  tar_assert_flag(reporter, tar_reporters_outdated())
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
   targets_arguments <- list(

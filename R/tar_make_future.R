@@ -44,7 +44,7 @@ tar_make_future <- function(
   tar_assert_package("future")
   tar_assert_scalar(shortcut)
   tar_assert_lgl(shortcut)
-  tar_assert_flag(reporter, tar_make_reporters())
+  tar_assert_flag(reporter, tar_reporters_make())
   tar_assert_scalar(workers)
   tar_assert_dbl(workers)
   tar_assert_ge(workers, 1)
