@@ -32,28 +32,38 @@ store_produce_aws_path <- function(store, name, object, path_store) {
 
 store_produce_aws_metabucket <- function(bucket, region) {
   bucket <- paste0("bucket=", bucket)
-  region <- paste0("region=", region)
+  region <- paste0("region=", if_any(is.null(region), "NULL", region))
   paste(c(bucket, region), collapse = ":")
 }
 
 store_aws_bucket <- function(path) {
-  pattern <- "^bucket="
   # compatibility with targets <= 0.8.1:
-  if (!any(grepl(pattern = pattern, x = path[1L]))) {
+  if (store_aws_path_0.8.1(path)) {
     return(path[1L])
   }
   # with metadata written by targets > 0.8.1:
+  pattern <- "^bucket="
   metabucket <- unlist(strsplit(x = path[1L], split = ":"))
   bucket <- grep(pattern = pattern, x = metabucket, value = TRUE)
   gsub(pattern = pattern, replacement = "", x = bucket)
 }
 
 store_aws_region <- function(path) {
+  # compatibility with targets <= 0.8.1:
+  if (store_aws_path_0.8.1(path)) {
+    return()
+  }
+  # with metadata written by targets > 0.8.1:
   pattern <- "^region="
   metabucket <- unlist(strsplit(x = path[1L], split = ":"))
   region <- grep(pattern = pattern, x = metabucket, value = TRUE)
   out <- gsub(pattern = pattern, replacement = "", x = region)
-  if_any(length(out) > 0L && any(nzchar(out)), out, NULL)
+  out <- if_any(length(out) > 0L && any(nzchar(out)), out, "")
+  if_any(identical(out, "NULL"), NULL, out)
+}
+
+store_aws_path_0.8.1 <- function(path) {
+  !any(grepl(pattern = "^bucket=", x = path[1L]))
 }
 
 store_aws_key <- function(path) {

@@ -6,12 +6,20 @@ tar_test("metabucket with region", {
   expect_equal(store_aws_region(path), "xyz")
 })
 
-tar_test("metabucket without region", {
+tar_test("metabucket with NULL region", {
   metabucket <- store_produce_aws_metabucket(bucket = "abc", region = NULL)
-  expect_equal(metabucket, "bucket=abc:region=")
+  expect_equal(metabucket, "bucket=abc:region=NULL")
   path <- c(metabucket, "object_name")
   expect_equal(store_aws_bucket(path), "abc")
   expect_null(store_aws_region(path))
+})
+
+tar_test("metabucket with \"\" region", {
+  metabucket <- store_produce_aws_metabucket(bucket = "abc", region = "")
+  expect_equal(metabucket, "bucket=abc:region=")
+  path <- c(metabucket, "object_name")
+  expect_equal(store_aws_bucket(path), "abc")
+  expect_equal(store_aws_region(path), "")
 })
 
 tar_test("metabucket compat with targets <= 0.8.1", {
