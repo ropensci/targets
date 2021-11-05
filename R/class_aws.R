@@ -93,7 +93,7 @@ store_read_object.tar_aws <- function(store) {
     bucket = bucket,
     file = tmp,
     region = region,
-    check_region = TRUE
+    check_region = is.null(region)
   )
   store_cast_object(store, store_read_path(store, tmp))
 }
@@ -113,7 +113,7 @@ store_upload_object.tar_aws <- function(store) {
       multipart = TRUE,
       headers = c("x-amz-meta-targets-hash" = hash),
       region = region,
-      check_region = TRUE
+      check_region = is.null(region)
     ),
     tar_throw_file(
       "Cannot upload non-existent AWS staging file ",
@@ -131,7 +131,7 @@ store_aws_exists <- function(key, bucket, region) {
       object = key,
       bucket = bucket,
       region = region,
-      check_region = TRUE
+      check_region = is.null(region)
     )
   )
 }
@@ -141,7 +141,7 @@ store_aws_hash <- function(key, bucket, region) {
     object = key,
     bucket = bucket,
     region = region,
-    check_region = TRUE
+    check_region = is.null(region)
   )
   hash_worker <- attr(head, "x-amz-meta-targets-hash")
 }

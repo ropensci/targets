@@ -73,7 +73,7 @@ store_read_object.tar_aws_file <- function(store) {
     bucket = bucket,
     file = out,
     region = region,
-    check_region = TRUE
+    check_region = is.null(region)
   )
   out
 }
