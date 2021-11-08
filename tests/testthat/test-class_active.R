@@ -62,3 +62,15 @@ tar_test("active$produce_exports(is_globalenv = TRUE)", {
   expect_equal(out[[".hidden"]], "hidden")
   expect_equal(out[["visible"]], "visible")
 })
+
+tar_test(".gitignore", {
+  tar_script()
+  path <- path_gitignore(path_store_default())
+  expect_equal(path, file.path(path_store_default(), ".gitignore"))
+  expect_false(file.exists(path))
+  tar_make(callr_function = NULL)
+  expect_true(file.exists(path))
+  unlink(path)
+  tar_make(callr_function = NULL)
+  expect_false(file.exists(path))
+})

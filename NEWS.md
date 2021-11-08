@@ -10,6 +10,8 @@
 * Document target name requirements in `tar_target()` and `tar_target_raw()` (@tjmahr, #679).
 * Catch and relay any the error if a target cannot be checked in `target_should_run.tar_builder()`. These kinds of errors sometimes come up with AWS storage.
 * Fix the documentation of the reporters.
+* Move `_targets/meta/.gitignore` to `_targets/.gitignore` and Git-ignore everything in the store by default (#685).
+* Only write `_targets/.gitignore` for new data stores so the user can delete the `.gitignore` file without it mysteriously reappearing (#685).
 
 # targets 0.8.1
 

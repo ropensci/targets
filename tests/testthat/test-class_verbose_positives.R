@@ -27,8 +27,12 @@ tar_test("run verbose_positives reporter with a warning", {
 
 tar_test("verbose_positives reporter skipped", {
   tar_script(tar_target(x, 1))
-  tar_make(callr_function = NULL, reporter = "verbose_positives")
-  tar_make(callr_function = NULL, reporter = "verbose_positives")
+  expect_message(
+    tar_make(callr_function = NULL, reporter = "verbose_positives")
+  )
+  expect_message(
+    tar_make(callr_function = NULL, reporter = "verbose_positives")
+  )
 })
 
 tar_test("validate verbose_positives reporter", {

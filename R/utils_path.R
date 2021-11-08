@@ -26,6 +26,10 @@ path_store_default <- function() {
   "_targets"
 }
 
+path_gitignore <- function(path_store) {
+  file.path(path_store, ".gitignore")
+}
+
 path_objects <- function(path_store, name) {
   file.path(path_objects_dir(path_store), name)
 }
@@ -52,10 +56,6 @@ path_meta_dir <- function(path_store) {
 
 path_meta <- function(path_store) {
   file.path(path_meta_dir(path_store), "meta")
-}
-
-path_gitignore <- function(path_store) {
-  file.path(path_meta_dir(path_store), ".gitignore")
 }
 
 path_progress <- function(path_store) {

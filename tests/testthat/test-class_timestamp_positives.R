@@ -35,8 +35,12 @@ tar_test("run timestamp_positives reporter with a cancellation", {
 
 tar_test("timestamp_positives reporter skipped", {
   tar_script(tar_target(x, 1))
-  tar_make(callr_function = NULL, reporter = "timestamp_positives")
-  tar_make(callr_function = NULL, reporter = "timestamp_positives")
+  expect_message(
+    tar_make(callr_function = NULL, reporter = "timestamp_positives")
+  )
+  expect_message(
+    tar_make(callr_function = NULL, reporter = "timestamp_positives")
+  )
 })
 
 tar_test("validate timestamp_positives reporter", {
