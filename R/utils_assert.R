@@ -143,6 +143,15 @@ tar_assert_format <- function(format) {
 
 #' @export
 #' @rdname tar_assert
+tar_assert_file <- function(x) {
+  name <- deparse(substitute(x))
+  targets::tar_assert_chr(x, paste(name, "must be a character string."))
+  targets::tar_assert_scalar(x, paste(name, "must have length 1."))
+  targets::tar_assert_path(x)
+}
+
+#' @export
+#' @rdname tar_assert
 tar_assert_function <- function(x, msg = NULL) {
   if (!is.function(x)) {
     tar_throw_validate(msg %|||% "input must be a function.")

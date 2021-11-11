@@ -9,6 +9,7 @@
 \alias{tar_assert_envir}
 \alias{tar_assert_expr}
 \alias{tar_assert_flag}
+\alias{tar_assert_file}
 \alias{tar_assert_function}
 \alias{tar_assert_ge}
 \alias{tar_assert_identical}
@@ -54,6 +55,8 @@ tar_assert_envir(x, msg = NULL)
 tar_assert_expr(x, msg = NULL)
 
 tar_assert_flag(x, choices, msg = NULL)
+
+tar_assert_file(x)
 
 tar_assert_function(x, msg = NULL)
 

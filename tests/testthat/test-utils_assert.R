@@ -177,6 +177,14 @@ tar_test("tar_assert_path()", {
   expect_silent(tar_assert_path(c("x", "y")))
 })
 
+tar_test("tar_assert_file()", {
+  expect_error(tar_assert_file(0), class = "tar_condition_validate")
+  expect_error(tar_assert_file("x"), class = "tar_condition_validate")
+  file.create("x")
+  expect_error(tar_assert_file(c("x", "y")), class = "tar_condition_validate")
+  expect_silent(tar_assert_file("x"))
+})
+
 tar_test("tar_assert_resources()", {
   expect_warning(
     tar_assert_resources(list(a = 1)),
