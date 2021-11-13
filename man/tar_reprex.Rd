@@ -4,12 +4,7 @@
 \alias{tar_reprex}
 \title{Reproducible example of \code{targets} with \code{reprex}}
 \usage{
-tar_reprex(
-  pipeline = {     list(tar_target(data, airquality), tar_target(summary,
-    mean(data$Ozone, na.rm = TRUE))) },
-  run = {     tar_visnetwork()     tar_make() },
-  ...
-)
+tar_reprex(pipeline = tar_target(example, 1), run = tar_make(), ...)
 }
 \arguments{
 \item{pipeline}{R code for the target script file \verb{_targets.R}.
@@ -33,7 +28,18 @@ but more convenient.
 }
 \examples{
 if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
-tar_reprex()
+tar_reprex(
+  pipeline = {
+    list(
+      tar_target(data, data.frame(x = sample.int(1e3))),
+      tar_target(summary, mean(data$x, na.rm = TRUE))
+    )
+  },
+  run = {
+    tar_visnetwork()
+    tar_make()
+  }
+)
 }
 }
 \seealso{

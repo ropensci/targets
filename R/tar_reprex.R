@@ -15,21 +15,24 @@
 #' @param ... Named arguments passed to `reprex::reprex()`.
 #' @examples
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
-#' tar_reprex()
+#' tar_reprex(
+#'   pipeline = {
+#'     list(
+#'       tar_target(data, data.frame(x = sample.int(1e3))),
+#'       tar_target(summary, mean(data$x, na.rm = TRUE))
+#'     )
+#'   },
+#'   run = {
+#'     tar_visnetwork()
+#'     tar_make()
+#'   }
+#' )
 #' }
 # Tested in tests/testthat/test-tar_reprex.R
 # nocov start
 tar_reprex <- function(
-  pipeline = {
-    list(
-      tar_target(data, airquality),
-      tar_target(summary, mean(data$Ozone, na.rm = TRUE))
-    )
-  },
-  run = {
-    tar_visnetwork()
-    tar_make()
-  },
+  pipeline = tar_target(example, 1),
+  run = tar_make(),
   ...
 ) {
   tar_assert_package("reprex")
