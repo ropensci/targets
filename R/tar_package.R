@@ -39,6 +39,7 @@ NULL
 
 utils::globalVariables(
   c(
+    "example_target",
     ".targets_gc_5048826d",
     ".targets_target_5048826d",
     "self"

@@ -31,7 +31,7 @@
 # Tested in tests/testthat/test-tar_reprex.R
 # nocov start
 tar_reprex <- function(
-  pipeline = tar_target(example, 1),
+  pipeline = tar_target(example_target, 1),
   run = tar_make(),
   ...
 ) {

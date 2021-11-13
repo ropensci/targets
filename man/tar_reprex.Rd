@@ -4,7 +4,7 @@
 \alias{tar_reprex}
 \title{Reproducible example of \code{targets} with \code{reprex}}
 \usage{
-tar_reprex(pipeline = tar_target(example, 1), run = tar_make(), ...)
+tar_reprex(pipeline = tar_target(example_target, 1), run = tar_make(), ...)
 }
 \arguments{
 \item{pipeline}{R code for the target script file \verb{_targets.R}.
