@@ -22,6 +22,7 @@ reference:
 - title: Help
   contents:
   - '`targets-package`'
+  - '`tar_reprex`'
   - '`use_targets`'
 - title: Scripts
   contents:

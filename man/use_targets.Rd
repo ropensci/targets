@@ -30,6 +30,7 @@ use_targets(open = FALSE)
 }
 \seealso{
 Other help: 
+\code{\link{tar_reprex}()},
 \code{\link{targets-package}}
 }
 \concept{help}
