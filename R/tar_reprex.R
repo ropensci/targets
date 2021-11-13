@@ -9,9 +9,9 @@
 #'   `tar_reprex()` facilitates this process. It is like
 #'   `reprex::reprex({targets::tar_script(...); tar_make()})`,
 #'   but more convenient.
-#' @param code_pipeline R code for the target script file `_targets.R`.
+#' @param pipeline R code for the target script file `_targets.R`.
 #'   `library(targets)` is automatically written at the top.
-#' @param code_run R code to inspect and run the pipeline.
+#' @param run R code to inspect and run the pipeline.
 #' @param ... Named arguments passed to `reprex::reprex()`.
 #' @examples
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
@@ -20,24 +20,24 @@
 # Tested in tests/testthat/test-tar_reprex.R
 # nocov start
 tar_reprex <- function(
-  code_pipeline = {
+  pipeline = {
     list(
       tar_target(data, airquality),
       tar_target(summary, mean(data$Ozone, na.rm = TRUE))
     )
   },
-  code_run = {
+  run = {
     tar_visnetwork()
     tar_make()
   },
   ...
 ) {
   tar_assert_package("reprex")
-  code_library <- "library(targets)"
-  code_pipeline <- as.call(list(quote(tar_script), substitute(code_pipeline)))
-  code_pipeline <- deparse_script_code(code_pipeline)
-  code_run <- deparse_script_code(substitute(code_run))
-  lines <- c(code_library, code_pipeline, code_run)
+  library <- "library(targets)"
+  pipeline <- as.call(list(quote(tar_script), substitute(pipeline)))
+  pipeline <- deparse_script_code(pipeline)
+  run <- deparse_script_code(substitute(run))
+  lines <- c(library, pipeline, run)
   dir <- tempfile()
   dir_create(dir)
   path <- file.path(dir, basename(tempfile()))

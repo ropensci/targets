@@ -5,17 +5,17 @@
 \title{Reproducible example of \code{targets} with \code{reprex}}
 \usage{
 tar_reprex(
-  code_pipeline = {     list(tar_target(data, airquality), tar_target(summary,
+  pipeline = {     list(tar_target(data, airquality), tar_target(summary,
     mean(data$Ozone, na.rm = TRUE))) },
-  code_run = {     tar_visnetwork()     tar_make() },
+  run = {     tar_visnetwork()     tar_make() },
   ...
 )
 }
 \arguments{
-\item{code_pipeline}{R code for the target script file \verb{_targets.R}.
+\item{pipeline}{R code for the target script file \verb{_targets.R}.
 \code{library(targets)} is automatically written at the top.}
 
-\item{code_run}{R code to inspect and run the pipeline.}
+\item{run}{R code to inspect and run the pipeline.}
 
 \item{...}{Named arguments passed to \code{reprex::reprex()}.}
 }
