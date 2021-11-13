@@ -14,6 +14,9 @@ tar_reprex(pipeline = tar_target(example_target, 1), run = tar_make(), ...)
 
 \item{...}{Named arguments passed to \code{reprex::reprex()}.}
 }
+\value{
+A character vector of rendered the reprex, invisibly.
+}
 \description{
 Create a reproducible example of a \code{targets}
 pipeline with the \code{reprex} package.

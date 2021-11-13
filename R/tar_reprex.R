@@ -9,6 +9,7 @@
 #'   `tar_reprex()` facilitates this process. It is like
 #'   `reprex::reprex({targets::tar_script(...); tar_make()})`,
 #'   but more convenient.
+#' @return A character vector of rendered the reprex, invisibly.
 #' @param pipeline R code for the target script file `_targets.R`.
 #'   `library(targets)` is automatically written at the top.
 #' @param run R code to inspect and run the pipeline.
