@@ -27,14 +27,11 @@ This is useful if you are writing to \code{tar_path()} from inside a
 \code{storage = "none"} target and need the parent directory of the file
 to exist.}
 
-\item{store}{Character of length 1, path to the
-\code{targets} data store. Defaults to \code{tar_config_get("store")},
-which in turn defaults to \verb{_targets/}.
-When you set this argument, the value of \code{tar_config_get("store")}
-is temporarily changed for the current function call.
-See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
-about how to set the data store path persistently
-for a project.}
+\item{store}{Character of length 1, path to the data store if \code{tar_path()}
+is called outside a running pipeline. If \code{tar_path()} is called
+inside a running pipeline, this argument is ignored
+and actual the path to the running pipeline's data store
+is used instead.}
 }
 \value{
 Character, file path of the return value of the target.
@@ -81,6 +78,7 @@ Other utilities:
 \code{\link{tar_envir}()},
 \code{\link{tar_group}()},
 \code{\link{tar_name}()},
-\code{\link{tar_seed}()}
+\code{\link{tar_seed}()},
+\code{\link{tar_store}()}
 }
 \concept{utilities}

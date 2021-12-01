@@ -34,6 +34,18 @@ tar_test("set, get, exists, and unset interactive", {
   expect_null(x$get_interactive())
 })
 
+tar_test("set, get, exists, and unset store", {
+  x <- runtime_init()
+  expect_false(x$exists_interactive())
+  expect_null(x$get_interactive())
+  x$set_interactive("store")
+  expect_true(x$exists_interactive())
+  expect_equal(x$get_interactive(), "store")
+  x$unset_interactive()
+  expect_false(x$exists_interactive())
+  expect_null(x$get_interactive())
+})
+
 tar_test("validate null runtime", {
   x <- runtime_init()
   expect_silent(x$validate())
@@ -60,5 +72,22 @@ tar_test("invalidate bad interactive", {
 
 tar_test("invalidate bad interactive", {
   x <- runtime_init(interactive = letters)
+  expect_error(x$validate(), class = "tar_condition_validate")
+})
+
+tar_test("validate null store", {
+  x <- runtime_init()
+  expect_silent(x$validate())
+})
+
+tar_test("validate non-null store", {
+  x <- runtime_init()
+  x$set_store("store")
+  expect_silent(x$validate())
+})
+
+tar_test("detect bad store", {
+  x <- runtime_init()
+  x$set_store(FALSE)
   expect_error(x$validate(), class = "tar_condition_validate")
 })

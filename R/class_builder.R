@@ -108,7 +108,7 @@ target_run.tar_builder <- function(target, envir, path_store) {
   builder_unserialize_subpipeline(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
   frames <- frames_produce(envir, target, target$subpipeline)
-  builder_set_tar_runtime(target, frames)
+  builder_set_tar_runtime(target, frames, path_store)
   store_update_stage_early(target$store, target$settings$name, path_store)
   builder_update_build(target, frames_get_envir(frames))
   builder_ensure_paths(target, path_store)
@@ -428,14 +428,16 @@ builder_wait_correct_hash <- function(target) {
   store_ensure_correct_hash(target$store, storage, deployment)
 }
 
-builder_set_tar_runtime <- function(target, frames) {
+builder_set_tar_runtime <- function(target, frames, path_store) {
   tar_runtime$set_target(target)
   tar_runtime$set_frames(frames)
+  tar_runtime$set_store(path_store)
 }
 
 builder_unset_tar_runtime <- function() {
   tar_runtime$unset_target()
   tar_runtime$unset_frames()
+  tar_runtime$unset_store()
 }
 
 builder_serialize_value <- function(target) {

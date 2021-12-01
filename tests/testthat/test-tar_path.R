@@ -50,7 +50,11 @@ tar_test("tar_path() does not create dir if create_dir is FALSE", {
 
 tar_test("tar_path() returns non-cloud path for non-cloud storage formats", {
   x <- tar_target(x, 1, format = "parquet")
-  on.exit(tar_runtime$unset_target())
+  on.exit({
+    tar_runtime$unset_store()
+    tar_runtime$unset_target()
+  })
+  tar_runtime$set_store(path_store_default())
   tar_runtime$set_target(x)
   out <- tar_path(create_dir = FALSE)
   expect_false(file.exists(dirname(out)))
@@ -70,4 +74,14 @@ tar_test("tar_path() returns stage for cloud formats", {
   expect_true(file.exists(dirname(out)))
   expect_equal(dirname(out), dirname(path_scratch(path_store_default())))
   expect_equal(out, x$store$file$stage)
+})
+
+tar_test("tar_path() with alternative data store in tar_make()", {
+  tar_script(tar_target(x, tar_path()))
+  store <- tempfile()
+  tar_make(callr_function = NULL, store = store)
+  expect_equal(
+    tar_read(x, store = store),
+    path_objects(store, "x")
+  )
 })

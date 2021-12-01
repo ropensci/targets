@@ -145,6 +145,7 @@ reference:
   - '`tar_name`'
   - '`tar_path`'
   - '`tar_seed`'
+  - '`tar_store`'
 - title: Extending targets
   contents:
   - '`tar_assert`'

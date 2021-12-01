@@ -6,6 +6,11 @@
 * Add new reporters `timestamp_positives"` and `"verbose_positives"` that omit messages for skipped targets (@psanker, #683).
 * Implement `tar_assert_file()`.
 * Implement `tar_reprex()` for creating easier reproducible examples of pipelines.
+* Implement `tar_store()` to get the path to the store of the currently running pipeline (#714, @MilesMcBain).
+
+## Bug fixes
+
+* Make sure `tar_path()` uses the current store path of the currently running pipeline instead of `tar_config_get("store")` (#714, @MilesMcBain).
 
 ## Enhancements
 
