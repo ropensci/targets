@@ -366,7 +366,7 @@ tar_test("aws_qs format with custom region", {
   out <- sort(tar_meta(x)$path[[1]])
   exp <- sort(
     c(
-      sprintf("bucket=%s", bucket_name), 
+      sprintf("bucket=%s", bucket_name),
       "region=us-west-2",
       "key=_targets/objects/x"
     )

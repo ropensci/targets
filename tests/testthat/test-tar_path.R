@@ -78,7 +78,7 @@ tar_test("tar_path() returns stage for cloud formats", {
 
 tar_test("tar_path() with alternative data store in tar_make()", {
   tar_script(tar_target(x, tar_path()))
-  store <- tempfile()
+  store <- "example_store"
   tar_make(callr_function = NULL, store = store)
   expect_equal(
     tar_read(x, store = store),

@@ -226,7 +226,7 @@ tar_test("aws_file format file with different region", {
   out <- sort(tar_meta(x)$path[[1]])
   exp <- sort(
     c(
-      sprintf("bucket=%s", bucket_name), 
+      sprintf("bucket=%s", bucket_name),
       "region=us-west-2",
       "key=_targets/objects/x",
       "stage=example_aws_file.txt"
