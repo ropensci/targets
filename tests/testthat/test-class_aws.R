@@ -1,39 +1,63 @@
-tar_test("metabucket with region", {
-  metabucket <- store_produce_aws_metabucket(bucket = "abc", region = "xyz")
-  expect_equal(metabucket, "bucket=abc:region=xyz")
-  path <- c(metabucket, "object_name")
-  expect_equal(store_aws_bucket(path), "abc")
-  expect_equal(store_aws_region(path), "xyz")
+tar_test("bucket with tech debt: 0.8.1.9000 metabucket format", {
+  expect_equal(store_aws_bucket("bucket=abc:region=xyz"), "abc")
 })
 
-tar_test("metabucket with NULL region", {
-  metabucket <- store_produce_aws_metabucket(bucket = "abc", region = NULL)
-  expect_equal(metabucket, "bucket=abc:region=NULL")
-  path <- c(metabucket, "object_name")
-  expect_equal(store_aws_bucket(path), "abc")
+tar_test("region with tech debt: 0.8.1.9000 metabucket format", {
+  expect_equal(store_aws_bucket("bucket=abc:region=xyz"), "abc")
+})
+
+tar_test("NULL region", {
+  path <- c("bucket=abc", "region=NULL", "key=stuff")
   expect_null(store_aws_region(path))
 })
 
-tar_test("metabucket with \"\" region", {
-  metabucket <- store_produce_aws_metabucket(bucket = "abc", region = "")
-  expect_equal(metabucket, "bucket=abc:region=")
-  path <- c(metabucket, "object_name")
-  expect_equal(store_aws_bucket(path), "abc")
+tar_test("\"\" region", {
+  path <- c("bucket=abc", "region=", "key=stuff")
   expect_equal(store_aws_region(path), "")
 })
 
-tar_test("metabucket compat with targets <= 0.8.1", {
-  path <- c("bucket_name", "object_name")
+tar_test("compat with targets <= 0.8.1", {
+  path <- c("bucket_name", "object_name", "stage_name")
   expect_equal(store_aws_bucket(path), "bucket_name")
   expect_null(store_aws_region(path))
+  expect_equal(store_aws_key(path), "object_name")
 })
 
-tar_test("store_aws_key()", {
+tar_test("store_aws_key() with targets <= 0.8.1", {
   path <- c("bucket_name", "key_name", "stage_name")
   expect_equal(store_aws_key(path), "key_name")
 })
 
-tar_test("store_aws_path()", {
-  path <- c("bucket_name", "key_name", "stage_name")
-  expect_equal(store_aws_path(path), "stage_name")
+tar_test("store_aws_key() with targets > 0.8.1", {
+  path <- c("bucket=b", "region=r", "key=key_name", "stage=stage_name")
+  expect_equal(store_aws_key(path), "key_name")
+})
+
+tar_test("store_aws_split_colon()", {
+  path <- c("bucket=bu:region=reg", "key=sdfasdf")
+  expect_equal(
+    store_aws_split_colon(path),
+    c("bucket=bu", "region=reg", "key=sdfasdf")
+  )
+  path <- c("key=sdfasdf", "bucket=bu:region=reg")
+  expect_equal(
+    store_aws_split_colon(path),
+    c("bucket=bu", "region=reg", "key=sdfasdf")
+  )
+})
+
+tar_test("store_aws_field()", {
+  path <- c("bucket=bu", "region=reg", "key=sdfasdf")
+  expect_equal(
+    store_aws_field(path = path, pattern = "^bucket="),
+    "bu"
+  )
+  expect_equal(
+    store_aws_field(path = path, pattern = "^region="),
+    "reg"
+  )
+  expect_equal(
+    store_aws_field(path = path, pattern = "^key="),
+    "sdfasdf"
+  )
 })

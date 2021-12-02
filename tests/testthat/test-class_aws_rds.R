@@ -26,7 +26,7 @@ tar_test("store_produce_path()", {
   out <- store_produce_path(store, "x_name", "x_object")
   expect_equal(
     out,
-    c("bucket=x_bucket:region=NULL", "_targets/objects/x_name")
+    c("bucket=x_bucket", "region=NULL", "key=_targets/objects/x_name")
   )
 })
 

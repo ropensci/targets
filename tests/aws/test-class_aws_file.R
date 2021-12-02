@@ -223,8 +223,15 @@ tar_test("aws_file format file with different region", {
   expect_false(file.exists("_targets/scratch/x"))
   expect_true(file.exists("example_aws_file.txt"))
   expect_equal(readLines("example_aws_file.txt"), "x_lines")
-  out <- tar_meta(x)$path[[1]][1]
-  exp <- paste0("bucket=", bucket_name, ":region=us-west-2")
+  out <- sort(tar_meta(x)$path[[1]])
+  exp <- sort(
+    c(
+      sprintf("bucket=%s", bucket_name), 
+      "region=us-west-2",
+      "key=_targets/objects/x",
+      "stage=example_aws_file.txt"
+    )
+  )
   expect_equal(out, exp)
   tmp <- tempfile()
   aws.s3::save_object(

@@ -24,16 +24,12 @@ store_produce_aws_path <- function(store, name, object, path_store) {
   tar_assert_nonempty(prefix)
   tar_assert_chr(prefix)
   tar_assert_scalar(prefix)
-  metabucket <- store_produce_aws_metabucket(bucket = bucket, region = region)
-  object <- file.path(prefix, name)
-  tar_assert_nzchar(object)
-  c(metabucket, object)
-}
-
-store_produce_aws_metabucket <- function(bucket, region) {
+  key <- file.path(prefix, name)
+  tar_assert_nzchar(key)
   bucket <- paste0("bucket=", bucket)
   region <- paste0("region=", if_any(is.null(region), "NULL", region))
-  paste(c(bucket, region), collapse = ":")
+  key <- paste0("key=", key)
+  c(bucket, region, key)
 }
 
 store_aws_bucket <- function(path) {
@@ -42,10 +38,7 @@ store_aws_bucket <- function(path) {
     return(path[1L])
   }
   # with metadata written by targets > 0.8.1:
-  pattern <- "^bucket="
-  metabucket <- unlist(strsplit(x = path[1L], split = ":"))
-  bucket <- grep(pattern = pattern, x = metabucket, value = TRUE)
-  gsub(pattern = pattern, replacement = "", x = bucket)
+  store_aws_field(path = path, pattern = "^bucket=")
 }
 
 store_aws_region <- function(path) {
@@ -54,24 +47,34 @@ store_aws_region <- function(path) {
     return()
   }
   # with metadata written by targets > 0.8.1:
-  pattern <- "^region="
-  metabucket <- unlist(strsplit(x = path[1L], split = ":"))
-  region <- grep(pattern = pattern, x = metabucket, value = TRUE)
-  out <- gsub(pattern = pattern, replacement = "", x = region)
+  out <- store_aws_field(path = path, pattern = "^region=")
   out <- if_any(length(out) > 0L && any(nzchar(out)), out, "")
   if_any(identical(out, "NULL"), NULL, out)
 }
 
-store_aws_path_0.8.1 <- function(path) {
-  !any(grepl(pattern = "^bucket=", x = path[1L]))
-}
-
 store_aws_key <- function(path) {
-  path[2L]
+  # compatibility with targets <= 0.8.1:
+  if (store_aws_path_0.8.1(path)) {
+    return(path[2L])
+  }
+  store_aws_field(path = path, pattern = "^key=")
 }
 
-store_aws_path <- function(path) {
-  path[-seq_len(2L)]
+store_aws_field <- function(path, pattern) {
+  path <- store_aws_split_colon(path)
+  element <- grep(pattern = pattern, x = path, value = TRUE)
+  gsub(pattern = pattern, replacement = "", x = element)
+}
+
+store_aws_path_0.8.1 <- function(path) {
+  !any(grepl(pattern = "^bucket=", x = path))
+}
+
+# Tech debt from a dev version. Need to be compatible.
+store_aws_split_colon <- function(path) {
+  index <- grep(pattern = "^bucket=", x = path)
+  bucket_pair <- unlist(strsplit(x = path[index], split = ":"))
+  c(bucket_pair, path[-index])
 }
 
 # Semi-automated tests of Amazon S3 integration live in tests/aws/. # nolint

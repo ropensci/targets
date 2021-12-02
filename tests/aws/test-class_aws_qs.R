@@ -363,8 +363,14 @@ tar_test("aws_qs format with custom region", {
   expect_false(file.exists(file.path("_targets", "objects", "y")))
   expect_equal(tar_read(x), "x_value")
   expect_equal(tar_read(y), c("x_value", "y_value"))
-  out <- tar_meta(x)$path[[1]][1]
-  exp <- paste0("bucket=", bucket_name, ":region=us-west-2")
+  out <- sort(tar_meta(x)$path[[1]])
+  exp <- sort(
+    c(
+      sprintf("bucket=%s", bucket_name), 
+      "region=us-west-2",
+      "key=_targets/objects/x"
+    )
+  )
   expect_equal(out, exp)
   tmp <- tempfile()
   aws.s3::save_object(

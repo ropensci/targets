@@ -26,7 +26,10 @@ tar_test("aws_qs nonexistent bucket", {
   tar_make(callr_function = NULL)
   expect_equal(tar_read(x), "x_value")
   # Now delete the bucket in the AWS console and make sure it's gone.
-  expect_error(tar_make(callr_function = NULL), class = "tar_condition_run")
+  expect_error(
+    tar_make(callr_function = NULL, reporter = "silent"),
+    class = "tar_condition_run"
+  )
   out <- tar_meta(x, error)$error
   expect_true(nzchar(out))
   expect_false(anyNA(out))

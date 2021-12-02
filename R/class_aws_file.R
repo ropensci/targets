@@ -33,15 +33,18 @@ store_produce_path.tar_aws_file <- function(store, name, object, path_store) {
     object = object,
     path_store = path_store
   )
-  c(out, object)
+  c(out, paste0("stage=", object))
 }
 
-store_aws_file_stage <- function(path, key) {
+store_aws_file_stage <- function(path) {
   if_any(
-    length(path) > 2L,
-    path[3],
-    # For compatibility with version 0.4.2 and under:
-    file.path(path_scratch_dir(path_store_default()), basename(key))
+    store_aws_path_0.8.1(path), # targets 0.8.1 and under
+    if_any(
+      length(path) <= 2L, # targets 0.4.2 and under
+      file.path(path_scratch_dir(path_store_default()), store_aws_key(path)),
+      path[3]
+    ),
+    store_aws_field(path = path, pattern = "^stage=")
   )
 }
 
@@ -56,7 +59,10 @@ store_assert_format_setting.aws_file <- function(class) {
 
 #' @export
 store_hash_early.tar_aws_file <- function(store, target) { # nolint
-  tar_assert_path(store_aws_path(store$file$path))
+  old <- store$file$path
+  store$file$path <- store_aws_file_stage(store$file$path)
+  on.exit(store$file$path <- old)
+  tar_assert_path(store$file$path)
   file_update_hash(store$file)
 }
 
@@ -66,16 +72,16 @@ store_read_object.tar_aws_file <- function(store) {
   bucket <- store_aws_bucket(path)
   region <- store_aws_region(path)
   key <- store_aws_key(path)
-  out <- store_aws_file_stage(path, key)
-  dir_create(dirname(out))
+  stage <- store_aws_file_stage(path)
+  dir_create(dirname(stage))
   aws.s3::save_object(
     object = key,
     bucket = bucket,
-    file = out,
+    file = stage,
     region = region,
     check_region = is.null(region)
   )
-  out
+  stage
 }
 
 #' @export
