@@ -91,12 +91,11 @@ store_read_object.tar_aws <- function(store) {
   key <- store_aws_key(path)
   tmp <- tempfile()
   on.exit(unlink(tmp))
-  aws.s3::save_object(
-    object = key,
+  aws_download(
+    key = key,
     bucket = bucket,
     file = tmp,
-    region = region,
-    check_region = is.null(region)
+    region = region
   )
   store_cast_object(store, store_read_path(store, tmp))
 }
@@ -109,14 +108,12 @@ store_upload_object.tar_aws <- function(store) {
   hash <- store$file$hash
   if_any(
     file_exists_stage(store$file),
-    aws.s3::put_object(
+    aws_upload(
       file = store$file$stage,
-      object = key,
+      key = key,
       bucket = bucket,
-      multipart = TRUE,
-      headers = c("x-amz-meta-targets-hash" = hash),
       region = region,
-      check_region = is.null(region)
+      headers = c("x-amz-meta-targets-hash" = hash)
     ),
     tar_throw_file(
       "Cannot upload non-existent AWS staging file ",
@@ -129,22 +126,18 @@ store_upload_object.tar_aws <- function(store) {
 }
 
 store_aws_exists <- function(key, bucket, region) {
-  suppressWarnings(
-    aws.s3::object_exists(
-      object = key,
-      bucket = bucket,
-      region = region,
-      check_region = is.null(region)
-    )
+  aws_exists(
+    key = key,
+    bucket = bucket,
+    region = region
   )
 }
 
 store_aws_hash <- function(key, bucket, region) {
-  head <- aws.s3::head_object(
-    object = key,
+  head <- aws_head(
+    key = key,
     bucket = bucket,
-    region = region,
-    check_region = is.null(region)
+    region = region
   )
   hash_worker <- attr(head, "x-amz-meta-targets-hash")
 }
