@@ -141,7 +141,7 @@ store_aws_hash <- function(key, bucket, region, version) {
     region = region,
     version = version
   )
-  attr(head, "x-amz-meta-targets-hash")
+  head$Metadata[["targets-hash"]]
 }
 
 #' @export

@@ -83,6 +83,7 @@ aws_upload <- function(
       Bucket = bucket,
       Metadata = metadata
     )
+    return(out)
   }
   multipart <- client$create_multipart_upload(
     Bucket = bucket,
@@ -144,14 +145,5 @@ aws_upload_parts <- function(
     parts <- c(parts, list(list(ETag = part_response$ETag, PartNumber = i)))
   }
   return(parts)
-}
-
-aws_version <- function(key, bucket, region = NULL) {
-  head <- aws_head(
-    key = key,
-    bucket = bucket,
-    region = region
-  )
-  attr(head, "x-amz-version-id")
 }
 # nocov end
