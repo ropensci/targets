@@ -1,6 +1,6 @@
 tar_test("aws_file packages", {
   target <- tar_target(x, "x_value", format = "aws_file")
-  expect_equal(store_get_packages(target$store), "aws.s3")
+  expect_equal(store_get_packages(target$store), "paws")
 })
 
 tar_test("inherits from tar_external", {
@@ -39,7 +39,7 @@ tar_test("store_aws_file_stage() with targets > 0.8.1", {
 })
 
 tar_test("validate aws_file", {
-  skip_if_not_installed("aws.s3")
+  skip_if_not_installed("paws")
   tar_script(list(tar_target(x, "x_value", format = "aws_file")))
   expect_silent(tar_validate(callr_function = NULL))
 })

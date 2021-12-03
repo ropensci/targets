@@ -2,7 +2,7 @@ skip_if_no_aws <- function() {
   skip_if(Sys.getenv("AWS_ACCESS_KEY_ID") == "")
   skip_if(Sys.getenv("AWS_SECRET_ACCESS_KEY") == "")
   skip_if(Sys.getenv("AWS_DEFAULT_REGION") == "")
-  skip_if_not_installed("aws.s3")
+  skip_if_not_installed("paws")
   skip_if_offline()
   skip_on_cran()
 }

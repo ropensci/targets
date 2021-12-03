@@ -2,7 +2,7 @@ tar_test("aws_parquet packages", {
   skip_on_cran()
   target <- tar_target(x, "x_value", format = "aws_parquet")
   out <- sort(store_get_packages(target$store))
-  exp <- sort(c("aws.s3", "arrow"))
+  exp <- sort(c("paws", "arrow"))
   expect_equal(out, exp)
 })
 
@@ -25,7 +25,7 @@ tar_test("store_path_from_record()", {
 
 tar_test("validate aws_parquet", {
   skip_on_cran()
-  skip_if_not_installed("aws.s3")
+  skip_if_not_installed("paws")
   skip_if_not_installed("arrow")
   tar_script(list(tar_target(x, "x_value", format = "aws_parquet")))
   expect_silent(tar_validate(callr_function = NULL))
