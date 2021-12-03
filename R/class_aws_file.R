@@ -69,16 +69,14 @@ store_hash_early.tar_aws_file <- function(store, target) { # nolint
 #' @export
 store_read_object.tar_aws_file <- function(store) {
   path <- store$file$path
-  bucket <- store_aws_bucket(path)
-  region <- store_aws_region(path)
-  key <- store_aws_key(path)
   stage <- store_aws_file_stage(path)
   dir_create(dirname(stage))
   aws_download(
-    key = key,
-    bucket = bucket,
+    key = store_aws_key(path),
+    bucket = store_aws_bucket(path),
     file = stage,
-    region = region
+    region = store_aws_region(path),
+    version = store_aws_version(path)
   )
   stage
 }

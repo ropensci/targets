@@ -33,6 +33,12 @@ tar_test("store_aws_key() with targets > 0.8.1", {
   expect_equal(store_aws_key(path), "key_name")
 })
 
+tar_test("store_aws_version()", {
+  path <- c("bucket=b", "version=number")
+  expect_equal(store_aws_version(path), "number")
+  expect_null(store_aws_version(letters))
+})
+
 tar_test("store_aws_split_colon()", {
   path <- c("bucket=bu:region=reg", "key=sdfasdf")
   expect_equal(
