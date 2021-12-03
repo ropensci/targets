@@ -96,17 +96,19 @@ tar_test("aws_upload() and download with metadata and region", {
 })
 
 tar_test("upload twice, get the correct version", {
-  # setup
+  # setup: create a versioned bucket. callback to delete bucket
   # aws_upload() 2 different objects with different metadata and same keys
   # aws_exists() old, new, and nonexistant
   # aws_head() old, new, and nonexistent. check metadata and version.
   # aws_download() old, new, and nonexistent. check data
+  # delete both versions of objects
 })
 
 tar_test("multipart: upload twice, get the correct version", {
-  # setup
+  # setup: create a versioned bucket. callback to delete bucket
   # aws_upload() 2 different multipart objects with diff metadata & same keys
   # aws_exists() old, new, and nonexistant
   # aws_head() old, new, and nonexistent. check metadata and version.
   # aws_download() old, new, and nonexistent. check data
+  # delete both versions of objects
 })
