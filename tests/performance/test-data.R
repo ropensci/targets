@@ -6,7 +6,7 @@ targets <- lapply(
   seq_len(50),
   function(index) {
     tar_target_raw(
-      as.character(index),
+      sprintf("x%s", index),
       quote(data.frame(x = runif(1e7))),
       memory = "transient",
       format = "fst"
