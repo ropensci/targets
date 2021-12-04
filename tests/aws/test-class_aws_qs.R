@@ -390,3 +390,82 @@ tar_test("aws_qs nonexistent bucket", {
   expect_true(nzchar(out))
   expect_false(anyNA(out))
 })
+
+tar_test("aws_qs format data gets stored", {
+  # setup
+  skip_if_no_aws()
+  skip_if_not_installed("qs")
+  s3 <- paws::s3()
+  bucket_name <- random_bucket_name()
+  on.exit(destroy_bucket(bucket_name))
+  s3$create_bucket(Bucket = bucket_name)
+  s3$put_bucket_versioning(
+    Bucket = bucket_name,
+    VersioningConfiguration = list(
+      MFADelete = "Disabled",
+      Status = "Enabled"
+    )
+  )
+  # first version of the pipeline
+  expr <- quote({
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name)
+      )
+    )
+    list(
+      tar_target(x, "first", format = "aws_qs")
+    )
+  })
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
+  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
+  expect_equal(targets::tar_outdated(callr_function = NULL), "x")
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress(x)$progress, "built")
+  first_meta <- tempfile()
+  file.copy(path_meta(path_store_default()), first_meta)
+  expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress(x)$progress, "skipped")
+  version1 <- store_aws_version(tar_meta(x)$path[[1]])
+  # second version of the pipeline
+  expr <- quote({
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name)
+      )
+    )
+    list(
+      tar_target(x, "second", format = "aws_qs")
+    )
+  })
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
+  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
+  expect_equal(targets::tar_outdated(callr_function = NULL), "x")
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress(x)$progress, "built")
+  expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress(x)$progress, "skipped")
+  version2 <- store_aws_version(tar_meta(x)$path[[1]])
+  expect_equal(tar_read(x), "second")
+  # revert the metadata
+  file.copy(first_meta, path_meta(path_store_default()), overwrite = TRUE)
+  expect_equal(tar_read(x), "first")
+  # revert the target script file
+  expr <- quote({
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name)
+      )
+    )
+    list(
+      tar_target(x, "first", format = "aws_qs")
+    )
+  })
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
+  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
+  expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress(x)$progress, "skipped")
+})

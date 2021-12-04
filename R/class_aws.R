@@ -62,9 +62,7 @@ store_aws_key <- function(path) {
 
 store_aws_version <- function(path) {
   out <- store_aws_field(path = path, pattern = "^version=")
-  if (!length(out) || !nzchar(out)) {
-    return(NULL)
-  }
+  if_any(length(out) && nzchar(out), out, NULL)
 }
 
 store_aws_field <- function(path, pattern) {
