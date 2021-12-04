@@ -13,6 +13,7 @@
 * Implement `tar_assert_file()`.
 * Implement `tar_reprex()` for creating easier reproducible examples of pipelines.
 * Implement `tar_store()` to get the path to the store of the currently running pipeline (#714, @MilesMcBain).
+* Automatically write a `_targets/user/` folder to encourage `gittargets` users to put custom files there for data version control.
 
 ## Bug fixes
 

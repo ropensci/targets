@@ -78,6 +78,10 @@ path_scratch_del <- function(path_store) {
   unlink(path_scratch_dir(path_store), recursive = TRUE)
 }
 
+path_user_dir <- function(path_store) {
+  file.path(path_store, "user")
+}
+
 path_workspace <- function(path_store, name) {
   file.path(path_workspaces_dir(path_store), name)
 }
