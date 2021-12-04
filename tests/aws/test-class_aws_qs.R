@@ -3,15 +3,10 @@
 tar_test("aws_qs format data gets stored", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  on.exit({
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
+  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  aws.s3::put_bucket(bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
+  s3$create_bucket(Bucket = bucket_name)
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -27,18 +22,18 @@ tar_test("aws_qs format data gets stored", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
-    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/x")
+    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
   )
   expect_true(
-    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/y")
+    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/y")
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
   expect_equal(tar_read(x), "x_value")
   expect_equal(tar_read(y), c("x_value", "y_value"))
   tmp <- tempfile()
-  aws.s3::save_object(
-    object = "_targets/objects/x",
+  aws_s3_download(
+    key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp
   )
@@ -48,15 +43,10 @@ tar_test("aws_qs format data gets stored", {
 tar_test("aws_qs format data gets stored with worker storage", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  on.exit({
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
+  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  aws.s3::put_bucket(bucket = bucket_name)
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -74,18 +64,18 @@ tar_test("aws_qs format data gets stored with worker storage", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
-    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/x")
+    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
   )
   expect_true(
-    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/y")
+    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/y")
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
   expect_equal(tar_read(x), "x_value")
   expect_equal(tar_read(y), c("x_value", "y_value"))
   tmp <- tempfile()
-  aws.s3::save_object(
-    object = "_targets/objects/x",
+  aws_s3_download(
+    key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp
   )
@@ -95,15 +85,10 @@ tar_test("aws_qs format data gets stored with worker storage", {
 tar_test("aws_qs format invalidation", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  on.exit({
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
+  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  aws.s3::put_bucket(bucket = bucket_name)
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -147,19 +132,10 @@ tar_test("aws_qs format invalidation", {
 tar_test("aws_qs format and dynamic branching", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  on.exit({
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/z", bucket = bucket_name)
-    object <- file.path("_targets/objects", tar_meta(y, children)[[1]][1])
-    aws.s3::delete_object(object = object, bucket = bucket_name)
-    object <- file.path("_targets/objects", tar_meta(y, children)[[1]][2])
-    aws.s3::delete_object(object = object, bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
+  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  aws.s3::put_bucket(bucket = bucket_name)
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -187,18 +163,10 @@ tar_test("aws_qs format and dynamic branching", {
 tar_test("aws timestamp", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  on.exit({
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    object <- file.path("_targets/objects", tar_meta(y, children)[[1]][1])
-    aws.s3::delete_object(object = object, bucket = bucket_name)
-    object <- file.path("_targets/objects", tar_meta(y, children)[[1]][2])
-    aws.s3::delete_object(object = object, bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
+  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  aws.s3::put_bucket(bucket = bucket_name)
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -225,17 +193,10 @@ tar_test("aws_qs format with an alternative data store", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
   tar_config_set(store = "custom_targets_store")
-  on.exit({
-    unlink("_targets.yaml")
-    unlink("custom_targets_store", recursive = TRUE)
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
+  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  aws.s3::put_bucket(bucket = bucket_name)
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
       aws = tar_resources_aws(bucket = !!bucket_name)
@@ -251,18 +212,18 @@ tar_test("aws_qs format with an alternative data store", {
   expect_true(file.exists("custom_targets_store"))
   expect_false(file.exists(path_store_default()))
   expect_true(
-    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/x")
+    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
   )
   expect_true(
-    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/y")
+    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/y")
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
   expect_equal(tar_read(x), "x_value")
   expect_equal(tar_read(y), c("x_value", "y_value"))
   tmp <- tempfile()
-  aws.s3::save_object(
-    object = "_targets/objects/x",
+  aws_s3_download(
+    key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp
   )
@@ -272,15 +233,10 @@ tar_test("aws_qs format with an alternative data store", {
 tar_test("aws_qs format works with storage = \"none\"", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  on.exit({
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
+  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  aws.s3::put_bucket(bucket = bucket_name)
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -301,18 +257,18 @@ tar_test("aws_qs format works with storage = \"none\"", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
-    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/x")
+    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
   )
   expect_true(
-    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/y")
+    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/y")
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
   expect_equal(tar_read(x), "x_value")
   expect_equal(tar_read(y), c("x_value", "y_value"))
   tmp <- tempfile()
-  aws.s3::save_object(
-    object = "_targets/objects/x",
+  aws_s3_download(
+    key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp
   )
@@ -322,19 +278,16 @@ tar_test("aws_qs format works with storage = \"none\"", {
 tar_test("aws_qs format with custom region", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  on.exit({
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
+  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  aws.s3::put_bucket(bucket = bucket_name, region = "us-west-2")
+  region <- "us-west-2"
+  cfg <- list(LocationConstraint = region)
+  s3$create_bucket(Bucket = bucket_name, CreateBucketConfiguration = cfg)
+  on.exit(destroy_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name, region = "us-west-2")
+        aws = tar_resources_aws(bucket = !!bucket_name, region = !!region)
       )
     )
     list(
@@ -346,16 +299,16 @@ tar_test("aws_qs format with custom region", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
-    aws.s3::object_exists(
+    aws_s3_exists(
       bucket = bucket_name,
-      object = "_targets/objects/x",
+      key = "_targets/objects/x",
       region = "us-west-2"
     )
   )
   expect_true(
-    aws.s3::object_exists(
+    aws_s3_exists(
       bucket = bucket_name,
-      object = "_targets/objects/y",
+      key = "_targets/objects/y",
       region = "us-west-2"
     )
   )
@@ -368,16 +321,17 @@ tar_test("aws_qs format with custom region", {
     c(
       sprintf("bucket=%s", bucket_name),
       "region=us-west-2",
-      "key=_targets/objects/x"
+      "key=_targets/objects/x",
+      "version="
     )
   )
   expect_equal(out, exp)
   tmp <- tempfile()
-  aws.s3::save_object(
-    object = "_targets/objects/x",
+  aws_s3_download(
+    key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp,
-    region = "us-west-2"
+    region = region
   )
   expect_equal(qs::qread(tmp), "x_value")
 })
@@ -385,15 +339,10 @@ tar_test("aws_qs format with custom region", {
 tar_test("aws_qs format empty region string", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  on.exit({
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
+  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  aws.s3::put_bucket(bucket = bucket_name)
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -409,4 +358,35 @@ tar_test("aws_qs format empty region string", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_equal(tar_read(x), "x_value")
+})
+
+tar_test("aws_qs nonexistent bucket", {
+  skip_if_no_aws()
+  skip_if_not_installed("qs")
+  s3 <- paws::s3()
+  bucket_name <- random_bucket_name()
+  s3$create_bucket(Bucket = bucket_name)
+  expr <- quote({
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name, region = "")
+      )
+    )
+    list(
+      tar_target(x, "x_value", format = "aws_qs"),
+      tar_target(y, c(x, "y_value"), format = "aws_qs")
+    )
+  })
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
+  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(x), "x_value")
+  destroy_bucket(bucket_name)
+  expect_error(
+    tar_make(callr_function = NULL, reporter = "silent"),
+    class = "tar_condition_run"
+  )
+  out <- tar_meta(x, error)$error
+  expect_true(nzchar(out))
+  expect_false(anyNA(out))
 })

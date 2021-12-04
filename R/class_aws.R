@@ -95,7 +95,7 @@ store_read_object.tar_aws <- function(store) {
   path <- store$file$path
   tmp <- tempfile()
   on.exit(unlink(tmp))
-  aws_download(
+  aws_s3_download(
     key = store_aws_key(path),
     bucket = store_aws_bucket(path),
     file = tmp,
@@ -110,7 +110,7 @@ store_upload_object.tar_aws <- function(store) {
   key <- store_aws_key(store$file$path)
   head <- if_any(
     file_exists_stage(store$file),
-    aws_upload(
+    aws_s3_upload(
       file = store$file$stage,
       key = key,
       bucket = store_aws_bucket(store$file$path),
@@ -137,7 +137,7 @@ store_upload_object.tar_aws <- function(store) {
 }
 
 store_aws_hash <- function(key, bucket, region, version) {
-  head <- aws_head(
+  head <- aws_s3_head(
     key = key,
     bucket = bucket,
     region = region,
@@ -154,7 +154,7 @@ store_has_correct_hash.tar_aws <- function(store) {
   key <- store_aws_key(path)
   version <- store_aws_version(path)
   if_any(
-    aws_exists(
+    aws_s3_exists(
       key = key,
       bucket = bucket,
       region = region,

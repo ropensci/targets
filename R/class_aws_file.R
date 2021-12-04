@@ -71,7 +71,7 @@ store_read_object.tar_aws_file <- function(store) {
   path <- store$file$path
   stage <- store_aws_file_stage(path)
   dir_create(dirname(stage))
-  aws_download(
+  aws_s3_download(
     key = store_aws_key(path),
     bucket = store_aws_bucket(path),
     file = stage,

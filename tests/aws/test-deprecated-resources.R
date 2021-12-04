@@ -7,20 +7,7 @@ tar_test("AWS S3 with old resources", {
   bucket_name <- random_bucket_name()
   s3 <- paws::s3()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit({
-    s3$delete_object(
-      Key = "customprefix/customdir/a",
-      Bucket = bucket_name)
-    s3$delete_object(
-      Key = "customprefix/customdir/b",
-      Bucket = bucket_name
-    )
-    s3$delete_object(
-      Key = "customprefix/customdir/c",
-      Bucket = bucket_name
-    )
-    s3$delete_bucket(Bucket = bucket_name)
-  })
+  on.exit(destroy_bucket(bucket_name))
   code <- substitute({
     library(targets)
     library(future)

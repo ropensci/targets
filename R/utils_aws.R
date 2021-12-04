@@ -4,9 +4,9 @@
 # which could put an unexpected and unfair burden on
 # external contributors from the open source community.
 # nocov start
-aws_exists <- function(key, bucket, region = NULL, version = NULL) {
+aws_s3_exists <- function(key, bucket, region = NULL, version = NULL) {
   tryCatch(
-    aws_head_true(
+    aws_s3_head_true(
       key = key,
       bucket = bucket,
       region = region,
@@ -18,7 +18,7 @@ aws_exists <- function(key, bucket, region = NULL, version = NULL) {
   )
 }
 
-aws_head <- function(key, bucket, region = NULL, version = NULL) {
+aws_s3_head <- function(key, bucket, region = NULL, version = NULL) {
   if (!is.null(region)) {
     withr::local_envvar(.new = list(AWS_REGION = region))
   }
@@ -32,8 +32,8 @@ aws_head <- function(key, bucket, region = NULL, version = NULL) {
   do.call(what = paws::s3()$head_object, args = args)
 }
 
-aws_head_true <- function(key, bucket, region = NULL, version = NULL) {
-  aws_head(
+aws_s3_head_true <- function(key, bucket, region = NULL, version = NULL) {
+  aws_s3_head(
     key = key,
     bucket = bucket,
     region = region,
@@ -42,7 +42,7 @@ aws_head_true <- function(key, bucket, region = NULL, version = NULL) {
   TRUE
 }
 
-aws_download <- function(
+aws_s3_download <- function(
   file,
   key,
   bucket,
@@ -63,7 +63,7 @@ aws_download <- function(
   writeBin(out, con = file)
 }
 
-aws_upload <- function(
+aws_s3_upload <- function(
   file,
   key,
   bucket,
@@ -102,7 +102,7 @@ aws_upload <- function(
     }
   })
   response <- try({
-    parts <- aws_upload_parts(
+    parts <- aws_s3_upload_parts(
       file = file,
       key = key,
       bucket = bucket,
@@ -119,7 +119,7 @@ aws_upload <- function(
   return(response)
 }
 
-aws_upload_parts <- function(
+aws_s3_upload_parts <- function(
   file,
   key,
   bucket,

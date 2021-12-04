@@ -3,16 +3,9 @@
 tar_test("AWS S3 + HPC", {
   skip_if_no_aws()
   s3 <- paws::s3()
-  on.exit({
-    s3$delete_object(Key = "_targets/objects/a", Bucket = bucket_name)
-    s3$delete_object(Key = "_targets/objects/b", Bucket = bucket_name)
-    s3$delete_object(Key = "_targets/objects/c", Bucket = bucket_name)
-    s3$delete_object(Key = "_targets/objects", Bucket = bucket_name)
-    s3$delete_object(Key = "_targets", Bucket = bucket_name)
-    s3$delete_bucket(Bucket = bucket_name)
-  })
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
   code <- substitute({
     library(targets)
     library(future)
