@@ -7,7 +7,7 @@ tar_reprex(
     )
   },
   run = {
-    tar_visnetwork()
+    tar_outdated()
     tar_make()
   }
 )
@@ -21,7 +21,7 @@ tar_reprex(
     )
   },
   run = {
-    tar_visnetwork()
+    tar_outdated()
     tar_make()
   }
 )

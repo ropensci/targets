@@ -50,7 +50,7 @@ tar_script({
 tar_make() # Stop early.
 tar_watch(background = FALSE)
 
-# Should see running branches in the table.
+# Should see starged branches in the table.
 library(targets)
 tar_destroy()
 tar_script({
@@ -119,7 +119,6 @@ tar_make(
 library(testthat)
 expect_false(file.exists("_targets"))
 expect_false(file.exists("_targets.R"))
-expect_false(file.exists("_targets.yaml"))
 expect_true(file.exists("example/config.yaml"))
 expect_true(file.exists("example/script.R"))
 expect_true(file.exists("example/store"))

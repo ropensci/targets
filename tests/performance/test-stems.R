@@ -3,7 +3,7 @@ library(targets)
 
 px <- pprof(
   targets <- lapply(
-    as.character(seq_len(1e3)), function(name) {
+    paste0("x", seq_len(1e3)), function(name) {
       tar_target_raw(name, command = quote(1 + 1))
     }
   )

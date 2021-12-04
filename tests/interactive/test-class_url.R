@@ -2,13 +2,13 @@ tar_test("tar_timestamp() for URLs", {
   skip_on_cran()
   skip_if_not_installed("curl")
   skip_if_offline()
-  url <- "https://r-project.org"
+  url <- "https://github.com/ropensci/targets"
   skip_if(!url_exists(url))
   tar_script({
     list(
       tar_target(
         abc,
-        rep("https://r-project.org", 2),
+        rep("https://github.com/ropensci/targets", 2),
         format = "url"
       )
     )

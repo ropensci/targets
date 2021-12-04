@@ -66,7 +66,7 @@ tar_script({
   # Comment out and see memory increase:
   tar_option_set(memory = "transient", garbage_collection = TRUE)
   lapply(
-    seq_len(50),
+    paste0("x", seq_len(50)),
     function(index) {
       tar_target_raw(
         as.character(index),
@@ -87,7 +87,7 @@ tar_make()
 tar_destroy()
 tar_option_set(memory = "transient")
 targets <- lapply(
-  seq_len(50),
+  paste0("x", seq_len(50)),
   function(index) {
     tar_target_raw(
       as.character(index),
