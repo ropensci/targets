@@ -63,6 +63,9 @@ aws_s3_download <- function(
   writeBin(out, con = file)
 }
 
+# Copied from https://github.com/paws-r/paws/blob/main/examples/s3_multipart_upload.R # nolint
+# and modified under Apache 2.0.
+# See the NOTICE file at the top of this package for attribution.
 aws_s3_upload <- function(
   file,
   key,
@@ -119,6 +122,9 @@ aws_s3_upload <- function(
   return(response)
 }
 
+# Copied from https://github.com/paws-r/paws/blob/main/examples/s3_multipart_upload.R # nolint
+# and modified under Apache 2.0.
+# See the NOTICE file at the top of this package for attribution.
 aws_s3_upload_parts <- function(
   file,
   key,

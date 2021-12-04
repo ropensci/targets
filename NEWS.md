@@ -3,13 +3,12 @@
 ## Highlights
 
 * Track the version ID of AWS S3-backed targets if the bucket is version-enabled (#711). If you put your targets in AWS and the metadata and code under version control, you can `git checkout` a different branch of your code and all you targets will stay up to date.
-* Refactor the automatic `.gitignore` file inside the data store to allow the metadata to be committed to version control more easily (#711).
 * Refactor the AWS path format internally. It now consists of arbitrarily extensible key-value pairs so more AWS S3 functionality may be added more seamlessly going forward (#711).
 * Switch the AWS S3 backend to `paws` (#711).
-* Add a `region` argument to `tar_resources_aws()` to allow the user to explicitly declare a region for each AWS S3 buckets (@caewok, #681). Different buckets can now have different regions. This feature required modifying the metadata path for AWS storage formats. Before, the first element of the path was simply the bucket name. Now, it is internally formatted like `"bucket=BUCKET:region=REGION"`, where `BUCKET` is the user-supplied bucket name and `REGION` is the user-supplied region name. The new `targets` is back-compatible with the old metadata format, but if you run the pipeline with `targets` >= 0.8.1.9000 and then downgrade to `targets` <= 0.8.1, any AWS targets will break.
 
 ## New features
 
+* Add a `region` argument to `tar_resources_aws()` to allow the user to explicitly declare a region for each AWS S3 buckets (@caewok, #681). Different buckets can now have different regions. This feature required modifying the metadata path for AWS storage formats. Before, the first element of the path was simply the bucket name. Now, it is internally formatted like `"bucket=BUCKET:region=REGION"`, where `BUCKET` is the user-supplied bucket name and `REGION` is the user-supplied region name. The new `targets` is back-compatible with the old metadata format, but if you run the pipeline with `targets` >= 0.8.1.9000 and then downgrade to `targets` <= 0.8.1, any AWS targets will break.
 * Add new reporters `timestamp_positives"` and `"verbose_positives"` that omit messages for skipped targets (@psanker, #683).
 * Implement `tar_assert_file()`.
 * Implement `tar_reprex()` for creating easier reproducible examples of pipelines.
@@ -21,10 +20,10 @@
 
 ## Enhancements
 
+* Refactor the automatic `.gitignore` file inside the data store to allow the metadata to be committed to version control more easily (#685, #711).
 * Document target name requirements in `tar_target()` and `tar_target_raw()` (@tjmahr, #679).
 * Catch and relay any the error if a target cannot be checked in `target_should_run.tar_builder()`. These kinds of errors sometimes come up with AWS storage.
 * Fix the documentation of the reporters.
-* Move `_targets/meta/.gitignore` to `_targets/.gitignore` and Git-ignore everything in the store by default (#685).
 * Only write `_targets/.gitignore` for new data stores so the user can delete the `.gitignore` file without it mysteriously reappearing (#685).
 
 # targets 0.8.1
