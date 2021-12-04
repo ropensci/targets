@@ -57,7 +57,7 @@ active_class <- R6::R6Class(
     },
     write_gitignore = function() {
       writeLines(
-        c("*", "!.gitignore", "!meta/meta"),
+        c("*", "!.gitignore", "!meta", "meta/*", "!meta/meta"),
         path_gitignore(self$meta$get_path_store())
       )
     },
