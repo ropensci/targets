@@ -2,15 +2,9 @@
 tar_test("aws_file format file gets stored", {
   skip_if_no_aws()
   bucket_name <- random_bucket_name()
-  on.exit({
-    unlink("example_aws_file.txt")
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
-  aws.s3::put_bucket(bucket = bucket_name)
+  s3 <- paws::s3()
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
       aws = tar_resources_aws(bucket = !!bucket_name)
@@ -30,7 +24,7 @@ tar_test("aws_file format file gets stored", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL, envir = tar_option_get("envir"))
   expect_true(
-    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/x")
+    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
   )
   unlink("_targets/scratch", recursive = TRUE)
   expect_equal(tar_read(y), "x_lines")
@@ -43,8 +37,8 @@ tar_test("aws_file format file gets stored", {
   expect_true(file.exists("example_aws_file.txt"))
   expect_equal(readLines("example_aws_file.txt"), "x_lines")
   tmp <- tempfile()
-  aws.s3::save_object(
-    object = "_targets/objects/x",
+  aws_s3_download(
+    key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp
   )
@@ -57,10 +51,11 @@ tar_test("aws_file format file gets stored", {
 # and then four times for transient.
 tar_test("aws_file format invalidation", {
   skip_if_no_aws()
+  s3 <- paws::s3()
   for (memory in c("persistent", "transient")) {
     # print(memory) # Uncomment for debug() test. # nolint
     bucket_name <- random_bucket_name()
-    aws.s3::put_bucket(bucket = bucket_name)
+    s3$create_bucket(Bucket = bucket_name)
     expr <- quote({
       tar_option_set(
         resources = tar_resources(
@@ -113,12 +108,7 @@ tar_test("aws_file format invalidation", {
     expect_equal(tar_progress(y)$progress, "built")
     expect_equal(tar_read(y), "x_lines2")
     unlink("example_aws_file.txt")
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-    expect_false(aws.s3::bucket_exists(bucket = bucket_name))
+    destroy_bucket(bucket_name)
   }
 })
 
@@ -126,17 +116,9 @@ tar_test("aws_file format with a custom data store", {
   skip_if_no_aws()
   tar_config_set(store = "custom_targets_store")
   bucket_name <- random_bucket_name()
-  on.exit({
-    unlink("example_aws_file.txt")
-    unlink("_targets.yaml")
-    unlink("custom_targets_store", recursive = TRUE)
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
-  aws.s3::put_bucket(bucket = bucket_name)
+  s3 <- paws::s3()
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
       aws = tar_resources_aws(bucket = !!bucket_name)
@@ -158,7 +140,7 @@ tar_test("aws_file format with a custom data store", {
   expect_true(file.exists("custom_targets_store"))
   expect_false(file.exists(path_store_default()))
   expect_true(
-    aws.s3::object_exists(bucket = bucket_name, object = "_targets/objects/x")
+    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
   )
   expect_equal(tar_read(y), "x_lines")
   expect_equal(length(list.files("custom_targets_store/scratch/")), 0L)
@@ -168,8 +150,8 @@ tar_test("aws_file format with a custom data store", {
   expect_true(file.exists("example_aws_file.txt"))
   expect_equal(readLines("example_aws_file.txt"), "x_lines")
   tmp <- tempfile()
-  aws.s3::save_object(
-    object = "_targets/objects/x",
+  aws_s3_download(
+    key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp
   )
@@ -179,15 +161,11 @@ tar_test("aws_file format with a custom data store", {
 tar_test("aws_file format file with different region", {
   skip_if_no_aws()
   bucket_name <- random_bucket_name()
-  on.exit({
-    unlink("example_aws_file.txt")
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects/y", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
-  aws.s3::put_bucket(bucket = bucket_name, region = "us-west-2")
+  s3 <- paws::s3()
+  region <- "us-west-2"
+  cfg <- list(LocationConstraint = region)
+  s3$create_bucket(Bucket = bucket_name, CreateBucketConfiguration = cfg)
+  on.exit(destroy_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
       aws = tar_resources_aws(bucket = !!bucket_name, region = "us-west-2")
@@ -207,9 +185,9 @@ tar_test("aws_file format file with different region", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL, envir = tar_option_get("envir"))
   expect_true(
-    aws.s3::object_exists(
+    aws_s3_exists(
       bucket = bucket_name,
-      object = "_targets/objects/x",
+      key = "_targets/objects/x",
       region = "us-west-2"
     )
   )
@@ -229,16 +207,18 @@ tar_test("aws_file format file with different region", {
       sprintf("bucket=%s", bucket_name),
       "region=us-west-2",
       "key=_targets/objects/x",
-      "stage=example_aws_file.txt"
+      "stage=example_aws_file.txt",
+      "version="
     )
   )
   expect_equal(out, exp)
   tmp <- tempfile()
-  aws.s3::save_object(
-    object = "_targets/objects/x",
+  aws_s3_download(
+    key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp,
-    region = "us-west-2"
+    region = region
   )
   expect_equal(readLines(tmp), "x_lines")
+  unlink("example_aws_file.txt")
 })

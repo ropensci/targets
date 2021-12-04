@@ -60,6 +60,11 @@ store_aws_key <- function(path) {
   store_aws_field(path = path, pattern = "^key=")
 }
 
+store_aws_version <- function(path) {
+  out <- store_aws_field(path = path, pattern = "^version=")
+  if_any(length(out) && nzchar(out), out, NULL)
+}
+
 store_aws_field <- function(path, pattern) {
   path <- store_aws_split_colon(path)
   element <- grep(pattern = pattern, x = path, value = TRUE)
@@ -86,16 +91,14 @@ store_aws_split_colon <- function(path) {
 #' @export
 store_read_object.tar_aws <- function(store) {
   path <- store$file$path
-  bucket <- store_aws_bucket(path)
-  region <- store_aws_region(path)
-  key <- store_aws_key(path)
   tmp <- tempfile()
   on.exit(unlink(tmp))
-  aws_download(
-    key = key,
-    bucket = bucket,
+  aws_s3_download(
+    key = store_aws_key(path),
+    bucket = store_aws_bucket(path),
     file = tmp,
-    region = region
+    region = store_aws_region(path),
+    version = store_aws_version(path)
   )
   store_cast_object(store, store_read_path(store, tmp))
 }
@@ -103,17 +106,15 @@ store_read_object.tar_aws <- function(store) {
 #' @export
 store_upload_object.tar_aws <- function(store) {
   key <- store_aws_key(store$file$path)
-  bucket <- store_aws_bucket(store$file$path)
-  region <- store_aws_region(store$file$path)
-  hash <- store$file$hash
-  if_any(
+  head <- if_any(
     file_exists_stage(store$file),
-    aws_upload(
+    aws_s3_upload(
       file = store$file$stage,
       key = key,
-      bucket = bucket,
-      region = region,
-      headers = c("x-amz-meta-targets-hash" = hash)
+      bucket = store_aws_bucket(store$file$path),
+      region = store_aws_region(store$file$path),
+      metadata = list("targets-hash" = store$file$hash),
+      part_size = store$resources$aws$part_size %|||% (5 * (2 ^ 20))
     ),
     tar_throw_file(
       "Cannot upload non-existent AWS staging file ",
@@ -123,23 +124,24 @@ store_upload_object.tar_aws <- function(store) {
       ". The target probably encountered an error."
     )
   )
+  path <- grep(
+    pattern = "^version=",
+    x = store$file$path,
+    value = TRUE,
+    invert = TRUE
+  )
+  store$file$path <- c(path, paste0("version=", head$VersionId))
+  invisible()
 }
 
-store_aws_exists <- function(key, bucket, region) {
-  aws_exists(
+store_aws_hash <- function(key, bucket, region, version) {
+  head <- aws_s3_head(
     key = key,
     bucket = bucket,
-    region = region
+    region = region,
+    version = version
   )
-}
-
-store_aws_hash <- function(key, bucket, region) {
-  head <- aws_head(
-    key = key,
-    bucket = bucket,
-    region = region
-  )
-  hash_worker <- attr(head, "x-amz-meta-targets-hash")
+  head$Metadata[["targets-hash"]]
 }
 
 #' @export
@@ -148,9 +150,23 @@ store_has_correct_hash.tar_aws <- function(store) {
   bucket <- store_aws_bucket(path)
   region <- store_aws_region(path)
   key <- store_aws_key(path)
+  version <- store_aws_version(path)
   if_any(
-    store_aws_exists(key, bucket, region),
-    identical(store_aws_hash(key, bucket, region), store$file$hash),
+    aws_s3_exists(
+      key = key,
+      bucket = bucket,
+      region = region,
+      version = version
+    ),
+    identical(
+      store_aws_hash(
+        key = key,
+        bucket = bucket,
+        region = region,
+        version = version
+      ),
+      store$file$hash
+    ),
     FALSE
   )
 }
@@ -158,5 +174,5 @@ store_has_correct_hash.tar_aws <- function(store) {
 
 #' @export
 store_get_packages.tar_aws <- function(store) {
-  c("aws.s3", NextMethod())
+  c("paws", NextMethod())
 }

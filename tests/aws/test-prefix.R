@@ -6,7 +6,9 @@ tar_test("aws_parquet format returns data frames", {
   skip_if_no_aws()
   skip_if_not_installed("arrow")
   bucket_name <- random_bucket_name()
-  aws.s3::put_bucket(bucket = bucket_name)
+  s3 <- paws::s3()
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -26,14 +28,5 @@ tar_test("aws_parquet format returns data frames", {
   tar_make(callr_function = NULL)
   out <- tar_read(x)
   expect_equal(out, data.frame(x = seq_len(2), y = seq_len(2)))
-  expect_true(aws.s3::object_exists("custom/prefix/x", bucket = bucket_name))
-  expect_false(
-    aws.s3::object_exists("_targets/objects/x", bucket = bucket_name)
-  )
-  aws.s3::delete_object(object = "custom/prefix/x", bucket = bucket_name)
-  aws.s3::delete_object(object = "custom/prefix/y", bucket = bucket_name)
-  aws.s3::delete_object(object = "custom/prefix", bucket = bucket_name)
-  aws.s3::delete_object(object = "custom", bucket = bucket_name)
-  aws.s3::delete_bucket(bucket = bucket_name)
-  tar_destroy()
+  expect_true(aws_s3_exists(key = "custom/prefix/x", bucket = bucket_name))
 })

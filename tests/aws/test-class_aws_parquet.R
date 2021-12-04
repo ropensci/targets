@@ -3,18 +3,10 @@
 tar_test("aws_parquet format returns data frames", {
   skip_if_no_aws()
   skip_if_not_installed("arrow")
-  on.exit({
-    aws.s3::delete_object(object = "_targets/objects/x", bucket = bucket_name)
-    object <- file.path("_targets/objects", tar_meta(y, children)[[1]][1])
-    aws.s3::delete_object(object = object, bucket = bucket_name)
-    object <- file.path("_targets/objects", tar_meta(y, children)[[1]][2])
-    aws.s3::delete_object(object = object, bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets/objects", bucket = bucket_name)
-    aws.s3::delete_object(object = "_targets", bucket = bucket_name)
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
+  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  aws.s3::put_bucket(bucket = bucket_name)
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(

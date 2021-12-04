@@ -4,29 +4,17 @@
 # and MANUALLY CLEAR OUT THE BUCKET.
 tar_test("AWS S3 with old resources", {
   skip_if_no_aws()
-  bucket_name <- "targets-testing-aws-bucket"
-  aws.s3::put_bucket(bucket = "targets-testing-aws-bucket")
-  on.exit({
-    aws.s3::delete_object(
-      object = "customprefix/customdir/a",
-      bucket = bucket_name)
-    aws.s3::delete_object(
-      object = "customprefix/customdir/b",
-      bucket = bucket_name
-    )
-    aws.s3::delete_object(
-      object = "customprefix/customdir/c",
-      bucket = bucket_name
-    )
-    aws.s3::delete_bucket(bucket = bucket_name)
-  })
-  tar_script({
+  bucket_name <- random_bucket_name()
+  s3 <- paws::s3()
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
+  code <- substitute({
     library(targets)
     library(future)
     tar_option_set(
       format = "aws_rds",
       resources = list(
-        bucket = "targets-testing-aws-bucket",
+        bucket = bucket_name,
         prefix = "customprefix/customdir"
       )
     )
@@ -35,7 +23,8 @@ tar_test("AWS S3 with old resources", {
       tar_target(b, a),
       tar_target(c, a + b)
     )
-  })
+  }, env = list(bucket_name = bucket_name))
+  do.call(tar_script, list(code = code))
   expect_warning(
     tar_make(callr_function = NULL),
     class = "tar_condition_deprecate"
