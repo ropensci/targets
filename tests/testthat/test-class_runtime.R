@@ -36,14 +36,14 @@ tar_test("set, get, exists, and unset interactive", {
 
 tar_test("set, get, exists, and unset store", {
   x <- runtime_init()
-  expect_false(x$exists_interactive())
-  expect_null(x$get_interactive())
-  x$set_interactive("store")
-  expect_true(x$exists_interactive())
-  expect_equal(x$get_interactive(), "store")
-  x$unset_interactive()
-  expect_false(x$exists_interactive())
-  expect_null(x$get_interactive())
+  expect_false(x$exists_store())
+  expect_null(x$get_store())
+  x$set_store("store")
+  expect_true(x$exists_store())
+  expect_equal(x$get_store(), "store")
+  x$unset_store()
+  expect_false(x$exists_store())
+  expect_null(x$get_store())
 })
 
 tar_test("validate null runtime", {
