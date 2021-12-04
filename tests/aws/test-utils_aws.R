@@ -96,19 +96,131 @@ tar_test("aws_upload() and download with metadata and region", {
 })
 
 tar_test("upload twice, get the correct version", {
-  # setup: create a versioned bucket. callback to delete bucket
-  # aws_upload() 2 different objects with different metadata and same keys
-  # aws_exists() old, new, and nonexistant
-  # aws_head() old, new, and nonexistent. check metadata and version.
-  # aws_download() old, new, and nonexistent. check data
-  # delete both versions of objects
+  bucket <- random_bucket_name()
+  paws::s3()$create_bucket(Bucket = bucket)
+  paws::s3()$put_bucket_versioning(
+    Bucket = bucket,
+    VersioningConfiguration = list(
+      MFADelete = "Disabled",
+      Status = "Enabled"
+    )
+  )
+  on.exit(paws::s3()$delete_bucket(Bucket = bucket))
+  tmp <- tempfile()
+  writeLines("first", tmp)
+  head_first <- aws_upload(
+    file = tmp,
+    key = "x",
+    bucket = bucket,
+    metadata = list("custom" = "first-meta")
+  )
+  v1 <- head_first$VersionId
+  writeLines("second", tmp)
+  head_second <- aws_upload(
+    file = tmp,
+    key = "x",
+    bucket = bucket,
+    metadata = list("custom" = "second-meta")
+  )
+  v2 <- head_second$VersionId
+  expect_true(aws_exists(key = "x", bucket = bucket))
+  expect_true(aws_exists(key = "x", bucket = bucket, version = v1))
+  expect_true(aws_exists(key = "x", bucket = bucket, version = v2))
+  expect_false(aws_exists(key = "x", bucket = bucket, version = "v3"))
+  h1 <- aws_head(key = "x", bucket = bucket, version = v1)
+  h2 <- aws_head(key = "x", bucket = bucket, version = v2)
+  expect_equal(h1$VersionId, v1)
+  expect_equal(h2$VersionId, v2)
+  expect_equal(h1$Metadata$custom, "first-meta")
+  expect_equal(h2$Metadata$custom, "second-meta")
+  unlink(tmp)
+  aws_download(file = tmp, key = "x", bucket = bucket, version = v1)
+  expect_equal(readLines(tmp), "first")
+  aws_download(file = tmp, key = "x", bucket = bucket, version = v2)
+  expect_equal(readLines(tmp), "second")
+  paws::s3()$delete_object(
+    Bucket = bucket,
+    Key = "x",
+    VersionId = v1
+  )
+  paws::s3()$delete_object(
+    Bucket = bucket,
+    Key = "x",
+    VersionId = v2
+  )
 })
 
 tar_test("multipart: upload twice, get the correct version", {
-  # setup: create a versioned bucket. callback to delete bucket
-  # aws_upload() 2 different multipart objects with diff metadata & same keys
-  # aws_exists() old, new, and nonexistant
-  # aws_head() old, new, and nonexistent. check metadata and version.
-  # aws_download() old, new, and nonexistent. check data
-  # delete both versions of objects
+  bucket <- random_bucket_name()
+  paws::s3()$create_bucket(Bucket = bucket)
+  paws::s3()$put_bucket_versioning(
+    Bucket = bucket,
+    VersioningConfiguration = list(
+      MFADelete = "Disabled",
+      Status = "Enabled"
+    )
+  )
+  on.exit(paws::s3()$delete_bucket(Bucket = bucket))
+  tmp <- tempfile()
+  writeLines("first", tmp)
+  head_first <- aws_upload(
+    file = tmp,
+    key = "x",
+    bucket = bucket,
+    multipart = TRUE,
+    metadata = list("custom" = "first-meta")
+  )
+  v1 <- head_first$VersionId
+  writeLines("second", tmp)
+  head_second <- aws_upload(
+    file = tmp,
+    key = "x",
+    bucket = bucket,
+    multipart = TRUE,
+    metadata = list("custom" = "second-meta")
+  )
+  v2 <- head_second$VersionId
+  expect_true(aws_exists(key = "x", bucket = bucket))
+  expect_true(aws_exists(key = "x", bucket = bucket, version = v1))
+  expect_true(aws_exists(key = "x", bucket = bucket, version = v2))
+  expect_false(aws_exists(key = "x", bucket = bucket, version = "v3"))
+  h1 <- aws_head(key = "x", bucket = bucket, version = v1)
+  h2 <- aws_head(key = "x", bucket = bucket, version = v2)
+  expect_equal(h1$VersionId, v1)
+  expect_equal(h2$VersionId, v2)
+  expect_equal(h1$Metadata$custom, "first-meta")
+  expect_equal(h2$Metadata$custom, "second-meta")
+  unlink(tmp)
+  aws_download(file = tmp, key = "x", bucket = bucket, version = v1)
+  expect_equal(readLines(tmp), "first")
+  aws_download(file = tmp, key = "x", bucket = bucket, version = v2)
+  expect_equal(readLines(tmp), "second")
+  paws::s3()$delete_object(
+    Bucket = bucket,
+    Key = "x",
+    VersionId = v1
+  )
+  paws::s3()$delete_object(
+    Bucket = bucket,
+    Key = "x",
+    VersionId = v2
+  )
+})
+
+tar_test("graceful error on multipart upload", {
+  bucket <- random_bucket_name()
+  paws::s3()$create_bucket(Bucket = bucket)
+  on.exit(paws::s3()$delete_bucket(Bucket = bucket))
+  tmp <- tempfile()
+  writeBin(raw(1e4), tmp)
+  expect_error(
+    aws_upload(
+      file = tmp,
+      key = "x",
+      bucket = bucket,
+      multipart = TRUE,
+      part_size = 5e3
+    ),
+    class = "tar_condition_file"
+  )
 })

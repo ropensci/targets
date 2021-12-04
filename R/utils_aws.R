@@ -12,7 +12,7 @@ aws_exists <- function(key, bucket, region = NULL, version = NULL) {
       region = region,
       version = version
     ),
-    http_404 = function(condition) {
+    http_400 = function(condition) {
       FALSE
     }
   )
