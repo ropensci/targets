@@ -61,7 +61,10 @@ store_aws_key <- function(path) {
 }
 
 store_aws_version <- function(path) {
-  store_aws_field(path = path, pattern = "^version=") %||% NULL
+  out <- store_aws_field(path = path, pattern = "^version=")
+  if (!length(out) || !nzchar(out)) {
+    return(NULL)
+  }
 }
 
 store_aws_field <- function(path, pattern) {
@@ -100,7 +103,6 @@ store_read_object.tar_aws <- function(store) {
     version = store_aws_version(path)
   )
   store_cast_object(store, store_read_path(store, tmp))
-  invisible()
 }
 
 #' @export
