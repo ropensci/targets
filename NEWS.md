@@ -1,3 +1,7 @@
+# targets 0.9.1
+
+* Mask pointers in function dependencies (#721, @matthiaskaeding)
+
 # targets 0.9.0
 
 ## Highlights
