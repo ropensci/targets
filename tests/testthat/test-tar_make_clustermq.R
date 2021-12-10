@@ -105,6 +105,7 @@ tar_test("custom script and store args with callr function", {
 tar_test("bootstrap builder for shortcut", {
   skip_on_cran()
   skip_on_os("windows")
+  skip_if_not_installed("clustermq")
   tar_script({
     options(clustermq.scheduler = "multicore")
     list(
