@@ -193,6 +193,3 @@ tar_test("gcp_gcs_upload: upload twice, get the correct version", {
   expect_equal(readLines(tmp), "second")
 })
 
-tar_test("gcp_gcs graceful error on multipart upload", {
-  # whats needed here?  
-})

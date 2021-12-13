@@ -4,11 +4,9 @@
 # which could put an unexpected and unfair burden on
 # external contributors from the open source community.
 # nocov start
-gcp_gcs_exists <- function(
-  key, 
-  bucket = googleCloudStorageR::gcs_get_global_bucket(), 
-  version = NULL
-) {
+gcp_gcs_exists <- function(key, 
+                           bucket = gcp_gcs_bucket(), 
+                           version = NULL) {
   tryCatch(
     gcp_gcs_head_true(
       key = key,
@@ -21,9 +19,14 @@ gcp_gcs_exists <- function(
   )
 }
 
+# to keep lines shorter
+gcp_gcs_bucket <- function(){
+  googleCloudStorageR::gcs_get_global_bucket()
+}
+
 gcp_gcs_head <- function(
   key, 
-  bucket = googleCloudStorageR::gcs_get_global_bucket(), 
+  bucket = gcp_gcs_bucket(), 
   version = NULL
 ) {
   suppressMessages(
@@ -39,7 +42,7 @@ gcp_gcs_head <- function(
 
 gcp_gcs_head_true <- function(
   key, 
-  bucket = googleCloudStorageR::gcs_get_global_bucket(), 
+  bucket = gcp_gcs_bucket(), 
   version = NULL
 ) {
   gcp_gcs_head(
@@ -53,7 +56,7 @@ gcp_gcs_head_true <- function(
 gcp_gcs_download <- function(
   file,
   key,
-  bucket = googleCloudStorageR::gcs_get_global_bucket(),
+  bucket = gcp_gcs_bucket(),
   version = NULL
 ) {
   
@@ -71,15 +74,16 @@ gcp_gcs_download <- function(
 gcp_gcs_upload <- function(
   file,
   key,
-  bucket = googleCloudStorageR::gcs_get_global_bucket(),
+  bucket = gcp_gcs_bucket(),
   metadata = list(),
-  predefinedAcl = c("private", "bucketLevel", "authenticatedRead",
-                    "bucketOwnerFullControl", "bucketOwnerRead", 
-                    "projectPrivate", "publicRead",
-                    "default")
+  predefined_acl = c(
+    "private", "bucketLevel", "authenticatedRead",
+    "bucketOwnerFullControl", "bucketOwnerRead", 
+    "projectPrivate", "publicRead",
+    "default")
 ) {
   
-  predefinedAcl <- match.arg(predefinedAcl)
+  predefined_acl <- match.arg(predefined_acl)
   
   meta <- NULL
   if(length(metadata) > 0){
@@ -94,7 +98,7 @@ gcp_gcs_upload <- function(
     bucket = bucket, 
     name = key,
     object_metadata = meta,
-    predefinedAcl = predefinedAcl
+    predefinedAcl = predefined_acl
   )
 
 }
