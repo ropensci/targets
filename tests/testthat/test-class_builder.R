@@ -43,8 +43,9 @@ tar_test("target_run_worker()", {
     target = x,
     envir = tmpenv(),
     path_store = path_store_default(),
+    fun = "tar_make",
     options = tar_options$export(),
-    fun = "tar_make"
+    envvars = tar_envvars()
   )
   expect_true(inherits(y, "tar_builder"))
   expect_silent(target_validate(y))
