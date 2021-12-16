@@ -18,7 +18,7 @@ to run the pipeline.}
 
 \item{options}{List, exported from an object of class \code{"tar_options"}.}
 
-\item{envvars}{Data frame of \code{targets}-specific envionment variables
+\item{envvars}{Data frame of \code{targets}-specific environment variables
 from \code{\link[=tar_envvars]{tar_envvars()}}.}
 }
 \description{

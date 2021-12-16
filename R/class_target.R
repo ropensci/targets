@@ -245,7 +245,7 @@ target_run.default <- function(target, envir, path_store) {
 #' @param fun Character of length 1, name of the user-side function called
 #'   to run the pipeline.
 #' @param options List, exported from an object of class `"tar_options"`.
-#' @param envvars Data frame of `targets`-specific envionment variables
+#' @param envvars Data frame of `targets`-specific environment variables
 #'   from [tar_envvars()].
 target_run_worker <- function(
   target,
