@@ -26,11 +26,13 @@ tar_test("runtime settings get exported to workers", {
   tar_script({
     options(clustermq.scheduler = "multiprocess")
     list(
-      tar_target(x, writeLines(targets::tar_store(), "store.txt"))
+      tar_target(x, targets::tar_store()),
+      tar_target(y, targets::tar_function())
     )
   })
   tar_make_clustermq(store = "local_store")
-  expect_equal(readLines("store.txt"), "local_store")
+  expect_equal(tar_read(x, store = "local_store"), "local_store")
+  expect_equal(tar_read(y, store = "local_store"), "tar_make_clustermq")
 })
 
 tar_test("same with the future backend", {
@@ -38,9 +40,11 @@ tar_test("same with the future backend", {
   tar_script({
     future::plan(future::multisession)
     list(
-      tar_target(x, writeLines(targets::tar_store(), "store.txt"))
+      tar_target(x, targets::tar_store()),
+      tar_target(y, targets::tar_function())
     )
   })
   tar_make_future(store = "local_store")
-  expect_equal(readLines("store.txt"), "local_store")
+  expect_equal(tar_read(x, store = "local_store"), "local_store")
+  expect_equal(tar_read(y, store = "local_store"), "tar_make_future")
 })

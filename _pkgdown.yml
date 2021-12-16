@@ -141,6 +141,7 @@ reference:
   - '`tar_cancel`'
   - '`tar_definition`'
   - '`tar_envir`'
+  - '`tar_function`'
   - '`tar_group`'
   - '`tar_name`'
   - '`tar_path`'
