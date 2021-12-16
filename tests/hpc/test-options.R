@@ -33,6 +33,8 @@ tar_test("runtime settings get exported to workers", {
   tar_make_clustermq(store = "local_store")
   expect_equal(tar_read(x, store = "local_store"), "local_store")
   expect_equal(tar_read(y, store = "local_store"), "tar_make_clustermq")
+  expect_null(tar_function())
+  expect_false(tar_store() == "local_store")
 })
 
 tar_test("same with the future backend", {
@@ -47,4 +49,6 @@ tar_test("same with the future backend", {
   tar_make_future(store = "local_store")
   expect_equal(tar_read(x, store = "local_store"), "local_store")
   expect_equal(tar_read(y, store = "local_store"), "tar_make_future")
+  expect_null(tar_function())
+  expect_false(tar_store() == "local_store")
 })

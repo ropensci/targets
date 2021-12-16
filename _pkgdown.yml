@@ -138,6 +138,7 @@ reference:
   - '`tar_toggle`'
 - title: Utilities
   contents:
+  - '`tar_active`'
   - '`tar_cancel`'
   - '`tar_definition`'
   - '`tar_envir`'

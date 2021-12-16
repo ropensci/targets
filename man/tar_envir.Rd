@@ -44,6 +44,7 @@ tar_read(x)
 }
 \seealso{
 Other utilities: 
+\code{\link{tar_active}()},
 \code{\link{tar_cancel}()},
 \code{\link{tar_definition}()},
 \code{\link{tar_function}()},

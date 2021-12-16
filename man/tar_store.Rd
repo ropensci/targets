@@ -29,6 +29,7 @@ tar_read(x, store = store)
 }
 \seealso{
 Other utilities: 
+\code{\link{tar_active}()},
 \code{\link{tar_cancel}()},
 \code{\link{tar_definition}()},
 \code{\link{tar_envir}()},
