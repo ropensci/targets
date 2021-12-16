@@ -54,6 +54,7 @@ tar_envvars <- function(unset = "") {
   names <- c(
     "TAR_ASK",
     "TAR_CONFIG",
+    "TAR_PROJECT",
     "TAR_WARN"
   )
   values <- map_chr(names, Sys.getenv, unset = unset, names = FALSE)

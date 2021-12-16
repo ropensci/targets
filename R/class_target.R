@@ -243,7 +243,15 @@ target_run.default <- function(target, envir, path_store) {
 #' @param envir An environment or the string `"globalenv"`.
 #' @param path_store Character of length 1, path to the data store.
 #' @param options List, exported from an object of class `"tar_options"`.
-target_run_worker <- function(target, envir, path_store, options) {
+#' @param fun Character of length 1, name of the user-side function called
+#'   to run the pipeline.
+target_run_worker <- function(
+  target,
+  envir,
+  path_store,
+  options,
+  fun
+) {
   UseMethod("target_run_worker")
 }
 

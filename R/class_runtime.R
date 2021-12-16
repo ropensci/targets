@@ -129,13 +129,29 @@ runtime_class <- R6::R6Class(
       if (!is.null(self$store)) {
         tar_assert_scalar(self$store)
         tar_assert_chr(self$store)
+        tar_assert_nzchar(self$store)
       }
       if (!is.null(self$fun)) {
         tar_assert_scalar(self$fun)
         tar_assert_chr(self$fun)
+        tar_assert_nzchar(self$fun)
       }
     }
   )
 )
+
+#' @title Get the `tar_runtime` object.
+#' @export
+#' @keywords internal
+#' @description For internal purposes only. Not a user-side function.
+#'   Do not invoke directly.
+#' @details Manages internal settings
+#'   that targets need while they run.
+#' @return The internal `tar_runtime` object of class `"tar_runtime"`.
+#' @examples
+#' tar_runtime_object()
+tar_runtime_object <- function() {
+  tar_runtime
+}
 
 tar_runtime <- runtime_init()

@@ -82,6 +82,7 @@ active_class <- R6::R6Class(
       }
       out[[".tar_options_5048826d"]] <- tar_options$export()
       out[[".tar_path_store_5048826d"]] <- path_store
+      out[[".tar_fun_5048826d"]] <- tar_runtime$get_fun()
       out
     },
     unload_transient = function() {

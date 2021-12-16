@@ -20,3 +20,27 @@ tar_test("same with the future backend and non-global environment", {
   tar_make_future()
   expect_equal(readLines("error.txt"), "continue")
 })
+
+tar_test("runtime settings get exported to workers", {
+  skip_if_not_installed("clustermq")
+  tar_script({
+    options(clustermq.scheduler = "multiprocess")
+    list(
+      tar_target(x, writeLines(targets::tar_store(), "store.txt"))
+    )
+  })
+  tar_make_clustermq(store = "local_store")
+  expect_equal(readLines("store.txt"), "local_store")
+})
+
+tar_test("same with the future backend", {
+  skip_if_not_installed("future")
+  tar_script({
+    future::plan(future::multisession)
+    list(
+      tar_target(x, writeLines(targets::tar_store(), "store.txt"))
+    )
+  })
+  tar_make_future(store = "local_store")
+  expect_equal(readLines("store.txt"), "local_store")
+})

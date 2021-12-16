@@ -84,7 +84,9 @@ tar_manifest <- function(
     callr_function = callr_function,
     callr_arguments = callr_arguments,
     envir = envir,
-    script = script
+    script = script,
+    store = tar_config_get("store"),
+    fun = "tar_manifest"
   )
 }
 

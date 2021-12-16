@@ -111,7 +111,8 @@ future_class <- R6::R6Class(
             target = .tar_target_5048826d,
             envir = .tar_envir_5048826d,
             path_store = .tar_path_store_5048826d,
-            options = .tar_options_5048826d
+            options = .tar_options_5048826d,
+            fun = .tar_fun_5048826d
           )
         ),
         substitute = TRUE,

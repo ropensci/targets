@@ -101,12 +101,12 @@ tar_test("detect bad store", {
 
 tar_test("validate non-null fun", {
   x <- runtime_init()
-  x$set_fun("fun")
+  x$set_fun("tar_make")
   expect_silent(x$validate())
 })
 
-tar_test("detect bad store", {
+tar_test("detect bad fun", {
   x <- runtime_init()
-  x$set_fun(FALSE)
+  x$set_fun("")
   expect_error(x$validate(), class = "tar_condition_validate")
 })

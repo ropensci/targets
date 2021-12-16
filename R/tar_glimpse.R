@@ -83,7 +83,9 @@ tar_glimpse <- function(
     callr_function = callr_function,
     callr_arguments = callr_arguments,
     envir = envir,
-    script = script
+    script = script,
+    store = store,
+    fun = "tar_glimpse"
   )
 }
 
