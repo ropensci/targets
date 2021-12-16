@@ -80,9 +80,10 @@ active_class <- R6::R6Class(
         remove(list = discard, envir = envir)
         out <- list(.tar_envir_5048826d = envir)
       }
-      out[[".tar_options_5048826d"]] <- tar_options$export()
       out[[".tar_path_store_5048826d"]] <- path_store
       out[[".tar_fun_5048826d"]] <- tar_runtime$get_fun()
+      out[[".tar_options_5048826d"]] <- tar_options$export()
+      out[[".tar_envvars_5048826d"]] <- tar_envvars()
       out
     },
     unload_transient = function() {

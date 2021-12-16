@@ -122,14 +122,16 @@ target_run_worker.tar_builder <- function(
   target,
   envir,
   path_store,
+  fun,
   options,
-  fun
+  envvars
 ) {
   envir <- if_any(identical(envir, "globalenv"), globalenv(), envir)
   tar_option_set(envir = envir)
   tar_runtime$set_store(path_store)
   tar_runtime$set_fun(fun)
   tar_options$import(options)
+  set_envvars(envvars)
   target_gc(target)
   target_run(target, envir, path_store)
   builder_serialize_value(target)
