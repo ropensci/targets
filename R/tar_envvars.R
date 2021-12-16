@@ -1,16 +1,22 @@
 #' @title Show environment variables to customize `targets`
 #' @export
 #' @family configuration
-#' @description You can customize the behavior of `targets`
+#' @description 
+#' @details You can customize the behavior of `targets`
 #'   with special environment variables. The sections in this help file
 #'   describe each environment variable, and the `tar_envvars()` function
 #'   lists their current values.
-#' @details If you modify environment variables, please set them
+#'
+#'   If you modify environment variables, please set them
 #'   in project-level `.Renviron` file so you do not lose your
 #'   configuration when you restart your R session.
 #'   Modify the project-level `.Renviron` file with
 #'   `usethis::edit_r_environ(scope = "project")`. Restart
 #'   your R session after you are done editing.
+#'
+#'   For targets that run on parallel workers
+#'   created by [tar_make_clustermq()] and [tar_make_future()],
+#'   only the environment variables in 
 #' @return A data frame with one row per environment variable
 #'   and columns with the name and current value of each.
 #'   An unset environment variable will have a value of `""`
