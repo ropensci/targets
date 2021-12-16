@@ -5,6 +5,7 @@
 * Add a new function `tar_function()` to return the `targets` function currently running (from `_targets.R` or a target).
 * Add a new function `tar_active()` to tell whether the pipeline is currently running. Detects if it is called from `tar_make()` or similar function.
 * Explicitly export all the environment variables from `tar_envvars()` to targets run on parallel workers.
+* Allow `format = "file"` targets to return `character(0)` (#728, @programLyrique).
 
 # targets 0.9.1
 

@@ -102,7 +102,6 @@ file_has_correct_hash <- function(file) {
 }
 
 file_validate_path <- function(path) {
-  tar_assert_nonempty(path, "a target must have at least one output file.")
   tar_assert_none_na(path, paste("missing output file for target:", path))
   tar_assert_chr_no_delim(
     path,

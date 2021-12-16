@@ -70,3 +70,27 @@ tar_test("store_path_from_record()", {
     "path"
   )
 })
+
+tar_test("files can be empty (#728)", {
+  tar_script(
+    list(
+      tar_target(x, character(0), format = "file"),
+      tar_target(y, x)
+    )
+  )
+  tar_make(callr_function = NULL)
+  expect_equal(tar_outdated(callr_function = NULL), character(0))
+  expect_equal(tar_read(x), character(0))
+  expect_equal(tar_read(y), character(0))
+  expect_true(is.na(tar_meta(x)$path))
+  tar_script(
+    list(
+      tar_target(x, (character(0)), format = "file"),
+      tar_target(y, x)
+    )
+  )
+  expect_equal(
+    sort(tar_outdated(callr_function = NULL)),
+    c("x", "y")
+  )
+})
