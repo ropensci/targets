@@ -11,29 +11,8 @@ auth_gcp <- function() {
 }
 
 gcp_gcs_delete_bucket <- function(bucket) {
-  # have to delete all objects in a bucket first
-  os <- googleCloudStorageR::gcs_list_objects(
-    bucket,
-    versions = TRUE,
-    detail = "full")
 
-  safe_delete <- function(x, bucket, version = NULL) {
-    tryCatch({
-      googleCloudStorageR::gcs_delete_object(x,
-                                             bucket = bucket,
-                                             generation = version)
-    }, error = function(ex) {
-      NULL
-    })
-  }
-
-  lapply(os$name, safe_delete, bucket = bucket)
-  mapply(safe_delete,
-         x = os$name, version = os$generation,
-         MoreArgs = list(bucket = bucket))
-
-  bb <- googleCloudStorageR::gcs_get_bucket(bucket)
-
-  googleCloudStorageR::gcs_delete_bucket(bb$name)
+  # force_delete in v0.7.0
+  googleCloudStorageR::gcs_delete_bucket(bucket, force_delete = TRUE)
 
 }

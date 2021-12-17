@@ -3,7 +3,7 @@ tar_test("gcp_gcs_exists()", {
   auth_gcp()
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  projectId <- "gcp-setup-demo"
+  projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
 
   googleCloudStorageR::gcs_create_bucket(bucket, projectId = projectId)
   on.exit(gcp_gcs_delete_bucket(bucket))

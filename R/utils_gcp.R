@@ -79,8 +79,7 @@ gcp_gcs_upload <- function(
   predefined_acl = c(
     "private", "bucketLevel", "authenticatedRead",
     "bucketOwnerFullControl", "bucketOwnerRead",
-    "projectPrivate", "publicRead",
-    "default")
+    "projectPrivate", "publicRead", "default")
 ) {
 
   predefined_acl <- match.arg(predefined_acl)
