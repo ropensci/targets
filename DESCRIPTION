@@ -28,6 +28,13 @@ Authors@R: c(
     role = "ctb"
   ),
   person(
+    given = "Mark",
+    family = "Edmondson",
+    email = "r@sunholo.com",
+    role = "ctb",
+    comment = c(ORCID = "0000-0002-8434-3881")
+  ),
+  person(
     given = "Samantha",
     family = "Oliver",
     role = "rev",
@@ -38,13 +45,6 @@ Authors@R: c(
     family = "Mahr",
     role = "rev",
     comment = c(ORCID = "0000-0002-8890-5116")
-  ),
-  person(
-    given = "Mark", 
-    family = "Edmondson", 
-    email = "r@sunholo.com",
-    role = "ctb",
-    comment = c(ORCID = "0000-0002-8434-3881")
   ),
   person(
     family = "Eli Lilly and Company",
