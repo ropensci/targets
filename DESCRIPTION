@@ -40,6 +40,13 @@ Authors@R: c(
     comment = c(ORCID = "0000-0002-8890-5116")
   ),
   person(
+    given = "Mark", 
+    family = "Edmondson", 
+    email = "r@sunholo.com",
+    role = "ctb",
+    comment = c(ORCID = "0000-0002-8434-3881")
+  ),
+  person(
     family = "Eli Lilly and Company",
     role = "cph"
   ))
