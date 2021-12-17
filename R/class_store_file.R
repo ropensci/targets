@@ -15,7 +15,7 @@ store_assert_format_setting.file <- function(class) {
 
 #' @export
 store_read_path.tar_store_file <- function(store, path) {
-  path
+  path[!is.na(path)]
 }
 
 #' @export

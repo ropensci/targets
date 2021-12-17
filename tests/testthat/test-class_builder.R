@@ -40,10 +40,12 @@ tar_test("target_run_worker()", {
   local_init(pipeline_init())$start()
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
   y <- target_run_worker(
-    x,
-    tmpenv(),
-    path_store_default(),
-    tar_options$export()
+    target = x,
+    envir = tmpenv(),
+    path_store = path_store_default(),
+    fun = "tar_make",
+    options = tar_options$export(),
+    envvars = tar_envvars()
   )
   expect_true(inherits(y, "tar_builder"))
   expect_silent(target_validate(y))

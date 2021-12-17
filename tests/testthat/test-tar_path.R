@@ -11,6 +11,8 @@ tar_test("tar_path() with a name arg", {
 
 tar_test("tar_path() inside a pipeline", {
   x <- target_init("x", quote(targets::tar_path()))
+  tar_runtime$set_store(path_store_default())
+  on.exit(tar_runtime$unset_store())
   pipeline <- pipeline_init(list(x))
   local_init(pipeline)$run()
   path <- file.path("_targets", "objects", "x")

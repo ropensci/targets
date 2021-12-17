@@ -1,4 +1,6 @@
 tar_test("active$produce_exports(is_globalenv = FALSE)", {
+  tar_runtime$set_fun("tar_make")
+  on.exit(tar_runtime$unset_fun())
   active <- active_new()
   envir <- new.env(parent = emptyenv())
   envir$target <- tar_target(x, 1)
@@ -20,7 +22,9 @@ tar_test("active$produce_exports(is_globalenv = FALSE)", {
       c(
         ".tar_envir_5048826d",
         ".tar_path_store_5048826d",
-        ".tar_options_5048826d"
+        ".tar_fun_5048826d",
+        ".tar_options_5048826d",
+        ".tar_envvars_5048826d"
       )
     )
   )
@@ -34,6 +38,8 @@ tar_test("active$produce_exports(is_globalenv = FALSE)", {
 })
 
 tar_test("active$produce_exports(is_globalenv = TRUE)", {
+  tar_runtime$set_fun("tar_make")
+  on.exit(tar_runtime$unset_fun())
   active <- active_new()
   envir <- new.env(parent = emptyenv())
   envir$target <- tar_target(x, 1)
@@ -54,7 +60,9 @@ tar_test("active$produce_exports(is_globalenv = TRUE)", {
     "visible",
     ".tar_envir_5048826d",
     ".tar_path_store_5048826d",
-    ".tar_options_5048826d"
+    ".tar_fun_5048826d",
+    ".tar_options_5048826d",
+    ".tar_envvars_5048826d"
   )
   expect_equal(sort(names(out)), sort(names))
   expect_true(is.character(out[[".tar_path_store_5048826d"]]))

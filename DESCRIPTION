@@ -10,7 +10,7 @@ Description: As a pipeline toolkit for Statistics and data science in R,
   the underlying code and data. The methodology in this package
   borrows from GNU 'Make' (2015, ISBN:978-9881443519)
   and 'drake' (2018, <doi:10.21105/joss.00550>).
-Version: 0.9.0
+Version: 0.9.0.9000
 License: MIT + file LICENSE
 URL: https://docs.ropensci.org/targets/, https://github.com/ropensci/targets
 BugReports: https://github.com/ropensci/targets/issues

@@ -69,6 +69,8 @@
 #'     or else `targets` will throw an error. (And if `storage` is `"worker"`,
 #'     `targets` will first stall out trying to wait for the file
 #'     to arrive over a network file system.)
+#'     If the target does not create any files, the return value should be
+#'     `character(0)`. 
 #'   * `"url"`: A dynamic input URL. It works like `format = "file"`
 #'     except the return value of the target is a URL that already exists
 #'     and serves as input data for downstream targets. Optionally

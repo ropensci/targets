@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_envvars.R
 \name{tar_envvars}
 \alias{tar_envvars}
-\title{Show environment variables to customize \code{targets}}
+\title{Show \code{targets} environment variables.}
 \usage{
 tar_envvars(unset = "")
 }
@@ -17,18 +17,29 @@ An unset environment variable will have a value of \code{""}
 by default. (Customize with the \code{unset} argument).
 }
 \description{
+Show all the special environment variables
+available for customizing \code{targets}.
+}
+\details{
 You can customize the behavior of \code{targets}
 with special environment variables. The sections in this help file
 describe each environment variable, and the \code{tar_envvars()} function
 lists their current values.
-}
-\details{
+
 If you modify environment variables, please set them
 in project-level \code{.Renviron} file so you do not lose your
 configuration when you restart your R session.
 Modify the project-level \code{.Renviron} file with
 \code{usethis::edit_r_environ(scope = "project")}. Restart
 your R session after you are done editing.
+
+For targets that run on parallel workers
+created by \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} or \code{\link[=tar_make_future]{tar_make_future()}},
+only the environment variables listed by \code{\link[=tar_envvars]{tar_envvars()}}
+are specifically exported to the targets.
+For all other environment variables, you will have to set
+the values manually, e.g. a project-level \code{.Renviron} file
+(for workers that have access to the local file system).
 }
 \section{TAR_ASK}{
 

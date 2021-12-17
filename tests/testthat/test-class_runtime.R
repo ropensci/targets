@@ -46,7 +46,19 @@ tar_test("set, get, exists, and unset store", {
   expect_null(x$get_store())
 })
 
-tar_test("validate null runtime", {
+tar_test("set, get, exists, and unset fun", {
+  x <- runtime_init()
+  expect_false(x$exists_fun())
+  expect_null(x$get_fun())
+  x$set_fun("tar_make")
+  expect_true(x$exists_fun())
+  expect_equal(x$get_fun(), "tar_make")
+  x$unset_fun()
+  expect_false(x$exists_fun())
+  expect_null(x$get_fun())
+})
+
+tar_test("validate null fields", {
   x <- runtime_init()
   expect_silent(x$validate())
 })
@@ -75,11 +87,6 @@ tar_test("invalidate bad interactive", {
   expect_error(x$validate(), class = "tar_condition_validate")
 })
 
-tar_test("validate null store", {
-  x <- runtime_init()
-  expect_silent(x$validate())
-})
-
 tar_test("validate non-null store", {
   x <- runtime_init()
   x$set_store("store")
@@ -89,5 +96,17 @@ tar_test("validate non-null store", {
 tar_test("detect bad store", {
   x <- runtime_init()
   x$set_store(FALSE)
+  expect_error(x$validate(), class = "tar_condition_validate")
+})
+
+tar_test("validate non-null fun", {
+  x <- runtime_init()
+  x$set_fun("tar_make")
+  expect_silent(x$validate())
+})
+
+tar_test("detect bad fun", {
+  x <- runtime_init()
+  x$set_fun("")
   expect_error(x$validate(), class = "tar_condition_validate")
 })

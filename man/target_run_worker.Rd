@@ -4,7 +4,7 @@
 \alias{target_run_worker}
 \title{Internal function to run a target on a worker.}
 \usage{
-target_run_worker(target, envir, path_store, options)
+target_run_worker(target, envir, path_store, fun, options, envvars)
 }
 \arguments{
 \item{target}{A target object.}
@@ -13,7 +13,13 @@ target_run_worker(target, envir, path_store, options)
 
 \item{path_store}{Character of length 1, path to the data store.}
 
+\item{fun}{Character of length 1, name of the user-side function called
+to run the pipeline.}
+
 \item{options}{List, exported from an object of class \code{"tar_options"}.}
+
+\item{envvars}{Data frame of \code{targets}-specific environment variables
+from \code{\link[=tar_envvars]{tar_envvars()}}.}
 }
 \description{
 For internal purposes only. Not a user-side function.

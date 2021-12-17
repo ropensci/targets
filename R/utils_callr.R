@@ -4,7 +4,9 @@ callr_outer <- function(
   callr_function,
   callr_arguments,
   envir,
-  script
+  script,
+  store,
+  fun
 ) {
   tar_assert_script(script)
   tryCatch(
@@ -14,7 +16,9 @@ callr_outer <- function(
       callr_function = callr_function,
       callr_arguments = callr_arguments,
       envir = envir,
-      script = script
+      script = script,
+      store = store,
+      fun = fun
     ),
     callr_error = function(e) {
       tar_throw_run(
@@ -32,7 +36,9 @@ callr_dispatch <- function(
   callr_function,
   callr_arguments,
   envir,
-  script
+  script,
+  store,
+  fun
 ) {
   options <- list(crayon.enabled = interactive())
   callr_arguments$func <- callr_inner
@@ -40,7 +46,9 @@ callr_dispatch <- function(
     targets_function = targets_function,
     targets_arguments = targets_arguments,
     options = options,
-    script = script
+    script = script,
+    store = store,
+    fun = fun
   )
   if_any(
     is.null(callr_function),
@@ -49,7 +57,9 @@ callr_dispatch <- function(
       targets_arguments = targets_arguments,
       options = options,
       envir = envir,
-      script = script
+      script = script,
+      store = store,
+      fun = fun
     ),
     do.call(
       callr_function,
@@ -63,7 +73,9 @@ callr_inner <- function(
   targets_arguments,
   options,
   envir = NULL,
-  script
+  script,
+  store,
+  fun
 ) {
   force(envir)
   parent <- parent.frame()
@@ -72,7 +84,11 @@ callr_inner <- function(
   }
   old_envir <- targets::tar_option_get("envir")
   targets::tar_option_set(envir = envir)
+  targets::tar_runtime_object()$set_store(store)
+  targets::tar_runtime_object()$set_fun(fun)
   on.exit(tar_option_set(envir = old_envir))
+  on.exit(targets::tar_runtime_object()$unset_store(), add = TRUE)
+  on.exit(targets::tar_runtime_object()$unset_fun(), add = TRUE)
   withr::local_options(options)
   targets <- eval(parse(text = readLines(script, warn = FALSE)), envir = envir)
   targets_arguments$pipeline <- targets::as_pipeline(targets)

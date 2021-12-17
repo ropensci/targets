@@ -262,6 +262,8 @@ All the files and directories you return must actually exist,
 or else \code{targets} will throw an error. (And if \code{storage} is \code{"worker"},
 \code{targets} will first stall out trying to wait for the file
 to arrive over a network file system.)
+If the target does not create any files, the return value should be
+\code{character(0)}.
 \item \code{"url"}: A dynamic input URL. It works like \code{format = "file"}
 except the return value of the target is a URL that already exists
 and serves as input data for downstream targets. Optionally
