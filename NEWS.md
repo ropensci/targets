@@ -1,11 +1,17 @@
 # targets 0.9.1.9000
 
-* Add `Sys.getenv("TAR_PROJECT")` to the output of `tar_envvars()`.
-* Set the `store` field of `tar_runtime` prior to sourcing `_targets.R` so `tar_store()` works in target scripts.
+## New features
+
 * Add a new function `tar_function()` to return the `targets` function currently running (from `_targets.R` or a target).
 * Add a new function `tar_active()` to tell whether the pipeline is currently running. Detects if it is called from `tar_make()` or similar function.
+
+## Enhancements
+
+* Add `Sys.getenv("TAR_PROJECT")` to the output of `tar_envvars()`.
+* Set the `store` field of `tar_runtime` prior to sourcing `_targets.R` so `tar_store()` works in target scripts.
 * Explicitly export all the environment variables from `tar_envvars()` to targets run on parallel workers.
 * Allow `format = "file"` targets to return `character(0)` (#728, @programLyrique).
+* Automatically remove non-targets from the target list and improve target list error messages (#731, @billdenney).
 
 # targets 0.9.1
 

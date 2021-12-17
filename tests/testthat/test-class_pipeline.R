@@ -270,3 +270,10 @@ tar_test("pipeline_validate(pipeline) with circular graph", {
   )
   expect_error(pipeline_validate(pipeline), class = "tar_condition_validate")
 })
+
+tar_test("automatically ignore non-target objects", {
+  tar_script(list(tar_target(x, 1), 2))
+  out <- tar_manifest(callr_function = NULL)
+  expect_equal(nrow(out), 1L)
+  expect_equal(out$name, "x")
+})

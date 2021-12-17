@@ -462,7 +462,8 @@ tar_assert_store <- function(store) {
 #' @rdname tar_assert
 tar_assert_target <- function(x, msg = NULL) {
   msg <- msg %|||% paste(
-    "Found a non-target object. The target script file (default: _targets.R)",
+    "Found a non-target object in the target list.",
+    "The target script file (default: _targets.R)",
     "must end with a list of tar_target() objects (recommended)",
     "or a tar_pipeline() object (deprecated)."
   )
@@ -473,15 +474,13 @@ tar_assert_target <- function(x, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_target_list <- function(x) {
   msg <- paste(
-    "Expected a list of target objects but did not find one.",
+    "Expected a list of target objects, but the object is not a list.",
     "Are you missing a target list at the end of your target script file?",
     "The target script file (e.g. _targets.R)",
-    "must end with a list of tar_target() objects.",
-    "Each element of the target list",
-    "must be a target object or nested list of target objects."
+    "must end with a list of tar_target() objects."
   )
   tar_assert_list(x, msg = msg)
-  map(x, tar_assert_target, msg = msg)
+  map(x, tar_assert_target)
 }
 
 tar_assert_script <- function(script) {

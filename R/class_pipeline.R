@@ -295,7 +295,9 @@ as_pipeline.tar_pipeline <- function(x) {
 #' @export
 #' @keywords internal
 as_pipeline.default <- function(x) {
-  pipeline_init(unlist(list(x), recursive = TRUE))
+  out <- unlist(list(x), recursive = TRUE)
+  out <- fltr(out, ~inherits(x = .x, what = "tar_target"))
+  pipeline_init(out)
 }
 
 #' @export
