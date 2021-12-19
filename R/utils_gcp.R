@@ -4,9 +4,11 @@
 # which could put an unexpected and unfair burden on
 # external contributors from the open source community.
 # nocov start
-gcp_gcs_exists <- function(key,
-                           bucket = gcp_gcs_bucket(),
-                           version = NULL) {
+gcp_gcs_exists <- function(
+  key,
+  bucket = gcp_gcs_bucket(),
+  version = NULL
+) {
   tryCatch(
     gcp_gcs_head_true(
       key = key,
@@ -37,7 +39,6 @@ gcp_gcs_head <- function(
       generation = version
     )
   )
-
 }
 
 gcp_gcs_head_true <- function(
