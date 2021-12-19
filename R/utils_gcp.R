@@ -32,7 +32,7 @@ gcp_gcs_head <- function(
   version = NULL,
   quiet = TRUE
 ) {
-  loud <- if(!quiet) function(x){x} else suppressMessages
+  loud <- if(!quiet) function(x){x} else suppressMessages #nolint
   loud(
     googleCloudStorageR::gcs_get_object(
       key,
