@@ -29,9 +29,11 @@ gcp_gcs_bucket <- function() {
 gcp_gcs_head <- function(
   key,
   bucket = gcp_gcs_bucket(),
-  version = NULL
+  version = NULL,
+  quiet = TRUE
 ) {
-  suppressMessages(
+  loud <- if(!quiet) function(x){x} else suppressMessages
+  loud(
     googleCloudStorageR::gcs_get_object(
       key,
       bucket = bucket,
