@@ -60,7 +60,6 @@ gcp_gcs_download <- function(
   bucket = gcp_gcs_bucket(),
   version = NULL
 ) {
-
   googleCloudStorageR::gcs_get_object(
     key,
     bucket = bucket,
@@ -68,7 +67,6 @@ gcp_gcs_download <- function(
     overwrite = TRUE,
     generation = version
   )
-
 }
 
 
@@ -82,9 +80,7 @@ gcp_gcs_upload <- function(
     "bucketOwnerFullControl", "bucketOwnerRead",
     "projectPrivate", "publicRead", "default")
 ) {
-
   predefined_acl <- match.arg(predefined_acl)
-
   meta <- NULL
   if (length(metadata) > 0) {
     meta <- googleCloudStorageR::gcs_metadata_object(
@@ -92,7 +88,6 @@ gcp_gcs_upload <- function(
       metadata = metadata
     )
   }
-
   googleCloudStorageR::gcs_upload(
     file,
     bucket = bucket,
@@ -100,7 +95,6 @@ gcp_gcs_upload <- function(
     object_metadata = meta,
     predefinedAcl = predefined_acl
   )
-
 }
 
 # nocov end
