@@ -29,11 +29,6 @@ store_write_path.tar_parquet <- function(store, object, path) {
 }
 
 #' @export
-store_cast_object.tar_parquet <- function(store, object) {
-  object
-}
-
-#' @export
 store_assert_format.tar_parquet <- function(store, object, name) { # nolint
   msg <- paste(
     "target", name, "has parquet format, so it must have class",

@@ -32,7 +32,7 @@ store_produce_path.tar_url <- function(store, name, object, path_store) {
 }
 
 #' @export
-store_cast_object.tar_url <- function(store, object) {
+store_convert_object.tar_url <- function(store, object) {
   as.character(object)
 }
 

@@ -19,8 +19,8 @@ store_read_path.tar_fst_tbl <- function(store, path) {
 }
 
 #' @export
-store_cast_object.tar_fst_tbl <- function(store, object) {
-  tibble::as_tibble(object)
+store_convert_object.tar_fst_tbl <- function(store, object) {
+  tibble::as_tibble(as.data.frame(object))
 }
 
 #' @export

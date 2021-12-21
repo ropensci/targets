@@ -374,7 +374,7 @@ builder_resolve_object <- function(target, build) {
     return(build$object)
   }
   store_assert_format(target$store, build$object, target_get_name(target))
-  store_cast_object(target$store, build$object)
+  store_convert_object(target$store, build$object)
 }
 
 builder_ensure_paths <- function(target, path_store) {

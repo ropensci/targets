@@ -100,7 +100,7 @@ store_read_object.tar_aws <- function(store) {
     region = store_aws_region(path),
     version = store_aws_version(path)
   )
-  store_cast_object(store, store_read_path(store, tmp))
+  store_convert_object(store, store_read_path(store, tmp))
 }
 
 #' @export
@@ -134,16 +134,6 @@ store_upload_object.tar_aws <- function(store) {
   invisible()
 }
 
-store_aws_hash <- function(key, bucket, region, version) {
-  head <- aws_s3_head(
-    key = key,
-    bucket = bucket,
-    region = region,
-    version = version
-  )
-  head$Metadata[["targets-hash"]]
-}
-
 #' @export
 store_has_correct_hash.tar_aws <- function(store) {
   path <- store$file$path
@@ -169,6 +159,16 @@ store_has_correct_hash.tar_aws <- function(store) {
     ),
     FALSE
   )
+}
+
+store_aws_hash <- function(key, bucket, region, version) {
+  head <- aws_s3_head(
+    key = key,
+    bucket = bucket,
+    region = region,
+    version = version
+  )
+  head$Metadata[["targets-hash"]]
 }
 # nocov end
 

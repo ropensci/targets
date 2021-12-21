@@ -12,7 +12,7 @@ store_tar_path.tar_cloud <- function(store, target, path_store) {
 store_write_object.tar_cloud <- function(store, object) {
   stage <- store$file$stage
   dir_create(dirname(stage))
-  store_write_path(store, store_cast_object(store, object), stage)
+  store_write_path(store, store_convert_object(store, object), stage)
 }
 
 #' @export
