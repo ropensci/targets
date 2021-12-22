@@ -1,5 +1,9 @@
 # targets 0.9.1.9000
 
+## Bug fixes
+
+* Add class `"tar_unexportable"` to `format = "aws_keras"` and `format = "aws_torch"` stores.
+
 ## New features
 
 * Add a new function `tar_function()` to return the `targets` function currently running (from `_targets.R` or a target).

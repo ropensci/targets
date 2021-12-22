@@ -14,6 +14,7 @@ aws_keras_new <- function(file = NULL, resources = NULL) {
       "tar_cloud",
       "tar_external",
       "tar_keras",
+      "tar_unexportable",
       "tar_store"
     )
   )
