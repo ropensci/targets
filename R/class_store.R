@@ -27,7 +27,7 @@ store_assert_format_setting <- function(class) {
 
 #' @export
 store_assert_format_setting.default <- function(class) {
-  tar_throw_validate("unsupported format")
+  tar_throw_validate(paste("unsupported format:", class))
 }
 
 store_read_object <- function(store) {
