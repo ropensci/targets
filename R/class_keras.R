@@ -35,7 +35,7 @@ store_marshal_object.tar_keras <- function(store, object) {
 
 #' @export
 store_unmarshal_object.tar_keras <- function(store, object) {
-  keras::serialize_unmodel(object)
+  keras::unserialize_model(object)
 }
 # nocov end
 
