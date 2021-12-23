@@ -41,5 +41,3 @@ test_that("tar_format() bad function arguments", {
     class = "tar_condition_validate"
   )
 })
-
-    

@@ -58,7 +58,7 @@
 #'   <https://books.ropensci.org/targets/storage_amazon.html>
 #'   for more on Amazon S3 storage.
 #' @examples
-#' # The following target is equivalent to 
+#' # The following target is equivalent to
 #' # tar_target(name, command(), format = "keras"):
 #' tar_target(
 #'   name,

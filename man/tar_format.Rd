@@ -83,7 +83,7 @@ let you control how marshalling and unmarshalling happens.
 }
 
 \examples{
-# The following target is equivalent to 
+# The following target is equivalent to
 # tar_target(name, command(), format = "keras"):
 tar_target(
   name,
