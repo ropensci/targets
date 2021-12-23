@@ -130,6 +130,9 @@ if \code{x} is invalid.}
 
 \item{choices}{Character vector of choices of \code{x} for certain assertions.}
 
+\item{args}{Character vector of expected function argument names.
+Order matters.}
+
 \item{threshold}{Numeric of length 1, lower/upper bound for
 assertions like \code{tar_assert_le()}/\code{tar_assert_ge()}.}
 

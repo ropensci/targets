@@ -17,6 +17,8 @@
 #' @param path Character, file path.
 #' @param pattern Character of length 1, a `grep` pattern for certain
 #'   assertions.
+#' @param args Character vector of expected function argument names.
+#'   Order matters.
 #' @examples
 #' tar_assert_chr("123")
 #' try(tar_assert_chr(123))

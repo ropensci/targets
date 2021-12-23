@@ -82,16 +82,16 @@
 #' x <- tar_target(x, download_data(), cue = tar_cue(mode = "always"))
 tar_format <- function(
   read = function(path) {
-    readRDS(path)
+    readRDS(path) # nocov
   },
   write = function(object, path) {
-    saveRDS(object = object, file = path, version = 3L)
+    saveRDS(object = object, file = path, version = 3L) # nocov
   },
   marshal = function(object) {
-    identity(object)
+    identity(object) # nocov
   },
   unmarshal = function(object) {
-    identity
+    identity # nocov
   },
   cloud = c("none", "aws")
 ) {
