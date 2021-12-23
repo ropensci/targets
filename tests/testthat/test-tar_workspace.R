@@ -144,7 +144,7 @@ tar_test("tar_workspace() on a pattern by name", {
   expect_equal(tar_workspaces(), name)
 })
 
-tar_test("tar_workspace() with an unexportable object", {
+tar_test("tar_workspace() with an nonexportable object", {
   skip_on_cran()
   skip_if_not_installed("torch")
   tar_script({

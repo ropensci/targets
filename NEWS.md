@@ -2,7 +2,7 @@
 
 ## Bug fixes
 
-* Add class `"tar_unexportable"` to `format = "aws_keras"` and `format = "aws_torch"` stores.
+* Add class `"tar_nonexportable"` to `format = "aws_keras"` and `format = "aws_torch"` stores.
 
 ## New features
 
@@ -399,7 +399,7 @@
 ## Breaking changes
 
 * Make patterns composable (#212, @glep, @djbirke).
-* Allow workspaces to load unexportable objects (#214).
+* Allow workspaces to load nonexportable objects (#214).
 * Make workspace files super light by saving only a reference to the required dependencies (#214).
 * Add a new `workspaces` argument to `tar_option_set()` to specify which targets will save their workspace files during `tar_make()` (#214).
 * Change `error = "save"` to `error = "workspace"` to so it is clearer that saving workspaces no longer duplicates data (#214).
@@ -438,7 +438,7 @@
 * Stop sending target return values over the network when `storage` is `"remote"` (#182, @mattwarkentin).
 * Shorten lengths of warnings and error messages to 128 characters (#186, @gorkang).
 * Restrict in-memory metadata to avoid incorrectly recycling deleted targets (#191).
-* Serialize unexportable dependencies before sending them to workers. Transport data through `target$subpipeline` rather than `target$cache` to make that happen (#209, @mattwarkentin).
+* Serialize nonexportable dependencies before sending them to workers. Transport data through `target$subpipeline` rather than `target$cache` to make that happen (#209, @mattwarkentin).
 
 ## New features
 

@@ -14,7 +14,7 @@ aws_torch_new <- function(file = NULL, resources = NULL) {
       "tar_cloud",
       "tar_external",
       "tar_torch",
-      "tar_unexportable",
+      "tar_nonexportable",
       "tar_store"
     )
   )

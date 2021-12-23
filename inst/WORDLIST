@@ -186,6 +186,7 @@ NHDPlus
 Niemi
 Nitta
 nolint
+nonexportable
 nsw
 Ooms
 OOP
@@ -307,7 +308,6 @@ UD
 UI
 un
 unexecutable
-unexportable
 unhandled
 Univa
 unname
