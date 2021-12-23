@@ -163,6 +163,22 @@ tar_assert_function <- function(x, msg = NULL) {
 
 #' @export
 #' @rdname tar_assert
+tar_assert_function_arguments <- function(x, args, msg = NULL) {
+  exp <- as.character(names(formals(x)))
+  equal <- identical(exp, as.character(args))
+  msg <- paste(
+    "function",
+    deparse(substitute(x)),
+    "must have these exact arguments in this exact order:",
+    paste(exp, collapse = ", ")
+  )
+  if (!equal) {
+    tar_throw_validate(msg %|||% "input must be a function.")
+  }
+}
+
+#' @export
+#' @rdname tar_assert
 tar_assert_ge <- function(x, threshold, msg = NULL) {
   if (any(x < threshold)) {
     default <- paste(

@@ -11,6 +11,7 @@
 \alias{tar_assert_flag}
 \alias{tar_assert_file}
 \alias{tar_assert_function}
+\alias{tar_assert_function_arguments}
 \alias{tar_assert_ge}
 \alias{tar_assert_identical}
 \alias{tar_assert_in}
@@ -59,6 +60,8 @@ tar_assert_flag(x, choices, msg = NULL)
 tar_assert_file(x)
 
 tar_assert_function(x, msg = NULL)
+
+tar_assert_function_arguments(x, args, msg = NULL)
 
 tar_assert_ge(x, threshold, msg = NULL)
 
