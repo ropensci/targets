@@ -138,12 +138,10 @@ tar_assert_flag <- function(x, choices, msg = NULL) {
 }
 
 tar_assert_format <- function(format) {
+  tar_assert_scalar(format)
   tar_assert_chr(format)
-  tar_assert_nonempty(format)
-  if (format[1] != "custom") {
-    tar_assert_scalar(format)
-  }
-  store_assert_format_setting(as_class_first(format))
+  tar_assert_nzchar(format)
+  store_assert_format_setting(as_class(format))
 }
 
 #' @export

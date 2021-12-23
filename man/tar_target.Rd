@@ -328,6 +328,7 @@ tar_read(x)
 Other targets: 
 \code{\link{tar_cue}()},
 \code{\link{tar_format}()},
+\code{\link{tar_resources_store_custom}()},
 \code{\link{tar_target_raw}()}
 }
 \concept{targets}

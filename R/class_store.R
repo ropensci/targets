@@ -1,6 +1,6 @@
 store_init <- function(format = "rds", resources = list()) {
   store_new(
-    class = as_class_first(format),
+    class = as_class(format),
     file = file_init(),
     resources = resources
   )
@@ -27,7 +27,7 @@ store_assert_format_setting <- function(class) {
 
 #' @export
 store_assert_format_setting.default <- function(class) {
-  tar_throw_validate(paste("unsupported format:", class[1]))
+  tar_throw_validate(paste("unsupported format:", class))
 }
 
 store_read_object <- function(store) {
