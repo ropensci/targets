@@ -12,6 +12,7 @@ tar_resources(
   future = NULL,
   parquet = NULL,
   qs = NULL,
+  store_custom = NULL,
   url = NULL
 )
 }
@@ -60,6 +61,11 @@ Non-default arguments to \code{qs::qread()} and
 \code{qs::qsave()} for \code{qs}-based storage formats.
 Applies to all formats ending with the \code{"_qs"} suffix.
 For details on formats, see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
+
+\item{store_custom}{Output of function \code{\link[=tar_resources_store_custom]{tar_resources_store_custom()}}
+to define the storage format if your target has
+\code{tar_target(format = "store_custom")}.
+See \code{\link[=tar_resources_store_custom]{tar_resources_store_custom()}} for instructions.}
 
 \item{url}{Output of function \code{tar_resources_url()}.
 Non-default settings for storage formats ending with the \code{"_url"} suffix.

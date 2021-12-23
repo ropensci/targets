@@ -87,9 +87,11 @@
 #'     and available by the time the target's command finishes running.
 #'     `targets` makes no attempt to wait for the web server.
 #'   * `"aws_rds"`, `"aws_qs"`, `"aws_parquet"`, `"aws_fst"`, `"aws_fst_dt"`,
-#'     `"aws_fst_tbl"`, `"aws_keras"`: AWS-powered versions of the
-#'     respective formats `"rds"`, `"qs"`, etc. The only difference
-#'     is that the data file is uploaded to the AWS S3 bucket
+#'     `"aws_fst_tbl"`, `"aws_keras"`: versions of the
+#'     respective formats `"rds"`, `"qs"`, etc. powered by
+#'     Amazon Web Services (AWS) Simple Storage Service (S3).
+#'     The only difference is that the data file is
+#'     uploaded to the AWS S3 bucket
 #'     you supply to `tar_resources_aws()`. See the cloud computing chapter
 #'     of the manual for details.
 #'   * `"aws_file"`: arbitrary dynamic files on AWS S3. The target
@@ -104,6 +106,11 @@
 #'     Requires the same `resources` and other configuration details
 #'     as the other AWS-powered formats. See the cloud computing
 #'     chapter of the manual for details.
+#'   * `"store_custom"`: an entirely custom storage format.
+#'     The user writes functions for how the target is read,
+#'     written, marshalled, and unmarshalled, as well as
+#'     whether the data file is stored locally or on the cloud.
+#'     See [tar_resources_store_custom()] for details.
 #' @param iteration Character of length 1, name of the iteration mode
 #'   of the target. Choices:
 #'   * `"vector"`: branching happens with `vctrs::vec_slice()` and
