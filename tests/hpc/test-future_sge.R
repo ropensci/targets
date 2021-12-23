@@ -1,7 +1,12 @@
 test_that("packages are actually loaded", {
+  skip_on_cran()
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.batchtools")
   # Needs sge_batchtools.tmpl (in current directory).
   unlink("_targets", recursive = TRUE)
-  on.exit(unlink("_targets", recursive = TRUE))
+  tar_runtime$set_fun("tar_make_future")
+  on.exit(tar_runtime$unset_fun())
+  on.exit(unlink("_targets", recursive = TRUE), add = TRUE)
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
   on.exit(future::plan(future::sequential), add = TRUE)
@@ -30,8 +35,10 @@ test_that("nontrivial globals with custom environment", {
   skip_on_cran()
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
+  tar_runtime$set_fun("tar_make_future")
+  on.exit(tar_runtime$unset_fun())
   tar_destroy()
-  on.exit(tar_destroy())
+  on.exit(tar_destroy(), add = TRUE)
   tar_script({
     future::plan(
       future.batchtools::batchtools_sge,
@@ -60,8 +67,10 @@ test_that("nontrivial globals with global environment", {
   skip_on_cran()
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
+  tar_runtime$set_fun("tar_make_future")
+  on.exit(tar_runtime$unset_fun())
   tar_destroy()
-  on.exit(tar_destroy())
+  on.exit(tar_destroy(), add = TRUE)
   tar_script({
     future::plan(
       future.batchtools::batchtools_sge,
@@ -84,6 +93,9 @@ test_that("nontrivial globals with global environment", {
 
 test_that("branching plan on SGE", {
   # Needs sge_batchtools.tmpl (in current directory).
+  skip_on_cran()
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.batchtools")
   unlink("_targets", recursive = TRUE)
   on.exit(unlink("_targets", recursive = TRUE))
   skip_if_not_installed("future")
@@ -136,8 +148,13 @@ test_that("branching plan on SGE", {
 
 test_that("Same with worker-side storage", {
   # Needs sge_batchtools.tmpl (in current directory).
+  skip_on_cran()
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.batchtools")
+  tar_runtime$set_fun("tar_make_future")
+  on.exit(tar_runtime$unset_fun())
   unlink("_targets", recursive = TRUE)
-  on.exit(unlink("_targets", recursive = TRUE))
+  on.exit(unlink("_targets", recursive = TRUE), add = TRUE)
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
   on.exit(future::plan(future::sequential), add = TRUE)
@@ -184,8 +201,13 @@ test_that("Same with worker-side storage", {
 
 test_that("future.batchtools structured resources", {
   # Needs sge_batchtools.tmpl (in current directory).
+  skip_on_cran()
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.batchtools")
+  tar_runtime$set_fun("tar_make_future")
+  on.exit(tar_runtime$unset_fun())
   unlink("_targets", recursive = TRUE)
-  on.exit(unlink("_targets", recursive = TRUE))
+  on.exit(unlink("_targets", recursive = TRUE), add = TRUE)
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
   tar_script({
@@ -211,8 +233,13 @@ test_that("future.batchtools structured resources", {
 
 test_that("future.batchtools unstructured resources", {
   # Needs sge_batchtools.tmpl (in current directory).
+  skip_on_cran()
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.batchtools")
+  tar_runtime$set_fun("tar_make_future")
+  on.exit(tar_runtime$unset_fun())
   unlink("_targets", recursive = TRUE)
-  on.exit(unlink("_targets", recursive = TRUE))
+  on.exit(unlink("_targets", recursive = TRUE), add = TRUE)
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
   tar_script({

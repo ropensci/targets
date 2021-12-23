@@ -3,6 +3,8 @@ tar_test("keras and future with main storage and retrieval", {
   # Cannot test inside the RStudio IDE.
   skip_if_not_installed("future")
   skip_if_not_installed("keras")
+  tar_runtime$set_fun("tar_make_future")
+  on.exit(tar_runtime$unset_fun())
   on.exit(future::plan(future::sequential), add = TRUE)
   future::plan(future::multisession)
   old_envir <- tar_option_get("envir")
@@ -58,6 +60,8 @@ tar_test("keras and future with worker storage and retrieval", {
   # Also cannot test inside the RStudio IDE.
   skip_if_not_installed("future")
   skip_if_not_installed("keras")
+  tar_runtime$set_fun("tar_make_future")
+  on.exit(tar_runtime$unset_fun())
   on.exit(future::plan(future::sequential), add = TRUE)
   future::plan(future::multisession)
   old_envir <- tar_option_get("envir")

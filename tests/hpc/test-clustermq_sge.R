@@ -1,7 +1,11 @@
 test_that("packages are actually loaded", {
   # Needs sge_clustermq.tmpl (in current directory).
+  skip_on_cran()
+  skip_if_not_installed("clustermq")
+  tar_runtime$set_fun("tar_make_clustermq")
+  on.exit(tar_runtime$unset_fun())
   unlink("_targets", recursive = TRUE)
-  on.exit(unlink("_targets", recursive = TRUE))
+  on.exit(unlink("_targets", recursive = TRUE), add = TRUE)
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
   old_schd <- getOption("clustermq.scheduler")
@@ -89,8 +93,12 @@ test_that("nontrivial globals with global environment", {
 
 test_that("branching plan on SGE", {
   # Needs sge_clustermq.tmpl (in current directory).
+  skip_on_cran()
+  skip_if_not_installed("clustermq")
+  tar_runtime$set_fun("tar_make_clustermq")
+  on.exit(tar_runtime$unset_fun())
   unlink("_targets", recursive = TRUE)
-  on.exit(on.exit(unlink("_targets", recursive = TRUE)))
+  on.exit(unlink("_targets", recursive = TRUE), add = TRUE)
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
   old_schd <- getOption("clustermq.scheduler")
@@ -149,8 +157,12 @@ test_that("branching plan on SGE", {
 
 test_that("Same with worker-side storage", {
   # Needs sge_clustermq.tmpl (in current directory).
+  skip_on_cran()
+  skip_if_not_installed("clustermq")
+  tar_runtime$set_fun("tar_make_clustermq")
+  on.exit(tar_runtime$unset_fun())
   unlink("_targets", recursive = TRUE)
-  on.exit(unlink("_targets", recursive = TRUE))
+  on.exit(unlink("_targets", recursive = TRUE), add = TRUE)
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
   old_schd <- getOption("clustermq.scheduler")
@@ -205,8 +217,12 @@ test_that("Same with worker-side storage", {
 
 test_that("clustermq with a dynamic file", {
   # Needs sge_clustermq.tmpl (in current directory).
+  skip_on_cran()
+  skip_if_not_installed("clustermq")
+  tar_runtime$set_fun("tar_make_clustermq")
+  on.exit(tar_runtime$unset_fun())
   unlink("_targets", recursive = TRUE)
-  on.exit(unlink(c("saved.out", "_targets"), recursive = TRUE))
+  on.exit(unlink(c("saved.out", "_targets"), recursive = TRUE), add = TRUE)
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
   old_schd <- getOption("clustermq.scheduler")
