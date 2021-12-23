@@ -107,6 +107,12 @@ store_tar_path.default <- function(store, target, path_store) {
   path_objects(path_store = path_store, name = target_get_name(target))
 }
 
+store_path_field <- function(path, pattern) {
+  path <- store_aws_split_colon(path)
+  element <- grep(pattern = pattern, x = path, value = TRUE)
+  gsub(pattern = pattern, replacement = "", x = element)
+}
+
 store_update_stage_early <- function(store, name, path_store) {
   UseMethod("store_update_stage_early")
 }

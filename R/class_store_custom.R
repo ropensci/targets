@@ -14,8 +14,12 @@ store_custom_new <- function(file = NULL, resources = NULL) {
 }
 
 store_custom_enclass_repository <- function(store) {
+  repository <- store$resources$store_custom$repository
+  if (is.null(repository)) {
+    return(store)
+  }
   switch(
-    store$resources$store_custom$repository,
+    repository,
     default = store,
     aws = enclass(store, c("tar_aws", "tar_cloud"))
   )
@@ -25,20 +29,21 @@ store_custom_enclass_repository <- function(store) {
 store_assert_format_setting.store_custom <- function(class) {
 }
 
-store_produce_path.tar_store_custom(store) {
+#' @export
+store_produce_path.tar_store_custom <- function(store, name, object, path_store) {
   c(
     paste0("read=", store$resources$store_custom$read),
     paste0("write=", store$resources$store_custom$write),
     paste0("marshal=", store$resources$store_custom$marshal),
     paste0("unmarshal=", store$resources$store_custom$unmarshal),
-    paste0("repository=", match.arg(store$resources$store_custom$repository))
+    paste0("repository=", store$resources$store_custom$repository)
   )
 }
 
 #' @export
 store_read_path.tar_store_custom <- function(store, path) {
   store_custom_encoded_call(
-    fun = store$resources$store_custom$read,
+    fun = store_path_field(store$file$path, pattern = "^read="),
     args = list(path = path)
   )
 }
@@ -46,7 +51,7 @@ store_read_path.tar_store_custom <- function(store, path) {
 #' @export
 store_write_path.tar_store_custom <- function(store, object, path) {
   store_custom_encoded_call(
-    fun = store$resources$store_custom$write,
+    fun = store_path_field(store$file$path, pattern = "^write="),
     args = list(object = object, path = path)
   )
 }
@@ -54,7 +59,7 @@ store_write_path.tar_store_custom <- function(store, object, path) {
 #' @export
 store_marshal_object.tar_store_custom <- function(store, object) {
   store_custom_encoded_call(
-    fun = store$resources$store_custom$marshal,
+    fun = store_path_field(store$file$path, pattern = "^marshal="),
     args = list(object = object)
   )
 }
@@ -62,7 +67,7 @@ store_marshal_object.tar_store_custom <- function(store, object) {
 #' @export
 store_unmarshal_object.tar_store_custom <- function(store, object) {
   store_custom_encoded_call(
-    fun = store$resources$store_custom$unmarshal,
+    fun = store_path_field(store$file$path, pattern = "^unmarshal="),
     args = list(object = object)
   )
 }
