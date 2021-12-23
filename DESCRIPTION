@@ -46,6 +46,7 @@ Authors@R: c(
 Depends:
   R (>= 3.5.0)
 Imports:
+  base64url (>= 1.4),
   callr (>= 3.4.3),
   cli (>= 2.0.2),
   codetools (>= 0.2.16),
