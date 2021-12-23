@@ -89,8 +89,8 @@ active_class <- R6::R6Class(
     unload_transient = function() {
       pipeline_unload_transient(self$pipeline)
     },
-    unserialize_target = function(target) {
-      builder_unserialize_value(target)
+    unmarshal_target = function(target) {
+      builder_unmarshal_value(target)
     },
     skip_target = function(target) {
       target_skip(

@@ -29,13 +29,13 @@ store_write_path.tar_keras <- function(store, object, path) {
 }
 
 #' @export
-store_serialize_object.tar_keras <- function(store, object) {
-  keras::serialize_model(object)
+store_marshal_object.tar_keras <- function(store, object) {
+  keras::marshal_model(object)
 }
 
 #' @export
-store_unserialize_object.tar_keras <- function(store, object) {
-  keras::unserialize_model(object)
+store_unmarshal_object.tar_keras <- function(store, object) {
+  keras::unmarshal_model(object)
 }
 # nocov end
 

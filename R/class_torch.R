@@ -24,7 +24,7 @@ store_write_path.tar_torch <- function(store, object, path) {
 }
 
 #' @export
-store_serialize_object.tar_torch <- function(store, object) {
+store_marshal_object.tar_torch <- function(store, object) {
   con <- rawConnection(raw(), open = "wr")
   on.exit(close(con))
   torch::torch_save(object, con)
@@ -32,7 +32,7 @@ store_serialize_object.tar_torch <- function(store, object) {
 }
 
 #' @export
-store_unserialize_object.tar_torch <- function(store, object) {
+store_unmarshal_object.tar_torch <- function(store, object) {
   con <- rawConnection(object, open = "r")
   on.exit(close(con))
   torch::torch_load(con)

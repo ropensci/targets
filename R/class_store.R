@@ -267,38 +267,38 @@ store_unload <- function(store, target) {
 store_unload.default <- function(store, target) {
 }
 
-store_serialize_object <- function(store, object) {
-  UseMethod("store_serialize_object")
+store_marshal_object <- function(store, object) {
+  UseMethod("store_marshal_object")
 }
 
 #' @export
-store_serialize_object.default <- function(store, object) {
+store_marshal_object.default <- function(store, object) {
   object
 }
 
-store_unserialize_object <- function(store, object) {
-  UseMethod("store_unserialize_object")
+store_unmarshal_object <- function(store, object) {
+  UseMethod("store_unmarshal_object")
 }
 
 #' @export
-store_unserialize_object.default <- function(store, object) {
+store_unmarshal_object.default <- function(store, object) {
   object
 }
 
-store_serialize_value <- function(store, target) {
-  UseMethod("store_serialize_value")
+store_marshal_value <- function(store, target) {
+  UseMethod("store_marshal_value")
 }
 
 #' @export
-store_serialize_value.default <- function(store, target) {
+store_marshal_value.default <- function(store, target) {
 }
 
-store_unserialize_value <- function(store, target) {
-  UseMethod("store_unserialize_value")
+store_unmarshal_value <- function(store, target) {
+  UseMethod("store_unmarshal_value")
 }
 
 #' @export
-store_unserialize_value.default <- function(store, target) {
+store_unmarshal_value.default <- function(store, target) {
 }
 
 store_validate <- function(store) {

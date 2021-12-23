@@ -382,15 +382,15 @@ target_sync_file_meta <- function(target, meta) {
 target_sync_file_meta.default <- function(target, meta) {
 }
 
-target_serialize_value <- function(target) {
+target_marshal_value <- function(target) {
   if (!is.null(target$value)) {
-    store_serialize_value(target$store, target)
+    store_marshal_value(target$store, target)
   }
 }
 
-target_unserialize_value <- function(target) {
+target_unmarshal_value <- function(target) {
   if (!is.null(target$value)) {
-    store_unserialize_value(target$store, target)
+    store_unmarshal_value(target$store, target)
   }
 }
 
