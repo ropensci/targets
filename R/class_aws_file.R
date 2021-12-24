@@ -44,7 +44,7 @@ store_aws_file_stage <- function(path) {
       file.path(path_scratch_dir(path_store_default()), store_aws_key(path)),
       path[3]
     ),
-    keyvalue_field(path = path, pattern = "^stage=")
+    store_aws_path_field(path = path, pattern = "^stage=")
   )
 }
 

@@ -8,17 +8,17 @@ tar_test("mask_pointers()", {
 })
 
 tar_test("keyvalue_field()", {
-  path <- c("bucket=bu", "region=reg", "key=sdfasdf")
+  x <- c("bucket=bu", "region=reg", "key=sdfasdf")
   expect_equal(
-    keyvalue_field(path = path, pattern = "^bucket="),
+    keyvalue_field(x = x, pattern = "^bucket="),
     "bu"
   )
   expect_equal(
-    keyvalue_field(path = path, pattern = "^region="),
+    keyvalue_field(x = x, pattern = "^region="),
     "reg"
   )
   expect_equal(
-    keyvalue_field(path = path, pattern = "^key="),
+    keyvalue_field(x = x, pattern = "^key="),
     "sdfasdf"
   )
 })
