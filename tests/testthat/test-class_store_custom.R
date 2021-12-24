@@ -85,7 +85,13 @@ tar_test("torch as custom format", {
       },
       repository = "default"
     )
-    tar_target(a, torch::torch_tensor(c(1, 2)), format = format)
+    tar_target(
+      a,
+      torch::torch_tensor(c(1, 2)),
+      format = format,
+      storage = "main",
+      retrieval = "main"
+    )
   })
   tar_make_future(callr_function = NULL)
   expect_equal(tar_outdated(callr_function = NULL), character(0))
