@@ -12,14 +12,14 @@ test_that("tar_format() generates a format string", {
     unmarshal = function(object) {
       keras::unserialize_model(object)
     },
-    cloud = "none"
+    repository = "default"
   )
   expect_equal(format[1], "custom")
   expect_true(any(grepl("^read=+.", format)))
   expect_true(any(grepl("^write=+.", format)))
   expect_true(any(grepl("^marshal=+.", format)))
   expect_true(any(grepl("^unmarshal=+.", format)))
-  expect_true(any(grepl("^cloud=none", format)))
+  expect_true(any(grepl("^repository=default", format)))
 })
 
 test_that("tar_format() default arguments are acceptable", {
@@ -29,7 +29,7 @@ test_that("tar_format() default arguments are acceptable", {
   expect_true(any(grepl("^write=+.", format)))
   expect_true(any(grepl("^marshal=+.", format)))
   expect_true(any(grepl("^unmarshal=+.", format)))
-  expect_true(any(grepl("^cloud=none", format)))
+  expect_true(any(grepl("^repository=default", format)))
 })
 
 test_that("tar_format() bad function arguments", {

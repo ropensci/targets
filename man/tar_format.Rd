@@ -10,7 +10,7 @@ tar_format(
     3L) },
   marshal = function(object) {     identity(object) },
   unmarshal = function(object) {     identity },
-  cloud = c("none", "aws")
+  repository = c("default", "aws")
 )
 }
 \arguments{
@@ -49,7 +49,7 @@ It must load or namespace all its own packages,
 and it must not depend on any custom user-defined
 functions or objects in the global environment of your pipeline.}
 
-\item{cloud}{Character of length 1, \code{"none"} for local storage
+\item{repository}{Character of length 1, \code{"default"} for local storage
 and \code{"aws"} for storage on Amazon S3. Read
 \url{https://books.ropensci.org/targets/storage_amazon.html}
 for more on Amazon S3 storage.}
@@ -101,7 +101,7 @@ tar_target(
     unmarshal = function(object) {
       keras::unserialize_model(object)
     },
-    cloud = "none" # Could be "aws" (equivalent to format = "aws_keras")
+    repository = "default" # Could be "aws" (equivalent to format = "aws_keras")
   )
 )
 x <- tar_target(x, download_data(), cue = tar_cue(mode = "always"))

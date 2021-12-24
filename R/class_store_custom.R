@@ -1,5 +1,6 @@
 #' @export
 store_new.store_custom <- function(class, file = NULL, resources = NULL) {
+  browser()
   store <- store_custom_new(file, resources)
   store_custom_enclass_repository(store)
 }

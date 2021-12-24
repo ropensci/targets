@@ -53,7 +53,7 @@
 #'   It must load or namespace all its own packages,
 #'   and it must not depend on any custom user-defined
 #'   functions or objects in the global environment of your pipeline.
-#' @param cloud Character of length 1, `"none"` for local storage
+#' @param repository Character of length 1, `"default"` for local storage
 #'   and `"aws"` for storage on Amazon S3. Read
 #'   <https://books.ropensci.org/targets/storage_amazon.html>
 #'   for more on Amazon S3 storage.
@@ -76,7 +76,7 @@
 #'     unmarshal = function(object) {
 #'       keras::unserialize_model(object)
 #'     },
-#'     cloud = "none" # Could be "aws" (equivalent to format = "aws_keras")
+#'     repository = "default" # Could be "aws" (equivalent to format = "aws_keras")
 #'   )
 #' )
 #' x <- tar_target(x, download_data(), cue = tar_cue(mode = "always"))
@@ -93,7 +93,7 @@ tar_format <- function(
   unmarshal = function(object) {
     identity # nocov
   },
-  cloud = c("none", "aws")
+  repository = c("default", "aws")
 ) {
   tar_assert_function(read)
   tar_assert_function(write)
@@ -103,17 +103,17 @@ tar_format <- function(
   tar_assert_function_arguments(write, c("object", "path"))
   tar_assert_function_arguments(marshal, "object")
   tar_assert_function_arguments(unmarshal, "object")
-  cloud <- match.arg(cloud)
-  tar_assert_chr(cloud)
-  tar_assert_scalar(cloud)
-  tar_assert_nzchar(cloud)
+  repository <- match.arg(repository)
+  tar_assert_chr(repository)
+  tar_assert_scalar(repository)
+  tar_assert_nzchar(repository)
   c(
     "custom",
     tar_format_field("read", read),
     tar_format_field("write", write),
     tar_format_field("marshal", marshal),
     tar_format_field("unmarshal", unmarshal),
-    paste0("cloud=", match.arg(cloud))
+    paste0("repository=", match.arg(repository))
   )
 }
 
