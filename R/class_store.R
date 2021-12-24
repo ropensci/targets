@@ -302,6 +302,11 @@ store_unmarshal_value.default <- function(store, target) {
 }
 
 store_validate <- function(store) {
+  UseMethod("store_validate")
+}
+
+#' @export
+store_validate.default <- function(store) {
   tar_assert_correct_fields(store, store_new_default)
   store_validate_packages(store)
   tar_assert_list(store$resources)

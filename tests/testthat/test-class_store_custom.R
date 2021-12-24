@@ -99,3 +99,26 @@ tar_test("torch as custom format", {
   expect_true(inherits(out, "torch_tensor"))
   expect_equal(as.integer(sum(out)), 3L)
 })
+
+tar_test("aws custom store is valid", {
+  format <- tar_format(
+    read = function(path) {
+      readRDS(c(path))
+    },
+    write = function(object, path) {
+      saveRDS(object = object, file = path, version = 3L)
+    },
+    marshal = function(object) {
+      identity(object)
+    },
+    unmarshal = function(object) {
+      identity
+    },
+    repository = "aws"
+  )
+  x <- tar_target(x, "value", format = format)
+  expect_silent(target_validate(x))
+  expect_silent(store_validate(x$store))
+  expect_equal(x$store$repository, "aws")
+  expect_true(inherits(x$store, "tar_aws"))
+})

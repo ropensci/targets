@@ -86,3 +86,15 @@ store_custom_call_method <- function(text, args) {
   what <- eval(parse(text = text), envir = envir)
   do.call(what = what, args = args, envir = envir)
 }
+
+#' @export
+store_validate.tar_store_custom <- function(store) {
+  tar_assert_correct_fields(store, store_custom_new)
+  store_validate_packages(store)
+  tar_assert_list(store$resources)
+  for (field in c("read", "write", "marshal", "unmarshal")) {
+    tar_assert_chr(store[[field]])
+    tar_assert_scalar(store[[field]])
+    tar_assert_nzchar(store[[field]])
+  }
+}
