@@ -3,7 +3,7 @@
 #' @family targets
 #' @description Define a custom target storage format for the
 #'   `format` argument of [tar_target()] or [tar_option_set()].
-#' @return A character string encoding the custom format.
+#' @return A character string of length 1 encoding the custom format.
 #'   You can supply this string directly to the `format`
 #'   argument of [tar_target()] or [tar_option_set()].
 #' @section Marshalling:
@@ -107,13 +107,14 @@ tar_format <- function(
   tar_assert_chr(repository)
   tar_assert_scalar(repository)
   tar_assert_nzchar(repository)
-  c(
+  paste(
     "custom",
     tar_format_field("read", read),
     tar_format_field("write", write),
     tar_format_field("marshal", marshal),
     tar_format_field("unmarshal", unmarshal),
-    paste0("repository=", match.arg(repository))
+    paste0("repository=", match.arg(repository)),
+    sep = "&"
   )
 }
 

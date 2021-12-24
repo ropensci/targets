@@ -107,8 +107,8 @@
 #'     as the other AWS-powered formats. See the cloud computing
 #'     chapter of the manual for details.
 #'   * `"store_custom"`: an entirely custom storage format.
-#'     The user writes functions for how the target is read,
-#'     written, marshalled, and unmarshalled, as well as
+#'     The user writes functions to read,
+#'     write, marshal, and unmarshal the return value, as well as
 #'     whether the data file is stored locally or on the cloud.
 #'     See [tar_resources_store_custom()] for details.
 #' @param iteration Character of length 1, name of the iteration mode

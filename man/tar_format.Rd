@@ -55,7 +55,7 @@ and \code{"aws"} for storage on Amazon S3. Read
 for more on Amazon S3 storage.}
 }
 \value{
-A character string encoding the custom format.
+A character string of length 1 encoding the custom format.
 You can supply this string directly to the \code{format}
 argument of \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_set]{tar_option_set()}}.
 }

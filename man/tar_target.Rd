@@ -300,8 +300,8 @@ Requires the same \code{resources} and other configuration details
 as the other AWS-powered formats. See the cloud computing
 chapter of the manual for details.
 \item \code{"store_custom"}: an entirely custom storage format.
-The user writes functions for how the target is read,
-written, marshalled, and unmarshalled, as well as
+The user writes functions to read,
+write, marshal, and unmarshal the return value, as well as
 whether the data file is stored locally or on the cloud.
 See \code{\link[=tar_resources_store_custom]{tar_resources_store_custom()}} for details.
 }

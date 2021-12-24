@@ -1,17 +1,17 @@
 store_init <- function(format = "rds", resources = list()) {
   store_new(
-    class = as_class_first(format),
+    format = format_init(format),
     file = file_init(),
     resources = resources
   )
 }
 
-store_new <- function(class, file = NULL, resources = NULL) {
+store_new <- function(format, file = NULL, resources = NULL) {
   UseMethod("store_new")
 }
 
 #' @export
-store_new.default <- function(class, file = NULL, resources = NULL) {
+store_new.default <- function(format, file = NULL, resources = NULL) {
   store_new_default(file, resources)
 }
 
@@ -21,13 +21,13 @@ store_new_default <- function(file, resources) {
   enclass(environment(), "tar_store")
 }
 
-store_assert_format_setting <- function(class) {
+store_assert_format_setting <- function(format) {
   UseMethod("store_assert_format_setting")
 }
 
 #' @export
-store_assert_format_setting.default <- function(class) {
-  tar_throw_validate(paste("unsupported format:", class))
+store_assert_format_setting.default <- function(format) {
+  tar_throw_validate(paste("unsupported format:", class(format)[1]))
 }
 
 store_read_object <- function(store) {

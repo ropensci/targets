@@ -1,5 +1,5 @@
 #' @export
-store_new.fst_tbl <- function(class, file = NULL, resources = NULL) {
+store_new.fst_tbl <- function(format, file = NULL, resources = NULL) {
   fst_tbl_new(file, resources)
 }
 
@@ -10,7 +10,7 @@ fst_tbl_new <- function(file = NULL, resources = NULL) {
 }
 
 #' @export
-store_assert_format_setting.fst_tbl <- function(class) {
+store_assert_format_setting.fst_tbl <- function(format) {
 }
 
 #' @export

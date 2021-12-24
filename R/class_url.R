@@ -1,5 +1,5 @@
 #' @export
-store_new.url <- function(class, file = NULL, resources = NULL) {
+store_new.url <- function(format, file = NULL, resources = NULL) {
   store_url_new(file, resources)
 }
 
@@ -10,7 +10,7 @@ store_url_new <- function(file = NULL, resources = NULL) {
 }
 
 #' @export
-store_assert_format_setting.url <- function(class) {
+store_assert_format_setting.url <- function(format) {
 }
 
 #' @export

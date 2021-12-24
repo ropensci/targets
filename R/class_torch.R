@@ -1,5 +1,5 @@
 #' @export
-store_new.torch <- function(class, file = NULL, resources = NULL) {
+store_new.torch <- function(format, file = NULL, resources = NULL) {
   torch_new(file, resources)
 }
 
@@ -10,7 +10,7 @@ torch_new <- function(file = NULL, resources = NULL) {
 }
 
 #' @export
-store_assert_format_setting.torch <- function(class) {
+store_assert_format_setting.torch <- function(format) {
 }
 
 #' @export

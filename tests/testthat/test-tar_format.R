@@ -14,6 +14,8 @@ test_that("tar_format() generates a format string", {
     },
     repository = "default"
   )
+  expect_equal(length(format), 1)
+  format <- unlist(strsplit(format, split = "&", fixed = TRUE))
   expect_equal(format[1], "custom")
   expect_true(any(grepl("^read=+.", format)))
   expect_true(any(grepl("^write=+.", format)))
@@ -24,6 +26,8 @@ test_that("tar_format() generates a format string", {
 
 test_that("tar_format() default arguments are acceptable", {
   format <- tar_format()
+  expect_equal(length(format), 1)
+  format <- unlist(strsplit(format, split = "&", fixed = TRUE))
   expect_equal(format[1], "custom")
   expect_true(any(grepl("^read=+.", format)))
   expect_true(any(grepl("^write=+.", format)))

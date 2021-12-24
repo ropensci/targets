@@ -1,5 +1,5 @@
 #' @export
-store_new.aws_qs <- function(class, file = NULL, resources = NULL) {
+store_new.aws_qs <- function(format, file = NULL, resources = NULL) {
   aws_qs_new(file = file, resources = resources)
 }
 
@@ -20,5 +20,5 @@ aws_qs_new <- function(file = NULL, resources = NULL) {
 }
 
 #' @export
-store_assert_format_setting.aws_qs <- function(class) {
+store_assert_format_setting.aws_qs <- function(format) {
 }

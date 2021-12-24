@@ -1,5 +1,5 @@
 #' @export
-store_new.aws_parquet <- function(class, file = NULL, resources = NULL) {
+store_new.aws_parquet <- function(format, file = NULL, resources = NULL) {
   aws_parquet_new(file = file, resources = resources)
 }
 
@@ -20,5 +20,5 @@ aws_parquet_new <- function(file = NULL, resources = NULL) {
 }
 
 #' @export
-store_assert_format_setting.aws_parquet <- function(class) {
+store_assert_format_setting.aws_parquet <- function(format) {
 }

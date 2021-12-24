@@ -1,5 +1,5 @@
 #' @export
-store_new.feather <- function(class, file = NULL, resources = NULL) {
+store_new.feather <- function(format, file = NULL, resources = NULL) {
   feather_new(file, resources)
 }
 
@@ -10,7 +10,7 @@ feather_new <- function(file = NULL, resources = NULL) {
 }
 
 #' @export
-store_assert_format_setting.feather <- function(class) {
+store_assert_format_setting.feather <- function(format) {
 }
 
 #' @export

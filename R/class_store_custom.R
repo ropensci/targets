@@ -1,14 +1,13 @@
 #' @export
-store_new.custom <- function(class, file = NULL, resources = NULL) {
-  definition <- unlist(class)
+store_new.custom <- function(format, file = NULL, resources = NULL) {
   store <- store_custom_new(
     file = file,
     resources = resources,
-    read = keyvalue_field(definition, "^read="),
-    write = keyvalue_field(definition, "^write="),
-    marshal = keyvalue_field(definition, "^marshal="),
-    unmarshal = keyvalue_field(definition, "^unmarshal="),
-    repository = keyvalue_field(definition, "^repository=")
+    read = format$read,
+    write = format$write,
+    marshal = format$marshal,
+    unmarshal = format$unmarshal,
+    repository = format$repository
   )
   store_custom_enclass_repository(store)
 }
@@ -47,13 +46,13 @@ store_custom_enclass_repository <- function(store) {
 }
 
 #' @export
-store_assert_format_setting.custom <- function(class) {
+store_assert_format_setting.custom <- function(format) {
 }
 
 #' @export
 store_read_path.tar_store_custom <- function(store, path) {
   store_custom_call_method(
-    code = store$read,
+    text = store$read,
     args = list(path = path)
   )
 }
@@ -61,7 +60,7 @@ store_read_path.tar_store_custom <- function(store, path) {
 #' @export
 store_write_path.tar_store_custom <- function(store, object, path) {
   store_custom_call_method(
-    code = store$write,
+    text = store$write,
     args = list(object = object, path = path)
   )
 }
@@ -69,7 +68,7 @@ store_write_path.tar_store_custom <- function(store, object, path) {
 #' @export
 store_marshal_object.tar_store_custom <- function(store, object) {
   store_custom_call_method(
-    code = store$marshal,
+    text = store$marshal,
     args = list(object = object)
   )
 }
@@ -77,13 +76,12 @@ store_marshal_object.tar_store_custom <- function(store, object) {
 #' @export
 store_unmarshal_object.tar_store_custom <- function(store, object) {
   store_custom_call_method(
-    code = store$unmarshal,
+    text = store$unmarshal,
     args = list(object = object)
   )
 }
 
-store_custom_call_method <- function(code, args) {
-  text <- base64url::base64_urldecode(code)
+store_custom_call_method <- function(text, args) {
   envir <- new.env(parent= baseenv())
   what <- eval(parse(text = text), envir = envir)
   do.call(what = what, args = args, envir = envir)

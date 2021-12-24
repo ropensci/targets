@@ -141,7 +141,7 @@ tar_assert_format <- function(format) {
   tar_assert_scalar(format)
   tar_assert_chr(format)
   tar_assert_nzchar(format)
-  store_assert_format_setting(as_class_first(format))
+  store_assert_format_setting(format_init(format))
 }
 
 #' @export
