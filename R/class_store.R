@@ -1,6 +1,6 @@
 store_init <- function(format = "rds", resources = list()) {
   store_new(
-    class = as_class(format),
+    class = as_class_first(format),
     file = file_init(),
     resources = resources
   )

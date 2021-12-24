@@ -63,23 +63,20 @@
 #' tar_target(
 #'   name,
 #'   command(),
-#'   format = "custom",
-#'   resources = tar_resources(
-#'     custom = tar_resources_custom(
-#'       read = function(path) {
-#'         keras::load_model_hdf5(path)
-#'       },
-#'       write = function(object, path) {
-#'         keras::save_model_hdf5(object = object, filepath = path)
-#'       },
-#'       marshal = function(object) {
-#'         keras::serialize_model(object)
-#'       },
-#'       unmarshal = function(object) {
-#'         keras::unserialize_model(object)
-#'       },
-#'       cloud = "none" # Could be "aws" (equivalent to format = "aws_keras")
-#'     )
+#'   format = tar_format(
+#'     read = function(path) {
+#'        keras::load_model_hdf5(path)
+#'     },
+#'     write = function(object, path) {
+#'       keras::save_model_hdf5(object = object, filepath = path)
+#'     },
+#'     marshal = function(object) {
+#'       keras::serialize_model(object)
+#'     },
+#'     unmarshal = function(object) {
+#'       keras::unserialize_model(object)
+#'     },
+#'     cloud = "none" # Could be "aws" (equivalent to format = "aws_keras")
 #'   )
 #' )
 #' x <- tar_target(x, download_data(), cue = tar_cue(mode = "always"))

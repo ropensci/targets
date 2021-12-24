@@ -1,4 +1,4 @@
-as_class <- function(x) {
+as_class_first <- function(x) {
   enclass(list(x), x[1])
 }
 

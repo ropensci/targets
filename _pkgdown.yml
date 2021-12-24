@@ -44,6 +44,7 @@ reference:
 - title: Targets
   contents:
   - '`tar_cue`'
+  - '`tar_format`'
   - '`tar_target`'
   - '`tar_target_raw`'
 - title: Pipeline
@@ -124,7 +125,6 @@ reference:
   - '`tar_resources`'
   - '`tar_resources_aws`'
   - '`tar_resources_clustermq`'
-  - '`tar_resources_custom`'
   - '`tar_resources_feather`'
   - '`tar_resources_fst`'
   - '`tar_resources_future`'
