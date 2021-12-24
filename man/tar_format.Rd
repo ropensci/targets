@@ -16,24 +16,26 @@ tar_format(
 \arguments{
 \item{read}{A function with a single argument named \code{path}.
 This function should read and return the target stored
-at the file in the argument.
+at the file in the argument. It should have no side effects.
 See the "Format functions" section for specific requirements.}
 
 \item{write}{A function with two arguments: \code{object} and \code{path},
 in that order. This function should save the R object \code{object}
-to the file path at \code{path}. The return value does not matter.
+to the file path at \code{path} and have no other side effects.
+The return value does not matter.
 See the "Format functions" section for specific requirements.}
 
 \item{marshal}{A function with a single argument named \code{object}.
 This function should marshal the R object and return
-a value that can be exported to remote parallel workers.
+an in-memory object that can be exported to remote parallel workers.
+It should not read or write any persistent files.
 See the Marshalling section for details.
 See the "Format functions" section for specific requirements.}
 
 \item{unmarshal}{A function with a single argument named \code{object}.
 This function should unmarshal the (marshalled) R object and return
-a value that is appropriate and valid for use
-on a parallel worker.
+an in-memory object that is appropriate and valid for use
+on a parallel worker. It should not read or write any persistent files.
 See the Marshalling section for details.
 See the "Format functions" section for specific requirements.}
 

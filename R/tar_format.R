@@ -35,21 +35,23 @@
 #'   for example.
 #' @param read A function with a single argument named `path`.
 #'   This function should read and return the target stored
-#'   at the file in the argument.
+#'   at the file in the argument. It should have no side effects.
 #'   See the "Format functions" section for specific requirements.
 #' @param write A function with two arguments: `object` and `path`,
 #'   in that order. This function should save the R object `object`
-#'   to the file path at `path`. The return value does not matter.
+#'   to the file path at `path` and have no other side effects.
+#'   The return value does not matter.
 #'   See the "Format functions" section for specific requirements.
 #' @param marshal A function with a single argument named `object`.
 #'   This function should marshal the R object and return
-#'   a value that can be exported to remote parallel workers.
+#'   an in-memory object that can be exported to remote parallel workers.
+#'   It should not read or write any persistent files.
 #'   See the Marshalling section for details.
 #'   See the "Format functions" section for specific requirements.
 #' @param unmarshal A function with a single argument named `object`.
 #'   This function should unmarshal the (marshalled) R object and return
-#'   a value that is appropriate and valid for use
-#'   on a parallel worker.
+#'   an in-memory object that is appropriate and valid for use
+#'   on a parallel worker. It should not read or write any persistent files.
 #'   See the Marshalling section for details.
 #'   See the "Format functions" section for specific requirements.
 #' @param repository Character of length 1, `"default"` for local storage
