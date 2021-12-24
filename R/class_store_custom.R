@@ -82,7 +82,7 @@ store_unmarshal_object.tar_store_custom <- function(store, object) {
 }
 
 store_custom_call_method <- function(text, args) {
-  envir <- new.env(parent= baseenv())
+  envir <- new.env(parent = baseenv())
   what <- eval(parse(text = text), envir = envir)
   do.call(what = what, args = args, envir = envir)
 }
