@@ -50,7 +50,7 @@ and it must not depend on any custom user-defined
 functions or objects in the global environment of your pipeline.}
 
 \item{repository}{Character of length 1, \code{"default"} for local storage
-and \code{"aws"} for storage on Amazon S3. Read
+and \code{"aws"} for storage on Amazon S3. Readw
 \url{https://books.ropensci.org/targets/storage_amazon.html}
 for more on Amazon S3 storage.}
 }

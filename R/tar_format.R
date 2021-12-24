@@ -54,7 +54,7 @@
 #'   and it must not depend on any custom user-defined
 #'   functions or objects in the global environment of your pipeline.
 #' @param repository Character of length 1, `"default"` for local storage
-#'   and `"aws"` for storage on Amazon S3. Read
+#'   and `"aws"` for storage on Amazon S3. Readw
 #'   <https://books.ropensci.org/targets/storage_amazon.html>
 #'   for more on Amazon S3 storage.
 #' @examples
