@@ -38,7 +38,7 @@ store_aws_bucket <- function(path) {
     return(path[1L])
   }
   # with metadata written by targets > 0.8.1:
-  store_path_field(path = path, pattern = "^bucket=")
+  keyvalue_field(path = path, pattern = "^bucket=")
 }
 
 store_aws_region <- function(path) {
@@ -47,7 +47,7 @@ store_aws_region <- function(path) {
     return()
   }
   # with metadata written by targets > 0.8.1:
-  out <- store_path_field(path = path, pattern = "^region=")
+  out <- keyvalue_field(path = path, pattern = "^region=")
   out <- if_any(length(out) > 0L && any(nzchar(out)), out, "")
   if_any(identical(out, "NULL"), NULL, out)
 }
@@ -57,11 +57,11 @@ store_aws_key <- function(path) {
   if (store_aws_path_0.8.1(path)) {
     return(path[2L])
   }
-  store_path_field(path = path, pattern = "^key=")
+  keyvalue_field(path = path, pattern = "^key=")
 }
 
 store_aws_version <- function(path) {
-  out <- store_path_field(path = path, pattern = "^version=")
+  out <- keyvalue_field(path = path, pattern = "^version=")
   if_any(length(out) && nzchar(out), out, NULL)
 }
 

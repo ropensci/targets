@@ -21,6 +21,12 @@ replace_na <- function(x, y) {
   x
 }
 
+keyvalue_field <- function(path, pattern) {
+  path <- store_aws_split_colon(path)
+  element <- grep(pattern = pattern, x = path, value = TRUE)
+  gsub(pattern = pattern, replacement = "", x = element)
+}
+
 omit_na <- function(x) {
   x[!is.na(x)]
 }

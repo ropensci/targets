@@ -43,7 +43,7 @@ store_produce_path.tar_store_custom <- function(store, name, object, path_store)
 #' @export
 store_read_path.tar_store_custom <- function(store, path) {
   store_custom_encoded_call(
-    fun = store_path_field(store$file$path, pattern = "^read="),
+    fun = keyvalue_field(store$file$path, pattern = "^read="),
     args = list(path = path)
   )
 }
@@ -51,7 +51,7 @@ store_read_path.tar_store_custom <- function(store, path) {
 #' @export
 store_write_path.tar_store_custom <- function(store, object, path) {
   store_custom_encoded_call(
-    fun = store_path_field(store$file$path, pattern = "^write="),
+    fun = keyvalue_field(store$file$path, pattern = "^write="),
     args = list(object = object, path = path)
   )
 }
@@ -59,7 +59,7 @@ store_write_path.tar_store_custom <- function(store, object, path) {
 #' @export
 store_marshal_object.tar_store_custom <- function(store, object) {
   store_custom_encoded_call(
-    fun = store_path_field(store$file$path, pattern = "^marshal="),
+    fun = keyvalue_field(store$file$path, pattern = "^marshal="),
     args = list(object = object)
   )
 }
@@ -67,7 +67,7 @@ store_marshal_object.tar_store_custom <- function(store, object) {
 #' @export
 store_unmarshal_object.tar_store_custom <- function(store, object) {
   store_custom_encoded_call(
-    fun = store_path_field(store$file$path, pattern = "^unmarshal="),
+    fun = keyvalue_field(store$file$path, pattern = "^unmarshal="),
     args = list(object = object)
   )
 }
