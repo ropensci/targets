@@ -106,11 +106,7 @@
 #'     Requires the same `resources` and other configuration details
 #'     as the other AWS-powered formats. See the cloud computing
 #'     chapter of the manual for details.
-#'   * `"store_custom"`: an entirely custom storage format.
-#'     The user writes functions to read,
-#'     write, marshal, and unmarshal the return value, as well as
-#'     whether the data file is stored locally or on the cloud.
-#'     See [tar_format()] for details.
+#'   * An entirely custom specification produced by [tar_format()].
 #' @param iteration Character of length 1, name of the iteration mode
 #'   of the target. Choices:
 #'   * `"vector"`: branching happens with `vctrs::vec_slice()` and

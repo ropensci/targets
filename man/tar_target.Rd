@@ -299,11 +299,7 @@ download the file to \verb{_targets/scratch/} locally and return the path.
 Requires the same \code{resources} and other configuration details
 as the other AWS-powered formats. See the cloud computing
 chapter of the manual for details.
-\item \code{"store_custom"}: an entirely custom storage format.
-The user writes functions to read,
-write, marshal, and unmarshal the return value, as well as
-whether the data file is stored locally or on the cloud.
-See \code{\link[=tar_format]{tar_format()}} for details.
+\item An entirely custom specification produced by \code{\link[=tar_format]{tar_format()}}.
 }
 }
 
