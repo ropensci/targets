@@ -56,10 +56,6 @@
 #'   `qs::qsave()` for `qs`-based storage formats.
 #'   Applies to all formats ending with the `"_qs"` suffix.
 #'   For details on formats, see the `format` argument of [tar_target()].
-#' @param store_custom Output of function [tar_resources_store_custom()]
-#'   to define the storage format if your target has
-#'   `tar_target(format = "store_custom")`.
-#'   See [tar_resources_store_custom()] for instructions.
 #' @param url Output of function `tar_resources_url()`.
 #'   Non-default settings for storage formats ending with the `"_url"` suffix.
 #'   These settings include the `curl` handle for extra control over HTTP
@@ -84,7 +80,6 @@ tar_resources <- function(
   future = NULL,
   parquet = NULL,
   qs = NULL,
-  store_custom = NULL,
   url = NULL
 ) {
   envir <- environment()
