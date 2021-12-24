@@ -30,17 +30,6 @@ store_assert_format_setting.store_custom <- function(class) {
 }
 
 #' @export
-store_produce_path.tar_store_custom <- function(store, name, object, path_store) {
-  c(
-    paste0("read=", store$resources$store_custom$read),
-    paste0("write=", store$resources$store_custom$write),
-    paste0("marshal=", store$resources$store_custom$marshal),
-    paste0("unmarshal=", store$resources$store_custom$unmarshal),
-    paste0("repository=", store$resources$store_custom$repository)
-  )
-}
-
-#' @export
 store_read_path.tar_store_custom <- function(store, path) {
   store_custom_encoded_call(
     fun = keyvalue_field(store$file$path, pattern = "^read="),

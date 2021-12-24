@@ -51,19 +51,3 @@ tar_test("store_aws_split_colon()", {
     c("bucket=bu", "region=reg", "key=sdfasdf")
   )
 })
-
-tar_test("store_aws_field()", {
-  path <- c("bucket=bu", "region=reg", "key=sdfasdf")
-  expect_equal(
-    store_aws_field(path = path, pattern = "^bucket="),
-    "bu"
-  )
-  expect_equal(
-    store_aws_field(path = path, pattern = "^region="),
-    "reg"
-  )
-  expect_equal(
-    store_aws_field(path = path, pattern = "^key="),
-    "sdfasdf"
-  )
-})
