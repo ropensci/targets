@@ -110,7 +110,7 @@
 #'     The user writes functions to read,
 #'     write, marshal, and unmarshal the return value, as well as
 #'     whether the data file is stored locally or on the cloud.
-#'     See [tar_resources_store_custom()] for details.
+#'     See [tar_format()] for details.
 #' @param iteration Character of length 1, name of the iteration mode
 #'   of the target. Choices:
 #'   * `"vector"`: branching happens with `vctrs::vec_slice()` and

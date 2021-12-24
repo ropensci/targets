@@ -17,40 +17,28 @@ tar_format(
 \item{read}{A function with a single argument named \code{path}.
 This function should read and return the target stored
 at the file in the argument.
-This function must be perfectly pure and perfectly self-sufficient.
-It must load or namespace all its own packages,
-and it must not depend on any custom user-defined
-functions or objects in the global environment of your pipeline.}
+See the "Format functions" section for specific requirements.}
 
 \item{write}{A function with two arguments: \code{object} and \code{path},
 in that order. This function should save the R object \code{object}
 to the file path at \code{path}. The return value does not matter.
-This function must be perfectly self-sufficient (self-contained).
-It must load or namespace all its own packages,
-and it must not depend on any custom user-defined
-functions or objects in the global environment of your pipeline.}
+See the "Format functions" section for specific requirements.}
 
 \item{marshal}{A function with a single argument named \code{object}.
 This function should marshal the R object and return
 a value that can be exported to remote parallel workers.
 See the Marshalling section for details.
-This function must be perfectly pure and perfectly self-sufficient.
-It must load or namespace all its own packages,
-and it must not depend on any custom user-defined
-functions or objects in the global environment of your pipeline.}
+See the "Format functions" section for specific requirements.}
 
 \item{unmarshal}{A function with a single argument named \code{object}.
 This function should unmarshal the (marshalled) R object and return
 a value that is appropriate and valid for use
 on a parallel worker.
 See the Marshalling section for details.
-This function must be perfectly pure and perfectly self-sufficient.
-It must load or namespace all its own packages,
-and it must not depend on any custom user-defined
-functions or objects in the global environment of your pipeline.}
+See the "Format functions" section for specific requirements.}
 
 \item{repository}{Character of length 1, \code{"default"} for local storage
-and \code{"aws"} for storage on Amazon S3. Readw
+and \code{"aws"} for storage on Amazon S3. Read
 \url{https://books.ropensci.org/targets/storage_amazon.html}
 for more on Amazon S3 storage.}
 }
@@ -80,6 +68,20 @@ Then, the worker must unmarshal the object: convert it
 into a form that is usable and valid in the current R session.
 Arguments \code{marshal} and \code{unmarshal} of \code{tar_format()}
 let you control how marshalling and unmarshalling happens.
+}
+
+\section{Format functions}{
+
+In \code{tar_format()}, functions like \code{read}, \code{write},
+\code{marshal}, and \code{unmarshal} must be perfectly pure
+and perfectly self-sufficient.
+They must load or namespace all their own packages,
+and they must not depend on any custom user-defined
+functions or objects in the global environment of your pipeline.
+\code{targets} converts each function to and from text,
+so it must not rely on any data in the closure.
+This disqualifies functions produced by \code{Vectorize()},
+for example.
 }
 
 \examples{

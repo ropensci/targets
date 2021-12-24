@@ -22,39 +22,38 @@
 #'   into a form that is usable and valid in the current R session.
 #'   Arguments `marshal` and `unmarshal` of `tar_format()`
 #'   let you control how marshalling and unmarshalling happens.
+#' @section Format functions:
+#'   In `tar_format()`, functions like `read`, `write`,
+#'   `marshal`, and `unmarshal` must be perfectly pure
+#'   and perfectly self-sufficient.
+#'   They must load or namespace all their own packages,
+#'   and they must not depend on any custom user-defined
+#'   functions or objects in the global environment of your pipeline.
+#'   `targets` converts each function to and from text,
+#'   so it must not rely on any data in the closure.
+#'   This disqualifies functions produced by `Vectorize()`,
+#'   for example.
 #' @param read A function with a single argument named `path`.
 #'   This function should read and return the target stored
 #'   at the file in the argument.
-#'   This function must be perfectly pure and perfectly self-sufficient.
-#'   It must load or namespace all its own packages,
-#'   and it must not depend on any custom user-defined
-#'   functions or objects in the global environment of your pipeline.
+#'   See the "Format functions" section for specific requirements.
 #' @param write A function with two arguments: `object` and `path`,
 #'   in that order. This function should save the R object `object`
 #'   to the file path at `path`. The return value does not matter.
-#'   This function must be perfectly self-sufficient (self-contained).
-#'   It must load or namespace all its own packages,
-#'   and it must not depend on any custom user-defined
-#'   functions or objects in the global environment of your pipeline.
+#'   See the "Format functions" section for specific requirements.
 #' @param marshal A function with a single argument named `object`.
 #'   This function should marshal the R object and return
 #'   a value that can be exported to remote parallel workers.
 #'   See the Marshalling section for details.
-#'   This function must be perfectly pure and perfectly self-sufficient.
-#'   It must load or namespace all its own packages,
-#'   and it must not depend on any custom user-defined
-#'   functions or objects in the global environment of your pipeline.
+#'   See the "Format functions" section for specific requirements.
 #' @param unmarshal A function with a single argument named `object`.
 #'   This function should unmarshal the (marshalled) R object and return
 #'   a value that is appropriate and valid for use
 #'   on a parallel worker.
 #'   See the Marshalling section for details.
-#'   This function must be perfectly pure and perfectly self-sufficient.
-#'   It must load or namespace all its own packages,
-#'   and it must not depend on any custom user-defined
-#'   functions or objects in the global environment of your pipeline.
+#'   See the "Format functions" section for specific requirements.
 #' @param repository Character of length 1, `"default"` for local storage
-#'   and `"aws"` for storage on Amazon S3. Readw
+#'   and `"aws"` for storage on Amazon S3. Read
 #'   <https://books.ropensci.org/targets/storage_amazon.html>
 #'   for more on Amazon S3 storage.
 #' @examples

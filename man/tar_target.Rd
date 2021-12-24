@@ -303,7 +303,7 @@ chapter of the manual for details.
 The user writes functions to read,
 write, marshal, and unmarshal the return value, as well as
 whether the data file is stored locally or on the cloud.
-See \code{\link[=tar_resources_store_custom]{tar_resources_store_custom()}} for details.
+See \code{\link[=tar_format]{tar_format()}} for details.
 }
 }
 
