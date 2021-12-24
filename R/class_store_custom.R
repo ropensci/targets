@@ -5,7 +5,7 @@ store_new.format_custom <- function(format, file = NULL, resources = NULL) {
     file = file,
     resources = resources,
     read = store_custom_field(format, "^read="),
-    write = store_custom_field(format, "^write=" ),
+    write = store_custom_field(format, "^write="),
     marshal = store_custom_field(format, "^marshal="),
     unmarshal = store_custom_field(format, "^unmarshal="),
     repository = keyvalue_field(format, "^repository=")
