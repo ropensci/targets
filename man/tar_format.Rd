@@ -101,15 +101,13 @@ tar_target(
     unmarshal = function(object) {
       keras::unserialize_model(object)
     },
-    repository = "default" # Could be "aws" (equivalent to format = "aws_keras")
+    repository = "default" # Could be "aws" (same as format = "aws_keras")
   )
 )
-x <- tar_target(x, download_data(), cue = tar_cue(mode = "always"))
 }
 \seealso{
 Other targets: 
 \code{\link{tar_cue}()},
-\code{\link{tar_resources_store_custom}()},
 \code{\link{tar_target_raw}()},
 \code{\link{tar_target}()}
 }

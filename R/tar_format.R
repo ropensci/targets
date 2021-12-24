@@ -76,10 +76,9 @@
 #'     unmarshal = function(object) {
 #'       keras::unserialize_model(object)
 #'     },
-#'     repository = "default" # Could be "aws" (equivalent to format = "aws_keras")
+#'     repository = "default" # Could be "aws" (same as format = "aws_keras")
 #'   )
 #' )
-#' x <- tar_target(x, download_data(), cue = tar_cue(mode = "always"))
 tar_format <- function(
   read = function(path) {
     readRDS(path) # nocov
