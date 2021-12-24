@@ -1,13 +1,14 @@
 #' @export
-store_new.custom <- function(format, file = NULL, resources = NULL) {
+store_new.format_custom <- function(format, file = NULL, resources = NULL) {
+  format <- unlist(strsplit(format, split = "&", fixed = TRUE))
   store <- store_custom_new(
     file = file,
     resources = resources,
-    read = format$read,
-    write = format$write,
-    marshal = format$marshal,
-    unmarshal = format$unmarshal,
-    repository = format$repository
+    read = store_custom_field(format, "^read="),
+    write = store_custom_field(format, "^write=" ),
+    marshal = store_custom_field(format, "^marshal="),
+    unmarshal = store_custom_field(format, "^unmarshal="),
+    repository = keyvalue_field(format, "^repository=")
   )
   store_custom_enclass_repository(store)
 }
@@ -34,6 +35,11 @@ store_custom_new <- function(
   )
 }
 
+store_custom_field <- function(format, pattern) {
+  out <- base64url::base64_urldecode(keyvalue_field(format, pattern))
+  out %||% NULL
+}
+
 store_custom_enclass_repository <- function(store) {
   switch(
     store$repository,
@@ -46,7 +52,7 @@ store_custom_enclass_repository <- function(store) {
 }
 
 #' @export
-store_assert_format_setting.custom <- function(format) {
+store_assert_format_setting.format_custom <- function(format) {
 }
 
 #' @export

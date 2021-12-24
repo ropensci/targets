@@ -108,7 +108,7 @@ tar_format <- function(
   tar_assert_scalar(repository)
   tar_assert_nzchar(repository)
   paste(
-    "custom",
+    "format_custom",
     tar_format_field("read", read),
     tar_format_field("write", write),
     tar_format_field("marshal", marshal),

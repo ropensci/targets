@@ -1,6 +1,6 @@
 store_init <- function(format = "rds", resources = list()) {
   store_new(
-    format = format_init(format),
+    format = store_format_dispatch(format),
     file = file_init(),
     resources = resources
   )
@@ -8,6 +8,14 @@ store_init <- function(format = "rds", resources = list()) {
 
 store_new <- function(format, file = NULL, resources = NULL) {
   UseMethod("store_new")
+}
+
+# A format should not be a full class like the store
+# because the responsibilities of store and format
+# would overlap too much.
+store_format_dispatch <- function(format) {
+  class <- gsub(pattern = "\\&.*$", replacement = "", x = format)
+  enclass(format, class)
 }
 
 #' @export
