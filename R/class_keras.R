@@ -1,5 +1,5 @@
 #' @export
-store_new.keras <- function(class, file = NULL, resources = NULL) {
+store_new.keras <- function(format, file = NULL, resources = NULL) {
   keras_new(file, resources)
 }
 
@@ -10,7 +10,7 @@ keras_new <- function(file = NULL, resources = NULL) {
 }
 
 #' @export
-store_assert_format_setting.keras <- function(class) {
+store_assert_format_setting.keras <- function(format) {
 }
 
 # It would be too burdensome to depend on Python Keras

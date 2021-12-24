@@ -1,5 +1,5 @@
 #' @export
-store_new.fst_dt <- function(class, file = NULL, resources = NULL) {
+store_new.fst_dt <- function(format, file = NULL, resources = NULL) {
   fst_dt_new(file, resources)
 }
 
@@ -10,7 +10,7 @@ fst_dt_new <- function(file = NULL, resources = NULL) {
 }
 
 #' @export
-store_assert_format_setting.fst_dt <- function(class) {
+store_assert_format_setting.fst_dt <- function(format) {
 }
 
 #' @export

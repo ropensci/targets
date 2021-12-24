@@ -1,5 +1,5 @@
 #' @export
-store_new.rds <- function(class, file = NULL, resources = NULL) {
+store_new.rds <- function(format, file = NULL, resources = NULL) {
   rds_new(file, resources)
 }
 
@@ -10,7 +10,7 @@ rds_new <- function(file = NULL, resources = NULL) {
 }
 
 #' @export
-store_assert_format_setting.rds <- function(class) {
+store_assert_format_setting.rds <- function(format) {
 }
 
 #' @export

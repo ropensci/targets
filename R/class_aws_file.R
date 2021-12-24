@@ -1,5 +1,5 @@
 #' @export
-store_new.aws_file <- function(class, file = NULL, resources = NULL) {
+store_new.aws_file <- function(format, file = NULL, resources = NULL) {
   aws_file_new(file = file, resources = resources)
 }
 
@@ -44,7 +44,7 @@ store_aws_file_stage <- function(path) {
       file.path(path_scratch_dir(path_store_default()), store_aws_key(path)),
       path[3]
     ),
-    store_aws_field(path = path, pattern = "^stage=")
+    store_aws_path_field(path = path, pattern = "^stage=")
   )
 }
 
@@ -54,7 +54,7 @@ store_produce_stage.tar_aws_file <- function(store, name, object, path_store) {
 }
 
 #' @export
-store_assert_format_setting.aws_file <- function(class) {
+store_assert_format_setting.aws_file <- function(format) {
 }
 
 #' @export

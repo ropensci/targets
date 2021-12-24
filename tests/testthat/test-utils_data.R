@@ -6,3 +6,19 @@ tar_test("mask_pointers()", {
   expect_false(grepl("pointer: 0x", x))
   expect_true(grepl("pointer: 0x", str))
 })
+
+tar_test("keyvalue_field()", {
+  x <- c("bucket=bu", "region=reg", "key=sdfasdf")
+  expect_equal(
+    keyvalue_field(x = x, pattern = "^bucket="),
+    "bu"
+  )
+  expect_equal(
+    keyvalue_field(x = x, pattern = "^region="),
+    "reg"
+  )
+  expect_equal(
+    keyvalue_field(x = x, pattern = "^key="),
+    "sdfasdf"
+  )
+})

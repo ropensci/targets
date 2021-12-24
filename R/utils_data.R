@@ -21,6 +21,11 @@ replace_na <- function(x, y) {
   x
 }
 
+keyvalue_field <- function(x, pattern) {
+  element <- grep(pattern = pattern, x = x, value = TRUE)
+  gsub(pattern = pattern, replacement = "", x = element)
+}
+
 omit_na <- function(x) {
   x[!is.na(x)]
 }
@@ -43,5 +48,10 @@ omit_rownames <- function(x) {
 
 set_names <- function(x, names) {
   names(x) <- names
+  x
+}
+
+enclass <- function(x, class) {
+  class(x) <- c(class, class(x))
   x
 }

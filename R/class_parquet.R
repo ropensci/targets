@@ -1,5 +1,5 @@
 #' @export
-store_new.parquet <- function(class, file = NULL, resources = NULL) {
+store_new.parquet <- function(format, file = NULL, resources = NULL) {
   parquet_new(file, resources)
 }
 
@@ -10,7 +10,7 @@ parquet_new <- function(file = NULL, resources = NULL) {
 }
 
 #' @export
-store_assert_format_setting.parquet <- function(class) {
+store_assert_format_setting.parquet <- function(format) {
 }
 
 #' @export

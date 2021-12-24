@@ -17,6 +17,8 @@
 #' @param path Character, file path.
 #' @param pattern Character of length 1, a `grep` pattern for certain
 #'   assertions.
+#' @param args Character vector of expected function argument names.
+#'   Order matters.
 #' @examples
 #' tar_assert_chr("123")
 #' try(tar_assert_chr(123))
@@ -138,7 +140,8 @@ tar_assert_flag <- function(x, choices, msg = NULL) {
 tar_assert_format <- function(format) {
   tar_assert_scalar(format)
   tar_assert_chr(format)
-  store_assert_format_setting(as_class(format))
+  tar_assert_nzchar(format)
+  store_assert_format_setting(format_init(format))
 }
 
 #' @export
@@ -154,6 +157,22 @@ tar_assert_file <- function(x) {
 #' @rdname tar_assert
 tar_assert_function <- function(x, msg = NULL) {
   if (!is.function(x)) {
+    tar_throw_validate(msg %|||% "input must be a function.")
+  }
+}
+
+#' @export
+#' @rdname tar_assert
+tar_assert_function_arguments <- function(x, args, msg = NULL) {
+  exp <- as.character(names(formals(x)))
+  equal <- identical(exp, as.character(args))
+  msg <- paste(
+    "function",
+    deparse(substitute(x)),
+    "must have these exact arguments in this exact order:",
+    paste(exp, collapse = ", ")
+  )
+  if (!equal) {
     tar_throw_validate(msg %|||% "input must be a function.")
   }
 }

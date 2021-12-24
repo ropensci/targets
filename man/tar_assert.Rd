@@ -11,6 +11,7 @@
 \alias{tar_assert_flag}
 \alias{tar_assert_file}
 \alias{tar_assert_function}
+\alias{tar_assert_function_arguments}
 \alias{tar_assert_ge}
 \alias{tar_assert_identical}
 \alias{tar_assert_in}
@@ -59,6 +60,8 @@ tar_assert_flag(x, choices, msg = NULL)
 tar_assert_file(x)
 
 tar_assert_function(x, msg = NULL)
+
+tar_assert_function_arguments(x, args, msg = NULL)
 
 tar_assert_ge(x, threshold, msg = NULL)
 
@@ -126,6 +129,9 @@ specific assertion function called.}
 if \code{x} is invalid.}
 
 \item{choices}{Character vector of choices of \code{x} for certain assertions.}
+
+\item{args}{Character vector of expected function argument names.
+Order matters.}
 
 \item{threshold}{Numeric of length 1, lower/upper bound for
 assertions like \code{tar_assert_le()}/\code{tar_assert_ge()}.}

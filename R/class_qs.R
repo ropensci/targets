@@ -1,5 +1,5 @@
 #' @export
-store_new.qs <- function(class, file = NULL, resources = NULL) {
+store_new.qs <- function(format, file = NULL, resources = NULL) {
   qs_new(file, resources)
 }
 
@@ -10,7 +10,7 @@ qs_new <- function(file = NULL, resources = NULL) {
 }
 
 #' @export
-store_assert_format_setting.qs <- function(class) {
+store_assert_format_setting.qs <- function(format) {
 }
 
 #' @export

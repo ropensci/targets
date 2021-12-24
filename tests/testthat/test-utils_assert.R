@@ -45,7 +45,23 @@ tar_test("tar_assert_flag()", {
 })
 
 tar_test("tar_assert_function()", {
+  expect_silent(tar_assert_function(base::identity))
   expect_error(tar_assert_function("not"), class = "tar_condition_validate")
+})
+
+tar_test("tar_assert_function_arguments()", {
+  f <- function(x, y) {
+    x
+  }
+  expect_silent(tar_assert_function_arguments(f, c("x", "y")))
+  expect_error(
+    tar_assert_function_arguments(f, c("y", "x")),
+    class = "tar_condition_validate"
+  )
+  expect_error(
+    tar_assert_function_arguments(f, c("x", "a", "b")),
+    class = "tar_condition_validate"
+  )
 })
 
 tar_test("tar_assert_df()", {

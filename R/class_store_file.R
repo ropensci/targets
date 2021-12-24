@@ -1,5 +1,5 @@
 #' @export
-store_new.file <- function(class, file = NULL, resources = NULL) {
+store_new.file <- function(format, file = NULL, resources = NULL) {
   store_file_new(file, resources)
 }
 
@@ -10,7 +10,7 @@ store_file_new <- function(file = NULL, resources = NULL) {
 }
 
 #' @export
-store_assert_format_setting.file <- function(class) {
+store_assert_format_setting.file <- function(format) {
 }
 
 #' @export

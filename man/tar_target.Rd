@@ -280,9 +280,11 @@ certain the ETag and Last-Modified time stamp are fully updated
 and available by the time the target's command finishes running.
 \code{targets} makes no attempt to wait for the web server.
 \item \code{"aws_rds"}, \code{"aws_qs"}, \code{"aws_parquet"}, \code{"aws_fst"}, \code{"aws_fst_dt"},
-\code{"aws_fst_tbl"}, \code{"aws_keras"}: AWS-powered versions of the
-respective formats \code{"rds"}, \code{"qs"}, etc. The only difference
-is that the data file is uploaded to the AWS S3 bucket
+\code{"aws_fst_tbl"}, \code{"aws_keras"}: versions of the
+respective formats \code{"rds"}, \code{"qs"}, etc. powered by
+Amazon Web Services (AWS) Simple Storage Service (S3).
+The only difference is that the data file is
+uploaded to the AWS S3 bucket
 you supply to \code{tar_resources_aws()}. See the cloud computing chapter
 of the manual for details.
 \item \code{"aws_file"}: arbitrary dynamic files on AWS S3. The target
@@ -297,6 +299,7 @@ download the file to \verb{_targets/scratch/} locally and return the path.
 Requires the same \code{resources} and other configuration details
 as the other AWS-powered formats. See the cloud computing
 chapter of the manual for details.
+\item An entirely custom specification produced by \code{\link[=tar_format]{tar_format()}}.
 }
 }
 
@@ -327,6 +330,7 @@ tar_read(x)
 \seealso{
 Other targets: 
 \code{\link{tar_cue}()},
+\code{\link{tar_format}()},
 \code{\link{tar_target_raw}()}
 }
 \concept{targets}
