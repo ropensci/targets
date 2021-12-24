@@ -9,7 +9,7 @@ tar_format(
   write = function(object, path) {     saveRDS(object = object, file = path, version =
     3L) },
   marshal = function(object) {     identity(object) },
-  unmarshal = function(object) {     identity },
+  unmarshal = function(object) {     identity(object) },
   repository = c("default", "aws")
 )
 }

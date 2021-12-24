@@ -91,7 +91,7 @@ tar_format <- function(
     identity(object) # nocov
   },
   unmarshal = function(object) {
-    identity # nocov
+    identity(object) # nocov
   },
   repository = c("default", "aws")
 ) {

@@ -11,7 +11,7 @@ tar_test("class_store_custom rds", {
         identity(object)
       },
       unmarshal = function(object) {
-        identity
+        identity(object)
       },
       repository = "default"
     )
@@ -55,4 +55,41 @@ tar_test("class_store_custom rds", {
   tar_make(callr_function = NULL)
   expect_equal(tar_progress(x)$progress, "built")
   expect_equal(tar_read(x), "value")
+})
+
+tar_test("torch as custom format", {
+  skip_on_cran()
+  skip_on_os("solaris")
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.callr")
+  skip_if_not_installed("torch")
+  tar_script({
+    future::plan(future.callr::callr)
+    format <- tar_format(
+      read = function(path) {
+        torch::torch_load(path)
+      },
+      write = function(object, path) {
+        torch::torch_save(obj = object, path = path)
+      },
+      marshal = function(object) {
+        con <- rawConnection(raw(), open = "wr")
+        on.exit(close(con))
+        torch::torch_save(object, con)
+        rawConnectionValue(con)
+      },
+      unmarshal = function(object) {
+        con <- rawConnection(object, open = "r")
+        on.exit(close(con))
+        torch::torch_load(con)
+      },
+      repository = "default"
+    )
+    tar_target(a, torch::torch_tensor(c(1, 2)), format = format)
+  })
+  tar_make_future(callr_function = NULL)
+  expect_equal(tar_outdated(callr_function = NULL), character(0))
+  out <- tar_read(a)
+  expect_true(inherits(out, "torch_tensor"))
+  expect_equal(as.integer(sum(out)), 3L)
 })
