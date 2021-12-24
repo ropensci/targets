@@ -63,7 +63,7 @@ Sometimes, a pipeline contains more targets than a user can comfortably type by 
 
 ## Cloud computing
 
-Users with [Amazon Web Services](https://aws.amazon.com/) accounts can store their targets on one or more [S3 buckets](https://aws.amazon.com/s3/), and retrieval with `tar_read()` and `tar_load()` is seamless. The [cloud computing chapter](https://books.ropensci.org/targets/cloud.html) is a step-by-step guide that walks through how to get started with [Amazon Web Services](https://aws.amazon.com/) and connect a `targets` pipeline to [S3](https://aws.amazon.com/s3/).
+Users with [Amazon Web Services](https://aws.amazon.com/) accounts can store their targets on one or more [S3 buckets](https://aws.amazon.com/s3/), and retrieval with `tar_read()` and `tar_load()` is seamless. The [AWS storage chapter](https://books.ropensci.org/targets/storage_amazon.html) is a step-by-step guide that walks through how to get started with [Amazon Web Services](https://aws.amazon.com/) and connect a `targets` pipeline to [S3](https://aws.amazon.com/s3/).
 
 ## What about drake?
 
