@@ -28,7 +28,7 @@ tar_test("runtime settings get exported to workers", {
     Sys.setenv(TAR_WARN = "success")
     list(
       tar_target(x, targets::tar_store()),
-      tar_target(y, targets::tar_function()),
+      tar_target(y, targets::tar_call()),
       tar_target(z, Sys.getenv("TAR_WARN"))
     )
   })
@@ -36,7 +36,7 @@ tar_test("runtime settings get exported to workers", {
   expect_equal(tar_read(x, store = "local_store"), "local_store")
   expect_equal(tar_read(y, store = "local_store"), "tar_make_clustermq")
   expect_equal(tar_read(z, store = "local_store"), "success")
-  expect_null(tar_function())
+  expect_null(tar_call())
   expect_false(tar_store() == "local_store")
 })
 
@@ -47,7 +47,7 @@ tar_test("same with the future backend", {
     Sys.setenv(TAR_WARN = "success")
     list(
       tar_target(x, targets::tar_store()),
-      tar_target(y, targets::tar_function()),
+      tar_target(y, targets::tar_call()),
       tar_target(z, Sys.getenv("TAR_WARN"))
     )
   })
@@ -55,6 +55,6 @@ tar_test("same with the future backend", {
   expect_equal(tar_read(x, store = "local_store"), "local_store")
   expect_equal(tar_read(y, store = "local_store"), "tar_make_future")
   expect_equal(tar_read(z, store = "local_store"), "success")
-  expect_null(tar_function())
+  expect_null(tar_call())
   expect_false(tar_store() == "local_store")
 })

@@ -140,10 +140,10 @@ reference:
 - title: Utilities
   contents:
   - '`tar_active`'
+  - '`tar_call`'
   - '`tar_cancel`'
   - '`tar_definition`'
   - '`tar_envir`'
-  - '`tar_function`'
   - '`tar_group`'
   - '`tar_name`'
   - '`tar_path`'

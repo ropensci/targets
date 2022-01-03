@@ -7,7 +7,7 @@
 ## New features
 
 * Allow entirely custom storage formats through `tar_target(format = tar_format(...))` (#736).
-* Add a new function `tar_function()` to return the `targets` function currently running (from `_targets.R` or a target).
+* Add a new function `tar_call()` to return the `targets` function currently running (from `_targets.R` or a target).
 * Add a new function `tar_active()` to tell whether the pipeline is currently running. Detects if it is called from `tar_make()` or similar function.
 
 ## Enhancements
