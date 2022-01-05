@@ -17,6 +17,7 @@
 * Explicitly export all the environment variables from `tar_envvars()` to targets run on parallel workers.
 * Allow `format = "file"` targets to return `character(0)` (#728, @programLyrique).
 * Automatically remove non-targets from the target list and improve target list error messages (#731, @billdenney).
+* Link to resources on deploying to RStudio Connect (#745, @ian-flores).
 
 # targets 0.9.1
 
