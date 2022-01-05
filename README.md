@@ -116,12 +116,11 @@ the results.
 | Machine learning with Keras                                                                                        | <https://github.com/wlandau/targets-keras>          |
 | Validating a minimal Stan model                                                                                    | <https://github.com/wlandau/targets-stan>           |
 | Using Target Markdown and `stantargets` to validate a Bayesian longitudinal model for clinical trial data analysis | <https://github.com/wlandau/rmedicine2021-pipeline> |
+| Shiny app that runs a pipeline                                                                                     | <https://github.com/wlandau/targets-shiny>          |
+| Deploying a pipeline to RStudio Connect                                                                            | <https://github.com/sol-eng/targets-deployment-rsc> |
 
 ## Apps
 
--   [`targets-shiny`](https://github.com/wlandau/targets-shiny): a
-    simple prototype of a Shiny app with a `targets` backend. Shows how
-    to build powerful data pipelines inside apps.
 -   [`tar_watch()`](https://docs.ropensci.org/targets/reference/tar_watch.html):
     a built-in Shiny app to visualize progress while a pipeline is
     running. Available as a Shiny module via
@@ -132,6 +131,16 @@ the results.
     app to help sketch pipelines
     ([app](https://wlandau.shinyapps.io/targetsketch),
     [source](https://github.com/wlandau/targetsketch)).
+
+## Deployment
+
+-   <https://solutions.rstudio.com/r/workflows/> explains how to deploy
+    a pipeline to RStudio Connect ([example
+    code](https://github.com/sol-eng/targets-deployment-rsc)).
+-   [`tar_github_actions()`](https://docs.ropensci.org/targets/reference/tar_github_actions.html)
+    sets up a pipeline to run on GitHub Actions. The [minimal
+    example](https://github.com/wlandau/targets-minimal) demonstrates
+    this approach.
 
 ## Extending and customizing targets
 
