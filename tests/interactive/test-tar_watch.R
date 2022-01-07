@@ -50,7 +50,7 @@ tar_script({
 tar_make() # Stop early.
 tar_watch(background = FALSE)
 
-# Should see starged branches in the table.
+# Should see started branches in the table.
 library(targets)
 tar_destroy()
 tar_script({

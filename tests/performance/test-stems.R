@@ -12,7 +12,7 @@ large_pipeline <- pipeline_init(targets)
 px <- pprof(local_init(pipeline = large_pipeline)$run())
 tar_destroy()
 
-# With API and priorities
+# With interface and priorities
 tar_script({
   x0 <- 1
   targets <- lapply(seq_len(1e3), function(id) {
