@@ -17,7 +17,7 @@ tar_test("packages are actually loaded", {
   expect_equal(tar_read(x), exp)
 })
 
-tar_test("clustermq iteration loop can wait and shut down workers", {
+tar_test("clustermq iteration loop can wait for and shut down workers", {
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
   tar_runtime$set_fun("tar_make_clustermq")

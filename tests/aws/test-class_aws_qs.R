@@ -391,7 +391,7 @@ tar_test("aws_qs nonexistent bucket", {
   expect_false(anyNA(out))
 })
 
-tar_test("aws_qs format data gets stored", {
+tar_test("aws_qs format versioning", {
   # setup
   skip_if_no_aws()
   skip_if_not_installed("qs")
