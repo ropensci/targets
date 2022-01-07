@@ -44,6 +44,7 @@ tar_make_interactive_load_target <- function(target, name, pipeline) {
   UseMethod("tar_make_interactive_load_target")
 }
 
+#' @export
 tar_make_interactive_load_target.tar_target <- function(
   target,
   name,
@@ -54,6 +55,7 @@ tar_make_interactive_load_target.tar_target <- function(
   assign(x = name, value = object, envir = tar_option_get("envir"))
 }
 
+#' @export
 tar_make_interactive_load_target.tar_bud <- function(
   target,
   name,

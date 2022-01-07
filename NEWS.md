@@ -1,8 +1,9 @@
-# targets 0.9.1.9001
+# targets 0.10.0
 
 ## Bug fixes
 
 * Add class `"tar_nonexportable"` to `format = "aws_keras"` and `format = "aws_torch"` stores.
+* Export S3 methods of generic `tar_make_interactive_load_target()`.
 
 ## New features
 
