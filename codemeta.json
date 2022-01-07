@@ -14,7 +14,7 @@
   ],
   "issueTracker": "https://github.com/ropensci/targets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.8.1.9000",
+  "version": "0.10.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -408,6 +408,19 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "base64url",
+      "name": "base64url",
+      "version": ">= 1.4",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=base64url"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "callr",
       "name": "callr",
       "version": ">= 3.4.3",
@@ -606,7 +619,7 @@
   ],
   "releaseNotes": "https://github.com/ropensci/targets/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/targets/blob/main/README.md",
-  "fileSize": "1656.878KB",
+  "fileSize": "1702.352KB",
   "contIntegration": ["https://github.com/ropensci/targets/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ropensci/targets", "https://github.com/ropensci/targets/actions?query=workflow%3Alint"],
   "developmentStatus": "https://www.repostatus.org/#active",
   "review": {
