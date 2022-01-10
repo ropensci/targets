@@ -4,7 +4,6 @@ tar_test("gcp_gcs_exists()", {
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
   projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
-
   googleCloudStorageR::gcs_create_bucket(bucket, projectId = projectId)
   on.exit(gcp_gcs_delete_bucket(bucket))
   expect_false(gcp_gcs_exists(key = "x", bucket = bucket))
@@ -20,7 +19,6 @@ tar_test("gcp_gcs_head()", {
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
   projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
-
   googleCloudStorageR::gcs_create_bucket(
     bucket,
     projectId = projectId)
@@ -31,7 +29,8 @@ tar_test("gcp_gcs_head()", {
   googleCloudStorageR::gcs_upload(
     tmp,
     bucket = bucket,
-    name = "x")
+    name = "x"
+  )
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket))
 
   head <- gcp_gcs_head(key = "x", bucket = bucket)
@@ -46,7 +45,6 @@ tar_test("gcp_gcs_download()", {
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
   projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
-
   googleCloudStorageR::gcs_create_bucket(
     bucket,
     projectId = projectId)
@@ -57,7 +55,8 @@ tar_test("gcp_gcs_download()", {
   googleCloudStorageR::gcs_upload(
     tmp,
     bucket = bucket,
-    name = "x")
+    name = "x"
+  )
   tmp2 <- tempfile()
   expect_false(file.exists(tmp2))
   gcp_gcs_download(file = tmp2, key = "x", bucket = bucket)
@@ -70,10 +69,10 @@ tar_test("gcp_gcs_upload() without headers", {
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
   projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
-
   googleCloudStorageR::gcs_create_bucket(
     bucket,
-    projectId = projectId)
+    projectId = projectId
+  )
   on.exit(gcp_gcs_delete_bucket(bucket))
 
   expect_false(gcp_gcs_exists(key = "x", bucket = bucket))
@@ -93,10 +92,8 @@ tar_test("gcp_gcs_upload() and download with metadata", {
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
   projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
-
   googleCloudStorageR::gcs_create_bucket(bucket, projectId = projectId)
   on.exit(gcp_gcs_delete_bucket(bucket))
-
   expect_false(gcp_gcs_exists(key = "x", bucket = bucket))
   tmp <- tempfile()
   writeLines("x", tmp)
@@ -124,9 +121,9 @@ tar_test("gcp_gcs upload twice, get the correct version", {
   googleCloudStorageR::gcs_create_bucket(
     bucket,
     projectId = projectId,
-    versioning = TRUE)
+    versioning = TRUE
+  )
   on.exit(gcp_gcs_delete_bucket(bucket))
-
   tmp <- tempfile()
   writeLines("first", tmp)
   head_first <- gcp_gcs_upload(
@@ -170,9 +167,9 @@ tar_test("gcp_gcs_upload: upload twice, get the correct version", {
   googleCloudStorageR::gcs_create_bucket(
     bucket,
     projectId = projectId,
-    versioning = TRUE)
+    versioning = TRUE
+  )
   on.exit(gcp_gcs_delete_bucket(bucket))
-
   tmp <- tempfile()
   writeLines("first", tmp)
   head_first <- gcp_gcs_upload(

@@ -1,4 +1,5 @@
-# Semi-automated tests of Google Cloud Storage integration live in tests/gcp/. # nolint
+# Semi-automated tests of Google Cloud Storage
+# integration live in tests/gcp/.
 # These tests should not be fully automated because they
 # automatically create S3 buckets and upload data,
 # which could put an unexpected and unfair burden on
@@ -30,9 +31,9 @@ gcp_gcs_head <- function(
   key,
   bucket = gcp_gcs_bucket(),
   version = NULL,
-  quiet = TRUE
+  verbose = FALSE
 ) {
-  loud <- if_any(quiet, suppressMessages, identity)
+  loud <- if_any(verbose, identity, suppressMessages)
   loud(
     googleCloudStorageR::gcs_get_object(
       key,
@@ -71,7 +72,6 @@ gcp_gcs_download <- function(
   )
 }
 
-
 gcp_gcs_upload <- function(
   file,
   key,
@@ -80,7 +80,8 @@ gcp_gcs_upload <- function(
   predefined_acl = c(
     "private", "bucketLevel", "authenticatedRead",
     "bucketOwnerFullControl", "bucketOwnerRead",
-    "projectPrivate", "publicRead", "default")
+    "projectPrivate", "publicRead", "default"
+  )
 ) {
   predefined_acl <- match.arg(predefined_acl)
   meta <- NULL
@@ -98,5 +99,4 @@ gcp_gcs_upload <- function(
     predefinedAcl = predefined_acl
   )
 }
-
 # nocov end
