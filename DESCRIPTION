@@ -28,6 +28,13 @@ Authors@R: c(
     role = "ctb"
   ),
   person(
+    given = "Mark",
+    family = "Edmondson",
+    email = "r@sunholo.com",
+    role = "ctb",
+    comment = c(ORCID = "0000-0002-8434-3881")
+  ),
+  person(
     given = "Samantha",
     family = "Oliver",
     role = "rev",
@@ -74,6 +81,7 @@ Suggests:
   fst (>= 0.9.2),
   future (>= 1.19.1),
   future.callr (>= 0.6.0),
+  googleCloudStorageR (>= 0.7.0),
   gt (>= 0.2.2),
   keras (>= 2.2.5.0),
   markdown (>= 1.1),
@@ -91,6 +99,8 @@ Suggests:
   torch (>= 0.1.0),
   usethis (>= 1.6.3),
   visNetwork (>= 2.0.9)
+Remotes:
+  MarkEdmondson1234/googleCloudStorageR,
 Encoding: UTF-8
 Language: en-US
 VignetteBuilder: knitr
