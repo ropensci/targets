@@ -15,7 +15,7 @@ gcp_gcs_exists <- function(
       bucket = bucket,
       version = version
     ),
-    error = function(condition) {
+    http_404 = function(condition) {
       FALSE
     }
   )
