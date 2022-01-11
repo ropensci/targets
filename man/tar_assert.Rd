@@ -10,6 +10,7 @@
 \alias{tar_assert_expr}
 \alias{tar_assert_flag}
 \alias{tar_assert_file}
+\alias{tar_assert_finite}
 \alias{tar_assert_function}
 \alias{tar_assert_function_arguments}
 \alias{tar_assert_ge}
@@ -58,6 +59,8 @@ tar_assert_expr(x, msg = NULL)
 tar_assert_flag(x, choices, msg = NULL)
 
 tar_assert_file(x)
+
+tar_assert_finite(x, msg = NULL)
 
 tar_assert_function(x, msg = NULL)
 

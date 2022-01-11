@@ -155,6 +155,16 @@ tar_assert_file <- function(x) {
 
 #' @export
 #' @rdname tar_assert
+tar_assert_finite <- function(x, msg = NULL) {
+  name <- deparse(substitute(x))
+  default <- paste("all of", name, "must be finite")
+  if (!all(is.finite(x))) {
+    tar_throw_validate(msg %|||% default)
+  }
+}
+
+#' @export
+#' @rdname tar_assert
 tar_assert_function <- function(x, msg = NULL) {
   if (!is.function(x)) {
     tar_throw_validate(msg %|||% "input must be a function.")

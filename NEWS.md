@@ -1,5 +1,11 @@
 # targets 0.10.0.9000
 
+## New features
+
+* Implement `tar_assert_finite()`.
+
+# targets 0.10.0
+
 ## Bug fixes
 
 * Add class `"tar_nonexportable"` to `format = "aws_keras"` and `format = "aws_torch"` stores.

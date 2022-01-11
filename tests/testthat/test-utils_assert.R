@@ -274,3 +274,9 @@ tar_test("tar_assert_unique_targets()", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("tar_assert_finite", {
+  expect_silent(tar_assert_finite(1))
+  expect_silent(tar_assert_finite(c(1, 2)))
+  expect_error(tar_assert_finite(c(1, Inf)), class = "tar_condition_validate")
+})
