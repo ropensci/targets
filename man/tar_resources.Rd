@@ -10,6 +10,7 @@ tar_resources(
   feather = NULL,
   fst = NULL,
   future = NULL,
+  gcp = NULL,
   parquet = NULL,
   qs = NULL,
   url = NULL
@@ -48,6 +49,12 @@ This is how to supply the \code{resources}
 argument of \code{future::future()} for \code{targets}.
 Resources supplied through
 \code{future::plan()} and \code{future::tweak()} are completely ignored.}
+
+\item{gcp}{Output of function \code{tar_resources_gcp()}.
+Google Cloud Platform bucket storage settings for GCP backed storage formats
+such as \code{"gcp_qs"} and \verb{"gcp_parquet}. Applies to all formats
+beginning with the \code{"gcp_"} prefix. For details on formats,
+see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
 
 \item{parquet}{Output of function \code{tar_resources_parquet()}.
 Non-default arguments to \code{arrow::read_parquet()} and
@@ -110,6 +117,7 @@ Other resources:
 \code{\link{tar_resources_feather}()},
 \code{\link{tar_resources_fst}()},
 \code{\link{tar_resources_future}()},
+\code{\link{tar_resources_gcp}()},
 \code{\link{tar_resources_parquet}()},
 \code{\link{tar_resources_qs}()},
 \code{\link{tar_resources_url}()}

@@ -1,7 +1,7 @@
 resources_gcp_init <- function(
   bucket = NULL,
   prefix = path_objects_dir_cloud(),
-  verbose = verbose
+  verbose = FALSE
 ) {
   resources_gcp_new(
     bucket = bucket,
