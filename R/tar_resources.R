@@ -47,8 +47,8 @@
 #'   Resources supplied through
 #'   `future::plan()` and `future::tweak()` are completely ignored.
 #' @param gcp Output of function `tar_resources_gcp()`.
-#'   Google Cloud Platform bucket storage settings for GCP backed storage formats
-#'   such as `"gcp_qs"` and `"gcp_parquet`. Applies to all formats
+#'   Google Cloud Platform bucket storage settings for GCP backed storage 
+#'   formats such as `"gcp_qs"` and `"gcp_parquet`. Applies to all formats
 #'   beginning with the `"gcp_"` prefix. For details on formats,
 #'   see the `format` argument of [tar_target()].
 #' @param parquet Output of function `tar_resources_parquet()`.
