@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_resources_aws.R
 \name{tar_resources_aws}
 \alias{tar_resources_aws}
-\title{Target resources: AWS storage formats}
+\title{Target resources: Amazon Web Services (AWS) storage formats}
 \usage{
 tar_resources_aws(
   bucket,

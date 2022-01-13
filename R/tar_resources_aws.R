@@ -1,4 +1,4 @@
-#' @title Target resources: AWS storage formats
+#' @title Target resources: Amazon Web Services (AWS) storage formats
 #' @export
 #' @family resources
 #' @description Create the `aws` argument of `tar_resources()`
