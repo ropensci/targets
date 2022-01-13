@@ -3,6 +3,7 @@
 ## New features
 
 * Implement `tar_assert_finite()`.
+* Report the total runtime of the pipeline in the `"verbose"`, `"verbose_positives"`, `"timestamp"`, and `"timesamp_positives"` reporters.
 
 # targets 0.10.0
 
