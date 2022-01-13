@@ -47,8 +47,8 @@ timestamp_class <- R6::R6Class(
     report_workspace = function(target) {
       cli_workspace(target_get_name(target), time_stamp = TRUE)
     },
-    report_end = function(progress = NULL) {
-      progress$cli_end(time_stamp = TRUE)
+    report_end = function(progress = NULL, seconds_elapsed = NULL) {
+      progress$cli_end(time_stamp = TRUE, seconds_elapsed = seconds_elapsed)
       super$report_end(progress)
     }
   )

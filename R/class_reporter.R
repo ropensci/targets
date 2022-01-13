@@ -27,7 +27,7 @@ reporter_class <- R6::R6Class(
     report_error = function(error) {
       tar_message_run("Error: ", error, "\n")
     },
-    report_end = function(progress = NULL) {
+    report_end = function(progress = NULL, seconds_elapsed = NULL) {
       if (any(progress$errored$count > 1L)) {
         cli_errored(progress$errored$count)
       }

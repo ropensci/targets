@@ -26,6 +26,7 @@ active_class <- R6::R6Class(
   public = list(
     envir = NULL,
     process = NULL,
+    seconds_start = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
@@ -114,6 +115,7 @@ active_class <- R6::R6Class(
       )
     },
     start = function() {
+      self$seconds_start <- unname(proc.time()["elapsed"])
       pipeline_prune_names(self$pipeline, self$names)
       self$ensure_meta()
       self$update_scheduler()
@@ -127,7 +129,8 @@ active_class <- R6::R6Class(
       scheduler$progress$database$dequeue_rows()
       self$meta$database$dequeue_rows()
       pipeline_unload_loaded(self$pipeline)
-      scheduler$reporter$report_end(scheduler$progress)
+      seconds_elapsed <- unname(proc.time()["elapsed"]) - self$seconds_start
+      scheduler$reporter$report_end(scheduler$progress, seconds_elapsed)
       path_scratch_del(path_store = self$meta$get_path_store())
       self$meta$database$deduplicate_storage()
     },

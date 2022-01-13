@@ -25,7 +25,7 @@ forecast_class <- R6::R6Class(
       }
       # nocov end
     },
-    report_end = function(progress = NULL) {
+    report_end = function(progress = NULL, seconds_elapsed = NULL) {
       msg <- paste(c("\r", rep(" ", getOption("width") - 1L)), collapse = "")
       message(msg)
     }

@@ -180,11 +180,14 @@ progress_class <- R6::R6Class(
         self$errored$count == 0L &&
         self$canceled$count == 0L
     },
-    cli_end = function(time_stamp = FALSE) {
+    cli_end = function(time_stamp = FALSE, seconds_elapsed = NULL) {
       if_any(
         self$uptodate(),
-        cli_uptodate(time_stamp = time_stamp),
-        cli_done(time_stamp = time_stamp)
+        cli_uptodate(
+          time_stamp = time_stamp,
+          seconds_elapsed = seconds_elapsed
+        ),
+        cli_done(time_stamp = time_stamp, seconds_elapsed = seconds_elapsed)
       )
     },
     any_remaining = function() {

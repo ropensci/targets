@@ -27,8 +27,8 @@ verbose_class <- R6::R6Class(
     report_workspace = function(target) {
       cli_workspace(target_get_name(target))
     },
-    report_end = function(progress = NULL) {
-      progress$cli_end()
+    report_end = function(progress = NULL, seconds_elapsed = NULL) {
+      progress$cli_end(seconds_elapsed = seconds_elapsed)
       super$report_end(progress)
     }
   )
