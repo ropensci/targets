@@ -290,5 +290,11 @@ tar_glimpse(degree_to = 2)
 # Same with tar_visnetwork()
 tar_visnetwork(degree_to = 2)
 
+# Should slow down zoom speed.
+tar_glimpse(zoom_speed = 0.2)
+
+# Should slow down zoom speed.
+tar_visnetwork(zoom_speed = 0.2)
+
 unlink("_targets.R")
 unlink("_targets", recursive = TRUE)

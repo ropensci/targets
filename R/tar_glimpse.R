@@ -25,6 +25,9 @@
 #' @param degree_to Integer of length 1. When you click on a node,
 #'   the graph highlights a neighborhood of that node. `degree_to`
 #'   controls the number of edges the neighborhood extends downstream.
+#' @param zoom_speed Positive numeric of length 1, scaling factor on the
+#'   zoom speed. Above 1 zooms faster than default, below 1 zooms
+#'   lower than default.
 #' @examples
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -49,6 +52,7 @@ tar_glimpse <- function(
   level_separation = NULL,
   degree_from = 1L,
   degree_to = 1L,
+  zoom_speed = 1,
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
   envir = parent.frame(),
@@ -64,6 +68,9 @@ tar_glimpse <- function(
   tar_assert_dbl(degree_to)
   tar_assert_ge(degree_from, 0L)
   tar_assert_ge(degree_to, 0L)
+  tar_assert_scalar(zoom_speed)
+  tar_assert_dbl(zoom_speed)
+  tar_assert_positive(zoom_speed)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
   targets_arguments <- list(
@@ -75,7 +82,8 @@ tar_glimpse <- function(
     exclude_quosure = rlang::enquo(exclude),
     level_separation = level_separation,
     degree_from = degree_from,
-    degree_to = degree_to
+    degree_to = degree_to,
+    zoom_speed = zoom_speed
   )
   callr_outer(
     targets_function = tar_glimpse_inner,
@@ -99,7 +107,8 @@ tar_glimpse_inner <- function(
   exclude_quosure,
   level_separation,
   degree_from,
-  degree_to
+  degree_to,
+  zoom_speed
 ) {
   meta <- meta_init(path_store = path_store)
   progress <- progress_init(path_store = path_store)
@@ -118,7 +127,8 @@ tar_glimpse_inner <- function(
     network = network,
     level_separation = level_separation,
     degree_from = degree_from,
-    degree_to = degree_to
+    degree_to = degree_to,
+    zoom_speed = zoom_speed
   )
   visual$update()
   visual$visnetwork

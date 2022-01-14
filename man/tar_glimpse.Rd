@@ -13,6 +13,7 @@ tar_glimpse(
   level_separation = NULL,
   degree_from = 1L,
   degree_to = 1L,
+  zoom_speed = 1,
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
   envir = parent.frame(),
@@ -75,6 +76,10 @@ controls the number of edges the neighborhood extends upstream.}
 \item{degree_to}{Integer of length 1. When you click on a node,
 the graph highlights a neighborhood of that node. \code{degree_to}
 controls the number of edges the neighborhood extends downstream.}
+
+\item{zoom_speed}{Positive numeric of length 1, scaling factor on the
+zoom speed. Above 1 zooms faster than default, below 1 zooms
+lower than default.}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session

@@ -15,6 +15,7 @@ tar_visnetwork(
   level_separation = NULL,
   degree_from = 1L,
   degree_to = 1L,
+  zoom_speed = 1,
   reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
@@ -92,6 +93,10 @@ controls the number of edges the neighborhood extends upstream.}
 \item{degree_to}{Integer of length 1. When you click on a node,
 the graph highlights a neighborhood of that node. \code{degree_to}
 controls the number of edges the neighborhood extends downstream.}
+
+\item{zoom_speed}{Positive numeric of length 1, scaling factor on the
+zoom speed. Above 1 zooms faster than default, below 1 zooms
+lower than default.}
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets are checked. Choices:

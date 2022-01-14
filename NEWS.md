@@ -4,6 +4,7 @@
 
 * Implement `tar_assert_finite()`.
 * Report the total runtime of the pipeline in the `"verbose"`, `"verbose_positives"`, `"timestamp"`, and `"timesamp_positives"` reporters.
+* Add a `zoom_speed` argument to `tar_visnetwork()` and `tar_glimpse()` (#749, @dipterix).
 
 # targets 0.10.0
 

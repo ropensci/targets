@@ -40,6 +40,7 @@ tar_visnetwork <- function(
   level_separation = NULL,
   degree_from = 1L,
   degree_to = 1L,
+  zoom_speed = 1,
   reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
@@ -58,6 +59,9 @@ tar_visnetwork <- function(
   tar_assert_dbl(degree_to, "degree_to must be numeric.")
   tar_assert_ge(degree_from, 0L, "degree_from must be at least 0.")
   tar_assert_ge(degree_to, 0L, "degree_to must be at least 0.")
+  tar_assert_scalar(zoom_speed)
+  tar_assert_dbl(zoom_speed)
+  tar_assert_positive(zoom_speed)
   tar_config_assert_reporter_outdated(reporter)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments, "callr_arguments mut be a list.")
@@ -73,6 +77,7 @@ tar_visnetwork <- function(
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
+    zoom_speed = zoom_speed,
     reporter = reporter
   )
   callr_outer(
@@ -100,6 +105,7 @@ tar_visnetwork_inner <- function(
   level_separation,
   degree_from,
   degree_to,
+  zoom_speed,
   reporter
 ) {
   names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
@@ -120,7 +126,8 @@ tar_visnetwork_inner <- function(
     label = label,
     level_separation = level_separation,
     degree_from = degree_from,
-    degree_to = degree_to
+    degree_to = degree_to,
+    zoom_speed = zoom_speed
   )
   visual$update()
   visual$visnetwork

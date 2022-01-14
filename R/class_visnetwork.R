@@ -3,14 +3,16 @@ visnetwork_init <- function(
   label = NULL,
   level_separation = NULL,
   degree_from = 1L,
-  degree_to = 1L
+  degree_to = 1L,
+  zoom_speed = 1
 ) {
   visnetwork_new(
     network = network,
     label = label,
     level_separation = level_separation,
     degree_from = degree_from,
-    degree_to = degree_to
+    degree_to = degree_to,
+    zoom_speed = zoom_speed
   )
 }
 
@@ -20,6 +22,7 @@ visnetwork_new <- function(
   level_separation = NULL,
   degree_from = NULL,
   degree_to = NULL,
+  zoom_speed = NULL,
   legend = NULL,
   visnetwork = NULL
 ) {
@@ -29,6 +32,7 @@ visnetwork_new <- function(
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
+    zoom_speed = zoom_speed,
     legend = legend,
     visnetwork = visnetwork
   )
@@ -46,6 +50,7 @@ visnetwork_class <- R6::R6Class(
     level_separation = NULL,
     degree_from = NULL,
     degree_to = NULL,
+    zoom_speed = NULL,
     legend = NULL,
     visnetwork = NULL,
     initialize = function(
@@ -54,6 +59,7 @@ visnetwork_class <- R6::R6Class(
       level_separation = NULL,
       degree_from = NULL,
       degree_to = NULL,
+      zoom_speed = NULL,
       legend = NULL,
       visnetwork = NULL
     ) {
@@ -64,6 +70,7 @@ visnetwork_class <- R6::R6Class(
       self$legend <- legend
       self$level_separation <- level_separation
       self$degree_from <- degree_from
+      self$zoom_speed <- zoom_speed
       self$degree_to <- degree_to
       self$visnetwork <- visnetwork
     },
@@ -139,6 +146,10 @@ visnetwork_class <- R6::R6Class(
       out <- visNetwork::visPhysics(
         graph = out,
         stabilization = FALSE
+      )
+      out <- visNetwork::visInteraction(
+        graph = out,
+        zoomSpeed = self$zoom_speed
       )
       visNetwork::visHierarchicalLayout(
         graph = out,
@@ -221,6 +232,9 @@ visnetwork_class <- R6::R6Class(
       tar_assert_dbl(self$degree_to)
       tar_assert_ge(self$degree_from, 0L)
       tar_assert_ge(self$degree_to, 0L)
+      tar_assert_scalar(self$zoom_speed)
+      tar_assert_dbl(self$zoom_speed)
+      tar_assert_positive(self$zoom_speed)
     }
   )
 )
