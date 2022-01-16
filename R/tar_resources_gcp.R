@@ -1,4 +1,4 @@
-#' @title Target resources: GCP storage formats
+#' @title Target resources: Google Cloud Platform storage formats
 #' @export
 #' @family resources
 #' @description Create the `gcp` argument of `tar_resources()`
@@ -15,6 +15,7 @@
 #' @param verbose Whether to have feedback on the GCS upload process
 #' @examples
 #' # Somewhere in you target script file (usually _targets.R):
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_target(
 #'   name,
 #'   command(),
@@ -24,6 +25,7 @@
 #'     qs = tar_resources_qs(preset = "fast")
 #'   )
 #' )
+#' }
 tar_resources_gcp <- function(
   bucket,
   prefix = targets::path_objects_dir_cloud(),

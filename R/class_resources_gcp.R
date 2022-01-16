@@ -30,6 +30,7 @@ resources_validate.tar_resources_gcp <- function(resources) {
   tar_assert_chr(resources$prefix)
   tar_assert_nzchar(resources$prefix)
   tar_assert_lgl(resources$verbose)
+  tar_assert_scalar(resources$verbose)
 }
 
 #' @export
