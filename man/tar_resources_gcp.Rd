@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_resources_gcp.R
 \name{tar_resources_gcp}
 \alias{tar_resources_gcp}
-\title{Target resources: GCP storage formats}
+\title{Target resources: Google Cloud Platform storage formats}
 \usage{
 tar_resources_gcp(
   bucket,
@@ -46,6 +46,7 @@ in \code{resources_1} is discarded for target \code{x}.
 
 \examples{
 # Somewhere in you target script file (usually _targets.R):
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_target(
   name,
   command(),
@@ -55,6 +56,7 @@ tar_target(
     qs = tar_resources_qs(preset = "fast")
   )
 )
+}
 }
 \seealso{
 Other resources: 
