@@ -128,6 +128,7 @@ reference:
   - '`tar_resources_feather`'
   - '`tar_resources_fst`'
   - '`tar_resources_future`'
+  - '`tar_resources_gcp`'
   - '`tar_resources_parquet`'
   - '`tar_resources_qs`'
   - '`tar_resources_url`'
