@@ -44,7 +44,7 @@ tar_progress_summary <- function(
     built = sum(progress$progress == "built"),
     errored = sum(progress$progress == "errored"),
     canceled = sum(progress$progress == "canceled"),
-    since = format_seconds(difftime(Sys.time(), time, units = "secs")),
+    since = units_seconds(difftime(Sys.time(), time, units = "secs")),
     time = time_stamp(time)
   )
   fields_quosure <- rlang::enquo(fields)

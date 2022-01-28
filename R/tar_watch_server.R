@@ -117,8 +117,8 @@ tar_watch_server <- function(
           fields <- c("name", "time", "seconds", "bytes", "error", "warnings")
           meta <- tar_meta(fields = all_of(fields), store = path_store)
           meta$finished <- as.character(meta$time)
-          meta$time <- format_seconds(meta$seconds)
-          meta$size <- format_bytes(meta$bytes)
+          meta$time <- units_seconds(meta$seconds)
+          meta$size <- units_bytes(meta$bytes)
           meta$seconds <- NULL
           meta$bytes <- NULL
           fields <- c("name", "finished", "time", "size", "error", "warnings")

@@ -32,7 +32,7 @@ cli_uptodate <- function(time_stamp = FALSE, seconds_elapsed = NULL) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "skip pipeline"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
-    msg <- paste0(msg, ": ", format_seconds(seconds_elapsed))
+    msg <- paste0(msg, ": ", units_seconds(seconds_elapsed))
   }
   cli_green_check(msg)
 }
@@ -41,7 +41,7 @@ cli_done <- function(time_stamp = FALSE, seconds_elapsed = NULL) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "end pipeline"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
-    msg <- paste0(msg, ": ", format_seconds(seconds_elapsed))
+    msg <- paste0(msg, ": ", units_seconds(seconds_elapsed))
   }
   cli_blue_bullet(msg)
 }

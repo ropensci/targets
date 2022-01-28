@@ -158,9 +158,9 @@ visnetwork_class <- R6::R6Class(
       )
     },
     update_label = function(vertices) {
-      seconds <- format_seconds(vertices$seconds)
-      bytes <- format_bytes(vertices$bytes)
-      branches <- format_branches(vertices$branches)
+      seconds <- units_seconds(vertices$seconds)
+      bytes <- units_bytes(vertices$bytes)
+      branches <- units_branches(vertices$branches)
       if ("time" %in% label) {
         vertices$label <- paste(vertices$label, seconds, sep = "\n")
       }

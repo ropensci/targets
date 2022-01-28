@@ -1,8 +1,8 @@
-format_seconds <- function(x) {
-  map_chr(x, format_seconds_scalar)
+units_seconds <- function(x) {
+  map_chr(x, units_seconds_scalar)
 }
 
-format_seconds_scalar <- function(x) {
+units_seconds_scalar <- function(x) {
   if (is.na(x)) {
     return("")
   }
@@ -24,11 +24,11 @@ format_seconds_scalar <- function(x) {
   paste(round(x, 3), "seconds")
 }
 
-format_bytes <- function(x) {
-  map_chr(x, format_bytes_scalar)
+units_bytes <- function(x) {
+  map_chr(x, units_bytes_scalar)
 }
 
-format_bytes_scalar <- function(x) {
+units_bytes_scalar <- function(x) {
   if (is.na(x)) {
     return("")
   }
@@ -47,7 +47,7 @@ format_bytes_scalar <- function(x) {
   paste(round(x, 3), "bytes")
 }
 
-format_branches <- function(x) {
+units_branches <- function(x) {
   ifelse(
     is.na(x),
     "",
