@@ -6,6 +6,10 @@
 * Report the total runtime of the pipeline in the `"verbose"`, `"verbose_positives"`, `"timestamp"`, and `"timesamp_positives"` reporters.
 * Add a `zoom_speed` argument to `tar_visnetwork()` and `tar_glimpse()` (#749, @dipterix).
 
+## Enhancements
+
+* Allow target name character strings to have attributes (#758, @psanker).
+
 # targets 0.10.0
 
 ## Bug fixes

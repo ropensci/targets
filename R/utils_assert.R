@@ -333,7 +333,7 @@ tar_assert_name <- function(x) {
   tar_assert_chr(x)
   tar_assert_scalar(x)
   tar_assert_nzchar(x)
-  if (!identical(x, make.names(x))) {
+  if (!identical(as.character(x), make.names(x))) {
     tar_throw_validate(x, " is not a valid symbol name.")
   }
   if (grepl("^\\.", x)) {
