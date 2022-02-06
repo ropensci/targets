@@ -591,7 +591,11 @@ tar_assert_unique <- function(x, msg = NULL) {
 #' @export
 #' @rdname tar_assert
 tar_assert_unique_targets <- function(x) {
-  tar_assert_unique(x, "duplicated target names:")
+  if (anyDuplicated(x)) {
+    dups <- paste(unique(x[duplicated(x)]), collapse = ", ")
+    message <- paste("duplicated target names:", dups)
+    tar_throw_validate(message)
+  }
 }
 
 # nocov start

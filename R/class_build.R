@@ -5,14 +5,16 @@ build_init <- function(
   packages = character(0),
   library = NULL
 ) {
-  start <- build_time_seconds()
   capture_error <- function(condition) {
     state$error <- build_message(condition)
     state$traceback <- build_traceback(condition, sys.calls())
     NULL
   }
   capture_warning <- function(condition) {
-    state$warnings <- build_message(condition)
+    state$warnings <- paste(
+      c(state$warnings, build_message(condition)),
+      collapse = ". "
+    )
     warning(as_immediate_condition(condition))
     invokeRestart("muffleWarning")
   }
@@ -21,6 +23,7 @@ build_init <- function(
     NULL
   }
   state <- new.env(hash = FALSE, parent = emptyenv())
+  start <- build_time_seconds()
   object <- tryCatch(
     withCallingHandlers(
       build_run_expr(expr, envir, seed, packages, library),

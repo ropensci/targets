@@ -1,10 +1,16 @@
 # targets 0.10.0.9000
 
+## Bug fixes
+
+* Print out the relevant target names if targets have conflicting names.
+* Catch all the target warnings instead of just reporting the last one.
+
 ## New features
 
 * Implement `tar_assert_finite()`.
 * Report the total runtime of the pipeline in the `"verbose"`, `"verbose_positives"`, `"timestamp"`, and `"timesamp_positives"` reporters.
 * Add a `zoom_speed` argument to `tar_visnetwork()` and `tar_glimpse()` (#749, @dipterix).
+* Add Google Cloud Storage utilities (#720, @markedmondson1234).
 
 ## Enhancements
 
