@@ -20,6 +20,9 @@ See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_
 about how to set the data store path persistently
 for a project.}
 }
+\value{
+\code{NULL} (invisibly).
+}
 \description{
 Delete the metadata of records in \verb{_targets/meta/meta}
 but keep the return values of targets in \verb{_targets/objects/}.

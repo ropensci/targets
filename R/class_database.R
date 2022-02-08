@@ -206,7 +206,9 @@ database_class <- R6::R6Class(
     },
     deduplicate_storage = function() {
       if (file.exists(self$path)) {
-        self$overwrite_storage(self$condense_data(self$read_data()))
+        data <- self$condense_data(self$read_data())
+        data <- data[order(data$name),, drop = FALSE] # nolint
+        self$overwrite_storage(data)
       }
     },
     validate_columns = function(header, list_columns) {

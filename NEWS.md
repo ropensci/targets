@@ -15,6 +15,7 @@
 ## Enhancements
 
 * Allow target name character strings to have attributes (#758, @psanker).
+* Sort metadata rows when the pipeline finishes so that version-controlling the metadata is easier (#766, @jameelalsalam).
 
 # targets 0.10.0
 
