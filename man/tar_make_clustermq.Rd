@@ -140,7 +140,7 @@ if (!identical(tolower(Sys.info()[["sysname"]]), "windows")) {
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script({
-  options(clustermq.scheduler = "multicore") # Does not work on Windows.
+  options(clustermq.scheduler = "multiprocess") # Does not work on Windows.
   tar_option_set()
   list(tar_target(x, 1 + 1))
 }, ask = FALSE)
