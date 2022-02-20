@@ -2,6 +2,7 @@ tar_test("tar_make_clustermq() works", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("clustermq")
+  skip_on_covr()
   tar_script({
     options(clustermq.scheduler = "multiprocess")
     list(tar_target(x, "x"))
@@ -17,6 +18,7 @@ tar_test("tar_make_clustermq() can use tidyselect", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("clustermq")
+  skip_on_covr()
   tar_script({
     options(clustermq.scheduler = "multiprocess")
     list(
@@ -40,6 +42,7 @@ tar_test("tar_make_clustermq() can use tidyselect", {
 tar_test("custom script and store args", {
   skip_on_cran()
   skip_if_not_installed("clustermq")
+  skip_on_covr()
   skip_on_os("windows")
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
@@ -74,6 +77,7 @@ tar_test("custom script and store args", {
 tar_test("custom script and store args with callr function", {
   skip_on_cran()
   skip_if_not_installed("clustermq")
+  skip_on_covr()
   skip_on_os("windows")
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
@@ -109,6 +113,7 @@ tar_test("bootstrap builder for shortcut", {
   skip_on_cran()
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
+  skip_on_covr()
   tar_script({
     options(clustermq.scheduler = "multiprocess")
     list(
@@ -118,7 +123,10 @@ tar_test("bootstrap builder for shortcut", {
       tar_target(z, x + y)
     )
   })
-  tar_make_clustermq(callr_function = NULL)
+  # https://github.com/mschubert/clustermq/issues/269
+  suppressWarnings(
+    tar_make_clustermq(callr_function = NULL)
+  )
   expect_equal(tar_read(z), 2L)
   tar_script({
     options(clustermq.scheduler = "multiprocess")
@@ -129,7 +137,10 @@ tar_test("bootstrap builder for shortcut", {
       tar_target(z, x + y + 1L)
     )
   })
-  tar_make_clustermq(names = "z", shortcut = TRUE, callr_function = NULL)
+  # https://github.com/mschubert/clustermq/issues/269
+  suppressWarnings(
+    tar_make_clustermq(names = "z", shortcut = TRUE, callr_function = NULL)
+  )
   expect_equal(tar_read(z), 3L)
   progress <- tar_progress()
   expect_equal(nrow(progress), 1L)

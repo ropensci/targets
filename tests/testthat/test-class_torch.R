@@ -31,6 +31,7 @@ tar_test("torch in-memory serialization of deps", {
   skip_on_os("solaris")
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
+  skip_on_covr()
   skip_if_not_installed("torch")
   tar_script({
     tar_option_set(packages = "torch", retrieval = "main")
