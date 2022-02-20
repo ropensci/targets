@@ -78,7 +78,7 @@ unlink("_targets.R")
 # Should not try to communicate with workers if they all
 # shut down early: https://github.com/ropensci/targets/issues/404
 tar_script({
-  options(clustermq.scheduler = "multicore")
+  options(clustermq.scheduler = "multiprocess")
   tar_option_set(deployment = "main")
   list(
     tar_target(index, seq_len(4)),

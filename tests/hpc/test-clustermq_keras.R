@@ -8,7 +8,7 @@ tar_test("keras and clustermq with main storage and retrieval", {
   on.exit(tar_runtime$unset_fun())
   tar_script({
     tar_option_set(packages = "keras")
-    options(clustermq.scheduler = "multicore")
+    options(clustermq.scheduler = "multiprocess")
     f <- function() {
       model <- keras::keras_model_sequential() %>%
         keras::layer_conv_2d(
@@ -58,7 +58,7 @@ tar_test("keras and clustermq with worker storage and retrieval", {
   on.exit(tar_runtime$unset_fun())
   tar_script({
     tar_option_set(packages = "keras")
-    options(clustermq.scheduler = "multicore")
+    options(clustermq.scheduler = "multiprocess")
     f <- function() {
       model <- keras::keras_model_sequential() %>%
         keras::layer_conv_2d(

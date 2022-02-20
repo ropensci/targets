@@ -3,7 +3,7 @@ tar_test("packages are actually loaded", {
   skip_if_not_installed("clustermq")
   tar_runtime$set_fun("tar_make_clustermq")
   on.exit(tar_runtime$unset_fun())
-  options(clustermq.scheduler = "multicore")
+  options(clustermq.scheduler = "multiprocess")
   tar_option_set(envir = environment())
   x <- tar_target_raw(
     "x",
@@ -24,7 +24,7 @@ tar_test("clustermq iteration loop can wait for and shut down workers", {
   on.exit(tar_runtime$unset_fun())
   on.exit(options(clustermq.scheduler = old), add = TRUE)
   old <- getOption("clustermq.scheduler")
-  options(clustermq.scheduler = "multicore")
+  options(clustermq.scheduler = "multiprocess")
   x <- tar_target_raw("x", quote(Sys.sleep(2)), garbage_collection = TRUE)
   y <- tar_target_raw("y", quote(list(x, a = "x")), garbage_collection = TRUE)
   pipeline <- pipeline_init(list(x, y))
@@ -34,11 +34,11 @@ tar_test("clustermq iteration loop can wait for and shut down workers", {
   expect_equal(target_read_value(target)$object$a, "x")
 })
 
-tar_test("nontrivial common data with multicore", {
+tar_test("nontrivial common data with multiprocess", {
   skip_on_cran()
   skip_if_not_installed("clustermq")
   tar_script({
-    options(clustermq.scheduler = "multicore")
+    options(clustermq.scheduler = "multiprocess")
     envir <- new.env(parent = globalenv())
     evalq({
       f <- function(x) {
@@ -62,7 +62,7 @@ tar_test("nontrivial globals with global environment", {
   skip_on_cran()
   skip_if_not_installed("clustermq")
   tar_script({
-    options(clustermq.scheduler = "multicore")
+    options(clustermq.scheduler = "multiprocess")
     f <- function(x) {
       g(x) + 1L
     }
@@ -85,7 +85,7 @@ tar_test("prevent high-memory data via target objects", {
   skip_if_not_installed("clustermq")
   tar_runtime$set_fun("tar_make_clustermq")
   on.exit(tar_runtime$unset_fun())
-  options(clustermq.scheduler = "multicore")
+  options(clustermq.scheduler = "multiprocess")
   t <- list(tar_target(x, runif(1e7), deployment = "main", format = "qs"))
   pipeline <- pipeline_init(list(t[[1]], tar_target(y, x)))
   algo <- clustermq_init(pipeline)
@@ -112,7 +112,7 @@ tar_test("heavily parallel workload should run fast", {
   skip_if_not_installed("clustermq")
   tar_script({
     library(targets)
-    options(clustermq.scheduler = "multicore")
+    options(clustermq.scheduler = "multiprocess")
     list(
       tar_target(
         index_batch,
@@ -149,7 +149,7 @@ tar_test("profile heavily parallel workload", {
   skip_if_not_installed("clustermq")
   tar_script({
     library(targets)
-    options(clustermq.scheduler = "multicore")
+    options(clustermq.scheduler = "multiprocess")
     list(
       tar_target(
         index_batch,

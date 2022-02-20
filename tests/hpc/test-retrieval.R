@@ -1,7 +1,7 @@
 # y's target object should be large when retrival is "main"
 # and small when retrieval is "worker".
 tar_option_set(retrieval = "main")
-options(clustermq.scheduler = "multicore")
+options(clustermq.scheduler = "multiprocess")
 pipeline <- pipeline_init(
   list(
     tar_target(
