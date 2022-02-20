@@ -14,6 +14,7 @@ tar_test("torch format", {
 tar_test("torch format with in-memory serialization", {
   skip_on_cran()
   skip_on_os("solaris")
+  skip_if_not_installed("future")
   skip_if_not_installed("torch")
   future::plan(future::sequential)
   tar_script({
