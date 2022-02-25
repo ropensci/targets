@@ -133,7 +133,10 @@ visnetwork_class <- R6::R6Class(
         highlightNearest = list(
           enabled = TRUE,
           algorithm = "hierarchical",
-          degree = list(from = self$degree_from, to = self$degree_to)
+          degree = list(
+            from = min(self$degree_from, nrow(vertices)),
+            to = min(self$degree_to, nrow(vertices))
+          )
         )
       )
       out <- visNetwork::visLegend(

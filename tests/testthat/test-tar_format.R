@@ -1,4 +1,4 @@
-test_that("tar_format() generates a format string", {
+tar_test("tar_format() generates a format string", {
   format <- tar_format(
     read = function(path) {
       keras::load_model_hdf5(path)
@@ -24,7 +24,7 @@ test_that("tar_format() generates a format string", {
   expect_true(any(grepl("^repository=default", format)))
 })
 
-test_that("tar_format() default arguments are acceptable", {
+tar_test("tar_format() default arguments are acceptable", {
   format <- tar_format()
   expect_equal(length(format), 1)
   format <- unlist(strsplit(format, split = "&", fixed = TRUE))
@@ -36,7 +36,7 @@ test_that("tar_format() default arguments are acceptable", {
   expect_true(any(grepl("^repository=default", format)))
 })
 
-test_that("tar_format() bad function arguments", {
+tar_test("tar_format() bad function arguments", {
   expect_error(
     tar_format(
       read = function(x) {
