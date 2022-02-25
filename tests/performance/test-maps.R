@@ -5,7 +5,7 @@ library(proffer)
 # Use debug(store_read_path.tar_rds) to be sure readRDS() is not called. # nolint
 tar_config_set(store = "_targets")
 tar_script({
-  options(clustermq.scheduler = "multicore")
+  options(clustermq.scheduler = "multiprocess")
   list(
     tar_target(x, seq_len(1e3)),
     tar_target(y, x, pattern = map(x))

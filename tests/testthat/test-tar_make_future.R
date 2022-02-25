@@ -138,6 +138,7 @@ tar_test("custom script and store args with callr function", {
 
 tar_test("bootstrap builder for shortcut", {
   skip_on_cran()
+  skip_if_not_installed("future")
   tar_script({
     list(
       tar_target(w, 1L),

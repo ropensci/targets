@@ -79,7 +79,7 @@ tar_test("debug mode works in tar_make_clustermq()", {
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
   old <- getOption("clustermq.scheduler")
-  options(clustermq.scheduler = "multicore")
+  options(clustermq.scheduler = "multiprocess")
   tar_script({
     envir <- new.env(parent = baseenv())
     tar_option_set(debug = "b", envir = envir)

@@ -82,6 +82,11 @@ clustermq_class <- R6::R6Class(
       self$crew <- crew
       self$log_worker <- log_worker
     },
+    # Need to suppress tests on covr only, due to
+    # https://github.com/r-lib/covr/issues/315.
+    # Cannot use multicore clustermq backend
+    # due to https://github.com/ropensci/targets/discussions/780
+    # nocov start
     set_common_data = function() {
       self$crew$set_common_data(
         fun = identity,
@@ -261,6 +266,7 @@ clustermq_class <- R6::R6Class(
         self$run_clustermq()
       }
     },
+    # nocov end
     validate = function() {
       super$validate()
       tar_assert_int(self$workers)

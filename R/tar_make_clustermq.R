@@ -31,7 +31,7 @@
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script({
-#'   options(clustermq.scheduler = "multicore") # Does not work on Windows.
+#'   options(clustermq.scheduler = "multiprocess") # Does not work on Windows.
 #'   tar_option_set()
 #'   list(tar_target(x, 1 + 1))
 #' }, ask = FALSE)
@@ -51,6 +51,11 @@ tar_make_clustermq <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  # Need to suppress tests on covr only, due to
+  # https://github.com/r-lib/covr/issues/315.
+  # Cannot use multicore clustermq backend
+  # due to https://github.com/ropensci/targets/discussions/780
+  # nocov start
   force(envir)
   tar_assert_package("clustermq")
   tar_assert_scalar(shortcut)
@@ -105,3 +110,4 @@ tar_make_clustermq_inner <- function(
   )$run()
   invisible()
 }
+# nocov end
