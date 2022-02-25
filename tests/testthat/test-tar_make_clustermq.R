@@ -1,7 +1,7 @@
 tar_test("tar_make_clustermq() works", {
   skip_on_os("windows")
   skip_on_os("solaris")
-  skip_if_not_installed("clustermq")
+  require_clustermq()
   skip_on_covr()
   tar_script({
     options(clustermq.scheduler = "multiprocess")
@@ -17,7 +17,7 @@ tar_test("tar_make_clustermq() works", {
 tar_test("tar_make_clustermq() can use tidyselect", {
   skip_on_os("windows")
   skip_on_os("solaris")
-  skip_if_not_installed("clustermq")
+  require_clustermq()
   skip_on_covr()
   tar_script({
     options(clustermq.scheduler = "multiprocess")
@@ -41,7 +41,7 @@ tar_test("tar_make_clustermq() can use tidyselect", {
 
 tar_test("custom script and store args", {
   skip_on_cran()
-  skip_if_not_installed("clustermq")
+  require_clustermq()
   skip_on_covr()
   skip_on_os("windows")
   expect_equal(tar_config_get("script"), path_script_default())
@@ -76,7 +76,7 @@ tar_test("custom script and store args", {
 
 tar_test("custom script and store args with callr function", {
   skip_on_cran()
-  skip_if_not_installed("clustermq")
+  require_clustermq()
   skip_on_covr()
   skip_on_os("windows")
   expect_equal(tar_config_get("script"), path_script_default())
@@ -112,7 +112,7 @@ tar_test("custom script and store args with callr function", {
 tar_test("bootstrap builder for shortcut", {
   skip_on_cran()
   skip_on_os("windows")
-  skip_if_not_installed("clustermq")
+  require_clustermq()
   skip_on_covr()
   tar_script({
     options(clustermq.scheduler = "multiprocess")
