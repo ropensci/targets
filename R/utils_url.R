@@ -24,7 +24,7 @@ url_exists_impl <- function(url, handle) {
 
 url_exists_try <- function(url, handle) {
   req <- curl::curl_fetch_memory(as.character(url), handle = handle)
-  identical(as.integer(req$status_code), 200L)
+  url_status_success(req$status_code)
 }
 
 url_hash <- function(url, handle = NULL) {
@@ -65,7 +65,7 @@ url_headers <- function(url, handle) {
 }
 
 url_process_error <- function(url, req, headers) {
-  if (identical(req$status_code, 200L)) {
+  if (url_status_success(req$status_code)) {
     return()
   }
   header_text <- paste0("  ", names(headers), " = ", headers)
@@ -79,6 +79,10 @@ url_process_error <- function(url, req, headers) {
     header_text
   )
   tar_throw_run(msg)
+}
+
+url_status_success <- function(status_code) {
+  (status_code >= 200L) && (status_code < 300L)
 }
 
 # Tested in tests/interactive/test-tar_watch.R. # nolint

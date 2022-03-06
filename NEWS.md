@@ -4,6 +4,7 @@
 
 * Print out the relevant target names if targets have conflicting names.
 * Catch all the target warnings instead of just reporting the last one.
+* Allow 200 group URL status codes instead of just 200 (#797, @petrbouchal).
 
 ## New features
 
