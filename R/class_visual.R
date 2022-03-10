@@ -18,7 +18,9 @@ visual_class <- R6::R6Class(
   public = list(
     network = NULL,
     legend = NULL,
+    label = NULL,
     label_break = NULL,
+    visual = NULL,
     initialize = function(
       network = NULL,
       label = NULL,

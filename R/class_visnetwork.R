@@ -25,9 +25,7 @@ visnetwork_new <- function(
   level_separation = NULL,
   degree_from = NULL,
   degree_to = NULL,
-  zoom_speed = NULL,
-  legend = NULL,
-  visual = NULL
+  zoom_speed = NULL
 ) {
   visnetwork_class$new(
     network = network,
@@ -36,9 +34,7 @@ visnetwork_new <- function(
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
-    zoom_speed = zoom_speed,
-    legend = legend,
-    visual = visual
+    zoom_speed = zoom_speed
   )
 }
 
@@ -49,14 +45,10 @@ visnetwork_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    network = NULL,
-    label_break = NULL,
-    label = NULL,
     level_separation = NULL,
     degree_from = NULL,
     degree_to = NULL,
     zoom_speed = NULL,
-    visual = NULL,
     initialize = function(
       network = NULL,
       label = NULL,
@@ -64,9 +56,7 @@ visnetwork_class <- R6::R6Class(
       level_separation = NULL,
       degree_from = NULL,
       degree_to = NULL,
-      zoom_speed = NULL,
-      legend = NULL,
-      visual = NULL
+      zoom_speed = NULL
     ) {
       super$initialize(
         network = network,
@@ -77,7 +67,6 @@ visnetwork_class <- R6::R6Class(
       self$degree_from <- degree_from
       self$zoom_speed <- zoom_speed
       self$degree_to <- degree_to
-      self$visual <- visual
     },
     produce_shapes = function(type) {
       shapes <- c(
