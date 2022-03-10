@@ -49,17 +49,17 @@ visual_class <- R6::R6Class(
       seconds <- units_seconds(vertices$seconds)
       bytes <- units_bytes(vertices$bytes)
       branches <- units_branches(vertices$branches)
-      label <- vertices$name
-      if ("time" %in% label) {
-        label <- paste(label, seconds, sep = self$label_break)
+      out <- vertices$name
+      if ("time" %in% self$label) {
+        out <- paste(out, seconds, sep = self$label_break)
       }
-      if ("size" %in% label) {
-        label <- paste(label, bytes, sep = self$label_break)
+      if ("size" %in% self$label) {
+        out <- paste(out, bytes, sep = self$label_break)
       }
-      if ("branches" %in% label) {
-        label <- paste(label, branches, sep = self$label_break)
+      if ("branches" %in% self$label) {
+        out <- paste(out, branches, sep = self$label_break)
       }
-      label
+      out
     },
     update_colors = function() {
       vertices <- self$network$vertices

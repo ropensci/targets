@@ -3,7 +3,7 @@ net <- glimpse_init(pipeline_cross())
 vis <- visnetwork_init(network = net, degree_from = 1, degree_to = 1)
 vis$update()
 # Click on the nodes and see highlighted neighborhoods of degree 1.
-vis$visnetwork
+vis$visual
 
 # Should show an inspection with everything outdated.
 net <- inspection_init(pipeline_cross())
@@ -11,33 +11,33 @@ vis <- visnetwork_init(network = net, degree_from = 2, degree_to = 0)
 vis$update()
 # Click on the nodes and see highlighted neighborhoods
 # of upstream degree 2 and downstream degree 0.
-vis$visnetwork
+vis$visual
 
 # Same but with everything queued.
 net <- inspection_init(pipeline_cross(), outdated = FALSE)
 vis <- visnetwork_init(network = net, degree_from = 2, degree_to = 0)
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Should show an inspection with everything up to date
 local_init(pipeline = pipeline_cross(), reporter = "summary")$run()
 net <- inspection_init(pipeline_cross())
 vis <- visnetwork_init(network = net)
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Same with everything built.
 net <- inspection_init(pipeline_cross(), outdated = FALSE)
 vis <- visnetwork_init(network = net)
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Same with everything skipped.
 local_init(pipeline = pipeline_cross(), reporter = "summary")$run()
 net <- inspection_init(pipeline_cross(), outdated = FALSE)
 vis <- visnetwork_init(network = net)
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Should show all optional labels.
 tar_script({
@@ -57,7 +57,7 @@ tar_visnetwork()
 net <- inspection_init(pipeline_cross())
 vis <- visnetwork_init(network = net, label = c("time", "branches"))
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Should show everything at h and downstream outdated
 # and everything else up to date.
@@ -90,13 +90,13 @@ pipeline <- pipeline_init(
 net <- inspection_init(pipeline)
 vis <- visnetwork_init(network = net)
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Should show an empty widget.
 net <- glimpse_init(pipeline_init())
 vis <- visnetwork_init(network = net)
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Should show one started target.
 tar_option_set(envir = new.env(parent = globalenv()))
@@ -108,7 +108,7 @@ pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
 vis <- visnetwork_init(network = net)
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Should show one canceled target.
 pipeline <- pipeline_init(list(target_init("w", quote(targets::tar_cancel()))))
@@ -117,7 +117,7 @@ pipeline <- pipeline_init(list(target_init("w", quote(targets::tar_cancel()))))
 net <- inspection_init(pipeline)
 vis <- visnetwork_init(network = net)
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Should show one errored target.
 x <- target_init("x", quote(stop("123")))
@@ -128,7 +128,7 @@ pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
 vis <- visnetwork_init(network = net)
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Should still show one errored target.
 tar_destroy()
@@ -140,7 +140,7 @@ pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
 vis <- visnetwork_init(network = net)
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Should show one errored map and one up-to-date stem.
 tar_destroy()
@@ -164,7 +164,7 @@ pipeline <- pipeline_init(list(w, x))
 net <- inspection_init(pipeline)
 vis <- visnetwork_init(network = net)
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Should still show one errored map and one up-to-date stem.
 tar_destroy()
@@ -187,7 +187,7 @@ pipeline <- pipeline_init(list(w, x))
 net <- inspection_init(pipeline)
 vis <- visnetwork_init(network = net)
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Should one canceled map and one up-to-date stem.
 tar_destroy()
@@ -210,7 +210,7 @@ pipeline <- pipeline_init(list(w, x))
 net <- inspection_init(pipeline)
 vis <- visnetwork_init(network = net)
 vis$update()
-vis$visnetwork
+vis$visual
 
 # Should show a glimpse of three targets.
 tar_script({
