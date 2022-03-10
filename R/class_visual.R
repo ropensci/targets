@@ -1,9 +1,11 @@
 visual_new <- function(
   network = NULL,
+  label = NULL,
   label_break = NULL
 ) {
   visual_class$new(
     network = network,
+    label = label,
     label_break = label_break
   )
 }
@@ -19,10 +21,12 @@ visual_class <- R6::R6Class(
     label_break = NULL,
     initialize = function(
       network = NULL,
+      label = NULL,
       label_break = NULL
     ) {
       self$network <- network
-      self$label_break = label_break
+      self$label <- label
+      self$label_break <- label_break
     },
     produce_colors = function(status) {
       colors <- c(
@@ -38,13 +42,14 @@ visual_class <- R6::R6Class(
       )
       colors[status]
     },
-    produce_labels = function(vertices) {
+    produce_labels = function() {
+      vertices <- self$network$vertices
       seconds <- units_seconds(vertices$seconds)
       bytes <- units_bytes(vertices$bytes)
       branches <- units_branches(vertices$branches)
-      label <- vertices$label
+      label <- vertices$name
       if ("time" %in% label) {
-        abel <- paste(label, seconds, sep = self$label_break)
+        label <- paste(label, seconds, sep = self$label_break)
       }
       if ("size" %in% label) {
         label <- paste(label, bytes, sep = self$label_break)
@@ -69,10 +74,7 @@ visual_class <- R6::R6Class(
       self$visual <- self$produce_visual()
     },
     update_labels = function() {
-      vertices <- self$network$vertices
-      vertices$id <- vertices$name
-      vertices$label <- self$produce_labels(vertices)
-      self$network$vertices <- vertices
+      self$network$vertices$label <- self$produce_labels()
     },
     update = function() {
       self$update_network()

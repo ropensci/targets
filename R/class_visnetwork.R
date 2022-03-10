@@ -1,7 +1,7 @@
 visnetwork_init <- function(
   network,
-  label_break = "\n",
   label = NULL,
+  label_break = "\n",
   level_separation = NULL,
   degree_from = 1L,
   degree_to = 1L,
@@ -9,8 +9,8 @@ visnetwork_init <- function(
 ) {
   visnetwork_new(
     network = network,
-    label_break = label_break,
     label = label,
+    label_break = label_break,
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
@@ -20,8 +20,8 @@ visnetwork_init <- function(
 
 visnetwork_new <- function(
   network = NULL,
-  label_break = NULL,
   label = NULL,
+  label_break = NULL,
   level_separation = NULL,
   degree_from = NULL,
   degree_to = NULL,
@@ -31,8 +31,8 @@ visnetwork_new <- function(
 ) {
   visnetwork_class$new(
     network = network,
-    label_break = label_break,
     label = label,
+    label_break = label_break,
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
@@ -59,8 +59,8 @@ visnetwork_class <- R6::R6Class(
     visual = NULL,
     initialize = function(
       network = NULL,
-      label_break = NULL,
       label = NULL,
+      label_break = NULL,
       level_separation = NULL,
       degree_from = NULL,
       degree_to = NULL,
@@ -70,9 +70,9 @@ visnetwork_class <- R6::R6Class(
     ) {
       super$initialize(
         network = network,
+        label = label,
         label_break = label_break
       )
-      self$label <- label
       self$level_separation <- level_separation
       self$degree_from <- degree_from
       self$zoom_speed <- zoom_speed
@@ -147,6 +147,9 @@ visnetwork_class <- R6::R6Class(
         levelSeparation = self$level_separation
       )
     },
+    update_ids = function() {
+      self$network$vertices$id <- self$network$vertices$name
+    },
     update_arrows = function() {
       edges <- self$network$edges
       edges$arrows <- rep("to", nrow(edges))
@@ -166,6 +169,7 @@ visnetwork_class <- R6::R6Class(
       self$network$vertices <- vertices
     },
     update_extra = function() {
+      self$update_ids()
       self$update_positions()
       self$update_arrows()
       self$update_shapes()
