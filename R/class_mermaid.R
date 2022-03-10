@@ -41,9 +41,6 @@ mermaid_class <- R6::R6Class(
         fill
       )
     },
-    produce_legend = function() {
-      NULL
-    },
     produce_shape_open = function(type) {
       open <- c("{{", ">", "([", "[")
       names(open) <- c("object", "function", "stem", "pattern")
@@ -54,7 +51,35 @@ mermaid_class <- R6::R6Class(
       names(open) <- c("object", "function", "stem", "pattern")
       unname(open[type])
     },
-    produce_main_nodes = function(side) {
+    produce_legend = function() {
+      status <- tibble::tibble(
+        name = unique(self$network$vertices$status),
+        open = "([",
+        close = "])"
+      )
+      status$status <- status$name
+      type <- tibble::tibble(
+        name = unique(self$network$vertices$type),
+        status = "none"
+      )
+      type$open <- self$produce_shape_open(type$name)
+      type$close <- self$produce_shape_close(type$name)
+      legend <- rbind(status, type)
+      legend$label <- gsub("uptodate", "Up to date", legend$name)
+      legend$label <- capitalize(legend$label)
+      legend
+    },
+    produce_mermaid_vertices = function(data) {
+      sprintf(
+        "%s%s%s%s:::%s",
+        data$name,
+        data$open,
+        data$label,
+        data$close,
+        data$status
+      )
+    },
+    produce_mermaid_vertices_graph = function(side) {
       out <- self$network$edges
       out[[setdiff(colnames(out), side)]] <- NULL
       out$name <- out[[side]]
@@ -63,21 +88,37 @@ mermaid_class <- R6::R6Class(
       out <- merge(x = out, y = vertices, all = FALSE, sort = FALSE)
       out$open <- self$produce_shape_open(out$type)
       out$close <- self$produce_shape_close(out$type)
-      sprintf(
-        "%s%s%s%s:::%s",
-        out$name,
-        out$open,
-        out$label,
-        out$close,
-        out$status
+      self$produce_mermaid_vertices(out)
+    },
+    produce_mermaid_lines_graph = function() {
+      from <- produce_mermaid_vertices_graph(side = "from")
+      to <- produce_mermaid_vertices_graph(side = "to")
+      sprintf("  %s --> %s", from, to)
+    },
+    produce_mermaid_lines_legend = function() {
+      vertices <- produce_mermaid_vertices(self$legend)
+      if (!length(vertices)) {
+        return("")
+      }
+      if (length(vertices) == 1L) {
+        vertices <- c(vertices, vertices)
+      }
+      from <- vertices[-length(vertices)]
+      to <- vertices[-1]
+      edges <- sprintf("%s --- %s", from, to)
+      styles <- sprintf(
+        "linkStyle %s stroke-width:0px,fill:none;",
+        seq_along(edges) - 1
       )
+      out <- paste0("    ", c(edges, styles))
+      c("  subgraph Legend", out, "  end")
     },
     produce_visual = function() {
       classdefs <- produce_classdefs()
-      from <- produce_main_nodes(side = "from")
-      to <- produce_main_nodes(side = "to")
-      edges <- sprintf("  %s --> %s", from, to)
-      c("graph LR", classdefs, edges)
+      graph <- produce_mermaid_lines_graph()
+      legend <- produce_mermaid_lines_legend()
+      out <- c("graph LR", classdefs, legend, graph)
+      paste(out, collapse = "\n")
     },
     update_extra = function() {
     },
