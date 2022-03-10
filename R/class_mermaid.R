@@ -132,19 +132,3 @@ mermaid_class <- R6::R6Class(
     }
   )
 )
-
-position_level <- function(vertices, edges) {
-  level <- 0L
-  vertices$level <- rep(level, nrow(vertices))
-  if (!nrow(vertices) || !nrow(edges)) {
-    return(vertices)
-  }
-  igraph <- igraph::graph_from_data_frame(edges)
-  while (length(igraph::V(igraph))) {
-    level <- level + 1L
-    leaves <- igraph_leaves(igraph)
-    vertices[vertices$name %in% leaves, "level"] <- level
-    igraph <- igraph::delete_vertices(graph = igraph, v = leaves)
-  }
-  vertices
-}
