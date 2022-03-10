@@ -1,5 +1,6 @@
 visnetwork_init <- function(
   network,
+  label_break = "\n",
   label = NULL,
   level_separation = NULL,
   degree_from = 1L,
@@ -8,6 +9,7 @@ visnetwork_init <- function(
 ) {
   visnetwork_new(
     network = network,
+    label_break = label_break,
     label = label,
     level_separation = level_separation,
     degree_from = degree_from,
@@ -18,23 +20,25 @@ visnetwork_init <- function(
 
 visnetwork_new <- function(
   network = NULL,
+  label_break = NULL,
   label = NULL,
   level_separation = NULL,
   degree_from = NULL,
   degree_to = NULL,
   zoom_speed = NULL,
   legend = NULL,
-  visnetwork = NULL
+  visual = NULL
 ) {
   visnetwork_class$new(
     network = network,
+    label_break = label_break,
     label = label,
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
     zoom_speed = zoom_speed,
     legend = legend,
-    visnetwork = visnetwork
+    visual = visual
   )
 }
 
@@ -46,47 +50,34 @@ visnetwork_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     network = NULL,
+    label_break = NULL,
     label = NULL,
     level_separation = NULL,
     degree_from = NULL,
     degree_to = NULL,
     zoom_speed = NULL,
-    legend = NULL,
-    visnetwork = NULL,
+    visual = NULL,
     initialize = function(
       network = NULL,
+      label_break = NULL,
       label = NULL,
       level_separation = NULL,
       degree_from = NULL,
       degree_to = NULL,
       zoom_speed = NULL,
       legend = NULL,
-      visnetwork = NULL
+      visual = NULL
     ) {
       super$initialize(
-        network = network
+        network = network,
+        label_break = label_break
       )
       self$label <- label
-      self$legend <- legend
       self$level_separation <- level_separation
       self$degree_from <- degree_from
       self$zoom_speed <- zoom_speed
       self$degree_to <- degree_to
-      self$visnetwork <- visnetwork
-    },
-    produce_colors = function(status) {
-      colors <- c(
-        built = "#E1BD6D",
-        uptodate = "#354823",
-        outdated = "#78B7C5",
-        started = "#DC863B",
-        canceled = "#FAD510",
-        errored = "#C93312",
-        queued = "#D2D2D0",
-        skipped = "#7500D1",
-        none = "#94a4ac"
-      )
-      colors[status]
+      self$visual <- visual
     },
     produce_shapes = function(type) {
       shapes <- c(
@@ -96,9 +87,6 @@ visnetwork_class <- R6::R6Class(
         pattern = "square"
       )
       shapes[type]
-    },
-    produce_labels = function(vertices) {
-      vertices$name
     },
     produce_legend = function() {
       vertices <- self$network$vertices
@@ -116,11 +104,10 @@ visnetwork_class <- R6::R6Class(
       legend$label <- capitalize(legend$label)
       legend
     },
-    produce_visnetwork = function() {
+    produce_visual = function() {
       tar_assert_package("visNetwork")
       vertices <- self$network$vertices
       edges <- self$network$edges
-      vertices <- self$update_label(vertices)
       out <- visNetwork::visNetwork(nodes = vertices, edges = edges, main = "")
       out <- visNetwork::visNodes(out, physics = FALSE)
       out <- visNetwork::visEdges(
@@ -160,30 +147,6 @@ visnetwork_class <- R6::R6Class(
         levelSeparation = self$level_separation
       )
     },
-    update_label = function(vertices) {
-      seconds <- units_seconds(vertices$seconds)
-      bytes <- units_bytes(vertices$bytes)
-      branches <- units_branches(vertices$branches)
-      if ("time" %in% label) {
-        vertices$label <- paste(vertices$label, seconds, sep = "\n")
-      }
-      if ("size" %in% label) {
-        vertices$label <- paste(vertices$label, bytes, sep = "\n")
-      }
-      if ("branches" %in% label) {
-        vertices$label <- paste(vertices$label, branches, sep = "\n")
-      }
-      vertices
-    },
-    update_visnetwork = function() {
-      self$visnetwork <- self$produce_visnetwork()
-    },
-    update_labels = function() {
-      vertices <- self$network$vertices
-      vertices$id <- vertices$name
-      vertices$label <- self$produce_labels(vertices)
-      self$network$vertices <- vertices
-    },
     update_arrows = function() {
       edges <- self$network$edges
       edges$arrows <- rep("to", nrow(edges))
@@ -197,37 +160,21 @@ visnetwork_class <- R6::R6Class(
       vertices <- position_level(vertices, self$network$edges)
       self$network$vertices <- vertices
     },
-    update_colors = function() {
-      vertices <- self$network$vertices
-      vertices$color <- self$produce_colors(vertices$status)
-      self$network$vertices <- vertices
-    },
     update_shapes = function() {
       vertices <- self$network$vertices
       vertices$shape <- self$produce_shapes(vertices$type)
       self$network$vertices <- vertices
     },
-    update_legend = function() {
-      self$legend <- self$produce_legend()
-    },
-    update = function() {
-      self$update_network()
-      self$update_labels()
+    update_extra = function() {
       self$update_positions()
       self$update_arrows()
-      self$update_colors()
       self$update_shapes()
-      self$update_legend()
-      self$update_visnetwork()
     },
     validate = function() {
       super$validate()
       tar_assert_in(self$label, c("time", "size", "branches"))
-      if (!is.null(self$legend)) {
-        tar_assert_df(self$legend)
-      }
-      if (!is.null(self$visnetwork)) {
-        tar_assert_identical(class(self$visnetwork)[1], "visNetwork")
+      if (!is.null(self$visual)) {
+        tar_assert_identical(class(self$visual)[1], "visNetwork")
       }
       tar_assert_scalar(self$degree_from)
       tar_assert_scalar(self$degree_to)

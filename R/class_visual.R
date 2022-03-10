@@ -1,8 +1,10 @@
 visual_new <- function(
-  network = NULL
+  network = NULL,
+  label_break = NULL
 ) {
   visual_class$new(
-    network = network
+    network = network,
+    label_break = label_break
   )
 }
 
@@ -13,16 +15,81 @@ visual_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     network = NULL,
+    legend = NULL,
+    label_break = NULL,
     initialize = function(
-      network = NULL
+      network = NULL,
+      label_break = NULL
     ) {
       self$network <- network
+      self$label_break = label_break
+    },
+    produce_colors = function(status) {
+      colors <- c(
+        built = "#E1BD6D",
+        uptodate = "#354823",
+        outdated = "#78B7C5",
+        started = "#DC863B",
+        canceled = "#FAD510",
+        errored = "#C93312",
+        queued = "#D2D2D0",
+        skipped = "#7500D1",
+        none = "#94a4ac"
+      )
+      colors[status]
+    },
+    produce_labels = function(vertices) {
+      seconds <- units_seconds(vertices$seconds)
+      bytes <- units_bytes(vertices$bytes)
+      branches <- units_branches(vertices$branches)
+      label <- vertices$label
+      if ("time" %in% label) {
+        abel <- paste(label, seconds, sep = self$label_break)
+      }
+      if ("size" %in% label) {
+        label <- paste(label, bytes, sep = self$label_break)
+      }
+      if ("branches" %in% label) {
+        label <- paste(label, branches, sep = self$label_break)
+      }
+      label
+    },
+    update_colors = function() {
+      vertices <- self$network$vertices
+      vertices$color <- self$produce_colors(vertices$status)
+      self$network$vertices <- vertices
+    },
+    update_legend = function() {
+      self$legend <- self$produce_legend()
     },
     update_network = function() {
       self$network$update()
     },
+    update_visual = function() {
+      self$visual <- self$produce_visual()
+    },
+    update_labels = function() {
+      vertices <- self$network$vertices
+      vertices$id <- vertices$name
+      vertices$label <- self$produce_labels(vertices)
+      self$network$vertices <- vertices
+    },
+    update = function() {
+      self$update_network()
+      self$update_labels()
+      self$update_colors()
+      self$update_extra()
+      self$update_legend()
+      self$update_visual()
+    },
     validate = function() {
       self$network$validate()
+      tar_assert_scalar(self$label_break)
+      tar_assert_chr(self$label_break)
+      tar_assert_nzchar(self$label_break)
+      if (!is.null(self$legend)) {
+        tar_assert_df(self$legend)
+      }
       invisible()
     }
   )

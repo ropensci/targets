@@ -131,5 +131,5 @@ tar_glimpse_inner <- function(
     zoom_speed = zoom_speed
   )
   visual$update()
-  visual$visnetwork
+  visual$visual
 }
