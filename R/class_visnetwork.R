@@ -165,7 +165,6 @@ visnetwork_class <- R6::R6Class(
     },
     validate = function() {
       super$validate()
-      tar_assert_in(self$label, c("time", "size", "branches"))
       if (!is.null(self$visual)) {
         tar_assert_identical(class(self$visual)[1], "visNetwork")
       }
