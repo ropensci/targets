@@ -8,7 +8,7 @@
 #'   You can visualize the graph by copying the text
 #'   into a public online `mermaid.js` editor or a `mermaid` GitHub code chunk
 #'   (<https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid>). # nolint
-#' @inheritParams tar_mermaid
+#' @inheritParams tar_visnetwork
 #' @examples
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.

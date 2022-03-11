@@ -20,6 +20,115 @@ tar_mermaid(
   store = targets::tar_config_get("store")
 )
 }
+\arguments{
+\item{targets_only}{Logical, whether to restrict the output to just targets
+(\code{FALSE}) or to also include global functions and objects.}
+
+\item{names}{Names of targets. The graph visualization will operate
+only on these targets (and unless \code{shortcut} is \code{TRUE},
+all the targets upstream as well). Selecting a small subgraph
+using \code{names} could speed up the load time of the visualization.
+Unlike \code{allow}, \code{names} is invoked before the graph
+is generated.
+Set to NULL to check/build all the targets (default).
+Otherwise, you can supply symbols or tidyselect helpers
+like starts_with().
+Applies to ordinary targets (stem) and whole dynamic branching
+targets (patterns) but not individual dynamic branches.}
+
+\item{shortcut}{Logical of length 1, how to interpret the \code{names} argument.
+If \code{shortcut} is \code{FALSE} (default) then the function checks
+all targets upstream of \code{names} as far back as the dependency graph goes.
+If \code{TRUE}, then the function only checks the targets in \code{names}
+and uses stored metadata for information about upstream dependencies
+as needed. \code{shortcut = TRUE} increases speed if there are a lot of
+up-to-date targets, but it assumes all the dependencies
+are up to date, so please use with caution.
+Also, \code{shortcut = TRUE} only works if you set \code{names}.}
+
+\item{allow}{Optional, define the set of allowable vertices in the graph.
+Unlike \code{names}, \code{allow} is invoked only after the graph is mostly
+resolved, so it will not speed up execution.
+Set to \code{NULL} to allow all vertices in the pipeline and environment
+(default). Otherwise, you can supply symbols or
+\code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
+
+\item{exclude}{Optional, define the set of exclude vertices from the graph.
+Unlike \code{names}, \code{exclude} is invoked only after the graph is mostly
+resolved, so it will not speed up execution.
+Set to \code{NULL} to exclude no vertices.
+Otherwise, you can supply symbols or \code{tidyselect}
+helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+
+\item{outdated}{Logical, whether to show colors to distinguish outdated
+targets from up-to-date targets. (Global functions and objects
+still show these colors.) Looking for outdated targets
+takes a lot of time for large pipelines with lots of branches,
+and setting \code{outdated} to \code{FALSE} is a nice way to speed up the graph
+if you only want to see dependency relationships and build progress.}
+
+\item{label}{Character vector of one or more aesthetics to add to the
+vertex labels. Can contain \code{"time"} to show total runtime, \code{"size"}
+to show total storage size, or \code{"branches"} to show the number of
+branches in each pattern. You can choose multiple aesthetics
+at once, e.g. \code{label = c("time", "branches")}. All are disabled
+by default because they clutter the graph.}
+
+\item{reporter}{Character of length 1, name of the reporter to user.
+Controls how messages are printed as targets are checked. Choices:
+\itemize{
+\item \code{"silent"}: print nothing.
+\item \code{"forecast"}: print running totals of the checked and outdated
+targets found so far.
+}}
+
+\item{callr_function}{A function from \code{callr} to start a fresh clean R
+process to do the work. Set to \code{NULL} to run in the current session
+instead of an external process (but restart your R session just before
+you do in order to clear debris out of the global environment).
+\code{callr_function} needs to be \code{NULL} for interactive debugging,
+e.g. \code{tar_option_set(debug = "your_target")}.
+However, \code{callr_function} should not be \code{NULL} for serious
+reproducible work.}
+
+\item{callr_arguments}{A list of arguments to \code{callr_function}.}
+
+\item{envir}{An environment, where to run the target R script
+(default: \verb{_targets.R}) if \code{callr_function} is \code{NULL}.
+Ignored if \code{callr_function} is anything other than \code{NULL}.
+\code{callr_function} should only be \code{NULL} for debugging and
+testing purposes, not for serious runs of a pipeline, etc.
+
+The \code{envir} argument of \code{\link[=tar_make]{tar_make()}} and related
+functions always overrides
+the current value of \code{tar_option_get("envir")} in the current R session
+just before running the target script file,
+so whenever you need to set an alternative \code{envir}, you should always set
+it with \code{tar_option_set()} from within the target script file.
+In other words, if you call \code{tar_option_set(envir = envir1)} in an
+interactive session and then
+\code{tar_make(envir = envir2, callr_function = NULL)},
+then \code{envir2} will be used.}
+
+\item{script}{Character of length 1, path to the
+target script file. Defaults to \code{tar_config_get("script")},
+which in turn defaults to \verb{_targets.R}. When you set
+this argument, the value of \code{tar_config_get("script")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_script]{tar_script()}},
+\code{\link[=tar_config_get]{tar_config_get()}}, and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about the target script file and how to set it
+persistently for a project.}
+
+\item{store}{Character of length 1, path to the
+\code{targets} data store. Defaults to \code{tar_config_get("store")},
+which in turn defaults to \verb{_targets/}.
+When you set this argument, the value of \code{tar_config_get("store")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about how to set the data store path persistently
+for a project.}
+}
 \value{
 A character vector of lines of code of the \code{mermaid.js} graph.
 You can visualize the graph by copying the text
