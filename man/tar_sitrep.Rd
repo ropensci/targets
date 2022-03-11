@@ -173,12 +173,9 @@ tar_meta(starts_with("y_")) # see also all_of()
 Other inspect: 
 \code{\link{tar_deps_raw}()},
 \code{\link{tar_deps}()},
-\code{\link{tar_glimpse}()},
 \code{\link{tar_manifest}()},
-\code{\link{tar_mermaid}()},
 \code{\link{tar_network}()},
 \code{\link{tar_outdated}()},
-\code{\link{tar_validate}()},
-\code{\link{tar_visnetwork}()}
+\code{\link{tar_validate}()}
 }
 \concept{inspect}

@@ -1,6 +1,6 @@
 #' @title `mermaid.js` dependency graph.
 #' @export
-#' @family inspect
+#' @family visualize
 #' @description Visualize the dependency graph with a static `mermaid.js` graph.
 #' @details `mermaid.js` is a JavaScript library for constructing
 #'   static visualizations of graphs.

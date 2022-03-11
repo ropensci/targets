@@ -1,6 +1,6 @@
 #' @title visNetwork dependency graph.
 #' @export
-#' @family inspect
+#' @family visualize
 #' @description Visualize the pipeline dependency graph with a `visNetwork`
 #'   HTML widget.
 #' @return A `visNetwork` HTML widget object.

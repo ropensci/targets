@@ -73,12 +73,15 @@ reference:
   - '`tar_deps`'
   - '`tar_deps_raw`'
   - '`tar_manifest`'
-  - '`tar_glimpse`'
   - '`tar_network`'
   - '`tar_outdated`'
   - '`tar_sitrep`'
-  - '`tar_visnetwork`'
   - '`tar_validate`'
+- title: Visualize
+  contents:
+  - '`tar_glimpse`'
+  - '`tar_mermaid`'
+  - '`tar_visnetwork`'
 - title: Clean
   contents:
   - '`tar_delete`'

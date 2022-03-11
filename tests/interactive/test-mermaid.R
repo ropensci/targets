@@ -127,7 +127,7 @@ pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
 vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should still show one errored target.
 tar_destroy()
@@ -139,7 +139,7 @@ pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
 vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should show one errored map and one up-to-date stem.
 tar_destroy()
@@ -163,7 +163,7 @@ pipeline <- pipeline_init(list(w, x))
 net <- inspection_init(pipeline)
 vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should still show one errored map and one up-to-date stem.
 tar_destroy()
@@ -186,7 +186,7 @@ pipeline <- pipeline_init(list(w, x))
 net <- inspection_init(pipeline)
 vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should one canceled map and one up-to-date stem.
 tar_destroy()
@@ -209,9 +209,9 @@ pipeline <- pipeline_init(list(w, x))
 net <- inspection_init(pipeline)
 vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
-# Should show a glimpse of three targets.
+# Should show three targets.
 tar_script({
   g <- function(x) x - 1
   f <- function(x) g(x) + 1
@@ -221,41 +221,41 @@ tar_script({
     tar_target(z, y1 + y2)
   )
 })
-tar_glimpse()
+mermaid(tar_mermaid())
 
-# Should show a glimpse of just y1 and y2.
-tar_glimpse(allow = starts_with("y"))
+# Should show a just y1 and y2.
+mermaid(tar_mermaid(allow = starts_with("y")))
 
-# Should show a glimpse of just z.
-tar_glimpse(exclude = starts_with("y"))
+# Should show just z.
+mermaid(tar_mermaid(exclude = starts_with("y"), targets_only = TRUE))
 
-# Should show a glimpse of y1, y2, and z.
-tar_glimpse(names = starts_with("z"))
+# Should show y1, y2, and z.
+mermaid(tar_mermaid(names = starts_with("z"), targets_only = TRUE))
 
-# Should show a glimpse of just z.
-tar_glimpse(names = starts_with("z"), shortcut = TRUE)
+# Should show just z.
+mermaid(tar_mermaid(names = starts_with("z"), shortcut = TRUE))
 
 # Should show a graph of 3 targets and f() and g().
-tar_mermaid(targets_only = FALSE)
+mermaid(tar_mermaid(targets_only = FALSE))
 
 # Should show a graph of 3 targets, f(), g(), and miscellaneous globals.
-tar_mermaid(targets_only = FALSE, callr_function = NULL)
+mermaid(tar_mermaid(targets_only = FALSE, callr_function = NULL))
 
 # Should show a status of targets as queued (light gray).
-tar_mermaid(targets_only = FALSE, outdated = FALSE)
+mermaid(tar_mermaid(targets_only = FALSE, outdated = FALSE))
 
 # Should show a graph of just y1 and y2.
-tar_mermaid(allow = starts_with("y"))
+mermaid(tar_mermaid(allow = starts_with("y")))
 
 # Should show a graph of z, f, and g.
-tar_mermaid(exclude = starts_with("y"))
+mermaid(tar_mermaid(exclude = starts_with("y")))
 
 # Should show a graph of everything.
-tar_mermaid(names = starts_with("z"))
+mermaid(tar_mermaid(names = starts_with("z")))
 
 # Should show a graph of just z.
 tar_make()
-tar_mermaid(names = starts_with("z"), shortcut = TRUE)
+mermaid(tar_mermaid(names = starts_with("z"), shortcut = TRUE))
 
 # Should show status queued (light gray).
 tar_destroy()
@@ -264,36 +264,8 @@ tar_mermaid(outdated = FALSE)
 # Should show a canceled target.
 tar_script(list(tar_target(y1, tar_cancel())))
 tar_make()
-tar_mermaid(outdated = FALSE)
+mermaid(tar_mermaid(outdated = FALSE))
 
-# Neighborhoods
-tar_script({
-  g <- function(x) x - 1
-  f <- function(x) g(x) + 1
-  list(
-    tar_target(y1, f(1)),
-    tar_target(y2, 1 + 1),
-    tar_target(z, y1 + y2),
-    tar_target(a, z),
-    tar_target(b, a),
-    tar_target(c, a),
-    tar_target(d, c),
-    tar_target(e, d)
-  )
-})
-
-# Click for highlighted neighborhoods
-# of upstream degree 1 and downstream degree 2.
-tar_glimpse(degree_to = 2)
-
-# Same with tar_mermaid()
-tar_mermaid(degree_to = 2)
-
-# Should slow down zoom speed.
-tar_glimpse(zoom_speed = 0.2)
-
-# Should slow down zoom speed.
-tar_mermaid(zoom_speed = 0.2)
-
+# Clean up.
 unlink("_targets.R")
 unlink("_targets", recursive = TRUE)

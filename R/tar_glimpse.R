@@ -1,6 +1,6 @@
 #' @title Visualize an abridged fast dependency graph.
 #' @export
-#' @family inspect
+#' @family visualize
 #' @description Analyze the pipeline defined in the target script file
 #'   (default: `_targets.R`)
 #'   and visualize the directed acyclic graph of targets.
