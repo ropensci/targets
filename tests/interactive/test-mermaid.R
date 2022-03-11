@@ -1,4 +1,6 @@
-eval(parse(text = "library(DiagrammeR)"))
+mermaid <- function(x) {
+  DiagrammeR::mermaid(paste0(x, collapse = "\n"))
+}
 
 # Should show a glimpse.
 net <- glimpse_init(pipeline_cross())

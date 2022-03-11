@@ -141,8 +141,7 @@ mermaid_class <- R6::R6Class(
       legend <- self$produce_mermaid_lines_legend()
       class_defs <- self$produce_class_defs()
       link_styles <- self$produce_link_styles()
-      out <- c("graph LR", legend, graph, class_defs, link_styles)
-      paste(out, collapse = "\n")
+      c("graph LR", legend, graph, class_defs, link_styles)
     },
     update_extra = function() {
     },
