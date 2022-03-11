@@ -89,6 +89,10 @@
 #'   a workspace file for each target that throws an error.
 #'   Workspace files help with debugging.
 #'   See [tar_workspace()] for details about workspaces.
+#' @param s3 optional `paws::s3()` client object for target storage formats
+#'   that use S3 cloud storage. For example, set
+#'   `tar_option_set(s3 = paws::s3(config = list(endpoint = "...", ...)))`
+#'   to use an endpoint different from Amazon Web Services (AWS).
 #' @examples
 #' tar_option_get("format") # default format before we set anything
 #' tar_target(x, 1)$settings$format
@@ -127,7 +131,8 @@ tar_option_set <- function(
   cue = NULL,
   debug = NULL,
   workspaces = NULL,
-  workspace_on_error = NULL
+  workspace_on_error = NULL,
+  s3 = NULL
 ) {
   force(envir)
   if_any(is.null(tidy_eval), NULL, tar_options$set_tidy_eval(tidy_eval))
@@ -158,5 +163,6 @@ tar_option_set <- function(
     NULL,
     tar_options$set_workspace_on_error(workspace_on_error)
   )
+  if_any(is.null(s3), NULL, tar_options$set_workspaces(s3))
   invisible()
 }

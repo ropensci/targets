@@ -18,7 +18,8 @@ options_init <- function(
   cue = NULL,
   debug = NULL,
   workspaces = NULL,
-  workspace_on_error = NULL
+  workspace_on_error = NULL,
+  s3 = NULL
 ) {
   options_new(
     tidy_eval = tidy_eval,
@@ -40,7 +41,8 @@ options_init <- function(
     cue = cue,
     debug = debug,
     workspaces = workspaces,
-    workspace_on_error = workspace_on_error
+    workspace_on_error = workspace_on_error,
+    s3 = s3
   )
 }
 
@@ -64,7 +66,8 @@ options_new <- function(
   cue = NULL,
   debug = NULL,
   workspaces = NULL,
-  workspace_on_error = NULL
+  workspace_on_error = NULL,
+  s3 = NULL
 ) {
   options_class$new(
     tidy_eval = tidy_eval,
@@ -86,7 +89,8 @@ options_new <- function(
     cue = cue,
     debug = debug,
     workspaces = workspaces,
-    workspace_on_error = workspace_on_error
+    workspace_on_error = workspace_on_error,
+    s3 = s3
   )
 }
 
@@ -116,6 +120,7 @@ options_class <- R6::R6Class(
     debug = NULL,
     workspaces = NULL,
     workspace_on_error = NULL,
+    s3 = NULL,
     initialize = function(
       tidy_eval = NULL,
       packages = NULL,
@@ -136,7 +141,8 @@ options_class <- R6::R6Class(
       cue = NULL,
       debug = NULL,
       workspaces = NULL,
-      workspace_on_error = NULL
+      workspace_on_error = NULL,
+      s3 = NULL
     ) {
       self$tidy_eval <- tidy_eval
       self$packages <- packages
