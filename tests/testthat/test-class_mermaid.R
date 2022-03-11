@@ -63,11 +63,11 @@ tar_test("mermaid$update_legend() on cross plan", {
   expect_silent(vis$validate())
   legend <- vis$legend
   exp <- data_frame(
-    name = c("none", "pattern", "stem"),
-    open = c("([", "[", "(["),
-    close = c("])", "]", "])"),
-    status = rep("none", 3),
-    label = c("None", "Pattern", "Stem")
+    name = c("pattern", "stem"),
+    open = c("[", "(["),
+    close = c("]", "])"),
+    status = rep("none", 2),
+    label = c("Pattern", "Stem")
   )
   cols <- colnames(legend)
   legend <- legend[order(legend$label), cols]

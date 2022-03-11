@@ -148,7 +148,6 @@ mermaid_class <- R6::R6Class(
     validate = function() {
       super$validate()
       if (!is.null(self$visual)) {
-        tar_assert_scalar(self$visual)
         tar_assert_chr(self$visual)
       }
     }
