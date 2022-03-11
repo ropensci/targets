@@ -29,17 +29,30 @@ mermaid_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    produce_classdefs = function() {
+    append_loops = function() {
       vertices <- self$network$vertices
-      status <- unique(vertices$status)
+      edges <- self$network$edges
+      edges$loop <- FALSE
+      disconnected <- setdiff(vertices$name, c(edges$from, edges$to))
+      loops <- data_frame(from = disconnected, to = disconnected, loop = TRUE)
+      self$network$edges <- rbind(edges, loops)
+    },
+    produce_class_defs = function() {
+      vertices <- self$network$vertices
+      status <- c(unique(vertices$status), "none")
       color <- self$produce_colors(status)
       fill <- self$produce_fills(status)
       sprintf(
-        "  classDef %s stroke-width:0px,color:%s,fill:%s;",
+        "  classDef %s stroke:#000000,color:%s,fill:%s;",
         status,
         color,
         fill
       )
+    },
+    produce_link_styles = function() {
+      hide <- c(rep(TRUE, nrow(self$legend) - 1L), self$network$edges$loop)
+      index <- which(hide) - 1L
+      sprintf("  linkStyle %s stroke-width:0px;", index)
     },
     produce_shape_open = function(type) {
       open <- c("{{", ">", "([", "[")
@@ -81,7 +94,8 @@ mermaid_class <- R6::R6Class(
     },
     produce_mermaid_vertices_graph = function(side) {
       out <- self$network$edges
-      out[[setdiff(colnames(out), side)]] <- NULL
+      other <- if_any(identical(side, "from"), "to", "from")
+      out[[other]] <- NULL
       out$name <- out[[side]]
       out[[side]] <- NULL
       vertices <- self$network$vertices
@@ -91,9 +105,11 @@ mermaid_class <- R6::R6Class(
       self$produce_mermaid_vertices(out)
     },
     produce_mermaid_lines_graph = function() {
+      self$append_loops()
       from <- produce_mermaid_vertices_graph(side = "from")
       to <- produce_mermaid_vertices_graph(side = "to")
-      sprintf("  %s --> %s", from, to)
+      out <- sprintf("    %s --> %s", from, to)
+      out <- c("  subgraph Graph", out, "  end")
     },
     produce_mermaid_lines_legend = function() {
       vertices <- produce_mermaid_vertices(self$legend)
@@ -105,22 +121,18 @@ mermaid_class <- R6::R6Class(
       }
       from <- vertices[-length(vertices)]
       to <- vertices[-1]
-      edges <- sprintf("%s --- %s", from, to)
-      styles <- sprintf(
-        "linkStyle %s stroke-width:0px,fill:none;",
-        seq_along(edges) - 1
-      )
-      out <- paste0("    ", c(edges, styles))
-      c("  subgraph Legend", out, "  end")
+      out <- sprintf("    %s --- %s", from, to)
+      out <- c("  subgraph Legend", out, "  end")
     },
     produce_visual = function() {
-      classdefs <- produce_classdefs()
-      graph <- produce_mermaid_lines_graph()
-      legend <- produce_mermaid_lines_legend()
-      out <- c(classdefs, legend, graph)
-      if (length(out) > 0L && any(nzchar(out))) {
-        out <- c("graph LR", out)
+      graph <- self$produce_mermaid_lines_graph()
+      if (length(graph) < 3L) {
+        return("")
       }
+      legend <- self$produce_mermaid_lines_legend()
+      class_defs <- self$produce_class_defs()
+      link_styles <- self$produce_link_styles()
+      out <- c("graph LR", legend, graph, class_defs, link_styles)
       paste(out, collapse = "\n")
     },
     update_extra = function() {
