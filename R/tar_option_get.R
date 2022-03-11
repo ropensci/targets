@@ -64,6 +64,6 @@ tar_option_get <- function(name = NULL, option = NULL) {
     debug = tar_options$get_debug(),
     workspaces = tar_options$get_workspaces(),
     workspace_on_error = tar_options$get_workspace_on_error(),
-    s3 = tar_options$get_s3()
+    s3_config = tar_options$get_s3_config()
   )
 }

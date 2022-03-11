@@ -70,7 +70,8 @@ tar_test("export", {
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
     workspaces = letters,
-    workspace_on_error = TRUE
+    workspace_on_error = TRUE,
+    s3_config = list()
   )
   out$cue <- as.list(out$cue)
   exp$cue <- as.list(exp$cue)
@@ -98,7 +99,8 @@ tar_test("import", {
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
     workspaces = "x",
-    workspace_on_error = TRUE
+    workspace_on_error = TRUE,
+    s3_config = list(region = "us-west-2")
   )
   envir <- new.env(parent = emptyenv())
   x <- options_init(envir = envir)
@@ -126,6 +128,7 @@ tar_test("import", {
   expect_equal(x$get_debug(), "x")
   expect_equal(x$get_workspaces(), "x")
   expect_equal(x$get_workspace_on_error(), TRUE)
+  expect_equal(x$get_s3_config(), list(region = "us-west-2"))
 })
 
 tar_test("tidy_eval", {
@@ -337,4 +340,14 @@ tar_test("workspace_on_error", {
   x$reset()
   expect_equal(x$get_workspace_on_error(), FALSE)
   expect_error(x$set_workspace_on_error(123), class = "tar_condition_validate")
+})
+
+tar_test("s3_config", {
+  x <- options_init()
+  expect_equal(x$get_s3_config(), list())
+  x$set_s3_config(list(region = "us-west-2"))
+  expect_equal(x$get_s3_config(), list(region = "us-west-2"))
+  x$reset()
+  expect_equal(x$get_s3_config(), list())
+  expect_error(x$set_s3_config(123), class = "tar_condition_validate")
 })

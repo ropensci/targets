@@ -4,6 +4,10 @@
 # which could put an unexpected and unfair burden on
 # external contributors from the open source community.
 # nocov start
+aws_s3_client <- function() {
+  paws::s3(config = tar_option_get(name = "s3_config"))
+}
+
 aws_s3_exists <- function(key, bucket, region = NULL, version = NULL) {
   tryCatch(
     aws_s3_head_true(
@@ -29,7 +33,7 @@ aws_s3_head <- function(key, bucket, region = NULL, version = NULL) {
   if (!is.null(version)) {
     args$VersionId <- version
   }
-  do.call(what = paws::s3()$head_object, args = args)
+  do.call(what = aws_s3_client()$head_object, args = args)
 }
 
 aws_s3_head_true <- function(key, bucket, region = NULL, version = NULL) {
@@ -59,7 +63,7 @@ aws_s3_download <- function(
   if (!is.null(version)) {
     args$VersionId <- version
   }
-  out <- do.call(what = paws::s3()$get_object, args = args)$Body
+  out <- do.call(what = aws_s3_client()$get_object, args = args)$Body
   writeBin(out, con = file)
 }
 
@@ -78,7 +82,7 @@ aws_s3_upload <- function(
   if (!is.null(region)) {
     withr::local_envvar(.new = list(AWS_REGION = region))
   }
-  client <- paws::s3()
+  client <- aws_s3_client()
   if (!multipart) {
     out <- client$put_object(
       Body = readBin(file, what = "raw", n = file.size(file)),
@@ -132,7 +136,7 @@ aws_s3_upload_parts <- function(
   part_size,
   upload_id
 ) {
-  client <- paws::s3()
+  client <- aws_s3_client()
   file_size <- file.size(file)
   num_parts <- ceiling(file_size / part_size)
   con <- base::file(file, open = "rb")

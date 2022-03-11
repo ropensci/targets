@@ -24,7 +24,8 @@ tar_option_set(
   cue = NULL,
   debug = NULL,
   workspaces = NULL,
-  workspace_on_error = NULL
+  workspace_on_error = NULL,
+  s3_config = NULL
 )
 }
 \arguments{
@@ -245,6 +246,14 @@ See \code{\link[=tar_workspace]{tar_workspace()}} for details about workspaces.}
 a workspace file for each target that throws an error.
 Workspace files help with debugging.
 See \code{\link[=tar_workspace]{tar_workspace()}} for details about workspaces.}
+
+\item{s3_config}{optional list that gets passed to the \code{config} argument
+of \code{paws::s3()} client object for target storage formats
+that use S3 cloud storage. For example, set
+\code{tar_option_set(s3_config = list(endpoint = "...", ...))}
+to use an endpoint different from Amazon Web Services (AWS).
+In ordinary \code{paws}, this is equivalent to
+\code{paws::s3(config = list(endpoint = "...", ...))}}
 }
 \value{
 \code{NULL} (invisibly).
