@@ -1,17 +1,14 @@
-#' @title visNetwork dependency graph.
+#' @title `mermaid.js` dependency graph.
 #' @export
 #' @family inspect
-#' @description Visualize the pipeline dependency graph with a `visNetwork`
-#'   HTML widget.
-#' @return A `visNetwork` HTML widget object.
-#' @inheritParams tar_glimpse
-#' @inheritParams tar_network
-#' @param label Character vector of one or more aesthetics to add to the
-#'   vertex labels. Can contain `"time"` to show total runtime, `"size"`
-#'   to show total storage size, or `"branches"` to show the number of
-#'   branches in each pattern. You can choose multiple aesthetics
-#'   at once, e.g. `label = c("time", "branches")`. All are disabled
-#'   by default because they clutter the graph.
+#' @description Visualize the dependency graph with a static `mermaid.js` graph.
+#' @details `mermaid.js` is a JavaScript library for constructing
+#'   static visualizations of graphs.
+#' @return A single character string with the `mermaid.js` graph.
+#'   You can visualize the graph by copying the text
+#'   into a public online `mermaid.js` editor or a `mermaid` GitHub code chunk
+#'   (<https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid>). # nolint
+#' @inheritParams tar_mermaid
 #' @examples
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -23,11 +20,12 @@
 #'     tar_target(z, y1 + y2)
 #'   )
 #' })
-#' tar_visnetwork()
-#' tar_visnetwork(allow = starts_with("y")) # see also all_of()
+#' # Copy the text into a mermaid.js online editor
+#' # or a mermaid GitHub code chunk:
+#' tar_mermaid()
 #' })
 #' }
-tar_visnetwork <- function(
+tar_mermaid <- function(
   targets_only = FALSE,
   names = NULL,
   shortcut = FALSE,
@@ -35,10 +33,6 @@ tar_visnetwork <- function(
   exclude = ".Random.seed",
   outdated = TRUE,
   label = NULL,
-  level_separation = NULL,
-  degree_from = 1L,
-  degree_to = 1L,
-  zoom_speed = 1,
   reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
@@ -47,19 +41,9 @@ tar_visnetwork <- function(
   store = targets::tar_config_get("store")
 ) {
   force(envir)
-  tar_assert_package("visNetwork")
   tar_assert_lgl(targets_only, "targets_only must be logical.")
-  tar_assert_lgl(outdated, "outdated in tar_visnetwork() must be logical.")
+  tar_assert_lgl(outdated, "outdated in tar_mermaid() must be logical.")
   tar_assert_in(label, c("time", "size", "branches"))
-  tar_assert_scalar(degree_from, "degree_from must have length 1.")
-  tar_assert_scalar(degree_to, "degree_to must have length 1.")
-  tar_assert_dbl(degree_from, "degree_from must be numeric.")
-  tar_assert_dbl(degree_to, "degree_to must be numeric.")
-  tar_assert_ge(degree_from, 0L, "degree_from must be at least 0.")
-  tar_assert_ge(degree_to, 0L, "degree_to must be at least 0.")
-  tar_assert_scalar(zoom_speed)
-  tar_assert_dbl(zoom_speed)
-  tar_assert_positive(zoom_speed)
   tar_config_assert_reporter_outdated(reporter)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments, "callr_arguments mut be a list.")
@@ -72,25 +56,21 @@ tar_visnetwork <- function(
     exclude_quosure = rlang::enquo(exclude),
     outdated = outdated,
     label = label,
-    level_separation = level_separation,
-    degree_from = degree_from,
-    degree_to = degree_to,
-    zoom_speed = zoom_speed,
     reporter = reporter
   )
   callr_outer(
-    targets_function = tar_visnetwork_inner,
+    targets_function = tar_mermaid_inner,
     targets_arguments = targets_arguments,
     callr_function = callr_function,
     callr_arguments = callr_arguments,
     envir = envir,
     script = script,
     store = store,
-    fun = "tar_visnetwork"
+    fun = "tar_mermaid"
   )
 }
 
-tar_visnetwork_inner <- function(
+tar_mermaid_inner <- function(
   pipeline,
   path_store,
   targets_only,
@@ -100,10 +80,6 @@ tar_visnetwork_inner <- function(
   exclude_quosure,
   outdated,
   label,
-  level_separation,
-  degree_from,
-  degree_to,
-  zoom_speed,
   reporter
 ) {
   names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
@@ -119,13 +95,9 @@ tar_visnetwork_inner <- function(
     outdated = outdated,
     reporter = reporter
   )
-  visual <- visnetwork_init(
+  visual <- mermaid_init(
     network = network,
-    label = label,
-    level_separation = level_separation,
-    degree_from = degree_from,
-    degree_to = degree_to,
-    zoom_speed = zoom_speed
+    label = label
   )
   visual$update()
   visual$visual

@@ -117,7 +117,10 @@ mermaid_class <- R6::R6Class(
       classdefs <- produce_classdefs()
       graph <- produce_mermaid_lines_graph()
       legend <- produce_mermaid_lines_legend()
-      out <- c("graph LR", classdefs, legend, graph)
+      out <- c(classdefs, legend, graph)
+      if (length(out) > 0L && any(nzchar(out))) {
+        out <- c("graph LR", out)
+      }
       paste(out, collapse = "\n")
     },
     update_extra = function() {
@@ -127,7 +130,6 @@ mermaid_class <- R6::R6Class(
       if (!is.null(self$visual)) {
         tar_assert_scalar(self$visual)
         tar_assert_chr(self$visual)
-        tar_assert_nzchar(self$visual)
       }
     }
   )

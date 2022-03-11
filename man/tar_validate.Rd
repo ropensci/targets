@@ -83,6 +83,7 @@ Other inspect:
 \code{\link{tar_deps}()},
 \code{\link{tar_glimpse}()},
 \code{\link{tar_manifest}()},
+\code{\link{tar_mermaid}()},
 \code{\link{tar_network}()},
 \code{\link{tar_outdated}()},
 \code{\link{tar_sitrep}()},
