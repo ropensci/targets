@@ -32,9 +32,14 @@ mermaid_class <- R6::R6Class(
     append_loops = function() {
       vertices <- self$network$vertices
       edges <- self$network$edges
-      edges$loop <- FALSE
+      if (nrow(edges) > 0L) {
+        edges$loop <- FALSE
+      }
       disconnected <- setdiff(vertices$name, c(edges$from, edges$to))
-      loops <- data_frame(from = disconnected, to = disconnected, loop = TRUE)
+      loops <- data_frame(from = disconnected, to = disconnected)
+      if (nrow(loops)) {
+        loops$loop <- TRUE
+      }
       self$network$edges <- rbind(edges, loops)
     },
     produce_class_defs = function() {
@@ -50,6 +55,9 @@ mermaid_class <- R6::R6Class(
       )
     },
     produce_link_styles = function() {
+      if (nrow(self$legend) < 1L && nrow(self$network$edges) < 1L) {
+        return(character(0))
+      }
       hide <- c(rep(TRUE, nrow(self$legend) - 1L), self$network$edges$loop)
       index <- which(hide) - 1L
       sprintf("  linkStyle %s stroke-width:0px;", index)
@@ -79,6 +87,7 @@ mermaid_class <- R6::R6Class(
       type$close <- self$produce_shape_close(type$name)
       legend <- rbind(status, type)
       legend$label <- gsub("uptodate", "Up to date", legend$name)
+      legend <- legend[legend$label != "none",, drop = FALSE] # nolint
       legend$label <- capitalize(legend$label)
       legend
     },
