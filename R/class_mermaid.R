@@ -55,9 +55,6 @@ mermaid_class <- R6::R6Class(
       )
     },
     produce_link_styles = function() {
-      if (nrow(self$legend) < 1L && nrow(self$network$edges) < 1L) {
-        return(character(0))
-      }
       hide <- c(rep(TRUE, nrow(self$legend) - 1L), self$network$edges$loop)
       index <- which(hide) - 1L
       sprintf("  linkStyle %s stroke-width:0px;", index)
@@ -122,9 +119,6 @@ mermaid_class <- R6::R6Class(
     },
     produce_mermaid_lines_legend = function() {
       vertices <- produce_mermaid_vertices(self$legend)
-      if (!length(vertices)) {
-        return("")
-      }
       if (length(vertices) == 1L) {
         vertices <- c(vertices, vertices)
       }
@@ -134,10 +128,10 @@ mermaid_class <- R6::R6Class(
       out <- c("  subgraph Legend", out, "  end")
     },
     produce_visual = function() {
-      graph <- self$produce_mermaid_lines_graph()
-      if (length(graph) < 3L) {
+      if (nrow(self$network$vertices) < 1L) {
         return("")
       }
+      graph <- self$produce_mermaid_lines_graph()
       legend <- self$produce_mermaid_lines_legend()
       class_defs <- self$produce_class_defs()
       link_styles <- self$produce_link_styles()
