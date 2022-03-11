@@ -2,11 +2,22 @@ tar_test("options get exported to workers", {
   skip_if_not_installed("clustermq")
   tar_script({
     options(clustermq.scheduler = "multiprocess")
-    tar_option_set(error = "continue", envir = globalenv())
-    tar_target(x, writeLines(targets::tar_option_get("error"), "error.txt"))
+    tar_option_set(
+      error = "continue",
+      envir = globalenv(),
+      s3_config = list(region = "us-west-2")
+    )
+    list(
+      tar_target(x, writeLines(targets::tar_option_get("error"), "error.txt")),
+      tar_target(
+        y,
+        writeLines(targets::tar_option_get("s3_config")$region, "region.txt")
+      )
+    )
   })
   tar_make_clustermq()
   expect_equal(readLines("error.txt"), "continue")
+  expect_equal(readLines("region.txt"), "us-west-2")
 })
 
 tar_test("same with the future backend and non-global environment", {
@@ -14,11 +25,22 @@ tar_test("same with the future backend and non-global environment", {
   tar_script({
     future::plan(future::multisession)
     envir <- new.env(parent = globalenv())
-    tar_option_set(error = "continue", envir = envir)
-    tar_target(x, writeLines(targets::tar_option_get("error"), "error.txt"))
+    tar_option_set(
+      error = "continue",
+      envir = globalenv(),
+      s3_config = list(region = "us-west-2")
+    )
+    list(
+      tar_target(x, writeLines(targets::tar_option_get("error"), "error.txt")),
+      tar_target(
+        y,
+        writeLines(targets::tar_option_get("s3_config")$region, "region.txt")
+      )
+    )
   })
   tar_make_future()
   expect_equal(readLines("error.txt"), "continue")
+  expect_equal(readLines("region.txt"), "us-west-2")
 })
 
 tar_test("runtime settings get exported to workers", {
