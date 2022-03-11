@@ -60,8 +60,9 @@ tar_test("visnetwork$update_labels()", {
   vis$update_network()
   vis$update_labels()
   vertices <- vis$network$vertices
-  expect_equal(vertices$id, vertices$name)
+  expect_true(is.character(vertices$name))
   expect_true(is.character(vertices$label))
+  expect_equal(vertices$name, vertices$label)
 })
 
 tar_test("visnetwork$update_colors()", {
@@ -115,7 +116,7 @@ tar_test("visnetwork$update() on cross pipeline", {
   vis <- visnetwork_init(network = net)
   vis$update()
   expect_silent(vis$validate())
-  visnetwork <- vis$visnetwork
+  visnetwork <- vis$visual
   expect_equal(class(visnetwork)[1], "visNetwork")
 })
 
@@ -125,7 +126,7 @@ tar_test("visnetwork$update() on empty pipeline", {
   vis <- visnetwork_init(network = net)
   vis$update()
   expect_silent(vis$validate())
-  visnetwork <- vis$visnetwork
+  visnetwork <- vis$visual
   expect_equal(class(visnetwork)[1], "visNetwork")
 })
 
@@ -135,7 +136,7 @@ tar_test("visnetwork$update() on edgeless pipeline", {
   vis <- visnetwork_init(network = net)
   vis$update()
   expect_silent(vis$validate())
-  visnetwork <- vis$visnetwork
+  visnetwork <- vis$visual
   expect_equal(class(visnetwork)[1], "visNetwork")
 })
 
@@ -160,5 +161,5 @@ tar_test("visnetwork$validate() with label", {
   net <- inspection_init(pipeline_map())
   vis <- visnetwork_init(network = net, label = c("time", "size", "branches"))
   vis$update()
-  expect_true(inherits(vis$visnetwork, "visNetwork"))
+  expect_true(inherits(vis$visual, "visNetwork"))
 })

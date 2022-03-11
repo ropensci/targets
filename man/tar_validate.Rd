@@ -81,11 +81,9 @@ tar_validate()
 Other inspect: 
 \code{\link{tar_deps_raw}()},
 \code{\link{tar_deps}()},
-\code{\link{tar_glimpse}()},
 \code{\link{tar_manifest}()},
 \code{\link{tar_network}()},
 \code{\link{tar_outdated}()},
-\code{\link{tar_sitrep}()},
-\code{\link{tar_visnetwork}()}
+\code{\link{tar_sitrep}()}
 }
 \concept{inspect}

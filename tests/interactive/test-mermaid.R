@@ -1,43 +1,44 @@
+mermaid <- function(x) {
+  DiagrammeR::mermaid(paste0(x, collapse = "\n"))
+}
+
 # Should show a glimpse.
 net <- glimpse_init(pipeline_cross())
-vis <- visnetwork_init(network = net, degree_from = 1, degree_to = 1)
+vis <- mermaid_init(network = net)
 vis$update()
-# Click on the nodes and see highlighted neighborhoods of degree 1.
-vis$visual
+mermaid(vis$visual)
 
 # Should show an inspection with everything outdated.
 net <- inspection_init(pipeline_cross())
-vis <- visnetwork_init(network = net, degree_from = 2, degree_to = 0)
+vis <- mermaid_init(network = net)
 vis$update()
-# Click on the nodes and see highlighted neighborhoods
-# of upstream degree 2 and downstream degree 0.
-vis$visual
+mermaid(vis$visual)
 
 # Same but with everything queued.
 net <- inspection_init(pipeline_cross(), outdated = FALSE)
-vis <- visnetwork_init(network = net, degree_from = 2, degree_to = 0)
+vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should show an inspection with everything up to date
 local_init(pipeline = pipeline_cross(), reporter = "summary")$run()
 net <- inspection_init(pipeline_cross())
-vis <- visnetwork_init(network = net)
+vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Same with everything built.
 net <- inspection_init(pipeline_cross(), outdated = FALSE)
-vis <- visnetwork_init(network = net)
+vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Same with everything skipped.
 local_init(pipeline = pipeline_cross(), reporter = "summary")$run()
 net <- inspection_init(pipeline_cross(), outdated = FALSE)
-vis <- visnetwork_init(network = net)
+vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should show all optional labels.
 tar_script({
@@ -48,16 +49,16 @@ tar_script({
   )
 })
 tar_make()
-tar_visnetwork(label = c("time", "size", "branches"))
+mermaid(tar_mermaid(label = c("time", "size", "branches")))
 
 # Same, but no labels.
-tar_visnetwork()
+mermaid(tar_mermaid())
 
 # Labels for time and branches
 net <- inspection_init(pipeline_cross())
-vis <- visnetwork_init(network = net, label = c("time", "branches"))
+vis <- mermaid_init(network = net, label = c("time", "branches"))
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should show everything at h and downstream outdated
 # and everything else up to date.
@@ -88,15 +89,15 @@ pipeline <- pipeline_init(
   )
 )
 net <- inspection_init(pipeline)
-vis <- visnetwork_init(network = net)
+vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should show an empty widget.
 net <- glimpse_init(pipeline_init())
-vis <- visnetwork_init(network = net)
+vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should show one started target.
 tar_option_set(envir = new.env(parent = globalenv()))
@@ -106,18 +107,18 @@ local_init(pipeline = pipeline)$run() # Manually cancel (ESC or CTRL-C)
 x <- target_init("w", quote(Sys.sleep(100)))
 pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
-vis <- visnetwork_init(network = net)
+vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should show one canceled target.
 pipeline <- pipeline_init(list(target_init("w", quote(targets::tar_cancel()))))
 local_init(pipeline = pipeline)$run()
 pipeline <- pipeline_init(list(target_init("w", quote(targets::tar_cancel()))))
 net <- inspection_init(pipeline)
-vis <- visnetwork_init(network = net)
+vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should show one errored target.
 x <- target_init("x", quote(stop("123")))
@@ -126,9 +127,9 @@ local_init(pipeline = pipeline)$run()
 x <- target_init("x", quote(stop("123")))
 pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
-vis <- visnetwork_init(network = net)
+vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should still show one errored target.
 tar_destroy()
@@ -138,9 +139,9 @@ local_init(pipeline = pipeline)$run()
 x <- target_init("x", quote(stop("123")), error = "continue")
 pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
-vis <- visnetwork_init(network = net)
+vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should show one errored map and one up-to-date stem.
 tar_destroy()
@@ -162,9 +163,9 @@ x <- target_init(
 )
 pipeline <- pipeline_init(list(w, x))
 net <- inspection_init(pipeline)
-vis <- visnetwork_init(network = net)
+vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should still show one errored map and one up-to-date stem.
 tar_destroy()
@@ -185,9 +186,9 @@ x <- target_init(
 )
 pipeline <- pipeline_init(list(w, x))
 net <- inspection_init(pipeline)
-vis <- visnetwork_init(network = net)
+vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
 # Should one canceled map and one up-to-date stem.
 tar_destroy()
@@ -208,11 +209,11 @@ x <- target_init(
 )
 pipeline <- pipeline_init(list(w, x))
 net <- inspection_init(pipeline)
-vis <- visnetwork_init(network = net)
+vis <- mermaid_init(network = net)
 vis$update()
-vis$visual
+mermaid(vis$visual)
 
-# Should show a glimpse of three targets.
+# Should show three targets.
 tar_script({
   g <- function(x) x - 1
   f <- function(x) g(x) + 1
@@ -222,79 +223,51 @@ tar_script({
     tar_target(z, y1 + y2)
   )
 })
-tar_glimpse()
+mermaid(tar_mermaid())
 
-# Should show a glimpse of just y1 and y2.
-tar_glimpse(allow = starts_with("y"))
+# Should show a just y1 and y2.
+mermaid(tar_mermaid(allow = starts_with("y")))
 
-# Should show a glimpse of just z.
-tar_glimpse(exclude = starts_with("y"))
+# Should show just z.
+mermaid(tar_mermaid(exclude = starts_with("y"), targets_only = TRUE))
 
-# Should show a glimpse of y1, y2, and z.
-tar_glimpse(names = starts_with("z"))
+# Should show y1, y2, and z.
+mermaid(tar_mermaid(names = starts_with("z"), targets_only = TRUE))
 
-# Should show a glimpse of just z.
-tar_glimpse(names = starts_with("z"), shortcut = TRUE)
+# Should show just z.
+mermaid(tar_mermaid(names = starts_with("z"), shortcut = TRUE))
 
 # Should show a graph of 3 targets and f() and g().
-tar_visnetwork(targets_only = FALSE)
+mermaid(tar_mermaid(targets_only = FALSE))
 
 # Should show a graph of 3 targets, f(), g(), and miscellaneous globals.
-tar_visnetwork(targets_only = FALSE, callr_function = NULL)
+mermaid(tar_mermaid(targets_only = FALSE, callr_function = NULL))
 
 # Should show a status of targets as queued (light gray).
-tar_visnetwork(targets_only = FALSE, outdated = FALSE)
+mermaid(tar_mermaid(targets_only = FALSE, outdated = FALSE))
 
 # Should show a graph of just y1 and y2.
-tar_visnetwork(allow = starts_with("y"))
+mermaid(tar_mermaid(allow = starts_with("y")))
 
 # Should show a graph of z, f, and g.
-tar_visnetwork(exclude = starts_with("y"))
+mermaid(tar_mermaid(exclude = starts_with("y")))
 
 # Should show a graph of everything.
-tar_visnetwork(names = starts_with("z"))
+mermaid(tar_mermaid(names = starts_with("z")))
 
 # Should show a graph of just z.
 tar_make()
-tar_visnetwork(names = starts_with("z"), shortcut = TRUE)
+mermaid(tar_mermaid(names = starts_with("z"), shortcut = TRUE))
 
 # Should show status queued (light gray).
 tar_destroy()
-tar_visnetwork(outdated = FALSE)
+tar_mermaid(outdated = FALSE)
 
 # Should show a canceled target.
 tar_script(list(tar_target(y1, tar_cancel())))
 tar_make()
-tar_visnetwork(outdated = FALSE)
+mermaid(tar_mermaid(outdated = FALSE))
 
-# Neighborhoods
-tar_script({
-  g <- function(x) x - 1
-  f <- function(x) g(x) + 1
-  list(
-    tar_target(y1, f(1)),
-    tar_target(y2, 1 + 1),
-    tar_target(z, y1 + y2),
-    tar_target(a, z),
-    tar_target(b, a),
-    tar_target(c, a),
-    tar_target(d, c),
-    tar_target(e, d)
-  )
-})
-
-# Click for highlighted neighborhoods
-# of upstream degree 1 and downstream degree 2.
-tar_glimpse(degree_to = 2)
-
-# Same with tar_visnetwork()
-tar_visnetwork(degree_to = 2)
-
-# Should slow down zoom speed.
-tar_glimpse(zoom_speed = 0.2)
-
-# Should slow down zoom speed.
-tar_visnetwork(zoom_speed = 0.2)
-
+# Clean up.
 unlink("_targets.R")
 unlink("_targets", recursive = TRUE)
