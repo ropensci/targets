@@ -25,8 +25,15 @@ tar_test("store_produce_path()", {
   store$resources <- list(bucket = "x_bucket")
   out <- store_produce_path(store, "x_name", "x_object")
   expect_equal(
-    out,
-    c("bucket=x_bucket", "region=NULL", "key=_targets/objects/x_name")
+    sort(out),
+    sort(
+      c(
+        "bucket=x_bucket",
+        sprintf("endpoint=%s", base64url::base64_urlencode("NULL")),
+        "region=NULL",
+        "key=_targets/objects/x_name"
+      )
+    )
   )
 })
 

@@ -8,7 +8,8 @@ tar_resources_aws(
   bucket,
   prefix = targets::path_objects_dir_cloud(),
   region = NULL,
-  part_size = 5 * (2^20)
+  part_size = 5 * (2^20),
+  endpoint = NULL
 )
 }
 \arguments{
@@ -26,6 +27,9 @@ Set to \code{NULL} to use the default region.}
 for each part of a multipart upload. (Except the last part,
 which is the remainder.) In a multipart upload, each part
 must be at least 5 MB.}
+
+\item{endpoint}{Character of length 1, URL endpoint for S3 storage.
+Defaults to the Amazon AWS endpoint if \code{NULL}.}
 }
 \value{
 Object of class \code{"tar_resources_aws"}, to be supplied

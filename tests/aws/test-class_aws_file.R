@@ -205,6 +205,7 @@ tar_test("aws_file format file with different region", {
   exp <- sort(
     c(
       sprintf("bucket=%s", bucket_name),
+      sprintf("endpoint=%s", base64url::base64_urlencode("NULL")),
       "region=us-west-2",
       "key=_targets/objects/x",
       "stage=example_aws_file.txt",
