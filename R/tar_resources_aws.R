@@ -19,7 +19,19 @@
 #'   which is the remainder.) In a multipart upload, each part
 #'   must be at least 5 MB.
 #' @param endpoint Character of length 1, URL endpoint for S3 storage.
-#'   Defaults to the Amazon AWS endpoint if `NULL`.
+#'   Defaults to the Amazon AWS endpoint if `NULL`. Example:
+#'   To use the S3 protocol with Google Cloud Storage,
+#'   set `endpoint = "https://storage.googleapis.com"`
+#'   and `region = "auto"`. Also make sure to create
+#'   HMAC access keys in the Google Cloud Storage console
+#'   (under Settings => Interoperability) and set the
+#'   `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment
+#'   variables accordingly. After that, you should be able to use
+#'   S3 storage formats with Google Cloud storage buckets.
+#'   There is one limitation, however: even if your bucket has
+#'   object versioning turned on, `targets` may fail to record object
+#'   versions. Google Cloud Storage in particular has this
+#'   incompatibility.
 #' @examples
 #' # Somewhere in you target script file (usually _targets.R):
 #' tar_target(

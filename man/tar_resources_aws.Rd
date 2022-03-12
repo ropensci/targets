@@ -29,7 +29,19 @@ which is the remainder.) In a multipart upload, each part
 must be at least 5 MB.}
 
 \item{endpoint}{Character of length 1, URL endpoint for S3 storage.
-Defaults to the Amazon AWS endpoint if \code{NULL}.}
+Defaults to the Amazon AWS endpoint if \code{NULL}. Example:
+To use the S3 protocol with Google Cloud Storage,
+set \code{endpoint = "https://storage.googleapis.com"}
+and \code{region = "auto"}. Also make sure to create
+HMAC access keys in the Google Cloud Storage console
+(under Settings => Interoperability) and set the
+\code{AWS_ACCESS_KEY_ID} and \code{AWS_SECRET_ACCESS_KEY} environment
+variables accordingly. After that, you should be able to use
+S3 storage formats with Google Cloud storage buckets.
+There is one limitation, however: even if your bucket has
+object versioning turned on, \code{targets} may fail to record object
+versions. Google Cloud Storage in particular has this
+incompatibility.}
 }
 \value{
 Object of class \code{"tar_resources_aws"}, to be supplied
