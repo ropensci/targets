@@ -4,16 +4,19 @@
 # which could put an unexpected and unfair burden on
 # external contributors from the open source community.
 # nocov start
-aws_s3_client <- function() {
-  paws::s3(config = tar_option_get(name = "s3_config"))
-}
-
-aws_s3_exists <- function(key, bucket, region = NULL, version = NULL) {
+aws_s3_exists <- function(
+  key,
+  bucket,
+  region = NULL,
+  endpoint = NULL,
+  version = NULL
+) {
   tryCatch(
     aws_s3_head_true(
       key = key,
       bucket = bucket,
       region = region,
+      endpoint = endpoint,
       version = version
     ),
     http_400 = function(condition) {
@@ -22,10 +25,14 @@ aws_s3_exists <- function(key, bucket, region = NULL, version = NULL) {
   )
 }
 
-aws_s3_head <- function(key, bucket, region = NULL, version = NULL) {
-  if (!is.null(region)) {
-    withr::local_envvar(.new = list(AWS_REGION = region))
-  }
+aws_s3_head <- function(
+  key,
+  bucket,
+  region = NULL,
+  endpoint = NULL,
+  version = NULL
+) {
+  client <- aws_s3_client(endpoint = endpoint, region = region)
   args <- list(
     Key = key,
     Bucket = bucket
@@ -33,14 +40,21 @@ aws_s3_head <- function(key, bucket, region = NULL, version = NULL) {
   if (!is.null(version)) {
     args$VersionId <- version
   }
-  do.call(what = aws_s3_client()$head_object, args = args)
+  do.call(what = client$head_object, args = args)
 }
 
-aws_s3_head_true <- function(key, bucket, region = NULL, version = NULL) {
+aws_s3_head_true <- function(
+  key,
+  bucket,
+  region = NULL,
+  endpoint = NULL,
+  version = NULL
+) {
   aws_s3_head(
     key = key,
     bucket = bucket,
     region = region,
+    endpoint = endpoint,
     version = version
   )
   TRUE
@@ -51,11 +65,10 @@ aws_s3_download <- function(
   key,
   bucket,
   region = NULL,
+  endpoint = NULL,
   version = NULL
 ) {
-  if (!is.null(region)) {
-    withr::local_envvar(.new = list(AWS_REGION = region))
-  }
+  client <- aws_s3_client(endpoint = endpoint, region = region)
   args <- list(
     Key = key,
     Bucket = bucket
@@ -63,7 +76,7 @@ aws_s3_download <- function(
   if (!is.null(version)) {
     args$VersionId <- version
   }
-  out <- do.call(what = aws_s3_client()$get_object, args = args)$Body
+  out <- do.call(what = client$get_object, args = args)$Body
   writeBin(out, con = file)
 }
 
@@ -75,14 +88,12 @@ aws_s3_upload <- function(
   key,
   bucket,
   region = NULL,
+  endpoint = NULL,
   metadata = list(),
   multipart = file.size(file) > part_size,
   part_size = 5 * (2 ^ 20)
 ) {
-  if (!is.null(region)) {
-    withr::local_envvar(.new = list(AWS_REGION = region))
-  }
-  client <- aws_s3_client()
+  client <- aws_s3_client(endpoint = endpoint, region = region)
   if (!multipart) {
     out <- client$put_object(
       Body = readBin(file, what = "raw", n = file.size(file)),
@@ -113,6 +124,7 @@ aws_s3_upload <- function(
       file = file,
       key = key,
       bucket = bucket,
+      client = client,
       part_size = part_size,
       upload_id = multipart$UploadId
     )
@@ -133,10 +145,10 @@ aws_s3_upload_parts <- function(
   file,
   key,
   bucket,
+  client,
   part_size,
   upload_id
 ) {
-  client <- aws_s3_client()
   file_size <- file.size(file)
   num_parts <- ceiling(file_size / part_size)
   con <- base::file(file, open = "rb")
@@ -155,5 +167,16 @@ aws_s3_upload_parts <- function(
     parts <- c(parts, list(list(ETag = part_response$ETag, PartNumber = i)))
   }
   return(parts)
+}
+
+aws_s3_client <- function(endpoint, region) {
+  config <- list()
+  if (!is.null(endpoint)) {
+    config$endpoint <- endpoint
+  }
+  if (!is.null(region)) {
+    config$region <- region
+  }
+  paws::s3(config = config)
 }
 # nocov end

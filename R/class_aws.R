@@ -11,6 +11,7 @@ store_produce_path.tar_aws <- function(store, name, object, path_store) {
 store_produce_aws_path <- function(store, name, object, path_store) {
   bucket <- store$resources$aws$bucket %|||% store$resources$bucket
   region <- store$resources$aws$region %|||% store$resources$region
+  endpoint <- store$resources$aws$endpoint %|||% store$resources$endpoint
   tar_assert_nonempty(bucket)
   tar_assert_chr(bucket)
   tar_assert_scalar(bucket)
@@ -18,6 +19,9 @@ store_produce_aws_path <- function(store, name, object, path_store) {
   tar_assert_nonempty(region %|||% "region")
   tar_assert_chr(region %|||% "region")
   tar_assert_scalar(region %|||% "region")
+  tar_assert_nonempty(endpoint %|||% "endpoint")
+  tar_assert_chr(endpoint %|||% "endpoint")
+  tar_assert_scalar(endpoint %|||% "endpoint")
   prefix <- store$resources$aws$prefix %|||%
     store$resources$prefix %|||%
     path_objects_dir_cloud()
@@ -28,8 +32,11 @@ store_produce_aws_path <- function(store, name, object, path_store) {
   tar_assert_nzchar(key)
   bucket <- paste0("bucket=", bucket)
   region <- paste0("region=", if_any(is.null(region), "NULL", region))
+  endpoint <- if_any(is.null(endpoint), "NULL", endpoint)
+  endpoint <- base64url::base64_urlencode(endpoint)
+  endpoint <- paste0("endpoint=", endpoint)
   key <- paste0("key=", key)
-  c(bucket, region, key)
+  c(bucket, region, key, endpoint)
 }
 
 store_aws_bucket <- function(path) {
@@ -44,11 +51,23 @@ store_aws_bucket <- function(path) {
 store_aws_region <- function(path) {
   # compatibility with targets <= 0.8.1:
   if (store_aws_path_0.8.1(path)) {
-    return()
+    return(NULL)
   }
   # with metadata written by targets > 0.8.1:
   out <- store_aws_path_field(path = path, pattern = "^region=")
   out <- if_any(length(out) > 0L && any(nzchar(out)), out, "")
+  if_any(identical(out, "NULL"), NULL, out)
+}
+
+store_aws_endpoint <- function(path) {
+  # compatibility with targets <= 0.8.1:
+  if (store_aws_path_0.8.1(path)) {
+    return(NULL)
+  }
+  # with metadata written by targets > 0.8.1:
+  out <- store_aws_path_field(path = path, pattern = "^endpoint=")
+  out <- if_any(length(out) > 0L && any(nzchar(out)), out, "")
+  out <- base64url::base64_urldecode(out)
   if_any(identical(out, "NULL"), NULL, out)
 }
 
@@ -97,6 +116,7 @@ store_read_object.tar_aws <- function(store) {
     bucket = store_aws_bucket(path),
     file = tmp,
     region = store_aws_region(path),
+    endpoint = store_aws_endpoint(path),
     version = store_aws_version(path)
   )
   store_convert_object(store, store_read_path(store, tmp))
@@ -112,6 +132,7 @@ store_upload_object.tar_aws <- function(store) {
       key = key,
       bucket = store_aws_bucket(store$file$path),
       region = store_aws_region(store$file$path),
+      endpoint = store_aws_endpoint(store$file$path),
       metadata = list("targets-hash" = store$file$hash),
       part_size = store$resources$aws$part_size %|||% (5 * (2 ^ 20))
     ),
@@ -138,6 +159,7 @@ store_has_correct_hash.tar_aws <- function(store) {
   path <- store$file$path
   bucket <- store_aws_bucket(path)
   region <- store_aws_region(path)
+  endpoint <- store_aws_endpoint(path)
   key <- store_aws_key(path)
   version <- store_aws_version(path)
   if_any(
@@ -145,6 +167,7 @@ store_has_correct_hash.tar_aws <- function(store) {
       key = key,
       bucket = bucket,
       region = region,
+      endpoint = endpoint,
       version = version
     ),
     identical(
@@ -152,6 +175,7 @@ store_has_correct_hash.tar_aws <- function(store) {
         key = key,
         bucket = bucket,
         region = region,
+        endpoint = endpoint,
         version = version
       ),
       store$file$hash
@@ -160,11 +184,12 @@ store_has_correct_hash.tar_aws <- function(store) {
   )
 }
 
-store_aws_hash <- function(key, bucket, region, version) {
+store_aws_hash <- function(key, bucket, region, endpoint, version) {
   head <- aws_s3_head(
     key = key,
     bucket = bucket,
     region = region,
+    endpoint = endpoint,
     version = version
   )
   head$Metadata[["targets-hash"]]

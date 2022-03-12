@@ -320,6 +320,7 @@ tar_test("aws_qs format with custom region", {
   exp <- sort(
     c(
       sprintf("bucket=%s", bucket_name),
+      sprintf("endpoint=%s", base64url::base64_urlencode("NULL")),
       "region=us-west-2",
       "key=_targets/objects/x",
       "version="

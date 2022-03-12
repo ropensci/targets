@@ -16,6 +16,11 @@ tar_test("\"\" region", {
   expect_equal(store_aws_region(path), "")
 })
 
+tar_test("\"\" endpoint", {
+  path <- c("bucket=abc", "endpoint=", "key=stuff")
+  expect_equal(store_aws_endpoint(path), "")
+})
+
 tar_test("compat with targets <= 0.8.1", {
   path <- c("bucket_name", "object_name", "stage_name")
   expect_equal(store_aws_bucket(path), "bucket_name")
