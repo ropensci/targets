@@ -73,6 +73,7 @@ tar_test("tar_manifest() shows cues correctly", {
     "cue_depend",
     "cue_file",
     "cue_format",
+    "cue_repository",
     "cue_iteration"
   )
   expect_equal(colnames(out), cols)
@@ -96,7 +97,7 @@ tar_test("tar_manifest() shows all fields if the fields arg is NULL", {
     )
   })
   out <- tar_manifest(fields = NULL, callr_function = NULL)
-  expect_equal(dim(out), c(5L, 20L))
+  expect_equal(dim(out), c(5L, 22L))
 })
 
 tar_test("tar_manifest() uses topo sort", {

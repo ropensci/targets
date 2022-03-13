@@ -66,7 +66,7 @@ tar_test("tar_path() returns non-cloud path for non-cloud storage formats", {
 })
 
 tar_test("tar_path() returns stage for cloud formats", {
-  x <- tar_target(x, 1, format = "aws_parquet")
+  x <- tar_target(x, 1, format = "parquet", repository = "aws")
   store_update_stage_early(x$store, x$settings$name, path_store_default())
   on.exit(tar_runtime$unset_target())
   tar_runtime$set_target(x)
