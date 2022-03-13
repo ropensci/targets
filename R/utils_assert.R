@@ -154,33 +154,14 @@ tar_assert_format <- function(format) {
     )
     format <- gsub("^aws_", "", format)
   }
-  choices <- c(
-    "rds",
-    "qs",
-    "feather",
-    "parquet",
-    "fst",
-    "fst_dt",
-    "fst_tbl",
-    "torch",
-    "keras",
-    "file",
-    "url",
-    "format_custom"
-  )
-  tar_assert_in(format, choices)
+  store_assert_format_setting(store_format_dispatch(format))
 }
 
 tar_assert_repository <- function(repository) {
   tar_assert_scalar(repository)
   tar_assert_chr(repository)
   tar_assert_nzchar(repository)
-  choices <- c(
-    "local",
-    "aws",
-    "gcs"
-  )
-  tar_assert_in(repository, choices)
+  store_assert_repository_setting(enclass(repository, repository))
 }
 
 #' @export

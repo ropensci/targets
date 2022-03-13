@@ -19,6 +19,10 @@ store_class_repository.aws <- function(repository, store, format) {
   )
 }
 
+#' @export
+store_assert_repository_setting.aws <- function(repository) {
+}
+
 store_produce_aws_path <- function(store, name, object, path_store) {
   bucket <- store$resources$aws$bucket %|||% store$resources$bucket
   region <- store$resources$aws$region %|||% store$resources$region

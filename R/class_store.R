@@ -65,6 +65,19 @@ store_assert_format_setting.default <- function(format) {
   tar_throw_validate(paste("unsupported format:", class(format)[1]))
 }
 
+store_assert_repository_setting <- function(repository) {
+  UseMethod("store_assert_repository_setting")
+}
+
+#' @export
+store_assert_repository_setting.default <- function(repository) {
+  tar_throw_validate(paste("unsupported repository:", repository))
+}
+
+#' @export
+store_assert_repository_setting.local <- function(repository) {
+}
+
 store_read_object <- function(store) {
   UseMethod("store_read_object")
 }
