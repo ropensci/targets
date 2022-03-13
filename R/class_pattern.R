@@ -30,6 +30,7 @@ target_produce_record.tar_pattern <- function(target, pipeline, meta) {
     seed = target$command$seed,
     bytes = target$patternview$bytes,
     format = target$settings$format,
+    repository = target$settings$repository,
     iteration = target$settings$iteration,
     children = target_get_children(target),
     seconds = target$patternview$seconds
@@ -157,6 +158,7 @@ print.tar_pattern <- function(x, ...) {
     "\n  pattern:\n   ",
     produce_lines(string_sub_expression(tar_deparse_safe(x$settings$pattern))),
     "\n  format:", x$settings$format,
+    "\n  repository:", x$settings$repository,
     "\n  iteration method:", x$settings$iteration,
     "\n  error mode:", x$settings$error,
     "\n  memory mode:", x$settings$memory,

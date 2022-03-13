@@ -74,6 +74,7 @@ target_produce_record.tar_branch <- function(target, pipeline, meta) {
     size = file$size,
     bytes = file$bytes,
     format = target$settings$format,
+    repository = target$settings$repository,
     iteration = target$settings$iteration,
     seconds = target$metrics$seconds,
     warnings = target$metrics$warnings,

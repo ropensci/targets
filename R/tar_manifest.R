@@ -23,6 +23,7 @@
 #'   * `command`: the R command that runs when the target builds.
 #'   * `pattern`: branching pattern of the target, if applicable.
 #'   * `format`: Storage format.
+#'   * `repository`: Storage repository.
 #'   * `iteration`: Iteration mode for branching.
 #'   * `error`: Error mode, what to do when the target fails.
 #'   * `memory`: Memory mode, when to keep targets in memory.
@@ -41,6 +42,7 @@
 #'   * `cue_expr`: Command cue from [tar_cue()].
 #'   * `cue_file`: File cue from [tar_cue()].
 #'   * `cue_format`: Format cue from [tar_cue()].
+#'   * `cue_repository`: Repository cue from [tar_cue()].
 #'   * `cue_iteration`: Iteration cue from [tar_cue()].
 #'   * `packages`: List columns of packages loaded before building the target.
 #'   * `library`: List column of library paths to load the packages.
@@ -112,6 +114,7 @@ tar_manifest_target <- function(target) {
     command = tar_manifest_command(target$command$expr),
     pattern = tar_manifest_pattern(target$settings$pattern),
     format = target$settings$format,
+    repository = target$settings$repository,
     iteration = target$settings$iteration,
     error = target$settings$error,
     memory = target$settings$memory,
@@ -125,6 +128,7 @@ tar_manifest_target <- function(target) {
     cue_depend = target$cue$depend,
     cue_file = target$cue$file,
     cue_format = target$cue$format,
+    cue_repository = target$cue$repository,
     cue_iteration = target$cue$iteration,
     packages = list(target$command$packages),
     library = list(target$command$library)

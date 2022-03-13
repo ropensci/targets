@@ -54,10 +54,8 @@
 #'   on a parallel worker. It should not read or write any persistent files.
 #'   See the Marshalling section for details.
 #'   See the "Format functions" section for specific requirements.
-#' @param repository Character of length 1, `"default"` for local storage
-#'   and `"aws"` for storage on Amazon S3. Read
-#'   <https://books.ropensci.org/targets/storage_amazon.html>
-#'   for more on Amazon S3 storage.
+#' @param repository Deprecated. Use the `repository` argument of
+#'   [tar_target()] or [tar_option_set()] instead.
 #' @examples
 #' # The following target is equivalent to
 #' # tar_target(name, command(), format = "keras"):
@@ -76,8 +74,7 @@
 #'     },
 #'     unmarshal = function(object) {
 #'       keras::unserialize_model(object)
-#'     },
-#'     repository = "default" # Could be "aws" (same as format = "aws_keras")
+#'     }
 #'   )
 #' )
 tar_format <- function(
@@ -93,7 +90,7 @@ tar_format <- function(
   unmarshal = function(object) {
     identity(object) # nocov
   },
-  repository = c("default", "aws")
+  repository = NULL
 ) {
   tar_assert_function(read)
   tar_assert_function(write)
@@ -103,17 +100,21 @@ tar_format <- function(
   tar_assert_function_arguments(write, c("object", "path"))
   tar_assert_function_arguments(marshal, "object")
   tar_assert_function_arguments(unmarshal, "object")
-  repository <- match.arg(repository)
-  tar_assert_chr(repository)
-  tar_assert_scalar(repository)
-  tar_assert_nzchar(repository)
+  if (!is.null(repository)) {
+    tar_warn_deprecate(
+      "in targets version > 0.10.0 (2022-03-13) the repository ",
+      "argument of tar_format() is deprecated. Please use the ",
+      "repository argument of tar_target() or tar_option_set() ",
+      "instead."
+    )
+  }
   paste(
     "format_custom",
     tar_format_field("read", read),
     tar_format_field("write", write),
     tar_format_field("marshal", marshal),
     tar_format_field("unmarshal", unmarshal),
-    paste0("repository=", match.arg(repository)),
+    paste0("repository=", repository),
     sep = "&"
   )
 }

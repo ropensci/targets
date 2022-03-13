@@ -87,6 +87,7 @@ meta_class <- R6::R6Class(
       record$time <- old$time
       record$bytes <- old$bytes
       record$format <- old$format
+      record$repository <- old$repository
       record$iteration <- old$iteration
       record$children <- old$children
     },
@@ -101,6 +102,37 @@ meta_class <- R6::R6Class(
     set_imports = function(envir, pipeline) {
       data <- self$data_imports(envir, pipeline)
       self$database$set_data(data)
+    },
+    migrate_database = function() {
+      # Add the repository column (> 0.10.0).
+      if (!file.exists(self$database$path)) {
+        return()
+      }
+      line <- readLines(self$database$path, n = 1)
+      line <- strsplit(line, split = database_sep_outer, fixed = TRUE)[[1]]
+      if ("repository" %in% line) {
+        return()
+      }
+      data <- as_data_frame(self$database$read_condensed_data())
+      data$repository <- ifelse(
+        grepl("^aws_", data$format),
+        "aws",
+        "local"
+      )
+      data$repository[data$type %in% c("object", "function")] <- NA_character_
+      data$format <- gsub("^aws_", "", data$format)
+      data <- data[, self$database$header, drop = FALSE]
+      self$database$overwrite_storage(data)
+      cli::cli_alert_info(
+        paste(
+          "Migrated the metadata file to a new data format to include",
+          "the new repository column. Up-to-date targets are still up to",
+          "date, but version 0.10.0 and below of the targets package",
+          "is no longer compatible with this project. If you need to revert",
+          "the version of the targets package, then run tar_destroy()",
+          "to remove the data store and rerun the pipeline from scratch."
+        )
+      )
     },
     validate = function() {
       self$database$validate()
@@ -130,6 +162,7 @@ header_meta <- function() {
     "size",
     "bytes",
     "format",
+    "repository",
     "iteration",
     "parent",
     "children",

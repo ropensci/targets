@@ -64,6 +64,10 @@
 #'     is different from last time.
 #'     Always `NA` if the `record` cue is activated.
 #'     Otherwise, always `FALSE` if the `format` cue is suppressed.
+#'   * `repository`: Whether the storage repository of the target
+#'     is different from last time.
+#'     Always `NA` if the `record` cue is activated.
+#'     Otherwise, always `FALSE` if the `format` cue is suppressed.
 #'   * `iteration`: Whether the iteration mode of the target
 #'     is different from last time.
 #'     Always `NA` if the `record` cue is activated.

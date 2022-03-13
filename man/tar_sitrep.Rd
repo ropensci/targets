@@ -55,6 +55,10 @@ Otherwise, always \code{FALSE} if the \code{depend} cue is suppressed.
 is different from last time.
 Always \code{NA} if the \code{record} cue is activated.
 Otherwise, always \code{FALSE} if the \code{format} cue is suppressed.
+\item \code{repository}: Whether the storage repository of the target
+is different from last time.
+Always \code{NA} if the \code{record} cue is activated.
+Otherwise, always \code{FALSE} if the \code{format} cue is suppressed.
 \item \code{iteration}: Whether the iteration mode of the target
 is different from last time.
 Always \code{NA} if the \code{record} cue is activated.

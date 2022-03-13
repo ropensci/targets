@@ -24,6 +24,7 @@ passive_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     ensure_meta = function() {
+      self$meta$migrate_database()
       self$meta$database$ensure_preprocessed(write = FALSE)
       self$meta$set_imports(self$pipeline$imports, self$pipeline)
       self$meta$restrict_records(self$pipeline)

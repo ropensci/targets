@@ -16,6 +16,7 @@ record_init <- function(
   size = NA_character_,
   bytes = NA_real_, # Cannot be integer because of large value.
   format = NA_character_,
+  repository = NA_character_,
   iteration = NA_character_,
   parent = NA_character_,
   children = NA_character_,
@@ -35,6 +36,7 @@ record_init <- function(
     size = as.character(size),
     bytes = as.numeric(bytes),
     format = as.character(format),
+    repository = as.character(repository),
     iteration = as.character(iteration),
     parent = as.character(parent),
     children = as.character(children) %||% NA_character_,
@@ -57,6 +59,7 @@ record_new <- function(
   size = NULL,
   bytes = NULL,
   format = NULL,
+  repository = NULL,
   iteration = NULL,
   children = NULL,
   seconds = NULL,
@@ -75,6 +78,7 @@ record_new <- function(
   force(size)
   force(bytes)
   force(format)
+  force(repository)
   force(iteration)
   force(children)
   force(seconds)
@@ -105,6 +109,7 @@ record_produce_row <- function(record) {
     size = record$size,
     bytes = record$bytes,
     format = record$format,
+    repository = record$repository,
     iteration = record$iteration,
     parent = record$parent,
     children = list(record$children),
@@ -115,7 +120,10 @@ record_produce_row <- function(record) {
 }
 
 record_row_path <- function(record) {
-  store <- store_init(record$format)
+  store <- store_init(
+    format = record$format,
+    repository = record$repository
+  )
   store$file$path <- record$path
   store_row_path(store)
 }
@@ -123,7 +131,10 @@ record_row_path <- function(record) {
 record_from_row <- function(row, path_store) {
   record <- do.call(record_init, lapply(row, unlist))
   record$path <- store_path_from_record(
-    store = store_init(record$format),
+    store = store_init(
+      format = record$format,
+      repository = record$repository
+    ),
     record = record,
     path_store = path_store
   )
@@ -143,7 +154,10 @@ record_encode_field <- function(field) {
 }
 
 record_bootstrap_store <- function(record) {
-  store <- store_init(format = record$format)
+  store <- store_init(
+    format = record$format,
+    repository = record$repository
+  )
   store$file$path <- record$path
   store
 }
@@ -163,6 +177,7 @@ record_validate <- function(record) {
   tar_assert_chr(record$size)
   tar_assert_dbl(record$bytes)
   tar_assert_chr_no_delim(record$format)
+  tar_assert_chr_no_delim(record$repository)
   tar_assert_chr_no_delim(record$iteration)
   tar_assert_chr_no_delim(record$children)
   tar_assert_dbl(record$seconds)
@@ -179,5 +194,6 @@ record_validate <- function(record) {
   tar_assert_scalar(record$size)
   tar_assert_scalar(record$bytes)
   tar_assert_scalar(record$format)
+  tar_assert_scalar(record$repository)
   tar_assert_scalar(record$iteration)
 }

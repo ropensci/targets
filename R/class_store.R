@@ -3,13 +3,6 @@ store_init <- function(
   repository = "local",
   resources = list()
 ) {
-  if (any(grepl("^aws_", format))) {
-    format <- gsub("^aws_", "", format)
-    repository <- "aws"
-  }
-  if (identical(format, "url")) {
-    repository <- "local"
-  }
   store <- store_new(
     format = store_format_dispatch(format),
     file = file_init(),

@@ -89,3 +89,10 @@ store_validate.tar_store_custom <- function(store) {
     tar_assert_nzchar(store[[field]])
   }
 }
+
+store_custom_old_repository <- function(format) {
+  format <- unlist(strsplit(format, split = "&", fixed = TRUE))
+  value <- grep("^repository=", format, value = TRUE)
+  value <- gsub("^repository=", "", value)
+  value %||% "local"
+}

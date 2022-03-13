@@ -83,6 +83,7 @@ builder_should_run <- function(target, meta) {
   if (cue_command(cue, target, meta)) return(TRUE)
   if (cue_depend(cue, target, meta)) return(TRUE)
   if (cue_format(cue, target, meta)) return(TRUE)
+  if (cue_repository(cue, target, meta)) return(TRUE)
   if (cue_iteration(cue, target, meta)) return(TRUE)
   if (cue_file(cue, target, meta)) return(TRUE)
   FALSE
@@ -471,6 +472,7 @@ builder_sitrep <- function(target, meta) {
     command = if_any(record, NA, cue_command(cue, target, meta)),
     depend = if_any(record, NA, cue_depend(cue, target, meta)),
     format = if_any(record, NA, cue_format(cue, target, meta)),
+    repository = if_any(record, NA, cue_repository(cue, target, meta)),
     iteration = if_any(record, NA, cue_iteration(cue, target, meta)),
     file = if_any(record, NA, cue_file(cue, target, meta))
   )

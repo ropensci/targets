@@ -32,6 +32,7 @@ Possible fields are below. All of them can be set in \code{\link[=tar_target]{ta
 \item \code{command}: the R command that runs when the target builds.
 \item \code{pattern}: branching pattern of the target, if applicable.
 \item \code{format}: Storage format.
+\item \code{repository}: Storage repository.
 \item \code{iteration}: Iteration mode for branching.
 \item \code{error}: Error mode, what to do when the target fails.
 \item \code{memory}: Memory mode, when to keep targets in memory.
@@ -50,6 +51,7 @@ simultaneously. Targets with priorities closer to 1 get built earlier
 \item \code{cue_expr}: Command cue from \code{\link[=tar_cue]{tar_cue()}}.
 \item \code{cue_file}: File cue from \code{\link[=tar_cue]{tar_cue()}}.
 \item \code{cue_format}: Format cue from \code{\link[=tar_cue]{tar_cue()}}.
+\item \code{cue_repository}: Repository cue from \code{\link[=tar_cue]{tar_cue()}}.
 \item \code{cue_iteration}: Iteration cue from \code{\link[=tar_cue]{tar_cue()}}.
 \item \code{packages}: List columns of packages loaded before building the target.
 \item \code{library}: List column of library paths to load the packages.

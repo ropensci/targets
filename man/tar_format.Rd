@@ -10,7 +10,7 @@ tar_format(
     3L) },
   marshal = function(object) {     identity(object) },
   unmarshal = function(object) {     identity(object) },
-  repository = c("default", "aws")
+  repository = NULL
 )
 }
 \arguments{
@@ -39,10 +39,8 @@ on a parallel worker. It should not read or write any persistent files.
 See the Marshalling section for details.
 See the "Format functions" section for specific requirements.}
 
-\item{repository}{Character of length 1, \code{"default"} for local storage
-and \code{"aws"} for storage on Amazon S3. Read
-\url{https://books.ropensci.org/targets/storage_amazon.html}
-for more on Amazon S3 storage.}
+\item{repository}{Deprecated. Use the \code{repository} argument of
+\code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_set]{tar_option_set()}} instead.}
 }
 \value{
 A character string of length 1 encoding the custom format.
@@ -104,8 +102,7 @@ tar_target(
     },
     unmarshal = function(object) {
       keras::unserialize_model(object)
-    },
-    repository = "default" # Could be "aws" (same as format = "aws_keras")
+    }
   )
 )
 }

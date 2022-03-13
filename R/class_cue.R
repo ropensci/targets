@@ -3,6 +3,7 @@ cue_init <- function(
   command = TRUE,
   depend = TRUE,
   format = TRUE,
+  repository = TRUE,
   iteration = TRUE,
   file = TRUE
 ) {
@@ -11,6 +12,7 @@ cue_init <- function(
     command = command,
     depend = depend,
     format = format,
+    repository = repository,
     iteration = iteration,
     file = file
   )
@@ -21,6 +23,7 @@ cue_new <- function(
   command = NULL,
   depend = NULL,
   format = NULL,
+  repository = NULL,
   iteration = NULL,
   file = NULL
 ) {
@@ -28,6 +31,7 @@ cue_new <- function(
   force(command)
   force(depend)
   force(format)
+  force(repository)
   force(file)
   force(iteration)
   enclass(environment(), "tar_cue")
@@ -88,6 +92,15 @@ cue_format <- function(cue, target, meta) {
   !identical(old, new)
 }
 
+cue_repository <- function(cue, target, meta) {
+  if (!cue$repository) {
+    return(FALSE)
+  }
+  old <- meta$get_record(target_get_name(target))$repository
+  new <- target$settings$repository
+  !identical(old, new)
+}
+
 cue_iteration <- function(cue, target, meta) {
   if (!cue$iteration) {
     return(FALSE)
@@ -122,11 +135,13 @@ cue_validate <- function(cue) {
   tar_assert_lgl(cue$command)
   tar_assert_lgl(cue$depend)
   tar_assert_lgl(cue$format)
+  tar_assert_lgl(cue$repository)
   tar_assert_lgl(cue$iteration)
   tar_assert_scalar(cue$mode)
   tar_assert_scalar(cue$command)
   tar_assert_scalar(cue$depend)
   tar_assert_scalar(cue$format)
+  tar_assert_scalar(cue$repository)
   tar_assert_scalar(cue$iteration)
 }
 

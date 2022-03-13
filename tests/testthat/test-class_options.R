@@ -131,7 +131,6 @@ tar_test("import", {
   expect_equal(x$get_debug(), "x")
   expect_equal(x$get_workspaces(), "x")
   expect_equal(x$get_workspace_on_error(), TRUE)
-  expect_equal(x$get_s3_config(), list(region = "us-west-2"))
 })
 
 tar_test("tidy_eval", {
