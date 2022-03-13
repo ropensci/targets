@@ -17,6 +17,7 @@ tar_test("tar_sitrep() on an empty project", {
     command = NA,
     depend = NA,
     format = NA,
+    repository = NA,
     iteration = NA,
     file = NA
   )
@@ -57,6 +58,7 @@ tar_test("tar_sitrep() on an empty project with callr process", {
     command = NA,
     depend = NA,
     format = NA,
+    repository = NA,
     iteration = NA,
     file = NA
   )
@@ -136,6 +138,7 @@ tar_test("tar_sitrep() on a run project", {
     command = FALSE,
     depend = FALSE,
     format = FALSE,
+    repository = FALSE,
     iteration = FALSE,
     file = FALSE
   )
@@ -165,6 +168,7 @@ tar_test("tar_sitrep() on a project with a change", {
     command = FALSE,
     depend = FALSE,
     format = FALSE,
+    repository = FALSE,
     iteration = FALSE,
     file = FALSE
   )
@@ -203,6 +207,7 @@ tar_test("tar_sitrep() invalidation due to aggregated pattern deps", {
     command = FALSE,
     depend = FALSE,
     format = FALSE,
+    repository = FALSE,
     iteration = FALSE,
     file = FALSE
   )
