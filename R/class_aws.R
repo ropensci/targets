@@ -10,6 +10,7 @@ store_produce_path.tar_aws <- function(store, name, object, path_store) {
 
 #' @export
 store_class_repository.aws <- function(repository, store, format) {
+  format <- gsub(pattern = "\\&.*$", replacement = "", x = format)
   c(
     sprintf("tar_aws_%s", format),
     "tar_aws",

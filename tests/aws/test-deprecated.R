@@ -31,3 +31,31 @@ tar_test("AWS S3 with old resources", {
   )
   expect_equal(tar_read(c), 2L)
 })
+
+tar_test("deprecated format = \"aws_parquet\"", {
+  skip_if_no_aws()
+  skip_if_not_installed("arrow")
+  s3 <- paws::s3()
+  bucket_name <- random_bucket_name()
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(destroy_bucket(bucket_name))
+  expr <- quote({
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name)
+      ),
+      format = "aws_parquet"
+    )
+    list(
+      tar_target(x, data.frame(x = seq_len(2), y = seq_len(2)))
+    )
+  })
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
+  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
+  expect_warning(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_deprecate"
+  )
+  out <- tar_read(x)
+  expect_equal(out, data.frame(x = seq_len(2), y = seq_len(2)))
+})

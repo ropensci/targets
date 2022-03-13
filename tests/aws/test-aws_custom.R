@@ -25,13 +25,13 @@ tar_test("aws with custom format", {
         con <- rawConnection(object, open = "r")
         on.exit(close(con))
         torch::torch_load(con)
-      },
-      repository = "aws"
+      }
     )
     tar_target(
       a,
       torch::torch_tensor(c(1, 2)),
       format = format,
+      repository = "aws",
       resources = tar_resources(
         aws = tar_resources_aws(bucket = !!bucket_name)
       ),

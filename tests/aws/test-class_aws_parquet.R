@@ -12,7 +12,8 @@ tar_test("aws_parquet format returns data frames", {
       resources = tar_resources(
         aws = tar_resources_aws(bucket = !!bucket_name)
       ),
-      format = "aws_parquet"
+      format = "parquet",
+      repository = "aws"
     )
     list(
       tar_target(x, data.frame(x = seq_len(2), y = seq_len(2)))
