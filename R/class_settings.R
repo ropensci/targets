@@ -1,6 +1,7 @@
 settings_init <- function(
   name = character(0),
   format = "rds",
+  repository = "local",
   pattern = NULL,
   iteration = "vector",
   error = "stop",
@@ -18,6 +19,7 @@ settings_init <- function(
   settings_new(
     name = name,
     format = format,
+    repository = repository,
     pattern = pattern,
     dimensions = dimensions,
     iteration = iteration,
@@ -35,6 +37,7 @@ settings_init <- function(
 settings_new <- function(
   name = NULL,
   format = NULL,
+  repository = NULL,
   pattern = NULL,
   dimensions = NULL,
   iteration = NULL,
@@ -49,6 +52,7 @@ settings_new <- function(
 ) {
   force(name)
   force(format)
+  force(repository)
   force(pattern)
   force(dimensions)
   force(iteration)
@@ -73,13 +77,18 @@ settings_produce_dimensions <- function(pattern) {
 }
 
 settings_produce_store <- function(settings) {
-  store_init(settings$format, settings$resources)
+  store_init(
+    format = settings$format,
+    repository = settings$repository,
+    resources = settings$resources
+  )
 }
 
 settings_clone <- function(settings) {
   settings_new(
     name = settings$name,
     format = settings$format,
+    repository = settings$repository,
     pattern = settings$pattern,
     dimensions = settings$dimensions,
     iteration = settings$iteration,
@@ -132,6 +141,7 @@ settings_validate <- function(settings) {
   tar_assert_correct_fields(settings, settings_new)
   tar_assert_name(settings$name)
   tar_assert_format(settings$format)
+  tar_assert_repository(settings$repository)
   settings_validate_pattern(
     settings$name,
     settings$pattern,

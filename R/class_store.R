@@ -1,5 +1,14 @@
-store_init <- function(format = "rds", resources = list()) {
-  store_new(
+store_init <- function(
+  format = "rds",
+  repository = "local",
+  resources = list()
+) {
+
+  # TODO: refactor store creation based on format and repo specification
+  stop("need to refactor store creation based on format and repo specification")
+  
+  
+    store_new(
     format = store_format_dispatch(format),
     file = file_init(),
     resources = resources

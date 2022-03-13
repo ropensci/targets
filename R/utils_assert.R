@@ -141,7 +141,34 @@ tar_assert_format <- function(format) {
   tar_assert_scalar(format)
   tar_assert_chr(format)
   tar_assert_nzchar(format)
-  store_assert_format_setting(store_format_dispatch(format))
+  format <- gsub("\\&.*$", "", format)
+  choices <- c(
+    "rds",
+    "qs",
+    "feather",
+    "parquet",
+    "fst",
+    "fst_dt",
+    "fst_tbl",
+    "torch",
+    "keras",
+    "file",
+    "url",
+    "format_custom"
+  )
+  tar_assert_in(format, choices)
+}
+
+tar_assert_repository <- function(repository) {
+  tar_assert_scalar(repository)
+  tar_assert_chr(repository)
+  tar_assert_nzchar(repository)
+  choices <- c(
+    "local",
+    "s3",
+    "gcs"
+  )
+  tar_assert_in(repository, choices)
 }
 
 #' @export

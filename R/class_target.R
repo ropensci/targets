@@ -6,6 +6,7 @@ target_init <- function(
   deps = NULL,
   string = NULL,
   format = "rds",
+  repository = "local",
   pattern = NULL,
   iteration = "vector",
   error = "stop",
@@ -24,6 +25,7 @@ target_init <- function(
   settings <- settings_init(
     name = name,
     format = format,
+    repository = repository,
     pattern = pattern,
     iteration = iteration,
     error = error,
