@@ -13,7 +13,7 @@ client <- function() {
   )
 }
 
-tar_test("aws_qs format data gets stored", {
+tar_test("aws qs format data gets stored", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
   s3 <- client()
@@ -31,8 +31,8 @@ tar_test("aws_qs format data gets stored", {
       )
     )
     list(
-      tar_target(x, "x_value", format = "aws_qs"),
-      tar_target(y, c(x, "y_value"), format = "aws_qs")
+      tar_target(x, "x_value", format = "qs", repository = "aws"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -69,7 +69,7 @@ tar_test("aws_qs format data gets stored", {
   expect_equal(qs::qread(tmp), "x_value")
 })
 
-tar_test("aws_qs format invalidation", {
+tar_test("aws qs format invalidation", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
   s3 <- client()
@@ -87,8 +87,8 @@ tar_test("aws_qs format invalidation", {
       )
     )
     list(
-      tar_target(x, "x_value", format = "aws_qs"),
-      tar_target(y, c(x, "y_value"), format = "aws_qs")
+      tar_target(x, "x_value", format = "qs", repository = "aws"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -111,8 +111,8 @@ tar_test("aws_qs format invalidation", {
       )
     )
     list(
-      tar_target(x, "x_value2", format = "aws_qs"),
-      tar_target(y, c(x, "y_value"), format = "aws_qs")
+      tar_target(x, "x_value2", format = "qs", repository = "aws"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
