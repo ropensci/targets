@@ -101,7 +101,7 @@
 #'     with a non-AWS S3 bucket using the `endpoint` argument of
 #'     [tar_resources_aws()], but versioning capabilities may be lost
 #'     in doing so.
-#'   * `"gcs"`: Google cloud storage bucket.
+#'   * `"gcp"`: Google Cloud Platform storage bucket.
 #' @param iteration Character of length 1, name of the iteration mode
 #'   of the target. Choices:
 #'   * `"vector"`: branching happens with `vctrs::vec_slice()` and

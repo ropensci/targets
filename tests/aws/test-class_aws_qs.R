@@ -14,8 +14,8 @@ tar_test("aws_qs format data gets stored", {
       )
     )
     list(
-      tar_target(x, "x_value", format = "aws_qs"),
-      tar_target(y, c(x, "y_value"), format = "aws_qs")
+      tar_target(x, "x_value", format = "qs", repository = "aws"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -56,8 +56,8 @@ tar_test("aws_qs format data gets stored with worker storage", {
       retrieval = "worker"
     )
     list(
-      tar_target(x, "x_value", format = "aws_qs"),
-      tar_target(y, c(x, "y_value"), format = "aws_qs")
+      tar_target(x, "x_value", format = "qs", repository = "aws"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -96,8 +96,8 @@ tar_test("aws_qs format invalidation", {
       )
     )
     list(
-      tar_target(x, "x_value", format = "aws_qs"),
-      tar_target(y, c(x, "y_value"), format = "aws_qs")
+      tar_target(x, "x_value", format = "qs", repository = "aws"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -116,8 +116,8 @@ tar_test("aws_qs format invalidation", {
       )
     )
     list(
-      tar_target(x, "x_value2", format = "aws_qs"),
-      tar_target(y, c(x, "y_value"), format = "aws_qs")
+      tar_target(x, "x_value2", format = "qs", repository = "aws"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -143,7 +143,8 @@ tar_test("aws_qs format and dynamic branching", {
       ),
       storage = "worker",
       retrieval = "worker",
-      format = "aws_qs"
+      format = "qs",
+      repository = "aws"
     )
     list(
       tar_target(x, seq_len(2)),
@@ -172,7 +173,8 @@ tar_test("aws timestamp", {
       resources = tar_resources(
         aws = tar_resources_aws(bucket = !!bucket_name)
       ),
-      format = "aws_qs"
+      format = "qs",
+      repository = "aws"
     )
     list(
       tar_target(x, seq_len(1))
@@ -202,8 +204,8 @@ tar_test("aws_qs format with an alternative data store", {
       aws = tar_resources_aws(bucket = !!bucket_name)
     ))
     list(
-      tar_target(x, "x_value", format = "aws_qs"),
-      tar_target(y, c(x, "y_value"), format = "aws_qs")
+      tar_target(x, "x_value", format = "qs", repository = "aws"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -247,10 +249,11 @@ tar_test("aws_qs format works with storage = \"none\"", {
       tar_target(
         x,
         qs::qsave("x_value", tar_path(create_dir = TRUE)),
-        format = "aws_qs",
+        format = "qs",
+        repository = "aws",
         storage = "none"
       ),
-      tar_target(y, c(x, "y_value"), format = "aws_qs")
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -291,8 +294,8 @@ tar_test("aws_qs format with custom region", {
       )
     )
     list(
-      tar_target(x, "x_value", format = "aws_qs"),
-      tar_target(y, c(x, "y_value"), format = "aws_qs")
+      tar_target(x, "x_value", format = "qs", repository = "aws"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -351,8 +354,8 @@ tar_test("aws_qs format empty region string", {
       )
     )
     list(
-      tar_target(x, "x_value", format = "aws_qs"),
-      tar_target(y, c(x, "y_value"), format = "aws_qs")
+      tar_target(x, "x_value", format = "qs", repository = "aws"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -374,8 +377,8 @@ tar_test("aws_qs nonexistent bucket", {
       )
     )
     list(
-      tar_target(x, "x_value", format = "aws_qs"),
-      tar_target(y, c(x, "y_value"), format = "aws_qs")
+      tar_target(x, "x_value", format = "qs", repository = "aws"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -415,7 +418,7 @@ tar_test("aws_qs format versioning", {
       )
     )
     list(
-      tar_target(x, "first", format = "aws_qs")
+      tar_target(x, "first", format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -437,7 +440,7 @@ tar_test("aws_qs format versioning", {
       )
     )
     list(
-      tar_target(x, "second", format = "aws_qs")
+      tar_target(x, "second", format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -461,7 +464,7 @@ tar_test("aws_qs format versioning", {
       )
     )
     list(
-      tar_target(x, "first", format = "aws_qs")
+      tar_target(x, "first", format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)

@@ -12,7 +12,8 @@ tar_test("AWS S3 with old resources", {
     library(targets)
     library(future)
     tar_option_set(
-      format = "aws_rds",
+      format = "rds",
+      repository = "aws",
       resources = list(
         bucket = bucket_name,
         prefix = "customprefix/customdir"

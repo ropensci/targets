@@ -17,7 +17,8 @@ tar_test("aws_parquet format returns data frames", {
           prefix = "custom/prefix"
         )
       ),
-      format = "aws_parquet"
+      format = "parquet",
+      repository = "aws"
     )
     list(
       tar_target(x, data.frame(x = seq_len(2), y = seq_len(2)))

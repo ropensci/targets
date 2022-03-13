@@ -76,7 +76,7 @@ storage. Choices:
 with a non-AWS S3 bucket using the \code{endpoint} argument of
 \code{\link[=tar_resources_aws]{tar_resources_aws()}}, but versioning capabilities may be lost
 in doing so.
-\item \code{"gcs"}: Google cloud storage bucket.
+\item \code{"gcp"}: Google Cloud Platform storage bucket.
 }}
 
 \item{iteration}{Character of length 1, name of the iteration mode
