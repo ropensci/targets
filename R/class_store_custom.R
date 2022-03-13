@@ -36,17 +36,6 @@ store_custom_field <- function(format, pattern) {
   out %||% NULL
 }
 
-# store_custom_enclass_repository <- function(store) {
-#   switch(
-#     store$repository,
-#     default = store,
-#     aws = enclass(
-#       store,
-#       c("tar_aws_store_custom", "tar_aws", "tar_cloud", "tar_external")
-#     )
-#   )
-# }
-
 #' @export
 store_assert_format_setting.format_custom <- function(format) {
 }
