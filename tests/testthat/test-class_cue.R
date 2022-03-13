@@ -269,6 +269,28 @@ tar_test("cue_format() suppressed", {
   expect_equal(out, "x")
 })
 
+tar_test("cue_repository()", {
+  skip_if_not_installed("paws")
+  tar_script(tar_target(x, 1, repository = "local"))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_outdated(callr_function = NULL), character(0))
+  tar_script(tar_target(x, 1, repository = "aws"))
+  expect_equal(tar_outdated(callr_function = NULL), "x")
+})
+
+tar_test("cue_repository() suppressed", {
+  skip_if_not_installed("paws")
+  tar_script(
+    tar_target(x, 1, repository = "local", cue = tar_cue(repository = FALSE))
+  )
+  tar_make(callr_function = NULL)
+  expect_equal(tar_outdated(callr_function = NULL), character(0))
+  tar_script(
+    tar_target(x, 1, repository = "aws", cue = tar_cue(repository = FALSE))
+  )
+  expect_equal(tar_outdated(callr_function = NULL), "x")
+})
+
 tar_test("cue_iteration()", {
   x <- target_init("x", quote(1L), iteration = "vector")
   local <- local_init(pipeline_init(list(x)))

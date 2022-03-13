@@ -44,6 +44,15 @@ tar_test("store_aws_version()", {
   expect_null(store_aws_version(letters))
 })
 
+tar_test("store_aws_version()", {
+  path <- c(
+    "bucket=b",
+    sprintf("endpoint=%s", base64url::base64_urlencode("answer"))
+  )
+  expect_equal(store_aws_endpoint(path), "answer")
+  expect_null(store_aws_endpoint(letters))
+})
+
 tar_test("store_aws_split_colon()", {
   path <- c("bucket=bu:region=reg", "key=sdfasdf")
   expect_equal(

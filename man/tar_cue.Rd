@@ -9,6 +9,7 @@ tar_cue(
   command = TRUE,
   depend = TRUE,
   format = TRUE,
+  repository = TRUE,
   iteration = TRUE,
   file = TRUE
 )
@@ -28,6 +29,10 @@ of the dependencies changed.}
 \item{format}{Logical, whether to rerun the target if the user-specified
 storage format changed. The storage format is user-specified through
 \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_set]{tar_option_set()}}.}
+
+\item{repository}{Logical, whether to rerun the target if the user-specified
+storage repository changed. The storage repository is user-specified
+through \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_set]{tar_option_set()}}.}
 
 \item{iteration}{Logical, whether to rerun the target if the user-specified
 iteration method changed. The iteration method is user-specified through

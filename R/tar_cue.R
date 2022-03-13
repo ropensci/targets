@@ -76,6 +76,9 @@
 #' @param format Logical, whether to rerun the target if the user-specified
 #'   storage format changed. The storage format is user-specified through
 #'   [tar_target()] or [tar_option_set()].
+#' @param repository Logical, whether to rerun the target if the user-specified
+#'   storage repository changed. The storage repository is user-specified
+#'   through [tar_target()] or [tar_option_set()].
 #' @param iteration Logical, whether to rerun the target if the user-specified
 #'   iteration method changed. The iteration method is user-specified through
 #'   [tar_target()] or [tar_option_set()].
@@ -89,17 +92,20 @@ tar_cue <- function(
   command = TRUE,
   depend = TRUE,
   format = TRUE,
+  repository = TRUE,
   iteration = TRUE,
   file = TRUE
 ) {
   tar_assert_lgl(command)
   tar_assert_lgl(depend)
   tar_assert_lgl(format)
+  tar_assert_lgl(repository)
   tar_assert_lgl(iteration)
   tar_assert_lgl(file)
   tar_assert_scalar(command)
   tar_assert_scalar(depend)
   tar_assert_scalar(format)
+  tar_assert_scalar(repository)
   tar_assert_scalar(iteration)
   tar_assert_scalar(file)
   cue_init(
@@ -107,6 +113,7 @@ tar_cue <- function(
     command = command,
     depend = depend,
     format = format,
+    repository = repository,
     iteration = iteration,
     file = file
   )
