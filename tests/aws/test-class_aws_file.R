@@ -16,7 +16,12 @@ tar_test("aws_file format file gets stored", {
       }, envir = tar_option_get("envir")
     )
     list(
-      tar_target(x, write_local_file("x_lines"), format = "aws_file"),
+      tar_target(
+        x,
+        write_local_file("x_lines"),
+        format = "file",
+        repository = "aws"
+      ),
       tar_target(y, readLines(x))
     )
   })
@@ -70,7 +75,12 @@ tar_test("aws_file format invalidation", {
         }, envir = tar_option_get("envir")
       )
       list(
-        tar_target(x, write_local_file("x_lines"), format = "aws_file"),
+        tar_target(
+          x,
+          write_local_file("x_lines"),
+          format = "file",
+          repository = "aws"
+        ),
         tar_target(y, readLines(x))
       )
     })
@@ -97,7 +107,12 @@ tar_test("aws_file format invalidation", {
         }, envir = tar_option_get("envir")
       )
       list(
-        tar_target(x, write_local_file("x_lines2"), format = "aws_file"),
+        tar_target(
+          x,
+          write_local_file("x_lines2"),
+          format = "file",
+          repository = "aws"
+        ),
         tar_target(y, readLines(x))
       )
     })
@@ -130,7 +145,12 @@ tar_test("aws_file format with a custom data store", {
       }, envir = tar_option_get("envir")
     )
     list(
-      tar_target(x, write_local_file("x_lines"), format = "aws_file"),
+      tar_target(
+        x,
+        write_local_file("x_lines"),
+        format = "file",
+        repository = "aws"
+      ),
       tar_target(y, readLines(x))
     )
   })
@@ -177,7 +197,12 @@ tar_test("aws_file format file with different region", {
       }, envir = tar_option_get("envir")
     )
     list(
-      tar_target(x, write_local_file("x_lines"), format = "aws_file"),
+      tar_target(
+        x,
+        write_local_file("x_lines"),
+        format = "file",
+        repository = "aws"
+      ),
       tar_target(y, readLines(x))
     )
   })

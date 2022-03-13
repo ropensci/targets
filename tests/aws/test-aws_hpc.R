@@ -11,7 +11,8 @@ tar_test("AWS S3 + HPC", {
     library(future)
     future::plan(future::multisession)
     tar_option_set(
-      format = "aws_rds",
+      format = "rds",
+      repository = "aws",
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = bucket_name
