@@ -115,4 +115,26 @@ tar_test("validate aws_feather", {
   expect_silent(tar_validate(callr_function = NULL))
 })
 
+tar_test("store_produce_path()", {
+  store <- tar_target(
+    x,
+    "x_value",
+    format = "rds",
+    repository = "aws"
+  )$store
+  store$resources <- list(bucket = "x_bucket")
+  out <- store_produce_path(store, "x_name", "x_object")
+  expect_equal(
+    sort(out),
+    sort(
+      c(
+        "bucket=x_bucket",
+        sprintf("endpoint=%s", base64url::base64_urlencode("NULL")),
+        "region=NULL",
+        "key=_targets/objects/x_name"
+      )
+    )
+  )
+})
+
 
