@@ -133,6 +133,7 @@ tar_target_raw <- function(
     deps = deps,
     string = string,
     format = format,
+    repository = repository,
     iteration = iteration,
     error = error,
     memory = memory,

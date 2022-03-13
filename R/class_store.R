@@ -7,7 +7,7 @@ store_init <- function(
     format <- gsub("^aws_", "", format)
     repository <- "aws"
   }
-  if (format == "url") {
+  if (identical(format, "url")) {
     repository <- "local"
   }
   store <- store_new(

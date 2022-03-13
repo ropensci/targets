@@ -297,6 +297,7 @@ tar_target <- function(
     packages = packages,
     library = library,
     format = format,
+    repository = repository,
     iteration = iteration,
     error = error,
     memory = memory,

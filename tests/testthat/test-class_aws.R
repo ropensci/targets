@@ -56,3 +56,63 @@ tar_test("store_aws_split_colon()", {
     c("bucket=bu", "region=reg", "key=sdfasdf")
   )
 })
+
+tar_test("deprecated aws_* classes", {
+  skip_on_cran()
+  expect_warning(
+    target <- tar_target(x, "x_value", format = "aws_feather"),
+    class = "tar_condition_deprecate"
+  )
+  target2 <- tar_target(x, "x_value", format = "feather", repository = "aws")
+  expect_equal(class(target$store), class(target2$store))
+})
+
+tar_test("package detection", {
+  target <- tar_target(x, "x_value", format = "feather", repository = "aws")
+  out <- sort(store_get_packages(target$store))
+  exp <- sort(c("paws", "arrow"))
+  expect_equal(out, exp)
+})
+
+tar_test("inherits from tar_external", {
+  store <- tar_target(
+    x,
+    "x_value",
+    format = "feather",
+    repository = "aws"
+  )$store
+  expect_true(inherits(store, "tar_external"))
+})
+
+tar_test("store_row_path()", {
+  store <- tar_target(
+    x,
+    "x_value",
+    format = "feather",
+    repository = "aws"
+  )$store
+  store$file$path <- "path"
+  expect_equal(store_row_path(store), "path")
+})
+
+tar_test("store_path_from_record()", {
+  store <- tar_target(
+    x,
+    "x_value",
+    format = "feather",
+    repository = "aws"
+  )$store
+  record <- record_init(path = "path", format = "aws_feather")
+  expect_equal(store_path_from_record(store, record), "path")
+})
+
+tar_test("validate aws_feather", {
+  skip_on_cran()
+  skip_if_not_installed("paws")
+  skip_if_not_installed("arrow")
+  target <- tar_target(x, "x_value", format = "feather", repository = "aws")
+  tar_script(list(target))
+  expect_silent(tar_validate(callr_function = NULL))
+})
+
+
