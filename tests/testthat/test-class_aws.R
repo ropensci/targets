@@ -136,5 +136,3 @@ tar_test("store_produce_path()", {
     )
   )
 })
-
-
