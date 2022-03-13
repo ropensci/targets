@@ -9,7 +9,7 @@
 #'   1. Ensure your pipeline stays within the resource limitations of
 #'     GitHub Actions and repositories, both for storage and compute.
 #'     For storage, you may wish to reduce the burden with
-#'     AWS-backed storage formats like `"aws_qs"`.
+#'     an alternative repository (e.g. `tar_target(..., repository = "aws")`).
 #'   2. Ensure Actions are enabled in your GitHub repository.
 #'     You may have to visit the Settings tab.
 #'   2. Call `targets::tar_renv(extras = character(0))`

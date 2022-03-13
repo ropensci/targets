@@ -35,7 +35,7 @@ Steps to set up continuous deployment:
 \item Ensure your pipeline stays within the resource limitations of
 GitHub Actions and repositories, both for storage and compute.
 For storage, you may wish to reduce the burden with
-AWS-backed storage formats like \code{"aws_qs"}.
+an alternative repository (e.g. \code{tar_target(..., repository = "aws")}).
 \item Ensure Actions are enabled in your GitHub repository.
 You may have to visit the Settings tab.
 \item Call \code{targets::tar_renv(extras = character(0))}

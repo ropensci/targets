@@ -8,8 +8,8 @@
 #'   As of `targets` version 0.6.0, these time
 #'   stamps are available for these targets regardless of
 #'   storage format. Earlier versions of `targets` do not record
-#'   time stamps for remote storage formats such as `"url"`
-#'   or any of the `"aws_*"` formats.
+#'   time stamps for remote storage such as `format = "url"`
+#'   or `repository = "aws"` in [tar_target()].
 #' @return A character vector of names of old targets with recorded
 #'   timestamp metadata.
 #' @inheritParams tar_older

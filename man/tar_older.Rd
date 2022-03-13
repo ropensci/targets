@@ -51,8 +51,8 @@ just non-branching targets and individual dynamic branches.
 As of \code{targets} version 0.6.0, these time
 stamps are available for these targets regardless of
 storage format. Earlier versions of \code{targets} do not record
-time stamps for remote storage formats such as \code{"url"}
-or any of the \code{"aws_*"} formats.
+time stamps for remote storage such as \code{format = "url"}
+or \code{repository = "aws"} in \code{\link[=tar_target]{tar_target()}}.
 }
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {

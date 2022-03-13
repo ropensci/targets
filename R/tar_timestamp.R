@@ -9,8 +9,8 @@
 #'   If storage is local, e.g. formats like `"rds"` and `"file"`,
 #'   then the time stamp is the latest modification time
 #'   of the target data files at the time the target
-#'   last successfully ran. For non-local formats like
-#'   `"aws_rds"` and `"url"`, then `targets` chooses instead
+#'   last successfully ran. For non-local storage as with
+#'   `repository = "aws"` and `format = "url"`, `targets` chooses instead
 #'   to simply record the time the target last successfully ran.
 #' @return If the target is not recorded in the metadata
 #'   or cannot be parsed correctly, then

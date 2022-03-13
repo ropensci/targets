@@ -2,7 +2,8 @@
 #' @export
 #' @family resources
 #' @description Create the `aws` argument of `tar_resources()`
-#'   to specify optional settings to AWS storage formats.
+#'   to specify optional settings to AWS for
+#'   `tar_target(..., repository = "aws")`.
 #'   See the `format` argument of [tar_target()] for details.
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_aws"`, to be supplied
@@ -37,7 +38,8 @@
 #' tar_target(
 #'   name,
 #'   command(),
-#'   format = "aws_qs",
+#'   format = "qs",
+#'   repository = "aws",
 #'   resources = tar_resources(
 #'     aws = tar_resources_aws(bucket = "yourbucketname"),
 #'     qs = tar_resources_qs(preset = "fast")

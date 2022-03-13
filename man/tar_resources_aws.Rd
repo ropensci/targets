@@ -49,7 +49,8 @@ to the \code{aws} argument of \code{tar_resources()}.
 }
 \description{
 Create the \code{aws} argument of \code{tar_resources()}
-to specify optional settings to AWS storage formats.
+to specify optional settings to AWS for
+\code{tar_target(..., repository = "aws")}.
 See the \code{format} argument of \code{\link[=tar_target]{tar_target()}} for details.
 }
 \section{Resources}{
@@ -72,7 +73,8 @@ in \code{resources_1} is discarded for target \code{x}.
 tar_target(
   name,
   command(),
-  format = "aws_qs",
+  format = "qs",
+  repository = "aws",
   resources = tar_resources(
     aws = tar_resources_aws(bucket = "yourbucketname"),
     qs = tar_resources_qs(preset = "fast")

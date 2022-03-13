@@ -125,7 +125,7 @@ tar_test("deprecated: aws custom store is valid", {
       },
       repository = "aws"
     ),
-    class = "tar_warn_deprecate"
+    class = "tar_condition_deprecate"
   )
   x <- tar_target(x, "value", format = format)
   expect_silent(target_validate(x))

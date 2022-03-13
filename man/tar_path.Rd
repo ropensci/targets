@@ -48,12 +48,12 @@ so \code{tar_path()} returns \verb{_targets/objects/x}.
 
 For cloud-backed formats, \code{tar_path()} returns the
 path to the staging file in \verb{_targets/scratch/}.
-That way, even if you select a cloud format
-(e.g. \code{tar_target(..., format = "aws_parquet", storage = "none")})
+That way, even if you select a cloud repository
+(e.g. \code{tar_target(..., repository = "aws", storage = "none")})
 then you can still manually write to \code{tar_path(create_dir = TRUE)}
 and the \code{targets} package will automatically hash it and
-upload it to the AWS S3 bucket. This does not apply to formats
-\code{"file"} or \code{"aws_file"}, where you would never need \code{storage = "none"}
+upload it to the AWS S3 bucket. This does not apply to
+\code{format = "file"}, where you would never need \code{storage = "none"}
 anyway.
 }
 \description{

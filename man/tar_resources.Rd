@@ -18,10 +18,8 @@ tar_resources(
 }
 \arguments{
 \item{aws}{Output of function \code{tar_resources_aws()}.
-AWS S3 storage settings for AWS backed storage formats
-such as \code{"aws_qs"} and \verb{"aws_parquet}. Applies to all formats
-beginning with the \code{"aws_"} prefix. For details on formats,
-see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
+Amazon Web Services (AWS) S3 storage settings for
+\code{tar_target(..., repository = "aws")}.}
 
 \item{clustermq}{Output of function \code{tar_resources_clustermq()}.
 Optional \code{clustermq} settings for \code{tar_make_clustermq()},
@@ -51,10 +49,8 @@ Resources supplied through
 \code{future::plan()} and \code{future::tweak()} are completely ignored.}
 
 \item{gcp}{Output of function \code{tar_resources_gcp()}.
-Google Cloud Platform bucket storage settings for GCP backed storage
-formats such as \code{"gcp_qs"} and \verb{"gcp_parquet}. Applies to all formats
-beginning with the \code{"gcp_"} prefix. For details on formats,
-see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
+Google Cloud Storage bucket settings for
+\code{tar_target(..., repository = "gcs")}.}
 
 \item{parquet}{Output of function \code{tar_resources_parquet()}.
 Non-default arguments to \code{arrow::read_parquet()} and

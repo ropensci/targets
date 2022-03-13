@@ -62,7 +62,7 @@ tar_test("tar_format() generates a format string", {
       },
       repository = "aws"
     ),
-    class = "tar_warn_deprecate"
+    class = "tar_condition_deprecate"
   )
   expect_equal(length(format), 1)
   format <- unlist(strsplit(format, split = "&", fixed = TRUE))
