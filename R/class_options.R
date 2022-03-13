@@ -5,6 +5,7 @@ options_init <- function(
   library = NULL,
   envir = NULL,
   format = NULL,
+  repository = NULL,
   iteration = NULL,
   error = NULL,
   memory = NULL,
@@ -18,8 +19,7 @@ options_init <- function(
   cue = NULL,
   debug = NULL,
   workspaces = NULL,
-  workspace_on_error = NULL,
-  s3_config = NULL
+  workspace_on_error = NULL
 ) {
   options_new(
     tidy_eval = tidy_eval,
@@ -28,6 +28,7 @@ options_init <- function(
     library = library,
     envir = envir,
     format = format,
+    repository = repository,
     iteration = iteration,
     error = error,
     memory = memory,
@@ -41,8 +42,7 @@ options_init <- function(
     cue = cue,
     debug = debug,
     workspaces = workspaces,
-    workspace_on_error = workspace_on_error,
-    s3_config = s3_config
+    workspace_on_error = workspace_on_error
   )
 }
 
@@ -53,6 +53,7 @@ options_new <- function(
   library = NULL,
   envir = NULL,
   format = NULL,
+  repository = NULL,
   iteration = NULL,
   error = NULL,
   memory = NULL,
@@ -66,8 +67,7 @@ options_new <- function(
   cue = NULL,
   debug = NULL,
   workspaces = NULL,
-  workspace_on_error = NULL,
-  s3_config = NULL
+  workspace_on_error = NULL
 ) {
   options_class$new(
     tidy_eval = tidy_eval,
@@ -76,6 +76,7 @@ options_new <- function(
     library = library,
     envir = envir,
     format = format,
+    repository = repository,
     iteration = iteration,
     error = error,
     memory = memory,
@@ -89,8 +90,7 @@ options_new <- function(
     cue = cue,
     debug = debug,
     workspaces = workspaces,
-    workspace_on_error = workspace_on_error,
-    s3_config = s3_config
+    workspace_on_error = workspace_on_error
   )
 }
 
@@ -106,6 +106,7 @@ options_class <- R6::R6Class(
     library = NULL,
     envir = NULL,
     format = NULL,
+    repository = NULL,
     iteration = NULL,
     error = NULL,
     memory = NULL,
@@ -120,7 +121,6 @@ options_class <- R6::R6Class(
     debug = NULL,
     workspaces = NULL,
     workspace_on_error = NULL,
-    s3_config = NULL,
     initialize = function(
       tidy_eval = NULL,
       packages = NULL,
@@ -128,6 +128,7 @@ options_class <- R6::R6Class(
       library = NULL,
       envir = NULL,
       format = NULL,
+      repository = NULL,
       iteration = NULL,
       error = NULL,
       memory = NULL,
@@ -141,8 +142,7 @@ options_class <- R6::R6Class(
       cue = NULL,
       debug = NULL,
       workspaces = NULL,
-      workspace_on_error = NULL,
-      s3_config = NULL
+      workspace_on_error = NULL
     ) {
       self$tidy_eval <- tidy_eval
       self$packages <- packages
@@ -150,6 +150,7 @@ options_class <- R6::R6Class(
       self$library <- library
       self$envir <- envir
       self$format <- format
+      self$repository <- repository
       self$iteration <- iteration
       self$error <- error
       self$memory <- memory
@@ -164,7 +165,6 @@ options_class <- R6::R6Class(
       self$debug <- debug
       self$workspaces <- workspaces
       self$workspace_on_error <- workspace_on_error
-      self$s3_config <- s3_config
     },
     export = function() {
       list(
@@ -173,6 +173,7 @@ options_class <- R6::R6Class(
         imports = self$get_imports(),
         library = self$get_library(),
         format = self$get_format(),
+        repository = self$get_repository(),
         iteration = self$get_iteration(),
         error = self$get_error(),
         memory = self$get_memory(),
@@ -186,8 +187,7 @@ options_class <- R6::R6Class(
         cue = self$get_cue(),
         debug = self$get_debug(),
         workspaces = self$get_workspaces(),
-        workspace_on_error = self$get_workspace_on_error(),
-        s3_config = self$get_s3_config()
+        workspace_on_error = self$get_workspace_on_error()
       )
     },
     import = function(list) {
@@ -196,6 +196,7 @@ options_class <- R6::R6Class(
       self$set_imports(list$imports)
       self$set_library(list$library)
       self$set_format(list$format)
+      self$set_repository(list$repository)
       self$set_iteration(list$iteration)
       self$set_error(list$error)
       self$set_memory(list$memory)
@@ -210,7 +211,6 @@ options_class <- R6::R6Class(
       self$set_debug(list$debug)
       self$set_workspaces(list$workspaces)
       self$set_workspace_on_error(list$workspace_on_error)
-      self$set_s3_config(list$s3_config)
     },
     reset = function() {
       self$tidy_eval <- NULL
@@ -219,6 +219,7 @@ options_class <- R6::R6Class(
       self$library <- NULL
       self$envir <- NULL
       self$format <- NULL
+      self$repository <- NULL
       self$iteration <- NULL
       self$error <- NULL
       self$memory <- NULL
@@ -233,7 +234,6 @@ options_class <- R6::R6Class(
       self$debug <- NULL
       self$workspaces <- NULL
       self$workspace_on_error <- NULL
-      self$s3_config <- NULL
     },
     get_tidy_eval = function() {
       self$tidy_eval %|||% TRUE
@@ -252,6 +252,9 @@ options_class <- R6::R6Class(
     },
     get_format = function() {
       self$format %|||% "rds"
+    },
+    get_repository = function() {
+      self$repository %|||% "local"
     },
     get_iteration = function() {
       self$iteration %|||% "vector"
@@ -295,9 +298,6 @@ options_class <- R6::R6Class(
     get_workspace_on_error = function() {
       self$workspace_on_error %|||% FALSE
     },
-    get_s3_config = function() {
-      self$s3_config %|||% list()
-    },
     set_tidy_eval = function(tidy_eval) {
       self$validate_tidy_eval(tidy_eval)
       self$tidy_eval <- tidy_eval
@@ -321,6 +321,10 @@ options_class <- R6::R6Class(
     set_format = function(format) {
       self$validate_format(format)
       self$format <- format
+    },
+    set_repository = function(repository) {
+      self$validate_repository(repository)
+      self$repository <- repository
     },
     set_iteration = function(iteration) {
       self$validate_iteration(iteration)
@@ -378,10 +382,6 @@ options_class <- R6::R6Class(
       self$validate_workspace_on_error(workspace_on_error)
       self$workspace_on_error <- workspace_on_error
     },
-    set_s3_config = function(s3_config) {
-      self$validate_s3_config(s3_config)
-      self$s3_config <- s3_config
-    },
     validate_tidy_eval = function(tidy_eval) {
       tar_assert_scalar(tidy_eval)
       tar_assert_lgl(tidy_eval)
@@ -405,6 +405,9 @@ options_class <- R6::R6Class(
     },
     validate_format = function(format) {
       tar_assert_format(format)
+    },
+    validate_repository = function(repository) {
+      tar_assert_repository(repository)
     },
     validate_iteration = function(iteration) {
       tar_assert_flag(iteration, c("vector", "list", "group"))
@@ -457,9 +460,6 @@ options_class <- R6::R6Class(
       tar_assert_scalar(workspace_on_error)
       tar_assert_lgl(workspace_on_error)
     },
-    validate_s3_config = function(s3_config) {
-      tar_assert_list(s3_config)
-    },
     validate = function() {
       self$validate_tidy_eval(self$get_tidy_eval())
       self$validate_packages(self$get_packages())
@@ -467,6 +467,7 @@ options_class <- R6::R6Class(
       self$validate_library(self$get_library())
       self$validate_envir(self$get_envir())
       self$validate_format(self$get_format())
+      self$validate_repository(self$get_repository())
       self$validate_iteration(self$get_iteration())
       self$validate_error(self$get_error())
       self$validate_memory(self$get_memory())
@@ -481,7 +482,6 @@ options_class <- R6::R6Class(
       self$validate_debug(self$get_debug())
       self$validate_workspaces(self$get_workspaces())
       self$validate_workspace_on_error(self$get_workspace_on_error())
-      self$validate_s3_config(self$get_s3_config())
     }
   )
 )

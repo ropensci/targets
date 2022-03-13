@@ -8,6 +8,17 @@ store_produce_path.tar_aws <- function(store, name, object, path_store) {
   )
 }
 
+#' @export
+store_class_repository.aws <- function(repository, store, format) {
+  c(
+    sprintf("tar_aws_%s", format),
+    "tar_aws",
+    "tar_cloud",
+    if_any("tar_external" %in% class(store), character(0), "tar_external"),
+    class(store)
+  )
+}
+
 store_produce_aws_path <- function(store, name, object, path_store) {
   bucket <- store$resources$aws$bucket %|||% store$resources$bucket
   region <- store$resources$aws$region %|||% store$resources$region

@@ -11,6 +11,7 @@ tar_test("validate non-default options", {
     library = "path",
     envir = new.env(),
     format = "qs",
+    repository = "aws",
     iteration = "list",
     error = "continue",
     memory = "transient",
@@ -35,6 +36,7 @@ tar_test("export", {
     imports = "targets",
     library = "path",
     format = "qs",
+    repository = "aws",
     iteration = "list",
     error = "continue",
     memory = "transient",
@@ -57,6 +59,7 @@ tar_test("export", {
     imports = "targets",
     library = "path",
     format = "qs",
+    repository = "aws",
     iteration = "list",
     error = "continue",
     memory = "transient",
@@ -70,8 +73,7 @@ tar_test("export", {
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
     workspaces = letters,
-    workspace_on_error = TRUE,
-    s3_config = list()
+    workspace_on_error = TRUE
   )
   out$cue <- as.list(out$cue)
   exp$cue <- as.list(exp$cue)
@@ -86,6 +88,7 @@ tar_test("import", {
     imports = "targets",
     library = "path",
     format = "qs",
+    repository = "aws",
     iteration = "list",
     error = "continue",
     memory = "transient",
@@ -99,8 +102,7 @@ tar_test("import", {
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
     workspaces = "x",
-    workspace_on_error = TRUE,
-    s3_config = list(region = "us-west-2")
+    workspace_on_error = TRUE
   )
   envir <- new.env(parent = emptyenv())
   x <- options_init(envir = envir)
@@ -111,6 +113,7 @@ tar_test("import", {
   expect_equal(x$get_imports(), "targets")
   expect_equal(x$get_library(), "path")
   expect_equal(x$get_format(), "qs")
+  expect_equal(x$get_repository(), "aws")
   expect_equal(x$get_iteration(), "list")
   expect_equal(x$get_error(), "continue")
   expect_equal(x$get_memory(), "transient")
@@ -189,6 +192,16 @@ tar_test("format", {
   x$reset()
   expect_equal(x$get_format(), "rds")
   expect_error(x$set_format("invalid"), class = "tar_condition_validate")
+})
+
+tar_test("repository", {
+  x <- options_init()
+  expect_equal(x$get_repository(), "local")
+  x$set_repository("aws")
+  expect_equal(x$get_repository(), "aws")
+  x$reset()
+  expect_equal(x$get_repository(), "local")
+  expect_error(x$set_repository(123), class = "tar_condition_validate")
 })
 
 tar_test("iteration", {
@@ -340,14 +353,4 @@ tar_test("workspace_on_error", {
   x$reset()
   expect_equal(x$get_workspace_on_error(), FALSE)
   expect_error(x$set_workspace_on_error(123), class = "tar_condition_validate")
-})
-
-tar_test("s3_config", {
-  x <- options_init()
-  expect_equal(x$get_s3_config(), list())
-  x$set_s3_config(list(region = "us-west-2"))
-  expect_equal(x$get_s3_config(), list(region = "us-west-2"))
-  x$reset()
-  expect_equal(x$get_s3_config(), list())
-  expect_error(x$set_s3_config(123), class = "tar_condition_validate")
 })

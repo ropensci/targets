@@ -1,24 +1,3 @@
-#' @export
-store_new.aws_file <- function(format, file = NULL, resources = NULL) {
-  aws_file_new(file = file, resources = resources)
-}
-
-aws_file_new <- function(file = NULL, resources = NULL) {
-  force(file)
-  force(resources)
-  enclass(
-    environment(),
-    c(
-      "tar_aws_file",
-      "tar_aws",
-      "tar_cloud",
-      "tar_external",
-      "tar_store_file",
-      "tar_store"
-    )
-  )
-}
-
 # Semi-automated tests of Amazon S3 integration live in tests/aws/. # nolint
 # These tests should not be fully automated because they
 # automatically create S3 buckets and upload data,

@@ -11,6 +11,7 @@ tar_option_set(
   library = NULL,
   envir = NULL,
   format = NULL,
+  repository = NULL,
   iteration = NULL,
   error = NULL,
   memory = NULL,
@@ -24,8 +25,7 @@ tar_option_set(
   cue = NULL,
   debug = NULL,
   workspaces = NULL,
-  workspace_on_error = NULL,
-  s3_config = NULL
+  workspace_on_error = NULL
 )
 }
 \arguments{
@@ -93,6 +93,17 @@ With the exception of \code{format = "file"}, each target
 gets a file in \verb{_targets/objects}, and each format is a different
 way to save and load this file. See the "Storage formats" section
 for a detailed list of possible data storage formats.}
+
+\item{repository}{Character of length 1, remote repository for target
+storage. Choices:
+\itemize{
+\item \code{"local"}: file system of the local machine.
+\item \code{"aws"}: Amazon Web Services (AWS) S3 bucket. Can be configured
+with a non-AWS S3 bucket using the \code{endpoint} argument of
+\code{\link[=tar_resources_aws]{tar_resources_aws()}}, but versioning capabilities may be lost
+in doing so.
+\item \code{"gcs"}: Google cloud storage bucket.
+}}
 
 \item{iteration}{Character of length 1, name of the iteration mode
 of the target. Choices:
@@ -246,14 +257,6 @@ See \code{\link[=tar_workspace]{tar_workspace()}} for details about workspaces.}
 a workspace file for each target that throws an error.
 Workspace files help with debugging.
 See \code{\link[=tar_workspace]{tar_workspace()}} for details about workspaces.}
-
-\item{s3_config}{optional list that gets passed to the \code{config} argument
-of \code{paws::s3()} client object for target storage formats
-that use S3 cloud storage. For example, set
-\code{tar_option_set(s3_config = list(endpoint = "...", ...))}
-to use an endpoint different from Amazon Web Services (AWS).
-In ordinary \code{paws}, this is equivalent to
-\code{paws::s3(config = list(endpoint = "...", ...))}}
 }
 \value{
 \code{NULL} (invisibly).

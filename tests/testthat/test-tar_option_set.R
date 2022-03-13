@@ -76,6 +76,18 @@ tar_test("format", {
   )
 })
 
+tar_test("repository", {
+  expect_equal(tar_option_get("repository"), "local")
+  tar_option_set(repository = "aws")
+  expect_equal(tar_option_get("repository"), "aws")
+  tar_option_reset()
+  expect_equal(tar_option_get("repository"), "local")
+  expect_error(
+    tar_option_set(repository = 123),
+    class = "tar_condition_validate"
+  )
+})
+
 tar_test("iteration", {
   expect_equal(tar_option_get("iteration"), "vector")
   tar_option_set(iteration = "list")
@@ -248,18 +260,6 @@ tar_test("workspace_on_error", {
   expect_equal(tar_option_get("workspace_on_error"), FALSE)
   expect_error(
     tar_option_set(workspace_on_error = 123),
-    class = "tar_condition_validate"
-  )
-})
-
-tar_test("s3_config", {
-  expect_equal(tar_option_get("s3_config"), list())
-  tar_option_set(s3_config = list(region = "us-west-2"))
-  expect_equal(tar_option_get("s3_config"), list(region = "us-west-2"))
-  tar_option_reset()
-  expect_equal(tar_option_get("s3_config"), list())
-  expect_error(
-    tar_option_set(s3_config = 123),
     class = "tar_condition_validate"
   )
 })

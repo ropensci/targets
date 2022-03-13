@@ -142,6 +142,18 @@ tar_assert_format <- function(format) {
   tar_assert_chr(format)
   tar_assert_nzchar(format)
   format <- gsub("\\&.*$", "", format)
+  if (any(grepl("^aws_", format))) {
+    tar_warn_deprecate(
+      sprintf("detected target storage format %s. ", format),
+      "Effective 2022-02-13 (targets version > 0.10.0), ",
+      "the \"aws_*\" formats are deprecated. Instead, use the ",
+      "repository argument: for example, instead of ",
+      "tar_target(..., format = \"aws_qs\"), write ",
+      "tar_target(..., format = \"qs\", repository = \"aws\"). ",
+      "Automatically setting repository to \"aws\" for back-compatibility."
+    )
+    format <- gsub("^aws_", "", format)
+  }
   choices <- c(
     "rds",
     "qs",
@@ -165,7 +177,7 @@ tar_assert_repository <- function(repository) {
   tar_assert_nzchar(repository)
   choices <- c(
     "local",
-    "s3",
+    "aws",
     "gcs"
   )
   tar_assert_in(repository, choices)

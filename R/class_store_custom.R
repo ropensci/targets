@@ -7,10 +7,8 @@ store_new.format_custom <- function(format, file = NULL, resources = NULL) {
     read = store_custom_field(format, "^read="),
     write = store_custom_field(format, "^write="),
     marshal = store_custom_field(format, "^marshal="),
-    unmarshal = store_custom_field(format, "^unmarshal="),
-    repository = keyvalue_field(format, "^repository=")
+    unmarshal = store_custom_field(format, "^unmarshal=")
   )
-  store_custom_enclass_repository(store)
 }
 
 store_custom_new <- function(
@@ -19,8 +17,7 @@ store_custom_new <- function(
   read = NULL,
   write = NULL,
   marshal = NULL,
-  unmarshal = NULL,
-  repository = NULL
+  unmarshal = NULL
 ) {
   force(file)
   force(resources)
@@ -28,7 +25,6 @@ store_custom_new <- function(
   force(write)
   force(marshal)
   force(unmarshal)
-  force(repository)
   enclass(
     environment(),
     c("tar_store_custom", "tar_nonexportable", "tar_store")
@@ -40,16 +36,16 @@ store_custom_field <- function(format, pattern) {
   out %||% NULL
 }
 
-store_custom_enclass_repository <- function(store) {
-  switch(
-    store$repository,
-    default = store,
-    aws = enclass(
-      store,
-      c("tar_aws_store_custom", "tar_aws", "tar_cloud", "tar_external")
-    )
-  )
-}
+# store_custom_enclass_repository <- function(store) {
+#   switch(
+#     store$repository,
+#     default = store,
+#     aws = enclass(
+#       store,
+#       c("tar_aws_store_custom", "tar_aws", "tar_cloud", "tar_external")
+#     )
+#   )
+# }
 
 #' @export
 store_assert_format_setting.format_custom <- function(format) {

@@ -97,7 +97,10 @@
 #' @param repository Character of length 1, remote repository for target
 #'   storage. Choices:
 #'   * `"local"`: file system of the local machine.
-#'   * `"s3"`: S3 bucket of a cloud service (default: Amazon Web Services).
+#'   * `"aws"`: Amazon Web Services (AWS) S3 bucket. Can be configured
+#'     with a non-AWS S3 bucket using the `endpoint` argument of
+#'     [tar_resources_aws()], but versioning capabilities may be lost
+#'     in doing so.
 #'   * `"gcs"`: Google cloud storage bucket.
 #' @param iteration Character of length 1, name of the iteration mode
 #'   of the target. Choices:

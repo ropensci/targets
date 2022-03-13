@@ -3,29 +3,30 @@ store_init <- function(
   repository = "local",
   resources = list()
 ) {
-
-  # TODO: refactor store creation based on format and repo specification
-  stop("need to refactor store creation based on format and repo specification")
-  
-  
-    store_new(
+  if (any(grepl("^aws_", format))) {
+    format <- gsub("^aws_", "", format)
+    repository <- "aws"
+  }
+  if (format == "url") {
+    repository <- "local"
+  }
+  store <- store_new(
     format = store_format_dispatch(format),
     file = file_init(),
     resources = resources
   )
+  class(store) <- store_class_repository(
+    repository = enclass(repository, repository),
+    store = store,
+    format = format
+  )
+  store
 }
 
 store_new <- function(format, file = NULL, resources = NULL) {
   UseMethod("store_new")
 }
 
-# A format should not be a full class like the store
-# because the responsibilities of store and format
-# would overlap too much.
-store_format_dispatch <- function(format) {
-  class <- gsub(pattern = "\\&.*$", replacement = "", x = format)
-  enclass(format, class)
-}
 
 #' @export
 store_new.default <- function(format, file = NULL, resources = NULL) {
@@ -36,6 +37,23 @@ store_new_default <- function(file, resources) {
   force(file)
   force(resources)
   enclass(environment(), "tar_store")
+}
+
+store_class_repository <- function(repository, store, format) {
+  UseMethod("store_class_repository")
+}
+
+#' @export
+store_class_repository.default <- function(repository, store, format) {
+  class(store)
+}
+
+# A format should not be a full class like the store
+# because the responsibilities of store and format
+# would overlap too much.
+store_format_dispatch <- function(format) {
+  class <- gsub(pattern = "\\&.*$", replacement = "", x = format)
+  enclass(format, class)
 }
 
 store_assert_format_setting <- function(format) {

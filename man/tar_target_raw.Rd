@@ -81,7 +81,10 @@ for a detailed list of possible data storage formats.}
 storage. Choices:
 \itemize{
 \item \code{"local"}: file system of the local machine.
-\item \code{"s3"}: S3 bucket of a cloud service (default: Amazon Web Services).
+\item \code{"aws"}: Amazon Web Services (AWS) S3 bucket. Can be configured
+with a non-AWS S3 bucket using the \code{endpoint} argument of
+\code{\link[=tar_resources_aws]{tar_resources_aws()}}, but versioning capabilities may be lost
+in doing so.
 \item \code{"gcs"}: Google cloud storage bucket.
 }}
 
