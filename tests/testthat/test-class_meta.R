@@ -272,6 +272,20 @@ tar_test("data hash of pattern does not write same data", {
   expect_equal(sum(data$name == "map"), 1L)
 })
 
+tar_test("migrate meta database", {
+  tar_script(tar_target(x, "value"))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_outdated(callr_function = NULL), character(0))
+  meta <- meta_init()
+  data <- as_data_frame(meta$database$read_condensed_data())
+  expect_false(is.null(data$repository))
+  data$repository <- NULL
+  expect_true(is.null(data$repository))
+  meta$database$overwrite_storage(data)
+  expect_equal(tar_outdated(callr_function = NULL), character(0))
+  expect_equal(tar_read(x), "value")
+})
+
 tar_test("meta$validate()", {
   out <- meta_init()
   expect_silent(out$validate())
