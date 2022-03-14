@@ -36,7 +36,7 @@ tar_exist_object <- function(name, meta, store) {
   if (check_local) {
     return(file.exists(path_objects(path_store = store, name = name)))
   }
-  tar_exist_cloud_target(name = name, meta = meta, path_store = path_store)
+  tar_exist_cloud_target(name = name, meta = meta, path_store = store)
 }
 
 # Tested in tests/aws/test-delete.R
