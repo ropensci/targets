@@ -5,8 +5,11 @@
 #'   but keep the records in `_targets/meta/meta`.
 #' @details If you have a small number of data-heavy targets you
 #'   need to discard to conserve storage, this function can help.
-#'   Dynamic files and cloud data (e.g. `format = "file"`
-#'   and `repository = "aws"`) are not deleted.
+#'   Local external files files (i.e. `format = "file"`
+#'   and `repository = "local"`) are not deleted.
+#'   For targets with `repository` not equal `"local"`, `tar_delete()` attempts
+#'   to delete the file and errors out if the deletion is unsuccessful.
+#'   If deletion fails, either log into the cloud 
 #'   For patterns recorded in the metadata, all the branches
 #'   will be deleted. For patterns no longer in the metadata,
 #'   branches are left alone.
@@ -31,18 +34,35 @@
 #' }
 tar_delete <- function(names, store = targets::tar_config_get("store")) {
   tar_assert_path(path_meta(store))
-  meta <- meta_init(path_store = store)
-  data <- meta$database$read_condensed_data()
+  meta <- meta_init(path_store = store)$database$read_condensed_data()
   names_quosure <- rlang::enquo(names)
-  names <- tar_tidyselect_eval(names_quosure, data$name)
+  names <- tar_tidyselect_eval(names_quosure, meta$name)
   tar_assert_chr(names, "names arg of tar_delete() must end up as character")
-  children <- unlist(data$children[data$name %in% names])
+  children <- unlist(meta$children[meta$name %in% names])
   children <- unique(children[!is.na(children)])
   names <- c(names, children)
-  dynamic_files <- data$name[data$format == "file"]
+  tar_delete_cloud(names = names, meta = meta, path_store = store)
+  dynamic_files <- meta$name[meta$format == "file"]
   names <- setdiff(names, dynamic_files)
   files <- list.files(path_objects_dir(store), all.files = TRUE)
   discard <- intersect(names, files)
   unlink(file.path(path_objects_dir(store), discard), recursive = TRUE)
   invisible()
+}
+
+tar_delete_cloud <- function(names, meta, path_store) {
+  index_cloud <- !is.na(meta$repository) & meta$repository != "local"
+  meta <- meta[index_cloud,, drop = FALSE] # nolint
+  meta <- meta[meta$name %in% names,, drop = FALSE] # nolint
+  map(
+    meta$name,
+    ~tar_delete_cloud_target(name = .x, meta = meta, path_store = store)
+  )
+}
+
+tar_delete_cloud_target <- function(name, meta, path_store) {
+  row <- meta[meta$name == name,, drop = FALSE] # nolint
+  record <- record_from_row(row = row, path_store = path_store)
+  store <- record_bootstrap_store(record)
+  store_delete_object(store = store, name = name)
 }

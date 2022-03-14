@@ -27,8 +27,11 @@ but keep the records in \verb{_targets/meta/meta}.
 \details{
 If you have a small number of data-heavy targets you
 need to discard to conserve storage, this function can help.
-Dynamic files and cloud data (e.g. \code{format = "file"}
-and \code{repository = "aws"}) are not deleted.
+Local external files files (i.e. \code{format = "file"}
+and \code{repository = "local"}) are not deleted.
+For targets with \code{repository} not equal \code{"local"}, \code{tar_delete()} attempts
+to delete the file and errors out if the deletion is unsuccessful.
+If deletion fails, either log into the cloud
 For patterns recorded in the metadata, all the branches
 will be deleted. For patterns no longer in the metadata,
 branches are left alone.

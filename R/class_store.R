@@ -101,12 +101,12 @@ store_write_path <- function(store, object, path) {
   UseMethod("store_write_path")
 }
 
-store_delete_object <- function(store) {
+store_delete_object <- function(store, name = NULL) {
   UseMethod("store_delete_object")
 }
 
 #' @export
-store_delete_object.default <- function(store) {
+store_delete_object.default <- function(store, name = NULL) {
   unlink(store$file$path)
   unlink(store$file$stage)
 }
