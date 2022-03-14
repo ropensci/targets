@@ -71,8 +71,7 @@ tar_test("same with versioning", {
     tar_option_set(
       resources = tar_resources(
         aws = tar_resources_aws(bucket = !!bucket_name)
-      ),
-      
+      )
     )
     write_file <- function(path) {
       writeLines("value", path)

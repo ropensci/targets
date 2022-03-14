@@ -36,7 +36,7 @@ tar_objects <- function(
   names_quosure <- rlang::enquo(names)
   local <- tar_tidyselect_eval(names_quosure, local) %|||% local
   meta <- tar_meta(store = store)
-  meta <- meta[meta$repository != "local",, drop = FALSE]
+  meta <- meta[meta$repository != "local",, drop = FALSE] # nolint
   names <- tar_tidyselect_eval(names_quosure, meta$name) %|||% meta$name
   exists <- map_lgl(
     names,
