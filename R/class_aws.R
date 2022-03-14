@@ -139,6 +139,18 @@ store_read_object.tar_aws <- function(store) {
 }
 
 #' @export
+store_exist_object.tar_aws <- function(store, name = NULL) {
+  path <- store$file$path
+  aws_s3_exists(
+    key = store_aws_key(path),
+    bucket = store_aws_bucket(path),
+    region = store_aws_region(path),
+    endpoint = store_aws_endpoint(path),
+    version = store_aws_version(path)
+  )
+}
+
+#' @export
 store_delete_object.tar_aws <- function(store, name = NULL) {
   path <- store$file$path
   key <- store_aws_key(path)

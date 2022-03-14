@@ -215,6 +215,10 @@ tar_test("tar_prune() cloud targets", {
   key2 <- path_objects(path_store, "aws_file")
   expect_true(aws_s3_exists(key = key1, bucket = bucket_name))
   expect_true(aws_s3_exists(key = key2, bucket = bucket_name))
+  expect_equal(
+    tar_exist_objects(c("x", "local_file", "aws_file")),
+    c(TRUE, FALSE, TRUE)
+  )
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -248,5 +252,9 @@ tar_test("tar_prune() cloud targets", {
   key2 <- path_objects(path_store, "aws_file")
   expect_false(aws_s3_exists(key = key1, bucket = bucket_name))
   expect_true(aws_s3_exists(key = key2, bucket = bucket_name))
+  expect_equal(
+    tar_exist_objects(c("x", "local_file", "aws_file")),
+    c(FALSE, FALSE, TRUE)
+  )
   expect_equal(tar_outdated(callr_function = NULL), character(0))
 })

@@ -20,16 +20,20 @@ for a project.}
 }
 \value{
 Logical of length \code{length(names)}, whether
-each given target has an existing file in \verb{_targets/objects/}
-for the current project.
+each given target has an existing file in either
+\verb{_targets/objects/} or the cloud.
 }
 \description{
-Check if the local data files exist in
-\verb{_targets/objects/} for one or more targets.
+Check if output target data exists in either
+\verb{_targets/objects/} or the cloud for one or more targets.
 }
 \details{
-To learn more about local storage in \code{targets}, visit
-\url{https://books.ropensci.org/targets/files.html#internal-files}.
+If a target has no metadata or if the \code{repository}
+argument of \code{\link[=tar_target]{tar_target()}} was set to \code{"local"},
+then the \verb{_targets/objects/} folder is checked. Otherwise,
+if there is metadata and \code{repsitory} is not \code{"local"},
+then \code{tar_exist_objects()} checks the cloud repository
+selected.
 }
 \examples{
 tar_exist_objects(c("target1", "target2"))

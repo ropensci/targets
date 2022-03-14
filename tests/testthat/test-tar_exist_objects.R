@@ -1,7 +1,16 @@
 tar_test("tar_exist_objects()", {
-  dir_create(dirname(path_objects(path_store_default(), "x")))
-  file.create(path_objects(path_store_default(), "x"))
-  expect_equal(tar_exist_objects(c("y", "x")), c(FALSE, TRUE))
+  expect_false(any(tar_exist_objects(c("x", "y"))))
+  tar_script(
+    list(
+      tar_target(x, 1),
+      tar_target(y, 2),
+      tar_target(z, 3)
+    )
+  )
+  tar_make(callr_function = NULL)
+  tar_invalidate(x)
+  tar_delete(y)
+  expect_equal(tar_exist_objects(c("y", "x", "z")), c(FALSE, TRUE, TRUE))
 })
 
 tar_test("custom script and store args", {

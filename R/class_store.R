@@ -101,6 +101,15 @@ store_write_path <- function(store, object, path) {
   UseMethod("store_write_path")
 }
 
+store_exist_object <- function(store, name = NULL) {
+  UseMethod("store_exist_object")
+}
+
+#' @export
+store_exist_object.default <- function(store, name = NULL) {
+  all(file.exists(store$file$path))
+}
+
 store_delete_object <- function(store, name = NULL) {
   UseMethod("store_delete_object")
 }
