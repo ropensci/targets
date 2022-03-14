@@ -61,11 +61,17 @@ tar_test("aws_s3_delete() version", {
   on.exit(destroy_bucket(bucket))
   tmp <- tempfile()
   writeLines("x", tmp)
-  head <- paws::s3()$put_object(Body = tmp, Key = "x", Bucket = bucket)
-  version <- head$VersionId
-  expect_true(aws_s3_exists(key = key, bucket = bucket, version = version))
-  aws_s3_delete(key = key, bucket = bucket, version = version)
-  expect_false(aws_s3_exists(key = key, bucket = bucket, version = version))
+  key <- "x"
+  head1 <- paws::s3()$put_object(Body = tmp, Key = key, Bucket = bucket)
+  version1 <- head1$VersionId
+  writeLines("y", tmp)
+  head2 <- paws::s3()$put_object(Body = tmp, Key = key, Bucket = bucket)
+  version2 <- head2$VersionId
+  expect_true(aws_s3_exists(key = key, bucket = bucket, version = version1))
+  expect_true(aws_s3_exists(key = key, bucket = bucket, version = version2))
+  aws_s3_delete(key = key, bucket = bucket, version = version1)
+  expect_false(aws_s3_exists(key = key, bucket = bucket, version = version1))
+  expect_true(aws_s3_exists(key = key, bucket = bucket, version = version2))
 })
 
 tar_test("aws_s3_upload() without headers", {
