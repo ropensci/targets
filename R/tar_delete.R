@@ -9,7 +9,11 @@
 #'   and `repository = "local"`) are not deleted.
 #'   For targets with `repository` not equal `"local"`, `tar_delete()` attempts
 #'   to delete the file and errors out if the deletion is unsuccessful.
-#'   If deletion fails, either log into the cloud 
+#'   If deletion fails, either log into the cloud platform
+#'   and manually delete the file (e.g. the AWS web console
+#'   in the case of `repository = "aws"`) or call
+#'   [tar_invalidate()] on that target so that `targets`
+#'   does not try to delete the object.
 #'   For patterns recorded in the metadata, all the branches
 #'   will be deleted. For patterns no longer in the metadata,
 #'   branches are left alone.
@@ -41,15 +45,19 @@ tar_delete <- function(names, store = targets::tar_config_get("store")) {
   children <- unlist(meta$children[meta$name %in% names])
   children <- unique(children[!is.na(children)])
   names <- c(names, children)
+  index_local_dynamic_files <- meta$format == "file" &
+    meta$repository == "local"
+  local_dynamic_files <- meta$name[index_local_dynamic_files]
+  names <- setdiff(names, local_dynamic_files)
   tar_delete_cloud(names = names, meta = meta, path_store = store)
-  dynamic_files <- meta$name[meta$format == "file"]
-  names <- setdiff(names, dynamic_files)
   files <- list.files(path_objects_dir(store), all.files = TRUE)
   discard <- intersect(names, files)
   unlink(file.path(path_objects_dir(store), discard), recursive = TRUE)
   invisible()
 }
 
+# Tested in tests/aws/test-delete.R
+# nocov start
 tar_delete_cloud <- function(names, meta, path_store) {
   index_cloud <- !is.na(meta$repository) & meta$repository != "local"
   meta <- meta[index_cloud,, drop = FALSE] # nolint
@@ -66,3 +74,4 @@ tar_delete_cloud_target <- function(name, meta, path_store) {
   store <- record_bootstrap_store(record)
   store_delete_object(store = store, name = name)
 }
+# nocov end
