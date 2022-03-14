@@ -169,7 +169,7 @@ tar_test("tar_destroy() cloud targets", {
   expect_silent(tar_destroy(destroy = "cloud"))
 })
 
-tar_test("tar_prune() cloud targets", {
+tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for aws", {
   skip_if_no_aws()
   skip_if_not_installed("arrow")
   s3 <- paws::s3()
@@ -219,6 +219,7 @@ tar_test("tar_prune() cloud targets", {
     tar_exist_objects(c("x", "local_file", "aws_file")),
     c(TRUE, FALSE, TRUE)
   )
+  expect_equal(tar_objects(), sort(c("x", "aws_file")))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -256,5 +257,6 @@ tar_test("tar_prune() cloud targets", {
     tar_exist_objects(c("x", "local_file", "aws_file")),
     c(FALSE, FALSE, TRUE)
   )
+  expect_equal(tar_objects(), "aws_file")
   expect_equal(tar_outdated(callr_function = NULL), character(0))
 })

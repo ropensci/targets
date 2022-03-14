@@ -25,8 +25,9 @@ for a project.}
 Character vector of targets saved to \verb{_targets/objects/}.
 }
 \description{
-List targets currently saved to \verb{_targets/objects/}.
-Does not include dynamic files or cloud storage.
+List targets currently saved to \verb{_targets/objects/}
+or the cloud. Does not include local files
+with \code{tar_target(..., format = "file", repository = "local")}.
 }
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {

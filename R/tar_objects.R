@@ -1,8 +1,9 @@
 #' @title List saved targets
 #' @export
 #' @family data
-#' @description List targets currently saved to `_targets/objects/`.
-#'   Does not include dynamic files or cloud storage.
+#' @description List targets currently saved to `_targets/objects/`
+#'   or the cloud. Does not include local files
+#'   with `tar_target(..., format = "file", repository = "local")`.
 #' @return Character vector of targets saved to `_targets/objects/`.
 #' @inheritParams tar_validate
 #' @param names Optional `tidyselect` selector such as
@@ -24,11 +25,23 @@ tar_objects <- function(
   names = NULL,
   store = targets::tar_config_get("store")
 ) {
-  choices <- if_any(
+  if (!file.exists(store)) {
+    return(character(0))
+  }
+  local <- if_any(
     dir.exists(path_objects_dir(store)),
     list.files(path_objects_dir(store), all.files = TRUE, no.. = TRUE),
     character(0)
   )
   names_quosure <- rlang::enquo(names)
-  sort(as.character(tar_tidyselect_eval(names_quosure, choices) %|||% choices))
+  local <- tar_tidyselect_eval(names_quosure, local) %|||% local
+  meta <- tar_meta(store = store)
+  meta <- meta[meta$repository != "local",, drop = FALSE]
+  names <- tar_tidyselect_eval(names_quosure, meta$name) %|||% meta$name
+  exists <- map_lgl(
+    names,
+    ~tar_exist_cloud_target(name = .x, meta = meta, path_store = store)
+  )
+  cloud <- names[exists]
+  sort(unique(as.character(c(local, cloud))))
 }
