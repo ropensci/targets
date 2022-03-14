@@ -12,6 +12,9 @@
 * Report the total runtime of the pipeline in the `"verbose"`, `"verbose_positives"`, `"timestamp"`, and `"timesamp_positives"` reporters.
 * Add a `zoom_speed` argument to `tar_visnetwork()` and `tar_glimpse()` (#749, @dipterix).
 * Add Google Cloud Storage utilities (#720, @markedmondson1234).
+* `mermaid.js` static graphs with `tar_mermaid()` (#775, @yonicd).
+* Deprecate the `"aws_*"` storage format values in favor of a new `repository` argument (#803). In other words, `tar_target(..., format = "aws_qs")` is now `tar_target(..., format = "qs", repository = "aws")`. And internally, storage classes with multiple inheritance are created dynamically as opposed to having hard-coded source files. All this paves the way to add new cloud storage platforms without combinatorial chaos.
+
 
 ## Enhancements
 
