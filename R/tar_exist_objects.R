@@ -33,10 +33,11 @@ tar_exist_object <- function(name, meta, store) {
   check_local <- !(name %in% meta$name) ||
     is.na(meta$repository[meta$name == name]) ||
     identical(meta$repository[meta$name == name], "local")
-  if (check_local) {
-    return(file.exists(path_objects(path_store = store, name = name)))
-  }
-  tar_exist_cloud_target(name = name, meta = meta, path_store = store)
+  if_any(
+    check_local,
+    file.exists(path_objects(path_store = store, name = name)),
+    tar_exist_cloud_target(name = name, meta = meta, path_store = store)
+  )
 }
 
 # Tested in tests/aws/test-delete.R
