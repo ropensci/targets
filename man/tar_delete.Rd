@@ -31,7 +31,11 @@ Local external files files (i.e. \code{format = "file"}
 and \code{repository = "local"}) are not deleted.
 For targets with \code{repository} not equal \code{"local"}, \code{tar_delete()} attempts
 to delete the file and errors out if the deletion is unsuccessful.
-If deletion fails, either log into the cloud
+If deletion fails, either log into the cloud platform
+and manually delete the file (e.g. the AWS web console
+in the case of \code{repository = "aws"}) or call
+\code{\link[=tar_invalidate]{tar_invalidate()}} on that target so that \code{targets}
+does not try to delete the object.
 For patterns recorded in the metadata, all the branches
 will be deleted. For patterns no longer in the metadata,
 branches are left alone.

@@ -5,7 +5,8 @@
 \title{Destroy all or part of the data store.}
 \usage{
 tar_destroy(
-  destroy = c("all", "meta", "process", "progress", "objects", "scratch", "workspaces"),
+  destroy = c("all", "cloud", "meta", "process", "progress", "objects", "scratch",
+    "workspaces"),
   ask = NULL,
   store = targets::tar_config_get("store")
 )
@@ -14,6 +15,9 @@ tar_destroy(
 \item{destroy}{Character of length 1, what to destroy. Choices:
 \itemize{
 \item \code{"all"}: destroy the entire data store (default: \verb{_targets/})
+including cloud data.
+\item \code{"cloud"}: just try to delete cloud data, e.g. target data
+from targets with \code{tar_target(..., repository = "aws")}.
 \item \code{"meta"}: just delete the metadata file at \code{meta/meta} in the
 data store, which invalidates all the targets but keeps the data.
 \item \code{"process"}: just delete the progress data file at

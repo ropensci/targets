@@ -41,7 +41,8 @@ tar_test("aws_s3_delete()", {
   on.exit(destroy_bucket(bucket))
   tmp <- tempfile()
   writeLines("x", tmp)
-  paws::s3()$put_object(Body = tmp, Key = "x", Bucket = bucket)
+  key <- "x"
+  paws::s3()$put_object(Body = tmp, Key = key, Bucket = bucket)
   expect_true(aws_s3_exists(key = key, bucket = bucket))
   aws_s3_delete(key = key, bucket = bucket)
   expect_false(aws_s3_exists(key = key, bucket = bucket))

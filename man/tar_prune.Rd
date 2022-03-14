@@ -66,15 +66,15 @@ a handle to the \code{callr} background process is returned. Either way,
 the value is invisibly returned.
 }
 \description{
-Remove target values from \verb{_targets/objects/} and
-target metadata from \verb{_targets/meta/meta} for targets that are no longer
-part of the pipeline.
+Remove target values from \verb{_targets/objects/} and the cloud
+and remove target metadata from \verb{_targets/meta/meta}
+for targets that are no longer part of the pipeline.
 }
 \details{
 This is useful if you recently worked through
 multiple changes to your project and are now trying to
 discard irrelevant data while keeping the results that still matter.
-Global objects and dynamic files outside the
+Global objects and local files with \code{format = "file"} outside the
 data store are unaffected. Also removes \verb{_targets/scratch/},
 which is only needed while \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_clustermq]{tar_make_clustermq()}},
 or \code{\link[=tar_make_future]{tar_make_future()}} is running.

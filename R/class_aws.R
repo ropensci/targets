@@ -146,21 +146,11 @@ store_delete_object.tar_aws <- function(store, name = NULL) {
   region <- store_aws_region(path)
   endpoint <- store_aws_endpoint(path)
   version <- store_aws_version(path)
-  exists <- aws_s3_exists(
-    key = key,
-    bucket = bucket,
-    region = region,
-    endpoint = endpoint,
-    version = version
-  )
-  if (!exists) {
-    return()
-  }
   message <- paste(
     "could not delete target %s from AWS bucket %s key %s.",
     "Either delete the object manually in the AWS web console",
     "or call tar_invalidate(%s) to prevent the targets package",
-    "from trying to delete it.\n"
+    "from trying to delete it.\nMessage: "
   )
   message <- sprintf(message, name, bucket, key, name)
   tryCatch(
@@ -172,7 +162,7 @@ store_delete_object.tar_aws <- function(store, name = NULL) {
       version = version
     ),
     error = function(condition) {
-      tar_throw_validate(message, "Message: ", conditionMessage(condition))
+      tar_throw_validate(message, conditionMessage(condition))
     }
   )
 }
