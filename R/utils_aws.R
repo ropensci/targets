@@ -78,6 +78,26 @@ aws_s3_download <- function(
   }
   out <- do.call(what = client$get_object, args = args)$Body
   writeBin(out, con = file)
+  invisible()
+}
+
+aws_s3_delete <- function(
+  key,
+  bucket,
+  region = NULL,
+  endpoint = NULL,
+  version = NULL
+) {
+  client <- aws_s3_client(endpoint = endpoint, region = region)
+  args <- list(
+    Key = key,
+    Bucket = bucket
+  )
+  if (!is.null(version)) {
+    args$VersionId <- version
+  }
+  do.call(what = client$delete_object, args = args)
+  invisible()
 }
 
 # Copied from https://github.com/paws-r/paws/blob/main/examples/s3_multipart_upload.R # nolint
@@ -135,7 +155,7 @@ aws_s3_upload <- function(
       UploadId = multipart$UploadId
     )
   }, silent = TRUE)
-  return(response)
+  response
 }
 
 # Copied from https://github.com/paws-r/paws/blob/main/examples/s3_multipart_upload.R # nolint
@@ -166,7 +186,7 @@ aws_s3_upload_parts <- function(
     )
     parts <- c(parts, list(list(ETag = part_response$ETag, PartNumber = i)))
   }
-  return(parts)
+  parts
 }
 
 aws_s3_client <- function(endpoint, region) {

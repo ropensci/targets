@@ -35,6 +35,18 @@ tar_test("aws_s3_download()", {
   expect_equal(readLines(tmp2), "x")
 })
 
+tar_test("aws_s3_delete()", {
+  bucket <- random_bucket_name()
+  paws::s3()$create_bucket(Bucket = bucket)
+  on.exit(destroy_bucket(bucket))
+  tmp <- tempfile()
+  writeLines("x", tmp)
+  paws::s3()$put_object(Body = tmp, Key = "x", Bucket = bucket)
+  expect_true(aws_s3_exists(key = key, bucket = bucket))
+  aws_s3_delete(key = key, bucket = bucket)
+  expect_false(aws_s3_exists(key = key, bucket = bucket))
+})
+
 tar_test("aws_s3_upload() without headers", {
   bucket <- random_bucket_name()
   paws::s3()$create_bucket(Bucket = bucket)
