@@ -20,6 +20,7 @@
 
 * Allow target name character strings to have attributes (#758, @psanker).
 * Sort metadata rows when the pipeline finishes so that version-controlling the metadata is easier (#766, @jameelalsalam).
+* `tar_destroy()`, `tar_delete()`, and `tar_prune()` now attempt to delete cloud data for the appropriate targets (#799). In addition, `tar_exist_objects()` and `tar_objects()` now report about target data in the cloud when applicable.
 
 # targets 0.10.0
 
