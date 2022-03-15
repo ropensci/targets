@@ -145,7 +145,7 @@ store_upload_object.tar_gcp <- function(store) {
     value = TRUE,
     invert = TRUE
   )
-  store$file$path <- c(path, paste0("version=", head$VersionId))
+  store$file$path <- c(path, paste0("version=", head$generation))
   invisible()
 }
 
