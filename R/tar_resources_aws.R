@@ -5,6 +5,10 @@
 #'   to specify optional settings to AWS for
 #'   `tar_target(..., repository = "aws")`.
 #'   See the `format` argument of [tar_target()] for details.
+#' @details See the AWS S3 chapter
+#'   of <https://books.ropensci.org/targets/> for details
+#'   for instructions on working with AWS S3
+#'   in `targets`.
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_aws"`, to be supplied
 #'   to the `aws` argument of `tar_resources()`.

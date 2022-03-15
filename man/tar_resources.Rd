@@ -19,7 +19,11 @@ tar_resources(
 \arguments{
 \item{aws}{Output of function \code{tar_resources_aws()}.
 Amazon Web Services (AWS) S3 storage settings for
-\code{tar_target(..., repository = "aws")}.}
+\code{tar_target(..., repository = "aws")}.
+See the AWS S3 storage chapter
+of \url{https://books.ropensci.org/targets/} for details
+for instructions on working with AWS S3
+in \code{targets}.}
 
 \item{clustermq}{Output of function \code{tar_resources_clustermq()}.
 Optional \code{clustermq} settings for \code{tar_make_clustermq()},
@@ -50,7 +54,11 @@ Resources supplied through
 
 \item{gcp}{Output of function \code{tar_resources_gcp()}.
 Google Cloud Storage bucket settings for
-\code{tar_target(..., repository = "gcp")}.}
+\code{tar_target(..., repository = "gcp")}.
+See the GCP GCS storage chapter
+of \url{https://books.ropensci.org/targets/} for details
+for instructions on working with Google Cloud Storage
+in \code{targets}.}
 
 \item{parquet}{Output of function \code{tar_resources_parquet()}.
 Non-default arguments to \code{arrow::read_parquet()} and

@@ -11,6 +11,10 @@ tar_test("tar_exist_objects()", {
   tar_invalidate(x)
   tar_delete(y)
   expect_equal(tar_exist_objects(c("y", "x", "z")), c(FALSE, TRUE, TRUE))
+  expect_equal(
+    tar_exist_objects(c("y", "x", "z"), cloud = FALSE),
+    c(FALSE, TRUE, TRUE)
+  )
 })
 
 tar_test("custom script and store args", {

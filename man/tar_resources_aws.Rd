@@ -53,6 +53,12 @@ to specify optional settings to AWS for
 \code{tar_target(..., repository = "aws")}.
 See the \code{format} argument of \code{\link[=tar_target]{tar_target()}} for details.
 }
+\details{
+See the AWS S3 chapter
+of \url{https://books.ropensci.org/targets/} for details
+for instructions on working with AWS S3
+in \code{targets}.
+}
 \section{Resources}{
 
 Functions \code{\link[=tar_target]{tar_target()}} and \code{\link[=tar_option_set]{tar_option_set()}}

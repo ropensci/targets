@@ -10,6 +10,9 @@
 #'   [all_of()] or [starts_with()] to return
 #'   a tactical subset of target names.
 #'   If `NULL`, all names are selected.
+#' @param cloud Logical of length 1, whether to include
+#'   cloud targets in the output
+#'   (e.g. `tar_target(..., repository = "aws")`).
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -23,6 +26,7 @@
 #' }
 tar_objects <- function(
   names = NULL,
+  cloud = TRUE,
   store = targets::tar_config_get("store")
 ) {
   if (!file.exists(store)) {
@@ -38,10 +42,13 @@ tar_objects <- function(
   meta <- tar_meta(store = store)
   meta <- meta[meta$repository != "local",, drop = FALSE] # nolint
   names <- tar_tidyselect_eval(names_quosure, meta$name) %|||% meta$name
-  exists <- map_lgl(
-    names,
-    ~tar_exist_cloud_target(name = .x, meta = meta, path_store = store)
-  )
-  cloud <- names[exists]
-  sort(unique(as.character(c(local, cloud))))
+  remote <- character(0)
+  if (cloud) {
+    exists <- map_lgl(
+      names,
+      ~tar_exist_cloud_target(name = .x, meta = meta, path_store = store)
+    )
+    remote <- names[exists]
+  }
+  sort(unique(as.character(c(local, remote))))
 }
