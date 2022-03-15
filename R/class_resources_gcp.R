@@ -1,23 +1,19 @@
 resources_gcp_init <- function(
   bucket = NULL,
-  prefix = path_objects_dir_cloud(),
-  verbose = FALSE
+  prefix = path_objects_dir_cloud()
 ) {
   resources_gcp_new(
     bucket = bucket,
-    prefix = prefix,
-    verbose = verbose
+    prefix = prefix
   )
 }
 
 resources_gcp_new <- function(
   bucket = NULL,
-  prefix = NULL,
-  verbose = FALSE
+  prefix = NULL
 ) {
   force(bucket)
   force(prefix)
-  force(verbose)
   enclass(environment(), c("tar_resources_gcp", "tar_resources"))
 }
 
@@ -29,8 +25,6 @@ resources_validate.tar_resources_gcp <- function(resources) {
   tar_assert_scalar(resources$prefix)
   tar_assert_chr(resources$prefix)
   tar_assert_nzchar(resources$prefix)
-  tar_assert_lgl(resources$verbose)
-  tar_assert_scalar(resources$verbose)
 }
 
 #' @export
