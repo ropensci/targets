@@ -1,6 +1,6 @@
-# Semi-automated tests of Amazon S3 integration live in tests/gcp/. # nolint
+# Semi-automated tests of GCP GCS integration live in tests/gcp/. # nolint
 # These tests should not be fully automated because they
-# automatically create S3 buckets and upload data,
+# automatically create buckets and upload data,
 # which could put an unexpected and unfair burden on
 # external contributors from the open source community.
 # nocov start
@@ -16,15 +16,7 @@ store_produce_path.tar_gcp_file <- function(store, name, object, path_store) {
 }
 
 store_gcp_file_stage <- function(path) {
-  if_any(
-    store_gcp_path_0.8.1(path), # targets 0.8.1 and under
-    if_any(
-      length(path) <= 2L, # targets 0.4.2 and under
-      file.path(path_scratch_dir(path_store_default()), store_gcp_key(path)),
-      path[3]
-    ),
-    store_gcp_path_field(path = path, pattern = "^stage=")
-  )
+  store_gcp_path_field(path = path, pattern = "^stage=")
 }
 
 #' @export
@@ -54,7 +46,6 @@ store_read_object.tar_gcp_file <- function(store) {
     key = store_gcp_key(path),
     bucket = store_gcp_bucket(path),
     file = stage,
-    region = store_gcp_region(path),
     version = store_gcp_version(path)
   )
   stage

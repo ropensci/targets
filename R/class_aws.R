@@ -95,14 +95,14 @@ store_aws_key <- function(path) {
   store_aws_path_field(path = path, pattern = "^key=")
 }
 
-store_aws_path_field <- function(path, pattern) {
-  path <- store_aws_split_colon(path)
-  keyvalue_field(x = path, pattern = pattern)
-}
-
 store_aws_version <- function(path) {
   out <- store_aws_path_field(path = path, pattern = "^version=")
   if_any(length(out) && nzchar(out), out, NULL)
+}
+
+store_aws_path_field <- function(path, pattern) {
+  path <- store_aws_split_colon(path)
+  keyvalue_field(x = path, pattern = pattern)
 }
 
 store_aws_path_0.8.1 <- function(path) {
