@@ -156,6 +156,7 @@ tar_test("aws_s3_upload() and download with metadata", {
 
 # Go through this one fully manually.
 tar_test("upload twice, get the correct version", {
+  skip("not working because GCP S3 interoperability does not get versions.")
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
   on.exit(aws_s3_delete_bucket(bucket, client()))
@@ -257,6 +258,7 @@ tar_test("upload twice, get the correct version", {
 })
 
 tar_test("multipart: upload twice, get the correct version", {
+  skip("not working because GCP S3 interoperability does not get versions.")
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
   on.exit(aws_s3_delete_bucket(bucket, client()))
