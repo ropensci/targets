@@ -144,7 +144,11 @@ tar_test("gcp_gcs upload twice, get the correct version", {
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket))
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket, version = v1))
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket, version = v2))
-  expect_false(gcp_gcs_exists(key = "x", bucket = bucket, version = "v3"))
+  v3 <- v1
+  while(identical(v3, v1) || identical(v3, v2)) {
+    v3 <- paste0(sample.int(n = 9, size = 16, replace = TRUE), collapse = "")
+  }
+  expect_false(gcp_gcs_exists(key = "x", bucket = bucket, version = v3))
   h1 <- gcp_gcs_head(key = "x", bucket = bucket, version = v1)
   h2 <- gcp_gcs_head(key = "x", bucket = bucket, version = v2)
   expect_equal(h1$generation, v1)
@@ -190,7 +194,11 @@ tar_test("gcp_gcs_upload: upload twice, get the correct version", {
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket))
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket, version = v1))
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket, version = v2))
-  expect_false(gcp_gcs_exists(key = "x", bucket = bucket, version = "v3"))
+  v3 <- v1
+  while(identical(v3, v1) || identical(v3, v2)) {
+    v3 <- paste0(sample.int(n = 9, size = 16, replace = TRUE), collapse = "")
+  }
+  expect_false(gcp_gcs_exists(key = "x", bucket = bucket, version = v3))
   h1 <- gcp_gcs_head(key = "x", bucket = bucket, version = v1)
   h2 <- gcp_gcs_head(key = "x", bucket = bucket, version = v2)
   expect_equal(h1$generation, v1)
