@@ -11,8 +11,5 @@ auth_gcp <- function() {
 }
 
 gcp_gcs_delete_bucket <- function(bucket) {
-
-  # force_delete in v0.7.0
   googleCloudStorageR::gcs_delete_bucket(bucket, force_delete = TRUE)
-
 }

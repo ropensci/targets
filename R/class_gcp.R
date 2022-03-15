@@ -177,11 +177,11 @@ store_gcp_hash <- function(key, bucket, version) {
     bucket = bucket,
     version = version
   )
-  head$Metadata[["targets-hash"]]
+  head$metadata[["targets-hash"]]
 }
 # nocov end
 
 #' @export
 store_get_packages.tar_gcp <- function(store) {
-  c("googleCloudStorageR", NextMethod())
+  c("googleAuthR", "googleCloudStorageR", NextMethod())
 }
