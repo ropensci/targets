@@ -1,3 +1,8 @@
+tar_test("store_gcp_bucket()", {
+  path <- c("bucket=b", "region=r", "key=key_name", "stage=stage_name")
+  expect_equal(store_gcp_bucket(path), "b")
+})
+
 tar_test("store_gcp_key()", {
   path <- c("bucket=b", "region=r", "key=key_name", "stage=stage_name")
   expect_equal(store_gcp_key(path), "key_name")
