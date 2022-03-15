@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_resources_aws.R
 \name{tar_resources_aws}
 \alias{tar_resources_aws}
-\title{Target resources: Amazon Web Services (AWS) storage formats}
+\title{Target resources: Amazon Web Services (AWS) S3 storage}
 \usage{
 tar_resources_aws(
   bucket,
@@ -14,11 +14,11 @@ tar_resources_aws(
 }
 \arguments{
 \item{bucket}{Character of length 1, name of an existing
-AWS S3 bucket to upload and download the return values
+bucket to upload and download the return values
 of the affected targets during the pipeline.}
 
 \item{prefix}{Character of length 1, "directory path"
-in the S3 bucket where the target return values are stored.}
+in the bucket where the target return values are stored.}
 
 \item{region}{Character of length 1, AWS region containing the S3 bucket.
 Set to \code{NULL} to use the default region.}

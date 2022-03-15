@@ -2,23 +2,18 @@
 % Please edit documentation in R/tar_resources_gcp.R
 \name{tar_resources_gcp}
 \alias{tar_resources_gcp}
-\title{Target resources: Google Cloud Platform storage formats}
+\title{Target resources: Google Cloud Platform (GCP)
+Google Cloud Storage (GCS)}
 \usage{
-tar_resources_gcp(
-  bucket,
-  prefix = targets::path_objects_dir_cloud(),
-  verbose = FALSE
-)
+tar_resources_gcp(bucket, prefix = targets::path_objects_dir_cloud())
 }
 \arguments{
 \item{bucket}{Character of length 1, name of an existing
-gcp bucket to upload and download the return values
+bucket to upload and download the return values
 of the affected targets during the pipeline.}
 
 \item{prefix}{Character of length 1, "directory path"
-in the S3 bucket where the target return values are stored.}
-
-\item{verbose}{Whether to have feedback on the GCS upload process}
+in the bucket where the target return values are stored.}
 }
 \value{
 Object of class \code{"tar_resources_gcp"}, to be supplied
@@ -26,7 +21,8 @@ to the \code{gcp} argument of \code{tar_resources()}.
 }
 \description{
 Create the \code{gcp} argument of \code{tar_resources()}
-to specify optional settings to gcp storage formats.
+to specify optional settings to gcp for
+\code{tar_target(..., repository = "gcp")}.
 See the \code{format} argument of \code{\link[=tar_target]{tar_target()}} for details.
 }
 \section{Resources}{
@@ -46,17 +42,16 @@ in \code{resources_1} is discarded for target \code{x}.
 
 \examples{
 # Somewhere in you target script file (usually _targets.R):
-if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_target(
   name,
   command(),
-  format = "gcp_qs",
+  format = "qs",
+  repository = "gcp",
   resources = tar_resources(
     gcp = tar_resources_gcp(bucket = "yourbucketname"),
     qs = tar_resources_qs(preset = "fast")
   )
 )
-}
 }
 \seealso{
 Other resources: 
