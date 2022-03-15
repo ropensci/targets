@@ -3,8 +3,8 @@ tar_test("gcp_gcs_exists()", {
   auth_gcp()
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
-  googleCloudStorageR::gcs_create_bucket(bucket, projectId = projectId)
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket))
   expect_false(gcp_gcs_exists(key = "x", bucket = bucket))
   tmp <- tempfile()
@@ -18,10 +18,11 @@ tar_test("gcp_gcs_head()", {
   auth_gcp()
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(
     bucket,
-    projectId = projectId)
+    projectId = project
+  )
   on.exit(gcp_gcs_delete_bucket(bucket))
   expect_false(gcp_gcs_exists(key = "x", bucket = bucket))
   tmp <- tempfile()
@@ -32,7 +33,6 @@ tar_test("gcp_gcs_head()", {
     name = "x"
   )
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket))
-
   head <- gcp_gcs_head(key = "x", bucket = bucket)
   expect_true(inherits(head, "gcs_objectmeta"))
   expect_true(is.character(head$etag))
@@ -44,10 +44,11 @@ tar_test("gcp_gcs_download()", {
   auth_gcp()
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(
     bucket,
-    projectId = projectId)
+    projectId = project
+  )
   on.exit(gcp_gcs_delete_bucket(bucket))
   expect_false(gcp_gcs_exists(key = "x", bucket = bucket))
   tmp <- tempfile()
@@ -68,8 +69,8 @@ tar_test("gcp_gcs_delete()", {
   auth_gcp()
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
-  googleCloudStorageR::gcs_create_bucket(bucket, projectId = projectId)
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket))
   expect_false(gcp_gcs_exists(key = "x", bucket = bucket))
   tmp <- tempfile()
@@ -85,10 +86,10 @@ tar_test("gcp_gcs_delete() with versions", {
   auth_gcp()
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(
     bucket,
-    projectId = projectId,
+    projectId = project,
     versioning = TRUE
   )
   on.exit(gcp_gcs_delete_bucket(bucket))
@@ -111,7 +112,6 @@ tar_test("gcp_gcs_delete() with versions", {
     bucket = bucket
   )
   v2 <- head$generation
-  
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket, version = v1))
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket, version = v2))
   gcp_gcs_delete(key = "x", bucket = bucket, version = v1)
@@ -124,13 +124,12 @@ tar_test("gcp_gcs_upload() without headers", {
   auth_gcp()
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(
     bucket,
-    projectId = projectId
+    projectId = project
   )
   on.exit(gcp_gcs_delete_bucket(bucket))
-
   expect_false(gcp_gcs_exists(key = "x", bucket = bucket))
   tmp <- tempfile()
   writeLines("x", tmp)
@@ -147,8 +146,8 @@ tar_test("gcp_gcs_upload() and download with metadata", {
   auth_gcp()
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
-  googleCloudStorageR::gcs_create_bucket(bucket, projectId = projectId)
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket))
   expect_false(gcp_gcs_exists(key = "x", bucket = bucket))
   tmp <- tempfile()
@@ -173,10 +172,10 @@ tar_test("gcp_gcs upload twice, get the correct version", {
   auth_gcp()
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(
     bucket,
-    projectId = projectId,
+    projectId = project,
     versioning = TRUE
   )
   on.exit(gcp_gcs_delete_bucket(bucket))
@@ -201,7 +200,7 @@ tar_test("gcp_gcs upload twice, get the correct version", {
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket, version = v1))
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket, version = v2))
   v3 <- v1
-  while(identical(v3, v1) || identical(v3, v2)) {
+  while (identical(v3, v1) || identical(v3, v2)) {
     v3 <- paste0(sample.int(n = 9, size = 16, replace = TRUE), collapse = "")
   }
   expect_false(gcp_gcs_exists(key = "x", bucket = bucket, version = v3))
@@ -223,10 +222,10 @@ tar_test("gcp_gcs_upload: upload twice, get the correct version", {
   auth_gcp()
   bucket <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  projectId <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(
     bucket,
-    projectId = projectId,
+    projectId = project,
     versioning = TRUE
   )
   on.exit(gcp_gcs_delete_bucket(bucket))
@@ -251,7 +250,7 @@ tar_test("gcp_gcs_upload: upload twice, get the correct version", {
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket, version = v1))
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket, version = v2))
   v3 <- v1
-  while(identical(v3, v1) || identical(v3, v2)) {
+  while (identical(v3, v1) || identical(v3, v2)) {
     v3 <- paste0(sample.int(n = 9, size = 16, replace = TRUE), collapse = "")
   }
   expect_false(gcp_gcs_exists(key = "x", bucket = bucket, version = v3))
