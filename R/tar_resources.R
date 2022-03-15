@@ -46,7 +46,7 @@
 #'   `future::plan()` and `future::tweak()` are completely ignored.
 #' @param gcp Output of function `tar_resources_gcp()`.
 #'   Google Cloud Storage bucket settings for
-#'   `tar_target(..., repository = "gcs")`.
+#'   `tar_target(..., repository = "gcp")`.
 #' @param parquet Output of function `tar_resources_parquet()`.
 #'   Non-default arguments to `arrow::read_parquet()` and
 #'   `arrow::write_parquet()` for `arrow`/parquet-based storage formats.

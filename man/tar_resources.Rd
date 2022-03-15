@@ -50,7 +50,7 @@ Resources supplied through
 
 \item{gcp}{Output of function \code{tar_resources_gcp()}.
 Google Cloud Storage bucket settings for
-\code{tar_target(..., repository = "gcs")}.}
+\code{tar_target(..., repository = "gcp")}.}
 
 \item{parquet}{Output of function \code{tar_resources_parquet()}.
 Non-default arguments to \code{arrow::read_parquet()} and
