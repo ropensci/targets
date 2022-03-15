@@ -87,7 +87,8 @@ store_exist_object.tar_gcp <- function(store, name = NULL) {
   gcp_gcs_exists(
     key = store_gcp_key(path),
     bucket = store_gcp_bucket(path),
-    version = store_gcp_version(path)
+    version = store_gcp_version(path),
+    verbose = store$resources$aws$verbose %|||% FALSE
   )
 }
 
@@ -108,7 +109,8 @@ store_delete_object.tar_gcp <- function(store, name = NULL) {
     gcp_gcs_delete(
       key = key,
       bucket =  bucket,
-      version = version
+      version = version,
+      verbose = store$resources$aws$verbose %|||% FALSE
     ),
     error = function(condition) {
       tar_throw_validate(message, conditionMessage(condition))
@@ -157,13 +159,15 @@ store_has_correct_hash.tar_gcp <- function(store) {
     gcp_gcs_exists(
       key = key,
       bucket = bucket,
-      version = version
+      version = version,
+      verbose = store$resources$aws$verbose %|||% FALSE
     ),
     identical(
       store_gcp_hash(
         key = key,
         bucket = bucket,
-        version = version
+        version = version,
+        verbose = store$resources$aws$verbose %|||% FALSE
       ),
       store$file$hash
     ),
@@ -171,11 +175,12 @@ store_has_correct_hash.tar_gcp <- function(store) {
   )
 }
 
-store_gcp_hash <- function(key, bucket, version) {
+store_gcp_hash <- function(key, bucket, version, verbose) {
   head <- gcp_gcs_head(
     key = key,
     bucket = bucket,
-    version = version
+    version = version,
+    verbose = verbose
   )
   head$metadata[["targets-hash"]]
 }

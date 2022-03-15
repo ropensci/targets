@@ -8,13 +8,15 @@
 gcp_gcs_exists <- function(
   key,
   bucket = gcp_gcs_bucket(),
-  version = NULL
+  version = NULL,
+  verbose = FALSE
 ) {
   tryCatch(
     gcp_gcs_head_true(
       key = key,
       bucket = bucket,
-      version = version
+      version = version,
+      verbose = verbose
     ),
     http_404 = function(condition) {
       FALSE
@@ -25,12 +27,14 @@ gcp_gcs_exists <- function(
 gcp_gcs_head_true <- function(
   key,
   bucket = gcp_gcs_bucket(),
-  version = NULL
+  version = NULL,
+  verbose = FALSE
 ) {
   gcp_gcs_head(
     key = key,
     bucket = bucket,
-    version = version
+    version = version,
+    verbose = verbose
   )
   TRUE
 }
@@ -38,19 +42,25 @@ gcp_gcs_head_true <- function(
 gcp_gcs_head <- function(
   key,
   bucket = gcp_gcs_bucket(),
-  version = NULL
+  version = NULL,
+  verbose = FALSE
 ) {
-  gcp_gcs_auth()
-  googleCloudStorageR::gcs_get_object(
-    key,
-    bucket = bucket,
-    meta = TRUE,
-    generation = version
+  gcp_gcs_auth(verbose = verbose)
+  if_any(verbose, identity, suppressMessages) (
+    googleCloudStorageR::gcs_get_object(
+      key,
+      bucket = bucket,
+      meta = TRUE,
+      generation = version
+    )
   )
 }
 
-gcp_gcs_bucket <- function() {
-  googleCloudStorageR::gcs_get_global_bucket()
+gcp_gcs_bucket <- function(verbose = FALSE) {
+  gcp_gcs_auth(verbose = verbose)
+  if_any(verbose, identity, suppressMessages) (
+    googleCloudStorageR::gcs_get_global_bucket()
+  )
 }
 
 gcp_gcs_download <- function(
@@ -60,7 +70,7 @@ gcp_gcs_download <- function(
   version = NULL,
   verbose = FALSE
 ) {
-  gcp_gcs_auth()
+  gcp_gcs_auth(verbose = verbose)
   if_any(verbose, identity, suppressMessages) (
     googleCloudStorageR::gcs_get_object(
       key,
@@ -75,13 +85,16 @@ gcp_gcs_download <- function(
 gcp_gcs_delete <- function(
   key,
   bucket = gcp_gcs_bucket(),
-  version = NULL
+  version = NULL,
+  verbose = FALSE
 ) {
-  gcp_gcs_auth()
-  googleCloudStorageR::gcs_delete_object(
-    object_name = key,
-    bucket = bucket,
-    generation = version
+  gcp_gcs_auth(verbose = verbose)
+  if_any(verbose, identity, suppressMessages) (
+    googleCloudStorageR::gcs_delete_object(
+      object_name = key,
+      bucket = bucket,
+      generation = version
+    )
   )
 }
 
@@ -93,7 +106,7 @@ gcp_gcs_upload <- function(
   predefined_acl = "private",
   verbose = FALSE
 ) {
-  gcp_gcs_auth()
+  gcp_gcs_auth(verbose = verbose)
   meta <- NULL
   if (length(metadata) > 0) {
     meta <- googleCloudStorageR::gcs_metadata_object(
@@ -112,13 +125,15 @@ gcp_gcs_upload <- function(
   )
 }
 
-gcp_gcs_auth <- function() {
-  googleAuthR::gar_attach_auto_auth(
-    c(
-      "https://www.googleapis.com/auth/devstorage.full_control",
-      "https://www.googleapis.com/auth/cloud-platform"
-    ),
-    environment_var = "GCS_AUTH_FILE"
+gcp_gcs_auth <- function(verbose = FALSE) {
+  if_any(verbose, identity, suppressMessages) (
+    googleAuthR::gar_attach_auto_auth(
+      c(
+        "https://www.googleapis.com/auth/devstorage.full_control",
+        "https://www.googleapis.com/auth/cloud-platform"
+      ),
+      environment_var = "GCS_AUTH_FILE"
+    )
   )
 }
 # nocov end
