@@ -5,7 +5,10 @@ tar_test("gcp_file packages", {
     format = "file",
     repository = "gcp"
   )
-  expect_equal(store_get_packages(target$store), "googleCloudStorageR")
+  expect_equal(
+    sort(store_get_packages(target$store)),
+    c("googleAuthR", "googleCloudStorageR")
+  )
 })
 
 tar_test("inherits from tar_external", {
