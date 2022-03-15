@@ -68,6 +68,6 @@ tar_test("store_produce_path()", {
   out <- store_produce_path(store, "x_name", "x_object")
   expect_equal(
     sort(out),
-    sort(c( "bucket=x_bucket", "key=_targets/objects/x_name"))
+    sort(c("bucket=x_bucket", "key=_targets/objects/x_name"))
   )
 })

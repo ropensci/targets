@@ -89,6 +89,15 @@ gcp_gcs_delete <- function(
   verbose = FALSE
 ) {
   gcp_gcs_auth(verbose = verbose)
+  exists <- gcp_gcs_exists(
+    key = key,
+    bucket = bucket,
+    version = version,
+    verbose = verbose
+  )
+  if (!exists) {
+    return()
+  }
   if_any(verbose, identity, suppressMessages) (
     googleCloudStorageR::gcs_delete_object(
       object_name = key,
