@@ -4,7 +4,7 @@ tar_test("aws_file format file gets stored", {
   bucket_name <- random_bucket_name()
   s3 <- paws::s3()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
       aws = tar_resources_aws(bucket = !!bucket_name)
@@ -123,7 +123,7 @@ tar_test("aws_file format invalidation", {
     expect_equal(tar_progress(y)$progress, "built")
     expect_equal(tar_read(y), "x_lines2")
     unlink("example_aws_file.txt")
-    destroy_bucket(bucket_name)
+    aws_s3_delete_bucket(bucket_name)
   }
 })
 
@@ -133,7 +133,7 @@ tar_test("aws_file format with a custom data store", {
   bucket_name <- random_bucket_name()
   s3 <- paws::s3()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
       aws = tar_resources_aws(bucket = !!bucket_name)
@@ -185,7 +185,7 @@ tar_test("aws_file format file with different region", {
   region <- "us-west-2"
   cfg <- list(LocationConstraint = region)
   s3$create_bucket(Bucket = bucket_name, CreateBucketConfiguration = cfg)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
       aws = tar_resources_aws(bucket = !!bucket_name, region = "us-west-2")

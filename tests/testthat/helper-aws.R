@@ -18,7 +18,7 @@ random_bucket_name <- function() {
   )
 }
 
-destroy_bucket <- function(bucket, client = paws::s3()) {
+aws_s3_delete_bucket <- function(bucket, client = paws::s3()) {
   region <- client$get_bucket_location(Bucket = bucket)
   withr::local_envvar(.new = list(AWS_REGION = region))
   out <- client$list_object_versions(Bucket = bucket)
@@ -37,7 +37,7 @@ destroy_bucket <- function(bucket, client = paws::s3()) {
   client$delete_bucket(Bucket = bucket)
 }
 
-destroy_targets_buckets <- function(client = paws::s3()) {
+aws_s3_delete_targets_buckets <- function(client = paws::s3()) {
   out <- client$list_buckets()
   buckets <- unlist(
     lapply(

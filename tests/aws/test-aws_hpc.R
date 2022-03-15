@@ -5,7 +5,7 @@ tar_test("AWS S3 + HPC", {
   s3 <- paws::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   code <- substitute({
     library(targets)
     library(future)

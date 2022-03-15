@@ -18,7 +18,7 @@ tar_test("aws qs format data gets stored", {
   skip_if_not_installed("qs")
   s3 <- client()
   bucket_name <- random_bucket_name()
-  on.exit(destroy_bucket(bucket_name, client()))
+  on.exit(aws_s3_delete_bucket(bucket_name, client()))
   s3$create_bucket(Bucket = bucket_name)
   expr <- quote({
     tar_option_set(
@@ -75,7 +75,7 @@ tar_test("aws qs format invalidation", {
   s3 <- client()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name, client()))
+  on.exit(aws_s3_delete_bucket(bucket_name, client()))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(

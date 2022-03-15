@@ -15,7 +15,7 @@ client <- function() {
 tar_test("aws_s3_exists()", {
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
-  on.exit(destroy_bucket(bucket, client()))
+  on.exit(aws_s3_delete_bucket(bucket, client()))
   expect_false(
     aws_s3_exists(
       key = "x",
@@ -40,7 +40,7 @@ tar_test("aws_s3_exists()", {
 tar_test("aws_s3_head()", {
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
-  on.exit(destroy_bucket(bucket, client()))
+  on.exit(aws_s3_delete_bucket(bucket, client()))
   tmp <- tempfile()
   writeLines("x", tmp)
   client()$put_object(Body = tmp, Key = "x", Bucket = bucket)
@@ -58,7 +58,7 @@ tar_test("aws_s3_head()", {
 tar_test("aws_s3_download()", {
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
-  on.exit(destroy_bucket(bucket, client()))
+  on.exit(aws_s3_delete_bucket(bucket, client()))
   tmp <- tempfile()
   writeLines("x", tmp)
   client()$put_object(Body = tmp, Key = "x", Bucket = bucket)
@@ -77,7 +77,7 @@ tar_test("aws_s3_download()", {
 tar_test("aws_s3_upload() without headers", {
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
-  on.exit(destroy_bucket(bucket, client()))
+  on.exit(aws_s3_delete_bucket(bucket, client()))
   expect_false(
     aws_s3_exists(
       key = "x",
@@ -108,7 +108,7 @@ tar_test("aws_s3_upload() without headers", {
 tar_test("aws_s3_upload() and download with metadata", {
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
-  on.exit(destroy_bucket(bucket, client()))
+  on.exit(aws_s3_delete_bucket(bucket, client()))
   expect_false(
     aws_s3_exists(
       key = "x",
@@ -158,7 +158,7 @@ tar_test("aws_s3_upload() and download with metadata", {
 tar_test("upload twice, get the correct version", {
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
-  on.exit(destroy_bucket(bucket, client()))
+  on.exit(aws_s3_delete_bucket(bucket, client()))
   # Manually turn on bucket versioning in the GCP web console
   # (bucket details, "PROTECTION" tab).
   tmp <- tempfile()
@@ -259,7 +259,7 @@ tar_test("upload twice, get the correct version", {
 tar_test("multipart: upload twice, get the correct version", {
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
-  on.exit(destroy_bucket(bucket, client()))
+  on.exit(aws_s3_delete_bucket(bucket, client()))
   # Manually turn on bucket versioning in the GCP web console
   # (bucket details, "PROTECTION" tab).
   tmp <- tempfile()
@@ -362,7 +362,7 @@ tar_test("multipart: upload twice, get the correct version", {
 tar_test("graceful error on multipart upload", {
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
-  on.exit(destroy_bucket(bucket, client()))
+  on.exit(aws_s3_delete_bucket(bucket, client()))
   tmp <- tempfile()
   writeBin(raw(1e4), tmp)
   expect_error(

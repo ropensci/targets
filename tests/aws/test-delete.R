@@ -6,7 +6,7 @@ tar_test("delete cloud targets", {
   s3 <- paws::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -66,7 +66,7 @@ tar_test("same with versioning", {
       Status = "Enabled"
     )
   )
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -119,7 +119,7 @@ tar_test("tar_destroy() cloud targets", {
   s3 <- paws::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -174,7 +174,7 @@ tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for aws", {
   s3 <- paws::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(

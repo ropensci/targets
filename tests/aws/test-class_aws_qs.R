@@ -5,7 +5,7 @@ tar_test("aws_qs format data gets stored", {
   skip_if_not_installed("qs")
   s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   s3$create_bucket(Bucket = bucket_name)
   expr <- quote({
     tar_option_set(
@@ -46,7 +46,7 @@ tar_test("aws_qs format data gets stored with worker storage", {
   s3 <- paws::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -88,7 +88,7 @@ tar_test("aws_qs format invalidation", {
   s3 <- paws::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -135,7 +135,7 @@ tar_test("aws_qs format and dynamic branching", {
   s3 <- paws::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -167,7 +167,7 @@ tar_test("aws timestamp", {
   s3 <- paws::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -198,7 +198,7 @@ tar_test("aws_qs format with an alternative data store", {
   s3 <- paws::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
       aws = tar_resources_aws(bucket = !!bucket_name)
@@ -238,7 +238,7 @@ tar_test("aws_qs format works with storage = \"none\"", {
   s3 <- paws::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -286,7 +286,7 @@ tar_test("aws_qs format with custom region", {
   region <- "us-west-2"
   cfg <- list(LocationConstraint = region)
   s3$create_bucket(Bucket = bucket_name, CreateBucketConfiguration = cfg)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -346,7 +346,7 @@ tar_test("aws_qs format empty region string", {
   s3 <- paws::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
@@ -385,7 +385,7 @@ tar_test("aws_qs nonexistent bucket", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_equal(tar_read(x), "x_value")
-  destroy_bucket(bucket_name)
+  aws_s3_delete_bucket(bucket_name)
   expect_error(
     tar_make(callr_function = NULL, reporter = "silent"),
     class = "tar_condition_run"
@@ -401,7 +401,7 @@ tar_test("aws_qs format versioning", {
   skip_if_not_installed("qs")
   s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  on.exit(destroy_bucket(bucket_name))
+  on.exit(aws_s3_delete_bucket(bucket_name))
   s3$create_bucket(Bucket = bucket_name)
   s3$put_bucket_versioning(
     Bucket = bucket_name,
