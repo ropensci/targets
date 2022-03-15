@@ -72,6 +72,18 @@ gcp_gcs_download <- function(
   )
 }
 
+gcp_gcs_delete <- function(
+  key,
+  bucket = gcp_gcs_bucket(),
+  version = NULL
+) {
+  googleCloudStorageR::gcs_delete_object(
+    object_name = key,
+    bucket = bucket,
+    generation = version
+  )
+}
+
 gcp_gcs_upload <- function(
   file,
   key,
