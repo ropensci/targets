@@ -15,6 +15,8 @@
 #'     including cloud data.
 #'   * `"cloud"`: just try to delete cloud data, e.g. target data
 #'     from targets with `tar_target(..., repository = "aws")`.
+#'   * `"local"`: all the local files in the data store but nothing
+#'     on the cloud.
 #'   * `"meta"`: just delete the metadata file at `meta/meta` in the
 #'     data store, which invalidates all the targets but keeps the data.
 #'   * `"process"`: just delete the progress data file at
@@ -48,6 +50,7 @@ tar_destroy <- function(
   destroy = c(
     "all",
     "cloud",
+    "local",
     "meta",
     "process",
     "progress",
@@ -62,6 +65,7 @@ tar_destroy <- function(
   path <- switch(
     destroy,
     all = store,
+    local = store,
     cloud = tempfile(),
     meta = path_meta(store),
     process = path_process(store),

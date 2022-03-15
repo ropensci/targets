@@ -1,18 +1,22 @@
-#' @title Target resources: Amazon Web Services (AWS) storage formats
+#' @title Target resources: Amazon Web Services (AWS) S3 storage
 #' @export
 #' @family resources
 #' @description Create the `aws` argument of `tar_resources()`
 #'   to specify optional settings to AWS for
 #'   `tar_target(..., repository = "aws")`.
 #'   See the `format` argument of [tar_target()] for details.
+#' @details See the AWS S3 chapter
+#'   of <https://books.ropensci.org/targets/> for details
+#'   for instructions on working with AWS S3
+#'   in `targets`.
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_aws"`, to be supplied
 #'   to the `aws` argument of `tar_resources()`.
 #' @param bucket Character of length 1, name of an existing
-#'   AWS S3 bucket to upload and download the return values
+#'   bucket to upload and download the return values
 #'   of the affected targets during the pipeline.
 #' @param prefix Character of length 1, "directory path"
-#'   in the S3 bucket where the target return values are stored.
+#'   in the bucket where the target return values are stored.
 #' @param region Character of length 1, AWS region containing the S3 bucket.
 #'   Set to `NULL` to use the default region.
 #' @param part_size Positive numeric of length 1, number of bytes

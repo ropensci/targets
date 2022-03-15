@@ -5,6 +5,7 @@
 \title{Remove targets that are no longer part of the pipeline.}
 \usage{
 tar_prune(
+  cloud = TRUE,
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
   envir = parent.frame(),
@@ -13,6 +14,10 @@ tar_prune(
 )
 }
 \arguments{
+\item{cloud}{Logical of length 1, whether to delete objects
+from the cloud if applicable (e.g. AWS, GCP). If \code{FALSE},
+files are not deleted from the cloud.}
+
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session
 instead of an external process (but restart your R session just before

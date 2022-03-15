@@ -1,16 +1,18 @@
-# Use sparingly. We do not want to max out any AWS quotas.
+# Use sparingly. We do not want to max out any gcp quotas.
 # And afterwards, manually verify that all the buckets are gone.
 tar_test("delete cloud targets", {
-  skip_if_no_aws()
+  skip_if_no_gcp()
   skip_if_not_installed("arrow")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  on.exit(aws_s3_delete_bucket(bucket_name))
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       )
     )
     write_file <- function(path) {
@@ -22,7 +24,7 @@ tar_test("delete cloud targets", {
         x,
         data.frame(x = 2),
         format = "parquet",
-        repository = "aws"
+        repository = "gcp"
       ),
       tar_target(
         local_file,
@@ -31,10 +33,10 @@ tar_test("delete cloud targets", {
         repository = "local"
       ),
       tar_target(
-        aws_file,
+        gcp_file,
         write_file(tempfile()),
         format = "file",
-        repository = "aws"
+        repository = "gcp"
       )
     )
   })
@@ -43,34 +45,33 @@ tar_test("delete cloud targets", {
   tar_make(callr_function = NULL)
   path_store <- path_store_default()
   key1 <- path_objects(path_store, "x")
-  key2 <- path_objects(path_store, "aws_file")
-  expect_true(aws_s3_exists(key = key1, bucket = bucket_name))
-  expect_true(aws_s3_exists(key = key2, bucket = bucket_name))
+  key2 <- path_objects(path_store, "gcp_file")
+  expect_true(gcp_gcs_exists(key = key1, bucket = bucket_name))
+  expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name))
   tar_delete(everything())
-  expect_false(aws_s3_exists(key = key1, bucket = bucket_name))
-  expect_false(aws_s3_exists(key = key2, bucket = bucket_name))
+  expect_false(gcp_gcs_exists(key = key1, bucket = bucket_name))
+  expect_false(gcp_gcs_exists(key = key2, bucket = bucket_name))
   expect_true(file.exists("file.txt"))
   expect_silent(tar_delete(everything()))
 })
 
 tar_test("same with versioning", {
-  skip_if_no_aws()
+  skip_if_no_gcp()
   skip_if_not_installed("arrow")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  s3$put_bucket_versioning(
-    Bucket = bucket_name,
-    VersioningConfiguration = list(
-      MFADelete = "Disabled",
-      Status = "Enabled"
-    )
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(
+    bucket_name,
+    projectId = project,
+    versioning = TRUE
   )
-  on.exit(aws_s3_delete_bucket(bucket_name))
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       )
     )
     write_file <- function(path) {
@@ -82,7 +83,7 @@ tar_test("same with versioning", {
         x,
         data.frame(x = 2),
         format = "parquet",
-        repository = "aws"
+        repository = "gcp"
       ),
       tar_target(
         local_file,
@@ -91,10 +92,10 @@ tar_test("same with versioning", {
         repository = "local"
       ),
       tar_target(
-        aws_file,
+        gcp_file,
         write_file(tempfile()),
         format = "file",
-        repository = "aws"
+        repository = "gcp"
       )
     )
   })
@@ -103,27 +104,29 @@ tar_test("same with versioning", {
   tar_make(callr_function = NULL)
   path_store <- path_store_default()
   key1 <- path_objects(path_store, "x")
-  key2 <- path_objects(path_store, "aws_file")
-  expect_true(aws_s3_exists(key = key1, bucket = bucket_name))
-  expect_true(aws_s3_exists(key = key2, bucket = bucket_name))
+  key2 <- path_objects(path_store, "gcp_file")
+  expect_true(gcp_gcs_exists(key = key1, bucket = bucket_name))
+  expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name))
   tar_delete(everything())
-  expect_false(aws_s3_exists(key = key1, bucket = bucket_name))
-  expect_false(aws_s3_exists(key = key2, bucket = bucket_name))
+  expect_false(gcp_gcs_exists(key = key1, bucket = bucket_name))
+  expect_false(gcp_gcs_exists(key = key2, bucket = bucket_name))
   expect_true(file.exists("file.txt"))
   expect_silent(tar_delete(everything()))
 })
 
 tar_test("tar_destroy() cloud targets", {
-  skip_if_no_aws()
+  skip_if_no_gcp()
   skip_if_not_installed("arrow")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  on.exit(aws_s3_delete_bucket(bucket_name))
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       )
     )
     write_file <- function(path) {
@@ -135,7 +138,7 @@ tar_test("tar_destroy() cloud targets", {
         x,
         data.frame(x = 2),
         format = "parquet",
-        repository = "aws"
+        repository = "gcp"
       ),
       tar_target(
         local_file,
@@ -144,10 +147,10 @@ tar_test("tar_destroy() cloud targets", {
         repository = "local"
       ),
       tar_target(
-        aws_file,
+        gcp_file,
         write_file(tempfile()),
         format = "file",
-        repository = "aws"
+        repository = "gcp"
       )
     )
   })
@@ -157,28 +160,30 @@ tar_test("tar_destroy() cloud targets", {
     tar_make(callr_function = NULL)
     path_store <- path_store_default()
     key1 <- path_objects(path_store, "x")
-    key2 <- path_objects(path_store, "aws_file")
-    expect_true(aws_s3_exists(key = key1, bucket = bucket_name))
-    expect_true(aws_s3_exists(key = key2, bucket = bucket_name))
+    key2 <- path_objects(path_store, "gcp_file")
+    expect_true(gcp_gcs_exists(key = key1, bucket = bucket_name))
+    expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name))
     tar_destroy(destroy = destroy)
-    expect_false(aws_s3_exists(key = key1, bucket = bucket_name))
-    expect_false(aws_s3_exists(key = key2, bucket = bucket_name))
+    expect_false(gcp_gcs_exists(key = key1, bucket = bucket_name))
+    expect_false(gcp_gcs_exists(key = key2, bucket = bucket_name))
     expect_true(file.exists("file.txt"))
   }
   expect_silent(tar_destroy(destroy = "cloud"))
 })
 
-tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for aws", {
-  skip_if_no_aws()
+tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for gcp", {
+  skip_if_no_gcp()
   skip_if_not_installed("arrow")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  on.exit(aws_s3_delete_bucket(bucket_name))
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       )
     )
     write_file <- function(path) {
@@ -190,7 +195,7 @@ tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for aws", {
         x,
         data.frame(x = 2),
         format = "parquet",
-        repository = "aws"
+        repository = "gcp"
       ),
       tar_target(
         local_file,
@@ -199,10 +204,10 @@ tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for aws", {
         repository = "local"
       ),
       tar_target(
-        aws_file,
+        gcp_file,
         write_file(tempfile()),
         format = "file",
-        repository = "aws"
+        repository = "gcp"
       )
     )
   })
@@ -211,18 +216,18 @@ tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for aws", {
   tar_make(callr_function = NULL)
   path_store <- path_store_default()
   key1 <- path_objects(path_store, "x")
-  key2 <- path_objects(path_store, "aws_file")
-  expect_true(aws_s3_exists(key = key1, bucket = bucket_name))
-  expect_true(aws_s3_exists(key = key2, bucket = bucket_name))
+  key2 <- path_objects(path_store, "gcp_file")
+  expect_true(gcp_gcs_exists(key = key1, bucket = bucket_name))
+  expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name))
   expect_equal(
-    tar_exist_objects(c("x", "local_file", "aws_file")),
+    tar_exist_objects(c("x", "local_file", "gcp_file")),
     c(TRUE, FALSE, TRUE)
   )
-  expect_equal(tar_objects(), sort(c("x", "aws_file")))
+  expect_equal(tar_objects(), sort(c("x", "gcp_file")))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       )
     )
     write_file <- function(path) {
@@ -237,10 +242,10 @@ tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for aws", {
         repository = "local"
       ),
       tar_target(
-        aws_file,
+        gcp_file,
         write_file(tempfile()),
         format = "file",
-        repository = "aws"
+        repository = "gcp"
       )
     )
   })
@@ -249,13 +254,13 @@ tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for aws", {
   tar_prune(callr_function = NULL)
   path_store <- path_store_default()
   key1 <- path_objects(path_store, "x")
-  key2 <- path_objects(path_store, "aws_file")
-  expect_false(aws_s3_exists(key = key1, bucket = bucket_name))
-  expect_true(aws_s3_exists(key = key2, bucket = bucket_name))
+  key2 <- path_objects(path_store, "gcp_file")
+  expect_false(gcp_gcs_exists(key = key1, bucket = bucket_name))
+  expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name))
   expect_equal(
-    tar_exist_objects(c("x", "local_file", "aws_file")),
+    tar_exist_objects(c("x", "local_file", "gcp_file")),
     c(FALSE, FALSE, TRUE)
   )
-  expect_equal(tar_objects(), "aws_file")
+  expect_equal(tar_objects(), "gcp_file")
   expect_equal(tar_outdated(callr_function = NULL), character(0))
 })

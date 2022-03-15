@@ -100,8 +100,11 @@
 #'   * `"aws"`: Amazon Web Services (AWS) S3 bucket. Can be configured
 #'     with a non-AWS S3 bucket using the `endpoint` argument of
 #'     [tar_resources_aws()], but versioning capabilities may be lost
-#'     in doing so.
+#'     in doing so. See the AWS S3 storage chapter
+#'     of <https://books.ropensci.org/targets/> for details.
 #'   * `"gcp"`: Google Cloud Platform storage bucket.
+#'     See the GCP GCS storage chapter
+#'     of <https://books.ropensci.org/targets/> for details.
 #' @param iteration Character of length 1, name of the iteration mode
 #'   of the target. Choices:
 #'   * `"vector"`: branching happens with `vctrs::vec_slice()` and

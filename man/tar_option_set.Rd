@@ -101,8 +101,11 @@ storage. Choices:
 \item \code{"aws"}: Amazon Web Services (AWS) S3 bucket. Can be configured
 with a non-AWS S3 bucket using the \code{endpoint} argument of
 \code{\link[=tar_resources_aws]{tar_resources_aws()}}, but versioning capabilities may be lost
-in doing so.
+in doing so. See the AWS S3 storage chapter
+of \url{https://books.ropensci.org/targets/} for details.
 \item \code{"gcp"}: Google Cloud Platform storage bucket.
+See the GCP GCS storage chapter
+of \url{https://books.ropensci.org/targets/} for details.
 }}
 
 \item{iteration}{Character of length 1, name of the iteration mode

@@ -21,6 +21,9 @@
 #' @param names Names of the targets to remove from `_targets/objects/`.
 #'   You can supply symbols
 #'   or `tidyselect` helpers like [all_of()] and [starts_with()].
+#' @param cloud Logical of length 1, whether to delete objects
+#'   from the cloud if applicable (e.g. AWS, GCP). If `FALSE`,
+#'   files are not deleted from the cloud.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -36,7 +39,11 @@
 #' tar_make() # y1 and y2 rebuild but return same values, so z is up to date.
 #' })
 #' }
-tar_delete <- function(names, store = targets::tar_config_get("store")) {
+tar_delete <- function(
+  names,
+  cloud = TRUE,
+  store = targets::tar_config_get("store")
+) {
   tar_assert_path(path_meta(store))
   meta <- meta_init(path_store = store)$database$read_condensed_data()
   names_quosure <- rlang::enquo(names)
@@ -49,7 +56,9 @@ tar_delete <- function(names, store = targets::tar_config_get("store")) {
     meta$repository == "local"
   local_dynamic_files <- meta$name[index_local_dynamic_files]
   names <- setdiff(names, local_dynamic_files)
-  tar_delete_cloud(names = names, meta = meta, path_store = store)
+  if (cloud) {
+    tar_delete_cloud(names = names, meta = meta, path_store = store)
+  }
   files <- list.files(path_objects_dir(store), all.files = TRUE)
   discard <- intersect(names, files)
   unlink(file.path(path_objects_dir(store), discard), recursive = TRUE)

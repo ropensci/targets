@@ -5,14 +5,22 @@ skip_if_no_gcp <- function() {
   skip_on_cran()
 }
 
-auth_gcp <- function() {
-  # the auth service email in this file needs GCP "Storage Admin" IAM role
-  googleCloudStorageR::gcs_auth(Sys.getenv("GCS_AUTH_FILE"))
+gcp_gcs_delete_bucket <- function(bucket) {
+  gcp_gcs_auth()
+  googleCloudStorageR::gcs_delete_bucket(bucket, force_delete = TRUE)
 }
 
-gcp_gcs_delete_bucket <- function(bucket) {
-
-  # force_delete in v0.7.0
-  googleCloudStorageR::gcs_delete_bucket(bucket, force_delete = TRUE)
-
+aws_s3_delete_targets_buckets <- function() {
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  buckets <- googleCloudStorageR::gcs_list_buckets(projectId = project)$name
+  buckets <- grep(
+    pattern = "^targets-test-bucket-",
+    x = buckets,
+    value = TRUE
+  )
+  for (bucket in buckets) {
+    message(bucket)
+    gcp_gcs_delete_bucket(bucket)
+  }
 }

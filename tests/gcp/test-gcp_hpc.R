@@ -1,20 +1,22 @@
-# Use sparingly. We do not want to max out any AWS quotas.
+# Use sparingly. We do not want to max out any gcp quotas.
 # And afterwards, manually verify that all the buckets are gone.
-tar_test("AWS S3 + HPC", {
-  skip_if_no_aws()
-  s3 <- paws::s3()
+tar_test("gcp + HPC", {
+  skip_if_no_gcp()
   bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  on.exit(aws_s3_delete_bucket(bucket_name))
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   code <- substitute({
     library(targets)
     library(future)
     future::plan(future::multisession)
     tar_option_set(
       format = "rds",
-      repository = "aws",
+      repository = "gcp",
       resources = tar_resources(
-        aws = tar_resources_aws(
+        gcp = tar_resources_gcp(
           bucket = bucket_name
         )
       ),

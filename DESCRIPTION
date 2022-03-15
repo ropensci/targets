@@ -100,8 +100,6 @@ Suggests:
   torch (>= 0.1.0),
   usethis (>= 1.6.3),
   visNetwork (>= 2.0.9)
-Remotes:
-  MarkEdmondson1234/googleCloudStorageR,
 Encoding: UTF-8
 Language: en-US
 VignetteBuilder: knitr

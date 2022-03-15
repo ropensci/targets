@@ -6,6 +6,14 @@ tar_test("tar_destroy('all')", {
   expect_false(file.exists("_targets"))
 })
 
+tar_test("tar_destroy('local')", {
+  pipeline <- pipeline_init(list(target_init("x", quote(0))))
+  local_init(pipeline)$run()
+  expect_true(file.exists("_targets"))
+  tar_destroy(destroy = "local")
+  expect_false(file.exists("_targets"))
+})
+
 tar_test("tar_destroy('meta')", {
   pipeline <- pipeline_init(list(target_init("x", quote(0))))
   local_init(pipeline)$run()

@@ -13,29 +13,35 @@
 #'   each given target has an existing file in either
 #'   `_targets/objects/` or the cloud.
 #' @inheritParams tar_validate
+#' @inheritParams tar_objects
 #' @param names Character vector of target names.
 #' @examples
 #' tar_exist_objects(c("target1", "target2"))
 tar_exist_objects <- function(
   names,
+  cloud = TRUE,
   store = targets::tar_config_get("store")
 ) {
   tar_assert_chr(names, "names must be a character vector.")
   meta <- if_any(file.exists(store), tar_meta(store = store), data_frame())
   out <- map_lgl(
     names,
-    ~tar_exist_object(name = .x, meta = meta, store = store)
+    ~tar_exist_object(name = .x, cloud = cloud, meta = meta, store = store)
   )
   unname(out)
 }
 
-tar_exist_object <- function(name, meta, store) {
-  check_local <- !(name %in% meta$name) ||
+tar_exist_object <- function(name, cloud, meta, store) {
+  exists_meta <- !(name %in% meta$name) ||
     is.na(meta$repository[meta$name == name]) ||
     identical(meta$repository[meta$name == name], "local")
+  exists_file <- file.exists(path_objects(path_store = store, name = name))
+  if (!cloud) {
+    return(exists_file)
+  }
   if_any(
-    check_local,
-    file.exists(path_objects(path_store = store, name = name)),
+    exists_meta,
+    exists_file,
     tar_exist_cloud_target(name = name, meta = meta, path_store = store)
   )
 }

@@ -1,12 +1,14 @@
-# Use sparingly. We do not want to max out any AWS quotas.
+# Use sparingly. We do not want to max out any gcp quotas.
 # And afterwards, manually verify that all the buckets are gone.
-tar_test("aws with custom format", {
-  skip_if_no_aws()
+tar_test("gcp with custom format", {
+  skip_if_no_gcp()
   skip_if_not_installed("torch")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  on.exit(aws_s3_delete_bucket(bucket_name))
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     format <- tar_format(
       read = function(path) {
@@ -31,9 +33,9 @@ tar_test("aws with custom format", {
       a,
       torch::torch_tensor(c(1, 2)),
       format = format,
-      repository = "aws",
+      repository = "gcp",
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       ),
       storage = "main",
       retrieval = "main"
@@ -48,7 +50,7 @@ tar_test("aws with custom format", {
   expect_false(file.exists(file.path("_targets", "objects")))
   expect_false(file.exists(file.path("_targets", "objects", "a")))
   tmp <- tempfile()
-  aws_s3_download(
+  gcp_gcs_download(
     key = "_targets/objects/a",
     bucket = bucket_name,
     file = tmp

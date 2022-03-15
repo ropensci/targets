@@ -4,10 +4,18 @@
 \alias{tar_exist_objects}
 \title{Check if local output data exists for one or more targets.}
 \usage{
-tar_exist_objects(names, store = targets::tar_config_get("store"))
+tar_exist_objects(
+  names,
+  cloud = TRUE,
+  store = targets::tar_config_get("store")
+)
 }
 \arguments{
 \item{names}{Character vector of target names.}
+
+\item{cloud}{Logical of length 1, whether to include
+cloud targets in the output
+(e.g. \code{tar_target(..., repository = "aws")}).}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

@@ -1,38 +1,40 @@
-# Use sparingly. We do not want to max out any AWS quotas.
+# Use sparingly. We do not want to max out any gcp quotas.
 # And afterwards, manually verify that all the buckets are gone.
-tar_test("aws_qs format data gets stored", {
-  skip_if_no_aws()
+tar_test("gcp_qs format data gets stored", {
+  skip_if_no_gcp()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  on.exit(aws_s3_delete_bucket(bucket_name))
-  s3$create_bucket(Bucket = bucket_name)
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       )
     )
     list(
-      tar_target(x, "x_value", format = "qs", repository = "aws"),
-      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
+      tar_target(x, "x_value", format = "qs", repository = "gcp"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "gcp")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
+    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/x")
   )
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/y")
+    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/y")
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
   expect_equal(tar_read(x), "x_value")
   expect_equal(tar_read(y), c("x_value", "y_value"))
   tmp <- tempfile()
-  aws_s3_download(
+  gcp_gcs_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp
@@ -40,41 +42,43 @@ tar_test("aws_qs format data gets stored", {
   expect_equal(qs::qread(tmp), "x_value")
 })
 
-tar_test("aws_qs format data gets stored with worker storage", {
-  skip_if_no_aws()
+tar_test("gcp_qs format data gets stored with worker storage", {
+  skip_if_no_gcp()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  on.exit(aws_s3_delete_bucket(bucket_name))
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       ),
       storage = "worker",
       retrieval = "worker"
     )
     list(
-      tar_target(x, "x_value", format = "qs", repository = "aws"),
-      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
+      tar_target(x, "x_value", format = "qs", repository = "gcp"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "gcp")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
+    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/x")
   )
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/y")
+    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/y")
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
   expect_equal(tar_read(x), "x_value")
   expect_equal(tar_read(y), c("x_value", "y_value"))
   tmp <- tempfile()
-  aws_s3_download(
+  gcp_gcs_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp
@@ -82,22 +86,24 @@ tar_test("aws_qs format data gets stored with worker storage", {
   expect_equal(qs::qread(tmp), "x_value")
 })
 
-tar_test("aws_qs format invalidation", {
-  skip_if_no_aws()
+tar_test("gcp_qs format invalidation", {
+  skip_if_no_gcp()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  on.exit(aws_s3_delete_bucket(bucket_name))
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       )
     )
     list(
-      tar_target(x, "x_value", format = "qs", repository = "aws"),
-      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
+      tar_target(x, "x_value", format = "qs", repository = "gcp"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "gcp")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -112,12 +118,12 @@ tar_test("aws_qs format invalidation", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       )
     )
     list(
-      tar_target(x, "x_value2", format = "qs", repository = "aws"),
-      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
+      tar_target(x, "x_value2", format = "qs", repository = "gcp"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "gcp")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -129,22 +135,24 @@ tar_test("aws_qs format invalidation", {
   expect_equal(tar_read(y), c("x_value2", "y_value"))
 })
 
-tar_test("aws_qs format and dynamic branching", {
-  skip_if_no_aws()
+tar_test("gcp_qs format and dynamic branching", {
+  skip_if_no_gcp()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  on.exit(aws_s3_delete_bucket(bucket_name))
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       ),
       storage = "worker",
       retrieval = "worker",
       format = "qs",
-      repository = "aws"
+      repository = "gcp"
     )
     list(
       tar_target(x, seq_len(2)),
@@ -161,20 +169,22 @@ tar_test("aws_qs format and dynamic branching", {
   expect_equal(unname(tar_read(z)), 30L)
 })
 
-tar_test("aws timestamp", {
-  skip_if_no_aws()
+tar_test("gcp timestamp", {
+  skip_if_no_gcp()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  on.exit(aws_s3_delete_bucket(bucket_name))
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       ),
       format = "qs",
-      repository = "aws"
+      repository = "gcp"
     )
     list(
       tar_target(x, seq_len(1))
@@ -191,21 +201,23 @@ tar_test("aws timestamp", {
   expect_false(any(as.numeric(out) == as.numeric(file_time_reference)))
 })
 
-tar_test("aws_qs format with an alternative data store", {
-  skip_if_no_aws()
+tar_test("gcp_qs format with an alternative data store", {
+  skip_if_no_gcp()
   skip_if_not_installed("qs")
   tar_config_set(store = "custom_targets_store")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  on.exit(aws_s3_delete_bucket(bucket_name))
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
-      aws = tar_resources_aws(bucket = !!bucket_name)
+      gcp = tar_resources_gcp(bucket = !!bucket_name)
     ))
     list(
-      tar_target(x, "x_value", format = "qs", repository = "aws"),
-      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
+      tar_target(x, "x_value", format = "qs", repository = "gcp"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "gcp")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -214,17 +226,17 @@ tar_test("aws_qs format with an alternative data store", {
   expect_true(file.exists("custom_targets_store"))
   expect_false(file.exists(path_store_default()))
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
+    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/x")
   )
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/y")
+    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/y")
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
   expect_equal(tar_read(x), "x_value")
   expect_equal(tar_read(y), c("x_value", "y_value"))
   tmp <- tempfile()
-  aws_s3_download(
+  gcp_gcs_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp
@@ -232,17 +244,19 @@ tar_test("aws_qs format with an alternative data store", {
   expect_equal(qs::qread(tmp), "x_value")
 })
 
-tar_test("aws_qs format works with storage = \"none\"", {
-  skip_if_no_aws()
+tar_test("gcp_qs format works with storage = \"none\"", {
+  skip_if_no_gcp()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  on.exit(aws_s3_delete_bucket(bucket_name))
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       )
     )
     list(
@@ -250,27 +264,27 @@ tar_test("aws_qs format works with storage = \"none\"", {
         x,
         qs::qsave("x_value", tar_path(create_dir = TRUE)),
         format = "qs",
-        repository = "aws",
+        repository = "gcp",
         storage = "none"
       ),
-      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "gcp")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
+    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/x")
   )
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/y")
+    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/y")
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
   expect_equal(tar_read(x), "x_value")
   expect_equal(tar_read(y), c("x_value", "y_value"))
   tmp <- tempfile()
-  aws_s3_download(
+  gcp_gcs_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp
@@ -278,114 +292,30 @@ tar_test("aws_qs format works with storage = \"none\"", {
   expect_equal(qs::qread(tmp), "x_value")
 })
 
-tar_test("aws_qs format with custom region", {
-  skip_if_no_aws()
+tar_test("gcp_qs nonexistent bucket", {
+  skip_if_no_gcp()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  region <- "us-west-2"
-  cfg <- list(LocationConstraint = region)
-  s3$create_bucket(Bucket = bucket_name, CreateBucketConfiguration = cfg)
-  on.exit(aws_s3_delete_bucket(bucket_name))
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name, region = !!region)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       )
     )
     list(
-      tar_target(x, "x_value", format = "qs", repository = "aws"),
-      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
-    )
-  })
-  expr <- tar_tidy_eval(expr, environment(), TRUE)
-  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
-  tar_make(callr_function = NULL)
-  expect_true(
-    aws_s3_exists(
-      bucket = bucket_name,
-      key = "_targets/objects/x",
-      region = "us-west-2"
-    )
-  )
-  expect_true(
-    aws_s3_exists(
-      bucket = bucket_name,
-      key = "_targets/objects/y",
-      region = "us-west-2"
-    )
-  )
-  expect_false(file.exists(file.path("_targets", "objects", "x")))
-  expect_false(file.exists(file.path("_targets", "objects", "y")))
-  expect_equal(tar_read(x), "x_value")
-  expect_equal(tar_read(y), c("x_value", "y_value"))
-  out <- sort(tar_meta(x)$path[[1]])
-  exp <- sort(
-    c(
-      sprintf("bucket=%s", bucket_name),
-      sprintf("endpoint=%s", base64url::base64_urlencode("NULL")),
-      "region=us-west-2",
-      "key=_targets/objects/x",
-      "version="
-    )
-  )
-  expect_equal(out, exp)
-  tmp <- tempfile()
-  aws_s3_download(
-    key = "_targets/objects/x",
-    bucket = bucket_name,
-    file = tmp,
-    region = region
-  )
-  expect_equal(qs::qread(tmp), "x_value")
-})
-
-tar_test("aws_qs format empty region string", {
-  skip_if_no_aws()
-  skip_if_not_installed("qs")
-  s3 <- paws::s3()
-  bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  on.exit(aws_s3_delete_bucket(bucket_name))
-  expr <- quote({
-    tar_option_set(
-      resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name, region = "")
-      )
-    )
-    list(
-      tar_target(x, "x_value", format = "qs", repository = "aws"),
-      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
+      tar_target(x, "x_value", format = "qs", repository = "gcp"),
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "gcp")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_equal(tar_read(x), "x_value")
-})
-
-tar_test("aws_qs nonexistent bucket", {
-  skip_if_no_aws()
-  skip_if_not_installed("qs")
-  s3 <- paws::s3()
-  bucket_name <- random_bucket_name()
-  s3$create_bucket(Bucket = bucket_name)
-  expr <- quote({
-    tar_option_set(
-      resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name, region = "")
-      )
-    )
-    list(
-      tar_target(x, "x_value", format = "qs", repository = "aws"),
-      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
-    )
-  })
-  expr <- tar_tidy_eval(expr, environment(), TRUE)
-  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
-  tar_make(callr_function = NULL)
-  expect_equal(tar_read(x), "x_value")
-  aws_s3_delete_bucket(bucket_name)
+  gcp_gcs_delete_bucket(bucket_name)
   expect_error(
     tar_make(callr_function = NULL, reporter = "silent"),
     class = "tar_condition_run"
@@ -395,30 +325,29 @@ tar_test("aws_qs nonexistent bucket", {
   expect_false(anyNA(out))
 })
 
-tar_test("aws_qs format versioning", {
+tar_test("gcp_qs format versioning", {
   # setup
-  skip_if_no_aws()
+  skip_if_no_gcp()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
   bucket_name <- random_bucket_name()
-  on.exit(aws_s3_delete_bucket(bucket_name))
-  s3$create_bucket(Bucket = bucket_name)
-  s3$put_bucket_versioning(
-    Bucket = bucket_name,
-    VersioningConfiguration = list(
-      MFADelete = "Disabled",
-      Status = "Enabled"
-    )
+  # needs to be a GCP project the tester auth has access to
+  gcp_gcs_auth()
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(
+    bucket_name,
+    projectId = project,
+    versioning = TRUE
   )
+  on.exit(gcp_gcs_delete_bucket(bucket_name))
   # first version of the pipeline
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       )
     )
     list(
-      tar_target(x, "first", format = "qs", repository = "aws")
+      tar_target(x, "first", format = "qs", repository = "gcp")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -431,16 +360,16 @@ tar_test("aws_qs format versioning", {
   expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
   tar_make(callr_function = NULL)
   expect_equal(tar_progress(x)$progress, "skipped")
-  version1 <- store_aws_version(tar_meta(x)$path[[1]])
+  version1 <- store_gcp_version(tar_meta(x)$path[[1]])
   # second version of the pipeline
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       )
     )
     list(
-      tar_target(x, "second", format = "qs", repository = "aws")
+      tar_target(x, "second", format = "qs", repository = "gcp")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -451,7 +380,7 @@ tar_test("aws_qs format versioning", {
   expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
   tar_make(callr_function = NULL)
   expect_equal(tar_progress(x)$progress, "skipped")
-  version2 <- store_aws_version(tar_meta(x)$path[[1]])
+  version2 <- store_gcp_version(tar_meta(x)$path[[1]])
   expect_equal(tar_read(x), "second")
   # revert the metadata
   file.copy(first_meta, path_meta(path_store_default()), overwrite = TRUE)
@@ -460,11 +389,11 @@ tar_test("aws_qs format versioning", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name)
       )
     )
     list(
-      tar_target(x, "first", format = "qs", repository = "aws")
+      tar_target(x, "first", format = "qs", repository = "gcp")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)

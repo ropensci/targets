@@ -4,13 +4,21 @@
 \alias{tar_objects}
 \title{List saved targets}
 \usage{
-tar_objects(names = NULL, store = targets::tar_config_get("store"))
+tar_objects(
+  names = NULL,
+  cloud = TRUE,
+  store = targets::tar_config_get("store")
+)
 }
 \arguments{
 \item{names}{Optional \code{tidyselect} selector such as
 \code{\link[=all_of]{all_of()}} or \code{\link[=starts_with]{starts_with()}} to return
 a tactical subset of target names.
 If \code{NULL}, all names are selected.}
+
+\item{cloud}{Logical of length 1, whether to include
+cloud targets in the output
+(e.g. \code{tar_target(..., repository = "aws")}).}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},
