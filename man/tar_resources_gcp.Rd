@@ -5,7 +5,12 @@
 \title{Target resources: Google Cloud Platform (GCP)
 Google Cloud Storage (GCS)}
 \usage{
-tar_resources_gcp(bucket, prefix = targets::path_objects_dir_cloud())
+tar_resources_gcp(
+  bucket,
+  prefix = targets::path_objects_dir_cloud(),
+  predefined_acl = "private",
+  verbose = FALSE
+)
 }
 \arguments{
 \item{bucket}{Character of length 1, name of an existing
@@ -14,6 +19,14 @@ of the affected targets during the pipeline.}
 
 \item{prefix}{Character of length 1, "directory path"
 in the bucket where the target return values are stored.}
+
+\item{predefined_acl}{Character of length 1, user access
+to the object. See \code{?googleCloudStorageR::gcs_upload}
+for possible values.}
+
+\item{verbose}{Logical of length 1, whether to print
+extra messages like progress bars during uploads
+and downloads.}
 }
 \value{
 Object of class \code{"tar_resources_gcp"}, to be supplied
@@ -21,8 +34,8 @@ to the \code{gcp} argument of \code{tar_resources()}.
 }
 \description{
 Create the \code{gcp} argument of \code{tar_resources()}
-to specify optional settings to gcp for
-\code{tar_target(..., repository = "gcp")}.
+to specify optional settings for Google Cloud Storage for
+targets with \code{tar_target(..., repository = "gcp")}.
 See the \code{format} argument of \code{\link[=tar_target]{tar_target()}} for details.
 }
 \section{Resources}{

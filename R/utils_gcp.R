@@ -30,17 +30,13 @@ gcp_gcs_bucket <- function() {
 gcp_gcs_head <- function(
   key,
   bucket = gcp_gcs_bucket(),
-  version = NULL,
-  verbose = FALSE
+  version = NULL
 ) {
-  loud <- if_any(verbose, identity, suppressMessages)
-  loud(
-    googleCloudStorageR::gcs_get_object(
-      key,
-      bucket = bucket,
-      meta = TRUE,
-      generation = version
-    )
+  googleCloudStorageR::gcs_get_object(
+    key,
+    bucket = bucket,
+    meta = TRUE,
+    generation = version
   )
 }
 
@@ -61,14 +57,17 @@ gcp_gcs_download <- function(
   file,
   key,
   bucket = gcp_gcs_bucket(),
-  version = NULL
+  version = NULL,
+  verbose = FALSE
 ) {
-  googleCloudStorageR::gcs_get_object(
-    key,
-    bucket = bucket,
-    saveToDisk = file,
-    overwrite = TRUE,
-    generation = version
+  if_any(verbose, identity, suppressMessages) (
+    googleCloudStorageR::gcs_get_object(
+      key,
+      bucket = bucket,
+      saveToDisk = file,
+      overwrite = TRUE,
+      generation = version
+    )
   )
 }
 
@@ -89,13 +88,9 @@ gcp_gcs_upload <- function(
   key,
   bucket = gcp_gcs_bucket(),
   metadata = list(),
-  predefined_acl = c(
-    "private", "bucketLevel", "authenticatedRead",
-    "bucketOwnerFullControl", "bucketOwnerRead",
-    "projectPrivate", "publicRead", "default"
-  )
+  predefined_acl = "private",
+  verbose = FALSE
 ) {
-  predefined_acl <- match.arg(predefined_acl)
   meta <- NULL
   if (length(metadata) > 0) {
     meta <- googleCloudStorageR::gcs_metadata_object(
@@ -103,12 +98,14 @@ gcp_gcs_upload <- function(
       metadata = metadata
     )
   }
-  googleCloudStorageR::gcs_upload(
-    file,
-    bucket = bucket,
-    name = key,
-    object_metadata = meta,
-    predefinedAcl = predefined_acl
+  if_any(verbose, identity, suppressMessages) (
+    googleCloudStorageR::gcs_upload(
+      file,
+      bucket = bucket,
+      name = key,
+      object_metadata = meta,
+      predefinedAcl = predefined_acl
+    )
   )
 }
 # nocov end

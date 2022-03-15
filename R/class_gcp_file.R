@@ -46,7 +46,8 @@ store_read_object.tar_gcp_file <- function(store) {
     key = store_gcp_key(path),
     bucket = store_gcp_bucket(path),
     file = stage,
-    version = store_gcp_version(path)
+    version = store_gcp_version(path),
+    verbose = store$resources$aws$verbose %|||% FALSE
   )
   stage
 }

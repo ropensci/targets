@@ -75,7 +75,8 @@ store_read_object.tar_gcp <- function(store) {
     key = store_gcp_key(path),
     bucket = store_gcp_bucket(path),
     file = tmp,
-    version = store_gcp_version(path)
+    version = store_gcp_version(path),
+    verbose = store$resources$aws$verbose %|||% FALSE
   )
   store_convert_object(store, store_read_path(store, tmp))
 }
@@ -124,7 +125,9 @@ store_upload_object.tar_gcp <- function(store) {
       file = store$file$stage,
       key = key,
       bucket = store_gcp_bucket(store$file$path),
-      metadata = list("targets-hash" = store$file$hash)
+      metadata = list("targets-hash" = store$file$hash),
+      predefined_acl = store$resources$aws$predefined_acl %|||% "private",
+      verbose = store$resources$aws$verbose %|||% FALSE
     ),
     tar_throw_file(
       "Cannot upload non-existent gcp staging file ",
@@ -180,5 +183,5 @@ store_gcp_hash <- function(key, bucket, version) {
 
 #' @export
 store_get_packages.tar_gcp <- function(store) {
-  c("pgcp", NextMethod())
+  c("googleCloudStorageR", NextMethod())
 }
