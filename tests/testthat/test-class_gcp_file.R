@@ -7,7 +7,7 @@ tar_test("gcp_file packages", {
   )
   expect_equal(
     sort(store_get_packages(target$store)),
-    c("googleAuthR", "googleCloudStorageR")
+    c("googleCloudStorageR")
   )
 })
 

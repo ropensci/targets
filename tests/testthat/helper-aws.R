@@ -54,6 +54,6 @@ aws_s3_delete_targets_buckets <- function(client = paws::s3()) {
   )
   for (bucket in buckets) {
     message(bucket)
-    destroy_bucket(bucket, client = client)
+    aws_s3_delete_bucket(bucket, client = client)
   }
 }

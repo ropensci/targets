@@ -81,7 +81,6 @@ Suggests:
   fst (>= 0.9.2),
   future (>= 1.19.1),
   future.callr (>= 0.6.0),
-  googleAuthR (>= 2.0.0),
   googleCloudStorageR (>= 0.7.0),
   gt (>= 0.2.2),
   keras (>= 2.2.5.0),

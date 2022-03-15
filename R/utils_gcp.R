@@ -136,13 +136,7 @@ gcp_gcs_upload <- function(
 
 gcp_gcs_auth <- function(verbose = FALSE) {
   if_any(verbose, identity, suppressMessages) (
-    googleAuthR::gar_attach_auto_auth(
-      c(
-        "https://www.googleapis.com/auth/devstorage.full_control",
-        "https://www.googleapis.com/auth/cloud-platform"
-      ),
-      environment_var = "GCS_AUTH_FILE"
-    )
+    googleCloudStorageR::gcs_auth(Sys.getenv("GCS_AUTH_FILE"))
   )
 }
 # nocov end

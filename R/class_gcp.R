@@ -188,5 +188,5 @@ store_gcp_hash <- function(key, bucket, version, verbose) {
 
 #' @export
 store_get_packages.tar_gcp <- function(store) {
-  c("googleAuthR", "googleCloudStorageR", NextMethod())
+  c("googleCloudStorageR", NextMethod())
 }
