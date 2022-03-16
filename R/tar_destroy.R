@@ -61,6 +61,9 @@ tar_destroy <- function(
   ask = NULL,
   store = targets::tar_config_get("store")
 ) {
+  if (!file.exists(store)) {
+    return(invisible())
+  }
   destroy <- match.arg(destroy)
   path <- switch(
     destroy,

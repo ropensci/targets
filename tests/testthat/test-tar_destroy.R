@@ -1,3 +1,7 @@
+tar_test("no store", {
+  expect_silent(tar_destroy())
+})
+
 tar_test("tar_destroy('all')", {
   pipeline <- pipeline_init(list(target_init("x", quote(0))))
   local_init(pipeline)$run()
