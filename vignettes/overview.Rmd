@@ -45,9 +45,18 @@ The [packages chapter](https://books.ropensci.org/targets/packages.html) explain
 
 The [projects chapter](https://books.ropensci.org/targets/projects.html) explains best practices for working with `targets`-powered projects: the recommended file structure, recommended third-party tools, multi-project repositories, and interdependent projects.
 
-## External files and literate programming
+## Data: storage and memory
 
-`targets` has special ways to include data files and literate programming reports in a pipeline. This functionality is optional in the general case, but it is necessary if you want a target to rerun in response to a change in a data file, or if you want an R Markdown report to re-render when an upstream target changes. The [files chapter](https://books.ropensci.org/targets/files.html) walks through this functionality, from input data to parameterized R Markdown.
+This chapter describes how the targets package stores data, manages memory, allows you to customize the data processing model. When a target finishes running during `tar_make()`, it returns an R object. Those return values, along with descriptive metadata, are saved to persistent storage so your pipeline stays up to date even after you exit R. By default, this persistent storage is a special `_targets/` folder created in your working directory by `tar_make()`. However, you can also interact with files outside the data store and send target data to the cloud.
+
+## Literate programming
+
+Literate programming is the practice of mixing code and descriptive writing in order to execute and explain a data analysis simultaneously in the same document. The targets package supports literate programming through tight integration with R Markdown and knitr.
+
+There are two kinds of literate programming in targets:
+
+1. Rendering within a target. Here, you define a special kind of target that runs a lightweight R Markdown report which depends on upstream targets.
+2. Target Markdown, an overarching system in which one or more R Markdown files write the `_targets.R` file and encapsulate the pipeline.
 
 ## Dynamic branching
 
@@ -60,10 +69,6 @@ Sometimes, a pipeline contains more targets than a user can comfortably type by 
 ## High-performance computing
 
 `targets` is capable of distributing the computation in a pipeline across multiple cores of a laptop or multiple nodes of a computing cluster. Not only does it interface with these technologies using packages [`clustermq`](https://github.com/mschubert/clustermq) and [`future`](https://github.com/HenrikBengtsson/future): it automatically deploys ready targets to parallel workers while making sure the other targets wait for their upstream dependencies to finish. Read more about high-performance computing in the [HPC chapter](https://books.ropensci.org/targets/hpc.html).
-
-## Cloud computing
-
-Users with [Amazon Web Services](https://aws.amazon.com/) accounts can store their targets on one or more [S3 buckets](https://aws.amazon.com/s3/), and retrieval with `tar_read()` and `tar_load()` is seamless. The [AWS storage chapter](https://books.ropensci.org/targets/storage_amazon.html) is a step-by-step guide that walks through how to get started with [Amazon Web Services](https://aws.amazon.com/) and connect a `targets` pipeline to [S3](https://aws.amazon.com/s3/).
 
 ## What about drake?
 

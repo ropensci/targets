@@ -24,8 +24,8 @@ Check if the progress metadata file \verb{_targets/meta/progress}
 exists for the current project.
 }
 \details{
-To learn more about local storage in \code{targets}, visit
-\url{https://books.ropensci.org/targets/files.html#internal-files}.
+To learn more about data storage in \code{targets}, visit
+\url{https://books.ropensci.org/targets/data.html}.
 }
 \examples{
 tar_exist_progress()

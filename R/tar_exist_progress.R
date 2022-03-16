@@ -3,8 +3,8 @@
 #' @family existence
 #' @description Check if the progress metadata file `_targets/meta/progress`
 #'   exists for the current project.
-#' @details To learn more about local storage in `targets`, visit
-#'   <https://books.ropensci.org/targets/files.html#internal-files>.
+#' @details To learn more about data storage in `targets`, visit
+#'   <https://books.ropensci.org/targets/data.html>.
 #' @return Logical of length 1, whether the current project's metadata exists.
 #' @inheritParams tar_validate
 #' @examples
