@@ -21,10 +21,9 @@
 #' @param aws Output of function `tar_resources_aws()`.
 #'   Amazon Web Services (AWS) S3 storage settings for
 #'   `tar_target(..., repository = "aws")`.
-#'   See the AWS S3 storage chapter
-#'   of <https://books.ropensci.org/targets/> for details
-#'   for instructions on working with AWS S3
-#'   in `targets`.
+#'   See the cloud storage section of
+#'   <https://books.ropensci.org/targets/data.html>
+#'   for details for instructions.
 #' @param clustermq Output of function `tar_resources_clustermq()`.
 #'   Optional `clustermq` settings for `tar_make_clustermq()`,
 #'   including the `log_worker` and `template` arguments of
@@ -51,10 +50,9 @@
 #' @param gcp Output of function `tar_resources_gcp()`.
 #'   Google Cloud Storage bucket settings for
 #'   `tar_target(..., repository = "gcp")`.
-#'   See the GCP GCS storage chapter
-#'   of <https://books.ropensci.org/targets/> for details
-#'   for instructions on working with Google Cloud Storage
-#'   in `targets`.
+#'   See the cloud storage section of
+#'   <https://books.ropensci.org/targets/data.html>
+#'   for details for instructions.
 #' @param parquet Output of function `tar_resources_parquet()`.
 #'   Non-default arguments to `arrow::read_parquet()` and
 #'   `arrow::write_parquet()` for `arrow`/parquet-based storage formats.

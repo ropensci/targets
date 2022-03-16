@@ -6,10 +6,9 @@
 #'   to specify optional settings for Google Cloud Storage for
 #'   targets with `tar_target(..., repository = "gcp")`.
 #'   See the `format` argument of [tar_target()] for details.
-#' @details See the GCP GCS storage chapter
-#'   of <https://books.ropensci.org/targets/> for details
-#'   for instructions on working with Google Cloud Storage
-#'   in `targets`.
+#' @details See the cloud storage section of
+#'   <https://books.ropensci.org/targets/data.html>
+#'   for details for instructions.
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_gcp"`, to be supplied
 #'   to the `gcp` argument of `tar_resources()`.

@@ -39,10 +39,9 @@ targets with \code{tar_target(..., repository = "gcp")}.
 See the \code{format} argument of \code{\link[=tar_target]{tar_target()}} for details.
 }
 \details{
-See the GCP GCS storage chapter
-of \url{https://books.ropensci.org/targets/} for details
-for instructions on working with Google Cloud Storage
-in \code{targets}.
+See the cloud storage section of
+\url{https://books.ropensci.org/targets/data.html}
+for details for instructions.
 }
 \section{Resources}{
 

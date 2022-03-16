@@ -54,10 +54,9 @@ to specify optional settings to AWS for
 See the \code{format} argument of \code{\link[=tar_target]{tar_target()}} for details.
 }
 \details{
-See the AWS S3 chapter
-of \url{https://books.ropensci.org/targets/} for details
-for instructions on working with AWS S3
-in \code{targets}.
+See the cloud storage section of
+\url{https://books.ropensci.org/targets/data.html}
+for details for instructions.
 }
 \section{Resources}{
 
