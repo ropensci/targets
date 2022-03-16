@@ -7,7 +7,7 @@
 #' @return A character vector of lines of code of the `mermaid.js` graph.
 #'   You can visualize the graph by copying the text
 #'   into a public online `mermaid.js` editor or a `mermaid` GitHub code chunk
-#'   (<https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid>). # nolint
+#'   (`https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/`). # nolint
 #' @inheritParams tar_visnetwork
 #' @examples
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {

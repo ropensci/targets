@@ -133,7 +133,7 @@ for a project.}
 A character vector of lines of code of the \code{mermaid.js} graph.
 You can visualize the graph by copying the text
 into a public online \code{mermaid.js} editor or a \code{mermaid} GitHub code chunk
-(\url{https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid}). # nolint
+(\verb{https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/}). # nolint
 }
 \description{
 Visualize the dependency graph with a static \code{mermaid.js} graph.
