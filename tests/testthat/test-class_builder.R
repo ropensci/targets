@@ -576,6 +576,8 @@ tar_test("error = \"null\"", {
   expect_equal(tar_errored(), sort(c("y", branches[2])))
   out <- tar_outdated(branches = TRUE, callr_function = NULL)
   expect_equal(sort(out), sort(c("y", "z", branches[2])))
+  meta <- tar_meta()
+  expect_equal(meta$data[meta$name == branches[2]], "error")
   tar_make(callr_function = NULL)
   expect_equal(tar_progress(x)$progress, "skipped")
   expect_equal(tar_progress(y)$progress, "errored")
