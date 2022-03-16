@@ -10,6 +10,7 @@
 
 * Add Google Cloud Storage via `tar_target(..., repository = "gcp")` (#720, @markedmondson1234). Special thanks to @markedmondson1234 for the cloud storage utilities in `R/utils_gcp.R`
 * `mermaid.js` static graphs with `tar_mermaid()` (#775, @yonicd).
+* Implement `tar_target(..., error = "null")`to allow errored targets to return `NULL` and continue (#807, @zoews). Errors are still registered, those targets are not up to date, and downstream targets have an easier time continuing on.
 * Implement `tar_assert_finite()`.
 * `tar_destroy()`, `tar_delete()`, and `tar_prune()` now attempt to delete cloud data for the appropriate targets (#799). In addition, `tar_exist_objects()` and `tar_objects()` now report about target data in the cloud when applicable. Add a new `cloud` argument to each function to optionally suppress this new behavior.
 * Add a `zoom_speed` argument to `tar_visnetwork()` and `tar_glimpse()` (#749, @dipterix).

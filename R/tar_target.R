@@ -167,6 +167,9 @@
 #'     but no new targets launch after that.
 #'   (Visit <https://books.ropensci.org/targets/debugging.html>
 #'   to learn how to debug targets using saved workspaces.)
+#'   * `"null"`: The errored target continues and returns `NULL`.
+#'     The data hash is deliberately wrong so the target is not
+#'     up to date for the next run of the pipeline.
 #' @param memory Character of length 1, memory strategy.
 #'   If `"persistent"`, the target stays in memory
 #'   until the end of the pipeline (unless `storage` is `"worker"`,

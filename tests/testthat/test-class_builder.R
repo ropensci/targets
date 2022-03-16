@@ -543,3 +543,46 @@ tar_test("convert dep loading errors into runtime errors", {
   expect_equal(tar_objects(), "x3")
   expect_true(tar_read(x3))
 })
+
+tar_test("error = \"null\"", {
+  skip_on_cran()
+  tar_script({
+    library(targets)
+    f <- function(x) {
+      stopifnot(x < 1.5)
+      x
+    }
+    list(
+      tar_target(x, seq_len(2)),
+      tar_target(y, f(x), pattern = map(x), error = "null"),
+      tar_target(z, y)
+    )
+  })
+  tar_make(callr_function = NULL)
+  branches <- tar_meta(y)$children[[1]]
+  expect_equal(tar_progress(x)$progress, "built")
+  expect_equal(tar_progress(y)$progress, "errored")
+  expect_equal(tar_progress(z)$progress, "built")
+  progress <- tar_progress()
+  value <- progress$progress[progress$name == branches[1]]
+  expect_equal(value, "built")
+  value <- progress$progress[progress$name == branches[2]]
+  expect_equal(value, "errored")
+  expect_equal(tar_read(x), seq_len(2))
+  expect_equal(unname(tar_read(y)), 1L)
+  expect_equal(unname(tar_read(z)), 1L)
+  expect_equal(tar_read_raw(branches[1]), 1)
+  expect_null(tar_read_raw(branches[2]))
+  expect_equal(tar_errored(), sort(c("y", branches[2])))
+  out <- tar_outdated(branches = TRUE, callr_function = NULL)
+  expect_equal(sort(out), sort(c("y", "z", branches[2])))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress(x)$progress, "skipped")
+  expect_equal(tar_progress(y)$progress, "errored")
+  expect_equal(tar_progress(z)$progress, "skipped")
+  progress <- tar_progress()
+  value <- progress$progress[progress$name == branches[1]]
+  expect_equal(value, "skipped")
+  value <- progress$progress[progress$name == branches[2]]
+  expect_equal(value, "errored")
+})

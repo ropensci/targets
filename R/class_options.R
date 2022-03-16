@@ -414,7 +414,10 @@ options_class <- R6::R6Class(
     },
     validate_error = function(error) {
       deprecate_error_workspace(error)
-      tar_assert_flag(error, c("stop", "continue", "abridge", "workspace"))
+      tar_assert_flag(
+        error,
+        c("stop", "continue", "abridge", "workspace", "null")
+      )
     },
     validate_memory = function(memory) {
       tar_assert_flag(memory, c("persistent", "transient"))

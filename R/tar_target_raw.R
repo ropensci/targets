@@ -108,7 +108,10 @@ tar_target_raw <- function(
   tar_assert_format(format)
   tar_assert_repository(repository)
   tar_assert_flag(iteration, c("vector", "list", "group"))
-  tar_assert_flag(error, c("stop", "continue", "abridge", "workspace"))
+  tar_assert_flag(
+    error,
+    c("stop", "continue", "abridge", "workspace", "null")
+  )
   deprecate_error_workspace(error)
   tar_assert_flag(memory, c("persistent", "transient"))
   tar_assert_lgl(garbage_collection)

@@ -305,6 +305,7 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
     continue = builder_error_continue(target, scheduler),
     abridge = scheduler$abridge(target),
     stop = builder_error_exit(target, pipeline, scheduler, meta),
+    null = builder_error_null(target, pipeline, scheduler, meta),
     workspace = builder_error_exit(target, pipeline, scheduler, meta)
   )
 }
@@ -324,6 +325,17 @@ builder_error_exit <- function(target, pipeline, scheduler, meta) {
   }
   # Keep this:
   tar_throw_run(target$metrics$error)
+}
+
+builder_error_null <- function(target, pipeline, scheduler, meta) {
+  target_ensure_buds(target, pipeline, scheduler)
+  record <- target_produce_record(target, pipeline, meta)
+  record$data <- "error"
+  meta$insert_record(record)
+  target_patternview_meta(target, pipeline, meta)
+  pipeline_register_loaded(pipeline, target_get_name(target))
+  scheduler$progress$register_errored(target)
+  scheduler$reporter$report_errored(target, scheduler$progress)
 }
 
 builder_ensure_workspace <- function(target, pipeline, scheduler, meta) {
@@ -371,7 +383,7 @@ builder_update_build <- function(target, envir) {
 }
 
 builder_resolve_object <- function(target, build) {
-  if (metrics_terminated_early(target$metrics)) {
+  if (!builder_should_save(target)) {
     return(build$object)
   }
   store_assert_format(target$store, build$object, target_get_name(target))
@@ -379,7 +391,7 @@ builder_resolve_object <- function(target, build) {
 }
 
 builder_ensure_paths <- function(target, path_store) {
-  if (!metrics_terminated_early(target$metrics)) {
+  if (builder_should_save(target)) {
     tryCatch(
       builder_update_paths(target, path_store),
       error = function(error) builder_error_internal(target, error, "_paths_")
@@ -413,10 +425,15 @@ builder_update_object <- function(target) {
   store_upload_object(target$store)
 }
 
+builder_should_save <- function(target) {
+  error_null <- identical(target$settings$error, "null") &&
+    metrics_has_error(target$metrics)
+  !metrics_terminated_early(target$metrics) || error_null
+}
+
 builder_ensure_object <- function(target, storage) {
   context <- identical(target$settings$storage, storage)
-  completed <- !metrics_terminated_early(target$metrics)
-  if (context && completed) {
+  if (context && builder_should_save(target)) {
     tryCatch(
       builder_update_object(target),
       error = function(error) builder_error_internal(target, error, "_store_")
