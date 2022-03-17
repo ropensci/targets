@@ -67,7 +67,7 @@ tar_test("mermaid$update_legend() on cross plan", {
     open = c("[", "(["),
     close = c("]", "])"),
     status = rep("none", 2),
-    label = c("Pattern", "Stem")
+    label = c("\"Pattern\"", "\"Stem\"")
   )
   cols <- colnames(legend)
   legend <- legend[order(legend$label), cols]
