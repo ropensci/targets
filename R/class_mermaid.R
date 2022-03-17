@@ -85,15 +85,15 @@ mermaid_class <- R6::R6Class(
       legend <- rbind(status, type)
       legend$label <- gsub("uptodate", "Up to date", legend$name)
       legend <- legend[legend$label != "none",, drop = FALSE] # nolint
-      legend$label <- capitalize(legend$label)
+      legend$label <- sprintf("\"%s\"", capitalize(legend$label))
       legend
     },
     produce_mermaid_vertices = function(data) {
       sprintf(
         "%s%s%s%s:::%s",
-        data$name,
+        sprintf("x%s", digest_chr64(data$name)),
         data$open,
-        data$label,
+        sprintf("\"%s\"", data$label),
         data$close,
         data$status
       )
@@ -105,7 +105,10 @@ mermaid_class <- R6::R6Class(
       out$name <- out[[side]]
       out[[side]] <- NULL
       vertices <- self$network$vertices
+      out$id <- seq_len(nrow(out))
       out <- merge(x = out, y = vertices, all = FALSE, sort = FALSE)
+      out <- out[order(out$id),, drop = FALSE] # nolint
+      out$id <- NULL
       out$open <- self$produce_shape_open(out$type)
       out$close <- self$produce_shape_close(out$type)
       self$produce_mermaid_vertices(out)
