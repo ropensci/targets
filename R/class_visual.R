@@ -65,13 +65,16 @@ visual_class <- R6::R6Class(
       branches <- units_branches(vertices$branches)
       out <- vertices$name
       if ("time" %in% self$label) {
-        out <- paste(out, seconds, sep = self$label_break)
+        i <- nzchar(seconds)
+        out[i] <- paste(out[i], seconds[i], sep = self$label_break)
       }
       if ("size" %in% self$label) {
-        out <- paste(out, bytes, sep = self$label_break)
+        i <- nzchar(bytes)
+        out[i] <- paste(out[i], bytes[i], sep = self$label_break)
       }
       if ("branches" %in% self$label) {
-        out <- paste(out, branches, sep = self$label_break)
+        i <- nzchar(branches)
+        out[i] <- paste(out[i], branches[i], sep = self$label_break)
       }
       out
     },
