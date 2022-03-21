@@ -5,6 +5,7 @@
 * Fix `tar_mermaid()` graph ordering.
 * Hash the node names and quote the label names of `tar_mermaid()` graphs to avoid JavaScript keywords.
 * Remove superfluous line breaks in the node labels of graph visuals.
+* Fix metadata migration to version >= 0.10.0 (#812, @tjmahr).
 
 # Enhancements
 

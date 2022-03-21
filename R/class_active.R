@@ -48,8 +48,8 @@ active_class <- R6::R6Class(
     },
     ensure_meta = function() {
       new_store <- !file.exists(self$meta$get_path_store())
-      self$meta$validate()
       self$meta$migrate_database()
+      self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
       if (new_store) {
         self$write_gitignore()
