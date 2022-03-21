@@ -150,7 +150,8 @@
 #'   "bang-bang" operator `!!` to programmatically insert
 #'   the values of global objects.
 #' @param packages Character vector of packages to load right before
-#'   the target builds. Use `tar_option_set()` to set packages
+#'   the target builds or the output data is reloaded for
+#'   downstream targets. Use `tar_option_set()` to set packages
 #'   globally for all subsequent targets you define.
 #' @param library Character vector of library paths to try
 #'   when loading `packages`.

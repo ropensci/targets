@@ -66,12 +66,11 @@ tar_workspace <- function(
   workspace_populate(workspace)
   workspace_assign(workspace, envir)
   if (packages) {
-    command <- workspace$target$command
-    build_load_packages(command$packages, command$library)
+    workspace_load_packages(workspace)
   }
   if (source) {
     eval(parse(text = readLines(script)), envir = envir)
   }
-  set.seed(workspace$target$command$seed)
+  workspace_set_seed(workspace)
   invisible()
 }

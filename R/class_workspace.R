@@ -36,6 +36,15 @@ workspace_assign <- function(workspace, envir) {
   map(names(from), ~assign(x = .x, value = from[[.x]], envir = envir))
 }
 
+workspace_load_packages <- function(workspace) {
+  command <- workspace$target$command
+  load_packages(packages = command$packages, library = command$library)
+}
+
+workspace_set_seed <- function(workspace) {
+  set.seed(workspace$target$command$seed)
+}
+
 workspace_validate <- function(workspace) {
   target_validate(workspace$target)
   pipeline_validate(workspace$subpipeline)

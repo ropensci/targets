@@ -54,7 +54,8 @@ informally quoted code.
 \code{base::expression()} and \code{base::quote()} can produce such objects.}
 
 \item{packages}{Character vector of packages to load right before
-the target builds. Use \code{tar_option_set()} to set packages
+the target builds or the output data is reloaded for
+downstream targets. Use \code{tar_option_set()} to set packages
 globally for all subsequent targets you define.}
 
 \item{library}{Character vector of library paths to try

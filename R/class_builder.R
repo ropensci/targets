@@ -36,6 +36,8 @@ target_bootstrap.tar_builder <- function(target, pipeline, meta) {
 
 #' @export
 target_read_value.tar_builder <- function(target, pipeline = NULL) {
+  command <- target$command
+  load_packages(packages = command$packages, library = command$library)
   object <- store_read_object(target$store)
   iteration <- target$settings$iteration
   value_init(object, iteration)

@@ -55,21 +55,6 @@ tar_test("warning with no message, warning thrown", {
   build <- expect_warning(build_init(quote(warning()), baseenv()))
 })
 
-tar_test("load packages", {
-  command_good <- command_init(quote(a <- b + c))
-  expect_silent(command_validate(command_good))
-  expect_silent(
-    build_load_packages(command_good$packages, command_good$library)
-  )
-  command_bad <- command_init(quote(a <- b + c), packages = 123)
-  expect_error(
-    suppressWarnings(
-      build_load_packages(command_bad$packages, command_bad$library)
-    ),
-    class = "tar_condition_validate"
-  )
-})
-
 tar_test("validate good builds", {
   build <- build_init(quote(1L + 1L), baseenv())
   expect_silent(build_validate(build))

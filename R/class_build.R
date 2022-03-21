@@ -50,30 +50,8 @@ build_new <- function(object = NULL, metrics = NULL) {
   environment()
 }
 
-# require() is faster than library() # nolint
-# but we should still fail early and loudly when needed.
-build_load_packages <- function(packages, library) {
-  out <- suppressPackageStartupMessages(
-    lapply(
-      packages,
-      require,
-      lib.loc = library,
-      quietly = TRUE,
-      character.only = TRUE
-    )
-  )
-  out <- as.logical(unlist(out))
-  msg <- paste(
-    "could not find packages",
-    paste(packages[!out], collapse = ", "),
-    "in library paths",
-    paste(library, collapse = ", ")
-  )
-  tar_assert_true(all(out), msg)
-}
-
 build_run_expr <- function(expr, envir, seed, packages, library) {
-  build_load_packages(packages, library)
+  load_packages(packages = packages, library = library)
   withr::with_dir(
     getwd(),
     withr::with_seed(seed, build_eval_fce17be7(expr, envir))
