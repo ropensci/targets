@@ -6,7 +6,7 @@
 * Hash the node names and quote the label names of `tar_mermaid()` graphs to avoid JavaScript keywords.
 * Remove superfluous line breaks in the node labels of graph visuals.
 * Fix metadata migration to version >= 0.10.0 (#812, @tjmahr).
-* `data.table::fread()` with UTF-8 encoding (#814, @svraka).
+* `data.table::fread()` with encoding equal to `getOption("encoding")` if available (#814, @svraka).
 
 # Enhancements
 
