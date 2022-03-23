@@ -238,6 +238,11 @@ database_read_existing_data <- function(database) {
   # We can also delete the list_columns arg then.
   encoding <- getOption("encoding")
   encoding <- if_any(
+    identical(tolower(encoding), "latin1"),
+    "Latin-1",
+    encoding
+  )
+  encoding <- if_any(
     encoding %in% c("unknown", "UTF-8", "Latin-1"),
     encoding,
     "unknown"
