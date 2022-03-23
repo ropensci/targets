@@ -315,3 +315,20 @@ tar_test("file_validate() on a bad time", {
   )
   expect_error(file_validate(file), class = "tar_condition_validate")
 })
+
+tar_test("OutDec option temporarily set for file time stamps", {
+  out_dec <- getOption("OutDec")
+  on.exit(options(OutDec = out_dec))
+  tar_script({
+    get_data <- function() {
+      options(OutDec = ",")
+      1
+    }
+    tar_target(data, get_data())
+  })
+  tar_make(callr_function = NULL)
+  out <- tar_meta(data, all_of(c("seconds", "time")))
+  expect_false(anyNA(out$seconds))
+  expect_false(anyNA(out$time))
+  expect_silent(tar_read(data))
+})

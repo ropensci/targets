@@ -161,6 +161,7 @@ file_time_now <- function() {
 }
 
 file_time_impl <- function(time) {
+  withr::local_options(.new = list(OutDec = "."))
   diff <- difftime(
     time1 = time,
     time2 = file_time_reference,

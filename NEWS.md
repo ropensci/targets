@@ -10,6 +10,7 @@
 # Enhancements
 
 * Load packages when loading data for downstream targets in the pipeline (#713).
+* Handle edge case when `getOption("OutDec")` is not `"."` to prevent time stamps from being corrupted (#433, @jarauh).
 
 # targets 0.11.0
 
