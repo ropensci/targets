@@ -236,12 +236,18 @@ database_read_existing_data <- function(database) {
   # TODO: use sep2 once implemented:
   # https://github.com/Rdatatable/data.table/issues/1162
   # We can also delete the list_columns arg then.
+  encoding <- getOption("encoding")
+  encoding <- if_any(
+    encoding %in% c("unknown", "UTF-8", "Latin-1"),
+    encoding,
+    "unknown"
+  )
   out <- data.table::fread(
     file = database$path,
     sep = database_sep_outer,
     fill = TRUE,
     na.strings = "",
-    encoding = "UTF-8"
+    encoding = encoding
   )
   out <- as_data_frame(out)
   if (nrow(out) < 1L) {
