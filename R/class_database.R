@@ -240,7 +240,8 @@ database_read_existing_data <- function(database) {
     file = database$path,
     sep = database_sep_outer,
     fill = TRUE,
-    na.strings = ""
+    na.strings = "",
+    encoding = "UTF-8"
   )
   out <- as_data_frame(out)
   if (nrow(out) < 1L) {
