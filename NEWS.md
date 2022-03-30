@@ -7,6 +7,7 @@
 * Remove superfluous line breaks in the node labels of graph visuals.
 * Fix metadata migration to version >= 0.10.0 (#812, @tjmahr).
 * `data.table::fread()` with encoding equal to `getOption("encoding")` if available (#814, @svraka). Only works with UTF-8 and latin1 because that is what `data.table` supports.
+* Force add files in GitHub Actions workflow job (#815, @tarensanders).
 
 # Enhancements
 

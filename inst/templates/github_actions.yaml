@@ -115,7 +115,7 @@ jobs:
           git add --all -- ':!renv'
           for file in $(git ls-files -mo --exclude=renv)
           do
-            git add $file
+            git add --force $file
           done
           git commit -am "Run pipeline"
           git push origin targets-runs
