@@ -85,7 +85,8 @@ tar_script({
   )
 }, ask = FALSE)
 tar_make()
-tar_load(starts_with("y")) # see also all_of()
+tar_load(starts_with("y"))
+tar_load(all_of("z"))
 })
 }
 }
