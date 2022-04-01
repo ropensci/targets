@@ -16,7 +16,8 @@ tar_load_raw(
 }
 \arguments{
 \item{names}{Character vector, names of the targets to load.
-Names are expected to appear in the metadata in \verb{_targets/meta}.}
+Names are expected to appear in the metadata in \verb{_targets/meta}.
+Any target names not in the metadata are ignored.}
 
 \item{branches}{Integer of indices of the branches to load
 for any targets that are patterns.}
@@ -28,13 +29,16 @@ However, if you call \code{\link[=tar_meta]{tar_meta()}} beforehand and supply i
 argument, then successive calls to \code{tar_read()} may run much faster.}
 
 \item{strict}{Logical of length 1, whether to error out
-if one of the selected targets cannot be loaded.
-Set to \code{FALSE} to just load the targets that can be loaded
-and skip the others.}
+if one of the selected targets is in the metadata
+but cannot be loaded.
+Set to \code{FALSE} to just load the targets in the metadata
+that can be loaded and skip the others.}
 
-\item{silent}{Logical of length 1. If \code{silent} is \code{FALSE}
+\item{silent}{Logical of length 1. Only relevant when
+\code{strict} is \code{FALSE}. If \code{silent} is \code{FALSE}
 and \code{strict} is \code{FALSE}, then a message will be printed
-if a target cannot be loaded, but load failures
+if a target is in the metadata but cannot be loaded.
+However, load failures
 will not stop other targets from being loaded.}
 
 \item{envir}{Environment to put the loaded targets.}

@@ -9,15 +9,19 @@
 #' @inheritParams tar_read
 #' @param names Character vector, names of the targets to load.
 #'   Names are expected to appear in the metadata in `_targets/meta`.
+#'   Any target names not in the metadata are ignored.
 #' @param branches Integer of indices of the branches to load
 #'   for any targets that are patterns.
 #' @param strict Logical of length 1, whether to error out
-#'   if one of the selected targets cannot be loaded.
-#'   Set to `FALSE` to just load the targets that can be loaded
-#'   and skip the others.
-#' @param silent Logical of length 1. If `silent` is `FALSE`
+#'   if one of the selected targets is in the metadata
+#'   but cannot be loaded.
+#'   Set to `FALSE` to just load the targets in the metadata
+#'   that can be loaded and skip the others.
+#' @param silent Logical of length 1. Only relevant when
+#'   `strict` is `FALSE`. If `silent` is `FALSE`
 #'   and `strict` is `FALSE`, then a message will be printed
-#'   if a target cannot be loaded, but load failures
+#'   if a target is in the metadata but cannot be loaded.
+#'   However, load failures
 #'   will not stop other targets from being loaded.
 #' @param envir Environment to put the loaded targets.
 #' @examples
