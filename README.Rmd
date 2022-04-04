@@ -110,6 +110,6 @@ Please note that this package is released with a [Contributor Code of Conduct](h
 
 ## Citation
 
-```{r}
+```{r, comment=NA}
 citation("targets")
 ```
