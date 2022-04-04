@@ -183,24 +183,24 @@ Conduct](https://ropensci.org/code-of-conduct/).
 
 ``` r
 citation("targets")
-#> 
-#> To cite targets in publications use:
-#> 
-#>   Landau, W. M., (2021). The targets R package: a dynamic Make-like
-#>   function-oriented pipeline toolkit for reproducibility and
-#>   high-performance computing. Journal of Open Source Software, 6(57),
-#>   2959, https://doi.org/10.21105/joss.02959
-#> 
-#> A BibTeX entry for LaTeX users is
-#> 
-#>   @Article{,
-#>     title = {The targets R package: a dynamic Make-like function-oriented pipeline toolkit for reproducibility and high-performance computing},
-#>     author = {William Michael Landau},
-#>     journal = {Journal of Open Source Software},
-#>     year = {2021},
-#>     volume = {6},
-#>     number = {57},
-#>     pages = {2959},
-#>     url = {https://doi.org/10.21105/joss.02959},
-#>   }
+
+To cite targets in publications use:
+
+  Landau, W. M., (2021). The targets R package: a dynamic Make-like
+  function-oriented pipeline toolkit for reproducibility and
+  high-performance computing. Journal of Open Source Software, 6(57),
+  2959, https://doi.org/10.21105/joss.02959
+
+A BibTeX entry for LaTeX users is
+
+  @Article{,
+    title = {The targets R package: a dynamic Make-like function-oriented pipeline toolkit for reproducibility and high-performance computing},
+    author = {William Michael Landau},
+    journal = {Journal of Open Source Software},
+    year = {2021},
+    volume = {6},
+    number = {57},
+    pages = {2959},
+    url = {https://doi.org/10.21105/joss.02959},
+  }
 ```
