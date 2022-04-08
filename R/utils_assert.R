@@ -569,8 +569,8 @@ tar_assert_script <- function(script) {
     "custom functions will go to a package environment where {targets}",
     "may not track them, and the loaded data will not be available in",
     "parallel workers created by tar_make_clustermq() or tar_make_future().",
-    "Read https://books.ropensci.org/targets/practices.html#loading-and-configuring-r-packages", # nolint
-    "and https://books.ropensci.org/targets/practices.html#packages-based-invalidation", # nolint
+    "Read https://books.ropensci.org/targets/packages.html#loading-and-configuring-r-packages", # nolint
+    "and https://books.ropensci.org/targets/packages.html#package-based-invalidation", # nolint
     "for the correct way to load packages for {targets} pipelines.",
     "Warnings like this one are important, but if you must suppress them, ",
     "you can do so with Sys.setenv(TAR_WARN = \"false\")."
