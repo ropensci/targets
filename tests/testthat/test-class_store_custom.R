@@ -109,6 +109,7 @@ tar_test("torch as custom format", {
 })
 
 tar_test("deprecated: aws custom store is valid", {
+  skip_if_not_installed("paws")
   expect_warning(
     format <- tar_format(
       read = function(path) {
