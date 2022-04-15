@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_load.R
 \name{tar_load}
 \alias{tar_load}
-\alias{tar_load_all}
+\alias{tar_load_everything}
 \title{Load the values of targets.}
 \usage{
 tar_load(
@@ -15,7 +15,7 @@ tar_load(
   store = targets::tar_config_get("store")
 )
 
-tar_load_all(
+tar_load_everything(
   branches = NULL,
   meta = tar_meta(targets_only = TRUE, store = store),
   strict = TRUE,
@@ -71,8 +71,8 @@ Load the return values of targets into the current environment
 (or the environment of your choosing). For a typical target, the return
 value lives in a file in \verb{_targets/objects/}. For dynamic files (i.e.
 \code{format = "file"}) the paths loaded in place of the values.
-\code{tar_load_all()} is a thin wrapper around \code{tar_load(everything())} to load
-all targets quickly.
+\code{tar_load_everything()} is a thin wrapper around \code{tar_load(everything())}
+to load all targets quickly.
 }
 \section{Limited scope}{
 

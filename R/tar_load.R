@@ -5,8 +5,8 @@
 #'   (or the environment of your choosing). For a typical target, the return
 #'   value lives in a file in `_targets/objects/`. For dynamic files (i.e.
 #'   `format = "file"`) the paths loaded in place of the values.
-#'   `tar_load_all()` is a thin wrapper around `tar_load(everything())` to load
-#'   all targets quickly.
+#'   `tar_load_everything()` is a thin wrapper around `tar_load(everything())`
+#'   to load all targets quickly.
 #' @return Nothing.
 #' @inheritSection tar_read Limited scope
 #' @inheritParams tar_load_raw
@@ -54,7 +54,7 @@ tar_load <- function(
 
 #' @export
 #' @rdname tar_load
-tar_load_all <- function(
+tar_load_everything <- function(
   branches = NULL,
   meta = tar_meta(targets_only = TRUE, store = store),
   strict = TRUE,
@@ -62,6 +62,8 @@ tar_load_all <- function(
   envir = parent.frame(),
   store = targets::tar_config_get("store")
 ) {
+  force(envir)
+  
   tar_load(
     everything(),
     branches = branches,
