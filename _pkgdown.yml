@@ -61,8 +61,8 @@ reference:
 - title: Data
   contents:
   - '`tar_load`'
-  - '`tar_load_everything`'
   - '`tar_load_raw`'
+  - '`tar_load_everything`'
   - '`tar_meta`'
   - '`tar_objects`'
   - '`tar_pid`'

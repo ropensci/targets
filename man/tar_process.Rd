@@ -59,6 +59,7 @@ tar_process(pid)
 }
 \seealso{
 Other data: 
+\code{\link{tar_load_everything}()},
 \code{\link{tar_load_raw}()},
 \code{\link{tar_load}()},
 \code{\link{tar_meta}()},

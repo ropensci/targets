@@ -2,7 +2,6 @@
 % Please edit documentation in R/tar_load.R
 \name{tar_load}
 \alias{tar_load}
-\alias{tar_load_everything}
 \title{Load the values of targets.}
 \usage{
 tar_load(
@@ -14,20 +13,11 @@ tar_load(
   envir = parent.frame(),
   store = targets::tar_config_get("store")
 )
-
-tar_load_everything(
-  branches = NULL,
-  meta = tar_meta(targets_only = TRUE, store = store),
-  strict = TRUE,
-  silent = FALSE,
-  envir = parent.frame(),
-  store = targets::tar_config_get("store")
-)
 }
 \arguments{
-\item{names}{Names of the targets to load. You can supply symbols, a
-character vector, or \code{tidyselect} helpers like \code{\link[=all_of]{all_of()}} and
-\code{\link[=starts_with]{starts_with()}}. Names are selected from the metadata in \verb{_targets/meta},
+\item{names}{Names of the targets to load.
+You may supply \code{tidyselect} helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.
+Names are selected from the metadata in \verb{_targets/meta},
 which may include errored targets.}
 
 \item{branches}{Integer of indices of the branches to load
@@ -71,8 +61,8 @@ Load the return values of targets into the current environment
 (or the environment of your choosing). For a typical target, the return
 value lives in a file in \verb{_targets/objects/}. For dynamic files (i.e.
 \code{format = "file"}) the paths loaded in place of the values.
-\code{tar_load_everything()} is a thin wrapper around \code{tar_load(everything())}
-to load all targets quickly.
+\code{\link[=tar_load_everything]{tar_load_everything()}} is shorthand for \code{tar_load(everything())}
+to load all targets.
 }
 \section{Limited scope}{
 
@@ -96,13 +86,17 @@ tar_script({
   )
 }, ask = FALSE)
 tar_make()
+ls() # Does not have "y1", "y2", or "z".
 tar_load(starts_with("y"))
+ls() # Has "y1" and "y2" but not "z".
 tar_load(all_of("z"))
+ls() # Has "y1", "y2", and "z".
 })
 }
 }
 \seealso{
 Other data: 
+\code{\link{tar_load_everything}()},
 \code{\link{tar_load_raw}()},
 \code{\link{tar_meta}()},
 \code{\link{tar_objects}()},
