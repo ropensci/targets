@@ -13,6 +13,7 @@
 
 * Load packages when loading data for downstream targets in the pipeline (#713).
 * Handle edge case when `getOption("OutDec")` is not `"."` to prevent time stamps from being corrupted (#433, @jarauh).
+* Added helper function `tar_load_everything()` to quickly load all targets (#823, @malcolmbarrett)
 
 # targets 0.11.0
 

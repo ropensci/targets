@@ -16,6 +16,23 @@ tar_test("tar_load() works", {
   expect_false("z" %in% names(envir))
 })
 
+tar_test("tar_load_everything() works", {
+  pipeline <- pipeline_init(
+    list(
+      target_init("y1", quote(1L)),
+      target_init("y2", quote(2L)),
+      target_init("z", quote(y1 + y2))
+    )
+  )
+  local_init(pipeline = pipeline)$run()
+  envir <- new.env(parent = emptyenv())
+  tar_load_everything(envir = envir)
+  expect_equal(sort(names(envir)), sort(c("y1", "y2", "z")))
+  expect_equal(envir$y1, 1L)
+  expect_equal(envir$y2, 2L)
+  expect_equal(envir$z, 3L)
+})
+
 tar_test("tar_load_raw() works", {
   pipeline <- pipeline_init(
     list(
