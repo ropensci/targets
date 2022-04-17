@@ -44,7 +44,7 @@
 #'   * `"slurm"`: SLURM clusters.
 #'   * `"sge"`: Sun Grid Engine clusters.
 #'   * `"lsf"`: LSF clusters.
-#'   * `"pbs"`: PBS clusters.
+#'   * `"pbs"`: PBS clusters. (`batchtools` template file not available.)
 #'   * `"torque"`: Torque clusters.
 #' @param overwrite Logical of length 1, whether to overwrite
 #'   the targets file and supporting files if they already exist.
@@ -117,16 +117,33 @@ use_targets <- function(
     "  )",
     ")"
   )
-  if (file.exists(script) && !overwrite) {
+  if_any(
+    file.exists(script) && !overwrite,
     cli_alert_info(
       sprintf(
         "Target script %s already exists. Stash and retry for a new one.",
         script
       )
+    ), {
+      cli_blue_bullet(sprintf("Writing target script %s.", script))
+      writeLines(lines, script)
+    }
+  )
+  for (file in c("run.R", "run.sh")) {
+    if_any(
+      file.exists(file) && !overwrite,
+      cli_alert_info(
+        sprintf(
+          "Helper file %s already exists. Stash and retry for a new one.",
+          file
+        )
+      ), {
+        cli_blue_bullet(sprintf("Writing helper file %s.", file))
+        path <- file.path("templates", "run", file)
+        path <- system.file(path, package = "targets", mustWork = TRUE)
+        file.copy(path, file)
+      }
     )
-  } else {
-    cli_blue_bullet(sprintf("Writing target script %s.", script))
-    writeLines(lines, script)
   }
   # covered in tests/interactive/test-
   # nocov start
@@ -170,19 +187,20 @@ use_targets_clustermq <- function(scheduler, overwrite) {
   line <- sprintf("options(clustermq.scheduler = \"%s\")", scheduler)
   if (!scheduler %in% c("multiprocess", "multicore")) {
     file <- paste0(scheduler, ".tmpl")
-    path <- file.path(c("templates", "clustermq", file))
-    path <- file.path(path, package = "targets", mustWork = TRUE)
-    if (file.exists("clustermq.tmpl") && !overwrite) {
+    path <- file.path("templates", "clustermq", file)
+    path <- system.file(path, package = "targets", mustWork = TRUE)
+    if_any(
+      file.exists("clustermq.tmpl") && !overwrite,
       cli_alert_info(
         paste(
           "Template file \"clustermq.tmpl\" already exists.",
           "Stash and retry for a new one."
         )
-      )
-    } else {
-      cli_blue_bullet("Writing clustermq template file \"clustermq.tmpl\".")
-      file.copy(path, "clustermq.tmpl")
-    }
+      ), {
+        cli_blue_bullet("Writing clustermq template file \"clustermq.tmpl\".")
+        file.copy(path, "clustermq.tmpl")
+      }
+    )
   }
   line
 }
@@ -204,29 +222,37 @@ use_targets_future <- function(scheduler, overwrite) {
   }
   if (scheduler %in% c("multiprocess", "multicore")) {
     line <- "future::plan(future.callr::callr)"
+  } else if (scheduler == "pbs") {
+    cli_red_x("No future/batchtools template file available for PBS.")
+    return(character(0))
   } else {
-    file <- paste0(scheduler, ".tmpl")
     line <- sprintf(
       "future::plan(%s::batchtools_%s, template = \"future.tmpl\")",
       "future.batchtools",
-      scheduler,
-      file
+      scheduler
     )
-    path <- file.path(c("templates", "future", file))
-    path <- file.path(path, package = "targets", mustWork = TRUE)
-    if (file.exists("future.tmpl") && !overwrite) {
+    file <- c(
+      lsf = "lsf-simple.tmpl",
+      sge = "sge-simple.tmpl",
+      slurm = "slurm-simple.tmpl",
+      torque = "torque-lido.tmpl"
+    )[scheduler]
+    path <- file.path("templates", file)
+    path <- system.file(path, package = "batchtools", mustWork = TRUE)
+    if_any(
+      file.exists("future.tmpl") && !overwrite,
       cli_alert_info(
         paste(
           "Template file future.tmpl already exists.",
           "Stash and retry for a new one."
         )
-      )
-    } else {
-      cli_blue_bullet(
-        sprintf("Writing future.batchtools template file %s.", path)
-      )
-      file.copy(path, "future.tmpl")
-    }
+      ), {
+        cli_blue_bullet(
+          sprintf("Writing future.batchtools template file %s.", path)
+        )
+        file.copy(path, "future.tmpl")
+      }
+    )
   }
   line
 }
