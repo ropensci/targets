@@ -82,7 +82,7 @@ use_targets <- function(
     "# Load packages required to define the pipeline:",
     "library(targets)",
     "library(tarchetypes)",
-    "# library(stantargets) # You may need others.",
+    "# library(stantargets) # You may need others.", # nolint
     "",
     "# Set {targets} options to control required packages, performance, etc.:",
     "tar_option_set(",
