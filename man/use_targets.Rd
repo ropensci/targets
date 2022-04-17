@@ -44,7 +44,8 @@ the targets file and supporting files if they already exist.}
 }
 \description{
 Set up \code{targets} for an existing project.
-
+}
+\details{
 To set up a project-oriented function-oriented
 workflow for \code{targets}, \code{use_targets()} writes:
 \enumerate{
@@ -55,7 +56,10 @@ to a resource manager if detected on your system.
 \item Scripts \code{run.R} and \code{run.sh} to conveniently execute the pipeline.
 \code{run.sh} is an optional shell script that calls \code{run.R} in a
 persistent background process.
+}
+
 After you call \code{use_targets()}, there is still configuration left to do:
+\enumerate{
 \item Open \verb{_targets.R} and edit by hand. Follow the comments to
 write any options, packages, and target definitions
 that your pipeline requires.
@@ -63,7 +67,10 @@ that your pipeline requires.
 (\code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}, or \code{\link[=tar_make_future]{tar_make_future()}}).
 \item If applicable, edit \code{clustermq.tmpl} and/or \code{future.tmpl}
 to configure settings for your resource manager.
+}
+
 After you finished configuring your project,
+\enumerate{
 \item Run \code{\link[=tar_glimpse]{tar_glimpse()}} and \code{\link[=tar_manifest]{tar_manifest()}} to check that the
 targets in the pipeline are defined correctly.
 \item Run the pipeline. You may wish to call a \verb{tar_make*()} function

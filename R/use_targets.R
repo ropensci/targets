@@ -2,7 +2,7 @@
 #' @export
 #' @family help
 #' @description Set up `targets` for an existing project.
-#' @description To set up a project-oriented function-oriented
+#' @details To set up a project-oriented function-oriented
 #'   workflow for `targets`, `use_targets()` writes:
 #'   1. A target script `_targets.R` tailored to your project and system.
 #'   2. Template files `"clustermq.tmpl"` and `"future.tmpl"`
@@ -11,6 +11,7 @@
 #'   3. Scripts `run.R` and `run.sh` to conveniently execute the pipeline.
 #'     `run.sh` is an optional shell script that calls `run.R` in a
 #'     persistent background process.
+#'
 #' After you call `use_targets()`, there is still configuration left to do:
 #'   1. Open `_targets.R` and edit by hand. Follow the comments to
 #'     write any options, packages, and target definitions
@@ -19,7 +20,8 @@
 #'     ([tar_make()], [tar_make_clustermq()], or [tar_make_future()]).
 #'   3. If applicable, edit `clustermq.tmpl` and/or `future.tmpl`
 #'     to configure settings for your resource manager.
-#' After you finished configuring your project,
+#'
+#'  After you finished configuring your project,
 #'   1. Run [tar_glimpse()] and [tar_manifest()] to check that the
 #'     targets in the pipeline are defined correctly.
 #'   2. Run the pipeline. You may wish to call a `tar_make*()` function
