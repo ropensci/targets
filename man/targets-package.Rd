@@ -19,6 +19,7 @@ and \code{drake} (2018, \doi{doi:10.21105/joss.00550}).
 \seealso{
 Other help: 
 \code{\link{tar_reprex}()},
+\code{\link{use_targets_rmd}()},
 \code{\link{use_targets}()}
 }
 \concept{help}

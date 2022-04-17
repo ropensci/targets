@@ -48,6 +48,7 @@ tar_reprex(
 \seealso{
 Other help: 
 \code{\link{targets-package}},
+\code{\link{use_targets_rmd}()},
 \code{\link{use_targets}()}
 }
 \concept{help}
