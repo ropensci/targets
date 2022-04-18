@@ -4,7 +4,7 @@
 #' @description Set up `targets` for an existing project.
 #' @details To set up a project-oriented function-oriented
 #'   workflow for `targets`, `use_targets()` writes:
-#'   1. A target script `_targets.R` tailored to your project and system.
+#'   1. A target script `_targets.R` tailored to your system.
 #'   2. Template files `"clustermq.tmpl"` and `"future.tmpl"`
 #'     to configure [tar_make_clustermq()] and [tar_make_future()]
 #'     to a resource manager if detected on your system.
@@ -21,7 +21,8 @@
 #'   3. If applicable, edit `clustermq.tmpl` and/or `future.tmpl`
 #'     to configure settings for your resource manager.
 #'
-#'  After you finished configuring your project,
+#'  After you finished configuring your project, follow the steps at
+#'    <https://books.ropensci.org/targets/walkthrough.html#inspect-the-pipeline>: # nolint
 #'   1. Run [tar_glimpse()] and [tar_manifest()] to check that the
 #'     targets in the pipeline are defined correctly.
 #'   2. Run the pipeline. You may wish to call a `tar_make*()` function
@@ -74,21 +75,19 @@ use_targets <- function(
   tar_assert_nzchar(script)
   tar_assert_in(scheduler, schedulers)
   lines <- c(
-    "# Follow the comments and edit this _targets.R to suit your needs.",
-    "# Then call tar_manifest() and tar_glimpse() to check you work.",
-    "# When ready, run the pipeline with tar_make() or similar function from",
-    "#   https://docs.ropensci.org/targets/reference/index.html#pipeline",
+    "# Follow the comments below to fill in this target script.",
+    "# Then follow the manual to check and run the pipeline:",
+    "#   https://books.ropensci.org/targets/walkthrough.html#inspect-the-pipeline", # nolint
     "",
     "# Load packages required to define the pipeline:",
     "library(targets)",
-    "library(tarchetypes)",
-    "# library(stantargets) # You may need others.", # nolint
+    "# library(tarchetypes) # Load other packages as needed.", # nolint
     "",
-    "# Set {targets} options to control required packages, performance, etc.:",
+    "# Set target options:",
     "tar_option_set(",
     "  packages = c(\"tibble\"), # packages that your targets need to run",
     "  format = \"rds\" # default storage format",
-    "  # Consider more options to tweak performance.",
+    "  # Set other options as needed.",
     ")",
     "",
     "# Configure the backend of tar_make_clustermq() (recommended):",
@@ -97,19 +96,16 @@ use_targets <- function(
     "# Configure the backend of tar_make_future() (optional):",
     use_targets_future(scheduler, overwrite),
     "",
-    "# Run the R scripts that define your custom functions and input objects:",
-    sprintf("source(\"R/%s\")", list.files("R")),
-    "# source(\"R/functions.R\") # Source other scripts here.",
+    "# Load the R scripts with your custom functions:",
+    "for (file in list.files(\"R\", full.names = TRUE)) source(file)",
+    "# source(\"other_functions.R\") # Source other scripts as needed.",
     "",
-    "# Now at the end of the file, write your list of targets.",
-    "# Replace the example below with your own.",
-    "# The target commands may call the functions you define",
-    "# in the R scripts mentioned above.",
+    "# Replace the target list below with your own:",
     "list(",
     "  tar_target(",
     "    name = data,",
-    "    command = tibble(x = rnorm(100), y = rnorm(100)),",
-    "    format = \"fst_tbl\" # efficient for data frames",
+    "    command = tibble(x = rnorm(100), y = rnorm(100))",
+    "#   format = \"feather\" # efficient storage of large data frames", # nolint
     "  ),",
     "  tar_target(",
     "    name = model,",
@@ -117,33 +113,14 @@ use_targets <- function(
     "  )",
     ")"
   )
-  if_any(
-    file.exists(script) && !overwrite,
-    cli_alert_info(
-      sprintf(
-        "Target script %s already exists. Stash and retry for a new one.",
-        script
-      )
-    ), {
-      cli_blue_bullet(sprintf("Writing target script %s.", script))
-      writeLines(lines, script)
-    }
-  )
+  temp <- tempfile()
+  on.exit(unlink(temp), add = TRUE)
+  writeLines(lines, temp)
+  use_targets_copy(from = temp, to = script, overwrite = overwrite)
   for (file in c("run.R", "run.sh")) {
-    if_any(
-      file.exists(file) && !overwrite,
-      cli_alert_info(
-        sprintf(
-          "Helper file %s already exists. Stash and retry for a new one.",
-          file
-        )
-      ), {
-        cli_blue_bullet(sprintf("Writing helper file %s.", file))
-        path <- file.path("templates", "run", file)
-        path <- system.file(path, package = "targets", mustWork = TRUE)
-        file.copy(path, file)
-      }
-    )
+    path <- file.path("templates", "run", file)
+    path <- system.file(path, package = "targets", mustWork = TRUE)
+    use_targets_copy(from = path, to = file, overwrite = overwrite)
   }
   # covered in tests/interactive/test-
   # nocov start
@@ -168,6 +145,8 @@ use_targets <- function(
 #'   * `"slurm"`: SLURM clusters.
 #'   * `"sge"`: Sun Grid Engine clusters.
 #'   * `"lsf"`: LSF clusters.
+#' @examples
+#' use_targets_scheduler()
 use_targets_scheduler <- function() {
   schedulers <- c(
     slurm = "sbatch",
@@ -186,21 +165,11 @@ use_targets_scheduler <- function() {
 use_targets_clustermq <- function(scheduler, overwrite) {
   line <- sprintf("options(clustermq.scheduler = \"%s\")", scheduler)
   if (!scheduler %in% c("multiprocess", "multicore")) {
+    line <- c(line, "options(clustermq.template = \"clustermq.tmpl\")")
     file <- paste0(scheduler, ".tmpl")
     path <- file.path("templates", "clustermq", file)
     path <- system.file(path, package = "targets", mustWork = TRUE)
-    if_any(
-      file.exists("clustermq.tmpl") && !overwrite,
-      cli_alert_info(
-        paste(
-          "Template file \"clustermq.tmpl\" already exists.",
-          "Stash and retry for a new one."
-        )
-      ), {
-        cli_blue_bullet("Writing clustermq template file \"clustermq.tmpl\".")
-        file.copy(path, "clustermq.tmpl")
-      }
-    )
+    use_targets_copy(from = path, to = "clustermq.tmpl", overwrite = overwrite)
   }
   line
 }
@@ -210,21 +179,23 @@ use_targets_future <- function(scheduler, overwrite) {
     c("future", "future.callr", "future.batchtools"),
     ~requireNamespace(.x, quietly = TRUE)
   )
+  # Would need to uninstall packages to test this:
   if (!all(packages)) {
-    cli_alert_info(
-      paste(
-        "Install packages {{future}}, {{future.callr}},",
-        "and {{future.batchtools}}",
-        "to allow use_targets() to configure tar_make_future() options."
-      )
+    # nocov start
+    msg <- paste(
+      "Install packages {{future}}, {{future.callr}},",
+      "and {{future.batchtools}}",
+      "to allow use_targets() to configure tar_make_future() options."
     )
+    cli_alert_x(msg)
     return(character(0))
+    # nocov end
   }
   if (scheduler %in% c("multiprocess", "multicore")) {
     line <- "future::plan(future.callr::callr)"
   } else if (scheduler == "pbs") {
-    cli_red_x("No future/batchtools template file available for PBS.")
-    return(character(0))
+    cli_red_x("Cannot provide a batchtools (future) template file for PBS.")
+    return("# Cannot provide a PBS batchtools (future) template file for PBS.")
   } else {
     line <- sprintf(
       "future::plan(%s::batchtools_%s, template = \"future.tmpl\")",
@@ -239,20 +210,18 @@ use_targets_future <- function(scheduler, overwrite) {
     )[scheduler]
     path <- file.path("templates", file)
     path <- system.file(path, package = "batchtools", mustWork = TRUE)
-    if_any(
-      file.exists("future.tmpl") && !overwrite,
-      cli_alert_info(
-        paste(
-          "Template file future.tmpl already exists.",
-          "Stash and retry for a new one."
-        )
-      ), {
-        cli_blue_bullet(
-          sprintf("Writing future.batchtools template file %s.", path)
-        )
-        file.copy(path, "future.tmpl")
-      }
-    )
+    use_targets_copy(from = path, to = "future.tmpl", overwrite = overwrite)
   }
   line
+}
+
+use_targets_copy <- function(from, to, overwrite) {
+  if (file.exists(to) && !overwrite) {
+    msg <- "File \"%s\" already exists. Stash and retry for a fresh copy."
+    msg <- sprintf(msg, to)
+    cli_alert_info(msg)
+  } else {
+    cli_blue_bullet(sprintf("Writing file \"%s\".", to))
+    file.copy(from, to, overwrite = TRUE)
+  }
 }

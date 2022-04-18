@@ -29,7 +29,7 @@ Possible values:
 \item \code{"slurm"}: SLURM clusters.
 \item \code{"sge"}: Sun Grid Engine clusters.
 \item \code{"lsf"}: LSF clusters.
-\item \code{"pbs"}: PBS clusters.
+\item \code{"pbs"}: PBS clusters. (\code{batchtools} template file not available.)
 \item \code{"torque"}: Torque clusters.
 }}
 
@@ -49,7 +49,7 @@ Set up \code{targets} for an existing project.
 To set up a project-oriented function-oriented
 workflow for \code{targets}, \code{use_targets()} writes:
 \enumerate{
-\item A target script \verb{_targets.R} tailored to your project and system.
+\item A target script \verb{_targets.R} tailored to your system.
 \item Template files \code{"clustermq.tmpl"} and \code{"future.tmpl"}
 to configure \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}
 to a resource manager if detected on your system.
@@ -69,7 +69,8 @@ that your pipeline requires.
 to configure settings for your resource manager.
 }
 
-After you finished configuring your project,
+After you finished configuring your project, follow the steps at
+\url{https://books.ropensci.org/targets/walkthrough.html#inspect-the-pipeline}: # nolint
 \enumerate{
 \item Run \code{\link[=tar_glimpse]{tar_glimpse()}} and \code{\link[=tar_manifest]{tar_manifest()}} to check that the
 targets in the pipeline are defined correctly.

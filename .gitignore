@@ -22,3 +22,5 @@ _targets.yaml
 skeleton.html
 revdep
 googlecloudrunner-auth-key.json
+run.R
+run.sh

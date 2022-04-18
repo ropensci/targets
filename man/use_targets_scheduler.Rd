@@ -24,4 +24,7 @@ on the system.
 \details{
 Not a user-side function. Do not invoke directly.
 }
+\examples{
+use_targets_scheduler()
+}
 \keyword{internal}
