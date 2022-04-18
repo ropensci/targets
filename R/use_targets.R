@@ -187,7 +187,7 @@ use_targets_future <- function(scheduler, overwrite) {
       "and {{future.batchtools}}",
       "to allow use_targets() to configure tar_make_future() options."
     )
-    cli_alert_x(msg)
+    cli_red_x(msg)
     return(character(0))
     # nocov end
   }
