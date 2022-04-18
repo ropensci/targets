@@ -33,7 +33,10 @@ The `targets` package is a [Make](https://www.gnu.org/software/make/)-like pipel
 
 ## How it works
 
-1. Create a data analysis project with custom R functions to create datasets, run models, and summarize output.
+A data analysis pipeline is a computational workflow that does statistics or data science. Examples include forecasting customer behavior, simulating a clinical trial, and detecting differential expression from genomics data. A typical pipeline includes several tasks to prepare datasets, run models, and summarize results.
+
+1. Write a data analysis project using custom R functions. R functions 
+1. Write custom R functions for methods such as create datasets, run models, and summarize output.
 
 ## Get started in under an hour
 

@@ -75,10 +75,8 @@ jobs:
         run: install.packages("arrow", type = "source")
         shell: Rscript {0}
 
-
-- name: Debugging with tmate
-  uses: mxschmitt/action-tmate@v3.11
-
+      - name: Debugging with tmate
+        uses: mxschmitt/action-tmate@v3.11
 
       - name: Check
         env:
