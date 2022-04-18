@@ -20,7 +20,7 @@ tar_test("use_targets() multicore", {
   line <- grep("clustermq\\.scheduler", readLines(script), value = TRUE)
   expect_true(grepl("multicore", line))
   line <- grep("future::plan", readLines(script), value = TRUE)
-  expect_true(grepl("future\\.callr::callr", line))
+  expect_equal(line, "future::plan(future.callr::callr)")
 })
 
 tar_test("use_targets() multiprocess", {
@@ -31,7 +31,7 @@ tar_test("use_targets() multiprocess", {
   line <- grep("clustermq\\.scheduler", readLines(script), value = TRUE)
   expect_true(grepl("multiprocess", line))
   line <- grep("future::plan", readLines(script), value = TRUE)
-  expect_true(grepl("future\\.callr::callr", line))
+  expect_equal(line, "future::plan(future.callr::callr)")
 })
 
 tar_test("use_targets() schedulers", {
