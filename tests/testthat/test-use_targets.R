@@ -13,6 +13,9 @@ tar_test("use_targets() overwrite", {
 })
 
 tar_test("use_targets() multicore", {
+  for (package in c("future", "future.callr", "future.batchtools")) {
+    skip_if_not_installed(package)
+  }
   script <- tar_config_get("script")
   use_targets(scheduler = "multicore", open = FALSE)
   expect_false(file.exists("clustermq.tmpl"))
@@ -24,6 +27,9 @@ tar_test("use_targets() multicore", {
 })
 
 tar_test("use_targets() multiprocess", {
+  for (package in c("future", "future.callr", "future.batchtools")) {
+    skip_if_not_installed(package)
+  }
   script <- tar_config_get("script")
   use_targets(scheduler = "multiprocess", open = FALSE)
   expect_false(file.exists("clustermq.tmpl"))
@@ -35,6 +41,9 @@ tar_test("use_targets() multiprocess", {
 })
 
 tar_test("use_targets() schedulers", {
+  for (package in c("future", "future.callr", "future.batchtools")) {
+    skip_if_not_installed(package)
+  }
   script <- tar_config_get("script")
   for (scheduler in c("slurm", "sge", "lsf", "pbs", "torque")) {
     unlink("*.tmpl")
