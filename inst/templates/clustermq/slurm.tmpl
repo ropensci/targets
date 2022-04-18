@@ -1,0 +1,13 @@
+# Modified from https://github.com/mschubert/clustermq/blob/master/inst/SLURM.tmpl
+# under the Apache 2.0 license.
+#!/bin/sh
+#SBATCH --job-name={{ job_name }}
+#SBATCH --output={{ log_file | /dev/null }}
+#SBATCH --error={{ log_file | /dev/null }}
+#SBATCH --mem-per-cpu={{ memory | 4096 }}
+#SBATCH --array=1-{{ n_jobs }}
+#SBATCH --cpus-per-task={{ cores | 1 }}
+
+module load R # Comment out if there is no R environment module.
+ulimit -v $(( 1024 * {{ memory | 4096 }} ))
+CMQ_AUTH={{ auth }} R --no-save --no-restore -e 'clustermq:::worker("{{ master }}")'

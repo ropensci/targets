@@ -1,0 +1,21 @@
+# Modified from https://github.com/mschubert/clustermq/blob/master/inst/PBS.tmpl
+# under the Apache 2.0 license.
+
+#PBS -N {{ job_name }}
+#PBS -J 1-{{ n_jobs }}
+#PBS -l nodes=1:ppn={{ cores | 1 }}:mem={{ memory | 4096 }}MB
+# ppn=P is equivalent to ncpus=P:mpiprocs=P
+# "New" syntax: #PBS -l select=1:ncpus={{ cores | 1 }}:mpiprocs={{ cores | 1 }}:mem={{ memory | 4096 }}MB
+
+#PBS -l walltime={{ walltime | 12:00:00 }}
+#PBS -o {{ log_file | /dev/null }}
+#PBS -j oe
+
+# Comment out if R is not an environement module:
+module load R
+
+# Uncomment to set the working directory
+# cd {{ workdir | "$PBS_O_WORKDIR" }}
+
+ulimit -v $(( 1024 * {{ memory | 4096 }} ))
+CMQ_AUTH={{ auth }} R --no-save --no-restore -e 'clustermq:::worker("{{ master }}")'

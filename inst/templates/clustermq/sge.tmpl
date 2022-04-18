@@ -1,0 +1,13 @@
+# Modified from https://github.com/mschubert/clustermq/blob/master/inst/SGE.tmpl
+# under the Apache 2.0 license.
+#$ -N {{ job_name }}             # Name of the job. You can add custom prefixes.
+#$ -j y                          # Merge stdout and stderr into one stream for the log files.
+#$ -o {{ log_file | /dev/null }} # Log file or directory of log files.
+#$ -cwd                          # Working directory agrees with that of the launching process.
+#$ -V                            # Use environment variables.
+#$ -t 1-{{ n_jobs }}             # Job array
+#$ -pe smp {{ cores | 1 }}       # Control the number of local crores per worker.
+
+module load R                    # Comment out if there is no R environment module.
+ulimit -v $(( 1024 * {{ memory | 4096 }} ))
+CMQ_AUTH={{ auth }} R --no-save --no-restore -e 'clustermq:::worker("{{ master }}")'

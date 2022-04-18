@@ -22,8 +22,9 @@ reference:
 - title: Help
   contents:
   - '`targets-package`'
-  - '`tar_reprex`'
   - '`use_targets`'
+  - '`use_targets_rmd`'
+  - '`tar_reprex`'
 - title: Scripts
   contents:
   - '`tar_edit`'

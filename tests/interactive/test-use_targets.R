@@ -1,3 +1,6 @@
-use_targets(path = "_targets.Rmd", open = FALSE)
-expect_true(file.exists("_targets.Rmd"))
-unlink("_targets.Rmd")
+use_targets(open = FALSE) # Should not open the file.
+use_targets(open = TRUE) # Should open the file for editing.
+expect_true(file.exists("_targets.R"))
+unlink("_targets.R")
+unlink("*.tmpl")
+unlink("run*")

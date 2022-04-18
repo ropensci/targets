@@ -23,21 +23,17 @@ knitr::opts_chunk$set(
 [![codecov](https://codecov.io/gh/ropensci/targets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://app.codecov.io/gh/ropensci/targets)
 [![lint](https://github.com/ropensci/targets/workflows/lint/badge.svg)](https://github.com/ropensci/targets/actions?query=workflow%3Alint)
 
-The `targets` package is a [Make](https://www.gnu.org/software/make/)-like pipeline toolkit for Statistics and data science in R. With `targets`, you can maintain a reproducible workflow without repeating yourself. `targets` skips costly runtime for tasks that are already up to date, runs the necessary computation with implicit parallel computing, and abstracts files as R objects. A fully up-to-date `targets` pipeline is tangible evidence that the output aligns with the code and data, which substantiates trust in the results.
+The `targets` package is a [Make](https://www.gnu.org/software/make/)-like pipeline tool for statistics and data science in R. With `targets`, you can maintain a reproducible workflow without repeating yourself. `targets` skips costly runtime for tasks that are already up to date, orchestrates the necessary computation with implicit parallel computing, and abstracts files as R objects. An up-to-date `targets` pipeline is tangible evidence that the output aligns with the code and data, which substantiates trust in the results.
+
+## Philosophy
+
+A pipeline is a computational workflow that does statistics, analytics, or data science. Examples include forecasting customer behavior, simulating a clinical trial, and detecting differential expression from genomics data. A pipeline contains tasks to prepare datasets, run models, and summarize results for a business deliverable or research paper. The methods behind these tasks are user-defined R functions that live in R scripts, ideally in a folder called `"R/"` in the project. The tasks themselves are called "targets", and they run the functions and return R objects. The `targets` package orchestrates the targets and stores the output objects to make your pipeline efficient, painless, and reproducible.
 
 ## Prerequisites
 
 1. Familiarity with the [R programming language](https://www.r-project.org/), covered in [R for Data Science](https://r4ds.had.co.nz/).
 1. [Data science workflow management techniques](https://rstats.wtf/index.html).
-1. [How to write functions](https://r4ds.had.co.nz/functions.html) to prepare data, analyze data, and summarize results in data analysis projects.
-
-## How to get started
-
-1. Watch minutes 6 through 40 of the [New York Open Statistical Programming Meetup from December 2020](https://youtu.be/Gqn7Xn4d5NI).
-1. Read the [short walkthrough chapter](https://books.ropensci.org/targets/walkthrough.html) of the [user manual](https://books.ropensci.org/targets/).
-1. Sign up for a free [RStudio Cloud](https://rstudio.cloud) account and [click here](https://rstudio.cloud/project/1430691) to open the [walkthrough](https://books.ropensci.org/targets/walkthrough.html) code. Experiment with functions [`tar_make()`](https://docs.ropensci.org/targets/reference/tar_make.html) and [`tar_read()`](https://docs.ropensci.org/targets/reference/tar_read.html).
-1. Log into the [cloud workspace](https://rstudio.cloud/project/1699460) of the [official `targets` short course](https://github.com/wlandau/targets-tutorial/blob/main/README.md). Work through the exercises in R notebooks [`1-functions.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/1-functions.Rmd), [`2-pipelines.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/2-pipelines.Rmd), and [`3-changes.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/3-changes.Rmd).
-1. Try out one of the other [example projects](https://docs.ropensci.org/targets/index.html#example-projects) linked from the [reference website](https://docs.ropensci.org/targets/index.html#example-projects).
+1. [How to write functions](https://r4ds.had.co.nz/functions.html) to prepare data, analyze data, and summarize results in a data analysis project.
 
 ## Installation
 
@@ -46,6 +42,37 @@ Type | Source | Command
 Release | CRAN | `install.packages("targets")`
 Development | GitHub | `remotes::install_github("ropensci/targets")`
 Development | rOpenSci | `install.packages("targets", repos = "https://dev.ropensci.org")`
+
+## Usage
+
+For the full picture, read [the short walkthrough](https://books.ropensci.org/targets/walkthrough.html). To create a pipeline of your own,
+
+1. [Write R functions](https://books.ropensci.org/targets/functions.html) for a pipeline and save them to R scripts (ideally in the `"R/"` folder of your project).
+1. Call [`use_targets()`](https://docs.ropensci.org/targets/reference/use_targets.html) to write key files, including the vital `_targets.R` file which configures and defines the pipeline.
+1. Follow the comments in `_targets.R` to fill in the details of your specific pipeline.
+1. Check the pipeline with [`tar_visnetwork()`](https://docs.ropensci.org/targets/reference/tar_visnetwork.html), run it with [`tar_make()`](https://docs.ropensci.org/targets/reference/tar_make.html), and read output with [`tar_read()`](https://docs.ropensci.org/targets/reference/tar_read.html). [More functions](https://docs.ropensci.org/targets/reference/index.html) are available.
+
+## Documentation
+
+* [User manual](https://books.ropensci.org/targets/): in-depth discussion about how to use `targets`.
+* [Reference website](https://docs.ropensci.org/targets/): formal documentation of all user-side functions, the statement of need, and multiple design documents of the internal architecture.
+* [Developer documentation](https://books.ropensci.org/targets-design/): software design documents for developers contributing to the deep internal architecture of `targets`.
+
+## Courses
+
+* [Official half-day interactive tutorial](https://github.com/wlandau/targets-tutorial).
+
+## Learn in under an hour
+
+1. Watch minutes 6 through 40 of the [New York Open Statistical Programming Meetup from December 2020](https://youtu.be/Gqn7Xn4d5NI).
+1. Read the [short walkthrough chapter](https://books.ropensci.org/targets/walkthrough.html) of the [user manual](https://books.ropensci.org/targets/).
+1. Sign up for a free [RStudio Cloud](https://rstudio.cloud) account and [click here](https://rstudio.cloud/project/1430691) to open the [walkthrough](https://books.ropensci.org/targets/walkthrough.html) code. Experiment with functions [`tar_visnetwork()`](https://docs.ropensci.org/targets/reference/tar_visnetwork.html),  [`tar_make()`](https://docs.ropensci.org/targets/reference/tar_make.html) and [`tar_read()`](https://docs.ropensci.org/targets/reference/tar_read.html).
+
+## Learn more
+
+1. Log into the [cloud workspace](https://rstudio.cloud/project/1699460) of the [official `targets` short course](https://github.com/wlandau/targets-tutorial/blob/main/README.md). Work through the exercises in R notebooks [`1-functions.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/1-functions.Rmd), [`2-pipelines.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/2-pipelines.Rmd), and [`3-changes.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/3-changes.Rmd).
+1. Try out one of the other [example projects](https://docs.ropensci.org/targets/index.html#example-projects) linked from the [reference website](https://docs.ropensci.org/targets/index.html#example-projects).
+1. Read the rest of [the user manual](https://books.ropensci.org/targets/) to learn advanced techniques for computationally intense pipelines.
 
 ## Recorded talks
 
@@ -61,16 +88,6 @@ Development | rOpenSci | `install.packages("targets", repos = "https://dev.ropen
 ### Español
 
 * [R-Ladies Barcelona, 2021-05-25 (1:25:12)](https://www.youtube.com/watch?v=Vj312AfdpBo).
-
-## Documentation
-
-* [User manual](https://books.ropensci.org/targets/): in-depth discussion about how to use `targets`.
-* [Reference website](https://docs.ropensci.org/targets/): formal documentation of all user-side functions, the statement of need, and multiple design documents of the internal architecture.
-* [Developer documentation](https://books.ropensci.org/targets-design/): software design documents for developers contributing to the deep internal architecture of `targets`.
-
-## Courses
-
-* [Official half-day interactive tutorial](https://github.com/wlandau/targets-tutorial).
 
 ## Example projects
 

@@ -9,7 +9,12 @@
 * `data.table::fread()` with encoding equal to `getOption("encoding")` if available (#814, @svraka). Only works with UTF-8 and latin1 because that is what `data.table` supports.
 * Force add files in GitHub Actions workflow job (#815, @tarensanders).
 
-# Enhancements
+## New features
+
+* `use_targets()` now writes a `_targets.R` file tailored to the project in the current working directory (#639, @noamross).
+* Move the old `use_targets()` to `use_targets_rmd()`.
+
+## Enhancements
 
 * Load packages when loading data for downstream targets in the pipeline (#713).
 * Handle edge case when `getOption("OutDec")` is not `"."` to prevent time stamps from being corrupted (#433, @jarauh).

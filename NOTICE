@@ -1,5 +1,6 @@
 The targets package includes components from other open source R packages. The packages and authors are listed below, with their licenses are mentioned parenthetically. A full copy of each unique license agreement is also included in this file.
 
+- clustermq, by Michael Schubert (Apache-2.0)
 - paws, by David Kretch, Adam Banker, and Amazon.com. Inc. (Apache-2.0).
 
 
