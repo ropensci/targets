@@ -77,8 +77,16 @@ use_targets <- function(
   path <- file.path("pipelines", "use_targets.R")
   path <- system.file(path, package = "targets", mustWork = TRUE)
   lines <- readLines(path)
-  lines[lines == "CLUSTERMQ"] <- use_targets_clustermq(scheduler, overwrite)
-  lines[lines == "FUTURE"] <- use_targets_future(scheduler, overwrite)
+  lines <- gsub(
+    pattern = "^CLUSTERMQ$",
+    replacement = use_targets_clustermq(scheduler, overwrite),
+    x = lines
+  )
+  lines <- gsub(
+    pattern = "^FUTURE$",
+    replacement = use_targets_future(scheduler, overwrite),
+    x = lines
+  )
   temp <- tempfile()
   on.exit(unlink(temp), add = TRUE)
   writeLines(lines, temp)
