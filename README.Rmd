@@ -23,22 +23,27 @@ knitr::opts_chunk$set(
 [![codecov](https://codecov.io/gh/ropensci/targets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://app.codecov.io/gh/ropensci/targets)
 [![lint](https://github.com/ropensci/targets/workflows/lint/badge.svg)](https://github.com/ropensci/targets/actions?query=workflow%3Alint)
 
-The `targets` package is a [Make](https://www.gnu.org/software/make/)-like pipeline toolkit for Statistics and data science in R. With `targets`, you can maintain a reproducible workflow without repeating yourself. `targets` skips costly runtime for tasks that are already up to date, runs the necessary computation with implicit parallel computing, and abstracts files as R objects. A fully up-to-date `targets` pipeline is tangible evidence that the output aligns with the code and data, which substantiates trust in the results.
+The `targets` package is a [Make](https://www.gnu.org/software/make/)-like pipeline tool for statistics and data science in R. With `targets`, you can maintain a reproducible workflow without repeating yourself. `targets` skips costly runtime for tasks that are already up to date, orchestrates the necessary computation with implicit parallel computing, and abstracts files as R objects. An up-to-date `targets` pipeline is tangible evidence that the output aligns with the code and data, which substantiates trust in the results.
 
 ## Prerequisites
 
 1. Familiarity with the [R programming language](https://www.r-project.org/), covered in [R for Data Science](https://r4ds.had.co.nz/).
 1. [Data science workflow management techniques](https://rstats.wtf/index.html).
-1. [How to write functions](https://r4ds.had.co.nz/functions.html) to prepare data, analyze data, and summarize results in data analysis projects.
+1. [How to write functions](https://r4ds.had.co.nz/functions.html) to prepare data, analyze data, and summarize results in a data analysis project.
 
-## How it works
+## Pipelines
 
-A data analysis pipeline is a computational workflow that does statistics or data science. Examples include forecasting customer behavior, simulating a clinical trial, and detecting differential expression from genomics data. A typical pipeline includes several tasks to prepare datasets, run models, and summarize results.
+A pipeline is a computational workflow that does statistics, analytics, or data science. Examples include forecasting customer behavior, simulating a clinical trial, and detecting differential expression from genomics data. A pipeline contains tasks to prepare datasets, run models, and summarize results for a business deliverable or research paper. The methods behind these tasks are user-defined R functions that live in R scripts, typically in a folder called `"R/"` at the project root. The tasks themselves are called "targets", and they run the functions and return R objects. The `targets` package orchestrates the targets and stores the objects to make your pipeline efficient, convenient, and reproducible.
+
+## Get started
+
+1. Write R functions for a pipeline as described above.
+1. Call [`use_targets()`]()
 
 1. Write a data analysis project using custom R functions. R functions 
 1. Write custom R functions for methods such as create datasets, run models, and summarize output.
 
-## Get started in under an hour
+## Learn more
 
 1. Watch minutes 6 through 40 of the [New York Open Statistical Programming Meetup from December 2020](https://youtu.be/Gqn7Xn4d5NI).
 1. Read the [short walkthrough chapter](https://books.ropensci.org/targets/walkthrough.html) of the [user manual](https://books.ropensci.org/targets/).
