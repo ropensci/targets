@@ -74,51 +74,17 @@ use_targets <- function(
   tar_assert_chr(script)
   tar_assert_nzchar(script)
   tar_assert_in(scheduler, schedulers)
-  lines <- c(
-    "# Follow the comments below to fill in this target script.",
-    "# Then follow the manual to check and run the pipeline:",
-    "#   https://books.ropensci.org/targets/walkthrough.html#inspect-the-pipeline", # nolint
-    "",
-    "# Load packages required to define the pipeline:",
-    "library(targets)",
-    "# library(tarchetypes) # Load other packages as needed.", # nolint
-    "",
-    "# Set target options:",
-    "tar_option_set(",
-    "  packages = c(\"tibble\"), # packages that your targets need to run",
-    "  format = \"rds\" # default storage format",
-    "  # Set other options as needed.",
-    ")",
-    "",
-    "# Configure the backend of tar_make_clustermq() (recommended):",
-    use_targets_clustermq(scheduler, overwrite),
-    "",
-    "# Configure the backend of tar_make_future() (optional):",
-    use_targets_future(scheduler, overwrite),
-    "",
-    "# Load the R scripts with your custom functions:",
-    "for (file in list.files(\"R\", full.names = TRUE)) source(file)",
-    "# source(\"other_functions.R\") # Source other scripts as needed.",
-    "",
-    "# Replace the target list below with your own:",
-    "list(",
-    "  tar_target(",
-    "    name = data,",
-    "    command = tibble(x = rnorm(100), y = rnorm(100))",
-    "#   format = \"feather\" # efficient storage of large data frames", # nolint
-    "  ),",
-    "  tar_target(",
-    "    name = model,",
-    "    command = coefficients(lm(y ~ x, data = data))",
-    "  )",
-    ")"
-  )
+  path <- file.path("pipelines", "use_targets.R")
+  path <- system.file(path, package = "targets", mustWork = TRUE)
+  lines <- readLines(path)
+  lines[lines == "CLUSTERMQ"] <- use_targets_clustermq(scheduler, overwrite)
+  lines[lines == "FUTURE"] <- use_targets_future(scheduler, overwrite)
   temp <- tempfile()
   on.exit(unlink(temp), add = TRUE)
   writeLines(lines, temp)
   use_targets_copy(from = temp, to = script, overwrite = overwrite)
   for (file in c("run.R", "run.sh")) {
-    path <- file.path("templates", "run", file)
+    path <- file.path("run", file)
     path <- system.file(path, package = "targets", mustWork = TRUE)
     use_targets_copy(from = path, to = file, overwrite = overwrite)
   }
@@ -163,15 +129,15 @@ use_targets_scheduler <- function() {
 }
 
 use_targets_clustermq <- function(scheduler, overwrite) {
-  line <- sprintf("options(clustermq.scheduler = \"%s\")", scheduler)
+  lines <- sprintf("options(clustermq.scheduler = \"%s\")", scheduler)
   if (!scheduler %in% c("multiprocess", "multicore")) {
-    line <- c(line, "options(clustermq.template = \"clustermq.tmpl\")")
+    lines <- c(lines, "options(clustermq.template = \"clustermq.tmpl\")")
     file <- paste0(scheduler, ".tmpl")
     path <- file.path("templates", "clustermq", file)
     path <- system.file(path, package = "targets", mustWork = TRUE)
     use_targets_copy(from = path, to = "clustermq.tmpl", overwrite = overwrite)
   }
-  line
+  paste(lines, collapse = "\n")
 }
 
 use_targets_future <- function(scheduler, overwrite) {
@@ -188,7 +154,7 @@ use_targets_future <- function(scheduler, overwrite) {
       "to allow use_targets() to configure tar_make_future() options."
     )
     cli_red_x(msg)
-    return(character(0))
+    return(paste("#", msg))
     # nocov end
   }
   if (scheduler %in% c("multiprocess", "multicore")) {
@@ -212,7 +178,7 @@ use_targets_future <- function(scheduler, overwrite) {
     path <- system.file(path, package = "batchtools", mustWork = TRUE)
     use_targets_copy(from = path, to = "future.tmpl", overwrite = overwrite)
   }
-  line
+  paste(line, collapse = "\n")
 }
 
 use_targets_copy <- function(from, to, overwrite) {
