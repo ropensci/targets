@@ -31,13 +31,21 @@ The `targets` package is a [Make](https://www.gnu.org/software/make/)-like pipel
 1. [Data science workflow management techniques](https://rstats.wtf/index.html).
 1. [How to write functions](https://r4ds.had.co.nz/functions.html) to prepare data, analyze data, and summarize results in data analysis projects.
 
-## How to get started
+## How it works
+
+1. Create a data analysis project with custom R functions to create datasets, run models, and summarize output.
+
+## Get started in under an hour
 
 1. Watch minutes 6 through 40 of the [New York Open Statistical Programming Meetup from December 2020](https://youtu.be/Gqn7Xn4d5NI).
 1. Read the [short walkthrough chapter](https://books.ropensci.org/targets/walkthrough.html) of the [user manual](https://books.ropensci.org/targets/).
-1. Sign up for a free [RStudio Cloud](https://rstudio.cloud) account and [click here](https://rstudio.cloud/project/1430691) to open the [walkthrough](https://books.ropensci.org/targets/walkthrough.html) code. Experiment with functions [`tar_make()`](https://docs.ropensci.org/targets/reference/tar_make.html) and [`tar_read()`](https://docs.ropensci.org/targets/reference/tar_read.html).
+1. Sign up for a free [RStudio Cloud](https://rstudio.cloud) account and [click here](https://rstudio.cloud/project/1430691) to open the [walkthrough](https://books.ropensci.org/targets/walkthrough.html) code. Experiment with functions [`tar_visnetwork()`](https://docs.ropensci.org/targets/reference/tar_visnetwork.html),  [`tar_make()`](https://docs.ropensci.org/targets/reference/tar_make.html) and [`tar_read()`](https://docs.ropensci.org/targets/reference/tar_read.html).
+
+## Learn in depth
+
 1. Log into the [cloud workspace](https://rstudio.cloud/project/1699460) of the [official `targets` short course](https://github.com/wlandau/targets-tutorial/blob/main/README.md). Work through the exercises in R notebooks [`1-functions.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/1-functions.Rmd), [`2-pipelines.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/2-pipelines.Rmd), and [`3-changes.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/3-changes.Rmd).
 1. Try out one of the other [example projects](https://docs.ropensci.org/targets/index.html#example-projects) linked from the [reference website](https://docs.ropensci.org/targets/index.html#example-projects).
+1. Read the rest of [the user manual](https://books.ropensci.org/targets/) to 
 
 ## Installation
 
