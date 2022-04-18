@@ -21,7 +21,7 @@ FUTURE
 
 # Load the R scripts with your custom functions:
 for (file in list.files("R", full.names = TRUE)) source(file)
-# source("other_functions.R") # Source other scripts as needed.
+# source("other_functions.R") # Source other scripts as needed. # nolint
 
 # Replace the target list below with your own:
 list(
