@@ -159,7 +159,7 @@ use_targets_scheduler <- function() {
     "multiprocess",
     "multicore"
   )
-  if_any(exists, schedulers[min(which(exists))], local)
+  if_any(exists, names(schedulers)[min(which(exists))], local)
 }
 
 use_targets_clustermq <- function(scheduler, overwrite) {
