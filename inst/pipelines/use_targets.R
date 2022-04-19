@@ -1,3 +1,4 @@
+# Created by use_targets().
 # Follow the comments below to fill in this target script.
 # Then follow the manual to check and run the pipeline:
 #   https://books.ropensci.org/targets/walkthrough.html#inspect-the-pipeline # nolint
@@ -13,10 +14,10 @@ tar_option_set(
   # Set other options as needed.
 )
 
-# Configure the backend of tar_make_clustermq() (recommended):
+# tar_make_clustermq() configuration (okay to leave alone):
 CLUSTERMQ
 
-# Configure the backend of tar_make_future() (optional):
+# tar_make_future() configuration (okay to leave alone):
 FUTURE
 
 # Load the R scripts with your custom functions:
