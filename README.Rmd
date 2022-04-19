@@ -43,9 +43,15 @@ Release | CRAN | `install.packages("targets")`
 Development | GitHub | `remotes::install_github("ropensci/targets")`
 Development | rOpenSci | `install.packages("targets", repos = "https://dev.ropensci.org")`
 
+## Get started in 4 minutes
+
+The following 4-minute video demonstrates the example pipeline used in the [walkthrough](https://books.ropensci.org/targets/walkthrough.html) and [functions](https://books.ropensci.org/targets/functions.html) chapters of the [user manual](https://books.ropensci.org/targets/).
+
+[![](./man/figures/video.png)](https://vimeo.com/700982360)
+
 ## Usage
 
-For the full picture, read [the short walkthrough](https://books.ropensci.org/targets/walkthrough.html). To create a pipeline of your own,
+To create a pipeline of your own:
 
 1. [Write R functions](https://books.ropensci.org/targets/functions.html) for a pipeline and save them to R scripts (ideally in the `"R/"` folder of your project).
 1. Call [`use_targets()`](https://docs.ropensci.org/targets/reference/use_targets.html) to write key files, including the vital `_targets.R` file which configures and defines the pipeline.
@@ -62,22 +68,11 @@ For the full picture, read [the short walkthrough](https://books.ropensci.org/ta
 
 * [Official half-day interactive tutorial](https://github.com/wlandau/targets-tutorial).
 
-## Learn in under an hour
-
-1. Watch minutes 6 through 40 of the [New York Open Statistical Programming Meetup from December 2020](https://youtu.be/Gqn7Xn4d5NI).
-1. Read the [short walkthrough chapter](https://books.ropensci.org/targets/walkthrough.html) of the [user manual](https://books.ropensci.org/targets/).
-1. Sign up for a free [RStudio Cloud](https://rstudio.cloud) account and [click here](https://rstudio.cloud/project/1430691) to open the [walkthrough](https://books.ropensci.org/targets/walkthrough.html) code. Experiment with functions [`tar_visnetwork()`](https://docs.ropensci.org/targets/reference/tar_visnetwork.html),  [`tar_make()`](https://docs.ropensci.org/targets/reference/tar_make.html) and [`tar_read()`](https://docs.ropensci.org/targets/reference/tar_read.html).
-
-## Learn more
-
-1. Log into the [cloud workspace](https://rstudio.cloud/project/1699460) of the [official `targets` short course](https://github.com/wlandau/targets-tutorial/blob/main/README.md). Work through the exercises in R notebooks [`1-functions.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/1-functions.Rmd), [`2-pipelines.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/2-pipelines.Rmd), and [`3-changes.Rmd`](https://github.com/wlandau/targets-tutorial/blob/main/3-changes.Rmd).
-1. Try out one of the other [example projects](https://docs.ropensci.org/targets/index.html#example-projects) linked from the [reference website](https://docs.ropensci.org/targets/index.html#example-projects).
-1. Read the rest of [the user manual](https://books.ropensci.org/targets/) to learn advanced techniques for computationally intense pipelines.
-
 ## Recorded talks
 
 ### English
 
+* [Get started with `targets` in 4 minutes (4:08)](https://vimeo.com/700982360)
 * [R/Medicine 2021 (15.33)](https://youtu.be/HJI5mQJRGpY)
 * [R/Pharma 2020 (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
 * [LA R Users Meetup, October 2020 (1:14:40)](https://www.youtube.com/watch?v=Qq25BUxpJu4)
@@ -91,14 +86,12 @@ For the full picture, read [the short walkthrough](https://books.ropensci.org/ta
 
 ## Example projects
 
-Description | Link
----|---
-Minimal example | <https://github.com/wlandau/targets-minimal>
-Machine learning with Keras | <https://github.com/wlandau/targets-keras>
-Validating a minimal Stan model | <https://github.com/wlandau/targets-stan>
-Using Target Markdown and `stantargets` to validate a Bayesian longitudinal model for clinical trial data analysis | <https://github.com/wlandau/rmedicine2021-pipeline>
-Shiny app that runs a pipeline | <https://github.com/wlandau/targets-shiny>
-Deploying a pipeline to RStudio Connect | <https://github.com/sol-eng/targets-deployment-rsc>
+* [Minimal example](https://github.com/wlandau/targets-minimal)
+* [Machine learning with Keras](https://github.com/wlandau/targets-keras)
+* [Validate a minimal Stan model](https://github.com/wlandau/targets-stan)
+* [Using Target Markdown and `stantargets` to validate a Bayesian longitudinal model for clinical trial data analysis](https://github.com/wlandau/rmedicine2021-pipeline)
+* [Shiny app that runs a pipeline](https://github.com/wlandau/targets-shiny)
+* [Deploy a pipeline to RStudio Connect](https://github.com/sol-eng/targets-deployment-rsc)
 
 ## Apps
 
