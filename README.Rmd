@@ -45,7 +45,7 @@ Development | rOpenSci | `install.packages("targets", repos = "https://dev.ropen
 
 ## Get started in 4 minutes
 
-The following 4-minute video demonstrates the example pipeline used in the [walkthrough](https://books.ropensci.org/targets/walkthrough.html) and [functions](https://books.ropensci.org/targets/functions.html) chapters of the [user manual](https://books.ropensci.org/targets/).
+The 4-minute video at <https://vimeo.com/700982360> demonstrates the example pipeline used in the [walkthrough](https://books.ropensci.org/targets/walkthrough.html) and [functions](https://books.ropensci.org/targets/functions.html) chapters of the [user manual](https://books.ropensci.org/targets/). Visit <https://github.com/wlandau/targets-four-minutes> for the code and <https://rstudio.cloud/project/3946303> to try out the code in a browser (no download or installation required).
 
 [![](./man/figures/video.png)](https://vimeo.com/700982360)
 
@@ -86,6 +86,7 @@ To create a pipeline of your own:
 
 ## Example projects
 
+* [Four-minute example](https://github.com/wlandau/targets-four-minutes)
 * [Minimal example](https://github.com/wlandau/targets-minimal)
 * [Machine learning with Keras](https://github.com/wlandau/targets-keras)
 * [Validate a minimal Stan model](https://github.com/wlandau/targets-stan)
