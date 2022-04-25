@@ -26,7 +26,8 @@ tar_message_run <- function(...) {
 tar_throw_cancel <- function(...) {
   rlang::abort(
     message = paste0(...),
-    class = c("tar_condition_cancel", "tar_condition_targets")
+    class = c("tar_condition_cancel", "tar_condition_targets"),
+    .frame = tar_empty_envir
   )
 }
 
@@ -35,14 +36,16 @@ tar_throw_cancel <- function(...) {
 tar_throw_file <- function(...) {
   rlang::abort(
     message = paste0(...),
-    class = c("tar_condition_file", "tar_condition_targets")
+    class = c("tar_condition_file", "tar_condition_targets"),
+    .frame = tar_empty_envir
   )
 }
 
 tar_throw_prelocal <- function(...) {
   rlang::abort(
     message = paste0(...),
-    class = c("tar_condition_prelocal", "tar_condition_targets")
+    class = c("tar_condition_prelocal", "tar_condition_targets"),
+    .frame = tar_empty_envir
   )
 }
 
@@ -51,7 +54,8 @@ tar_throw_prelocal <- function(...) {
 tar_throw_run <- function(...) {
   rlang::abort(
     message = paste0(...),
-    class = c("tar_condition_run", "tar_condition_targets")
+    class = c("tar_condition_run", "tar_condition_targets"),
+    .frame = tar_empty_envir
   )
 }
 
@@ -60,7 +64,8 @@ tar_throw_run <- function(...) {
 tar_throw_validate <- function(...) {
   rlang::abort(
     message = paste0(...),
-    class = c("tar_condition_validate", "tar_condition_targets")
+    class = c("tar_condition_validate", "tar_condition_targets"),
+    .frame = tar_empty_envir
   )
 }
 
