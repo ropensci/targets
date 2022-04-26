@@ -1,6 +1,7 @@
 # targets 0.12.0.9000
 
-
+* Use lapply() to source scripts in `use_targets()`. Avoids defining a global variable for the file.
+* Recursively find scripts to source in the `use_targets()` `_targets.R` file.
 
 # targets 0.12.0
 
