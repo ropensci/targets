@@ -21,7 +21,7 @@ CLUSTERMQ
 FUTURE
 
 # Load the R scripts with your custom functions:
-for (file in list.files("R", full.names = TRUE, recursive = TRUE)) source(file)
+lapply(list.files("R", full.names = TRUE, recursive = TRUE), source)
 # source("other_functions.R") # Source other scripts as needed. # nolint
 
 # Replace the target list below with your own:
