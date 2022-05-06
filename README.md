@@ -130,7 +130,7 @@ To create a pipeline of your own:
 ### Español
 
 -   [R-Ladies Barcelona, 2021-05-25
-    (1:25:12)](https://www.youtube.com/watch?v=Vj312AfdpBo).
+    (1:25:12)](https://www.youtube.com/watch?v=Vj312AfdpBo)
 
 ### 日本語
 
