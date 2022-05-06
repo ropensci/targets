@@ -6,8 +6,9 @@
 #$ -cwd                          # Working directory agrees with that of the launching process.
 #$ -V                            # Use environment variables.
 #$ -t 1-{{ n_jobs }}             # Job array
-#$ -pe smp {{ cores | 1 }}       # Control the number of local crores per worker.
+# #$ -pe smp {{ cores | 1 }}     # Control the number of local crores per worker.
+# #$ -l m_mem_free=64G           # Request memory for the job
 
 module load R                    # Comment out if there is no R environment module.
-ulimit -v $(( 1024 * {{ memory | 4096 }} ))
+# ulimit -v $(( 1024 * {{ memory | 4096 }} ))
 CMQ_AUTH={{ auth }} R --no-save --no-restore -e 'clustermq:::worker("{{ master }}")'

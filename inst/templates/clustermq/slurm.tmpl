@@ -9,5 +9,5 @@
 #SBATCH --cpus-per-task={{ cores | 1 }}
 
 module load R # Comment out if there is no R environment module.
-ulimit -v $(( 1024 * {{ memory | 4096 }} ))
+# ulimit -v $(( 1024 * {{ memory | 4096 }} ))
 CMQ_AUTH={{ auth }} R --no-save --no-restore -e 'clustermq:::worker("{{ master }}")'
