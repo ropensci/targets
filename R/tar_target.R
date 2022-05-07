@@ -159,7 +159,7 @@
 #'   With the exception of `format = "file"`, each target
 #'   gets a file in `_targets/objects`, and each format is a different
 #'   way to save and load this file. See the "Storage formats" section
-#'   for a detailed list of possible data storage formats.
+#'   in [tar_target()] for a detailed list of possible data storage formats.
 #' @param error Character of length 1, what to do if the target
 #'   stops and throws an error. Options:
 #'   * `"stop"`: the whole pipeline stops and throws an error.

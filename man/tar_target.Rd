@@ -67,7 +67,7 @@ when loading \code{packages}.}
 With the exception of \code{format = "file"}, each target
 gets a file in \verb{_targets/objects}, and each format is a different
 way to save and load this file. See the "Storage formats" section
-for a detailed list of possible data storage formats.}
+in \code{\link[=tar_target]{tar_target()}} for a detailed list of possible data storage formats.}
 
 \item{repository}{Character of length 1, remote repository for target
 storage. Choices:
