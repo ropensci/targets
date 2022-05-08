@@ -280,6 +280,82 @@ To use \code{tar_option_set()} effectively, put it in your workflow's
 target script file (default: \verb{_targets.R})
 before calls to \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_target_raw]{tar_target_raw()}}.
 }
+\section{Storage formats}{
+
+\itemize{
+\item \code{"rds"}: Default, uses \code{saveRDS()} and \code{readRDS()}. Should work for
+most objects, but slow.
+\item \code{"qs"}: Uses \code{qs::qsave()} and \code{qs::qread()}. Should work for
+most objects, much faster than \code{"rds"}. Optionally set the
+preset for \code{qsave()} through \code{tar_resources()} and \code{tar_resources_qs()}.
+\item \code{"feather"}: Uses \code{arrow::write_feather()} and
+\code{arrow::read_feather()} (version 2.0). Much faster than \code{"rds"},
+but the value must be a data frame. Optionally set
+\code{compression} and \code{compression_level} in \code{arrow::write_feather()}
+through \code{tar_resources()} and \code{tar_resources_feather()}.
+Requires the \code{arrow} package (not installed by default).
+\item \code{"parquet"}: Uses \code{arrow::write_parquet()} and
+\code{arrow::read_parquet()} (version 2.0). Much faster than \code{"rds"},
+but the value must be a data frame. Optionally set
+\code{compression} and \code{compression_level} in \code{arrow::write_parquet()}
+through \code{tar_resources()} and \code{tar_resources_parquet()}.
+Requires the \code{arrow} package (not installed by default).
+\item \code{"fst"}: Uses \code{fst::write_fst()} and \code{fst::read_fst()}.
+Much faster than \code{"rds"}, but the value must be
+a data frame. Optionally set the compression level for
+\code{fst::write_fst()} through \code{tar_resources()} and \code{tar_resources_fst()}.
+Requires the \code{fst} package (not installed by default).
+\item \code{"fst_dt"}: Same as \code{"fst"}, but the value is a \code{data.table}.
+Optionally set the compression level the same way as for \code{"fst"}.
+\item \code{"fst_tbl"}: Same as \code{"fst"}, but the value is a \code{tibble}.
+Optionally set the compression level the same way as for \code{"fst"}.
+\item \code{"keras"}: Uses \code{keras::save_model_hdf5()} and
+\code{keras::load_model_hdf5()}. The value must be a Keras model.
+Requires the \code{keras} package (not installed by default).
+\item \code{"torch"}: Uses \code{torch::torch_save()} and \code{torch::torch_load()}.
+The value must be an object from the \code{torch} package
+such as a tensor or neural network module.
+Requires the \code{torch} package (not installed by default).
+\item \code{"file"}: A dynamic file. To use this format,
+the target needs to manually identify or save some data
+and return a character vector of paths
+to the data. (These paths must be existing files
+and nonempty directories.)
+Then, \code{targets} automatically checks those files and cues
+the appropriate build decisions if those files are out of date.
+Those paths must point to files or directories,
+and they must not contain characters \code{|} or \code{*}.
+All the files and directories you return must actually exist,
+or else \code{targets} will throw an error. (And if \code{storage} is \code{"worker"},
+\code{targets} will first stall out trying to wait for the file
+to arrive over a network file system.)
+If the target does not create any files, the return value should be
+\code{character(0)}.
+\item \code{"url"}: A dynamic input URL. For this storage format,
+\code{repository} is implicitly \code{"local"},
+URL format is like \code{format = "file"}
+except the return value of the target is a URL that already exists
+and serves as input data for downstream targets. Optionally
+supply a custom \code{curl} handle through
+\code{tar_resources()} and \code{tar_resources_url()}.
+in \code{new_handle()}, \code{nobody = TRUE} is important because it
+ensures \code{targets} just downloads the metadata instead of
+the entire data file when it checks time stamps and hashes.
+The data file at the URL needs to have an ETag or a Last-Modified
+time stamp, or else the target will throw an error because
+it cannot track the data. Also, use extreme caution when
+trying to use \code{format = "url"} to track uploads. You must be absolutely
+certain the ETag and Last-Modified time stamp are fully updated
+and available by the time the target's command finishes running.
+\code{targets} makes no attempt to wait for the web server.
+\item A custom format can be supplied with \code{tar_format()}. For this choice,
+it is the user's responsibility to provide methods for (un)serialization
+and (un)marshaling the return value of the target.
+\item The formats starting with \code{"aws_"} are deprecated as of 2022-03-13
+(\verb{targets version > 0.10.0). For cloud storage integration, use the }repository` argument instead.
+}
+}
+
 \examples{
 tar_option_get("format") # default format before we set anything
 tar_target(x, 1)$settings$format
