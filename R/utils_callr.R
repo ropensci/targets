@@ -86,7 +86,7 @@ callr_inner <- function(
   targets::tar_option_set(envir = envir)
   targets::tar_runtime_object()$set_store(store)
   targets::tar_runtime_object()$set_fun(fun)
-  on.exit(tar_option_set(envir = old_envir))
+  on.exit(targets::tar_option_set(envir = old_envir))
   on.exit(targets::tar_runtime_object()$unset_store(), add = TRUE)
   on.exit(targets::tar_runtime_object()$unset_fun(), add = TRUE)
   withr::local_options(options)
