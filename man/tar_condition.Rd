@@ -9,6 +9,9 @@
 \alias{tar_warn_deprecate}
 \alias{tar_warn_run}
 \alias{tar_warn_validate}
+\alias{tar_error}
+\alias{tar_warning}
+\alias{tar_message}
 \title{Conditions}
 \usage{
 tar_message_run(...)
@@ -24,11 +27,21 @@ tar_warn_deprecate(...)
 tar_warn_run(...)
 
 tar_warn_validate(...)
+
+tar_error(message, class)
+
+tar_warning(message, class)
+
+tar_message(message, class)
 }
 \arguments{
 \item{...}{zero or more objects which can be coerced to character
     (and which are pasted together with no separator) or a single
     condition object.}
+
+\item{message}{Character of length 1, text of the message.}
+
+\item{class}{Character vector of S3 classes of the message.}
 }
 \description{
 These functions throw custom

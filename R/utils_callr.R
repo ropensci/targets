@@ -10,22 +10,29 @@ callr_outer <- function(
 ) {
   tar_assert_script(script)
   tryCatch(
-    callr_dispatch(
-      targets_function = targets_function,
-      targets_arguments = targets_arguments,
-      callr_function = callr_function,
-      callr_arguments = callr_arguments,
-      envir = envir,
-      script = script,
-      store = store,
-      fun = fun
+    withCallingHandlers(
+      callr_dispatch(
+        targets_function = targets_function,
+        targets_arguments = targets_arguments,
+        callr_function = callr_function,
+        callr_arguments = callr_arguments,
+        envir = envir,
+        script = script,
+        store = store,
+        fun = fun
+      ),
+      error = function(condition) {
+        cli_red_x("Problem running the pipeline.")
+        cli_alert_info(
+          "Show errors: tar_meta(fields = error, complete_only = TRUE)"
+        )
+        cli_alert_info(
+          "Learn more: https://books.ropensci.org/targets/debugging.html"
+        )
+      }
     ),
     callr_error = function(e) {
-      tar_throw_run(
-        conditionMessage(e),
-        "\nVisit https://books.ropensci.org/targets/debugging.html ",
-        "for debugging advice."
-      )
+      tar_throw_run("problem running the pipeline.")
     }
   )
 }

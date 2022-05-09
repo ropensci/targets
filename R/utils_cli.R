@@ -86,7 +86,7 @@ cli_errored <- function(errored) {
   tar_warn_run(
     errored,
     " targets produced errors. ",
-    "Run tar_meta(fields = error) for the messages."
+    "Run tar_meta(fields = error, complete_only = TRUE) for the messages."
   )
 }
 
@@ -94,7 +94,7 @@ cli_warned <- function(warned) {
   tar_warn_run(
     warned,
     " targets produced warnings. ",
-    "Run tar_meta(fields = warnings) for the messages."
+    "Run tar_meta(fields = warnings, complete_only = TRUE) for the messages."
   )
 }
 
