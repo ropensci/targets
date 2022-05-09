@@ -91,22 +91,22 @@ tar_warn_validate <- function(...) {
 #' @export
 #' @rdname tar_condition
 tar_error <- function(message, class) {
-  class <- c(class, "error", "condition")
-  stop(structure(list(message = message, call = NULL), class = class))
+  withr::local_options(list(rlang_backtrace_on_error = "none"))
+  rlang::abort(message = message, class = class, call = tar_empty_envir)
 }
 
 #' @export
 #' @rdname tar_condition
 tar_warning <- function(message, class) {
-  class <- c(class, "warning", "condition")
-  warning(structure(list(message = message, call = NULL), class = class))
+  withr::local_options(list(rlang_backtrace_on_error = "none"))
+  rlang::warn(message = message, class = class)
 }
 
 #' @export
 #' @rdname tar_condition
 tar_message <- function(message, class) {
-  class <- c(class, "message", "condition")
-  message(structure(list(message = message, call = NULL), class = class))
+  withr::local_options(list(rlang_backtrace_on_error = "none"))
+  rlang::inform(message = message, class = class)
 }
 
 as_immediate_condition <- function(x) {
