@@ -22,7 +22,7 @@ callr_outer <- function(
         fun = fun
       ),
       error = function(condition) {
-        cli_red_x("Problem running the pipeline.")
+        cli_red_x("Problem with the pipeline.")
         cli_alert_info(
           "Show errors: tar_meta(fields = error, complete_only = TRUE)"
         )
@@ -32,7 +32,7 @@ callr_outer <- function(
       }
     ),
     callr_error = function(e) {
-      tar_throw_run("problem running the pipeline.")
+      tar_throw_run("problem with the pipeline.")
     }
   )
 }
