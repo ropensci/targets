@@ -9,6 +9,7 @@
 #'   target script file (default: `_targets.R`)
 #'   before calls to [tar_target()] or [tar_target_raw()].
 #' @return `NULL` (invisibly).
+#' @inheritSection tar_target Storage formats
 #' @inheritParams tar_target
 #' @param imports Character vector of package names to track
 #'   global dependencies. For example, if you write

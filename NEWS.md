@@ -2,6 +2,7 @@
 
 * Use lapply() to source scripts in `use_targets()`. Avoids defining a global variable for the file.
 * Recursively find scripts to source in the `use_targets()` `_targets.R` file.
+* Refactor error printing.
 
 # targets 0.12.0
 

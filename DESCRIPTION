@@ -62,7 +62,7 @@ Imports:
   igraph (>= 1.2.5),
   knitr (>= 1.34),
   R6 (>= 2.4.1),
-  rlang (>= 0.4.10),
+  rlang (>= 1.0.0),
   stats,
   tibble (>= 3.0.1),
   tidyselect (>= 1.1.0),

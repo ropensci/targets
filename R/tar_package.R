@@ -23,8 +23,8 @@
 #'   V
 #' @importFrom knitr engine_output knit_engines
 #' @importFrom R6 R6Class
-#' @importFrom rlang abort as_function check_installed enquo inform
-#'   quo_squash warn
+#' @importFrom rlang abort as_function check_installed enquo inform quo_squash
+#'   warn
 #' @importFrom stats complete.cases runif
 #' @importFrom tibble as_tibble
 #' @importFrom tidyselect all_of any_of contains ends_with everything

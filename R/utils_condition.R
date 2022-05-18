@@ -5,74 +5,66 @@
 #'   `targets`-specific error conditions.
 #'   Useful for error handling in packages built on top of `targets`.
 #' @inheritParams base::stop
+#' @param message Character of length 1, text of the message.
+#' @param class Character vector of S3 classes of the message.
 #' @examples
 #' try(tar_throw_validate("something is not valid"))
 NULL
 
-as_immediate_condition <- function(x) {
-  x$call <- NULL
-  enclass(x, "immediateCondition")
-}
-
 #' @export
 #' @rdname tar_condition
 tar_message_run <- function(...) {
-  rlang::inform(
+  tar_message(
     message = paste0(...),
     class = c("tar_condition_run", "tar_condition_targets")
   )
 }
 
 tar_throw_cancel <- function(...) {
-  rlang::abort(
+  tar_error(
     message = paste0(...),
-    class = c("tar_condition_cancel", "tar_condition_targets"),
-    .frame = tar_empty_envir
+    class = c("tar_condition_cancel", "tar_condition_targets")
   )
 }
 
 #' @export
 #' @rdname tar_condition
 tar_throw_file <- function(...) {
-  rlang::abort(
+  tar_error(
     message = paste0(...),
-    class = c("tar_condition_file", "tar_condition_targets"),
-    .frame = tar_empty_envir
+    class = c("tar_condition_file", "tar_condition_targets")
   )
 }
 
 tar_throw_prelocal <- function(...) {
-  rlang::abort(
+  tar_error(
     message = paste0(...),
-    class = c("tar_condition_prelocal", "tar_condition_targets"),
-    .frame = tar_empty_envir
+    class = c("tar_condition_prelocal", "tar_condition_targets")
   )
 }
 
 #' @export
 #' @rdname tar_condition
 tar_throw_run <- function(...) {
-  rlang::abort(
+  tar_error(
     message = paste0(...),
-    class = c("tar_condition_run", "tar_condition_targets"),
-    .frame = tar_empty_envir
+    class = c("tar_condition_run", "tar_condition_targets")
   )
 }
 
 #' @export
 #' @rdname tar_condition
 tar_throw_validate <- function(...) {
-  rlang::abort(
+  tar_error(
     message = paste0(...),
-    class = c("tar_condition_validate", "tar_condition_targets"),
-    .frame = tar_empty_envir
+    class = c("tar_condition_validate", "tar_condition_targets")
   )
 }
 
 #' @export
 #' @rdname tar_condition
 tar_warn_deprecate <- function(...) {
-  rlang::warn(
+  tar_warning(
     message = paste0(...),
     class = c("tar_condition_deprecate", "tar_condition_targets")
   )
@@ -81,7 +73,7 @@ tar_warn_deprecate <- function(...) {
 #' @export
 #' @rdname tar_condition
 tar_warn_run <- function(...) {
-  rlang::warn(
+  tar_warning(
     message = paste0(...),
     class = c("tar_condition_run", "tar_condition_targets")
   )
@@ -90,8 +82,34 @@ tar_warn_run <- function(...) {
 #' @export
 #' @rdname tar_condition
 tar_warn_validate <- function(...) {
-  rlang::warn(
+  tar_warning(
     message = paste0(...),
     class = c("tar_condition_validate", "tar_condition_targets")
   )
+}
+
+#' @export
+#' @rdname tar_condition
+tar_error <- function(message, class) {
+  withr::local_options(list(rlang_backtrace_on_error = "none"))
+  rlang::abort(message = message, class = class, call = tar_empty_envir)
+}
+
+#' @export
+#' @rdname tar_condition
+tar_warning <- function(message, class) {
+  withr::local_options(list(rlang_backtrace_on_error = "none"))
+  rlang::warn(message = message, class = class)
+}
+
+#' @export
+#' @rdname tar_condition
+tar_message <- function(message, class) {
+  withr::local_options(list(rlang_backtrace_on_error = "none"))
+  rlang::inform(message = message, class = class)
+}
+
+as_immediate_condition <- function(x) {
+  x$call <- NULL
+  enclass(x, "immediateCondition")
 }

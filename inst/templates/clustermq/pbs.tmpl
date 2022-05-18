@@ -17,5 +17,5 @@ module load R
 # Uncomment to set the working directory
 # cd {{ workdir | "$PBS_O_WORKDIR" }}
 
-ulimit -v $(( 1024 * {{ memory | 4096 }} ))
+# ulimit -v $(( 1024 * {{ memory | 4096 }} ))
 CMQ_AUTH={{ auth }} R --no-save --no-restore -e 'clustermq:::worker("{{ master }}")'
