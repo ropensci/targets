@@ -8,6 +8,7 @@
 #' @return `NULL` except if `callr_function = callr::r_bg()`, in which case
 #'   a handle to the `callr` background process is returned. Either way,
 #'   the value is invisibly returned.
+#' @seeAlso tar_invalidate
 #' @inheritParams tar_validate
 #' @param names Names of the targets to build or check. Set to `NULL` to
 #'   check/build all the targets (default). Otherwise, you can supply
@@ -59,6 +60,9 @@
 #' }, ask = FALSE)
 #' prefix <- "y"
 #' tar_make(starts_with(!!prefix)) # Only builds y1 and y2.
+#' 
+#' tar_invalidate(y1) # invalidate one of the targets
+#' tar_make() # make it all again
 #' })
 tar_make <- function(
   names = NULL,
