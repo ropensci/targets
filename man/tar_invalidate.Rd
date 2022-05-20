@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_invalidate.R
 \name{tar_invalidate}
 \alias{tar_invalidate}
-\title{Invalidate targets and global objects in the metadata.}
+\title{Delete one or more metadata records (e.g. to rerun a target).}
 \usage{
 tar_invalidate(names, store = targets::tar_config_get("store"))
 }

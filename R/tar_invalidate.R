@@ -1,4 +1,4 @@
-#' @title Invalidate targets and global objects in the metadata.
+#' @title Delete one or more metadata records (e.g. to rerun a target).
 #' @export
 #' @family clean
 #' @description Delete the metadata of records in `_targets/meta/meta`

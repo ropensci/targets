@@ -4,7 +4,10 @@
 #' @description Run the pipeline you defined in the targets
 #'   script file (default: `_targets.R`). `tar_make()`
 #'   runs the correct targets in the correct order and stores the return
-#'   values in `_targets/objects/`.
+#'   values in `_targets/objects/`. Use [tar_read()] to read a target
+#'   back into R, and see
+#'   <https://docs.ropensci.org/targets/reference/index.html#clean>
+#'   to manage output files.
 #' @return `NULL` except if `callr_function = callr::r_bg()`, in which case
 #'   a handle to the `callr` background process is returned. Either way,
 #'   the value is invisibly returned.

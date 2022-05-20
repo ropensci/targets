@@ -110,7 +110,10 @@ the value is invisibly returned.
 Run the pipeline you defined in the targets
 script file (default: \verb{_targets.R}). \code{tar_make()}
 runs the correct targets in the correct order and stores the return
-values in \verb{_targets/objects/}.
+values in \verb{_targets/objects/}. Use \code{\link[=tar_read]{tar_read()}} to read a target
+back into R, and see
+\url{https://docs.ropensci.org/targets/reference/index.html#clean}
+to manage output files.
 }
 \examples{
 tar_dir({ # tar_dir() runs code from a temporary directory.
