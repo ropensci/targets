@@ -40,7 +40,18 @@ tar_test("use_targets() multiprocess", {
   expect_equal(line, "future::plan(future.callr::callr)")
 })
 
-tar_test("use_targets() schedulers", {
+tar_test("use_targets() local schedulers", {
+  for (scheduler in c("multicore", "multiprocess")) {
+    use_targets(scheduler = scheduler, open = FALSE, overwrite = TRUE)
+    shell <- file.path("run", "schedulers", paste0(scheduler, ".sh"))
+    shell <- system.file(shell, package = "targets", mustWork = TRUE)
+    exp <- readLines(shell)
+    out <- readLines("run.sh")
+    expect_true(identical(out, exp))
+  }
+})
+
+tar_test("use_targets() hpc schedulers", {
   for (package in c("future", "future.callr", "future.batchtools")) {
     skip_if_not_installed(package)
   }
@@ -54,5 +65,10 @@ tar_test("use_targets() schedulers", {
     expect_true(grepl(scheduler, line))
     line <- grep("future::plan", readLines(script), value = TRUE)
     expect_true(grepl(scheduler, line) || scheduler == "pbs")
+    shell <- file.path("run", "schedulers", paste0(scheduler, ".sh"))
+    shell <- system.file(shell, package = "targets", mustWork = TRUE)
+    exp <- readLines(shell)
+    out <- readLines("run.sh")
+    expect_true(identical(out, exp))
   }
 })

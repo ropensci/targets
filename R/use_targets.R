@@ -10,7 +10,9 @@
 #'     to a resource manager if detected on your system.
 #'   3. Scripts `run.R` and `run.sh` to conveniently execute the pipeline.
 #'     `run.sh` is an optional shell script that calls `run.R` in a
-#'     persistent background process.
+#'     persistent background process. To invoke `run.sh`, you can either enter
+#'     `./run.sh` in a shell or you can submit it as a job to a scheduler,
+#'     e.g. `qsub run.sh` on a Sun Grid Engine (SGE) cluster.
 #'
 #' After you call `use_targets()`, there is still configuration left to do:
 #'   1. Open `_targets.R` and edit by hand. Follow the comments to
@@ -91,11 +93,12 @@ use_targets <- function(
   on.exit(unlink(temp), add = TRUE)
   writeLines(lines, temp)
   use_targets_copy(from = temp, to = script, overwrite = overwrite)
-  for (file in c("run.R", "run.sh")) {
-    path <- file.path("run", file)
-    path <- system.file(path, package = "targets", mustWork = TRUE)
-    use_targets_copy(from = path, to = file, overwrite = overwrite)
-  }
+  path <- file.path("run", "run.R")
+  path <- system.file(path, package = "targets", mustWork = TRUE)
+  use_targets_copy(from = path, to = "run.R", overwrite = overwrite)
+  path <- file.path("run", "schedulers", paste0(scheduler, ".sh"))
+  path <- system.file(path, package = "targets", mustWork = TRUE)
+  use_targets_copy(from = path, to = "run.sh", overwrite = overwrite)
   # covered in tests/interactive/test-
   # nocov start
   if (open) {

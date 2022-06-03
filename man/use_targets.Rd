@@ -55,7 +55,9 @@ to configure \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\
 to a resource manager if detected on your system.
 \item Scripts \code{run.R} and \code{run.sh} to conveniently execute the pipeline.
 \code{run.sh} is an optional shell script that calls \code{run.R} in a
-persistent background process.
+persistent background process. To invoke \code{run.sh}, you can either enter
+\code{./run.sh} in a shell or you can submit it as a job to a scheduler,
+e.g. \verb{qsub run.sh} on a Sun Grid Engine (SGE) cluster.
 }
 
 After you call \code{use_targets()}, there is still configuration left to do:

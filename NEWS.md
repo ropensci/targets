@@ -3,6 +3,7 @@
 ## New features
 
 * Add arguments `legend` and `color` to further configure `tar_mermaid()` (#848, @noamross).
+* Allow `run.sh` scripts from `use_targets()` to be submitted as cluster jobs, e.g. `qsub run.sh`. `./run.sh` still works as well.
 
 ## Enhancements
 
