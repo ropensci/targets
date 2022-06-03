@@ -28,7 +28,7 @@
 #'     ([tar_make()], [tar_make_clustermq()], or [tar_make_future()]).
 #'   3. If applicable, edit `clustermq.tmpl` and/or `future.tmpl`
 #'     to configure settings for your resource manager.
-#'   4. If applicable, configure `job.sh` for your resource manager. 
+#'   4. If applicable, configure `job.sh` for your resource manager.
 #'
 #'  After you finished configuring your project, follow the steps at
 #'    <https://books.ropensci.org/targets/walkthrough.html#inspect-the-pipeline>: # nolint
