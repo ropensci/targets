@@ -1,9 +1,9 @@
-# targets 0.12.0.9000
+# targets 0.12.1
 
 ## New features
 
 * Add arguments `legend` and `color` to further configure `tar_mermaid()` (#848, @noamross).
-* Allow `run.sh` scripts from `use_targets()` to be submitted as cluster jobs, e.g. `qsub run.sh`. `./run.sh` still works as well.
+* For HPC schedulers like SLURM and SGE, `use_targets()` now creates a `job.sh` script to run the pipeline as a cluster job (#839).
 
 ## Enhancements
 
