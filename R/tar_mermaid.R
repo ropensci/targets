@@ -9,6 +9,9 @@
 #'   into a public online `mermaid.js` editor or a `mermaid` GitHub code chunk
 #'   (`https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/`). # nolint
 #' @inheritParams tar_visnetwork
+#' @param legend Logical of length 1, whether to display the legend.
+#' @param color Logical of length 1, whether to color the graph vertices
+#'   by status.
 #' @examples
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -33,6 +36,8 @@ tar_mermaid <- function(
   exclude = ".Random.seed",
   outdated = TRUE,
   label = NULL,
+  legend = TRUE,
+  color = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
@@ -44,6 +49,10 @@ tar_mermaid <- function(
   tar_assert_lgl(targets_only, "targets_only must be logical.")
   tar_assert_lgl(outdated, "outdated in tar_mermaid() must be logical.")
   tar_assert_in(label, c("time", "size", "branches"))
+  tar_assert_lgl(legend)
+  tar_assert_lgl(color)
+  tar_assert_scalar(legend)
+  tar_assert_scalar(color)
   tar_config_assert_reporter_outdated(reporter)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments, "callr_arguments mut be a list.")
@@ -56,6 +65,8 @@ tar_mermaid <- function(
     exclude_quosure = rlang::enquo(exclude),
     outdated = outdated,
     label = label,
+    legend = legend,
+    color = color,
     reporter = reporter
   )
   callr_outer(
@@ -80,6 +91,8 @@ tar_mermaid_inner <- function(
   exclude_quosure,
   outdated,
   label,
+  legend,
+  color,
   reporter
 ) {
   names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
@@ -97,7 +110,9 @@ tar_mermaid_inner <- function(
   )
   visual <- mermaid_init(
     network = network,
-    label = label
+    label = label,
+    show_legend = legend,
+    show_color = color
   )
   visual$update()
   visual$visual

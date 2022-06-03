@@ -75,14 +75,43 @@ tar_test("mermaid$update_legend() on cross plan", {
   expect_equiv(legend, exp)
 })
 
-tar_test("mermaid$update() on cross pipeline", {
+tar_test("mermaid$update() on cross pipeline + legend + color", {
   net <- glimpse_init(pipeline_cross())
-  vis <- mermaid_init(network = net)
+  vis <- mermaid_init(network = net, show_legend = TRUE, show_color = TRUE)
   vis$update()
   expect_silent(vis$validate())
   mermaid <- vis$visual
   expect_true(is.character(mermaid))
   expect_true(all(nzchar(mermaid)))
+  expect_true(any(grepl("subgraph legend", mermaid)))
+  expect_true(any(grepl("linkStyle", mermaid)))
+  expect_true(any(grepl("classDef", mermaid)))
+})
+
+tar_test("mermaid$update() on cross pipeline, no legend, color", {
+  net <- glimpse_init(pipeline_cross())
+  vis <- mermaid_init(network = net, show_legend = FALSE, show_color = TRUE)
+  vis$update()
+  expect_silent(vis$validate())
+  mermaid <- vis$visual
+  expect_true(is.character(mermaid))
+  expect_true(all(nzchar(mermaid)))
+  expect_false(any(grepl("subgraph legend", mermaid)))
+  expect_false(any(grepl("linkStyle", mermaid)))
+  expect_true(any(grepl("classDef", mermaid)))
+})
+
+tar_test("mermaid$update() on cross pipeline, legend, no color", {
+  net <- glimpse_init(pipeline_cross())
+  vis <- mermaid_init(network = net, show_legend = TRUE, show_color = FALSE)
+  vis$update()
+  expect_silent(vis$validate())
+  mermaid <- vis$visual
+  expect_true(is.character(mermaid))
+  expect_true(all(nzchar(mermaid)))
+  expect_true(any(grepl("subgraph legend", mermaid)))
+  expect_true(any(grepl("linkStyle", mermaid)))
+  expect_false(any(grepl("classDef", mermaid)))
 })
 
 tar_test("mermaid$update() on empty pipeline", {

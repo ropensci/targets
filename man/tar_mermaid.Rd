@@ -12,6 +12,8 @@ tar_mermaid(
   exclude = ".Random.seed",
   outdated = TRUE,
   label = NULL,
+  legend = TRUE,
+  color = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::callr_args_default(callr_function),
@@ -73,6 +75,11 @@ to show total storage size, or \code{"branches"} to show the number of
 branches in each pattern. You can choose multiple aesthetics
 at once, e.g. \code{label = c("time", "branches")}. All are disabled
 by default because they clutter the graph.}
+
+\item{legend}{Logical of length 1, whether to display the legend.}
+
+\item{color}{Logical of length 1, whether to color the graph vertices
+by status.}
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets are checked. Choices:

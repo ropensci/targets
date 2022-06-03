@@ -1,5 +1,11 @@
 # targets 0.12.0.9000
 
+## New features
+
+* Add arguments `legend` and `color` to further configure `tar_mermaid()` (#848, @noamross).
+
+## Enhancements
+
 * Use lapply() to source scripts in `use_targets()`. Avoids defining a global variable for the file.
 * Recursively find scripts to source in the `use_targets()` `_targets.R` file.
 * Refactor error printing.

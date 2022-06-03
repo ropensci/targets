@@ -1,24 +1,32 @@
 mermaid_init <- function(
   network,
   label = NULL,
-  label_break = "<br>"
+  label_break = "<br>",
+  show_legend = TRUE,
+  show_color = TRUE
 ) {
   mermaid_new(
     network = network,
     label = label,
-    label_break = label_break
+    label_break = label_break,
+    show_legend = show_legend,
+    show_color = show_color
   )
 }
 
 mermaid_new <- function(
   network = NULL,
   label = NULL,
-  label_break = NULL
+  label_break = NULL,
+  show_legend = NULL,
+  show_color = NULL
 ) {
   mermaid_class$new(
     network = network,
     label = label,
-    label_break = label_break
+    label_break = label_break,
+    show_legend = show_legend,
+    show_color = show_color
   )
 }
 
@@ -29,6 +37,23 @@ mermaid_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    show_legend = NULL,
+    show_color = NULL,
+    initialize = function(
+      network = NULL,
+      label = NULL,
+      label_break = NULL,
+      show_legend = NULL,
+      show_color = NULL
+    ) {
+      super$initialize(
+        network = network,
+        label = label,
+        label_break = label_break
+      )
+      self$show_legend <- show_legend
+      self$show_color <- show_color
+    },
     append_loops = function() {
       vertices <- self$network$vertices
       edges <- self$network$edges
@@ -128,16 +153,28 @@ mermaid_class <- R6::R6Class(
       from <- vertices[-length(vertices)]
       to <- vertices[-1]
       out <- sprintf("    %s --- %s", from, to)
-      out <- c("  subgraph Legend", out, "  end")
+      out <- c("  subgraph legend", out, "  end")
     },
     produce_visual = function() {
       if (nrow(self$network$vertices) < 1L) {
         return("")
       }
       graph <- self$produce_mermaid_lines_graph()
-      legend <- self$produce_mermaid_lines_legend()
-      class_defs <- self$produce_class_defs()
-      link_styles <- self$produce_link_styles()
+      legend <- if_any(
+        self$show_legend,
+        self$produce_mermaid_lines_legend(),
+        character(0)
+      )
+      class_defs <- if_any(
+        self$show_color,
+        self$produce_class_defs(),
+        character(0)
+      )
+      link_styles <- if_any(
+        self$show_legend,
+        self$produce_link_styles(),
+        character(0)
+      )
       c("graph LR", legend, graph, class_defs, link_styles)
     },
     update_extra = function() {

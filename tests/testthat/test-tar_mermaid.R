@@ -8,7 +8,7 @@ tar_test("tar_mermaid() does not create a data store", {
   expect_false(file.exists("_targets"))
 })
 
-tar_test("tar_mermaid()", {
+tar_test("tar_mermaid() + legend + color", {
   tar_script({
     f <- identity
     tar_option_set()
@@ -19,10 +19,59 @@ tar_test("tar_mermaid()", {
     )
   })
   out <- tar_mermaid(
+    legend = TRUE,
+    color = TRUE,
     callr_function = NULL,
     callr_arguments = list(show = FALSE)
   )
   expect_true(is.character(out))
+  expect_true(any(grepl("subgraph legend", out)))
+  expect_true(any(grepl("classDef", out)))
+  expect_true(any(grepl("linkStyle", out)))
+})
+
+tar_test("tar_mermaid() + no legend + color", {
+  tar_script({
+    f <- identity
+    tar_option_set()
+    list(
+      tar_target(y1, f(1)),
+      tar_target(y2, 1 + 1),
+      tar_target(z, y1 + y2)
+    )
+  })
+  out <- tar_mermaid(
+    legend = FALSE,
+    color = TRUE,
+    callr_function = NULL,
+    callr_arguments = list(show = FALSE)
+  )
+  expect_true(is.character(out))
+  expect_false(any(grepl("subgraph legend", out)))
+  expect_false(any(grepl("linkStyle", out)))
+  expect_true(any(grepl("classDef", out)))
+})
+
+tar_test("tar_mermaid() + legend + no color", {
+  tar_script({
+    f <- identity
+    tar_option_set()
+    list(
+      tar_target(y1, f(1)),
+      tar_target(y2, 1 + 1),
+      tar_target(z, y1 + y2)
+    )
+  })
+  out <- tar_mermaid(
+    legend = TRUE,
+    color = FALSE,
+    callr_function = NULL,
+    callr_arguments = list(show = FALSE)
+  )
+  expect_true(is.character(out))
+  expect_true(any(grepl("subgraph legend", out)))
+  expect_true(any(grepl("linkStyle", out)))
+  expect_false(any(grepl("classDef", out)))
 })
 
 tar_test("tar_mermaid() does not deduplicate metadata", {
