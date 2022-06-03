@@ -53,11 +53,17 @@ workflow for \code{targets}, \code{use_targets()} writes:
 \item Template files \code{"clustermq.tmpl"} and \code{"future.tmpl"}
 to configure \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}
 to a resource manager if detected on your system.
-\item Scripts \code{run.R} and \code{run.sh} to conveniently execute the pipeline.
-\code{run.sh} is an optional shell script that calls \code{run.R} in a
-persistent background process. To invoke \code{run.sh}, you can either enter
-\code{./run.sh} in a shell or you can submit it as a job to a scheduler,
-e.g. \verb{qsub run.sh} on a Sun Grid Engine (SGE) cluster.
+\item Script \code{run.R} to conveniently execute the pipeline.
+Call \verb{Rscript run.R} or \verb{R CMD BATCH run.R} to run the pipeline
+using \code{run.R}.
+\item Script \code{run.sh} to conveniently call \code{run.R} in a persistent
+background process. Enter \code{./run.sh} in the shell to run it.
+\item If you have a high-performance computing scheduler
+like Sun Grid Engine (SGE) (or select one using the
+\code{scheduler} argument of \code{use_targets()}), then
+script \code{job.sh} is created. \code{job.sh} conveniently executes \code{run.R}
+as a job on a cluster. For example, to run the pipeline as a
+job on an SGE cluster, enter \verb{qsub job.sh} in the terminal.
 }
 
 After you call \code{use_targets()}, there is still configuration left to do:
@@ -69,6 +75,7 @@ that your pipeline requires.
 (\code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}, or \code{\link[=tar_make_future]{tar_make_future()}}).
 \item If applicable, edit \code{clustermq.tmpl} and/or \code{future.tmpl}
 to configure settings for your resource manager.
+\item If applicable, configure \code{job.sh} for your resource manager.
 }
 
 After you finished configuring your project, follow the steps at
