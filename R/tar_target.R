@@ -71,6 +71,12 @@
 #'     to arrive over a network file system.)
 #'     If the target does not create any files, the return value should be
 #'     `character(0)`.
+#'
+#'     If `repository` is not `"local"` and `format` is `"file"`
+#'     then the target should create a single output file.
+#'     That output file is uploaded to the cloud and tracked for changes
+#'     where it exists in the cloud. The local file is deleted after
+#'     the target runs.
 #'   * `"url"`: A dynamic input URL. For this storage format,
 #'     `repository` is implicitly `"local"`,
 #'     URL format is like `format = "file"`
@@ -108,6 +114,12 @@
 #'     See the cloud storage section of
 #'     <https://books.ropensci.org/targets/data.html>
 #'     for details for instructions.
+#'
+#'   Note: if `repository` is not `"local"` and `format` is `"file"`
+#'   then the target should create a single output file.
+#'   That output file is uploaded to the cloud and tracked for changes
+#'   where it exists in the cloud. The local file is deleted after
+#'   the target runs.
 #' @param iteration Character of length 1, name of the iteration mode
 #'   of the target. Choices:
 #'   * `"vector"`: branching happens with `vctrs::vec_slice()` and

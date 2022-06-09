@@ -84,7 +84,13 @@ for details for instructions.
 See the cloud storage section of
 \url{https://books.ropensci.org/targets/data.html}
 for details for instructions.
-}}
+}
+
+Note: if \code{repository} is not \code{"local"} and \code{format} is \code{"file"}
+then the target should create a single output file.
+That output file is uploaded to the cloud and tracked for changes
+where it exists in the cloud. The local file is deleted after
+the target runs.}
 
 \item{iteration}{Character of length 1, name of the iteration mode
 of the target. Choices:
@@ -286,6 +292,12 @@ or else \code{targets} will throw an error. (And if \code{storage} is \code{"wor
 to arrive over a network file system.)
 If the target does not create any files, the return value should be
 \code{character(0)}.
+
+If \code{repository} is not \code{"local"} and \code{format} is \code{"file"}
+then the target should create a single output file.
+That output file is uploaded to the cloud and tracked for changes
+where it exists in the cloud. The local file is deleted after
+the target runs.
 \item \code{"url"}: A dynamic input URL. For this storage format,
 \code{repository} is implicitly \code{"local"},
 URL format is like \code{format = "file"}
