@@ -207,7 +207,7 @@ use_targets_copy <- function(from, to, overwrite) {
   if (file.exists(to) && !overwrite) {
     msg <- "File \"%s\" already exists. Stash and retry for a fresh copy."
     msg <- sprintf(msg, to)
-    cli_alert_info(msg)
+    cli_mark_info(msg)
   } else {
     cli_blue_bullet(sprintf("Writing file \"%s\".", to))
     file.copy(from, to, overwrite = TRUE)

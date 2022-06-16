@@ -122,7 +122,7 @@ database_class <- R6::R6Class(
       # nocov start
       while (!is.null(try(self$try_append_lines(lines)))) {
         msg <- paste("Reattempting to append lines to", self$path)
-        cli::cli_alert_info(msg)
+        cli_mark_info(msg)
         Sys.sleep(stats::runif(1, 0.2, 0.25))
         attempt <- attempt + 1L
         if (attempt > max_attempts) {

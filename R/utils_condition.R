@@ -91,6 +91,7 @@ tar_warn_validate <- function(...) {
 #' @export
 #' @rdname tar_condition
 tar_error <- function(message, class) {
+  message <- cli::col_red(message)
   withr::local_options(list(rlang_backtrace_on_error = "none"))
   rlang::abort(message = message, class = class, call = tar_empty_envir)
 }
@@ -98,6 +99,7 @@ tar_error <- function(message, class) {
 #' @export
 #' @rdname tar_condition
 tar_warning <- function(message, class) {
+  message <- cli::col_red(message)
   withr::local_options(list(rlang_backtrace_on_error = "none"))
   rlang::warn(message = message, class = class)
 }
@@ -105,6 +107,7 @@ tar_warning <- function(message, class) {
 #' @export
 #' @rdname tar_condition
 tar_message <- function(message, class) {
+  message <- cli::col_none(message)
   withr::local_options(list(rlang_backtrace_on_error = "none"))
   rlang::inform(message = message, class = class)
 }

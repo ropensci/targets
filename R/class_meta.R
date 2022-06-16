@@ -123,7 +123,7 @@ meta_class <- R6::R6Class(
       data$format <- gsub("^aws_", "", data$format)
       data <- data[, self$database$header, drop = FALSE]
       self$database$overwrite_storage(data)
-      cli::cli_alert_info(
+      cli_mark_info(
         paste(
           "Migrated the metadata file to a new data format to include",
           "the new repository column. Up-to-date targets are still up to",

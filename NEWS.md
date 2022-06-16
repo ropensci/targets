@@ -1,6 +1,8 @@
 # targets 0.12.1.9000
 
+## Enhancements
 
+* Color ordinary `targets` messages the default theme color, and color warnings and errors red (#856, @gorkang).
 
 # targets 0.12.1
 

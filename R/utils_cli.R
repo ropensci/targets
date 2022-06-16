@@ -54,31 +54,37 @@ cli_workspace <- function(name, time_stamp = FALSE) {
 
 cli_blue_bullet <- function(msg) {
   symbol <- cli::col_blue(cli::symbol$bullet)
-  msg <- paste(symbol, msg)
+  msg <- paste(symbol, cli_color_text(msg))
   message(msg)
 }
 
 cli_green_bullet <- function(msg) {
   symbol <- cli::col_green(cli::symbol$bullet)
-  msg <- paste(symbol, msg)
+  msg <- paste(symbol, cli_color_text(msg))
   message(msg)
 }
 
 cli_green_check <- function(msg) {
   symbol <- cli::col_green(cli::symbol$tick)
-  msg <- paste(symbol, msg)
+  msg <- paste(symbol, cli_color_text(msg))
   message(msg)
 }
 
 cli_yellow_bullet <- function(msg) {
   symbol <- cli::col_yellow(cli::symbol$bullet)
-  msg <- paste(symbol, msg)
+  msg <- paste(symbol, cli_color_text(msg))
   message(msg)
+}
+
+cli_mark_info <- function(msg) {
+  symbol <- cli::col_cyan(cli::symbol$info)
+  msg <- paste(symbol, cli_color_text(msg))
+  cli_color_text(msg)
 }
 
 cli_red_x <- function(msg) {
   symbol <- cli::col_red(cli::symbol$cross)
-  msg <- paste(symbol, msg)
+  msg <- paste(symbol, cli::col_red(msg))
   message(msg)
 }
 
@@ -107,18 +113,19 @@ cli_port <- function(host, port) {
 }
 
 cli_df_header <- function(x) {
-  message(cli_df_text(x)[1L], appendLF = FALSE)
+  message(cli_color_text(cli_df_text(x)[1L]), appendLF = FALSE)
 }
 
 cli_df_body <- function(x) {
-  message(cli_df_text(x)[2L], appendLF = FALSE)
+  message(cli_color_text(cli_df_text(x)[2L]), appendLF = FALSE)
 }
 
 # nocov start
 # Covered in tests/interactive/test-reporter.R.
 cli_df_body_oneline <- function(x) {
   msg <- paste(paste(colnames(x), x, sep = ": "), collapse = " | ")
-  message(paste0("\r", msg), appendLF = FALSE)
+  msg <- cli_color_text(msg)
+  message(cli_color_text(paste0("\r", msg)), appendLF = FALSE)
 }
 # nocov end
 
@@ -139,6 +146,10 @@ cli_df_text <- function(x) {
   out[1L] <- paste0(out[1L], "\n")
   out[2L] <- paste(c(out[2L], rep(" ", diff)), collapse = "")
   out
+}
+
+cli_color_text <- function(msg) {
+  cli::col_none(msg)
 }
 
 time_stamp <- function(time = Sys.time()) {

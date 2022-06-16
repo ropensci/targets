@@ -14,7 +14,7 @@
 #' @family help
 #' @importFrom base64url base64_urldecode base64_urlencode
 #' @importFrom callr r r_bg
-#' @importFrom cli cli_alert_info col_green make_spinner symbol
+#' @importFrom cli col_green col_none col_red make_spinner symbol
 #' @importFrom codetools findGlobals
 #' @importFrom data.table data.table fread fwrite set
 #' @importFrom digest digest digest2int

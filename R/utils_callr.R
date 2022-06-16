@@ -23,10 +23,10 @@ callr_outer <- function(
       ),
       error = function(condition) {
         cli_red_x("Problem with the pipeline.")
-        cli_alert_info(
+        cli_mark_info(
           "Show errors: tar_meta(fields = error, complete_only = TRUE)"
         )
-        cli_alert_info(
+        cli_mark_info(
           "Learn more: https://books.ropensci.org/targets/debugging.html"
         )
       }
