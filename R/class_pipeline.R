@@ -227,9 +227,33 @@ pipeline_bootstrap_deps <- function(pipeline, meta, names) {
   deps <- map(names, ~pipeline_get_target(pipeline, .x)$command$deps)
   deps <- intersect(unique(unlist(deps)), pipeline_get_names(pipeline))
   deps <- setdiff(x = deps, y = names)
+  branched_over <- map(
+    names,
+    ~pipeline_get_target(pipeline, .x)$settings$dimensions
+  )
+  branched_over <- intersect(
+    unique(unlist(branched_over)),
+    pipeline_get_names(pipeline)
+  )
+  branched_over <- setdiff(x = branched_over, y = names)
+  not_branched_over <- setdiff(deps, branched_over)
   map(
-    deps,
-    ~target_bootstrap(pipeline_get_target(pipeline, .x), pipeline, meta)
+    not_branched_over,
+    ~target_bootstrap(
+      pipeline_get_target(pipeline, .x),
+      pipeline,
+      meta,
+      branched_over = FALSE
+    )
+  )
+  map(
+    branched_over,
+    ~target_bootstrap(
+      pipeline_get_target(pipeline, .x),
+      pipeline,
+      meta,
+      branched_over = TRUE
+    )
   )
 }
 

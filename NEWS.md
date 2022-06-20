@@ -2,7 +2,7 @@
 
 ## Bug fixes
 
-* Allow bootstrapped dependencies to have length 0 in `tar_make(shortcut = TRUE)` (#858, @dipterix).
+* Do not bootstrap the junction of a stem unless the target is branched over (#858, @dipterix).
 
 ## Enhancements
 

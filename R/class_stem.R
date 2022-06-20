@@ -102,10 +102,17 @@ target_validate.tar_stem <- function(target) {
 }
 
 #' @export
-target_bootstrap.tar_stem <- function(target, pipeline, meta) {
+target_bootstrap.tar_stem <- function(
+  target,
+  pipeline,
+  meta,
+  branched_over
+) {
   NextMethod()
-  stem_restore_junction(target, pipeline, meta)
-  stem_insert_buds(target, pipeline)
+  if (branched_over) {
+    stem_restore_junction(target, pipeline, meta)
+    stem_insert_buds(target, pipeline)
+  }
   invisible()
 }
 
@@ -159,14 +166,12 @@ stem_restore_junction <- function(target, pipeline, meta) {
     return()
   }
   children <- meta$get_record(name)$children
-  if (!anyNA(children)) {
-    target$junction <- junction_init(nexus = name, splits = children)
-    return()
-  }
-  target_ensure_value(target, pipeline)
-  if (value_count_slices(target$value) > 0L) {
-    target$junction <- target_produce_junction(target, pipeline)
-  }
+  junction <- if_any(
+    anyNA(children),
+    target_produce_junction(target, pipeline),
+    junction_init(nexus = name, splits = children)
+  )
+  target$junction <- junction
 }
 
 #' @export

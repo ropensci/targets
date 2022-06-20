@@ -810,6 +810,33 @@ tar_test("bootstrap a pattern for a shortcut pattern and stem", {
   expect_equal(p$progress[p$name == "z"], "built")
 })
 
+tar_test("shortcut error trying to branch over empty stem", {
+  skip_on_cran()
+  tar_script(
+    list(
+      tar_target(x, NULL),
+      tar_target(y, x)
+    )
+  )
+  tar_make(callr_function = NULL)
+  tar_invalidate(y)
+  tar_make(y, shortcut = TRUE, callr_function = NULL)
+  out <- tar_progress()
+  expect_equal(out$name, "y")
+  expect_equal(out$progress, "built")
+  expect_null(tar_read(y))
+  tar_script(
+    list(
+      tar_target(x, NULL),
+      tar_target(y, x, pattern = map(x))
+    )
+  )
+  expect_error(
+    tar_make(y, shortcut = TRUE, callr_function = NULL),
+    class = "tar_condition_run"
+  )
+})
+
 tar_test("pattern validate", {
   x <- target_init("x", expr = quote(1 + 1), pattern = quote(map(a, b)))
   expect_silent(target_validate(x))

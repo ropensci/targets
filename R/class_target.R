@@ -305,7 +305,7 @@ target_is_branchable.default <- function(target) {
   FALSE
 }
 
-target_bootstrap <- function(target, pipeline, meta) {
+target_bootstrap <- function(target, pipeline, meta, branched_over) {
   UseMethod("target_bootstrap")
 }
 

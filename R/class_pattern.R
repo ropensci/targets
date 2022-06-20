@@ -134,7 +134,12 @@ target_validate.tar_pattern <- function(target) {
 }
 
 #' @export
-target_bootstrap.tar_pattern <- function(target, pipeline, meta) {
+target_bootstrap.tar_pattern <- function(
+  target,
+  pipeline,
+  meta,
+  branched_over = FALSE
+) {
   record <- target_bootstrap_record(target, meta)
   name <- target$settings$name
   children <- record$children
@@ -143,7 +148,12 @@ target_bootstrap.tar_pattern <- function(target, pipeline, meta) {
   lapply(branches, pipeline_set_target, pipeline = pipeline)
   map(
     children,
-    ~target_bootstrap(pipeline_get_target(pipeline, .x), pipeline, meta)
+    ~target_bootstrap(
+      pipeline_get_target(pipeline, .x),
+      pipeline,
+      meta,
+      branched_over = FALSE
+    )
   )
   invisible()
 }
