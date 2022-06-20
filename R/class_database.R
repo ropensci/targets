@@ -272,7 +272,7 @@ database_validate_columns <- function(header, list_columns) {
   if (!all(list_columns %in% header)) {
     tar_throw_validate("all list columns must be in the header")
   }
-  if (!is.null(header) & !("name" %in% header)) {
+  if (!is.null(header) && !("name" %in% header)) {
     tar_throw_validate("header must have a column called \"name\"")
   }
 }

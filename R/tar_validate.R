@@ -77,7 +77,7 @@ tar_validate <- function(
   )
   invisible(out)
 }
-  
+
 tar_validate_inner <- function(pipeline, store) {
   pipeline_validate(pipeline)
 }
