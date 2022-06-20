@@ -1,5 +1,9 @@
 # targets 0.12.1.9000
 
+## Bug fixes
+
+* Allow bootstrapped dependencies to have length 0 in `tar_make(shortcut = TRUE)` (#858, @dipterix).
+
 ## Enhancements
 
 * Color ordinary `targets` messages the default theme color, and color warnings and errors red (#856, @gorkang).

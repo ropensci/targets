@@ -159,12 +159,14 @@ stem_restore_junction <- function(target, pipeline, meta) {
     return()
   }
   children <- meta$get_record(name)$children
-  junction <- if_any(
-    anyNA(children),
-    target_produce_junction(target, pipeline),
-    junction_init(nexus = name, splits = children)
-  )
-  target$junction <- junction
+  if (!anyNA(children)) {
+    target$junction <- junction_init(nexus = name, splits = children)
+    return()
+  }
+  target_ensure_value(target, pipeline)
+  if (value_count_slices(target$value) > 0L) {
+    target$junction <- target_produce_junction(target, pipeline)
+  }
 }
 
 #' @export
