@@ -21,7 +21,7 @@ only if interactive mode is not activated. Otherwise,
 do not run the code.
 }
 \details{
-Visit <books.ropensci.org/targets/markdown.html>
+Visit <books.ropensci.org/targets/literate-programming.html>
 to learn about Target Markdown and interactive mode.
 }
 \examples{

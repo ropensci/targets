@@ -101,11 +101,12 @@ if (requireNamespace("knitr", quietly = TRUE)) {
   knitr::knit_engines$set(targets = targets::tar_engine_knitr)
 }
 # Then, {targets} code chunks in a knitr report will run
-# as described at https://books.ropensci.org/targets/markdown.html.
+# as described at
+<https://books.ropensci.org/targets/literate-programming.html>.
 }
 }
 \seealso{
-\url{https://books.ropensci.org/targets/markdown.html}
+\url{https://books.ropensci.org/targets/literate-programming.html}
 
 Other Target Markdown: 
 \code{\link{tar_interactive}()},

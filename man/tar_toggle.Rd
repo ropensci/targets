@@ -23,7 +23,7 @@ Run one piece of code if Target Markdown mode
 interactive mode is turned on and another piece of code otherwise.
 }
 \details{
-Visit <books.ropensci.org/targets/markdown.html>
+Visit <books.ropensci.org/targets/literate-programming.html>
 to learn about Target Markdown and interactive mode.
 }
 \examples{

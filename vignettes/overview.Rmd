@@ -21,13 +21,13 @@ The top of the [reference website](https://docs.ropensci.org/targets/) links to 
 
 The [user manual](https://books.ropensci.org/targets/) starts with a  [walkthrough](https://books.ropensci.org/targets/walkthrough.html) chapter, a short tutorial to quickly started with `targets` using a simple example project. That project also has a [repository](https://github.com/wlandau/targets-minimal) with the source code and an [RStudio Cloud workspace](https://rstudio.cloud/project/1430691) that lets you try out the workflow in a web browser. Sign up for a free RStudio Cloud account, click on the link, and try out functions `tar_make()` and `tar_read()` in the R console.
 
-## Target Markdown
-
-[Target Markdown](https://books.ropensci.org/targets/markdown.html) is an R Markdown interface for testing, prototyping, and constructing targets and pipelines. It combines the convenience of R Markdown with the power of `targets`. See the [chapter](https://books.ropensci.org/targets/markdown.html) in the manual for a tutorial.
-
 ## Debugging
 
 The [debugging chapter](https://books.ropensci.org/targets/debugging.html) describes two alternative built-in systems for troubleshooting errors. The first system uses workspaces, which let you load a target's dependencies into you R session. This way is usually preferred, especially with large pipelines on computing clusters, but it still may require some manual work. The second system launches an interactive debugger while the pipeline is actually running, which may not be feasible in some situations, but can often help you reach the problem more quickly.
+
+## Performance
+
+<https://books.ropensci.org/targets/performance.html> explains how to monitor the progress of a running pipeline and optimize your pipeline for performance.
 
 ## Functions
 
@@ -57,6 +57,8 @@ There are two kinds of literate programming in targets:
 
 1. Rendering within a target. Here, you define a special kind of target that runs a lightweight R Markdown report which depends on upstream targets.
 2. Target Markdown, an overarching system in which one or more R Markdown files write the `_targets.R` file and encapsulate the pipeline.
+
+Visit <https://books.ropensci.org/targets/literate-programming.html> to learn more.
 
 ## Dynamic branching
 

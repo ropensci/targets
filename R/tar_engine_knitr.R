@@ -1,7 +1,7 @@
 #' @title Target Markdown `knitr` engine
 #' @export
 #' @family Target Markdown
-#' @seealso <https://books.ropensci.org/targets/markdown.html>
+#' @seealso <https://books.ropensci.org/targets/literate-programming.html>
 #' @description `knitr` language engine that runs `{targets}`
 #'   code chunks in Target Markdown.
 #' @return Character, output generated from `knitr::engine_output()`.
@@ -81,7 +81,8 @@
 #'   knitr::knit_engines$set(targets = targets::tar_engine_knitr)
 #' }
 #' # Then, {targets} code chunks in a knitr report will run
-#' # as described at https://books.ropensci.org/targets/markdown.html.
+#' # as described at
+#' <https://books.ropensci.org/targets/literate-programming.html>.
 #' }
 tar_engine_knitr <- function(options) {
   if (identical(as.logical(options$eval), FALSE)) {

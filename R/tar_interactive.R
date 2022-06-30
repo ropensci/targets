@@ -4,7 +4,7 @@
 #' @description In Target Markdown, run the enclosed code
 #'   only if interactive mode is activated. Otherwise,
 #'   do not run the code.
-#' @details Visit <books.ropensci.org/targets/markdown.html>
+#' @details Visit <books.ropensci.org/targets/literate-programming.html>
 #'   to learn about Target Markdown and interactive mode.
 #' @return If Target Markdown interactive mode is turned on,
 #'   the function returns the result of running the code.

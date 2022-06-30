@@ -5,11 +5,19 @@
 \title{Define a custom target storage format.}
 \usage{
 tar_format(
-  read = function(path) {     readRDS(path) },
-  write = function(object, path) {     saveRDS(object = object, file = path, version =
-    3L) },
-  marshal = function(object) {     identity(object) },
-  unmarshal = function(object) {     identity(object) },
+  read = function(path) {
+     readRDS(path)
+ },
+  write = function(object, path) {
+     saveRDS(object = object, file = path, version =
+    3L)
+ },
+  marshal = function(object) {
+     identity(object)
+ },
+  unmarshal = function(object) {
+     identity(object)
+ },
   repository = NULL
 )
 }
