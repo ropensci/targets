@@ -293,3 +293,21 @@ tar_test("tar_assert_repository()", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("tar_assert_named()", {
+  expect_silent(tar_assert_named(NULL))
+  expect_silent(tar_assert_named(list()))
+  expect_silent(tar_assert_named(list(a = 1, b = 2)))
+  expect_error(
+    tar_assert_named(list(a = 1, a = 2)),
+    class = "tar_condition_validate"
+  )
+  expect_error(
+    tar_assert_named(list(a = 1, 2)),
+    class = "tar_condition_validate"
+  )
+  expect_error(
+    tar_assert_named(list(1, 2)),
+    class = "tar_condition_validate"
+  )
+})

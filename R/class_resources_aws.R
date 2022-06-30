@@ -3,14 +3,16 @@ resources_aws_init <- function(
   prefix = path_objects_dir_cloud(),
   region = NULL,
   part_size = 5 * (2 ^ 20),
-  endpoint = NULL
+  endpoint = NULL,
+  args = list()
 ) {
   resources_aws_new(
     bucket = bucket,
     prefix = prefix,
     region = region,
     part_size = part_size,
-    endpoint = endpoint
+    endpoint = endpoint,
+    args = args
   )
 }
 
@@ -19,13 +21,15 @@ resources_aws_new <- function(
   prefix = NULL,
   region = NULL,
   part_size = NULL,
-  endpoint = NULL
+  endpoint = NULL,
+  args = NULL
 ) {
   force(bucket)
   force(prefix)
   force(region)
   force(part_size)
   force(endpoint)
+  force(args)
   enclass(environment(), c("tar_resources_aws", "tar_resources"))
 }
 
@@ -44,6 +48,8 @@ resources_validate.tar_resources_aws <- function(resources) {
   tar_assert_positive(resources$part_size %|||% 1e8)
   tar_assert_scalar(resources$endpoint %|||% "endpoint")
   tar_assert_chr(resources$endpoint %|||% "endpoint")
+  tar_assert_list(resources$args)
+  tar_assert_named(resources$args)
 }
 
 #' @export

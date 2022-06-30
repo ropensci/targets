@@ -27,6 +27,7 @@
 \alias{tar_assert_list}
 \alias{tar_assert_lgl}
 \alias{tar_assert_name}
+\alias{tar_assert_named}
 \alias{tar_assert_names}
 \alias{tar_assert_nonempty}
 \alias{tar_assert_not_expr}
@@ -93,6 +94,8 @@ tar_assert_list(x, msg = NULL)
 tar_assert_lgl(x, msg = NULL)
 
 tar_assert_name(x)
+
+tar_assert_named(x, msg = NULL)
 
 tar_assert_names(x, msg = NULL)
 

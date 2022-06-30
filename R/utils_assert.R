@@ -366,6 +366,26 @@ tar_assert_name <- function(x) {
 
 #' @export
 #' @rdname tar_assert
+tar_assert_named <- function(x, msg = NULL) {
+  msg <- msg %|||% paste(
+    "names of",
+    deparse(substitute(x)),
+    "must have a complete set of unique nonempty names."
+  )
+  if (!length(x)) {
+    return()
+  }
+  names <- names(x)
+  tar_assert_ge(length(x), length(names), msg = msg)
+  tar_assert_le(length(x), length(names), msg = msg)
+  tar_assert_unique(names, msg = msg)
+  tar_assert_nonempty(names, msg = msg)
+  tar_assert_chr(names, msg = msg)
+  tar_assert_nzchar(names, msg = msg)
+}
+
+#' @export
+#' @rdname tar_assert
 tar_assert_names <- function(x, msg = NULL) {
   if (any(x != make.names(x, unique = FALSE))) {
     tar_throw_validate(msg %|||% "x must legal symbol names.")

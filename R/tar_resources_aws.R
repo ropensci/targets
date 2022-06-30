@@ -36,6 +36,24 @@
 #'   object versioning turned on, `targets` may fail to record object
 #'   versions. Google Cloud Storage in particular has this
 #'   incompatibility.
+#' @param ... Named arguments to functions in `paws::s3()` to manage
+#'   S3 storage. The documentation of these specific functions
+#'   is linked from <https://paws-r.github.io/docs/s3/>.
+#'   The configurable functions themselves are:
+#'   * `paws::s3()$head_object()`
+#'   * `paws::s3()$get_object()`
+#'   * `paws::s3()$delete_object()`
+#'   * `paws::s3()$put_object()`
+#'   * `paws::s3()$create_multipart_upload()`
+#'   * `paws::s3()$abort_multipart_upload()`
+#'   * `paws::s3()$complete_multipart_upload()`
+#'   * `paws::s3()$upload_part()`
+#'   The named arguments in `...` must not be any of
+#'   `"bucket"`, `"Bucket"`, `"key"`, `"Key"`,
+#'   `"prefix"`, `"region"`, `"part_size"`, `"endpoint"`,
+#'   `"version"`, `"VersionId"`, `"body"`, `"Body"`,
+#'   `"metadata"`, `"Metadata"`, `"UploadId"`, `"MultipartUpload"`,
+#'   or `"PartNumber"`.
 #' @examples
 #' # Somewhere in you target script file (usually _targets.R):
 #' tar_target(
@@ -53,14 +71,16 @@ tar_resources_aws <- function(
   prefix = targets::path_objects_dir_cloud(),
   region = NULL,
   part_size = 5 * (2 ^ 20),
-  endpoint = NULL
+  endpoint = NULL,
+  ...
 ) {
   out <- resources_aws_init(
     bucket = bucket,
     prefix = prefix,
     region = region,
     part_size = part_size,
-    endpoint = endpoint
+    endpoint = endpoint,
+    args = list(...)
   )
   resources_validate(out)
   out
