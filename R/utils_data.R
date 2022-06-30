@@ -59,3 +59,9 @@ enclass <- function(x, class) {
   class(x) <- c(class, class(x))
   x
 }
+
+supported_args <- function(fun, args) {
+  args <- omit_null(args)
+  common <- intersect(names(formals(fun)), names(args))
+  args[common]
+}

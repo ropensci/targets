@@ -32,3 +32,25 @@ tar_test("omit_null()", {
   expect_equal(length(y), 3)
   expect_equal(names(y), c("e", "c", "b"))
 })
+
+tar_test("supported_args()", {
+  f <- function(a, b, c = "c_default", d = "d_default", x = "x_default") {
+  }
+  args <- list(
+    a = "a_value",
+    b = "b_value",
+    c = "c_value",
+    d = NULL,
+    e = "nope",
+    f = NULL
+  )
+  out <- supported_args(fun = f, args = args)
+  expect_equal(
+    out,
+    list(
+      a = "a_value",
+      b = "b_value",
+      c = "c_value"
+    )
+  )
+})
