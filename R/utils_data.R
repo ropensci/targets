@@ -30,6 +30,10 @@ omit_na <- function(x) {
   x[!is.na(x)]
 }
 
+omit_null <- function(x) {
+  x[!map_lgl(x, is.null)]
+}
+
 dir_create <- function(x) {
   if (!file.exists(x)) {
     dir.create(x, showWarnings = FALSE, recursive = TRUE)
