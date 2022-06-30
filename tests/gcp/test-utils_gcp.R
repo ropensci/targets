@@ -1,3 +1,5 @@
+# Use sparingly to minimize GCP costs.
+# Verify all `targets` buckets are deleted afterwards.
 tar_test("gcp_gcs_exists()", {
   skip_if_no_gcp()
   auth_gcp()

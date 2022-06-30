@@ -1,4 +1,5 @@
-# Use sparingly. We do not want to max out any AWS quotas.
+# Use sparingly to minimize AWS costs.
+# Verify all `targets` buckets are deleted afterwards.
 # After this test runs, log into the AWS console,
 # check that the prefix is correct, and MANUALLY CLEAR OUT THE BUCKET.
 # Run interactively to check the prefix.

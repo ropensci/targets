@@ -1,3 +1,5 @@
+# Use sparingly to minimize AWS costs.
+# Verify all `targets` buckets are deleted afterwards.
 tar_test("aws_s3_exists()", {
   bucket <- random_bucket_name()
   paws::s3()$create_bucket(Bucket = bucket)

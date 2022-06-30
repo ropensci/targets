@@ -1,5 +1,5 @@
-# Use sparingly. We do not want to max out any gcp quotas.
-# And afterwards, manually verify that all the buckets are gone.
+# Use sparingly to minimize GCP costs.
+# Verify all `targets` buckets are deleted afterwards.
 tar_test("delete cloud targets", {
   skip_if_no_gcp()
   skip_if_not_installed("arrow")

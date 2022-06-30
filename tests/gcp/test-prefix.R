@@ -1,4 +1,5 @@
-# Use sparingly. We do not want to max out any gcp quotas.
+# Use sparingly to minimize GCP costs.
+# Verify all `targets` buckets are deleted afterwards.
 # After this test runs, log into the gcp console,
 # check that the prefix is correct, and MANUALLY CLEAR OUT THE BUCKET.
 # Run interactively to check the prefix.

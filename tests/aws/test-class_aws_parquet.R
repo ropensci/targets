@@ -1,5 +1,5 @@
-# Use sparingly. We do not want to max out any AWS quotas.
-# And afterwards, manually verify that all the buckets are gone.
+# Use sparingly to minimize AWS costs.
+# Verify all `targets` buckets are deleted afterwards.
 tar_test("aws_parquet format returns data frames", {
   skip_if_no_aws()
   skip_if_not_installed("arrow")

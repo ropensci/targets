@@ -1,3 +1,5 @@
+# Use sparingly to minimize AWS costs.
+# Verify all `targets` buckets are deleted afterwards.
 # Use HMAC keys from Google Cloud.
 
 endpoint <- "https://storage.googleapis.com"
