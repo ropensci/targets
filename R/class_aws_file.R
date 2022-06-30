@@ -55,7 +55,8 @@ store_read_object.tar_aws_file <- function(store) {
     bucket = store_aws_bucket(path),
     file = stage,
     region = store_aws_region(path),
-    version = store_aws_version(path)
+    version = store_aws_version(path),
+    args = store$resources$aws$args
   )
   stage
 }

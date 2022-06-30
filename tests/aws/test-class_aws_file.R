@@ -1,4 +1,5 @@
-# Use sparingly. We do not want to max out any AWS quotas.
+# Use sparingly to minimize AWS costs.
+# Verify all `targets` buckets are deleted afterwards.
 tar_test("aws_file format file gets stored", {
   skip_if_no_aws()
   bucket_name <- random_bucket_name()

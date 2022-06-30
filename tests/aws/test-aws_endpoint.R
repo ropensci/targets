@@ -1,5 +1,5 @@
 # Switch to GCP HMAC versions of AWS env vars.
-# Use sparingly. We do not want to max out any AWS quotas.
+# Use sparingly to minimize AWS costs.
 # And afterwards, manually verify that all the buckets are gone.
 endpoint <- "https://storage.googleapis.com"
 region <- "auto"

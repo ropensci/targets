@@ -1,4 +1,4 @@
-# Use sparingly. We do not want to max out any AWS quotas.
+# Use sparingly to minimize AWS costs.
 # And afterwards, manually verify that all the buckets are gone.
 tar_test("AWS S3 + HPC", {
   skip_if_no_aws()

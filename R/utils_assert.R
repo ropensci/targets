@@ -37,15 +37,21 @@ tar_assert_callr_function <- function(callr_function) {
 #' @rdname tar_assert
 tar_assert_chr <- function(x, msg = NULL) {
   if (!is.character(x)) {
-    default <- paste(deparse(substitute(x)), "must be a character.")
+    default <- paste(tar_deparse_safe(substitute(x)), "must be a character.")
     tar_throw_validate(msg %|||% default)
   }
 }
 
 tar_assert_chr_no_delim <- function(x, msg = NULL) {
-  tar_assert_chr(x, paste(deparse(substitute(x)), "must be a character"))
+  tar_assert_chr(
+    x,
+    paste(tar_deparse_safe(substitute(x)), "must be a character")
+  )
   if (any(grepl("|", x, fixed = TRUE) | grepl("*", x, fixed = TRUE))) {
-    default <- paste(deparse(substitute(x)), "must not contain | or *")
+    default <- paste(
+      tar_deparse_safe(substitute(x)),
+      "must not contain | or *"
+    )
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -73,7 +79,7 @@ tar_assert_target_dag <- function(x, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_dbl <- function(x, msg = NULL) {
   if (!is.numeric(x)) {
-    default <- paste(deparse(substitute(x)), "must be numeric.")
+    default <- paste(tar_deparse_safe(substitute(x)), "must be numeric.")
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -82,7 +88,7 @@ tar_assert_dbl <- function(x, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_df <- function(x, msg = NULL) {
   if (!is.data.frame(x)) {
-    default <- paste(deparse(substitute(x)), "must be a data frame.")
+    default <- paste(tar_deparse_safe(substitute(x)), "must be a data frame.")
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -100,7 +106,10 @@ tar_assert_equal_lengths <- function(x, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_envir <- function(x, msg = NULL) {
   if (!is.environment(x)) {
-    default <- paste(deparse(substitute(x)), "must be an environment.")
+    default <- paste(
+      tar_deparse_safe(substitute(x)),
+      "must be an environment."
+    )
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -109,7 +118,7 @@ tar_assert_envir <- function(x, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_expr <- function(x, msg = NULL) {
   if (!is.expression(x)) {
-    default <- paste(deparse(substitute(x)), "must be an expression.")
+    default <- paste(tar_deparse_safe(substitute(x)), "must be an expression.")
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -119,19 +128,19 @@ tar_assert_expr <- function(x, msg = NULL) {
 tar_assert_flag <- function(x, choices, msg = NULL) {
   tar_assert_chr(
     x,
-    msg %|||% paste(deparse(substitute(x)), "must be a character")
+    msg %|||% paste(tar_deparse_safe(substitute(x)), "must be a character")
   )
   tar_assert_scalar(
     x,
-    msg %|||% paste(deparse(substitute(x)), "must have length 1")
+    msg %|||% paste(tar_deparse_safe(substitute(x)), "must have length 1")
   )
   if (!all(x %in% choices)) {
     msg <- msg %|||% paste(
-      deparse(substitute(x)),
+      tar_deparse_safe(substitute(x)),
       "equals",
-      deparse(x),
+      tar_deparse_safe(x),
       "but must be in",
-      deparse(choices)
+      tar_deparse_safe(choices)
     )
     tar_throw_validate(msg)
   }
@@ -167,7 +176,7 @@ tar_assert_repository <- function(repository) {
 #' @export
 #' @rdname tar_assert
 tar_assert_file <- function(x) {
-  name <- deparse(substitute(x))
+  name <- tar_deparse_safe(substitute(x))
   targets::tar_assert_chr(x, paste(name, "must be a character string."))
   targets::tar_assert_scalar(x, paste(name, "must have length 1."))
   targets::tar_assert_path(x)
@@ -176,7 +185,7 @@ tar_assert_file <- function(x) {
 #' @export
 #' @rdname tar_assert
 tar_assert_finite <- function(x, msg = NULL) {
-  name <- deparse(substitute(x))
+  name <- tar_deparse_safe(substitute(x))
   default <- paste("all of", name, "must be finite")
   if (!all(is.finite(x))) {
     tar_throw_validate(msg %|||% default)
@@ -198,7 +207,7 @@ tar_assert_function_arguments <- function(x, args, msg = NULL) {
   equal <- identical(exp, as.character(args))
   msg <- paste(
     "function",
-    deparse(substitute(x)),
+    tar_deparse_safe(substitute(x)),
     "must have these exact arguments in this exact order:",
     paste(exp, collapse = ", ")
   )
@@ -212,7 +221,7 @@ tar_assert_function_arguments <- function(x, args, msg = NULL) {
 tar_assert_ge <- function(x, threshold, msg = NULL) {
   if (any(x < threshold)) {
     default <- paste(
-      deparse(substitute(x)),
+      tar_deparse_safe(substitute(x)),
       "must be less than or equal to",
       threshold
     )
@@ -225,9 +234,9 @@ tar_assert_ge <- function(x, threshold, msg = NULL) {
 tar_assert_identical <- function(x, y, msg = NULL) {
   if (!identical(x, y)) {
     default <- paste(
-      deparse(substitute(x)),
+      tar_deparse_safe(substitute(x)),
       "and",
-      deparse(substitute(y)),
+      tar_deparse_safe(substitute(y)),
       "must be identical."
     )
     tar_throw_validate(msg %|||% default)
@@ -236,8 +245,8 @@ tar_assert_identical <- function(x, y, msg = NULL) {
 
 tar_assert_identical_chr <- function(x, y, msg = NULL) {
   if (!identical(x, y)) {
-    msg_x <- paste0(deparse(x), collapse = "")
-    msg_y <- paste0(deparse(y), collapse = "")
+    msg_x <- paste0(tar_deparse_safe(x), collapse = "")
+    msg_y <- paste0(tar_deparse_safe(y), collapse = "")
     tar_throw_validate(msg %|||% paste(msg_x, "and", msg_y, "not identical."))
   }
 }
@@ -247,11 +256,11 @@ tar_assert_identical_chr <- function(x, y, msg = NULL) {
 tar_assert_in <- function(x, choices, msg = NULL) {
   if (!all(x %in% choices)) {
     msg <- msg %|||% paste(
-      deparse(substitute(x)),
+      tar_deparse_safe(substitute(x)),
       "equals",
-      deparse(x),
+      tar_deparse_safe(x),
       "but must be in",
-      deparse(choices)
+      tar_deparse_safe(choices)
     )
     tar_throw_validate(msg)
   }
@@ -267,7 +276,9 @@ tar_assert_not_dirs <- function(x, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_not_dir <- function(x, msg = NULL) {
   if (dir.exists(x)) {
-    tar_throw_validate(msg %|||% paste(deparse(x), "must not be a directory."))
+    tar_throw_validate(
+      msg %|||% paste(tar_deparse_safe(x), "must not be a directory.")
+    )
   }
 }
 
@@ -275,7 +286,9 @@ tar_assert_not_dir <- function(x, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_not_in <- function(x, choices, msg = NULL) {
   if (any(x %in% choices)) {
-    tar_throw_validate(msg %|||% paste(deparse(x), "is in", deparse(choices)))
+    tar_throw_validate(
+      msg %|||% paste(tar_deparse_safe(x), "is in", tar_deparse_safe(choices))
+    )
   }
 }
 
@@ -283,7 +296,11 @@ tar_assert_not_in <- function(x, choices, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_inherits <- function(x, class, msg = NULL) {
   if (!inherits(x, class)) {
-    default <- paste(deparse(substitute(x)), "x does not inherit from", class)
+    default <- paste(
+      tar_deparse_safe(substitute(x)),
+      "x does not inherit from",
+      class
+    )
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -292,7 +309,10 @@ tar_assert_inherits <- function(x, class, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_int <- function(x, msg = NULL) {
   if (!is.integer(x)) {
-    default <- paste(deparse(substitute(x)), "must have mode integer.")
+    default <- paste(
+      tar_deparse_safe(substitute(x)),
+      "must have mode integer."
+    )
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -321,7 +341,7 @@ tar_assert_lang <- function(x, msg = NULL) {
 tar_assert_le <- function(x, threshold, msg = NULL) {
   if (any(x > threshold)) {
     default <- paste(
-      deparse(substitute(x)),
+      tar_deparse_safe(substitute(x)),
       "must be less than or equal to",
       threshold
     )
@@ -333,7 +353,7 @@ tar_assert_le <- function(x, threshold, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_list <- function(x, msg = NULL) {
   if (!is.list(x)) {
-    default <- paste(deparse(substitute(x)), "must be a list.")
+    default <- paste(tar_deparse_safe(substitute(x)), "must be a list.")
     tar_throw_validate(msg %|||% "x must be a list.")
   }
 }
@@ -342,7 +362,7 @@ tar_assert_list <- function(x, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_lgl <- function(x, msg = NULL) {
   if (!is.logical(x)) {
-    default <- paste(deparse(substitute(x)), "must be logical.")
+    default <- paste(tar_deparse_safe(substitute(x)), "must be logical.")
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -366,6 +386,26 @@ tar_assert_name <- function(x) {
 
 #' @export
 #' @rdname tar_assert
+tar_assert_named <- function(x, msg = NULL) {
+  msg <- msg %|||% paste(
+    "names of",
+    tar_deparse_safe(substitute(x)),
+    "must have a complete set of unique nonempty names."
+  )
+  if (!length(x)) {
+    return()
+  }
+  names <- names(x)
+  tar_assert_ge(length(x), length(names), msg = msg)
+  tar_assert_le(length(x), length(names), msg = msg)
+  tar_assert_unique(names, msg = msg)
+  tar_assert_nonempty(names, msg = msg)
+  tar_assert_chr(names, msg = msg)
+  tar_assert_nzchar(names, msg = msg)
+}
+
+#' @export
+#' @rdname tar_assert
 tar_assert_names <- function(x, msg = NULL) {
   if (any(x != make.names(x, unique = FALSE))) {
     tar_throw_validate(msg %|||% "x must legal symbol names.")
@@ -376,14 +416,17 @@ tar_assert_names <- function(x, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_nonempty <- function(x, msg = NULL) {
   if (!length(x)) {
-    default <- paste(deparse(substitute(x)), "must be nonempty.")
+    default <- paste(tar_deparse_safe(substitute(x)), "must be nonempty.")
     tar_throw_validate(msg %|||% default)
   }
 }
 
 tar_assert_none_na <- function(x, msg = NULL) {
   if (anyNA(x)) {
-    default <- paste(deparse(substitute(x)), "must have no missing values.")
+    default <- paste(
+      tar_deparse_safe(substitute(x)),
+      "must have no missing values."
+    )
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -400,7 +443,10 @@ tar_assert_not_expr <- function(x, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_nzchar <- function(x, msg = NULL) {
   if (any(!nzchar(x))) {
-    default <- paste(deparse(substitute(x)), "has empty character strings.")
+    default <- paste(
+      tar_deparse_safe(substitute(x)),
+      "has empty character strings."
+    )
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -434,7 +480,11 @@ tar_assert_path <- function(path, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_match <- function(x, pattern, msg = NULL) {
   if (!grepl(pattern = pattern, x = x)) {
-    default <- paste(deparse(substitute(x)), "does not match pattern", pattern)
+    default <- paste(
+      tar_deparse_safe(substitute(x)),
+      "does not match pattern",
+      pattern
+    )
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -443,7 +493,10 @@ tar_assert_match <- function(x, pattern, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_nonmissing <- function(x, msg = NULL) {
   if (rlang::is_missing(x)) {
-    default <- paste(deparse(substitute(x)), "is missing with no default.")
+    default <- paste(
+      tar_deparse_safe(substitute(x)),
+      "is missing with no default."
+    )
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -452,7 +505,7 @@ tar_assert_nonmissing <- function(x, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_positive <- function(x, msg = NULL) {
   if (any(x <= 0)) {
-    default <- paste(deparse(substitute(x)), "is not all positive.")
+    default <- paste(tar_deparse_safe(substitute(x)), "is not all positive.")
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -491,7 +544,7 @@ tar_assert_resources <- function(resources) {
 #' @rdname tar_assert
 tar_assert_scalar <- function(x, msg = NULL) {
   if (length(x) != 1) {
-    default <- paste(deparse(substitute(x)), "must have length 1.")
+    default <- paste(tar_deparse_safe(substitute(x)), "must have length 1.")
     tar_throw_validate(msg %|||% default)
   }
 }
@@ -587,7 +640,7 @@ tar_assert_script <- function(script) {
 tar_assert_true <- function(x, msg = NULL) {
   if (!x) {
     default <- paste(
-      deparse(substitute(x)),
+      tar_deparse_safe(substitute(x)),
       "does not evaluate not TRUE."
     )
     tar_throw_validate(msg %|||% default)
@@ -600,7 +653,7 @@ tar_assert_unique <- function(x, msg = NULL) {
   if (anyDuplicated(x)) {
     dups <- paste(unique(x[duplicated(x)]), collapse = ", ")
     default <- paste(
-      deparse(substitute(x)),
+      tar_deparse_safe(substitute(x)),
       "has duplicated entries:",
       dups
     )

@@ -9,7 +9,8 @@ aws_s3_exists <- function(
   bucket,
   region = NULL,
   endpoint = NULL,
-  version = NULL
+  version = NULL,
+  args = list()
 ) {
   tryCatch(
     aws_s3_head_true(
@@ -17,7 +18,8 @@ aws_s3_exists <- function(
       bucket = bucket,
       region = region,
       endpoint = endpoint,
-      version = version
+      version = version,
+      args = args
     ),
     http_400 = function(condition) {
       FALSE
@@ -30,16 +32,16 @@ aws_s3_head <- function(
   bucket,
   region = NULL,
   endpoint = NULL,
-  version = NULL
+  version = NULL,
+  args = list()
 ) {
   client <- aws_s3_client(endpoint = endpoint, region = region)
-  args <- list(
-    Key = key,
-    Bucket = bucket
-  )
+  args$Key <- key
+  args$Bucket <- bucket
   if (!is.null(version)) {
     args$VersionId <- version
   }
+  args <- supported_args(fun = client$head_object, args = args)
   do.call(what = client$head_object, args = args)
 }
 
@@ -48,14 +50,16 @@ aws_s3_head_true <- function(
   bucket,
   region = NULL,
   endpoint = NULL,
-  version = NULL
+  version = NULL,
+  args = list()
 ) {
   aws_s3_head(
     key = key,
     bucket = bucket,
     region = region,
     endpoint = endpoint,
-    version = version
+    version = version,
+    args = args
   )
   TRUE
 }
@@ -66,16 +70,16 @@ aws_s3_download <- function(
   bucket,
   region = NULL,
   endpoint = NULL,
-  version = NULL
+  version = NULL,
+  args = list()
 ) {
   client <- aws_s3_client(endpoint = endpoint, region = region)
-  args <- list(
-    Key = key,
-    Bucket = bucket
-  )
+  args$Key <- key
+  args$Bucket <- bucket
   if (!is.null(version)) {
     args$VersionId <- version
   }
+  args <- supported_args(fun = client$get_object, args = args)
   out <- do.call(what = client$get_object, args = args)$Body
   writeBin(out, con = file)
   invisible()
@@ -86,16 +90,16 @@ aws_s3_delete <- function(
   bucket,
   region = NULL,
   endpoint = NULL,
-  version = NULL
+  version = NULL,
+  args = list()
 ) {
   client <- aws_s3_client(endpoint = endpoint, region = region)
-  args <- list(
-    Key = key,
-    Bucket = bucket
-  )
+  args$Key <- key
+  args$Bucket <- bucket
   if (!is.null(version)) {
     args$VersionId <- version
   }
+  args <- supported_args(fun = client$delete_object, args = args)
   do.call(what = client$delete_object, args = args)
   invisible()
 }
@@ -111,30 +115,49 @@ aws_s3_upload <- function(
   endpoint = NULL,
   metadata = list(),
   multipart = file.size(file) > part_size,
-  part_size = 5 * (2 ^ 20)
+  part_size = 5 * (2 ^ 20),
+  args = list()
 ) {
   client <- aws_s3_client(endpoint = endpoint, region = region)
   if (!multipart) {
-    out <- client$put_object(
-      Body = readBin(file, what = "raw", n = file.size(file)),
-      Key = key,
-      Bucket = bucket,
-      Metadata = metadata
+    args_put_object <- args
+    args_put_object$Body <- readBin(file, what = "raw", n = file.size(file))
+    args_put_object$Key <- key
+    args_put_object$Bucket <- bucket
+    args_put_object$Metadata <- metadata
+    args_put_object <- supported_args(
+      fun = client$put_object,
+      args = args_put_object
     )
+    out <- do.call(what = client$put_object, args = args_put_object)
     return(out)
   }
-  multipart <- client$create_multipart_upload(
-    Bucket = bucket,
-    Key = key,
-    Metadata = metadata
+  args_create_multipart_upload <- args
+  args_create_multipart_upload$Bucket <- bucket
+  args_create_multipart_upload$Key <- key
+  args_create_multipart_upload$Metadata <- metadata
+  args_create_multipart_upload <- supported_args(
+    fun = client$create_multipart_upload,
+    args = args_create_multipart_upload
+  )
+  multipart <- do.call(
+    what = client$create_multipart_upload,
+    args = args_create_multipart_upload
   )
   response <- NULL
   on.exit({
     if (is.null(response) || inherits(response, "try-error")) {
-      client$abort_multipart_upload(
-        Bucket = bucket,
-        Key = key,
-        UploadId = multipart$UploadId
+      args_abort_multipart_upload <- args
+      args_abort_multipart_upload$Bucket <- bucket
+      args_abort_multipart_upload$Key <- key
+      args_abort_multipart_upload$UploadId <- multipart$UploadId
+      args_abort_multipart_upload <- supported_args(
+        fun = client$abort_multipart_upload,
+        args = args_abort_multipart_upload
+      )
+      do.call(
+        what = client$abort_multipart_upload,
+        args = args_abort_multipart_upload
       )
       tar_throw_file(response)
     }
@@ -146,13 +169,21 @@ aws_s3_upload <- function(
       bucket = bucket,
       client = client,
       part_size = part_size,
-      upload_id = multipart$UploadId
+      upload_id = multipart$UploadId,
+      args = args
     )
-    client$complete_multipart_upload(
-      Bucket = bucket,
-      Key = key,
-      MultipartUpload = list(Parts = parts),
-      UploadId = multipart$UploadId
+    args_complete_multipart_upload <- args
+    args_complete_multipart_upload$Bucket <- bucket
+    args_complete_multipart_upload$Key <- key
+    args_complete_multipart_upload$MultipartUpload <- list(Parts = parts)
+    args_complete_multipart_upload$UploadId <- multipart$UploadId
+    args_complete_multipart_upload <- supported_args(
+      fun = client$complete_multipart_upload,
+      args = args_complete_multipart_upload
+    )
+    do.call(
+      what = client$complete_multipart_upload,
+      args = args_complete_multipart_upload
     )
   }, silent = TRUE)
   response
@@ -167,7 +198,8 @@ aws_s3_upload_parts <- function(
   bucket,
   client,
   part_size,
-  upload_id
+  upload_id,
+  args = list()
 ) {
   file_size <- file.size(file)
   num_parts <- ceiling(file_size / part_size)
@@ -177,13 +209,13 @@ aws_s3_upload_parts <- function(
   for (i in seq_len(num_parts)) {
     cli_blue_bullet(sprintf("upload %s part %s of %s", file, i, num_parts))
     part <- readBin(con, what = "raw", n = part_size)
-    part_response <- client$upload_part(
-      Body = part,
-      Bucket = bucket,
-      Key = key,
-      PartNumber = i,
-      UploadId = upload_id
-    )
+    args$Body <- part
+    args$Bucket <- bucket
+    args$Key <- key
+    args$PartNumber <- i
+    args$UploadId <- upload_id
+    args <- supported_args(fun = client$upload_part, args = args)
+    part_response <- do.call(what = client$upload_part, args = args)
     parts <- c(parts, list(list(ETag = part_response$ETag, PartNumber = i)))
   }
   parts

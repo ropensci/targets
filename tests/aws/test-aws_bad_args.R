@@ -10,7 +10,10 @@ tar_test("aws_parquet format returns data frames", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(
+          bucket = !!bucket_name,
+          ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"
+        )
       ),
       format = "parquet",
       repository = "aws"
@@ -21,7 +24,9 @@ tar_test("aws_parquet format returns data frames", {
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
-  tar_make(callr_function = NULL)
-  out <- tar_read(x)
-  expect_equal(out, data.frame(x = seq_len(2), y = seq_len(2)))
+  expect_silent(tar_manifest(callr_function = NULL))
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_run"
+  )
 })

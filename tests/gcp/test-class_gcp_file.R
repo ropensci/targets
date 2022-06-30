@@ -1,4 +1,5 @@
-# Use sparingly. We do not want to max out any gcp quotas.
+# Use sparingly to minimize GCP costs.
+# Verify all `targets` buckets are deleted afterwards.
 tar_test("gcp_file format file gets stored", {
   skip_if_no_gcp()
   bucket_name <- random_bucket_name()

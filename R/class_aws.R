@@ -133,7 +133,8 @@ store_read_object.tar_aws <- function(store) {
     file = tmp,
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
-    version = store_aws_version(path)
+    version = store_aws_version(path),
+    args = store$resources$aws$args
   )
   store_convert_object(store, store_read_path(store, tmp))
 }
@@ -146,7 +147,8 @@ store_exist_object.tar_aws <- function(store, name = NULL) {
     bucket = store_aws_bucket(path),
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
-    version = store_aws_version(path)
+    version = store_aws_version(path),
+    args = store$resources$aws$args
   )
 }
 
@@ -171,7 +173,8 @@ store_delete_object.tar_aws <- function(store, name = NULL) {
       bucket =  bucket,
       region = region,
       endpoint = endpoint,
-      version = version
+      version = version,
+      args = store$resources$aws$args
     ),
     error = function(condition) {
       tar_throw_validate(message, conditionMessage(condition))
@@ -191,7 +194,8 @@ store_upload_object.tar_aws <- function(store) {
       region = store_aws_region(store$file$path),
       endpoint = store_aws_endpoint(store$file$path),
       metadata = list("targets-hash" = store$file$hash),
-      part_size = store$resources$aws$part_size %|||% (5 * (2 ^ 20))
+      part_size = store$resources$aws$part_size %|||% (5 * (2 ^ 20)),
+      args = store$resources$aws$args
     ),
     tar_throw_file(
       "Cannot upload non-existent AWS staging file ",
@@ -225,7 +229,8 @@ store_has_correct_hash.tar_aws <- function(store) {
       bucket = bucket,
       region = region,
       endpoint = endpoint,
-      version = version
+      version = version,
+      args = store$resources$aws$args
     ),
     identical(
       store_aws_hash(
@@ -233,7 +238,8 @@ store_has_correct_hash.tar_aws <- function(store) {
         bucket = bucket,
         region = region,
         endpoint = endpoint,
-        version = version
+        version = version,
+        args = store$resources$aws$args
       ),
       store$file$hash
     ),
@@ -241,13 +247,14 @@ store_has_correct_hash.tar_aws <- function(store) {
   )
 }
 
-store_aws_hash <- function(key, bucket, region, endpoint, version) {
+store_aws_hash <- function(key, bucket, region, endpoint, version, args) {
   head <- aws_s3_head(
     key = key,
     bucket = bucket,
     region = region,
     endpoint = endpoint,
-    version = version
+    version = version,
+    args = args
   )
   head$Metadata[["targets-hash"]]
 }

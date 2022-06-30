@@ -4,6 +4,10 @@
 
 * Do not bootstrap the junction of a stem unless the target is branched over (#858, @dipterix).
 
+## New features
+
+* Allow extra arguments to `paws` functions via `...` in `tar_resources_aws()` (#855, @michkam89).
+
 ## Enhancements
 
 * Color ordinary `targets` messages the default theme color, and color warnings and errors red (#856, @gorkang).

@@ -30,6 +30,10 @@ omit_na <- function(x) {
   x[!is.na(x)]
 }
 
+omit_null <- function(x) {
+  x[!map_lgl(x, is.null)]
+}
+
 dir_create <- function(x) {
   if (!file.exists(x)) {
     dir.create(x, showWarnings = FALSE, recursive = TRUE)
@@ -54,4 +58,10 @@ set_names <- function(x, names) {
 enclass <- function(x, class) {
   class(x) <- c(class, class(x))
   x
+}
+
+supported_args <- function(fun, args) {
+  args <- omit_null(args)
+  common <- intersect(names(formals(fun)), names(args))
+  args[common]
 }

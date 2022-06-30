@@ -1,3 +1,5 @@
+# Use sparingly to minimize AWS costs.
+# Verify all `targets` buckets are deleted afterwards.
 tar_test("aws_s3_exists()", {
   bucket <- random_bucket_name()
   paws::s3()$create_bucket(Bucket = bucket)
@@ -7,6 +9,13 @@ tar_test("aws_s3_exists()", {
   writeLines("x", tmp)
   paws::s3()$put_object(Body = tmp, Key = "x", Bucket = bucket)
   expect_true(aws_s3_exists(key = "x", bucket = bucket))
+  expect_false(
+    aws_s3_exists(
+      key = "x",
+      bucket = bucket,
+      args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b")
+    )
+  )
 })
 
 tar_test("aws_s3_head()", {
@@ -20,6 +29,14 @@ tar_test("aws_s3_head()", {
   expect_true(is.list(head))
   expect_true(is.character(head$ETag))
   expect_true(nzchar(head$ETag))
+  expect_error(
+    aws_s3_head(
+      key = "x",
+      bucket = bucket,
+      args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b")
+    ),
+    class = "http_error"
+  )
 })
 
 tar_test("aws_s3_download()", {
@@ -32,6 +49,15 @@ tar_test("aws_s3_download()", {
   tmp2 <- tempfile()
   expect_false(file.exists(tmp2))
   aws_s3_download(file = tmp2, key = "x", bucket = bucket)
+  expect_error(
+    aws_s3_download(
+      file = tmp2,
+      key = "x",
+      bucket = bucket,
+      args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b")
+    ),
+    class = "http_error"
+  )
   expect_equal(readLines(tmp2), "x")
 })
 
@@ -43,6 +69,15 @@ tar_test("aws_s3_delete()", {
   writeLines("x", tmp)
   key <- "x"
   paws::s3()$put_object(Body = tmp, Key = key, Bucket = bucket)
+  expect_true(aws_s3_exists(key = key, bucket = bucket))
+  expect_error(
+    aws_s3_delete(
+      key = key,
+      bucket = bucket,
+      args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b")
+    ),
+    class = "http_error"
+  )
   expect_true(aws_s3_exists(key = key, bucket = bucket))
   aws_s3_delete(key = key, bucket = bucket)
   expect_false(aws_s3_exists(key = key, bucket = bucket))
@@ -81,6 +116,16 @@ tar_test("aws_s3_upload() without headers", {
   expect_false(aws_s3_exists(key = "x", bucket = bucket))
   tmp <- tempfile()
   writeLines("x", tmp)
+  expect_error(
+    aws_s3_upload(
+      file = tmp,
+      key = "x",
+      bucket = bucket,
+      args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b")
+    ),
+    class = "http_error"
+  )
+  expect_false(aws_s3_exists(key = "x", bucket = bucket))
   aws_s3_upload(
     file = tmp,
     key = "x",

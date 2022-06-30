@@ -9,7 +9,8 @@ tar_resources_aws(
   prefix = targets::path_objects_dir_cloud(),
   region = NULL,
   part_size = 5 * (2^20),
-  endpoint = NULL
+  endpoint = NULL,
+  ...
 )
 }
 \arguments{
@@ -42,6 +43,27 @@ There is one limitation, however: even if your bucket has
 object versioning turned on, \code{targets} may fail to record object
 versions. Google Cloud Storage in particular has this
 incompatibility.}
+
+\item{...}{Named arguments to functions in \code{paws::s3()} to manage
+S3 storage. The documentation of these specific functions
+is linked from \url{https://paws-r.github.io/docs/s3/}.
+The configurable functions themselves are:
+\itemize{
+\item \code{paws::s3()$head_object()}
+\item \code{paws::s3()$get_object()}
+\item \code{paws::s3()$delete_object()}
+\item \code{paws::s3()$put_object()}
+\item \code{paws::s3()$create_multipart_upload()}
+\item \code{paws::s3()$abort_multipart_upload()}
+\item \code{paws::s3()$complete_multipart_upload()}
+\item \code{paws::s3()$upload_part()}
+The named arguments in \code{...} must not be any of
+\code{"bucket"}, \code{"Bucket"}, \code{"key"}, \code{"Key"},
+\code{"prefix"}, \code{"region"}, \code{"part_size"}, \code{"endpoint"},
+\code{"version"}, \code{"VersionId"}, \code{"body"}, \code{"Body"},
+\code{"metadata"}, \code{"Metadata"}, \code{"UploadId"}, \code{"MultipartUpload"},
+or \code{"PartNumber"}.
+}}
 }
 \value{
 Object of class \code{"tar_resources_aws"}, to be supplied
