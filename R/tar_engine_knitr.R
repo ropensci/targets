@@ -82,7 +82,7 @@
 #' }
 #' # Then, {targets} code chunks in a knitr report will run
 #' # as described at
-#' <https://books.ropensci.org/targets/literate-programming.html>.
+#' # <https://books.ropensci.org/targets/literate-programming.html>.
 #' }
 tar_engine_knitr <- function(options) {
   if (identical(as.logical(options$eval), FALSE)) {
