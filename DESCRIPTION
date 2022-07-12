@@ -82,6 +82,7 @@ Suggests:
   future (>= 1.19.1),
   future.batchtools (>= 0.9.0),
   future.callr (>= 0.6.0),
+  gargle (>= 1.2.0),
   googleCloudStorageR (>= 0.7.0),
   gt (>= 0.2.2),
   keras (>= 2.2.5.0),
