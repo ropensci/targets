@@ -136,7 +136,12 @@ gcp_gcs_upload <- function(
 
 gcp_gcs_auth <- function(verbose = FALSE) {
   if_any(verbose, identity, suppressMessages) (
-    googleCloudStorageR::gcs_auth(Sys.getenv("GCS_AUTH_FILE"))
+    googleCloudStorageR::gcs_auth(
+      token = gargle::token_fetch(
+        scopes = c("https://www.googleapis.com/auth/cloud-platform"),
+        path = Sys.getenv("GCS_AUTH_FILE")
+      )
+    )
   )
 }
 # nocov end
