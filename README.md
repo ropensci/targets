@@ -132,6 +132,11 @@ To create a pipeline of your own:
 -   [R-Ladies Barcelona, 2021-05-25
     (1:25:12)](https://www.youtube.com/watch?v=Vj312AfdpBo).
 
+### 日本語
+
+-   [Bio”Pack”athon, 2022-03-31
+    (1:04:10)](https://togotv.dbcls.jp/20220331.html)
+
 ## Example projects
 
 -   [Four-minute
