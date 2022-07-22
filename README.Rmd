@@ -86,7 +86,7 @@ To create a pipeline of your own:
 
 ### 日本語
 
--   [Bio”Pack”athon, 2022-03-31
+-   [Bio"Pack"athon, 2022-03-31
     (1:04:10)](https://togotv.dbcls.jp/20220331.html)
 
 ## Example projects
