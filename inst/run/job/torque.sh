@@ -10,6 +10,7 @@
 #PBS -q default
 #PBS -j oe
 
+# module load R # Uncomment if R is an environment module.
 R CMD BATCH run.R
 
 # Removing .RData is recommended.

@@ -11,6 +11,7 @@
 #BSUB-R rusage[mem=4096]
 #BSUB-R span[ptile=1]
 
+# module load R # Uncomment if R is an environment module.
 R CMD BATCH run.R
 
 # Removing .RData is recommended.
