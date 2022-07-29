@@ -1,12 +1,12 @@
 # Modified from https://github.com/mschubert/clustermq/blob/master/inst/PBS.tmpl
 # under the Apache 2.0 license.
 
-#PBS -N {{ job_name }}
+#PBS -N JOB_NAME_{{ job_name }}
 #PBS -l nodes={{ n_jobs }}:ppn={{ cores | 1 }},walltime={{ walltime | 12:00:00 }}
 #PBS -o {{ log_file | /dev/null }}
 #PBS -q default
 #PBS -j oe
 
-module load R # Comment if there is no R environment module.
+module load R # Comment out if R is not an environment module.
 # ulimit -v $(( 1024 * {{ memory | 4096 }} ))
 CMQ_AUTH={{ auth }} R --no-save --no-restore -e 'clustermq:::worker("{{ master }}")'

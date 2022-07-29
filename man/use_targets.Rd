@@ -8,7 +8,8 @@ use_targets(
   script = targets::tar_config_get("script"),
   scheduler = targets::use_targets_scheduler(),
   open = interactive(),
-  overwrite = FALSE
+  overwrite = FALSE,
+  job_name = targets::tar_random_name()
 )
 }
 \arguments{
@@ -38,6 +39,9 @@ in the RStudio IDE.}
 
 \item{overwrite}{Logical of length 1, whether to overwrite
 the targets file and supporting files if they already exist.}
+
+\item{job_name}{Character of length 1, job name to supply to
+schedulers like SLURM.}
 }
 \value{
 \code{NULL} (invisibly).
@@ -53,9 +57,11 @@ workflow for \code{targets}, \code{use_targets()} writes:
 \item Template files \code{"clustermq.tmpl"} and \code{"future.tmpl"}
 to configure \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}
 to a resource manager if detected on your system.
-\item Script \code{run.R} to conveniently execute the pipeline.
-Call \verb{Rscript run.R} or \verb{R CMD BATCH run.R} to run the pipeline
-using \code{run.R}.
+They should work out of the box on most systems, but
+you may need to modify them by hand if you encounter errors.
+\item Script \code{run.R} to conveniently execute the pipeline using
+\code{\link[=tar_make]{tar_make()}}. You can change this to \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}
+or \code{\link[=tar_make_future]{tar_make_future()}} and supply the \code{workers} argument to either.
 \item Script \code{run.sh} to conveniently call \code{run.R} in a persistent
 background process. Enter \code{./run.sh} in the shell to run it.
 \item If you have a high-performance computing scheduler
@@ -64,6 +70,8 @@ like Sun Grid Engine (SGE) (or select one using the
 script \code{job.sh} is created. \code{job.sh} conveniently executes \code{run.R}
 as a job on a cluster. For example, to run the pipeline as a
 job on an SGE cluster, enter \verb{qsub job.sh} in the terminal.
+\code{job.sh} should work out of the box on most systems, but
+you may need to modify it by hand if you encounter errors.
 }
 
 After you call \code{use_targets()}, there is still configuration left to do:
@@ -75,7 +83,8 @@ that your pipeline requires.
 (\code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}, or \code{\link[=tar_make_future]{tar_make_future()}}).
 \item If applicable, edit \code{clustermq.tmpl} and/or \code{future.tmpl}
 to configure settings for your resource manager.
-\item If applicable, configure \code{job.sh} for your resource manager.
+\item If applicable, configure \code{job.sh}, \code{"clustermq.tmpl"}, and/or
+\code{"future.tmpl"} for your resource manager.
 }
 
 After you finished configuring your project, follow the steps at

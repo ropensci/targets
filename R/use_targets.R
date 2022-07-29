@@ -8,9 +8,11 @@
 #'   2. Template files `"clustermq.tmpl"` and `"future.tmpl"`
 #'     to configure [tar_make_clustermq()] and [tar_make_future()]
 #'     to a resource manager if detected on your system.
-#'   3. Script `run.R` to conveniently execute the pipeline.
-#'     Call `Rscript run.R` or `R CMD BATCH run.R` to run the pipeline
-#'     using `run.R`.
+#'     They should work out of the box on most systems, but
+#'     you may need to modify them by hand if you encounter errors.
+#'   3. Script `run.R` to conveniently execute the pipeline using
+#'     [tar_make()]. You can change this to [tar_make_clustermq()]
+#'     or [tar_make_future()] and supply the `workers` argument to either.
 #'   4. Script `run.sh` to conveniently call `run.R` in a persistent
 #'     background process. Enter `./run.sh` in the shell to run it.
 #'   5. If you have a high-performance computing scheduler
@@ -19,6 +21,8 @@
 #'     script `job.sh` is created. `job.sh` conveniently executes `run.R`
 #'     as a job on a cluster. For example, to run the pipeline as a
 #'     job on an SGE cluster, enter `qsub job.sh` in the terminal.
+#'     `job.sh` should work out of the box on most systems, but
+#'     you may need to modify it by hand if you encounter errors.
 #'
 #' After you call `use_targets()`, there is still configuration left to do:
 #'   1. Open `_targets.R` and edit by hand. Follow the comments to
@@ -28,7 +32,8 @@
 #'     ([tar_make()], [tar_make_clustermq()], or [tar_make_future()]).
 #'   3. If applicable, edit `clustermq.tmpl` and/or `future.tmpl`
 #'     to configure settings for your resource manager.
-#'   4. If applicable, configure `job.sh` for your resource manager.
+#'   4. If applicable, configure `job.sh`, `"clustermq.tmpl"`, and/or
+#'     `"future.tmpl"` for your resource manager.
 #'
 #'  After you finished configuring your project, follow the steps at
 #'    <https://books.ropensci.org/targets/walkthrough.html#inspect-the-pipeline>: # nolint
@@ -58,6 +63,8 @@
 #'   * `"torque"`: Torque clusters.
 #' @param overwrite Logical of length 1, whether to overwrite
 #'   the targets file and supporting files if they already exist.
+#' @param job_name Character of length 1, job name to supply to
+#'   schedulers like SLURM.
 #' @examples
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -68,7 +75,8 @@ use_targets <- function(
   script = targets::tar_config_get("script"),
   scheduler = targets::use_targets_scheduler(),
   open = interactive(),
-  overwrite = FALSE
+  overwrite = FALSE,
+  job_name = targets::tar_random_name()
 ) {
   schedulers <- c(
     "multicore",
@@ -88,27 +96,27 @@ use_targets <- function(
   lines <- readLines(path)
   lines <- gsub(
     pattern = "^CLUSTERMQ$",
-    replacement = use_targets_clustermq(scheduler, overwrite),
+    replacement = use_targets_clustermq(scheduler, overwrite, job_name),
     x = lines
   )
   lines <- gsub(
     pattern = "^FUTURE$",
-    replacement = use_targets_future(scheduler, overwrite),
+    replacement = use_targets_future(scheduler, overwrite, job_name),
     x = lines
   )
   temp <- tempfile()
   on.exit(unlink(temp), add = TRUE)
   writeLines(lines, temp)
-  use_targets_copy(from = temp, to = script, overwrite = overwrite)
+  use_targets_copy(temp, script, overwrite, job_name)
   for (file in c("run.R", "run.sh")) {
     path <- file.path("run", file)
     path <- system.file(path, package = "targets", mustWork = TRUE)
-    use_targets_copy(from = path, to = file, overwrite = overwrite)
+    use_targets_copy(path, file, overwrite, job_name)
   }
   if (!scheduler %in% c("multicore", "multiprocess")) {
     path <- file.path("run", "job", paste0(scheduler, ".sh"))
     path <- system.file(path, package = "targets", mustWork = TRUE)
-    use_targets_copy(from = path, to = "job.sh", overwrite = overwrite)
+    use_targets_copy(path, "job.sh", overwrite, job_name)
   }
   # covered in tests/interactive/test-
   # nocov start
@@ -150,19 +158,19 @@ use_targets_scheduler <- function() {
   if_any(exists, names(schedulers)[min(which(exists))], local)
 }
 
-use_targets_clustermq <- function(scheduler, overwrite) {
+use_targets_clustermq <- function(scheduler, overwrite, job_name) {
   lines <- sprintf("options(clustermq.scheduler = \"%s\")", scheduler)
   if (!scheduler %in% c("multiprocess", "multicore")) {
     lines <- c(lines, "options(clustermq.template = \"clustermq.tmpl\")")
     file <- paste0(scheduler, ".tmpl")
     path <- file.path("templates", "clustermq", file)
     path <- system.file(path, package = "targets", mustWork = TRUE)
-    use_targets_copy(from = path, to = "clustermq.tmpl", overwrite = overwrite)
+    use_targets_copy(path, "clustermq.tmpl", overwrite, job_name)
   }
   paste(lines, collapse = "\n")
 }
 
-use_targets_future <- function(scheduler, overwrite) {
+use_targets_future <- function(scheduler, overwrite, job_name) {
   packages <- map_lgl(
     c("future", "future.callr", "future.batchtools"),
     ~requireNamespace(.x, quietly = TRUE)
@@ -198,18 +206,20 @@ use_targets_future <- function(scheduler, overwrite) {
     )[scheduler]
     path <- file.path("templates", file)
     path <- system.file(path, package = "batchtools", mustWork = TRUE)
-    use_targets_copy(from = path, to = "future.tmpl", overwrite = overwrite)
+    use_targets_copy(path, "future.tmpl", overwrite, job_name)
   }
   paste(line, collapse = "\n")
 }
 
-use_targets_copy <- function(from, to, overwrite) {
+use_targets_copy <- function(from, to, overwrite, job_name) {
   if (file.exists(to) && !overwrite) {
     msg <- "File \"%s\" already exists. Stash and retry for a fresh copy."
     msg <- sprintf(msg, to)
     cli_mark_info(msg)
   } else {
     cli_blue_bullet(sprintf("Writing file \"%s\".", to))
-    file.copy(from, to, overwrite = TRUE)
+    lines <- readLines(from)
+    lines <- gsub(pattern = "JOB_NAME", replacement = job_name, x = lines)
+    writeLines(text = lines, con = to)
   }
 }

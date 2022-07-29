@@ -1,7 +1,7 @@
 # Modified from https://github.com/mschubert/clustermq/blob/master/inst/PBS.tmpl
 # under the Apache 2.0 license.
 
-#PBS -N {{ job_name }}
+#PBS -N JOB_NAME_{{ job_name }}
 #PBS -J 1-{{ n_jobs }}
 #PBS -l nodes=1:ppn={{ cores | 1 }}:mem={{ memory | 4096 }}MB
 # ppn=P is equivalent to ncpus=P:mpiprocs=P
@@ -11,8 +11,7 @@
 #PBS -o {{ log_file | /dev/null }}
 #PBS -j oe
 
-# Comment out if R is not an environement module:
-module load R
+module load R # Comment out if R is not an environment module.
 
 # Uncomment to set the working directory
 # cd {{ workdir | "$PBS_O_WORKDIR" }}

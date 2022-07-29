@@ -59,18 +59,34 @@ tar_test("use_targets() hpc schedulers", {
   script <- tar_config_get("script")
   for (scheduler in c("slurm", "sge", "lsf", "pbs", "torque")) {
     unlink("*.tmpl")
-    use_targets(scheduler = scheduler, open = FALSE, overwrite = TRUE)
+    use_targets(
+      scheduler = scheduler,
+      open = FALSE,
+      overwrite = TRUE,
+      job_name = "my_job_name"
+    )
     expect_true(file.exists("clustermq.tmpl"))
     expect_true(file.exists("future.tmpl") || scheduler == "pbs")
     line <- grep("clustermq\\.scheduler", readLines(script), value = TRUE)
     expect_true(grepl(scheduler, line))
+    lines <- readLines("clustermq.tmpl")
+    expect_false(any(grepl("JOB_NAME", lines)))
+    expect_true(any(grepl("my_job_name", lines)))
+    tmpl <- file.path("templates", "clustermq", paste0(scheduler, ".tmpl"))
+    path <- system.file(tmpl, package = "targets", mustWork = TRUE)
+    exp <- readLines(path)
+    exp <- gsub(pattern = "JOB_NAME", replacement = "my_job_name", x = exp)
+    expect_true(identical(lines, exp))
     line <- grep("future::plan", readLines(script), value = TRUE)
     expect_true(grepl(scheduler, line) || scheduler == "pbs")
     shell <- file.path("run", "job", paste0(scheduler, ".sh"))
     shell <- system.file(shell, package = "targets", mustWork = TRUE)
     exp <- readLines(shell)
+    exp <- gsub(pattern = "JOB_NAME", replacement = "my_job_name", x = exp)
     out <- readLines("job.sh")
     expect_true(identical(out, exp))
+    expect_false(any(grepl("JOB_NAME", out)))
+    expect_true(any(grepl("my_job_name", out)))
     shell <- file.path("run", "run.sh")
     shell <- system.file(shell, package = "targets", mustWork = TRUE)
     exp <- readLines(shell)

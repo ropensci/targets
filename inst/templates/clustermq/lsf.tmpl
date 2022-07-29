@@ -1,12 +1,12 @@
 # Modified from https://github.com/mschubert/clustermq/blob/master/inst/LSF.tmpl
 # under the Apache 2.0 license.
-#BSUB-J {{ job_name }}[1-{{ n_jobs }}]
+#BSUB-J JOB_NAME_[1-{{ n_jobs }}]
 #BSUB-n {{ cores | 1 }}
 #BSUB-o {{ log_file | /dev/null }}
 #BSUB-M {{ memory | 4096 }}
 #BSUB-R rusage[mem={{ memory | 4096  }}]
 #BSUB-R span[ptile=1]
 
-module load R # Comment out if there is no R environment module.
+module load R # Comment out if R is not an environment module.
 # ulimit -v $(( 1024 * {{ memory | 4096 }} ))
 CMQ_AUTH={{ auth }} R --no-save --no-restore -e 'clustermq:::worker("{{ master }}")'
