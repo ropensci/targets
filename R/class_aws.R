@@ -125,18 +125,18 @@ store_aws_split_colon <- function(path) {
 #' @export
 store_read_object.tar_aws <- function(store) {
   path <- store$file$path
-  tmp <- tempfile()
-  on.exit(unlink(tmp))
+  scratch <- path_scratch(path_store = tar_config_get("store"), pattern = "aws")
+  on.exit(unlink(scratch))
   aws_s3_download(
     key = store_aws_key(path),
     bucket = store_aws_bucket(path),
-    file = tmp,
+    file = scratch,
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
     version = store_aws_version(path),
     args = store$resources$aws$args
   )
-  store_convert_object(store, store_read_path(store, tmp))
+  store_convert_object(store, store_read_path(store, scratch))
 }
 
 #' @export
@@ -184,6 +184,11 @@ store_delete_object.tar_aws <- function(store, name = NULL) {
 
 #' @export
 store_upload_object.tar_aws <- function(store) {
+  on.exit(unlink(store$file$stage, recursive = TRUE, force = TRUE))
+  store_upload_object_aws(store)
+}
+ 
+store_upload_object_aws <- function(store) { 
   key <- store_aws_key(store$file$path)
   head <- if_any(
     file_exists_stage(store$file),
