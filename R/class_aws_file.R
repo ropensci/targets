@@ -22,7 +22,7 @@ store_aws_file_stage <- function(path) {
       length(path) <= 2L, # targets 0.4.2 and under
       path_scratch(
         path_store = tempdir(),
-        paste0("targets_aws_file", store_aws_key(path))
+        paste0("targets_aws_file_", store_aws_key(path))
       ),
       path[3]
     ),
@@ -56,7 +56,10 @@ store_hash_early.tar_aws_file <- function(store, target) { # nolint
 #' @export
 store_read_object.tar_aws_file <- function(store) {
   path <- store$file$path
-  scratch <- path_scratch(path_store = tempdir(), pattern = "targets_aws_file")
+  scratch <- path_scratch(
+    path_store = tempdir(),
+    pattern = "targets_aws_file_"
+  )
   dir_create(dirname(scratch))
   aws_s3_download(
     key = store_aws_key(path),

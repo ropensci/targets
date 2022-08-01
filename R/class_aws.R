@@ -125,7 +125,7 @@ store_aws_split_colon <- function(path) {
 #' @export
 store_read_object.tar_aws <- function(store) {
   path <- store$file$path
-  scratch <- path_scratch(path_store = tempdir(), pattern = "targets_aws")
+  scratch <- path_scratch(path_store = tempdir(), pattern = "targets_aws_")
   on.exit(unlink(scratch))
   dir_create(dirname(scratch))
   aws_s3_download(
