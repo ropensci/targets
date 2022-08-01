@@ -9,6 +9,14 @@ store_tar_path.tar_cloud <- function(store, target, path_store) {
 }
 
 #' @export
+store_produce_stage.tar_cloud <- function(store, name, object, path_store) {
+  path_scratch(
+    path_store = tempdir(),
+    pattern = paste0("targets_cloud_", name)
+  )
+}
+
+#' @export
 store_write_object.tar_cloud <- function(store, object) {
   stage <- store$file$stage
   dir_create(dirname(stage))
