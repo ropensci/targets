@@ -9,9 +9,10 @@
 #' @return Object of class `"tar_resources_feather"`, to be supplied
 #'   to the feather argument of `tar_resources()`.
 #' @param compression Character of length 1, `compression`
-#'   argument of `arrow::write_feather()`.
+#'   argument of `arrow::write_feather()`. Defaults to `"default"`.
 #' @param compression_level Numeric of length 1, `compression_level`
 #'   argument of `arrow::write_feather()`.
+#'   Defaults to `NULL`.
 #' @examples
 #' # Somewhere in you target script file (usually _targets.R):
 #' tar_target(
@@ -23,9 +24,12 @@
 #'   )
 #' )
 tar_resources_feather <- function(
-  compression = "default",
-  compression_level = NULL
+  compression = targets::tar_option_get("resources")$feather$compression,
+  compression_level = targets::tar_option_get(
+    "resources"
+  )$feather$compression_level
 ) {
+  compression <- compression %|||% "default"
   out <- resources_feather_init(
     compression = compression,
     compression_level = compression_level

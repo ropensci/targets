@@ -5,15 +5,15 @@
 \title{Target resources}
 \usage{
 tar_resources(
-  aws = NULL,
-  clustermq = NULL,
-  feather = NULL,
-  fst = NULL,
-  future = NULL,
-  gcp = NULL,
-  parquet = NULL,
-  qs = NULL,
-  url = NULL
+  aws = tar_option_get("resources")$aws,
+  clustermq = tar_option_get("resources")$clustermq,
+  feather = tar_option_get("resources")$feather,
+  fst = tar_option_get("resources")$fst,
+  future = tar_option_get("resources")$future,
+  gcp = tar_option_get("resources")$gcp,
+  parquet = tar_option_get("resources")$parquet,
+  qs = tar_option_get("resources")$qs,
+  url = tar_option_get("resources")$url
 )
 }
 \arguments{
@@ -92,12 +92,20 @@ each takes an optional \code{resources} argument to supply
 non-default settings of various optional backends for data storage
 and high-performance computing. The \code{tar_resources()} function
 is a helper to supply those settings in the correct manner.
-Resources are all-or-nothing: if you specify any resources
-with \code{\link[=tar_target]{tar_target()}}, all the resources from \code{tar_option_get("resources")}
-are dropped for that target. In other words, if you write
-\code{tar_option_set(resources = resources_1)} and then
-\code{tar_target(x, my_command(), resources = resources_2)}, then everything
-in \code{resources_1} is discarded for target \code{x}.
+
+In \code{targets} version 0.12.2 and above, resources are inherited one-by-one
+in nested fashion from \code{tar_option_get("resources")}.
+For example, suppose you set
+\code{tar_option_set(resources = tar_resources(aws = my_aws))},
+where \code{my_aws} equals \code{tar_resources_aws(bucket = "x", prefix = "y")}.
+Then, \verb{tar_target(data, get_data()} will have bucket \code{"x"} and
+prefix \code{"y"}. In addition, if \code{new_resources} equals
+\verb{tar_resources(aws = tar_resources_aws(bucket = "z")))}, then
+\code{tar_target(data, get_data(), resources = new_resources)}
+will use the new bucket \code{"z"}, but it will still use the prefix \code{"y"}
+supplied through \code{tar_option_set()}. (In \code{targets} 0.12.1 and below,
+options like \code{prefix} do not carry over from \code{tar_option_set()} if you
+supply non-default resources to \code{tar_target()}.)
 }
 
 \examples{

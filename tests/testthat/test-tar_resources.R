@@ -17,6 +17,24 @@ tar_test("populated resources", {
   expect_true(inherits(out$clustermq, "tar_resources_clustermq"))
 })
 
+tar_test("default resource args", {
+  tar_option_set(
+    resources = tar_resources(
+      aws = tar_resources_aws(bucket = "abc"),
+      fst = tar_resources_fst(compress = 10L)
+    )
+  )
+  target <- tar_target(
+    x,
+    1,
+    resources = tar_resources(
+      aws = tar_resources_aws(bucket = "xyz")
+    )
+  )
+  expect_equal(target$settings$resources$aws$bucket, "xyz")
+  expect_equal(target$settings$resources$fst$compress, 10L)
+})
+
 tar_test("wrong resources", {
   expect_error(
     tar_resources(aws = resources_qs_init()),

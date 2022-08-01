@@ -9,9 +9,9 @@
 #' @return Object of class `"tar_resources_parquet"`, to be supplied
 #'   to the parquet argument of `tar_resources()`.
 #' @param compression Character of length 1, `compression`
-#'   argument of `arrow::write_parquet()`.
+#'   argument of `arrow::write_parquet()`. Defaults to `"snappy"`.
 #' @param compression_level Numeric of length 1, `compression_level`
-#'   argument of `arrow::write_parquet()`.
+#'   argument of `arrow::write_parquet()`. Defaults to `NULL`.
 #' @examples
 #' # Somewhere in you target script file (usually _targets.R):
 #' tar_target(
@@ -23,9 +23,12 @@
 #'   )
 #' )
 tar_resources_parquet <- function(
-  compression = "snappy",
-  compression_level = NULL
+  compression = targets::tar_option_get("resources")$parquet$compression,
+  compression_level = targets::tar_option_get(
+    "resources"
+  )$parquet$compression_level
 ) {
+  compression <- compression %|||% "snappy"
   out <- resources_parquet_init(
     compression = compression,
     compression_level = compression_level

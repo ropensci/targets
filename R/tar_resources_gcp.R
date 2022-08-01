@@ -15,10 +15,10 @@
 #' @inheritParams tar_resources_aws
 #' @param predefined_acl Character of length 1, user access
 #'   to the object. See `?googleCloudStorageR::gcs_upload`
-#'   for possible values.
+#'   for possible values. Defaults to `"private"`.
 #' @param verbose Logical of length 1, whether to print
 #'   extra messages like progress bars during uploads
-#'   and downloads.
+#'   and downloads. Defaults to `FALSE`.
 #' @examples
 #' # Somewhere in you target script file (usually _targets.R):
 #' tar_target(
@@ -32,11 +32,14 @@
 #'   )
 #' )
 tar_resources_gcp <- function(
-  bucket,
-  prefix = targets::path_objects_dir_cloud(),
-  predefined_acl = "private",
-  verbose = FALSE
+  bucket = targets::tar_option_get("resources")$gcp$bucket,
+  prefix = targets::tar_option_get("resources")$gcp$prefix,
+  predefined_acl = targets::tar_option_get("resources")$gcp$predefined_acl,
+  verbose = targets::tar_option_get("resources")$gcp$verbose
 ) {
+  prefix <- prefix %|||% targets::path_objects_dir_cloud()
+  predefined_acl <- predefined_acl %|||% "private"
+  verbose <- verbose %|||% FALSE
   out <- resources_gcp_init(
     bucket = bucket,
     prefix = prefix,

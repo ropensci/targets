@@ -10,7 +10,7 @@
 #' @return Object of class `"tar_resources_clustermq"`, to be supplied
 #'   to the `clustermq` argument of `tar_resources()`.
 #' @param template Named list, `template` argument to
-#'   `clustermq::workers()`.
+#'   `clustermq::workers()`. Defaults to an empty list.
 #' @examples
 #' # Somewhere in you target script file (usually _targets.R):
 #' tar_target(
@@ -21,8 +21,9 @@
 #'   )
 #' )
 tar_resources_clustermq <- function(
-  template = list()
+  template = targets::tar_option_get("resources")$clustermq$template
 ) {
+  template <- template %|||% list()
   out <- resources_clustermq_init(
     template = template
   )

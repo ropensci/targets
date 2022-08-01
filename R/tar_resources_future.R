@@ -14,13 +14,15 @@
 #' @return Object of class `"tar_resources_future"`, to be supplied
 #'   to the `future` argument of `tar_resources()`.
 #' @param plan A `future::plan()` object or `NULL`,
-#'   a `target`-specific `future` plan.
+#'   a `target`-specific `future` plan. Defaults to `NULL`.
 #' @param resources Named list, `resources` argument to
 #'   `future::future()`. This argument is not supported in
 #'   some versions of `future`. For versions of `future`
 #'   where `resources` is not supported, instead supply `resources`
 #'   to `future::tweak()` and assign the returned plan to the `plan` argument
 #'   of `tar_resources_future()`.
+#'   The default value of `resources` in `tar_resources_future()`
+#'   is an empty list.
 #' @examples
 #' # Somewhere in you target script file (usually _targets.R):
 #' tar_target(
@@ -32,8 +34,9 @@
 #' )
 tar_resources_future <- function(
   plan = NULL,
-  resources = list()
+  resources = targets::tar_option_get("resources")$future$resources
 ) {
+  resources <- resources %|||% list()
   out <- resources_future_init(
     plan = plan,
     resources = resources

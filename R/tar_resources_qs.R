@@ -9,7 +9,7 @@
 #' @return Object of class `"tar_resources_qs"`, to be supplied
 #'   to the qs argument of `tar_resources()`.
 #' @param preset Character of length 1, `preset`
-#'   argument of `qs::qsave()`.
+#'   argument of `qs::qsave()`. Defaults to `"high"`.
 #' @examples
 #' # Somewhere in you target script file (usually _targets.R):
 #' tar_target(
@@ -21,8 +21,9 @@
 #'   )
 #' )
 tar_resources_qs <- function(
-  preset = "high"
+  preset = targets::tar_option_get("resources")$qs$preset
 ) {
+  preset <- preset %|||% "high"
   out <- resources_qs_init(
     preset = preset
   )

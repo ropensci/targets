@@ -16,12 +16,14 @@
 #'   of the affected targets during the pipeline.
 #' @param prefix Character of length 1, "directory path"
 #'   in the bucket where the target return values are stored.
+#'   Defaults to `targets::path_objects_dir_cloud()`.
 #' @param region Character of length 1, AWS region containing the S3 bucket.
 #'   Set to `NULL` to use the default region.
 #' @param part_size Positive numeric of length 1, number of bytes
 #'   for each part of a multipart upload. (Except the last part,
 #'   which is the remainder.) In a multipart upload, each part
-#'   must be at least 5 MB.
+#'   must be at least 5 MB. The default value of the `part_size`
+#'   argument is `5 * (2 ^ 20)`.
 #' @param endpoint Character of length 1, URL endpoint for S3 storage.
 #'   Defaults to the Amazon AWS endpoint if `NULL`. Example:
 #'   To use the S3 protocol with Google Cloud Storage,
@@ -67,20 +69,27 @@
 #'   )
 #' )
 tar_resources_aws <- function(
-  bucket,
-  prefix = targets::path_objects_dir_cloud(),
-  region = NULL,
-  part_size = 5 * (2 ^ 20),
-  endpoint = NULL,
+  bucket = targets::tar_option_get("resources")$aws$bucket,
+  prefix = targets::tar_option_get("resources")$aws$prefix,
+  region = targets::tar_option_get("resources")$aws$region,
+  part_size = targets::tar_option_get("resources")$aws$part_size,
+  endpoint = targets::tar_option_get("resources")$aws$endpoint,
   ...
 ) {
+  prefix <- prefix %|||% targets::path_objects_dir_cloud()
+  part_size <- part_size %|||% (5 * (2 ^ 20))
+  args <- list(...)
+  default_args <- targets::tar_option_get("resources")$aws$args
+  for (name in names(default_args)) {
+    args[[name]] <- args[[name]] %|||% default_args[[name]]
+  }
   out <- resources_aws_init(
     bucket = bucket,
     prefix = prefix,
     region = region,
     part_size = part_size,
     endpoint = endpoint,
-    args = list(...)
+    args = args
   )
   resources_validate(out)
   out

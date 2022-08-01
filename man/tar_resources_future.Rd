@@ -4,18 +4,23 @@
 \alias{tar_resources_future}
 \title{Target resources: \code{future} high-performance computing}
 \usage{
-tar_resources_future(plan = NULL, resources = list())
+tar_resources_future(
+  plan = NULL,
+  resources = targets::tar_option_get("resources")$future$resources
+)
 }
 \arguments{
 \item{plan}{A \code{future::plan()} object or \code{NULL},
-a \code{target}-specific \code{future} plan.}
+a \code{target}-specific \code{future} plan. Defaults to \code{NULL}.}
 
 \item{resources}{Named list, \code{resources} argument to
 \code{future::future()}. This argument is not supported in
 some versions of \code{future}. For versions of \code{future}
 where \code{resources} is not supported, instead supply \code{resources}
 to \code{future::tweak()} and assign the returned plan to the \code{plan} argument
-of \code{tar_resources_future()}.}
+of \code{tar_resources_future()}.
+The default value of \code{resources} in \code{tar_resources_future()}
+is an empty list.}
 }
 \value{
 Object of class \code{"tar_resources_future"}, to be supplied
@@ -39,12 +44,20 @@ each takes an optional \code{resources} argument to supply
 non-default settings of various optional backends for data storage
 and high-performance computing. The \code{tar_resources()} function
 is a helper to supply those settings in the correct manner.
-Resources are all-or-nothing: if you specify any resources
-with \code{\link[=tar_target]{tar_target()}}, all the resources from \code{tar_option_get("resources")}
-are dropped for that target. In other words, if you write
-\code{tar_option_set(resources = resources_1)} and then
-\code{tar_target(x, my_command(), resources = resources_2)}, then everything
-in \code{resources_1} is discarded for target \code{x}.
+
+In \code{targets} version 0.12.2 and above, resources are inherited one-by-one
+in nested fashion from \code{tar_option_get("resources")}.
+For example, suppose you set
+\code{tar_option_set(resources = tar_resources(aws = my_aws))},
+where \code{my_aws} equals \code{tar_resources_aws(bucket = "x", prefix = "y")}.
+Then, \verb{tar_target(data, get_data()} will have bucket \code{"x"} and
+prefix \code{"y"}. In addition, if \code{new_resources} equals
+\verb{tar_resources(aws = tar_resources_aws(bucket = "z")))}, then
+\code{tar_target(data, get_data(), resources = new_resources)}
+will use the new bucket \code{"z"}, but it will still use the prefix \code{"y"}
+supplied through \code{tar_option_set()}. (In \code{targets} 0.12.1 and below,
+options like \code{prefix} do not carry over from \code{tar_option_set()} if you
+supply non-default resources to \code{tar_target()}.)
 }
 
 \examples{

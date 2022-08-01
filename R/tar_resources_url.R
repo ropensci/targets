@@ -8,6 +8,7 @@
 #' @return Object of class `"tar_resources_url"`, to be supplied
 #'   to the url argument of `tar_resources()`.
 #' @param handle Object returned by `curl::new_handle` or `NULL`.
+#'   Defaults to `NULL`.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' # Somewhere in you target script file (usually _targets.R):
@@ -21,7 +22,7 @@
 #' )
 #' }
 tar_resources_url <- function(
-  handle = NULL
+  handle = targets::tar_option_get("resources")$url$handle
 ) {
   out <- resources_url_init(
     handle = handle
