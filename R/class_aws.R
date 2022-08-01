@@ -188,8 +188,8 @@ store_upload_object.tar_aws <- function(store) {
   on.exit(unlink(store$file$stage, recursive = TRUE, force = TRUE))
   store_upload_object_aws(store)
 }
- 
-store_upload_object_aws <- function(store) { 
+
+store_upload_object_aws <- function(store) {
   key <- store_aws_key(store$file$path)
   head <- if_any(
     file_exists_stage(store$file),

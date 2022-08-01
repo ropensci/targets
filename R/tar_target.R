@@ -199,7 +199,7 @@
 #'   temporary local copy of the file:
 #'   `"persistent"` means it remains until the end of the pipeline
 #'   and is then deleted,
-#'   and `"transient"` means ig gets deleted as soon as possible.
+#'   and `"transient"` means it gets deleted as soon as possible.
 #'   The former conserves bandwidth,
 #'   and the latter conserves local storage.
 #' @param garbage_collection Logical, whether to run `base::gc()`

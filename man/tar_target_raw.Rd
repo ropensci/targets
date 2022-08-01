@@ -147,7 +147,7 @@ this memory strategy applies to the
 temporary local copy of the file:
 \code{"persistent"} means it remains until the end of the pipeline
 and is then deleted,
-and \code{"transient"} means ig gets deleted as soon as possible.
+and \code{"transient"} means it gets deleted as soon as possible.
 The former conserves bandwidth,
 and the latter conserves local storage.}
 
