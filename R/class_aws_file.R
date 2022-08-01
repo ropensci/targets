@@ -12,7 +12,6 @@ store_produce_path.tar_aws_file <- function(store, name, object, path_store) {
     object = object,
     path_store = path_store
   )
-  scratch <- path_scratch(path_store = path_store, pattern = "aws_file_")
   c(out, paste0("stage=", object))
 }
 
@@ -21,7 +20,10 @@ store_aws_file_stage <- function(path) {
     store_aws_path_0.8.1(path), # targets 0.8.1 and under
     if_any(
       length(path) <= 2L, # targets 0.4.2 and under
-      file.path(path_scratch_dir(path_store_default()), store_aws_key(path)),
+      path_scratch(
+        path_store = tempdir(),
+        paste0("targets_aws_file", store_aws_key(path))
+      ),
       path[3]
     ),
     store_aws_path_field(path = path, pattern = "^stage=")
@@ -54,7 +56,7 @@ store_hash_early.tar_aws_file <- function(store, target) { # nolint
 #' @export
 store_read_object.tar_aws_file <- function(store) {
   path <- store$file$path
-  scratch <- path_scratch(path_store = tar_config_get("store"))
+  scratch <- path_scratch(path_store = tempdir(), pattern = "targets_aws_file")
   dir_create(dirname(scratch))
   aws_s3_download(
     key = store_aws_key(path),
