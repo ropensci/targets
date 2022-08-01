@@ -15,9 +15,7 @@ tar_test("aws_qs format data gets stored", {
     )
     list(
       tar_target(x, "x_value", format = "qs", repository = "aws"),
-      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws"),
-      tar_target(z, y, format = "qs", repository = "aws"),
-      tar_target(w, c(z, browser()), format = "qs", repository = "aws")
+      tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
