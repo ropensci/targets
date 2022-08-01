@@ -193,12 +193,14 @@
 #'   after every new target completes.
 #'   Either way, the target gets automatically loaded into memory
 #'   whenever another target needs the value.
-#'   For cloud-based dynamic files such as `format = "aws_file"`,
-#'   this memory strategy applies to
-#'   temporary local copies of the file in `_targets/scratch/"`:
-#'   `"persistent"` means they remain until the end of the pipeline,
-#'   and `"transient"` means they get deleted from the file system
-#'   as soon as possible. The former conserves bandwidth,
+#'   For cloud-based dynamic files
+#'   (e.g. `format = "file"` with `repository = "aws"`),
+#'   this memory strategy applies to the
+#'   temporary local copy of the file:
+#'   `"persistent"` means it remains until the end of the pipeline
+#'   and is then deleted,
+#'   and `"transient"` means it gets deleted as soon as possible.
+#'   The former conserves bandwidth,
 #'   and the latter conserves local storage.
 #' @param garbage_collection Logical, whether to run `base::gc()`
 #'   just before the target runs.
@@ -232,7 +234,7 @@
 #'     If you select `storage = "none"`, then
 #'     the return value of the target's command is ignored,
 #'     and the data is not saved automatically.
-#'     As with dynamic files (`format = "file"` or `"aws_file"`) it is the
+#'     As with dynamic files (`format = "file"`) it is the
 #'     responsibility of the user to write to
 #'     [tar_path()] from inside the target.
 #'     An example target
@@ -242,11 +244,11 @@
 #'     storage = "none")`.
 #'
 #'     The distinguishing feature of `storage = "none"`
-#'     (as opposed to `format = "file"` or `"aws_file"`)
+#'     (as opposed to `format = "file"`)
 #'     is that in the general case,
 #'     downstream targets will automatically try to load the data
 #'     from the data store as a dependency. As a corollary, `storage = "none"`
-#'     is completely unnecessary if `format` is `"file"` or `"aws_file"`.
+#'     is completely unnecessary if `format` is `"file"`.
 #' @param retrieval Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()].
 #'   Must be one of the following values:

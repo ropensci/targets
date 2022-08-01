@@ -1,13 +1,13 @@
 # Use sparingly to minimize AWS costs.
 # Verify all `targets` buckets are deleted afterwards.
-tar_test("aws_file format file gets stored", {
+tar_test("aws file gets stored", {
   skip_if_no_aws()
   bucket_name <- random_bucket_name()
   s3 <- paws::s3()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
-    tar_option_set(resources = tar_resources(
+    tar_option_set(memory = "persistent", resources = tar_resources(
       aws = tar_resources_aws(bucket = !!bucket_name)
     ))
     evalq(
@@ -32,6 +32,59 @@ tar_test("aws_file format file gets stored", {
   expect_true(
     aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
   )
+  expect_false(file.exists("example_aws_file.txt"))
+  unlink("_targets/scratch", recursive = TRUE)
+  expect_equal(tar_read(y), "x_lines")
+  expect_equal(length(list.files("_targets/scratch/")), 0L)
+  expect_false(file.exists("_targets/scratch/x"))
+  expect_false(file.exists("example_aws_file.txt"))
+  path <- tar_read(x)
+  expect_equal(length(list.files("_targets/scratch/")), 0L)
+  expect_false(file.exists("_targets/scratch/x"))
+  expect_true(file.exists("example_aws_file.txt"))
+  expect_equal(readLines("example_aws_file.txt"), "x_lines")
+  tmp <- tempfile()
+  aws_s3_download(
+    key = "_targets/objects/x",
+    bucket = bucket_name,
+    file = tmp
+  )
+  expect_equal(readLines(tmp), "x_lines")
+})
+
+tar_test("aws file gets stored with transient memory", {
+  skip_if_no_aws()
+  bucket_name <- random_bucket_name()
+  s3 <- paws::s3()
+  s3$create_bucket(Bucket = bucket_name)
+  on.exit(aws_s3_delete_bucket(bucket_name))
+  expr <- quote({
+    tar_option_set(memory = "transient", resources = tar_resources(
+      aws = tar_resources_aws(bucket = !!bucket_name)
+    ))
+    evalq(
+      write_local_file <- function(lines) {
+        writeLines(lines, "example_aws_file.txt")
+        "example_aws_file.txt"
+      }, envir = tar_option_get("envir")
+    )
+    list(
+      tar_target(
+        x,
+        write_local_file("x_lines"),
+        format = "file",
+        repository = "aws"
+      ),
+      tar_target(y, readLines(x))
+    )
+  })
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
+  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
+  tar_make(callr_function = NULL, envir = tar_option_get("envir"))
+  expect_true(
+    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
+  )
+  expect_false(file.exists("example_aws_file.txt"))
   unlink("_targets/scratch", recursive = TRUE)
   expect_equal(tar_read(y), "x_lines")
   expect_equal(length(list.files("_targets/scratch/")), 0L)

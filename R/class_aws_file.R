@@ -20,7 +20,10 @@ store_aws_file_stage <- function(path) {
     store_aws_path_0.8.1(path), # targets 0.8.1 and under
     if_any(
       length(path) <= 2L, # targets 0.4.2 and under
-      file.path(path_scratch_dir(path_store_default()), store_aws_key(path)),
+      path_scratch(
+        path_store = tempdir(),
+        paste0("targets_aws_file_", store_aws_key(path))
+      ),
       path[3]
     ),
     store_aws_path_field(path = path, pattern = "^stage=")
@@ -37,6 +40,11 @@ store_assert_format_setting.aws_file <- function(format) {
 }
 
 #' @export
+store_upload_object.tar_aws_file <- function(store) {
+  store_upload_object_aws(store)
+}
+
+#' @export
 store_hash_early.tar_aws_file <- function(store, target) { # nolint
   old <- store$file$path
   store$file$path <- store_aws_file_stage(store$file$path)
@@ -48,16 +56,22 @@ store_hash_early.tar_aws_file <- function(store, target) { # nolint
 #' @export
 store_read_object.tar_aws_file <- function(store) {
   path <- store$file$path
-  stage <- store_aws_file_stage(path)
-  dir_create(dirname(stage))
+  scratch <- path_scratch(
+    path_store = tempdir(),
+    pattern = "targets_aws_file_"
+  )
+  dir_create(dirname(scratch))
   aws_s3_download(
     key = store_aws_key(path),
     bucket = store_aws_bucket(path),
-    file = stage,
+    file = scratch,
     region = store_aws_region(path),
     version = store_aws_version(path),
     args = store$resources$aws$args
   )
+  stage <- store_aws_file_stage(path)
+  dir_create(dirname(stage))
+  file.rename(from = scratch, to = stage)
   stage
 }
 
