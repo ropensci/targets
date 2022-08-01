@@ -45,6 +45,7 @@ tar_test("store_path_from_record()", {
 })
 
 tar_test("store_aws_file_stage() with targets <= 0.4.2", {
+  skip_on_os("windows")
   path <- c("bucket_name", "key_name")
   out <- store_aws_file_stage(path)
   expect_equal(dirname(out), file.path(tempdir(), "scratch"))
