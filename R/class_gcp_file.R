@@ -29,6 +29,11 @@ store_assert_format_setting.gcp_file <- function(format) {
 }
 
 #' @export
+store_upload_object.tar_gcp_file <- function(store) {
+  store_upload_object_gcp(store)
+}
+
+#' @export
 store_hash_early.tar_gcp_file <- function(store, target) { # nolint
   old <- store$file$path
   store$file$path <- store_gcp_file_stage(store$file$path)
@@ -40,15 +45,21 @@ store_hash_early.tar_gcp_file <- function(store, target) { # nolint
 #' @export
 store_read_object.tar_gcp_file <- function(store) {
   path <- store$file$path
-  stage <- store_gcp_file_stage(path)
-  dir_create(dirname(stage))
+  scratch <- path_scratch(
+    path_store = tempdir(),
+    pattern = "targets_gcp_file_"
+  )
+  dir_create(dirname(scratch))
   gcp_gcs_download(
     key = store_gcp_key(path),
     bucket = store_gcp_bucket(path),
-    file = stage,
+    file = scratch,
     version = store_gcp_version(path),
-    verbose = store$resources$aws$verbose %|||% FALSE
+    verbose = store$resources$gcp$verbose %|||% FALSE
   )
+  stage <- store_gcp_file_stage(path)
+  dir_create(dirname(stage))
+  file.rename(from = scratch, to = stage)
   stage
 }
 
