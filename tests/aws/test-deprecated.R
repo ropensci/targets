@@ -62,7 +62,6 @@ tar_test("deprecated format = \"aws_parquet\"", {
   expect_equal(out, data.frame(x = seq_len(2), y = seq_len(2)))
 })
 
-
 tar_test("migrate meta database", {
   skip_if_no_aws()
   skip_if_not_installed("arrow")

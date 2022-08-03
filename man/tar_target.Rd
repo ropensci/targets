@@ -132,12 +132,14 @@ If \code{"transient"}, the target gets unloaded
 after every new target completes.
 Either way, the target gets automatically loaded into memory
 whenever another target needs the value.
-For cloud-based dynamic files such as \code{format = "aws_file"},
-this memory strategy applies to
-temporary local copies of the file in \verb{_targets/scratch/"}:
-\code{"persistent"} means they remain until the end of the pipeline,
-and \code{"transient"} means they get deleted from the file system
-as soon as possible. The former conserves bandwidth,
+For cloud-based dynamic files
+(e.g. \code{format = "file"} with \code{repository = "aws"}),
+this memory strategy applies to the
+temporary local copy of the file:
+\code{"persistent"} means it remains until the end of the pipeline
+and is then deleted,
+and \code{"transient"} means it gets deleted as soon as possible.
+The former conserves bandwidth,
 and the latter conserves local storage.}
 
 \item{garbage_collection}{Logical, whether to run \code{base::gc()}
@@ -177,7 +179,7 @@ each downstream target still attempts to load the data file
 If you select \code{storage = "none"}, then
 the return value of the target's command is ignored,
 and the data is not saved automatically.
-As with dynamic files (\code{format = "file"} or \code{"aws_file"}) it is the
+As with dynamic files (\code{format = "file"}) it is the
 responsibility of the user to write to
 \code{\link[=tar_path]{tar_path()}} from inside the target.
 An example target
@@ -187,11 +189,11 @@ tar_target(x,
 storage = "none")`.
 
 The distinguishing feature of \code{storage = "none"}
-(as opposed to \code{format = "file"} or \code{"aws_file"})
+(as opposed to \code{format = "file"})
 is that in the general case,
 downstream targets will automatically try to load the data
 from the data store as a dependency. As a corollary, \code{storage = "none"}
-is completely unnecessary if \code{format} is \code{"file"} or \code{"aws_file"}.
+is completely unnecessary if \code{format} is \code{"file"}.
 }}
 
 \item{retrieval}{Character of length 1, only relevant to

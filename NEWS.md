@@ -3,6 +3,7 @@
 ## Bug fixes
 
 * Do not bootstrap the junction of a stem unless the target is branched over (#858, @dipterix).
+* For non-"file" AWS targets, immediately delete the scratch file after the target is uploaded (#889, @stuvet).
 
 ## New features
 

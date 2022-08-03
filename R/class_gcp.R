@@ -69,16 +69,17 @@ store_gcp_path_field <- function(path, pattern) {
 #' @export
 store_read_object.tar_gcp <- function(store) {
   path <- store$file$path
-  tmp <- tempfile()
-  on.exit(unlink(tmp))
+  scratch <- path_scratch(path_store = tempdir(), pattern = "targets_gcp_")
+  on.exit(unlink(scratch))
+  dir_create(dirname(scratch))
   gcp_gcs_download(
     key = store_gcp_key(path),
     bucket = store_gcp_bucket(path),
-    file = tmp,
+    file = scratch,
     version = store_gcp_version(path),
-    verbose = store$resources$aws$verbose %|||% FALSE
+    verbose = store$resources$gcp$verbose %|||% FALSE
   )
-  store_convert_object(store, store_read_path(store, tmp))
+  store_convert_object(store, store_read_path(store, scratch))
 }
 
 #' @export
@@ -88,7 +89,7 @@ store_exist_object.tar_gcp <- function(store, name = NULL) {
     key = store_gcp_key(path),
     bucket = store_gcp_bucket(path),
     version = store_gcp_version(path),
-    verbose = store$resources$aws$verbose %|||% FALSE
+    verbose = store$resources$gcp$verbose %|||% FALSE
   )
 }
 
@@ -110,7 +111,7 @@ store_delete_object.tar_gcp <- function(store, name = NULL) {
       key = key,
       bucket =  bucket,
       version = version,
-      verbose = store$resources$aws$verbose %|||% FALSE
+      verbose = store$resources$gcp$verbose %|||% FALSE
     ),
     error = function(condition) {
       tar_throw_validate(message, conditionMessage(condition))
@@ -118,8 +119,15 @@ store_delete_object.tar_gcp <- function(store, name = NULL) {
   )
 }
 
+
+
 #' @export
 store_upload_object.tar_gcp <- function(store) {
+  on.exit(unlink(store$file$stage, recursive = TRUE, force = TRUE))
+  store_upload_object_gcp(store)
+}
+
+store_upload_object_gcp <- function(store) {
   key <- store_gcp_key(store$file$path)
   head <- if_any(
     file_exists_stage(store$file),
@@ -128,8 +136,8 @@ store_upload_object.tar_gcp <- function(store) {
       key = key,
       bucket = store_gcp_bucket(store$file$path),
       metadata = list("targets-hash" = store$file$hash),
-      predefined_acl = store$resources$aws$predefined_acl %|||% "private",
-      verbose = store$resources$aws$verbose %|||% FALSE
+      predefined_acl = store$resources$gcp$predefined_acl %|||% "private",
+      verbose = store$resources$gcp$verbose %|||% FALSE
     ),
     tar_throw_file(
       "Cannot upload non-existent gcp staging file ",
@@ -160,14 +168,14 @@ store_has_correct_hash.tar_gcp <- function(store) {
       key = key,
       bucket = bucket,
       version = version,
-      verbose = store$resources$aws$verbose %|||% FALSE
+      verbose = store$resources$gcp$verbose %|||% FALSE
     ),
     identical(
       store_gcp_hash(
         key = key,
         bucket = bucket,
         version = version,
-        verbose = store$resources$aws$verbose %|||% FALSE
+        verbose = store$resources$gcp$verbose %|||% FALSE
       ),
       store$file$hash
     ),

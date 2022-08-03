@@ -45,11 +45,11 @@ tar_test("store_path_from_record()", {
 })
 
 tar_test("store_aws_file_stage() with targets <= 0.4.2", {
+  skip_on_os("windows")
   path <- c("bucket_name", "key_name")
-  expect_equal(
-    store_aws_file_stage(path),
-    file.path("_targets", "scratch", "key_name")
-  )
+  out <- store_aws_file_stage(path)
+  expect_equal(dirname(out), file.path(tempdir(), "scratch"))
+  expect_true(grepl("targets_aws_file_key_name", basename(out)))
 })
 
 tar_test("store_aws_file_stage() with targets <= 0.8.1", {
