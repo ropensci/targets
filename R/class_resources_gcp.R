@@ -1,6 +1,6 @@
 resources_gcp_init <- function(
   bucket = NULL,
-  prefix = path_objects_dir_cloud(),
+  prefix = tar_path_objects_dir_cloud(),
   predefined_acl = "private",
   verbose = FALSE
 ) {

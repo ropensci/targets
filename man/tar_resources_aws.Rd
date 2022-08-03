@@ -20,7 +20,7 @@ of the affected targets during the pipeline.}
 
 \item{prefix}{Character of length 1, "directory path"
 in the bucket where the target return values are stored.
-Defaults to \code{targets::path_objects_dir_cloud()}.}
+Defaults to \code{targets::tar_path_objects_dir_cloud()}.}
 
 \item{region}{Character of length 1, AWS region containing the S3 bucket.
 Set to \code{NULL} to use the default region.}

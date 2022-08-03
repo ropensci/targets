@@ -12,7 +12,7 @@ tar_make_clustermq(
   workers = targets::tar_config_get("workers"),
   log_worker = FALSE,
   callr_function = callr::r,
-  callr_arguments = targets::callr_args_default(callr_function, reporter),
+  callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")

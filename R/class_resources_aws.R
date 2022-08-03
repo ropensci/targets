@@ -1,6 +1,6 @@
 resources_aws_init <- function(
   bucket = NULL,
-  prefix = path_objects_dir_cloud(),
+  prefix = tar_path_objects_dir_cloud(),
   region = NULL,
   part_size = 5 * (2 ^ 20),
   endpoint = NULL,

@@ -6,7 +6,7 @@
 \usage{
 tar_validate(
   callr_function = callr::r,
-  callr_arguments = targets::callr_args_default(callr_function),
+  callr_arguments = targets::tar_callr_args_default(callr_function),
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")

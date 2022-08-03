@@ -282,7 +282,7 @@ pipeline_validate_conflicts <- function(pipeline) {
 }
 
 pipeline_validate <- function(pipeline) {
-  pipeline_validate_lite(pipeline)
+  tar_pipeline_validate_lite(pipeline)
   pipeline_validate_targets(pipeline$targets)
   pipeline_validate_dag(pipeline_produce_igraph(pipeline))
   counter_validate(pipeline$loaded)
@@ -294,7 +294,7 @@ pipeline_validate <- function(pipeline) {
 #' @keywords internal
 #' @description Internal function. Do not invoke directly.
 #' @param pipeline A pipeline object.
-pipeline_validate_lite <- function(pipeline) {
+tar_pipeline_validate_lite <- function(pipeline) {
   tar_assert_inherits(pipeline, "tar_pipeline", msg = "invalid pipeline.")
   tar_assert_correct_fields(pipeline, pipeline_new)
   pipeline_validate_conflicts(pipeline)

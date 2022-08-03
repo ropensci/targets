@@ -99,7 +99,7 @@ callr_inner <- function(
   withr::local_options(options)
   targets <- eval(parse(text = readLines(script, warn = FALSE)), envir = envir)
   targets_arguments$pipeline <- targets::tar_as_pipeline(targets)
-  targets::pipeline_validate_lite(targets_arguments$pipeline)
+  targets::tar_pipeline_validate_lite(targets_arguments$pipeline)
   do.call(targets_function, targets_arguments)
 }
 
@@ -129,7 +129,7 @@ callr_prepare_arguments <- function(callr_function, callr_arguments) {
 #'   that starts an external R process.
 #' @param reporter Character of length 1, choice of reporter
 #'   for [tar_make()] or a related function.
-callr_args_default <- function(callr_function, reporter = NULL) {
+tar_callr_args_default <- function(callr_function, reporter = NULL) {
   if (is.null(callr_function)) {
     return(list())
   }

@@ -19,7 +19,7 @@ of the affected targets during the pipeline.}
 
 \item{prefix}{Character of length 1, "directory path"
 in the bucket where the target return values are stored.
-Defaults to \code{targets::path_objects_dir_cloud()}.}
+Defaults to \code{targets::tar_path_objects_dir_cloud()}.}
 
 \item{predefined_acl}{Character of length 1, user access
 to the object. See \code{?googleCloudStorageR::gcs_upload}

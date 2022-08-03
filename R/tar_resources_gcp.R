@@ -37,7 +37,7 @@ tar_resources_gcp <- function(
   predefined_acl = targets::tar_option_get("resources")$gcp$predefined_acl,
   verbose = targets::tar_option_get("resources")$gcp$verbose
 ) {
-  prefix <- prefix %|||% targets::path_objects_dir_cloud()
+  prefix <- prefix %|||% targets::tar_path_objects_dir_cloud()
   predefined_acl <- predefined_acl %|||% "private"
   verbose <- verbose %|||% FALSE
   out <- resources_gcp_init(

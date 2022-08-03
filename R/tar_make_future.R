@@ -35,7 +35,7 @@ tar_make_future <- function(
   reporter = targets::tar_config_get("reporter_make"),
   workers = targets::tar_config_get("workers"),
   callr_function = callr::r,
-  callr_arguments = targets::callr_args_default(callr_function, reporter),
+  callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")

@@ -32,7 +32,7 @@ store_produce_gcp_path <- function(store, name, object, path_store) {
   tar_assert_nzchar(bucket)
   prefix <- store$resources$gcp$prefix %|||%
     store$resources$prefix %|||%
-    path_objects_dir_cloud()
+    tar_path_objects_dir_cloud()
   tar_assert_nonempty(prefix)
   tar_assert_chr(prefix)
   tar_assert_scalar(prefix)

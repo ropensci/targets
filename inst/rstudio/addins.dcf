@@ -29,7 +29,7 @@ Binding: rstudio_addin_tar_glimpse
 Interactive: false
 
 Name: See outdated targets
-Description: Calls tarr_outdated(). Requries a _targets.R configuration file
+Description: Calls tar_outdated(). Requries a _targets.R configuration file
 Binding: rstudio_addin_tar_outdated
 Interactive: false
 

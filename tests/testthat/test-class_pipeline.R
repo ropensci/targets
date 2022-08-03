@@ -240,19 +240,19 @@ tar_test("print method", {
 tar_test("validate a non-pipeline", {
   expect_error(pipeline_validate(stem_new()), class = "tar_condition_validate")
   expect_error(
-    pipeline_validate_lite(stem_new()),
+    tar_pipeline_validate_lite(stem_new()),
     class = "tar_condition_validate"
   )
 })
 
 tar_test("validate a nonempty pipeline", {
   expect_silent(pipeline_validate(pipeline_order()))
-  expect_silent(pipeline_validate_lite(pipeline_order()))
+  expect_silent(tar_pipeline_validate_lite(pipeline_order()))
 })
 
 tar_test("validate an empty pipeline", {
   expect_silent(pipeline_validate(pipeline_init()))
-  expect_silent(pipeline_validate_lite(pipeline_init()))
+  expect_silent(tar_pipeline_validate_lite(pipeline_init()))
 })
 
 tar_test("pipeline_validate(pipeline) with a bad target", {

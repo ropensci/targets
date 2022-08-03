@@ -16,7 +16,7 @@
 #'   of the affected targets during the pipeline.
 #' @param prefix Character of length 1, "directory path"
 #'   in the bucket where the target return values are stored.
-#'   Defaults to `targets::path_objects_dir_cloud()`.
+#'   Defaults to `targets::tar_path_objects_dir_cloud()`.
 #' @param region Character of length 1, AWS region containing the S3 bucket.
 #'   Set to `NULL` to use the default region.
 #' @param part_size Positive numeric of length 1, number of bytes
@@ -76,7 +76,7 @@ tar_resources_aws <- function(
   endpoint = targets::tar_option_get("resources")$aws$endpoint,
   ...
 ) {
-  prefix <- prefix %|||% targets::path_objects_dir_cloud()
+  prefix <- prefix %|||% targets::tar_path_objects_dir_cloud()
   part_size <- part_size %|||% (5 * (2 ^ 20))
   args <- list(...)
   default_args <- targets::tar_option_get("resources")$aws$args
