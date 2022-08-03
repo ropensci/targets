@@ -306,19 +306,19 @@ pipeline_validate_lite <- function(pipeline) {
 #' @description Not a user-side function. Do not invoke directly.
 #' @return An object of class `"tar_pipeline"`.
 #' @param x A list of target objects or a pipeline object.
-as_pipeline <- function(x) {
-  UseMethod("as_pipeline")
+tar_as_pipeline <- function(x) {
+  UseMethod("tar_as_pipeline")
 }
 
 #' @export
 #' @keywords internal
-as_pipeline.tar_pipeline <- function(x) {
+tar_as_pipeline.tar_pipeline <- function(x) {
   x
 }
 
 #' @export
 #' @keywords internal
-as_pipeline.default <- function(x) {
+tar_as_pipeline.default <- function(x) {
   out <- unlist(list(x), recursive = TRUE)
   out <- fltr(out, ~inherits(x = .x, what = "tar_target"))
   pipeline_init(out)

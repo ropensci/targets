@@ -98,7 +98,7 @@ callr_inner <- function(
   on.exit(targets::tar_runtime_object()$unset_fun(), add = TRUE)
   withr::local_options(options)
   targets <- eval(parse(text = readLines(script, warn = FALSE)), envir = envir)
-  targets_arguments$pipeline <- targets::as_pipeline(targets)
+  targets_arguments$pipeline <- targets::tar_as_pipeline(targets)
   targets::pipeline_validate_lite(targets_arguments$pipeline)
   do.call(targets_function, targets_arguments)
 }

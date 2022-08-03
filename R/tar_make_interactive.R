@@ -13,7 +13,7 @@
 #' }
 tar_make_interactive <- function(code) {
   targets <- eval(parse(text = code), envir = tar_option_get("envir"))
-  pipeline <- as_pipeline(targets)
+  pipeline <- tar_as_pipeline(targets)
   pipeline_reset_deployments(pipeline)
   queue <- if_any(
     pipeline_uses_priorities(pipeline),
