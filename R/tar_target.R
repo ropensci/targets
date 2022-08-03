@@ -59,7 +59,8 @@
 #'   * `"file"`: A dynamic file. To use this format,
 #'     the target needs to manually identify or save some data
 #'     and return a character vector of paths
-#'     to the data. (These paths must be existing files
+#'     to the data (must be a single file path if `repository`
+#'     is not `"local"`). (These paths must be existing files
 #'     and nonempty directories.)
 #'     Then, `targets` automatically checks those files and cues
 #'     the appropriate build decisions if those files are out of date.
@@ -72,8 +73,10 @@
 #'     If the target does not create any files, the return value should be
 #'     `character(0)`.
 #'
-#'     If `repository` is not `"local"` and `format` is `"file"`
-#'     then the target should create a single output file.
+#'     If `repository` is not `"local"` and `format` is `"file"`,
+#'     then the character vector returned by the target must be of length 1
+#'     and point to a single file. (Directories and vectors of multiple
+#'     file paths are not supported for dynamic files on the cloud.)
 #'     That output file is uploaded to the cloud and tracked for changes
 #'     where it exists in the cloud. The local file is deleted after
 #'     the target runs.

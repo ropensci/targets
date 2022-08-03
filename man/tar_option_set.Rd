@@ -325,7 +325,8 @@ Requires the \code{torch} package (not installed by default).
 \item \code{"file"}: A dynamic file. To use this format,
 the target needs to manually identify or save some data
 and return a character vector of paths
-to the data. (These paths must be existing files
+to the data (must be a single file path if \code{repository}
+is not \code{"local"}). (These paths must be existing files
 and nonempty directories.)
 Then, \code{targets} automatically checks those files and cues
 the appropriate build decisions if those files are out of date.
@@ -338,8 +339,10 @@ to arrive over a network file system.)
 If the target does not create any files, the return value should be
 \code{character(0)}.
 
-If \code{repository} is not \code{"local"} and \code{format} is \code{"file"}
-then the target should create a single output file.
+If \code{repository} is not \code{"local"} and \code{format} is \code{"file"},
+then the character vector returned by the target must be of length 1
+and point to a single file. (Directories and vectors of multiple
+file paths are not supported for dynamic files on the cloud.)
 That output file is uploaded to the cloud and tracked for changes
 where it exists in the cloud. The local file is deleted after
 the target runs.
