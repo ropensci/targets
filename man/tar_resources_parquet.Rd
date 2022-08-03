@@ -21,7 +21,10 @@ Object of class \code{"tar_resources_parquet"}, to be supplied
 to the parquet argument of \code{tar_resources()}.
 }
 \description{
-Create the \code{parquet} argument of \verb{tar_resources()`` to specify optional settings for parquet data frame storage formats powered by the }arrow\verb{R package. See the}format` argument of \code{\link[=tar_target]{tar_target()}} for details.
+Create the \code{parquet} argument of \code{tar_resources()}
+to specify optional settings for parquet data frame storage formats
+powered by the \code{arrow} R package.
+See the \code{format} argument of \code{\link[=tar_target]{tar_target()}} for details.
 }
 \section{Resources}{
 
