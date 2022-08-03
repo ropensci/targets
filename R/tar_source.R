@@ -1,0 +1,49 @@
+#' @title Run R scripts.
+#' @export
+#' @family utilities
+#' @description Run all the R scripts in a directory
+#'   in the environment specified.
+#' @details `tar_source()` is a convenient way to load R scripts
+#'   in `_targets.R` to make custom functions available to the pipeline.
+#'   `tar_source()` recursively looks for files ending
+#'   in `.R` or `.r`, and it runs each with
+#'   `eval(parse(text = readLines(script_file, warn = FALSE)), envir)`.
+#' @return `NULL` (invisibly)
+#' @param files Character vector of file and directory paths
+#'   to look for R scripts to run.
+#' @param envir Environment to run the scripts. Defaults to
+#'   `tar_option_get("envir")`, the environment of the pipeline.
+#' @examples
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
+#' tar_dir({ # tar_dir() runs code from a temporary directory.
+#' # Running in tar_dir(), these files are written in tempdir().
+#' dir.create("R")
+#' writeLines("f <- function(x) x + 1", file.path("R", "functions.R"))
+#' tar_script({
+#'   tar_source()
+#'   list(tar_target(x, f(1)))
+#' })
+#' tar_make()
+#' tar_read(x) # 2
+#' })
+#' }
+tar_source <- function(
+  files = "R",
+  envir = targets::tar_option_get("envir")
+) {
+  tar_assert_chr(files)
+  tar_assert_nzchar(files)
+  files <- unique(unlist(lapply(files, file_list_files)))
+  files <- grep(pattern = "\\.[rR]$", x = files, value = TRUE)
+  lapply(
+    files,
+    function(file) {
+      eval(
+        parse(text = readLines(file, warn = FALSE)),
+        envir = envir
+      )
+      invisible()
+    }
+  )
+  invisible()
+}

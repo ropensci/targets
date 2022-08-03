@@ -8,6 +8,7 @@
 ## New features
 
 * Allow extra arguments to `paws` functions via `...` in `tar_resources_aws()` (#855, @michkam89).
+* Add `tar_source()` to conveniently source R scripts (e.g. in `_targets.R`).
 
 ## Enhancements
 

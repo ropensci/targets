@@ -20,8 +20,8 @@ CLUSTERMQ
 # tar_make_future() configuration (okay to leave alone):
 FUTURE
 
-# Load the R scripts with your custom functions:
-lapply(list.files("R", full.names = TRUE, recursive = TRUE), source)
+# Run the R scripts in the R/ folder with your custom functions:
+tar_source()
 # source("other_functions.R") # Source other scripts as needed. # nolint
 
 # Replace the target list below with your own:
