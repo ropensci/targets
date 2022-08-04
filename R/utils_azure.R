@@ -5,70 +5,61 @@
 # which could put an unexpected and unfair burden on
 # external contributors from the open source community.
 # nocov start
-azure_storage_exists <- function(
+azure_blob_exists <- function(container,
+  blob_path,
+  version = NULL,
+  verbose = FALSE
 ) {
-  stop('Not yet implemented')
-}
-
-azure_storage_head_true <- function(
-) {
-  stop('Not yet implemented')
-}
-
-azure_storage_head <- function(
-) {
-  stop('Not yet implemented')
-}
-
-azure_storage_bucket <- function() {
-  stop('Not yet implemented')
-
-}
-
-azure_storage_download <- function() {
-  stop('Not yet implemented')
-  azure_storage_auth(verbose = verbose)
-  AzureStor::download_blob(
-    src,
-    dest,
-    container = container,
+  tryCatch(
+    AzureStor::storage_file_exists(
+      container = container,
+      file = blob_path
+    ),
+    http_404 = function(condition) {
+      FALSE
+    }
   )
 }
 
-azure_storage_delete <- function() {
-  stop('Not yet implemented')
-}
-
-azure_storage_upload <- function(
-  file,
-  key,
-  container
-  ) {
-  stop('Not yet implemented')
-  azure_storage_auth()
-  AzureStor::upload_blob(
-    src,
-    dest,
-    container = container,
+azure_get_token <- function() {
+  AzureAuth::get_azure_token(Sys.getenv("RTARGETS_AZURE_APPID"),
+    app = Sys.getenv("RTARGETS_AZURE_APPID"),
+    tenant = Sys.getenv("RTARGETS_AZURE_TENANT"),
+    password = Sys.getenv("RTARGETS_AZURE_PASSWORD")
   )
 }
 
-#' Following workflow from: https://github.com/Azure/AzureStor#admin-interface
-#' 
-azure_storage_auth <- function(subscription_id,
-resource_group_id,
-storage_account_id) {
-  
-  az <- AzureRMR::create_azure_login()
-  
-  subscription <- az$get_subscription(subscription_id)
-  
-  resource_group <- subscription$get_resource_group(resource_group)
+azure_get_storage_account <- function(account_name,
+  subscription_id,
+  resource_group_name) {
 
-  storage_account <- resource_group$get_storage_account(storage_account_id)
+  manager <- AzureRMR::az_rm$new(app = Sys.getenv("RTARGETS_AZURE_APPID"),
+    tenant = Sys.getenv("RTARGETS_AZURE_TENANT"),
+    password = Sys.getenv("RTARGETS_AZURE_PASSWORD"))
 
-  sas_token <- get_account_sas(storage_account, permissions = "rw")
+  subscription <- manager$get_subscription(subscription_id)
 
-  return(sas_token)
+  resource_group <- subscription$get_resource_group(resource_group_name)
+
+  resource_group$get_storage_account(account_name)
 }
+
+azure_create_storage_account <- function(account_name,
+  resource_group_name,
+  subscription_id) {
+
+  stop("Not yet implemented. Use Azure CLI to create storage account.")
+
+  manager <- AzureRMR::az_rm$new(app = Sys.getenv("RTARGETS_AZURE_APPID"),
+    tenant = Sys.getenv("RTARGETS_AZURE_TENANT"),
+    password = Sys.getenv("RTARGETS_AZURE_PASSWORD"))
+
+  resource_group <- manager$get_subscription(subscription_id)$
+    get_resource_group(resource_group_name)
+
+  resource_group$create_storage_account(account_name,
+    kind = "BlobStorage"
+    )
+}
+
 # nocov end
