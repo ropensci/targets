@@ -33,10 +33,24 @@ tar_source <- function(
 ) {
   tar_assert_chr(files)
   tar_assert_nzchar(files)
-  files <- unique(unlist(lapply(files, file_list_files)))
-  files <- grep(pattern = "\\.[rR]$", x = files, value = TRUE)
+  missing_files <- files[!file.exists(files)]
+  if (length(missing_files)) {
+    tar_warn_validate(
+      "tar_source(): these files do not exist: ",
+      paste(missing_files, collapse = ", ")
+    )
+  }
+  all_files <- unique(unlist(lapply(files, file_list_files)))
+  r_scripts <- grep(pattern = "\\.[rR]$", x = all_files, value = TRUE)
+  non_r_scripts <- setdiff(all_files, r_scripts)
+  if (length(non_r_scripts)) {
+    tar_warn_validate(
+      "tar_source() only sources R scripts. Ignoring non-R files: ",
+      paste(non_r_scripts, collapse = ", ")
+    )
+  }
   lapply(
-    files,
+    r_scripts,
     function(file) {
       eval(
         parse(text = readLines(file, warn = FALSE)),

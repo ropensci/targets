@@ -10,8 +10,11 @@ tar_test("tar_source()", {
   writeLines("j <- function(x) x + 1L", "j.r")
   writeLines("import numpy as np", file.path("x", "k.py"))
   writeLines("import numpy as np", "l.py")
+  expect_silent(tar_source("y"))
+  expect_warning(tar_source("l.py"), class = "tar_condition_validate")
+  expect_warning(tar_source("nope.R"), class = "tar_condition_validate")
   tar_script({
-    tar_source(c("x", "y", "j.r", "l.py"))
+    suppressWarnings(tar_source(c("x", "y", "j.r", "l.py")))
     tar_target(x, f(g(h(i(j(0L))))))
   })
   tar_make(callr_function = NULL)
