@@ -22,7 +22,7 @@ fi
 # Creation is necessary, otherwise there is no automated method
 #  for obtaining the password
 creation_response=$(az ad sp create-for-rbac --name "rtargets")
-app_id=$(echo $creation_response | jq '.appId' | sed /\"//g)
+app_id=$(echo $creation_response | jq '.appId' | sed s/\"//g)
 
 ### Set credentials as environment variables
 echo "RTARGETS_AZURE_APPID=\"$app_id\"" >> ~/.Renviron
