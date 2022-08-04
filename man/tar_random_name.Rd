@@ -11,7 +11,7 @@ Character of length 1 with a random name.
 }
 \description{
 Uses the lists of adjectives and animals from
-\url{https://github.com/a-type/adjective-adjective-animal/blob/master/lib/lists/} # nolint
+\url{https://github.com/a-type/adjective-adjective-animal}.
 by Grant Forrest under the MIT license.
 }
 \details{

@@ -52,7 +52,7 @@ omit_rownames <- function(x) {
 
 #' @title Generate a random name
 #' @description Uses the lists of adjectives and animals from
-#'   <https://github.com/a-type/adjective-adjective-animal/blob/master/lib/lists/> # nolint
+#'   <https://github.com/a-type/adjective-adjective-animal>.
 #'   by Grant Forrest under the MIT license.
 #' @details Not a user-side function. Do not invoke directly.
 #' @export
