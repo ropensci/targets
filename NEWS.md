@@ -1,6 +1,8 @@
 # targets 0.13.1.9000
 
+## Enhancements
 
+* Simplify and improve error handling.
 
 # targets 0.13.1
 

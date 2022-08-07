@@ -10,31 +10,31 @@ callr_outer <- function(
 ) {
   tar_assert_script(script)
   tryCatch(
-    withCallingHandlers(
-      callr_dispatch(
-        targets_function = targets_function,
-        targets_arguments = targets_arguments,
-        callr_function = callr_function,
-        callr_arguments = callr_arguments,
-        envir = envir,
-        script = script,
-        store = store,
-        fun = fun
-      ),
-      error = function(condition) {
-        cli_red_x("Problem with the pipeline.")
-        cli_mark_info(
-          "Show errors: tar_meta(fields = error, complete_only = TRUE)"
-        )
-        cli_mark_info(
-          "Learn more: https://books.ropensci.org/targets/debugging.html"
-        )
-      }
+    callr_dispatch(
+      targets_function = targets_function,
+      targets_arguments = targets_arguments,
+      callr_function = callr_function,
+      callr_arguments = callr_arguments,
+      envir = envir,
+      script = script,
+      store = store,
+      fun = fun
     ),
-    callr_error = function(e) {
-      tar_throw_run("problem with the pipeline.")
+    error = function(condition) {
+      callr_error(condition, fun)
     }
   )
+}
+
+callr_error <- function(condition, fun) {
+  message <- sprintf(
+    "Error running targets::%s():\n%s\n%s\n%s",
+    fun,
+    conditionMessage(condition),
+    "Show errors: targets::tar_meta(fields = error, complete_only = TRUE)",
+    "Troubleshoot: https://books.ropensci.org/targets/debugging.html"
+  )
+  tar_throw_run(message)
 }
 
 callr_dispatch <- function(

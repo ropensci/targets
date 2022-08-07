@@ -30,7 +30,7 @@ tar_test("tar_bind() errors if names are duplicated", {
   suppressWarnings(
     expect_error(
       tar_make(callr_function = NULL),
-      class = "tar_condition_validate"
+      class = "tar_condition_run"
     )
   )
 })

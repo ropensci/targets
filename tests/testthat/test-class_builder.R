@@ -498,7 +498,7 @@ tar_test("informative error when bootstrap fails", {
   })
   expect_error(
     tar_make(names = "z", shortcut = TRUE, callr_function = NULL),
-    class = "tar_condition_validate"
+    class = "tar_condition_run"
   )
 })
 

@@ -222,7 +222,7 @@ tar_test("bad curl handle throws an error (structrued resources)", {
   })
   expect_error(
     tar_make(callr_function = NULL),
-    class = "tar_condition_validate"
+    class = "tar_condition_run"
   )
 })
 

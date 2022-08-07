@@ -44,7 +44,7 @@ tar_test("bad compression level throws error (structured resources)", {
   })
   expect_error(
     tar_make(callr_function = NULL),
-    class = "tar_condition_validate"
+    class = "tar_condition_run"
   )
 })
 

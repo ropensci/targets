@@ -346,7 +346,7 @@ tar_test("fail to validate incompatible header", {
   meta$database$overwrite_storage(data)
   expect_error(
     tar_make(callr_function = NULL),
-    class = "tar_condition_file"
+    class = "tar_condition_run"
   )
 })
 
