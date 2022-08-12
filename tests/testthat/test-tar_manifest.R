@@ -14,6 +14,40 @@ tar_test("tar_manifest() with default settings", {
   expect_equal(nrow(out), 5L)
 })
 
+tar_test("tar_manifest() drop_missing FALSE", {
+  tar_script({
+    tar_option_set()
+    list(
+      tar_target(y1, 1 + 1),
+      tar_target(y2, 1 + 1),
+      tar_target(z, y1 + y2)
+    )
+  })
+  out <- tar_manifest(
+    fields = all_of(c("name", "command", "pattern")),
+    callr_function = NULL,
+    drop_missing = FALSE
+  )
+  expect_equal(colnames(out), c("name", "command", "pattern"))
+})
+
+tar_test("tar_manifest() drop_missing TRUE", {
+  tar_script({
+    tar_option_set()
+    list(
+      tar_target(y1, 1 + 1),
+      tar_target(y2, 1 + 1),
+      tar_target(z, y1 + y2)
+    )
+  })
+  out <- tar_manifest(
+    fields = all_of(c("name", "command", "pattern")),
+    callr_function = NULL,
+    drop_missing = TRUE
+  )
+  expect_equal(colnames(out), c("name", "command"))
+})
+
 tar_test("tar_manifest() tidyselect on names", {
   tar_script({
     tar_option_set()
@@ -96,7 +130,11 @@ tar_test("tar_manifest() shows all fields if the fields arg is NULL", {
       tar_target(c, z, pattern = cross(z))
     )
   })
-  out <- tar_manifest(fields = NULL, callr_function = NULL)
+  out <- tar_manifest(
+    fields = NULL,
+    callr_function = NULL,
+    drop_missing = FALSE
+  )
   expect_equal(dim(out), c(5L, 22L))
 })
 

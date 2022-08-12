@@ -6,7 +6,8 @@
 \usage{
 tar_manifest(
   names = NULL,
-  fields = c("name", "command", "pattern"),
+  fields = tidyselect::all_of(c("name", "command", "pattern")),
+  drop_missing = TRUE,
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function),
   envir = parent.frame(),
@@ -21,7 +22,7 @@ symbols, a character vector, or \code{tidyselect} helpers like
 
 \item{fields}{Names of the fields, or columns, to show. Set to \code{NULL} to
 show all the fields (default). Otherwise, you can supply
-symbols, a character vector, or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.
+\code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.
 Set to \code{NULL} to print all the fields.
 The name of the target is always included as the first column
 regardless of the selection.
@@ -56,6 +57,9 @@ simultaneously. Targets with priorities closer to 1 get built earlier
 \item \code{packages}: List columns of packages loaded before building the target.
 \item \code{library}: List column of library paths to load the packages.
 }}
+
+\item{drop_missing}{Logical of length 1, whether to automatically omit
+empty columns and columns with all missing values.}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session

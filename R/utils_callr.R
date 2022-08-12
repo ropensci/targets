@@ -9,30 +9,34 @@ callr_outer <- function(
   fun
 ) {
   tar_assert_script(script)
-  tryCatch(
-    callr_dispatch(
-      targets_function = targets_function,
-      targets_arguments = targets_arguments,
-      callr_function = callr_function,
-      callr_arguments = callr_arguments,
-      envir = envir,
-      script = script,
-      store = store,
-      fun = fun
-    ),
-    error = function(condition) {
-      callr_error(condition, fun)
-    }
+  out <- callr_dispatch(
+    targets_function = targets_function,
+    targets_arguments = targets_arguments,
+    callr_function = callr_function,
+    callr_arguments = callr_arguments,
+    envir = envir,
+    script = script,
+    store = store,
+    fun = fun
+  )
+  if_any(
+    inherits(out, "error"),
+    callr_error(condition = out, fun = fun),
+    out
   )
 }
 
 callr_error <- function(condition, fun) {
   message <- sprintf(
-    "Error running targets::%s():\n%s\n%s\n%s",
+    paste0(
+      "Error running targets::%s()\n",
+      "  Target errors: ",
+      "targets::tar_meta(fields = error, complete_only = TRUE)\n",
+      "  Tips: https://books.ropensci.org/targets/debugging.html\n",
+      "  Last error: %s"
+    ),
     fun,
-    conditionMessage(condition),
-    "Show errors: targets::tar_meta(fields = error, complete_only = TRUE)",
-    "Troubleshoot: https://books.ropensci.org/targets/debugging.html"
+    conditionMessage(condition)
   )
   tar_throw_run(message)
 }
@@ -76,6 +80,47 @@ callr_dispatch <- function(
 }
 
 callr_inner <- function(
+  targets_function,
+  targets_arguments,
+  options,
+  envir = NULL,
+  script,
+  store,
+  fun
+) {
+  tryCatch(
+    targets::tar_callr_inner_try(
+      targets_function = targets_function,
+      targets_arguments = targets_arguments,
+      options = options,
+      envir = envir,
+      script = script,
+      store = store,
+      fun = fun
+    ),
+    error = function(condition) condition
+  )
+}
+
+#' @title Invoke a `targets` task from inside a `callr` function.
+#' @export
+#' @keywords internal
+#' @description Not a user-side function. Do not invoke directly.
+#'   Exported for internal purposes only.
+#' @return The output of a call to a `targets` function that uses
+#'   `callr` for reproducibility.
+#' @inheritParams tar_validate
+#' @param targets_function A function from `targets` to call.
+#' @param targets_arguments Named list of arguments of targets_function.
+#' @param options Names of global options to temporarily set
+#'   in the `callr` process.
+#' @param envir Name of the environment to run in. If `NULL`,
+#'   the environment defaults to `tar_option_get("envir")`.
+#' @param fun Character of length 1, name of the `targets`
+#'   function being called.
+#' @examples
+#' # See the examples of tar_make().
+tar_callr_inner_try <- function(
   targets_function,
   targets_arguments,
   options,
