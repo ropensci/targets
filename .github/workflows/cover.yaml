@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      NOT_CRAN: true
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: false
       TORCH_INSTALL: 1
 
