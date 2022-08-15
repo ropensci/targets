@@ -88,31 +88,68 @@ callr_inner <- function(
   store,
   fun
 ) {
+  force(envir)
+  parent <- parent.frame()
   tryCatch(
-    {
-      force(envir)
-      parent <- parent.frame()
-      if (is.null(envir)) {
-        envir <- parent
-      }
-      old_envir <- targets::tar_option_get("envir")
-      targets::tar_option_set(envir = envir)
-      targets::tar_runtime_object()$set_store(store)
-      targets::tar_runtime_object()$set_fun(fun)
-      on.exit(targets::tar_option_set(envir = old_envir))
-      on.exit(targets::tar_runtime_object()$unset_store(), add = TRUE)
-      on.exit(targets::tar_runtime_object()$unset_fun(), add = TRUE)
-      withr::local_options(options)
-      targets <- eval(
-        parse(text = readLines(script, warn = FALSE)),
-        envir = envir
-      )
-      targets_arguments$pipeline <- targets::tar_as_pipeline(targets)
-      targets::tar_pipeline_validate_lite(targets_arguments$pipeline)
-      do.call(targets_function, targets_arguments)
-    },
+    targets::tar_callr_inner_try(
+      targets_function = targets_function,
+      targets_arguments = targets_arguments,
+      options = options,
+      envir = envir,
+      parent = parent,
+      script = script,
+      store = store,
+      fun = fun
+    ),
     error = function(condition) condition
   )
+}
+
+#' @title Invoke a `targets` task from inside a `callr` function.
+#' @export
+#' @keywords internal
+#' @description Not a user-side function. Do not invoke directly.
+#'   Exported for internal purposes only.
+#' @return The output of a call to a `targets` function that uses
+#'   `callr` for reproducibility.
+#' @inheritParams tar_validate
+#' @param targets_function A function from `targets` to call.
+#' @param targets_arguments Named list of arguments of targets_function.
+#' @param options Names of global options to temporarily set
+#'   in the `callr` process.
+#' @param envir Name of the environment to run in. If `NULL`,
+#'   the environment defaults to `tar_option_get("envir")`.
+#' @param parent Parent environment of the call to
+#'   `tar_call_inner()`.
+#' @param fun Character of length 1, name of the `targets`
+#'   function being called.
+#' @examples
+#' # See the examples of tar_make().
+tar_callr_inner_try <- function(
+  targets_function,
+  targets_arguments,
+  options,
+  envir = NULL,
+  parent,
+  script,
+  store,
+  fun
+) {
+  if (is.null(envir)) {
+    envir <- parent
+  }
+  old_envir <- targets::tar_option_get("envir")
+  targets::tar_option_set(envir = envir)
+  targets::tar_runtime_object()$set_store(store)
+  targets::tar_runtime_object()$set_fun(fun)
+  on.exit(targets::tar_option_set(envir = old_envir))
+  on.exit(targets::tar_runtime_object()$unset_store(), add = TRUE)
+  on.exit(targets::tar_runtime_object()$unset_fun(), add = TRUE)
+  withr::local_options(options)
+  targets <- eval(parse(text = readLines(script, warn = FALSE)), envir = envir)
+  targets_arguments$pipeline <- targets::tar_as_pipeline(targets)
+  targets::tar_pipeline_validate_lite(targets_arguments$pipeline)
+  do.call(targets_function, targets_arguments)
 }
 
 callr_prepare_arguments <- function(callr_function, callr_arguments) {
