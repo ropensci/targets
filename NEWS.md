@@ -1,10 +1,15 @@
 # targets 0.13.1.9000
 
+## Bug fixes
+
+* Do not incorrectly reference feather resources for parquet storage.
+
 ## Enhancements
 
 * Simplify and improve error handling.
 * In the `command` column of `tar_manifest()` output, separate lines with "\n" instead of "\\n" so the text output is straightforward to work with.
 * Add a `drop_missing` argument to `tar_manifest()` to hide/show columns with all `NA` values.
+* Do not set Parquet version.
 
 # targets 0.13.1
 

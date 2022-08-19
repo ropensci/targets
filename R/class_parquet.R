@@ -20,11 +20,13 @@ store_read_path.tar_parquet <- function(store, path) {
 
 #' @export
 store_write_path.tar_parquet <- function(store, object, path) {
-  args <- list(x = object, sink = path, version = "2.0")
-  args$compression <- store$resources$feather$compression %|||%
-    store$resources$compression
-  args$compression_level <- store$resources$feather$compression_level %|||%
-    store$resources$compression_level
+  args <- list(x = object, sink = path)
+  fields <- c("compression", "compression_level")
+  for (field in fields) {
+    args[[field]] <- store$resources$parquet[[field]] %|||%
+      store$resources[[field]]
+  }
+  args <- omit_null(args)
   do.call(arrow::write_parquet, args)
 }
 
