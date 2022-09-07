@@ -1,3 +1,9 @@
+# targets 0.13.2.9000
+
+## Enhancements
+
+* Print a "no targets found" message when there are no targets in the pipeline to check or build, or if the `names` argument of `tar_make()` does not identify any such targets in the pipeline (#923, @llrs).
+
 # targets 0.13.2
 
 ## Bug fixes

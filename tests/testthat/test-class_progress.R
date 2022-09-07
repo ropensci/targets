@@ -140,6 +140,13 @@ tar_test("progress$any_remaining() while queued", {
   expect_true(progress$any_remaining())
 })
 
+tar_test("progress$any_targets()", {
+  progress <- progress_init()
+  expect_false(progress$any_targets())
+  counter_set_name(progress$built, "x")
+  expect_true(progress$any_targets())
+})
+
 tar_test("progress$any_remaining() while started", {
   progress <- progress_init()
   expect_false(progress$any_remaining())

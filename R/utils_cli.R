@@ -46,6 +46,15 @@ cli_done <- function(time_stamp = FALSE, seconds_elapsed = NULL) {
   cli_blue_bullet(msg)
 }
 
+cli_empty <- function(time_stamp = FALSE, seconds_elapsed = NULL) {
+  time <- if_any(time_stamp, time_stamp(), NULL)
+  msg <- paste(c(time, "no targets found"), collapse = " ")
+  if (!is.null(seconds_elapsed)) {
+    msg <- paste0(msg, ": ", units_seconds(seconds_elapsed))
+  }
+  cli_red_x(msg)
+}
+
 cli_workspace <- function(name, time_stamp = FALSE) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "record workspace", name), collapse = " ")

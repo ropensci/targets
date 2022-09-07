@@ -187,11 +187,24 @@ progress_class <- R6::R6Class(
           time_stamp = time_stamp,
           seconds_elapsed = seconds_elapsed
         ),
-        cli_done(time_stamp = time_stamp, seconds_elapsed = seconds_elapsed)
+        if_any(
+          self$any_targets(),
+          cli_done(time_stamp = time_stamp, seconds_elapsed = seconds_elapsed),
+          cli_empty(time_stamp = time_stamp, seconds_elapsed = seconds_elapsed)
+        )
       )
     },
     any_remaining = function() {
       self$queued$count > 0L || self$started$count > 0L
+    },
+    any_targets = function() {
+      count <- self$started$count +
+        self$skipped$count +
+        self$built$count +
+        self$errored$count +
+        self$warned$count +
+        self$canceled$count
+      count > 0L
     },
     cli_data = function() {
       data_frame(
