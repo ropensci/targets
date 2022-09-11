@@ -39,17 +39,33 @@ the target builds or the output data is reloaded for
 downstream targets. Use \code{tar_option_set()} to set packages
 globally for all subsequent targets you define.}
 
-\item{imports}{Character vector of package names to track
-global dependencies. For example, if you write
-\code{tar_option_set(imports = "yourAnalysisPackage")} early in your
-target script file (default: \verb{_targets.R})
-then \code{tar_make()} will automatically rerun or skip targets
-in response to changes to the R functions and objects defined in
-\code{yourAnalysisPackage}. Does not account for low-level compiled code
-such as C/C++ or Fortran. If you supply multiple packages,
+\item{imports}{Character vector of package names.
+For every package listed, \code{targets} tracks every
+dataset and every object in the package namespace
+as if it were part of the global namespace.
+As an example, say you have a package called \code{customAnalysisPackage}
+which contains an object called \code{analysis_function()}.
+If you write \code{tar_option_set(imports = "yourAnalysisPackage")} in your
+target script file (default: \verb{_targets.R}),
+then a function called \code{"analysis_function"} will show up in the
+\code{\link[=tar_visnetwork]{tar_visnetwork()}} graph, and any targets or functions
+referring to the symbol \code{"analysis_function"} will depend on the
+function \code{analysis_function()} from package \code{yourAnalysisPackage}.
+This is best combined with
+\code{tar_option_set(packages = "yourAnalysisPackage")} so
+that \code{analysis_function()} can actually be called in your code.
+
+There are several important limitations:
+1. Namespaced calls, e.g. \code{yourAnalysisPackage::analysis_function()},
+are ignored because of the limitations in \code{codetools::findGlobals()}
+which powers the static code analysis capabilities of \code{targets}.
+2. The \code{imports} option only looks at R objects and R code.
+It not account for low-level compiled code
+such as C/C++ or Fortran.
+3. If you supply multiple packages,
 e.g. \code{tar_option_set(imports = c("p1", "p2"))}, then the objects in
 \code{p1} override the objects in \code{p2} if there are name conflicts.
-Similarly, objects in \code{tar_option_get("envir")} override
+4. Similarly, objects in \code{tar_option_get("envir")} override
 everything in \code{tar_option_get("imports")}.}
 
 \item{library}{Character vector of library paths to try

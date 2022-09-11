@@ -11,18 +11,34 @@
 #' @return `NULL` (invisibly).
 #' @inheritSection tar_target Storage formats
 #' @inheritParams tar_target
-#' @param imports Character vector of package names to track
-#'   global dependencies. For example, if you write
-#'   `tar_option_set(imports = "yourAnalysisPackage")` early in your
-#'   target script file (default: `_targets.R`)
-#'   then `tar_make()` will automatically rerun or skip targets
-#'   in response to changes to the R functions and objects defined in
-#'   `yourAnalysisPackage`. Does not account for low-level compiled code
-#'   such as C/C++ or Fortran. If you supply multiple packages,
-#'   e.g. `tar_option_set(imports = c("p1", "p2"))`, then the objects in
-#'   `p1` override the objects in `p2` if there are name conflicts.
-#'   Similarly, objects in `tar_option_get("envir")` override
-#'   everything in `tar_option_get("imports")`.
+#' @param imports Character vector of package names.
+#'   For every package listed, `targets` tracks every
+#'   dataset and every object in the package namespace
+#'   as if it were part of the global namespace.
+#'   As an example, say you have a package called `customAnalysisPackage`
+#'   which contains an object called `analysis_function()`.
+#'   If you write `tar_option_set(imports = "yourAnalysisPackage")` in your
+#'   target script file (default: `_targets.R`),
+#'   then a function called `"analysis_function"` will show up in the
+#'   [tar_visnetwork()] graph, and any targets or functions
+#'   referring to the symbol `"analysis_function"` will depend on the
+#'   function `analysis_function()` from package `yourAnalysisPackage`.
+#'   This is best combined with
+#'   `tar_option_set(packages = "yourAnalysisPackage")` so
+#'   that `analysis_function()` can actually be called in your code.
+#'
+#'   There are several important limitations:
+#'     1. Namespaced calls, e.g. `yourAnalysisPackage::analysis_function()`,
+#'        are ignored because of the limitations in `codetools::findGlobals()`
+#'        which powers the static code analysis capabilities of `targets`.
+#'     2. The `imports` option only looks at R objects and R code.
+#'        It not account for low-level compiled code
+#'        such as C/C++ or Fortran.
+#'     3. If you supply multiple packages,
+#'        e.g. `tar_option_set(imports = c("p1", "p2"))`, then the objects in
+#'        `p1` override the objects in `p2` if there are name conflicts.
+#'     4. Similarly, objects in `tar_option_get("envir")` override
+#'        everything in `tar_option_get("imports")`.
 #' @param envir Environment containing functions and global objects
 #'   common to all targets in the pipeline.
 #'   The `envir` argument of [tar_make()] and related functions

@@ -1,9 +1,9 @@
-tar_test("imports_set_object()", {
+tar_test("imports_set_envir_object()", {
   imports <- imports_new(new.env(parent = emptyenv()))
   envir <- new.env(parent = emptyenv())
   envir$a <- "x"
   expect_null(imports$a)
-  imports_set_object(imports = imports, name = "a", envir = envir)
+  imports_set_envir_object(imports = imports, name = "a", envir = envir)
   expect_equal(imports$a, "x")
 })
 
@@ -29,11 +29,15 @@ tar_test("imports_set_package()", {
   expect_true(is.function(imports$head))
 })
 
-tar_test("imports_set_package()", {
+tar_test("imports_set_datasets()", {
+  skip_on_cran()
+  skip_if_not_installed("qs")
+  datasets <- as.character(data(package = "qs")$results[, "Item"])
+  skip_if(!("starnames" %in% datasets))
   imports <- imports_new(new.env(parent = emptyenv()))
-  expect_null(imports$head)
-  imports_set_package(imports = imports, package = "utils")
-  expect_true(is.function(imports$head))
+  expect_null(imports$starnames)
+  imports_set_datasets(imports = imports, package = "qs")
+  expect_true(nrow(imports$starnames) > 0L)
 })
 
 tar_test("imports_init()", {

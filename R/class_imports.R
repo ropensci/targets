@@ -21,18 +21,59 @@ imports_new <- function(envir) {
 }
 
 imports_set_package <- function(imports, package) {
+  imports_set_namespace(imports, package)
+  imports_set_datasets(imports, package)
+}
+
+imports_set_datasets <- function(imports, package) {
+  names <- as.character(data(package = package)$results[, "Item"])
+  lapply(
+    names,
+    imports_set_dataset_object,
+    imports = imports,
+    package = package
+  )
+}
+
+imports_set_dataset_object <- function(name, imports, package) {
+  utils::data(
+    list = name,
+    package = package,
+    lib.loc = tar_options$get_library(),
+    envir = imports
+  )
+}
+
+imports_set_namespace <- function(imports, package) {
   envir <- getNamespace(package)
-  imports_set_envir(imports, envir)
+  exclude <- c(
+    ".packageName",
+    ".__NAMESPACE__.",
+    ".__S3MethodsTable__."
+  )
+  names <- setdiff(names(envir), exclude)
+  lapply(
+    names,
+    imports_set_envir_object,
+    imports = imports,
+    envir = envir
+  )
 }
 
 imports_set_envir <- function(imports, envir) {
-  lapply(names(envir), imports_set_object, imports = imports, envir = envir)
+  lapply(
+    names(envir),
+    imports_set_envir_object,
+    imports = imports,
+    envir = envir
+  )
 }
 
-imports_set_object <- function(imports, name, envir) {
+imports_set_envir_object <- function(imports, name, envir) {
+  value <- base::get(name, envir = envir, inherits = FALSE)
   assign(
     x = name,
-    value = base::get(name, envir = envir, inherits = FALSE),
+    value = value,
     envir = imports,
     inherits = FALSE
   )

@@ -30,7 +30,7 @@
 #' @importFrom tidyselect all_of any_of contains ends_with everything
 #'   last_col matches num_range one_of starts_with
 #' @importFrom tools file_path_sans_ext
-#' @importFrom utils browseURL capture.output globalVariables head menu
+#' @importFrom utils browseURL capture.output data globalVariables head menu
 #'   packageVersion stack tail
 #' @importFrom vctrs vec_c vec_rbind vec_size vec_slice
 #' @importFrom withr local_dir local_envvar
