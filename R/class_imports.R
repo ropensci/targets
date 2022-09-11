@@ -26,7 +26,7 @@ imports_set_package <- function(imports, package) {
 }
 
 imports_set_datasets <- function(imports, package) {
-  names <- as.character(data(package = package)$results[, "Item"])
+  names <- as.character(utils::data(package = package)$results[, "Item"])
   lapply(
     names,
     imports_set_dataset_object,
