@@ -41,7 +41,9 @@ tar_progress <- function(
   fields = "progress",
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_path(path_progress(path_store = store))
+  tar_assert_scalar(store)
+  tar_assert_chr(store)
+  tar_assert_nzchar(store)
   progress <- progress_init(path_store = store)
   out <- tibble::as_tibble(progress$database$read_condensed_data())
   names_quosure <- rlang::enquo(names)

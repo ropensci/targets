@@ -56,7 +56,9 @@ tar_older <- function(
   tar_assert_inherits(time, "POSIXct")
   tar_assert_scalar(inclusive)
   tar_assert_lgl(inclusive)
-  tar_assert_path(path_meta(path_store = store))
+  tar_assert_scalar(store)
+  tar_assert_chr(store)
+  tar_assert_nzchar(store)
   meta <- meta_init(path_store = store)
   meta <- tibble::as_tibble(meta$database$read_condensed_data())
   meta <- meta[!is.na(meta$time), ]

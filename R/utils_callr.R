@@ -8,6 +8,9 @@ callr_outer <- function(
   store,
   fun
 ) {
+  tar_assert_scalar(store)
+  tar_assert_chr(store)
+  tar_assert_nzchar(store)
   tar_assert_script(script)
   out <- callr_dispatch(
     targets_function = targets_function,

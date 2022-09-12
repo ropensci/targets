@@ -549,13 +549,20 @@ tar_assert_scalar <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
 tar_assert_store <- function(store) {
+  tar_assert_scalar(store)
+  tar_assert_chr(store)
+  tar_assert_nzchar(store)
   tar_assert_path(
     store,
     paste(
-      "data store path", store, "not found.",
-      "utility functions like tar_read() and tar_progress() require a",
-      "data store (default: _targets/) produced by tar_make() or similar."
+      "targets data store", store, "not found.",
+      "Utility functions like tar_read() and tar_load() require a",
+      "pre-existing targets data store (default: _targets/)",
+      "created by tar_make(), tar_make_clustermq(), or tar_make_future().",
+      "Details: https://books.ropensci.org/targets/data.html"
     )
   )
 }
@@ -586,6 +593,9 @@ tar_assert_target_list <- function(x) {
 }
 
 tar_assert_script <- function(script) {
+  tar_assert_scalar(script)
+  tar_assert_chr(script)
+  tar_assert_nzchar(script)
   msg <- paste0(
     "could not find file ",
     script,

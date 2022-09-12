@@ -38,6 +38,7 @@
 \alias{tar_assert_nonmissing}
 \alias{tar_assert_positive}
 \alias{tar_assert_scalar}
+\alias{tar_assert_store}
 \alias{tar_assert_target}
 \alias{tar_assert_target_list}
 \alias{tar_assert_true}
@@ -116,6 +117,8 @@ tar_assert_nonmissing(x, msg = NULL)
 tar_assert_positive(x, msg = NULL)
 
 tar_assert_scalar(x, msg = NULL)
+
+tar_assert_store(store)
 
 tar_assert_target(x, msg = NULL)
 

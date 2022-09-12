@@ -22,6 +22,7 @@ workspace_save <- function(workspace, path_store) {
 
 workspace_read <- function(name, path_store) {
   path <- path_workspace(path_store = path_store, name = name)
+  tar_assert_store(store = path_store)
   tar_assert_path(path, paste0("no workspace found for target ", name, "."))
   readRDS(path)
 }

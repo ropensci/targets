@@ -31,6 +31,7 @@ tar_read_raw <- function(
   meta = tar_meta(store = store),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_store(store = store)
   force(meta)
   tar_assert_chr(name)
   tar_read_inner(name, branches, meta, path_store = store)

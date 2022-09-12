@@ -87,7 +87,9 @@ tar_meta <- function(
   complete_only = FALSE,
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_path(path_meta(path_store = store))
+  tar_assert_scalar(store)
+  tar_assert_chr(store)
+  tar_assert_nzchar(store)
   meta <- meta_init(path_store = store)
   out <- tibble::as_tibble(meta$database$read_condensed_data())
   names_quosure <- rlang::enquo(names)

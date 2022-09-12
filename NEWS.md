@@ -6,6 +6,7 @@
 * Ignore `.packageName`, `.__NAMESPACE__.`, and `.__S3MethodsTable__.` when importing objects from packages with the `imports` option of `tar_option_set()`.
 * Import datasets from packages in the `imports` option of `tar_option_set()` (#926, @joelnitta).
 * Print target-specific elapsed runtimes in the verbose and timestamp reporters.
+* Improve error messages in functions like `tar_read()` and `tar_load()` when the data store is missing.
 
 # targets 0.13.2
 

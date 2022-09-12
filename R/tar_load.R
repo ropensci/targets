@@ -41,6 +41,7 @@ tar_load <- function(
   envir = parent.frame(),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_store(store = store)
   force(meta)
   force(envir)
   names <- tar_tidyselect_eval(rlang::enquo(names), meta$name)

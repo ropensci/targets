@@ -40,7 +40,8 @@ tar_branches <- function(
 ) {
   name <- tar_deparse_language(substitute(name))
   tar_assert_chr(name)
-  tar_assert_path(file.path(path_meta(path_store = store)))
+  tar_assert_store(store = store)
+  tar_assert_path(path_meta(path_store = store))
   pattern <- as.expression(substitute(pattern))
   deps <- all.vars(pattern, functions = FALSE, unique = TRUE)
   vars <- c(name, deps)
