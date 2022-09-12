@@ -13,7 +13,11 @@ verbose_class <- R6::R6Class(
       cli_start(target_get_name(target), target_get_type_cli(target))
     },
     report_built = function(target, progress = NULL) {
-      cli_built(target_get_name(target), target_get_type_cli(target))
+      cli_built(
+        name = target_get_name(target),
+        prefix = target_get_type_cli(target),
+        seconds_elapsed = target$metrics$seconds
+      )
     },
     report_skipped = function(target, progress = NULL) {
       cli_skip(target_get_name(target), target_get_type_cli(target))

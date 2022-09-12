@@ -4,9 +4,18 @@ cli_start <- function(name, prefix = NULL, time_stamp = FALSE) {
   cli_blue_bullet(msg)
 }
 
-cli_built <- function(name, prefix = NULL, time_stamp = FALSE) {
+cli_built <- function(
+  name,
+  prefix = NULL,
+  time_stamp = FALSE,
+  seconds_elapsed = NULL
+) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "built", prefix, name), collapse = " ")
+  if (!is.null(seconds_elapsed)) {
+    msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
+    msg <- paste0(msg, cli::col_grey(msg_time))
+  }
   cli_green_bullet(msg)
 }
 
@@ -32,7 +41,8 @@ cli_uptodate <- function(time_stamp = FALSE, seconds_elapsed = NULL) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "skip pipeline"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
-    msg <- paste0(msg, ": ", units_seconds(seconds_elapsed))
+    msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
+    msg <- paste0(msg, cli::col_grey(msg_time))
   }
   cli_green_check(msg)
 }
@@ -41,7 +51,8 @@ cli_done <- function(time_stamp = FALSE, seconds_elapsed = NULL) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "end pipeline"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
-    msg <- paste0(msg, ": ", units_seconds(seconds_elapsed))
+    msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
+    msg <- paste0(msg, cli::col_grey(msg_time))
   }
   cli_blue_bullet(msg)
 }
@@ -50,7 +61,8 @@ cli_empty <- function(time_stamp = FALSE, seconds_elapsed = NULL) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "no targets found"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
-    msg <- paste0(msg, ": ", units_seconds(seconds_elapsed))
+    msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
+    msg <- paste0(msg, cli::col_grey(msg_time))
   }
   cli_red_x(msg)
 }

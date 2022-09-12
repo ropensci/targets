@@ -51,7 +51,10 @@ of the last time the progress changed and printed to the screen.
 \item \code{"timestamp_positives"}: same as the \code{"timestamp"} reporter
 except without messages for skipped targets.
 \item \code{"verbose"}: print messages for individual targets
-as they start, finish, or are skipped.
+as they start, finish, or are skipped. Each individual
+target-specific time (e.g. "3.487 seconds") is strictly the
+elapsed runtime of the target and does not include
+steps like data retrieval and output storage.
 \item \code{"verbose_positives"}: same as the \code{"verbose"} reporter
 except without messages for skipped targets.
 }}

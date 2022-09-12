@@ -42,7 +42,10 @@
 #'   * `"timestamp_positives"`: same as the `"timestamp"` reporter
 #'     except without messages for skipped targets.
 #'   * `"verbose"`: print messages for individual targets
-#'     as they start, finish, or are skipped.
+#'     as they start, finish, or are skipped. Each individual
+#'     target-specific time (e.g. "3.487 seconds") is strictly the
+#'     elapsed runtime of the target and does not include
+#'     steps like data retrieval and output storage.
 #'   * `"verbose_positives"`: same as the `"verbose"` reporter
 #'     except without messages for skipped targets.
 #' @examples

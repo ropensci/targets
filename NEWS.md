@@ -5,6 +5,7 @@
 * Print "no targets found" when there are no targets in the pipeline to check or build, or if the `names` argument of `tar_make()` does not identify any such targets in the pipeline (#923, @llrs).
 * Ignore `.packageName`, `.__NAMESPACE__.`, and `.__S3MethodsTable__.` when importing objects from packages with the `imports` option of `tar_option_set()`.
 * Import datasets from packages in the `imports` option of `tar_option_set()` (#926, @joelnitta).
+* Print target-specific elapsed runtimes in the verbose and timestamp reporters.
 
 # targets 0.13.2
 

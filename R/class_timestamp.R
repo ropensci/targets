@@ -20,7 +20,8 @@ timestamp_class <- R6::R6Class(
       cli_built(
         target_get_name(target),
         target_get_type_cli(target),
-        time_stamp = TRUE
+        time_stamp = TRUE,
+        seconds_elapsed = target$metrics$seconds
       )
     },
     report_skipped = function(target, progress) {
