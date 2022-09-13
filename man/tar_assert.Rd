@@ -155,6 +155,8 @@ assertions like \code{tar_assert_le()}/\code{tar_assert_ge()}.}
 
 \item{pattern}{Character of length 1, a \code{grep} pattern for certain
 assertions.}
+
+\item{store}{Character of length 1, path to the data store of the pipeline.}
 }
 \description{
 These functions assert the correctness of user inputs

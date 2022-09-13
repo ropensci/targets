@@ -1,5 +1,11 @@
 tar_test("progress does not exist", {
-  expect_error(tar_progress_summary(), class = "tar_condition_validate")
+  out <- tar_progress_summary()
+  for (field in colnames(out)) {
+    if (is.numeric(out[[field]])) {
+      expect_equal(out[[field]], 0)
+    }
+  }
+  expect_equal(out$since, "")
 })
 
 tar_test("default progress", {

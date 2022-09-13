@@ -551,6 +551,7 @@ tar_assert_scalar <- function(x, msg = NULL) {
 
 #' @export
 #' @rdname tar_assert
+#' @param store Character of length 1, path to the data store of the pipeline.
 tar_assert_store <- function(store) {
   tar_assert_scalar(store)
   tar_assert_chr(store)
