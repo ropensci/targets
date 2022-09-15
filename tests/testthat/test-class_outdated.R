@@ -1,25 +1,30 @@
 tar_test("outdated$outdated", {
+  skip_cran()
   out <- outdated_init(pipeline_init())
   expect_silent(counter_validate(out$outdated))
 })
 
 tar_test("outdated$is_outdated()", {
+  skip_cran()
   out <- outdated_init(pipeline_init(), reporter = "silent")
   expect_equal(out$is_outdated("x"), FALSE)
 })
 
 tar_test("outdated$register_outdated()", {
+  skip_cran()
   out <- outdated_init(pipeline_init(), reporter = "silent")
   out$register_outdated("x")
   expect_equal(out$is_outdated("x"), TRUE)
 })
 
 tar_test("counter_validate(outdated)", {
+  skip_cran()
   out <- outdated_init(pipeline_init(), reporter = "silent")
   expect_silent(counter_validate(out$outdated))
 })
 
 tar_test("full non-branching run", {
+  skip_cran()
   out <- outdated_init(pipeline_order(), reporter = "silent")
   out$run()
   exp <- sort(pipeline_get_names(pipeline_order()))
@@ -32,6 +37,7 @@ tar_test("full non-branching run", {
 })
 
 tar_test("full branching run with forecast reporter", {
+  skip_cran()
   out <- outdated_init(
     pipeline_map(),
     queue = "sequential",
@@ -52,6 +58,7 @@ tar_test("full branching run with forecast reporter", {
 })
 
 tar_test("Outdated is idempotent (no overwriting imports)", {
+  skip_cran()
   envir <- new.env(parent = baseenv())
   envir$f <- function(x) x
   tar_option_set(envir = envir)
@@ -71,6 +78,7 @@ tar_test("Outdated is idempotent (no overwriting imports)", {
 })
 
 tar_test("Update the command of a stem", {
+  skip_cran()
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
@@ -92,6 +100,7 @@ tar_test("Update the command of a stem", {
 })
 
 tar_test("Update the file of a branch", {
+  skip_cran()
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
@@ -119,6 +128,7 @@ tar_test("Update the file of a branch", {
 })
 
 tar_test("Update the file of a branch and aggregate", {
+  skip_cran()
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y))
@@ -145,6 +155,7 @@ tar_test("Update the file of a branch and aggregate", {
 })
 
 tar_test("Corrupt a branch", {
+  skip_cran()
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
@@ -169,6 +180,7 @@ tar_test("Corrupt a branch", {
 })
 
 tar_test("Corrupt a branch but turn off the depend cue", {
+  skip_cran()
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
@@ -195,6 +207,7 @@ tar_test("Corrupt a branch but turn off the depend cue", {
 })
 
 tar_test("Depend on all branches", {
+  skip_cran()
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y))
@@ -218,6 +231,7 @@ tar_test("Depend on all branches", {
 })
 
 tar_test("map over a stem with no branches previously", {
+  skip_cran()
   pipeline <- pipeline_init(
     list(
       target_init("x", quote(seq_len(2))),

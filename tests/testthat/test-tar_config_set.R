@@ -1,4 +1,5 @@
 tar_test("tar_config_set() inherits", {
+  skip_cran()
   expect_false(file.exists("_targets.yaml"))
   expect_null(tar_config_get("inherits"))
   tar_config_set(inherits = "summary")
@@ -13,6 +14,7 @@ tar_test("tar_config_set() inherits", {
 })
 
 tar_test("tar_config_set() reporter_make", {
+  skip_cran()
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("reporter_make"), "verbose")
   tar_config_set(reporter_make = "summary")
@@ -27,6 +29,7 @@ tar_test("tar_config_set() reporter_make", {
 })
 
 tar_test("tar_config_set() reporter_outdated", {
+  skip_cran()
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("reporter_outdated"), "silent")
   tar_config_set(reporter_outdated = "forecast")
@@ -41,6 +44,7 @@ tar_test("tar_config_set() reporter_outdated", {
 })
 
 tar_test("tar_config_set() shortcut", {
+  skip_cran()
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("shortcut"), FALSE)
   tar_config_set(shortcut = TRUE)
@@ -55,6 +59,7 @@ tar_test("tar_config_set() shortcut", {
 })
 
 tar_test("tar_config_set() with script", {
+  skip_cran()
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   path <- tempfile()
@@ -69,6 +74,7 @@ tar_test("tar_config_set() with script", {
 })
 
 tar_test("tar_config_set() with script and different yaml file", {
+  skip_cran()
   path <- tempfile()
   expect_false(file.exists(path))
   expect_equal(tar_config_get("script", config = path), path_script_default())
@@ -86,6 +92,7 @@ tar_test("tar_config_set() with script and different yaml file", {
 })
 
 tar_test("tar_config_set() with store", {
+  skip_cran()
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("store"), path_store_default())
   path <- tempfile()
@@ -100,6 +107,7 @@ tar_test("tar_config_set() with store", {
 })
 
 tar_test("tar_config_set() with store and different yaml file", {
+  skip_cran()
   path <- tempfile()
   expect_false(file.exists(path))
   expect_equal(tar_config_get("store", config = path), path_store_default())
@@ -117,6 +125,7 @@ tar_test("tar_config_set() with store and different yaml file", {
 })
 
 tar_test("tar_config_set() workers", {
+  skip_cran()
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("workers"), 1L)
   tar_config_set(workers = 2L)
@@ -131,6 +140,7 @@ tar_test("tar_config_set() workers", {
 })
 
 tar_test("_targets.yaml is locked during the pipeline then unlocked after", {
+  skip_cran()
   tar_script({
     list(
       tar_target(a, c("main:", "  store: _targets2")),
@@ -150,6 +160,7 @@ tar_test("_targets.yaml is locked during the pipeline then unlocked after", {
 })
 
 tar_test("same with external process", {
+  skip_cran()
   tar_script({
     list(
       tar_target(a, c("main:", "  store: _targets2")),
@@ -181,6 +192,7 @@ tar_test("tar_config_set() can configure the script and the store", {
 })
 
 tar_test("tar_config_set() TAR_CONFIG", {
+  skip_cran()
   on.exit(Sys.unsetenv("TAR_CONFIG"))
   Sys.setenv(TAR_CONFIG = "custom.yaml")
   expect_false(file.exists("_targets.yaml"))
@@ -196,6 +208,7 @@ tar_test("tar_config_set() TAR_CONFIG", {
 })
 
 tar_test("single-project format still works", {
+  skip_cran()
   writeLines("store: abc", "_targets.yaml")
   expect_warning(
     out <- tar_config_get("store"),
@@ -205,6 +218,7 @@ tar_test("single-project format still works", {
 })
 
 tar_test("single-project converted to multi-project", {
+  skip_cran()
   writeLines("store: abc", "_targets.yaml")
   expect_warning(
     tar_config_set(store = "x123"),
@@ -216,6 +230,7 @@ tar_test("single-project converted to multi-project", {
 })
 
 tar_test("project switching/setting with project arg", {
+  skip_cran()
   tar_config_set(store = "abc", project = "project1")
   tar_config_set(store = "xyz", project = "project2")
   expect_equal(tar_config_get("store", project = "project1"), "abc")
@@ -223,6 +238,7 @@ tar_test("project switching/setting with project arg", {
 })
 
 tar_test("project switching/setting with TAR_PROJECT", {
+  skip_cran()
   on.exit(Sys.unsetenv("TAR_PROJECT"))
   Sys.setenv(TAR_PROJECT = "project1")
   tar_config_set(store = "abc")
@@ -236,6 +252,7 @@ tar_test("project switching/setting with TAR_PROJECT", {
 })
 
 tar_test("correct project inheritance (1 level)", {
+  skip_cran()
   tar_config_set(store = "sa", project = "pa")
   tar_config_set(inherits = "pa", project = "pb")
   expect_equal(tar_config_get("store", project = "pb"), "sa")
@@ -243,6 +260,7 @@ tar_test("correct project inheritance (1 level)", {
 })
 
 tar_test("correct project inheritance more than 2 levels deep", {
+  skip_cran()
   tar_config_set(store = "sa", project = "pa")
   tar_config_set(inherits = "pa", project = "pb")
   tar_config_set(inherits = "pb", project = "pc")
@@ -253,12 +271,14 @@ tar_test("correct project inheritance more than 2 levels deep", {
 })
 
 tar_test("inherit from nonexistent project", {
+  skip_cran()
   tar_config_set(store = "sa", project = "pa")
   tar_config_set(inherits = "nope", project = "pb")
   expect_equal(tar_config_get("store", project = "pb"), path_store_default())
 })
 
 tar_test("nontrivial circular project inheritance", {
+  skip_cran()
   tar_config_set(store = "sa", inherits = "pe", project = "pa")
   tar_config_set(inherits = "pa", project = "pb")
   tar_config_set(inherits = "pb", project = "pc")
@@ -271,6 +291,7 @@ tar_test("nontrivial circular project inheritance", {
 })
 
 tar_test("project inherits from itself", {
+  skip_cran()
   tar_config_set(inherits = "pa", project = "pa")
   expect_error(
     tar_config_get("script", project = "pa"),
@@ -279,6 +300,7 @@ tar_test("project inherits from itself", {
 })
 
 tar_test("no conversion to multi-project if just a empty projects", {
+  skip_cran()
   writeLines("pa:\npb:", "_targets.yaml")
   tar_config_set(store = "abc", project = "pc")
   yaml <- yaml::read_yaml("_targets.yaml")

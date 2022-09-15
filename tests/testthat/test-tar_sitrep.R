@@ -1,4 +1,5 @@
 tar_test("tar_sitrep() on an empty project", {
+  skip_cran()
   tar_script(
     list(
       tar_target(x, seq_len(2)),
@@ -25,6 +26,7 @@ tar_test("tar_sitrep() on an empty project", {
 })
 
 tar_test("tar_sitrep() does not modify progress", {
+  skip_cran()
   tar_script(
     list(
       tar_target(x, 1:2),
@@ -40,6 +42,7 @@ tar_test("tar_sitrep() does not modify progress", {
 
 
 tar_test("tar_sitrep() on an empty project with callr process", {
+  skip_cran()
   tar_script(
     list(
       tar_target(x, seq_len(2)),
@@ -66,6 +69,7 @@ tar_test("tar_sitrep() on an empty project with callr process", {
 })
 
 tar_test("tar_sitrep() name selection", {
+  skip_cran()
   tar_script(
     list(
       tar_target(x2, seq_len(2)),
@@ -85,6 +89,7 @@ tar_test("tar_sitrep() name selection", {
 })
 
 tar_test("tar_sitrep() name selection in reverse", {
+  skip_cran()
   tar_script(
     list(
       tar_target(x2, seq_len(2)),
@@ -117,6 +122,7 @@ tar_test("tar_sitrep() field selection", {
 })
 
 tar_test("tar_sitrep() on a run project", {
+  skip_cran()
   tar_script(
     list(
       tar_target(x, seq_len(2)),
@@ -146,6 +152,7 @@ tar_test("tar_sitrep() on a run project", {
 })
 
 tar_test("tar_sitrep() on a project with a change", {
+  skip_cran()
   tar_script(
     list(
       tar_target(x, seq_len(2)),
@@ -177,6 +184,7 @@ tar_test("tar_sitrep() on a project with a change", {
 })
 
 tar_test("tar_sitrep() invalidation due to aggregated pattern deps", {
+  skip_cran()
   tar_script(
     list(
       tar_target(x, seq_len(2)),
@@ -261,6 +269,7 @@ tar_test("custom script and store args with callr function", {
 })
 
 tar_test("custom script and store args", {
+  skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script(tar_target(x, "y"), script = "example/script.R")

@@ -1,4 +1,5 @@
 tar_test("workspaces are not saved if error = 'stop'", {
+  skip_cran()
   pipeline <- pipeline_init(
     list(
       target_init("y", quote(1)),
@@ -11,6 +12,7 @@ tar_test("workspaces are not saved if error = 'stop'", {
 })
 
 tar_test("workspaces are not saved by default", {
+  skip_cran()
   pipeline <- pipeline_init(
     list(
       target_init("y", quote(12345)),
@@ -24,6 +26,7 @@ tar_test("workspaces are not saved by default", {
 })
 
 tar_test("workspaces are saved if requested on error", {
+  skip_cran()
   tar_option_set(workspace_on_error = TRUE)
   pipeline <- pipeline_init(
     list(
@@ -37,6 +40,7 @@ tar_test("workspaces are saved if requested on error", {
 })
 
 tar_test("deprecated workspace error option works", {
+  skip_cran()
   pipeline <- pipeline_init(
     list(
       target_init("y", quote(1)),
@@ -49,6 +53,7 @@ tar_test("deprecated workspace error option works", {
 })
 
 tar_test("deprecated workspaces option works", {
+  skip_cran()
   suppressWarnings(tar_option_set(workspaces = "x"))
   pipeline <- pipeline_init(
     list(
@@ -62,6 +67,7 @@ tar_test("deprecated workspaces option works", {
 })
 
 tar_test("tar_workspace() works", {
+  skip_cran()
   tmp <- sample(1)
   tar_script({
     tar_option_set(workspace_on_error = TRUE)
@@ -79,6 +85,7 @@ tar_test("tar_workspace() works", {
 })
 
 tar_test("tar_workspace() works with workspace option", {
+  skip_cran()
   tmp <- sample(1)
   tar_script({
     tar_option_set(workspaces = "y")
@@ -94,6 +101,7 @@ tar_test("tar_workspace() works with workspace option", {
 })
 
 tar_test("tar_workspace() on a branch on error", {
+  skip_cran()
   tar_script({
     tar_option_set(workspace_on_error = TRUE)
     list(
@@ -113,6 +121,7 @@ tar_test("tar_workspace() on a branch on error", {
 })
 
 tar_test("tar_workspace() on a pattern by name", {
+  skip_cran()
   tar_script({
     tar_option_set(workspaces = "y")
     list(
@@ -127,6 +136,7 @@ tar_test("tar_workspace() on a pattern by name", {
 })
 
 tar_test("tar_workspace() on a pattern by name", {
+  skip_cran()
   tar_script({
     tar_option_set(workspaces = "BRANCH")
     list(
@@ -162,6 +172,7 @@ tar_test("tar_workspace() with an nonexportable object", {
 })
 
 tar_test("workspace saved on no error and when target is skipped", {
+  skip_cran()
   path <- path_workspace(path_store_default(), "z")
   tar_script({
     list(tar_target(z, 0))

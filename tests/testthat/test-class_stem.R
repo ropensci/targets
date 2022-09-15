@@ -80,6 +80,7 @@ tar_test("target_update_queue() updates queue correctly", {
 })
 
 tar_test("target_deps_deep()", {
+  skip_cran()
   pipeline <- pipeline_init(
     list(
       target_init(
@@ -113,6 +114,7 @@ tar_test("target_deps_deep()", {
 })
 
 tar_test("insert stem record of a successful internal stem", {
+  skip_cran()
   target <- target_init("x", quote(sample.int(100)))
   pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
@@ -142,6 +144,7 @@ tar_test("insert stem record of a successful internal stem", {
 })
 
 tar_test("insert stem record of a external stem", {
+  skip_cran()
   writeLines("abcabcabcabcabcabcabcabcabcabcabcabcabcabc", "y")
   target <- target_init("x", quote("y"), format = "file")
   pipeline <- pipeline_init(list(target), clone_targets = FALSE)
@@ -172,6 +175,7 @@ tar_test("insert stem record of a external stem", {
 })
 
 tar_test("stem$produce_record() of a successful stem", {
+  skip_cran()
   target <- target_init("x", quote(sample.int(100)))
   pipeline <- pipeline_init(list(target))
   local <- local_init(pipeline)
@@ -197,6 +201,7 @@ tar_test("stem$produce_record() of a successful stem", {
 })
 
 tar_test("stem$produce_record() of a errored stem", {
+  skip_cran()
   target <- target_init("x", quote(stop(123)))
   pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
@@ -222,6 +227,7 @@ tar_test("stem$produce_record() of a errored stem", {
 })
 
 tar_test("stem$produce_record() with no error message", {
+  skip_cran()
   target <- target_init("x", quote(stop()))
   pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
@@ -232,12 +238,14 @@ tar_test("stem$produce_record() with no error message", {
 })
 
 tar_test("stem validate", {
+  skip_cran()
   x <- target_init(name = "abc", expr = quote(1L + 1L))
   builder_update_build(x)
   expect_silent(target_validate(x))
 })
 
 tar_test("stem validate with junction", {
+  skip_cran()
   x <- target_init(name = "abc", expr = quote(1L + 1L))
   builder_update_build(x)
   x$junction <- junction_init("abc", "abc_1", list())
@@ -257,6 +265,7 @@ tar_test("stem print", {
 })
 
 tar_test("buds names make it into metadata so junctions can be restored", {
+  skip_cran()
   tar_script({
     list(
       tar_target(x, seq_len(3)),
@@ -270,6 +279,7 @@ tar_test("buds names make it into metadata so junctions can be restored", {
 })
 
 tar_test("buds names stay in metadata on error", {
+  skip_cran()
   tar_script({
     list(
       tar_target(x, seq_len(3)),
@@ -290,6 +300,7 @@ tar_test("buds names stay in metadata on error", {
 })
 
 tar_test("branches can use old buds if continuing on error", {
+  skip_cran()
   tar_script({
     list(
       tar_target(x, seq_len(3)),
@@ -312,6 +323,7 @@ tar_test("branches can use old buds if continuing on error", {
 })
 
 tar_test("branches can use old buds if stem is canceled", {
+  skip_cran()
   tar_script({
     list(
       tar_target(x, seq_len(3)),
@@ -334,6 +346,7 @@ tar_test("branches can use old buds if stem is canceled", {
 })
 
 tar_test("branches can use old buds if stem is canceled (worker storage)", {
+  skip_cran()
   tar_script({
     list(
       tar_target(x, seq_len(3), storage = "worker"),
@@ -356,6 +369,7 @@ tar_test("branches can use old buds if stem is canceled (worker storage)", {
 })
 
 tar_test("packages load errors are recorded (#228)", {
+  skip_cran()
   tar_script(list(tar_target(x, 1, packages = "kls;;;hfajksdf")))
   expect_error(
     suppressWarnings(tar_make(callr_function = NULL)),
@@ -369,6 +383,7 @@ tar_test("packages load errors are recorded (#228)", {
 })
 
 tar_test("bootstrap a budding and a non-budding stem for shortcut", {
+  skip_cran()
   tar_script({
     list(
       tar_target(x, 1L),

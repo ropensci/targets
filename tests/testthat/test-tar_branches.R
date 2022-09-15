@@ -1,4 +1,5 @@
 tar_test("tar_branches() with a nontrivial pattern", {
+  skip_cran()
   tar_script(
     list(
       tar_target(x, seq_len(2)),
@@ -25,6 +26,7 @@ tar_test("tar_branches() with a nontrivial pattern", {
 })
 
 tar_test("tar_branches() with a random pattern", {
+  skip_cran()
   tar_script(
     list(
       tar_target(w, letters),

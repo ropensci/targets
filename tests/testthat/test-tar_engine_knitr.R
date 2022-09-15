@@ -1,4 +1,5 @@
 tar_test("tar_engine_knitr() noninteractive globals", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "x <- \"a\""
@@ -22,6 +23,7 @@ tar_test("tar_engine_knitr() noninteractive globals", {
 })
 
 tar_test("same with eval = FALSE", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "x <- \"a\""
@@ -48,6 +50,7 @@ tar_test("same with eval = FALSE", {
 })
 
 tar_test("tar_engine_knitr() noninteractive globals with tar_name", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "x <- \"a\""
@@ -71,6 +74,7 @@ tar_test("tar_engine_knitr() noninteractive globals with tar_name", {
 })
 
 tar_test("tar_engine_knitr() noninteractive globals, alt script path", {
+  skip_cran()
   skip_if_not_installed("knitr")
   script <- "example/script.R"
   options <- knitr::opts_chunk$get()
@@ -103,6 +107,7 @@ tar_test("tar_engine_knitr() noninteractive globals, alt script path", {
 })
 
 tar_test("tar_engine_knitr() interactive globals", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "x <- \"a\""
@@ -128,6 +133,7 @@ tar_test("tar_engine_knitr() interactive globals", {
 })
 
 tar_test("tar_engine_knitr() noninteractive targets", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "tar_target(x, \"a\")"
@@ -148,6 +154,7 @@ tar_test("tar_engine_knitr() noninteractive targets", {
 })
 
 tar_test("tar_engine_knitr() noninteractive targets with tar_name", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "tar_target(x, \"a\")"
@@ -168,6 +175,7 @@ tar_test("tar_engine_knitr() noninteractive targets with tar_name", {
 })
 
 tar_test("tar_engine_knitr() noninteractive targets, simple version", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "\"a\""
@@ -189,6 +197,7 @@ tar_test("tar_engine_knitr() noninteractive targets, simple version", {
 })
 
 tar_test("tar_engine_knitr() noninteractive targets with custom script path", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   script <- "example/script.R"
@@ -219,6 +228,7 @@ tar_test("tar_engine_knitr() noninteractive targets with custom script path", {
 })
 
 tar_test("tar_engine_knitr() non-int targets, alt script path, tar_simple", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   script <- "example/script.R"
@@ -250,6 +260,7 @@ tar_test("tar_engine_knitr() non-int targets, alt script path, tar_simple", {
 })
 
 tar_test("tar_engine_knitr() interactive targets", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "targets::tar_target(x, \"a\")"
@@ -271,6 +282,7 @@ tar_test("tar_engine_knitr() interactive targets", {
 })
 
 tar_test("tar_engine_knitr() interactive targets, simple version", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   options$code <- "\"a\""
@@ -293,6 +305,7 @@ tar_test("tar_engine_knitr() interactive targets, simple version", {
 })
 
 tar_test("tar_engine_knitr() warning if duplicate chunk labels allowed", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   old_envvar <- Sys.getenv("TAR_WARN")
@@ -317,6 +330,7 @@ tar_test("tar_engine_knitr() warning if duplicate chunk labels allowed", {
 })
 
 tar_test("engine_knitr_set()", {
+  skip_cran()
   skip_if_not_installed("knitr")
   engine_knitr_set()
   engine_names <- names(knitr::knit_engines$get())
@@ -324,6 +338,7 @@ tar_test("engine_knitr_set()", {
 })
 
 tar_test("deprecated targets option", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   option <- getOption("knitr.duplicate.label")
@@ -342,6 +357,7 @@ tar_test("deprecated targets option", {
 })
 
 tar_test("unnamed chunk label", {
+  skip_cran()
   skip_if_not_installed("knitr")
   options <- knitr::opts_chunk$get()
   old <- Sys.getenv("TAR_WARN")
@@ -361,6 +377,7 @@ tar_test("unnamed chunk label", {
 })
 
 tar_test("conflicting target scripts", {
+  skip_cran()
   skip_if_not_installed("knitr")
   write_targets_r("_targets.R")
   expect_silent(write_targets_r("_targets.R"))

@@ -9,12 +9,13 @@ tar_test("tar_manifest() with default settings", {
       tar_target(c, z, pattern = cross(z))
     )
   })
-  out <- tar_manifest()
+  out <- tar_manifest(callr_function = NULL)
   expect_equal(colnames(out), c("name", "command", "pattern"))
   expect_equal(nrow(out), 5L)
 })
 
 tar_test("tar_manifest() drop_missing FALSE", {
+  skip_cran()
   tar_script({
     tar_option_set()
     list(
@@ -25,13 +26,13 @@ tar_test("tar_manifest() drop_missing FALSE", {
   })
   out <- tar_manifest(
     fields = all_of(c("name", "command", "pattern")),
-    callr_function = NULL,
     drop_missing = FALSE
   )
   expect_equal(colnames(out), c("name", "command", "pattern"))
 })
 
 tar_test("tar_manifest() drop_missing TRUE", {
+  skip_cran()
   tar_script({
     tar_option_set()
     list(
@@ -49,6 +50,7 @@ tar_test("tar_manifest() drop_missing TRUE", {
 })
 
 tar_test("tar_manifest() tidyselect on names", {
+  skip_cran()
   tar_script({
     tar_option_set()
     list(
@@ -64,6 +66,7 @@ tar_test("tar_manifest() tidyselect on names", {
 })
 
 tar_test("tar_manifest() shows patterns correctly", {
+  skip_cran()
   tar_script({
     tar_option_set()
     list(
@@ -89,6 +92,7 @@ tar_test("tar_manifest() shows patterns correctly", {
 })
 
 tar_test("tar_manifest() shows cues correctly", {
+  skip_cran()
   tar_script({
     tar_option_set()
     list(
@@ -120,6 +124,7 @@ tar_test("tar_manifest() shows cues correctly", {
 })
 
 tar_test("tar_manifest() shows all fields if the fields arg is NULL", {
+  skip_cran()
   tar_script({
     tar_option_set()
     list(
@@ -139,6 +144,7 @@ tar_test("tar_manifest() shows all fields if the fields arg is NULL", {
 })
 
 tar_test("tar_manifest() uses topo sort", {
+  skip_cran()
   tar_script({
     list(
       tar_target(d, "d"),

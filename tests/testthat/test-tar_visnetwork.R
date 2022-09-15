@@ -1,14 +1,3 @@
-tar_test("tar_visnetwork() does not create a data store", {
-  skip_if_not_installed("visNetwork")
-  tar_script({
-    f <- identity
-    tar_option_set()
-    list(tar_target(x, f(1L)))
-  })
-  out <- tar_visnetwork(callr_function = NULL)
-  expect_false(file.exists("_targets"))
-})
-
 tar_test("tar_visnetwork()", {
   skip_if_not_installed("visNetwork")
   tar_script({
@@ -24,10 +13,12 @@ tar_test("tar_visnetwork()", {
     callr_function = NULL,
     callr_arguments = list(show = FALSE)
   )
+  expect_false(file.exists("_targets"))
   expect_true(inherits(out, "visNetwork"))
 })
 
 tar_test("tar_visnetwork() does not deduplicate metadata", {
+  skip_cran()
   skip_if_not_installed("visNetwork")
   tar_script({
     tar_option_set(envir = new.env(parent = baseenv()))
@@ -53,6 +44,7 @@ tar_test("tar_visnetwork() does not deduplicate metadata", {
 })
 
 tar_test("custom script and store args", {
+  skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script(tar_target(x, "y"), script = "example/script.R")

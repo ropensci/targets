@@ -22,6 +22,7 @@ tar_test("target_run() on a good builder", {
 })
 
 tar_test("target_run() on a errored builder", {
+  skip_cran()
   tar_option_set(envir = tmpenv())
   local_init(pipeline_init())$start()
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
@@ -37,6 +38,7 @@ tar_test("target_run() on a errored builder", {
 })
 
 tar_test("target_run_worker()", {
+  skip_cran()
   local_init(pipeline_init())$start()
   x <- target_init(name = "abc", expr = quote(identity(identity(stop(123)))))
   y <- target_run_worker(
@@ -84,6 +86,7 @@ tar_test("read and write objects", {
 })
 
 tar_test("error = \"stop\" means stop on error", {
+  skip_cran()
   x <- target_init("x", expr = quote(stop(123)), error = "stop")
   y <- target_init("y", expr = quote(stop(456)), error = "stop")
   pipeline <- pipeline_init(list(x, y))
@@ -96,6 +99,7 @@ tar_test("error = \"stop\" means stop on error", {
 })
 
 tar_test("error = \"continue\" means continue on error", {
+  skip_cran()
   x <- target_init("x", expr = quote(stop(123)), error = "continue")
   y <- target_init("y", expr = quote(stop(456)), error = "continue")
   pipeline <- pipeline_init(list(x, y))
@@ -114,6 +118,7 @@ tar_test("error = \"continue\" means continue on error", {
 })
 
 tar_test("error = \"abridge\" means do not schedule new targets", {
+  skip_cran()
   x <- target_init("x", expr = quote(stop(123)), error = "abridge")
   y <- target_init("y", expr = quote(x))
   pipeline <- pipeline_init(list(x, y))
@@ -125,6 +130,7 @@ tar_test("error = \"abridge\" means do not schedule new targets", {
 })
 
 tar_test("errored targets are not up to date", {
+  skip_cran()
   x <- target_init("x", expr = quote(123))
   pipeline <- pipeline_init(list(x))
   local_init(pipeline)$run()
@@ -139,6 +145,7 @@ tar_test("errored targets are not up to date", {
 })
 
 tar_test("same if we continue on error", {
+  skip_cran()
   x <- target_init("x", expr = quote(123))
   pipeline <- pipeline_init(list(x))
   local_init(pipeline)$run()
@@ -154,6 +161,7 @@ tar_test("same if we continue on error", {
 })
 
 tar_test("builder writing from main", {
+  skip_cran()
   tar_option_set(envir = tmpenv(a = "123"))
   local_init(pipeline_init())$start()
   x <- target_init("abc", expr = quote(a), format = "rds", storage = "main")
@@ -174,6 +182,7 @@ tar_test("builder writing from main", {
 })
 
 tar_test("builder writing from worker", {
+  skip_cran()
   tar_option_set(envir = tmpenv(a = "123"))
   local_init(pipeline_init())$start()
   x <- target_init(
@@ -199,6 +208,7 @@ tar_test("builder writing from worker", {
 
 tar_test("retrieval = \"none\"", {
   skip_cran()
+  skip_cran()
   tar_script({
     list(
       tar_target(x, 1, memory = "transient"),
@@ -218,6 +228,7 @@ tar_test("storage = \"none\" errors if user does not write storage", {
 })
 
 tar_test("storage = \"none\" ignores return value but tracks file", {
+  skip_cran()
   tar_script({
     run_x <- function() {
       if (!file.exists("_targets/objects")) {
@@ -276,6 +287,7 @@ tar_test("storage = \"none\" ignores return value but tracks file", {
 })
 
 tar_test("dynamic file writing from main", {
+  skip_cran()
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())
   tar_option_set(envir = envir)
@@ -301,6 +313,7 @@ tar_test("dynamic file writing from main", {
 })
 
 tar_test("dynamic file has illegal path", {
+  skip_cran()
   x <- target_init(
     name = "abc",
     expr = quote("a*b"),
@@ -311,6 +324,7 @@ tar_test("dynamic file has illegal path", {
 })
 
 tar_test("dynamic file has empty path", {
+  skip_cran()
   x <- target_init(
     name = "abc",
     expr = quote(NULL),
@@ -321,6 +335,7 @@ tar_test("dynamic file has empty path", {
 })
 
 tar_test("dynamic file has missing path value", {
+  skip_cran()
   x <- target_init(
     name = "abc",
     expr = quote(NA_character_),
@@ -331,6 +346,7 @@ tar_test("dynamic file has missing path value", {
 })
 
 tar_test("dynamic file is missing at path", {
+  skip_cran()
   x <- target_init(
     name = "abc",
     expr = quote("nope"),
@@ -342,6 +358,7 @@ tar_test("dynamic file is missing at path", {
 })
 
 tar_test("dynamic file writing from worker", {
+  skip_cran()
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())
   tar_option_set(envir = envir)
@@ -369,6 +386,7 @@ tar_test("dynamic file writing from worker", {
 })
 
 tar_test("value kept if storage is local", {
+  skip_cran()
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())
   tar_option_set(envir = envir)
@@ -417,6 +435,7 @@ tar_test("basic progress responses are correct", {
 })
 
 tar_test("builders load their packages", {
+  skip_cran()
   x <- target_init(
     "x",
     quote(tibble(x = "x")),
@@ -432,6 +451,7 @@ tar_test("builders load their packages", {
 })
 
 tar_test("relay errors as messages if error is continue", {
+  skip_cran()
   tar_script({
     tar_option_set(error = "continue")
     list(
@@ -453,6 +473,7 @@ tar_test("relay errors as messages if error is continue", {
 })
 
 tar_test("target_needs_worker(builder)", {
+  skip_cran()
   x <- tar_target(y, rep(x, 2), deployment = "worker")
   expect_true(target_needs_worker(x))
   x <- tar_target(y, rep(x, 2), deployment = "main")
@@ -460,6 +481,7 @@ tar_test("target_needs_worker(builder)", {
 })
 
 tar_test("bootstrap builder for shortcut", {
+  skip_cran()
   tar_script({
     list(
       tar_target(w, 1L),
@@ -503,6 +525,7 @@ tar_test("informative error when bootstrap fails", {
 })
 
 tar_test("validate with nonmissing file and value", {
+  skip_cran()
   x <- target_init(name = "abc", expr = quote(1L + 1L))
   x$value <- value_init(123)
   file <- x$store$file

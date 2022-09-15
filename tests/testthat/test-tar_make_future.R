@@ -1,4 +1,15 @@
+tar_test("tar_make_future() works with callr_function = NULL", {
+  skip_if_not_installed("future")
+  tar_script(list(tar_target(x, "x")))
+  tar_make_future(
+    callr_function = NULL,
+    reporter = "silent"
+  )
+  expect_equal(tar_read(x), "x")
+})
+
 tar_test("tar_make_future() works", {
+  skip_cran()
   skip_if_not_installed("future")
   tar_script(list(tar_target(x, "x")))
   tar_make_future(
@@ -9,6 +20,7 @@ tar_test("tar_make_future() works", {
 })
 
 tar_test("tar_make_future() can use tidyselect", {
+  skip_cran()
   skip_if_not_installed("future")
   tar_script(
     list(

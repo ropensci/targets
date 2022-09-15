@@ -39,6 +39,7 @@ tar_test("target_ensure_value() loads values", {
 })
 
 tar_test("target_ensure_dep()", {
+  skip_cran()
   x <- target_init(name = "abc", quote(1), format = "rds")
   y <- target_init(name = "xyz", quote(abc), format = "rds")
   pipeline <- pipeline_init(list(x, y))
@@ -54,6 +55,7 @@ tar_test("target_ensure_dep()", {
 })
 
 tar_test("target_deps_shallow()", {
+  skip_cran()
   x <- target_init("x", quote(1 + 1))
   y <- target_init("y", quote(x + z))
   pipeline <- pipeline_init(list(x, y))
@@ -62,6 +64,7 @@ tar_test("target_deps_shallow()", {
 })
 
 tar_test("target_branches_over()", {
+  skip_cran()
   x <- target_init("x", quote(1 + 1))
   z <- target_init("z", quote(x), pattern = quote(map(x)))
   expect_true(target_branches_over(z, "x"))
@@ -70,6 +73,7 @@ tar_test("target_branches_over()", {
 })
 
 tar_test("target_downstream_branching()", {
+  skip_cran()
   x <- target_init("x", quote(1 + 1))
   y <- target_init("y", quote(x))
   z <- target_init("z", quote(x), pattern = quote(map(x)))
@@ -80,6 +84,7 @@ tar_test("target_downstream_branching()", {
 })
 
 tar_test("target_downstream_nonbranching()", {
+  skip_cran()
   x <- target_init("x", quote(1 + 1))
   y <- target_init("y", quote(x))
   z <- target_init("z", quote(x), pattern = quote(map(x)))
@@ -91,6 +96,7 @@ tar_test("target_downstream_nonbranching()", {
 })
 
 tar_test("target_upstream_edges()", {
+  skip_cran()
   x <- target_init(name = "x", expr = quote(a + b))
   e <- remove_loops(target_upstream_edges(x))
   expect_true(is.data.frame(e))
@@ -100,6 +106,7 @@ tar_test("target_upstream_edges()", {
 })
 
 tar_test("error if unsupported pattern", {
+  skip_cran()
   expect_error(
     target_init(name = "abc", expr = quote(xyz), pattern = quote(nope(xyz))),
     class = "tar_condition_validate"
@@ -107,6 +114,7 @@ tar_test("error if unsupported pattern", {
 })
 
 tar_test("target_get_packages()", {
+  skip_cran()
   x <- tar_target(x, 1, format = "fst_tbl", packages = c("tibble", "tidyr"))
   out <- target_get_packages(x)
   exp <- sort(c("fst", "tibble", "tidyr"))
@@ -114,6 +122,7 @@ tar_test("target_get_packages()", {
 })
 
 tar_test("error to validate a circular target", {
+  skip_cran()
   expect_error(
     target_init(name = "abc", expr = quote(abc), pattern = quote(map(abc))),
     class = "tar_condition_validate"
@@ -121,6 +130,7 @@ tar_test("error to validate a circular target", {
 })
 
 tar_test("targets resist self-referantiality", {
+  skip_cran()
   x <- target_init(name = "identity", expr = quote(identity("i")))
   pipeline <- pipeline_init(list(x))
   local_init(pipeline)$run()
@@ -128,6 +138,7 @@ tar_test("targets resist self-referantiality", {
 })
 
 tar_test("target_gc()", {
+  skip_cran()
   x <- target_init(name = "x", expr = quote(1), garbage_collection = TRUE)
   expect_silent(target_gc(x))
   x <- target_init(name = "x", expr = quote(1), garbage_collection = FALSE)
@@ -135,6 +146,7 @@ tar_test("target_gc()", {
 })
 
 tar_test("invalidation: repeated non-branching run skipped", {
+  skip_cran()
   local <- local_init(pipeline_order())
   local$run()
   out <- counter_get_names(local$scheduler$progress$built)
@@ -147,6 +159,7 @@ tar_test("invalidation: repeated non-branching run skipped", {
 })
 
 tar_test("invalidation: repeated branching run skipped", {
+  skip_cran()
   local <- local_init(pipeline_map())
   local$run()
   out <- counter_get_names(local$scheduler$progress$built)
@@ -163,6 +176,7 @@ tar_test("invalidation: repeated branching run skipped", {
 })
 
 tar_test("invalidation: update an existing branch", {
+  skip_cran()
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
@@ -194,6 +208,7 @@ tar_test("invalidation: update an existing branch", {
 })
 
 tar_test("invalidation: insert a branch", {
+  skip_cran()
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
@@ -221,6 +236,7 @@ tar_test("invalidation: insert a branch", {
 })
 
 tar_test("invalidation: remove a branch", {
+  skip_cran()
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y), pattern = quote(map(y)))
@@ -238,6 +254,7 @@ tar_test("invalidation: remove a branch", {
 })
 
 tar_test("invalidation: depend on all branches", {
+  skip_cran()
   x <- target_init("x", quote(seq_len(3)))
   y <- target_init("y", quote(x), pattern = quote(map(x)))
   z <- target_init("z", quote(y))
@@ -259,6 +276,7 @@ tar_test("invalidation: depend on all branches", {
 })
 
 tar_test("invalidation: map over a stem with no branches previously", {
+  skip_cran()
   pipeline <- pipeline_init(
     list(
       target_init("x", quote(seq_len(2L) + 10L)),
@@ -287,6 +305,7 @@ tar_test("invalidation: map over a stem with no branches previously", {
 })
 
 tar_test("invalidation: remove a function to cue a rebuild", {
+  skip_cran()
   envir <- new.env(parent = baseenv())
   tar_option_set(envir = envir)
   envir$f <- identity
@@ -305,6 +324,7 @@ tar_test("invalidation: remove a function to cue a rebuild", {
 })
 
 tar_test("invalidation: chg pattern iter forces downstream reaggregation", {
+  skip_cran()
   pipeline <- pipeline_init(
     list(
       target_init("x", quote(seq_len(2))),
@@ -343,6 +363,7 @@ tar_test("invalidation: chg pattern iter forces downstream reaggregation", {
 })
 
 tar_test("invalidation: change a nested function", {
+  skip_cran()
   tar_script({
     envir <- new.env(parent = globalenv())
     evalq({

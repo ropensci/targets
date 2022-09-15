@@ -1,4 +1,5 @@
 tar_test("use_targets() overwrite", {
+  skip_cran()
   script <- tar_config_get("script")
   use_targets(overwrite = FALSE, open = FALSE)
   expect_true(file.exists(script))
@@ -13,6 +14,7 @@ tar_test("use_targets() overwrite", {
 })
 
 tar_test("use_targets() multicore", {
+  skip_cran()
   for (package in c("future", "future.callr", "future.batchtools")) {
     skip_if_not_installed(package)
   }
@@ -27,6 +29,7 @@ tar_test("use_targets() multicore", {
 })
 
 tar_test("use_targets() multiprocess", {
+  skip_cran()
   for (package in c("future", "future.callr", "future.batchtools")) {
     skip_if_not_installed(package)
   }
@@ -41,6 +44,7 @@ tar_test("use_targets() multiprocess", {
 })
 
 tar_test("use_targets() local schedulers", {
+  skip_cran()
   for (scheduler in c("multicore", "multiprocess")) {
     expect_false(file.exists("job.sh"))
     use_targets(scheduler = scheduler, open = FALSE, overwrite = TRUE)
@@ -53,6 +57,7 @@ tar_test("use_targets() local schedulers", {
 })
 
 tar_test("use_targets() hpc schedulers", {
+  skip_cran()
   for (package in c("future", "future.callr", "future.batchtools")) {
     skip_if_not_installed(package)
   }

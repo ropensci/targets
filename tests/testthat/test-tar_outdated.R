@@ -23,6 +23,7 @@ tar_test("tar_outdated() does not modify progress", {
 })
 
 tar_test("tar_outdated() without globals", {
+  skip_cran()
   old <- Sys.getenv("TAR_WARN")
   Sys.setenv(TAR_WARN = "false")
   on.exit(Sys.setenv(TAR_WARN = old))
@@ -57,6 +58,7 @@ tar_test("tar_outdated() without globals", {
 })
 
 tar_test("tar_outdated() with globals", {
+  skip_cran()
   old <- Sys.getenv("TAR_WARN")
   Sys.setenv(TAR_WARN = "false")
   on.exit(Sys.setenv(TAR_WARN = old))
@@ -91,6 +93,7 @@ tar_test("tar_outdated() with globals", {
 })
 
 tar_test("tar_outdated() can include branches", {
+  skip_cran()
   tar_script({
     list(
       tar_target(x, seq_len(2L)),
@@ -111,6 +114,7 @@ tar_test("tar_outdated() can include branches", {
 })
 
 tar_test("tar_outdated() can omit branches", {
+  skip_cran()
   tar_script({
     list(
       tar_target(x, seq_len(2L)),
@@ -129,6 +133,7 @@ tar_test("tar_outdated() can omit branches", {
 })
 
 tar_test("tar_outdated() does not deduplicate metadata", {
+  skip_cran()
   tar_script({
     tar_option_set(envir = new.env(parent = baseenv()))
     list(tar_target(x, 1L, cue = tar_cue(mode = "always")))

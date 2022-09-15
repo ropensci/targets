@@ -4,6 +4,7 @@ tar_test("clustermq$workers", {
 })
 
 tar_test("workerless deployment works", {
+  skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
   require_clustermq()
@@ -29,6 +30,7 @@ tar_test("workerless deployment works", {
 })
 
 tar_test("semi-workerless deployment works", {
+  skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
   require_clustermq()
@@ -58,6 +60,7 @@ tar_test("semi-workerless deployment works", {
 })
 
 tar_test("some targets up to date, some not", {
+  skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
   require_clustermq()

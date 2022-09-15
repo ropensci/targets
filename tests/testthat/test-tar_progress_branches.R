@@ -1,4 +1,5 @@
 tar_test("tar_progress_branches() on empty progress", {
+  skip_cran()
   tar_script(list())
   tar_make(callr_function = NULL)
   tar_make(callr_function = NULL)
@@ -7,6 +8,7 @@ tar_test("tar_progress_branches() on empty progress", {
 })
 
 tar_test("tar_progress_branches()", {
+  skip_cran()
   tar_script({
     list(
       tar_target(x, seq_len(1)),
@@ -48,6 +50,7 @@ tar_test("tar_progress_branches()", {
 })
 
 tar_test("tar_progress_branches() with fields", {
+  skip_cran()
   tar_script({
     list(
       tar_target(x, seq_len(1)),
@@ -61,6 +64,7 @@ tar_test("tar_progress_branches() with fields", {
 })
 
 tar_test("tar_progress_branches_gt() runs without error.", {
+  skip_cran()
   skip_if_not_installed("gt")
   tar_script({
     list(

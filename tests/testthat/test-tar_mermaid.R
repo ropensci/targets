@@ -1,4 +1,5 @@
 tar_test("tar_mermaid() does not create a data store", {
+  skip_cran()
   tar_script({
     f <- identity
     tar_option_set()
@@ -9,6 +10,7 @@ tar_test("tar_mermaid() does not create a data store", {
 })
 
 tar_test("tar_mermaid() + legend + color", {
+  skip_cran()
   tar_script({
     f <- identity
     tar_option_set()
@@ -31,6 +33,7 @@ tar_test("tar_mermaid() + legend + color", {
 })
 
 tar_test("tar_mermaid() + no legend + color", {
+  skip_cran()
   tar_script({
     f <- identity
     tar_option_set()
@@ -53,6 +56,7 @@ tar_test("tar_mermaid() + no legend + color", {
 })
 
 tar_test("tar_mermaid() + legend + no color", {
+  skip_cran()
   tar_script({
     f <- identity
     tar_option_set()
@@ -75,6 +79,7 @@ tar_test("tar_mermaid() + legend + no color", {
 })
 
 tar_test("tar_mermaid() does not deduplicate metadata", {
+  skip_cran()
   tar_script({
     tar_option_set(envir = new.env(parent = baseenv()))
     list(tar_target(x, 1L, cue = tar_cue(mode = "always")))
@@ -99,6 +104,7 @@ tar_test("tar_mermaid() does not deduplicate metadata", {
 })
 
 tar_test("custom script and store args", {
+  skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script(tar_target(x, "y"), script = "example/script.R")

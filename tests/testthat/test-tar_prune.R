@@ -8,7 +8,7 @@ tar_test("tar_prune() works", {
   )
   local_init(pipeline = pipeline)$run()
   tar_script(list(tar_target(y1, quote(1))))
-  tar_prune(callr_arguments = list(show = FALSE))
+  tar_prune(callr_function = NULL)
   data <- meta_init()$database$read_data()
   expect_equal(data$name, "y1")
   files <- list.files(file.path("_targets", "objects"))
@@ -16,6 +16,7 @@ tar_test("tar_prune() works", {
 })
 
 tar_test("tar_prune() works with patterns", {
+  skip_cran()
   pipeline <- pipeline_init(
     list(
       target_init("x", quote(seq_len(2))),
@@ -37,6 +38,7 @@ tar_test("tar_prune() works with patterns", {
 })
 
 tar_test("tar_prune() does not remove global objects from metadata", {
+  skip_cran()
   envir <- new.env(parent = baseenv())
   envir$a <- 1L
   envir$f <- identity
@@ -51,6 +53,7 @@ tar_test("tar_prune() does not remove global objects from metadata", {
 })
 
 tar_test("tar_delete() does not delete dynamic files", {
+  skip_cran()
   file.create("x")
   pipeline <- pipeline_init(
     list(target_init("x", quote("x"), format = "file"))
