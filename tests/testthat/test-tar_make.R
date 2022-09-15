@@ -74,7 +74,7 @@ tar_test("tar_make() finds the correct environment", {
 })
 
 tar_test("tar_make() handles callr errors", {
-  skip_on_cran()
+  skip_cran()
   withr::local_envvar(list(TAR_TEST = "false")) # covers some lines
   tar_script({
     list(
@@ -93,7 +93,7 @@ tar_test("tar_make() handles callr errors", {
 })
 
 tar_test("priorities apply to tar_make() (#437)", {
-  skip_on_cran()
+  skip_cran()
   tar_script(
     list(
       tar_target(x1, 1, priority = 0),
@@ -138,7 +138,7 @@ tar_test("custom script and store args", {
 })
 
 tar_test("custom script and store args with callr function", {
-  skip_on_cran()
+  skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script(
@@ -166,7 +166,7 @@ tar_test("custom script and store args with callr function", {
 })
 
 tar_test("runtime settings are forwarded, local process", {
-  skip_on_cran()
+  skip_cran()
   tar_script({
     writeLines(tar_store(), "store.txt")
     tar_target(x, 1)
@@ -176,7 +176,7 @@ tar_test("runtime settings are forwarded, local process", {
 })
 
 tar_test("runtime settings are forwarded, extrernal process", {
-  skip_on_cran()
+  skip_cran()
   tar_script({
     writeLines(tar_store(), "store.txt")
     tar_target(x, 1)

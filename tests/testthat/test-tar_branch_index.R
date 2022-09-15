@@ -1,5 +1,5 @@
 tar_test("tar_branch_index()", {
-  skip_on_cran()
+  skip_cran()
   tar_script({
     list(
       tar_target(x, seq_len(4L)),
@@ -16,7 +16,7 @@ tar_test("tar_branch_index()", {
 })
 
 tar_test("bad branch names", {
-  skip_on_cran()
+  skip_cran()
   tar_script({
     list(
       tar_target(x, seq_len(4L)),

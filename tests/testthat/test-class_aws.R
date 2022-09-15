@@ -67,7 +67,7 @@ tar_test("store_aws_split_colon()", {
 })
 
 tar_test("deprecated aws_* classes", {
-  skip_on_cran()
+  skip_cran()
   expect_warning(
     target <- tar_target(x, "x_value", format = "aws_feather"),
     class = "tar_condition_deprecate"
@@ -116,7 +116,7 @@ tar_test("store_path_from_record()", {
 })
 
 tar_test("validate aws_feather", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("paws")
   skip_if_not_installed("arrow")
   target <- tar_target(x, "x_value", format = "feather", repository = "aws")

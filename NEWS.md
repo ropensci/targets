@@ -1,6 +1,6 @@
-# targets 0.13.3.9000
+# targets 0.13.4
 
-
+* Implement custom alternative to `skip_on_cran()` to avoid https://github.com/r-lib/testthat/issues/1470#issuecomment-1248145555.
 
 # targets 0.13.3
 

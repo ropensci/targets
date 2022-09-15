@@ -9,7 +9,7 @@ tar_test("progress does not exist", {
 })
 
 tar_test("default progress", {
-  skip_on_cran()
+  skip_cran()
   tar_script(
     list(
       tar_target(x, seq_len(2)),
@@ -33,7 +33,7 @@ tar_test("default progress", {
 })
 
 tar_test("progress with tidyselect fields", {
-  skip_on_cran()
+  skip_cran()
   tar_script(
     list(
       tar_target(x, seq_len(2)),
@@ -50,7 +50,7 @@ tar_test("progress with tidyselect fields", {
 })
 
 tar_test("tar_progress_summary_gt()", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("gt")
   tar_script(
     list(
@@ -67,7 +67,7 @@ tar_test("tar_progress_summary_gt()", {
 })
 
 tar_test("custom script and store args", {
-  skip_on_cran()
+  skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script({

@@ -8,7 +8,7 @@ tar_test("tar_definition() custom default", {
 })
 
 tar_test("tar_definition() in a pipeline", {
-  skip_on_cran()
+  skip_cran()
   tar_script(
     tar_target(
       x,

@@ -1,5 +1,5 @@
 tar_test("tar_group() works", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("dplyr")
   out <- data_frame(
     x = seq_len(6),
@@ -16,7 +16,7 @@ tar_test("tar_group() works", {
 })
 
 tar_test("tar_group() needs group_by()", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("dplyr")
   out <- data_frame(
     x = seq_len(6),

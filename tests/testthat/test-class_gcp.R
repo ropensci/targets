@@ -54,7 +54,7 @@ tar_test("store_path_from_record()", {
 })
 
 tar_test("validate gcp_feather", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("googleCloudStorageR")
   skip_if_not_installed("arrow")
   target <- tar_target(x, "x_value", format = "feather", repository = "gcp")

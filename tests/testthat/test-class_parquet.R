@@ -1,5 +1,5 @@
 tar_test("parquet format", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("arrow")
   envir <- new.env(parent = baseenv())
   envir$f <- function() {
@@ -21,7 +21,7 @@ tar_test("parquet format", {
 })
 
 tar_test("bad compression level throws error (structured resources)", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("arrow")
   tar_script({
     list(
@@ -39,7 +39,7 @@ tar_test("bad compression level throws error (structured resources)", {
 })
 
 tar_test("bad compression level throws error (unstructured resources)", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("arrow")
   tar_script({
     list(
@@ -66,7 +66,7 @@ tar_test("bad compression level throws error (unstructured resources)", {
 })
 
 tar_test("parquet packages", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("arrow")
   x <- tar_target(x, 1, format = "parquet")
   out <- store_get_packages(x$store)
@@ -74,7 +74,7 @@ tar_test("parquet packages", {
 })
 
 tar_test("parquet format captures error messages", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("arrow")
   tar_script(tar_target(x, stop("message123"), format = "parquet"))
   expect_error(
@@ -85,7 +85,7 @@ tar_test("parquet format captures error messages", {
 })
 
 tar_test("same with error = \"continue\"", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("arrow")
   tar_script(
     tar_target(x, stop("message123"), format = "parquet", error = "continue")
@@ -95,7 +95,7 @@ tar_test("same with error = \"continue\"", {
 })
 
 tar_test("parquet format cannot store non-data-frames", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("arrow")
   tar_script(tar_target(x, 1:2, format = "parquet"))
   expect_error(
@@ -105,7 +105,7 @@ tar_test("parquet format cannot store non-data-frames", {
 })
 
 tar_test("same with error = \"continue\"", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("arrow")
   tar_script(tar_target(x, 1:2, format = "parquet", error = "continue"))
   tar_make(callr_function = NULL)
@@ -113,13 +113,13 @@ tar_test("same with error = \"continue\"", {
 })
 
 tar_test("does not inherit from tar_external", {
-  skip_on_cran()
+  skip_cran()
   store <- tar_target(x, "x_value", format = "parquet")$store
   expect_false(inherits(store, "tar_external"))
 })
 
 tar_test("store_row_path()", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("arrow")
   store <- tar_target(x, "x_value", format = "parquet")$store
   store$file$path <- "path"
@@ -127,7 +127,7 @@ tar_test("store_row_path()", {
 })
 
 tar_test("store_path_from_record()", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("arrow")
   store <- tar_target(x, "x_value", format = "parquet")$store
   record <- record_init(name = "x", path = "path", format = "parquet")

@@ -5,7 +5,7 @@ tar_test("tar_exist_script()", {
 })
 
 tar_test("custom script and store args", {
-  skip_on_cran()
+  skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   expect_false(tar_exist_script(script = "example/script.R"))

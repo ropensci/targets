@@ -13,7 +13,7 @@ tar_test("tar_active() inside pipeline", {
 })
 
 tar_test("tar_active() inside pipeline, callr process", {
-  skip_on_cran()
+  skip_cran()
   expect_false(tar_active())
   tar_script({
     saveRDS(tar_active(), "fun.rds")

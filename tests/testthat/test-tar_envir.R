@@ -11,7 +11,7 @@ tar_test("tar_envir() custom default", {
 })
 
 tar_test("tar_envir() in a pipeline with automatic default", {
-  skip_on_cran()
+  skip_cran()
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
   tar_script({
@@ -33,7 +33,7 @@ tar_test("tar_envir() in a pipeline with automatic default", {
 })
 
 tar_test("tar_envir() in a pipeline with custom default", {
-  skip_on_cran()
+  skip_cran()
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
   tar_script({

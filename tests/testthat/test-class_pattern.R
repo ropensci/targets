@@ -811,7 +811,7 @@ tar_test("bootstrap a pattern for a shortcut pattern and stem", {
 })
 
 tar_test("shortcut error trying to branch over empty stem", {
-  skip_on_cran()
+  skip_cran()
   tar_script(
     list(
       tar_target(x, NULL),

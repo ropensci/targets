@@ -1,5 +1,5 @@
 tar_test("tar_source()", {
-  skip_on_cran()
+  skip_cran()
   dir.create("x")
   dir.create("y")
   dir.create(file.path("y", "z"))

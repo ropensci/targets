@@ -169,7 +169,7 @@ tar_test("same with external process", {
 })
 
 tar_test("tar_config_set() can configure the script and the store", {
-  skip_on_cran()
+  skip_cran()
   tar_config_set(script = "example/script.R", store = "example/store")
   tar_script(tar_target(x, 1L))
   tar_make(reporter = "silent")

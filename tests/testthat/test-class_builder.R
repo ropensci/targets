@@ -198,7 +198,7 @@ tar_test("builder writing from worker", {
 })
 
 tar_test("retrieval = \"none\"", {
-  skip_on_cran()
+  skip_cran()
   tar_script({
     list(
       tar_target(x, 1, memory = "transient"),
@@ -212,7 +212,7 @@ tar_test("retrieval = \"none\"", {
 })
 
 tar_test("storage = \"none\" errors if user does not write storage", {
-  skip_on_cran()
+  skip_cran()
   tar_script(tar_target(x, 1, storage = "none", memory = "persistent"))
   expect_error(tar_make(callr_function = NULL), class = "tar_condition_run")
 })
@@ -487,7 +487,7 @@ tar_test("bootstrap builder for shortcut", {
 })
 
 tar_test("informative error when bootstrap fails", {
-  skip_on_cran()
+  skip_cran()
   tar_script({
     list(
       tar_target(w, 1L),
@@ -511,7 +511,7 @@ tar_test("validate with nonmissing file and value", {
 })
 
 tar_test("convert dep loading errors into runtime errors", {
-  skip_on_cran()
+  skip_cran()
   tar_script(
     list(
       tar_target(
@@ -545,7 +545,7 @@ tar_test("convert dep loading errors into runtime errors", {
 })
 
 tar_test("error = \"null\"", {
-  skip_on_cran()
+  skip_cran()
   tar_script({
     library(targets)
     f <- function(x) {

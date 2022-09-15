@@ -4,7 +4,7 @@ skip_if_no_aws <- function() {
   skip_if(Sys.getenv("AWS_REGION") == "")
   skip_if_not_installed("paws")
   skip_if_offline()
-  skip_on_cran()
+  skip_cran()
 }
 
 random_bucket_name <- function() {

@@ -41,7 +41,7 @@ tar_test("tar_meta() with field selection", {
 })
 
 tar_test("tar_meta() targets_only", {
-  skip_on_cran()
+  skip_cran()
   tar_script({
     envir <- new.env(parent = baseenv())
     tar_option_set(envir = envir)
@@ -58,7 +58,7 @@ tar_test("tar_meta() targets_only", {
 })
 
 tar_test("tar_meta() targets_only", {
-  skip_on_cran()
+  skip_cran()
   tar_script({
     list(
       tar_target(x, "x"),
@@ -73,7 +73,7 @@ tar_test("tar_meta() targets_only", {
 })
 
 tar_test("custom script and store args", {
-  skip_on_cran()
+  skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script({

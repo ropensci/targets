@@ -57,7 +57,7 @@ tar_test("pid from tar_make(callr_function = NULL)", {
 })
 
 tar_test("pid from tar_make()", {
-  skip_on_cran()
+  skip_cran()
   x <- process_init()
   tar_script(tar_target(x, 1))
   expect_false(file.exists(path_process(path_store_default())))

@@ -4,7 +4,7 @@ tar_test("tar_canceled() empty", {
 })
 
 tar_test("tar_canceled() nonempty", {
-  skip_on_cran()
+  skip_cran()
   tar_script(list(tar_target(x, tar_cancel()), tar_target(y, tar_cancel())))
   tar_make(callr_function = NULL)
   expect_equal(sort(tar_canceled()), sort(c("x", "y")))

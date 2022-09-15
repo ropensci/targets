@@ -30,7 +30,7 @@ tar_test("imports_set_package()", {
 })
 
 tar_test("imports_set_datasets()", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("qs")
   datasets <- as.character(data(package = "qs")$results[, "Item"])
   skip_if(!("starnames" %in% datasets))

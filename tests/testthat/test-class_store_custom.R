@@ -54,7 +54,7 @@ tar_test("class_store_custom rds", {
 })
 
 tar_test("torch as custom format", {
-  skip_on_cran()
+  skip_cran()
   skip_on_os("solaris")
   skip_if_not_installed("future")
   skip_if_not_installed("future.callr")

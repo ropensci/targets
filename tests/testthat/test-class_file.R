@@ -248,7 +248,7 @@ tar_test("file time stamp conversions", {
   expect_true(grepl("s$", time))
   expect_false(anyNA(file_time_posixct(time)))
   expect_true(inherits(file_time_posixct(time), "POSIXct"))
-  skip_on_cran()
+  skip_cran()
   expect_equal(
     as.numeric(file.mtime(tmp2)),
     as.numeric(file_time_posixct(time))

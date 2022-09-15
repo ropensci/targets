@@ -13,7 +13,7 @@ tar_test("tar_call() inside pipeline", {
 })
 
 tar_test("tar_call() inside pipeline, callr process", {
-  skip_on_cran()
+  skip_cran()
   expect_null(tar_call())
   tar_script({
     writeLines(tar_call(), "fun.txt")

@@ -2,7 +2,7 @@ skip_if_no_gcp <- function() {
   skip_if(Sys.getenv("GCS_AUTH_FILE") == "")
   skip_if_not_installed("googleCloudStorageR")
   skip_if_offline()
-  skip_on_cran()
+  skip_cran()
 }
 
 gcp_gcs_delete_bucket <- function(bucket) {

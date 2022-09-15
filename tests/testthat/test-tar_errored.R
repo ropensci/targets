@@ -4,7 +4,7 @@ tar_test("tar_errored() empty", {
 })
 
 tar_test("tar_errored() nonempty", {
-  skip_on_cran()
+  skip_cran()
   tar_script({
     tar_option_set(error = "continue")
     list(tar_target(x, stop()), tar_target(y, stop()))

@@ -145,7 +145,7 @@ tar_test("tar_workspace() on a pattern by name", {
 })
 
 tar_test("tar_workspace() with an nonexportable object", {
-  skip_on_cran()
+  skip_cran()
   skip_if_not_installed("torch")
   tar_script({
     tar_option_set(workspace_on_error = TRUE)
@@ -177,7 +177,7 @@ tar_test("workspace saved on no error and when target is skipped", {
 })
 
 tar_test("custom script and store args", {
-  skip_on_cran()
+  skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script({

@@ -1,5 +1,5 @@
 tar_test("torch format", {
-  skip_on_cran()
+  skip_cran()
   skip_on_os("solaris")
   skip_if_not_installed("torch")
   tar_script({
@@ -12,7 +12,7 @@ tar_test("torch format", {
 })
 
 tar_test("torch format with in-memory serialization", {
-  skip_on_cran()
+  skip_cran()
   skip_on_os("solaris")
   skip_if_not_installed("future")
   skip_if_not_installed("torch")
@@ -27,7 +27,7 @@ tar_test("torch format with in-memory serialization", {
 })
 
 tar_test("torch in-memory serialization of deps", {
-  skip_on_cran()
+  skip_cran()
   skip_on_os("solaris")
   skip_on_os("windows")
   require_clustermq()
@@ -55,7 +55,7 @@ tar_test("torch in-memory serialization of deps", {
 })
 
 tar_test("validate torch format", {
-  skip_on_cran()
+  skip_cran()
   skip_on_os("solaris")
   skip_if_not_installed("torch")
   x <- target_init(name = "a", expr = quote(f()), format = "torch")
