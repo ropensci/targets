@@ -5,5 +5,5 @@ tar_test("tar_newer() works", {
   late <- Sys.time() + as.difftime(1, units = "weeks")
   expect_equal(tar_newer(late), character(0))
   expect_equal(tar_newer(early), "x")
-  expect_equal(tar_newer(early, names = all_of("y")), character(0))
+  expect_equal(tar_newer(early, names = any_of("y")), character(0))
 })
