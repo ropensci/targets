@@ -1,6 +1,7 @@
 # targets 0.13.4.9000
 
-
+* Use `any_of()` instead of `all_of()` in tests to ensure compatibility with `tidyselect` 1.1.2.9000 (#928, @hadley).
+* Make the `run.R` from `use_targets()` executable (#929, @petrbouchal).
 
 # targets 0.13.4
 
