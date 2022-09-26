@@ -59,7 +59,7 @@ Unlike \code{names}, \code{exclude} is invoked only after the graph is mostly
 resolved, so it will not speed up execution.
 Set to \code{NULL} to exclude no vertices.
 Otherwise, you can supply symbols or \code{tidyselect}
-helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.}
 
 \item{level_separation}{Numeric of length 1,
 \code{levelSeparation} argument of \code{visNetwork::visHierarchicalLayout()}.
@@ -152,7 +152,7 @@ tar_script({
   )
 }, ask = FALSE)
 tar_glimpse()
-tar_glimpse(allow = starts_with("y")) # see also all_of()
+tar_glimpse(allow = starts_with("y")) # see also any_of()
 })
 }
 }

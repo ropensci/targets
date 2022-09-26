@@ -44,7 +44,7 @@ tar_test("progress with tidyselect fields", {
     )
   )
   suppressWarnings(tar_make(callr_function = NULL))
-  out <- tar_progress_summary(all_of("time"))
+  out <- tar_progress_summary(any_of("time"))
   expect_equal(colnames(out), c("time"))
   expect_true(is.character(out$time))
 })

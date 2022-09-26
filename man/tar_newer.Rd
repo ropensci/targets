@@ -20,7 +20,7 @@ then \code{tar_newer()} returns targets newer than one week ago.}
 \item{names}{Names of eligible targets. Targets excluded from \code{names}
 will not be returned even if they are newer than the given \code{time}.
 You can supply symbols
-or \code{tidyselect} helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.
+or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.
 If \code{NULL}, all names are eligible.}
 
 \item{inclusive}{Logical of length 1, whether to include targets
@@ -68,7 +68,7 @@ tar_make()
 # Invalidate all targets targets newer than 1 week ago
 # so they run on the next tar_make().
 invalidate_these <- tar_newer(Sys.time() - as.difftime(1, units = "weeks"))
-tar_invalidate(all_of(invalidate_these))
+tar_invalidate(any_of(invalidate_these))
 tar_make()
 })
 }

@@ -7,7 +7,7 @@
 #' @param names Optional, names of the targets. If supplied, the
 #'   function restricts its output to these targets.
 #'   You can supply symbols
-#'   or `tidyselect` helpers like [all_of()] and [starts_with()].
+#'   or `tidyselect` helpers like [any_of()] and [starts_with()].
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -19,7 +19,7 @@
 #' }, ask = FALSE)
 #' tar_make()
 #' tar_skipped()
-#' tar_skipped(starts_with("y_")) # see also all_of()
+#' tar_skipped(starts_with("y_")) # see also any_of()
 #' })
 #' }
 tar_skipped <- function(

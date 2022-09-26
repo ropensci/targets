@@ -10,7 +10,7 @@
 #' @param names Names of the targets to show. Set to `NULL` to
 #'   show all the targets (default). Otherwise, you can supply
 #'   symbols, a character vector, or `tidyselect` helpers like
-#'   [all_of()] and [starts_with()].
+#'   [any_of()] and [starts_with()].
 #' @param fields Names of the fields, or columns, to show. Set to `NULL` to
 #'   show all the fields (default). Otherwise, you can supply
 #'   `tidyselect` helpers like [starts_with()].
@@ -69,7 +69,7 @@
 #' }
 tar_manifest <- function(
   names = NULL,
-  fields = tidyselect::all_of(c("name", "command", "pattern")),
+  fields = tidyselect::any_of(c("name", "command", "pattern")),
   drop_missing = TRUE,
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function),

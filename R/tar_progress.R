@@ -19,7 +19,7 @@
 #' @param names Optional, names of the targets. If supplied, `tar_progress()`
 #'   only returns progress information on these targets.
 #'   You can supply symbols
-#'   or `tidyselect` helpers like [all_of()] and [starts_with()].
+#'   or `tidyselect` helpers like [any_of()] and [starts_with()].
 #' @param fields Optional, names of progress data columns to read.
 #'   Set to `NULL` to read all fields.
 #' @examples
@@ -33,7 +33,7 @@
 #' }, ask = FALSE)
 #' tar_make()
 #' tar_progress()
-#' tar_progress(starts_with("y_")) # see also all_of()
+#' tar_progress(starts_with("y_")) # see also any_of()
 #' })
 #' }
 tar_progress <- function(

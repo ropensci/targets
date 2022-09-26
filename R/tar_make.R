@@ -14,11 +14,11 @@
 #' @inheritParams tar_validate
 #' @param names Names of the targets to build or check. Set to `NULL` to
 #'   check/build all the targets (default). Otherwise, you can supply
-#'   `tidyselect` helpers like [all_of()] and [starts_with()].
+#'   `tidyselect` helpers like [any_of()] and [starts_with()].
 #'   Because [tar_make()] and friends run the pipeline in a new R session,
 #'   if you pass a character vector to a tidyselect helper, you will need
 #'   to evaluate that character vector early with `!!`, e.g.
-#'   `tar_make(names = all_of(!!your_vector))`.
+#'   `tar_make(names = any_of(!!your_vector))`.
 #'   Applies to ordinary targets (stem) and whole dynamic branching targets
 #'   (patterns) but not to individual dynamic branches.
 #' @param shortcut Logical of length 1, how to interpret the `names` argument.

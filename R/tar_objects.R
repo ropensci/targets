@@ -7,7 +7,7 @@
 #' @return Character vector of targets saved to `_targets/objects/`.
 #' @inheritParams tar_validate
 #' @param names Optional `tidyselect` selector such as
-#'   [all_of()] or [starts_with()] to return
+#'   [any_of()] or [starts_with()] to return
 #'   a tactical subset of target names.
 #'   If `NULL`, all names are selected.
 #' @param cloud Logical of length 1, whether to include
@@ -21,7 +21,7 @@
 #' }, ask = FALSE)
 #' tar_make()
 #' tar_objects()
-#' tar_objects(starts_with("x")) # see also all_of()
+#' tar_objects(starts_with("x")) # see also any_of()
 #' })
 #' }
 tar_objects <- function(

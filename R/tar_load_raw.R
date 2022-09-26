@@ -35,7 +35,7 @@
 #'   )
 #' }, ask = FALSE)
 #' tar_make()
-#' tar_load_raw(all_of(c("y1", "y2")))
+#' tar_load_raw(any_of(c("y1", "y2")))
 #' y1
 #' y2
 #' })

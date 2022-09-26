@@ -16,14 +16,14 @@ tar_meta(
 \item{names}{Optional, names of the targets. If supplied, \code{tar_meta()}
 only returns metadata on these targets.
 You can supply symbols
-or \code{tidyselect} helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.
+or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.
 If \code{NULL}, all names are selected.}
 
 \item{fields}{Optional, names of columns/fields to select. If supplied,
 \code{tar_meta()} only returns the selected metadata columns.
 If \code{NULL}, all fields are selected.
 You can supply symbols or \code{tidyselect} helpers
-like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.
+like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.
 The \code{name} column is always included first
 no matter what you select. Choices:
 \itemize{
@@ -109,7 +109,7 @@ tar_script({
 }, ask = FALSE)
 tar_make()
 tar_meta()
-tar_meta(starts_with("y_")) # see also all_of()
+tar_meta(starts_with("y_")) # see also any_of()
 })
 }
 }

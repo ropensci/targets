@@ -37,7 +37,7 @@
 #'   resolved, so it will not speed up execution.
 #'   Set to `NULL` to exclude no vertices.
 #'   Otherwise, you can supply symbols or `tidyselect`
-#'   helpers like [all_of()] and [starts_with()].
+#'   helpers like [any_of()] and [starts_with()].
 #' @param outdated Logical, whether to show colors to distinguish outdated
 #'   targets from up-to-date targets. (Global functions and objects
 #'   still show these colors.) Looking for outdated targets

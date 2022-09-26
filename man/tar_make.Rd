@@ -18,11 +18,11 @@ tar_make(
 \arguments{
 \item{names}{Names of the targets to build or check. Set to \code{NULL} to
 check/build all the targets (default). Otherwise, you can supply
-\code{tidyselect} helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.
+\code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.
 Because \code{\link[=tar_make]{tar_make()}} and friends run the pipeline in a new R session,
 if you pass a character vector to a tidyselect helper, you will need
 to evaluate that character vector early with \verb{!!}, e.g.
-\code{tar_make(names = all_of(!!your_vector))}.
+\code{tar_make(names = any_of(!!your_vector))}.
 Applies to ordinary targets (stem) and whole dynamic branching targets
 (patterns) but not to individual dynamic branches.}
 

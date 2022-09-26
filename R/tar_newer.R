@@ -16,7 +16,7 @@
 #' @param names Names of eligible targets. Targets excluded from `names`
 #'   will not be returned even if they are newer than the given `time`.
 #'   You can supply symbols
-#'   or `tidyselect` helpers like [all_of()] and [starts_with()].
+#'   or `tidyselect` helpers like [any_of()] and [starts_with()].
 #'   If `NULL`, all names are eligible.
 #' @param time A `POSIXct` object of length 1, time threshold.
 #'   Targets newer than this time stamp are returned.
@@ -38,7 +38,7 @@
 #' # Invalidate all targets targets newer than 1 week ago
 #' # so they run on the next tar_make().
 #' invalidate_these <- tar_newer(Sys.time() - as.difftime(1, units = "weeks"))
-#' tar_invalidate(all_of(invalidate_these))
+#' tar_invalidate(any_of(invalidate_these))
 #' tar_make()
 #' })
 #' }

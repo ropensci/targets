@@ -16,7 +16,7 @@ tar_load(
 }
 \arguments{
 \item{names}{Names of the targets to load.
-You may supply \code{tidyselect} helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.
+You may supply \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.
 Names are selected from the metadata in \verb{_targets/meta},
 which may include errored targets.}
 
@@ -89,7 +89,7 @@ tar_make()
 ls() # Does not have "y1", "y2", or "z".
 tar_load(starts_with("y"))
 ls() # Has "y1" and "y2" but not "z".
-tar_load(all_of("z"))
+tar_load(any_of("z"))
 ls() # Has "y1", "y2", and "z".
 })
 }

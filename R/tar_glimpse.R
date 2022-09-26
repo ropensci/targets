@@ -40,7 +40,7 @@
 #'   )
 #' }, ask = FALSE)
 #' tar_glimpse()
-#' tar_glimpse(allow = starts_with("y")) # see also all_of()
+#' tar_glimpse(allow = starts_with("y")) # see also any_of()
 #' })
 #' }
 tar_glimpse <- function(

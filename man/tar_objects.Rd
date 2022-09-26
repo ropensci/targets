@@ -12,7 +12,7 @@ tar_objects(
 }
 \arguments{
 \item{names}{Optional \code{tidyselect} selector such as
-\code{\link[=all_of]{all_of()}} or \code{\link[=starts_with]{starts_with()}} to return
+\code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}} to return
 a tactical subset of target names.
 If \code{NULL}, all names are selected.}
 
@@ -45,7 +45,7 @@ tar_script({
 }, ask = FALSE)
 tar_make()
 tar_objects()
-tar_objects(starts_with("x")) # see also all_of()
+tar_objects(starts_with("x")) # see also any_of()
 })
 }
 }

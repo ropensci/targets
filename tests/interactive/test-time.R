@@ -39,7 +39,7 @@ tar_test("time of completed branch updates", {
     )
   })
   tar_make(callr_function = NULL)
-  time1 <- tar_meta(all_of(tar_branch_names(y, 1)), time)$time[[1]]
+  time1 <- tar_meta(any_of(tar_branch_names(y, 1)), time)$time[[1]]
   Sys.sleep(5)
   tar_script({
     list(
@@ -48,7 +48,7 @@ tar_test("time of completed branch updates", {
     )
   })
   tar_make(callr_function = NULL)
-  time2 <- tar_meta(all_of(tar_branch_names(y, 1)), time)$time[[1]]
+  time2 <- tar_meta(any_of(tar_branch_names(y, 1)), time)$time[[1]]
   expect_false(identical(time1, time2))
 })
 
@@ -60,7 +60,7 @@ tar_test("time of errored branch stays the same", {
     )
   })
   tar_make(callr_function = NULL)
-  time1 <- tar_meta(all_of(tar_branch_names(y, 1)), time)$time[[1]]
+  time1 <- tar_meta(any_of(tar_branch_names(y, 1)), time)$time[[1]]
   expect_false(is.na(time1))
   Sys.sleep(5)
   tar_script({
@@ -70,7 +70,7 @@ tar_test("time of errored branch stays the same", {
     )
   })
   expect_error(tar_make(callr_function = NULL), class = "tar_condition_run")
-  time2 <- tar_meta(all_of(tar_branch_names(y, 1)), time)$time[[1]]
+  time2 <- tar_meta(any_of(tar_branch_names(y, 1)), time)$time[[1]]
   expect_equal(time1, time2)
 })
 
@@ -82,7 +82,7 @@ tar_test("time of canceled branch stays the same", {
     )
   })
   tar_make(callr_function = NULL)
-  time1 <- tar_meta(all_of(tar_branch_names(y, 1)), time)$time[[1]]
+  time1 <- tar_meta(any_of(tar_branch_names(y, 1)), time)$time[[1]]
   expect_false(is.na(time1))
   Sys.sleep(5)
   tar_script({
@@ -92,6 +92,6 @@ tar_test("time of canceled branch stays the same", {
     )
   })
   tar_make(callr_function = NULL)
-  time2 <- tar_meta(all_of(tar_branch_names(y, 1)), time)$time[[1]]
+  time2 <- tar_meta(any_of(tar_branch_names(y, 1)), time)$time[[1]]
   expect_equal(time1, time2)
 })

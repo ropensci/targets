@@ -19,7 +19,7 @@
 #'    If supplied, `tar_process()`
 #'   returns only the rows of the names you select.
 #'   You can supply symbols
-#'   or `tidyselect` helpers like [all_of()] and [starts_with()].
+#'   or `tidyselect` helpers like [any_of()] and [starts_with()].
 #'   If `NULL`, all names are selected.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {

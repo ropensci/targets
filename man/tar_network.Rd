@@ -57,7 +57,7 @@ Unlike \code{names}, \code{exclude} is invoked only after the graph is mostly
 resolved, so it will not speed up execution.
 Set to \code{NULL} to exclude no vertices.
 Otherwise, you can supply symbols or \code{tidyselect}
-helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.}
 
 \item{outdated}{Logical, whether to show colors to distinguish outdated
 targets from up-to-date targets. (Global functions and objects

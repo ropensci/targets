@@ -6,7 +6,7 @@
 \usage{
 tar_manifest(
   names = NULL,
-  fields = tidyselect::all_of(c("name", "command", "pattern")),
+  fields = tidyselect::any_of(c("name", "command", "pattern")),
   drop_missing = TRUE,
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function),
@@ -18,7 +18,7 @@ tar_manifest(
 \item{names}{Names of the targets to show. Set to \code{NULL} to
 show all the targets (default). Otherwise, you can supply
 symbols, a character vector, or \code{tidyselect} helpers like
-\code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+\code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.}
 
 \item{fields}{Names of the fields, or columns, to show. Set to \code{NULL} to
 show all the fields (default). Otherwise, you can supply

@@ -9,7 +9,7 @@ tar_delete(names, cloud = TRUE, store = targets::tar_config_get("store"))
 \arguments{
 \item{names}{Names of the targets to remove from \verb{_targets/objects/}.
 You can supply symbols
-or \code{tidyselect} helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.}
 
 \item{cloud}{Logical of length 1, whether to delete objects
 from the cloud if applicable (e.g. AWS, GCP). If \code{FALSE},

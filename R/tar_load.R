@@ -11,7 +11,7 @@
 #' @inheritSection tar_read Limited scope
 #' @inheritParams tar_load_raw
 #' @param names Names of the targets to load.
-#'   You may supply `tidyselect` helpers like [all_of()] and [starts_with()].
+#'   You may supply `tidyselect` helpers like [any_of()] and [starts_with()].
 #'   Names are selected from the metadata in `_targets/meta`,
 #'   which may include errored targets.
 #' @examples
@@ -28,7 +28,7 @@
 #' ls() # Does not have "y1", "y2", or "z".
 #' tar_load(starts_with("y"))
 #' ls() # Has "y1" and "y2" but not "z".
-#' tar_load(all_of("z"))
+#' tar_load(any_of("z"))
 #' ls() # Has "y1", "y2", and "z".
 #' })
 #' }

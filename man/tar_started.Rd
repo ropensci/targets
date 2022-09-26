@@ -10,7 +10,7 @@ tar_started(names = NULL, store = targets::tar_config_get("store"))
 \item{names}{Optional, names of the targets. If supplied, the
 function restricts its output to these targets.
 You can supply symbols
-or \code{tidyselect} helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},
@@ -38,7 +38,7 @@ tar_script({
 }, ask = FALSE)
 tar_make()
 tar_started()
-tar_started(starts_with("y_")) # see also all_of()
+tar_started(starts_with("y_")) # see also any_of()
 })
 }
 }

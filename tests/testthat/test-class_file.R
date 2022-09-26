@@ -327,7 +327,7 @@ tar_test("OutDec option temporarily set for file time stamps", {
     tar_target(data, get_data())
   })
   tar_make(callr_function = NULL)
-  out <- tar_meta(data, all_of(c("seconds", "time")))
+  out <- tar_meta(data, any_of(c("seconds", "time")))
   expect_false(anyNA(out$seconds))
   expect_false(anyNA(out$time))
   expect_silent(tar_read(data))

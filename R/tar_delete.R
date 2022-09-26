@@ -20,7 +20,7 @@
 #' @inheritParams tar_validate
 #' @param names Names of the targets to remove from `_targets/objects/`.
 #'   You can supply symbols
-#'   or `tidyselect` helpers like [all_of()] and [starts_with()].
+#'   or `tidyselect` helpers like [any_of()] and [starts_with()].
 #' @param cloud Logical of length 1, whether to delete objects
 #'   from the cloud if applicable (e.g. AWS, GCP). If `FALSE`,
 #'   files are not deleted from the cloud.

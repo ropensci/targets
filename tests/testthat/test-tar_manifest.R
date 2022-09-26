@@ -25,7 +25,7 @@ tar_test("tar_manifest() drop_missing FALSE", {
     )
   })
   out <- tar_manifest(
-    fields = all_of(c("name", "command", "pattern")),
+    fields = any_of(c("name", "command", "pattern")),
     drop_missing = FALSE
   )
   expect_equal(colnames(out), c("name", "command", "pattern"))
@@ -42,7 +42,7 @@ tar_test("tar_manifest() drop_missing TRUE", {
     )
   })
   out <- tar_manifest(
-    fields = all_of(c("name", "command", "pattern")),
+    fields = any_of(c("name", "command", "pattern")),
     callr_function = NULL,
     drop_missing = TRUE
   )

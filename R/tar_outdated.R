@@ -13,7 +13,7 @@
 #'   these targets and all upstream ancestors in the dependency graph.
 #'   Set `names` to `NULL` to check/build all the targets (default).
 #'   Otherwise, you can supply symbols
-#'   or `tidyselect` helpers like [all_of()] and [starts_with()].
+#'   or `tidyselect` helpers like [any_of()] and [starts_with()].
 #'   Applies to ordinary targets (stem) and whole dynamic branching targets
 #'   (patterns) but not to individual dynamic branches.
 #' @param shortcut Logical of length 1, how to interpret the `names` argument.

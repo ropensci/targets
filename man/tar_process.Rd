@@ -11,7 +11,7 @@ tar_process(names = NULL, store = targets::tar_config_get("store"))
 If supplied, \code{tar_process()}
 returns only the rows of the names you select.
 You can supply symbols
-or \code{tidyselect} helpers like \code{\link[=all_of]{all_of()}} and \code{\link[=starts_with]{starts_with()}}.
+or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.
 If \code{NULL}, all names are selected.}
 
 \item{store}{Character of length 1, path to the
