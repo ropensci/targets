@@ -1,6 +1,8 @@
+#!/bin/sh
+
 # Modified from https://github.com/mschubert/clustermq/blob/master/inst/SLURM.tmpl
 # under the Apache 2.0 license.
-#!/bin/sh
+
 #SBATCH --job-name=JOB_NAME_{{ job_name }}
 #SBATCH --output={{ log_file | /dev/null }}
 #SBATCH --error={{ log_file | /dev/null }}
