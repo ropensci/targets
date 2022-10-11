@@ -152,9 +152,9 @@ reference:
   - '`tar_envir`'
   - '`tar_group`'
   - '`tar_name`'
-  - '`tar_path`'
   - '`tar_path_script`'
   - '`tar_path_store`'
+  - '`tar_path_target`'
   - '`tar_seed`'
   - '`tar_source`'
 - title: Extending targets

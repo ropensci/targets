@@ -3,6 +3,7 @@
 * Move `#!/bin/sh` line to the top of SLURM `clustermq` template file (#944, #955, @GiuseppeTT).
 * Add new function `tar_path_script()`.
 * Rename `tar_store()` to `tar_path_store()` with deprecation.
+* Rename `tar_path()` to `tar_path_target()` with deprecation.
 
 # targets 0.13.5
 

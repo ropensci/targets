@@ -6,7 +6,7 @@
 #' @details This function forces one or more targets to rerun
 #'   on the next [tar_make()], regardless of the cues and regardless
 #'   of how those targets are stored. After `tar_invalidate()`,
-#'   you will still be able to locate the data files with [tar_path()]
+#'   you will still be able to locate the data files with [tar_path_target()]
 #'   and manually salvage them in an emergency.
 #'   However, [tar_load()] and [tar_read()] will not be able to
 #'   read the data into R, and subsequent calls to [tar_make()]

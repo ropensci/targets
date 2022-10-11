@@ -239,11 +239,11 @@
 #'     and the data is not saved automatically.
 #'     As with dynamic files (`format = "file"`) it is the
 #'     responsibility of the user to write to
-#'     [tar_path()] from inside the target.
+#'     [tar_path_target()] from inside the target.
 #'     An example target
 #'     could look something like
 #'     tar_target(x,
-#'     {saveRDS("value", tar_path(create_dir = TRUE)); "ignored"},
+#'     {saveRDS("value", tar_path_target(create_dir = TRUE)); "ignored"},
 #'     storage = "none")`.
 #'
 #'     The distinguishing feature of `storage = "none"`

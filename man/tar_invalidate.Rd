@@ -31,7 +31,7 @@ but keep the return values of targets in \verb{_targets/objects/}.
 This function forces one or more targets to rerun
 on the next \code{\link[=tar_make]{tar_make()}}, regardless of the cues and regardless
 of how those targets are stored. After \code{tar_invalidate()},
-you will still be able to locate the data files with \code{\link[=tar_path]{tar_path()}}
+you will still be able to locate the data files with \code{\link[=tar_path_target]{tar_path_target()}}
 and manually salvage them in an emergency.
 However, \code{\link[=tar_load]{tar_load()}} and \code{\link[=tar_read]{tar_read()}} will not be able to
 read the data into R, and subsequent calls to \code{\link[=tar_make]{tar_make()}}
