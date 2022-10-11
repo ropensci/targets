@@ -19,3 +19,11 @@ skip_cran <- function() {
     skip("running on cran")
   }
 }
+
+skip_torch <- function() {
+  skip_if_not_installed("torch")
+  tryCatch(
+    torch::torch_zeros(10),
+    error = function(e) skip("torch is not working.")
+  )
+}

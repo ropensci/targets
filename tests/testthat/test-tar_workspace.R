@@ -156,7 +156,7 @@ tar_test("tar_workspace() on a pattern by name", {
 
 tar_test("tar_workspace() with an nonexportable object", {
   skip_cran()
-  skip_if_not_installed("torch")
+  skip_torch()
   tar_script({
     tar_option_set(workspace_on_error = TRUE)
     list(

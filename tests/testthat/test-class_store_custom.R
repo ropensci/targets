@@ -58,7 +58,7 @@ tar_test("torch as custom format", {
   skip_on_os("solaris")
   skip_if_not_installed("future")
   skip_if_not_installed("future.callr")
-  skip_if_not_installed("torch")
+  skip_torch()
   tar_script({
     future::plan(future.callr::callr)
     format <- tar_format(

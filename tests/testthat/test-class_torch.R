@@ -1,7 +1,7 @@
 tar_test("torch format", {
   skip_cran()
   skip_on_os("solaris")
-  skip_if_not_installed("torch")
+  skip_torch()
   tar_script({
     list(tar_target(a, torch::torch_tensor(c(1, 2)), format = "torch"))
   })
@@ -15,7 +15,7 @@ tar_test("torch format with in-memory serialization", {
   skip_cran()
   skip_on_os("solaris")
   skip_if_not_installed("future")
-  skip_if_not_installed("torch")
+  skip_torch()
   future::plan(future::sequential)
   tar_script({
     list(tar_target(a, torch::torch_tensor(c(1, 2)), format = "torch"))
@@ -32,7 +32,7 @@ tar_test("torch in-memory serialization of deps", {
   skip_on_os("windows")
   require_clustermq()
   skip_on_covr()
-  skip_if_not_installed("torch")
+  skip_torch()
   tar_script({
     tar_option_set(packages = "torch", retrieval = "main")
     options(clustermq.scheduler = "multiprocess")
@@ -57,7 +57,7 @@ tar_test("torch in-memory serialization of deps", {
 tar_test("validate torch format", {
   skip_cran()
   skip_on_os("solaris")
-  skip_if_not_installed("torch")
+  skip_torch()
   x <- target_init(name = "a", expr = quote(f()), format = "torch")
   expect_silent(target_validate(x))
 })
