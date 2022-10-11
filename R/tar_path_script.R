@@ -1,4 +1,4 @@
-#' @title Current target script path path
+#' @title Current target script path
 #' @export
 #' @family utilities
 #' @description Identify the file path to the target script

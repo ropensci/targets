@@ -325,12 +325,7 @@ lines_targets_r <- function(path_script) {
     package = "targets",
     mustWork = TRUE
   )
-  gsub(
-    pattern = "PATH_SCRIPT_R",
-    replacement = path_script_r(path_script),
-    x = readLines(path),
-    fixed = TRUE
-  )
+  readLines(path)
 }
 
 write_targets_r_globals <- function(code, name, path_script) {

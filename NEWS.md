@@ -4,6 +4,8 @@
 * Add new function `tar_path_script()`.
 * Rename `tar_store()` to `tar_path_store()` with deprecation.
 * Rename `tar_path()` to `tar_path_target()` with deprecation.
+* Add new function `tar_path_script_support()`.
+* Make Target Markdown target scripts dynamically locate their support scripts so the appropriate scripts can be found even when they are generated from one directory and sourced from another (#953, #957, @TylerGrantSmith).
 
 # targets 0.13.5
 
