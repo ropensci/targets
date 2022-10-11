@@ -99,6 +99,18 @@ tar_test("invalidate bad interactive", {
   expect_error(x$validate(), class = "tar_condition_validate")
 })
 
+tar_test("validate non-null script", {
+  x <- runtime_init()
+  x$set_script("script")
+  expect_silent(x$validate())
+})
+
+tar_test("detect bad script", {
+  x <- runtime_init()
+  x$set_script(FALSE)
+  expect_error(x$validate(), class = "tar_condition_validate")
+})
+
 tar_test("validate non-null store", {
   x <- runtime_init()
   x$set_store("store")
