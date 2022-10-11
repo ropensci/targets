@@ -239,7 +239,7 @@
 #'     and the data is not saved automatically.
 #'     As with dynamic files (`format = "file"`) it is the
 #'     responsibility of the user to write to
-#'     [tar_path_target()] from inside the target.
+#'     `tar_path_target()` from inside the target.
 #'     An example target
 #'     could look something like
 #'     tar_target(x,

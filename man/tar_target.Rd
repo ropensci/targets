@@ -181,7 +181,7 @@ the return value of the target's command is ignored,
 and the data is not saved automatically.
 As with dynamic files (\code{format = "file"}) it is the
 responsibility of the user to write to
-\code{\link[=tar_path_target]{tar_path_target()}} from inside the target.
+\code{tar_path_target()} from inside the target.
 An example target
 could look something like
 tar_target(x,
