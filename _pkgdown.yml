@@ -153,6 +153,7 @@ reference:
   - '`tar_group`'
   - '`tar_name`'
   - '`tar_path_script`'
+  - '`tar_path_script_support`'
   - '`tar_path_store`'
   - '`tar_path_target`'
   - '`tar_seed`'
