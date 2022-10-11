@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_store.R
 \name{tar_store}
 \alias{tar_store}
-\title{Current data store path}
+\title{Deprecated: current data store path}
 \usage{
 tar_store()
 }
@@ -13,14 +13,18 @@ If called outside of the pipeline currently running,
 \code{tar_store()} returns \code{tar_config_get("store")}.
 }
 \description{
-Identify the file path to the data store
+Deprecated: identify the file path to the data store
 of the pipeline currently running.
 }
+\details{
+\code{tar_store()} was deprecated on 2022-10-11 (version 0.13.5.9000).
+Use \code{\link[=tar_path_store]{tar_path_store()}} instead.
+}
 \examples{
-tar_store()
+tar_path_store()
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
-tar_script(tar_target(x, tar_store()), ask = FALSE)
+tar_script(tar_target(x, tar_path_store()), ask = FALSE)
 store <- tempfile()
 tar_make(store = store)
 tar_read(x, store = store)
@@ -37,8 +41,10 @@ Other utilities:
 \code{\link{tar_group}()},
 \code{\link{tar_name}()},
 \code{\link{tar_path_script}()},
+\code{\link{tar_path_store}()},
 \code{\link{tar_path}()},
 \code{\link{tar_seed}()},
 \code{\link{tar_source}()}
 }
 \concept{utilities}
+\keyword{internal}
