@@ -50,6 +50,7 @@ Other utilities:
 \code{\link{tar_definition}()},
 \code{\link{tar_group}()},
 \code{\link{tar_name}()},
+\code{\link{tar_path_script}()},
 \code{\link{tar_path}()},
 \code{\link{tar_seed}()},
 \code{\link{tar_source}()},

@@ -15,7 +15,7 @@ require_clustermq <- function() {
 
 skip_cran <- function() {
   skip_on_cran()
-  if (!identical(Sys.getenv("TAR_ON_CRAN", unset = ""), "true")) {
-    skip("on cran")
+  if (!identical(Sys.getenv("TAR_NOT_CRAN", unset = ""), "true")) {
+    skip("running on cran")
   }
 }

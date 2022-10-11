@@ -3,12 +3,14 @@ runtime_init <- function(
   frames = NULL,
   interactive = NULL,
   store = NULL,
+  script = NULL,
   fun = NULL
 ) {
   runtime_new(
     target = target,
     frames = frames,
     interactive = interactive,
+    script = script,
     store = store,
     fun = fun
   )
@@ -19,12 +21,14 @@ runtime_new <- function(
   frames = NULL,
   interactive = NULL,
   store = NULL,
+  script = NULL,
   fun = NULL
 ) {
   runtime_class$new(
     target = target,
     frames = frames,
     interactive = interactive,
+    script = script,
     store = store,
     fun = fun
   )
@@ -40,17 +44,20 @@ runtime_class <- R6::R6Class(
     frames = NULL,
     interactive = NULL,
     store = NULL,
+    script = NULL,
     fun = NULL,
     initialize = function(
       target = NULL,
       frames = NULL,
       interactive = NULL,
+      script = NULL,
       store = NULL,
       fun = NULL
     ) {
       self$target <- target
       self$frames <- frames
       self$interactive <- interactive
+      self$script <- script
       self$store <- store
       self$fun <- fun
     },
@@ -62,6 +69,9 @@ runtime_class <- R6::R6Class(
     },
     exists_interactive = function() {
       !is.null(self$interactive)
+    },
+    exists_script = function() {
+      !is.null(self$script)
     },
     exists_store = function() {
       !is.null(self$store)
@@ -78,6 +88,9 @@ runtime_class <- R6::R6Class(
     get_interactive = function() {
       self$interactive
     },
+    get_script = function() {
+      self$script
+    },
     get_store = function() {
       self$store
     },
@@ -93,6 +106,9 @@ runtime_class <- R6::R6Class(
     set_interactive = function(interactive) {
       self$interactive <- interactive
     },
+    set_script = function(script) {
+      self$script <- script
+    },
     set_store = function(store) {
       self$store <- store
     },
@@ -107,6 +123,9 @@ runtime_class <- R6::R6Class(
     },
     unset_interactive = function() {
       self$interactive <- NULL
+    },
+    unset_script = function() {
+      self$script <- NULL
     },
     unset_store = function() {
       self$store <- NULL
@@ -125,6 +144,11 @@ runtime_class <- R6::R6Class(
       if (!is.null(self$interactive)) {
         tar_assert_scalar(self$interactive)
         tar_assert_lgl(self$interactive)
+      }
+      if (!is.null(self$script)) {
+        tar_assert_scalar(self$script)
+        tar_assert_chr(self$script)
+        tar_assert_nzchar(self$script)
       }
       if (!is.null(self$store)) {
         tar_assert_scalar(self$store)

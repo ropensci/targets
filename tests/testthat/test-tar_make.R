@@ -173,24 +173,33 @@ tar_test("runtime settings are forwarded, local process", {
   skip_cran()
   tar_script({
     writeLines(tar_store(), "store.txt")
+    writeLines(tar_path_script(), "script.txt")
     tar_target(x, 1)
-  })
-  tar_make(callr_function = NULL, store = "custom_store")
+  }, script = "custom_script")
+  tar_make(
+    callr_function = NULL,
+    store = "custom_store",
+    script = "custom_script"
+  )
   expect_equal(readLines("store.txt"), "custom_store")
+  expect_equal(readLines("script.txt"), "custom_script")
 })
 
 tar_test("runtime settings are forwarded, extrernal process", {
   skip_cran()
   tar_script({
     writeLines(tar_store(), "store.txt")
+    writeLines(tar_path_script(), "script.txt")
     tar_target(x, 1)
-  })
+  }, script = "custom_script")
   tar_make(
-    store = "custom_store",
+    callr_arguments = list(spinner = FALSE),
     reporter = "silent",
-    callr_arguments = list(spinner = FALSE)
+    store = "custom_store",
+    script = "custom_script"
   )
   expect_equal(readLines("store.txt"), "custom_store")
+  expect_equal(readLines("script.txt"), "custom_script")
 })
 
 tar_test("null environment", {

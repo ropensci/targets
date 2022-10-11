@@ -34,6 +34,18 @@ tar_test("set, get, exists, and unset interactive", {
   expect_null(x$get_interactive())
 })
 
+tar_test("set, get, exists, and unset script", {
+  x <- runtime_init()
+  expect_false(x$exists_script())
+  expect_null(x$get_script())
+  x$set_script("script")
+  expect_true(x$exists_script())
+  expect_equal(x$get_script(), "script")
+  x$unset_script()
+  expect_false(x$exists_script())
+  expect_null(x$get_script())
+})
+
 tar_test("set, get, exists, and unset store", {
   x <- runtime_init()
   expect_false(x$exists_store())
