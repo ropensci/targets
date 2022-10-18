@@ -92,6 +92,7 @@ builder_should_run <- function(target, meta) {
   if (cue_format(cue, target, meta)) return(TRUE)
   if (cue_repository(cue, target, meta)) return(TRUE)
   if (cue_iteration(cue, target, meta)) return(TRUE)
+  if (cue_seed(cue, target, meta)) return(TRUE)
   if (cue_file(cue, target, meta)) return(TRUE)
   FALSE
 }
@@ -498,6 +499,7 @@ builder_sitrep <- function(target, meta) {
     format = if_any(record, NA, cue_format(cue, target, meta)),
     repository = if_any(record, NA, cue_repository(cue, target, meta)),
     iteration = if_any(record, NA, cue_iteration(cue, target, meta)),
-    file = if_any(record, NA, cue_file(cue, target, meta))
+    file = if_any(record, NA, cue_file(cue, target, meta)),
+    seed = if_any(record, NA, cue_seed(cue, target, meta))
   )
 }

@@ -11,7 +11,8 @@ tar_cue(
   format = TRUE,
   repository = TRUE,
   iteration = TRUE,
-  file = TRUE
+  file = TRUE,
+  seed = TRUE
 )
 }
 \arguments{
@@ -40,6 +41,12 @@ iteration method changed. The iteration method is user-specified through
 
 \item{file}{Logical, whether to rerun the target if the file(s) with the
 return value changed or at least one is missing.}
+
+\item{seed}{Logical, whether to rerun the target if pseudo-random
+number generator seed either changed or is \code{NA}.
+The reproducible deterministic target-specific
+seeds are controlled by \code{tar_option_get("seed")} and the target names.
+See \code{\link[=tar_option_set]{tar_option_set()}} for details.}
 }
 \description{
 Declare the rules that mark a target as outdated.

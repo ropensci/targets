@@ -24,7 +24,9 @@ tar_test("validate non-default options", {
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
-    workspaces = letters
+    workspaces = letters,
+    workspace_on_error = TRUE,
+    seed = 57L
   )
   expect_silent(x$validate())
 })
@@ -50,7 +52,8 @@ tar_test("export", {
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
     workspaces = letters,
-    workspace_on_error = TRUE
+    workspace_on_error = TRUE,
+    seed = 57L
   )
   out <- x$export()
   exp <- list(
@@ -73,7 +76,8 @@ tar_test("export", {
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
     workspaces = letters,
-    workspace_on_error = TRUE
+    workspace_on_error = TRUE,
+    seed = 57L
   )
   out$cue <- as.list(out$cue)
   exp$cue <- as.list(exp$cue)
@@ -102,7 +106,8 @@ tar_test("import", {
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
     workspaces = "x",
-    workspace_on_error = TRUE
+    workspace_on_error = TRUE,
+    seed = 57L
   )
   envir <- new.env(parent = emptyenv())
   x <- options_init(envir = envir)
@@ -131,6 +136,7 @@ tar_test("import", {
   expect_equal(x$get_debug(), "x")
   expect_equal(x$get_workspaces(), "x")
   expect_equal(x$get_workspace_on_error(), TRUE)
+  expect_equal(x$get_seed(), 57L)
 })
 
 tar_test("tidy_eval", {

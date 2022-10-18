@@ -54,7 +54,11 @@ build_run_expr <- function(expr, envir, seed, packages, library) {
   load_packages(packages = packages, library = library)
   withr::with_dir(
     getwd(),
-    withr::with_seed(seed, build_eval_fce17be7(expr, envir))
+    if_any(
+      anyNA(seed),
+      build_eval_fce17be7(expr, envir),
+      withr::with_seed(seed, build_eval_fce17be7(expr, envir))
+    )
   )
 }
 

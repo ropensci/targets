@@ -5,7 +5,8 @@ cue_init <- function(
   format = TRUE,
   repository = TRUE,
   iteration = TRUE,
-  file = TRUE
+  file = TRUE,
+  seed = TRUE
 ) {
   cue_new(
     mode = mode,
@@ -14,7 +15,8 @@ cue_init <- function(
     format = format,
     repository = repository,
     iteration = iteration,
-    file = file
+    file = file,
+    seed = seed
   )
 }
 
@@ -25,15 +27,17 @@ cue_new <- function(
   format = NULL,
   repository = NULL,
   iteration = NULL,
-  file = NULL
+  file = NULL,
+  seed = NULL
 ) {
   force(mode)
   force(command)
   force(depend)
   force(format)
   force(repository)
-  force(file)
   force(iteration)
+  force(file)
+  force(seed)
   enclass(environment(), "tar_cue")
 }
 
@@ -128,6 +132,15 @@ cue_file <- function(cue, target, meta) {
   !store_has_correct_hash(target$store)
 }
 
+cue_seed <- function(cue, target, meta) {
+  if (!cue$seed) {
+    return(FALSE)
+  }
+  old <- as.integer(meta$get_record(target_get_name(target))$seed)
+  new <- as.integer(target$command$seed)
+  anyNA(new) || !identical(old, new)
+}
+
 cue_validate <- function(cue) {
   tar_assert_correct_fields(cue, cue_new)
   tar_assert_chr(cue$mode)
@@ -137,12 +150,16 @@ cue_validate <- function(cue) {
   tar_assert_lgl(cue$format)
   tar_assert_lgl(cue$repository)
   tar_assert_lgl(cue$iteration)
+  tar_assert_lgl(cue$file)
+  tar_assert_lgl(cue$seed)
   tar_assert_scalar(cue$mode)
   tar_assert_scalar(cue$command)
   tar_assert_scalar(cue$depend)
   tar_assert_scalar(cue$format)
   tar_assert_scalar(cue$repository)
   tar_assert_scalar(cue$iteration)
+  tar_assert_scalar(cue$file)
+  tar_assert_scalar(cue$seed)
 }
 
 #' @export
