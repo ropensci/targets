@@ -6,6 +6,8 @@
 * Rename `tar_path()` to `tar_path_target()` with deprecation.
 * Add new function `tar_path_script_support()`.
 * Make Target Markdown target scripts dynamically locate their support scripts so the appropriate scripts can be found even when they are generated from one directory and sourced from another (#953, #957, @TylerGrantSmith).
+* Allow user-side control of the seeds at the pipeline level. `tar_option_set()` now supports a `seed` argument, and target-specific seeds are determined by `tar_option_get("seed")` and the target name. `tar_option_set(seed = NA)` disables seed-setting behavior but forcibly invalidates all the affected targets except when `seed` is `FALSE` in the target's `tar_cue()` (#882, @sworland-thyme, @joelnitta).
+* Implement a `seed` argument in `tar_cue()` to control whether targets update in response to changing or `NA` seeds (#882, @sworland-thyme, @joelnitta).
 
 # targets 0.13.5
 

@@ -318,6 +318,54 @@ tar_test("cue_iteration() suppressed", {
   expect_equal(out, "x")
 })
 
+tar_test("cue_seed() responds to changed seed", {
+  on.exit(tar_option_reset())
+  tar_option_set(seed = 1L)
+  x <- target_init("x", quote(1L))
+  local <- local_init(pipeline_init(list(x)))
+  local$run()
+  out <- counter_get_names(local$scheduler$progress$built)
+  expect_equal(out, "x")
+  x <- target_init("x", quote(1L))
+  local <- local_init(pipeline_init(list(x)))
+  local$run()
+  out <- counter_get_names(local$scheduler$progress$built)
+  expect_equal(out, character(0))
+  tar_option_set(seed = 2L)
+  x <- target_init("x", quote(1L))
+  local <- local_init(pipeline_init(list(x)))
+  local$run()
+  out <- counter_get_names(local$scheduler$progress$built)
+  expect_equal(out, "x")
+})
+
+tar_test("cue_seed() always activates when seed is NA", {
+  on.exit(tar_option_reset())
+  tar_option_set(seed = NA)
+  for (index in seq_len(3)) {
+    x <- target_init("x", quote(1L))
+    local <- local_init(pipeline_init(list(x)))
+    local$run()
+    out <- counter_get_names(local$scheduler$progress$built)
+    expect_equal(out, "x")
+  }
+})
+
+tar_test("cue_seed() suppressed", {
+  on.exit(tar_option_reset())
+  tar_option_set(seed = NA)
+  x <- target_init("x", quote(1L))
+  local <- local_init(pipeline_init(list(x)))
+  local$run()
+  for (index in seq_len(3)) {
+    x <- target_init("x", quote(1L), cue = tar_cue(seed = FALSE))
+    local <- local_init(pipeline_init(list(x)))
+    local$run()
+    out <- counter_get_names(local$scheduler$progress$built)
+    expect_equal(out, character(0))
+  }
+})
+
 tar_test("cue_file()", {
   x <- target_init("x", quote(1L))
   local <- local_init(pipeline_init(list(x)))
