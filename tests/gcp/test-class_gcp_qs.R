@@ -262,7 +262,7 @@ tar_test("gcp_qs format works with storage = \"none\"", {
     list(
       tar_target(
         x,
-        qs::qsave("x_value", tar_path(create_dir = TRUE)),
+        qs::qsave("x_value", tar_path_target(create_dir = TRUE)),
         format = "qs",
         repository = "gcp",
         storage = "none"
