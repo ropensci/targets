@@ -5,40 +5,6 @@
 # which could put an unexpected and unfair burden on
 # external contributors from the open source community.
 # nocov start
-gcp_gcs_exists <- function(
-  key,
-  bucket = gcp_gcs_bucket(),
-  version = NULL,
-  verbose = FALSE
-) {
-  tryCatch(
-    gcp_gcs_head_true(
-      key = key,
-      bucket = bucket,
-      version = version,
-      verbose = verbose
-    ),
-    http_404 = function(condition) {
-      FALSE
-    }
-  )
-}
-
-gcp_gcs_head_true <- function(
-  key,
-  bucket = gcp_gcs_bucket(),
-  version = NULL,
-  verbose = FALSE
-) {
-  gcp_gcs_head(
-    key = key,
-    bucket = bucket,
-    version = version,
-    verbose = verbose
-  )
-  TRUE
-}
-
 gcp_gcs_head <- function(
   key,
   bucket = gcp_gcs_bucket(),
@@ -47,11 +13,30 @@ gcp_gcs_head <- function(
 ) {
   gcp_gcs_auth(verbose = verbose)
   if_any(verbose, identity, suppressMessages) (
-    googleCloudStorageR::gcs_get_object(
-      key,
+    tryCatch(
+      googleCloudStorageR::gcs_get_object(
+        key,
+        bucket = bucket,
+        meta = TRUE,
+        generation = version
+      ),
+      http_404 = function(condition) NULL
+    )
+  )
+}
+
+gcp_gcs_exists <- function(
+  key,
+  bucket = gcp_gcs_bucket(),
+  version = NULL,
+  verbose = FALSE
+) {
+  !is.null(
+    gcp_gcs_head(
+      key = key,
       bucket = bucket,
-      meta = TRUE,
-      generation = version
+      version = version,
+      verbose = verbose
     )
   )
 }
@@ -89,22 +74,17 @@ gcp_gcs_delete <- function(
   verbose = FALSE
 ) {
   gcp_gcs_auth(verbose = verbose)
-  exists <- gcp_gcs_exists(
-    key = key,
-    bucket = bucket,
-    version = version,
-    verbose = verbose
-  )
-  if (!exists) {
-    return()
-  }
   if_any(verbose, identity, suppressMessages) (
-    googleCloudStorageR::gcs_delete_object(
-      object_name = key,
-      bucket = bucket,
-      generation = version
+    tryCatch(
+      googleCloudStorageR::gcs_delete_object(
+        object_name = key,
+        bucket = bucket,
+        generation = version
+      ),
+      http_404 = function(condition) NULL
     )
   )
+  invisible()
 }
 
 gcp_gcs_upload <- function(
@@ -135,6 +115,9 @@ gcp_gcs_upload <- function(
 }
 
 gcp_gcs_auth <- function(verbose = FALSE) {
+  if (tar_runtime$get_gcp_auth()) {
+    return()
+  }
   if_any(verbose, identity, suppressMessages) (
     googleCloudStorageR::gcs_auth(
       token = gargle::token_fetch(
@@ -143,5 +126,7 @@ gcp_gcs_auth <- function(verbose = FALSE) {
       )
     )
   )
+  tar_runtime$set_gcp_auth(TRUE)
+  invisible()
 }
 # nocov end

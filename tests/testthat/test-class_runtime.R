@@ -70,6 +70,18 @@ tar_test("set, get, exists, and unset fun", {
   expect_null(x$get_fun())
 })
 
+tar_test("set, get, exists, and unset gcp_auth", {
+  x <- runtime_init()
+  expect_false(x$exists_gcp_auth())
+  expect_false(x$get_gcp_auth())
+  x$set_gcp_auth(TRUE)
+  expect_true(x$exists_gcp_auth())
+  expect_true(x$get_gcp_auth())
+  x$unset_gcp_auth()
+  expect_false(x$exists_gcp_auth())
+  expect_false(x$get_gcp_auth())
+})
+
 tar_test("validate null fields", {
   x <- runtime_init()
   expect_silent(x$validate())

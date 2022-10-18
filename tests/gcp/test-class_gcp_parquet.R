@@ -23,7 +23,7 @@ tar_test("gcp_parquet format returns data frames", {
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
-  tar_make()
+  tar_make(callr_function = NULL)
   out <- tar_read(x)
   expect_equal(out, data.frame(x = seq_len(2), y = seq_len(2)))
 })

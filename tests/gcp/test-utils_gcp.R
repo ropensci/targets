@@ -81,6 +81,7 @@ tar_test("gcp_gcs_delete()", {
   expect_true(gcp_gcs_exists(key = "x", bucket = bucket))
   gcp_gcs_delete(key = "x", bucket = bucket)
   expect_false(gcp_gcs_exists(key = "x", bucket = bucket))
+  gcp_gcs_delete(key = "x", bucket = bucket)
 })
 
 tar_test("gcp_gcs_delete() with versions", {

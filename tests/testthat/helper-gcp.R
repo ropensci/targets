@@ -10,7 +10,7 @@ gcp_gcs_delete_bucket <- function(bucket) {
   googleCloudStorageR::gcs_delete_bucket(bucket, force_delete = TRUE)
 }
 
-aws_s3_delete_targets_buckets <- function() {
+gcp_gcs_delete_targets_buckets <- function() {
   gcp_gcs_auth()
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   buckets <- googleCloudStorageR::gcs_list_buckets(projectId = project)$name

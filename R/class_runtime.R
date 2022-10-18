@@ -4,7 +4,8 @@ runtime_init <- function(
   interactive = NULL,
   store = NULL,
   script = NULL,
-  fun = NULL
+  fun = NULL,
+  gcp_auth = NULL
 ) {
   runtime_new(
     target = target,
@@ -12,7 +13,8 @@ runtime_init <- function(
     interactive = interactive,
     script = script,
     store = store,
-    fun = fun
+    fun = fun,
+    gcp_auth = gcp_auth
   )
 }
 
@@ -22,7 +24,8 @@ runtime_new <- function(
   interactive = NULL,
   store = NULL,
   script = NULL,
-  fun = NULL
+  fun = NULL,
+  gcp_auth = NULL
 ) {
   runtime_class$new(
     target = target,
@@ -30,7 +33,8 @@ runtime_new <- function(
     interactive = interactive,
     script = script,
     store = store,
-    fun = fun
+    fun = fun,
+    gcp_auth = gcp_auth
   )
 }
 
@@ -46,13 +50,15 @@ runtime_class <- R6::R6Class(
     store = NULL,
     script = NULL,
     fun = NULL,
+    gcp_auth = NULL,
     initialize = function(
       target = NULL,
       frames = NULL,
       interactive = NULL,
       script = NULL,
       store = NULL,
-      fun = NULL
+      fun = NULL,
+      gcp_auth = NULL
     ) {
       self$target <- target
       self$frames <- frames
@@ -60,6 +66,7 @@ runtime_class <- R6::R6Class(
       self$script <- script
       self$store <- store
       self$fun <- fun
+      self$gcp_auth <- gcp_auth
     },
     exists_target = function() {
       !is.null(self$target)
@@ -79,6 +86,9 @@ runtime_class <- R6::R6Class(
     exists_fun = function() {
       !is.null(self$fun)
     },
+    exists_gcp_auth = function() {
+      !is.null(self$gcp_auth)
+    },
     get_target = function() {
       self$target
     },
@@ -96,6 +106,9 @@ runtime_class <- R6::R6Class(
     },
     get_fun = function() {
       self$fun
+    },
+    get_gcp_auth = function() {
+      self$gcp_auth %|||% FALSE
     },
     set_target = function(target) {
       self$target <- target
@@ -115,6 +128,9 @@ runtime_class <- R6::R6Class(
     set_fun = function(fun) {
       self$fun <- fun
     },
+    set_gcp_auth = function(gcp_auth) {
+      self$gcp_auth <- gcp_auth
+    },
     unset_target = function() {
       self$target <- NULL
     },
@@ -132,6 +148,9 @@ runtime_class <- R6::R6Class(
     },
     unset_fun = function() {
       self$fun <- NULL
+    },
+    unset_gcp_auth = function() {
+      self$gcp_auth <- NULL
     },
     validate = function() {
       if (!is.null(self$target)) {
@@ -159,6 +178,11 @@ runtime_class <- R6::R6Class(
         tar_assert_scalar(self$fun)
         tar_assert_chr(self$fun)
         tar_assert_nzchar(self$fun)
+      }
+      if (!is.null(self$gcp_auth)) {
+        tar_assert_scalar(self$gcp_auth)
+        tar_assert_chr(self$gcp_auth)
+        tar_assert_nzchar(self$gcp_auth)
       }
     }
   )

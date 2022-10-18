@@ -53,6 +53,7 @@ tar_test("delete cloud targets", {
   expect_false(gcp_gcs_exists(key = key2, bucket = bucket_name))
   expect_true(file.exists("file.txt"))
   expect_silent(tar_delete(everything()))
+  expect_silent(tar_delete(everything()))
 })
 
 tar_test("same with versioning", {

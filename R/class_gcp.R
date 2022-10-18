@@ -158,29 +158,22 @@ store_upload_object_gcp <- function(store) {
 }
 
 #' @export
+store_ensure_correct_hash.tar_gcp <- function(store, storage, deployment) {
+}
+
+#' @export
 store_has_correct_hash.tar_gcp <- function(store) {
   path <- store$file$path
   bucket <- store_gcp_bucket(path)
   key <- store_gcp_key(path)
   version <- store_gcp_version(path)
-  if_any(
-    gcp_gcs_exists(
-      key = key,
-      bucket = bucket,
-      version = version,
-      verbose = store$resources$gcp$verbose %|||% FALSE
-    ),
-    identical(
-      store_gcp_hash(
-        key = key,
-        bucket = bucket,
-        version = version,
-        verbose = store$resources$gcp$verbose %|||% FALSE
-      ),
-      store$file$hash
-    ),
-    FALSE
+  hash <- store_gcp_hash(
+    key = key,
+    bucket = bucket,
+    version = version,
+    verbose = store$resources$gcp$verbose %|||% FALSE
   )
+  !is.null(hash) && identical(hash, store$file$hash)
 }
 
 store_gcp_hash <- function(key, bucket, version, verbose) {
