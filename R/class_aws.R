@@ -223,6 +223,10 @@ store_upload_object_aws <- function(store) {
 }
 
 #' @export
+store_ensure_correct_hash.tar_aws <- function(store, storage, deployment) {
+}
+
+#' @export
 store_has_correct_hash.tar_aws <- function(store) {
   path <- store$file$path
   bucket <- store_aws_bucket(path)
@@ -238,17 +242,7 @@ store_has_correct_hash.tar_aws <- function(store) {
     version = version,
     args = store$resources$aws$args
   )
-  !is.null(hash) && identical(
-    store_aws_hash(
-      key = key,
-      bucket = bucket,
-      region = region,
-      endpoint = endpoint,
-      version = version,
-      args = store$resources$aws$args
-    ),
-    store$file$hash
-  )
+  !is.null(hash) && identical(hash, store$file$hash)
 }
 
 store_aws_hash <- function(key, bucket, region, endpoint, version, args) {

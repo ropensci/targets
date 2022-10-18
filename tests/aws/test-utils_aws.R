@@ -82,6 +82,7 @@ tar_test("aws_s3_delete()", {
   expect_true(aws_s3_exists(key = key, bucket = bucket))
   aws_s3_delete(key = key, bucket = bucket)
   expect_false(aws_s3_exists(key = key, bucket = bucket))
+  aws_s3_delete(key = key, bucket = bucket)
 })
 
 tar_test("aws_s3_delete() version", {
