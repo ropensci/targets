@@ -1,7 +1,7 @@
 build_init <- function(
   expr,
   envir,
-  seed = 1L,
+  seed = 0L,
   packages = character(0),
   library = NULL
 ) {
