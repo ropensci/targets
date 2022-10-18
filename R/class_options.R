@@ -396,9 +396,8 @@ options_class <- R6::R6Class(
       self$workspace_on_error <- workspace_on_error
     },
     set_seed = function(seed) {
-      seed <- as.integer(seed)
       self$validate_seed(seed)
-      self$seed <- seed
+      self$seed <- as.integer(seed)
     },
     validate_tidy_eval = function(tidy_eval) {
       tar_assert_scalar(tidy_eval)
@@ -483,7 +482,9 @@ options_class <- R6::R6Class(
     },
     validate_seed = function(seed) {
       tar_assert_scalar(seed)
-      tar_assert_dbl(seed)
+      if (!anyNA(seed)) {
+        tar_assert_dbl(seed)
+      }
     },
     validate = function() {
       self$validate_tidy_eval(self$get_tidy_eval())
