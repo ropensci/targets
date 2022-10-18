@@ -20,7 +20,8 @@ tar_test("tar_sitrep() on an empty project", {
     format = NA,
     repository = NA,
     iteration = NA,
-    file = NA
+    file = NA,
+    seed = NA
   )
   expect_equiv(out, exp)
 })
@@ -39,7 +40,6 @@ tar_test("tar_sitrep() does not modify progress", {
   out2 <- tar_progress()
   expect_equal(out1, out2)
 })
-
 
 tar_test("tar_sitrep() on an empty project with callr process", {
   skip_cran()
@@ -63,7 +63,8 @@ tar_test("tar_sitrep() on an empty project with callr process", {
     format = NA,
     repository = NA,
     iteration = NA,
-    file = NA
+    file = NA,
+    seed = NA
   )
   expect_equiv(out, exp)
 })
@@ -146,7 +147,8 @@ tar_test("tar_sitrep() on a run project", {
     format = FALSE,
     repository = FALSE,
     iteration = FALSE,
-    file = FALSE
+    file = FALSE,
+    seed = FALSE
   )
   expect_equiv(out, exp)
 })
@@ -177,7 +179,8 @@ tar_test("tar_sitrep() on a project with a change", {
     format = FALSE,
     repository = FALSE,
     iteration = FALSE,
-    file = FALSE
+    file = FALSE,
+    seed = FALSE
   )
   exp$file[exp$name == children_y[1]] <- TRUE
   expect_equiv(out, exp)
@@ -217,7 +220,8 @@ tar_test("tar_sitrep() invalidation due to aggregated pattern deps", {
     format = FALSE,
     repository = FALSE,
     iteration = FALSE,
-    file = FALSE
+    file = FALSE,
+    seed = FALSE
   )
   exp$depend[exp$name == "w"] <- TRUE
   expect_equiv(out, exp)
