@@ -64,6 +64,7 @@ tar_option_get <- function(name = NULL, option = NULL) {
     cue = tar_options$get_cue(),
     debug = tar_options$get_debug(),
     workspaces = tar_options$get_workspaces(),
-    workspace_on_error = tar_options$get_workspace_on_error()
+    workspace_on_error = tar_options$get_workspace_on_error(),
+    seed = tar_options$get_seed()
   )
 }

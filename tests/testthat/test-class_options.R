@@ -353,3 +353,18 @@ tar_test("workspace_on_error", {
   expect_equal(x$get_workspace_on_error(), FALSE)
   expect_error(x$set_workspace_on_error(123), class = "tar_condition_validate")
 })
+
+tar_test("seed", {
+  x <- options_init()
+  expect_equal(x$get_seed(), 0L)
+  x$set_seed(seed = 57L)
+  expect_equal(x$get_seed(), 57L)
+  x$set_seed(seed = NA_integer_)
+  expect_equal(x$get_seed(), NA_integer_)
+  x$reset()
+  expect_equal(x$get_seed(), 0L)
+  expect_error(x$set_seed(TRUE), class = "tar_condition_validate")
+  expect_error(x$set_seed(NULL), class = "tar_condition_validate")
+  expect_error(x$set_seed("abc"), class = "tar_condition_validate")
+  expect_error(x$set_seed(seq_len(4)), class = "tar_condition_validate")
+})
