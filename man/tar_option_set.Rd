@@ -25,7 +25,8 @@ tar_option_set(
   cue = NULL,
   debug = NULL,
   workspaces = NULL,
-  workspace_on_error = NULL
+  workspace_on_error = NULL,
+  seed = NULL
 )
 }
 \arguments{
@@ -286,6 +287,29 @@ See \code{\link[=tar_workspace]{tar_workspace()}} for details about workspaces.}
 a workspace file for each target that throws an error.
 Workspace files help with debugging.
 See \code{\link[=tar_workspace]{tar_workspace()}} for details about workspaces.}
+
+\item{seed}{Integer of length 1, seed for generating
+target-specific pseudo-random number generator seeds.
+These target-specific seeds are deterministic and depend on
+\code{tar_option_get("seed")} and the target name. Target-specific seeds
+are applied to each target's command using \code{withr::with_seed()},
+and they are stored in the metadata and retrievable with
+\code{\link[=tar_meta]{tar_meta()}} or \code{\link[=tar_seed]{tar_seed()}}.
+
+Either the user or third-party packages built on top of \code{targets}
+may still set seeds inside the command of a target.
+For example, some target factories in the
+\code{tarchetypes} package assigns replicate-specific
+seeds for the purposes of reproducible within-target batched replication.
+In cases like these, the effect of the target-specific seed saved
+in the metadata becomes irrelevant and the seed defined in the command
+applies.
+
+The \code{seed} option can also be \code{NA} to disable
+automatic seed-setting. Any targets defined while
+\code{tar_option_get("seed")} is \code{NA} will not set a seed.
+In this case, those targets will never be up to date
+unless they have \code{cue = tar_cue(seed = FALSE)}.}
 }
 \value{
 \code{NULL} (invisibly).

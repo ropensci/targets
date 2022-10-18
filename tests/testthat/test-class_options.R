@@ -24,7 +24,9 @@ tar_test("validate non-default options", {
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
-    workspaces = letters
+    workspaces = letters,
+    workspace_on_error = TRUE,
+    seed = 57L
   )
   expect_silent(x$validate())
 })
@@ -50,7 +52,8 @@ tar_test("export", {
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
     workspaces = letters,
-    workspace_on_error = TRUE
+    workspace_on_error = TRUE,
+    seed = 57L
   )
   out <- x$export()
   exp <- list(
@@ -73,7 +76,8 @@ tar_test("export", {
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
     workspaces = letters,
-    workspace_on_error = TRUE
+    workspace_on_error = TRUE,
+    seed = 57L
   )
   out$cue <- as.list(out$cue)
   exp$cue <- as.list(exp$cue)
@@ -102,7 +106,8 @@ tar_test("import", {
     cue = tar_cue(mode = "never", command = FALSE),
     debug = "x",
     workspaces = "x",
-    workspace_on_error = TRUE
+    workspace_on_error = TRUE,
+    seed = 57L
   )
   envir <- new.env(parent = emptyenv())
   x <- options_init(envir = envir)
@@ -131,6 +136,7 @@ tar_test("import", {
   expect_equal(x$get_debug(), "x")
   expect_equal(x$get_workspaces(), "x")
   expect_equal(x$get_workspace_on_error(), TRUE)
+  expect_equal(x$get_seed(), 57L)
 })
 
 tar_test("tidy_eval", {
@@ -352,4 +358,22 @@ tar_test("workspace_on_error", {
   x$reset()
   expect_equal(x$get_workspace_on_error(), FALSE)
   expect_error(x$set_workspace_on_error(123), class = "tar_condition_validate")
+})
+
+tar_test("seed", {
+  x <- options_init()
+  expect_equal(x$get_seed(), 0L)
+  x$set_seed(seed = 57L)
+  expect_equal(x$get_seed(), 57L)
+  x$set_seed(seed = NA_integer_)
+  expect_equal(x$get_seed(), NA_integer_)
+  x$set_seed(seed = NA_real_)
+  expect_equal(x$get_seed(), NA_integer_)
+  x$set_seed(seed = NA)
+  expect_equal(x$get_seed(), NA_integer_)
+  x$reset()
+  expect_equal(x$get_seed(), 0L)
+  expect_error(x$set_seed(NULL), class = "tar_condition_validate")
+  expect_error(x$set_seed("abc"), class = "tar_condition_validate")
+  expect_error(x$set_seed(seq_len(4)), class = "tar_condition_validate")
 })

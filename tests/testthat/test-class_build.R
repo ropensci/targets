@@ -55,6 +55,39 @@ tar_test("warning with no message, warning thrown", {
   build <- expect_warning(build_init(quote(warning()), baseenv()))
 })
 
+tar_test("build seeds", {
+  expr <- quote(sample.int(n = 1e9, size = 1L))
+  env <- baseenv()
+  sample.int(n = 1)
+  old <- .Random.seed
+  on.exit(.Random.seed <- old)
+  set.seed(1L)
+  out <- integer(0)
+  out[1] <- build_init(expr, env, 1L)$object
+  set.seed(2L)
+  out[2] <- build_init(expr, env, 1L)$object
+  out[3] <- build_init(expr, env, 1L)$object
+  out[4] <- build_init(expr, env, 2L)$object
+  set.seed(3L)
+  out[5] <- build_init(expr, env, NA)$object
+  out[6] <- build_init(expr, env, NA)$object
+  set.seed(3L)
+  out[7] <- build_init(expr, env, NA)$object
+  set.seed(4L)
+  out[8] <- build_init(expr, env, NA)$object
+  expect_equal(out[1], out[2])
+  expect_equal(out[2], out[3])
+  expect_equal(out[5], out[7])
+  expect_false(out[3] == out[4])
+  for (i in c(5, 6, 7, 8)) {
+    for (j in setdiff(seq_len(8), c(5L, 7L))) {
+      if (i != j) {
+        expect_false(out[i] == out[j])
+      }
+    }
+  }
+})
+
 tar_test("validate good builds", {
   build <- build_init(quote(1L + 1L), baseenv())
   expect_silent(build_validate(build))

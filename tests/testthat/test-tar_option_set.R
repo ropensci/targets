@@ -263,3 +263,17 @@ tar_test("workspace_on_error", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("seed", {
+  expect_equal(tar_option_get("seed"), 0L)
+  tar_option_set(seed = 57L)
+  expect_equal(tar_option_get("seed"), 57L)
+  tar_option_set(seed = NA_integer_)
+  expect_equal(tar_option_get("seed"), NA_integer_)
+  tar_option_reset()
+  expect_equal(tar_option_get("seed"), 0L)
+  expect_error(
+    tar_option_set(seed = "?"),
+    class = "tar_condition_validate"
+  )
+})

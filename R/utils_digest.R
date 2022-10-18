@@ -25,7 +25,11 @@ digest_obj64 <- function(object, ...) {
 }
 
 produce_seed <- function(scalar) {
-  digest::digest2int(as.character(scalar), seed = 0L)
+  if_any(
+    anyNA(tar_option_get("seed")),
+    NA_integer_,
+    digest::digest2int(as.character(scalar), seed = tar_option_get("seed"))
+  )
 }
 
 null64 <- digest_obj64(NULL)

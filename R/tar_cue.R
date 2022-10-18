@@ -84,6 +84,11 @@
 #'   [tar_target()] or [tar_option_set()].
 #' @param file Logical, whether to rerun the target if the file(s) with the
 #'   return value changed or at least one is missing.
+#' @param seed Logical, whether to rerun the target if pseudo-random
+#'   number generator seed either changed or is `NA`.
+#'   The reproducible deterministic target-specific
+#'   seeds are controlled by `tar_option_get("seed")` and the target names.
+#'   See [tar_option_set()] for details.
 #' @examples
 #' # The following target will always run when the pipeline runs.
 #' x <- tar_target(x, download_data(), cue = tar_cue(mode = "always"))
@@ -94,7 +99,8 @@ tar_cue <- function(
   format = TRUE,
   repository = TRUE,
   iteration = TRUE,
-  file = TRUE
+  file = TRUE,
+  seed = TRUE
 ) {
   tar_assert_lgl(command)
   tar_assert_lgl(depend)
@@ -102,12 +108,14 @@ tar_cue <- function(
   tar_assert_lgl(repository)
   tar_assert_lgl(iteration)
   tar_assert_lgl(file)
+  tar_assert_lgl(seed)
   tar_assert_scalar(command)
   tar_assert_scalar(depend)
   tar_assert_scalar(format)
   tar_assert_scalar(repository)
   tar_assert_scalar(iteration)
   tar_assert_scalar(file)
+  tar_assert_scalar(seed)
   cue_init(
     mode = match.arg(mode),
     command = command,
@@ -115,6 +123,7 @@ tar_cue <- function(
     format = format,
     repository = repository,
     iteration = iteration,
-    file = file
+    file = file,
+    seed = seed
   )
 }

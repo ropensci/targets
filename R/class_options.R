@@ -19,7 +19,8 @@ options_init <- function(
   cue = NULL,
   debug = NULL,
   workspaces = NULL,
-  workspace_on_error = NULL
+  workspace_on_error = NULL,
+  seed = NULL
 ) {
   options_new(
     tidy_eval = tidy_eval,
@@ -42,7 +43,8 @@ options_init <- function(
     cue = cue,
     debug = debug,
     workspaces = workspaces,
-    workspace_on_error = workspace_on_error
+    workspace_on_error = workspace_on_error,
+    seed = seed
   )
 }
 
@@ -67,7 +69,8 @@ options_new <- function(
   cue = NULL,
   debug = NULL,
   workspaces = NULL,
-  workspace_on_error = NULL
+  workspace_on_error = NULL,
+  seed = NULL
 ) {
   options_class$new(
     tidy_eval = tidy_eval,
@@ -90,7 +93,8 @@ options_new <- function(
     cue = cue,
     debug = debug,
     workspaces = workspaces,
-    workspace_on_error = workspace_on_error
+    workspace_on_error = workspace_on_error,
+    seed = seed
   )
 }
 
@@ -121,6 +125,7 @@ options_class <- R6::R6Class(
     debug = NULL,
     workspaces = NULL,
     workspace_on_error = NULL,
+    seed = NULL,
     initialize = function(
       tidy_eval = NULL,
       packages = NULL,
@@ -142,7 +147,8 @@ options_class <- R6::R6Class(
       cue = NULL,
       debug = NULL,
       workspaces = NULL,
-      workspace_on_error = NULL
+      workspace_on_error = NULL,
+      seed = NULL
     ) {
       self$tidy_eval <- tidy_eval
       self$packages <- packages
@@ -165,6 +171,7 @@ options_class <- R6::R6Class(
       self$debug <- debug
       self$workspaces <- workspaces
       self$workspace_on_error <- workspace_on_error
+      self$seed <- seed
     },
     export = function() {
       list(
@@ -187,7 +194,8 @@ options_class <- R6::R6Class(
         cue = self$get_cue(),
         debug = self$get_debug(),
         workspaces = self$get_workspaces(),
-        workspace_on_error = self$get_workspace_on_error()
+        workspace_on_error = self$get_workspace_on_error(),
+        seed = self$get_seed()
       )
     },
     import = function(list) {
@@ -211,6 +219,7 @@ options_class <- R6::R6Class(
       self$set_debug(list$debug)
       self$set_workspaces(list$workspaces)
       self$set_workspace_on_error(list$workspace_on_error)
+      self$set_seed(list$seed)
     },
     reset = function() {
       self$tidy_eval <- NULL
@@ -234,6 +243,7 @@ options_class <- R6::R6Class(
       self$debug <- NULL
       self$workspaces <- NULL
       self$workspace_on_error <- NULL
+      self$seed <- NULL
     },
     get_tidy_eval = function() {
       self$tidy_eval %|||% TRUE
@@ -297,6 +307,9 @@ options_class <- R6::R6Class(
     },
     get_workspace_on_error = function() {
       self$workspace_on_error %|||% FALSE
+    },
+    get_seed = function() {
+      self$seed %|||% 0L
     },
     set_tidy_eval = function(tidy_eval) {
       self$validate_tidy_eval(tidy_eval)
@@ -382,6 +395,10 @@ options_class <- R6::R6Class(
       self$validate_workspace_on_error(workspace_on_error)
       self$workspace_on_error <- workspace_on_error
     },
+    set_seed = function(seed) {
+      self$validate_seed(seed)
+      self$seed <- as.integer(seed)
+    },
     validate_tidy_eval = function(tidy_eval) {
       tar_assert_scalar(tidy_eval)
       tar_assert_lgl(tidy_eval)
@@ -462,6 +479,12 @@ options_class <- R6::R6Class(
     validate_workspace_on_error = function(workspace_on_error) {
       tar_assert_scalar(workspace_on_error)
       tar_assert_lgl(workspace_on_error)
+    },
+    validate_seed = function(seed) {
+      tar_assert_scalar(seed)
+      if (!anyNA(seed)) {
+        tar_assert_dbl(seed)
+      }
     },
     validate = function() {
       self$validate_tidy_eval(self$get_tidy_eval())

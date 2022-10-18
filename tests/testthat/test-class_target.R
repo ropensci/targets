@@ -13,6 +13,24 @@ tar_test("target$settings$priority", {
   expect_equal(x$settings$priority, 0.5)
 })
 
+tar_test("target seed", {
+  on.exit(tar_option_reset())
+  out <- integer(0)
+  tar_option_set(seed = 1L)
+  out[1] <- target_init(name = "x", expr = quote(a))$command$seed
+  out[2] <- target_init(name = "x", expr = quote(a))$command$seed
+  out[3] <- target_init(name = "y", expr = quote(a))$command$seed
+  tar_option_set(seed = 2L)
+  out[4] <- target_init(name = "y", expr = quote(a))$command$seed
+  tar_option_set(seed = NA)
+  out[5] <- target_init(name = "z", expr = quote(a))$command$seed
+  expect_equal(out[1], out[2])
+  expect_false(out[1] == out[3])
+  expect_false(out[3] == out[4])
+  expect_false(anyNA(out[seq_len(4)]))
+  expect_true(is.na(out[5]))
+})
+
 tar_test("target$value", {
   x <- target_init(name = "abc", expr = quote(1L))
   builder_update_build(x, baseenv())

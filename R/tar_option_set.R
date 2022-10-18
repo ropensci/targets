@@ -106,6 +106,28 @@
 #'   a workspace file for each target that throws an error.
 #'   Workspace files help with debugging.
 #'   See [tar_workspace()] for details about workspaces.
+#' @param seed Integer of length 1, seed for generating
+#'   target-specific pseudo-random number generator seeds.
+#'   These target-specific seeds are deterministic and depend on
+#'   `tar_option_get("seed")` and the target name. Target-specific seeds
+#'   are applied to each target's command using `withr::with_seed()`,
+#'   and they are stored in the metadata and retrievable with
+#'   [tar_meta()] or [tar_seed()].
+#'
+#'   Either the user or third-party packages built on top of `targets`
+#'   may still set seeds inside the command of a target.
+#'   For example, some target factories in the
+#'   `tarchetypes` package assigns replicate-specific
+#'   seeds for the purposes of reproducible within-target batched replication.
+#'   In cases like these, the effect of the target-specific seed saved
+#'   in the metadata becomes irrelevant and the seed defined in the command
+#'   applies.
+#'
+#'   The `seed` option can also be `NA` to disable
+#'   automatic seed-setting. Any targets defined while
+#'   `tar_option_get("seed")` is `NA` will not set a seed.
+#'   In this case, those targets will never be up to date
+#'   unless they have `cue = tar_cue(seed = FALSE)`.
 #' @examples
 #' tar_option_get("format") # default format before we set anything
 #' tar_target(x, 1)$settings$format
@@ -145,7 +167,8 @@ tar_option_set <- function(
   cue = NULL,
   debug = NULL,
   workspaces = NULL,
-  workspace_on_error = NULL
+  workspace_on_error = NULL,
+  seed = NULL
 ) {
   force(envir)
   if_any(is.null(tidy_eval), NULL, tar_options$set_tidy_eval(tidy_eval))
@@ -177,5 +200,6 @@ tar_option_set <- function(
     NULL,
     tar_options$set_workspace_on_error(workspace_on_error)
   )
+  if_any(is.null(seed), NULL, tar_options$set_seed(seed))
   invisible()
 }
