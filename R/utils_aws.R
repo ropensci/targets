@@ -4,29 +4,6 @@
 # which could put an unexpected and unfair burden on
 # external contributors from the open source community.
 # nocov start
-aws_s3_exists <- function(
-  key,
-  bucket,
-  region = NULL,
-  endpoint = NULL,
-  version = NULL,
-  args = list()
-) {
-  tryCatch(
-    aws_s3_head_true(
-      key = key,
-      bucket = bucket,
-      region = region,
-      endpoint = endpoint,
-      version = version,
-      args = args
-    ),
-    http_400 = function(condition) {
-      FALSE
-    }
-  )
-}
-
 aws_s3_head <- function(
   key,
   bucket,
@@ -42,10 +19,13 @@ aws_s3_head <- function(
     args$VersionId <- version
   }
   args <- supported_args(fun = client$head_object, args = args)
-  do.call(what = client$head_object, args = args)
+  tryCatch(
+    do.call(what = client$head_object, args = args),
+    http_400 = function(condition) NULL
+  )
 }
 
-aws_s3_head_true <- function(
+aws_s3_exists <- function(
   key,
   bucket,
   region = NULL,
@@ -53,15 +33,16 @@ aws_s3_head_true <- function(
   version = NULL,
   args = list()
 ) {
-  aws_s3_head(
-    key = key,
-    bucket = bucket,
-    region = region,
-    endpoint = endpoint,
-    version = version,
-    args = args
+  !is.null(
+    aws_s3_head(
+      key = key,
+      bucket = bucket,
+      region = region,
+      endpoint = endpoint,
+      version = version,
+      args = args
+    )
   )
-  TRUE
 }
 
 aws_s3_download <- function(

@@ -143,7 +143,7 @@ store_read_object.tar_aws <- function(store) {
 #' @export
 store_exist_object.tar_aws <- function(store, name = NULL) {
   path <- store$file$path
-  aws_s3_exists(
+  head <- aws_s3_exists(
     key = store_aws_key(path),
     bucket = store_aws_bucket(path),
     region = store_aws_region(path),
@@ -151,6 +151,7 @@ store_exist_object.tar_aws <- function(store, name = NULL) {
     version = store_aws_version(path),
     args = store$resources$aws$args
   )
+  !is.null(head)
 }
 
 #' @export
@@ -229,8 +230,16 @@ store_has_correct_hash.tar_aws <- function(store) {
   endpoint <- store_aws_endpoint(path)
   key <- store_aws_key(path)
   version <- store_aws_version(path)
-  if_any(
-    aws_s3_exists(
+  hash <- store_aws_hash(
+    key = key,
+    bucket = bucket,
+    region = region,
+    endpoint = endpoint,
+    version = version,
+    args = store$resources$aws$args
+  )
+  !is.null(hash) && identical(
+    store_aws_hash(
       key = key,
       bucket = bucket,
       region = region,
@@ -238,18 +247,7 @@ store_has_correct_hash.tar_aws <- function(store) {
       version = version,
       args = store$resources$aws$args
     ),
-    identical(
-      store_aws_hash(
-        key = key,
-        bucket = bucket,
-        region = region,
-        endpoint = endpoint,
-        version = version,
-        args = store$resources$aws$args
-      ),
-      store$file$hash
-    ),
-    FALSE
+    store$file$hash
   )
 }
 
