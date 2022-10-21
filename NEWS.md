@@ -10,6 +10,8 @@
 * Implement a `seed` argument in `tar_cue()` to control whether targets update in response to changing or `NA` seeds (#882, @sworland-thyme, @joelnitta).
 * Reduce the number of per-target AWS/GCP storage API calls. Previously there were 3 API calls per target, including 2 HEAD requests. Now there is just 1 for a typical target (unless dependencies have to be downloaded). Relies on S3 strong read-after-write consistency (#958).
 * Update the `tar_github_actions()` workflow file to use `@v2` (#960, @kulinar).
+* Print helpful hints while debugging a target interactively (#961).
+* Only attempt to debug a target when `callr_function` is `NULL` (#961).
 
 # targets 0.13.5
 
