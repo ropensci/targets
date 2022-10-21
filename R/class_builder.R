@@ -222,10 +222,19 @@ builder_cancel <- function(target, pipeline, scheduler, meta) {
 #' @export
 target_debug.tar_builder <- function(target) {
   debug <- tar_option_get("debug")
-  if (length(debug) && target_get_name(target) %in% debug) {
+  should_debug <- length(debug) &&
+    (target_get_name(target) %in% debug) &&
+    interactive()
+  if (should_debug) {
     # Covered in tests/interactive/test-debug.R
     # nocov start
-    target$command$expr <- c(expression(browser()), target$command$expr)
+    target$command$expr <- as.expression(
+      list(
+        instructions = quote(targets::tar_debug_instructions()),
+        browser = quote(browser()),
+        expr = target$command$expr
+      )
+    )
     target$cue$mode <- "always"
     target$settings$deployment <- "main"
     # nocov end

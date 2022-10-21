@@ -100,7 +100,11 @@ cli_yellow_bullet <- function(msg) {
 cli_mark_info <- function(msg) {
   symbol <- cli::col_cyan(cli::symbol$info)
   msg <- paste(symbol, cli_color_text(msg))
-  cli_color_text(msg)
+  message(msg)
+}
+
+cli_blank <- function(msg) {
+  message(paste(" ", cli_color_text(msg)))
 }
 
 cli_red_x <- function(msg) {
