@@ -13,7 +13,9 @@ tar_debug_instructions <- function() {
   cli_blank(paste("debug target", name))
   message()
   cli_mark_info("You are now running an interactive debugger.")
-  cli_blank("You can enter code and print objects as with the normal R console.")
+  cli_blank(
+    "You can enter code and print objects as with the normal R console."
+  )
   cli_blank("How to use: https://adv-r.hadley.nz/debugging.html#browser")
   message()
   cli_mark_info(
@@ -36,7 +38,7 @@ tar_debug_instructions <- function() {
     cli_blank(
       paste0(
         "to move the debugger inside function ",
-        deparse(expr[[1]]), 
+        deparse(expr[[1]]),
         "()."
       )
     )
@@ -50,5 +52,7 @@ tar_debug_instructions <- function() {
       )
     )
   }
-  cli_blank("Then debug the function as you would normally (without {targets}).")
+  cli_blank(
+    "Then debug the function as you would normally (without {targets})."
+  )
 }
