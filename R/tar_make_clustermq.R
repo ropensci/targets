@@ -1,22 +1,24 @@
-#' @title Run a pipeline of targets in parallel with persistent
-#'   `clustermq` workers.
+#' @title Run a pipeline with persistent `clustermq` workers.
 #' @export
 #' @family pipeline
-#' @description This function is like [tar_make()] except that targets
-#'   run in parallel with persistent `clustermq` workers. It requires
-#'   that you set global options like `clustermq.scheduler` and
-#'   `clustermq.template` inside the target script file
-#'   (default: `_targets.R`).
-#'   `clustermq` is not a strict dependency of `targets`,
-#'   so you must install `clustermq` yourself.
-#' @details To use with a cluster, you will need to set the global options
-#'   `clustermq.scheduler` and `clustermq.template` inside the
-#'   target script file (default: `_targets.R`).
+#' @description Run a pipeline with persistent `clustermq` workers.
+#' @details `tar_make_clustermq()` is like [tar_make()] except that targets
+#'   run in parallel on persistent workers. A persistent worker is an
+#'   R process that runs for a long time and builds multiple
+#'   targets during its lifecycle. Persistent
+#'   workers launch as soon as the pipeline reaches an outdated
+#'   target with `deployment = "worker"`, and they keep running
+#'   until the pipeline starts to wind down.
+#'
+#'   To configure `tar_make_clustermq()`, you must configure
+#'   the `clustermq` package. To do this, set global options
+#'   `clustermq.scheduler` and `clustermq.template`
+#'   inside the target script file (default: `_targets.R`).
 #'   To read more about configuring `clustermq` for your scheduler, visit
 #'   <https://mschubert.github.io/clustermq/articles/userguide.html#configuration> # nolint
-#'   and navigate to the appropriate link under "Setting up the scheduler".
-#'   Wildcards in the template file are filled in with elements from
-#'   `tar_option_get("resources")`.
+#'   or <https://books.ropensci.org/targets/hpc.html>.
+#'   `clustermq` is not a strict dependency of `targets`,
+#'   so you must install `clustermq` yourself.
 #' @return `NULL` except if `callr_function = callr::r_bg()`, in which case
 #'   a handle to the `callr` background process is returned. Either way,
 #'   the value is invisibly returned.

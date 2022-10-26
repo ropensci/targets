@@ -2,8 +2,7 @@
 % Please edit documentation in R/tar_make_clustermq.R
 \name{tar_make_clustermq}
 \alias{tar_make_clustermq}
-\title{Run a pipeline of targets in parallel with persistent
-\code{clustermq} workers.}
+\title{Run a pipeline with persistent \code{clustermq} workers.}
 \usage{
 tar_make_clustermq(
   names = NULL,
@@ -120,23 +119,26 @@ a handle to the \code{callr} background process is returned. Either way,
 the value is invisibly returned.
 }
 \description{
-This function is like \code{\link[=tar_make]{tar_make()}} except that targets
-run in parallel with persistent \code{clustermq} workers. It requires
-that you set global options like \code{clustermq.scheduler} and
-\code{clustermq.template} inside the target script file
-(default: \verb{_targets.R}).
-\code{clustermq} is not a strict dependency of \code{targets},
-so you must install \code{clustermq} yourself.
+Run a pipeline with persistent \code{clustermq} workers.
 }
 \details{
-To use with a cluster, you will need to set the global options
-\code{clustermq.scheduler} and \code{clustermq.template} inside the
-target script file (default: \verb{_targets.R}).
+\code{tar_make_clustermq()} is like \code{\link[=tar_make]{tar_make()}} except that targets
+run in parallel on persistent workers. A persistent worker is an
+R process that runs for a long time and builds multiple
+targets during its lifecycle. Persistent
+workers launch as soon as the pipeline reaches an outdated
+target with \code{deployment = "worker"}, and they keep running
+until the pipeline starts to wind down.
+
+To configure \code{tar_make_clustermq()}, you must configure
+the \code{clustermq} package. To do this, set global options
+\code{clustermq.scheduler} and \code{clustermq.template}
+inside the target script file (default: \verb{_targets.R}).
 To read more about configuring \code{clustermq} for your scheduler, visit
 \url{https://mschubert.github.io/clustermq/articles/userguide.html#configuration} # nolint
-and navigate to the appropriate link under "Setting up the scheduler".
-Wildcards in the template file are filled in with elements from
-\code{tar_option_get("resources")}.
+or \url{https://books.ropensci.org/targets/hpc.html}.
+\code{clustermq} is not a strict dependency of \code{targets},
+so you must install \code{clustermq} yourself.
 }
 \examples{
 if (!identical(tolower(Sys.info()[["sysname"]]), "windows")) {
