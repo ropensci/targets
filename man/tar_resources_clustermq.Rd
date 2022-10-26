@@ -23,6 +23,11 @@ for \code{tar_make_clustermq()}.
 For details, see the documentation of the \code{clustermq} R package
 and the corresponding argument names in this help file.
 }
+\details{
+\code{clustermq} workers are not target-specific,
+so the correct way to assign \code{clustermq} resources is through
+\code{\link[=tar_option_set]{tar_option_set()}}, not \code{\link[=tar_target]{tar_target()}}.
+}
 \section{Resources}{
 
 Functions \code{\link[=tar_target]{tar_target()}} and \code{\link[=tar_option_set]{tar_option_set()}}

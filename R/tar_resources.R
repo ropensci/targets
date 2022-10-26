@@ -35,7 +35,9 @@
 #' @param clustermq Output of function `tar_resources_clustermq()`.
 #'   Optional `clustermq` settings for `tar_make_clustermq()`,
 #'   including the `log_worker` and `template` arguments of
-#'   `clustermq::workers()`.
+#'   `clustermq::workers()`. `clustermq` workers are not target-specific,
+#'   so the correct way to assign `clustermq` resources is through
+#'   [tar_option_set()], not [tar_target()].
 #' @param feather Output of function `tar_resources_feather()`.
 #'   Non-default arguments to `arrow::read_feather()` and
 #'   `arrow::write_feather()` for `arrow`/feather-based storage formats.
