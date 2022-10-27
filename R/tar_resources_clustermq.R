@@ -6,9 +6,12 @@
 #'   for `tar_make_clustermq()`.
 #'   For details, see the documentation of the `clustermq` R package
 #'   and the corresponding argument names in this help file.
-#' @details `clustermq` workers are not target-specific,
-#'   so the correct way to assign `clustermq` resources is through
-#'   [tar_option_set()], not [tar_target()].
+#' @details `clustermq` workers are *persistent*,
+#'   so there is not a one-to-one correspondence between workers and targets.
+#'   The `clustermq` resources apply to the workers, not the targets.
+#'   So the correct way to assign `clustermq` resources is through
+#'   [tar_option_set()], not [tar_target()]. `clustermq` resources
+#'   in individual [tar_target()] calls will be ignored.
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_clustermq"`, to be supplied
 #'   to the `clustermq` argument of `tar_resources()`.
