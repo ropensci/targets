@@ -40,6 +40,7 @@ tar_load_globals <- function(
   script = targets::tar_config_get("script")
 ) {
   force(envir)
+  tar_assert_script(script)
   eval(parse(text = readLines(script)), envir = envir)
   map(
     x = tar_option_get("packages"),
