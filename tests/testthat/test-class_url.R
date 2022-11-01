@@ -290,3 +290,10 @@ tar_test("validate url format", {
   tar_script(list(tar_target(x, "x_value", format = "url")))
   expect_silent(tar_validate(callr_function = NULL))
 })
+
+tar_test("url and NULL", {
+  skip_on_cran()
+  tar_script(tar_target(x, NULL, format = "url", memory = "persistent"))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(x), character(0))
+})

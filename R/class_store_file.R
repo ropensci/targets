@@ -43,7 +43,7 @@ store_convert_object.tar_store_file <- function(store, object) { # nolint
 
 #' @export
 store_assert_format.tar_store_file <- function(store, object, name) { # nolint
-  if (!is.character(object)) {
+  if (!is.character(object %|||% character(0))) {
     tar_throw_validate(
       "target ", name, " did not return a character. ",
       "dynamic files (targets with format = \"file\") must return ",

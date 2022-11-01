@@ -3,6 +3,9 @@
 #' @family targets
 #' @description Define a custom target storage format for the
 #'   `format` argument of [tar_target()] or [tar_option_set()].
+#' @details It is good practice to write formats that correctly handle
+#'   `NULL` objects if you are planning to set `error = "null"`
+#'   in [tar_option_set()].
 #' @return A character string of length 1 encoding the custom format.
 #'   You can supply this string directly to the `format`
 #'   argument of [tar_target()] or [tar_option_set()].
@@ -57,14 +60,17 @@
 #' @param repository Deprecated. Use the `repository` argument of
 #'   [tar_target()] or [tar_option_set()] instead.
 #' @examples
-#' # The following target is equivalent to
-#' # tar_target(name, command(), format = "keras"):
+#' # The following target is equivalent to the current superseded
+#' # tar_target(name, command(), format = "keras").
+#' # An improved version of this would handle NULL
+#' # objects, which are returned by the target if it
+#' # errors and the error argument of tar_target() is "null".
 #' tar_target(
 #'   name,
 #'   command(),
 #'   format = tar_format(
 #'     read = function(path) {
-#'        keras::load_model_hdf5(path)
+#'       keras::load_model_hdf5(path)
 #'     },
 #'     write = function(object, path) {
 #'       keras::save_model_hdf5(object = object, filepath = path)
@@ -74,6 +80,34 @@
 #'     },
 #'     unmarshal = function(object) {
 #'       keras::unserialize_model(object)
+#'     }
+#'   )
+#' )
+#' # And the following is equivalent to the current superseded
+#' # tar_target(name, torch::torch_tensor(seq_len(4)), format = "torch").
+#' # As with the Keras example, an improved version of this would handle NULL
+#' # objects, which are returned by the target if it
+#' # errors and the error argument of tar_target() is "null".
+#' tar_target(
+#'   name,
+#'   command(),
+#'   format = tar_format(
+#'     read = function(path) {
+#'       torch::torch_load(path)
+#'     },
+#'     write = function(object, path) {
+#'       torch::torch_save(obj = object, path = path)
+#'     },
+#'     marshal = function(object) {
+#'       con <- rawConnection(raw(), open = "wr")
+#'       on.exit(close(con))
+#'       torch::torch_save(object, con)
+#'       rawConnectionValue(con)
+#'     },
+#'     unmarshal = function(object) {
+#'       con <- rawConnection(object, open = "r")
+#'       on.exit(close(con))
+#'       torch::torch_load(con)
 #'     }
 #'   )
 #' )

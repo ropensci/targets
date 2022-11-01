@@ -49,3 +49,17 @@ tar_test("declaring a target does not run its command", {
   x <- tar_target(y, file.create("x"))
   expect_false(file.exists("x"))
 })
+
+tar_test("superseded ultra-custom formats and error null", {
+  for (format in c("keras", "torch")) {
+    expect_warning(
+      tmp <- tar_target(x, "y", format = format, error = "null"),
+      class = "tar_condition_validate"
+    )
+  }
+  for (format in c("rds", "qs")) {
+    expect_silent(
+      tmp <- tar_target(x, "y", format = format, error = "null")
+    )
+  }
+})

@@ -124,6 +124,7 @@ tar_target_raw <- function(
   tar_assert_resources(resources)
   tar_assert_flag(storage, c("main", "worker", "none"))
   tar_assert_flag(retrieval, c("main", "worker", "none"))
+  warn_error_format(error = error, format = format)
   if (!is.null(cue)) {
     cue_validate(cue)
   }
@@ -148,4 +149,16 @@ tar_target_raw <- function(
     retrieval = retrieval,
     cue = cue
   )
+}
+
+warn_error_format <- function(error, format) {
+  if (format %in% c("keras", "torch") && error == "null") {
+    message <- paste0(
+      "In targets, format = \"",
+      format,
+      "\" is incompatible with error = \"null\" ",
+      "(and superseded by tar_format())."
+    )
+    tar_warn_validate(message)
+  }
 }

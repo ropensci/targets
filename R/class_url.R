@@ -15,7 +15,7 @@ store_assert_format_setting.url <- function(format) {
 
 #' @export
 store_read_path.tar_url <- function(store, path) {
-  path
+  path[!is.na(path)]
 }
 
 #' @export
@@ -38,7 +38,7 @@ store_convert_object.tar_url <- function(store, object) {
 
 #' @export
 store_assert_format.tar_url <- function(store, object, name) {
-  if (!is.character(object)) {
+  if (!is.character(object %|||% character(0))) {
     tar_throw_validate(
       "target ", name, " did not return a character. ",
       "targets with format = \"url\" must return ",

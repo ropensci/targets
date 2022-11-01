@@ -323,17 +323,6 @@ tar_test("dynamic file has illegal path", {
   expect_error(local$run(), class = "tar_condition_run")
 })
 
-tar_test("dynamic file has empty path", {
-  skip_cran()
-  x <- target_init(
-    name = "abc",
-    expr = quote(NULL),
-    format = "file"
-  )
-  local <- local_init(pipeline_init(list(x)))
-  expect_error(local$run(), class = "tar_condition_run")
-})
-
 tar_test("dynamic file has missing path value", {
   skip_cran()
   x <- target_init(

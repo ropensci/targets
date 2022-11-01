@@ -136,3 +136,16 @@ tar_test("store_path_from_record()", {
     path_objects(path_store_default(), "x")
   )
 })
+
+tar_test("parquet and NULL", {
+  skip_on_cran()
+  tar_script(
+    list(
+      tar_target(x, NULL, format = "parquet", memory = "persistent"),
+      tar_target(y, x, memory = "persistent")
+    )
+  )
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(x), as.data.frame(NULL))
+  expect_equal(tar_read(y), as.data.frame(NULL))
+})

@@ -12,6 +12,9 @@
 * Update the `tar_github_actions()` workflow file to use `@v2` (#960, @kulinar).
 * Print helpful hints while debugging a target interactively (#961).
 * Only attempt to debug a target when `callr_function` is `NULL` (#961).
+* Make formats `"feather"`, `"parquet"`, `"file"`, and `"url"` work with `error = "null"` (#969).
+* Declare formats `"keras"` and `"torch"` superseded by `tar_format()`. Documented in the `tar_target()` help file.
+* Declare formats `"keras"` and `"torch"` incompatible with `error = "null"`. Documented in the `tar_target()` help file and in a warning thrown by `tar_target()` via `tar_target_raw()`.
 
 # targets 0.13.5
 

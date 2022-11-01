@@ -94,3 +94,16 @@ tar_test("files can be empty (#728)", {
     c("x", "y")
   )
 })
+
+tar_test("file and NULL", {
+  skip_on_cran()
+  tar_script(
+    list(
+      tar_target(x, NULL, format = "file", memory = "persistent"),
+      tar_target(y, x, memory = "persistent")
+    )
+  )
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(x), character(0))
+  expect_equal(tar_read(y), character(0))
+})

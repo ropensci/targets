@@ -49,10 +49,14 @@
 #'     Optionally set the compression level the same way as for `"fst"`.
 #'   * `"fst_tbl"`: Same as `"fst"`, but the value is a `tibble`.
 #'     Optionally set the compression level the same way as for `"fst"`.
-#'   * `"keras"`: Uses `keras::save_model_hdf5()` and
+#'   * `"keras"`: superseded by [tar_format()] and incompatible
+#'     with `error = "null"` (in [tar_target()] or [tar_option_set()]).
+#'     Uses `keras::save_model_hdf5()` and
 #'     `keras::load_model_hdf5()`. The value must be a Keras model.
 #'     Requires the `keras` package (not installed by default).
-#'   * `"torch"`: Uses `torch::torch_save()` and `torch::torch_load()`.
+#'   * `"torch"`: superseded by [tar_format()] and incompatible
+#'     with `error = "null"` (in [tar_target()] or [tar_option_set()]).
+#'     Uses `torch::torch_save()` and `torch::torch_load()`.
 #'     The value must be an object from the `torch` package
 #'     such as a tensor or neural network module.
 #'     Requires the `torch` package (not installed by default).

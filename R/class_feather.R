@@ -37,9 +37,18 @@ store_assert_format.tar_feather <- function(store, object, name) { # nolint
     "data.frame, RecordBatch, or Table."
   )
   tar_assert_inherits(
-    x = object,
+    x = object %|||% data.frame(),
     class = c("data.frame", "RecordBatch", "Table"),
     msg = msg
+  )
+}
+
+#' @export
+store_convert_object.tar_feather <- function(store, object) {
+  if_any(
+    is.null(object),
+    as.data.frame(NULL),
+    object
   )
 }
 
