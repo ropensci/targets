@@ -133,3 +133,39 @@ tar_test("deprecated: aws custom store is valid", {
   expect_silent(store_validate(x$store))
   expect_true(inherits(x$store, "tar_aws"))
 })
+
+tar_test("class_store_custom convert function with rds", {
+  skip_on_cran()
+  tar_script({
+    format <- tar_format(
+      convert = function(object) {
+        if (is.null(object)) {
+          return("found null")
+        } else {
+          return(object)
+        }
+      },
+      read = function(path) {
+        readRDS(path)
+      },
+      write = function(object, path) {
+        saveRDS(object = object, file = path, version = 3L)
+      },
+      marshal = function(object) {
+        identity(object)
+      },
+      unmarshal = function(object) {
+        identity(object)
+      }
+    )
+    list(
+      tar_target(x, "value", format = format, memory = "persistent"),
+      tar_target(y, NULL, format = format, memory = "persistent"),
+      tar_target(z, y, memory = "persistent")
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(x), "value")
+  expect_equal(tar_read(y), "found null")
+  expect_equal(tar_read(z), "found null")
+})

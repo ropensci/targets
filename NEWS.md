@@ -15,6 +15,7 @@
 * Make formats `"feather"`, `"parquet"`, `"file"`, and `"url"` work with `error = "null"` (#969).
 * Declare formats `"keras"` and `"torch"` superseded by `tar_format()`. Documented in the `tar_target()` help file.
 * Declare formats `"keras"` and `"torch"` incompatible with `error = "null"`. Documented in the `tar_target()` help file and in a warning thrown by `tar_target()` via `tar_target_raw()`.
+* Add a `convert` argument to `tar_format()` to allow custom `store_convert_object()` methods (#970).
 
 # targets 0.13.5
 

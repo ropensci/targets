@@ -36,6 +36,17 @@
 #'   so it must not rely on any data in the closure.
 #'   This disqualifies functions produced by `Vectorize()`,
 #'   for example.
+#'
+#'   The functions to read and write the object
+#'   should not do any conversions on the object. That is the job
+#'   of the `convert` argument. The `convert` argument is a function
+#'   that accepts the object returned by the command of the target
+#'   and changes it into an acceptable format (e.g. can be
+#'   saved with the `read` function). Working with the `convert`
+#'   function is best because it ensures the in-memory copy
+#'   of an object during the running pipeline session
+#'   is the same as the copy of the object that is saved
+#'   to disk.
 #' @param read A function with a single argument named `path`.
 #'   This function should read and return the target stored
 #'   at the file in the argument. It should have no side effects.
@@ -57,17 +68,27 @@
 #'   on a parallel worker. It should not read or write any persistent files.
 #'   See the Marshalling section for details.
 #'   See the "Format functions" section for specific requirements.
+#' @param convert The `convert` argument is a function
+#'   that accepts the object returned by the command of the target
+#'   and changes it into an acceptable format (e.g. can be
+#'   saved with the `read` function). The `convert`
+#'   ensures the in-memory copy
+#'   of an object during the running pipeline session
+#'   is the same as the copy of the object that is saved
+#'   to disk. The function should be idempotent, and it should
+#'   handle edge cases like `NULL` values (especially for
+#'   `error = "null"` in [tar_target()] or [tar_option_set()]).
 #' @param repository Deprecated. Use the `repository` argument of
 #'   [tar_target()] or [tar_option_set()] instead.
 #' @examples
 #' # The following target is equivalent to the current superseded
 #' # tar_target(name, command(), format = "keras").
-#' # An improved version of this would handle NULL
-#' # objects, which are returned by the target if it
+#' # An improved version of this would supply a `convert` argument
+#' # to handle NULL objects, which are returned by the target if it
 #' # errors and the error argument of tar_target() is "null".
 #' tar_target(
-#'   name,
-#'   command(),
+#'   name = keras_target,
+#'   command = your_function(),
 #'   format = tar_format(
 #'     read = function(path) {
 #'       keras::load_model_hdf5(path)
@@ -84,13 +105,14 @@
 #'   )
 #' )
 #' # And the following is equivalent to the current superseded
-#' # tar_target(name, torch::torch_tensor(seq_len(4)), format = "torch").
-#' # As with the Keras example, an improved version of this would handle NULL
-#' # objects, which are returned by the target if it
-#' # errors and the error argument of tar_target() is "null".
+#' # tar_target(name, torch::torch_tensor(seq_len(4)), format = "torch"),
+#' # except this version has a `convert` argument to handle
+#' # cases when `NULL` is returned (e.g. if the target errors out
+#' # and the `error` argument is "null" in tar_target()
+#' # or tar_option_set())
 #' tar_target(
-#'   name,
-#'   command(),
+#'   name = torch_target,
+#'   command = torch::torch_tensor(),
 #'   format = tar_format(
 #'     read = function(path) {
 #'       torch::torch_load(path)
@@ -124,16 +146,21 @@ tar_format <- function(
   unmarshal = function(object) {
     identity(object) # nocov
   },
+  convert = function(object) {
+    identity(object) # nocov
+  },
   repository = NULL
 ) {
   tar_assert_function(read)
   tar_assert_function(write)
   tar_assert_function(marshal)
   tar_assert_function(unmarshal)
+  tar_assert_function(convert)
   tar_assert_function_arguments(read, "path")
   tar_assert_function_arguments(write, c("object", "path"))
   tar_assert_function_arguments(marshal, "object")
   tar_assert_function_arguments(unmarshal, "object")
+  tar_assert_function_arguments(convert, "object")
   if (!is.null(repository)) {
     tar_warn_deprecate(
       "in targets version > 0.10.0 (2022-03-13) the repository ",
@@ -148,6 +175,7 @@ tar_format <- function(
     tar_format_field("write", write),
     tar_format_field("marshal", marshal),
     tar_format_field("unmarshal", unmarshal),
+    tar_format_field("convert", convert),
     paste0("repository=", repository),
     sep = "&"
   )

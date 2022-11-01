@@ -7,7 +7,8 @@ store_new.format_custom <- function(format, file = NULL, resources = NULL) {
     read = store_custom_field(format, "^read="),
     write = store_custom_field(format, "^write="),
     marshal = store_custom_field(format, "^marshal="),
-    unmarshal = store_custom_field(format, "^unmarshal=")
+    unmarshal = store_custom_field(format, "^unmarshal="),
+    convert = store_custom_field(format, "^convert=")
   )
 }
 
@@ -17,7 +18,8 @@ store_custom_new <- function(
   read = NULL,
   write = NULL,
   marshal = NULL,
-  unmarshal = NULL
+  unmarshal = NULL,
+  convert = NULL
 ) {
   force(file)
   force(resources)
@@ -25,6 +27,7 @@ store_custom_new <- function(
   force(write)
   force(marshal)
   force(unmarshal)
+  force(convert)
   enclass(
     environment(),
     c("tar_store_custom", "tar_nonexportable", "tar_store")
@@ -72,6 +75,14 @@ store_unmarshal_object.tar_store_custom <- function(store, object) {
   )
 }
 
+#' @export
+store_convert_object.tar_store_custom <- function(store, object) {
+  store_custom_call_method(
+    text = store$convert,
+    args = list(object = object)
+  )
+}
+
 store_custom_call_method <- function(text, args) {
   envir <- new.env(parent = baseenv())
   what <- eval(parse(text = text), envir = envir)
@@ -83,7 +94,7 @@ store_validate.tar_store_custom <- function(store) {
   tar_assert_correct_fields(store, store_custom_new)
   store_validate_packages(store)
   tar_assert_list(store$resources)
-  for (field in c("read", "write", "marshal", "unmarshal")) {
+  for (field in c("read", "write", "marshal", "unmarshal", "convert")) {
     tar_assert_chr(store[[field]])
     tar_assert_scalar(store[[field]])
     tar_assert_nzchar(store[[field]])
