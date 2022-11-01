@@ -181,7 +181,7 @@ runtime_class <- R6::R6Class(
       }
       if (!is.null(self$gcp_auth)) {
         tar_assert_scalar(self$gcp_auth)
-        tar_assert_chr(self$gcp_auth)
+        tar_assert_lgl(self$gcp_auth)
         tar_assert_nzchar(self$gcp_auth)
       }
     }
