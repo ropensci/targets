@@ -1,4 +1,4 @@
-# targets 0.13.5.9002
+# targets 0.14.0
 
 * Move `#!/bin/sh` line to the top of SLURM `clustermq` template file (#944, #955, @GiuseppeTT).
 * Add new function `tar_path_script()`.
