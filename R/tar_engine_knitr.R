@@ -194,6 +194,7 @@ engine_knitr_globals_interactive <- function(options) {
   message <- "Run code and assign objects to the environment."
   out_message <- engine_knitr_run_message(options, message)
   options_globals <- options
+  options_globals <- engine_knitr_options(options_globals)
   options_globals$echo <- FALSE
   code <- c(
     "evalq({",
@@ -215,6 +216,7 @@ engine_knitr_globals_noninteractive <- function(options) {
     path_script_r_globals(options$tar_script, options$tar_name),
     "."
   )
+  options <- engine_knitr_options(options)
   engine_knitr_output(options, out)
 }
 
@@ -231,6 +233,7 @@ engine_knitr_targets_interactive <- function(options) {
   code_library <- "library(targets)"
   code_make <- c("targets::tar_make_interactive(", deparse(options$code), ")")
   code_make <- paste(code_make, collapse = "")
+  options_make <- engine_knitr_options(options_make)
   options_make$code <- paste(code_library, code_make, sep = "\n")
   options_make$echo <- FALSE
   out_make <- knitr::knit_engines$get("R")(options = options_make)
@@ -247,17 +250,20 @@ engine_knitr_targets_noninteractive <- function(options) {
     path_script_r_targets(options$tar_script, options$tar_name),
     "."
   )
+  options <- engine_knitr_options(options)
   out <- c(engine_knitr_definition_message(options), out)
   engine_knitr_output(options, out)
 }
 
 engine_knitr_echo_code <- function(options) {
+  options <- engine_knitr_options(options)
   options$eval <- FALSE
   options$results <- "hide"
   knitr::knit_engines$get("R")(options)
 }
 
 engine_knitr_run_message <- function(options, message) {
+  options <- engine_knitr_options(options)
   options$code <- sprintf("message(\"%s\")", message)
   options$echo <- FALSE
   knitr::knit_engines$get("R")(options)
@@ -266,7 +272,7 @@ engine_knitr_run_message <- function(options, message) {
 engine_knitr_output <- function(options, out) {
   code <- paste(options$code, collapse = "\n")
   options$engine <- "r"
-  out <- if_any(options$message, out, character(0))
+  out <- if_any(options$message %|||% TRUE, out, character(0))
   knitr::engine_output(options = options, code = code, out = out)
 }
 
@@ -288,6 +294,18 @@ engine_knitr_interactive_message <- function(options) {
     ),
     "Run targets and assign them to the environment."
   )
+}
+
+engine_knitr_options <- function(options) {
+  options$cache <- FALSE
+  options$fig.keep <- "none"
+  options$include <- options$include %|||% TRUE
+  options$results <- if_any(
+    options$label == "setup",
+    "hide",
+    options$results %|||% "markup"
+  )
+  options
 }
 
 write_targets_r <- function(path_script) {
