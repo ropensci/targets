@@ -7,7 +7,8 @@
 #' tar_debug_instructions()
 tar_debug_instructions <- function() {
   name <- targets::tar_name()
-  expr <- targets::tar_definition()$command$expr[[3]]
+  expr <- targets::tar_definition()$command$expr
+  expr <- if_any(length(expr) >= 3L, expr[3L], NULL)
   text <- paste("    ", targets::tar_deparse_safe(expr))
   cli_mark_info(
     sprintf(
