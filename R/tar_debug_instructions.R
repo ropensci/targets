@@ -7,12 +7,14 @@
 #' tar_debug_instructions()
 tar_debug_instructions <- function() {
   name <- targets::tar_name()
-  expr <- targets::tar_definition()$command$expr$expr[[1]]
+  expr <- targets::tar_definition()$command$expr[[3]]
   text <- paste("    ", targets::tar_deparse_safe(expr))
-  cli_yellow_bullet("pause pipeline")
-  cli_blank(paste("debug target", name))
-  message()
-  cli_mark_info("You are now running an interactive debugger.")
+  cli_mark_info(
+    sprintf(
+      "You are now running an interactive debugger in target %s.",
+      name
+    )
+  )
   cli_blank(
     "You can enter code and print objects as with the normal R console."
   )

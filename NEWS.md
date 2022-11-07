@@ -1,5 +1,6 @@
 # targets 0.14.0.9000
 
+* Fix the command inserted for debug mode (#975).
 * Set empty chunk options to ensure Target Markdown compatibility with the special "setup" chunk (#973, @KaiAragaki).
 
 # targets 0.14.0

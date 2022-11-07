@@ -7,6 +7,31 @@ tar_test("debug mode does not break tar_make()", {
   expect_equal(tar_read(a), "a")
 })
 
+tar_test("debug mode ends with correct target output", {
+  tar_script({
+    tar_option_set(debug = "a")
+    f <- function(x) x
+    list(tar_target(a, f("a")))
+  })
+  tar_make(reporter = "silent", callr_function = NULL)
+  # continue
+  expect_equal(tar_read(a), "a")
+})
+
+tar_test("debug mode works with debug(f)", {
+  tar_script({
+    tar_option_set(debug = "a")
+    f <- function(x) x
+    list(tar_target(a, f("a")))
+  })
+  tar_make(reporter = "silent", callr_function = NULL)
+  # nolint start
+  # debug(f)
+  # c
+  # should be in f()
+  # nolint end
+})
+
 tar_test("debug mode starts a browser()", {
   tar_script({
     envir <- new.env(parent = baseenv())
