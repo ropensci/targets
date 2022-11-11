@@ -68,6 +68,8 @@ have them. These include buds of stems and branches of patterns.
 \item \code{seconds}: number of seconds it took to run the target.
 \item \code{warnings}: character string of warning messages
 from the last run of the target.
+Only the first 50 warnings are available,
+and only the first 2048 characters of the concatenated warning messages.
 \item \code{error}: character string of the error message if the target errored.
 }}
 

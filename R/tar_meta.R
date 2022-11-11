@@ -61,6 +61,8 @@
 #'   * `seconds`: number of seconds it took to run the target.
 #'   * `warnings`: character string of warning messages
 #'     from the last run of the target.
+#'     Only the first 50 warnings are available,
+#'     and only the first 2048 characters of the concatenated warning messages.
 #'   * `error`: character string of the error message if the target errored.
 #' @param targets_only Logical, whether to just show information about targets
 #'   or also return metadata on functions and other global objects.
