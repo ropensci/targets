@@ -2,11 +2,11 @@
 % Please edit documentation in R/tar_destroy.R
 \name{tar_destroy}
 \alias{tar_destroy}
-\title{Destroy all or part of the data store.}
+\title{Destroy the data store.}
 \usage{
 tar_destroy(
   destroy = c("all", "cloud", "local", "meta", "process", "progress", "objects",
-    "scratch", "workspaces"),
+    "scratch", "workspaces", "user"),
   ask = NULL,
   store = targets::tar_config_get("store")
 )
@@ -34,8 +34,11 @@ store but keep progress and metadata.
 Dynamic files are not deleted this way.
 \item \code{"scratch"}: temporary files saved during \code{\link[=tar_make]{tar_make()}} that should
 automatically get deleted except if R crashed.
-\item \code{"workspaces"}: compressed files in \verb{workspaces/} in the data store with
-the saved workspaces of targets. See \code{\link[=tar_workspace]{tar_workspace()}} for details.
+\item \code{"workspaces"}: compressed lightweight files in \verb{workspaces/}
+in the data store with the saved workspaces of targets.
+See \code{\link[=tar_workspace]{tar_workspace()}} for details.
+\item \code{"user"}: custom user-supplied files in the \verb{user/} folder in the
+data store.
 }}
 
 \item{ask}{Logical of length 1, whether to pause with a menu prompt
@@ -53,18 +56,35 @@ about how to set the data store path persistently
 for a project.}
 }
 \value{
-Nothing.
+\code{NULL} (invisibly).
 }
 \description{
-Destroy all or part of the data store written
-by \code{\link[=tar_make]{tar_make()}} and similar functions.
+Destroy the data store written by the pipeline.
 }
 \details{
-\code{tar_destroy()} is a hard reset. Use it if you
-intend to start the pipeline from scratch without
-any trace of a previous run in \verb{_targets/}.
-Global objects and dynamic files outside the
-data store are unaffected.
+The data store is a folder created by \code{\link[=tar_make]{tar_make()}}
+(or \code{\link[=tar_make_future]{tar_make_future()}} or \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}).
+The details of the data store are explained at
+\url{https://books.ropensci.org/targets/data.html#local-data-store}.
+The data store folder contains the output data
+and metadata of the targets in the pipeline. Usually,
+the data store is a folder called \verb{_targets/}
+(see \code{\link[=tar_config_set]{tar_config_set()}} to customize), and it may
+link to data on the cloud if you used AWS or GCP
+buckets. By default, \code{tar_destroy()} deletes the entire
+\verb{_targets/} folder (or wherever the data store is located),
+including custom user-supplied files in \verb{_targets/user/},
+as well as any cloud data that the pipeline uploaded.
+See the \code{destroy} argument to customize this behavior
+and only delete part of the data store, and see functions like
+\code{\link[=tar_invalidate]{tar_invalidate()}}, \code{\link[=tar_delete]{tar_delete()}}, and \code{\link[=tar_prune]{tar_prune()}} to remove
+information pertaining to some but not all targets in the pipeline.
+After calling \code{tar_destroy()} with default arguments,
+the entire data store is gone, which means all the output data from
+previous runs of the pipeline is gone (except for
+input/output files tracked with \code{tar_target(..., format = "file")}).
+The next run of the pipeline will start from scratch,
+and it will not skip any targets.
 }
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {

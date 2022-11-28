@@ -74,6 +74,14 @@ tar_test("tar_destroy('workspaces')", {
   expect_false(file.exists(path))
 })
 
+tar_test("tar_destroy('user')", {
+  path <- file.path("_targets", "user")
+  dir.create(path, recursive = TRUE)
+  expect_true(file.exists(path))
+  tar_destroy(destroy = "user")
+  expect_false(file.exists(path))
+})
+
 tar_test("custom script and store args", {
   skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())

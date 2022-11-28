@@ -3,6 +3,8 @@
 * Fix the command inserted for debug mode (#975).
 * Set empty chunk options to ensure Target Markdown compatibility with the special "setup" chunk (#973, @KaiAragaki).
 * Only store the first 50 warnings in the metadata, and cap the text of the warning messages at 2048 characters (#983, @thejokenott).
+* Enhance the `tar_destroy()` help file (#988, @Sage0614).
+* Implement `destroy = "user"` in `tar_destroy()`.
 
 # targets 0.14.0
 
