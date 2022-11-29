@@ -88,6 +88,19 @@ tar_test("build seeds", {
   }
 })
 
+tar_test("warning character limit", {
+  skip_on_cran()
+  tar_script(
+    tar_target(
+      a,
+      for (i in 1:1e3) warning(paste(rep("a", 65), collapse = ""))
+    )
+  )
+  suppressWarnings(tar_make(callr_function = NULL))
+  out <- tar_meta(a, warnings)$warnings
+  expect_equal(nchar(out), build_message_max_nchar)
+})
+
 tar_test("validate good builds", {
   build <- build_init(quote(1L + 1L), baseenv())
   expect_silent(build_validate(build))

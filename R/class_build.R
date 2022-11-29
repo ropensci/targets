@@ -41,7 +41,7 @@ build_init <- function(
   )
   metrics <- metrics_new(
     seconds = round(build_time_seconds() - start, 3),
-    warnings = state$warnings,
+    warnings = build_message_text(state$warnings),
     error = state$error,
     traceback = state$traceback,
     cancel = state$cancel
@@ -91,8 +91,12 @@ build_time_seconds <- function() {
 }
 
 build_message <- function(condition, prefix = character(0)) {
+  build_message_text(message = conditionMessage(condition), prefix = prefix)
+}
+
+build_message_text <- function(message, prefix = character(0)) {
   out <- substr(
-    paste(c(prefix, conditionMessage(condition)), collapse = " "),
+    paste(c(prefix, message), collapse = " "),
     start = 0L,
     stop = build_message_max_nchar
   )
