@@ -39,9 +39,12 @@ build_init <- function(
     error = function(condition) {
     }
   )
+  if (!is.null(state$warnings)) {
+    state$warnings <- build_message_text_substr(state$warnings)
+  }
   metrics <- metrics_new(
     seconds = round(build_time_seconds() - start, 3),
-    warnings = build_message_text(state$warnings),
+    warnings = state$warnings,
     error = state$error,
     traceback = state$traceback,
     cancel = state$cancel
@@ -91,16 +94,19 @@ build_time_seconds <- function() {
 }
 
 build_message <- function(condition, prefix = character(0)) {
-  build_message_text(message = conditionMessage(condition), prefix = prefix)
+  out <- build_message_text_substr(
+    message = conditionMessage(condition),
+    prefix = prefix
+  )
+  if_any(nzchar(out), out, ".")
 }
 
-build_message_text <- function(message, prefix = character(0)) {
-  out <- substr(
+build_message_text_substr <- function(message, prefix = character(0)) {
+  substr(
     paste(c(prefix, message), collapse = " "),
     start = 0L,
     stop = build_message_max_nchar
   )
-  if_any(nzchar(out), out, ".")
 }
 
 build_validate <- function(build) {
