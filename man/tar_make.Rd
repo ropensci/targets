@@ -119,6 +119,7 @@ back into R, and see
 to manage output files.
 }
 \examples{
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script({
   tar_option_set()
@@ -134,8 +135,9 @@ tar_script({
   )
 }, ask = FALSE)
 prefix <- "y"
-tar_make(starts_with(!!prefix)) # Only builds y1 and y2.
+tar_make(starts_with(!!prefix)) # Only processes y1 and y2.
 })
+}
 }
 \seealso{
 Other pipeline: 
