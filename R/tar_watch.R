@@ -131,7 +131,7 @@ tar_watch <- function(
     url_port(host = host, port = port,  process = process, verbose = verbose)
   }
   if (verbose) {
-    cli_port(host = host, port = port)
+    cli_port(host = as.character(host), port = as.character(port))
   }
   invisible(process)
 }
