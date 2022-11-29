@@ -143,7 +143,7 @@ mermaid_class <- R6::R6Class(
       from <- produce_mermaid_vertices_graph(side = "from")
       to <- produce_mermaid_vertices_graph(side = "to")
       out <- sprintf("    %s --> %s", from, to)
-      out <- c("  subgraph Graph", out, "  end")
+      out <- c("  subgraph Graph", "    direction LR", out, "  end")
     },
     produce_mermaid_lines_legend = function() {
       vertices <- produce_mermaid_vertices(self$legend)
@@ -153,7 +153,7 @@ mermaid_class <- R6::R6Class(
       from <- vertices[-length(vertices)]
       to <- vertices[-1]
       out <- sprintf("    %s --- %s", from, to)
-      out <- c("  subgraph legend", out, "  end")
+      out <- c("  subgraph legend", "    direction LR", out, "  end")
     },
     produce_visual = function() {
       if (nrow(self$network$vertices) < 1L) {
