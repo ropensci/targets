@@ -33,9 +33,10 @@ callr_error <- function(condition, fun) {
   message <- sprintf(
     paste0(
       "Error running targets::%s()\n",
-      "  Target errors: ",
+      "  Error messages: ",
       "targets::tar_meta(fields = error, complete_only = TRUE)\n",
-      "  Tips: https://books.ropensci.org/targets/debugging.html\n",
+      "  Debugging guide: https://books.ropensci.org/targets/debugging.html\n",
+      "  Ask for help: https://books.ropensci.org/targets/debugging.html#help\n", # nolint
       "  Last error: %s"
     ),
     fun,
