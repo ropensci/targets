@@ -339,7 +339,7 @@ builder_error_exit <- function(target, pipeline, scheduler, meta) {
     pipeline$targets <- NULL
   }
   # Keep this:
-  tar_throw_run(target$metrics$error)
+  tar_throw_run(target$metrics$error, class = target$metrics$error_class)
 }
 
 builder_error_null <- function(target, pipeline, scheduler, meta) {

@@ -42,7 +42,7 @@ callr_error <- function(condition, fun) {
     fun,
     conditionMessage(condition)
   )
-  tar_throw_run(message)
+  tar_throw_run(message, class = class(condition))
 }
 
 callr_dispatch <- function(

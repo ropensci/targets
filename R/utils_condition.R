@@ -45,10 +45,13 @@ tar_throw_prelocal <- function(...) {
 
 #' @export
 #' @rdname tar_condition
-tar_throw_run <- function(...) {
+tar_throw_run <- function(..., class = character(0)) {
   tar_error(
     message = paste0(...),
-    class = c("tar_condition_run", "tar_condition_targets")
+    class = base::union(
+      custom_error_classes(class),
+      c("tar_condition_run", "tar_condition_targets")
+    )
   )
 }
 
@@ -116,3 +119,12 @@ as_immediate_condition <- function(x) {
   x$call <- NULL
   enclass(x, "immediateCondition")
 }
+
+custom_error_classes <- function(class) {
+  setdiff(class, default_error_classes)
+}
+
+default_error_classes <- tryCatch(
+  rlang::abort("msg", class = NULL),
+  error = function(condition) class(condition)
+)

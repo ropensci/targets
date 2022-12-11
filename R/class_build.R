@@ -7,6 +7,7 @@ build_init <- function(
 ) {
   capture_error <- function(condition) {
     state$error <- build_message(condition)
+    state$error_class <- class(condition)
     state$traceback <- build_traceback(condition, sys.calls())
     NULL
   }
@@ -46,6 +47,7 @@ build_init <- function(
     seconds = round(build_time_seconds() - start, 3),
     warnings = state$warnings,
     error = state$error,
+    error_class = state$error_class,
     traceback = state$traceback,
     cancel = state$cancel
   )

@@ -292,7 +292,7 @@ tar_test("validate url format", {
 })
 
 tar_test("url and NULL", {
-  skip_on_cran()
+  skip_cran()
   tar_script(tar_target(x, NULL, format = "url", memory = "persistent"))
   tar_make(callr_function = NULL)
   expect_equal(tar_read(x), character(0))
