@@ -96,7 +96,7 @@ tar_test("files can be empty (#728)", {
 })
 
 tar_test("file and NULL", {
-  skip_on_cran()
+  skip_cran()
   tar_script(
     list(
       tar_target(x, NULL, format = "file", memory = "persistent"),

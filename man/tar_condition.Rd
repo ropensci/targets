@@ -18,7 +18,7 @@ tar_message_run(...)
 
 tar_throw_file(...)
 
-tar_throw_run(...)
+tar_throw_run(..., class = character(0))
 
 tar_throw_validate(...)
 
@@ -39,9 +39,9 @@ tar_message(message, class)
     (and which are pasted together with no separator) or a single
     condition object.}
 
-\item{message}{Character of length 1, text of the message.}
-
 \item{class}{Character vector of S3 classes of the message.}
+
+\item{message}{Character of length 1, text of the message.}
 }
 \description{
 These functions throw custom

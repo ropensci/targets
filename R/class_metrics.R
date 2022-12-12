@@ -2,12 +2,14 @@ metrics_new <- function(
   seconds = NULL,
   warnings = NULL,
   error = NULL,
+  error_class = NULL,
   traceback = NULL,
   cancel = NULL
 ) {
   force(seconds)
   force(warnings)
   force(error)
+  force(error_class)
   force(traceback)
   force(cancel)
   environment()
@@ -43,6 +45,7 @@ metrics_validate <- function(metrics) {
   tar_assert_scalar(metrics$seconds)
   tar_assert_chr(metrics$warnings %|||% character(0))
   tar_assert_chr(metrics$error %|||% character(0))
+  tar_assert_chr(metrics$error_class %|||% character(0))
   tar_assert_chr(metrics$traceback %|||% character(0))
   tar_assert_lgl(metrics$cancel %|||% FALSE)
   invisible()

@@ -135,7 +135,7 @@ tar_test("deprecated: aws custom store is valid", {
 })
 
 tar_test("class_store_custom convert function with rds", {
-  skip_on_cran()
+  skip_cran()
   tar_script({
     format <- tar_format(
       convert = function(object) {

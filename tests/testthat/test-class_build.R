@@ -89,7 +89,7 @@ tar_test("build seeds", {
 })
 
 tar_test("warning character limit", {
-  skip_on_cran()
+  skip_cran()
   tar_script(
     tar_target(
       a,
