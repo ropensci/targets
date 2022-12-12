@@ -126,7 +126,8 @@ cli_warned <- function(warned) {
   tar_warn_run(
     warned,
     " targets produced warnings. ",
-    "Run tar_meta(fields = warnings, complete_only = TRUE) for the messages."
+    "Run targets::tar_meta(fields = warnings, complete_only = TRUE) ",
+    "for the messages."
   )
 }
 
