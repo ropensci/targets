@@ -32,6 +32,19 @@
 #'   its own self-contained `R` library separate from your standard `R`
 #'   library. See <https://rstudio.github.io/renv/index.html> for
 #'   more information.
+#' @section Performance:
+#'   If you use `renv`, then overhead from project initialization
+#'   could slow down [tar_make()] and friends.
+#'   Fortunately, you can restore efficiency by disabling
+#'   the slowest initialization checks. After confirming at
+#'   <https://rstudio.github.io/renv/reference/config.html>
+#'   that you can safely disable these checks,
+#'   you can write lines `RENV_CONFIG_RSPM_ENABLED=false`,
+#'   `RENV_CONFIG_SANDBOX_ENABLED=false`,
+#'   and `RENV_CONFIG_SYNCHRONIZED_CHECK=false`
+#'   in your user-level `.Renviron` file. If you disable the synchronization
+#'   check, remember to call `renv::status()` periodically
+#'   to check the health of your `renv` project library.
 #' @return Nothing, invisibly.
 #' @inheritParams tar_validate
 #' @param extras Character vector of additional packages to declare as

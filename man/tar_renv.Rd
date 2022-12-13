@@ -96,6 +96,22 @@ its own self-contained \code{R} library separate from your standard \code{R}
 library. See \url{https://rstudio.github.io/renv/index.html} for
 more information.
 }
+\section{Performance}{
+
+If you use \code{renv}, then overhead from project initialization
+could slow down \code{\link[=tar_make]{tar_make()}} and friends.
+Fortunately, you can restore efficiency by disabling
+the slowest initialization checks. After confirming at
+\url{https://rstudio.github.io/renv/reference/config.html}
+that you can safely disable these checks,
+you can write lines \code{RENV_CONFIG_RSPM_ENABLED=false},
+\code{RENV_CONFIG_SANDBOX_ENABLED=false},
+and \code{RENV_CONFIG_SYNCHRONIZED_CHECK=false}
+in your user-level \code{.Renviron} file. If you disable the synchronization
+check, remember to call \code{renv::status()} periodically
+to check the health of your \code{renv} project library.
+}
+
 \examples{
 tar_dir({ # tar_dir() runs code from a temporary directory.
   tar_script({
