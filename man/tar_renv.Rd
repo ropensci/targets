@@ -100,8 +100,11 @@ more information.
 
 If you use \code{renv}, then overhead from project initialization
 could slow down \code{\link[=tar_make]{tar_make()}} and friends.
-Fortunately, you can restore efficiency by disabling
-the slowest initialization checks. After confirming at
+If you experience slowness, please make sure your \code{renv} library
+is on a fast file system.
+(For example, slow network drives can severely reduce performance.)
+In addition, you can disable the slowest \code{renv} initialization checks.
+After confirming at
 \url{https://rstudio.github.io/renv/reference/config.html}
 that you can safely disable these checks,
 you can write lines \code{RENV_CONFIG_RSPM_ENABLED=false},
