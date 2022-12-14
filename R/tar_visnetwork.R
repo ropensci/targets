@@ -3,6 +3,7 @@
 #' @family visualize
 #' @description Visualize the pipeline dependency graph with a `visNetwork`
 #'   HTML widget.
+#' @inheritSection tar_network Dependency graph
 #' @return A `visNetwork` HTML widget object.
 #' @inheritParams tar_glimpse
 #' @inheritParams tar_network

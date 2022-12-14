@@ -8,6 +8,7 @@
 #'   metadata or progress information, which means the graph
 #'   renders faster. Also, `tar_glimpse()` omits functions and other global
 #'   objects by default (but you can include them with `targets_only = FALSE`).
+#' @inheritSection tar_network Dependency graph
 #' @return A `visNetwork` HTML widget object.
 #' @inheritParams tar_network
 #' @param targets_only Logical, whether to restrict the output to just targets

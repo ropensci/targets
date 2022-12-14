@@ -75,7 +75,6 @@ reference:
   - '`tar_deps`'
   - '`tar_deps_raw`'
   - '`tar_manifest`'
-  - '`tar_network`'
   - '`tar_outdated`'
   - '`tar_sitrep`'
   - '`tar_validate`'
@@ -83,6 +82,7 @@ reference:
   contents:
   - '`tar_glimpse`'
   - '`tar_mermaid`'
+  - '`tar_network`'
   - '`tar_visnetwork`'
 - title: Clean
   contents:

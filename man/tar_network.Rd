@@ -136,6 +136,22 @@ Analyze the pipeline defined in the target script file
 and return the vertices and edges of the directed acyclic graph
 of dependency relationships.
 }
+\section{Dependency graph}{
+
+The dependency graph of a pipeline is a directed acyclic graph (DAG)
+where each node indicates a target or global object and each directed
+edge indicates where a downstream node depends on an upstream node.
+The DAG is not always a tree, but it never contains a cycle because
+no target is allowed to directly or indirectly depend on itself.
+The dependency graph should show a natural progression of work from
+left to right. \code{targets} uses static code analysis to build the graph,
+so the order of \code{tar_target()} calls in the \verb{_targets.R} file
+does not matter. However, targets does not support self-referential
+loops or other cycles. For more information on the dependency graph,
+please read
+\url{https://books.ropensci.org/targets/targets.html#dependencies}.
+}
+
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
