@@ -130,7 +130,7 @@ see the \code{future.batchtools} package documentation.
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temporary directory.
 tar_script({
-  future::plan(future::multiprocess, workers = 2)
+  future::plan(future::multisession, workers = 2)
   list(
     tar_target(x, 1 + 1),
     tar_target(y, 1 + 1)
