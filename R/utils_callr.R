@@ -36,7 +36,7 @@ callr_error <- function(condition, fun) {
       "  Error messages: ",
       "targets::tar_meta(fields = error, complete_only = TRUE)\n",
       "  Debugging guide: https://books.ropensci.org/targets/debugging.html\n",
-      "  Ask for help: https://books.ropensci.org/targets/debugging.html#help\n", # nolint
+      "  How to ask for help: https://books.ropensci.org/targets/help.html\n",
       "  Last error: %s"
     ),
     fun,
