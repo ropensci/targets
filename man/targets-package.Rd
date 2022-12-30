@@ -7,8 +7,8 @@
 \description{
 A pipeline toolkit for Statistics and data science in R,
 the \code{targets} package brings function-oriented programming to
-Make-like declarative workflows. \code{targets} orchestrates a pipeline
-as a directed acyclic graph of dependencies,
+Make-like declarative pipelines. \code{targets} orchestrates a pipeline
+as a graph of dependencies,
 skips steps that are already up to date, runs the necessary
 computations with optional parallel workers, abstracts files as
 R objects, and provides tangible evidence that the results are
