@@ -1,5 +1,8 @@
-lank_issues_enabled: true
+blank_issues_enabled: false
 contact_links:
+  - name: Please read first:
+    url: https://books.ropensci.org/targets/help.html
+    about: How to ask for help.
   - name: General
     url: https://github.com/ropensci/targets/discussions/categories/general
     about: Chat about targets.
