@@ -94,120 +94,110 @@ To create a pipeline of your own:
 
 ## Documentation
 
--   [User manual](https://books.ropensci.org/targets/): in-depth
-    discussion about how to use `targets`.
--   [Reference website](https://docs.ropensci.org/targets/): formal
-    documentation of all user-side functions, the statement of need, and
-    multiple design documents of the internal architecture.
--   [Developer
-    documentation](https://books.ropensci.org/targets-design/): software
-    design documents for developers contributing to the deep internal
-    architecture of `targets`.
+- [User manual](https://books.ropensci.org/targets/): in-depth
+  discussion about how to use `targets`. The most important chapters are
+  the
+  [walkthrough](https://books.ropensci.org/targets/walkthrough.html),
+  [help guide](https://books.ropensci.org/targets/help.html), and
+  [debugging guide](https://books.ropensci.org/targets/debugging.html).
+- [Reference website](https://docs.ropensci.org/targets/): formal
+  documentation of all user-side functions, the statement of need, and
+  multiple design documents of the internal architecture.
+- [Developer documentation](https://books.ropensci.org/targets-design/):
+  software design documents for developers contributing to the deep
+  internal architecture of `targets`.
+
+## Help
+
+Please read the [help
+guide](https://books.ropensci.org/targets/help.html) to learn how best
+to ask for help using `targets`.
 
 ## Courses
 
--   [Official half-day interactive
-    tutorial](https://github.com/wlandau/targets-tutorial).
+- [Official half-day interactive
+  tutorial](https://github.com/wlandau/targets-tutorial).
 
 ## Recorded talks
 
 ### English
 
--   [Get started with `targets` in 4 minutes
-    (4:08)](https://vimeo.com/700982360)
--   [R/Medicine 2021 (15.33)](https://youtu.be/HJI5mQJRGpY)
--   [R/Pharma 2020
-    (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
--   [LA R Users Meetup, October 2020
-    (1:14:40)](https://www.youtube.com/watch?v=Qq25BUxpJu4)
--   [New York Open Statistical Programming Meetup, December 2020
-    (1:54:28)](https://youtu.be/Gqn7Xn4d5NI)
--   [ds-incubator series,
-    2021](https://www.youtube.com/playlist?list=PLvgdJdJDL-APJqHy5CXs6m4N7hUVp5rb4)
--   [Lille R User Group, June 2021
-    (45:54)](https://youtu.be/FODSavXGjYg)
+- [Get started with `targets` in 4 minutes
+  (4:08)](https://vimeo.com/700982360)
+- [R/Medicine 2021 (15.33)](https://youtu.be/HJI5mQJRGpY)
+- [R/Pharma 2020
+  (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
+- [LA R Users Meetup, October 2020
+  (1:14:40)](https://www.youtube.com/watch?v=Qq25BUxpJu4)
+- [New York Open Statistical Programming Meetup, December 2020
+  (1:54:28)](https://youtu.be/Gqn7Xn4d5NI)
+- [ds-incubator series,
+  2021](https://www.youtube.com/playlist?list=PLvgdJdJDL-APJqHy5CXs6m4N7hUVp5rb4)
+- [Lille R User Group, June 2021 (45:54)](https://youtu.be/FODSavXGjYg)
 
 ### Español
 
--   [R-Ladies Barcelona, 2021-05-25
-    (1:25:12)](https://www.youtube.com/watch?v=Vj312AfdpBo).
+- [R-Ladies Barcelona, 2021-05-25
+  (1:25:12)](https://www.youtube.com/watch?v=Vj312AfdpBo).
 
 ### 日本語
 
--   [Bio"Pack"athon, 2022-03-31
-    (1:04:10)](https://togotv.dbcls.jp/20220331.html)
+- [Bio”Pack”athon, 2022-03-31
+  (1:04:10)](https://togotv.dbcls.jp/20220331.html)
 
 ## Example projects
 
--   [Four-minute
-    example](https://github.com/wlandau/targets-four-minutes)
--   [Minimal example](https://github.com/wlandau/targets-minimal)
--   [Machine learning with
-    Keras](https://github.com/wlandau/targets-keras)
--   [Validate a minimal Stan
-    model](https://github.com/wlandau/targets-stan)
--   [Using Target Markdown and `stantargets` to validate a Bayesian
-    longitudinal model for clinical trial data
-    analysis](https://github.com/wlandau/rmedicine2021-pipeline)
--   [Shiny app that runs a
-    pipeline](https://github.com/wlandau/targets-shiny)
--   [Deploy a pipeline to RStudio
-    Connect](https://github.com/sol-eng/targets-deployment-rsc)
+- [Four-minute example](https://github.com/wlandau/targets-four-minutes)
+- [Minimal example](https://github.com/wlandau/targets-minimal)
+- [Machine learning with
+  Keras](https://github.com/wlandau/targets-keras)
+- [Validate a minimal Stan
+  model](https://github.com/wlandau/targets-stan)
+- [Using Target Markdown and `stantargets` to validate a Bayesian
+  longitudinal model for clinical trial data
+  analysis](https://github.com/wlandau/rmedicine2021-pipeline)
+- [Shiny app that runs a
+  pipeline](https://github.com/wlandau/targets-shiny)
+- [Deploy a pipeline to RStudio
+  Connect](https://github.com/sol-eng/targets-deployment-rsc)
 
 ## Apps
 
--   [`tar_watch()`](https://docs.ropensci.org/targets/reference/tar_watch.html):
-    a built-in Shiny app to visualize progress while a pipeline is
-    running. Available as a Shiny module via
-    [`tar_watch_ui()`](https://docs.ropensci.org/targets/reference/tar_watch_ui.html)
-    and
-    [`tar_watch_server()`](https://docs.ropensci.org/targets/reference/tar_watch_server.html).
--   [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny
-    app to help sketch pipelines
-    ([app](https://wlandau.shinyapps.io/targetsketch),
-    [source](https://github.com/wlandau/targetsketch)).
+- [`tar_watch()`](https://docs.ropensci.org/targets/reference/tar_watch.html):
+  a built-in Shiny app to visualize progress while a pipeline is
+  running. Available as a Shiny module via
+  [`tar_watch_ui()`](https://docs.ropensci.org/targets/reference/tar_watch_ui.html)
+  and
+  [`tar_watch_server()`](https://docs.ropensci.org/targets/reference/tar_watch_server.html).
+- [`targetsketch`](https://wlandau.shinyapps.io/targetsketch): a Shiny
+  app to help sketch pipelines
+  ([app](https://wlandau.shinyapps.io/targetsketch),
+  [source](https://github.com/wlandau/targetsketch)).
 
 ## Deployment
 
--   <https://solutions.rstudio.com/r/workflows/> explains how to deploy
-    a pipeline to RStudio Connect ([example
-    code](https://github.com/sol-eng/targets-deployment-rsc)).
--   [`tar_github_actions()`](https://docs.ropensci.org/targets/reference/tar_github_actions.html)
-    sets up a pipeline to run on GitHub Actions. The [minimal
-    example](https://github.com/wlandau/targets-minimal) demonstrates
-    this approach.
+- <https://solutions.rstudio.com/r/workflows/> explains how to deploy a
+  pipeline to RStudio Connect ([example
+  code](https://github.com/sol-eng/targets-deployment-rsc)).
+- [`tar_github_actions()`](https://docs.ropensci.org/targets/reference/tar_github_actions.html)
+  sets up a pipeline to run on GitHub Actions. The [minimal
+  example](https://github.com/wlandau/targets-minimal) demonstrates this
+  approach.
 
 ## Extending and customizing targets
 
--   [R Targetopia](https://wlandau.github.io/targetopia/): a collection
-    of [R packages](https://wlandau.github.io/targetopia/packages.html)
-    that extend `targets`. [These
-    packages](https://wlandau.github.io/targetopia/packages.html)
-    simplify pipeline construction for specific fields of Statistics and
-    data science.
--   [Target
-    factories](https://wlandau.github.io/targetopia/contributing.html#target-factories):
-    a programming technique to write specialized interfaces for custom
-    pipelines. Posts
-    [here](https://ropensci.org/blog/2021/02/03/targets/) and
-    [here](https://wlandau.github.io/targetopia/contributing.html)
-    describe how.
-
-## Help
-
--   Post to the [GitHub discussion
-    forum](https://github.com/ropensci/targets/discussions) to ask
-    questions. To get the best help about a specific issue, create a
-    reproducible example with
-    [`targets::tar_reprex()`](https://docs.ropensci.org/targets/reference/tar_reprex.html)
-    or
-    [`reprex::reprex()`](https://reprex.tidyverse.org/reference/reprex.html).
--   The [RStudio Community](https://community.rstudio.com/) forum is
-    full of friendly enthusiasts of R and the tidyverse. Use the
-    [`targets` tag](https://community.rstudio.com/tag/targets).
--   [Stack Overflow](https://stackoverflow.com/) broadcasts to the
-    entire open source community. Use the [`targets-r-package`
-    tag](https://stackoverflow.com/questions/tagged/targets-r-package).
+- [R Targetopia](https://wlandau.github.io/targetopia/): a collection of
+  [R packages](https://wlandau.github.io/targetopia/packages.html) that
+  extend `targets`. [These
+  packages](https://wlandau.github.io/targetopia/packages.html) simplify
+  pipeline construction for specific fields of Statistics and data
+  science.
+- [Target
+  factories](https://wlandau.github.io/targetopia/contributing.html#target-factories):
+  a programming technique to write specialized interfaces for custom
+  pipelines. Posts [here](https://ropensci.org/blog/2021/02/03/targets/)
+  and [here](https://wlandau.github.io/targetopia/contributing.html)
+  describe how.
 
 ## Code of conduct
 

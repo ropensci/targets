@@ -60,9 +60,13 @@ To create a pipeline of your own:
 
 ## Documentation
 
-* [User manual](https://books.ropensci.org/targets/): in-depth discussion about how to use `targets`.
+* [User manual](https://books.ropensci.org/targets/): in-depth discussion about how to use `targets`. The most important chapters are the [walkthrough](https://books.ropensci.org/targets/walkthrough.html), [help guide](https://books.ropensci.org/targets/help.html), and [debugging guide](https://books.ropensci.org/targets/debugging.html).
 * [Reference website](https://docs.ropensci.org/targets/): formal documentation of all user-side functions, the statement of need, and multiple design documents of the internal architecture.
 * [Developer documentation](https://books.ropensci.org/targets-design/): software design documents for developers contributing to the deep internal architecture of `targets`.
+
+## Help
+
+Please read the [help guide](https://books.ropensci.org/targets/help.html) to learn how best to ask for help using `targets`.
 
 ## Courses
 
@@ -113,12 +117,6 @@ To create a pipeline of your own:
 
 * [R Targetopia](https://wlandau.github.io/targetopia/): a collection of [R packages](https://wlandau.github.io/targetopia/packages.html) that extend `targets`. [These packages](https://wlandau.github.io/targetopia/packages.html) simplify pipeline construction for specific fields of Statistics and data science.
 * [Target factories](https://wlandau.github.io/targetopia/contributing.html#target-factories): a programming technique to write specialized interfaces for custom pipelines. Posts [here](https://ropensci.org/blog/2021/02/03/targets/) and [here](https://wlandau.github.io/targetopia/contributing.html) describe how.
-
-## Help
-
-* Post to the [GitHub discussion forum](https://github.com/ropensci/targets/discussions) to ask questions. To get the best help about a specific issue, create a reproducible example with  [`targets::tar_reprex()`](https://docs.ropensci.org/targets/reference/tar_reprex.html) or  [`reprex::reprex()`](https://reprex.tidyverse.org/reference/reprex.html). 
-* The [RStudio Community](https://community.rstudio.com/) forum is full of friendly enthusiasts of R and the tidyverse. Use the [`targets` tag](https://community.rstudio.com/tag/targets).
-* [Stack Overflow](https://stackoverflow.com/) broadcasts to the entire open source community. Use the [`targets-r-package` tag](https://stackoverflow.com/questions/tagged/targets-r-package).
 
 ## Code of conduct
 

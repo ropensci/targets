@@ -21,6 +21,10 @@ The top of the [reference website](https://docs.ropensci.org/targets/) links to 
 
 The [user manual](https://books.ropensci.org/targets/) starts with a  [walkthrough](https://books.ropensci.org/targets/walkthrough.html) chapter, a short tutorial to quickly started with `targets` using a simple example project. That project also has a [repository](https://github.com/wlandau/targets-minimal) with the source code and an [RStudio Cloud workspace](https://rstudio.cloud/project/1430691) that lets you try out the workflow in a web browser. Sign up for a free RStudio Cloud account, click on the link, and try out functions `tar_make()` and `tar_read()` in the R console.
 
+## Help
+
+The [help guide](https://books.ropensci.org/targets/help.html) explains how to best get help using `targets`, including reproducible examples and where to post.
+
 ## Debugging
 
 The [debugging chapter](https://books.ropensci.org/targets/debugging.html) describes two alternative built-in systems for troubleshooting errors. The first system uses workspaces, which let you load a target's dependencies into you R session. This way is usually preferred, especially with large pipelines on computing clusters, but it still may require some manual work. The second system launches an interactive debugger while the pipeline is actually running, which may not be feasible in some situations, but can often help you reach the problem more quickly.
