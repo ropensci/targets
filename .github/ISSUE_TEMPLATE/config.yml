@@ -1,6 +1,6 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Please read first:
+  - name: Please read first
     url: https://books.ropensci.org/targets/help.html
     about: How to ask for help.
   - name: General
