@@ -1,6 +1,7 @@
-# targets 0.14.1.9000
+# targets 0.14.2
 
 * Forward user-level custom error conditions to the top of the pipeline (#997, @alexverse).
+* Link to the help page of the manual.
 
 # targets 0.14.1
 
