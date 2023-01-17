@@ -1,5 +1,5 @@
-title: "[general] "
-labels: ["general"]
+title: "[ideas] "
+labels: ["ideas"]
 body:
 - type: checkboxes
   attributes:
@@ -10,5 +10,5 @@ body:
 - type: textarea
   attributes:
     label: "Description"
-    description: "Please describe your topic and provide a reprex if troubleshooting."
-    value: "Please describe your topic and provide a reprex if troubleshooting."
+    description: "Please describe your idea and provide a reprex if troubleshooting."
+    value: "Please describe your idea and provide a reprex if troubleshooting."
