@@ -10,7 +10,7 @@ body:
 - type: textarea
   attributes:
     label: Description
- #   description: 
+    description: Please introduce your topic.
     value: ""
   validations:
     required: true
