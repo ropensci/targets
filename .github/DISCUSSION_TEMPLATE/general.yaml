@@ -11,4 +11,4 @@ body:
   attributes:
     label: "Description"
     description: "Please introduce your topic."
-    value: ""
+    value: "Please describe your topic."
