@@ -5,4 +5,4 @@ body:
   attributes:
     label: "Help"
     options:
-    - label: Name
+    - label: "I understand and agree to <https://books.ropensci.org/targets/help.html>."
