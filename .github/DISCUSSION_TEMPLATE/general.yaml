@@ -3,5 +3,6 @@ labels: ["General"]
 body:
 - type: checkboxes
   attributes:
+    label: "Help"
     options:
     - label: Name
