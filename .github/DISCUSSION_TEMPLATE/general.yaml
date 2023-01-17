@@ -12,5 +12,3 @@ body:
     label: Description
     description: Please introduce your topic.
     value: ""
-  validations:
-    required: true
