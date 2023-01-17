@@ -3,10 +3,9 @@ labels: ["General"]
 body:
 - type: checkboxes
   attributes:
-    label: Help page
+    label: "Help page"
     options:
     - label: "I understand and agree to <https://books.ropensci.org/targets/help.html>."
-      required: true
 - type: textarea
   attributes:
     label: Description
