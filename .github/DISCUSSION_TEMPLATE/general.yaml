@@ -1,0 +1,16 @@
+title: "[General] "
+labels: ["General"]
+body:
+- type: checkboxes
+  attributes:
+    label: Help page
+    options:
+    - label: "I have read <https://books.ropensci.org/targets/help.html>"
+      required: true
+- type: textarea
+  attributes:
+    label: Description
+ #   description: 
+    value: ""
+  validations:
+    required: true
