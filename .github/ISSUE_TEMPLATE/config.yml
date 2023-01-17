@@ -1,6 +1,6 @@
 blank_issues_enabled: false
 contact_links:
-  - name: 1. How to ask for help. Please read first.
+  - name: How to ask for help. Please read first.
     url: https://books.ropensci.org/targets/help.html
     about: This page explains how and where to write questions about specific issues.
   - name: Discussions
