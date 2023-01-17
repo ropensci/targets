@@ -6,3 +6,4 @@ body:
     label: "Help"
     options:
     - label: "I understand and agree to <https://books.ropensci.org/targets/help.html>."
+      required: true
