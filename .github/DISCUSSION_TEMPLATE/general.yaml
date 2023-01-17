@@ -5,7 +5,7 @@ body:
   attributes:
     label: Help page
     options:
-    - label: "I have read <https://books.ropensci.org/targets/help.html>"
+    - label: "I understand and agree to <https://books.ropensci.org/targets/help.html>."
       required: true
 - type: textarea
   attributes:
