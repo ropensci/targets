@@ -7,9 +7,4 @@ body:
     options:
     - label: "I understand and agree to <https://books.ropensci.org/targets/help.html>."
       required: true
-- type: textarea
-  attributes:
-    label: "Description"
-    description: "Please introduce your topic."
-    value: ""
-    required: true
+
