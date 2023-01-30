@@ -104,10 +104,18 @@ build_message <- function(condition, prefix = character(0)) {
 }
 
 build_message_text_substr <- function(message, prefix = character(0)) {
-  substr(
-    paste(c(prefix, message), collapse = " "),
-    start = 0L,
-    stop = build_message_max_nchar
+  tryCatch(
+    substr(
+      paste(c(prefix, message), collapse = " "),
+      start = 0L,
+      stop = build_message_max_nchar
+    ),
+    error = function(condition) {
+      paste(
+        "targets could not process the error or warning message",
+        "due to a text encoding issue."
+      )
+    }
   )
 }
 

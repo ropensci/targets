@@ -1,6 +1,6 @@
 # targets 0.14.2.9000
 
-
+* Handle encoding errors while trying to process error and warning messages (#1019, @adrian-quintario).
 
 # targets 0.14.2
 

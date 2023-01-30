@@ -111,3 +111,13 @@ tar_test("validate builds with bad metrics", {
   build$metrics$seconds <- NULL
   expect_error(build_validate(build), class = "tar_condition_validate")
 })
+
+tar_test("encoding issue error handling", {
+  suppressWarnings(
+    build <- build_init(
+      quote(warning("<<\"pT\xbf\xbfD\x80QY\x94C\xd1")),
+      baseenv()
+    )
+  )
+  expect_true(grepl("text encoding issue", build$metrics$warnings))
+})
