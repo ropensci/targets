@@ -124,6 +124,8 @@ to ask for help using `targets`.
 
 - [Get started with `targets` in 4 minutes
   (4:08)](https://vimeo.com/700982360)
+- [{targets} in
+  Action](https://ropensci.org/commcalls/jan2023-targets/).
 - [R/Medicine 2021 (15.33)](https://youtu.be/HJI5mQJRGpY)
 - [R/Pharma 2020
   (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
