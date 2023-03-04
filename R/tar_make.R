@@ -78,10 +78,6 @@ tar_make <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
-  
- library(conflicted)
-  browser()
-  
   force(envir)
   tar_assert_scalar(shortcut)
   tar_assert_lgl(shortcut)
