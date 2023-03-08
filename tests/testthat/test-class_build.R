@@ -107,12 +107,14 @@ tar_test("validate good builds", {
 })
 
 tar_test("validate builds with bad metrics", {
+  skip_cran()
   build <- build_init(quote(1L + 1L), baseenv())
   build$metrics$seconds <- NULL
   expect_error(build_validate(build), class = "tar_condition_validate")
 })
 
 tar_test("encoding issue error handling", {
+  skip_cran()
   suppressWarnings(
     build <- build_init(
       quote(warning("<<\"pT\xbf\xbfD\x80QY\x94C\xd1")),
