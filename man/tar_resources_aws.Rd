@@ -107,6 +107,7 @@ supply non-default resources to \code{tar_target()}.)
 
 \examples{
 # Somewhere in you target script file (usually _targets.R):
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 tar_target(
   name,
   command(),
@@ -117,6 +118,7 @@ tar_target(
     qs = tar_resources_qs(preset = "fast")
   )
 )
+}
 }
 \seealso{
 Other resources: 

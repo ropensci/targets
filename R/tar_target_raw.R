@@ -47,18 +47,18 @@
 #'   `string` to ignore changes in certain parts of the command.
 #'   If `NULL`, the strings is just deparsed from `command` (default).
 #' @examples
-#'   # The following are equivalent.
-#'   y <- tar_target(y, sqrt(x), pattern = map(x))
-#'   y <- tar_target_raw("y", expression(sqrt(x)), expression(map(x)))
-#'   # Programmatically create a chain of interdependent targets
-#'   target_list <- lapply(seq_len(4), function(i) {
-#'     tar_target_raw(
-#'       letters[i + 1],
-#'       substitute(do_something(x), env = list(x = as.symbol(letters[i])))
-#'     )
-#'   })
-#'   print(target_list[[1]])
-#'   print(target_list[[2]])
+#' # The following are equivalent.
+#' y <- tar_target(y, sqrt(x), pattern = map(x))
+#' y <- tar_target_raw("y", expression(sqrt(x)), expression(map(x)))
+#' # Programmatically create a chain of interdependent targets
+#' target_list <- lapply(seq_len(4), function(i) {
+#'   tar_target_raw(
+#'     letters[i + 1],
+#'     substitute(do_something(x), env = list(x = as.symbol(letters[i])))
+#'   )
+#' })
+#' print(target_list[[1]])
+#' print(target_list[[2]])
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_script(tar_target_raw("x", quote(1 + 1)), ask = FALSE)

@@ -31,7 +31,7 @@ store_produce_path.tar_store_file <- function( # nolint
   store,
   name,
   object,
-  store_produce_path
+  path_store
 ) {
   object
 }
@@ -72,13 +72,13 @@ store_update_stage_late.tar_store_file <- function(
 }
 
 #' @export
-store_hash_early.tar_store_file <- function(store, target) { # nolint
+store_hash_early.tar_store_file <- function(store) { # nolint
   tar_assert_path(store$file$path)
   file_update_hash(store$file)
 }
 
 #' @export
-store_hash_late.tar_store_file <- function(store, target) { # nolint
+store_hash_late.tar_store_file <- function(store) { # nolint
 }
 
 #' @export

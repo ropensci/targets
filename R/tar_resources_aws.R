@@ -58,6 +58,7 @@
 #'   or `"PartNumber"`.
 #' @examples
 #' # Somewhere in you target script file (usually _targets.R):
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_target(
 #'   name,
 #'   command(),
@@ -68,6 +69,7 @@
 #'     qs = tar_resources_qs(preset = "fast")
 #'   )
 #' )
+#' }
 tar_resources_aws <- function(
   bucket = targets::tar_option_get("resources")$aws$bucket,
   prefix = targets::tar_option_get("resources")$aws$prefix,

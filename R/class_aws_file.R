@@ -45,7 +45,7 @@ store_upload_object.tar_aws_file <- function(store) {
 }
 
 #' @export
-store_hash_early.tar_aws_file <- function(store, target) { # nolint
+store_hash_early.tar_aws_file <- function(store) { # nolint
   old <- store$file$path
   store$file$path <- store_aws_file_stage(store$file$path)
   on.exit(store$file$path <- old)
