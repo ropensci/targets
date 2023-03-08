@@ -3,6 +3,7 @@ tar_test("empty resources", {
 })
 
 tar_test("populated resources", {
+  skip_if_not_installed("paws")
   out <- tar_resources(
     aws = resources_aws_init(),
     gcp = resources_gcp_init(),
@@ -18,6 +19,7 @@ tar_test("populated resources", {
 })
 
 tar_test("default resource args", {
+  skip_if_not_installed("paws")
   tar_option_set(
     resources = tar_resources(
       aws = tar_resources_aws(bucket = "abc"),
@@ -36,6 +38,7 @@ tar_test("default resource args", {
 })
 
 tar_test("wrong resources", {
+  skip_if_not_installed("paws")
   expect_error(
     tar_resources(aws = resources_qs_init()),
     class = "tar_condition_validate"

@@ -9,11 +9,11 @@
 # This is where you write source(\"R/functions.R\")
 # if you keep your functions in external scripts.
 summ <- function(dataset) {
-  summarize(dataset, mean_x = mean(x))
+  colMeans(dataset)
 }
 
-# Set target-specific options such as packages.
-tar_option_set(packages = "dplyr")
+# Set target-specific options such as packages:
+# tar_option_set(packages = "utils")
 
 # End this file with a list of target objects.
 list(
