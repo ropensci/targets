@@ -1,3 +1,7 @@
+# targets 0.14.3.9000
+
+* Rename a target and a function in the `tar_script()` example pipeline (#1033, @b-rodrigues).
+
 # targets 0.14.3
 
 * Handle encoding errors while trying to process error and warning messages (#1019, @adrian-quintario).
