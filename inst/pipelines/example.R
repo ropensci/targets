@@ -18,5 +18,5 @@ summarize_data <- function(dataset) {
 # End this file with a list of target objects.
 list(
   tar_target(data, data.frame(x = sample.int(100), y = sample.int(100))),
-  tar_target(data_summary, summarize_data(data)) # Call your custom functions as needed.
+  tar_target(data_summary, summarize_data(data)) # Call your custom functions.
 )
