@@ -5,8 +5,6 @@ build_init <- function(
   packages = character(0),
   library = NULL
 ) {
-  old_options <- options()
-  on.exit(build_restore_options(old_options))
   capture_error <- function(condition) {
     state$error <- build_message(condition)
     state$error_class <- class(condition)
@@ -64,6 +62,8 @@ build_new <- function(object = NULL, metrics = NULL) {
 
 build_run_expr <- function(expr, envir, seed, packages, library) {
   load_packages(packages = packages, library = library)
+  old_options <- options()
+  on.exit(build_restore_options(old_options))
   withr::with_dir(
     getwd(),
     if_any(
