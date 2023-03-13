@@ -5,6 +5,8 @@ build_init <- function(
   packages = character(0),
   library = NULL
 ) {
+  old_options <- options()
+  on.exit(build_restore_options(old_options))
   capture_error <- function(condition) {
     state$error <- build_message(condition)
     state$error_class <- class(condition)
@@ -70,6 +72,15 @@ build_run_expr <- function(expr, envir, seed, packages, library) {
       withr::with_seed(seed, build_eval_fce17be7(expr, envir))
     )
   )
+}
+
+build_restore_options <- function(x) {
+  names <- setdiff(names(options()), names(x))
+  drop <- replicate(length(names), NULL, simplify = FALSE)
+  names(drop) <- names
+  do.call(what = options, args = drop)
+  options(x)
+  invisible()
 }
 
 # Marker to shorten tracebacks.

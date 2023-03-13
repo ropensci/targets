@@ -44,6 +44,35 @@ tar_test("run with warning, warning thrown", {
   )
 })
 
+tar_test("options are preserved.", {
+  skip_cran()
+  expect_null(getOption("tar_option_1"))
+  expect_null(getOption("tar_option_2"))
+  expect_lt(getOption("warn"), 10)
+  out <- build_init(
+    quote({
+      options(tar_option_1 = 1L, tar_option_2 = 2L, warn = 10)
+      list(
+        tar_option_1 = getOption("tar_option_1"),
+        tar_option_2 = getOption("tar_option_2"),
+        warn = getOption("warn")
+      )
+    }),
+    baseenv()
+  )
+  expect_null(getOption("tar_option_1"))
+  expect_null(getOption("tar_option_2"))
+  expect_lt(getOption("warn"), 10)
+  expect_equal(
+    out$object,
+    list(
+      tar_option_1 = 1L,
+      tar_option_2 = 2L,
+      warn = 10L
+    )
+  )
+})
+
 tar_test("warning with no message, warning recorded", {
   skip_cran()
   build <- suppressWarnings(build_init(quote(warning()), baseenv()))

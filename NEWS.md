@@ -1,6 +1,7 @@
 # targets 0.14.3.9000
 
 * Rename a target and a function in the `tar_script()` example pipeline (#1033, @b-rodrigues).
+* In `build_init()`, remove global options that were added during the command of the target, and restore any global options to their previous values.
 
 # targets 0.14.3
 
