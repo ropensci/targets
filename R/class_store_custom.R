@@ -115,9 +115,6 @@ store_convert_object.tar_store_custom <- function(store, object) {
 
 #' @export
 store_copy_object.tar_store_custom <- function(store, object) {
-  
-  browser()
-  
   store_custom_call_method(
     text = store$copy,
     args = list(object = object)
