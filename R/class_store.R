@@ -217,7 +217,7 @@ store_convert_object.default <- function(store, object) {
 }
 
 store_copy_object <- function(store, object) {
-  UseMethod("store_convert_object")
+  UseMethod("store_copy_object")
 }
 
 store_copy_object.default <- function(store, object) {

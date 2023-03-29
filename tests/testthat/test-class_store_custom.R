@@ -14,7 +14,10 @@ tar_test("class_store_custom rds", {
         identity(object)
       }
     )
-    tar_target(x, "value", format = format)
+    list(
+      tar_target(x, "value", format = format),
+      tar_target(y, x)
+    )
   })
   tar_make(callr_function = NULL)
   format <- tar_meta(x, format)$format
