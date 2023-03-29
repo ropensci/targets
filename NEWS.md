@@ -2,6 +2,7 @@
 
 * Rename a target and a function in the `tar_script()` example pipeline (#1033, @b-rodrigues).
 * In `build_init()`, remove global options that were added during the command of the target, and restore any global options to their previous values.
+* Add a `change_directory` argument to `tar_source()` (#1040, @dipterix).
 
 # targets 0.14.3
 

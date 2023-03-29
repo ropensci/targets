@@ -10,9 +10,14 @@
 #'   `eval(parse(text = readLines(script_file, warn = FALSE)), envir)`.
 #' @return `NULL` (invisibly)
 #' @param files Character vector of file and directory paths
-#'   to look for R scripts to run.
+#'   to look for R scripts to run. Paths must either be absolute
+#'   paths or must be relative to the current working directory
+#'   just before the function call.
 #' @param envir Environment to run the scripts. Defaults to
 #'   `tar_option_get("envir")`, the environment of the pipeline.
+#' @param change_directory Logical, whether to temporarily change
+#'   the working directory to the directory of each R script
+#'   before running it.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -29,8 +34,11 @@
 #' }
 tar_source <- function(
   files = "R",
-  envir = targets::tar_option_get("envir")
+  envir = targets::tar_option_get("envir"),
+  change_directory = FALSE
 ) {
+  tar_assert_lgl(change_directory)
+  tar_assert_scalar(change_directory)
   tar_assert_chr(files)
   tar_assert_nzchar(files)
   missing_files <- files[!file.exists(files)]
@@ -51,11 +59,12 @@ tar_source <- function(
   }
   lapply(
     r_scripts,
-    function(file) {
-      eval(
-        parse(text = readLines(file, warn = FALSE)),
-        envir = envir
-      )
+    function(script) {
+      lines <- readLines(script, warn = FALSE)
+      if (change_directory) {
+        withr::local_dir(new = dirname(script))
+      }
+      eval(parse(text = lines), envir = envir)
       invisible()
     }
   )
