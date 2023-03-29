@@ -24,6 +24,11 @@ store_convert_object.tar_fst_dt <- function(store, object) {
 }
 
 #' @export
+store_copy_object.tar_fst_dt <- function(store, object) {
+  data.table::copy(object)
+}
+
+#' @export
 store_get_packages.tar_fst_dt <- function(store) {
   c("data.table", NextMethod())
 }
