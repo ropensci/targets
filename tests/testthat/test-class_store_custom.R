@@ -169,3 +169,46 @@ tar_test("class_store_custom convert function with rds", {
   expect_equal(tar_read(y), "found null")
   expect_equal(tar_read(z), "found null")
 })
+
+tar_test("class_store_custom equilvalent of fst_dt format", {
+  skip_cran()
+  skip_if_not_installed("data.table")
+  skip_if_not_installed("fst")
+  tar_script({
+    format <- tar_format(
+      read = function(path) {
+        fst::read_fst(path, as.data.table = TRUE)
+      },
+      write = function(object, path) {
+        fst::write_fst(x = object, path = path)
+      },
+      convert = function(object) {
+        data.table::as.data.table(object)
+      },
+      copy = function(object) {
+        data.table::copy(object)
+      }
+    )
+    list(
+      tar_target(
+        target_a,
+        data.table::data.table(a = c(1, 2, 3)),
+        format = format,
+        memory = "persistent"
+      ),
+      tar_target(
+        target_b,
+        rowSums(target_a[, b := c(1, 2, 3)]),
+        format = format,
+        memory = "persistent"
+      ),
+      tar_target(
+        target_c,
+        colnames(target_a)
+      )
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(target_c), "a")
+})
+

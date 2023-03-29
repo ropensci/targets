@@ -51,23 +51,30 @@
 #'   This function should read and return the target stored
 #'   at the file in the argument. It should have no side effects.
 #'   See the "Format functions" section for specific requirements.
+#'   If `NULL`, the `read` argument defaults to `readRDS()`.
 #' @param write A function with two arguments: `object` and `path`,
 #'   in that order. This function should save the R object `object`
 #'   to the file path at `path` and have no other side effects.
 #'   The return value does not matter.
 #'   See the "Format functions" section for specific requirements.
+#'   If `NULL`, the `write` argument defaults to `saveRDS()`
+#'   with `version = 3`.
 #' @param marshal A function with a single argument named `object`.
 #'   This function should marshal the R object and return
 #'   an in-memory object that can be exported to remote parallel workers.
 #'   It should not read or write any persistent files.
 #'   See the Marshalling section for details.
 #'   See the "Format functions" section for specific requirements.
+#'   If `NULL`, the `marshal` argument defaults to just
+#'   returning the original object without any modifications.
 #' @param unmarshal A function with a single argument named `object`.
 #'   This function should unmarshal the (marshalled) R object and return
 #'   an in-memory object that is appropriate and valid for use
 #'   on a parallel worker. It should not read or write any persistent files.
 #'   See the Marshalling section for details.
 #'   See the "Format functions" section for specific requirements.
+#'   If `NULL`, the `unmarshal` argument defaults to just
+#'   returning the original object without any modifications.
 #' @param convert The `convert` argument is a function
 #'   that accepts the object returned by the command of the target
 #'   and changes it into an acceptable format (e.g. can be
@@ -78,6 +85,18 @@
 #'   to disk. The function should be idempotent, and it should
 #'   handle edge cases like `NULL` values (especially for
 #'   `error = "null"` in [tar_target()] or [tar_option_set()]).
+#'   If `NULL`, the `convert` argument defaults to just
+#'   returning the original object without any modifications.
+#' @param copy The `copy` argument is a function
+#'   that accepts the object returned by the command of the target
+#'   and makes a deep copy in memory. This method does is relevant
+#'   to objects like `data.table`s that support in-place modification
+#'   which could cause unpredictable side effects from target
+#'   to target. In cases like these, the target should be deep-copied
+#'   before a downstream target attempts to use it (in the case of
+#'   `data.table` objects, using `data.table::copy()`).
+#'   If `NULL`, the `copy` argument defaults to just
+#'   returning the original object without any modifications.
 #' @param repository Deprecated. Use the `repository` argument of
 #'   [tar_target()] or [tar_option_set()] instead.
 #' @examples
@@ -134,33 +153,38 @@
 #'   )
 #' )
 tar_format <- function(
-  read = function(path) {
-    readRDS(path) # nocov
-  },
-  write = function(object, path) {
-    saveRDS(object = object, file = path, version = 3L) # nocov
-  },
-  marshal = function(object) {
-    identity(object) # nocov
-  },
-  unmarshal = function(object) {
-    identity(object) # nocov
-  },
-  convert = function(object) {
-    identity(object) # nocov
-  },
+  read = NULL,
+  write = NULL,
+  marshal = NULL,
+  unmarshal = NULL,
+  convert = NULL,
+  copy = NULL,
   repository = NULL
 ) {
-  tar_assert_function(read)
-  tar_assert_function(write)
-  tar_assert_function(marshal)
-  tar_assert_function(unmarshal)
-  tar_assert_function(convert)
-  tar_assert_function_arguments(read, "path")
-  tar_assert_function_arguments(write, c("object", "path"))
-  tar_assert_function_arguments(marshal, "object")
-  tar_assert_function_arguments(unmarshal, "object")
-  tar_assert_function_arguments(convert, "object")
+  if (!is.null(read)) {
+    tar_assert_function(read)
+    tar_assert_function_arguments(read, "path")
+  }
+  if (!is.null(write)) {
+    tar_assert_function(write)
+    tar_assert_function_arguments(write, c("object", "path"))
+  }
+  if (!is.null(marshal)) {
+    tar_assert_function(marshal)
+    tar_assert_function_arguments(marshal, "object")
+  }
+  if (!is.null(unmarshal)) {
+    tar_assert_function(unmarshal)
+    tar_assert_function_arguments(unmarshal, "object")
+  }
+  if (!is.null(convert)) {
+    tar_assert_function(convert)
+    tar_assert_function_arguments(convert, "object")
+  }
+  if (!is.null(copy)) {
+    tar_assert_function(copy)
+    tar_assert_function_arguments(copy, "object")
+  }
   if (!is.null(repository)) {
     tar_warn_deprecate(
       "in targets version > 0.10.0 (2022-03-13) the repository ",
@@ -176,11 +200,17 @@ tar_format <- function(
     tar_format_field("marshal", marshal),
     tar_format_field("unmarshal", unmarshal),
     tar_format_field("convert", convert),
+    tar_format_field("copy", copy),
     paste0("repository=", repository),
     sep = "&"
   )
 }
 
 tar_format_field <- function(key, value) {
-  paste0(key, "=", base64url::base64_urlencode(tar_deparse_safe(value)))
+  encoded <- if_any(
+    is.null(value),
+    "",
+    base64url::base64_urlencode(tar_deparse_safe(value))
+  )
+  paste0(key, "=", encoded)
 }
