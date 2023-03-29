@@ -46,9 +46,8 @@
 #'     `fst::write_fst()` through `tar_resources()` and `tar_resources_fst()`.
 #'     Requires the `fst` package (not installed by default).
 #'   * `"fst_dt"`: Same as `"fst"`, but the value is a `data.table`.
-#'     If `format = "fst_dt"`, it is also recommended to set
-#'     `memory = "transient"` if you plan to make in-place modifications
-#'     to the `data.table` object.
+#'     Deep copies are made as appropriate in order to protect
+#'     against the global effects of in-place modification.
 #'     Optionally set the compression level the same way as for `"fst"`.
 #'   * `"fst_tbl"`: Same as `"fst"`, but the value is a `tibble`.
 #'     Optionally set the compression level the same way as for `"fst"`.

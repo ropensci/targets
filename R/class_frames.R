@@ -24,7 +24,7 @@ frames_clear_objects <- function(frames) {
 frames_set_dep <- function(frames, dep, pipeline) {
   value <- dep$value
   if (!is.null(value)) {
-    object <- dep$value$object
+    object <- store_copy_object(dep$store, dep$value$object)
     frames_set_object(frames, target_get_parent(dep), object)
   }
 }

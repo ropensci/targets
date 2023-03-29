@@ -23,16 +23,16 @@ tar_test("tar_format() generates a format string", {
   expect_true(any(grepl("^repository=", format)))
 })
 
-tar_test("tar_format() default arguments are acceptable", {
+tar_test("tar_format() default arguments are short", {
   format <- tar_format()
   expect_equal(length(format), 1)
   format <- unlist(strsplit(format, split = "&", fixed = TRUE))
   expect_equal(format[1], "format_custom")
-  expect_true(any(grepl("^read=+.", format)))
-  expect_true(any(grepl("^write=+.", format)))
-  expect_true(any(grepl("^marshal=+.", format)))
-  expect_true(any(grepl("^unmarshal=+.", format)))
-  expect_true(any(grepl("^repository=", format)))
+  expect_true(any(grepl("^read=$", format)))
+  expect_true(any(grepl("^write=$", format)))
+  expect_true(any(grepl("^marshal=$", format)))
+  expect_true(any(grepl("^unmarshal=$", format)))
+  expect_true(any(grepl("^repository=$", format)))
 })
 
 tar_test("Deprecated tar_format() repostory arg", {

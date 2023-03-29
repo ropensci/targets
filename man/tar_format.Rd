@@ -5,22 +5,12 @@
 \title{Define a custom target storage format.}
 \usage{
 tar_format(
-  read = function(path) {
-     readRDS(path)
- },
-  write = function(object, path) {
-     saveRDS(object = object, file = path, version =
-    3L)
- },
-  marshal = function(object) {
-     identity(object)
- },
-  unmarshal = function(object) {
-     identity(object)
- },
-  convert = function(object) {
-     identity(object)
- },
+  read = NULL,
+  write = NULL,
+  marshal = NULL,
+  unmarshal = NULL,
+  convert = NULL,
+  copy = NULL,
   repository = NULL
 )
 }
@@ -28,27 +18,34 @@ tar_format(
 \item{read}{A function with a single argument named \code{path}.
 This function should read and return the target stored
 at the file in the argument. It should have no side effects.
-See the "Format functions" section for specific requirements.}
+See the "Format functions" section for specific requirements.
+If \code{NULL}, the \code{read} argument defaults to \code{readRDS()}.}
 
 \item{write}{A function with two arguments: \code{object} and \code{path},
 in that order. This function should save the R object \code{object}
 to the file path at \code{path} and have no other side effects.
 The return value does not matter.
-See the "Format functions" section for specific requirements.}
+See the "Format functions" section for specific requirements.
+If \code{NULL}, the \code{write} argument defaults to \code{saveRDS()}
+with \code{version = 3}.}
 
 \item{marshal}{A function with a single argument named \code{object}.
 This function should marshal the R object and return
 an in-memory object that can be exported to remote parallel workers.
 It should not read or write any persistent files.
 See the Marshalling section for details.
-See the "Format functions" section for specific requirements.}
+See the "Format functions" section for specific requirements.
+If \code{NULL}, the \code{marshal} argument defaults to just
+returning the original object without any modifications.}
 
 \item{unmarshal}{A function with a single argument named \code{object}.
 This function should unmarshal the (marshalled) R object and return
 an in-memory object that is appropriate and valid for use
 on a parallel worker. It should not read or write any persistent files.
 See the Marshalling section for details.
-See the "Format functions" section for specific requirements.}
+See the "Format functions" section for specific requirements.
+If \code{NULL}, the \code{unmarshal} argument defaults to just
+returning the original object without any modifications.}
 
 \item{convert}{The \code{convert} argument is a function
 that accepts the object returned by the command of the target
@@ -59,7 +56,20 @@ of an object during the running pipeline session
 is the same as the copy of the object that is saved
 to disk. The function should be idempotent, and it should
 handle edge cases like \code{NULL} values (especially for
-\code{error = "null"} in \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_set]{tar_option_set()}}).}
+\code{error = "null"} in \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_set]{tar_option_set()}}).
+If \code{NULL}, the \code{convert} argument defaults to just
+returning the original object without any modifications.}
+
+\item{copy}{The \code{copy} argument is a function
+that accepts the object returned by the command of the target
+and makes a deep copy in memory. This method does is relevant
+to objects like \code{data.table}s that support in-place modification
+which could cause unpredictable side effects from target
+to target. In cases like these, the target should be deep-copied
+before a downstream target attempts to use it (in the case of
+\code{data.table} objects, using \code{data.table::copy()}).
+If \code{NULL}, the \code{copy} argument defaults to just
+returning the original object without any modifications.}
 
 \item{repository}{Deprecated. Use the \code{repository} argument of
 \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_set]{tar_option_set()}} instead.}

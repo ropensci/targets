@@ -85,3 +85,30 @@ tar_test("store_path_from_record()", {
     path_objects(path_store_default(), "x")
   )
 })
+
+tar_test("store_copy_object() works for data tables", {
+  skip_cran()
+  skip_if_not_installed("data.table")
+  skip_if_not_installed("fst")
+  tar_script(
+    list(
+      tar_target(
+        target_a,
+        data.table::data.table(a = c(1, 2, 3)),
+        format = "fst_dt"
+      ),
+      tar_target(
+        target_b,
+        rowSums(target_a[, b := c(1, 2, 3)]),
+        format = "fst_dt"
+      ),
+      tar_target(
+        target_c,
+        colnames(target_a)
+      )
+    ),
+    ask = FALSE
+  )
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(target_c), "a")
+})

@@ -14,7 +14,10 @@ tar_test("class_store_custom rds", {
         identity(object)
       }
     )
-    tar_target(x, "value", format = format)
+    list(
+      tar_target(x, "value", format = format),
+      tar_target(y, x)
+    )
   })
   tar_make(callr_function = NULL)
   format <- tar_meta(x, format)$format
@@ -168,4 +171,80 @@ tar_test("class_store_custom convert function with rds", {
   expect_equal(tar_read(x), "value")
   expect_equal(tar_read(y), "found null")
   expect_equal(tar_read(z), "found null")
+})
+
+tar_test("class_store_custom equilvalent of fst_dt format", {
+  skip_cran()
+  skip_if_not_installed("data.table")
+  skip_if_not_installed("fst")
+  tar_script({
+    format <- tar_format(
+      read = function(path) {
+        fst::read_fst(path, as.data.table = TRUE)
+      },
+      write = function(object, path) {
+        fst::write_fst(x = object, path = path)
+      },
+      convert = function(object) {
+        data.table::as.data.table(object)
+      },
+      copy = function(object) {
+        data.table::copy(object)
+      }
+    )
+    list(
+      tar_target(
+        target_a,
+        data.table::data.table(a = c(1, 2, 3)),
+        format = format,
+        memory = "persistent"
+      ),
+      tar_target(
+        target_b,
+        rowSums(target_a[, b := c(1, 2, 3)]),
+        format = format,
+        memory = "persistent"
+      ),
+      tar_target(
+        target_c,
+        colnames(target_a)
+      )
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(target_c), "a")
+})
+
+tar_test("store_custom_default_read()", {
+  fun <- eval(parse(text = store_custom_default_read()))
+  tmp <- tempfile()
+  saveRDS("x", tmp)
+  expect_equal(fun(tmp), "x")
+})
+
+tar_test("store_custom_default_write()", {
+  fun <- eval(parse(text = store_custom_default_write()))
+  tmp <- tempfile()
+  fun(object = "x", path = tmp)
+  expect_equal(readRDS(tmp), "x")
+})
+
+tar_test("store_custom_default_marshal()", {
+  fun <- eval(parse(text = store_custom_default_marshal()))
+  expect_equal(fun("x"), "x")
+})
+
+tar_test("store_custom_default_unmarshal()", {
+  fun <- eval(parse(text = store_custom_default_unmarshal()))
+  expect_equal(fun("x"), "x")
+})
+
+tar_test("store_custom_default_convert()", {
+  fun <- eval(parse(text = store_custom_default_convert()))
+  expect_equal(fun("x"), "x")
+})
+
+tar_test("store_custom_default_copy()", {
+  fun <- eval(parse(text = store_custom_default_copy()))
+  expect_equal(fun("x"), "x")
 })

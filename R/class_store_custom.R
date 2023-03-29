@@ -4,11 +4,36 @@ store_new.format_custom <- function(format, file = NULL, resources = NULL) {
   store <- store_custom_new(
     file = file,
     resources = resources,
-    read = store_custom_field(format, "^read="),
-    write = store_custom_field(format, "^write="),
-    marshal = store_custom_field(format, "^marshal="),
-    unmarshal = store_custom_field(format, "^unmarshal="),
-    convert = store_custom_field(format, "^convert=")
+    read = store_custom_field(
+      format = format,
+      pattern = "^read=",
+      default = store_custom_default_read()
+    ),
+    write = store_custom_field(
+      format = format,
+      pattern = "^write=",
+      default = store_custom_default_write()
+    ),
+    marshal = store_custom_field(
+      format = format,
+      pattern = "^marshal=",
+      default = store_custom_default_marshal()
+    ),
+    unmarshal = store_custom_field(
+      format = format,
+      pattern = "^unmarshal=",
+      default = store_custom_default_unmarshal()
+    ),
+    convert = store_custom_field(
+      format = format,
+      pattern = "^convert=",
+      default = store_custom_default_convert()
+    ),
+    copy = store_custom_field(
+      format = format,
+      pattern = "^copy=",
+      default = store_custom_default_copy()
+    )
   )
 }
 
@@ -19,7 +44,8 @@ store_custom_new <- function(
   write = NULL,
   marshal = NULL,
   unmarshal = NULL,
-  convert = NULL
+  convert = NULL,
+  copy = NULL
 ) {
   force(file)
   force(resources)
@@ -28,15 +54,19 @@ store_custom_new <- function(
   force(marshal)
   force(unmarshal)
   force(convert)
+  force(copy)
   enclass(
     environment(),
     c("tar_store_custom", "tar_nonexportable", "tar_store")
   )
 }
 
-store_custom_field <- function(format, pattern) {
+store_custom_field <- function(format, pattern, default) {
   out <- base64url::base64_urldecode(keyvalue_field(format, pattern))
-  out %||% NULL
+  if ((length(out) < 1L) || !any(nzchar(out))) {
+    out <- default
+  }
+  out
 }
 
 #' @export
@@ -83,6 +113,14 @@ store_convert_object.tar_store_custom <- function(store, object) {
   )
 }
 
+#' @export
+store_copy_object.tar_store_custom <- function(store, object) {
+  store_custom_call_method(
+    text = store$copy,
+    args = list(object = object)
+  )
+}
+
 store_custom_call_method <- function(text, args) {
   envir <- new.env(parent = baseenv())
   what <- eval(parse(text = text), envir = envir)
@@ -106,4 +144,42 @@ store_custom_old_repository <- function(format) {
   value <- grep("^repository=", format, value = TRUE)
   value <- gsub("^repository=", "", value)
   value %||% "local"
+}
+
+store_custom_default_read <- function() {
+  tar_deparse_safe(
+    function(path) readRDS(path)
+  )
+}
+
+store_custom_default_write <- function() {
+  tar_deparse_safe(
+    function(object, path) {
+      saveRDS(object = object, file = path, version = 3L)
+    }
+  )
+}
+
+store_custom_default_marshal <- function() {
+  tar_deparse_safe(
+    function(object) object
+  )
+}
+
+store_custom_default_unmarshal <- function() {
+  tar_deparse_safe(
+    function(object) object
+  )
+}
+
+store_custom_default_convert <- function() {
+  tar_deparse_safe(
+    function(object) object
+  )
+}
+
+store_custom_default_copy <- function() {
+  tar_deparse_safe(
+    function(object) object
+  )
 }

@@ -216,6 +216,14 @@ store_convert_object.default <- function(store, object) {
   object
 }
 
+store_copy_object <- function(store, object) {
+  UseMethod("store_copy_object")
+}
+
+store_copy_object.default <- function(store, object) {
+  object
+}
+
 store_assert_format <- function(store, object, name) {
   UseMethod("store_assert_format")
 }

@@ -3,6 +3,9 @@
 * Rename a target and a function in the `tar_script()` example pipeline (#1033, @b-rodrigues).
 * In `build_init()`, remove global options that were added during the command of the target, and restore any global options to their previous values.
 * Add a `change_directory` argument to `tar_source()` (#1040, @dipterix).
+* Add a new `store_copy_object()` to the store class to enable `"fst_dt"` and other formats to make deep copies when needed (#1041, @MilesMcBain).
+* Add a new `copy` argument to allow `tar_format()` formats to set the `store_copy_object()` method (#1041, @MilesMcBain).
+* Shorten the output string returned by `tar_format()` when default methods are used.
 
 # targets 0.14.3
 

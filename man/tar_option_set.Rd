@@ -349,9 +349,8 @@ a data frame. Optionally set the compression level for
 \code{fst::write_fst()} through \code{tar_resources()} and \code{tar_resources_fst()}.
 Requires the \code{fst} package (not installed by default).
 \item \code{"fst_dt"}: Same as \code{"fst"}, but the value is a \code{data.table}.
-If \code{format = "fst_dt"}, it is also recommended to set
-\code{memory = "transient"} if you plan to make in-place modifications
-to the \code{data.table} object.
+Deep copies are made as appropriate in order to protect
+against the global effects of in-place modification.
 Optionally set the compression level the same way as for \code{"fst"}.
 \item \code{"fst_tbl"}: Same as \code{"fst"}, but the value is a \code{tibble}.
 Optionally set the compression level the same way as for \code{"fst"}.
