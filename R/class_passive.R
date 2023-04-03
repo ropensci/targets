@@ -31,7 +31,6 @@ passive_class <- R6::R6Class(
       self$meta$restrict_records(self$pipeline)
     },
     start = function() {
-      super$validate()
       pipeline_prune_names(self$pipeline, self$names)
       self$ensure_meta()
       pipeline_reset_priorities(self$pipeline)
