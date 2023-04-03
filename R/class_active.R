@@ -116,6 +116,7 @@ active_class <- R6::R6Class(
       )
     },
     start = function() {
+      self$validate()
       self$seconds_start <- unname(proc.time()["elapsed"])
       pipeline_prune_names(self$pipeline, self$names)
       self$ensure_meta()
