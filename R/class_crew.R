@@ -118,13 +118,13 @@ crew_class <- R6::R6Class(
       data <- self$exports$common
       data$target <- target
       globals <- self$exports$globals
-      args <- list(
+      self$controller$push(
         command = command,
         data = data,
         globals = globals,
+        substitute = FALSE,
         name = target_get_name(target)
       )
-      do.call(what = self$controller$push, args = args)
     },
     run_main = function(target) {
       target_run(
