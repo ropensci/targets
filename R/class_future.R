@@ -107,7 +107,7 @@ future_class <- R6::R6Class(
         target$settings$resources # compat: deprecated unstructured resources
       args <- list(
         expr = quote(
-          target_run_worker(
+          targets::target_run_worker(
             target = .tar_target_5048826d,
             envir = .tar_envir_5048826d,
             path_store = .tar_path_store_5048826d,
@@ -154,9 +154,6 @@ future_class <- R6::R6Class(
         self$run_main(target)
       )
       self$unload_transient()
-    },
-    backoff = function() {
-      self$scheduler$backoff$wait()
     },
     next_target = function() {
       queue <- self$scheduler$queue

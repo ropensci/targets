@@ -115,6 +115,9 @@ active_class <- R6::R6Class(
         self$skip_target(target)
       )
     },
+    backoff = function() {
+      self$scheduler$backoff$wait()
+    },
     start = function() {
       self$seconds_start <- unname(proc.time()["elapsed"])
       pipeline_prune_names(self$pipeline, self$names)

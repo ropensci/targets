@@ -48,17 +48,18 @@ crew_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    exports = NULL,
     controller = NULL,
     initialize = function(
-    pipeline = NULL,
-    meta = NULL,
-    names = NULL,
-    shortcut = NULL,
-    queue = NULL,
-    reporter = NULL,
-    envir = NULL,
-    exports = NULL,
-    controller = NULL
+      pipeline = NULL,
+      meta = NULL,
+      names = NULL,
+      shortcut = NULL,
+      queue = NULL,
+      reporter = NULL,
+      envir = NULL,
+      exports = NULL,
+      controller = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -70,6 +71,26 @@ crew_class <- R6::R6Class(
         envir = envir
       )
       self$controller = controller
+    },
+    produce_exports = function(envir, path_store, is_globalenv = NULL) {
+      map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
+      common <- list()
+      globals <- list()
+      if (is_globalenv %|||% identical(envir, globalenv())) {
+        globals <- as.list(envir, all.names = TRUE)
+        which_globals <- fltr(names(globals), ~!is_internal_name(.x, envir))
+        globals <- globals[which_globals]
+        common$envir <- "globalenv"
+      } else {
+        discard <- fltr(names(envir), ~is_internal_name(.x, envir))
+        remove(list = discard, envir = envir)
+        common$envir <- envir
+      }
+      common$path_store <- path_store
+      common$fun <- tar_runtime$get_fun()
+      common$options <- tar_options$export()
+      common$envvars <- tar_envvars()
+      list(common = common, globals = globals)
     },
     update_exports = function() {
       self$exports <- self$produce_exports(
@@ -84,22 +105,26 @@ crew_class <- R6::R6Class(
     },
     run_worker = function(target) {
       self$ensure_exports()
-      expr <- quote(
-        target_run_worker(
+      command <- quote(
+        targets::target_run_worker(
           target = target,
-          envir = .tar_envir_5048826d,
-          path_store = .tar_path_store_5048826d,
-          fun = .tar_fun_5048826d,
-          options = .tar_options_5048826d,
-          envvars = .tar_envvars_5048826d
+          envir = envir,
+          path_store = path_store,
+          fun = fun,
+          options = options,
+          envvars = envvars
         )
       )
-      
-      
-      browser()
-      
-      self$controller$push("...")
-      
+      data <- self$exports$common
+      data$target <- target
+      globals <- self$exports$globals
+      args <- list(
+        command = command,
+        data = data,
+        globals = globals,
+        name = target_get_name(target)
+      )
+      do.call(what = self$controller$push, args = args)
     },
     run_main = function(target) {
       target_run(
@@ -135,18 +160,24 @@ crew_class <- R6::R6Class(
       )
       target_sync_file_meta(target, self$meta)
     },
-    next_target = function() {
+    iterate = function() {
       queue <- self$scheduler$queue
       if_any(
         queue$should_dequeue(),
         self$process_target(queue$dequeue()),
         self$backoff()
       )
+      self$conclude_worker_task(self$controller$pop())
     },
-    conclude_worker_target = function(target) {
-      if (is.null(target)) {
+    conclude_worker_task = function(result) {
+      if (is.null(result)) {
         return()
       }
+      tar_assert_all_na(
+        result$error,
+        msg = paste("target", result$name, "error:", result$error)
+      )
+      target <- result$result[[1]]
       pipeline_set_target(self$pipeline, target)
       self$unmarshal_target(target)
       target_conclude(
@@ -169,14 +200,14 @@ crew_class <- R6::R6Class(
       )
     },
     run_crew = function() {
-      suppressWarnings(crew::crew_session_start())
+      try(suppressWarnings(crew::crew_session_start()), silent = TRUE)
       self$controller$start()
       on.exit({
-        suppressWarnings(crew::crew_session_terminate())
+        try(suppressWarnings(crew::crew_session_terminate()), silent = TRUE)
         self$controller$terminate()
       })
       while (self$scheduler$progress$any_remaining()) {
-        self$next_target()
+        self$iterate()
       }
     },
     run = function() {
