@@ -277,3 +277,18 @@ tar_test("seed", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("controller", {
+  skip_if_not_installed("crew")
+  expect_null(tar_option_get("controller"))
+  tar_option_set(controller = crew::crew_controller_local())
+  expect_true(inherits(tar_option_get("controller"), "crew_class_controller"))
+  tar_option_reset()
+  expect_null(tar_option_get("controller"))
+  tar_option_set(controller = NULL)
+  expect_null(tar_option_get("controller"))
+  expect_error(
+    tar_option_set(controller = "?"),
+    class = "tar_condition_validate"
+  )
+})

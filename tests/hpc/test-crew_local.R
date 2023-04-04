@@ -1,7 +1,7 @@
 tar_test("packages are actually loaded", {
   skip_on_cran()
   skip_if_not_installed("crew")
-  tar_runtime$set_fun("tar_make_crew")
+  tar_runtime$set_fun("tar_make")
   on.exit(tar_runtime$unset_fun())
   tar_option_set(envir = environment())
   x <- tar_target_raw(
@@ -20,7 +20,7 @@ tar_test("packages are actually loaded", {
 tar_test("crew iteration loop can wait for and shut down workers", {
   skip_on_os("windows")
   skip_if_not_installed("crew")
-  tar_runtime$set_fun("tar_make_crew")
+  tar_runtime$set_fun("tar_make")
   on.exit(tar_runtime$unset_fun())
   x <- tar_target_raw("x", quote(Sys.sleep(2)), garbage_collection = TRUE)
   y <- tar_target_raw("y", quote(list(x, a = "x")), garbage_collection = TRUE)
@@ -49,7 +49,7 @@ tar_test("nontrivial globals with global environment", {
       tar_target(y, f(x))
     )
   })
-  tar_make_crew()
+  tar_make()
   expect_equal(tar_read(y), 3L)
 })
 
@@ -58,7 +58,7 @@ tar_test("prevent high-memory data via target objects", {
   # and once outside tar_test() global environment.
   skip_on_cran()
   skip_if_not_installed("crew")
-  tar_runtime$set_fun("tar_make_crew")
+  tar_runtime$set_fun("tar_make")
   on.exit(tar_runtime$unset_fun())
   t <- list(tar_target(x, runif(1e7), deployment = "main", format = "qs"))
   pipeline <- pipeline_init(list(t[[1]], tar_target(y, x)))

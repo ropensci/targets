@@ -128,6 +128,9 @@
 #'   `tar_option_get("seed")` is `NA` will not set a seed.
 #'   In this case, those targets will never be up to date
 #'   unless they have `cue = tar_cue(seed = FALSE)`.
+#' @param controller A controller or controller group object
+#'   produced by the `crew` R package. `crew` brings auto-scaled
+#'   distributed computing to [tar_make()].
 #' @examples
 #' tar_option_get("format") # default format before we set anything
 #' tar_target(x, 1)$settings$format
@@ -168,7 +171,8 @@ tar_option_set <- function(
   debug = NULL,
   workspaces = NULL,
   workspace_on_error = NULL,
-  seed = NULL
+  seed = NULL,
+  controller = NULL
 ) {
   force(envir)
   if_any(is.null(tidy_eval), NULL, tar_options$set_tidy_eval(tidy_eval))
@@ -201,5 +205,6 @@ tar_option_set <- function(
     tar_options$set_workspace_on_error(workspace_on_error)
   )
   if_any(is.null(seed), NULL, tar_options$set_seed(seed))
+  if_any(is.null(controller), NULL, tar_options$set_controller(controller))
   invisible()
 }

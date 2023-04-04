@@ -223,16 +223,20 @@ crew_class <- R6::R6Class(
     },
     validate = function() {
       super$validate()
-      tar_assert_inherits(
-        x = self$controller,
-        class = "crew_class_controller",
-        msg = paste(
-          "controller for tar_make_crew() must be a valid",
-          "object of class \"crew_class_controller\" from the",
-          "{crew} R package."
-        )
-      )
-      self$controller$validate()
+      validate_crew_controller(self$controller)
     }
   )
 )
+
+validate_crew_controller <- function(controller) {
+  tar_assert_inherits(
+    x = controller,
+    class = "crew_class_controller",
+    msg = paste(
+      "controller for tar_make() must be a valid",
+      "object of class \"crew_class_controller\" from the",
+      "{crew} R package."
+    )
+  )
+  controller$validate()
+}
