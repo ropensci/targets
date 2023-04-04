@@ -70,7 +70,7 @@ crew_class <- R6::R6Class(
         reporter = reporter,
         envir = envir
       )
-      self$controller = controller
+      self$controller <- controller
     },
     produce_exports = function(envir, path_store, is_globalenv = NULL) {
       map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
