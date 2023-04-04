@@ -84,6 +84,7 @@ tar_target(
 Other resources: 
 \code{\link{tar_resources_aws}()},
 \code{\link{tar_resources_clustermq}()},
+\code{\link{tar_resources_crew}()},
 \code{\link{tar_resources_feather}()},
 \code{\link{tar_resources_fst}()},
 \code{\link{tar_resources_future}()},
