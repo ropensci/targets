@@ -14,6 +14,24 @@ tar_test("tar_make() works", {
   expect_equal(out, 4L)
 })
 
+tar_test("tar_make() works with crew", {
+  skip_if_not_installed("crew")
+  tar_script({
+    tar_option_set(controller = crew::crew_controller_local())
+    list(
+      tar_target(y1, 1L + 1L),
+      tar_target(y2, 1L + 1L),
+      tar_target(z, y1 + y2)
+    )
+  })
+  tar_make(
+    reporter = "silent",
+    callr_function = NULL
+  )
+  out <- tar_read(z)
+  expect_equal(out, 4L)
+})
+
 tar_test("empty tar_make() works even with names", {
   skip_cran()
   tar_script(list())

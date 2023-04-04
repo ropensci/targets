@@ -110,21 +110,35 @@ tar_make_inner <- function(
   shortcut,
   reporter
 ) {
-  pipeline_reset_deployments(pipeline)
   names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
-  queue <- if_any(
-    pipeline_uses_priorities(pipeline),
-    "parallel",
-    "sequential"
-  )
-  local_init(
-    pipeline = pipeline,
-    meta = meta_init(path_store = path_store),
-    names = names,
-    shortcut = shortcut,
-    queue = queue,
-    reporter = reporter,
-    envir = tar_option_get("envir")
-  )$run()
+  controller <- tar_option_get("controller")
+  if (is.null(controller)) {
+    pipeline_reset_deployments(pipeline)
+    queue <- if_any(
+      pipeline_uses_priorities(pipeline),
+      "parallel",
+      "sequential"
+    )
+    local_init(
+      pipeline = pipeline,
+      meta = meta_init(path_store = path_store),
+      names = names,
+      shortcut = shortcut,
+      queue = queue,
+      reporter = reporter,
+      envir = tar_option_get("envir")
+    )$run()
+  } else {
+    crew_init(
+      pipeline = pipeline,
+      meta = meta_init(path_store = path_store),
+      names = names,
+      shortcut = shortcut,
+      queue = "parallel",
+      reporter = reporter,
+      envir = tar_option_get("envir"),
+      controller = controller
+    )$run()
+  }
   invisible()
 }
