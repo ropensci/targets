@@ -4,7 +4,7 @@ tar_test("tar_make_clustermq() works with callr_function = NULL", {
   require_clustermq()
   skip_on_covr()
   tar_script({
-    options(clustermq.scheduler = "multiprocess")
+    options(clustermq.scheduler = "multicore")
     list(tar_target(x, "x"))
   })
   suppressWarnings(
@@ -23,7 +23,7 @@ tar_test("tar_make_clustermq() works", {
   require_clustermq()
   skip_on_covr()
   tar_script({
-    options(clustermq.scheduler = "multiprocess")
+    options(clustermq.scheduler = "multicore")
     list(tar_target(x, "x"))
   })
   tar_make_clustermq(
@@ -40,7 +40,7 @@ tar_test("tar_make_clustermq() can use tidyselect", {
   require_clustermq()
   skip_on_covr()
   tar_script({
-    options(clustermq.scheduler = "multiprocess")
+    options(clustermq.scheduler = "multicore")
     list(
       tar_target(y1, 1 + 1),
       tar_target(y2, 1 + 1),
@@ -70,7 +70,7 @@ tar_test("custom script and store args", {
   on.exit(options(clustermq.scheduler = old_option))
   tar_script({
     tar_option_set(packages = character(0))
-    options(clustermq.scheduler = "multiprocess")
+    options(clustermq.scheduler = "multicore")
     tar_target(x, TRUE)
   }, script = "example/script.R")
   tar_make_clustermq(
@@ -102,7 +102,7 @@ tar_test("custom script and store args with callr function", {
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script({
-    options(clustermq.scheduler = "multiprocess")
+    options(clustermq.scheduler = "multicore")
     tar_target(x, TRUE)
   }, script = "example/script.R")
   tmp <- utils::capture.output(
@@ -135,7 +135,7 @@ tar_test("bootstrap builder for shortcut", {
   require_clustermq()
   skip_on_covr()
   tar_script({
-    options(clustermq.scheduler = "multiprocess")
+    options(clustermq.scheduler = "multicore")
     list(
       tar_target(w, 1L),
       tar_target(x, w),
@@ -149,7 +149,7 @@ tar_test("bootstrap builder for shortcut", {
   )
   expect_equal(tar_read(z), 2L)
   tar_script({
-    options(clustermq.scheduler = "multiprocess")
+    options(clustermq.scheduler = "multicore")
     list(
       tar_target(w, 1L),
       tar_target(x, w),
