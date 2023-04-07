@@ -16,6 +16,8 @@ tar_test("tar_make() works", {
 
 tar_test("tar_make() works with crew", {
   skip_if_not_installed("crew")
+  crew_test_sleep()
+  on.exit(crew_test_sleep())
   tar_script({
     tar_option_set(controller = crew::crew_controller_local())
     list(

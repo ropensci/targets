@@ -1,3 +1,5 @@
+crew_test_sleep()
+
 tar_test("tar_make_clustermq() works with callr_function = NULL", {
   skip_on_os("windows")
   skip_on_os("solaris")
@@ -167,3 +169,5 @@ tar_test("bootstrap builder for shortcut", {
   expect_equal(progress$name, "z")
   expect_equal(progress$progress, "built")
 })
+
+crew_test_sleep()
