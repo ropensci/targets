@@ -377,3 +377,21 @@ tar_test("seed", {
   expect_error(x$set_seed("abc"), class = "tar_condition_validate")
   expect_error(x$set_seed(seq_len(4)), class = "tar_condition_validate")
 })
+
+tar_test("controller", {
+  skip_if_not_installed("crew")
+  x <- options_init()
+  expect_silent(x$validate_controller(NULL))
+  expect_silent(x$validate_controller(crew::crew_controller_local()))
+  expect_null(x$get_controller())
+  x$set_controller(crew::crew_controller_local())
+  expect_true(inherits(x$get_controller(), "crew_class_controller"))
+  x$reset()
+  expect_null(x$get_controller())
+  x$set_controller(NULL)
+  expect_null(x$get_controller())
+  expect_error(
+    x$set_controller("?"),
+    class = "tar_condition_validate"
+  )
+})

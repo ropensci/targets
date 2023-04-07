@@ -76,12 +76,16 @@ crew_class <- R6::R6Class(
       map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
       common <- list()
       globals <- list()
+      # Avoid the global environment in autometed tests.
+      # Covered in semi-automated tests.
+      # nocov start
       if (is_globalenv %|||% identical(envir, globalenv())) {
         globals <- as.list(envir, all.names = TRUE)
         which_globals <- fltr(names(globals), ~!is_internal_name(.x, envir))
         globals <- globals[which_globals]
         common$envir <- "globalenv"
       } else {
+      # nocov end
         discard <- fltr(names(envir), ~is_internal_name(.x, envir))
         remove(list = discard, envir = envir)
         common$envir <- envir
