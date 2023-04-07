@@ -100,6 +100,7 @@ tar_test("dynamic urls work from a custom data store", {
     progress = "built"
   )
   expect_equal(tar_progress(fields = NULL), exp)
+  skip_if(!url_exists(url))
   tar_make(callr_function = NULL)
   expect_equal(tar_progress()$progress, "skipped")
   meta <- tar_meta(abc)
