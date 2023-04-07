@@ -200,12 +200,8 @@ crew_class <- R6::R6Class(
       )
     },
     run_crew = function() {
-      try(suppressWarnings(crew::crew_session_start()), silent = TRUE)
       self$controller$start()
-      on.exit({
-        try(suppressWarnings(crew::crew_session_terminate()), silent = TRUE)
-        self$controller$terminate()
-      })
+      on.exit(self$controller$terminate())
       while (self$scheduler$progress$any_remaining()) {
         self$iterate()
       }
