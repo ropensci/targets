@@ -166,12 +166,15 @@ crew_class <- R6::R6Class(
     },
     iterate = function() {
       queue <- self$scheduler$queue
-      if_any(
-        queue$should_dequeue(),
-        self$process_target(queue$dequeue()),
+      should_dequeue <- queue$should_dequeue()
+      if (should_dequeue) {
+        self$process_target(queue$dequeue())
+      }
+      result <- self$controller$pop()
+      self$conclude_worker_task(result)
+      if (should_dequeue || (!is.null(result))) {
         self$backoff()
-      )
-      self$conclude_worker_task(self$controller$pop())
+      }
     },
     conclude_worker_task = function(result) {
       if (is.null(result)) {
@@ -203,10 +206,14 @@ crew_class <- R6::R6Class(
         scheduler = self$scheduler
       )
     },
+    nonempty = function() {
+      self$scheduler$progress$any_remaining() ||
+        (!self$controller$empty())
+    },
     run_crew = function() {
       self$controller$start()
       on.exit(self$controller$terminate())
-      while (self$scheduler$progress$any_remaining()) {
+      while (self$nonempty()) {
         self$iterate()
       }
     },
