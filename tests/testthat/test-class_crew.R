@@ -178,3 +178,39 @@ tar_test("crew with a dynamic file", {
   out <- names(algo$scheduler$progress$built$envir)
   expect_equal(out, "x")
 })
+
+tar_test("crew with a dynamic file", {
+  skip_cran()
+  skip_on_os("windows")
+  skip_on_os("solaris")
+  skip_if_not_installed("crew")
+  tar_runtime$set_fun("tar_make")
+  on.exit(tar_runtime$unset_fun())
+  on.exit(crew_test_sleep(), add = TRUE)
+  old_envir <- tar_option_get("envir")
+  envir <- new.env(parent = globalenv())
+  on.exit(tar_option_set(envir = old_envir), add = TRUE)
+  tar_option_set(envir = envir)
+  evalq({
+    save1 <- function() {
+      file <- "saved.out"
+      saveRDS(1L, file)
+      file
+    }
+  }, envir = envir)
+  x <- tar_target_raw("x", quote(save1()), format = "file")
+  pipeline <- pipeline_init(list(x))
+  controller <- crew::crew_controller_local()
+  algo <- crew_init(pipeline, controller = controller)
+  algo$run()
+  out <- names(algo$scheduler$progress$built$envir)
+  expect_equal(out, "x")
+  saveRDS(2L, pipeline_get_target(pipeline, "x")$store$file$path)
+  x <- tar_target_raw("x", quote(save1()), format = "file")
+  pipeline <- pipeline_init(list(x))
+  controller <- crew::crew_controller_local()
+  algo <- crew_init(pipeline, controller = controller)
+  algo$run()
+  out <- names(algo$scheduler$progress$built$envir)
+  expect_equal(out, "x")
+})
