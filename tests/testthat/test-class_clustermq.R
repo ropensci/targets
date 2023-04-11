@@ -1,5 +1,3 @@
-crew_test_sleep()
-
 tar_test("clustermq$workers", {
   out <- clustermq_init(list(), workers = 3L)
   expect_equal(out$workers, 3L)
@@ -274,5 +272,3 @@ tar_test("clustermq$validate()", {
   out <- clustermq_init(pipeline_init())
   expect_silent(out$validate())
 })
-
-crew_test_sleep()

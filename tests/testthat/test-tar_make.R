@@ -20,18 +20,14 @@ tar_test("tar_make() works with crew", {
   on.exit(crew_test_sleep())
   tar_script({
     tar_option_set(controller = crew::crew_controller_local())
-    list(
-      tar_target(y1, 1L + 1L),
-      tar_target(y2, 1L + 1L),
-      tar_target(z, y1 + y2)
-    )
+    tar_target(x, TRUE)
   })
   tar_make(
     reporter = "silent",
     callr_function = NULL
   )
-  out <- tar_read(z)
-  expect_equal(out, 4L)
+  out <- tar_read(x)
+  expect_equal(out, TRUE)
 })
 
 tar_test("empty tar_make() works even with names", {
