@@ -1,4 +1,4 @@
-test_that("tar_debug_instructions()", {
+tar_test("tar_debug_instructions()", {
   on.exit(tar_runtime$unset_target())
   for (target in list(tar_target(a, g(a)), tar_target(a, NULL))) {
     tar_runtime$set_target(target)

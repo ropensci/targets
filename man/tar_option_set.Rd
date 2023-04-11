@@ -26,7 +26,8 @@ tar_option_set(
   debug = NULL,
   workspaces = NULL,
   workspace_on_error = NULL,
-  seed = NULL
+  seed = NULL,
+  controller = NULL
 )
 }
 \arguments{
@@ -310,6 +311,10 @@ automatic seed-setting. Any targets defined while
 \code{tar_option_get("seed")} is \code{NA} will not set a seed.
 In this case, those targets will never be up to date
 unless they have \code{cue = tar_cue(seed = FALSE)}.}
+
+\item{controller}{A controller or controller group object
+produced by the \code{crew} R package. \code{crew} brings auto-scaled
+distributed computing to \code{\link[=tar_make]{tar_make()}}.}
 }
 \value{
 \code{NULL} (invisibly).

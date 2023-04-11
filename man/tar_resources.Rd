@@ -7,6 +7,7 @@
 tar_resources(
   aws = tar_option_get("resources")$aws,
   clustermq = tar_option_get("resources")$clustermq,
+  crew = tar_option_get("resources")$crew,
   feather = tar_option_get("resources")$feather,
   fst = tar_option_get("resources")$fst,
   future = tar_option_get("resources")$future,
@@ -33,6 +34,14 @@ The \code{clustermq} resources apply to the workers, not the targets.
 So the correct way to assign \code{clustermq} resources is through
 \code{\link[=tar_option_set]{tar_option_set()}}, not \code{\link[=tar_target]{tar_target()}}. \code{clustermq} resources
 in individual \code{\link[=tar_target]{tar_target()}} calls will be ignored.}
+
+\item{crew}{Output of function \code{tar_resources_crew()}
+with target-specific settings for integration with the
+\code{crew} R package. These settings are arguments to the \code{push()}
+method of the controller or controller group
+object which control things like
+auto-scaling behavior and the controller to use in the case
+of a controller group.}
 
 \item{feather}{Output of function \code{tar_resources_feather()}.
 Non-default arguments to \code{arrow::read_feather()} and
@@ -129,6 +138,7 @@ tar_target(
 Other resources: 
 \code{\link{tar_resources_aws}()},
 \code{\link{tar_resources_clustermq}()},
+\code{\link{tar_resources_crew}()},
 \code{\link{tar_resources_feather}()},
 \code{\link{tar_resources_fst}()},
 \code{\link{tar_resources_future}()},

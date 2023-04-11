@@ -41,6 +41,13 @@
 #'   So the correct way to assign `clustermq` resources is through
 #'   [tar_option_set()], not [tar_target()]. `clustermq` resources
 #'   in individual [tar_target()] calls will be ignored.
+#' @param crew Output of function `tar_resources_crew()`
+#'   with target-specific settings for integration with the
+#'   `crew` R package. These settings are arguments to the `push()`
+#'   method of the controller or controller group
+#'   object which control things like
+#'   auto-scaling behavior and the controller to use in the case
+#'   of a controller group.
 #' @param feather Output of function `tar_resources_feather()`.
 #'   Non-default arguments to `arrow::read_feather()` and
 #'   `arrow::write_feather()` for `arrow`/feather-based storage formats.
@@ -95,6 +102,7 @@
 tar_resources <- function(
   aws = tar_option_get("resources")$aws,
   clustermq = tar_option_get("resources")$clustermq,
+  crew = tar_option_get("resources")$crew,
   feather = tar_option_get("resources")$feather,
   fst = tar_option_get("resources")$fst,
   future = tar_option_get("resources")$future,

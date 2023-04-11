@@ -76,6 +76,7 @@ Suggests:
   arrow (>= 3.0.0),
   bs4Dash (>= 0.5.0),
   clustermq (>= 0.8.95.1),
+  crew (>= 0.0.5.9005),
   curl (>= 4.3),
   DT (>= 0.14),
   dplyr (>= 1.0.0),
@@ -103,6 +104,8 @@ Suggests:
   torch (>= 0.1.0),
   usethis (>= 1.6.3),
   visNetwork (>= 2.0.9)
+Remotes:
+  wlandau/crew
 Encoding: UTF-8
 Language: en-US
 VignetteBuilder: knitr

@@ -20,7 +20,8 @@ options_init <- function(
   debug = NULL,
   workspaces = NULL,
   workspace_on_error = NULL,
-  seed = NULL
+  seed = NULL,
+  controller = NULL
 ) {
   options_new(
     tidy_eval = tidy_eval,
@@ -44,7 +45,8 @@ options_init <- function(
     debug = debug,
     workspaces = workspaces,
     workspace_on_error = workspace_on_error,
-    seed = seed
+    seed = seed,
+    controller = controller
   )
 }
 
@@ -70,7 +72,8 @@ options_new <- function(
   debug = NULL,
   workspaces = NULL,
   workspace_on_error = NULL,
-  seed = NULL
+  seed = NULL,
+  controller = NULL
 ) {
   options_class$new(
     tidy_eval = tidy_eval,
@@ -94,7 +97,8 @@ options_new <- function(
     debug = debug,
     workspaces = workspaces,
     workspace_on_error = workspace_on_error,
-    seed = seed
+    seed = seed,
+    controller = controller
   )
 }
 
@@ -126,6 +130,7 @@ options_class <- R6::R6Class(
     workspaces = NULL,
     workspace_on_error = NULL,
     seed = NULL,
+    controller = NULL,
     initialize = function(
       tidy_eval = NULL,
       packages = NULL,
@@ -148,7 +153,8 @@ options_class <- R6::R6Class(
       debug = NULL,
       workspaces = NULL,
       workspace_on_error = NULL,
-      seed = NULL
+      seed = NULL,
+      controller = NULL
     ) {
       self$tidy_eval <- tidy_eval
       self$packages <- packages
@@ -172,6 +178,7 @@ options_class <- R6::R6Class(
       self$workspaces <- workspaces
       self$workspace_on_error <- workspace_on_error
       self$seed <- seed
+      self$controller <- controller
     },
     export = function() {
       list(
@@ -244,6 +251,7 @@ options_class <- R6::R6Class(
       self$workspaces <- NULL
       self$workspace_on_error <- NULL
       self$seed <- NULL
+      self$controller <- NULL
     },
     get_tidy_eval = function() {
       self$tidy_eval %|||% TRUE
@@ -310,6 +318,9 @@ options_class <- R6::R6Class(
     },
     get_seed = function() {
       self$seed %|||% 0L
+    },
+    get_controller = function() {
+      self$controller
     },
     set_tidy_eval = function(tidy_eval) {
       self$validate_tidy_eval(tidy_eval)
@@ -399,6 +410,10 @@ options_class <- R6::R6Class(
       self$validate_seed(seed)
       self$seed <- as.integer(seed)
     },
+    set_controller = function(controller) {
+      self$validate_controller(controller)
+      self$controller <- controller
+    },
     validate_tidy_eval = function(tidy_eval) {
       tar_assert_scalar(tidy_eval)
       tar_assert_lgl(tidy_eval)
@@ -486,6 +501,11 @@ options_class <- R6::R6Class(
         tar_assert_dbl(seed)
       }
     },
+    validate_controller = function(controller) {
+      if (!is.null(controller)) {
+        validate_crew_controller(controller)
+      }
+    },
     validate = function() {
       self$validate_tidy_eval(self$get_tidy_eval())
       self$validate_packages(self$get_packages())
@@ -508,6 +528,8 @@ options_class <- R6::R6Class(
       self$validate_debug(self$get_debug())
       self$validate_workspaces(self$get_workspaces())
       self$validate_workspace_on_error(self$get_workspace_on_error())
+      self$validate_seed(self$get_seed())
+      self$validate_controller(self$get_controller())
     }
   )
 )

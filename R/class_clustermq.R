@@ -125,7 +125,7 @@ clustermq_class <- R6::R6Class(
     run_worker = function(target) {
       args <- list(
         expr = quote(
-          target_run_worker(
+          targets::target_run_worker(
             target = target,
             envir = .tar_envir_5048826d,
             path_store = .tar_path_store_5048826d,

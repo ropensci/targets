@@ -62,8 +62,6 @@ build_new <- function(object = NULL, metrics = NULL) {
 
 build_run_expr <- function(expr, envir, seed, packages, library) {
   load_packages(packages = packages, library = library)
-  old_options <- options()
-  on.exit(build_restore_options(old_options))
   withr::with_dir(
     getwd(),
     if_any(
@@ -72,15 +70,6 @@ build_run_expr <- function(expr, envir, seed, packages, library) {
       withr::with_seed(seed, build_eval_fce17be7(expr, envir))
     )
   )
-}
-
-build_restore_options <- function(x) {
-  names <- setdiff(names(options()), names(x))
-  drop <- replicate(length(names), NULL, simplify = FALSE)
-  names(drop) <- names
-  do.call(what = options, args = drop)
-  options(x)
-  invisible()
 }
 
 # Marker to shorten tracebacks.

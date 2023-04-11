@@ -421,6 +421,16 @@ tar_assert_nonempty <- function(x, msg = NULL) {
   }
 }
 
+tar_assert_all_na <- function(x, msg = NULL) {
+  if (!all(is.na(x))) {
+    default <- paste(
+      tar_deparse_safe(substitute(x)),
+      "must have all missing values."
+    )
+    tar_throw_validate(msg %|||% default)
+  }
+}
+
 tar_assert_none_na <- function(x, msg = NULL) {
   if (anyNA(x)) {
     default <- paste(

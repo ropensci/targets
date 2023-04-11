@@ -168,6 +168,15 @@ tar_test("tar_assert_nonempty()", {
   )
 })
 
+tar_test("tar_assert_all_na()", {
+  skip_cran()
+  expect_silent(tar_assert_all_na(NA_character_))
+  expect_error(
+    tar_assert_all_na("abc"),
+    class = "tar_condition_validate"
+  )
+})
+
 tar_test("tar_assert_none_na()", {
   skip_cran()
   expect_silent(tar_assert_none_na("abc"))

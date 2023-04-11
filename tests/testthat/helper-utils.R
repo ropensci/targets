@@ -20,10 +20,26 @@ skip_cran <- function() {
   }
 }
 
+skip_crew <- function() {
+  skip_if_not_installed("crew")
+  if (!identical(Sys.getenv("TAR_CREW_TESTS", unset = ""), "true")) {
+    skip("skipping tests with crew")
+  }
+}
+
 skip_torch <- function() {
   skip_if_not_installed("torch")
   tryCatch(
     torch::torch_zeros(10),
     error = function(e) skip("torch is not working.")
   )
+}
+
+crew_test_sleep <- function() {
+  on_windows <- identical(tolower(Sys.info()[["sysname"]]), "windows")
+  on_cran <- !identical(Sys.getenv("NOT_CRAN"), "true")
+  on_ci <- isTRUE(as.logical(Sys.getenv("CI")))
+  if (on_windows || on_cran || on_ci) {
+    Sys.sleep(2.25)
+  }
 }
