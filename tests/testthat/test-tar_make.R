@@ -15,7 +15,7 @@ tar_test("tar_make() works", {
 })
 
 tar_test("tar_make() works with crew", {
-  skip_if_not_installed("crew")
+  skip_crew()
   crew_test_sleep()
   on.exit(crew_test_sleep())
   tar_script({
