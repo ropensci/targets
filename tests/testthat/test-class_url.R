@@ -207,7 +207,7 @@ tar_test("bad curl handle throws an error (structrued resources)", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url))
+  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 5))
   tar_script({
     list(
       tar_target(
@@ -220,7 +220,6 @@ tar_test("bad curl handle throws an error (structrued resources)", {
       )
     )
   })
-  skip_if(!url_exists(url))
   expect_error(
     tar_make(callr_function = NULL),
     class = "tar_condition_run"
