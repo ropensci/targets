@@ -5,7 +5,7 @@
 * Add a new `store_copy_object()` to the store class to enable `"fst_dt"` and other formats to make deep copies when needed (#1041, @MilesMcBain).
 * Add a new `copy` argument to allow `tar_format()` formats to set the `store_copy_object()` method (#1041, @MilesMcBain).
 * Shorten the output string returned by `tar_format()` when default methods are used.
-* Support distributed computing with the `crew` package in `tar_make()` (#753).
+* Support distributed computing through the `crew` package in `tar_make()` (#753).
 
 # targets 0.14.3
 
