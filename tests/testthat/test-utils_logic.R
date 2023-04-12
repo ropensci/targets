@@ -61,3 +61,37 @@ tar_test("retry() on a file", {
   on.exit(unlink(tmp))
   expect_silent(retry(fun = fun, args = args))
 })
+
+tar_test("retry(catch_error = TRUE)", {
+  skip_on_cran()
+  tmp <- tempfile()
+  fun <- function(x) file.exists(x)
+  args <- list(x = tmp)
+  expect_error(
+    retry(
+      fun = ~rlang::abort(message = "error", class = "ad_hoc"),
+      args = args,
+      seconds_interval = 0.01,
+      seconds_timeout = 0.05,
+      catch_error = TRUE
+    ),
+    class = "tar_condition_expire"
+  )
+})
+
+tar_test("retry(catch_error = FALSE)", {
+  skip_on_cran()
+  tmp <- tempfile()
+  fun <- function(x) file.exists(x)
+  args <- list(x = tmp)
+  expect_error(
+    retry(
+      fun = ~rlang::abort(message = "error", class = "ad_hoc"),
+      args = args,
+      seconds_interval = 0.01,
+      seconds_timeout = 0.05,
+      catch_error = FALSE
+    ),
+    class = "ad_hoc"
+  )
+})
