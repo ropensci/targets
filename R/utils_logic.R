@@ -41,8 +41,8 @@ if_any <- function(condition, x, y) {
 retry <- function(
   fun,
   args = list(),
-  seconds_interval = 1,
-  seconds_timeout = 60,
+  seconds_interval = 0.1,
+  seconds_timeout = 10,
   message = character(0),
   envir = parent.frame(),
   catch_error = TRUE

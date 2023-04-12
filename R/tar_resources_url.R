@@ -9,6 +9,12 @@
 #'   to the url argument of `tar_resources()`.
 #' @param handle Object returned by `curl::new_handle` or `NULL`.
 #'   Defaults to `NULL`.
+#' @param seconds_interval Nonnegative numeric of length 1,
+#'   number of seconds to wait between individual retries
+#'   while attempting to connect to the URL.
+#' @param seconds_timeout Nonnegative numeric of length 1,
+#'   number of seconds to wait before timing out while trying to
+#'   connect ot the URL.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' # Somewhere in you target script file (usually _targets.R):
@@ -22,10 +28,14 @@
 #' )
 #' }
 tar_resources_url <- function(
-  handle = targets::tar_option_get("resources")$url$handle
+  handle = targets::tar_option_get("resources")$url$handle,
+  seconds_interval = 0.1,
+  seconds_timeout = 10
 ) {
   out <- resources_url_init(
-    handle = handle
+    handle = handle,
+    seconds_interval = seconds_interval,
+    seconds_timeout = seconds_timeout
   )
   resources_validate(out)
   out
