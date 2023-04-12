@@ -42,7 +42,7 @@ retry <- function(
   fun,
   args = list(),
   seconds_interval = 0.1,
-  seconds_timeout = 10,
+  seconds_timeout = 5,
   message = character(0),
   envir = parent.frame(),
   catch_error = TRUE

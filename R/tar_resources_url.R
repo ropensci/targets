@@ -14,7 +14,7 @@
 #'   while attempting to connect to the URL.
 #' @param seconds_timeout Nonnegative numeric of length 1,
 #'   number of seconds to wait before timing out while trying to
-#'   connect ot the URL.
+#'   connect to the URL.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
 #' # Somewhere in you target script file (usually _targets.R):
@@ -30,7 +30,7 @@
 tar_resources_url <- function(
   handle = targets::tar_option_get("resources")$url$handle,
   seconds_interval = 0.1,
-  seconds_timeout = 10
+  seconds_timeout = 5
 ) {
   out <- resources_url_init(
     handle = handle,

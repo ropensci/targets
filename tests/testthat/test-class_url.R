@@ -3,7 +3,7 @@ tar_test("dynamic urls work", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url))
+  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 5))
   tar_script({
     list(
       tar_target(
@@ -22,7 +22,6 @@ tar_test("dynamic urls work", {
     progress = "built"
   )
   expect_equal(tar_progress(fields = NULL), exp)
-  skip_if(!url_exists(url))
   tar_make(callr_function = NULL)
   expect_equal(tar_progress()$progress, "skipped")
   meta <- tar_meta(abc)
@@ -41,7 +40,7 @@ tar_test("dynamic urls in dynamic branches work", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url))
+  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 5))
   tar_script({
     list(
       tar_target(x, 1),
@@ -53,11 +52,9 @@ tar_test("dynamic urls in dynamic branches work", {
       )
     )
   })
-  skip_if(!url_exists(url))
   tar_make(callr_function = NULL)
   branch <- tar_branch_names(abc, 1)
   expect_equal(tar_progress(fields = NULL)$progress, rep("built", 3))
-  skip_if(!url_exists(url))
   tar_make(callr_function = NULL)
   expect_equal(tar_progress(fields = NULL)$progress, rep("skipped", 3))
   meta <- tar_meta()
@@ -77,7 +74,7 @@ tar_test("dynamic urls work from a custom data store", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url))
+  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 5))
   tar_script({
     list(
       tar_target(
@@ -100,7 +97,6 @@ tar_test("dynamic urls work from a custom data store", {
     progress = "built"
   )
   expect_equal(tar_progress(fields = NULL), exp)
-  skip_if(!url_exists(url))
   tar_make(callr_function = NULL)
   expect_equal(tar_progress()$progress, "skipped")
   meta <- tar_meta(abc)
@@ -119,7 +115,6 @@ tar_test("dynamic urls work from a custom data store", {
   expect_false(dir.exists(path))
   expect_true(file.exists(path_store_default()))
   expect_equal(tar_outdated(callr_function = NULL), character(0))
-  skip_if(!url_exists(url))
   tar_make(callr_function = NULL)
   expect_equal(unique(tar_progress()$progress), "skipped")
 })
@@ -137,7 +132,7 @@ tar_test("custom handle without error (unstructured resources)", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url))
+  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 5))
   tar_script({
     list(
       tar_target(
@@ -157,7 +152,6 @@ tar_test("custom handle without error (unstructured resources)", {
     ),
     class = "tar_condition_deprecate"
   )
-  skip_if(!url_exists(url))
   suppressWarnings(tar_make(callr_function = NULL))
   expect_equal(tar_read(abc), rep("https://httpbin.org/etag/test", 2))
   expect_false(file.exists(file.path("_targets", "objects", "abc")))
@@ -238,7 +232,7 @@ tar_test("bad curl handle throws an error (unstructrued resources)", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url))
+  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 5))
   tar_script({
     list(
       tar_target(
@@ -258,7 +252,6 @@ tar_test("bad curl handle throws an error (unstructrued resources)", {
     ),
     class = "tar_condition_deprecate"
   )
-  skip_if(!url_exists(url))
   suppressWarnings(
     expect_error(
       tar_make(callr_function = NULL),

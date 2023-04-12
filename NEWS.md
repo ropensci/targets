@@ -7,6 +7,7 @@
 * Shorten the output string returned by `tar_format()` when default methods are used.
 * Support distributed computing through the `crew` package in `tar_make()` (#753).
 * Use `parallelly::freePort()` in `tar_random_port()`.
+* In `format = "url"` targets, implement retries and timeouts when connecting to URLs. The default timeout is 5 seconds, and the default retry interval is 0.1 seconds. Both are configurable via `tar_resources_url()` (#1048).
 
 # targets 0.14.3
 

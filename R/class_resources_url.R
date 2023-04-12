@@ -1,7 +1,7 @@
 resources_url_init <- function(
   handle = NULL,
   seconds_interval = 0.1,
-  seconds_timeout = 10
+  seconds_timeout = 5
 ) {
   resources_url_new(
     handle = handle,

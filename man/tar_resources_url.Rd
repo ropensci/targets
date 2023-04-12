@@ -4,11 +4,23 @@
 \alias{tar_resources_url}
 \title{Target resources: URL storage formats}
 \usage{
-tar_resources_url(handle = targets::tar_option_get("resources")$url$handle)
+tar_resources_url(
+  handle = targets::tar_option_get("resources")$url$handle,
+  seconds_interval = 0.1,
+  seconds_timeout = 5
+)
 }
 \arguments{
 \item{handle}{Object returned by \code{curl::new_handle} or \code{NULL}.
 Defaults to \code{NULL}.}
+
+\item{seconds_interval}{Nonnegative numeric of length 1,
+number of seconds to wait between individual retries
+while attempting to connect to the URL.}
+
+\item{seconds_timeout}{Nonnegative numeric of length 1,
+number of seconds to wait before timing out while trying to
+connect to the URL.}
 }
 \value{
 Object of class \code{"tar_resources_url"}, to be supplied

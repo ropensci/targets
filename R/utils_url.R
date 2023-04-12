@@ -14,13 +14,30 @@ tar_random_port <- function(lower = 49152L, upper = 65355L) {
   parallelly::freePort(ports = ports, default = NA_integer_)
 }
 
-url_exists <- function(url, handle = NULL) {
-  unlist(lapply(url, url_exists_impl, handle = handle))
+url_exists <- function(
+  url,
+  handle = NULL,
+  seconds_interval,
+  seconds_timeout
+) {
+  tar_assert_internet()
+  handle <- url_handle(handle)
+  envir <- new.env(parent = emptyenv())
+  envir$out <- rep(FALSE, length(url))
+  retry(
+    ~{
+      envir$out <- map_lgl(url, url_exists_impl, handle = handle)
+      all(envir$out)
+    },
+    seconds_interval = seconds_interval,
+    seconds_timeout = seconds_timeout,
+    catch_error = TRUE,
+    message = paste("Cannot connect to url:", url)
+  )
+  envir$out
 }
 
 url_exists_impl <- function(url, handle) {
-  tar_assert_internet()
-  handle <- url_handle(handle)
   tryCatch(url_exists_try(url, handle), error = function(e) FALSE)
 }
 
@@ -29,8 +46,19 @@ url_exists_try <- function(url, handle) {
   url_status_success(req$status_code)
 }
 
-url_hash <- function(url, handle = NULL) {
-  digest_obj64(lapply(url, url_hash_impl, handle = handle))
+url_hash <- function(url, handle = NULL, seconds_interval, seconds_timeout) {
+  envir <- new.env(parent = emptyenv())
+  retry(
+    ~{
+      envir$out <- digest_obj64(lapply(url, url_hash_impl, handle = handle))
+      TRUE
+    },
+    seconds_interval = seconds_interval,
+    seconds_timeout = seconds_timeout,
+    catch_error = FALSE,
+    message = paste("Cannot connect to url:", url)
+  )
+  envir$out
 }
 
 url_hash_impl <- function(url, handle) {
