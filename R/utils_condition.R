@@ -27,6 +27,13 @@ tar_throw_cancel <- function(...) {
   )
 }
 
+tar_throw_expire <- function(...) {
+  tar_error(
+    message = paste0(...),
+    class = c("tar_condition_expire", "tar_condition_targets")
+  )
+}
+
 #' @export
 #' @rdname tar_condition
 tar_throw_file <- function(...) {

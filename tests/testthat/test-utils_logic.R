@@ -30,3 +30,34 @@ tar_test("if_any()", {
   expect_equal(if_any(TRUE, "x", "y"), "x")
   expect_equal(if_any(FALSE, "x", "y"), "y")
 })
+
+tar_test("retry() with argless function", {
+  expect_silent(retry(fun = function() TRUE))
+  expect_error(
+    retry(
+      fun = function() FALSE,
+      seconds_interval = 0.01,
+      seconds_timeout = 0.05
+    ),
+    class = "tar_condition_expire"
+  )
+})
+
+tar_test("retry() on a file", {
+  skip_on_cran()
+  tmp <- tempfile()
+  fun <- function(x) file.exists(x)
+  args <- list(x = tmp)
+  expect_error(
+    retry(
+      fun = ~FALSE,
+      args = args,
+      seconds_interval = 0.01,
+      seconds_timeout = 0.05
+    ),
+    class = "tar_condition_expire"
+  )
+  file.create(tmp)
+  on.exit(unlink(tmp))
+  expect_silent(retry(fun = fun, args = args))
+})
