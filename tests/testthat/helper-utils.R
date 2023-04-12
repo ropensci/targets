@@ -20,16 +20,6 @@ skip_cran <- function() {
   }
 }
 
-skip_crew <- function() {
-  skip_if_not_installed("crew")
-  should_run <- identical(tolower(Sys.info()[["sysname"]]), "darwin") ||
-    identical(tolower(Sys.info()[["sysname"]]), "windows") ||
-    identical(Sys.getenv("TAR_CREW_TESTS", unset = ""), "true")
-  if (!should_run) {
-    skip("skipping tests with crew")
-  }
-}
-
 skip_torch <- function() {
   skip_if_not_installed("torch")
   tryCatch(
