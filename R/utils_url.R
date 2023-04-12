@@ -9,7 +9,9 @@
 #' @examples
 #' tar_random_port()
 tar_random_port <- function(lower = 49152L, upper = 65355L) {
-  sample(seq.int(from = lower, to = upper, by = 1L), size = 1L)
+  tar_assert_package("parallelly")
+  ports <- seq.int(from = lower, to = upper, by = 1L)
+  parallelly::freePort(ports = ports, default = NA_integer_)
 }
 
 url_exists <- function(url, handle = NULL) {

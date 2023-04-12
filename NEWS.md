@@ -6,6 +6,7 @@
 * Add a new `copy` argument to allow `tar_format()` formats to set the `store_copy_object()` method (#1041, @MilesMcBain).
 * Shorten the output string returned by `tar_format()` when default methods are used.
 * Support distributed computing through the `crew` package in `tar_make()` (#753).
+* Use `parallelly::freePort()` in `tar_random_port()`.
 
 # targets 0.14.3
 
