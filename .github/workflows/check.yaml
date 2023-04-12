@@ -7,7 +7,7 @@ name: check
 jobs:
   check:
     runs-on: ${{ matrix.config.os }}
-
+    timeout-minutes: 45
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
