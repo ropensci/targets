@@ -22,7 +22,9 @@ skip_cran <- function() {
 
 skip_crew <- function() {
   skip_if_not_installed("crew")
-  if (!identical(Sys.getenv("TAR_CREW_TESTS", unset = ""), "true")) {
+  should_run <- identical(tolower(Sys.info()[["sysname"]]), "darwin") ||
+    identical(Sys.getenv("TAR_CREW_TESTS", unset = ""), "true")
+  if (!should_run) {
     skip("skipping tests with crew")
   }
 }
