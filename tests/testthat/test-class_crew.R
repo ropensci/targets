@@ -12,19 +12,56 @@ tar_test("workerless deployment works", {
   skip_if_not_installed("crew")
   tar_runtime$set_fun("tar_make")
   on.exit(tar_runtime$unset_fun())
+  on.exit(gc(), add = TRUE)
   on.exit(crew_test_sleep(), add = TRUE)
-  x <- tar_target_raw("x", quote(1L), deployment = "main")
-  y <- tar_target_raw("y", quote(x), deployment = "main")
-  z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
+  x <- tar_target_raw(
+    "x",
+    quote(1L),
+    deployment = "main",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+  y <- tar_target_raw(
+    "y",
+    quote(x),
+    deployment = "main",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+  z <- tar_target_raw(
+    "z",
+    quote(x + 1L),
+    deployment = "main",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
   pipeline <- pipeline_init(list(x, y, z))
   controller <- crew::crew_controller_local()
   crew_init(pipeline, controller = controller)$run()
   expect_equal(target_read_value(x)$object, 1L)
   expect_equal(target_read_value(y)$object, 1L)
   expect_equal(target_read_value(z)$object, 2L)
-  x <- tar_target_raw("x", quote(1L), deployment = "main")
-  y <- tar_target_raw("y", quote(x), deployment = "main")
-  z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
+  x <- tar_target_raw(
+    "x",
+    quote(1L),
+    deployment = "main",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+  y <- tar_target_raw(
+    "y",
+    quote(x),
+    deployment = "main",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+  z <- tar_target_raw(
+    "z",
+    quote(x + 1L),
+    deployment = "main",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
   pipeline <- pipeline_init(list(x, y, z))
   out <- crew_init(pipeline)
   out$run()
@@ -40,19 +77,56 @@ tar_test("semi-workerless deployment works", {
   crew_test_sleep()
   tar_runtime$set_fun("tar_make")
   on.exit(tar_runtime$unset_fun())
+  on.exit(gc(), add = TRUE)
   on.exit(crew_test_sleep(), add = TRUE)
-  x <- tar_target_raw("x", quote(1L), deployment = "main")
-  y <- tar_target_raw("y", quote(x), deployment = "worker")
-  z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
+  x <- tar_target_raw(
+    "x",
+    quote(1L),
+    deployment = "main",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+  y <- tar_target_raw(
+    "y",
+    quote(x),
+    deployment = "worker",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+  z <- tar_target_raw(
+    "z",
+    quote(x + 1L),
+    deployment = "main",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
   pipeline <- pipeline_init(list(x, y, z))
   controller <- crew::crew_controller_local()
   crew_init(pipeline, controller = controller)$run()
   expect_equal(target_read_value(x)$object, 1L)
   expect_equal(tar_read(y), 1L)
   expect_equal(target_read_value(z)$object, 2L)
-  x <- tar_target_raw("x", quote(1L), deployment = "main")
-  y <- tar_target_raw("y", quote(x), deployment = "worker")
-  z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
+  x <- tar_target_raw(
+    "x",
+    quote(1L),
+    deployment = "main",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+  y <- tar_target_raw(
+    "y",
+    quote(x),
+    deployment = "worker",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+  z <- tar_target_raw(
+    "z",
+    quote(x + 1L),
+    deployment = "main",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
   pipeline <- pipeline_init(list(x, y, z))
   controller <- crew::crew_controller_local()
   out <- crew_init(pipeline, controller = controller)
@@ -66,17 +140,37 @@ tar_test("some targets up to date, some not", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew")
-  crew_test_sleep()
   tar_runtime$set_fun("tar_make")
   on.exit(tar_runtime$unset_fun())
+  on.exit(gc(), add = TRUE)
   on.exit(crew_test_sleep(), add = TRUE)
-  x <- tar_target_raw("x", quote(1L))
-  y <- tar_target_raw("y", quote(x))
+  x <- tar_target_raw(
+    "x",
+    quote(1L),
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+  y <- tar_target_raw(
+    "y",
+    quote(x),
+    memory = "transient",
+    garbage_collection = TRUE
+  )
   pipeline <- pipeline_init(list(x, y))
   local <- local_init(pipeline)
   local$run()
-  x <- tar_target_raw("x", quote(1L))
-  y <- tar_target_raw("y", quote(x + 1L))
+  x <- tar_target_raw(
+    "x",
+    quote(1L),
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+  y <- tar_target_raw(
+    "y",
+    quote(x + 1L),
+    memory = "transient",
+    garbage_collection = TRUE
+  )
   pipeline <- pipeline_init(list(x, y))
   controller <- crew::crew_controller_local()
   algo <- crew_init(pipeline, controller = controller)
@@ -94,15 +188,36 @@ tar_test("crew algo can skip targets", {
   skip_if_not_installed("crew")
   tar_runtime$set_fun("tar_make")
   on.exit(tar_runtime$unset_fun())
+  on.exit(gc(), add = TRUE)
   on.exit(crew_test_sleep(), add = TRUE)
-  x <- tar_target_raw("x", quote(1L))
-  y <- tar_target_raw("y", quote(x))
+  x <- tar_target_raw(
+    "x",
+    quote(1L),
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+  y <- tar_target_raw(
+    "y",
+    quote(x),
+    memory = "transient",
+    garbage_collection = TRUE
+  )
   pipeline <- pipeline_init(list(x, y))
   local <- local_init(pipeline)
   local$run()
   unlink(file.path("_targets", "objects", "x"))
-  x <- tar_target_raw("x", quote(1L))
-  y <- tar_target_raw("y", quote(x))
+  x <- tar_target_raw(
+    "x",
+    quote(1L),
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+  y <- tar_target_raw(
+    "y",
+    quote(x),
+    memory = "transient",
+    garbage_collection = TRUE
+  )
   pipeline <- pipeline_init(list(x, y))
   controller <- crew::crew_controller_local()
   algo <- crew_init(pipeline, controller = controller)
@@ -119,6 +234,7 @@ tar_test("nontrivial common data", {
   skip_if_not_installed("crew")
   tar_runtime$set_fun("tar_make")
   on.exit(tar_runtime$unset_fun())
+  on.exit(gc(), add = TRUE)
   on.exit(crew_test_sleep(), add = TRUE)
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
@@ -132,7 +248,12 @@ tar_test("nontrivial common data", {
       x + 1L
     }
   }, envir = envir)
-  x <- tar_target_raw("x", quote(f(1L)))
+  x <- tar_target_raw(
+    "x",
+    quote(f(1L)),
+    memory = "transient",
+    garbage_collection = TRUE
+  )
   pipeline <- pipeline_init(list(x))
   controller <- crew::crew_controller_local()
   algo <- crew_init(pipeline, controller = controller)
@@ -148,6 +269,7 @@ tar_test("crew with a dynamic file", {
   skip_if_not_installed("crew")
   tar_runtime$set_fun("tar_make")
   on.exit(tar_runtime$unset_fun())
+  on.exit(gc(), add = TRUE)
   on.exit(crew_test_sleep(), add = TRUE)
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
@@ -160,7 +282,13 @@ tar_test("crew with a dynamic file", {
       file
     }
   }, envir = envir)
-  x <- tar_target_raw("x", quote(save1()), format = "file")
+  x <- tar_target_raw(
+    "x",
+    quote(save1()),
+    format = "file",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
   pipeline <- pipeline_init(list(x))
   controller <- crew::crew_controller_local()
   algo <- crew_init(pipeline, controller = controller)
@@ -168,43 +296,13 @@ tar_test("crew with a dynamic file", {
   out <- names(algo$scheduler$progress$built$envir)
   expect_equal(out, "x")
   saveRDS(2L, pipeline_get_target(pipeline, "x")$store$file$path)
-  x <- tar_target_raw("x", quote(save1()), format = "file")
-  pipeline <- pipeline_init(list(x))
-  controller <- crew::crew_controller_local()
-  algo <- crew_init(pipeline, controller = controller)
-  algo$run()
-  out <- names(algo$scheduler$progress$built$envir)
-  expect_equal(out, "x")
-})
-
-tar_test("crew with a dynamic file", {
-  skip_cran()
-  skip_on_os("windows")
-  skip_on_os("solaris")
-  skip_if_not_installed("crew")
-  tar_runtime$set_fun("tar_make")
-  on.exit(tar_runtime$unset_fun())
-  on.exit(crew_test_sleep(), add = TRUE)
-  old_envir <- tar_option_get("envir")
-  envir <- new.env(parent = globalenv())
-  on.exit(tar_option_set(envir = old_envir), add = TRUE)
-  tar_option_set(envir = envir)
-  evalq({
-    save1 <- function() {
-      file <- "saved.out"
-      saveRDS(1L, file)
-      file
-    }
-  }, envir = envir)
-  x <- tar_target_raw("x", quote(save1()), format = "file")
-  pipeline <- pipeline_init(list(x))
-  controller <- crew::crew_controller_local()
-  algo <- crew_init(pipeline, controller = controller)
-  algo$run()
-  out <- names(algo$scheduler$progress$built$envir)
-  expect_equal(out, "x")
-  saveRDS(2L, pipeline_get_target(pipeline, "x")$store$file$path)
-  x <- tar_target_raw("x", quote(save1()), format = "file")
+  x <- tar_target_raw(
+    "x",
+    quote(save1()),
+    format = "file",
+    memory = "transient",
+    garbage_collection = TRUE
+  )
   pipeline <- pipeline_init(list(x))
   controller <- crew::crew_controller_local()
   algo <- crew_init(pipeline, controller = controller)

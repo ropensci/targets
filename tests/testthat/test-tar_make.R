@@ -17,10 +17,16 @@ tar_test("tar_make() works", {
 tar_test("tar_make() works with crew", {
   skip_if_not_installed("crew")
   crew_test_sleep()
-  on.exit(crew_test_sleep())
+  on.exit(gc())
+  on.exit(crew_test_sleep(), add = TRUE)
   tar_script({
     tar_option_set(controller = crew::crew_controller_local())
-    tar_target(x, TRUE)
+    tar_target(
+      x,
+      TRUE,
+      memory = "transient",
+      garbage_collection = TRUE
+    )
   })
   tar_make(
     reporter = "silent",
