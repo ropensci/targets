@@ -6,8 +6,8 @@
 \usage{
 tar_resources_url(
   handle = targets::tar_option_get("resources")$url$handle,
-  seconds_interval = 0.1,
-  seconds_timeout = 5
+  seconds_interval = 1,
+  seconds_timeout = 10
 )
 }
 \arguments{
