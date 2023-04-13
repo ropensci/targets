@@ -38,20 +38,20 @@ jobs:
           extra-packages: any::covr
           needs: coverage
 
-      - name: Test coverage: try 1
+      - name: Test coverage try 1
         id: coverage_try_1
         continue-on-error: true
         run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}
 
-      - name: Test coverage: try 2
+      - name: Test coverage try 2
         id: coverage_try_2
         continue-on-error: true
         if: steps.coverage_try_1.outcome == 'failure'
         run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}
 
-      - name: Test coverage: try 3
+      - name: Test coverage try 3
         if: steps.coverage_try_2.outcome == 'failure'
         run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}
