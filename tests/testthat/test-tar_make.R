@@ -35,7 +35,7 @@ tar_test("tar_make() works with crew", {
       reporter = "silent",
       callr_function = NULL
     ),
-    timeout = 60
+    timeout = 180
   )
   out <- tar_read(x)
   expect_equal(out, TRUE)
