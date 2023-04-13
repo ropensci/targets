@@ -76,7 +76,7 @@ Suggests:
   arrow (>= 3.0.0),
   bs4Dash (>= 0.5.0),
   clustermq (>= 0.8.95.1),
-  crew (>= 0.0.5.9007),
+  crew (>= 0.0.5.9008),
   curl (>= 4.3),
   DT (>= 0.14),
   dplyr (>= 1.0.0),
