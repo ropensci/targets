@@ -1,13 +1,13 @@
 # targets 0.14.3.9000
 
-* Rename a target and a function in the `tar_script()` example pipeline (#1033, @b-rodrigues).
-* Add a `change_directory` argument to `tar_source()` (#1040, @dipterix).
+* Support distributed computing through the `crew` package in `tar_make()` (#753).
 * Add a new `store_copy_object()` to the store class to enable `"fst_dt"` and other formats to make deep copies when needed (#1041, @MilesMcBain).
 * Add a new `copy` argument to allow `tar_format()` formats to set the `store_copy_object()` method (#1041, @MilesMcBain).
 * Shorten the output string returned by `tar_format()` when default methods are used.
-* Support distributed computing through the `crew` package in `tar_make()` (#753).
-* Use `parallelly::freePort()` in `tar_random_port()`.
+* Add a `change_directory` argument to `tar_source()` (#1040, @dipterix).
 * In `format = "url"` targets, implement retries and timeouts when connecting to URLs. The default timeout is 10 seconds, and the default retry interval is 1 second. Both are configurable via `tar_resources_url()` (#1048).
+* Use `parallelly::freePort()` in `tar_random_port()`.
+* Rename a target and a function in the `tar_script()` example pipeline (#1033, @b-rodrigues).
 
 # targets 0.14.3
 
