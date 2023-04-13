@@ -29,8 +29,8 @@
 #' }
 tar_resources_url <- function(
   handle = targets::tar_option_get("resources")$url$handle,
-  seconds_interval = 0.1,
-  seconds_timeout = 5
+  seconds_interval = 1,
+  seconds_timeout = 10
 ) {
   out <- resources_url_init(
     handle = handle,

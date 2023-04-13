@@ -3,13 +3,19 @@ tar_test("dynamic urls work", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 5))
+  skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
   tar_script({
     list(
       tar_target(
         abc,
         rep("https://httpbin.org/etag/test", 2),
-        format = "url"
+        format = "url",
+        resources = tar_resources(
+          url = tar_resources_url(
+            seconds_interval = 0.5,
+            seconds_timeout = 20
+          )
+        )
       )
     )
   })
@@ -40,7 +46,7 @@ tar_test("dynamic urls in dynamic branches work", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 5))
+  skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
   tar_script({
     list(
       tar_target(x, 1),
@@ -48,7 +54,13 @@ tar_test("dynamic urls in dynamic branches work", {
         abc,
         "https://httpbin.org/etag/test",
         format = "url",
-        pattern = map(x)
+        pattern = map(x),
+        resources = tar_resources(
+          url = tar_resources_url(
+            seconds_interval = 0.5,
+            seconds_timeout = 20
+          )
+        )
       )
     )
   })
@@ -74,13 +86,19 @@ tar_test("dynamic urls work from a custom data store", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 5))
+  skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
   tar_script({
     list(
       tar_target(
         abc,
         rep("https://httpbin.org/etag/test", 2),
-        format = "url"
+        format = "url",
+        resources = tar_resources(
+          url = tar_resources_url(
+            seconds_interval = 0.5,
+            seconds_timeout = 20
+          )
+        )
       )
     )
   })
@@ -123,7 +141,19 @@ tar_test("tar_condition_run error on bad URL", {
   skip_cran()
   skip_if_not_installed("curl")
   skip_if_offline()
-  tar_script(tar_target(abc, "https://httpbin.org/status/404", format = "url"))
+  tar_script(
+    tar_target(
+      abc,
+      "https://httpbin.org/status/404",
+      format = "url",
+      resources = tar_resources(
+        url = tar_resources_url(
+          seconds_interval = 0.5,
+          seconds_timeout = 0
+        )
+      )
+    )
+  )
   expect_error(tar_make(callr_function = NULL), class = "tar_condition_run")
 })
 
@@ -132,7 +162,7 @@ tar_test("custom handle without error (unstructured resources)", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 5))
+  skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 10))
   tar_script({
     list(
       tar_target(
@@ -164,7 +194,13 @@ tar_test("dynamic urls must return characters", {
   x <- target_init(
     name = "abc",
     expr = quote(list(list("illegal"))),
-    format = "url"
+    format = "url",
+    resources = tar_resources(
+      url = tar_resources_url(
+        seconds_interval = 0.5,
+        seconds_timeout = 0
+      )
+    )
   )
   pipeline <- pipeline_init(list(x))
   local <- local_init(pipeline = pipeline)
@@ -207,7 +243,7 @@ tar_test("bad curl handle throws an error (structrued resources)", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 5))
+  skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
   tar_script({
     list(
       tar_target(
@@ -215,7 +251,9 @@ tar_test("bad curl handle throws an error (structrued resources)", {
         rep("https://httpbin.org/etag/test", 2),
         format = "url",
         resources = tar_resources(
-          url = tar_resources_url(handle = "invalid")
+          url = tar_resources_url(handle = "invalid"),
+          seconds_interval = 0.5,
+          seconds_timeout = 0
         )
       )
     )
@@ -231,7 +269,7 @@ tar_test("bad curl handle throws an error (unstructrued resources)", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 5))
+  skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
   tar_script({
     list(
       tar_target(
