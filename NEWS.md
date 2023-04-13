@@ -1,4 +1,4 @@
-# targets 0.14.3.9000
+# targets 0.14.3.9001
 
 * Support distributed computing through the `crew` package in `tar_make()` (#753).
 * Add a new `store_copy_object()` to the store class to enable `"fst_dt"` and other formats to make deep copies when needed (#1041, @MilesMcBain).
