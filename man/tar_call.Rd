@@ -19,8 +19,8 @@ a target or \verb{_targets.R} (i.e. if not directly invoked
 by \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_visnetwork]{tar_visnetwork()}}, etc.).
 }
 \examples{
-if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
-tar_dir({ # tar_dir() runs code from a temporary directory.
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_call() # NULL
 tar_script({
   message("called function: ", tar_call())

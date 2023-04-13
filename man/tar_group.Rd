@@ -34,7 +34,7 @@ shows how the grouping variables correspond to the integers in the
 \code{tar_group} column.
 }
 \examples{
-if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 # The tar_group() function simply creates
 # a tar_group column to partition the rows
 # of a data frame.
@@ -46,7 +46,7 @@ data.frame(
   tar_group()
 # We use tar_group() below to branch over
 # subsets of a data frame defined with dplyr::group_by().
-tar_dir({ # tar_dir() runs code from a temporary directory.
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script({
 library(dplyr)
 list(

@@ -55,7 +55,7 @@ supply non-default resources to \code{tar_target()}.)
 }
 
 \examples{
-if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 # Somewhere in you target script file (usually _targets.R):
 tar_target(
   name,

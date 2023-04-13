@@ -6,8 +6,8 @@
 #' @return Logical of length 1, `TRUE` if called in a target or `_targets.R`
 #'   and the pipeline is running (`FALSE` otherwise).
 #' @examples
-#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
-#' tar_dir({ # tar_dir() runs code from a temporary directory.
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+#' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #' tar_active() # FALSE
 #' tar_script({
 #'   message("Pipeline running? ", tar_active())

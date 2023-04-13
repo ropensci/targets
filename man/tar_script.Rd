@@ -72,7 +72,7 @@ in the same function call.
 }
 
 \examples{
-tar_dir({ # tar_dir() runs code from a temporary directory.
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script() # Writes an example target script file.
 # Writes a user-defined target script:
 tar_script({

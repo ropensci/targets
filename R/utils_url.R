@@ -55,7 +55,7 @@ url_hash <- function(url, handle = NULL, seconds_interval, seconds_timeout) {
     },
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
-    catch_error = FALSE,
+    catch_error = TRUE,
     message = paste("Cannot connect to url:", url)
   )
   envir$out

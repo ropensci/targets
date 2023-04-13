@@ -22,7 +22,7 @@
 #' @return `NULL` (invisibly).
 #' @inheritParams tar_validate
 #' @examples
-#' tar_dir({ # tar_dir() runs code from a temporary directory.
+#' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #' tar_unscript()
 #' })
 tar_unscript <- function(script = targets::tar_config_get("script")) {

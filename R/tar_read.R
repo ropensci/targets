@@ -18,8 +18,8 @@
 #' @inheritParams tar_read_raw
 #' @param name Symbol, name of the target to read.
 #' @examples
-#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
-#' tar_dir({ # tar_dir() runs code from a temporary directory.
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+#' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #' tar_script(list(tar_target(x, 1 + 1)), ask = FALSE)
 #' tar_make()
 #' tar_read(x)

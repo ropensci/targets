@@ -50,8 +50,8 @@ with workspaces enabled for that target.
 See \code{\link[=tar_workspace]{tar_workspace()}} for details.
 }
 \examples{
-if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
-tar_dir({ # tar_dir() runs code from a temporary directory.
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tmp <- sample(1)
 tar_script({
   tar_option_set(workspace_on_error = TRUE)

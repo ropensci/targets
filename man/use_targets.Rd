@@ -101,7 +101,7 @@ and the scripts in \verb{R/} and repeating steps (1) through (3).
 }
 \examples{
 if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
-tar_dir({ # tar_dir() runs code from a temporary directory.
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 use_targets(open = FALSE)
 })
 }

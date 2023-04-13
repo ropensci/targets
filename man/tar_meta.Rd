@@ -101,8 +101,8 @@ That is why the number of branches may disagree between \code{\link[=tar_meta]{t
 and \code{\link[=tar_progress]{tar_progress()}} for actively running pipelines.
 }
 \examples{
-if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
-tar_dir({ # tar_dir() runs code from a temporary directory.
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script({
   list(
     tar_target(x, seq_len(2)),

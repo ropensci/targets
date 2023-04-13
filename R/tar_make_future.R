@@ -17,8 +17,8 @@
 #' @param workers Positive integer, maximum number of transient
 #'   `future` workers allowed to run at any given time.
 #' @examples
-#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
-#' tar_dir({ # tar_dir() runs code from a temporary directory.
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+#' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #' tar_script({
 #'   future::plan(future::multisession, workers = 2)
 #'   list(

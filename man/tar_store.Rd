@@ -22,8 +22,8 @@ Use \code{\link[=tar_path_store]{tar_path_store()}} instead.
 }
 \examples{
 tar_path_store()
-if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
-tar_dir({ # tar_dir() runs code from a temporary directory.
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script(tar_target(x, tar_path_store()), ask = FALSE)
 store <- tempfile()
 tar_make(store = store)

@@ -44,7 +44,7 @@ project configuration settings correctly identify the correct
 target script.
 }
 \examples{
-tar_dir({ # tar_dir() runs code from a temporary directory.
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_unscript()
 })
 }
