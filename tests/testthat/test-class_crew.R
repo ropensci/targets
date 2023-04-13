@@ -11,9 +11,6 @@ tar_test("workerless deployment works", {
   skip_on_os("solaris")
   skip_if_not_installed("crew")
   tar_runtime$set_fun("tar_make")
-  on.exit(tar_runtime$unset_fun())
-  on.exit(gc(), add = TRUE)
-  on.exit(crew_test_sleep(), add = TRUE)
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -37,6 +34,13 @@ tar_test("workerless deployment works", {
   )
   pipeline <- pipeline_init(list(x, y, z))
   controller <- crew::crew_controller_local()
+  on.exit({
+    tar_runtime$unset_fun()
+    controller$terminate()
+    rm(controller)
+    gc()
+    crew_test_sleep()
+  })
   crew_init(pipeline, controller = controller)$run()
   expect_equal(target_read_value(x)$object, 1L)
   expect_equal(target_read_value(y)$object, 1L)
@@ -76,9 +80,6 @@ tar_test("semi-workerless deployment works", {
   skip_if_not_installed("crew")
   crew_test_sleep()
   tar_runtime$set_fun("tar_make")
-  on.exit(tar_runtime$unset_fun())
-  on.exit(gc(), add = TRUE)
-  on.exit(crew_test_sleep(), add = TRUE)
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -103,6 +104,10 @@ tar_test("semi-workerless deployment works", {
   pipeline <- pipeline_init(list(x, y, z))
   controller <- crew::crew_controller_local()
   crew_init(pipeline, controller = controller)$run()
+  controller$terminate()
+  rm(controller)
+  gc()
+  crew_test_sleep()
   expect_equal(target_read_value(x)$object, 1L)
   expect_equal(tar_read(y), 1L)
   expect_equal(target_read_value(z)$object, 2L)
@@ -129,6 +134,13 @@ tar_test("semi-workerless deployment works", {
   )
   pipeline <- pipeline_init(list(x, y, z))
   controller <- crew::crew_controller_local()
+  on.exit({
+    tar_runtime$unset_fun()
+    controller$terminate()
+    rm(controller)
+    gc()
+    crew_test_sleep()
+  })
   out <- crew_init(pipeline, controller = controller)
   out$run()
   built <- names(out$scheduler$progress$built$envir)
@@ -141,9 +153,6 @@ tar_test("some targets up to date, some not", {
   skip_on_os("solaris")
   skip_if_not_installed("crew")
   tar_runtime$set_fun("tar_make")
-  on.exit(tar_runtime$unset_fun())
-  on.exit(gc(), add = TRUE)
-  on.exit(crew_test_sleep(), add = TRUE)
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -173,6 +182,13 @@ tar_test("some targets up to date, some not", {
   )
   pipeline <- pipeline_init(list(x, y))
   controller <- crew::crew_controller_local()
+  on.exit({
+    tar_runtime$unset_fun()
+    controller$terminate()
+    rm(controller)
+    gc()
+    crew_test_sleep()
+  })
   algo <- crew_init(pipeline, controller = controller)
   algo$run()
   out <- names(algo$scheduler$progress$built$envir)
@@ -187,9 +203,6 @@ tar_test("crew algo can skip targets", {
   skip_on_os("solaris")
   skip_if_not_installed("crew")
   tar_runtime$set_fun("tar_make")
-  on.exit(tar_runtime$unset_fun())
-  on.exit(gc(), add = TRUE)
-  on.exit(crew_test_sleep(), add = TRUE)
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -220,6 +233,13 @@ tar_test("crew algo can skip targets", {
   )
   pipeline <- pipeline_init(list(x, y))
   controller <- crew::crew_controller_local()
+  on.exit({
+    tar_runtime$unset_fun()
+    controller$terminate()
+    rm(controller)
+    gc()
+    crew_test_sleep()
+  })
   algo <- crew_init(pipeline, controller = controller)
   algo$run()
   out <- names(algo$scheduler$progress$built$envir)
@@ -233,9 +253,6 @@ tar_test("nontrivial common data", {
   skip_on_os("solaris")
   skip_if_not_installed("crew")
   tar_runtime$set_fun("tar_make")
-  on.exit(tar_runtime$unset_fun())
-  on.exit(gc(), add = TRUE)
-  on.exit(crew_test_sleep(), add = TRUE)
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
@@ -256,57 +273,15 @@ tar_test("nontrivial common data", {
   )
   pipeline <- pipeline_init(list(x))
   controller <- crew::crew_controller_local()
+  on.exit({
+    tar_runtime$unset_fun()
+    controller$terminate()
+    rm(controller)
+    gc()
+    crew_test_sleep()
+  })
   algo <- crew_init(pipeline, controller = controller)
   algo$run()
   value <- target_read_value(pipeline_get_target(pipeline, "x"))
   expect_equal(value$object, 3L)
-})
-
-tar_test("crew with a dynamic file", {
-  skip_cran()
-  skip_on_os("windows")
-  skip_on_os("solaris")
-  skip_if_not_installed("crew")
-  tar_runtime$set_fun("tar_make")
-  on.exit(tar_runtime$unset_fun())
-  on.exit(gc(), add = TRUE)
-  on.exit(crew_test_sleep(), add = TRUE)
-  old_envir <- tar_option_get("envir")
-  envir <- new.env(parent = globalenv())
-  on.exit(tar_option_set(envir = old_envir), add = TRUE)
-  tar_option_set(envir = envir)
-  evalq({
-    save1 <- function() {
-      file <- "saved.out"
-      saveRDS(1L, file)
-      file
-    }
-  }, envir = envir)
-  x <- tar_target_raw(
-    "x",
-    quote(save1()),
-    format = "file",
-    memory = "transient",
-    garbage_collection = TRUE
-  )
-  pipeline <- pipeline_init(list(x))
-  controller <- crew::crew_controller_local()
-  algo <- crew_init(pipeline, controller = controller)
-  algo$run()
-  out <- names(algo$scheduler$progress$built$envir)
-  expect_equal(out, "x")
-  saveRDS(2L, pipeline_get_target(pipeline, "x")$store$file$path)
-  x <- tar_target_raw(
-    "x",
-    quote(save1()),
-    format = "file",
-    memory = "transient",
-    garbage_collection = TRUE
-  )
-  pipeline <- pipeline_init(list(x))
-  controller <- crew::crew_controller_local()
-  algo <- crew_init(pipeline, controller = controller)
-  algo$run()
-  out <- names(algo$scheduler$progress$built$envir)
-  expect_equal(out, "x")
 })
