@@ -16,6 +16,7 @@ tar_test("tar_make() works", {
 
 tar_test("tar_make() works with crew", {
   skip_if_not_installed("crew")
+  skip_if_not_installed("R.utils")
   tar_script({
     tar_option_set(controller = crew::crew_controller_local())
     tar_target(
@@ -29,9 +30,12 @@ tar_test("tar_make() works with crew", {
     gc()
     crew_test_sleep()
   })
-  tar_make(
-    reporter = "silent",
-    callr_function = NULL
+  R.utils::withTimeout(
+    tar_make(
+      reporter = "silent",
+      callr_function = NULL
+    ),
+    timeout = 60
   )
   out <- tar_read(x)
   expect_equal(out, TRUE)

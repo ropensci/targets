@@ -10,6 +10,7 @@ tar_test("workerless deployment works", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew")
+  skip_if_not_installed("R.utils")
   tar_runtime$set_fun("tar_make")
   x <- tar_target_raw(
     "x",
@@ -34,14 +35,13 @@ tar_test("workerless deployment works", {
   )
   pipeline <- pipeline_init(list(x, y, z))
   controller <- crew::crew_controller_local()
-  on.exit({
-    tar_runtime$unset_fun()
-    controller$terminate()
-    rm(controller)
-    gc()
-    crew_test_sleep()
-  })
-  crew_init(pipeline, controller = controller)$run()
+  R.utils::withTimeout(
+    crew_init(pipeline, controller = controller)$run(),
+    timeout = 60
+  )
+  controller$terminate()
+  gc()
+  crew_test_sleep()
   expect_equal(target_read_value(x)$object, 1L)
   expect_equal(target_read_value(y)$object, 1L)
   expect_equal(target_read_value(z)$object, 2L)
@@ -67,8 +67,16 @@ tar_test("workerless deployment works", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x, y, z))
-  out <- crew_init(pipeline)
-  out$run()
+  controller <- crew::crew_controller_local()
+  out <- crew_init(pipeline, controller = controller)
+  on.exit({
+    tar_runtime$unset_fun()
+    controller$terminate()
+    rm(controller)
+    gc()
+    crew_test_sleep()
+  })
+  R.utils::withTimeout(out$run(), timeout = 60)
   built <- names(out$scheduler$progress$built$envir)
   expect_equal(built, character(0))
 })
@@ -78,6 +86,7 @@ tar_test("semi-workerless deployment works", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew")
+  skip_if_not_installed("R.utils")
   crew_test_sleep()
   tar_runtime$set_fun("tar_make")
   x <- tar_target_raw(
@@ -103,7 +112,10 @@ tar_test("semi-workerless deployment works", {
   )
   pipeline <- pipeline_init(list(x, y, z))
   controller <- crew::crew_controller_local()
-  crew_init(pipeline, controller = controller)$run()
+  R.utils::withTimeout(
+    crew_init(pipeline, controller = controller)$run(),
+    timeout = 60
+  )
   controller$terminate()
   rm(controller)
   gc()
@@ -142,7 +154,7 @@ tar_test("semi-workerless deployment works", {
     crew_test_sleep()
   })
   out <- crew_init(pipeline, controller = controller)
-  out$run()
+  R.utils::withTimeout(out$run(), timeout = 60)
   built <- names(out$scheduler$progress$built$envir)
   expect_equal(built, character(0))
 })
@@ -152,6 +164,7 @@ tar_test("some targets up to date, some not", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew")
+  skip_if_not_installed("R.utils")
   tar_runtime$set_fun("tar_make")
   x <- tar_target_raw(
     "x",
@@ -167,7 +180,7 @@ tar_test("some targets up to date, some not", {
   )
   pipeline <- pipeline_init(list(x, y))
   local <- local_init(pipeline)
-  local$run()
+  R.utils::withTimeout(local$run(), timeout = 60)
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -190,7 +203,7 @@ tar_test("some targets up to date, some not", {
     crew_test_sleep()
   })
   algo <- crew_init(pipeline, controller = controller)
-  algo$run()
+  R.utils::withTimeout(algo$run(), timeout = 60)
   out <- names(algo$scheduler$progress$built$envir)
   expect_equal(out, "y")
   value <- target_read_value(pipeline_get_target(pipeline, "y"))
@@ -202,6 +215,7 @@ tar_test("crew algo can skip targets", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew")
+  skip_if_not_installed("R.utils")
   tar_runtime$set_fun("tar_make")
   x <- tar_target_raw(
     "x",
@@ -217,7 +231,7 @@ tar_test("crew algo can skip targets", {
   )
   pipeline <- pipeline_init(list(x, y))
   local <- local_init(pipeline)
-  local$run()
+  R.utils::withTimeout(local$run(), timeout = 60)
   unlink(file.path("_targets", "objects", "x"))
   x <- tar_target_raw(
     "x",
@@ -241,7 +255,7 @@ tar_test("crew algo can skip targets", {
     crew_test_sleep()
   })
   algo <- crew_init(pipeline, controller = controller)
-  algo$run()
+  R.utils::withTimeout(algo$run(), timeout = 60)
   out <- names(algo$scheduler$progress$built$envir)
   expect_equal(out, "x")
   expect_equal(tar_read(x), 1L)
@@ -252,6 +266,7 @@ tar_test("nontrivial common data", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew")
+  skip_if_not_installed("R.utils")
   tar_runtime$set_fun("tar_make")
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
@@ -281,7 +296,7 @@ tar_test("nontrivial common data", {
     crew_test_sleep()
   })
   algo <- crew_init(pipeline, controller = controller)
-  algo$run()
+  R.utils::withTimeout(algo$run(), timeout = 60)
   value <- target_read_value(pipeline_get_target(pipeline, "x"))
   expect_equal(value$object, 3L)
 })
