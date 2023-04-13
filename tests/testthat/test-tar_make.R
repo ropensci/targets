@@ -17,6 +17,11 @@ tar_test("tar_make() works", {
 tar_test("tar_make() works with crew", {
   skip_if_not_installed("crew")
   skip_if_not_installed("R.utils")
+  should_skip <- identical(tolower(Sys.info()[["sysname"]]), "windows") &&
+    isTRUE(as.logical(Sys.getenv("CI")))
+  if (should_skip) {
+    skip("skipping on Windows CI.")
+  }
   tar_script({
     tar_option_set(controller = crew::crew_controller_local())
     tar_target(
