@@ -6,8 +6,8 @@ Description: Pipeline tools coordinate the pieces of computationally
   data science in R. The package skips costly runtime for tasks
   that are already up to date,
   orchestrates the necessary computation with implicit parallel computing,
-  and abstracts files as R objects. If the current output matches
-  the current upstream code and data, then the 'targets' pipeline is up
+  and abstracts files as R objects. If all the current output matches
+  the current upstream code and data, then the whole pipeline is up
   to date, and the results are more trustworthy than otherwise.
   The methodology in this package
   borrows from GNU 'Make' (2015, ISBN:978-9881443519)
