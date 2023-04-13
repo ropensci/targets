@@ -42,8 +42,8 @@ using \code{library()} with \code{lib.loc} defined in \code{tar_option_get("libr
 (default: \code{NULL}).
 }
 \examples{
-if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
-tar_dir({ # tar_dir() runs code from a temporary directory.
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script({
   tar_option_set(packages = "callr")
   analyze_data <- function(data) {

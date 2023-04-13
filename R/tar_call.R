@@ -10,8 +10,8 @@
 #'   `tar_call()` inside a target or `_targets.R`. Then if you run
 #'   `tar_make()`, `tar_call()` will return `"tar_make"`.
 #' @examples
-#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
-#' tar_dir({ # tar_dir() runs code from a temporary directory.
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+#' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #' tar_call() # NULL
 #' tar_script({
 #'   message("called function: ", tar_call())

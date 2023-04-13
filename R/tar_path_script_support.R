@@ -18,8 +18,8 @@
 #'   `tar_path_script()` returns `tar_config_get("script")`.
 #' @examples
 #' tar_path_script_support()
-#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
-#' tar_dir({ # tar_dir() runs code from a temporary directory.
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+#' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #' script <- tempfile()
 #' tar_script(
 #'   tar_target(x, tar_path_script_support()),

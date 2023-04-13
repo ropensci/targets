@@ -107,7 +107,7 @@ supply non-default resources to \code{tar_target()}.)
 
 \examples{
 # Somewhere in you target script file (usually _targets.R):
-if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 tar_target(
   name,
   command(),

@@ -19,8 +19,8 @@
 #'   the working directory to the directory of each R script
 #'   before running it.
 #' @examples
-#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
-#' tar_dir({ # tar_dir() runs code from a temporary directory.
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+#' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #' # Running in tar_dir(), these files are written in tempdir().
 #' dir.create("R")
 #' writeLines("f <- function(x) x + 1", file.path("R", "functions.R"))

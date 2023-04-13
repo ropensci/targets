@@ -46,8 +46,8 @@ run of the pipeline and display the tabulated status
 of dynamic branches. Only the most recent record is shown.
 }
 \examples{
-if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
-tar_dir({ # tar_dir() runs code from a temporary directory.
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script({
   list(
     tar_target(x, seq_len(2)),

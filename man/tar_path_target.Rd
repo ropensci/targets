@@ -66,8 +66,8 @@ after the target finishes running in the pipeline.
 \examples{
 tar_path_target()
 tar_path_target(your_target)
-if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
-tar_dir({ # tar_dir() runs code from a temporary directory.
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script(tar_target(returns_path, tar_path_target()), ask = FALSE)
 tar_make()
 tar_read(returns_path)

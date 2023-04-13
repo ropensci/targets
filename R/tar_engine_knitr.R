@@ -75,7 +75,7 @@
 #'     values (configurable with `tar_option_set()` in a
 #'     `tar_globals = TRUE` chunk).
 #' @examples
-#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) {
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' # Register the engine.
 #' if (requireNamespace("knitr", quietly = TRUE)) {
 #'   knitr::knit_engines$set(targets = targets::tar_engine_knitr)

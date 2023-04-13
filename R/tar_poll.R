@@ -9,7 +9,7 @@
 #' @param timeout How many seconds to run before exiting.
 #' @examples
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
-#' tar_dir({ # tar_dir() runs code from a temporary directory.
+#' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #' tar_script({
 #'   list(
 #'     tar_target(x, seq_len(100)),

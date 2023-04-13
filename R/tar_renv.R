@@ -55,7 +55,7 @@
 #' @param path Character of length 1, path to the script file to
 #'   populate with `library()` calls.
 #' @examples
-#' tar_dir({ # tar_dir() runs code from a temporary directory.
+#' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #'   tar_script({
 #'     tar_option_set(packages = c("tibble", "qs"))
 #'     list()
