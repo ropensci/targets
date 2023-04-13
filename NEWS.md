@@ -1,4 +1,4 @@
-# targets 0.14.3.9004
+# targets 0.14.3.9005
 
 * Support distributed computing through the `crew` package in `tar_make()` (#753).
 * Add a new `store_copy_object()` to the store class to enable `"fst_dt"` and other formats to make deep copies when needed (#1041, @MilesMcBain).
@@ -8,6 +8,7 @@
 * In `format = "url"` targets, implement retries and timeouts when connecting to URLs. The default timeout is 10 seconds, and the default retry interval is 1 second. Both are configurable via `tar_resources_url()` (#1048).
 * Use `parallelly::freePort()` in `tar_random_port()`.
 * Rename a target and a function in the `tar_script()` example pipeline (#1033, @b-rodrigues).
+* Edit the description.
 
 # targets 0.14.3
 
