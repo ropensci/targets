@@ -10,7 +10,8 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       NOT_CRAN: true
-      TAR_CREW_TESTS: true
+      TAR_TESTS_CREW: true
+      TAR_TESTS_URL: true
       TAR_NOT_CRAN: true
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: false
       TORCH_INSTALL: 1
@@ -38,20 +39,6 @@ jobs:
           extra-packages: any::covr
           needs: coverage
 
-      - name: Test coverage try 1
-        id: coverage_try_1
-        continue-on-error: true
-        run: covr::codecov(quiet = FALSE)
-        shell: Rscript {0}
-
-      - name: Test coverage try 2
-        id: coverage_try_2
-        continue-on-error: true
-        if: steps.coverage_try_1.outcome == 'failure'
-        run: covr::codecov(quiet = FALSE)
-        shell: Rscript {0}
-
-      - name: Test coverage try 3
-        if: steps.coverage_try_2.outcome == 'failure'
+      - name: Test coverage
         run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}

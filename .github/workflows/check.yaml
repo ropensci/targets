@@ -59,18 +59,5 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
-      - name: Check package try 1
-        id: check_try_1
-        continue-on-error: true
+      - name: Check package
         uses: r-lib/actions/check-r-package@v2
-        
-      - name: Check package try 2
-        id: check_try_2
-        continue-on-error: true
-        if: steps.check_try_1.outcome == 'failure'
-        uses: r-lib/actions/check-r-package@v2
-      
-      - name: Check package try 3
-        if: steps.check_try_2.outcome == 'failure'
-        uses: r-lib/actions/check-r-package@v2
-        

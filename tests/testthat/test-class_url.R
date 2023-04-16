@@ -1,6 +1,6 @@
 tar_test("dynamic urls work", {
   skip_cran()
-  skip_if_not_installed("curl")
+  skip_url()
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
   skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
@@ -43,7 +43,7 @@ tar_test("dynamic urls work", {
 
 tar_test("dynamic urls in dynamic branches work", {
   skip_cran()
-  skip_if_not_installed("curl")
+  skip_url()
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
   skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
@@ -83,7 +83,7 @@ tar_test("dynamic urls in dynamic branches work", {
 
 tar_test("dynamic urls work from a custom data store", {
   skip_cran()
-  skip_if_not_installed("curl")
+  skip_url()
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
   skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
@@ -139,7 +139,7 @@ tar_test("dynamic urls work from a custom data store", {
 
 tar_test("tar_condition_run error on bad URL", {
   skip_cran()
-  skip_if_not_installed("curl")
+  skip_url()
   skip_if_offline()
   tar_script(
     tar_target(
@@ -159,7 +159,7 @@ tar_test("tar_condition_run error on bad URL", {
 
 tar_test("custom handle without error (unstructured resources)", {
   skip_cran()
-  skip_if_not_installed("curl")
+  skip_url()
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
   skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 10))
@@ -189,7 +189,7 @@ tar_test("custom handle without error (unstructured resources)", {
 
 tar_test("dynamic urls must return characters", {
   skip_cran()
-  skip_if_not_installed("curl")
+  skip_url()
   skip_if_offline()
   x <- target_init(
     name = "abc",
@@ -209,7 +209,7 @@ tar_test("dynamic urls must return characters", {
 
 tar_test("url target gets custom curl handle (structured resources)", {
   skip_cran()
-  skip_if_not_installed("curl")
+  skip_url()
   x <- tar_target_raw(
     name = "abc",
     command = quote(list(list("illegal"))),
@@ -224,7 +224,7 @@ tar_test("url target gets custom curl handle (structured resources)", {
 
 tar_test("url target gets custom curl handle (unstructured resources)", {
   skip_cran()
-  skip_if_not_installed("curl")
+  skip_url()
   expect_warning(
     x <- tar_target_raw(
       name = "abc",
@@ -240,7 +240,7 @@ tar_test("url target gets custom curl handle (unstructured resources)", {
 
 tar_test("bad curl handle throws an error (structrued resources)", {
   skip_cran()
-  skip_if_not_installed("curl")
+  skip_url()
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
   skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
@@ -266,7 +266,7 @@ tar_test("bad curl handle throws an error (structrued resources)", {
 
 tar_test("bad curl handle throws an error (unstructrued resources)", {
   skip_cran()
-  skip_if_not_installed("curl")
+  skip_url()
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
   skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
@@ -324,7 +324,7 @@ tar_test("url packages", {
 })
 
 tar_test("validate url format", {
-  skip_if_not_installed("curl")
+  skip_url()
   tar_script(list(tar_target(x, "x_value", format = "url")))
   expect_silent(tar_validate(callr_function = NULL))
 })

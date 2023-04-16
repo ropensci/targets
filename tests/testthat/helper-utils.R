@@ -20,12 +20,26 @@ skip_cran <- function() {
   }
 }
 
+skip_crew <- function() {
+  skip_if_not_installed("crew")
+  if (!identical(tolower(Sys.getenv("TAR_TESTS_CREW")), "true")) {
+    skip("skipping crew tests")
+  }
+}
+
 skip_torch <- function() {
   skip_if_not_installed("torch")
   tryCatch(
     torch::torch_zeros(10),
     error = function(e) skip("torch is not working.")
   )
+}
+
+skip_url <- function() {
+  skip_if_not_installed("curl")
+  if (!identical(tolower(Sys.getenv("TAR_TESTS_URL")), "true")) {
+    skip("skipping URL tests")
+  }
 }
 
 crew_test_sleep <- function() {
