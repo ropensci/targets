@@ -133,10 +133,6 @@ tar_make_inner <- function(
       reporter = reporter,
       envir = tar_option_get("envir")
     )$run()
-  # Tests skipped on CI due to https://github.com/shikokuchuo/mirai/issues/53.
-  # Tested interactively in tests/testthat/test-class_crew.R
-  # and tests/hpc/crew-local.R locally.
-  # nocov start
   } else {
     crew_init(
       pipeline = pipeline,
@@ -149,6 +145,5 @@ tar_make_inner <- function(
       controller = controller
     )$run()
   }
-  # nocov
   invisible()
 }

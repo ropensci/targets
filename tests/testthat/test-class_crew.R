@@ -5,6 +5,8 @@ tar_test("crew$validate()", {
   expect_silent(out$validate())
 })
 
+# TODO: reactivate all crew tests
+# after fully solving https://github.com/shikokuchuo/mirai/issues/53.
 tar_test("workerless deployment works", {
   skip_crew()
   skip_cran()

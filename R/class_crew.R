@@ -1,7 +1,3 @@
-# Tests skipped on CI due to https://github.com/shikokuchuo/mirai/issues/53.
-# Tested interactively in tests/testthat/test-class_crew.R
-# and tests/hpc/crew-local.R locally.
-# nocov start
 crew_init <- function(
   pipeline = NULL,
   meta = meta_init(),
@@ -251,4 +247,3 @@ validate_crew_controller <- function(controller) {
   )
   controller$validate()
 }
-# nocov end
