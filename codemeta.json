@@ -1,26 +1,20 @@
 {
-  "@context": [
-    "https://doi.org/10.5063/schema/codemeta-2.0",
-    "http://schema.org"
-  ],
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "targets",
-  "description": "As a pipeline toolkit for Statistics and data science in R,\n  the 'targets' package brings together function-oriented programming and\n  'Make'-like declarative workflows.\n  It analyzes the dependency relationships among the tasks of a workflow,\n  skips steps that are already up to date, runs the necessary\n  computation with optional parallel workers, abstracts files as\n  R objects, and provides tangible evidence that the results match\n  the underlying code and data. The methodology in this package\n  borrows from GNU 'Make' (2015, ISBN:978-9881443519)\n  and 'drake' (2018, <doi:10.21105/joss.00550>).",
-  "name": "targets: Dynamic Function-Oriented 'Make'-Like Declarative Workflows",
+  "description": "Pipeline tools coordinate the pieces of computationally demanding analysis projects. The 'targets' package is a 'Make'-like pipeline tool for statistics and data science in R. The package skips costly runtime for tasks that are already up to date, orchestrates the necessary computation with implicit parallel computing, and abstracts files as R objects. If all the current output matches the current upstream code and data, then the whole pipeline is up to date, and the results are more trustworthy than otherwise. The methodology in this package borrows from GNU 'Make' (2015, ISBN:978-9881443519) and 'drake' (2018, <doi:10.21105/joss.00550>).",
+  "name": "targets: Dynamic Function-Oriented 'Make'-Like Declarative Pipelines",
+  "relatedLink": ["https://docs.ropensci.org/targets/", "https://CRAN.R-project.org/package=targets"],
   "codeRepository": "https://github.com/ropensci/targets",
-  "relatedLink": [
-    "https://docs.ropensci.org/targets/",
-    "https://CRAN.R-project.org/package=targets"
-  ],
   "issueTracker": "https://github.com/ropensci/targets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.10.0",
+  "version": "1.0.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
+  "runtimePlatform": "R version 4.2.3 (2023-03-15)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -41,6 +35,13 @@
       "@type": "Person",
       "givenName": ["Matthew", "T."],
       "familyName": "Warkentin"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Mark",
+      "familyName": "Edmondson",
+      "email": "r@sunholo.com",
+      "@id": "https://orcid.org/0000-0002-8434-3881"
     }
   ],
   "copyrightHolder": [
@@ -49,7 +50,6 @@
       "name": "Eli Lilly and Company"
     }
   ],
-  "funder": {},
   "maintainer": [
     {
       "@type": "Person",
@@ -98,6 +98,19 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=clustermq"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "crew",
+      "name": "crew",
+      "version": ">= 0.1.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=crew"
     },
     {
       "@type": "SoftwareApplication",
@@ -166,6 +179,19 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "future.batchtools",
+      "name": "future.batchtools",
+      "version": ">= 0.9.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=future.batchtools"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "future.callr",
       "name": "future.callr",
       "version": ">= 0.6.0",
@@ -176,6 +202,32 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=future.callr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "gargle",
+      "name": "gargle",
+      "version": ">= 1.2.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=gargle"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "googleCloudStorageR",
+      "name": "googleCloudStorageR",
+      "version": ">= 0.7.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=googleCloudStorageR"
     },
     {
       "@type": "SoftwareApplication",
@@ -231,6 +283,19 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "parallelly",
+      "name": "parallelly",
+      "version": ">= 1.35.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=parallelly"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "paws",
       "name": "paws",
       "version": ">= 0.1.11",
@@ -270,6 +335,19 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "processx",
+      "name": "processx",
+      "version": ">= 3.4.3",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=processx"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "qs",
       "name": "qs",
       "version": ">= 0.24.1",
@@ -306,6 +384,19 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=rstudioapi"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "R.utils",
+      "name": "R.utils",
+      "version": ">= 2.6.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=R.utils"
     },
     {
       "@type": "SoftwareApplication",
@@ -399,14 +490,14 @@
       "sameAs": "https://CRAN.R-project.org/package=visNetwork"
     }
   ],
-  "softwareRequirements": [
-    {
+  "softwareRequirements": {
+    "1": {
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
       "version": ">= 3.5.0"
     },
-    {
+    "2": {
       "@type": "SoftwareApplication",
       "identifier": "base64url",
       "name": "base64url",
@@ -419,7 +510,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=base64url"
     },
-    {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "callr",
       "name": "callr",
@@ -432,7 +523,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=callr"
     },
-    {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "cli",
       "name": "cli",
@@ -445,7 +536,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=cli"
     },
-    {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "codetools",
       "name": "codetools",
@@ -458,7 +549,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=codetools"
     },
-    {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "data.table",
       "name": "data.table",
@@ -471,7 +562,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=data.table"
     },
-    {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "digest",
       "name": "digest",
@@ -484,7 +575,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=digest"
     },
-    {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "igraph",
       "name": "igraph",
@@ -497,7 +588,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=igraph"
     },
-    {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "knitr",
       "name": "knitr",
@@ -510,7 +601,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=knitr"
     },
-    {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "R6",
       "name": "R6",
@@ -523,11 +614,11 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=R6"
     },
-    {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
-      "version": ">= 0.4.10",
+      "version": ">= 1.0.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -536,12 +627,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    {
+    "13": {
       "@type": "SoftwareApplication",
       "identifier": "tibble",
       "name": "tibble",
@@ -554,7 +645,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tibble"
     },
-    {
+    "14": {
       "@type": "SoftwareApplication",
       "identifier": "tidyselect",
       "name": "tidyselect",
@@ -567,17 +658,17 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tidyselect"
     },
-    {
+    "15": {
       "@type": "SoftwareApplication",
       "identifier": "tools",
       "name": "tools"
     },
-    {
+    "16": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    {
+    "17": {
       "@type": "SoftwareApplication",
       "identifier": "vctrs",
       "name": "vctrs",
@@ -590,7 +681,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=vctrs"
     },
-    {
+    "18": {
       "@type": "SoftwareApplication",
       "identifier": "withr",
       "name": "withr",
@@ -603,7 +694,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=withr"
     },
-    {
+    "19": {
       "@type": "SoftwareApplication",
       "identifier": "yaml",
       "name": "yaml",
@@ -615,33 +706,10 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=yaml"
-    }
-  ],
-  "releaseNotes": "https://github.com/ropensci/targets/blob/master/NEWS.md",
-  "readme": "https://github.com/ropensci/targets/blob/main/README.md",
-  "fileSize": "1702.352KB",
-  "contIntegration": ["https://github.com/ropensci/targets/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ropensci/targets", "https://github.com/ropensci/targets/actions?query=workflow%3Alint"],
-  "developmentStatus": "https://www.repostatus.org/#active",
-  "review": {
-    "@type": "Review",
-    "url": "https://github.com/ropensci/software-review/issues/401",
-    "provider": "https://ropensci.org"
+    },
+    "SystemRequirements": null
   },
-  "keywords": [
-    "reproducibility",
-    "high-performance-computing",
-    "r",
-    "data-science",
-    "pipeline",
-    "rstats",
-    "r-package",
-    "workflow",
-    "targets",
-    "reproducible-research",
-    "make",
-    "r-targetopia",
-    "peer-reviewed"
-  ],
+  "fileSize": "2241.716KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -667,5 +735,15 @@
         }
       }
     }
-  ]
+  ],
+  "releaseNotes": "https://github.com/ropensci/targets/blob/master/NEWS.md",
+  "readme": "https://github.com/ropensci/targets/blob/main/README.md",
+  "contIntegration": ["https://github.com/ropensci/targets/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ropensci/targets", "https://github.com/ropensci/targets/actions?query=workflow%3Alint"],
+  "developmentStatus": "https://www.repostatus.org/#active",
+  "review": {
+    "@type": "Review",
+    "url": "https://github.com/ropensci/software-review/issues/401",
+    "provider": "https://ropensci.org"
+  },
+  "keywords": ["reproducibility", "high-performance-computing", "r", "data-science", "pipeline", "rstats", "r-package", "workflow", "targets", "reproducible-research", "make", "r-targetopia", "peer-reviewed"]
 }
