@@ -1,6 +1,11 @@
-# targets 0.14.3.9005
+# targets 1.0.0
 
-* Support distributed computing through the `crew` package in `tar_make()` (#753).
+## Major improvements
+
+* Support distributed computing through the `crew` package in `tar_make()` (#753). `crew` itself is still in its early stages and currently lacks the launcher plugins to match the `clustermq` and `future` backends, but long-term, `crew` will be the predominant high-performance computing backend. This integration, combined with how the other features of `targets` have stabilized in recent months, motivates a major version increase from 0.14.3 to 1.0.0.
+
+## Minor improvements
+
 * Add a new `store_copy_object()` to the store class to enable `"fst_dt"` and other formats to make deep copies when needed (#1041, @MilesMcBain).
 * Add a new `copy` argument to allow `tar_format()` formats to set the `store_copy_object()` method (#1041, @MilesMcBain).
 * Shorten the output string returned by `tar_format()` when default methods are used.
