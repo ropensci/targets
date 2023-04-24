@@ -6,10 +6,10 @@ tar_test("crew$validate()", {
 })
 
 tar_test("workerless deployment works", {
+  skip_crew()
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
-  skip_crew()
   skip_if_not_installed("R.utils")
   tar_runtime$set_fun("tar_make")
   x <- tar_target_raw(
@@ -82,10 +82,10 @@ tar_test("workerless deployment works", {
 })
 
 tar_test("semi-workerless deployment works", {
+  skip_crew()
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
-  skip_crew()
   skip_if_not_installed("R.utils")
   crew_test_sleep()
   tar_runtime$set_fun("tar_make")
@@ -160,10 +160,10 @@ tar_test("semi-workerless deployment works", {
 })
 
 tar_test("some targets up to date, some not", {
+  skip_crew()
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
-  skip_crew()
   skip_if_not_installed("R.utils")
   tar_runtime$set_fun("tar_make")
   x <- tar_target_raw(
@@ -211,10 +211,10 @@ tar_test("some targets up to date, some not", {
 })
 
 tar_test("crew algo can skip targets", {
+  skip_crew()
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
-  skip_crew()
   skip_if_not_installed("R.utils")
   tar_runtime$set_fun("tar_make")
   x <- tar_target_raw(
@@ -262,10 +262,10 @@ tar_test("crew algo can skip targets", {
 })
 
 tar_test("nontrivial common data", {
+  skip_crew()
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
-  skip_crew()
   skip_if_not_installed("R.utils")
   tar_runtime$set_fun("tar_make")
   old_envir <- tar_option_get("envir")

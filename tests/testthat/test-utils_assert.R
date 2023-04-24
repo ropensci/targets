@@ -359,3 +359,13 @@ tar_test("tar_assert_named()", {
     class = "tar_condition_validate"
   )
 })
+
+test_that("tar_assert_internet()", {
+  skip_cran()
+  expect_silent(
+    tryCatch(
+      tar_assert_internet(),
+      tar_condition_run = function(condition) NULL
+    )
+  )
+})

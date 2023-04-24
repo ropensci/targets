@@ -16,6 +16,9 @@ tar_test("tar_make() works", {
 
 tar_test("tar_make() works with crew", {
   skip_crew()
+  skip_cran()
+  skip_on_os("windows")
+  skip_on_os("solaris")
   skip_if_not_installed("R.utils")
   should_skip <- identical(tolower(Sys.info()[["sysname"]]), "windows") &&
     isTRUE(as.logical(Sys.getenv("CI")))
