@@ -235,6 +235,7 @@ mermaid(tar_mermaid(exclude = starts_with("y"), targets_only = TRUE))
 mermaid(tar_mermaid(names = starts_with("z"), targets_only = TRUE))
 
 # Should show just z.
+tar_make()
 mermaid(tar_mermaid(names = starts_with("z"), shortcut = TRUE))
 
 # Should show a graph of 3 targets and f() and g().
@@ -243,7 +244,7 @@ mermaid(tar_mermaid(targets_only = FALSE))
 # Should show a graph of 3 targets, f(), g(), and miscellaneous globals.
 mermaid(tar_mermaid(targets_only = FALSE, callr_function = NULL))
 
-# Should show a status of targets as queued (light gray).
+# Should show a status of targets as built.
 mermaid(tar_mermaid(targets_only = FALSE, outdated = FALSE))
 
 # Should show a graph of just y1 and y2.
