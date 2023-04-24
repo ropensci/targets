@@ -3,7 +3,7 @@ tar_test("tar_timestamp() for URLs", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://github.com/ropensci/targets"
-  skip_if(!url_exists(url))
+  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 10))
   tar_script({
     list(
       tar_target(

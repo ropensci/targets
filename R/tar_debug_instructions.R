@@ -9,6 +9,9 @@ tar_debug_instructions <- function() {
   name <- targets::tar_name()
   expr <- targets::tar_definition()$command$expr
   expr <- if_any(length(expr) >= 3L, expr[[3L]], NULL)
+  if (is.expression(expr)) {
+    expr <- expr[[1]]
+  }
   text <- paste("    ", targets::tar_deparse_safe(expr))
   cli_mark_info(
     sprintf(
@@ -30,18 +33,18 @@ tar_debug_instructions <- function() {
   message()
   message(text)
   message()
-  if (is.call(expr[[1]])) {
+  if (is.call(expr)) {
     cli_mark_info(
       paste0(
         "Tip: run ",
-        sprintf("debug(%s)", deparse(expr[[1]])),
+        sprintf("debug(%s)", deparse(expr)),
         " and then enter \"c\""
       )
     )
     cli_blank(
       paste0(
         "to move the debugger inside function ",
-        deparse(expr[[1]]),
+        deparse(expr),
         "()."
       )
     )
