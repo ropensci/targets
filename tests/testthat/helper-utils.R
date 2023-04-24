@@ -35,13 +35,6 @@ skip_torch <- function() {
   )
 }
 
-skip_url <- function() {
-  skip_if_not_installed("curl")
-  if (!identical(tolower(Sys.getenv("TAR_TESTS_URL")), "true")) {
-    skip("skipping URL tests")
-  }
-}
-
 crew_test_sleep <- function() {
   on_windows <- identical(tolower(Sys.info()[["sysname"]]), "windows")
   on_cran <- !identical(Sys.getenv("NOT_CRAN"), "true")

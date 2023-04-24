@@ -1,3 +1,6 @@
+# Tested in tests/interactive/test-class_url.R,
+# not in testthat due to unreliable URLs.
+# nocov start
 #' @export
 store_new.url <- function(format, file = NULL, resources = NULL) {
   store_url_new(file, resources)
@@ -101,3 +104,4 @@ store_has_correct_hash.tar_url <- function(store) {
 store_get_packages.tar_url <- function(store) {
   "curl"
 }
+# nocov end

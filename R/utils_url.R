@@ -14,6 +14,9 @@ tar_random_port <- function(lower = 49152L, upper = 65355L) {
   parallelly::freePort(ports = ports, default = NA_integer_)
 }
 
+# Tested in tests/interactive/test-class_url.R,
+# not in testthat due to unreliable URLs.
+# nocov start
 url_exists <- function(
   url,
   handle = NULL,
@@ -114,6 +117,7 @@ url_process_error <- function(url, req, headers) {
 url_status_success <- function(status_code) {
   (status_code >= 200L) && (status_code < 300L)
 }
+# nocov end
 
 # Tested in tests/interactive/test-tar_watch.R. # nolint
 # nocov start
