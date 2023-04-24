@@ -1,8 +1,13 @@
 # targets 1.0.0
 
+`targets` is moving to version 1.0.0 because it is significantly more mature than previous versions. Specifically,
+
+1. `tar_make()` now integrates with `crew`, which will significantly improve the way `targets` does high-performance computing going forward.
+2. All other functionality in `targets` has stabilized. There is still room for smaller new features, but none as large as `crew` integration, none that will fundamentally change how the package operates.
+
 ## Major improvements
 
-* Support distributed computing through the `crew` package in `tar_make()` (#753). `crew` itself is still in its early stages and currently lacks the launcher plugins to match the `clustermq` and `future` backends, but long-term, `crew` will be the predominant high-performance computing backend. This integration, combined with how the other features of `targets` have stabilized in recent months, motivates a major version increase from 0.14.3 to 1.0.0.
+* Support distributed computing through the `crew` package in `tar_make()` (#753). `crew` itself is still in its early stages and currently lacks the launcher plugins to match the `clustermq` and `future` backends, but long-term, `crew` will be the predominant high-performance computing backend.
 
 ## Minor improvements
 
