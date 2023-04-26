@@ -12,7 +12,7 @@ tar_test("packages are actually loaded", {
   )
   pipeline <- pipeline_init(list(x))
   out <- clustermq_init(pipeline)
-  out$run()
+  suppressWarnings(out$run())
   exp <- tibble::tibble(x = "x")
   expect_equal(tar_read(x), exp)
 })
@@ -29,7 +29,7 @@ tar_test("clustermq iteration loop can wait for and shut down workers", {
   y <- tar_target_raw("y", quote(list(x, a = "x")), garbage_collection = TRUE)
   pipeline <- pipeline_init(list(x, y))
   out <- clustermq_init(pipeline, reporter = "silent")
-  out$run()
+  suppressWarnings(out$run())
   target <- pipeline_get_target(pipeline, "y")
   expect_equal(target_read_value(target)$object$a, "x")
 })
@@ -112,7 +112,7 @@ tar_test("heavily parallel workload should run fast", {
   skip_if_not_installed("clustermq")
   tar_script({
     library(targets)
-    options(clustermq.scheduler = "multiprocess")
+    options(clustermq.scheduler = "multicore")
     list(
       tar_target(
         index_batch,
@@ -149,7 +149,7 @@ tar_test("profile heavily parallel workload", {
   skip_if_not_installed("clustermq")
   tar_script({
     library(targets)
-    options(clustermq.scheduler = "multiprocess")
+    options(clustermq.scheduler = "multicore")
     list(
       tar_target(
         index_batch,
