@@ -63,3 +63,8 @@ tar_test("superseded ultra-custom formats and error null", {
     )
   }
 })
+
+tar_test("url format has local repository", {
+  target <- tar_target(x, 1, repository = "aws", format = "url")
+  expect_equal(target$settings$repository,  "local")
+})
