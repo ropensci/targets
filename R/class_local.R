@@ -26,6 +26,7 @@ local_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
+  garbage_collection = NULL,
   envir = NULL
 ) {
   local_class$new(

@@ -1,5 +1,11 @@
-tar_test("prelocal$validate()", {
+tar_test("prelocal$validate() from clustermq", {
   x <- clustermq_init(pipeline_order())
+  y <- x$produce_prelocal()
+  expect_silent(y$validate())
+})
+
+tar_test("prelocal$validate() from crew", {
+  x <- crew_init(pipeline_order())
   y <- x$produce_prelocal()
   expect_silent(y$validate())
 })

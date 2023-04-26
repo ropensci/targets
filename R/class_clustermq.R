@@ -245,6 +245,7 @@ clustermq_class <- R6::R6Class(
         names = self$names,
         queue = self$queue,
         reporter = self$reporter,
+        garbage_collection = self$garbage_collection,
         envir = self$envir,
         scheduler = self$scheduler
       )
