@@ -12,7 +12,8 @@ tar_test("tar_make_clustermq() works with callr_function = NULL", {
   suppressWarnings(
     tar_make_clustermq(
       callr_function = NULL,
-      reporter = "silent"
+      reporter = "silent",
+      garbage_collection = TRUE
     )
   )
   expect_equal(tar_read(x), "x")

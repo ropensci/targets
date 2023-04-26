@@ -43,7 +43,8 @@ tar_test("tar_make() works with crew", {
   R.utils::withTimeout(
     tar_make(
       reporter = "silent",
-      callr_function = NULL
+      callr_function = NULL,
+      garbage_collection = TRUE
     ),
     timeout = 180
   )
