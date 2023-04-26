@@ -227,7 +227,11 @@ clustermq_class <- R6::R6Class(
       self$scheduler$backoff$reset()
     },
     iterate = function() {
-      message <- if_any(self$workers > 0L, self$worker_list$receive_data(), list())
+      message <- if_any(
+        self$workers > 0L,
+        self$worker_list$receive_data(),
+        list()
+      )
       self$conclude_worker_target(message$result)
       token <- message$token
       if (self$workers > 0L && !identical(token, "set_common_data_token")) {
