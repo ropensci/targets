@@ -14,6 +14,7 @@ local_init <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
+    garbage_collection = FALSE,
     envir = envir
   )
 }
@@ -34,6 +35,7 @@ local_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
+    garbage_collection = garbage_collection,
     envir = envir
   )
 }
@@ -48,7 +50,6 @@ local_class <- R6::R6Class(
     },
     run_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
-      target_gc(target)
       self$tar_assert_deployment(target)
       target_prepare(target, self$pipeline, self$scheduler)
       target_run(

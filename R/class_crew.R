@@ -5,6 +5,7 @@ crew_init <- function(
   shortcut = FALSE,
   queue = "parallel",
   reporter = "verbose",
+  garbage_collection = FALSE,
   envir = tar_option_get("envir"),
   controller = NULL
 ) {
@@ -15,6 +16,7 @@ crew_init <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
+    garbage_collection = garbage_collection,
     envir = envir,
     controller = controller
   )
@@ -27,6 +29,7 @@ crew_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
+  garbage_collection = NULL,
   envir = NULL,
   controller = NULL
 ) {
@@ -37,6 +40,7 @@ crew_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
+    garbage_collection = garbage_collection,
     envir = envir,
     controller = controller
   )
@@ -48,7 +52,6 @@ crew_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    exports = NULL,
     controller = NULL,
     initialize = function(
       pipeline = NULL,
@@ -57,9 +60,10 @@ crew_class <- R6::R6Class(
       shortcut = NULL,
       queue = NULL,
       reporter = NULL,
+      garbage_collection = NULL,
       envir = NULL,
-      exports = NULL,
-      controller = NULL
+      controller = NULL,
+      exports = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -68,6 +72,7 @@ crew_class <- R6::R6Class(
         shortcut = shortcut,
         queue = queue,
         reporter = reporter,
+        garbage_collection = garbage_collection,
         envir = envir
       )
       self$controller <- controller
@@ -96,18 +101,10 @@ crew_class <- R6::R6Class(
       common$envvars <- tar_envvars()
       list(common = common, globals = globals)
     },
-    update_exports = function() {
-      self$exports <- self$produce_exports(
-        envir = self$envir,
-        path_store = self$meta$get_path_store()
-      )
-    },
-    ensure_exports = function() {
-      if (is.null(self$exports)) {
-        self$update_exports()
-      }
-    },
     run_worker = function(target) {
+      if (self$garbage_collection) {
+        gc()
+      }
       self$ensure_exports()
       command <- quote(
         targets::target_run_worker(
@@ -145,7 +142,6 @@ crew_class <- R6::R6Class(
     },
     run_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
-      target_gc(target)
       target_prepare(target, self$pipeline, self$scheduler)
       if_any(
         target_should_run_worker(target),

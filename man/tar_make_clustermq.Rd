@@ -14,7 +14,8 @@ tar_make_clustermq(
   callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
-  store = targets::tar_config_get("store")
+  store = targets::tar_config_get("store"),
+  garbage_collection = FALSE
 )
 }
 \arguments{
@@ -112,6 +113,11 @@ is temporarily changed for the current function call.
 See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
 about how to set the data store path persistently
 for a project.}
+
+\item{garbage_collection}{Logical of length 1, whether to run garbage
+collection on the main process before sending a target to a worker.
+Independent from the \code{garbage_collection} argument of \code{\link[=tar_target]{tar_target()}},
+which controls garbage collection on the worker.}
 }
 \value{
 \code{NULL} except if \code{callr_function = callr::r_bg()}, in which case

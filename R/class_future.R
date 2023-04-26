@@ -5,6 +5,7 @@ future_init <- function(
   shortcut = FALSE,
   queue = "parallel",
   reporter = "verbose",
+  garbage_collection = FALSE,
   envir = tar_option_get("envir"),
   workers = 1L
 ) {
@@ -15,6 +16,7 @@ future_init <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
+    garbage_collection = garbage_collection,
     envir = envir,
     workers = as.integer(workers)
   )
@@ -28,6 +30,7 @@ future_new <- function(
   queue = NULL,
   reporter = NULL,
   envir = NULL,
+  garbage_collection = NULL,
   workers = NULL
 ) {
   future_class$new(
@@ -37,6 +40,7 @@ future_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
+    garbage_collection = garbage_collection,
     envir = envir,
     workers = workers
   )
@@ -49,8 +53,7 @@ future_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     workers = NULL,
-    crew = NULL,
-    globals = NULL,
+    worker_list = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
@@ -58,6 +61,7 @@ future_class <- R6::R6Class(
       shortcut = NULL,
       queue = NULL,
       reporter = NULL,
+      garbage_collection = NULL,
       envir = NULL,
       workers = NULL
     ) {
@@ -68,25 +72,18 @@ future_class <- R6::R6Class(
         shortcut = shortcut,
         queue = queue,
         reporter = reporter,
+        garbage_collection = garbage_collection,
         envir = envir
       )
       self$workers <- workers
-      self$crew <- memory_init()
-    },
-    update_globals = function() {
-      self$globals <- self$produce_exports(
-        envir = self$envir,
-        path_store = self$meta$get_path_store()
-      )
-    },
-    ensure_globals = function() {
-      if (is.null(self$globals)) {
-        self$update_globals()
-      }
+      self$worker_list <- memory_init()
     },
     run_worker = function(target) {
-      self$ensure_globals()
-      globals <- self$globals
+      if (self$garbage_collection) {
+        gc()
+      }
+      self$ensure_exports()
+      globals <- self$exports
       globals$.tar_target_5048826d <- target
       plan_new <- target$settings$resources$future$plan %|||%
         target$settings$resources$plan
@@ -126,7 +123,7 @@ future_class <- R6::R6Class(
       )
       future <- do.call(what = future::future, args = args)
       memory_set_object(
-        self$crew,
+        self$worker_list,
         name = target_get_name(target),
         object = future
       )
@@ -146,7 +143,6 @@ future_class <- R6::R6Class(
     },
     run_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
-      target_gc(target)
       target_prepare(target, self$pipeline, self$scheduler)
       if_any(
         target_should_run_worker(target),
@@ -174,7 +170,7 @@ future_class <- R6::R6Class(
       self$scheduler$backoff$reset()
     },
     can_submit = function() {
-      self$crew$count < self$workers &&
+      self$worker_list$count < self$workers &&
         self$scheduler$queue$is_nonempty()
     },
     try_submit = function(wait) {
@@ -188,16 +184,16 @@ future_class <- R6::R6Class(
       tryCatch(future::value(worker, signal = FALSE), error = identity)
     },
     process_worker = function(name) {
-      worker <- memory_get_object(self$crew, name)
+      worker <- memory_get_object(self$worker_list, name)
       if (future::resolved(worker)) {
         value <- self$future_value(worker)
         self$conclude_worker_target(value, name)
-        memory_del_objects(self$crew, name)
+        memory_del_objects(self$worker_list, name)
       }
       self$try_submit(wait = FALSE)
     },
     process_workers = function() {
-      names <- self$crew$names
+      names <- self$worker_list$names
       if (!length(names)) {
         return()
       }

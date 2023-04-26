@@ -5,6 +5,7 @@ active_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
+  garbage_collection = NULL,
   envir = NULL
 ) {
   active_class$new(
@@ -14,6 +15,7 @@ active_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
+    garbage_collection = garbage_collection,
     envir = envir
   )
 }
@@ -24,7 +26,9 @@ active_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    garbage_collection = NULL,
     envir = NULL,
+    exports = NULL,
     process = NULL,
     seconds_start = NULL,
     initialize = function(
@@ -34,7 +38,8 @@ active_class <- R6::R6Class(
       shortcut = NULL,
       queue = NULL,
       reporter = NULL,
-      envir = NULL
+      envir = NULL,
+      garbage_collection = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -44,6 +49,7 @@ active_class <- R6::R6Class(
         queue = queue,
         reporter = reporter
       )
+      self$garbage_collection <- garbage_collection
       self$envir <- envir
     },
     ensure_meta = function() {
@@ -87,6 +93,17 @@ active_class <- R6::R6Class(
       out[[".tar_options_5048826d"]] <- tar_options$export()
       out[[".tar_envvars_5048826d"]] <- tar_envvars()
       out
+    },
+    update_exports = function() {
+      self$exports <- self$produce_exports(
+        envir = self$envir,
+        path_store = self$meta$get_path_store()
+      )
+    },
+    ensure_exports = function() {
+      if (is.null(self$exports)) {
+        self$update_exports()
+      }
     },
     unload_transient = function() {
       pipeline_unload_transient(self$pipeline)
@@ -143,6 +160,9 @@ active_class <- R6::R6Class(
       if (!is.null(self$process)) {
         self$process$validate()
       }
+      tar_assert_lgl(self$garbage_collection)
+      tar_assert_scalar(self$garbage_collection)
+      tar_assert_none_na(self$garbage_collection)
     }
   )
 )
