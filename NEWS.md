@@ -9,6 +9,7 @@
 
 * Replace `withr` with slightly faster/leaner base R alternatives.
 * Avoid `tempfile()` when working with the scratch directory.
+* Use `nanonext::mclock()` instead of `proc.time()` when there is no risk of forked processes.
 
 # targets 1.0.0
 
