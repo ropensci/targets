@@ -71,7 +71,7 @@ store_read_object.tar_gcp <- function(store) {
   path <- store$file$path
   scratch <- path_scratch(
     path_store = tempdir(),
-    pattern = store_gcp_key(path)
+    pattern = basename(store_gcp_key(path))
   )
   on.exit(unlink(scratch))
   dir_create(dirname(scratch))

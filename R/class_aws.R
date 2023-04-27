@@ -127,7 +127,7 @@ store_read_object.tar_aws <- function(store) {
   path <- store$file$path
   scratch <- path_scratch(
     path_store = tempdir(),
-    pattern = store_aws_key(path)
+    pattern = basename(store_aws_key(path))
   )
   on.exit(unlink(scratch))
   dir_create(dirname(scratch))
