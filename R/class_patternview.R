@@ -26,28 +26,28 @@ patternview_register_bytes <- function(patternview, record) {
 patternview_register_started <- function(patternview, target, scheduler) {
   if (identical(patternview$progress, "queued")) {
     patternview$progress <- "started"
-    scheduler$progress$write_started(target)
+    scheduler$progress$enqueue_started(target)
   }
 }
 
 patternview_register_canceled <- function(patternview, target, scheduler) {
   if (!(patternview$progress %in% c("canceled", "errored"))) {
     patternview$progress <- "canceled"
-    scheduler$progress$write_canceled(target)
+    scheduler$progress$enqueue_canceled(target)
   }
 }
 
 patternview_register_errored <- function(patternview, target, scheduler) {
   if (!identical(patternview$progress, "errored")) {
     patternview$progress <- "errored"
-    scheduler$progress$write_errored(target)
+    scheduler$progress$enqueue_errored(target)
   }
 }
 
 patternview_register_final <- function(patternview, target, scheduler) {
   if (identical(patternview$progress, "started")) {
     patternview$progress <- "built"
-    scheduler$progress$write_built(target)
+    scheduler$progress$enqueue_built(target)
   } else if (identical(patternview$progress, "queued")) {
     patternview$progress <- "skipped"
     scheduler$progress$enqueue_skipped(target)

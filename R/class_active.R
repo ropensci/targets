@@ -64,6 +64,10 @@ active_class <- R6::R6Class(
       self$meta$record_imports(self$pipeline$imports, self$pipeline)
       self$meta$restrict_records(self$pipeline)
     },
+    dequeue_meta = function(force = FALSE) {
+      self$meta$database$dequeue_rows()
+      self$scheduler$progress$database$dequeue_rows()
+    },
     write_gitignore = function() {
       writeLines(
         c("*", "!.gitignore", "!meta", "meta/*", "!meta/meta"),
@@ -146,11 +150,10 @@ active_class <- R6::R6Class(
       self$scheduler$reporter$report_start()
     },
     end = function() {
-      scheduler <- self$scheduler
-      scheduler$progress$database$dequeue_rows()
-      self$meta$database$dequeue_rows()
+      self$dequeue_meta()
       pipeline_unload_loaded(self$pipeline)
       seconds_elapsed <- time_seconds() - self$seconds_start
+      scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress, seconds_elapsed)
       path_scratch_del(path_store = self$meta$get_path_store())
       self$meta$database$deduplicate_storage()

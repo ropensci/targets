@@ -74,6 +74,7 @@ tar_test("progress$register_started()", {
   progress$database$reset_storage()
   progress$register_started(target_init("x", 1))
   expect_equal(counter_get_names(progress$started), "x")
+  progress$database$dequeue_rows()
   data <- progress$database$read_data()
   exp <- data_frame(
     name = "x",
@@ -90,6 +91,7 @@ tar_test("progress$register_built()", {
   progress$database$reset_storage()
   progress$register_built(target_init("x", 1))
   expect_equal(counter_get_names(progress$built), "x")
+  progress$database$dequeue_rows()
   data <- progress$database$read_data()
   exp <- data_frame(
     name = "x",
@@ -106,6 +108,7 @@ tar_test("progress$register_canceled()", {
   progress$database$reset_storage()
   progress$register_canceled(target_init("x", 1))
   expect_equal(counter_get_names(progress$canceled), "x")
+  progress$database$dequeue_rows()
   data <- progress$database$read_data()
   exp <- data_frame(
     name = "x",
@@ -122,6 +125,7 @@ tar_test("progress$register_errored()", {
   progress$database$reset_storage()
   progress$register_errored(target_init("x", 1))
   expect_equal(counter_get_names(progress$errored), "x")
+  progress$database$dequeue_rows()
   data <- progress$database$read_data()
   exp <- data_frame(
     name = "x",

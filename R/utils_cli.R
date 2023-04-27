@@ -178,11 +178,3 @@ cli_df_text <- function(x) {
 cli_color_text <- function(msg) {
   cli::col_none(msg)
 }
-
-time_stamp <- function(time = Sys.time()) {
-  format(time, "%z UTC %Y-%m-%d %H:%M %OS2")
-}
-
-time_stamp_short <- function(time = Sys.time()) {
-  format(time, "%H:%M %OS2")
-}

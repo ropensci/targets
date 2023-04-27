@@ -129,30 +129,23 @@ progress_class <- R6::R6Class(
         progress = progress
       )
     },
-    write_progress = function(target, progress) {
-      self$database$write_row(self$produce_row(target, progress))
-    },
     enqueue_progress = function(target, progress) {
       self$database$enqueue_row(self$produce_row(target, progress))
     },
     enqueue_skipped = function(target) {
       self$enqueue_progress(target, progress = "skipped")
     },
-    write_started = function(target) {
-      self$database$dequeue_rows()
-      self$write_progress(target, progress = "started")
+    enqueue_started = function(target) {
+      self$enqueue_progress(target, progress = "started")
     },
-    write_built = function(target) {
-      self$database$dequeue_rows()
-      self$write_progress(target, progress = "built")
+    enqueue_built = function(target) {
+      self$enqueue_progress(target, progress = "built")
     },
-    write_errored = function(target) {
-      self$database$dequeue_rows()
-      self$write_progress(target, progress = "errored")
+    enqueue_errored = function(target) {
+      self$enqueue_progress(target, progress = "errored")
     },
-    write_canceled = function(target) {
-      self$database$dequeue_rows()
-      self$write_progress(target, progress = "canceled")
+    enqueue_canceled = function(target) {
+      self$enqueue_progress(target, progress = "canceled")
     },
     register_skipped = function(target) {
       self$assign_skipped(target)
@@ -160,19 +153,19 @@ progress_class <- R6::R6Class(
     },
     register_started = function(target) {
       self$assign_started(target)
-      self$write_started(target)
+      self$enqueue_started(target)
     },
     register_built = function(target) {
       self$assign_built(target)
-      self$write_built(target)
+      self$enqueue_built(target)
     },
     register_errored = function(target) {
       self$assign_errored(target)
-      self$write_errored(target)
+      self$enqueue_errored(target)
     },
     register_canceled = function(target) {
       self$assign_canceled(target)
-      self$write_canceled(target)
+      self$enqueue_canceled(target)
     },
     uptodate = function() {
       self$skipped$count > 0L &&

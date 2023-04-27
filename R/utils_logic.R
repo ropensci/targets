@@ -89,11 +89,3 @@ retry_attempt <- function(fun, args, envir, catch_error) {
     all(do.call(what = fun, args = args))
   )
 }
-
-time_seconds <- function() {
-  if_any(
-    tar_runtime$get_fun() %in% c("tar_make_future", "tar_make_clustermq"),
-    as.numeric(proc.time()["elapsed"]),
-    nanonext::mclock() / 1e3
-  )
-}
