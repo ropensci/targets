@@ -6,6 +6,7 @@ clustermq_init <- function(
   queue = "parallel",
   reporter = "verbose",
   garbage_collection = FALSE,
+  seconds_interval = 0.5,
   envir = tar_option_get("envir"),
   workers = 1L,
   log_worker = FALSE
@@ -18,6 +19,7 @@ clustermq_init <- function(
     queue = queue,
     reporter = reporter,
     garbage_collection = garbage_collection,
+    seconds_interval = seconds_interval,
     envir = envir,
     workers = as.integer(workers),
     log_worker = log_worker
@@ -32,6 +34,7 @@ clustermq_new <- function(
   queue = NULL,
   reporter = NULL,
   garbage_collection = NULL,
+  seconds_interval = NULL,
   envir = NULL,
   workers = NULL,
   log_worker = NULL
@@ -44,6 +47,7 @@ clustermq_new <- function(
     queue = queue,
     reporter = reporter,
     garbage_collection = garbage_collection,
+    seconds_interval = seconds_interval,
     envir = envir,
     workers = workers,
     log_worker = log_worker
@@ -67,6 +71,7 @@ clustermq_class <- R6::R6Class(
       queue = NULL,
       reporter = NULL,
       garbage_collection = NULL,
+      seconds_interval = NULL,
       envir = NULL,
       workers = NULL,
       log_worker = NULL
@@ -79,6 +84,7 @@ clustermq_class <- R6::R6Class(
         queue = queue,
         reporter = reporter,
         garbage_collection = garbage_collection,
+        seconds_interval = seconds_interval,
         envir = envir
       )
       self$workers <- as.integer(workers)
@@ -227,6 +233,7 @@ clustermq_class <- R6::R6Class(
       self$scheduler$backoff$reset()
     },
     iterate = function() {
+      self$poll_meta()
       message <- if_any(
         self$workers > 0L,
         self$worker_list$receive_data(),
@@ -250,6 +257,7 @@ clustermq_class <- R6::R6Class(
         queue = self$queue,
         reporter = self$reporter,
         garbage_collection = self$garbage_collection,
+        seconds_interval = self$seconds_interval,
         envir = self$envir,
         scheduler = self$scheduler
       )

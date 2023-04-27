@@ -6,6 +6,7 @@ active_new <- function(
   queue = NULL,
   reporter = NULL,
   garbage_collection = NULL,
+  seconds_interval = NULL,
   envir = NULL
 ) {
   active_class$new(
@@ -16,6 +17,7 @@ active_new <- function(
     queue = queue,
     reporter = reporter,
     garbage_collection = garbage_collection,
+    seconds_interval = seconds_interval,
     envir = envir
   )
 }
@@ -27,10 +29,12 @@ active_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     garbage_collection = NULL,
+    seconds_interval = NULL,
     envir = NULL,
     exports = NULL,
     process = NULL,
     seconds_start = NULL,
+    seconds_dequeued = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
@@ -39,7 +43,8 @@ active_class <- R6::R6Class(
       queue = NULL,
       reporter = NULL,
       envir = NULL,
-      garbage_collection = NULL
+      garbage_collection = NULL,
+      seconds_interval = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -50,6 +55,7 @@ active_class <- R6::R6Class(
         reporter = reporter
       )
       self$garbage_collection <- garbage_collection
+      self$seconds_interval <- seconds_interval
       self$envir <- envir
     },
     ensure_meta = function() {
@@ -64,9 +70,17 @@ active_class <- R6::R6Class(
       self$meta$record_imports(self$pipeline$imports, self$pipeline)
       self$meta$restrict_records(self$pipeline)
     },
-    dequeue_meta = function(force = FALSE) {
+    dequeue_meta = function() {
       self$meta$database$dequeue_rows()
       self$scheduler$progress$database$dequeue_rows()
+    },
+    poll_meta = function() {
+      self$seconds_dequeued <- self$seconds_dequeued %|||% -Inf
+      now <- time_seconds_local()
+      if ((now - self$seconds_dequeued) > self$seconds_interval) {
+        self$dequeue_meta()
+        self$seconds_dequeued <- time_seconds_local()
+      }
     },
     write_gitignore = function() {
       writeLines(
@@ -150,7 +164,7 @@ active_class <- R6::R6Class(
       self$scheduler$reporter$report_start()
     },
     end = function() {
-      self$dequeue_meta(force = TRUE)
+      self$dequeue_meta()
       pipeline_unload_loaded(self$pipeline)
       seconds_elapsed <- time_seconds() - self$seconds_start
       scheduler <- self$scheduler
@@ -166,6 +180,9 @@ active_class <- R6::R6Class(
       tar_assert_lgl(self$garbage_collection)
       tar_assert_scalar(self$garbage_collection)
       tar_assert_none_na(self$garbage_collection)
+      tar_assert_dbl(self$seconds_interval)
+      tar_assert_scalar(self$seconds_interval)
+      tar_assert_none_na(self$seconds_interval)
     }
   )
 )

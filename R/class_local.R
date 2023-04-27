@@ -5,6 +5,7 @@ local_init <- function(
   shortcut = FALSE,
   queue = "parallel",
   reporter = "verbose",
+  seconds_interval = 0.5,
   envir = tar_option_get("envir")
 ) {
   local_new(
@@ -15,6 +16,7 @@ local_init <- function(
     queue = queue,
     reporter = reporter,
     garbage_collection = FALSE,
+    seconds_interval = seconds_interval,
     envir = envir
   )
 }
@@ -27,6 +29,7 @@ local_new <- function(
   queue = NULL,
   reporter = NULL,
   garbage_collection = NULL,
+  seconds_interval = NULL,
   envir = NULL
 ) {
   local_class$new(
@@ -37,6 +40,7 @@ local_new <- function(
     queue = queue,
     reporter = reporter,
     garbage_collection = garbage_collection,
+    seconds_interval = seconds_interval,
     envir = envir
   )
 }
@@ -67,6 +71,7 @@ local_class <- R6::R6Class(
       self$unload_transient()
     },
     process_next = function() {
+      self$poll_meta()
       self$process_target(self$scheduler$queue$dequeue())
     },
     run = function() {

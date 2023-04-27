@@ -43,7 +43,8 @@ tar_make_future <- function(
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = FALSE
+  garbage_collection = FALSE,
+  seconds_interval = 0.5
 ) {
   force(envir)
   tar_assert_package("future")
@@ -58,12 +59,17 @@ tar_make_future <- function(
   tar_assert_lgl(garbage_collection)
   tar_assert_scalar(garbage_collection)
   tar_assert_none_na(garbage_collection)
+  tar_assert_dbl(seconds_interval)
+  tar_assert_scalar(seconds_interval)
+  tar_assert_none_na(seconds_interval)
+  tar_assert_ge(seconds_interval, 0)
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
     shortcut = shortcut,
     reporter = reporter,
     garbage_collection = garbage_collection,
+    seconds_interval = seconds_interval,
     workers = workers
   )
   out <- callr_outer(
@@ -86,6 +92,7 @@ tar_make_future_inner <- function(
   shortcut,
   reporter,
   garbage_collection,
+  seconds_interval,
   workers
 ) {
   names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
@@ -97,6 +104,7 @@ tar_make_future_inner <- function(
     queue = "parallel",
     reporter = reporter,
     garbage_collection = garbage_collection,
+    seconds_interval = seconds_interval,
     workers = workers
   )$run()
   invisible()

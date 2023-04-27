@@ -6,6 +6,7 @@ future_init <- function(
   queue = "parallel",
   reporter = "verbose",
   garbage_collection = FALSE,
+  seconds_interval = 0.5,
   envir = tar_option_get("envir"),
   workers = 1L
 ) {
@@ -17,6 +18,7 @@ future_init <- function(
     queue = queue,
     reporter = reporter,
     garbage_collection = garbage_collection,
+    seconds_interval = seconds_interval,
     envir = envir,
     workers = as.integer(workers)
   )
@@ -31,6 +33,7 @@ future_new <- function(
   reporter = NULL,
   envir = NULL,
   garbage_collection = NULL,
+  seconds_interval = NULL,
   workers = NULL
 ) {
   future_class$new(
@@ -41,6 +44,7 @@ future_new <- function(
     queue = queue,
     reporter = reporter,
     garbage_collection = garbage_collection,
+    seconds_interval = seconds_interval,
     envir = envir,
     workers = workers
   )
@@ -62,6 +66,7 @@ future_class <- R6::R6Class(
       queue = NULL,
       reporter = NULL,
       garbage_collection = NULL,
+      seconds_interval = NULL,
       envir = NULL,
       workers = NULL
     ) {
@@ -73,6 +78,7 @@ future_class <- R6::R6Class(
         queue = queue,
         reporter = reporter,
         garbage_collection = garbage_collection,
+        seconds_interval = seconds_interval,
         envir = envir
       )
       self$workers <- workers
@@ -204,6 +210,7 @@ future_class <- R6::R6Class(
       lapply(names, self$process_worker)
     },
     iterate = function() {
+      self$poll_meta()
       self$process_workers()
       self$try_submit(wait = TRUE)
     },

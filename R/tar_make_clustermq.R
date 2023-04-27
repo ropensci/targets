@@ -28,10 +28,6 @@
 #' @param log_worker Logical, whether to write a log file for each worker.
 #'   Same as the `log_worker` argument of `clustermq::Q()`
 #'   and `clustermq::workers()`.
-#' @param garbage_collection Logical of length 1, whether to run garbage
-#'   collection on the main process before sending a target to a worker.
-#'   Independent from the `garbage_collection` argument of [tar_target()],
-#'   which controls garbage collection on the worker.
 #' @examples
 #' if (!identical(tolower(Sys.info()[["sysname"]]), "windows")) {
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
@@ -56,7 +52,8 @@ tar_make_clustermq <- function(
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = FALSE
+  garbage_collection = FALSE,
+  seconds_interval = 0.5
 ) {
   # Need to suppress tests on covr only, due to
   # https://github.com/r-lib/covr/issues/315.
@@ -76,12 +73,17 @@ tar_make_clustermq <- function(
   tar_assert_lgl(garbage_collection)
   tar_assert_scalar(garbage_collection)
   tar_assert_none_na(garbage_collection)
+  tar_assert_dbl(seconds_interval)
+  tar_assert_scalar(seconds_interval)
+  tar_assert_none_na(seconds_interval)
+  tar_assert_ge(seconds_interval, 0)
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
     shortcut = shortcut,
     reporter = reporter,
     garbage_collection = garbage_collection,
+    seconds_interval = seconds_interval,
     workers = workers,
     log_worker = log_worker
   )
@@ -105,6 +107,7 @@ tar_make_clustermq_inner <- function(
   shortcut,
   reporter,
   garbage_collection,
+  seconds_interval,
   workers,
   log_worker
 ) {
@@ -117,6 +120,7 @@ tar_make_clustermq_inner <- function(
     queue = "parallel",
     reporter = reporter,
     garbage_collection = garbage_collection,
+    seconds_interval = seconds_interval,
     envir = tar_option_get("envir"),
     workers = workers,
     log_worker = log_worker

@@ -5,6 +5,7 @@ prelocal_new <- function(
   queue = NULL,
   reporter = NULL,
   garbage_collection = NULL,
+  seconds_interval = NULL,
   envir = NULL,
   scheduler = NULL
 ) {
@@ -15,6 +16,7 @@ prelocal_new <- function(
     queue = queue,
     reporter = reporter,
     garbage_collection = garbage_collection,
+    seconds_interval = seconds_interval,
     envir = envir,
     scheduler = scheduler
   )
@@ -33,6 +35,7 @@ prelocal_class <- R6::R6Class(
       queue = NULL,
       reporter = NULL,
       garbage_collection = NULL,
+      seconds_interval = NULL,
       envir = NULL,
       scheduler = NULL
     ) {
@@ -43,6 +46,7 @@ prelocal_class <- R6::R6Class(
         queue = queue,
         reporter = reporter,
         garbage_collection = garbage_collection,
+        seconds_interval = seconds_interval,
         envir = envir
       )
       self$scheduler <- scheduler

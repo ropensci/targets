@@ -6,6 +6,7 @@ crew_init <- function(
   queue = "parallel",
   reporter = "verbose",
   garbage_collection = FALSE,
+  seconds_interval = 0.5,
   envir = tar_option_get("envir"),
   controller = NULL
 ) {
@@ -17,6 +18,7 @@ crew_init <- function(
     queue = queue,
     reporter = reporter,
     garbage_collection = garbage_collection,
+    seconds_interval = seconds_interval,
     envir = envir,
     controller = controller
   )
@@ -30,6 +32,7 @@ crew_new <- function(
   queue = NULL,
   reporter = NULL,
   garbage_collection = NULL,
+  seconds_interval = NULL,
   envir = NULL,
   controller = NULL
 ) {
@@ -41,6 +44,7 @@ crew_new <- function(
     queue = queue,
     reporter = reporter,
     garbage_collection = garbage_collection,
+    seconds_interval = seconds_interval,
     envir = envir,
     controller = controller
   )
@@ -61,6 +65,7 @@ crew_class <- R6::R6Class(
       queue = NULL,
       reporter = NULL,
       garbage_collection = NULL,
+      seconds_interval = NULL,
       envir = NULL,
       controller = NULL,
       exports = NULL
@@ -73,6 +78,7 @@ crew_class <- R6::R6Class(
         queue = queue,
         reporter = reporter,
         garbage_collection = garbage_collection,
+        seconds_interval = seconds_interval,
         envir = envir
       )
       self$controller <- controller
@@ -161,6 +167,7 @@ crew_class <- R6::R6Class(
       target_sync_file_meta(target, self$meta)
     },
     iterate = function() {
+      self$poll_meta()
       queue <- self$scheduler$queue
       should_dequeue <- queue$should_dequeue()
       if (should_dequeue) {
@@ -199,6 +206,7 @@ crew_class <- R6::R6Class(
         queue = self$queue,
         reporter = self$reporter,
         garbage_collection = self$garbage_collection,
+        seconds_interval = self$seconds_interval,
         envir = self$envir,
         scheduler = self$scheduler
       )
