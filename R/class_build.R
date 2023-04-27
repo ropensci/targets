@@ -123,7 +123,10 @@ build_validate <- function(build) {
 }
 
 build_expr_restore_wd <- parse(
-  text = "setwd(tar_runtime$get_working_directory())"
+  text = c(
+    "dir <- tar_runtime$get_working_directory()",
+    "if (!is.null(dir)) setwd(dir)"
+  )
 )
 
 build_message_max_nchar <- 2048L
