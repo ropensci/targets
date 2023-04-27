@@ -1,9 +1,9 @@
 The targets package includes components from other open source R packages. The packages and authors are listed below, with their licenses are mentioned parenthetically. A full copy of each unique license agreement is also included in this file.
 
+* adjective-adjective-animal (https://github.com/a-type/adjective-adjective-animal) by Grant Forrest (MIT).
 * clustermq (https://github.com/mschubert/clustermq) by Michael Schubert (Apache-2.0)
 * paws (https://github.com/paws-r/paws) by David Kretch, Adam Banker, and Amazon.com. Inc. (Apache-2.0).
-* adjective-adjective-animal (https://github.com/a-type/adjective-adjective-animal) by Grant Forrest (MIT).
-
+* withr (https://github.com/r-lib/withr) by Jim Hester et al. (MIT).
 
 
 Apache License, Version 2.0
@@ -215,8 +215,6 @@ Apache License, Version 2.0
 MIT License
 --------------------------------------------------------------------------
 The MIT License (MIT)
-
-Copyright (c) 2021 Grant Forrest
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

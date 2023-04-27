@@ -370,9 +370,12 @@ pattern_produce_grid <- function(
   methods = dynamic_methods
 ) {
   if (!anyNA(seed)) {
+    # Borrowed from https://github.com/r-lib/withr/blob/main/R/seed.R
+    # under the MIT license. See the NOTICE file
+    # in the targets package source.
     old_seed <- .GlobalEnv[[".Random.seed"]]
     set.seed(seed)
-    on.exit(.GlobalEnv[[".Random.seed"]] <- old_seed, add = TRUE)
+    on.exit(restore_seed(old_seed))
   }
   out <- eval(pattern, envir = niblings, enclos = dynamic_methods$self)
   rownames(out) <- NULL

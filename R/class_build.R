@@ -64,9 +64,12 @@ build_run_expr <- function(expr, envir, seed, packages, library) {
   load_packages(packages = packages, library = library)
   on.exit(eval(build_expr_restore_wd))
   if (!anyNA(seed)) {
+    # Borrowed from https://github.com/r-lib/withr/blob/main/R/seed.R
+    # under the MIT license. See the NOTICE file
+    # in the targets package source.
     old_seed <- .GlobalEnv[[".Random.seed"]]
     set.seed(seed)
-    on.exit(.GlobalEnv[[".Random.seed"]] <- old_seed, add = TRUE)
+    on.exit(restore_seed(old_seed), add = TRUE)
   }
   build_eval_fce17be7(expr, envir)
 }
