@@ -69,7 +69,10 @@ store_gcp_path_field <- function(path, pattern) {
 #' @export
 store_read_object.tar_gcp <- function(store) {
   path <- store$file$path
-  scratch <- path_scratch(path_store = tempdir(), pattern = "targets_gcp_")
+  scratch <- path_scratch(
+    path_store = tempdir(),
+    pattern = basename(store_gcp_key(path))
+  )
   on.exit(unlink(scratch))
   dir_create(dirname(scratch))
   gcp_gcs_download(
