@@ -63,9 +63,9 @@ retry <- function(
   tar_assert_scalar(seconds_timeout)
   tar_assert_finite(seconds_timeout)
   tar_assert_ge(seconds_timeout, 0)
-  start <- unname(proc.time()["elapsed"])
+  start <- time_seconds()
   while (!retry_attempt(fun, args, envir, catch_error)) {
-    if ((unname(proc.time()["elapsed"]) - start) > seconds_timeout) {
+    if ((time_seconds() - start) > seconds_timeout) {
       message <- paste(
         "timed out after retrying for",
         seconds_timeout,
@@ -88,4 +88,8 @@ retry_attempt <- function(fun, args, envir, catch_error) {
     ),
     all(do.call(what = fun, args = args))
   )
+}
+
+time_seconds <- function() {
+  as.numeric(proc.time()["elapsed"])
 }

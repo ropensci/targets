@@ -29,7 +29,7 @@ build_init <- function(
     NULL
   }
   state <- new.env(hash = FALSE, parent = emptyenv())
-  start <- build_time_seconds()
+  start <- time_seconds()
   object <- tryCatch(
     withCallingHandlers(
       build_run_expr(expr, envir, seed, packages, library),
@@ -44,7 +44,7 @@ build_init <- function(
     state$warnings <- build_message_text_substr(state$warnings)
   }
   metrics <- metrics_new(
-    seconds = round(build_time_seconds() - start, 3),
+    seconds = round(time_seconds() - start, 3),
     warnings = state$warnings,
     error = state$error,
     error_class = state$error_class,
@@ -87,10 +87,6 @@ build_traceback.tar_condition_cancel <- function(condition, calls) {
 #' @export
 build_traceback.default <- function(condition, calls) {
   as.character(calls)
-}
-
-build_time_seconds <- function() {
-  as.numeric(proc.time()["elapsed"])
 }
 
 build_message <- function(condition, prefix = character(0)) {

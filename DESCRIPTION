@@ -90,6 +90,7 @@ Suggests:
   gt (>= 0.2.2),
   keras (>= 2.2.5.0),
   markdown (>= 1.1),
+  nanonext (>= 0.8.2),
   rmarkdown (>= 2.4),
   parallelly (>= 1.35.0),
   paws (>= 0.1.11),

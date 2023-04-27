@@ -28,7 +28,7 @@ tar_poll <- function(
   fields = c("skipped", "started", "built", "errored", "canceled", "since"),
   store = targets::tar_config_get("store")
 ) {
-  start <- proc.time()["elapsed"]
+  start <- time_seconds()
   if (!tar_exist_progress(store = store)) {
     cli_blue_bullet(
       paste0(
@@ -69,7 +69,7 @@ tar_poll <- function(
 }
 
 tar_poll_go <- function(start, timeout) {
-  (proc.time()["elapsed"] - start) < timeout
+  (time_seconds() - start) < timeout
 }
 
 tar_poll_df <- function(fields_quosure, store) {

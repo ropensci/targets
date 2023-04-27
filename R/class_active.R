@@ -136,7 +136,7 @@ active_class <- R6::R6Class(
       self$scheduler$backoff$wait()
     },
     start = function() {
-      self$seconds_start <- unname(proc.time()["elapsed"])
+      self$seconds_start <- time_seconds()
       pipeline_prune_names(self$pipeline, self$names)
       self$ensure_meta()
       self$update_scheduler()
@@ -150,7 +150,7 @@ active_class <- R6::R6Class(
       scheduler$progress$database$dequeue_rows()
       self$meta$database$dequeue_rows()
       pipeline_unload_loaded(self$pipeline)
-      seconds_elapsed <- unname(proc.time()["elapsed"]) - self$seconds_start
+      seconds_elapsed <- time_seconds() - self$seconds_start
       scheduler$reporter$report_end(scheduler$progress, seconds_elapsed)
       path_scratch_del(path_store = self$meta$get_path_store())
       self$meta$database$deduplicate_storage()

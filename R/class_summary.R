@@ -11,7 +11,7 @@ summary_class <- R6::R6Class(
   public = list(
     time = NULL,
     report_start = function() {
-      self$time <- proc.time()["elapsed"]
+      self$time <- time_seconds()
       cli_df_header(progress_init(path = tempfile())$cli_data())
     },
     report_progress = function(progress) {
@@ -26,7 +26,7 @@ summary_class <- R6::R6Class(
       self$report_progress(progress)
     },
     report_skipped = function(target = NULL, progress) {
-      time <- proc.time()["elapsed"]
+      time <- time_seconds()
       # nocov start
       # Covered in tests/interactive/test-reporter.R.
       if (time - self$time > 0.25) {
