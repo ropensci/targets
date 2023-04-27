@@ -166,7 +166,8 @@ database_class <- R6::R6Class(
       file.rename(from = tmp, to = self$path)
     },
     produce_line = function(row) {
-      withr::local_options(.new = list(OutDec = "."))
+      old <- options(OutDec = ".")
+      on.exit(options(old))
       paste(map_chr(row, self$produce_subline), collapse = database_sep_outer)
     },
     produce_subline = function(element) {

@@ -29,7 +29,10 @@ tar_test <- function(label, code) {
       targets::tar_dir(testthat::test_that(label, code)),
       env = list(label = label, code = code)
     )
-    withr::local_envvar(c(TAR_ASK = "false", TAR_TEST = "true"))
+    envvars <- c("TAR_ASK", "TAR_TEST")
+    previous <- Sys.getenv(envvars)
+    on.exit(do.call(what = Sys.setenv, args = as.list(previous)))
+    Sys.setenv(TAR_ASK = "false", TAR_TEST = "true")
     tar_option_reset()
     on.exit(tar_option_reset(), add = TRUE)
     on.exit(processx::supervisor_kill(), add = TRUE)

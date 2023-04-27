@@ -14,6 +14,7 @@ tar_dir <- function(code) {
   code <- substitute(code)
   dir <- tempfile(pattern = "targets_")
   dir_create(dir)
-  withr::local_dir(dir)
+  old <- eval(parse(text = "setwd(dir)"))
+  on.exit(eval(parse(text = "setwd(old)")))
   eval(code, envir = parent.frame())
 }

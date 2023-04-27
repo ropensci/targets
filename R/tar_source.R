@@ -62,7 +62,9 @@ tar_source <- function(
     function(script) {
       lines <- readLines(script, warn = FALSE)
       if (change_directory) {
-        withr::local_dir(new = dirname(script))
+        dir <- dirname(script)
+        old <- eval(parse(text = "setwd(dir)"))
+        on.exit(eval(parse(text = "setwd(old)")))
       }
       eval(parse(text = lines), envir = envir)
       invisible()
