@@ -58,7 +58,7 @@ store_read_object.tar_aws_file <- function(store) {
   path <- store$file$path
   scratch <- path_scratch(
     path_store = tempdir(),
-    pattern = "targets_aws_file_"
+    pattern = store_aws_key(path)
   )
   dir_create(dirname(scratch))
   aws_s3_download(

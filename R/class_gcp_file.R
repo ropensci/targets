@@ -47,7 +47,7 @@ store_read_object.tar_gcp_file <- function(store) {
   path <- store$file$path
   scratch <- path_scratch(
     path_store = tempdir(),
-    pattern = "targets_gcp_file_"
+    pattern = store_gcp_key(path)
   )
   dir_create(dirname(scratch))
   gcp_gcs_download(
