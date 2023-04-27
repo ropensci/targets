@@ -85,9 +85,11 @@ tar_config_get_project <- function(name, yaml) {
   switch(
     name,
     inherits = yaml$inherits,
+    garbage_collection = yaml$garbage_collection %|||% FALSE,
     reporter_make = yaml$reporter_make %|||% "verbose",
     reporter_outdated = yaml$reporter_outdated %|||% "silent",
     script = yaml$script %|||% path_script_default(),
+    seconds_interval = yaml$seconds_interval %|||% 0.5,
     shortcut = yaml$shortcut %|||% FALSE,
     store = yaml$store %|||% path_store_default(),
     workers = yaml$workers %|||% 1L
@@ -98,9 +100,11 @@ tar_config_get_convert <- function(name, value) {
   switch(
     name,
     inherits = if_any(is.null(value), NULL, as.character(value)),
+    garbage_collection = as.logical(value),
     reporter_make = as.character(value),
     reporter_outdated = as.character(value),
     script = as.character(value),
+    seconds_interval = as.numeric(value),
     shortcut = as.logical(value),
     store = as.character(value),
     workers = as.integer(max(1L, as.integer(value)))

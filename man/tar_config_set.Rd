@@ -6,11 +6,13 @@
 \usage{
 tar_config_set(
   inherits = NULL,
+  garbage_collection = NULL,
   reporter_make = NULL,
   reporter_outdated = NULL,
+  script = NULL,
+  seconds_interval = NULL,
   store = NULL,
   shortcut = NULL,
-  script = NULL,
   workers = NULL,
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   project = Sys.getenv("TAR_PROJECT", "main")
@@ -24,6 +26,16 @@ defaults to \code{Sys.getenv("TAR_PROJECT", "main")}.
 If the \code{inherits} argument \code{NULL}, the \code{inherits} setting is not modified.
 Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 
+\item{garbage_collection}{Logical of length 1, \code{garbage_collection}
+argument of \code{\link[=tar_make]{tar_make()}} (if \code{crew} is enabled),
+\code{\link[=tar_make_clustermq]{tar_make_clustermq()}}, and \code{\link[=tar_make_future]{tar_make_future()}}.
+Whether to run garbage collection on the main process
+before sending a target
+to a worker. For \code{\link[=tar_make]{tar_make()}}, this argument is
+ignored if \code{tar_option_get("controller")} is \code{NULL}.
+Independent from the \code{garbage_collection} argument of \code{\link[=tar_target]{tar_target()}},
+which controls garbage collection on the worker.}
+
 \item{reporter_make}{Character of length 1, \code{reporter} argument to
 \code{\link[=tar_make]{tar_make()}} and related functions that run the pipeline.
 If the argument \code{NULL}, the setting is not modified.
@@ -33,6 +45,21 @@ Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 \code{\link[=tar_outdated]{tar_outdated()}} and related functions that do not run the pipeline.
 If the argument \code{NULL}, the setting is not modified.
 Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
+
+\item{script}{Character of length 1, path to the target script file
+that defines the pipeline (\verb{_targets.R} by default).
+This path should be either
+an absolute path or a path relative to the project root where you will
+call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=tar_make]{tar_make()}} and friends
+run the script from the current working directory.
+If the argument \code{NULL}, the setting is not modified.
+Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
+
+\item{seconds_interval}{Positive numeric of length 1 with the minimum
+number of seconds between saves to the metadata and progress data
+in \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_future]{tar_make_future()}}, and \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}.
+Higher values generally make the pipeline run faster, but unsaved
+work (in the event of a crash) is not up to date.}
 
 \item{store}{Character of length 1, path to the data store of the pipeline.
 If \code{NULL}, the \code{store} setting is left unchanged in the
@@ -49,15 +76,6 @@ Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 
 \item{shortcut}{logical of length 1, default \code{shortcut} argument
 to \code{\link[=tar_make]{tar_make()}} and related functions.
-If the argument \code{NULL}, the setting is not modified.
-Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
-
-\item{script}{Character of length 1, path to the target script file
-that defines the pipeline (\verb{_targets.R} by default).
-This path should be either
-an absolute path or a path relative to the project root where you will
-call \code{\link[=tar_make]{tar_make()}} and other functions. When \code{\link[=tar_make]{tar_make()}} and friends
-run the script from the current working directory.
 If the argument \code{NULL}, the setting is not modified.
 Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 

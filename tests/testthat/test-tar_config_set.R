@@ -13,6 +13,22 @@ tar_test("tar_config_set() inherits", {
   expect_null(tar_config_get("inherits"))
 })
 
+tar_test("tar_config_set() garbage_collection", {
+  skip_cran()
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("garbage_collection"), FALSE)
+  tar_config_set(garbage_collection = TRUE)
+  expect_equal(tar_config_get("garbage_collection"), TRUE)
+  expect_true(file.exists("_targets.yaml"))
+  expect_true(any(grepl("garbage_collection", readLines("_targets.yaml"))))
+  tar_config_set()
+  expect_equal(tar_config_get("garbage_collection"), TRUE)
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("garbage_collection"), FALSE)
+})
+
+
 tar_test("tar_config_set() reporter_make", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
@@ -90,6 +106,22 @@ tar_test("tar_config_set() with script and different yaml file", {
   unlink(path)
   expect_equal(tar_config_get("script", config = path), path_script_default())
 })
+
+tar_test("tar_config_set() with seconds_interval", {
+  skip_cran()
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("seconds_interval"), 0.5)
+  path <- tempfile()
+  tar_config_set(seconds_interval = 10)
+  expect_equal(tar_config_get("seconds_interval"), 10)
+  expect_true(file.exists("_targets.yaml"))
+  tar_config_set()
+  expect_equal(tar_config_get("seconds_interval"), 10)
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("seconds_interval"), 0.5)
+})
+
 
 tar_test("tar_config_set() with store", {
   skip_cran()

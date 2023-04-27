@@ -36,6 +36,15 @@
 #'   defaults to `Sys.getenv("TAR_PROJECT", "main")`.
 #'   If the `inherits` argument `NULL`, the `inherits` setting is not modified.
 #'   Use [tar_config_unset()] to delete a setting.
+#' @param garbage_collection Logical of length 1, `garbage_collection`
+#'   argument of [tar_make()] (if `crew` is enabled),
+#'   [tar_make_clustermq()], and [tar_make_future()].
+#'   Whether to run garbage collection on the main process
+#'   before sending a target
+#'   to a worker. For [tar_make()], this argument is
+#'   ignored if `tar_option_get("controller")` is `NULL`.
+#'   Independent from the `garbage_collection` argument of [tar_target()],
+#'   which controls garbage collection on the worker.
 #' @param reporter_make Character of length 1, `reporter` argument to
 #'   [tar_make()] and related functions that run the pipeline.
 #'   If the argument `NULL`, the setting is not modified.
@@ -52,6 +61,11 @@
 #'   run the script from the current working directory.
 #'   If the argument `NULL`, the setting is not modified.
 #'   Use [tar_config_unset()] to delete a setting.
+#' @param seconds_interval Positive numeric of length 1 with the minimum
+#'   number of seconds between saves to the metadata and progress data
+#'   in [tar_make()], [tar_make_future()], and [tar_make_clustermq()].
+#'   Higher values generally make the pipeline run faster, but unsaved
+#'   work (in the event of a crash) is not up to date.
 #' @param shortcut logical of length 1, default `shortcut` argument
 #'   to [tar_make()] and related functions.
 #'   If the argument `NULL`, the setting is not modified.
@@ -116,11 +130,13 @@
 #' }
 tar_config_set <- function(
   inherits = NULL,
+  garbage_collection = NULL,
   reporter_make = NULL,
   reporter_outdated = NULL,
+  script = NULL,
+  seconds_interval = NULL,
   store = NULL,
   shortcut = NULL,
-  script = NULL,
   workers = NULL,
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   project = Sys.getenv("TAR_PROJECT", "main")
@@ -132,9 +148,11 @@ tar_config_set <- function(
   tar_assert_chr(project)
   tar_assert_scalar(project)
   tar_config_assert_inherits(inherits)
+  tar_config_assert_garbage_collection(garbage_collection)
   tar_config_assert_reporter_make(reporter_make)
   tar_config_assert_reporter_outdated(reporter_outdated)
   tar_config_assert_script(script)
+  tar_config_assert_seconds_interval(seconds_interval)
   tar_config_assert_shortcut(shortcut)
   tar_config_assert_store(store)
   tar_config_assert_workers(workers)
@@ -143,11 +161,15 @@ tar_config_set <- function(
     yaml <- tar_config_convert_multi_project(yaml, config)
   }
   yaml[[project]]$inherits <- inherits %|||% yaml[[project]]$inherits
+  yaml[[project]]$garbage_collection <- garbage_collection %|||%
+    yaml[[project]]$garbage_collection
   yaml[[project]]$reporter_make <- reporter_make %|||%
     yaml[[project]]$reporter_make
   yaml[[project]]$reporter_outdated <- reporter_outdated %|||%
     yaml[[project]]$reporter_outdated
   yaml[[project]]$script <- script %|||% yaml[[project]]$script
+  yaml[[project]]$seconds_interval <- seconds_interval %|||%
+    yaml[[project]]$seconds_interval
   yaml[[project]]$shortcut <- shortcut %|||% yaml[[project]]$shortcut
   yaml[[project]]$store <- store %|||% yaml[[project]]$store
   yaml[[project]]$workers <- if_any(
@@ -174,6 +196,15 @@ tar_config_assert_inherits <- function(inherits) {
   tar_assert_nzchar(inherits)
 }
 
+tar_config_assert_garbage_collection <- function(garbage_collection) {
+  if (is.null(garbage_collection)) {
+    return()
+  }
+  tar_assert_lgl(garbage_collection)
+  tar_assert_scalar(garbage_collection)
+  tar_assert_none_na(garbage_collection)
+}
+
 tar_config_assert_reporter_make <- function(reporter_make) {
   if (is.null(reporter_make)) {
     return()
@@ -194,6 +225,16 @@ tar_config_assert_script <- function(script) {
   }
   tar_assert_scalar(script)
   tar_assert_chr(script)
+}
+
+tar_config_assert_seconds_interval <- function(seconds_interval) {
+  if (is.null(seconds_interval)) {
+    return()
+  }
+  tar_assert_dbl(seconds_interval)
+  tar_assert_scalar(seconds_interval)
+  tar_assert_none_na(seconds_interval)
+  tar_assert_ge(seconds_interval, 0)
 }
 
 tar_config_assert_shortcut <- function(shortcut) {

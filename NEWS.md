@@ -4,12 +4,14 @@
 
 * Call `gc()` more appropriately when `garbage_collection` is `TRUE` in `tar_target()`.
 * Add `garbage_collection` arguments to `tar_make()`, `tar_make_clustermq()`, and `tar_make_future()` to add optional garbage collection before targets are sent to workers. This is different and independent from the `garbage_collection` argument of `tar_target()`. In high-performance computing scenarios, the former controls what happens on the main controlling process, whereas the latter controls what happens on the worker.
+* Add `garbage_collection` and `seconds_interval` arguments to `tar_make()`, `tar_make_clustermq()`, `tar_make_future()`, and `tar_config_set()`.
 
 ## Speedups
 
-* Replace `withr` with slightly faster/leaner base R alternatives.
+* Write to `_targets/meta/meta` and `_targets/meta/progress` in timed batches instead of line by line (#1055).
 * Avoid `tempfile()` when working with the scratch directory.
 * Use `nanonext::mclock()` instead of `proc.time()` when there is no risk of forked processes.
+* Replace `withr` with slightly faster/leaner base R alternatives.
 
 # targets 1.0.0
 

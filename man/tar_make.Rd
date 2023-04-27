@@ -13,8 +13,8 @@ tar_make(
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = FALSE,
-  seconds_interval = 0.5
+  garbage_collection = targets::tar_config_get("garbage_collection"),
+  seconds_interval = targets::tar_config_get("seconds_interval")
 )
 }
 \arguments{
