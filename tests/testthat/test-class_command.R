@@ -40,6 +40,8 @@ tar_test("command$produce_build() uses seed", {
 })
 
 tar_test("command$produce_build() does not change working dir", {
+  tar_runtime$set_working_directory(getwd())
+  on.exit(tar_runtime$unset_working_directory())
   dir <- getwd()
   x <- command_init(expr = quote(setwd(tempdir()))) # nolint
   command_produce_build(x, environment())
