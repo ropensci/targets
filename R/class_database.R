@@ -87,8 +87,8 @@ database_class <- R6::R6Class(
       }
     },
     insert_row = function(row) {
-      self$write_row(row)
       self$set_row(row)
+      self$write_row(row)
     },
     append_data = function(data) {
       self$append_storage(data)
@@ -103,6 +103,7 @@ database_class <- R6::R6Class(
       as.list(data)[self$header]
     },
     enqueue_row = function(row) {
+      self$set_row(row)
       line <- self$produce_line(self$select_cols(row))
       self$queue <- c(self$queue, line)
     },
