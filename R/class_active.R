@@ -150,7 +150,7 @@ active_class <- R6::R6Class(
       self$scheduler$reporter$report_start()
     },
     end = function() {
-      self$dequeue_meta()
+      self$dequeue_meta(force = TRUE)
       pipeline_unload_loaded(self$pipeline)
       seconds_elapsed <- time_seconds() - self$seconds_start
       scheduler <- self$scheduler
