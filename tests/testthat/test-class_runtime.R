@@ -50,6 +50,19 @@ tar_test("set, get, exists, and unset script", {
   expect_null(x$get_script())
 })
 
+tar_test("set, get, exists, and unset store", {
+  x <- runtime_init()
+  expect_false(x$exists_store())
+  expect_null(x$get_store())
+  x$set_store("store")
+  expect_true(x$exists_store())
+  expect_equal(x$get_store(), "store")
+  expect_silent(x$validate())
+  x$unset_store()
+  expect_false(x$exists_store())
+  expect_null(x$get_store())
+})
+
 tar_test("set, get, exists, and unset working_directory", {
   x <- runtime_init()
   expect_false(x$exists_working_directory())
