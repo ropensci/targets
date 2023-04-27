@@ -13,7 +13,8 @@ tar_make(
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = FALSE
+  garbage_collection = FALSE,
+  seconds_interval = 0.5
 )
 }
 \arguments{
@@ -111,6 +112,11 @@ before sending a target
 to a worker. Ignored if \code{tar_option_get("controller")} is \code{NULL}.
 Independent from the \code{garbage_collection} argument of \code{\link[=tar_target]{tar_target()}},
 which controls garbage collection on the worker.}
+
+\item{seconds_interval}{Positive numeric of length 1 with the minimum
+number of seconds between saves to the metadata and progress data.
+Higher values generally make the pipeline run faster, but unsaved
+work (in the event of a crash) is not up to date.}
 }
 \value{
 \code{NULL} except if \code{callr_function = callr::r_bg()}, in which case
