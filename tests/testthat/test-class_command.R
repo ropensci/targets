@@ -25,13 +25,19 @@ tar_test("command_produce_build()", {
 tar_test("command$produce_build() uses seed", {
   x <- command_init(expr = quote(sample.int(1e9, 1L)))
   x$seed <- 0L
-  exp0 <- withr::with_seed(0L, sample.int(1e9, 1L))
+  sample_with_seed <- function(seed) {
+    old_seed <- .GlobalEnv[[".Random.seed"]]
+    set.seed(seed)
+    on.exit(.GlobalEnv[[".Random.seed"]] <- old_seed, add = TRUE)
+    sample.int(1e9, 1L)
+  }
+  exp0 <- sample_with_seed(0L)
   for (i in seq_len(2)) {
     out <- command_produce_build(x, environment())$object
     expect_equal(out, exp0)
   }
   x$seed <- 1L
-  exp1 <- withr::with_seed(1L, sample.int(1e9, 1))
+  exp1 <- sample_with_seed(1L)
   for (i in seq_len(2)) {
     out <- command_produce_build(x, environment())$object
     expect_equal(out, exp1)

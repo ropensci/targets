@@ -293,7 +293,7 @@ See \code{\link[=tar_workspace]{tar_workspace()}} for details about workspaces.}
 target-specific pseudo-random number generator seeds.
 These target-specific seeds are deterministic and depend on
 \code{tar_option_get("seed")} and the target name. Target-specific seeds
-are applied to each target's command using \code{withr::with_seed()},
+are safely and reproducibly applied to each target's command,
 and they are stored in the metadata and retrievable with
 \code{\link[=tar_meta]{tar_meta()}} or \code{\link[=tar_seed]{tar_seed()}}.
 

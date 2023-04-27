@@ -20,7 +20,9 @@ random_bucket_name <- function() {
 
 aws_s3_delete_bucket <- function(bucket, client = paws::s3()) {
   region <- client$get_bucket_location(Bucket = bucket)
-  withr::local_envvar(.new = list(AWS_REGION = region))
+  old <- Sys.getenv("AWS_REGION")
+  on.exit(Sys.setenv(AWS_REGION = old))
+  Sys.setenv(AWS_REGION = region)
   out <- client$list_object_versions(Bucket = bucket)
   for (x in out$Versions) {
     args <- list(

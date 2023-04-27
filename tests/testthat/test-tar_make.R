@@ -116,7 +116,9 @@ tar_test("tar_make() finds the correct environment", {
 
 tar_test("tar_make() handles callr errors", {
   skip_cran()
-  withr::local_envvar(list(TAR_TEST = "false")) # covers some lines
+  old <- Sys.getenv("TAR_TEST")
+  on.exit(Sys.setenv(TAR_TEST = old))
+  Sys.setenv(TAR_TEST = "false")
   tar_script({
     list(
       tar_target(x, "x"),

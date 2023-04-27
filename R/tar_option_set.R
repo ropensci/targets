@@ -110,7 +110,7 @@
 #'   target-specific pseudo-random number generator seeds.
 #'   These target-specific seeds are deterministic and depend on
 #'   `tar_option_get("seed")` and the target name. Target-specific seeds
-#'   are applied to each target's command using `withr::with_seed()`,
+#'   are safely and reproducibly applied to each target's command,
 #'   and they are stored in the metadata and retrievable with
 #'   [tar_meta()] or [tar_seed()].
 #'

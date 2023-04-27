@@ -63,11 +63,12 @@ build_new <- function(object = NULL, metrics = NULL) {
 build_run_expr <- function(expr, envir, seed, packages, library) {
   load_packages(packages = packages, library = library)
   on.exit(eval(build_expr_restore_wd))
-  if_any(
-    anyNA(seed),
-    build_eval_fce17be7(expr, envir),
-    withr::with_seed(seed, build_eval_fce17be7(expr, envir))
-  )
+  if (!anyNA(seed)) {
+    old_seed <- .GlobalEnv[[".Random.seed"]]
+    set.seed(seed)
+    on.exit(.GlobalEnv[[".Random.seed"]] <- old_seed, add = TRUE)
+  }
+  build_eval_fce17be7(expr, envir)
 }
 
 # Marker to shorten tracebacks.

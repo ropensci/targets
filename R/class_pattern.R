@@ -369,14 +369,12 @@ pattern_produce_grid <- function(
   seed,
   methods = dynamic_methods
 ) {
-  out <- if_any(
-    anyNA(seed),
-    eval(pattern, envir = niblings, enclos = dynamic_methods$self),
-    withr::with_seed(
-      seed,
-      eval(pattern, envir = niblings, enclos = dynamic_methods$self)
-    )
-  )
+  if (!anyNA(seed)) {
+    old_seed <- .GlobalEnv[[".Random.seed"]]
+    set.seed(seed)
+    on.exit(.GlobalEnv[[".Random.seed"]] <- old_seed, add = TRUE)
+  }
+  out <- eval(pattern, envir = niblings, enclos = dynamic_methods$self)
   rownames(out) <- NULL
   out
 }

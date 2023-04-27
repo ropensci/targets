@@ -71,7 +71,6 @@ Imports:
   tools,
   utils,
   vctrs (>= 0.2.4),
-  withr (>= 2.4.0),
   yaml (>= 2.2.1)
 Suggests:
   arrow (>= 3.0.0),

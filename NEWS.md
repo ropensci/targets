@@ -7,7 +7,7 @@
 
 ## Speedups
 
-* Restore working directory slightly faster than `withr::with_dir()`.
+* Replace `withr` with slightly faster/leaner base R alternatives.
 * Avoid `tempfile()` when working with the scratch directory.
 
 # targets 1.0.0
