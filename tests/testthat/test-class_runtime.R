@@ -50,17 +50,17 @@ tar_test("set, get, exists, and unset script", {
   expect_null(x$get_script())
 })
 
-tar_test("set, get, exists, and unset store", {
+tar_test("set, get, exists, and unset working_directory", {
   x <- runtime_init()
-  expect_false(x$exists_store())
-  expect_null(x$get_store())
-  x$set_store("store")
-  expect_true(x$exists_store())
-  expect_equal(x$get_store(), "store")
+  expect_false(x$exists_working_directory())
+  expect_null(x$get_working_directory())
+  x$set_working_directory("working_directory")
+  expect_true(x$exists_working_directory())
+  expect_equal(x$get_working_directory(), "working_directory")
   expect_silent(x$validate())
-  x$unset_store()
-  expect_false(x$exists_store())
-  expect_null(x$get_store())
+  x$unset_working_directory()
+  expect_false(x$exists_working_directory())
+  expect_null(x$get_working_directory())
 })
 
 tar_test("set, get, exists, and unset fun", {

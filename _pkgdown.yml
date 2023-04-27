@@ -164,5 +164,4 @@ reference:
   - '`tar_assert`'
   - '`tar_condition`'
   - '`tar_language`'
-  - '`tar_dir`'
   - '`tar_test`'

@@ -62,13 +62,11 @@ build_new <- function(object = NULL, metrics = NULL) {
 
 build_run_expr <- function(expr, envir, seed, packages, library) {
   load_packages(packages = packages, library = library)
-  withr::with_dir(
-    getwd(),
-    if_any(
-      anyNA(seed),
-      build_eval_fce17be7(expr, envir),
-      withr::with_seed(seed, build_eval_fce17be7(expr, envir))
-    )
+  on.exit(eval(build_expr_restore_wd))
+  if_any(
+    anyNA(seed),
+    build_eval_fce17be7(expr, envir),
+    withr::with_seed(seed, build_eval_fce17be7(expr, envir))
   )
 }
 
@@ -123,5 +121,9 @@ build_validate <- function(build) {
   tar_assert_correct_fields(build, build_new)
   metrics_validate(build$metrics)
 }
+
+build_expr_restore_wd <- parse(
+  text = "setwd(tar_runtime$get_working_directory())"
+)
 
 build_message_max_nchar <- 2048L

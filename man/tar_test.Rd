@@ -37,7 +37,6 @@ file.exists("only_exists_in_tar_test")
 Other utilities to extend targets: 
 \code{\link{tar_assert}},
 \code{\link{tar_condition}},
-\code{\link{tar_dir}()},
 \code{\link{tar_language}}
 }
 \concept{utilities to extend targets}

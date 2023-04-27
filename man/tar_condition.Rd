@@ -54,7 +54,6 @@ try(tar_throw_validate("something is not valid"))
 \seealso{
 Other utilities to extend targets: 
 \code{\link{tar_assert}},
-\code{\link{tar_dir}()},
 \code{\link{tar_language}},
 \code{\link{tar_test}()}
 }

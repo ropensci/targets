@@ -58,7 +58,6 @@ tar_deparse_language(quote(run_model()))
 Other utilities to extend targets: 
 \code{\link{tar_assert}},
 \code{\link{tar_condition}},
-\code{\link{tar_dir}()},
 \code{\link{tar_test}()}
 }
 \concept{utilities to extend targets}

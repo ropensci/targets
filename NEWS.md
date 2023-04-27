@@ -2,6 +2,7 @@
 
 * Call `gc()` more appropriately when `garbage_collection` is `TRUE` in `tar_target()`.
 * Add `garbage_collection` arguments to `tar_make()`, `tar_make_clustermq()`, and `tar_make_future()` to add optional garbage collection before targets are sent to workers. This is different and independent from the `garbage_collection` argument of `tar_target()`. In high-performance computing scenarios, the former controls what happens on the main controlling process, whereas the latter controls what happens on the worker.
+* Minor speedup: restore working directory slightly faster than `withr::with_dir()`.
 
 # targets 1.0.0
 

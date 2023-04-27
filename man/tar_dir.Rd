@@ -13,6 +13,9 @@ tar_dir(code)
 Return value of the user-defined code.
 }
 \description{
+Not a user-side function. Just for CRAN.
+}
+\details{
 Runs code inside a new \code{tempfile()} directory
 in order to avoid writing to the user's file space.
 Used in examples and tests in order to comply with CRAN policies.
@@ -21,11 +24,4 @@ Used in examples and tests in order to comply with CRAN policies.
 tar_dir(file.create("only_exists_in_tar_dir"))
 file.exists("only_exists_in_tar_dir")
 }
-\seealso{
-Other utilities to extend targets: 
-\code{\link{tar_assert}},
-\code{\link{tar_condition}},
-\code{\link{tar_language}},
-\code{\link{tar_test}()}
-}
-\concept{utilities to extend targets}
+\keyword{internal}

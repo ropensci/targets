@@ -2,8 +2,9 @@ runtime_init <- function(
   target = NULL,
   frames = NULL,
   interactive = NULL,
-  store = NULL,
   script = NULL,
+  store = NULL,
+  working_directory = NULL,
   fun = NULL,
   gcp_auth = NULL
 ) {
@@ -13,6 +14,7 @@ runtime_init <- function(
     interactive = interactive,
     script = script,
     store = store,
+    working_directory = working_directory,
     fun = fun,
     gcp_auth = gcp_auth
   )
@@ -22,8 +24,9 @@ runtime_new <- function(
   target = NULL,
   frames = NULL,
   interactive = NULL,
-  store = NULL,
   script = NULL,
+  store = NULL,
+  working_directory = NULL,
   fun = NULL,
   gcp_auth = NULL
 ) {
@@ -33,6 +36,7 @@ runtime_new <- function(
     interactive = interactive,
     script = script,
     store = store,
+    working_directory = working_directory,
     fun = fun,
     gcp_auth = gcp_auth
   )
@@ -47,8 +51,9 @@ runtime_class <- R6::R6Class(
     target = NULL,
     frames = NULL,
     interactive = NULL,
-    store = NULL,
     script = NULL,
+    store = NULL,
+    working_directory = NULL,
     fun = NULL,
     gcp_auth = NULL,
     initialize = function(
@@ -57,6 +62,7 @@ runtime_class <- R6::R6Class(
       interactive = NULL,
       script = NULL,
       store = NULL,
+      working_directory = NULL,
       fun = NULL,
       gcp_auth = NULL
     ) {
@@ -65,6 +71,7 @@ runtime_class <- R6::R6Class(
       self$interactive <- interactive
       self$script <- script
       self$store <- store
+      self$working_directory <- working_directory
       self$fun <- fun
       self$gcp_auth <- gcp_auth
     },
@@ -82,6 +89,9 @@ runtime_class <- R6::R6Class(
     },
     exists_store = function() {
       !is.null(self$store)
+    },
+    exists_working_directory = function() {
+      !is.null(self$working_directory)
     },
     exists_fun = function() {
       !is.null(self$fun)
@@ -104,6 +114,9 @@ runtime_class <- R6::R6Class(
     get_store = function() {
       self$store
     },
+    get_working_directory = function() {
+      self$working_directory
+    },
     get_fun = function() {
       self$fun
     },
@@ -125,6 +138,9 @@ runtime_class <- R6::R6Class(
     set_store = function(store) {
       self$store <- store
     },
+    set_working_directory = function(working_directory) {
+      self$working_directory <- working_directory
+    },
     set_fun = function(fun) {
       self$fun <- fun
     },
@@ -145,6 +161,9 @@ runtime_class <- R6::R6Class(
     },
     unset_store = function() {
       self$store <- NULL
+    },
+    unset_working_directory = function() {
+      self$working_directory <- NULL
     },
     unset_fun = function() {
       self$fun <- NULL
@@ -173,6 +192,11 @@ runtime_class <- R6::R6Class(
         tar_assert_scalar(self$store)
         tar_assert_chr(self$store)
         tar_assert_nzchar(self$store)
+      }
+      if (!is.null(self$working_directory)) {
+        tar_assert_scalar(self$working_directory)
+        tar_assert_chr(self$working_directory)
+        tar_assert_nzchar(self$working_directory)
       }
       if (!is.null(self$fun)) {
         tar_assert_scalar(self$fun)
