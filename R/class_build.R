@@ -62,7 +62,6 @@ build_new <- function(object = NULL, metrics = NULL) {
 
 build_run_expr <- function(expr, envir, seed, packages, library) {
   load_packages(packages = packages, library = library)
-  on.exit(eval(build_expr_restore_wd))
   if (!anyNA(seed)) {
     # Borrowed from https://github.com/r-lib/withr/blob/main/R/seed.R
     # under the MIT license. See the NOTICE file
@@ -121,12 +120,5 @@ build_validate <- function(build) {
   tar_assert_correct_fields(build, build_new)
   metrics_validate(build$metrics)
 }
-
-build_expr_restore_wd <- parse(
-  text = c(
-    "dir <- tar_runtime$get_working_directory()",
-    "if (!is.null(dir)) setwd(dir)"
-  )
-)
 
 build_message_max_nchar <- 2048L

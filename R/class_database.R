@@ -121,7 +121,8 @@ database_class <- R6::R6Class(
       attempt <- 0L
       # Tested in tests/interactive/test-database.R
       # nocov start
-      while (!is.null(try(self$try_append_lines(lines)))) {
+      while (!is.null(try(self$try_append_lines(lines), silent = in_test()))) {
+        compare_working_directories()
         msg <- paste("Reattempting to append lines to", self$path)
         cli_mark_info(msg)
         Sys.sleep(stats::runif(1, 0.2, 0.25))
@@ -297,6 +298,26 @@ database_validate_file <- function(database) {
     "either delete the data store with tar_destroy() ",
     "or downgrade the targets package to an earlier version."
   )
+}
+
+compare_working_directories <- function() {
+  current <- getwd()
+  expected <- tar_runtime$get_working_directory()
+  if (current != expected) {
+    tar_throw_run(
+      sprintf(
+        paste(
+          "at least one of your targets changed your working directory",
+          "from '%s' to '%s'. A target must not change the working",
+          "directory. If you absolutely must change the working directory,",
+          "then please wrap the relevant R code in withr::with_dir()",
+          "to restore the working directory to its original state."
+        ),
+        expected,
+        current
+      )
+    )
+  }
 }
 
 database_sep_outer <- "|"

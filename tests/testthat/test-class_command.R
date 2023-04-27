@@ -48,15 +48,6 @@ tar_test("command$produce_build() uses seed", {
   expect_false(exp0 == exp1)
 })
 
-tar_test("command$produce_build() does not change working dir", {
-  tar_runtime$set_working_directory(getwd())
-  on.exit(tar_runtime$unset_working_directory())
-  dir <- getwd()
-  x <- command_init(expr = quote(setwd(tempdir()))) # nolint
-  command_produce_build(x, environment())
-  expect_equal(getwd(), dir)
-})
-
 tar_test("command_init(deps)", {
   command <- command_init(quote(a <- b + c), deps = "custom")
   expect_equal(command$deps, "custom")

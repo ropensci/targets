@@ -10,3 +10,7 @@ set_envvar <- function(envvar) {
   }
   invisible()
 }
+
+in_test <- function() {
+  Sys.getenv("TESTTHAT") == "true"
+}

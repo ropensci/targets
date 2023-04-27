@@ -1,13 +1,13 @@
 active_new <- function(
-  pipeline = NULL,
-  meta = NULL,
-  names = NULL,
-  shortcut = NULL,
-  queue = NULL,
-  reporter = NULL,
-  garbage_collection = NULL,
-  seconds_interval = NULL,
-  envir = NULL
+    pipeline = NULL,
+    meta = NULL,
+    names = NULL,
+    shortcut = NULL,
+    queue = NULL,
+    reporter = NULL,
+    garbage_collection = NULL,
+    seconds_interval = NULL,
+    envir = NULL
 ) {
   active_class$new(
     pipeline = pipeline,
@@ -36,15 +36,15 @@ active_class <- R6::R6Class(
     seconds_start = NULL,
     seconds_dequeued = NULL,
     initialize = function(
-      pipeline = NULL,
-      meta = NULL,
-      names = NULL,
-      shortcut = NULL,
-      queue = NULL,
-      reporter = NULL,
-      envir = NULL,
-      garbage_collection = NULL,
-      seconds_interval = NULL
+    pipeline = NULL,
+    meta = NULL,
+    names = NULL,
+    shortcut = NULL,
+    queue = NULL,
+    reporter = NULL,
+    envir = NULL,
+    garbage_collection = NULL,
+    seconds_interval = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -171,6 +171,7 @@ active_class <- R6::R6Class(
       scheduler$reporter$report_end(scheduler$progress, seconds_elapsed)
       path_scratch_del(path_store = self$meta$get_path_store())
       self$meta$database$deduplicate_storage()
+      compare_working_directories()
     },
     validate = function() {
       super$validate()

@@ -248,3 +248,21 @@ tar_test("null environment", {
   tar_make(callr_function = NULL, envir = NULL)
   expect_equal(tar_read(x), "x")
 })
+
+tar_test("working directory antipattern", {
+  skip_cran()
+  dir.create("x")
+  tar_script(
+    list(
+      tar_target(x, {
+        setwd("x")
+        1
+      }),
+      tar_target(y, x)
+    )
+  )
+  expect_error(
+    suppressWarnings(tar_make(callr_function = NULL)),
+    class = "tar_condition_run"
+  )
+})

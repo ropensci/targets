@@ -12,6 +12,7 @@
 * Avoid `tempfile()` when working with the scratch directory.
 * Use `nanonext::mclock()` instead of `proc.time()` when there is no risk of forked processes.
 * Replace `withr` with slightly faster/leaner base R alternatives.
+* Efficiently catch changes to the working directory instead of overburdening the pipeline with calls to `setwd()` (#1057).
 
 # targets 1.0.0
 
