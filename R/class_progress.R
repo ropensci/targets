@@ -200,7 +200,7 @@ progress_class <- R6::R6Class(
       count > 0L
     },
     cli_data = function() {
-      data_frame(
+      list(
         queue = self$queued$count,
         skip = self$skipped$count,
         start = self$started$count,

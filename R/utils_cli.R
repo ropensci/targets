@@ -171,7 +171,7 @@ cli_df_body <- function(x, print = TRUE) {
 # nocov start
 # Covered in tests/interactive/test-reporter.R.
 cli_df_body_oneline <- function(x, print = TRUE) {
-  msg <- paste(paste(colnames(x), x, sep = ": "), collapse = " | ")
+  msg <- paste(paste(names(x), x, sep = ": "), collapse = " | ")
   msg <- cli_color_text(msg)
   msg <- cli_color_text(paste0("\r", msg))
   if_any(print, message(msg, appendLF = FALSE), msg)
@@ -179,7 +179,7 @@ cli_df_body_oneline <- function(x, print = TRUE) {
 # nocov end
 
 cli_df_text <- function(x) {
-  names <- colnames(x)
+  names <- names(x)
   fields <- vapply(x, as.character, FUN.VALUE = character(1L))
   nchar_names <- nchar(names)
   nchar_fields <- nchar(fields)
