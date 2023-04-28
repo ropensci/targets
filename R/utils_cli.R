@@ -173,7 +173,7 @@ cli_df_body <- function(x, print = TRUE) {
 cli_df_body_oneline <- function(x, print = TRUE) {
   msg <- paste(paste(names(x), x, sep = ": "), collapse = " | ")
   msg <- cli_color_text(msg)
-  msg <- cli_color_text(paste0("\r", msg))
+  msg <- cli_color_text(paste0("\r  ", msg))
   if_any(print, message(msg, appendLF = FALSE), msg)
 }
 # nocov end

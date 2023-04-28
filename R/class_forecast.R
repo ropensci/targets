@@ -21,6 +21,7 @@ forecast_class <- R6::R6Class(
     },
     report_end = function(progress = NULL, seconds_elapsed = NULL) {
       self$dequeue()
+      message("")
     }
   )
 )
