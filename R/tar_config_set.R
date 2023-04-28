@@ -64,6 +64,7 @@
 #' @param seconds_interval Positive numeric of length 1 with the minimum
 #'   number of seconds between saves to the metadata and progress data
 #'   in [tar_make()], [tar_make_future()], and [tar_make_clustermq()].
+#'   Also controls how often reporters print progress messages.
 #'   Higher values generally make the pipeline run faster, but unsaved
 #'   work (in the event of a crash) is not up to date.
 #' @param shortcut logical of length 1, default `shortcut` argument

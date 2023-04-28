@@ -1,5 +1,5 @@
-forecast_new <- function() {
-  forecast_class$new()
+forecast_new <- function(seconds_interval = NULL) {
+  forecast_class$new(seconds_interval = seconds_interval)
 }
 
 forecast_class <- R6::R6Class(
@@ -9,23 +9,18 @@ forecast_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    time = NULL,
-    report_start = function() {
-      self$time <- time_seconds()
-    },
-    report_skipped = function(target, progress) {
+    dequeue = function() {
+      if (!is.null(self$queue)) {
+        message(self$queue, appendLF = FALSE)
+        self$queue <- NULL
+      }
     },
     report_outdated = function(outdated) {
-      time <- time_seconds()
-      # nocov start
-      # Covered in tests/interactive/test-reporter.R.
-      if (time - self$time > 0.25) {
-        cli_df_body_oneline(outdated$cli_data())
-        self$time <- time
-      }
-      # nocov end
+      self$queue <- cli_df_body_oneline(outdated$cli_data(), print = FALSE)
+      self$poll()
     },
     report_end = function(progress = NULL, seconds_elapsed = NULL) {
+      self$dequeue()
       msg <- paste(c("\r", rep(" ", getOption("width") - 1L)), collapse = "")
       message(msg)
     }

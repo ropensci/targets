@@ -5,8 +5,8 @@ active_new <- function(
     shortcut = NULL,
     queue = NULL,
     reporter = NULL,
-    garbage_collection = NULL,
     seconds_interval = NULL,
+    garbage_collection = NULL,
     envir = NULL
 ) {
   active_class$new(
@@ -16,8 +16,8 @@ active_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     seconds_interval = seconds_interval,
+    garbage_collection = garbage_collection,
     envir = envir
   )
 }
@@ -29,22 +29,21 @@ active_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     garbage_collection = NULL,
-    seconds_interval = NULL,
     envir = NULL,
     exports = NULL,
     process = NULL,
     seconds_start = NULL,
     seconds_dequeued = NULL,
     initialize = function(
-    pipeline = NULL,
-    meta = NULL,
-    names = NULL,
-    shortcut = NULL,
-    queue = NULL,
-    reporter = NULL,
-    envir = NULL,
-    garbage_collection = NULL,
-    seconds_interval = NULL
+      pipeline = NULL,
+      meta = NULL,
+      names = NULL,
+      shortcut = NULL,
+      queue = NULL,
+      reporter = NULL,
+      seconds_interval = NULL,
+      envir = NULL,
+      garbage_collection = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -52,7 +51,8 @@ active_class <- R6::R6Class(
         names = names,
         shortcut = shortcut,
         queue = queue,
-        reporter = reporter
+        reporter = reporter,
+        seconds_interval = seconds_interval
       )
       self$garbage_collection <- garbage_collection
       self$seconds_interval <- seconds_interval

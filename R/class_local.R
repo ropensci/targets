@@ -15,8 +15,8 @@ local_init <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    garbage_collection = FALSE,
     seconds_interval = seconds_interval,
+    garbage_collection = FALSE,
     envir = envir
   )
 }
@@ -28,8 +28,8 @@ local_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
-  garbage_collection = NULL,
   seconds_interval = NULL,
+  garbage_collection = NULL,
   envir = NULL
 ) {
   local_class$new(
@@ -39,8 +39,8 @@ local_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     seconds_interval = seconds_interval,
+    garbage_collection = garbage_collection,
     envir = envir
   )
 }

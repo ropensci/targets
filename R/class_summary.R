@@ -1,5 +1,5 @@
-summary_new <- function() {
-  summary_class$new()
+summary_new <- function(seconds_interval = NULL) {
+  summary_class$new(seconds_interval = seconds_interval)
 }
 
 summary_class <- R6::R6Class(
@@ -9,13 +9,18 @@ summary_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    time = NULL,
+    dequeue = function() {
+      if (!is.null(self$queue)) {
+        message(self$queue, appendLF = FALSE)
+        self$queue <- NULL
+      }
+    },
     report_start = function() {
-      self$time <- time_seconds()
       cli_df_header(progress_init(path = tempfile())$cli_data())
     },
-    report_progress = function(progress) {
-      cli_df_body(progress$cli_data())
+    report_progress = function(progress, force = FALSE) {
+      self$queue <- cli_df_body(progress$cli_data(), print = FALSE)
+      self$poll()
     },
     report_error = function(error) {
     },
@@ -26,14 +31,7 @@ summary_class <- R6::R6Class(
       self$report_progress(progress)
     },
     report_skipped = function(target = NULL, progress) {
-      time <- time_seconds()
-      # nocov start
-      # Covered in tests/interactive/test-reporter.R.
-      if (time - self$time > 0.25) {
-        self$report_progress(progress)
-        self$time <- time
-      }
-      # nocov end
+      self$report_progress(progress)
     },
     report_errored = function(target = NULL, progress) {
       self$report_progress(progress)
@@ -43,6 +41,7 @@ summary_class <- R6::R6Class(
     },
     report_end = function(progress, seconds_elapsed = NULL) {
       self$report_progress(progress)
+      self$dequeue()
       message("")
     }
   )

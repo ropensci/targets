@@ -48,16 +48,17 @@
 #'     steps like data retrieval and output storage.
 #'   * `"verbose_positives"`: same as the `"verbose"` reporter
 #'     except without messages for skipped targets.
+#' @param seconds_interval Positive numeric of length 1 with the minimum
+#'   number of seconds between saves to the metadata and progress data.
+#'   Also controls how often the reporter prints progress messages.
+#'   Higher values generally make the pipeline run faster, but unsaved
+#'   work (in the event of a crash) is not up to date.
 #' @param garbage_collection Logical of length 1. For a `crew`-integrated
 #'   pipeline, whether to run garbage collection on the main process
 #'   before sending a target
 #'   to a worker. Ignored if `tar_option_get("controller")` is `NULL`.
 #'   Independent from the `garbage_collection` argument of [tar_target()],
 #'   which controls garbage collection on the worker.
-#' @param seconds_interval Positive numeric of length 1 with the minimum
-#'   number of seconds between saves to the metadata and progress data.
-#'   Higher values generally make the pipeline run faster, but unsaved
-#'   work (in the event of a crash) is not up to date.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -87,13 +88,13 @@ tar_make <- function(
   names = NULL,
   shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
+  seconds_interval = targets::tar_config_get("seconds_interval"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = targets::tar_config_get("garbage_collection"),
-  seconds_interval = targets::tar_config_get("seconds_interval")
+  garbage_collection = targets::tar_config_get("garbage_collection")
 ) {
   force(envir)
   tar_assert_scalar(shortcut)
@@ -101,20 +102,20 @@ tar_make <- function(
   tar_assert_flag(reporter, tar_reporters_make())
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
-  tar_assert_lgl(garbage_collection)
-  tar_assert_scalar(garbage_collection)
-  tar_assert_none_na(garbage_collection)
   tar_assert_dbl(seconds_interval)
   tar_assert_scalar(seconds_interval)
   tar_assert_none_na(seconds_interval)
   tar_assert_ge(seconds_interval, 0)
+  tar_assert_lgl(garbage_collection)
+  tar_assert_scalar(garbage_collection)
+  tar_assert_none_na(garbage_collection)
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
     shortcut = shortcut,
     reporter = reporter,
-    garbage_collection = garbage_collection,
-    seconds_interval = seconds_interval
+    seconds_interval = seconds_interval,
+    garbage_collection = garbage_collection
   )
   out <- callr_outer(
     targets_function = tar_make_inner,
@@ -135,8 +136,8 @@ tar_make_inner <- function(
   names_quosure,
   shortcut,
   reporter,
-  garbage_collection,
-  seconds_interval
+  seconds_interval,
+  garbage_collection
 ) {
   names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
   controller <- tar_option_get("controller")
@@ -165,8 +166,8 @@ tar_make_inner <- function(
       shortcut = shortcut,
       queue = "parallel",
       reporter = reporter,
-      garbage_collection = garbage_collection,
       seconds_interval = seconds_interval,
+      garbage_collection = garbage_collection,
       envir = tar_option_get("envir"),
       controller = controller
     )$run()

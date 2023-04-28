@@ -5,8 +5,8 @@ clustermq_init <- function(
   shortcut = FALSE,
   queue = "parallel",
   reporter = "verbose",
-  garbage_collection = FALSE,
   seconds_interval = 0.5,
+  garbage_collection = FALSE,
   envir = tar_option_get("envir"),
   workers = 1L,
   log_worker = FALSE
@@ -18,8 +18,8 @@ clustermq_init <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     seconds_interval = seconds_interval,
+    garbage_collection = garbage_collection,
     envir = envir,
     workers = as.integer(workers),
     log_worker = log_worker
@@ -33,8 +33,8 @@ clustermq_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
-  garbage_collection = NULL,
   seconds_interval = NULL,
+  garbage_collection = NULL,
   envir = NULL,
   workers = NULL,
   log_worker = NULL
@@ -46,8 +46,8 @@ clustermq_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     seconds_interval = seconds_interval,
+    garbage_collection = garbage_collection,
     envir = envir,
     workers = workers,
     log_worker = log_worker
@@ -70,8 +70,8 @@ clustermq_class <- R6::R6Class(
       shortcut = NULL,
       queue = NULL,
       reporter = NULL,
-      garbage_collection = NULL,
       seconds_interval = NULL,
+      garbage_collection = NULL,
       envir = NULL,
       workers = NULL,
       log_worker = NULL
@@ -83,8 +83,8 @@ clustermq_class <- R6::R6Class(
         shortcut = shortcut,
         queue = queue,
         reporter = reporter,
-        garbage_collection = garbage_collection,
         seconds_interval = seconds_interval,
+        garbage_collection = garbage_collection,
         envir = envir
       )
       self$workers <- as.integer(workers)

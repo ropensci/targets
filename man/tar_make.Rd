@@ -8,13 +8,13 @@ tar_make(
   names = NULL,
   shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
+  seconds_interval = targets::tar_config_get("seconds_interval"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = targets::tar_config_get("garbage_collection"),
-  seconds_interval = targets::tar_config_get("seconds_interval")
+  garbage_collection = targets::tar_config_get("garbage_collection")
 )
 }
 \arguments{
@@ -58,6 +58,12 @@ steps like data retrieval and output storage.
 \item \code{"verbose_positives"}: same as the \code{"verbose"} reporter
 except without messages for skipped targets.
 }}
+
+\item{seconds_interval}{Positive numeric of length 1 with the minimum
+number of seconds between saves to the metadata and progress data.
+Also controls how often the reporter prints progress messages.
+Higher values generally make the pipeline run faster, but unsaved
+work (in the event of a crash) is not up to date.}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session
@@ -112,11 +118,6 @@ before sending a target
 to a worker. Ignored if \code{tar_option_get("controller")} is \code{NULL}.
 Independent from the \code{garbage_collection} argument of \code{\link[=tar_target]{tar_target()}},
 which controls garbage collection on the worker.}
-
-\item{seconds_interval}{Positive numeric of length 1 with the minimum
-number of seconds between saves to the metadata and progress data.
-Higher values generally make the pipeline run faster, but unsaved
-work (in the event of a crash) is not up to date.}
 }
 \value{
 \code{NULL} except if \code{callr_function = callr::r_bg()}, in which case

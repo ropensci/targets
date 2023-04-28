@@ -58,6 +58,7 @@ Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 \item{seconds_interval}{Positive numeric of length 1 with the minimum
 number of seconds between saves to the metadata and progress data
 in \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_future]{tar_make_future()}}, and \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}.
+Also controls how often reporters print progress messages.
 Higher values generally make the pipeline run faster, but unsaved
 work (in the event of a crash) is not up to date.}
 

@@ -8,6 +8,7 @@ tar_make_clustermq(
   names = NULL,
   shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
+  seconds_interval = targets::tar_config_get("seconds_interval"),
   workers = targets::tar_config_get("workers"),
   log_worker = FALSE,
   callr_function = callr::r,
@@ -15,8 +16,7 @@ tar_make_clustermq(
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = targets::tar_config_get("garbage_collection"),
-  seconds_interval = targets::tar_config_get("seconds_interval")
+  garbage_collection = targets::tar_config_get("garbage_collection")
 )
 }
 \arguments{
@@ -60,6 +60,12 @@ steps like data retrieval and output storage.
 \item \code{"verbose_positives"}: same as the \code{"verbose"} reporter
 except without messages for skipped targets.
 }}
+
+\item{seconds_interval}{Positive numeric of length 1 with the minimum
+number of seconds between saves to the metadata and progress data.
+Also controls how often the reporter prints progress messages.
+Higher values generally make the pipeline run faster, but unsaved
+work (in the event of a crash) is not up to date.}
 
 \item{workers}{Positive integer, number of persistent \code{clustermq} workers
 to create.}
@@ -119,11 +125,6 @@ for a project.}
 collection on the main process before sending a target to a worker.
 Independent from the \code{garbage_collection} argument of \code{\link[=tar_target]{tar_target()}},
 which controls garbage collection on the worker.}
-
-\item{seconds_interval}{Positive numeric of length 1 with the minimum
-number of seconds between saves to the metadata and progress data.
-Higher values generally make the pipeline run faster, but unsaved
-work (in the event of a crash) is not up to date.}
 }
 \value{
 \code{NULL} except if \code{callr_function = callr::r_bg()}, in which case

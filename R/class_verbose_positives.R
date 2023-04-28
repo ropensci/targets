@@ -1,5 +1,5 @@
-verbose_positives_new <- function() {
-  verbose_positives_class$new()
+verbose_positives_new <- function(seconds_interval = NULL) {
+  verbose_positives_class$new(seconds_interval = seconds_interval)
 }
 
 verbose_positives_class <- R6::R6Class(

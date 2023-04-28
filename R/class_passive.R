@@ -4,7 +4,8 @@ passive_new <- function(
   names = NULL,
   shortcut = NULL,
   queue = NULL,
-  reporter = NULL
+  reporter = NULL,
+  seconds_interval = NULL
 ) {
   passive_class$new(
     pipeline = pipeline,
@@ -12,7 +13,8 @@ passive_new <- function(
     names = names,
     shortcut = shortcut,
     queue = queue,
-    reporter = reporter
+    reporter = reporter,
+    seconds_interval = seconds_interval
   )
 }
 

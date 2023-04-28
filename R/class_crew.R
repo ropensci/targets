@@ -5,8 +5,8 @@ crew_init <- function(
   shortcut = FALSE,
   queue = "parallel",
   reporter = "verbose",
-  garbage_collection = FALSE,
   seconds_interval = 0.5,
+  garbage_collection = FALSE,
   envir = tar_option_get("envir"),
   controller = NULL
 ) {
@@ -17,8 +17,8 @@ crew_init <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     seconds_interval = seconds_interval,
+    garbage_collection = garbage_collection,
     envir = envir,
     controller = controller
   )
@@ -31,8 +31,8 @@ crew_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
-  garbage_collection = NULL,
   seconds_interval = NULL,
+  garbage_collection = NULL,
   envir = NULL,
   controller = NULL
 ) {
@@ -43,8 +43,8 @@ crew_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     seconds_interval = seconds_interval,
+    garbage_collection = garbage_collection,
     envir = envir,
     controller = controller
   )
@@ -64,8 +64,8 @@ crew_class <- R6::R6Class(
       shortcut = NULL,
       queue = NULL,
       reporter = NULL,
-      garbage_collection = NULL,
       seconds_interval = NULL,
+      garbage_collection = NULL,
       envir = NULL,
       controller = NULL,
       exports = NULL
@@ -77,8 +77,8 @@ crew_class <- R6::R6Class(
         shortcut = shortcut,
         queue = queue,
         reporter = reporter,
-        garbage_collection = garbage_collection,
         seconds_interval = seconds_interval,
+        garbage_collection = garbage_collection,
         envir = envir
       )
       self$controller <- controller

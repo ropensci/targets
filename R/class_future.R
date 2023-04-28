@@ -5,8 +5,8 @@ future_init <- function(
   shortcut = FALSE,
   queue = "parallel",
   reporter = "verbose",
-  garbage_collection = FALSE,
   seconds_interval = 0.5,
+  garbage_collection = FALSE,
   envir = tar_option_get("envir"),
   workers = 1L
 ) {
@@ -17,8 +17,8 @@ future_init <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     seconds_interval = seconds_interval,
+    garbage_collection = garbage_collection,
     envir = envir,
     workers = as.integer(workers)
   )
@@ -32,8 +32,8 @@ future_new <- function(
   queue = NULL,
   reporter = NULL,
   envir = NULL,
-  garbage_collection = NULL,
   seconds_interval = NULL,
+  garbage_collection = NULL,
   workers = NULL
 ) {
   future_class$new(
@@ -43,8 +43,8 @@ future_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     seconds_interval = seconds_interval,
+    garbage_collection = garbage_collection,
     envir = envir,
     workers = workers
   )
@@ -65,8 +65,8 @@ future_class <- R6::R6Class(
       shortcut = NULL,
       queue = NULL,
       reporter = NULL,
-      garbage_collection = NULL,
       seconds_interval = NULL,
+      garbage_collection = NULL,
       envir = NULL,
       workers = NULL
     ) {
@@ -77,8 +77,8 @@ future_class <- R6::R6Class(
         shortcut = shortcut,
         queue = queue,
         reporter = reporter,
-        garbage_collection = garbage_collection,
         seconds_interval = seconds_interval,
+        garbage_collection = garbage_collection,
         envir = envir
       )
       self$workers <- workers

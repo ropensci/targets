@@ -37,14 +37,14 @@ tar_make_future <- function(
   names = NULL,
   shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
+  seconds_interval = targets::tar_config_get("seconds_interval"),
   workers = targets::tar_config_get("workers"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = targets::tar_config_get("garbage_collection"),
-  seconds_interval = targets::tar_config_get("seconds_interval")
+  garbage_collection = targets::tar_config_get("garbage_collection")
 ) {
   force(envir)
   tar_assert_package("future")
@@ -56,20 +56,20 @@ tar_make_future <- function(
   tar_assert_ge(workers, 1)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
-  tar_assert_lgl(garbage_collection)
-  tar_assert_scalar(garbage_collection)
-  tar_assert_none_na(garbage_collection)
   tar_assert_dbl(seconds_interval)
   tar_assert_scalar(seconds_interval)
   tar_assert_none_na(seconds_interval)
   tar_assert_ge(seconds_interval, 0)
+  tar_assert_lgl(garbage_collection)
+  tar_assert_scalar(garbage_collection)
+  tar_assert_none_na(garbage_collection)
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
     shortcut = shortcut,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     seconds_interval = seconds_interval,
+    garbage_collection = garbage_collection,
     workers = workers
   )
   out <- callr_outer(
@@ -91,8 +91,8 @@ tar_make_future_inner <- function(
   names_quosure,
   shortcut,
   reporter,
-  garbage_collection,
   seconds_interval,
+  garbage_collection,
   workers
 ) {
   names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
@@ -103,8 +103,8 @@ tar_make_future_inner <- function(
     shortcut = shortcut,
     queue = "parallel",
     reporter = reporter,
-    garbage_collection = garbage_collection,
     seconds_interval = seconds_interval,
+    garbage_collection = garbage_collection,
     workers = workers
   )$run()
   invisible()

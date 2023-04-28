@@ -45,6 +45,7 @@ tar_make_clustermq <- function(
   names = NULL,
   shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
+  seconds_interval = targets::tar_config_get("seconds_interval"),
   workers = targets::tar_config_get("workers"),
   log_worker = FALSE,
   callr_function = callr::r,
@@ -52,8 +53,7 @@ tar_make_clustermq <- function(
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = targets::tar_config_get("garbage_collection"),
-  seconds_interval = targets::tar_config_get("seconds_interval")
+  garbage_collection = targets::tar_config_get("garbage_collection")
 ) {
   # Need to suppress tests on covr only, due to
   # https://github.com/r-lib/covr/issues/315.
@@ -70,20 +70,20 @@ tar_make_clustermq <- function(
   tar_assert_ge(workers, 1)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
-  tar_assert_lgl(garbage_collection)
-  tar_assert_scalar(garbage_collection)
-  tar_assert_none_na(garbage_collection)
   tar_assert_dbl(seconds_interval)
   tar_assert_scalar(seconds_interval)
   tar_assert_none_na(seconds_interval)
   tar_assert_ge(seconds_interval, 0)
+  tar_assert_lgl(garbage_collection)
+  tar_assert_scalar(garbage_collection)
+  tar_assert_none_na(garbage_collection)
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
     shortcut = shortcut,
     reporter = reporter,
-    garbage_collection = garbage_collection,
     seconds_interval = seconds_interval,
+    garbage_collection = garbage_collection,
     workers = workers,
     log_worker = log_worker
   )
@@ -106,8 +106,8 @@ tar_make_clustermq_inner <- function(
   names_quosure,
   shortcut,
   reporter,
-  garbage_collection,
   seconds_interval,
+  garbage_collection,
   workers,
   log_worker
 ) {
@@ -119,8 +119,8 @@ tar_make_clustermq_inner <- function(
     shortcut = shortcut,
     queue = "parallel",
     reporter = reporter,
-    garbage_collection = garbage_collection,
     seconds_interval = seconds_interval,
+    garbage_collection = garbage_collection,
     envir = tar_option_get("envir"),
     workers = workers,
     log_worker = log_worker

@@ -38,6 +38,8 @@
 #'   * `"silent"`: print nothing.
 #'   * `"forecast"`: print running totals of the checked and outdated
 #'     targets found so far.
+#' @param seconds_interval Positive numeric of length 1, how often
+#'   (in seconds) the reporter prints progress messages.
 #' @inheritParams tar_validate
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
@@ -60,6 +62,7 @@ tar_outdated <- function(
   branches = FALSE,
   targets_only = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
+  seconds_interval = targets::tar_config_get("seconds_interval"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
   envir = parent.frame(),
@@ -71,6 +74,10 @@ tar_outdated <- function(
   tar_assert_lgl(shortcut)
   tar_assert_lgl(branches)
   tar_assert_flag(reporter, tar_reporters_outdated())
+  tar_assert_dbl(seconds_interval)
+  tar_assert_scalar(seconds_interval)
+  tar_assert_none_na(seconds_interval)
+  tar_assert_ge(seconds_interval, 0)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
   targets_arguments <- list(
@@ -79,7 +86,8 @@ tar_outdated <- function(
     shortcut = shortcut,
     branches = branches,
     targets_only = targets_only,
-    reporter = reporter
+    reporter = reporter,
+    seconds_interval = seconds_interval
   )
   callr_outer(
     targets_function = tar_outdated_inner,
@@ -100,7 +108,8 @@ tar_outdated_inner <- function(
   shortcut,
   branches,
   targets_only,
-  reporter
+  reporter,
+  seconds_interval
 ) {
   names_all <- pipeline_get_names(pipeline)
   names <- tar_tidyselect_eval(names_quosure, names_all)
@@ -116,7 +125,8 @@ tar_outdated_inner <- function(
     names = names,
     shortcut = shortcut,
     queue = "sequential",
-    reporter = reporter
+    reporter = reporter,
+    seconds_interval = seconds_interval
   )
   outdated$run()
   outdated_targets <- counter_get_names(outdated$outdated)

@@ -1,19 +1,23 @@
-reporter_init <- function(reporter = "verbose") {
+reporter_init <- function(reporter = "verbose", seconds_interval = 0.5) {
   switch(
     reporter,
-    forecast = forecast_new(),
+    forecast = forecast_new(seconds_interval = seconds_interval),
     silent = silent_new(),
-    summary = summary_new(),
-    timestamp = timestamp_new(),
-    timestamp_positives = timestamp_positives_new(),
-    verbose = verbose_new(),
-    verbose_positives = verbose_positives_new(),
+    summary = summary_new(seconds_interval = seconds_interval),
+    timestamp = timestamp_new(seconds_interval = seconds_interval),
+    timestamp_positives = timestamp_positives_new(
+      seconds_interval = seconds_interval
+    ),
+    verbose = verbose_new(seconds_interval = seconds_interval),
+    verbose_positives = verbose_positives_new(
+      seconds_interval = seconds_interval
+    ),
     tar_throw_validate("unsupported reporter")
   )
 }
 
-reporter_new <- function() {
-  reporter_class$new()
+reporter_new <- function(seconds_interval = 0.5) {
+  reporter_class$new(seconds_interval = seconds_interval)
 }
 
 reporter_class <- R6::R6Class(
@@ -22,6 +26,20 @@ reporter_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    seconds_interval = NULL,
+    queue = NULL,
+    seconds_dequeued = NULL,
+    initialize = function(seconds_interval = NULL) {
+      self$seconds_interval <- seconds_interval
+    },
+    poll = function() {
+      self$seconds_dequeued <- self$seconds_dequeued %|||% -Inf
+      now <- time_seconds_local()
+      if ((now - self$seconds_dequeued) > self$seconds_interval) {
+        self$dequeue()
+        self$seconds_dequeued <- time_seconds_local()
+      }
+    },
     report_start = function() {
     },
     report_error = function(error) {
