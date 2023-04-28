@@ -1,14 +1,15 @@
-cli_start <- function(name, prefix = NULL, time_stamp = FALSE) {
+cli_start <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "start", prefix, name), collapse = " ")
-  cli_blue_bullet(msg)
+  cli_blue_bullet(msg, print = print)
 }
 
 cli_built <- function(
   name,
   prefix = NULL,
   time_stamp = FALSE,
-  seconds_elapsed = NULL
+  seconds_elapsed = NULL,
+  print = TRUE
 ) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "built", prefix, name), collapse = " ")
@@ -16,101 +17,119 @@ cli_built <- function(
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
     msg <- paste0(msg, cli::col_grey(msg_time))
   }
-  cli_green_bullet(msg)
+  cli_green_bullet(msg, print = print)
 }
 
-cli_skip <- function(name, prefix = NULL, time_stamp = FALSE) {
+cli_skip <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "skip", prefix, name), collapse = " ")
-  cli_green_check(msg)
+  cli_green_check(msg, print = print)
 }
 
-cli_error <- function(name, prefix = NULL, time_stamp = FALSE) {
+cli_error <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "error", prefix, name), collapse = " ")
-  cli_red_x(msg)
+  cli_red_x(msg, print = print)
 }
 
-cli_cancel <- function(name, prefix = NULL, time_stamp = FALSE) {
+cli_cancel <- function(
+  name,
+  prefix = NULL,
+  time_stamp = FALSE,
+  print = TRUE
+) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "cancel", prefix, name), collapse = " ")
-  cli_yellow_bullet(msg)
+  cli_yellow_bullet(msg, print = print)
 }
 
-cli_uptodate <- function(time_stamp = FALSE, seconds_elapsed = NULL) {
+cli_uptodate <- function(
+  time_stamp = FALSE,
+  seconds_elapsed = NULL,
+  print = TRUE
+) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "skip pipeline"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
     msg <- paste0(msg, cli::col_grey(msg_time))
   }
-  cli_green_check(msg)
+  cli_green_check(msg, print = print)
 }
 
-cli_done <- function(time_stamp = FALSE, seconds_elapsed = NULL) {
+cli_done <- function(
+  time_stamp = FALSE,
+  seconds_elapsed = NULL,
+  print = TRUE
+) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "end pipeline"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
     msg <- paste0(msg, cli::col_grey(msg_time))
   }
-  cli_blue_bullet(msg)
+  cli_blue_bullet(msg, print = print)
 }
 
-cli_empty <- function(time_stamp = FALSE, seconds_elapsed = NULL) {
+cli_empty <- function(
+  time_stamp = FALSE,
+  seconds_elapsed = NULL,
+  print = TRUE
+) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "no targets found"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
     msg <- paste0(msg, cli::col_grey(msg_time))
   }
-  cli_red_x(msg)
+  cli_red_x(msg, print = print)
 }
 
-cli_workspace <- function(name, time_stamp = FALSE) {
+cli_workspace <- function(name, time_stamp = FALSE, print = TRUE) {
   time <- if_any(time_stamp, time_stamp(), NULL)
   msg <- paste(c(time, "record workspace", name), collapse = " ")
-  cli_blue_bullet(msg)
+  cli_blue_bullet(msg, print = print)
 }
 
-cli_blue_bullet <- function(msg) {
+cli_blue_bullet <- function(msg, print = TRUE) {
   symbol <- cli::col_blue(cli::symbol$bullet)
   msg <- paste(symbol, cli_color_text(msg))
-  message(msg)
+  if_any(print, message(msg), msg)
 }
 
-cli_green_bullet <- function(msg) {
+cli_green_bullet <- function(msg, print = TRUE) {
   symbol <- cli::col_green(cli::symbol$bullet)
   msg <- paste(symbol, cli_color_text(msg))
-  message(msg)
+  if_any(print, message(msg), msg)
 }
 
-cli_green_check <- function(msg) {
+cli_green_check <- function(msg, print = TRUE) {
   symbol <- cli::col_green(cli::symbol$tick)
   msg <- paste(symbol, cli_color_text(msg))
-  message(msg)
+  if_any(print, message(msg), msg)
 }
 
-cli_yellow_bullet <- function(msg) {
+cli_yellow_bullet <- function(msg, print = TRUE) {
   symbol <- cli::col_yellow(cli::symbol$bullet)
   msg <- paste(symbol, cli_color_text(msg))
-  message(msg)
+  if_any(print, message(msg), msg)
 }
 
-cli_mark_info <- function(msg) {
+cli_mark_info <- function(msg, print = TRUE) {
   symbol <- cli::col_cyan(cli::symbol$info)
   msg <- paste(symbol, cli_color_text(msg))
-  message(msg)
+  if_any(print, message(msg), msg)
 }
 
-cli_blank <- function(msg) {
-  message(paste(" ", cli_color_text(msg)))
+cli_blank <- function(msg, print = TRUE) {
+  msg <- paste(" ", cli_color_text(msg))
+  if_any(print, message(msg), msg)
 }
 
-cli_red_x <- function(msg) {
+cli_red_x <- function(msg, print = TRUE) {
   symbol <- cli::col_red(cli::symbol$cross)
   msg <- paste(symbol, cli::col_red(msg))
-  message(msg)
+  if_any(print, message(msg), msg)
 }
 
 cli_errored <- function(errored) {
@@ -139,12 +158,14 @@ cli_port <- function(host, port) {
   cli::cli_end()
 }
 
-cli_df_header <- function(x) {
-  message(cli_color_text(cli_df_text(x)[1L]), appendLF = FALSE)
+cli_df_header <- function(x, print = TRUE) {
+  msg <- cli_color_text(cli_df_text(x)[1L])
+  if_any(print, message(msg, appendLF = FALSE), msg)
 }
 
-cli_df_body <- function(x) {
-  message(cli_color_text(cli_df_text(x)[2L]), appendLF = FALSE)
+cli_df_body <- function(x, print = TRUE) {
+  msg <- cli_color_text(cli_df_text(x)[2L])
+  if_any(print, message(msg, appendLF = FALSE), msg)
 }
 
 # nocov start
