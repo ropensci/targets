@@ -80,6 +80,7 @@ timestamp_class <- R6::R6Class(
       )
     },
     report_end = function(progress = NULL, seconds_elapsed = NULL) {
+      self$dequeue()
       progress$cli_end(time_stamp = TRUE, seconds_elapsed = seconds_elapsed)
       super$report_end(progress)
     }

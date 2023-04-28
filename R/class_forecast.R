@@ -21,8 +21,6 @@ forecast_class <- R6::R6Class(
     },
     report_end = function(progress = NULL, seconds_elapsed = NULL) {
       self$dequeue()
-      msg <- paste(c("\r", rep(" ", getOption("width") - 1L)), collapse = "")
-      message(msg)
     }
   )
 )
