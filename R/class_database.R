@@ -105,7 +105,7 @@ database_class <- R6::R6Class(
     enqueue_row = function(row) {
       self$set_row(row)
       line <- self$produce_line(self$select_cols(row))
-      self$queue <- c(self$queue, line)
+      self$queue[length(self$queue) + 1L] <- line
     },
     dequeue_rows = function() {
       if (length(self$queue)) {
