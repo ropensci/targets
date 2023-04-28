@@ -170,10 +170,8 @@ cli_df_body <- function(x, print = TRUE) {
 
 # nocov start
 # Covered in tests/interactive/test-reporter.R.
-cli_df_body_oneline <- function(x, print = TRUE) {
-  msg <- paste(paste(names(x), x, sep = ": "), collapse = " | ")
-  msg <- cli_color_text(msg)
-  msg <- cli_color_text(paste0("\r  ", msg))
+cli_forecast <- function(x, print = TRUE) {
+  msg <- sprintf("\r  checked: %s | outdated: %s", x$checked, x$outdated)
   if_any(print, message(msg, appendLF = FALSE), msg)
 }
 # nocov end

@@ -16,7 +16,7 @@ forecast_class <- R6::R6Class(
       }
     },
     report_outdated = function(outdated) {
-      self$queue <- cli_df_body_oneline(outdated$cli_data(), print = FALSE)
+      self$queue <- cli_forecast(outdated$cli_data(), print = FALSE)
       self$poll()
     },
     report_end = function(progress = NULL, seconds_elapsed = NULL) {

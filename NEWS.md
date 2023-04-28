@@ -9,6 +9,8 @@
 ## Speedups
 
 * Write to `_targets/meta/meta` and `_targets/meta/progress` in timed batches instead of line by line (#1055).
+* Reporters now print progress messages in timed batches instead of line by line (#1055).
+* The summary and forecast reporters are much faster because they avoid going through data frames.
 * Avoid `tempfile()` when working with the scratch directory.
 * Use `nanonext::mclock()` instead of `proc.time()` when there is no risk of forked processes.
 * Replace `withr` with slightly faster/leaner base R alternatives.
