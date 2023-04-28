@@ -179,22 +179,18 @@ cli_df_body_oneline <- function(x, print = TRUE) {
 # nocov end
 
 cli_df_text <- function(x) {
-  cols <- colnames(x)[-ncol(x)]
-  colnames(x)[-ncol(x)] <- paste(cols, "|")
-  for (col in seq_len(ncol(x) - 1L)) {
-    x[[col]] <- paste(x[[col]], "|")
-  }
-  out <- utils::capture.output(print(as.data.frame(x)))
-  substr(out[2L], 0L, 1L) <- " "
-  nchar_start <- nchar(out[1L])
-  out[1L] <- trimws(out[1L], which = "left")
-  n_trimmed <- nchar_start - nchar(out[1L])
-  out[2L] <- substr(out[2L], n_trimmed + 1L, nchar(out[2]))
-  out[2L] <- paste0("\r", out[2L])
-  diff <- max(0L, getOption("width") - nchar(out[2L]))
-  out[1L] <- paste0(out[1L], "\n")
-  out[2L] <- paste(c(out[2L], rep(" ", diff)), collapse = "")
-  out
+  names <- colnames(x)
+  fields <- vapply(x, as.character, FUN.VALUE = character(1L))
+  nchar_names <- nchar(names)
+  nchar_fields <- nchar(fields)
+  diff <- nchar_fields - nchar_names
+  pad_names <- strrep(" ", pmax(0L, diff))
+  pad_fields <- strrep(" ", abs(pmin(0L, diff)))
+  names <- paste0(names, pad_names)
+  fields <- paste0(fields, pad_fields)
+  line1 <- paste0(paste(names, collapse = " | "), "\n")
+  line2 <- paste0("\r", paste(fields, collapse = " | "))
+  c(line1, line2)
 }
 
 cli_color_text <- function(msg) {
