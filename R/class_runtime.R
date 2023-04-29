@@ -1,12 +1,12 @@
 runtime_new <- function(
-    target = NULL,
-    frames = NULL,
-    interactive = NULL,
-    script = NULL,
-    store = NULL,
-    working_directory = NULL,
-    fun = NULL,
-    gcp_auth = NULL
+  target = NULL,
+  frames = NULL,
+  interactive = NULL,
+  script = NULL,
+  store = NULL,
+  working_directory = NULL,
+  fun = NULL,
+  gcp_auth = NULL
 ) {
   force(target)
   force(frames)
@@ -19,7 +19,7 @@ runtime_new <- function(
   environment()
 }
 
-runtime_validate = function(x) {
+runtime_validate <- function(x) {
   if (!is.null(x$target)) {
     tar_assert_inherits(x$target, "tar_target")
     target_validate(x$target)
