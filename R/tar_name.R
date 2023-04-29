@@ -23,7 +23,7 @@ tar_name <- function(default = "target") {
   tar_assert_chr(default)
   tar_assert_scalar(default)
   if_any(
-    tar_runtime$exists_target(),
+    !is.null(tar_runtime$target),
     target_get_name(tar_runtime$get_target()),
     as.character(default)
   )

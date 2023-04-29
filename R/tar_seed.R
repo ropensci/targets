@@ -36,7 +36,7 @@ tar_seed <- function(default = 1L) {
   tar_assert_int(default)
   tar_assert_scalar(default)
   if_any(
-    tar_runtime$exists_target(),
+    !is.null(tar_runtime$target),
     tar_runtime$get_target()$command$seed,
     as.integer(default)
   )

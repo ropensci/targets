@@ -67,7 +67,7 @@ tar_timestamp_raw <- function(
     )
   }
   if (is.null(name)) {
-    if (!tar_runtime$exists_target()) {
+    if (is.null(tar_runtime$target)) {
       tar_throw_validate(
         "name cannot be NULL unless tar_timestamp() is called from a target."
       )
