@@ -369,3 +369,16 @@ test_that("tar_assert_internet()", {
     )
   )
 })
+
+tar_test("tar_assert_objects_files()", {
+  skip_cran()
+  tar_script(tar_target(x, 1))
+  tar_make(callr_function = NULL)
+  expect_silent(tar_assert_objects_files(path_store_default()))
+  path <- file.path(path_objects_dir(path_store_default()), "y")
+  dir.create(path)
+  expect_error(
+    tar_assert_objects_files(path_store_default()),
+    class = "tar_condition_run"
+  )
+})

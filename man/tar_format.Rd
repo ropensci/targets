@@ -24,7 +24,8 @@ If \code{NULL}, the \code{read} argument defaults to \code{readRDS()}.}
 \item{write}{A function with two arguments: \code{object} and \code{path},
 in that order. This function should save the R object \code{object}
 to the file path at \code{path} and have no other side effects.
-The return value does not matter.
+The function need not return a value, but the file written to \code{path}
+must be a single file, and it cannot be a directory.
 See the "Format functions" section for specific requirements.
 If \code{NULL}, the \code{write} argument defaults to \code{saveRDS()}
 with \code{version = 3}.}
@@ -119,6 +120,9 @@ functions or objects in the global environment of your pipeline.
 so it must not rely on any data in the closure.
 This disqualifies functions produced by \code{Vectorize()},
 for example.
+
+The \code{write} function must write only a single file,
+and the file it writes must not be a directory.
 
 The functions to read and write the object
 should not do any conversions on the object. That is the job

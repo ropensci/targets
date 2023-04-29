@@ -275,7 +275,7 @@ tar_assert_not_dirs <- function(x, msg = NULL) {
 #' @export
 #' @rdname tar_assert
 tar_assert_not_dir <- function(x, msg = NULL) {
-  if (dir.exists(x)) {
+  if (any(dir.exists(x))) {
     tar_throw_validate(
       msg %|||% paste(tar_deparse_safe(x), "must not be a directory.")
     )
@@ -653,6 +653,27 @@ tar_assert_script <- function(script) {
     if (!identical(Sys.getenv("TAR_WARN"), "false") && loader %in% vars) {
       tar_warn_validate(sprintf(msg, loader))
     }
+  }
+}
+
+tar_assert_objects_files <- function(store) {
+  objects <- path_objects_dir(store)
+  files <- list.files(
+    objects,
+    full.names = TRUE,
+    all.files = TRUE,
+    include.dirs = TRUE,
+    no.. = TRUE
+  )
+  directories <- files[dir.exists(files)]
+  if (length(directories) > 0L) {
+    tar_throw_run(
+       "the write() function in tar_format() ",
+      "must not create a directory. ",
+      "Found directories inside the data store ",
+      "where there should only be files: ",
+      paste(directories, collapse = ", ")
+    )
   }
 }
 

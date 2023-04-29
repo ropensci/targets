@@ -73,3 +73,24 @@ tar_test("tar_format() generates a format string", {
   expect_true(any(grepl("^unmarshal=+.", format)))
   expect_true(any(grepl("^repository=aws", format)))
 })
+
+tar_test("custom format is not allowed to create a directory", {
+  skip_cran()
+  tar_script({
+    format <- tar_format(
+      read = function(path) {
+        readRDS(file.path(path, "x"))
+      },
+      write = function(object, path) {
+        unlink(path, recursive = TRUE)
+        dir.create(path)
+        saveRDS(object, file.path(path, "x"))
+      }
+    )
+    tar_target(x, 1, format = format)
+  })
+  expect_error(
+    tar_make(callr_function = NULL),
+    class = "tar_condition_run"
+  )
+})

@@ -172,6 +172,7 @@ active_class <- R6::R6Class(
       path_scratch_del(path_store = self$meta$get_path_store())
       self$meta$database$deduplicate_storage()
       compare_working_directories()
+      tar_assert_objects_files(self$meta$get_path_store())
     },
     validate = function() {
       super$validate()

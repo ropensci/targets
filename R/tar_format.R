@@ -37,6 +37,9 @@
 #'   This disqualifies functions produced by `Vectorize()`,
 #'   for example.
 #'
+#'   The `write` function must write only a single file,
+#'   and the file it writes must not be a directory.
+#'
 #'   The functions to read and write the object
 #'   should not do any conversions on the object. That is the job
 #'   of the `convert` argument. The `convert` argument is a function
@@ -55,7 +58,8 @@
 #' @param write A function with two arguments: `object` and `path`,
 #'   in that order. This function should save the R object `object`
 #'   to the file path at `path` and have no other side effects.
-#'   The return value does not matter.
+#'   The function need not return a value, but the file written to `path`
+#'   must be a single file, and it cannot be a directory.
 #'   See the "Format functions" section for specific requirements.
 #'   If `NULL`, the `write` argument defaults to `saveRDS()`
 #'   with `version = 3`.
