@@ -24,5 +24,5 @@ tar_active <- function() {
     "tar_make_clustermq",
     "tar_make_future"
   )
-  tar_runtime$exists_fun() && tar_runtime$get_fun() %in% funs
+  !is.null(tar_runtime$fun) && tar_runtime$get_fun() %in% funs
 }

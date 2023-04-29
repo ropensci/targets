@@ -75,12 +75,6 @@ runtime_class <- R6::R6Class(
       self$fun <- fun
       self$gcp_auth <- gcp_auth
     },
-    exists_fun = function() {
-      !is.null(self$fun)
-    },
-    exists_gcp_auth = function() {
-      !is.null(self$gcp_auth)
-    },
     get_target = function() {
       self$target
     },

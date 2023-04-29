@@ -60,27 +60,21 @@ tar_test("set, get, exists, and unset working_directory", {
 
 tar_test("set, get, exists, and unset fun", {
   x <- runtime_init()
-  expect_false(x$exists_fun())
   expect_null(x$get_fun())
   x$set_fun("tar_make")
-  expect_true(x$exists_fun())
   expect_equal(x$get_fun(), "tar_make")
   expect_silent(x$validate())
   x$unset_fun()
-  expect_false(x$exists_fun())
   expect_null(x$get_fun())
 })
 
 tar_test("set, get, exists, and unset gcp_auth", {
   x <- runtime_init()
-  expect_false(x$exists_gcp_auth())
   expect_false(x$get_gcp_auth())
   x$set_gcp_auth(TRUE)
-  expect_true(x$exists_gcp_auth())
   expect_true(x$get_gcp_auth())
   expect_silent(x$validate())
   x$unset_gcp_auth()
-  expect_false(x$exists_gcp_auth())
   expect_false(x$get_gcp_auth())
 })
 
