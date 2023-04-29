@@ -369,10 +369,10 @@ tar_test("database queue", {
 })
 
 tar_test("compare_working_directories()", {
-  on.exit(tar_runtime$unset_working_directory())
-  tar_runtime$set_working_directory(getwd())
+  on.exit(tar_runtime$working_directory <- NULL)
+  tar_runtime$working_directory <- getwd()
   expect_silent(compare_working_directories())
-  tar_runtime$set_working_directory("..")
+  tar_runtime$working_directory <- ".."
   expect_error(
     compare_working_directories(),
     class = "tar_condition_run"

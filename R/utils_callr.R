@@ -144,15 +144,16 @@ tar_callr_inner_try <- function(
   }
   old_envir <- targets::tar_option_get("envir")
   targets::tar_option_set(envir = envir)
-  targets::tar_runtime_object()$set_script(script)
-  targets::tar_runtime_object()$set_store(store)
-  targets::tar_runtime_object()$set_working_directory(getwd())
-  targets::tar_runtime_object()$set_fun(fun)
+  tar_runtime <- targets::tar_runtime_object()
+  tar_runtime$script <- script
+  tar_runtime$store <- store
+  tar_runtime$working_directory <- getwd()
+  tar_runtime$fun <- fun
   on.exit(targets::tar_option_set(envir = old_envir))
-  on.exit(targets::tar_runtime_object()$unset_script(), add = TRUE)
-  on.exit(targets::tar_runtime_object()$unset_store(), add = TRUE)
-  on.exit(targets::tar_runtime_object()$unset_working_directory(), add = TRUE)
-  on.exit(targets::tar_runtime_object()$unset_fun(), add = TRUE)
+  on.exit(tar_runtime$script <- NULL, add = TRUE)
+  on.exit(tar_runtime$store <- NULL, add = TRUE)
+  on.exit(tar_runtime$working_directory <- NULL, add = TRUE)
+  on.exit(tar_runtime$fun <- NULL, add = TRUE)
   old <- options(options)
   on.exit(options(old), add = TRUE)
   targets <- eval(parse(text = readLines(script, warn = FALSE)), envir = envir)

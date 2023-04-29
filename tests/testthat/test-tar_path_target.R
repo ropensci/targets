@@ -11,8 +11,8 @@ tar_test("tar_path_target() with a name arg", {
 
 tar_test("tar_path_target() inside a pipeline", {
   x <- target_init("x", quote(targets::tar_path_target()))
-  tar_runtime$set_store(path_store_default())
-  on.exit(tar_runtime$unset_store())
+  tar_runtime$store <- path_store_default()
+  on.exit(tar_runtime$store <- NULL)
   pipeline <- pipeline_init(list(x))
   local_init(pipeline)$run()
   path <- file.path("_targets", "objects", "x")
@@ -53,11 +53,11 @@ tar_test("tar_path_target() does not create dir if create_dir is FALSE", {
 tar_test("tar_path_target() returns non-cloud path for non-cloud storage", {
   x <- tar_target(x, 1, format = "parquet")
   on.exit({
-    tar_runtime$unset_store()
-    tar_runtime$unset_target()
+    tar_runtime$store <- NULL
+    tar_runtime$target <- NULL
   })
-  tar_runtime$set_store(path_store_default())
-  tar_runtime$set_target(x)
+  tar_runtime$store <- path_store_default()
+  tar_runtime$target <- x
   out <- tar_path_target(create_dir = FALSE)
   expect_false(file.exists(dirname(out)))
   out <- tar_path_target(create_dir = TRUE)
@@ -70,9 +70,9 @@ tar_test("tar_path_target() returns stage for cloud formats", {
   store_update_stage_early(x$store, x$settings$name, path_store_default())
   dir <- dirname(x$store$file$stage)
   unlink(dir, recursive = TRUE)
-  on.exit(tar_runtime$unset_target())
+  on.exit(tar_runtime$target)
   on.exit(unlink(dir, recursive = TRUE), add = TRUE)
-  tar_runtime$set_target(x)
+  tar_runtime$target <- x
   out <- tar_path_target(create_dir = FALSE)
   expect_false(file.exists(dirname(out)))
   out <- tar_path_target(create_dir = TRUE)

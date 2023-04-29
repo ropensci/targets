@@ -1,6 +1,6 @@
 tar_test("active$produce_exports(is_globalenv = FALSE)", {
-  tar_runtime$set_fun("tar_make")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make"
+  on.exit(tar_runtime$fun <- NULL)
   active <- active_new()
   envir <- new.env(parent = emptyenv())
   envir$target <- tar_target(x, 1)
@@ -38,8 +38,8 @@ tar_test("active$produce_exports(is_globalenv = FALSE)", {
 })
 
 tar_test("active$produce_exports(is_globalenv = TRUE)", {
-  tar_runtime$set_fun("tar_make")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make"
+  on.exit(tar_runtime$fun <- NULL)
   active <- active_new()
   envir <- new.env(parent = emptyenv())
   envir$target <- tar_target(x, 1)

@@ -6,8 +6,8 @@ tar_test("future$workers", {
 tar_test("workerless deployment works", {
   skip_cran()
   skip_if_not_installed("future")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   x <- tar_target_raw("x", quote(1L), deployment = "main")
   y <- tar_target_raw("y", quote(x), deployment = "main")
   z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
@@ -29,8 +29,8 @@ tar_test("workerless deployment works", {
 tar_test("semi-workerless deployment works", {
   skip_cran()
   skip_if_not_installed("future")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   x <- tar_target_raw("x", quote(1L), deployment = "main")
   y <- tar_target_raw("y", quote(x), deployment = "worker")
   z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
@@ -52,8 +52,8 @@ tar_test("semi-workerless deployment works", {
 tar_test("some targets up to date, some not", {
   skip_cran()
   skip_if_not_installed("future")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   x <- tar_target_raw("x", quote(1L))
   y <- tar_target_raw("y", quote(x))
   pipeline <- pipeline_init(list(x, y))
@@ -74,8 +74,8 @@ tar_test("some targets up to date, some not", {
 tar_test("specialized plans (unstructured resources)", {
   skip_cran()
   skip_if_not_installed("future")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   resources <- list(plan = future::sequential)
   suppressWarnings(
     expect_warning(
@@ -96,8 +96,8 @@ tar_test("specialized plans (unstructured resources)", {
 tar_test("future algo can skip targets", {
   skip_cran()
   skip_if_not_installed("future")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   x <- tar_target_raw("x", quote(1L))
   y <- tar_target_raw("y", quote(x))
   pipeline <- pipeline_init(list(x, y))
@@ -120,8 +120,8 @@ tar_test("nontrivial globals", {
   skip_cran()
   skip_if_not_installed("future")
   skip_if_not_installed("future.callr")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   future::plan(future.callr::callr)
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
@@ -146,8 +146,8 @@ tar_test("nontrivial globals", {
 tar_test("branching plan", {
   skip_cran()
   skip_if_not_installed("future")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   pipeline <- pipeline_map()
   out <- future_init(pipeline, workers = 2L)
   out$run()
@@ -193,8 +193,8 @@ tar_test("branching plan", {
 
 tar_test("future_value_target() produces target objects", {
   skip_cran()
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   pipeline <- pipeline_init(list(tar_target(x, 1)))
   name <- "x"
   value <- pipeline_get_target(pipeline, "x")

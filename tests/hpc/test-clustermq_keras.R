@@ -4,8 +4,8 @@ tar_test("keras and clustermq with main storage and retrieval", {
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
   skip_if_not_installed("keras")
-  tar_runtime$set_fun("tar_make_clustermq")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_clustermq"
+  on.exit(tar_runtime$fun <- NULL)
   tar_script({
     tar_option_set(packages = "keras")
     options(clustermq.scheduler = "multiprocess")
@@ -54,8 +54,8 @@ tar_test("keras and clustermq with worker storage and retrieval", {
   skip_on_os("windows")
   skip_if_not_installed("clustermq")
   skip_if_not_installed("keras")
-  tar_runtime$set_fun("tar_make_clustermq")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_clustermq"
+  on.exit(tar_runtime$fun <- NULL)
   tar_script({
     tar_option_set(packages = "keras")
     options(clustermq.scheduler = "multiprocess")

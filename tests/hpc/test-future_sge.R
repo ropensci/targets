@@ -24,8 +24,8 @@ test_that("nontrivial globals with custom environment", {
   skip_on_cran()
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   tar_destroy()
   on.exit(tar_destroy(), add = TRUE)
   tar_script({
@@ -56,8 +56,8 @@ test_that("nontrivial globals with global environment", {
   skip_on_cran()
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   tar_destroy()
   on.exit(tar_destroy(), add = TRUE)
   tar_script({
@@ -85,8 +85,8 @@ test_that("branching plan on SGE", {
   skip_on_cran()
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   unlink("_targets", recursive = TRUE)
   on.exit(unlink("_targets", recursive = TRUE), add = TRUE)
   skip_if_not_installed("future")
@@ -142,8 +142,8 @@ test_that("Same with worker-side storage", {
   skip_on_cran()
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   unlink("_targets", recursive = TRUE)
   on.exit(unlink("_targets", recursive = TRUE), add = TRUE)
   skip_if_not_installed("future")
@@ -195,8 +195,8 @@ test_that("future.batchtools structured resources", {
   skip_on_cran()
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   unlink("_targets", recursive = TRUE)
   on.exit(unlink("_targets", recursive = TRUE), add = TRUE)
   skip_if_not_installed("future")
@@ -227,8 +227,8 @@ test_that("future.batchtools unstructured resources", {
   skip_on_cran()
   skip_if_not_installed("future")
   skip_if_not_installed("future.batchtools")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   unlink("_targets", recursive = TRUE)
   on.exit(unlink("_targets", recursive = TRUE), add = TRUE)
   skip_if_not_installed("future")

@@ -157,8 +157,8 @@ tar_test("profile parallel workload", {
 tar_test("prevent high-memory data via target objects", {
   skip_if_not_installed("future")
   skip_if_not_installed("future.callr")
-  tar_runtime$set_fun("tar_make_future")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_future"
+  on.exit(tar_runtime$fun <- NULL)
   # Run this test once inside tar_test() (test environment)
   # and once outside tar_test() global environment.
   future::plan(future.callr::callr)

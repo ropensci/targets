@@ -9,8 +9,8 @@ tar_test("workerless deployment works", {
   skip_on_os("solaris")
   require_clustermq()
   skip_on_covr()
-  tar_runtime$set_fun("tar_make_clustermq")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_clustermq"
+  on.exit(tar_runtime$fun <- NULL)
   x <- tar_target_raw("x", quote(1L), deployment = "main")
   y <- tar_target_raw("y", quote(x), deployment = "main")
   z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
@@ -35,8 +35,8 @@ tar_test("semi-workerless deployment works", {
   skip_on_os("solaris")
   require_clustermq()
   skip_on_covr()
-  tar_runtime$set_fun("tar_make_clustermq")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_clustermq"
+  on.exit(tar_runtime$fun <- NULL)
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
   on.exit(options(clustermq.scheduler = old), add = TRUE)
@@ -67,8 +67,8 @@ tar_test("some targets up to date, some not", {
   skip_on_covr()
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
-  tar_runtime$set_fun("tar_make_clustermq")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_clustermq"
+  on.exit(tar_runtime$fun <- NULL)
   on.exit(options(clustermq.scheduler = old), add = TRUE)
   x <- tar_target_raw("x", quote(1L))
   y <- tar_target_raw("y", quote(x))
@@ -95,8 +95,8 @@ tar_test("clustermq algo can skip targets", {
   skip_on_covr()
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
-  tar_runtime$set_fun("tar_make_clustermq")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_clustermq"
+  on.exit(tar_runtime$fun <- NULL)
   on.exit(options(clustermq.scheduler = old), add = TRUE)
   x <- tar_target_raw("x", quote(1L))
   y <- tar_target_raw("y", quote(x))
@@ -123,8 +123,8 @@ tar_test("nontrivial common data", {
   require_clustermq()
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
-  tar_runtime$set_fun("tar_make_clustermq")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_clustermq"
+  on.exit(tar_runtime$fun <- NULL)
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
@@ -157,8 +157,8 @@ tar_test("clustermq with a dynamic file", {
   require_clustermq()
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
-  tar_runtime$set_fun("tar_make_clustermq")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_clustermq"
+  on.exit(tar_runtime$fun <- NULL)
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
   on.exit({
@@ -198,8 +198,8 @@ tar_test("branching plan", {
   skip_on_covr()
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
-  tar_runtime$set_fun("tar_make_clustermq")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_clustermq"
+  on.exit(tar_runtime$fun <- NULL)
   on.exit(options(clustermq.scheduler = old), add = TRUE)
   pipeline <- pipeline_map()
   out <- clustermq_init(pipeline, workers = 2L)
@@ -252,8 +252,8 @@ tar_test("cover the worker shutdown step in clustermq$iterate() event loop", {
   skip_on_covr()
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multicore")
-  tar_runtime$set_fun("tar_make_clustermq")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_clustermq"
+  on.exit(tar_runtime$fun <- NULL)
   on.exit(options(clustermq.scheduler = old), add = TRUE)
   targets <- list(
     target_init("x1", quote(1)),

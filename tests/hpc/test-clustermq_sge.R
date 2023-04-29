@@ -78,8 +78,8 @@ test_that("branching plan on SGE", {
   # Needs sge_clustermq.tmpl (in current directory).
   skip_on_cran()
   skip_if_not_installed("clustermq")
-  tar_runtime$set_fun("tar_make_clustermq")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_clustermq"
+  on.exit(tar_runtime$fun <- NULL)
   unlink("_targets", recursive = TRUE)
   on.exit(unlink("_targets", recursive = TRUE), add = TRUE)
   skip_on_os("windows")
@@ -142,8 +142,8 @@ test_that("Same with worker-side storage", {
   # Needs sge_clustermq.tmpl (in current directory).
   skip_on_cran()
   skip_if_not_installed("clustermq")
-  tar_runtime$set_fun("tar_make_clustermq")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_clustermq"
+  on.exit(tar_runtime$fun <- NULL)
   unlink("_targets", recursive = TRUE)
   on.exit(unlink("_targets", recursive = TRUE), add = TRUE)
   skip_on_os("windows")
@@ -202,8 +202,8 @@ test_that("clustermq with a dynamic file", {
   # Needs sge_clustermq.tmpl (in current directory).
   skip_on_cran()
   skip_if_not_installed("clustermq")
-  tar_runtime$set_fun("tar_make_clustermq")
-  on.exit(tar_runtime$unset_fun())
+  tar_runtime$fun <- "tar_make_clustermq"
+  on.exit(tar_runtime$fun <- NULL)
   unlink("_targets", recursive = TRUE)
   on.exit(unlink(c("saved.out", "_targets"), recursive = TRUE), add = TRUE)
   skip_on_os("windows")

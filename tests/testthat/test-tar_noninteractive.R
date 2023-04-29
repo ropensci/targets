@@ -33,7 +33,7 @@ tar_test("tar_noninteractive() interactive targets", {
 
 tar_test("tar_noninteractive() noninteractive", {
   skip_if_not_installed("knitr")
-  tar_runtime$set_interactive(FALSE)
-  on.exit(tar_runtime$unset_interactive())
+  tar_runtime$interactive <- FALSE
+  on.exit(tar_runtime$interactive <- NULL)
   expect_equal(tar_noninteractive(1L + 1L), 2L)
 })

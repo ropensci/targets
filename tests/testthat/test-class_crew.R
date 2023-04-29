@@ -13,7 +13,7 @@ tar_test("workerless deployment works", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("R.utils")
-  tar_runtime$set_fun("tar_make")
+  tar_runtime$fun <- "tar_make"
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -72,7 +72,7 @@ tar_test("workerless deployment works", {
   controller <- crew::crew_controller_local()
   out <- crew_init(pipeline, controller = controller)
   on.exit({
-    tar_runtime$unset_fun()
+    tar_runtime$fun <- NULL
     controller$terminate()
     rm(controller)
     gc()
@@ -90,7 +90,7 @@ tar_test("semi-workerless deployment works", {
   skip_on_os("solaris")
   skip_if_not_installed("R.utils")
   crew_test_sleep()
-  tar_runtime$set_fun("tar_make")
+  tar_runtime$fun <- "tar_make"
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -149,7 +149,7 @@ tar_test("semi-workerless deployment works", {
   pipeline <- pipeline_init(list(x, y, z))
   controller <- crew::crew_controller_local()
   on.exit({
-    tar_runtime$unset_fun()
+    tar_runtime$fun <- NULL
     controller$terminate()
     rm(controller)
     gc()
@@ -167,7 +167,7 @@ tar_test("some targets up to date, some not", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("R.utils")
-  tar_runtime$set_fun("tar_make")
+  tar_runtime$fun <- "tar_make"
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -198,7 +198,7 @@ tar_test("some targets up to date, some not", {
   pipeline <- pipeline_init(list(x, y))
   controller <- crew::crew_controller_local()
   on.exit({
-    tar_runtime$unset_fun()
+    tar_runtime$fun <- NULL
     controller$terminate()
     rm(controller)
     gc()
@@ -218,7 +218,7 @@ tar_test("crew algo can skip targets", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("R.utils")
-  tar_runtime$set_fun("tar_make")
+  tar_runtime$fun <- "tar_make"
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -250,7 +250,7 @@ tar_test("crew algo can skip targets", {
   pipeline <- pipeline_init(list(x, y))
   controller <- crew::crew_controller_local()
   on.exit({
-    tar_runtime$unset_fun()
+    tar_runtime$fun <- NULL
     controller$terminate()
     rm(controller)
     gc()
@@ -269,7 +269,7 @@ tar_test("nontrivial common data", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("R.utils")
-  tar_runtime$set_fun("tar_make")
+  tar_runtime$fun <- "tar_make"
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
@@ -291,7 +291,7 @@ tar_test("nontrivial common data", {
   pipeline <- pipeline_init(list(x))
   controller <- crew::crew_controller_local()
   on.exit({
-    tar_runtime$unset_fun()
+    tar_runtime$fun <- NULL
     controller$terminate()
     rm(controller)
     gc()
