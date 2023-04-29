@@ -30,7 +30,7 @@ tar_test("custom error classes forwarded to top level", {
   expect_true("my_class_2" %in% out)
 })
 
-tar_test("files_exist and file_info are correct", {
+tar_test("file_exist and file_info are correct", {
   skip_cran()
   tar_script(
     list(
@@ -50,16 +50,16 @@ tar_test("files_exist and file_info are correct", {
     list(
       tar_target(file_info, tar_runtime_object()$file_info),
       tar_target(
-        files_exist, {
+        file_exist, {
           file_info
-          sort(names(tar_runtime_object()$files_exist$envir))
+          sort(names(tar_runtime_object()$file_exist$envir))
         }
       )
     )
   )
   tar_make(callr_function = NULL, reporter = "silent")
   expect_equal(
-    tar_read(files_exist),
+    tar_read(file_exist),
     sort(path_objects(path_store_default(), c("x", "y", "file_info")))
   )
   info <- tar_read(file_info)

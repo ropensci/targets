@@ -155,7 +155,7 @@ tar_callr_inner_try <- function(
     full.names = TRUE,
     no.. = TRUE
   )
-  tar_runtime$files_exist <- targets::tar_counter(names = objects)
+  tar_runtime$file_exist <- targets::tar_counter(names = objects)
   file_info <- file.info(objects, extra_cols = FALSE)
   file_info[, c("size", "isdir", "mtime")]
   tar_runtime$file_info <- file_info
@@ -164,7 +164,7 @@ tar_callr_inner_try <- function(
   on.exit(tar_runtime$store <- NULL, add = TRUE)
   on.exit(tar_runtime$working_directory <- NULL, add = TRUE)
   on.exit(tar_runtime$fun <- NULL, add = TRUE)
-  on.exit(tar_runtime$files_exist <- NULL, add = TRUE)
+  on.exit(tar_runtime$file_exist <- NULL, add = TRUE)
   on.exit(tar_runtime$file_info <- NULL, add = TRUE)
   old <- options(options)
   on.exit(options(old), add = TRUE)
