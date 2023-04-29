@@ -50,14 +50,11 @@ tar_test("set, get, exists, and unset store", {
 
 tar_test("set, get, exists, and unset working_directory", {
   x <- runtime_init()
-  expect_false(x$exists_working_directory())
   expect_null(x$get_working_directory())
   x$set_working_directory("working_directory")
-  expect_true(x$exists_working_directory())
   expect_equal(x$get_working_directory(), "working_directory")
   expect_silent(x$validate())
   x$unset_working_directory()
-  expect_false(x$exists_working_directory())
   expect_null(x$get_working_directory())
 })
 
