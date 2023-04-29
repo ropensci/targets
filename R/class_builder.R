@@ -138,8 +138,8 @@ target_run_worker.tar_builder <- function(
 ) {
   envir <- if_any(identical(envir, "globalenv"), globalenv(), envir)
   tar_option_set(envir = envir)
-  tar_runtime$set_store(path_store)
-  tar_runtime$set_fun(fun)
+  tar_runtime$store <- path_store
+  tar_runtime$fun <- fun
   tar_options$import(options)
   set_envvars(envvars)
   target_run(target, envir, path_store)
@@ -472,13 +472,13 @@ builder_wait_correct_hash <- function(target) {
 }
 
 builder_set_tar_runtime <- function(target, frames, path_store) {
-  tar_runtime$set_target(target)
-  tar_runtime$set_frames(frames)
+  tar_runtime$target <- target
+  tar_runtime$frames <- frames
 }
 
 builder_unset_tar_runtime <- function() {
-  tar_runtime$unset_target()
-  tar_runtime$unset_frames()
+  tar_runtime$target <- NULL
+  tar_runtime$frames <- NULL
 }
 
 builder_marshal_value <- function(target) {

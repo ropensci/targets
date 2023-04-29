@@ -151,11 +151,11 @@ engine_knitr_set_interactive <- function(options) {
   x <- options$tar_interactive %|||% !isTRUE(getOption("knitr.in.progress"))
   tar_assert_scalar(x)
   tar_assert_lgl(x)
-  tar_runtime$set_interactive(x)
+  tar_runtime$interactive <- x
 }
 
 engine_knitr_unset_interactive <- function() {
-  tar_runtime$unset_interactive()
+  tar_runtime$interactive <- NULL
 }
 
 engine_knitr_is_interactive <- function() {

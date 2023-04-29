@@ -1,15 +1,14 @@
 tar_test("set, get, exists, and unset target", {
   x <- runtime_init()
-  x$set_target(tar_target(x, 1))
+  x$target <- tar_target(x, 1)
   expect_true(is.environment(x$target))
   expect_silent(x$validate())
-  x$unset_target()
 })
 
 tar_test("set, get, exists, and unset frames", {
   x <- runtime_init()
   expect_null(x$frames)
-  x$set_frames(frames_init())
+  x$frames <- frames_init()
   expect_true(is.environment(x$frames))
   expect_silent(x$validate())
 })
@@ -17,61 +16,49 @@ tar_test("set, get, exists, and unset frames", {
 tar_test("set, get, exists, and unset interactive", {
   x <- runtime_init()
   expect_null(x$interactive)
-  x$set_interactive(TRUE)
+  x$sinteractive <- TRUE
   expect_true(x$interactive)
   expect_silent(x$validate())
-  x$unset_interactive()
-  expect_null(x$interactive)
 })
 
 tar_test("set, get, exists, and unset script", {
   x <- runtime_init()
   expect_null(x$script)
-  x$set_script("script")
+  x$script <- "script"
   expect_equal(x$script, "script")
   expect_silent(x$validate())
-  x$unset_script()
-  expect_null(x$script)
 })
 
 tar_test("set, get, exists, and unset store", {
   x <- runtime_init()
   expect_null(x$store)
-  x$set_store("store")
+  x$sstore <- "store"
   expect_equal(x$store, "store")
   expect_silent(x$validate())
-  x$unset_store()
-  expect_null(x$store)
 })
 
 tar_test("set, get, exists, and unset working_directory", {
   x <- runtime_init()
   expect_null(x$working_directory)
-  x$set_working_directory("working_directory")
+  x$working_directory <- "working_directory"
   expect_equal(x$working_directory, "working_directory")
   expect_silent(x$validate())
-  x$unset_working_directory()
-  expect_null(x$working_directory)
 })
 
 tar_test("set, get, exists, and unset fun", {
   x <- runtime_init()
   expect_null(x$fun)
-  x$set_fun("tar_make")
+  x$fun <- "tar_make"
   expect_equal(x$fun, "tar_make")
   expect_silent(x$validate())
-  x$unset_fun()
-  expect_null(x$fun)
 })
 
 tar_test("set, get, exists, and unset gcp_auth", {
   x <- runtime_init()
   expect_null(x$gcp_auth)
-  x$set_gcp_auth(TRUE)
+  x$gcp_auth <- TRUE
   expect_true(x$gcp_auth)
   expect_silent(x$validate())
-  x$unset_gcp_auth()
-  expect_null(x$gcp_auth)
 })
 
 tar_test("validate null fields", {
@@ -105,36 +92,36 @@ tar_test("invalidate bad interactive", {
 
 tar_test("validate non-null script", {
   x <- runtime_init()
-  x$set_script("script")
+  x$script <- "script"
   expect_silent(x$validate())
 })
 
 tar_test("detect bad script", {
   x <- runtime_init()
-  x$set_script(FALSE)
+  x$script <- FALSE
   expect_error(x$validate(), class = "tar_condition_validate")
 })
 
 tar_test("validate non-null store", {
   x <- runtime_init()
-  x$set_store("store")
+  x$store <- "store"
   expect_silent(x$validate())
 })
 
 tar_test("detect bad store", {
   x <- runtime_init()
-  x$set_store(FALSE)
+  x$store <- FALSE
   expect_error(x$validate(), class = "tar_condition_validate")
 })
 
 tar_test("validate non-null fun", {
   x <- runtime_init()
-  x$set_fun("tar_make")
+  x$fun <- "tar_make"
   expect_silent(x$validate())
 })
 
 tar_test("detect bad fun", {
   x <- runtime_init()
-  x$set_fun("")
+  x$fun <- ""
   expect_error(x$validate(), class = "tar_condition_validate")
 })

@@ -75,54 +75,6 @@ runtime_class <- R6::R6Class(
       self$fun <- fun
       self$gcp_auth <- gcp_auth
     },
-    set_target = function(target) {
-      self$target <- target
-    },
-    set_frames = function(frames) {
-      self$frames <- frames
-    },
-    set_interactive = function(interactive) {
-      self$interactive <- interactive
-    },
-    set_script = function(script) {
-      self$script <- script
-    },
-    set_store = function(store) {
-      self$store <- store
-    },
-    set_working_directory = function(working_directory) {
-      self$working_directory <- working_directory
-    },
-    set_fun = function(fun) {
-      self$fun <- fun
-    },
-    set_gcp_auth = function(gcp_auth) {
-      self$gcp_auth <- gcp_auth
-    },
-    unset_target = function() {
-      self$target <- NULL
-    },
-    unset_frames = function() {
-      self$frames <- NULL
-    },
-    unset_interactive = function() {
-      self$interactive <- NULL
-    },
-    unset_script = function() {
-      self$script <- NULL
-    },
-    unset_store = function() {
-      self$store <- NULL
-    },
-    unset_working_directory = function() {
-      self$working_directory <- NULL
-    },
-    unset_fun = function() {
-      self$fun <- NULL
-    },
-    unset_gcp_auth = function() {
-      self$gcp_auth <- NULL
-    },
     validate = function() {
       if (!is.null(self$target)) {
         tar_assert_inherits(self$target, "tar_target")
