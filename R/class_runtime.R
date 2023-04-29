@@ -75,9 +75,6 @@ runtime_class <- R6::R6Class(
       self$fun <- fun
       self$gcp_auth <- gcp_auth
     },
-    exists_script = function() {
-      !is.null(self$script)
-    },
     exists_store = function() {
       !is.null(self$store)
     },
