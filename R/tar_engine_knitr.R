@@ -159,7 +159,7 @@ engine_knitr_unset_interactive <- function() {
 }
 
 engine_knitr_is_interactive <- function() {
-  isTRUE(tar_runtime$get_interactive())
+  isTRUE(tar_runtime$interactive)
 }
 
 engine_knitr_globals <- function(options) {

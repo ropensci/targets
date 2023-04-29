@@ -75,9 +75,6 @@ runtime_class <- R6::R6Class(
       self$fun <- fun
       self$gcp_auth <- gcp_auth
     },
-    get_interactive = function() {
-      self$interactive
-    },
     get_script = function() {
       self$script
     },

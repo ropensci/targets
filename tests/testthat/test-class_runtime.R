@@ -16,12 +16,12 @@ tar_test("set, get, exists, and unset frames", {
 
 tar_test("set, get, exists, and unset interactive", {
   x <- runtime_init()
-  expect_null(x$get_interactive())
+  expect_null(x$interactive)
   x$set_interactive(TRUE)
-  expect_true(x$get_interactive())
+  expect_true(x$interactive)
   expect_silent(x$validate())
   x$unset_interactive()
-  expect_null(x$get_interactive())
+  expect_null(x$interactive)
 })
 
 tar_test("set, get, exists, and unset script", {
