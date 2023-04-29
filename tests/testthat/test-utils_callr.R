@@ -29,3 +29,37 @@ tar_test("custom error classes forwarded to top level", {
   expect_true("my_class_1" %in% out)
   expect_true("my_class_2" %in% out)
 })
+
+tar_test("objects_exist and objects_info are correct", {
+  skip_cran()
+  tar_script(
+    list(
+      tar_target(x, 1),
+      tar_target(y, x)
+    )
+  )
+  tar_make(callr_function = NULL, reporter = "silent")
+  tar_script(
+    list(
+      tar_target(objects_info, tar_runtime_object()$objects_info),
+      tar_target(
+        objects_exist, {
+          objects_info
+          sort(names(tar_runtime_object()$objects_exist$envir))
+        }
+      )
+    )
+  )
+  tar_make(callr_function = NULL, reporter = "silent")
+  expect_equal(
+    tar_read(objects_exist),
+    sort(path_objects(path_store_default(), c("x", "y")))
+  )
+  info <- tar_read(objects_info)
+  expect_true(is.data.frame(info))
+  expect_true(all(c("size", "isdir", "mtime") %in% colnames(info)))
+  expect_equal(
+    sort(rownames(info)),
+    sort(path_objects(path_store_default(), c("x", "y")))
+  )
+})

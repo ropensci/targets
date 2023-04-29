@@ -149,11 +149,23 @@ tar_callr_inner_try <- function(
   tar_runtime$store <- store
   tar_runtime$working_directory <- getwd()
   tar_runtime$fun <- fun
+  objects <- list.files(
+    path = targets::tar_path_objects_dir(store),
+    all.files = TRUE,
+    full.names = TRUE,
+    no.. = TRUE
+  )
+  tar_runtime$objects_exist <- targets::tar_counter(names = objects)
+  objects_info <- file.info(objects, extra_cols = FALSE)
+  objects_info[, c("size", "isdir", "mtime")]
+  tar_runtime$objects_info <- objects_info
   on.exit(targets::tar_option_set(envir = old_envir))
   on.exit(tar_runtime$script <- NULL, add = TRUE)
   on.exit(tar_runtime$store <- NULL, add = TRUE)
   on.exit(tar_runtime$working_directory <- NULL, add = TRUE)
   on.exit(tar_runtime$fun <- NULL, add = TRUE)
+  on.exit(tar_runtime$objects_exist <- NULL, add = TRUE)
+  on.exit(tar_runtime$objects_info <- NULL, add = TRUE)
   old <- options(options)
   on.exit(options(old), add = TRUE)
   targets <- eval(parse(text = readLines(script, warn = FALSE)), envir = envir)

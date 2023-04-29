@@ -1,3 +1,14 @@
+#' @title Create a counter object.
+#' @export
+#' @keywords internal
+#' @description Internal function. Not for users.
+#' @param names Character vector of names to set in the counter.
+#' @examples
+#' tar_counter(names = "x")
+tar_counter <- function(names = NULL) {
+  counter_init(names = names)
+}
+
 counter_init <- function(names = NULL) {
   count <- length(names)
   envir <- new.env(hash = TRUE, parent = emptyenv())
