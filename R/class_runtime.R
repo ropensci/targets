@@ -75,9 +75,6 @@ runtime_class <- R6::R6Class(
       self$fun <- fun
       self$gcp_auth <- gcp_auth
     },
-    exists_frames = function() {
-      !is.null(self$frames)
-    },
     exists_interactive = function() {
       !is.null(self$interactive)
     },
