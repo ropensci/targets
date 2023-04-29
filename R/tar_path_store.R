@@ -19,7 +19,7 @@
 #' }
 tar_path_store <- function() {
   if_any(
-    tar_runtime$exists_store(),
+    !is.null(self$store),
     tar_runtime$get_store(),
     tar_config_get("store")
   )

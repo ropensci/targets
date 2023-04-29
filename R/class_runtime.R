@@ -75,9 +75,6 @@ runtime_class <- R6::R6Class(
       self$fun <- fun
       self$gcp_auth <- gcp_auth
     },
-    exists_store = function() {
-      !is.null(self$store)
-    },
     exists_working_directory = function() {
       !is.null(self$working_directory)
     },
