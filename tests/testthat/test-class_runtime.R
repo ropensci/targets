@@ -61,21 +61,21 @@ tar_test("gcp_auth", {
   expect_silent(runtime_validate(x))
 })
 
-tar_test("objects_exist", {
+tar_test("files_exist", {
   x <- runtime_new()
-  expect_null(x$objects_exist)
-  x$objects_exist <- counter_init()
-  expect_true(is.environment(x$objects_exist))
+  expect_null(x$files_exist)
+  x$files_exist <- counter_init()
+  expect_true(is.environment(x$files_exist))
   expect_silent(runtime_validate(x))
 })
 
-tar_test("objects_info", {
+tar_test("file_info", {
   x <- runtime_new()
-  expect_null(x$objects_info)
+  expect_null(x$file_info)
   tmp <- tempfile()
   file.create(tmp)
-  x$objects_info <- file.info(tmp, extra_cols = FALSE)
-  expect_true(is.data.frame(x$objects_info))
+  x$file_info <- file.info(tmp, extra_cols = FALSE)
+  expect_true(is.data.frame(x$file_info))
   expect_silent(runtime_validate(x))
 })
 
