@@ -302,7 +302,7 @@ database_validate_file <- function(database) {
 
 compare_working_directories <- function() {
   current <- getwd()
-  expected <- tar_runtime$get_working_directory()
+  expected <- tar_runtime$working_directory
   if (!is.null(expected) && (current != expected)) {
     tar_throw_run(
       sprintf(

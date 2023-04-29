@@ -115,7 +115,7 @@ gcp_gcs_upload <- function(
 }
 
 gcp_gcs_auth <- function(verbose = FALSE) {
-  if (tar_runtime$get_gcp_auth()) {
+  if (isTRUE(tar_runtime$gcp_auth)) {
     return()
   }
   if_any(verbose, identity, suppressMessages) (
@@ -126,7 +126,7 @@ gcp_gcs_auth <- function(verbose = FALSE) {
       )
     )
   )
-  tar_runtime$set_gcp_auth(TRUE)
+  tar_runtime$gcp_auth <- TRUE
   invisible()
 }
 # nocov end

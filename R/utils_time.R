@@ -8,7 +8,7 @@ time_stamp_short <- function(time = Sys.time()) {
 
 time_seconds <- function() {
   if_any(
-    tar_runtime$get_fun() %in% c("tar_make_future", "tar_make_clustermq"),
+    tar_runtime$fun %in% c("tar_make_future", "tar_make_clustermq"),
     as.numeric(proc.time()["elapsed"]),
     time_seconds_local()
   )

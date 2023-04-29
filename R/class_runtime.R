@@ -75,21 +75,6 @@ runtime_class <- R6::R6Class(
       self$fun <- fun
       self$gcp_auth <- gcp_auth
     },
-    get_script = function() {
-      self$script
-    },
-    get_store = function() {
-      self$store
-    },
-    get_working_directory = function() {
-      self$working_directory
-    },
-    get_fun = function() {
-      self$fun
-    },
-    get_gcp_auth = function() {
-      self$gcp_auth %|||% FALSE
-    },
     set_target = function(target) {
       self$target <- target
     },

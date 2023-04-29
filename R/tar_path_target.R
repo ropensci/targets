@@ -82,7 +82,7 @@ tar_path_running <- function(default, path_store) {
     store_tar_path(
       tar_runtime$target$store,
       tar_runtime$target,
-      tar_runtime$get_store()
+      tar_runtime$store
     ),
     as.character(default)
   )

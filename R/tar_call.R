@@ -23,5 +23,5 @@
 #' })
 #' }
 tar_call <- function() {
-  tar_runtime$get_fun()
+  tar_runtime$fun
 }

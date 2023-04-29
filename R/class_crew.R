@@ -102,7 +102,7 @@ crew_class <- R6::R6Class(
         common$envir <- envir
       }
       common$path_store <- path_store
-      common$fun <- tar_runtime$get_fun()
+      common$fun <- tar_runtime$fun
       common$options <- tar_options$export()
       common$envvars <- tar_envvars()
       list(common = common, globals = globals)

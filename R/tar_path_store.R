@@ -20,7 +20,7 @@
 tar_path_store <- function() {
   if_any(
     !is.null(tar_runtime$store),
-    tar_runtime$get_store(),
+    tar_runtime$store,
     tar_config_get("store")
   )
 }
