@@ -35,7 +35,14 @@ tar_test("objects_exist and objects_info are correct", {
   tar_script(
     list(
       tar_target(x, 1),
-      tar_target(y, x)
+      tar_target(y, x),
+      tar_target(
+        z, {
+          file.create("z")
+          "z"
+        },
+        format = "file"
+      )
     )
   )
   tar_make(callr_function = NULL, reporter = "silent")
@@ -53,7 +60,7 @@ tar_test("objects_exist and objects_info are correct", {
   tar_make(callr_function = NULL, reporter = "silent")
   expect_equal(
     tar_read(objects_exist),
-    sort(path_objects(path_store_default(), c("x", "y")))
+    sort(path_objects(path_store_default(), c("x", "y", "objects_info")))
   )
   info <- tar_read(objects_info)
   expect_true(is.data.frame(info))

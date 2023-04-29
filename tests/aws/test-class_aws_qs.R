@@ -473,3 +473,28 @@ tar_test("aws_qs format versioning", {
   tar_make(callr_function = NULL)
   expect_equal(tar_progress(x)$progress, "skipped")
 })
+
+tar_test("cloud target paths are not in the file path cache", {
+  skip_if_no_aws()
+  skip_if_not_installed("qs")
+  s3 <- paws::s3()
+  bucket_name <- random_bucket_name()
+  on.exit(aws_s3_delete_bucket(bucket_name))
+  s3$create_bucket(Bucket = bucket_name)
+  expr <- quote({
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name)
+      )
+    )
+    list(
+      tar_target(w, 1),
+      tar_target(x, w, format = "qs", repository = "aws"),
+      tar_target(y, sort(names(tar_runtime_object()$objects_exist$envir)))
+    )
+  })
+  expr <- tar_tidy_eval(expr, environment(), TRUE)
+  eval(as.call(list(`tar_script`, expr, ask = FALSE)))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(y), path_objects(path_store_default(), "w"))
+})

@@ -101,6 +101,15 @@ store_write_path <- function(store, object, path) {
   UseMethod("store_write_path")
 }
 
+store_cache_path <- function(store, path) {
+  UseMethod("store_cache_path")
+}
+
+# @export
+store_cache_path.default <- function(store, path) {
+  counter_set_names(counter = tar_runtime$objects_exist, names = path)
+}
+
 store_exist_object <- function(store, name = NULL) {
   UseMethod("store_exist_object")
 }
