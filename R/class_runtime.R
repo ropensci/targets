@@ -8,7 +8,8 @@ runtime_new <- function(
   fun = NULL,
   gcp_auth = NULL,
   file_exist = NULL,
-  file_info = NULL
+  file_info = NULL,
+  file_info_exist = NULL
 ) {
   force(target)
   force(frames)
@@ -20,6 +21,7 @@ runtime_new <- function(
   force(gcp_auth)
   force(file_exist)
   force(file_info)
+  force(file_info_exist)
   environment()
 }
 
@@ -66,6 +68,9 @@ runtime_validate <- function(x) {
   }
   if (!is.null(x$file_info)) {
     tar_assert_df(x$file_info)
+  }
+  if (!is.null(x$file_info_exist)) {
+    tar_assert_envir(x$file_info_exist)
   }
 }
 
