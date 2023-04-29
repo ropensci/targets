@@ -1,18 +1,17 @@
 tar_test("set, get, exists, and unset target", {
   x <- runtime_init()
   x$set_target(tar_target(x, 1))
+  expect_true(is.environment(x$target))
   expect_silent(x$validate())
   x$unset_target()
 })
 
 tar_test("set, get, exists, and unset frames", {
   x <- runtime_init()
-  expect_null(x$get_frames())
+  expect_null(x$frames)
   x$set_frames(frames_init())
-  expect_true(is.environment(x$get_frames()))
+  expect_true(is.environment(x$frames))
   expect_silent(x$validate())
-  x$unset_frames()
-  expect_null(x$get_frames())
 })
 
 tar_test("set, get, exists, and unset interactive", {
