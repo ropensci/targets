@@ -15,6 +15,6 @@ tar_path_objects_dir(path_store)
 Internal function. Not for users.
 }
 \examples{
-tar_path_objects_dir("_targets", c("target1", "target2"))
+tar_path_objects_dir("_targets")
 }
 \keyword{internal}
