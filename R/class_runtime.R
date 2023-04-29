@@ -6,7 +6,9 @@ runtime_new <- function(
   store = NULL,
   working_directory = NULL,
   fun = NULL,
-  gcp_auth = NULL
+  gcp_auth = NULL,
+  objects_exist = NULL,
+  objects_info = NULL
 ) {
   force(target)
   force(frames)
@@ -16,10 +18,13 @@ runtime_new <- function(
   force(working_directory)
   force(fun)
   force(gcp_auth)
+  force(objects_exist)
+  force(objects_info)
   environment()
 }
 
 runtime_validate <- function(x) {
+  tar_assert_correct_fields(x, runtime_new)
   if (!is.null(x$target)) {
     tar_assert_inherits(x$target, "tar_target")
     target_validate(x$target)
@@ -55,6 +60,12 @@ runtime_validate <- function(x) {
     tar_assert_scalar(x$gcp_auth)
     tar_assert_lgl(x$gcp_auth)
     tar_assert_nzchar(x$gcp_auth)
+  }
+  if (!is.null(x$objects_exist)) {
+    tar_assert_envir(x$objects_exist)
+  }
+  if (!is.null(x$objects_info)) {
+    tar_assert_df(x$objects_info)
   }
 }
 
