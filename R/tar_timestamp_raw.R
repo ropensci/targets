@@ -72,7 +72,7 @@ tar_timestamp_raw <- function(
         "name cannot be NULL unless tar_timestamp() is called from a target."
       )
     }
-    name <- target_get_name(tar_runtime$get_target())
+    name <- target_get_name(tar_runtime$target)
   }
   meta <- meta_init(path_store = store)
   meta$database$preprocess(write = FALSE)

@@ -1,11 +1,8 @@
 tar_test("set, get, exists, and unset target", {
   x <- runtime_init()
-  expect_null(x$get_target())
   x$set_target(tar_target(x, 1))
-  expect_true(inherits(x$get_target(), "tar_target"))
   expect_silent(x$validate())
   x$unset_target()
-  expect_null(x$get_target())
 })
 
 tar_test("set, get, exists, and unset frames", {

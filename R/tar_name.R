@@ -24,7 +24,7 @@ tar_name <- function(default = "target") {
   tar_assert_scalar(default)
   if_any(
     !is.null(tar_runtime$target),
-    target_get_name(tar_runtime$get_target()),
+    target_get_name(tar_runtime$target),
     as.character(default)
   )
 }
