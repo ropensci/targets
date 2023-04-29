@@ -107,7 +107,10 @@ store_cache_path <- function(store, path) {
 
 # @export
 store_cache_path.default <- function(store, path) {
-  counter_set_names(counter = tar_runtime$files_exist, names = path)
+  cache <- tar_runtime$files_exist
+  if (!is.null(cache)) {
+    counter_set_names(counter = cache, names = path)
+  }
 }
 
 store_exist_object <- function(store, name = NULL) {
