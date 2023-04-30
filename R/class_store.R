@@ -323,7 +323,7 @@ store_sync_file_meta.default <- function(store, target, meta) {
     size = record$size,
     bytes = record$bytes
   )
-  info <- file_info(target$store$file$path)
+  info <- file_info_runtime(target$store$file$path)
   time <- file_time(info)
   bytes <- file_bytes(info)
   size <- file_size(bytes)
