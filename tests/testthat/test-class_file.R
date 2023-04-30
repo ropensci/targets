@@ -30,7 +30,10 @@ tar_test("file_exists_stage() when the file does not exist", {
   expect_false(file_exists_stage(file))
 })
 
-tar_test("file_list_files()", {
+tar_test("file_list_files() without cache", {
+  old <- tar_runtime$file_exist
+  on.exit(tar_runtime$file_exist <- old)
+  tar_runtime$file_exist <- NULL
   dir.create("x")
   file.create(file.path("x", "y"))
   file.create(file.path("x", "z"))
@@ -48,6 +51,36 @@ tar_test("file_list_files()", {
     file.path("y", "z")
   )
   expect_equal(sort(out), sort(exp))
+})
+
+tar_test("file_list_files() with cache for some", {
+  old <- tar_runtime$file_exist
+  on.exit(tar_runtime$file_exist <- old)
+  tar_runtime$file_exist <- counter_init(names = "z")
+  dir.create("x")
+  file.create(file.path("x", "y"))
+  file.create(file.path("x", "z"))
+  dir.create("y")
+  file.create(file.path("y", "y"))
+  file.create(file.path("y", "z"))
+  file.create("z")
+  arg <- c("abc", "x", "y", "z")
+  out <- file_list_files(arg)
+  exp <- c(
+    "z",
+    file.path("x", "y"),
+    file.path("x", "z"),
+    file.path("y", "y"),
+    file.path("y", "z")
+  )
+  expect_equal(sort(out), sort(exp))
+})
+
+tar_test("file_list_files() with cache for all", {
+  old <- tar_runtime$file_exist
+  on.exit(tar_runtime$file_exist <- old)
+  tar_runtime$file_exist <- counter_init(names = c("a", "b"))
+  expect_equal(file_list_files(c("a", "b")), c("a", "b"))
 })
 
 tar_test("file_should_rehash()", {

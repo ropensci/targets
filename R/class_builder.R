@@ -197,6 +197,7 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
 
 builder_conclude <- function(target, pipeline, scheduler, meta) {
   builder_wait_correct_hash(target)
+  store_cache_path(target$store, target$store$file$path)
   target_ensure_buds(target, pipeline, scheduler)
   meta$insert_record(target_produce_record(target, pipeline, meta))
   target_patternview_meta(target, pipeline, meta)

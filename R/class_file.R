@@ -36,7 +36,7 @@ file_new <- function(
 file_exists_path <- function(file) {
   length(file$path) > 0L &&
     all(!anyNA(file$path)) &&
-    all(file.exists(file$path))
+    all(file_exists_runtime(file$path))
 }
 
 file_exists_stage <- function(file) {
@@ -85,7 +85,7 @@ file_ensure_hash <- function(file) {
 
 file_has_correct_hash <- function(file) {
   files <- file_list_files(file$path)
-  info <- file_info(files)
+  info <- file_info_runtime(files)
   time <- file_time(info)
   bytes <- file_bytes(info)
   size <- file_size(bytes)
@@ -123,17 +123,26 @@ file_validate <- function(file) {
 }
 
 file_list_files <- function(path) {
-  if (!any(dir.exists(path))) {
-    return(path[file.exists(path)])
+  cached <- !is.null(tar_runtime$file_exist) &&
+    all(counter_exist_names(tar_runtime$file_exist, path))
+  if (cached) {
+    return(path)
+  }
+  exists <- file_exists_runtime(path)
+  is_dir <- dir.exists(path)
+  existing_files <- path[exists & !is_dir]
+  if (!any(is_dir)) {
+    return(existing_files)
   }
   inner <- list.files(
-    path,
+    path[is_dir],
     all.files = TRUE,
     full.names = TRUE,
-    recursive = TRUE
+    recursive = TRUE,
+    include.dirs = FALSE,
+    no.. = TRUE
   )
-  out <- c(path, inner)
-  out[file.exists(out) & !dir.exists(out)]
+  c(existing_files, inner)
 }
 
 file_hash <- function(files) {

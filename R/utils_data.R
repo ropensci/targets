@@ -34,13 +34,6 @@ omit_null <- function(x) {
   x[!map_lgl(x, is.null)]
 }
 
-dir_create <- function(x) {
-  if (!file.exists(x)) {
-    dir.create(x, showWarnings = FALSE, recursive = TRUE)
-  }
-  invisible()
-}
-
 mask_pointers <- function(x) {
   gsub("<pointer: 0x[0-9a-zA-Z]*>", "", x)
 }

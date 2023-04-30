@@ -9,6 +9,7 @@
 
 ## Speedups
 
+* Cache info about all of `_targets/objects/` in `tar_callr_inner_try()` and update the cache as targets are saved to `_targets/objects/` to avoid the overhead of repeated calls to `file.exists()` and `file.info()` (#1056).
 * Write to `_targets/meta/meta` and `_targets/meta/progress` in timed batches instead of line by line (#1055).
 * Reporters now print progress messages in timed batches instead of line by line (#1055).
 * The summary and forecast reporters are much faster because they avoid going through data frames.

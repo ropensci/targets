@@ -15,6 +15,9 @@ tar_dir <- function(code) {
   dir <- tempfile(pattern = "targets_")
   dir_create(dir)
   old <- eval(parse(text = "setwd(dir)"))
-  on.exit(eval(parse(text = "setwd(old)")))
+  on.exit({
+    eval(parse(text = "setwd(old)"))
+    unlink(dir, recursive = TRUE)
+  })
   eval(code, envir = parent.frame())
 }

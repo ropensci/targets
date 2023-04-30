@@ -170,7 +170,8 @@ database_class <- R6::R6Class(
     produce_line = function(row) {
       old <- options(OutDec = ".")
       on.exit(options(old))
-      paste(map_chr(row, self$produce_subline), collapse = database_sep_outer)
+      sublines <- vapply(row, self$produce_subline, FUN.VALUE = character(1))
+      paste(sublines, collapse = database_sep_outer)
     },
     produce_subline = function(element) {
       element <- replace_na(element, "")

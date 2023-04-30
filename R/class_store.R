@@ -91,14 +91,26 @@ store_write_object <- function(store, object) {
 store_write_object.default <- function(store, object) {
   path <- store$file$path
   stage <- store$file$stage
-  dir_create(dirname(path))
-  dir_create(dirname(stage))
+  dir_create_runtime(dirname(path))
+  dir_create_runtime(dirname(stage))
   store_write_path(store, store_convert_object(store, object), stage)
   file.rename(stage, path)
 }
 
 store_write_path <- function(store, object, path) {
   UseMethod("store_write_path")
+}
+
+store_cache_path <- function(store, path) {
+  UseMethod("store_cache_path")
+}
+
+# @export
+store_cache_path.default <- function(store, path) {
+  cache <- tar_runtime$file_exist
+  if (!is.null(cache)) {
+    counter_set_names(counter = cache, names = path)
+  }
 }
 
 store_exist_object <- function(store, name = NULL) {
@@ -289,7 +301,7 @@ store_has_correct_hash <- function(store) {
 
 #' @export
 store_has_correct_hash.default <- function(store) {
-  (sum(!is.na(store$file$path)) < 1L || file_exists_path(store$file)) &&
+  (all(is.na(store$file$path)) || file_exists_path(store$file)) &&
     file_has_correct_hash(store$file)
 }
 
@@ -311,7 +323,7 @@ store_sync_file_meta.default <- function(store, target, meta) {
     size = record$size,
     bytes = record$bytes
   )
-  info <- file_info(target$store$file$path)
+  info <- file_info_runtime(target$store$file$path)
   time <- file_time(info)
   bytes <- file_bytes(info)
   size <- file_size(bytes)
