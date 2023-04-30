@@ -123,17 +123,26 @@ file_validate <- function(file) {
 }
 
 file_list_files <- function(path) {
-  if (!any(dir.exists(path))) {
-    return(path[file.exists(path)])
+  cached <- !is.null(tar_runtime$file_exist) &&
+    all(counter_exist_names(tar_runtime$file_exist, path))
+  if (cached) {
+    return(path)
+  }
+  exists <- file_exists_runtime(path)
+  is_dir <- dir.exists(path)
+  existing_files <- path[exists & !is_dir]
+  if (!any(is_dir)) {
+    return(existing_files)
   }
   inner <- list.files(
-    path,
+    path[is_dir],
     all.files = TRUE,
     full.names = TRUE,
-    recursive = TRUE
+    recursive = TRUE,
+    include.dirs = FALSE,
+    no.. = TRUE
   )
-  out <- c(path, inner)
-  out[file.exists(out) & !dir.exists(out)]
+  c(existing_files, inner)
 }
 
 file_hash <- function(files) {
