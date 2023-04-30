@@ -79,6 +79,16 @@ tar_test("file_info", {
   expect_silent(runtime_validate(x))
 })
 
+tar_test("file_info_exist", {
+  x <- runtime_new()
+  expect_null(x$file_info_exist)
+  tmp <- tempfile()
+  file.create(tmp)
+  x$file_info_exist <- file.info(tmp, extra_cols = FALSE)
+  expect_true(is.data.frame(x$file_info_exist))
+  expect_silent(runtime_validate(x))
+})
+
 tar_test("validate null fields", {
   x <- runtime_new()
   expect_silent(runtime_validate(x))
