@@ -69,7 +69,13 @@ tar_test("file path caches are correct", {
   expect_null(tar_runtime$file_info_exist)
   expect_equal(
     tar_read(file_exist),
-    sort(path_objects(path_store_default(), c("x", "y", "file_info")))
+    sort(
+      c(
+        path_objects(path_store_default(), c("x", "y", "file_info")),
+        path_objects_dir(path_store_default()),
+        path_scratch_dir(path_store_default())
+      )
+    )
   )
   expect_equal(
     tar_read(file_info_exist),
