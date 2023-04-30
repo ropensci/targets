@@ -5,6 +5,18 @@ dir_create <- function(x) {
   invisible()
 }
 
+dir_create_runtime <- function(x) {
+  if (is.null(tar_runtime$file_exist)) {
+    dir_create(x)
+    return()
+  }
+  if (!all(counter_exist_names(tar_runtime$file_exist, x))) {
+    dir.create(x, showWarnings = FALSE, recursive = TRUE)
+    counter_set_names(tar_runtime$file_exist, x)
+  }
+  invisible()
+}
+
 file_exists_runtime <- function(x) {
   if (is.null(tar_runtime$file_exist)) {
     return(file.exists(x))

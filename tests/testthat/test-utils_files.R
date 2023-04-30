@@ -1,3 +1,33 @@
+tar_test("dir_create_runtime() with no caches", {
+  old <- tar_runtime$file_exist
+  on.exit(tar_runtime$file_exist <- old)
+  tar_runtime$file_exist <- NULL
+  tmp <- tempfile()
+  on.exit(unlink(tmp, recursive = TRUE), add = TRUE)
+  expect_false(dir.exists(tmp))
+  dir_create_runtime(tmp)
+  expect_true(dir.exists(tmp))
+})
+
+tar_test("dir_create_runtime()", {
+  old <- tar_runtime$file_exist
+  on.exit(tar_runtime$file_exist <- old)
+  tar_runtime$file_exist <- counter_init()
+  tmp <- tempfile()
+  on.exit(unlink(tmp, recursive = TRUE), add = TRUE)
+  expect_false(dir.exists(tmp))
+  expect_false(counter_exists_name(tar_runtime$file_exist, tmp))
+  dir_create_runtime(tmp)
+  expect_true(dir.exists(tmp))
+  expect_true(counter_exists_name(tar_runtime$file_exist, tmp))
+  unlink(tmp, recursive = TRUE)
+  expect_false(dir.exists(tmp))
+  expect_true(counter_exists_name(tar_runtime$file_exist, tmp))
+  dir_create_runtime(tmp)
+  expect_false(dir.exists(tmp))
+  expect_true(counter_exists_name(tar_runtime$file_exist, tmp))
+})
+
 tar_test("file_exists_runtime() with no caches", {
   old <- tar_runtime$file_exist
   on.exit(tar_runtime$file_exist <- old)
