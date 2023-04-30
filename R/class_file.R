@@ -85,7 +85,7 @@ file_ensure_hash <- function(file) {
 
 file_has_correct_hash <- function(file) {
   files <- file_list_files(file$path)
-  info <- file_info(files)
+  info <- file_info_runtime(files)
   time <- file_time(info)
   bytes <- file_bytes(info)
   size <- file_size(bytes)
