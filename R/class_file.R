@@ -36,7 +36,7 @@ file_new <- function(
 file_exists_path <- function(file) {
   length(file$path) > 0L &&
     all(!anyNA(file$path)) &&
-    all(file.exists(file$path))
+    all(file_exists_runtime(file$path))
 }
 
 file_exists_stage <- function(file) {
