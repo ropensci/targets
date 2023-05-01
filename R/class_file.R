@@ -151,27 +151,27 @@ file_hash <- function(files) {
 }
 
 file_info <- function(files) {
-  file.info(files, extra_cols = FALSE)
+  out <- file.info(files, extra_cols = FALSE)
+  out$mtime_numeric <- file_time_numeric(out$mtime)
+  out
 }
 
 file_time <- function(info) {
-  file_time_impl(info$mtime)
+  file_diff_chr(max(info$mtime_numeric %||% 0))
 }
 
 file_time_now <- function() {
-  file_time_impl(Sys.time())
+  file_diff_chr(file_time_numeric(Sys.time()))
 }
 
-file_time_impl <- function(time) {
-  old <- options(OutDec = ".")
-  on.exit(options(old))
+file_time_numeric <- function(time) {
   diff <- difftime(
     time1 = time,
     time2 = file_time_reference,
     units = "days",
     tz = "UTC"
   )
-  file_diff_chr(max(replace_na(c(as.numeric(diff), 0), 0)))
+  replace_na(as.numeric(diff), 0)
 }
 
 file_bytes <- function(info) {
@@ -184,6 +184,8 @@ file_size <- function(bytes) {
 }
 
 file_diff_chr <- function(dbl) {
+  old <- options(OutDec = ".")
+  on.exit(options(old))
   sprintf("t%ss", as.character(dbl))
 }
 

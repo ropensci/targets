@@ -37,5 +37,5 @@ file_info_runtime <- function(x) {
 }
 
 file_info_runtime_select <- function(info, x) {
-  list(size = info$size[x], mtime = info$mtime[x])
+  list(size = info$size[x], mtime_numeric = info$mtime_numeric[x])
 }

@@ -19,6 +19,9 @@
 * Use `nanonext::mclock()` instead of `proc.time()` when there is no risk of forked processes.
 * Replace `withr` with slightly faster/leaner base R alternatives.
 * Efficiently catch changes to the working directory instead of overburdening the pipeline with calls to `setwd()` (#1057).
+* Invoke `tar_options` methods in the internals instead of `tar_option_get()`.
+* Avoid `gsub()` in `store_init()`.
+* Avoid repeated calls to `meta$get_record()` in `builder_should_run()`.
 
 # targets 1.0.0
 

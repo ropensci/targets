@@ -148,13 +148,13 @@ tar_test("file_info_runtime_select()", {
   file.create(files)
   on.exit(unlink(files))
   info <- list(
-    mtime = file.mtime(files) + seq_along(files),
+    mtime_numeric = seq_along(files),
     size = file.size(files) + seq_along(files)
   )
-  names(info$mtime) <- files
+  names(info$mtime_numeric) <- files
   names(info$size) <- files
   index <- c(2L, 3L, 5L)
   out <- file_info_runtime_select(info, files[index])
-  expect_equal(out$mtime, info$mtime[index])
+  expect_equal(out$mtime_numeric, info$mtime_numeric[index])
   expect_equal(out$size, info$size[index])
 })
