@@ -360,7 +360,7 @@ tar_test("tar_assert_named()", {
   )
 })
 
-test_that("tar_assert_internet()", {
+tar_test("tar_assert_internet()", {
   skip_cran()
   expect_silent(
     tryCatch(
