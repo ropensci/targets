@@ -326,7 +326,7 @@ except on old or difficult platforms.
 If \code{trust_object_timestamps}
 is \code{TRUE} (default), then \code{targets} looks at the timestamp first.
 If it agrees with the timestamp recorded in the metadata, then \code{targets}
-condsiders the file unchanged. If the timestamps disagree, then \code{targets}
+considers the file unchanged. If the timestamps disagree, then \code{targets}
 recomputes the hash to make a final determination.
 This practice reduces the number of hash computations
 and thus saves time.
@@ -334,7 +334,7 @@ and thus saves time.
 However, timestamp precision varies from a few
 nanoseconds at best to 2 entire seconds at worst, and timestamps
 with poor precision should not be fully trusted if there is any
-possiblility that you will manually change the file within 2 seconds
+possibility that you will manually change the file within 2 seconds
 after the pipeline finishes.
 If the data store is on a file system with low-precision timestamps,
 then you may
