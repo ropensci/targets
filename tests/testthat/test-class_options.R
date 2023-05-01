@@ -408,5 +408,8 @@ tar_test("trust_object_timestamps", {
   expect_equal(x$get_trust_object_timestamps(), FALSE)
   x$reset()
   expect_equal(x$get_trust_object_timestamps(), TRUE)
-  expect_error(x$set_trust_object_timestamps(0), class = "tar_condition_validate")
+  expect_error(
+    x$set_trust_object_timestamps(0),
+    class = "tar_condition_validate"
+  )
 })
