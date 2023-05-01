@@ -32,7 +32,7 @@ file_info_runtime <- function(x) {
       !is.null(tar_runtime$file_info_exist) &&
       all(counter_exist_names(tar_runtime$file_info_exist, x)),
     file_info_runtime_select(tar_runtime$file_info, x), # nolint
-    file.info(x, extra_cols = FALSE)
+    file_info(x)
   )
 }
 
