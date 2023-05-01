@@ -84,16 +84,18 @@ target_should_run.tar_builder <- function(target, meta) {
 # nolint start
 builder_should_run <- function(target, meta) {
   cue <- target$cue
-  if (cue_record(cue, target, meta)) return(TRUE)
+  if (cue_record_exists(cue, target, meta)) return(TRUE)
+  record <- meta$get_record(target_get_name(target))
+  if (cue_record(cue, target, meta, record)) return(TRUE)
   if (cue_always(cue, target, meta)) return(TRUE)
   if (cue_never(cue, target, meta)) return(FALSE)
-  if (cue_command(cue, target, meta)) return(TRUE)
-  if (cue_depend(cue, target, meta)) return(TRUE)
-  if (cue_format(cue, target, meta)) return(TRUE)
-  if (cue_repository(cue, target, meta)) return(TRUE)
-  if (cue_iteration(cue, target, meta)) return(TRUE)
-  if (cue_seed(cue, target, meta)) return(TRUE)
-  if (cue_file(cue, target, meta)) return(TRUE)
+  if (cue_command(cue, target, meta, record)) return(TRUE)
+  if (cue_depend(cue, target, meta, record)) return(TRUE)
+  if (cue_format(cue, target, meta, record)) return(TRUE)
+  if (cue_repository(cue, target, meta, record)) return(TRUE)
+  if (cue_iteration(cue, target, meta, record)) return(TRUE)
+  if (cue_seed(cue, target, meta, record)) return(TRUE)
+  if (cue_file(cue, target, meta, record)) return(TRUE)
   FALSE
 }
 # nolint end
@@ -496,18 +498,36 @@ builder_unmarshal_value <- function(target) {
 
 builder_sitrep <- function(target, meta) {
   cue <- target$cue
-  record <- cue_record(cue, target, meta)
+  exists <- meta$exists_record(target_get_name(target))
+  record <- if_any(
+    exists,
+    meta$get_record(target_get_name(target)),
+    NA
+  )
+  cue_record <- if_any(
+    exists,
+    cue_record(cue, target, meta, record),
+    TRUE
+  )
   list(
     name = target_get_name(target),
-    record = cue_record(cue, target, meta),
+    record = if_any(exists, cue_record, TRUE),
     always = cue_always(cue, target, meta),
     never = cue_never(cue, target, meta),
-    command = if_any(record, NA, cue_command(cue, target, meta)),
-    depend = if_any(record, NA, cue_depend(cue, target, meta)),
-    format = if_any(record, NA, cue_format(cue, target, meta)),
-    repository = if_any(record, NA, cue_repository(cue, target, meta)),
-    iteration = if_any(record, NA, cue_iteration(cue, target, meta)),
-    file = if_any(record, NA, cue_file(cue, target, meta)),
-    seed = if_any(record, NA, cue_seed(cue, target, meta))
+    command = if_any(cue_record, NA, cue_command(cue, target, meta, record)),
+    depend = if_any(cue_record, NA, cue_depend(cue, target, meta, record)),
+    format = if_any(cue_record, NA, cue_format(cue, target, meta, record)),
+    repository = if_any(
+      cue_record,
+      NA,
+      cue_repository(cue, target, meta, record)
+    ),
+    iteration = if_any(
+      cue_record,
+      NA,
+      cue_iteration(cue, target, meta, record)
+    ),
+    file = if_any(cue_record, NA, cue_file(cue, target, meta, record)),
+    seed = if_any(cue_record, NA, cue_seed(cue, target, meta, record))
   )
 }

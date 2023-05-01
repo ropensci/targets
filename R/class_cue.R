@@ -41,11 +41,11 @@ cue_new <- function(
   enclass(environment(), "tar_cue")
 }
 
-cue_record <- function(cue, target, meta) {
-  if (!meta$exists_record(target_get_name(target))) {
-    return(TRUE)
-  }
-  record <- meta$get_record(target_get_name(target))
+cue_record_exists <- function(cue, target, meta) {
+  !meta$exists_record(target_get_name(target))
+}
+
+cue_record <- function(cue, target, meta, record) {
   if (record_has_error(record)) {
     # Not sure why covr does not catch this.
     # A test in tests/testthat/test-class_builder.R # nolint
@@ -69,56 +69,55 @@ cue_never <- function(cue, target, meta) {
   identical(cue$mode, "never")
 }
 
-cue_command <- function(cue, target, meta) {
+cue_command <- function(cue, target, meta, record) {
   if (!cue$command) {
     return(FALSE)
   }
-  old <- meta$get_record(target_get_name(target))$command
+  old <- record$command
   new <- target$command$hash
   !identical(old, new)
 }
 
-cue_depend <- function(cue, target, meta) {
+cue_depend <- function(cue, target, meta, record) {
   if (!cue$depend) {
     return(FALSE)
   }
-  old <- meta$get_record(target_get_name(target))$depend
+  old <- record$depend
   new <- meta$get_depend(target_get_name(target))
   !identical(old, new)
 }
 
-cue_format <- function(cue, target, meta) {
+cue_format <- function(cue, target, meta, record) {
   if (!cue$format) {
     return(FALSE)
   }
-  old <- meta$get_record(target_get_name(target))$format
+  old <- record$format
   new <- target$settings$format
   !identical(old, new)
 }
 
-cue_repository <- function(cue, target, meta) {
+cue_repository <- function(cue, target, meta, record) {
   if (!cue$repository) {
     return(FALSE)
   }
-  old <- meta$get_record(target_get_name(target))$repository
+  old <- record$repository
   new <- target$settings$repository
   !identical(old, new)
 }
 
-cue_iteration <- function(cue, target, meta) {
+cue_iteration <- function(cue, target, meta, record) {
   if (!cue$iteration) {
     return(FALSE)
   }
-  old <- meta$get_record(target_get_name(target))$iteration
+  old <- record$iteration
   new <- target$settings$iteration
   !identical(old, new)
 }
 
-cue_file <- function(cue, target, meta) {
+cue_file <- function(cue, target, meta, record) {
   if (!cue$file) {
     return(FALSE)
   }
-  record <- meta$get_record(target_get_name(target))
   file_current <- target$store$file
   file_recorded <- file_new(
     path = record$path,
@@ -133,11 +132,11 @@ cue_file <- function(cue, target, meta) {
   !store_has_correct_hash(target$store)
 }
 
-cue_seed <- function(cue, target, meta) {
+cue_seed <- function(cue, target, meta, record) {
   if (!cue$seed) {
     return(FALSE)
   }
-  old <- as.integer(meta$get_record(target_get_name(target))$seed)
+  old <- as.integer(record$seed)
   new <- as.integer(target$command$seed)
   anyNA(new) || !identical(old, new)
 }
