@@ -224,7 +224,7 @@ builder_cancel <- function(target, pipeline, scheduler, meta) {
 
 #' @export
 target_debug.tar_builder <- function(target) {
-  debug <- tar_option_get("debug")
+  debug <- tar_options$get_debug()
   should_debug <- length(debug) &&
     (target_get_name(target) %in% debug) &&
     interactive()
@@ -364,9 +364,9 @@ builder_ensure_workspace <- function(target, pipeline, scheduler, meta) {
 
 builder_should_save_workspace <- function(target) {
   names <- c(target_get_name(target), target_get_parent(target))
-  because_named <- any(names %in% tar_option_get("workspaces"))
+  because_named <- any(names %in% tar_options$get_workspaces())
   has_error <- metrics_has_error(target$metrics)
-  if_error <- tar_option_get("workspace_on_error") ||
+  if_error <- tar_options$get_workspace_on_error() ||
     identical(target$settings$error, "workspace")
   because_error <- if_error && has_error
   because_named || because_error
