@@ -86,6 +86,21 @@
 #'     That output file is uploaded to the cloud and tracked for changes
 #'     where it exists in the cloud. The local file is deleted after
 #'     the target runs.
+#'
+#'     To check if the file is up to date, `targets` avoids timestamps
+#'     and always recomputes the hash. If you find this to be too slow,
+#'     and if you trust the time stamps on your file system
+#'     (see the `trust_object_timestamps` argument of [tar_option_set()]),
+#'     then consider `format = "file_fast"` instead.
+#'   * `"file_fast"`: same as `format = "file"`, except that `targets`
+#'     uses time stamps to check if a file is up to date. If the time stamp
+#'     of the file agrees with the time stamp in the metadata, the
+#'     file is considered up to date. Otherwise, `targets` recomputes the
+#'     hash of the file to make a final determination. Low-precision
+#'     timestamps are not reliable for this, and some file systems
+#'     have timestamp precision as poor as 2 seconds. See the
+#'     `trust_object_timestamps` argument of [tar_option_set()]
+#'     for advice on this.
 #'   * `"url"`: A dynamic input URL. For this storage format,
 #'     `repository` is implicitly `"local"`,
 #'     URL format is like `format = "file"`

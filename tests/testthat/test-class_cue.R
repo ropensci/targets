@@ -461,6 +461,27 @@ tar_test("cue_file() on a dynamic file", {
   expect_equal(out, "x")
 })
 
+tar_test("cue_file() on a fast dynamic file", {
+  envir <- new.env(parent = baseenv())
+  envir$save1 <- function() {
+    file <- tempfile()
+    saveRDS(1L, file)
+    file
+  }
+  tar_option_set(envir = envir)
+  x <- target_init("x", quote(save1()), format = "file_fast")
+  local <- local_init(pipeline_init(list(x)))
+  local$run()
+  out <- counter_get_names(local$scheduler$progress$built)
+  expect_equal(out, "x")
+  saveRDS(2L, x$store$file$path)
+  x <- target_init("x", quote(save1()), format = "file_fast")
+  local <- local_init(pipeline_init(list(x)))
+  local$run()
+  out <- counter_get_names(local$scheduler$progress$built)
+  expect_equal(out, "x")
+})
+
 tar_test("cue print", {
   out <- utils::capture.output(print(tar_cue()))
   expect_true(any(grepl("cue", out)))

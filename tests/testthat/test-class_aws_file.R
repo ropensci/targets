@@ -1,3 +1,31 @@
+tar_test("trust_object_timestamps = TRUE", {
+  skip_if_not_installed("paws")
+  old <- tar_option_get("trust_object_timestamps")
+  on.exit(tar_option_set(trust_object_timestamps = old))
+  tar_option_set(trust_object_timestamps = TRUE)
+  x <- target_init(
+    name = "abc",
+    expr = quote(a),
+    repository = "aws",
+    format = "file"
+  )
+  expect_false(x$store$file$trust_timestamps)
+})
+
+tar_test("trust_object_timestamps = FALSE", {
+  skip_if_not_installed("paws")
+  old <- tar_option_get("trust_object_timestamps")
+  on.exit(tar_option_set(trust_object_timestamps = old))
+  tar_option_set(trust_object_timestamps = FALSE)
+  x <- target_init(
+    name = "abc",
+    expr = quote(a),
+    repository = "aws",
+    format = "file"
+  )
+  expect_false(x$store$file$trust_timestamps)
+})
+
 tar_test("aws_file packages", {
   target <- tar_target(
     x,

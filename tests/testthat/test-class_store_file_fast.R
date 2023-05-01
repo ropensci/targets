@@ -3,7 +3,7 @@ tar_test("dynamic files work", {
   x <- target_init(
     name = "abc",
     expr = quote(f()),
-    format = "file"
+    format = "file_fast"
   )
   envir$f <- function() {
     file <- tempfile()
@@ -32,23 +32,23 @@ tar_test("trust_object_timestamps = TRUE", {
   old <- tar_option_get("trust_object_timestamps")
   on.exit(tar_option_set(trust_object_timestamps = old))
   tar_option_set(trust_object_timestamps = TRUE)
-  x <- target_init(name = "abc", expr = quote(a), format = "file")
-  expect_false(x$store$file$trust_timestamps)
+  x <- target_init(name = "abc", expr = quote(a), format = "file_fast")
+  expect_true(x$store$file$trust_timestamps)
 })
 
 tar_test("trust_object_timestamps = FALSE", {
   old <- tar_option_get("trust_object_timestamps")
   on.exit(tar_option_set(trust_object_timestamps = old))
   tar_option_set(trust_object_timestamps = FALSE)
-  x <- target_init(name = "abc", expr = quote(a), format = "file")
-  expect_false(x$store$file$trust_timestamps)
+  x <- target_init(name = "abc", expr = quote(a), format = "file_fast")
+  expect_true(x$store$file$trust_timestamps)
 })
 
 tar_test("dynamic files must return characters", {
   x <- target_init(
     name = "abc",
     expr = quote(list(list("illegal"))),
-    format = "file"
+    format = "file_fast"
   )
   pipeline <- pipeline_init(list(x))
   local <- local_init(pipeline = pipeline)
@@ -59,7 +59,7 @@ tar_test("handle dynamic file errors properly", {
   x <- target_init(
     name = "abc",
     expr = quote(stop("message123")),
-    format = "file"
+    format = "file_fast"
   )
   pipeline <- pipeline_init(list(x))
   local <- local_init(pipeline = pipeline)
@@ -68,19 +68,19 @@ tar_test("handle dynamic file errors properly", {
 })
 
 tar_test("inherits from tar_external", {
-  store <- tar_target(x, "x_value", format = "file")$store
+  store <- tar_target(x, "x_value", format = "file_fast")$store
   expect_true(inherits(store, "tar_external"))
 })
 
 tar_test("store_row_path()", {
-  store <- tar_target(x, "x_value", format = "file")$store
+  store <- tar_target(x, "x_value", format = "file_fast")$store
   store$file$path <- "path"
   expect_equal(store_row_path(store), "path")
 })
 
 tar_test("store_path_from_record()", {
-  store <- tar_target(x, "x_value", format = "file")$store
-  record <- record_init(path = "path", format = "file")
+  store <- tar_target(x, "x_value", format = "file_fast")$store
+  record <- record_init(path = "path", format = "file_fast")
   expect_equal(
     store_path_from_record(store, record, path_store_default()),
     "path"
@@ -90,7 +90,7 @@ tar_test("store_path_from_record()", {
 tar_test("files can be empty (#728)", {
   tar_script(
     list(
-      tar_target(x, character(0), format = "file"),
+      tar_target(x, character(0), format = "file_fast"),
       tar_target(y, x)
     )
   )
@@ -101,7 +101,7 @@ tar_test("files can be empty (#728)", {
   expect_true(is.na(tar_meta(x)$path))
   tar_script(
     list(
-      tar_target(x, (character(0)), format = "file"),
+      tar_target(x, (character(0)), format = "file_fast"),
       tar_target(y, x)
     )
   )
@@ -115,7 +115,7 @@ tar_test("file and NULL", {
   skip_cran()
   tar_script(
     list(
-      tar_target(x, NULL, format = "file", memory = "persistent"),
+      tar_target(x, NULL, format = "file_fast", memory = "persistent"),
       tar_target(y, x, memory = "persistent")
     )
   )

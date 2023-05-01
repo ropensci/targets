@@ -135,15 +135,28 @@
 #'   file system modification timestamps to check whether the target output
 #'   data files in `_targets/objects/` are up to date. This is an advanced
 #'   setting and usually does not need to be set by the user
-#'   except on old or difficult platforms. If `trust_object_timestamps`
+#'   except on old or difficult platforms.
+#'
+#'   If `trust_object_timestamps`
 #'   is `TRUE` (default), then `targets` looks at the timestamp first.
 #'   If it agrees with the timestamp recorded in the metadata, then `targets`
-#'   condsiders the file unchanged. This practice avoids recomputing the hash
-#'   and thus saves time. But if the data store is on a system
-#'   with low-precision timestamps, then you may
+#'   condsiders the file unchanged. If the timestamps disagree, then `targets`
+#'   recomputes the hash to make a final determination.
+#'   This practice reduces the number of hash computations
+#'   and thus saves time.
+#'
+#'   However, timestamp precision varies from a few
+#'   nanoseconds at best to 2 entire seconds at worst, and timestamps
+#'   with poor precision should not be fully trusted if there is any
+#'   possiblility that you will manually change the file within 2 seconds
+#'   after the pipeline finishes.
+#'   If the data store is on a file system with low-precision timestamps,
+#'   then you may
 #'   consider setting `trust_object_timestamps` to `FALSE` so `targets`
 #'   errs on the safe side and always recomputes the hashes of files in
-#'   `_targets/objects/`. To check if your
+#'   `_targets/objects/`.
+#'
+#'   To check if your
 #'   file system has low-precision timestamps, you can run
 #'   `file.create("x"); nanonext::msleep(1); file.create("y");`
 #'   from within the directory containing the `_targets` data store

@@ -13,6 +13,22 @@ tar_test("rds update_object()", {
   expect_equal(target_read_value(x)$object, "123")
 })
 
+tar_test("trust_object_timestamps = TRUE", {
+  old <- tar_option_get("trust_object_timestamps")
+  on.exit(tar_option_set(trust_object_timestamps = old))
+  tar_option_set(trust_object_timestamps = TRUE)
+  x <- target_init(name = "abc", expr = quote(a), format = "rds")
+  expect_true(x$store$file$trust_timestamps)
+})
+
+tar_test("trust_object_timestamps = FALSE", {
+  old <- tar_option_get("trust_object_timestamps")
+  on.exit(tar_option_set(trust_object_timestamps = old))
+  tar_option_set(trust_object_timestamps = FALSE)
+  x <- target_init(name = "abc", expr = quote(a), format = "rds")
+  expect_false(x$store$file$trust_timestamps)
+})
+
 tar_test("misspelled format", {
   expect_error(
     tar_target(x, 1, format = "r2ds"),

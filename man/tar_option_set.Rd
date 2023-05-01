@@ -321,15 +321,28 @@ distributed computing to \code{\link[=tar_make]{tar_make()}}.}
 file system modification timestamps to check whether the target output
 data files in \verb{_targets/objects/} are up to date. This is an advanced
 setting and usually does not need to be set by the user
-except on old or difficult platforms. If \code{trust_object_timestamps}
+except on old or difficult platforms.
+
+If \code{trust_object_timestamps}
 is \code{TRUE} (default), then \code{targets} looks at the timestamp first.
 If it agrees with the timestamp recorded in the metadata, then \code{targets}
-condsiders the file unchanged. This practice avoids recomputing the hash
-and thus saves time. But if the data store is on a system
-with low-precision timestamps, then you may
+condsiders the file unchanged. If the timestamps disagree, then \code{targets}
+recomputes the hash to make a final determination.
+This practice reduces the number of hash computations
+and thus saves time.
+
+However, timestamp precision varies from a few
+nanoseconds at best to 2 entire seconds at worst, and timestamps
+with poor precision should not be fully trusted if there is any
+possiblility that you will manually change the file within 2 seconds
+after the pipeline finishes.
+If the data store is on a file system with low-precision timestamps,
+then you may
 consider setting \code{trust_object_timestamps} to \code{FALSE} so \code{targets}
 errs on the safe side and always recomputes the hashes of files in
-\verb{_targets/objects/}. To check if your
+\verb{_targets/objects/}.
+
+To check if your
 file system has low-precision timestamps, you can run
 \verb{file.create("x"); nanonext::msleep(1); file.create("y");}
 from within the directory containing the \verb{_targets} data store
@@ -417,6 +430,21 @@ file paths are not supported for dynamic files on the cloud.)
 That output file is uploaded to the cloud and tracked for changes
 where it exists in the cloud. The local file is deleted after
 the target runs.
+
+To check if the file is up to date, \code{targets} avoids timestamps
+and always recomputes the hash. If you find this to be too slow,
+and if you trust the time stamps on your file system
+(see the \code{trust_object_timestamps} argument of \code{\link[=tar_option_set]{tar_option_set()}}),
+then consider \code{format = "file_fast"} instead.
+\item \code{"file_fast"}: same as \code{format = "file"}, except that \code{targets}
+uses time stamps to check if a file is up to date. If the time stamp
+of the file agrees with the time stamp in the metadata, the
+file is considered up to date. Otherwise, \code{targets} recomputes the
+hash of the file to make a final determination. Low-precision
+timestamps are not reliable for this, and some file systems
+have timestamp precision as poor as 2 seconds. See the
+\code{trust_object_timestamps} argument of \code{\link[=tar_option_set]{tar_option_set()}}
+for advice on this.
 \item \code{"url"}: A dynamic input URL. For this storage format,
 \code{repository} is implicitly \code{"local"},
 URL format is like \code{format = "file"}

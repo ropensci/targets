@@ -304,6 +304,21 @@ file paths are not supported for dynamic files on the cloud.)
 That output file is uploaded to the cloud and tracked for changes
 where it exists in the cloud. The local file is deleted after
 the target runs.
+
+To check if the file is up to date, \code{targets} avoids timestamps
+and always recomputes the hash. If you find this to be too slow,
+and if you trust the time stamps on your file system
+(see the \code{trust_object_timestamps} argument of \code{\link[=tar_option_set]{tar_option_set()}}),
+then consider \code{format = "file_fast"} instead.
+\item \code{"file_fast"}: same as \code{format = "file"}, except that \code{targets}
+uses time stamps to check if a file is up to date. If the time stamp
+of the file agrees with the time stamp in the metadata, the
+file is considered up to date. Otherwise, \code{targets} recomputes the
+hash of the file to make a final determination. Low-precision
+timestamps are not reliable for this, and some file systems
+have timestamp precision as poor as 2 seconds. See the
+\code{trust_object_timestamps} argument of \code{\link[=tar_option_set]{tar_option_set()}}
+for advice on this.
 \item \code{"url"}: A dynamic input URL. For this storage format,
 \code{repository} is implicitly \code{"local"},
 URL format is like \code{format = "file"}

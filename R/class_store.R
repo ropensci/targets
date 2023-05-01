@@ -13,6 +13,7 @@ store_init <- function(
     store = store,
     format = format
   )
+  store_set_timestamp_trust(store)
   store
 }
 
@@ -69,6 +70,15 @@ store_assert_repository_setting.default <- function(repository) {
 
 #' @export
 store_assert_repository_setting.local <- function(repository) {
+}
+
+store_set_timestamp_trust <- function(store) {
+  UseMethod("store_set_timestamp_trust")
+}
+
+#' @export
+store_set_timestamp_trust.default <- function(store) {
+  store$file$trust_timestamps <- tar_option_get("trust_object_timestamps")
 }
 
 store_read_object <- function(store) {
