@@ -67,7 +67,8 @@ runtime_validate <- function(x) {
     tar_assert_envir(x$file_exist)
   }
   if (!is.null(x$file_info)) {
-    tar_assert_df(x$file_info)
+    tar_assert_list(x$file_info)
+    tar_assert_named(x$file_info)
   }
   if (!is.null(x$file_info_exist)) {
     tar_assert_envir(x$file_info_exist)
