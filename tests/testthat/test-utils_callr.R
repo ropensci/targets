@@ -82,10 +82,11 @@ tar_test("file path caches are correct", {
     sort(path_objects(path_store_default(), c("x", "y")))
   )
   info <- tar_read(file_info)
-  expect_true(is.data.frame(info))
-  expect_true(all(c("size", "isdir", "mtime") %in% colnames(info)))
-  expect_equal(
-    sort(rownames(info)),
-    sort(path_objects(path_store_default(), c("x", "y")))
-  )
+  expect_true(is.list(info))
+  expect_true(all(c("size", "mtime") %in% names(info)))
+  names <- sort(path_objects(path_store_default(), c("x", "y")))
+  for (field in c("size", "mtime")) {
+    expect_equal(sort(names(info[[field]])), names)
+    expect_false(anyNA(info[[field]]))
+  }
 })

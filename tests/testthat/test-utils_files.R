@@ -89,7 +89,7 @@ tar_test("file_info_runtime() with no caches", {
   tar_runtime$file_info <- NULL
   tar_runtime$file_info_exist <- NULL
   out <- file_info_runtime(files)
-  expect_false("tar_extra" %in% colnames(out))
+  expect_true(is.data.frame(out))
 })
 
 tar_test("file_info_runtime() with all files registered", {
@@ -104,11 +104,9 @@ tar_test("file_info_runtime() with all files registered", {
   file.create(tmp2)
   on.exit(unlink(c(tmp1, tmp2)), add = TRUE)
   tar_runtime$file_info <- file.info(c(tmp1, tmp2))
-  tar_runtime$file_info$tar_extra <- rep(TRUE, 2L)
   tar_runtime$file_info_exist <- counter_init(names = c(tmp1, tmp2))
   out <- file_info_runtime(tmp1)
-  expect_true("tar_extra" %in% colnames(tar_runtime$file_info))
-  expect_true("tar_extra" %in% colnames(out))
+  expect_false(is.data.frame(out))
 })
 
 tar_test("file_info_runtime() with not all files registered", {
@@ -123,11 +121,9 @@ tar_test("file_info_runtime() with not all files registered", {
   file.create(tmp2)
   on.exit(unlink(c(tmp1, tmp2)), add = TRUE)
   tar_runtime$file_info <- file.info(tmp1)
-  tar_runtime$file_info$tar_extra <- TRUE
   tar_runtime$file_info_exist <- counter_init(names = tmp1)
   out <- file_info_runtime(c(tmp1, tmp2))
-  expect_true("tar_extra" %in% colnames(tar_runtime$file_info))
-  expect_false("tar_extra" %in% colnames(out))
+  expect_true(is.data.frame(out))
 })
 
 tar_test("file_info_runtime() with no files registered", {
@@ -142,9 +138,23 @@ tar_test("file_info_runtime() with no files registered", {
   file.create(tmp2)
   on.exit(unlink(c(tmp1, tmp2)), add = TRUE)
   tar_runtime$file_info <- file.info(character(0L))
-  tar_runtime$file_info$tar_extra <- logical(0L)
   tar_runtime$file_info_exist <- counter_init(names = character(0L))
   out <- file_info_runtime(c(tmp1, tmp2))
-  expect_true("tar_extra" %in% colnames(tar_runtime$file_info))
-  expect_false("tar_extra" %in% colnames(out))
+  expect_true(is.data.frame(out))
+})
+
+tar_test("file_info_runtime_select()", {
+  files <- unlist(replicate(6, tempfile()))
+  file.create(files)
+  on.exit(unlink(files))
+  info <- list(
+    mtime = file.mtime(files) + seq_along(files),
+    size = file.size(files) + seq_along(files)
+  )
+  names(info$mtime) <- files
+  names(info$size) <- files
+  index <- c(2L, 3L, 5L)
+  out <- file_info_runtime_select(info, files[index])
+  expect_equal(out$mtime, info$mtime[index])
+  expect_equal(out$size, info$size[index])
 })

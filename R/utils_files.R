@@ -31,7 +31,11 @@ file_info_runtime <- function(x) {
     !is.null(tar_runtime$file_info) &&
       !is.null(tar_runtime$file_info_exist) &&
       all(counter_exist_names(tar_runtime$file_info_exist, x)),
-    tar_runtime$file_info[x,, drop = FALSE], # nolint
+    file_info_runtime_select(tar_runtime$file_info, x), # nolint
     file.info(x, extra_cols = FALSE)
   )
+}
+
+file_info_runtime_select <- function(info, x) {
+  list(size = info$size[x], mtime = info$mtime[x])
 }
