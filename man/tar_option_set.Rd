@@ -27,7 +27,8 @@ tar_option_set(
   workspaces = NULL,
   workspace_on_error = NULL,
   seed = NULL,
-  controller = NULL
+  controller = NULL,
+  trust_object_timestamps = NULL
 )
 }
 \arguments{
@@ -315,6 +316,28 @@ unless they have \code{cue = tar_cue(seed = FALSE)}.}
 \item{controller}{A controller or controller group object
 produced by the \code{crew} R package. \code{crew} brings auto-scaled
 distributed computing to \code{\link[=tar_make]{tar_make()}}.}
+
+\item{trust_object_timestamps}{Logical of length 1, whether to use
+file system modification timestamps to check whether the target output
+data files in \verb{_targets/objects/} are up to date. This is an advanced
+setting and usually does not need to be set by the user
+except on old or difficult platforms. If \code{trust_object_timestamps}
+is \code{TRUE} (default), then \code{targets} looks at the timestamp first.
+If it agrees with the timestamp recorded in the metadata, then \code{targets}
+condsiders the file unchanged. This practice avoids recomputing the hash
+and thus saves time. But if the data store is on a system
+with low-precision timestamps, then you may
+consider setting \code{trust_object_timestamps} to \code{FALSE} so \code{targets}
+errs on the safe side and always recomputes the hashes of files in
+\verb{_targets/objects/}. To check if your
+file system has low-precision timestamps, you can run
+\verb{file.create("x"); nanonext::msleep(1); file.create("y");}
+from within the directory containing the \verb{_targets} data store
+and then check
+\code{difftime(file.mtime("y"), file.mtime("x"), units = "secs")}.
+If the value from \code{difftime()} is around 0.001 seconds
+(must be strictly above 0 and below 1) then you do not need to set
+\code{trust_object_timestamps = FALSE}.}
 }
 \value{
 \code{NULL} (invisibly).

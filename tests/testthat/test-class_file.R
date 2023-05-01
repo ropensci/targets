@@ -91,8 +91,7 @@ tar_test("file_should_rehash()", {
     file_should_rehash(
       file = file,
       time = file$time,
-      size = file$size,
-      bytes = file$bytes
+      size = file$size
     )
   )
 })

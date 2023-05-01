@@ -132,8 +132,8 @@
 #'   produced by the `crew` R package. `crew` brings auto-scaled
 #'   distributed computing to [tar_make()].
 #' @param trust_object_timestamps Logical of length 1, whether to use
-#'   file system modification timestamps to check if the target output
-#'   data files in `_targets/objects/` have changed. This is an advanced
+#'   file system modification timestamps to check whether the target output
+#'   data files in `_targets/objects/` are up to date. This is an advanced
 #'   setting and usually does not need to be set by the user
 #'   except on old or difficult platforms. If `trust_object_timestamps`
 #'   is `TRUE` (default), then `targets` looks at the timestamp first.
@@ -147,7 +147,7 @@
 #'   file system has low-precision timestamps, you can run
 #'   `file.create("x"); nanonext::msleep(1); file.create("y");`
 #'   from within the directory containing the `_targets` data store
-#'   and then check 
+#'   and then check
 #'   `difftime(file.mtime("y"), file.mtime("x"), units = "secs")`.
 #'   If the value from `difftime()` is around 0.001 seconds
 #'   (must be strictly above 0 and below 1) then you do not need to set
