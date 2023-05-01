@@ -26,7 +26,8 @@ tar_test("validate non-default options", {
     debug = "x",
     workspaces = letters,
     workspace_on_error = TRUE,
-    seed = 57L
+    seed = 57L,
+    trust_object_timestamps = FALSE
   )
   expect_silent(x$validate())
 })
@@ -53,7 +54,8 @@ tar_test("export", {
     debug = "x",
     workspaces = letters,
     workspace_on_error = TRUE,
-    seed = 57L
+    seed = 57L,
+    trust_object_timestamps = FALSE
   )
   out <- x$export()
   exp <- list(
@@ -77,7 +79,8 @@ tar_test("export", {
     debug = "x",
     workspaces = letters,
     workspace_on_error = TRUE,
-    seed = 57L
+    seed = 57L,
+    trust_object_timestamps = FALSE
   )
   out$cue <- as.list(out$cue)
   exp$cue <- as.list(exp$cue)
@@ -107,7 +110,8 @@ tar_test("import", {
     debug = "x",
     workspaces = "x",
     workspace_on_error = TRUE,
-    seed = 57L
+    seed = 57L,
+    trust_object_timestamps = FALSE
   )
   envir <- new.env(parent = emptyenv())
   x <- options_init(envir = envir)
@@ -137,6 +141,7 @@ tar_test("import", {
   expect_equal(x$get_workspaces(), "x")
   expect_equal(x$get_workspace_on_error(), TRUE)
   expect_equal(x$get_seed(), 57L)
+  expect_equal(x$get_trust_object_timestamps(), FALSE)
 })
 
 tar_test("tidy_eval", {
@@ -394,4 +399,14 @@ tar_test("controller", {
     x$set_controller("?"),
     class = "tar_condition_validate"
   )
+})
+
+tar_test("trust_object_timestamps", {
+  x <- options_init()
+  expect_equal(x$get_trust_object_timestamps(), TRUE)
+  x$set_trust_object_timestamps(FALSE)
+  expect_equal(x$get_trust_object_timestamps(), FALSE)
+  x$reset()
+  expect_equal(x$get_trust_object_timestamps(), TRUE)
+  expect_error(x$set_trust_object_timestamps(0), class = "tar_condition_validate")
 })

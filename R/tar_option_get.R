@@ -66,6 +66,7 @@ tar_option_get <- function(name = NULL, option = NULL) {
     workspaces = tar_options$get_workspaces(),
     workspace_on_error = tar_options$get_workspace_on_error(),
     seed = tar_options$get_seed(),
-    controller = tar_options$get_controller()
+    controller = tar_options$get_controller(),
+    trust_object_timestamps = tar_options$get_trust_object_timestamps()
   )
 }

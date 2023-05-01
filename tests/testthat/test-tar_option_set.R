@@ -292,3 +292,15 @@ tar_test("controller", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("trust_object_timestamps", {
+  expect_equal(tar_option_get("trust_object_timestamps"), TRUE)
+  tar_option_set(trust_object_timestamps = FALSE)
+  expect_equal(tar_option_get("trust_object_timestamps"), FALSE)
+  tar_option_reset()
+  expect_equal(tar_option_get("trust_object_timestamps"), TRUE)
+  expect_error(
+    tar_option_set(trust_object_timestamps = 0),
+    class = "tar_condition_validate"
+  )
+})

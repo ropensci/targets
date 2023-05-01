@@ -6,10 +6,12 @@
 * Add `garbage_collection` arguments to `tar_make()`, `tar_make_clustermq()`, and `tar_make_future()` to add optional garbage collection before targets are sent to workers. This is different and independent from the `garbage_collection` argument of `tar_target()`. In high-performance computing scenarios, the former controls what happens on the main controlling process, whereas the latter controls what happens on the worker.
 * Add `garbage_collection` and `seconds_interval` arguments to `tar_make()`, `tar_make_clustermq()`, `tar_make_future()`, and `tar_config_set()`.
 * Downsize the `tar_runtime` object.
+* Remove the 100 Kb file size cutoff for determining whether to trust the file timestamp or recompute the hash when checking if a file is up to date (#1062). Instate the `"file_fast"` format and the `trust_object_timestamps` option in `tar_option_set()` as safer alternatives.
 
 ## Speedups
 
 * Cache info about all of `_targets/objects/` in `tar_callr_inner_try()` and update the cache as targets are saved to `_targets/objects/` to avoid the overhead of repeated calls to `file.exists()` and `file.info()` (#1056).
+* Trust the timestamps by default when checking whether files in `_targets/objects/` are up to date (#1062). `tar_option_set(trust_object_timestamps = FALSE)` ignores the timestamps and recomputes the hashes.
 * Write to `_targets/meta/meta` and `_targets/meta/progress` in timed batches instead of line by line (#1055).
 * Reporters now print progress messages in timed batches instead of line by line (#1055).
 * The summary and forecast reporters are much faster because they avoid going through data frames.

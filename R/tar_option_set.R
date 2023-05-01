@@ -131,6 +131,27 @@
 #' @param controller A controller or controller group object
 #'   produced by the `crew` R package. `crew` brings auto-scaled
 #'   distributed computing to [tar_make()].
+#' @param trust_object_timestamps Logical of length 1, whether to use
+#'   file system modification timestamps to check if the target output
+#'   data files in `_targets/objects/` have changed. This is an advanced
+#'   setting and usually does not need to be set by the user
+#'   except on old or difficult platforms. If `trust_object_timestamps`
+#'   is `TRUE` (default), then `targets` looks at the timestamp first.
+#'   If it agrees with the timestamp recorded in the metadata, then `targets`
+#'   condsiders the file unchanged. This practice avoids recomputing the hash
+#'   and thus saves time. But if the data store is on a system
+#'   with low-precision timestamps, then you may
+#'   consider setting `trust_object_timestamps` to `FALSE` so `targets`
+#'   errs on the safe side and always recomputes the hashes of files in
+#'   `_targets/objects/`. To check if your
+#'   file system has low-precision timestamps, you can run
+#'   `file.create("x"); nanonext::msleep(1); file.create("y");`
+#'   from within the directory containing the `_targets` data store
+#'   and then check 
+#'   `difftime(file.mtime("y"), file.mtime("x"), units = "secs")`.
+#'   If the value from `difftime()` is around 0.001 seconds
+#'   (must be strictly above 0 and below 1) then you do not need to set
+#'   `trust_object_timestamps = FALSE`.
 #' @examples
 #' tar_option_get("format") # default format before we set anything
 #' tar_target(x, 1)$settings$format
@@ -172,7 +193,8 @@ tar_option_set <- function(
   workspaces = NULL,
   workspace_on_error = NULL,
   seed = NULL,
-  controller = NULL
+  controller = NULL,
+  trust_object_timestamps = NULL
 ) {
   force(envir)
   if_any(is.null(tidy_eval), NULL, tar_options$set_tidy_eval(tidy_eval))
@@ -206,5 +228,10 @@ tar_option_set <- function(
   )
   if_any(is.null(seed), NULL, tar_options$set_seed(seed))
   if_any(is.null(controller), NULL, tar_options$set_controller(controller))
+  if_any(
+    is.null(trust_object_timestamps),
+    NULL,
+    tar_options$set_trust_object_timestamps(trust_object_timestamps)
+  )
   invisible()
 }
