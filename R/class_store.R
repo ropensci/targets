@@ -78,7 +78,7 @@ store_set_timestamp_trust <- function(store) {
 
 #' @export
 store_set_timestamp_trust.default <- function(store) {
-  store$file$trust_timestamps <- tar_option_get("trust_object_timestamps")
+  store$file$trust_timestamps <- tar_options$get_trust_object_timestamps()
 }
 
 store_read_object <- function(store) {

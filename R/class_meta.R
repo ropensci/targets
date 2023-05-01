@@ -70,7 +70,12 @@ meta_class <- R6::R6Class(
       )
     },
     hash_deps = function(deps, pipeline) {
-      hashes <- map_chr(sort(deps), self$hash_dep, pipeline = pipeline)
+      hashes <- vapply(
+        X = sort.int(deps),
+        FUN = self$hash_dep,
+        pipeline = pipeline,
+        FUN.VALUE = character(1L)
+      )
       string <- paste(c(names(hashes), hashes), collapse = "")
       digest_chr64(string)
     },
