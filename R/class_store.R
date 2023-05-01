@@ -46,7 +46,11 @@ store_class_repository.default <- function(repository, store, format) {
 # because the responsibilities of store and format
 # would overlap too much.
 store_format_dispatch <- function(format) {
-  class <- gsub(pattern = "\\&.*$", replacement = "", x = format)
+  class <- if_any(
+    grepl(pattern = "format_custom", x = format, fixed = TRUE),
+    "format_custom",
+    format
+  )
   enclass(format, class)
 }
 
