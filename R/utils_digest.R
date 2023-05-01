@@ -13,7 +13,15 @@ digest_chr64 <- function(object, ...) {
 }
 
 digest_file64 <- function(object, ...) {
-  unname(map_chr(object, vdigest64_file, serialize = FALSE, file = TRUE, ...))
+  vapply(
+    X = object,
+    FUN = vdigest64_file,
+    serialize = FALSE,
+    file = TRUE,
+    ...,
+    FUN.VALUE = character(1L),
+    USE.NAMES = FALSE
+  )
 }
 
 digest_obj32 <- function(object, ...) {
