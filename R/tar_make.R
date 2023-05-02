@@ -53,6 +53,9 @@
 #'   Also controls how often the reporter prints progress messages.
 #'   Higher values generally make the pipeline run faster, but unsaved
 #'   work (in the event of a crash) is not up to date.
+#'   When a target starts or the pipeline ends,
+#'   everything is saved/printed immediately,
+#'   regardless of `seconds_interval`.
 #' @param garbage_collection Logical of length 1. For a `crew`-integrated
 #'   pipeline, whether to run garbage collection on the main process
 #'   before sending a target

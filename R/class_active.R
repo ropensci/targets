@@ -144,11 +144,12 @@ active_class <- R6::R6Class(
       target <- pipeline_get_target(self$pipeline, name)
       target_debug(target)
       target_update_depend(target, self$pipeline, self$meta)
-      if_any(
-        target_should_run(target, self$meta),
-        self$run_target(name),
+      if (target_should_run(target, self$meta)) {
+        self$dequeue_meta()
+        self$run_target(name)
+      } else {
         self$skip_target(target)
-      )
+      }
     },
     backoff = function() {
       self$scheduler$backoff$wait()

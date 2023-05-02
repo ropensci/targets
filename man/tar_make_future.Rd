@@ -65,7 +65,10 @@ except without messages for skipped targets.
 number of seconds between saves to the metadata and progress data.
 Also controls how often the reporter prints progress messages.
 Higher values generally make the pipeline run faster, but unsaved
-work (in the event of a crash) is not up to date.}
+work (in the event of a crash) is not up to date.
+When a target starts or the pipeline ends,
+everything is saved/printed immediately,
+regardless of \code{seconds_interval}.}
 
 \item{workers}{Positive integer, maximum number of transient
 \code{future} workers allowed to run at any given time.}

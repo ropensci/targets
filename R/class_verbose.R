@@ -27,6 +27,7 @@ verbose_class <- R6::R6Class(
           print = FALSE
         )
       )
+      self$dequeue()
     },
     report_built = function(target, progress = NULL) {
       self$enqueue(

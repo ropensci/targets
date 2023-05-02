@@ -63,7 +63,10 @@ except without messages for skipped targets.
 number of seconds between saves to the metadata and progress data.
 Also controls how often the reporter prints progress messages.
 Higher values generally make the pipeline run faster, but unsaved
-work (in the event of a crash) is not up to date.}
+work (in the event of a crash) is not up to date.
+When a target starts or the pipeline ends,
+everything is saved/printed immediately,
+regardless of \code{seconds_interval}.}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session

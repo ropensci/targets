@@ -26,6 +26,7 @@ summary_class <- R6::R6Class(
     },
     report_started = function(target = NULL, progress) {
       self$report_progress(progress)
+      self$dequeue()
     },
     report_built = function(target = NULL, progress) {
       self$report_progress(progress)

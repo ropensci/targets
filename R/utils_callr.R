@@ -105,7 +105,7 @@ callr_inner <- function(
       store = store,
       fun = fun
     ),
-     error = function(condition) condition
+    error = function(condition) condition
   )
 }
 
