@@ -1,7 +1,8 @@
-#' @title Delete locally stored target return values.
+#' @title Delete target output values.
 #' @export
 #' @family clean
-#' @description Delete the return values of targets in `_targets/objects/`.
+#' @description Delete the output values of targets in `_targets/objects/`
+#'   (or the cloud if applicable)
 #'   but keep the records in `_targets/meta/meta`.
 #' @details If you have a small number of data-heavy targets you
 #'   need to discard to conserve storage, this function can help.

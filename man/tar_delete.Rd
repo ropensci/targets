@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_delete.R
 \name{tar_delete}
 \alias{tar_delete}
-\title{Delete locally stored target return values.}
+\title{Delete target output values.}
 \usage{
 tar_delete(names, cloud = TRUE, store = targets::tar_config_get("store"))
 }
@@ -25,7 +25,8 @@ about how to set the data store path persistently
 for a project.}
 }
 \description{
-Delete the return values of targets in \verb{_targets/objects/}.
+Delete the output values of targets in \verb{_targets/objects/}
+(or the cloud if applicable)
 but keep the records in \verb{_targets/meta/meta}.
 }
 \details{
