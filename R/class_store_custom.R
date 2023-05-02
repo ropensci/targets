@@ -37,6 +37,11 @@ store_new.format_custom <- function(format, file = NULL, resources = NULL) {
   )
 }
 
+#' @export
+store_class_format.format_custom <- function(format) {
+  c("tar_store_custom", "tar_nonexportable", "tar_store")
+}
+
 store_custom_new <- function(
   file = NULL,
   resources = NULL,
@@ -57,7 +62,7 @@ store_custom_new <- function(
   force(copy)
   enclass(
     environment(),
-    c("tar_store_custom", "tar_nonexportable", "tar_store")
+    store_class_format.format_custom(NULL)
   )
 }
 

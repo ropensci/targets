@@ -130,14 +130,16 @@ record_row_path <- function(record) {
 
 record_from_row <- function(row, path_store) {
   record <- do.call(record_init, lapply(row, unlist))
-  record$path <- store_path_from_record(
-    store = store_init(
-      format = record$format,
-      repository = record$repository
-    ),
-    record = record,
-    path_store = path_store
-  )
+  if (!anyNA(record$format)) {
+    record$path <- store_path_from_record(
+      store = store_mock(
+        format = record$format,
+        repository = record$repository
+      ),
+      record = record,
+      path_store = path_store
+    )
+  }
   record
 }
 

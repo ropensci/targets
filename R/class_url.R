@@ -2,14 +2,8 @@
 # not in testthat due to unreliable URLs.
 # nocov start
 #' @export
-store_new.url <- function(format, file = NULL, resources = NULL) {
-  store_url_new(file, resources)
-}
-
-store_url_new <- function(file = NULL, resources = NULL) {
-  force(file)
-  force(resources)
-  enclass(environment(), c("tar_url", "tar_external", "tar_store"))
+store_class_format.url <- function(file = NULL, resources = NULL) {
+  c("tar_url", "tar_external", "tar_store")
 }
 
 #' @export

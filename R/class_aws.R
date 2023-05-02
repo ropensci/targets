@@ -1,14 +1,4 @@
 #' @export
-store_produce_path.tar_aws <- function(store, name, object, path_store) {
-  store_produce_aws_path(
-    store = store,
-    name = name,
-    object = object,
-    path_store = path_store
-  )
-}
-
-#' @export
 store_class_repository.aws <- function(repository, store, format) {
   format <- gsub(pattern = "\\&.*$", replacement = "", x = format)
   c(
@@ -22,6 +12,16 @@ store_class_repository.aws <- function(repository, store, format) {
 
 #' @export
 store_assert_repository_setting.aws <- function(repository) {
+}
+
+#' @export
+store_produce_path.tar_aws <- function(store, name, object, path_store) {
+  store_produce_aws_path(
+    store = store,
+    name = name,
+    object = object,
+    path_store = path_store
+  )
 }
 
 store_produce_aws_path <- function(store, name, object, path_store) {

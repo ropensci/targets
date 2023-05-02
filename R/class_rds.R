@@ -1,12 +1,6 @@
 #' @export
-store_new.rds <- function(format, file = NULL, resources = NULL) {
-  rds_new(file, resources)
-}
-
-rds_new <- function(file = NULL, resources = NULL) {
-  force(file)
-  force(resources)
-  enclass(environment(), c("tar_rds", "tar_store"))
+store_class_format.rds <- function(format) {
+  c("tar_rds", "tar_store")
 }
 
 #' @export

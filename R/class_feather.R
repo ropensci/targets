@@ -1,12 +1,6 @@
 #' @export
-store_new.feather <- function(format, file = NULL, resources = NULL) {
-  feather_new(file, resources)
-}
-
-feather_new <- function(file = NULL, resources = NULL) {
-  force(file)
-  force(resources)
-  enclass(environment(), c("tar_feather", "tar_store"))
+store_class_format.feather <- function(file = NULL, resources = NULL) {
+  c("tar_feather", "tar_store")
 }
 
 #' @export

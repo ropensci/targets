@@ -1,12 +1,6 @@
 #' @export
-store_new.qs <- function(format, file = NULL, resources = NULL) {
-  qs_new(file, resources)
-}
-
-qs_new <- function(file = NULL, resources = NULL) {
-  force(file)
-  force(resources)
-  enclass(environment(), c("tar_qs", "tar_store"))
+store_class_format.qs <- function(file = NULL, resources = NULL) {
+  c("tar_qs", "tar_store")
 }
 
 #' @export

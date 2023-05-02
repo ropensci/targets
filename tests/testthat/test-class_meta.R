@@ -10,7 +10,12 @@ tar_test("meta$depends", {
 
 tar_test("meta$get_record() for internal storage", {
   meta <- meta_init()
-  row <- list(name = "x", type = "cross", path = list(letters))
+  row <- list(
+    name = "x",
+    type = "cross",
+    format = "rds",
+    path = list(letters)
+  )
   meta$database$set_row(row)
   record <- meta$get_record("x")
   expect_silent(record_validate(record))

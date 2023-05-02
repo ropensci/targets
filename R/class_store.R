@@ -3,13 +3,16 @@ store_init <- function(
   repository = "local",
   resources = list()
 ) {
+  format_dispatch <- store_format_dispatch(format)
+  repository_dispatch <- enclass(repository, repository)
   store <- store_new(
-    format = store_format_dispatch(format),
+    format = format_dispatch,
     file = file_init(),
     resources = resources
   )
+  class(store) <- store_class_format(format_dispatch)
   class(store) <- store_class_repository(
-    repository = enclass(repository, repository),
+    repository = repository_dispatch,
     store = store,
     format = format
   )
@@ -17,20 +20,36 @@ store_init <- function(
   store
 }
 
+store_mock <- function(
+  format = "rds",
+  repository = "local"
+) {
+  mock <- enclass(list(), store_class_format(store_format_dispatch(format)))
+  class(mock) <- store_class_repository(
+    repository = enclass(repository, repository),
+    store = mock,
+    format = format
+  )
+  mock
+}
+
 store_new <- function(format, file = NULL, resources = NULL) {
   UseMethod("store_new")
 }
 
-
 #' @export
 store_new.default <- function(format, file = NULL, resources = NULL) {
-  store_new_default(file, resources)
+  store_new_default(file = file, resources = resources)
 }
 
-store_new_default <- function(file, resources) {
+store_new_default <- function(file = NULL, resources = NULL) {
   force(file)
   force(resources)
-  enclass(environment(), "tar_store")
+  environment()
+}
+
+store_class_format <- function(format) {
+  UseMethod("store_class_format")
 }
 
 store_class_repository <- function(repository, store, format) {

@@ -1,12 +1,6 @@
 #' @export
-store_new.parquet <- function(format, file = NULL, resources = NULL) {
-  parquet_new(file, resources)
-}
-
-parquet_new <- function(file = NULL, resources = NULL) {
-  force(file)
-  force(resources)
-  enclass(environment(), c("tar_parquet", "tar_store"))
+store_class_format.parquet <- function(file = NULL, resources = NULL) {
+  c("tar_parquet", "tar_store")
 }
 
 #' @export
