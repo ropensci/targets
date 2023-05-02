@@ -93,36 +93,36 @@ cli_workspace <- function(name, time_stamp = FALSE, print = TRUE) {
 
 cli_blue_bullet <- function(msg, print = TRUE) {
   symbol <- cli::col_blue(cli::symbol$bullet)
-  msg <- paste(symbol, cli_color_text(msg))
+  msg <- paste(symbol, msg)
   if_any(print, message(msg), msg)
 }
 
 cli_green_bullet <- function(msg, print = TRUE) {
   symbol <- cli::col_green(cli::symbol$bullet)
-  msg <- paste(symbol, cli_color_text(msg))
+  msg <- paste(symbol, msg)
   if_any(print, message(msg), msg)
 }
 
 cli_green_check <- function(msg, print = TRUE) {
   symbol <- cli::col_green(cli::symbol$tick)
-  msg <- paste(symbol, cli_color_text(msg))
+  msg <- paste(symbol, msg)
   if_any(print, message(msg), msg)
 }
 
 cli_yellow_bullet <- function(msg, print = TRUE) {
   symbol <- cli::col_yellow(cli::symbol$bullet)
-  msg <- paste(symbol, cli_color_text(msg))
+  msg <- paste(symbol, msg)
   if_any(print, message(msg), msg)
 }
 
 cli_mark_info <- function(msg, print = TRUE) {
   symbol <- cli::col_cyan(cli::symbol$info)
-  msg <- paste(symbol, cli_color_text(msg))
+  msg <- paste(symbol, msg)
   if_any(print, message(msg), msg)
 }
 
 cli_blank <- function(msg, print = TRUE) {
-  msg <- paste(" ", cli_color_text(msg))
+  msg <- paste(" ", msg)
   if_any(print, message(msg), msg)
 }
 
@@ -159,12 +159,12 @@ cli_port <- function(host, port) {
 }
 
 cli_df_header <- function(x, print = TRUE) {
-  msg <- cli_color_text(cli_df_text(x)[1L])
+  msg <- cli_df_text(x)[1L]
   if_any(print, message(msg, appendLF = FALSE), msg)
 }
 
 cli_df_body <- function(x, print = TRUE) {
-  msg <- cli_color_text(cli_df_text(x)[2L])
+  msg <- cli_df_text(x)[2L]
   if_any(print, message(msg, appendLF = FALSE), msg)
 }
 
@@ -189,8 +189,4 @@ cli_df_text <- function(x) {
   line1 <- paste0(paste(names, collapse = " | "), "\n")
   line2 <- paste0("\r", paste(fields, collapse = " | "))
   c(line1, line2)
-}
-
-cli_color_text <- function(msg) {
-  cli::col_none(msg)
 }

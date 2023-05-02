@@ -121,7 +121,6 @@ tar_warning <- function(message, class) {
 tar_message <- function(message, class) {
   old <- options(rlang_backtrace_on_error = "none")
   on.exit(options(old))
-  message <- cli::col_none(message)
   rlang::inform(message = message, class = class)
 }
 

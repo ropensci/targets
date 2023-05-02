@@ -24,6 +24,7 @@
 * Avoid `gsub()` in `store_init()`.
 * Avoid repeated calls to `meta$get_record()` in `builder_should_run()`.
 * Mock the store object when creating a record from a metadata row.
+* Avoid `cli::col_none()` to reduce the number of ANSI characters printed to the R console.
 
 # targets 1.0.0
 
