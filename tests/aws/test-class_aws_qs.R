@@ -490,11 +490,13 @@ tar_test("cloud target paths are not in the file path cache", {
     list(
       tar_target(w, 1),
       tar_target(x, w, format = "qs", repository = "aws"),
-      tar_target(y, sort(names(tar_runtime_object()$objects_exist$envir)))
+      tar_target(y, sort(names(tar_runtime_object()$file_exist$envir)))
     )
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
-  expect_equal(tar_read(y), path_objects(path_store_default(), "w"))
+  expect_false(
+    path_objects(path_store_default(), "x") %in% tar_read(y)
+  )
 })
