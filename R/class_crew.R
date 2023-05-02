@@ -137,7 +137,7 @@ crew_class <- R6::R6Class(
       target_run(
         target = target,
         envir = self$envir,
-        path_store = self$meta$get_path_store()
+        path_store = self$meta$store
       )
       target_conclude(
         target,

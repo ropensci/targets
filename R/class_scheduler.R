@@ -17,7 +17,7 @@ scheduler_init <- function(
   queue <- queue_init(queue, names, initial_ranks(names, graph, priorities))
   queued <- counter_init(names)
   progress <- progress_init(
-    path_store = meta$get_path_store(),
+    path_store = meta$store,
     queued = queued
   )
   reporter <- reporter_init(reporter, seconds_interval = seconds_interval)

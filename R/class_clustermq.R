@@ -101,7 +101,7 @@ clustermq_class <- R6::R6Class(
         const = list(),
         export = self$produce_exports(
           envir = self$envir,
-          path_store = self$meta$get_path_store()
+          path_store = self$meta$store
         ),
         rettype = list(),
         pkgs = "targets",
@@ -154,7 +154,7 @@ clustermq_class <- R6::R6Class(
       target_run(
         target = target,
         envir = self$envir,
-        path_store = self$meta$get_path_store()
+        path_store = self$meta$store
       )
       target_conclude(
         target,

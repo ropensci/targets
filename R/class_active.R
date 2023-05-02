@@ -59,7 +59,7 @@ active_class <- R6::R6Class(
       self$envir <- envir
     },
     ensure_meta = function() {
-      new_store <- !file.exists(self$meta$get_path_store())
+      new_store <- !file.exists(self$meta$store)
       self$meta$migrate_database()
       self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
@@ -85,14 +85,14 @@ active_class <- R6::R6Class(
     write_gitignore = function() {
       writeLines(
         c("*", "!.gitignore", "!meta", "meta/*", "!meta/meta"),
-        path_gitignore(self$meta$get_path_store())
+        path_gitignore(self$meta$store)
       )
     },
     write_user = function() {
-      dir_create(path_user_dir(self$meta$get_path_store()))
+      dir_create(path_user_dir(self$meta$store))
     },
     ensure_process = function() {
-      self$process <- process_init(path_store = self$meta$get_path_store())
+      self$process <- process_init(path_store = self$meta$store)
       self$process$record_process()
     },
     produce_exports = function(envir, path_store, is_globalenv = NULL) {
@@ -115,7 +115,7 @@ active_class <- R6::R6Class(
     update_exports = function() {
       self$exports <- self$produce_exports(
         envir = self$envir,
-        path_store = self$meta$get_path_store()
+        path_store = self$meta$store
       )
     },
     ensure_exports = function() {
@@ -169,10 +169,10 @@ active_class <- R6::R6Class(
       seconds_elapsed <- time_seconds() - self$seconds_start
       scheduler <- self$scheduler
       scheduler$reporter$report_end(scheduler$progress, seconds_elapsed)
-      path_scratch_del(path_store = self$meta$get_path_store())
+      path_scratch_del(path_store = self$meta$store)
       self$meta$database$deduplicate_storage()
       compare_working_directories()
-      tar_assert_objects_files(self$meta$get_path_store())
+      tar_assert_objects_files(self$meta$store)
     },
     validate = function() {
       super$validate()

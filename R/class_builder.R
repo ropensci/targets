@@ -376,7 +376,7 @@ builder_save_workspace <- function(target, pipeline, scheduler, meta) {
   scheduler$reporter$report_workspace(target)
   workspace_save(
     workspace = workspace_init(target, pipeline),
-    path_store = meta$get_path_store()
+    path_store = meta$store
   )
 }
 
