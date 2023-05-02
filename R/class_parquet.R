@@ -1,5 +1,5 @@
 #' @export
-store_class_format.parquet <- function(file = NULL, resources = NULL) {
+store_class_format.parquet <- function(format) {
   c("tar_parquet", "tar_store")
 }
 

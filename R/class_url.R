@@ -2,7 +2,7 @@
 # not in testthat due to unreliable URLs.
 # nocov start
 #' @export
-store_class_format.url <- function(file = NULL, resources = NULL) {
+store_class_format.url <- function(format) {
   c("tar_url", "tar_external", "tar_store")
 }
 

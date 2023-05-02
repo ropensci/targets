@@ -1,5 +1,5 @@
 #' @export
-store_class_format.qs <- function(file = NULL, resources = NULL) {
+store_class_format.qs <- function(format) {
   c("tar_qs", "tar_store")
 }
 

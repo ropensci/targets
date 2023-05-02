@@ -1,5 +1,5 @@
 #' @export
-store_class_format.keras <- function(file = NULL, resources = NULL) {
+store_class_format.keras <- function(format) {
   c("tar_keras", "tar_nonexportable", "tar_store")
 }
 

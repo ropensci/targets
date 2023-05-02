@@ -1,5 +1,5 @@
 #' @export
-store_class_format.file_fast <- function(file = NULL, resources = NULL) {
+store_class_format.file_fast <- function(format) {
   c("tar_store_file_fast", "tar_store_file", "tar_external", "tar_store")
 }
 

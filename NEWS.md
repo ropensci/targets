@@ -7,6 +7,7 @@
 * Add `garbage_collection` and `seconds_interval` arguments to `tar_make()`, `tar_make_clustermq()`, `tar_make_future()`, and `tar_config_set()`.
 * Downsize the `tar_runtime` object.
 * Remove the 100 Kb file size cutoff for determining whether to trust the file timestamp or recompute the hash when checking if a file is up to date (#1062). Instate the `"file_fast"` format and the `trust_object_timestamps` option in `tar_option_set()` as safer alternatives.
+* Consolidate store constructors.
 
 ## Speedups
 
@@ -22,6 +23,7 @@
 * Invoke `tar_options` methods in the internals instead of `tar_option_get()`.
 * Avoid `gsub()` in `store_init()`.
 * Avoid repeated calls to `meta$get_record()` in `builder_should_run()`.
+* Mock the store object when creating a record from a metadata row.
 
 # targets 1.0.0
 

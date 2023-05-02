@@ -1,5 +1,5 @@
 #' @export
-store_class_format.feather <- function(file = NULL, resources = NULL) {
+store_class_format.feather <- function(format) {
   c("tar_feather", "tar_store")
 }
 

@@ -1,5 +1,5 @@
 #' @export
-store_class_format.torch <- function(file = NULL, resources = NULL) {
+store_class_format.torch <- function(format) {
   c("tar_torch", "tar_nonexportable", "tar_store")
 }
 

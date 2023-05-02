@@ -1,5 +1,5 @@
 #' @export
-store_class_format.fst_dt <- function(file = NULL, resources = NULL) {
+store_class_format.fst_dt <- function(format) {
   c("tar_fst_dt", "tar_fst", "tar_store")
 }
 
