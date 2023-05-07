@@ -19,6 +19,8 @@ Not a user-side function. Exported for infrastructure
 purposes only.
 }
 \examples{
+if (requireNamespace("parallelly", quietly = TRUE)) {
 tar_random_port()
+}
 }
 \keyword{internal}

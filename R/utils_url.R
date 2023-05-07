@@ -7,7 +7,9 @@
 #' @param lower Integer of length 1, lowest possible port.
 #' @param upper Integer of length 1, highest possible port.
 #' @examples
+#' if (requireNamespace("parallelly", quietly = TRUE)) {
 #' tar_random_port()
+#' }
 tar_random_port <- function(lower = 49152L, upper = 65355L) {
   tar_assert_package("parallelly")
   ports <- seq.int(from = lower, to = upper, by = 1L)
