@@ -243,7 +243,7 @@ crew_class <- R6::R6Class(
 validate_crew_controller <- function(controller) {
   tar_assert_inherits(
     x = controller,
-    class = "crew_class_controller",
+    class = c("crew_class_controller_group", "crew_class_controller"),
     msg = paste(
       "controller for tar_make() must be a valid",
       "object of class \"crew_class_controller\" from the",
