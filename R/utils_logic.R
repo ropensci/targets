@@ -38,7 +38,7 @@ if_any <- function(condition, x, y) {
   }
 }
 
-retry <- function(
+retry_until_true <- function(
   fun,
   args = list(),
   seconds_interval = 0.1,
@@ -64,7 +64,7 @@ retry <- function(
   tar_assert_finite(seconds_timeout)
   tar_assert_ge(seconds_timeout, 0)
   start <- time_seconds()
-  while (!retry_attempt(fun, args, envir, catch_error)) {
+  while (!isTRUE(retry_attempt(fun, args, envir, catch_error))) {
     if ((time_seconds() - start) > seconds_timeout) {
       message <- paste(
         "timed out after retrying for",

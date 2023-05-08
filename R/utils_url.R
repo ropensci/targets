@@ -29,7 +29,7 @@ url_exists <- function(
   handle <- url_handle(handle)
   envir <- new.env(parent = emptyenv())
   envir$out <- rep(FALSE, length(url))
-  retry(
+  retry_until_true(
     ~{
       envir$out <- map_lgl(url, url_exists_impl, handle = handle)
       all(envir$out)
@@ -53,7 +53,7 @@ url_exists_try <- function(url, handle) {
 
 url_hash <- function(url, handle = NULL, seconds_interval, seconds_timeout) {
   envir <- new.env(parent = emptyenv())
-  retry(
+  retry_until_true(
     ~{
       envir$out <- digest_obj64(lapply(url, url_hash_impl, handle = handle))
       TRUE
