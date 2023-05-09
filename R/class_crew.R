@@ -175,9 +175,11 @@ crew_class <- R6::R6Class(
       }
       result <- self$controller$pop()
       self$conclude_worker_task(result)
-      if (should_dequeue || (!is.null(result))) {
+      if_any(
+        should_dequeue || (!is.null(result)),
+        self$scheduler$backoff$reset(),
         self$backoff()
-      }
+      )
     },
     conclude_worker_task = function(result) {
       if (is.null(result)) {
@@ -196,7 +198,6 @@ crew_class <- R6::R6Class(
         self$scheduler,
         self$meta
       )
-      self$scheduler$backoff$reset()
     },
     produce_prelocal = function() {
       prelocal_new(
