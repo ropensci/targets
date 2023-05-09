@@ -9,6 +9,7 @@
 * Remove the 100 Kb file size cutoff for determining whether to trust the file timestamp or recompute the hash when checking if a file is up to date (#1062). Instate the `"file_fast"` format and the `trust_object_timestamps` option in `tar_option_set()` as safer alternatives.
 * Consolidate store constructors.
 * Allow `crew` controller groups (#1065, @mglev1n).
+* Expose more exponential backoff configuration parameters through `tar_backoff()`. The `backoff` argument of `tar_option_set()` now accepts output from `tar_backoff()`, and supplying a numeric is deprecated.
 
 ## Speedups
 

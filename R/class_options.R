@@ -201,7 +201,6 @@ options_class <- R6::R6Class(
         garbage_collection = self$get_garbage_collection(),
         deployment = self$get_deployment(),
         priority = self$get_priority(),
-        backoff = self$get_backoff(),
         resources = self$get_resources(),
         storage = self$get_storage(),
         retrieval = self$get_retrieval(),
@@ -226,7 +225,6 @@ options_class <- R6::R6Class(
       self$set_garbage_collection(list$garbage_collection)
       self$set_deployment(list$deployment)
       self$set_priority(list$priority)
-      self$set_backoff(list$backoff)
       self$set_resources(list$resources)
       self$set_storage(list$storage)
       self$set_retrieval(list$retrieval)
@@ -303,7 +301,7 @@ options_class <- R6::R6Class(
       self$priority %|||% 0
     },
     get_backoff = function() {
-      self$backoff %|||% 0.1
+      self$backoff %|||% backoff_init()
     },
     get_resources = function() {
       self$resources %|||% list()
@@ -388,6 +386,16 @@ options_class <- R6::R6Class(
       self$priority <- priority
     },
     set_backoff = function(backoff) {
+      if (is.numeric(backoff)) {
+        tar_warn_deprecate(
+          "The use of a numeric for the backoff argument of ",
+          "tar_option_set() is deprecated as of {targets} 1.1.0 ",
+          "(2023-05-09). Supply the output of tar_backoff() instead."
+        )
+        tar_assert_ge(backoff, 0.001)
+        tar_assert_le(backoff, 1e9)
+        backoff <- backoff_init(max = backoff)
+      }
       self$validate_backoff(backoff)
       self$backoff <- backoff
     },
@@ -485,10 +493,8 @@ options_class <- R6::R6Class(
       tar_assert_le(priority, 1)
     },
     validate_backoff = function(backoff) {
-      tar_assert_dbl(backoff)
-      tar_assert_scalar(backoff)
-      tar_assert_ge(backoff, 0.001)
-      tar_assert_le(backoff, 1e9)
+      tar_assert_inherits(backoff, class = "tar_backoff")
+      backoff$validate()
     },
     validate_resources = function(resources) {
       tar_assert_resources(resources)

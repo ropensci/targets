@@ -147,6 +147,7 @@ reference:
 - title: Utilities
   contents:
   - '`tar_active`'
+  - '`tar_backoff`'
   - '`tar_call`'
   - '`tar_cancel`'
   - '`tar_definition`'

@@ -200,20 +200,9 @@ targets get deployed first when multiple competing targets are ready
 simultaneously. Targets with priorities closer to 1 get built earlier
 (and polled earlier in \code{\link[=tar_make_future]{tar_make_future()}}).}
 
-\item{backoff}{Numeric of length 1, must be greater than or equal to 0.01.
-Maximum upper bound of the random polling interval
-for the priority queue (seconds).
-In high-performance computing (e.g. \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}
-and \code{\link[=tar_make_future]{tar_make_future()}}) it can be expensive to repeatedly poll the
-priority queue if no targets are ready to process. The number of seconds
-between polls is \code{runif(1, 0.001, max(backoff, 0.001 * 1.5 ^ index))},
-where \code{index} is the number of consecutive polls so far that found
-no targets ready to skip or run.
-(If no target is ready, \code{index} goes up by 1. If a target is ready,
-\code{index} resets to 0. For more information on exponential,
-backoff, visit \url{https://en.wikipedia.org/wiki/Exponential_backoff}).
-Raising \code{backoff} is kinder to the CPU etc. but may incur delays
-in some instances.}
+\item{backoff}{An object from \code{\link[=tar_backoff]{tar_backoff()}} configuring the exponential
+backoff algorithm of the pipeline. See \code{\link[=tar_backoff]{tar_backoff()}} for details.
+A numeric argument for \code{backoff} is still allowed, but deprecated.}
 
 \item{resources}{Object returned by \code{tar_resources()}
 with optional settings for high-performance computing

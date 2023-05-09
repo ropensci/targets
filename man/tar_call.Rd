@@ -35,6 +35,7 @@ tar_read(x) # "tar_make"
 \seealso{
 Other utilities: 
 \code{\link{tar_active}()},
+\code{\link{tar_backoff}()},
 \code{\link{tar_cancel}()},
 \code{\link{tar_definition}()},
 \code{\link{tar_envir}()},

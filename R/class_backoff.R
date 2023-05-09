@@ -1,6 +1,6 @@
 # Exponential backoff algorithm
 # similar to https://en.wikipedia.org/wiki/Exponential_backoff
-backoff_init <- function(min = 0.001, max = 5, rate = 1.5) {
+backoff_init <- function(min = 0.001, max = 0.1, rate = 1.5) {
   backoff_new(
     min = max(sqrt(.Machine$double.eps), min),
     max = max,
@@ -25,7 +25,7 @@ backoff_new <- function(
 
 backoff_class <- R6::R6Class(
   classname = "tar_backoff",
-  class = FALSE,
+  class = TRUE,
   portable = FALSE,
   cloneable = FALSE,
   public = list(

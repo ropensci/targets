@@ -21,7 +21,7 @@ scheduler_init <- function(
     queued = queued
   )
   reporter <- reporter_init(reporter, seconds_interval = seconds_interval)
-  backoff <- backoff_init(max = tar_option_get("backoff"))
+  backoff <- tar_options$get_backoff()
   scheduler_new(
     graph = graph,
     queue = queue,

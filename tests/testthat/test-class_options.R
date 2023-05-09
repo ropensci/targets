@@ -18,7 +18,7 @@ tar_test("validate non-default options", {
     garbage_collection = TRUE,
     deployment = "main",
     priority = 0.5,
-    backoff = 10,
+    backoff = backoff_init(),
     resources = tar_resources(qs = tar_resources_qs()),
     storage = "worker",
     retrieval = "worker",
@@ -46,7 +46,6 @@ tar_test("export", {
     garbage_collection = TRUE,
     deployment = "main",
     priority = 0.5,
-    backoff = 10,
     resources = list(ncpu = 2),
     storage = "worker",
     retrieval = "worker",
@@ -71,7 +70,6 @@ tar_test("export", {
     garbage_collection = TRUE,
     deployment = "main",
     priority = 0.5,
-    backoff = 10,
     resources = list(ncpu = 2),
     storage = "worker",
     retrieval = "worker",
@@ -102,7 +100,6 @@ tar_test("import", {
     garbage_collection = TRUE,
     deployment = "main",
     priority = 0.5,
-    backoff = 10,
     resources = resources,
     storage = "worker",
     retrieval = "worker",
@@ -129,7 +126,6 @@ tar_test("import", {
   expect_equal(x$get_garbage_collection(), TRUE)
   expect_equal(x$get_deployment(), "main")
   expect_equal(x$get_priority(), 0.5)
-  expect_equal(x$get_backoff(), 10)
   expect_equal(x$get_resources(), resources)
   expect_equal(x$get_storage(), "worker")
   expect_equal(x$get_retrieval(), "worker")
@@ -284,12 +280,12 @@ tar_test("priority", {
 
 tar_test("backoff", {
   x <- options_init()
-  expect_equal(x$get_backoff(), 0.1)
-  x$set_backoff(1)
-  expect_equal(x$get_backoff(), 1)
+  expect_equal(x$get_backoff()$max, 0.1)
+  x$set_backoff(backoff_init(max = 1))
+  expect_equal(x$get_backoff()$max, 1)
   x$reset()
-  expect_equal(x$get_backoff(), 0.1)
-  expect_error(x$set_backoff(-1), class = "tar_condition_validate")
+  expect_equal(x$get_backoff()$max, 0.1)
+  expect_error(x$set_backoff("nope"), class = "tar_condition_validate")
 })
 
 tar_test("resources", {

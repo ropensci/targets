@@ -28,6 +28,7 @@ tar_make() # Should cancel target x.
 \seealso{
 Other utilities: 
 \code{\link{tar_active}()},
+\code{\link{tar_backoff}()},
 \code{\link{tar_call}()},
 \code{\link{tar_definition}()},
 \code{\link{tar_envir}()},

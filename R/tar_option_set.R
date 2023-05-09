@@ -72,20 +72,9 @@
 #'   To include package objects as upstream dependencies in the pipeline,
 #'   assign the package to the `packages` and `imports` arguments
 #'   of `tar_option_set()`.
-#' @param backoff Numeric of length 1, must be greater than or equal to 0.01.
-#'   Maximum upper bound of the random polling interval
-#'   for the priority queue (seconds).
-#'   In high-performance computing (e.g. [tar_make_clustermq()]
-#'   and [tar_make_future()]) it can be expensive to repeatedly poll the
-#'   priority queue if no targets are ready to process. The number of seconds
-#'   between polls is `runif(1, 0.001, max(backoff, 0.001 * 1.5 ^ index))`,
-#'   where `index` is the number of consecutive polls so far that found
-#'   no targets ready to skip or run.
-#'   (If no target is ready, `index` goes up by 1. If a target is ready,
-#'   `index` resets to 0. For more information on exponential,
-#'   backoff, visit <https://en.wikipedia.org/wiki/Exponential_backoff>).
-#'   Raising `backoff` is kinder to the CPU etc. but may incur delays
-#'   in some instances.
+#' @param backoff An object from [`tar_backoff()`] configuring the exponential
+#'   backoff algorithm of the pipeline. See [`tar_backoff()`] for details.
+#'   A numeric argument for `backoff` is still allowed, but deprecated.
 #' @param debug Character vector of names of targets to run in debug mode.
 #'   To use effectively, you must set `callr_function = NULL` and
 #'   restart your R session just before running. You should also
