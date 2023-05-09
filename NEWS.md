@@ -10,6 +10,7 @@
 * Consolidate store constructors.
 * Allow `crew` controller groups (#1065, @mglev1n).
 * Expose more exponential backoff configuration parameters through `tar_backoff()`. The `backoff` argument of `tar_option_set()` now accepts output from `tar_backoff()`, and supplying a numeric is deprecated.
+* Fix the exponential backoff rules in the `crew` scheduling algorithm.
 
 ## Speedups
 

@@ -288,6 +288,22 @@ tar_test("backoff", {
   expect_error(x$set_backoff("nope"), class = "tar_condition_validate")
 })
 
+tar_test("deprecated backoff", {
+  x <- options_init()
+  expect_equal(x$get_backoff()$max, 0.1)
+  suppressWarnings(
+    expect_warning(
+      x$set_backoff(1),
+      class = "tar_condition_deprecate"
+    )
+  )
+  expect_equal(x$get_backoff()$max, 1)
+  x$reset()
+  expect_equal(x$get_backoff()$max, 0.1)
+  expect_error(x$set_backoff("nope"), class = "tar_condition_validate")
+})
+
+
 tar_test("resources", {
   x <- options_init()
   expect_equal(x$get_resources(), list())
