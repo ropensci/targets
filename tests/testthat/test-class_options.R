@@ -303,7 +303,6 @@ tar_test("deprecated backoff", {
   expect_error(x$set_backoff("nope"), class = "tar_condition_validate")
 })
 
-
 tar_test("resources", {
   x <- options_init()
   expect_equal(x$get_resources(), list())
