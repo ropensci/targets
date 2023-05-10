@@ -140,7 +140,14 @@ for a project.}
 A character vector of lines of code of the \code{mermaid.js} graph.
 You can visualize the graph by copying the text
 into a public online \code{mermaid.js} editor or a \code{mermaid} GitHub code chunk
-(\verb{https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/}). # nolint
+(\verb{https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/}).
+Alternatively, you can render it inline in an R Markdown or Quarto
+document using a \code{results = "asis"} code chunk like so:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  ```\{r, results = "asis", echo = FALSE\}
+  cat(c("```\{mermaid\}", targets::tar_mermaid(), "```"), sep = "\\n")
+  ```
+}\if{html}{\out{</div>}}
 }
 \description{
 Visualize the dependency graph with a static \code{mermaid.js} graph.

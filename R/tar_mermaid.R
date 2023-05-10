@@ -1,3 +1,4 @@
+# nolint start
 #' @title `mermaid.js` dependency graph.
 #' @export
 #' @family visualize
@@ -8,7 +9,13 @@
 #' @return A character vector of lines of code of the `mermaid.js` graph.
 #'   You can visualize the graph by copying the text
 #'   into a public online `mermaid.js` editor or a `mermaid` GitHub code chunk
-#'   (`https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/`). # nolint
+#'   (`https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/`).
+#'   Alternatively, you can render it inline in an R Markdown or Quarto
+#'   document using a `results = "asis"` code chunk like so:
+#'   
+#'       ```{r, results = "asis", echo = FALSE}
+#'       cat(c("```{mermaid}", targets::tar_mermaid(), "```"), sep = "\n")
+#'       ```
 #' @inheritParams tar_visnetwork
 #' @param legend Logical of length 1, whether to display the legend.
 #' @param color Logical of length 1, whether to color the graph vertices
@@ -29,6 +36,7 @@
 #' tar_mermaid()
 #' })
 #' }
+# nolint end
 tar_mermaid <- function(
   targets_only = FALSE,
   names = NULL,
