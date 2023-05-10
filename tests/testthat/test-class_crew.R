@@ -1,6 +1,6 @@
 tar_test("crew$validate()", {
   skip_if_not_installed("crew")
-  controller <- crew::crew_controller_local()
+  controller <- crew::crew_controller_local(seconds_interval = 0.1)
   out <- crew_init(pipeline_init(), controller = controller)
   expect_silent(out$validate())
 })
@@ -14,6 +14,7 @@ tar_test("workerless deployment works", {
   skip_on_os("solaris")
   skip_if_not_installed("R.utils")
   tar_runtime$fun <- "tar_make"
+  tar_option_set(backoff = tar_backoff(min = 0.1, max = 0.1))
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -36,7 +37,7 @@ tar_test("workerless deployment works", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x, y, z))
-  controller <- crew::crew_controller_local()
+  controller <- crew::crew_controller_local(seconds_interval = 0.1)
   R.utils::withTimeout(
     crew_init(pipeline, controller = controller)$run(),
     timeout = 60
@@ -69,7 +70,7 @@ tar_test("workerless deployment works", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x, y, z))
-  controller <- crew::crew_controller_local()
+  controller <- crew::crew_controller_local(seconds_interval = 0.1)
   out <- crew_init(pipeline, controller = controller)
   on.exit({
     tar_runtime$fun <- NULL
@@ -91,6 +92,7 @@ tar_test("semi-workerless deployment works", {
   skip_if_not_installed("R.utils")
   crew_test_sleep()
   tar_runtime$fun <- "tar_make"
+  tar_option_set(backoff = tar_backoff(min = 0.1, max = 0.1))
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -113,7 +115,7 @@ tar_test("semi-workerless deployment works", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x, y, z))
-  controller <- crew::crew_controller_local()
+  controller <- crew::crew_controller_local(seconds_interval = 0.1)
   R.utils::withTimeout(
     crew_init(pipeline, controller = controller)$run(),
     timeout = 60
@@ -147,7 +149,7 @@ tar_test("semi-workerless deployment works", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x, y, z))
-  controller <- crew::crew_controller_local()
+  controller <- crew::crew_controller_local(seconds_interval = 0.1)
   on.exit({
     tar_runtime$fun <- NULL
     controller$terminate()
@@ -168,6 +170,7 @@ tar_test("some targets up to date, some not", {
   skip_on_os("solaris")
   skip_if_not_installed("R.utils")
   tar_runtime$fun <- "tar_make"
+  tar_option_set(backoff = tar_backoff(min = 0.1, max = 0.1))
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -196,7 +199,7 @@ tar_test("some targets up to date, some not", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x, y))
-  controller <- crew::crew_controller_local()
+  controller <- crew::crew_controller_local(seconds_interval = 0.1)
   on.exit({
     tar_runtime$fun <- NULL
     controller$terminate()
@@ -219,6 +222,7 @@ tar_test("crew algo can skip targets", {
   skip_on_os("solaris")
   skip_if_not_installed("R.utils")
   tar_runtime$fun <- "tar_make"
+  tar_option_set(backoff = tar_backoff(min = 0.1, max = 0.1))
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -248,7 +252,7 @@ tar_test("crew algo can skip targets", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x, y))
-  controller <- crew::crew_controller_local()
+  controller <- crew::crew_controller_local(seconds_interval = 0.1)
   on.exit({
     tar_runtime$fun <- NULL
     controller$terminate()
@@ -270,10 +274,10 @@ tar_test("nontrivial common data", {
   skip_on_os("solaris")
   skip_if_not_installed("R.utils")
   tar_runtime$fun <- "tar_make"
+  tar_option_set(backoff = tar_backoff(min = 0.1, max = 0.1))
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
-  on.exit(tar_option_set(envir = old_envir), add = TRUE)
   evalq({
     f <- function(x) {
       g(x) + 1L
@@ -289,8 +293,9 @@ tar_test("nontrivial common data", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x))
-  controller <- crew::crew_controller_local()
+  controller <- crew::crew_controller_local(seconds_interval = 0.1)
   on.exit({
+    tar_option_set(envir = old_envir)
     tar_runtime$fun <- NULL
     controller$terminate()
     rm(controller)
