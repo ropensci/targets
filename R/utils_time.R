@@ -14,6 +14,8 @@ time_seconds <- function() {
   )
 }
 
+# not possible to cover both cases
+# nocov start
 if (length(find.package("nanonext", quiet = TRUE)) > 0L) {
   time_seconds_local <- function() {
     nanonext::mclock() / 1e3
@@ -23,3 +25,4 @@ if (length(find.package("nanonext", quiet = TRUE)) > 0L) {
     as.numeric(proc.time()["elapsed"])
   }
 }
+# nocov end
