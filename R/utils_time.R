@@ -14,6 +14,12 @@ time_seconds <- function() {
   )
 }
 
-time_seconds_local <- function() {
-  nanonext::mclock() / 1e3
+if (length(find.package("nanonext", quiet = TRUE)) > 0L) {
+  time_seconds_local <- function() {
+    nanonext::mclock() / 1e3
+  }
+} else {
+  time_seconds_local <- function() {
+    as.numeric(proc.time()["elapsed"])
+  }
 }
