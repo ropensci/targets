@@ -5,8 +5,8 @@
 \title{Target resources for network connections}
 \usage{
 tar_resources_network(
-  seconds_interval = 1,
-  seconds_timeout = 10,
+  seconds_interval = 0.25,
+  seconds_timeout = 60,
   max_tries = Inf,
   verbose = TRUE
 )
@@ -15,16 +15,26 @@ tar_resources_network(
 \item{seconds_interval}{Nonnegative numeric of length 1,
 number of seconds to wait between individual retries
 while attempting to download, upload, or check
-an online resource through HTTP/HTTPS.}
+a remote network resource on a network file system (in the case of
+\code{storage = "worker"}) or via HTTP/HTTPS in cases like \code{format = "url"},
+\code{repository = "aws"}, and \code{repository = "gcp"}.}
 
 \item{seconds_timeout}{Nonnegative numeric of length 1,
 number of seconds to wait before timing out
-while trying to download, upload, or check
-an online resource through HTTP/HTTPS.}
+while attempting to download, upload, or check
+a remote network resource on a network file system (in the case of
+\code{storage = "worker"}) or via HTTP/HTTPS in cases like \code{format = "url"},
+\code{repository = "aws"}, and \code{repository = "gcp"}.
+For files saved to a network file system in the case of
+\code{storage = "worker"}, it is recommended to set \code{seconds_timeout}
+to at least \code{60}.}
 
 \item{max_tries}{Nonnegative numeric of length 1,
-maximum number of tries to download, upload, or check
-an online resource through HTTP/HTTPS.}
+maximum number of tries to download, upload, or check things
+while attempting to access a remote network resource on a
+network file system (in the case of \code{storage = "worker"})
+or via HTTP/HTTPS in cases like \code{format = "url"},
+\code{repository = "aws"}, and \code{repository = "gcp"}.}
 
 \item{verbose}{Logical of length 1, whether to print an informative message
 when an HTTP/HTTPS attempt fails.}
@@ -36,14 +46,16 @@ to the network argument of \code{tar_resources()}.
 \description{
 Create the \code{network} argument of \code{tar_resources()}
 to specify optional settings for storage configurations that
-rely on network connections, such as \code{format = "url"},
+rely on network file systems or network connections,
+such as \code{storage = "worker"}, \code{format = "url"},
 \code{repository = "aws"}, and \code{repository = "gcp"}.
 }
 \details{
 The settings in these resources
 configure how to handle unreliable network connections
 in the case of uploading, downloading, and checking data
-in situations that rely on HTTP/HTTPS requests. Specifically,
+in situations that rely on network file systems or
+HTTP/HTTPS requests. Specifically,
 they configure retries and timeouts. These settings do not
 apply to actions you take in the custom R command of the target.
 }

@@ -310,22 +310,25 @@ store_ensure_correct_hash.default <- function(store, storage, deployment) {
   }
 }
 
-store_wait_correct_hash <- function(store, sleep = 0.01, timeout = 60) {
-  time_left <- timeout
-  while (time_left > 0) {
-    if (store_has_correct_hash(store)) {
-      return(invisible())
-    }
-    Sys.sleep(sleep)
-    time_left <- time_left - sleep
-  }
-  msg <- paste(
-    "Path",
-    paste(store$file$path, collapse = " "),
-    "does not exist or has incorrect hash.",
-    "File sync timed out."
+store_wait_correct_hash <- function(store) {
+  seconds_interval <- store$resources$network$seconds_interval %|||% 0.25
+  seconds_timeout <- store$resources$network$seconds_timeout %|||% 60
+  max_tries <- store$resources$network$max_tries %|||% Inf
+  verbose <- store$resources$network$verbose %|||% TRUE
+  retry_until_true(
+    fun = ~store_has_correct_hash(store),
+    seconds_interval = seconds_interval,
+    seconds_timeout = seconds_timeout,
+    max_tries = max_tries,
+    catch_error = FALSE,
+    message = paste(
+      "Path",
+      paste(store$file$path, collapse = " "),
+      "does not exist or has incorrect hash.",
+      "File sync timed out."
+    ),
+    verbose = verbose
   )
-  tar_throw_file(msg)
 }
 
 store_has_correct_hash <- function(store) {

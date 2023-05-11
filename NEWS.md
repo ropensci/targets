@@ -11,6 +11,8 @@
 * Allow `crew` controller groups (#1065, @mglev1n).
 * Expose more exponential backoff configuration parameters through `tar_backoff()`. The `backoff` argument of `tar_option_set()` now accepts output from `tar_backoff()`, and supplying a numeric is deprecated.
 * Fix the exponential backoff rules in the `crew` scheduling algorithm.
+* Implement `tar_resources_network()` to configure retries and timeouts for internal HTTP/HTTPS requests in specialized targets with `format = "url"`, `repository = "aws"`, and `repository = "gcp"`.
+* Deprecate `seconds_interval` and `seconds_timeout` in `tar_resources_url()` in favor of the new equivalent arguments of `tar_resources_network()`
 
 ## Speedups
 

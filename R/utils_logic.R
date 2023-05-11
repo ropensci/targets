@@ -50,21 +50,7 @@ retry_until_true <- function(
   verbose = TRUE
 ) {
   force(envir)
-  fun <- rlang::as_function(fun)
-  tar_assert_function(fun)
-  tar_assert_list(args)
-  if (length(args)) {
-    tar_assert_named(args)
-    tar_assert_equal_lengths(unique(names(args)), args)
-  }
-  tar_assert_dbl(seconds_interval)
-  tar_assert_scalar(seconds_interval)
-  tar_assert_none_na(seconds_interval)
-  tar_assert_ge(seconds_interval, 0)
-  tar_assert_dbl(seconds_timeout)
-  tar_assert_scalar(seconds_timeout)
-  tar_assert_none_na(seconds_timeout)
-  tar_assert_ge(seconds_timeout, 0)
+  fun <- as_function(fun)
   tries <- 0L
   start <- time_seconds()
   while (!isTRUE(retry_attempt(fun, args, envir, catch_error, verbose))) {
