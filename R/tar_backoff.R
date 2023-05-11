@@ -3,7 +3,7 @@
 #' @family utilities
 #' @description Configure exponential backoff while polling for tasks
 #'   during the pipeline.
-#' @details This function is for advanced usage only. Most users 
+#' @details This function is for advanced usage only. Most users
 #'   should not need to modify the default exponential backoff.
 #'   To configure exponential backoff for a pipeline,
 #'   supply the output of `tar_backoff()` to the `backoff` argument
