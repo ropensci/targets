@@ -43,6 +43,7 @@ retry_until_true <- function(
   args = list(),
   seconds_interval = 0.1,
   seconds_timeout = 5,
+  max_tries = Inf,
   message = character(0),
   envir = parent.frame(),
   catch_error = TRUE
@@ -63,6 +64,7 @@ retry_until_true <- function(
   tar_assert_scalar(seconds_timeout)
   tar_assert_finite(seconds_timeout)
   tar_assert_ge(seconds_timeout, 0)
+  tries <- 0L
   start <- time_seconds()
   while (!isTRUE(retry_attempt(fun, args, envir, catch_error))) {
     if ((time_seconds() - start) > seconds_timeout) {
@@ -70,6 +72,16 @@ retry_until_true <- function(
         "timed out after retrying for",
         seconds_timeout,
         "seconds.",
+        message
+      )
+      tar_throw_expire(message)
+    }
+    tries <- tries + 1L
+    if (tries >= max_tries) {
+      message <- paste(
+        "giving up after",
+        max_tries,
+        "attempts.",
         message
       )
       tar_throw_expire(message)
