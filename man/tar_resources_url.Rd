@@ -6,21 +6,23 @@
 \usage{
 tar_resources_url(
   handle = targets::tar_option_get("resources")$url$handle,
-  seconds_interval = 1,
-  seconds_timeout = 10
+  seconds_interval = NULL,
+  seconds_timeout = NULL
 )
 }
 \arguments{
 \item{handle}{Object returned by \code{curl::new_handle} or \code{NULL}.
 Defaults to \code{NULL}.}
 
-\item{seconds_interval}{Nonnegative numeric of length 1,
+\item{seconds_interval}{Deprecated, nonnegative numeric of length 1,
 number of seconds to wait between individual retries
-while attempting to connect to the URL.}
+while attempting to connect to the URL.
+Use \code{\link[=tar_resources_network]{tar_resources_network()}} instead.}
 
-\item{seconds_timeout}{Nonnegative numeric of length 1,
+\item{seconds_timeout}{Deprecated, nonnegative numeric of length 1,
 number of seconds to wait before timing out while trying to
-connect to the URL.}
+connect to the URL.
+Use \code{\link[=tar_resources_network]{tar_resources_network()}} instead.}
 }
 \value{
 Object of class \code{"tar_resources_url"}, to be supplied
