@@ -4,9 +4,12 @@ tar_test("store_wait_correct_hash()", {
   writeLines("lines", tmp)
   store <- store_init()
   store$file <- file
+  store$resources <- tar_resources(
+    network = tar_resources_network(max_tries = 1L)
+  )
   expect_error(
-    store_wait_correct_hash(store, timeout = 0.02),
-    class = "tar_condition_targets"
+    store_wait_correct_hash(store),
+    class = "tar_condition_expire"
   )
   file_update_hash(file)
   expect_silent(store_wait_correct_hash(store))

@@ -73,6 +73,16 @@
 #'   See the cloud storage section of
 #'   <https://books.ropensci.org/targets/data.html>
 #'   for details for instructions.
+#' @param network Output of function `tar_resources_network()`.
+#'   Settings to configure how to handle unreliable network connections
+#'   in the case of uploading, downloading, and checking data
+#'   in situations that rely on network file systems or HTTP/HTTPS requests.
+#'   Examples include retries and timeouts for internal storage management
+#'   operations for `storage = "worker"` or `format = "file"`
+#'   (on network file systems),
+#'   `format = "url"`, `repository = "aws"`, and
+#'   `repository = "gcp"`. These settings do not
+#'   apply to actions you take in the custom R command of the target.
 #' @param parquet Output of function `tar_resources_parquet()`.
 #'   Non-default arguments to `arrow::read_parquet()` and
 #'   `arrow::write_parquet()` for `arrow`/parquet-based storage formats.
@@ -107,6 +117,7 @@ tar_resources <- function(
   fst = tar_option_get("resources")$fst,
   future = tar_option_get("resources")$future,
   gcp = tar_option_get("resources")$gcp,
+  network = tar_option_get("resources")$network,
   parquet = tar_option_get("resources")$parquet,
   qs = tar_option_get("resources")$qs,
   url = tar_option_get("resources")$url

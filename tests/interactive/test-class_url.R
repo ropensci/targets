@@ -3,7 +3,15 @@ tar_test("tar_timestamp() for URLs", {
   skip_if_not_installed("curl")
   skip_if_offline()
   url <- "https://github.com/ropensci/targets"
-  skip_if(!url_exists(url, seconds_interval = 0.1, seconds_timeout = 10))
+  skip_if(
+    !url_exists(
+      url,
+      seconds_interval = 1,
+      seconds_timeout = 10,
+      max_tries = Inf,
+      verbose = TRUE
+    )
+  )
   tar_script({
     list(
       tar_target(
@@ -26,7 +34,15 @@ tar_test("dynamic urls work", {
   skip_cran()
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
+  skip_if(
+    !url_exists(
+      url,
+      seconds_interval = 1,
+      seconds_timeout = 10,
+      max_tries = Inf,
+      verbose = TRUE
+    )
+  )
   tar_script({
     list(
       tar_target(
@@ -34,11 +50,56 @@ tar_test("dynamic urls work", {
         rep("https://httpbin.org/etag/test", 2),
         format = "url",
         resources = tar_resources(
-          url = tar_resources_url(
+          network = tar_resources_network(
             seconds_interval = 0.5,
-            seconds_timeout = 20
+            seconds_timeout = 20,
+            max_tries = 100
           )
         )
+      )
+    )
+  })
+  tar_make(callr_function = NULL)
+  exp <- tibble::tibble(
+    name = "abc",
+    type = "stem",
+    parent = "abc",
+    branches = 0L,
+    progress = "built"
+  )
+  expect_equal(tar_progress(fields = NULL), exp)
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress()$progress, "skipped")
+  meta <- tar_meta(abc)
+  expect_equal(nchar(meta$data), 16)
+  out <- meta$path[[1]]
+  exp <- rep(url, 2)
+  expect_equal(out, exp)
+  expect_equal(tar_read(abc), exp)
+  expect_false(file.exists(file.path("_targets", "objects", "abc")))
+  expect_true(inherits(tar_timestamp(abc), "POSIXct"))
+  expect_gt(tar_timestamp(abc), tar_timestamp(nope))
+})
+
+tar_test("dynamic urls have non-NULL default resources", {
+  skip_cran()
+  skip_if_offline()
+  url <- "https://httpbin.org/etag/test"
+  skip_if(
+    !url_exists(
+      url,
+      seconds_interval = 1,
+      seconds_timeout = 10,
+      max_tries = Inf,
+      verbose = TRUE
+    )
+  )
+  tar_script({
+    list(
+      tar_target(
+        abc,
+        rep("https://httpbin.org/etag/test", 2),
+        format = "url",
       )
     )
   })
@@ -68,7 +129,15 @@ tar_test("dynamic urls in dynamic branches work", {
   skip_cran()
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
+  skip_if(
+    !url_exists(
+      url,
+      seconds_interval = 0.1,
+      seconds_timeout = 10,
+      max_tries = Inf,
+      verbose = TRUE
+    )
+  )
   tar_script({
     list(
       tar_target(x, 1),
@@ -78,7 +147,7 @@ tar_test("dynamic urls in dynamic branches work", {
         format = "url",
         pattern = map(x),
         resources = tar_resources(
-          url = tar_resources_url(
+          network = tar_resources_network(
             seconds_interval = 0.5,
             seconds_timeout = 20
           )
@@ -107,7 +176,15 @@ tar_test("dynamic urls work from a custom data store", {
   skip_cran()
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
+  skip_if(
+    !url_exists(
+      url,
+      seconds_interval = 0.1,
+      seconds_timeout = 10,
+      max_tries = Inf,
+      verbose = TRUE
+    )
+  )
   tar_script({
     list(
       tar_target(
@@ -115,7 +192,7 @@ tar_test("dynamic urls work from a custom data store", {
         rep("https://httpbin.org/etag/test", 2),
         format = "url",
         resources = tar_resources(
-          url = tar_resources_url(
+          network = tar_resources_network(
             seconds_interval = 0.5,
             seconds_timeout = 20
           )
@@ -167,7 +244,7 @@ tar_test("tar_condition_run error on bad URL", {
       "https://httpbin.org/status/404",
       format = "url",
       resources = tar_resources(
-        url = tar_resources_url(
+        network = tar_resources_network(
           seconds_interval = 0.5,
           seconds_timeout = 0
         )
@@ -181,7 +258,15 @@ tar_test("custom handle without error (unstructured resources)", {
   skip_cran()
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 10))
+  skip_if(
+    !url_exists(
+      url,
+      seconds_interval = 0.1,
+      seconds_timeout = 10,
+      max_tries = Inf,
+      verbose = TRUE
+    )
+  )
   tar_script({
     list(
       tar_target(
@@ -214,7 +299,7 @@ tar_test("dynamic urls must return characters", {
     expr = quote(list(list("illegal"))),
     format = "url",
     resources = tar_resources(
-      url = tar_resources_url(
+      network = tar_resources_network(
         seconds_interval = 0.5,
         seconds_timeout = 0
       )
@@ -258,7 +343,15 @@ tar_test("bad curl handle throws an error (structrued resources)", {
   skip_cran()
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
+  skip_if(
+    !url_exists(
+      url,
+      seconds_interval = 0.1,
+      seconds_timeout = 10,
+      max_tries = Inf,
+      verbose = TRUE
+    )
+  )
   tar_script({
     list(
       tar_target(
@@ -267,8 +360,10 @@ tar_test("bad curl handle throws an error (structrued resources)", {
         format = "url",
         resources = tar_resources(
           url = tar_resources_url(handle = "invalid"),
-          seconds_interval = 0.5,
-          seconds_timeout = 0
+          network = tar_resources_network(
+            seconds_interval = 0.5,
+            seconds_timeout = 0
+          )
         )
       )
     )
@@ -283,7 +378,15 @@ tar_test("bad curl handle throws an error (unstructrued resources)", {
   skip_cran()
   skip_if_offline()
   url <- "https://httpbin.org/etag/test"
-  skip_if(!url_exists(url, seconds_interval = 1, seconds_timeout = 5))
+  skip_if(
+    !url_exists(
+      url,
+      seconds_interval = 0.1,
+      seconds_timeout = 10,
+      max_tries = Inf,
+      verbose = TRUE
+    )
+  )
   tar_script({
     list(
       tar_target(

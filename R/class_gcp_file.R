@@ -45,17 +45,34 @@ store_hash_early.tar_gcp_file <- function(store) { # nolint
 #' @export
 store_read_object.tar_gcp_file <- function(store) {
   path <- store$file$path
+  key <- store_gcp_key(path)
+  bucket <- store_gcp_bucket(path)
   scratch <- path_scratch(
     path_store = tempdir(),
     pattern = basename(store_gcp_key(path))
   )
   dir_create(dirname(scratch))
-  gcp_gcs_download(
-    key = store_gcp_key(path),
-    bucket = store_gcp_bucket(path),
-    file = scratch,
-    version = store_gcp_version(path),
-    verbose = store$resources$gcp$verbose %|||% FALSE
+  seconds_interval <- store$resources$network$seconds_interval %|||% 1
+  seconds_timeout <- store$resources$network$seconds_timeout %|||% 30
+  max_tries <- store$resources$network$max_tries %|||% Inf
+  verbose <- store$resources$network$verbose %|||% TRUE
+  retry_until_true(
+    ~{
+      gcp_gcs_download(
+        key = key,
+        bucket = bucket,
+        file = scratch,
+        version = store_gcp_version(path),
+        verbose = store$resources$gcp$verbose %|||% FALSE
+      )
+      TRUE
+    },
+    seconds_interval = seconds_interval,
+    seconds_timeout = seconds_timeout,
+    max_tries = max_tries,
+    catch_error = TRUE,
+    message = sprintf("Cannot download object %s from bucket %s", key, bucket),
+    verbose = verbose
   )
   stage <- store_gcp_file_stage(path)
   dir_create(dirname(stage))

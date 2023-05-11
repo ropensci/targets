@@ -12,6 +12,7 @@ tar_resources(
   fst = tar_option_get("resources")$fst,
   future = tar_option_get("resources")$future,
   gcp = tar_option_get("resources")$gcp,
+  network = tar_option_get("resources")$network,
   parquet = tar_option_get("resources")$parquet,
   qs = tar_option_get("resources")$qs,
   url = tar_option_get("resources")$url
@@ -71,6 +72,17 @@ Google Cloud Storage bucket settings for
 See the cloud storage section of
 \url{https://books.ropensci.org/targets/data.html}
 for details for instructions.}
+
+\item{network}{Output of function \code{tar_resources_network()}.
+Settings to configure how to handle unreliable network connections
+in the case of uploading, downloading, and checking data
+in situations that rely on network file systems or HTTP/HTTPS requests.
+Examples include retries and timeouts for internal storage management
+operations for \code{storage = "worker"} or \code{format = "file"}
+(on network file systems),
+\code{format = "url"}, \code{repository = "aws"}, and
+\code{repository = "gcp"}. These settings do not
+apply to actions you take in the custom R command of the target.}
 
 \item{parquet}{Output of function \code{tar_resources_parquet()}.
 Non-default arguments to \code{arrow::read_parquet()} and
@@ -143,6 +155,7 @@ Other resources:
 \code{\link{tar_resources_fst}()},
 \code{\link{tar_resources_future}()},
 \code{\link{tar_resources_gcp}()},
+\code{\link{tar_resources_network}()},
 \code{\link{tar_resources_parquet}()},
 \code{\link{tar_resources_qs}()},
 \code{\link{tar_resources_url}()}

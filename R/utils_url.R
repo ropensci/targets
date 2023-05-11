@@ -23,7 +23,9 @@ url_exists <- function(
   url,
   handle = NULL,
   seconds_interval,
-  seconds_timeout
+  seconds_timeout,
+  max_tries,
+  verbose
 ) {
   tar_assert_internet()
   handle <- url_handle(handle)
@@ -36,8 +38,10 @@ url_exists <- function(
     },
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
+    max_tries = max_tries,
     catch_error = TRUE,
-    message = paste("Cannot connect to url:", url)
+    message = paste("Cannot connect to url:", url),
+    verbose = verbose
   )
   envir$out
 }
@@ -51,7 +55,14 @@ url_exists_try <- function(url, handle) {
   url_status_success(req$status_code)
 }
 
-url_hash <- function(url, handle = NULL, seconds_interval, seconds_timeout) {
+url_hash <- function(
+  url,
+  handle = NULL,
+  seconds_interval,
+  seconds_timeout,
+  max_tries,
+  verbose
+) {
   envir <- new.env(parent = emptyenv())
   retry_until_true(
     ~{
@@ -60,8 +71,10 @@ url_hash <- function(url, handle = NULL, seconds_interval, seconds_timeout) {
     },
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
+    max_tries = max_tries,
     catch_error = TRUE,
-    message = paste("Cannot connect to url:", url)
+    message = paste("Cannot connect to url:", url),
+    verbose = verbose
   )
   envir$out
 }

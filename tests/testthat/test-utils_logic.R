@@ -95,3 +95,22 @@ tar_test("retry_until_true(catch_error = FALSE)", {
     class = "ad_hoc"
   )
 })
+
+tar_test("retry_until_true() max_tries", {
+  skip_on_cran()
+  envir <- new.env(parent = emptyenv())
+  envir$count <- 0L
+  expect_error(
+    retry_until_true(
+      fun = ~{
+        envir$count <- envir$count + 1L
+        FALSE
+      },
+      seconds_interval = 0.001,
+      seconds_timeout = 60,
+      max_tries = 5L
+    ),
+    class = "tar_condition_expire"
+  )
+  expect_equal(envir$count, 5L)
+})
