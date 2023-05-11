@@ -78,7 +78,8 @@ Settings to configure how to handle unreliable network connections
 in the case of uploading, downloading, and checking data
 in situations that rely on network file systems or HTTP/HTTPS requests.
 Examples include retries and timeouts for internal storage management
-operations for \code{storage = "worker"} (on network file systems),
+operations for \code{storage = "worker"} or \code{format = "file"}
+(on network file systems),
 \code{format = "url"}, \code{repository = "aws"}, and
 \code{repository = "gcp"}. These settings do not
 apply to actions you take in the custom R command of the target.}

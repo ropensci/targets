@@ -78,7 +78,8 @@
 #'   in the case of uploading, downloading, and checking data
 #'   in situations that rely on network file systems or HTTP/HTTPS requests.
 #'   Examples include retries and timeouts for internal storage management
-#'   operations for `storage = "worker"` (on network file systems),
+#'   operations for `storage = "worker"` or `format = "file"`
+#'   (on network file systems),
 #'   `format = "url"`, `repository = "aws"`, and
 #'   `repository = "gcp"`. These settings do not
 #'   apply to actions you take in the custom R command of the target.

@@ -16,14 +16,16 @@ tar_resources_network(
 number of seconds to wait between individual retries
 while attempting to download, upload, or check
 a remote network resource on a network file system (in the case of
-\code{storage = "worker"}) or via HTTP/HTTPS in cases like \code{format = "url"},
+\code{storage = "worker"} or \code{format = "file"})
+or via HTTP/HTTPS in cases like \code{format = "url"},
 \code{repository = "aws"}, and \code{repository = "gcp"}.}
 
 \item{seconds_timeout}{Nonnegative numeric of length 1,
 number of seconds to wait before timing out
 while attempting to download, upload, or check
 a remote network resource on a network file system (in the case of
-\code{storage = "worker"}) or via HTTP/HTTPS in cases like \code{format = "url"},
+\code{storage = "worker"} or \code{format = "file"})
+or via HTTP/HTTPS in cases like \code{format = "url"},
 \code{repository = "aws"}, and \code{repository = "gcp"}.
 For files saved to a network file system in the case of
 \code{storage = "worker"}, it is recommended to set \code{seconds_timeout}

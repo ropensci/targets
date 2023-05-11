@@ -20,13 +20,15 @@
 #'   number of seconds to wait between individual retries
 #'   while attempting to download, upload, or check
 #'   a remote network resource on a network file system (in the case of
-#'   `storage = "worker"`) or via HTTP/HTTPS in cases like `format = "url"`,
+#'   `storage = "worker"` or `format = "file"`)
+#'   or via HTTP/HTTPS in cases like `format = "url"`,
 #'   `repository = "aws"`, and `repository = "gcp"`.
 #' @param seconds_timeout Nonnegative numeric of length 1,
 #'   number of seconds to wait before timing out
 #'   while attempting to download, upload, or check
 #'   a remote network resource on a network file system (in the case of
-#'   `storage = "worker"`) or via HTTP/HTTPS in cases like `format = "url"`,
+#'   `storage = "worker"` or `format = "file"`)
+#'   or via HTTP/HTTPS in cases like `format = "url"`,
 #'   `repository = "aws"`, and `repository = "gcp"`.
 #'   For files saved to a network file system in the case of
 #'   `storage = "worker"`, it is recommended to set `seconds_timeout`
