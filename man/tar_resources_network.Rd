@@ -26,7 +26,7 @@ an online resource through HTTP/HTTPS.}
 maximum number of tries to download, upload, or check
 an online resource through HTTP/HTTPS.}
 
-\item{verbose}{Logical of length 1, whether ot print an informative message
+\item{verbose}{Logical of length 1, whether to print an informative message
 when an HTTP/HTTPS attempt fails.}
 }
 \value{
@@ -36,7 +36,7 @@ to the network argument of \code{tar_resources()}.
 \description{
 Create the \code{network} argument of \code{tar_resources()}
 to specify optional settings for storage configurations that
-rely on network connections, suchas \code{format = "url"},
+rely on network connections, such as \code{format = "url"},
 \code{repository = "aws"}, and \code{repository = "gcp"}.
 }
 \details{

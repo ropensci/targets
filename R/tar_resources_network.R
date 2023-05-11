@@ -3,7 +3,7 @@
 #' @family resources
 #' @description Create the `network` argument of `tar_resources()`
 #'   to specify optional settings for storage configurations that
-#'   rely on network connections, suchas `format = "url"`,
+#'   rely on network connections, such as `format = "url"`,
 #'   `repository = "aws"`, and `repository = "gcp"`.
 #' @details The settings in these resources
 #'   configure how to handle unreliable network connections
@@ -25,7 +25,7 @@
 #' @param max_tries Nonnegative numeric of length 1,
 #'   maximum number of tries to download, upload, or check
 #'   an online resource through HTTP/HTTPS.
-#' @param verbose Logical of length 1, whether ot print an informative message
+#' @param verbose Logical of length 1, whether to print an informative message
 #'   when an HTTP/HTTPS attempt fails.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
