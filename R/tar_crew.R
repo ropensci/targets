@@ -9,8 +9,7 @@
 #'   * `worker`: worker index in the controller. 
 #'   * `launches`: number of times the worker was launched.
 #'   * `seconds`: number of seconds the worker spent running tasks.
-#'   * `tasks`: number of tasks the worker completed
-#'     and handed over to `targets`.
+#'   * `targets`: number of targets the worker completed and delivered.
 #' @inheritParams tar_validate
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN

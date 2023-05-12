@@ -275,14 +275,14 @@ crew_summary <- function(controller) {
     worker = summary$worker_index,
     launches = summary$worker_launches,
     seconds = summary$popped_seconds,
-    tasks = summary$popped_tasks
+    targets = summary$popped_tasks
   )
 }
 
 database_crew <- function(path_store) {
   database_init(
     path = file.path(path_meta_dir(path_store), "crew"),
-    header = c("controller", "worker", "launches", "seconds", "tasks")
+    header = c("controller", "worker", "launches", "seconds", "targets")
   )
 }
 

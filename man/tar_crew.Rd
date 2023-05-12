@@ -23,8 +23,7 @@ A data frame one row per \code{crew} worker and the following columns:
 \item \code{worker}: worker index in the controller.
 \item \code{launches}: number of times the worker was launched.
 \item \code{seconds}: number of seconds the worker spent running tasks.
-\item \code{tasks}: number of tasks the worker completed
-and handed over to \code{targets}.
+\item \code{targets}: number of targets the worker completed and delivered.
 }
 }
 \description{
