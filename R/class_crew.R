@@ -227,11 +227,22 @@ crew_class <- R6::R6Class(
       self$scheduler$progress$any_remaining() ||
         (!self$controller$empty())
     },
+    record_controller_summary = function(summary) {
+      database <- database_crew(self$meta$store)
+      database$overwrite_storage(summary)
+    },
+    finalize_crew = function() {
+      summary <- crew_summary(self$controller)
+      if (!is.null(summary)) {
+        self$record_controller_summary(summary)
+      }
+      if (self$terminate) {
+        self$controller$terminate()
+      }
+    },
     run_crew = function() {
       self$controller$start()
-      if (self$terminate) {
-        on.exit(self$controller$terminate())
-      }
+      on.exit(self$finalize_crew())
       while (self$nonempty()) {
         self$iterate()
       }
@@ -256,6 +267,24 @@ crew_class <- R6::R6Class(
     }
   )
 )
+
+crew_summary <- function(controller) {
+  summary <- controller$summary()
+  data_frame(
+    controller = summary$controller,
+    worker = summary$worker_index,
+    launches = summary$worker_launches,
+    seconds = summary$popped_seconds,
+    tasks = summary$popped_tasks
+  )
+}
+
+database_crew <- function(path_store) {
+  database_init(
+    path = file.path(path_meta_dir(path_store), "crew"),
+    header = c("controller", "worker", "launches", "seconds", "tasks")
+  )
+}
 
 validate_crew_controller <- function(controller) {
   tar_assert_inherits(

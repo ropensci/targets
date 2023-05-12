@@ -61,6 +61,7 @@ reference:
   - '`tar_workspaces`'
 - title: Data
   contents:
+  - '`tar_crew`'
   - '`tar_load`'
   - '`tar_load_raw`'
   - '`tar_load_everything`'

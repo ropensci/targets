@@ -43,6 +43,7 @@ tar_test("tar_make() works with crew", {
     gc()
     crew_test_sleep()
   })
+  expect_error(tar_crew(), class = "tar_condition_validate")
   R.utils::withTimeout(
     tar_make(
       reporter = "silent",
@@ -53,6 +54,7 @@ tar_test("tar_make() works with crew", {
   )
   out <- tar_read(x)
   expect_equal(out, TRUE)
+  expect_true(is.data.frame(tar_crew()))
 })
 
 tar_test("empty tar_make() works even with names", {
