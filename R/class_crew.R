@@ -8,7 +8,8 @@ crew_init <- function(
   seconds_interval = 0.5,
   garbage_collection = FALSE,
   envir = tar_option_get("envir"),
-  controller = NULL
+  controller = NULL,
+  terminate = TRUE
 ) {
   crew_new(
     pipeline = pipeline,
@@ -20,7 +21,8 @@ crew_init <- function(
     seconds_interval = seconds_interval,
     garbage_collection = garbage_collection,
     envir = envir,
-    controller = controller
+    controller = controller,
+    terminate = terminate
   )
 }
 
@@ -34,7 +36,8 @@ crew_new <- function(
   seconds_interval = NULL,
   garbage_collection = NULL,
   envir = NULL,
-  controller = NULL
+  controller = NULL,
+  terminate = NULL
 ) {
   crew_class$new(
     pipeline = pipeline,
@@ -46,7 +49,8 @@ crew_new <- function(
     seconds_interval = seconds_interval,
     garbage_collection = garbage_collection,
     envir = envir,
-    controller = controller
+    controller = controller,
+    terminate = terminate
   )
 }
 
@@ -57,6 +61,7 @@ crew_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     controller = NULL,
+    terminate = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
@@ -68,6 +73,7 @@ crew_class <- R6::R6Class(
       garbage_collection = NULL,
       envir = NULL,
       controller = NULL,
+      terminate = NULL,
       exports = NULL
     ) {
       super$initialize(
@@ -82,6 +88,7 @@ crew_class <- R6::R6Class(
         envir = envir
       )
       self$controller <- controller
+      self$terminate <- terminate
     },
     produce_exports = function(envir, path_store, is_globalenv = NULL) {
       map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
@@ -222,7 +229,9 @@ crew_class <- R6::R6Class(
     },
     run_crew = function() {
       self$controller$start()
-      on.exit(self$controller$terminate())
+      if (self$terminate) {
+        on.exit(self$controller$terminate())
+      }
       while (self$nonempty()) {
         self$iterate()
       }
@@ -241,6 +250,9 @@ crew_class <- R6::R6Class(
     validate = function() {
       super$validate()
       validate_crew_controller(self$controller)
+      tar_assert_lgl(self$terminate)
+      tar_assert_scalar(self$terminate)
+      tar_assert_none_na(self$terminate)
     }
   )
 )

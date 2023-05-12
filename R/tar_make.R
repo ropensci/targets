@@ -62,6 +62,20 @@
 #'   to a worker. Ignored if `tar_option_get("controller")` is `NULL`.
 #'   Independent from the `garbage_collection` argument of [tar_target()],
 #'   which controls garbage collection on the worker.
+#' @param terminate Logical of length 1. For a `crew`-integrated
+#'   pipeline, whether to terminate the controller after stopping
+#'   or finishing the pipeline. This should almost always be set to `TRUE`,
+#'   but `FALSE` combined with `callr_function = NULL`
+#'   will allow you to get the running controller using
+#'   `tar_option_get("controller")` for debugging purposes.
+#'   For example, `tar_option_get("controller")$summary()` produces a
+#'   worker-by-worker summary of the work assigned and completed,
+#'   `tar_option_get("controller")$queue` is the list of unresolved tasks,
+#'   and `tar_option_get("controller")$results` is the list of
+#'   tasks that completed but were not collected with `pop()`.
+#'   You can manually terminate the controller with
+#'   `tar_option_get("controller")$summary()` to close down the dispatcher
+#'   and worker processes.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -97,7 +111,8 @@ tar_make <- function(
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = targets::tar_config_get("garbage_collection")
+  garbage_collection = targets::tar_config_get("garbage_collection"),
+  terminate = TRUE
 ) {
   force(envir)
   tar_assert_scalar(shortcut)
@@ -112,13 +127,17 @@ tar_make <- function(
   tar_assert_lgl(garbage_collection)
   tar_assert_scalar(garbage_collection)
   tar_assert_none_na(garbage_collection)
+  tar_assert_lgl(terminate)
+  tar_assert_scalar(terminate)
+  tar_assert_none_na(terminate)
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
     shortcut = shortcut,
     reporter = reporter,
     seconds_interval = seconds_interval,
-    garbage_collection = garbage_collection
+    garbage_collection = garbage_collection,
+    terminate = terminate
   )
   out <- callr_outer(
     targets_function = tar_make_inner,
@@ -140,7 +159,8 @@ tar_make_inner <- function(
   shortcut,
   reporter,
   seconds_interval,
-  garbage_collection
+  garbage_collection,
+  terminate
 ) {
   names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
   controller <- tar_option_get("controller")
@@ -172,7 +192,8 @@ tar_make_inner <- function(
       seconds_interval = seconds_interval,
       garbage_collection = garbage_collection,
       envir = tar_option_get("envir"),
-      controller = controller
+      controller = controller,
+      terminate = terminate
     )$run()
   }
   invisible()

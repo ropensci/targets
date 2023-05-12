@@ -14,7 +14,8 @@ tar_make(
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = targets::tar_config_get("garbage_collection")
+  garbage_collection = targets::tar_config_get("garbage_collection"),
+  terminate = TRUE
 )
 }
 \arguments{
@@ -121,6 +122,21 @@ before sending a target
 to a worker. Ignored if \code{tar_option_get("controller")} is \code{NULL}.
 Independent from the \code{garbage_collection} argument of \code{\link[=tar_target]{tar_target()}},
 which controls garbage collection on the worker.}
+
+\item{terminate}{Logical of length 1. For a \code{crew}-integrated
+pipeline, whether to terminate the controller after stopping
+or finishing the pipeline. This should almost always be set to \code{TRUE},
+but \code{FALSE} combined with \code{callr_function = NULL}
+will allow you to get the running controller using
+\code{tar_option_get("controller")} for debugging purposes.
+For example, \code{tar_option_get("controller")$summary()} produces a
+worker-by-worker summary of the work assigned and completed,
+\code{tar_option_get("controller")$queue} is the list of unresolved tasks,
+and \code{tar_option_get("controller")$results} is the list of
+tasks that completed but were not collected with \code{pop()}.
+You can manually terminate the controller with
+\code{tar_option_get("controller")$summary()} to close down the dispatcher
+and worker processes.}
 }
 \value{
 \code{NULL} except if \code{callr_function = callr::r_bg()}, in which case
