@@ -1,5 +1,9 @@
 # targets 1.0.0.9001 (development)
 
+## Bug fixes
+
+* Send targets to appropriate controller groups when `crew` is used.
+
 ## General improvements
 
 * Call `gc()` more appropriately when `garbage_collection` is `TRUE` in `tar_target()`.
