@@ -432,6 +432,13 @@ options_class <- R6::R6Class(
       self$seed <- as.integer(seed)
     },
     set_controller = function(controller) {
+      message <- paste(
+        "NOTE: {crew} is experimental new software, and it has known bugs",
+        "such as https://github.com/wlandau/crew/issues/75.",
+        "Use at your own risk.",
+        "Please report bugs to https://github.com/wlandau/crew/issues."
+      )
+      tar_message(message = message, class = "tar_condition_targets")
       self$validate_controller(controller)
       self$controller <- controller
     },
