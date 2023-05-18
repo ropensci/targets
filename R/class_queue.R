@@ -35,6 +35,8 @@ queue_class <- R6::R6Class(
     },
     prepend = function(names, ranks = NULL) {
     },
+    append = function(names, ranks = NULL) {
+    },
     increment_ranks = function(names, by) {
     },
     should_dequeue = function() {
