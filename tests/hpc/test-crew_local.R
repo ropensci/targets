@@ -138,3 +138,23 @@ tar_test("saturated controllers should not get tasks", {
   expect_equal(tar_outdated(callr_function = NULL), character(0))
 })
 
+tar_test("controllers are assessed individually for saturation in a group", {
+  skip_on_cran()
+  skip_if_not_installed("crew")
+  tar_script({
+    library(targets)
+    a <- crew::crew_controller_local(name = "a", workers = 2)
+    b <- crew::crew_controller_local(name = "b", workers = 2)
+    tar_option_set(controller = crew::crew_controller_group(a, b))
+    resources_a <- tar_resources(crew = tar_resources_crew(controller = "a"))
+    resources_b <- tar_resources(crew = tar_resources_crew(controller = "b"))
+    list(
+      tar_target(w, Sys.sleep(5), resources = resources_a),
+      tar_target(x, Sys.sleep(5), resources = resources_a),
+      tar_target(y, Sys.sleep(5), resources = resources_b),
+      tar_target(z, Sys.sleep(5), resources = resources_b)
+    )
+  })
+  tar_make() # All 4 should start at once and finish at once.
+  expect_equal(tar_outdated(callr_function = NULL), character(0))
+})
