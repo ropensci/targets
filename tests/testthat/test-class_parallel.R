@@ -105,13 +105,6 @@ tar_test("parallel$dequeue() on an empty queue", {
   expect_identical(q$data, data)
 })
 
-tar_test("parallel$peek() on an empty queue", {
-  q <- parallel_init()
-  data <- q$data
-  expect_identical(q$peek(), character(0))
-  expect_identical(q$data, data)
-})
-
 tar_test("parallel$dequeue() with none ready", {
   q <- parallel_init(names = letters[seq_len(3)], ranks = c(2L, 1L, 3L))
   data <- q$data
@@ -126,14 +119,6 @@ tar_test("parallel$dequeue() with one ready", {
   expect_identical(q$dequeue(), "b")
   expect_identical(q$data, sort(data)[-1])
   expect_equal(sort(counter_get_names(q$counter)), sort(c("a", "c")))
-})
-
-tar_test("parallel$peek() with one ready", {
-  q <- parallel_init(names = letters[seq_len(3)], ranks = c(2L, 0L, 3L))
-  data <- q$data
-  expect_identical(q$peek(), "b")
-  expect_identical(q$data, data)
-  expect_equal(sort(counter_get_names(q$counter)), sort(c("a", "b", "c")))
 })
 
 tar_test("parallel$dequeue() with multiple ready", {
@@ -222,41 +207,4 @@ tar_test("parallel$should_dequeue() with a zero rank element last", {
   expect_false(parallel_init()$should_dequeue())
   expect_true(q$should_dequeue())
   expect_equal(q$dequeue(), "z")
-})
-
-tar_test("parallel$rotate() on empty queue", {
-  q <- parallel_init(names = character(0L), ranks = integer(0L))
-  first_data <- q$data
-  first_count <- q$counter$count
-  expect_silent(q$rotate())
-  second_data <- q$data
-  second_count <- q$counter$count
-  expect_equal(first_data, second_data)
-  expect_equal(first_count, second_count)
-})
-
-tar_test("parallel$rotate() on queue with all 0 ranks", {
-  q <- parallel_init(names = letters, ranks = rep(0L, length(letters)))
-  exp <- rep(0L, length(letters))
-  names(exp) <- letters
-  expect_identical(q$data, exp)
-  q$rotate()
-  exp <- rep(0L, length(letters))
-  names(exp) <- c(letters[-1L], letters[1L])
-  expect_identical(q$data, exp)
-  q$rotate()
-  exp <- rep(0L, length(letters))
-  names(exp) <- c(letters[-c(1L, 2L)], letters[c(1L, 2L)])
-  expect_identical(q$data, exp)
-})
-
-tar_test("parallel$rotate() on queue with various ranks", {
-  q <- parallel_init(names = letters[seq_len(4L)], ranks = c(3L, 0L, 4L, 2L))
-  exp <- c(3L, 0L, 4L, 2L)
-  names(exp) <- letters[seq_len(4L)]
-  expect_identical(q$data, exp)
-  q$rotate()
-  exp <- c(3L, 4L, 2L, 0L)
-  names(exp) <- c("a", "c", "d", "b")
-  expect_identical(q$data, exp)
 })
