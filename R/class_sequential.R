@@ -18,6 +18,9 @@ sequential_class <- R6::R6Class(
       self$data <- self$data[-1L]
       head
     },
+    peek = function() {
+      if_any(length(self$data), self$data[1L], character(0L))
+    },
     prepend = function(names, ranks = NULL) {
       self$data <- c(names, self$data)
     },

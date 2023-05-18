@@ -30,6 +30,10 @@ queue_class <- R6::R6Class(
     },
     dequeue = function() {
     },
+    peek = function() {
+    },
+    rotate = function() {
+    },
     abridge = function() {
       while (self$is_nonempty()) self$dequeue()
     },

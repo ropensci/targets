@@ -34,6 +34,22 @@ parallel_class <- R6::R6Class(
       counter_del_names(counter, head)
       head
     },
+    peek = function() {
+      names(self$data)[which.min(self$data)]
+    },
+    rotate = function() {
+      if (length(self$data) < 1L) {
+        return(invisible())
+      }
+      data <- self$data
+      index <- which.min(data)
+      name <- names(data[index])
+      n <- length(self$data) + 1L
+      self$data[n] <- data[index]
+      names(self$data)[n] <- name
+      self$data <- self$data[-index]
+      invisible()
+    },
     prepend = function(names, ranks = NULL) {
       new_ranks <- ranks %|||% rep(0L, length(names))
       ranks <- c(new_ranks, self$get_ranks())
