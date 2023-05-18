@@ -133,12 +133,13 @@ crew_class <- R6::R6Class(
       data$target <- target
       globals <- self$exports$globals
       resources <- target$settings$resources$crew
+      name <- target_get_name(target)
       self$controller$push(
         command = command,
         data = data,
         globals = globals,
         substitute = FALSE,
-        name = target_get_name(target),
+        name = name,
         controller = resources$controller,
         scale = resources$scale %|||% TRUE,
         seconds_timeout = resources$seconds_timeout
