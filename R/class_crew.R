@@ -134,13 +134,15 @@ crew_class <- R6::R6Class(
       globals <- self$exports$globals
       resources <- target$settings$resources$crew
       name <- target_get_name(target)
-      if_any(
-        self$controller$saturated(
-          collect = FALSE,
-          throttle = TRUE,
-          controller = resources$controller
-        ),
-        self$scheduler$queue$append0(name = name),
+      saturated <- self$controller$saturated(
+        collect = FALSE,
+        throttle = TRUE,
+        controller = resources$controller
+      )
+      if(saturated) {
+        self$scheduler$queue$append0(name = name)
+      } else {
+        target_prepare(target, self$pipeline, self$scheduler)
         self$controller$push(
           command = command,
           data = data,
@@ -151,9 +153,10 @@ crew_class <- R6::R6Class(
           scale = resources$scale %|||% TRUE,
           seconds_timeout = resources$seconds_timeout
         )
-      )
+      }
     },
     run_main = function(target) {
+      target_prepare(target, self$pipeline, self$scheduler)
       target_run(
         target = target,
         envir = self$envir,
@@ -168,7 +171,6 @@ crew_class <- R6::R6Class(
     },
     run_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
-      target_prepare(target, self$pipeline, self$scheduler)
       if_any(
         target_should_run_worker(target),
         self$run_worker(target),

@@ -119,3 +119,22 @@ tar_test("heavily parallel workload should run fast", {
   tar_make()
   expect_equal(tar_outdated(callr_function = NULL), character(0))
 })
+
+tar_test("saturated controllers should not get tasks", {
+  skip_on_cran()
+  skip_if_not_installed("crew")
+  tar_script({
+    library(targets)
+    controller <- crew::crew_controller_local(workers = 2)
+    tar_option_set(controller = controller)
+    list(
+      tar_target(w, Sys.sleep(5)),
+      tar_target(x, Sys.sleep(5)),
+      tar_target(y, Sys.sleep(5)),
+      tar_target(z, Sys.sleep(5))
+    )
+  })
+  tar_make() # First two should start, then a pause, then the next two. 
+  expect_equal(tar_outdated(callr_function = NULL), character(0))
+})
+
