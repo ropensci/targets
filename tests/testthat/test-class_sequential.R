@@ -1,15 +1,8 @@
 tar_test("sequential$dequeue() and sequential$peek()", {
   q <- queue_init("sequential", letters)
-  expect_equal(q$peek(), "a")
   expect_equal(q$dequeue(), "a")
-  expect_equal(q$peek(), "b")
   expect_equal(q$dequeue(), "b")
   expect_equal(q$data, letters[c(-1L, -2L)])
-})
-
-tar_test("sequential$peek() on an empty queue", {
-  q <- queue_init("sequential", character(0L))
-  expect_equal(q$peek(), character(0L))
 })
 
 tar_test("sequential$prepend()", {
