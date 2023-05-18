@@ -179,6 +179,11 @@ tar_test("parallel$append() something on an empty queue", {
   exp <- c(1L, 2L)
   names(exp) <- c("a", "b")
   expect_identical(out, exp)
+  expect_equal(q$counter$count, 2L)
+  expect_equal(
+    sort(counter_get_names(q$counter)),
+    sort(c("a", "b"))
+  )
 })
 
 tar_test("parallel$append() something on a nonempty queue", {
@@ -188,6 +193,11 @@ tar_test("parallel$append() something on a nonempty queue", {
   exp <- c(0L, 3L, 1L, 2L)
   names(exp) <- c("x", "y", "a", "b")
   expect_identical(out, exp)
+  expect_equal(q$counter$count, 4L)
+  expect_equal(
+    sort(counter_get_names(q$counter)),
+    sort(c("a", "b", "x", "y"))
+  )
 })
 
 tar_test("parallel$append() default ranks", {
@@ -197,6 +207,11 @@ tar_test("parallel$append() default ranks", {
   exp <- c(0L, 3L, 0L, 0L)
   names(exp) <- c("x", "y", "a", "b")
   expect_identical(out, exp)
+  expect_equal(q$counter$count, 4L)
+  expect_equal(
+    sort(counter_get_names(q$counter)),
+    sort(c("a", "b", "x", "y"))
+  )
 })
 
 tar_test("parallel$increment_ranks() elementwise", {
