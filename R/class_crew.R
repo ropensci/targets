@@ -134,15 +134,23 @@ crew_class <- R6::R6Class(
       globals <- self$exports$globals
       resources <- target$settings$resources$crew
       name <- target_get_name(target)
-      self$controller$push(
-        command = command,
-        data = data,
-        globals = globals,
-        substitute = FALSE,
-        name = name,
-        controller = resources$controller,
-        scale = resources$scale %|||% TRUE,
-        seconds_timeout = resources$seconds_timeout
+      if_any(
+        self$controller$saturated(
+          collect = FALSE,
+          throttle = TRUE,
+          controller = resources$controller
+        ),
+        self$scheduler$queue$append0(name = name),
+        self$controller$push(
+          command = command,
+          data = data,
+          globals = globals,
+          substitute = FALSE,
+          name = name,
+          controller = resources$controller,
+          scale = resources$scale %|||% TRUE,
+          seconds_timeout = resources$seconds_timeout
+        )
       )
     },
     run_main = function(target) {
