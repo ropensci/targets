@@ -139,7 +139,7 @@ crew_class <- R6::R6Class(
         throttle = TRUE,
         controller = resources$controller
       )
-      if(saturated) {
+      if (saturated) {
         self$scheduler$queue$append0(name = name)
       } else {
         target_prepare(target, self$pipeline, self$scheduler)
