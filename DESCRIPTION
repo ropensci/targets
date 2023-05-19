@@ -110,7 +110,7 @@ Suggests:
   visNetwork (>= 2.0.9)
 Remotes:
   wlandau/crew,
-  wlandau/mirai
+  shikokuchuo/mirai
 Encoding: UTF-8
 Language: en-US
 VignetteBuilder: knitr
