@@ -134,7 +134,7 @@ tar_test("saturated controllers should not get tasks", {
       tar_target(z, Sys.sleep(5))
     )
   })
-  tar_make() # First two should start, then a pause, then the next two. 
+  tar_make() # First two should start, then a pause, then the next two.
   expect_equal(tar_outdated(callr_function = NULL), character(0))
 })
 
