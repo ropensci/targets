@@ -20,13 +20,6 @@ skip_cran <- function() {
   }
 }
 
-skip_crew <- function() {
-  skip_if_not_installed("crew")
-  if (!identical(tolower(Sys.getenv("TAR_TESTS_CREW")), "true")) {
-    skip("skipping crew tests")
-  }
-}
-
 skip_torch <- function() {
   skip_if_not_installed("torch")
   tryCatch(

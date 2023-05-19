@@ -17,10 +17,9 @@ tar_test("tar_make() works", {
 # TODO: reactivate all crew tests
 # after fully solving https://github.com/shikokuchuo/mirai/issues/53.
 tar_test("tar_make() works with crew", {
-  skip_crew()
-  skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
+  skip_if_not_installed("crew")
   skip_if_not_installed("R.utils")
   should_skip <- identical(tolower(Sys.info()[["sysname"]]), "windows") &&
     isTRUE(as.logical(Sys.getenv("CI")))
@@ -29,8 +28,8 @@ tar_test("tar_make() works with crew", {
   }
   tar_script({
     tar_option_set(
-      controller = crew::crew_controller_local(seconds_interval = 0.1),
-      backoff = tar_backoff(min = 0.1, max = 0.1)
+      controller = crew::crew_controller_local(seconds_interval = 0.5),
+      backoff = tar_backoff(min = 0.5, max = 0.5)
     )
     tar_target(
       x,
@@ -50,7 +49,7 @@ tar_test("tar_make() works with crew", {
       callr_function = NULL,
       garbage_collection = TRUE
     ),
-    timeout = 180
+    timeout = 360
   )
   out <- tar_read(x)
   expect_equal(out, TRUE)

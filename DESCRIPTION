@@ -12,7 +12,7 @@ Description: Pipeline tools coordinate the pieces of computationally
   The methodology in this package
   borrows from GNU 'Make' (2015, ISBN:978-9881443519)
   and 'drake' (2018, <doi:10.21105/joss.00550>).
-Version: 1.0.0.9002
+Version: 1.0.0.9003
 License: MIT + file LICENSE
 URL: https://docs.ropensci.org/targets/, https://github.com/ropensci/targets
 BugReports: https://github.com/ropensci/targets/issues
@@ -89,7 +89,8 @@ Suggests:
   gt (>= 0.2.2),
   keras (>= 2.2.5.0),
   markdown (>= 1.1),
-  nanonext (>= 0.8.2),
+  mirai (>= 0.8.7.9012),
+  nanonext (>= 0.8.3.9004),
   rmarkdown (>= 2.4),
   parallelly (>= 1.35.0),
   paws (>= 0.1.11),
@@ -109,6 +110,7 @@ Suggests:
   visNetwork (>= 2.0.9)
 Remotes:
   wlandau/crew
+  wlandau/mirai
 Encoding: UTF-8
 Language: en-US
 VignetteBuilder: knitr

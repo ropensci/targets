@@ -1,6 +1,6 @@
 tar_test("crew$validate()", {
   skip_if_not_installed("crew")
-  controller <- crew::crew_controller_local(seconds_interval = 0.1)
+  controller <- crew::crew_controller_local(seconds_interval = 0.5)
   out <- crew_init(pipeline_init(), controller = controller)
   expect_silent(out$validate())
 })
@@ -8,13 +8,11 @@ tar_test("crew$validate()", {
 # TODO: reactivate all crew tests
 # after fully solving https://github.com/shikokuchuo/mirai/issues/53.
 tar_test("workerless deployment works", {
-  skip_crew()
-  skip_cran()
-  skip_on_os("windows")
   skip_on_os("solaris")
+  skip_if_not_installed("crew")
   skip_if_not_installed("R.utils")
   tar_runtime$fun <- "tar_make"
-  tar_option_set(backoff = tar_backoff(min = 0.1, max = 0.1))
+  tar_option_set(backoff = tar_backoff(min = 0.5, max = 0.5))
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -37,10 +35,10 @@ tar_test("workerless deployment works", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x, y, z))
-  controller <- crew::crew_controller_local(seconds_interval = 0.1)
+  controller <- crew::crew_controller_local(seconds_interval = 0.5)
   R.utils::withTimeout(
     crew_init(pipeline, controller = controller)$run(),
-    timeout = 60
+    timeout = 360
   )
   controller$terminate()
   gc()
@@ -70,7 +68,7 @@ tar_test("workerless deployment works", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x, y, z))
-  controller <- crew::crew_controller_local(seconds_interval = 0.1)
+  controller <- crew::crew_controller_local(seconds_interval = 0.5)
   out <- crew_init(pipeline, controller = controller)
   on.exit({
     tar_runtime$fun <- NULL
@@ -79,20 +77,20 @@ tar_test("workerless deployment works", {
     gc()
     crew_test_sleep()
   })
-  R.utils::withTimeout(out$run(), timeout = 60)
+  R.utils::withTimeout(out$run(), timeout = 360)
   built <- names(out$scheduler$progress$built$envir)
   expect_equal(built, character(0))
 })
 
 tar_test("semi-workerless deployment works", {
-  skip_crew()
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
+  skip_if_not_installed("crew")
   skip_if_not_installed("R.utils")
   crew_test_sleep()
   tar_runtime$fun <- "tar_make"
-  tar_option_set(backoff = tar_backoff(min = 0.1, max = 0.1))
+  tar_option_set(backoff = tar_backoff(min = 0.5, max = 0.5))
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -115,10 +113,10 @@ tar_test("semi-workerless deployment works", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x, y, z))
-  controller <- crew::crew_controller_local(seconds_interval = 0.1)
+  controller <- crew::crew_controller_local(seconds_interval = 0.5)
   R.utils::withTimeout(
     crew_init(pipeline, controller = controller)$run(),
-    timeout = 60
+    timeout = 360
   )
   controller$terminate()
   rm(controller)
@@ -149,7 +147,7 @@ tar_test("semi-workerless deployment works", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x, y, z))
-  controller <- crew::crew_controller_local(seconds_interval = 0.1)
+  controller <- crew::crew_controller_local(seconds_interval = 0.5)
   on.exit({
     tar_runtime$fun <- NULL
     controller$terminate()
@@ -158,19 +156,19 @@ tar_test("semi-workerless deployment works", {
     crew_test_sleep()
   })
   out <- crew_init(pipeline, controller = controller)
-  R.utils::withTimeout(out$run(), timeout = 60)
+  R.utils::withTimeout(out$run(), timeout = 360)
   built <- names(out$scheduler$progress$built$envir)
   expect_equal(built, character(0))
 })
 
 tar_test("some targets up to date, some not", {
-  skip_crew()
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
+  skip_if_not_installed("crew")
   skip_if_not_installed("R.utils")
   tar_runtime$fun <- "tar_make"
-  tar_option_set(backoff = tar_backoff(min = 0.1, max = 0.1))
+  tar_option_set(backoff = tar_backoff(min = 0.5, max = 0.5))
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -185,7 +183,7 @@ tar_test("some targets up to date, some not", {
   )
   pipeline <- pipeline_init(list(x, y))
   local <- local_init(pipeline)
-  R.utils::withTimeout(local$run(), timeout = 60)
+  R.utils::withTimeout(local$run(), timeout = 360)
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -199,7 +197,7 @@ tar_test("some targets up to date, some not", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x, y))
-  controller <- crew::crew_controller_local(seconds_interval = 0.1)
+  controller <- crew::crew_controller_local(seconds_interval = 0.5)
   on.exit({
     tar_runtime$fun <- NULL
     controller$terminate()
@@ -208,7 +206,7 @@ tar_test("some targets up to date, some not", {
     crew_test_sleep()
   })
   algo <- crew_init(pipeline, controller = controller)
-  R.utils::withTimeout(algo$run(), timeout = 60)
+  R.utils::withTimeout(algo$run(), timeout = 360)
   out <- names(algo$scheduler$progress$built$envir)
   expect_equal(out, "y")
   value <- target_read_value(pipeline_get_target(pipeline, "y"))
@@ -216,13 +214,13 @@ tar_test("some targets up to date, some not", {
 })
 
 tar_test("crew algo can skip targets", {
-  skip_crew()
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
+  skip_if_not_installed("crew")
   skip_if_not_installed("R.utils")
   tar_runtime$fun <- "tar_make"
-  tar_option_set(backoff = tar_backoff(min = 0.1, max = 0.1))
+  tar_option_set(backoff = tar_backoff(min = 0.5, max = 0.5))
   x <- tar_target_raw(
     "x",
     quote(1L),
@@ -237,7 +235,7 @@ tar_test("crew algo can skip targets", {
   )
   pipeline <- pipeline_init(list(x, y))
   local <- local_init(pipeline)
-  R.utils::withTimeout(local$run(), timeout = 60)
+  R.utils::withTimeout(local$run(), timeout = 360)
   unlink(file.path("_targets", "objects", "x"))
   x <- tar_target_raw(
     "x",
@@ -252,7 +250,7 @@ tar_test("crew algo can skip targets", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x, y))
-  controller <- crew::crew_controller_local(seconds_interval = 0.1)
+  controller <- crew::crew_controller_local(seconds_interval = 0.5)
   on.exit({
     tar_runtime$fun <- NULL
     controller$terminate()
@@ -261,20 +259,20 @@ tar_test("crew algo can skip targets", {
     crew_test_sleep()
   })
   algo <- crew_init(pipeline, controller = controller)
-  R.utils::withTimeout(algo$run(), timeout = 60)
+  R.utils::withTimeout(algo$run(), timeout = 360)
   out <- names(algo$scheduler$progress$built$envir)
   expect_equal(out, "x")
   expect_equal(tar_read(x), 1L)
 })
 
 tar_test("nontrivial common data", {
-  skip_crew()
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
+  skip_if_not_installed("crew")
   skip_if_not_installed("R.utils")
   tar_runtime$fun <- "tar_make"
-  tar_option_set(backoff = tar_backoff(min = 0.1, max = 0.1))
+  tar_option_set(backoff = tar_backoff(min = 0.5, max = 0.5))
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
@@ -293,7 +291,7 @@ tar_test("nontrivial common data", {
     garbage_collection = TRUE
   )
   pipeline <- pipeline_init(list(x))
-  controller <- crew::crew_controller_local(seconds_interval = 0.1)
+  controller <- crew::crew_controller_local(seconds_interval = 0.5)
   on.exit({
     tar_option_set(envir = old_envir)
     tar_runtime$fun <- NULL
@@ -303,7 +301,7 @@ tar_test("nontrivial common data", {
     crew_test_sleep()
   })
   algo <- crew_init(pipeline, controller = controller)
-  R.utils::withTimeout(algo$run(), timeout = 60)
+  R.utils::withTimeout(algo$run(), timeout = 360)
   value <- target_read_value(pipeline_get_target(pipeline, "x"))
   expect_equal(value$object, 3L)
 })
