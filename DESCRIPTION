@@ -109,7 +109,7 @@ Suggests:
   usethis (>= 1.6.3),
   visNetwork (>= 2.0.9)
 Remotes:
-  wlandau/crew
+  wlandau/crew,
   wlandau/mirai
 Encoding: UTF-8
 Language: en-US
