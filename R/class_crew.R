@@ -140,7 +140,9 @@ crew_class <- R6::R6Class(
         controller = resources$controller
       )
       if (saturated) {
-        self$scheduler$queue$append0(name = name)
+        # Requires a slow test. Covered in the saturation tests in
+        # tests/hpc/test-crew_local.R # nolint
+        self$scheduler$queue$append0(name = name) # nocov
       } else {
         target_prepare(target, self$pipeline, self$scheduler)
         self$controller$push(
