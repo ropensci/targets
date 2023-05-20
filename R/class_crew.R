@@ -11,6 +11,12 @@ crew_init <- function(
   controller = NULL,
   terminate = TRUE
 ) {
+  backoff <- tar_options$get_backoff()
+  backoff_requeue <- backoff_init(
+    min = backoff$min,
+    max = backoff$max,
+    rate = backoff$rate
+  )
   crew_new(
     pipeline = pipeline,
     meta = meta,
@@ -22,7 +28,8 @@ crew_init <- function(
     garbage_collection = garbage_collection,
     envir = envir,
     controller = controller,
-    terminate = terminate
+    terminate = terminate,
+    backoff_requeue = backoff_requeue
   )
 }
 
@@ -37,7 +44,8 @@ crew_new <- function(
   garbage_collection = NULL,
   envir = NULL,
   controller = NULL,
-  terminate = NULL
+  terminate = NULL,
+  backoff_requeue = NULL
 ) {
   crew_class$new(
     pipeline = pipeline,
@@ -50,7 +58,8 @@ crew_new <- function(
     garbage_collection = garbage_collection,
     envir = envir,
     controller = controller,
-    terminate = terminate
+    terminate = terminate,
+    backoff_requeue = backoff_requeue
   )
 }
 
@@ -62,6 +71,7 @@ crew_class <- R6::R6Class(
   public = list(
     controller = NULL,
     terminate = NULL,
+    backoff_requeue = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
@@ -74,7 +84,7 @@ crew_class <- R6::R6Class(
       envir = NULL,
       controller = NULL,
       terminate = NULL,
-      exports = NULL
+      backoff_requeue = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -89,6 +99,7 @@ crew_class <- R6::R6Class(
       )
       self$controller <- controller
       self$terminate <- terminate
+      self$backoff_requeue <- backoff_requeue
     },
     produce_exports = function(envir, path_store, is_globalenv = NULL) {
       map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
@@ -143,6 +154,7 @@ crew_class <- R6::R6Class(
         # Requires a slow test. Covered in the saturation tests in
         # tests/hpc/test-crew_local.R # nolint
         self$scheduler$queue$append0(name = name) # nocov
+        self$backoff_requeue$wait() # nocov
       } else {
         target_prepare(target, self$pipeline, self$scheduler)
         self$controller$push(
@@ -155,6 +167,7 @@ crew_class <- R6::R6Class(
           scale = resources$scale %|||% TRUE,
           seconds_timeout = resources$seconds_timeout
         )
+        self$backoff_requeue$reset()
       }
     },
     run_main = function(target) {
