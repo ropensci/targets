@@ -19,7 +19,7 @@ tar_test("sequential$append()", {
 
 tar_test("sequential$append0()", {
   q <- sequential_init(c("a", "b"))
-  q$append(name = "c")
+  q$append0(name = "c")
   expect_equal(q$data, c("a", "b", "c"))
 })
 
