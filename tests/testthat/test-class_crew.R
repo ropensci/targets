@@ -84,7 +84,6 @@ tar_test("workerless deployment works", {
 
 tar_test("semi-workerless deployment works", {
   skip_cran()
-  skip_on_covr()
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew")
@@ -164,7 +163,6 @@ tar_test("semi-workerless deployment works", {
 
 tar_test("some targets up to date, some not", {
   skip_cran()
-  skip_on_covr()
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew")
@@ -217,7 +215,6 @@ tar_test("some targets up to date, some not", {
 
 tar_test("crew algo can skip targets", {
   skip_cran()
-  skip_on_covr()
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew")
@@ -270,7 +267,6 @@ tar_test("crew algo can skip targets", {
 
 tar_test("nontrivial common data", {
   skip_cran()
-  skip_on_covr()
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew")

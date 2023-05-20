@@ -17,7 +17,6 @@ tar_test("tar_make() works", {
 # TODO: reactivate all crew tests
 # after fully solving https://github.com/shikokuchuo/mirai/issues/53.
 tar_test("tar_make() works with crew", {
-  skip_on_covr()
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew")
