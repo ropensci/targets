@@ -18,6 +18,7 @@
 * Implement `tar_resources_network()` to configure retries and timeouts for internal HTTP/HTTPS requests in specialized targets with `format = "url"`, `repository = "aws"`, and `repository = "gcp"`. Also applies to syncing target files across network file systems in the case of `storage = "worker"` or `format = "file"`, which previously had a hard-coded `seconds_interval = 0.1` and `seconds_timeout = 60`.
 * Deprecate `seconds_interval` and `seconds_timeout` in `tar_resources_url()` in favor of the new equivalent arguments of `tar_resources_network()`
 * Safely withhold a target from its `crew` controller when the controller is saturated (#1074, @mglev1n).
+* Use exponential backoff when appending a target back to the queue in the case of a saturated `crew` controller.
 
 ## Speedups
 
