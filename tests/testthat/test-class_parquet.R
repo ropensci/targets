@@ -114,6 +114,7 @@ tar_test("same with error = \"continue\"", {
 
 tar_test("does not inherit from tar_external", {
   skip_cran()
+  skip_if_not_installed("arrow")
   store <- tar_target(x, "x_value", format = "parquet")$store
   expect_false(inherits(store, "tar_external"))
 })
@@ -139,6 +140,7 @@ tar_test("store_path_from_record()", {
 
 tar_test("parquet and NULL", {
   skip_cran()
+  skip_if_not_installed("arrow")
   tar_script(
     list(
       tar_target(x, NULL, format = "parquet", memory = "persistent"),

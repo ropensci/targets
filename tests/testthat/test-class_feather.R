@@ -140,6 +140,7 @@ tar_test("store_path_from_record()", {
 
 tar_test("feather and NULL", {
   skip_cran()
+  skip_if_not_installed("arrow")
   tar_script(
     list(
       tar_target(x, NULL, format = "feather", memory = "persistent"),
