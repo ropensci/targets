@@ -45,6 +45,7 @@ tar_test("tar_visnetwork() does not deduplicate metadata", {
 
 tar_test("custom script and store args", {
   skip_cran()
+  skip_if_not_installed("visNetwork")
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script(tar_target(x, "y"), script = "example/script.R")
@@ -68,6 +69,7 @@ tar_test("custom script and store args", {
 
 tar_test("custom script and store args with callr function", {
   skip_cran()
+  skip_if_not_installed("visNetwork")
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script(tar_target(x, "y"), script = "example/script.R")

@@ -244,6 +244,7 @@ tar_test("tar_assert_resources()", {
     tar_assert_resources(list(a = 1)),
     class = "tar_condition_deprecate"
   )
+  skip_if_not_installed("paws")
   expect_warning(
     tar_assert_resources(list(aws = 1)),
     class = "tar_condition_deprecate"
