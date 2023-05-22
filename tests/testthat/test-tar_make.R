@@ -14,9 +14,8 @@ tar_test("tar_make() works", {
   expect_equal(out, 4L)
 })
 
-# TODO: reactivate all crew tests
-# after fully solving https://github.com/shikokuchuo/mirai/issues/53.
 tar_test("tar_make() works with crew", {
+  skip_if_low_dep_versions()
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew")

@@ -1,8 +1,8 @@
-# targets 1.0.0.9002 (development)
+# targets 1.1.0
 
 ## Bug fixes
 
-* Send targets to appropriate controller groups when `crew` is used.
+* Send targets to the appropriate controller in a controller group when `crew` is used.
 
 ## General improvements
 
