@@ -37,6 +37,16 @@ A pipeline is a computational workflow that does statistics, analytics, or data 
 
 ## Installation
 
+If you are using `targets` [with `crew` for distributed computing](https://books.ropensci.org/targets/crew.html), it is recommended to use `nanonext` version `0.8.3.9010` or higher, `mirai` version `0.8.7.9013` or higher, and `crew` version `0.2.0` or higher. If the latest CRAN releases are older, then you can install the development versions from R-universe.
+
+```{r, eval = FALSE}
+install.packages("nanonext", repos = "https://shikokuchuo.r-universe.dev")
+install.packages("mirai", repos = "https://shikokuchuo.r-universe.dev")
+install.packages("crew", repos = "https://wlandau.r-universe.dev")
+```
+
+There are multiple ways to install the `targets` package itself, and both the latest release and the development version are available.
+
 Type | Source | Command
 ---|---|---
 Release | CRAN | `install.packages("targets")`

@@ -12,7 +12,15 @@ Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&lab
 [![codecov](https://codecov.io/gh/ropensci/targets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://app.codecov.io/gh/ropensci/targets)
 [![lint](https://github.com/ropensci/targets/workflows/lint/badge.svg)](https://github.com/ropensci/targets/actions?query=workflow%3Alint)
 
-Pipeline tools coordinate the pieces of computationally demanding analysis projects. The `targets` package is a [Make](https://www.gnu.org/software/make/)-like pipeline tool for statistics and data science in R. The package skips costly runtime for tasks that are already up to date, orchestrates the necessary computation with implicit parallel computing, and abstracts files as R objects. If all the current output matches the current upstream code and data, then the whole pipeline is up to date, and the results are more trustworthy than otherwise.
+Pipeline tools coordinate the pieces of computationally demanding
+analysis projects. The `targets` package is a
+[Make](https://www.gnu.org/software/make/)-like pipeline tool for
+statistics and data science in R. The package skips costly runtime for
+tasks that are already up to date, orchestrates the necessary
+computation with implicit parallel computing, and abstracts files as R
+objects. If all the current output matches the current upstream code and
+data, then the whole pipeline is up to date, and the results are more
+trustworthy than otherwise.
 
 ## Philosophy
 
@@ -40,6 +48,22 @@ reproducible.
     project.
 
 ## Installation
+
+If you are using `targets` [with `crew` for distributed
+computing](https://books.ropensci.org/targets/crew.html), it is
+recommended to use `nanonext` version `0.8.3.9010` or higher, `mirai`
+version `0.8.7.9013` or higher, and `crew` version `0.2.0` or higher. If
+the latest CRAN releases are older, then you can install the development
+versions from R-universe.
+
+``` r
+install.packages("nanonext", repos = "https://shikokuchuo.r-universe.dev")
+install.packages("mirai", repos = "https://shikokuchuo.r-universe.dev")
+install.packages("crew", repos = "https://wlandau.r-universe.dev")
+```
+
+There are multiple ways to install the `targets` package itself, and
+both the latest release and the development version are available.
 
 | Type        | Source   | Command                                                           |
 |-------------|----------|-------------------------------------------------------------------|
@@ -116,8 +140,7 @@ to ask for help using `targets`.
 
 - [Get started with `targets` in 4 minutes
   (4:08)](https://vimeo.com/700982360)
-- [{targets} in
-  Action](https://ropensci.org/commcalls/jan2023-targets/)
+- [{targets} in Action](https://ropensci.org/commcalls/jan2023-targets/)
 - [R/Medicine 2021 (15.33)](https://youtu.be/HJI5mQJRGpY)
 - [R/Pharma 2020
   (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
@@ -202,7 +225,6 @@ Conduct](https://ropensci.org/code-of-conduct/).
 
 ``` r
 citation("targets")
-
 To cite targets in publications use:
 
   Landau, W. M., (2021). The targets R package: a dynamic Make-like
