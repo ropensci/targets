@@ -32,6 +32,12 @@ jobs:
           cat("\noptions(repos=c(shikokuchuo = 'https://shikokuchuo.r-universe.dev', wlandau = 'https://wlandau.r-universe.dev', CRAN = 'https://cloud.r-project.org'))\n", file = "~/.Rprofile", append = TRUE)
         shell: Rscript {0}
 
+      - name: Install development crew
+        run: |
+          install.packages("remotes")
+          remotes::install_github("wlandau/crew")
+        shell: Rscript {0}
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::covr

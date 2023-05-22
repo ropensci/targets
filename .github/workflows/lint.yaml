@@ -30,6 +30,12 @@ jobs:
           extra-packages: any::lintr, local::.
           needs: lint
 
+      - name: Install development crew
+        run: |
+          install.packages("remotes")
+          remotes::install_github("wlandau/crew")
+        shell: Rscript {0}
+
       - name: Lint
         run: lintr::lint_package()
         shell: Rscript {0}
