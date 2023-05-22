@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/ropensci/targets",
   "issueTracker": "https://github.com/ropensci/targets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.0",
+  "version": "1.1.0.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -103,7 +103,7 @@
       "@type": "SoftwareApplication",
       "identifier": "crew",
       "name": "crew",
-      "version": ">= 0.1.0",
+      "version": ">= 0.2.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -267,6 +267,19 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=markdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "nanonext",
+      "name": "nanonext",
+      "version": ">= 0.8.3.9007",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=nanonext"
     },
     {
       "@type": "SoftwareApplication",
@@ -683,19 +696,6 @@
     },
     "18": {
       "@type": "SoftwareApplication",
-      "identifier": "withr",
-      "name": "withr",
-      "version": ">= 2.4.0",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=withr"
-    },
-    "19": {
-      "@type": "SoftwareApplication",
       "identifier": "yaml",
       "name": "yaml",
       "version": ">= 2.2.1",
@@ -709,7 +709,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2241.716KB",
+  "fileSize": "2342.106KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
