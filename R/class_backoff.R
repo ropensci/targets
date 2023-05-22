@@ -2,7 +2,7 @@
 # similar to https://en.wikipedia.org/wiki/Exponential_backoff
 backoff_init <- function(min = 0.001, max = 0.1, rate = 1.5) {
   backoff_new(
-    min = max(sqrt(.Machine$double.eps), min),
+    min = min,
     max = max,
     rate = rate,
     index = 0L

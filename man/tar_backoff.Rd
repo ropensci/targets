@@ -8,10 +8,12 @@ tar_backoff(min = 0.001, max = 0.1, rate = 1.5)
 }
 \arguments{
 \item{min}{Positive numeric of length 1,
-minimum polling interval in seconds.}
+minimum polling interval in seconds.
+Must be at least \code{sqrt(.Machine$double.eps)}.}
 
 \item{max}{Positive numeric of length 1,
-maximum polling interval in seconds.}
+maximum polling interval in seconds.
+Must be at least \code{sqrt(.Machine$double.eps)}.}
 
 \item{rate}{Positive numeric of length 1, greater than or equal to 1.
 Multiplicative rate parameter that allows the exponential backoff

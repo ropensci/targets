@@ -23,8 +23,10 @@
 #'   in some instances.
 #' @param min Positive numeric of length 1,
 #'   minimum polling interval in seconds.
+#'   Must be at least `sqrt(.Machine$double.eps)`.
 #' @param max Positive numeric of length 1,
 #'   maximum polling interval in seconds.
+#'   Must be at least `sqrt(.Machine$double.eps)`.
 #' @param rate Positive numeric of length 1, greater than or equal to 1.
 #'   Multiplicative rate parameter that allows the exponential backoff
 #'   minimum polling interval to increase from `min` to `max`.
