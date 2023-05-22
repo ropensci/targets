@@ -42,7 +42,7 @@ package_version_message <- function(package, version, repo) {
     "of {renv}, see https://rstudio.github.io/renv/articles/renv.html"
   )
   message <- sprintf(template, version, package, package, package, repo)
-  rlang::inform(message = message)
+  packageStartupMessage(message)
 }
 
 load_packages <- function(packages, library) {
