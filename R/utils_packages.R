@@ -34,7 +34,12 @@ package_version_message <- function(package, version, repo) {
     "For {crew}, version %s or higher of packge {%s} is recommended.",
     "If the current CRAN version of {%s} is too low, you can",
     "install the development version using",
-    "install.packages(\"%s\", repos = \"%s\")"
+    "install.packages(\"%s\", repos = \"%s\").",
+    "If you cannot install packages to the main local library, e.g. if",
+    "you work in an institution with a central qualified/validated R",
+    "installation, consider creating a local self-contained",
+    "{renv} package library for your project. For a friendly walkthrough",
+    "of {renv}, see https://rstudio.github.io/renv/articles/renv.html"
   )
   message <- sprintf(template, version, package, package, package, repo)
   rlang::inform(message = message)
