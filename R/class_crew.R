@@ -146,8 +146,8 @@ crew_class <- R6::R6Class(
       resources <- target$settings$resources$crew
       name <- target_get_name(target)
       saturated <- self$controller$saturated(
-        collect = TRUE,
-        throttle = FALSE,
+        collect = FALSE,
+        throttle = TRUE,
         controller = resources$controller
       )
       if (saturated) {
@@ -210,13 +210,15 @@ crew_class <- R6::R6Class(
       if (should_dequeue) {
         self$process_target(queue$dequeue())
       }
-      result <- self$controller$pop()
+      result <- self$controller$pop(scale = TRUE, throttle = TRUE)
       self$conclude_worker_task(result)
-      if_any(
-        should_dequeue || (!is.null(result)),
-        self$scheduler$backoff$reset(),
-        self$backoff()
-      )
+      if (should_dequeue || (!is.null(result))) {
+        self$controller$collect(throttle = FALSE)
+        self$scheduler$backoff$reset()
+      } else {
+        # Requires a long test.
+        self$backoff() # nocov
+      }
     },
     conclude_worker_task = function(result) {
       if (is.null(result)) {
