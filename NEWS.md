@@ -1,4 +1,4 @@
-# targets 1.1.0.9000 (development)
+# targets 1.1.1
 
 * Pre-compute `cli` colors and bullets to improve performance in RStudio.
 * Use `packageStartupMessage()` for package startup messages.
