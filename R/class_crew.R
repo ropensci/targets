@@ -210,15 +210,15 @@ crew_class <- R6::R6Class(
       if (should_dequeue) {
         self$process_target(queue$dequeue())
       }
-      result <- self$controller$pop(scale = TRUE, throttle = TRUE)
+      self$controller$collect(throttle = FALSE)
+      self$controller$scale(throttle = TRUE)
+      result <- self$controller$pop(scale = FALSE, collect = FALSE)
       self$conclude_worker_task(result)
-      if (should_dequeue || (!is.null(result))) {
-        self$controller$collect(throttle = FALSE)
-        self$scheduler$backoff$reset()
-      } else {
-        # Requires a long test.
-        self$backoff() # nocov
-      }
+      if_any(
+        should_dequeue || (!is.null(result)),
+        self$scheduler$backoff$reset(),
+        self$backoff()
+      )
     },
     conclude_worker_task = function(result) {
       if (is.null(result)) {
