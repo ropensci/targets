@@ -146,8 +146,8 @@ crew_class <- R6::R6Class(
       resources <- target$settings$resources$crew
       name <- target_get_name(target)
       saturated <- self$controller$saturated(
-        collect = FALSE,
-        throttle = TRUE,
+        collect = TRUE,
+        throttle = FALSE,
         controller = resources$controller
       )
       if (saturated) {
