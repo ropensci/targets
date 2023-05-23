@@ -11,7 +11,7 @@ tar_test("load packages", {
 tar_test("package_version_check", {
   expect_silent(
     package_version_check(
-      package = "crew",
+      package = "rlang",
       version = "0.0.0",
       repo = "https://wlandau.r-universe.dev"
     )

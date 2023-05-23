@@ -1,6 +1,6 @@
-# targets 1.1.1.9000 (development)
+# targets 1.1.2
 
-
+* Switch away from `crew` startup messages in favor of more specific messages when the `controller` option is set with `tar_option_set()`.
 
 # targets 1.1.1
 

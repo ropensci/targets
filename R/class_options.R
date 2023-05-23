@@ -528,6 +528,12 @@ options_class <- R6::R6Class(
       }
     },
     validate_controller = function(controller) {
+      # TODO: remove and require sufficient crew when it builds on CRAN.
+      package_version_check(
+        package = "crew",
+        version = "0.2.1",
+        repo = "https://wlandau.r-universe.dev"
+      )
       if (!is.null(controller)) {
         validate_crew_controller(controller)
       }
