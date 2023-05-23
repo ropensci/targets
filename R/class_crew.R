@@ -163,6 +163,7 @@ crew_class <- R6::R6Class(
           globals = globals,
           substitute = FALSE,
           name = name,
+          seed = 0L,
           controller = resources$controller,
           scale = resources$scale %|||% TRUE,
           seconds_timeout = resources$seconds_timeout
