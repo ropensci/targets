@@ -1,3 +1,7 @@
+# targets 1.1.3.9000 (development)
+
+
+
 # targets 1.1.3
 
 * Decide on `nanonext` usage in `time_seconds_local()` at runtime and not installation time. That way, if `nanonext` is removed after `targets` is installed, functions in `targets` still work. Fixes the CRAN issues seen in `tarchetypes`, `jagstargets`, and `gittargets`.
