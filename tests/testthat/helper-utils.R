@@ -42,7 +42,7 @@ crew_test_sleep <- function() {
 skip_if_low_dep_versions <- function() {
   sufficient_versions <- rlang::is_installed(
     pkg = c(
-      "crew (>= 0.2.0)",
+      "crew (>= 0.2.1)",
       "mirai (>= 0.8.7.9012)",
       "nanonext (>= 0.8.3.9007)"
     )
