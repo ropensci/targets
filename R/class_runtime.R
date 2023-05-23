@@ -9,7 +9,8 @@ runtime_new <- function(
   gcp_auth = NULL,
   file_exist = NULL,
   file_info = NULL,
-  file_info_exist = NULL
+  file_info_exist = NULL,
+  nanonext = NULL
 ) {
   force(target)
   force(frames)
@@ -22,6 +23,7 @@ runtime_new <- function(
   force(file_exist)
   force(file_info)
   force(file_info_exist)
+  force(nanonext)
   environment()
 }
 
@@ -61,7 +63,6 @@ runtime_validate <- function(x) {
   if (!is.null(x$gcp_auth)) {
     tar_assert_scalar(x$gcp_auth)
     tar_assert_lgl(x$gcp_auth)
-    tar_assert_nzchar(x$gcp_auth)
   }
   if (!is.null(x$file_exist)) {
     tar_assert_envir(x$file_exist)
@@ -72,6 +73,10 @@ runtime_validate <- function(x) {
   }
   if (!is.null(x$file_info_exist)) {
     tar_assert_envir(x$file_info_exist)
+  }
+  if (!is.null(x$nanonext)) {
+    tar_assert_scalar(x$nanonext)
+    tar_assert_lgl(x$nanonext)
   }
 }
 

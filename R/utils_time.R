@@ -14,15 +14,13 @@ time_seconds <- function() {
   )
 }
 
-# not possible to cover both cases
-# nocov start
-if (length(find.package("nanonext", quiet = TRUE)) > 0L) {
-  time_seconds_local <- function() {
-    nanonext::mclock() / 1e3
+time_seconds_local <- function() {
+  if (is.null(tar_runtime$nanonext)) {
+    tar_runtime$nanonext <- rlang::is_installed("nanonext")
   }
-} else {
-  time_seconds_local <- function() {
+  if_any(
+    tar_runtime$nanonext,
+    nanonext::mclock() / 1e3,
     as.numeric(proc.time()["elapsed"])
-  }
+  )
 }
-# nocov end

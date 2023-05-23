@@ -33,6 +33,7 @@ tar_test("store_gcp_version()", {
 })
 
 tar_test("package detection", {
+  skip_cran()
   target <- tar_target(x, "x_value", format = "feather", repository = "gcp")
   out <- sort(store_get_packages(target$store))
   exp <- sort(c("googleCloudStorageR", "arrow"))
