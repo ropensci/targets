@@ -1,6 +1,6 @@
 # targets 1.1.3.9000 (development)
 
-
+* Do not assume S3 classes when validating `crew` controllers.
 
 # targets 1.1.3
 
