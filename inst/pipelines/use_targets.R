@@ -12,17 +12,19 @@ tar_option_set(
   packages = c("tibble"), # packages that your targets need to run
   format = "rds" # default storage format
   #
-  # For distributed computing in tar_make(), supply a crew controller
+  # For distributed computing in tar_make(), supply a {crew} controller
   #   as discussed at https://books.ropensci.org/targets/crew.html
   # controller = crew::crew_controller_local(workers = 2)
   #
   # Set other options as needed.
 )
 
-# tar_make_clustermq() configuration (okay to leave alone):
+# tar_make_clustermq() is an older (pre-{crew}) way to do distributed computing
+# in targets, and its configuration for your machine is below.
 CLUSTERMQ
 
-# tar_make_future() configuration (okay to leave alone):
+# tar_make_future() is an older (pre-{crew}) way to do distributed computing
+# in targets, and its configuration for your machine is below.
 FUTURE
 
 # Run the R scripts in the R/ folder with your custom functions:
