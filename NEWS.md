@@ -1,6 +1,7 @@
 # targets 1.1.3.9000 (development)
 
 * Do not assume S3 classes when validating `crew` controllers.
+* Suggest a crew controller in the `_targets.R` file from `use_targets()`.
 
 # targets 1.1.3
 
