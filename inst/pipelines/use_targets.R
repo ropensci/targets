@@ -20,11 +20,11 @@ tar_option_set(
 )
 
 # tar_make_clustermq() is an older (pre-{crew}) way to do distributed computing
-# in targets, and its configuration for your machine is below.
+# in {targets}, and its configuration for your machine is below.
 CLUSTERMQ
 
 # tar_make_future() is an older (pre-{crew}) way to do distributed computing
-# in targets, and its configuration for your machine is below.
+# in {targets}, and its configuration for your machine is below.
 FUTURE
 
 # Run the R scripts in the R/ folder with your custom functions:
