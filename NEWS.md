@@ -2,6 +2,7 @@
 
 * Do not assume S3 classes when validating `crew` controllers.
 * Suggest a crew controller in the `_targets.R` file from `use_targets()`.
+* Make `tar_crew()` compatible with `crew` >= 0.2.1.9011.
 
 # targets 1.1.3
 

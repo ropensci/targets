@@ -301,17 +301,16 @@ crew_summary <- function(controller) {
   summary <- controller$summary()
   data_frame(
     controller = summary$controller,
-    worker = summary$worker_index,
-    launches = summary$worker_launches,
-    seconds = summary$popped_seconds,
-    targets = summary$popped_tasks
+    worker = summary$worker,
+    seconds = summary$seconds,
+    targets = summary$tasks
   )
 }
 
 database_crew <- function(path_store) {
   database_init(
     path = file.path(path_meta_dir(path_store), "crew"),
-    header = c("controller", "worker", "launches", "seconds", "targets")
+    header = c("controller", "worker", "seconds", "targets")
   )
 }
 

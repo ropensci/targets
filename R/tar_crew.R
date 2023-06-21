@@ -6,7 +6,6 @@
 #'   of the workers.
 #' @return A data frame one row per `crew` worker and the following columns:
 #'   * `controller`: name of the `crew` controller.
-#'   * `worker`: worker index in the controller.
 #'   * `launches`: number of times the worker was launched.
 #'   * `seconds`: number of seconds the worker spent running tasks.
 #'   * `targets`: number of targets the worker completed and delivered.
