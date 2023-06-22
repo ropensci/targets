@@ -45,6 +45,7 @@
 #'   ignored if `tar_option_get("controller")` is `NULL`.
 #'   Independent from the `garbage_collection` argument of [tar_target()],
 #'   which controls garbage collection on the worker.
+#' @param label Argument of [tar_visnetwork()] to control node labels.
 #' @param level_separation Argument of [tar_visnetwork()] and [tar_glimpse()]
 #'   to control the space between hierarchical levels.
 #' @param reporter_make Character of length 1, `reporter` argument to
@@ -134,6 +135,7 @@
 tar_config_set <- function(
   inherits = NULL,
   garbage_collection = NULL,
+  label = NULL,
   level_separation = NULL,
   reporter_make = NULL,
   reporter_outdated = NULL,
@@ -153,6 +155,7 @@ tar_config_set <- function(
   tar_assert_scalar(project)
   tar_config_assert_inherits(inherits)
   tar_config_assert_garbage_collection(garbage_collection)
+  tar_config_assert_label(label)
   tar_config_assert_level_separation(level_separation)
   tar_config_assert_reporter_make(reporter_make)
   tar_config_assert_reporter_outdated(reporter_outdated)
@@ -168,6 +171,7 @@ tar_config_set <- function(
   yaml[[project]]$inherits <- inherits %|||% yaml[[project]]$inherits
   yaml[[project]]$garbage_collection <- garbage_collection %|||%
     yaml[[project]]$garbage_collection
+  yaml[[project]]$label <- label %|||% yaml[[project]]$label
   yaml[[project]]$level_separation <- level_separation %|||%
     yaml[[project]]$level_separation
   yaml[[project]]$reporter_make <- reporter_make %|||%
@@ -210,6 +214,15 @@ tar_config_assert_garbage_collection <- function(garbage_collection) {
   tar_assert_lgl(garbage_collection)
   tar_assert_scalar(garbage_collection)
   tar_assert_none_na(garbage_collection)
+}
+
+tar_config_assert_label <- function(label) {
+  if (is.null(label)) {
+    return()
+  }
+  tar_assert_chr(label)
+  tar_assert_none_na(label)
+  tar_assert_nzchar(label)
 }
 
 tar_config_assert_level_separation <- function(level_separation) {

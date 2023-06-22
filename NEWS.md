@@ -8,7 +8,7 @@
 
 ## Other improvements
 
-* Set default `level_separation` arguments with `tar_config_set()` (#1085, @Moohan).
+* Allow users to set the default `label` and `level_separation` arguments through `tar_config_set()` (#1085, @Moohan).
 
 # targets 1.1.3
 

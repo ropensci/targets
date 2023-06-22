@@ -28,6 +28,21 @@ tar_test("tar_config_set() garbage_collection", {
   expect_equal(tar_config_get("garbage_collection"), FALSE)
 })
 
+tar_test("tar_config_set() label", {
+  skip_cran()
+  expect_false(file.exists("_targets.yaml"))
+  expect_null(tar_config_get("label"))
+  tar_config_set(label = c("size", "time"))
+  expect_equal(tar_config_get("label"), c("size", "time"))
+  expect_true(file.exists("_targets.yaml"))
+  expect_true(any(grepl("label", readLines("_targets.yaml"))))
+  tar_config_set()
+  expect_equal(tar_config_get("label"), c("size", "time"))
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_null(tar_config_get("label"))
+})
+
 tar_test("tar_config_set() level_separation", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))

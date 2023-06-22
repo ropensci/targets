@@ -35,7 +35,7 @@ tar_visnetwork <- function(
   allow = NULL,
   exclude = ".Random.seed",
   outdated = TRUE,
-  label = NULL,
+  label = targets::tar_config_get("label"),
   level_separation = targets::tar_config_get("level_separation"),
   degree_from = 1L,
   degree_to = 1L,
