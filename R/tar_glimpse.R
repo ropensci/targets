@@ -50,7 +50,7 @@ tar_glimpse <- function(
   shortcut = FALSE,
   allow = NULL,
   exclude = ".Random.seed",
-  level_separation = NULL,
+  level_separation = targets::tar_config_get("level_separation"),
   degree_from = 1L,
   degree_to = 1L,
   zoom_speed = 1,

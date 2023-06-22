@@ -7,6 +7,7 @@
 tar_config_set(
   inherits = NULL,
   garbage_collection = NULL,
+  level_separation = NULL,
   reporter_make = NULL,
   reporter_outdated = NULL,
   script = NULL,
@@ -35,6 +36,9 @@ to a worker. For \code{\link[=tar_make]{tar_make()}}, this argument is
 ignored if \code{tar_option_get("controller")} is \code{NULL}.
 Independent from the \code{garbage_collection} argument of \code{\link[=tar_target]{tar_target()}},
 which controls garbage collection on the worker.}
+
+\item{level_separation}{Argument of \code{\link[=tar_visnetwork]{tar_visnetwork()}} and \code{\link[=tar_glimpse]{tar_glimpse()}}
+to control the space between hierarchical levels.}
 
 \item{reporter_make}{Character of length 1, \code{reporter} argument to
 \code{\link[=tar_make]{tar_make()}} and related functions that run the pipeline.
