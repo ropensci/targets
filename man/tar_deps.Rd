@@ -29,6 +29,8 @@ tar_deps({
 tar_deps(function(a = b) map_dfr(data, ~do_row(.x)))
 }
 \seealso{
+\code{\link[=tar_branches]{tar_branches()}}, \code{\link[=tar_network]{tar_network()}}
+
 Other inspect: 
 \code{\link{tar_deps_raw}()},
 \code{\link{tar_manifest}()},
