@@ -149,7 +149,7 @@ future_class <- R6::R6Class(
     },
     run_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
-      target_prepare(target, self$pipeline, self$scheduler)
+      target_prepare(target, self$pipeline, self$scheduler, self$meta)
       if_any(
         target_should_run_worker(target),
         self$run_worker(target),

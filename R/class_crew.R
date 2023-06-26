@@ -153,10 +153,12 @@ crew_class <- R6::R6Class(
       if (saturated) {
         # Requires a slow test. Covered in the saturation tests in
         # tests/hpc/test-crew_local.R # nolint
-        self$scheduler$queue$append0(name = name) # nocov
-        self$backoff_requeue$wait() # nocov
+        # nocov start
+        self$scheduler$queue$append0(name = name)
+        self$backoff_requeue$wait()
+        # nocov end
       } else {
-        target_prepare(target, self$pipeline, self$scheduler)
+        target_prepare(target, self$pipeline, self$scheduler, self$meta)
         self$controller$push(
           command = command,
           data = data,
@@ -172,7 +174,7 @@ crew_class <- R6::R6Class(
       }
     },
     run_main = function(target) {
-      target_prepare(target, self$pipeline, self$scheduler)
+      target_prepare(target, self$pipeline, self$scheduler, self$meta)
       target_run(
         target = target,
         envir = self$envir,

@@ -56,7 +56,7 @@ Depends:
   R (>= 3.5.0)
 Imports:
   base64url (>= 1.4),
-  callr (>= 3.4.3),
+  callr (>= 3.7.0),
   cli (>= 2.0.2),
   codetools (>= 0.2.16),
   data.table (>= 1.12.8),
@@ -74,7 +74,7 @@ Imports:
   yaml (>= 2.2.1)
 Suggests:
   arrow (>= 3.0.0),
-  bs4Dash (>= 0.5.0),
+  bs4Dash (>= 2.0.0),
   clustermq (>= 0.8.95.1),
   crew (>= 0.3.0),
   curl (>= 4.3),

@@ -202,7 +202,39 @@ database_class <- R6::R6Class(
       )
     },
     read_existing_data = function() {
-      database_read_existing_data(self)
+      # TODO: use sep2 once implemented:
+      # https://github.com/Rdatatable/data.table/issues/1162
+      # We can also delete the list_columns arg then.
+      encoding <- getOption("encoding")
+      encoding <- if_any(
+        identical(tolower(encoding), "latin1"),
+        "Latin-1",
+        encoding
+      )
+      encoding <- if_any(
+        encoding %in% c("unknown", "UTF-8", "Latin-1"),
+        encoding,
+        "unknown"
+      )
+      out <- data.table::fread(
+        file = self$path,
+        sep = database_sep_outer,
+        fill = TRUE,
+        na.strings = "",
+        encoding = encoding
+      )
+      out <- as_data_frame(out)
+      if (nrow(out) < 1L) {
+        return(out)
+      }
+      for (id in self$list_columns) {
+        out[[id]] <- strsplit(
+          as.character(out[[id]]),
+          split = database_sep_inner,
+          fixed = TRUE
+        )
+      }
+      out
     },
     produce_mock_data = function() {
       out <- as_data_frame(map(self$header, ~character(0)))
@@ -217,10 +249,31 @@ database_class <- R6::R6Class(
       }
     },
     validate_columns = function(header, list_columns) {
-      database_validate_columns(header, list_columns)
+      if (!all(list_columns %in% header)) {
+        tar_throw_validate("all list columns must be in the header")
+      }
+      if (!is.null(header) && !("name" %in% header)) {
+        tar_throw_validate("header must have a column called \"name\"")
+      }
     },
     validate_file = function() {
-      database_validate_file(self)
+      if (!file.exists(self$path)) {
+        return()
+      }
+      line <- readLines(self$path, n = 1L)
+      header <- strsplit(line, split = database_sep_outer, fixed = TRUE)[[1]]
+      if (identical(header, self$header)) {
+        return()
+      }
+      tar_throw_file(
+        "invalid header in ", self$path, "\n",
+        "  found:    ", paste(header, collapse = database_sep_outer), "\n",
+        "  expected: ", paste(self$header, collapse = database_sep_outer),
+        "\nProbably because of a breaking change in the targets package. ",
+        "Before running tar_make() again, ",
+        "either delete the data store with tar_destroy() ",
+        "or downgrade the targets package to an earlier version."
+      )
     },
     validate = function() {
       memory_validate(self$memory)
@@ -233,73 +286,6 @@ database_class <- R6::R6Class(
     }
   )
 )
-
-# TODO: move these functions inline in the class again
-# after https://github.com/jimhester/lintr/issues/804 is solved.
-database_read_existing_data <- function(database) {
-  # TODO: use sep2 once implemented:
-  # https://github.com/Rdatatable/data.table/issues/1162
-  # We can also delete the list_columns arg then.
-  encoding <- getOption("encoding")
-  encoding <- if_any(
-    identical(tolower(encoding), "latin1"),
-    "Latin-1",
-    encoding
-  )
-  encoding <- if_any(
-    encoding %in% c("unknown", "UTF-8", "Latin-1"),
-    encoding,
-    "unknown"
-  )
-  out <- data.table::fread(
-    file = database$path,
-    sep = database_sep_outer,
-    fill = TRUE,
-    na.strings = "",
-    encoding = encoding
-  )
-  out <- as_data_frame(out)
-  if (nrow(out) < 1L) {
-    return(out)
-  }
-  for (id in database$list_columns) {
-    out[[id]] <- strsplit(
-      as.character(out[[id]]),
-      split = database_sep_inner,
-      fixed = TRUE
-    )
-  }
-  out
-}
-
-database_validate_columns <- function(header, list_columns) {
-  if (!all(list_columns %in% header)) {
-    tar_throw_validate("all list columns must be in the header")
-  }
-  if (!is.null(header) && !("name" %in% header)) {
-    tar_throw_validate("header must have a column called \"name\"")
-  }
-}
-
-database_validate_file <- function(database) {
-  if (!file.exists(database$path)) {
-    return()
-  }
-  line <- readLines(database$path, n = 1L)
-  header <- strsplit(line, split = database_sep_outer, fixed = TRUE)[[1]]
-  if (identical(header, database$header)) {
-    return()
-  }
-  tar_throw_file(
-    "invalid header in ", database$path, "\n",
-    "  found:    ", paste(header, collapse = database_sep_outer), "\n",
-    "  expected: ", paste(database$header, collapse = database_sep_outer),
-    "\nProbably because of a breaking change in the targets package. ",
-    "Before running tar_make() again, ",
-    "either delete the data store with tar_destroy() ",
-    "or downgrade the targets package to an earlier version."
-  )
-}
 
 compare_working_directories <- function() {
   current <- getwd()

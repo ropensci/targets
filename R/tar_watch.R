@@ -228,22 +228,12 @@ tar_watch_app_ui <- function(
       displays = displays
     )
   )
-  # TODO: update when bs4Dash 2 is on CRAN:
-  if_any(
-    utils::packageVersion("bs4Dash") >= 2L,
-    bs4Dash::bs4DashPage(
-      title = "",
-      body = body,
-      header = bs4Dash::bs4DashNavbar(controlbarIcon = NULL),
-      sidebar = bs4Dash::bs4DashSidebar(disable = TRUE),
-      dark = FALSE
-    ),
-    bs4Dash::bs4DashPage(
-      title = "",
-      body = body,
-      navbar = bs4Dash::bs4DashNavbar(controlbarIcon = NULL),
-      sidebar = bs4Dash::bs4DashSidebar(disable = TRUE)
-    )
+  bs4Dash::bs4DashPage(
+    title = "",
+    body = body,
+    header = bs4Dash::bs4DashNavbar(controlbarIcon = NULL),
+    sidebar = bs4Dash::bs4DashSidebar(disable = TRUE),
+    dark = FALSE
   )
 }
 # nocov end

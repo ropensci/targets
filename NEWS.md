@@ -7,6 +7,7 @@
 * Make `tar_crew()` compatible with `crew` >= 0.3.0.
 * Rename argument `terminate` to `terminate_controller` in `tar_make()`.
 * Add argument `use_crew` in `tar_make()` and add an option in `tar_config_set()` to make it configurable.
+* Write progress data and metadata in `target_prepare()`.
 
 ## Other improvements
 

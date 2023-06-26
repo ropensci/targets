@@ -49,9 +49,11 @@ target_read_value.tar_builder <- function(target, pipeline = NULL) {
 }
 
 #' @export
-target_prepare.tar_builder <- function(target, pipeline, scheduler) {
+target_prepare.tar_builder <- function(target, pipeline, scheduler, meta) {
   target_patternview_started(target, pipeline, scheduler)
   scheduler$progress$register_started(target)
+  meta$database$dequeue_rows()
+  scheduler$progress$database$dequeue_rows()
   scheduler$reporter$report_started(target, scheduler$progress)
   builder_ensure_deps(target, pipeline, "main")
   builder_update_subpipeline(target, pipeline)
@@ -334,14 +336,6 @@ builder_error_continue <- function(target, scheduler) {
 }
 
 builder_error_exit <- function(target, pipeline, scheduler, meta) {
-  # TODO: remove this hack that compensates for
-  # https://github.com/r-lib/callr/issues/185.
-  # No longer necessary in callr >= 3.7.0.
-  if (!identical(Sys.getenv("TAR_TEST"), "true")) {
-    target$value <- NULL
-    pipeline$targets <- NULL
-  }
-  # Keep this:
   tar_throw_run(target$metrics$error, class = target$metrics$error_class)
 }
 

@@ -145,7 +145,6 @@ active_class <- R6::R6Class(
       target_debug(target)
       target_update_depend(target, self$pipeline, self$meta)
       if (target_should_run(target, self$meta)) {
-        self$dequeue_meta()
         self$run_target(name)
       } else {
         self$skip_target(target)

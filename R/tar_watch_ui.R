@@ -74,8 +74,7 @@ tar_watch_ui <- function(
       closable = FALSE,
       collapsible = FALSE,
       width = 3,
-      # TODO: update when bs4Dash 2 is on CRAN:
-      solidHeader = utils::packageVersion("bs4Dash") >= 2L,
+      solidHeader = TRUE,
       shinyWidgets::radioGroupButtons(
         inputId = ns("display"),
         label = NULL,
@@ -170,8 +169,7 @@ tar_watch_ui <- function(
       status = "primary",
       closable = FALSE,
       collapsible = FALSE,
-      # TODO: update when bs4Dash 2 is on CRAN:
-      solidHeader = utils::packageVersion("bs4Dash") >= 2L,
+      solidHeader = TRUE,
       width = 9,
       shiny::uiOutput(ns("display"))
     )

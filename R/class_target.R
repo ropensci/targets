@@ -209,12 +209,12 @@ target_skip <- function(target, pipeline, scheduler, meta, active) {
   UseMethod("target_skip")
 }
 
-target_prepare <- function(target, pipeline, scheduler) {
+target_prepare <- function(target, pipeline, scheduler, meta) {
   UseMethod("target_prepare")
 }
 
 #' @export
-target_prepare.default <- function(target, pipeline, scheduler) {
+target_prepare.default <- function(target, pipeline, scheduler, meta) {
 }
 
 target_should_run <- function(target, meta) {
