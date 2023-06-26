@@ -15,7 +15,6 @@ tar_test("tar_make() works", {
 })
 
 tar_test("tar_make() works with crew", {
-  skip_if_low_dep_versions()
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew")

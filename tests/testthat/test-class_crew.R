@@ -1,5 +1,4 @@
 tar_test("crew$validate()", {
-  skip_if_low_dep_versions()
   skip_if_not_installed("crew")
   controller <- crew::crew_controller_local(
     host = "127.0.0.1",
@@ -10,7 +9,6 @@ tar_test("crew$validate()", {
 })
 
 tar_test("workerless deployment works", {
-  skip_if_low_dep_versions()
   skip_on_os("solaris")
   skip_if_not_installed("crew")
   skip_if_not_installed("R.utils")
@@ -92,7 +90,6 @@ tar_test("workerless deployment works", {
 })
 
 tar_test("semi-workerless deployment works", {
-  skip_if_low_dep_versions()
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
@@ -178,7 +175,6 @@ tar_test("semi-workerless deployment works", {
 })
 
 tar_test("some targets up to date, some not", {
-  skip_if_low_dep_versions()
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
@@ -234,7 +230,6 @@ tar_test("some targets up to date, some not", {
 })
 
 tar_test("crew algo can skip targets", {
-  skip_if_low_dep_versions()
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
@@ -290,7 +285,6 @@ tar_test("crew algo can skip targets", {
 })
 
 tar_test("nontrivial common data", {
-  skip_if_low_dep_versions()
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
