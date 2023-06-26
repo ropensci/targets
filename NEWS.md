@@ -1,4 +1,4 @@
-# targets 1.1.3.9001 (development)
+# targets 1.2.0
 
 ## `crew` integration
 
