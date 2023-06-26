@@ -1,3 +1,7 @@
+# targets 1.2.0.9000 (development)
+
+* Add `tar_prune_list()` (#1090, @mglev1n).
+
 # targets 1.2.0
 
 ## `crew` integration

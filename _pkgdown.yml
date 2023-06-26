@@ -91,6 +91,7 @@ reference:
   - '`tar_destroy`'
   - '`tar_invalidate`'
   - '`tar_prune`'
+  - '`tar_prune_list`'
   - '`tar_unscript`'
 - title: Progress
   contents:

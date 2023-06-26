@@ -65,6 +65,7 @@ tar_make() # y1 and y2 rebuild but return same values, so z is up to date.
 Other clean: 
 \code{\link{tar_destroy}()},
 \code{\link{tar_invalidate}()},
+\code{\link{tar_prune_list}()},
 \code{\link{tar_prune}()}
 }
 \concept{clean}
