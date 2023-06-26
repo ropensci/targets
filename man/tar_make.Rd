@@ -15,7 +15,8 @@ tar_make(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
   garbage_collection = targets::tar_config_get("garbage_collection"),
-  terminate = TRUE
+  use_crew = targets::tar_config_get("use_crew"),
+  terminate_controller = TRUE
 )
 }
 \arguments{
@@ -123,7 +124,12 @@ to a worker. Ignored if \code{tar_option_get("controller")} is \code{NULL}.
 Independent from the \code{garbage_collection} argument of \code{\link[=tar_target]{tar_target()}},
 which controls garbage collection on the worker.}
 
-\item{terminate}{Logical of length 1. For a \code{crew}-integrated
+\item{use_crew}{Logical of length 1, whether to use \code{crew} if the
+\code{controller} option is set in \code{tar_option_set()} in the target script
+(\verb{_targets.R}). See \url{https://books.ropensci.org/targets/crew.html}
+for details.}
+
+\item{terminate_controller}{Logical of length 1. For a \code{crew}-integrated
 pipeline, whether to terminate the controller after stopping
 or finishing the pipeline. This should almost always be set to \code{TRUE},
 but \code{FALSE} combined with \code{callr_function = NULL}

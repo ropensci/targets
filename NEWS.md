@@ -1,10 +1,12 @@
-# targets 1.1.3.9000 (development)
+# targets 1.1.3.9001 (development)
 
 ## `crew` integration
 
 * Do not assume S3 classes when validating `crew` controllers.
 * Suggest a crew controller in the `_targets.R` file from `use_targets()`.
-* Make `tar_crew()` compatible with `crew` >= 0.2.1.9011.
+* Make `tar_crew()` compatible with `crew` >= 0.3.0.
+* Rename argument `terminate` to `terminate_controller` in `tar_make()`.
+* Add argument `use_crew` in `tar_make()` and add an option in `tar_config_set()` to make it configurable.
 
 ## Other improvements
 

@@ -185,6 +185,21 @@ tar_test("tar_config_set() with store and different yaml file", {
   expect_equal(tar_config_get("store", config = path), path_store_default())
 })
 
+tar_test("tar_config_set() use_crew", {
+  skip_cran()
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("use_crew"), TRUE)
+  tar_config_set(use_crew = FALSE)
+  expect_equal(tar_config_get("use_crew"), FALSE)
+  expect_true(file.exists("_targets.yaml"))
+  expect_true(any(grepl("use_crew", readLines("_targets.yaml"))))
+  tar_config_set()
+  expect_equal(tar_config_get("use_crew"), FALSE)
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("use_crew"), TRUE)
+})
+
 tar_test("tar_config_set() workers", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))

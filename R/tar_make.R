@@ -62,7 +62,11 @@
 #'   to a worker. Ignored if `tar_option_get("controller")` is `NULL`.
 #'   Independent from the `garbage_collection` argument of [tar_target()],
 #'   which controls garbage collection on the worker.
-#' @param terminate Logical of length 1. For a `crew`-integrated
+#' @param use_crew Logical of length 1, whether to use `crew` if the
+#'   `controller` option is set in `tar_option_set()` in the target script
+#'   (`_targets.R`). See <https://books.ropensci.org/targets/crew.html>
+#'   for details.
+#' @param terminate_controller Logical of length 1. For a `crew`-integrated
 #'   pipeline, whether to terminate the controller after stopping
 #'   or finishing the pipeline. This should almost always be set to `TRUE`,
 #'   but `FALSE` combined with `callr_function = NULL`
@@ -112,7 +116,8 @@ tar_make <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
   garbage_collection = targets::tar_config_get("garbage_collection"),
-  terminate = TRUE
+  use_crew = targets::tar_config_get("use_crew"),
+  terminate_controller = TRUE
 ) {
   force(envir)
   tar_assert_scalar(shortcut)
@@ -127,9 +132,9 @@ tar_make <- function(
   tar_assert_lgl(garbage_collection)
   tar_assert_scalar(garbage_collection)
   tar_assert_none_na(garbage_collection)
-  tar_assert_lgl(terminate)
-  tar_assert_scalar(terminate)
-  tar_assert_none_na(terminate)
+  tar_assert_lgl(terminate_controller)
+  tar_assert_scalar(terminate_controller)
+  tar_assert_none_na(terminate_controller)
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
@@ -137,7 +142,8 @@ tar_make <- function(
     reporter = reporter,
     seconds_interval = seconds_interval,
     garbage_collection = garbage_collection,
-    terminate = terminate
+    use_crew = use_crew,
+    terminate_controller = terminate_controller
   )
   out <- callr_outer(
     targets_function = tar_make_inner,
@@ -160,11 +166,12 @@ tar_make_inner <- function(
   reporter,
   seconds_interval,
   garbage_collection,
-  terminate
+  use_crew,
+  terminate_controller
 ) {
   names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
   controller <- tar_option_get("controller")
-  if (is.null(controller)) {
+  if (is.null(controller) || (!use_crew)) {
     pipeline_reset_deployments(pipeline)
     queue <- if_any(
       pipeline_uses_priorities(pipeline),
@@ -194,7 +201,7 @@ tar_make_inner <- function(
       garbage_collection = garbage_collection,
       envir = tar_option_get("envir"),
       controller = controller,
-      terminate = terminate
+      terminate_controller = terminate_controller
     )$run()
   }
   invisible()

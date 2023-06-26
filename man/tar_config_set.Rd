@@ -15,6 +15,7 @@ tar_config_set(
   seconds_interval = NULL,
   store = NULL,
   shortcut = NULL,
+  use_crew = NULL,
   workers = NULL,
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   project = Sys.getenv("TAR_PROJECT", "main")
@@ -86,6 +87,11 @@ Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 to \code{\link[=tar_make]{tar_make()}} and related functions.
 If the argument \code{NULL}, the setting is not modified.
 Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
+
+\item{use_crew}{Logical of length 1, whether to use \code{crew} in \code{\link[=tar_make]{tar_make()}}
+if the \code{controller} option is set in \code{tar_option_set()} in the target
+script (\verb{_targets.R}). See \url{https://books.ropensci.org/targets/crew.html}
+for details.}
 
 \item{workers}{Positive numeric of length 1, \code{workers} argument of
 \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and related functions that run the pipeline

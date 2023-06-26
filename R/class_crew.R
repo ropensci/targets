@@ -9,7 +9,7 @@ crew_init <- function(
   garbage_collection = FALSE,
   envir = tar_option_get("envir"),
   controller = NULL,
-  terminate = TRUE
+  terminate_controller = TRUE
 ) {
   backoff <- tar_options$get_backoff()
   backoff_requeue <- backoff_init(
@@ -28,7 +28,7 @@ crew_init <- function(
     garbage_collection = garbage_collection,
     envir = envir,
     controller = controller,
-    terminate = terminate,
+    terminate_controller = terminate_controller,
     backoff_requeue = backoff_requeue
   )
 }
@@ -44,7 +44,7 @@ crew_new <- function(
   garbage_collection = NULL,
   envir = NULL,
   controller = NULL,
-  terminate = NULL,
+  terminate_controller = NULL,
   backoff_requeue = NULL
 ) {
   crew_class$new(
@@ -58,7 +58,7 @@ crew_new <- function(
     garbage_collection = garbage_collection,
     envir = envir,
     controller = controller,
-    terminate = terminate,
+    terminate_controller = terminate_controller,
     backoff_requeue = backoff_requeue
   )
 }
@@ -70,7 +70,7 @@ crew_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     controller = NULL,
-    terminate = NULL,
+    terminate_controller = NULL,
     backoff_requeue = NULL,
     initialize = function(
       pipeline = NULL,
@@ -83,7 +83,7 @@ crew_class <- R6::R6Class(
       garbage_collection = NULL,
       envir = NULL,
       controller = NULL,
-      terminate = NULL,
+      terminate_controller = NULL,
       backoff_requeue = NULL
     ) {
       super$initialize(
@@ -98,7 +98,7 @@ crew_class <- R6::R6Class(
         envir = envir
       )
       self$controller <- controller
-      self$terminate <- terminate
+      self$terminate_controller <- terminate_controller
       self$backoff_requeue <- backoff_requeue
     },
     produce_exports = function(envir, path_store, is_globalenv = NULL) {
@@ -265,7 +265,7 @@ crew_class <- R6::R6Class(
       if (!is.null(summary)) {
         self$record_controller_summary(summary)
       }
-      if (self$terminate) {
+      if (self$terminate_controller) {
         self$controller$terminate()
       }
     },
@@ -290,9 +290,9 @@ crew_class <- R6::R6Class(
     validate = function() {
       super$validate()
       validate_crew_controller(self$controller)
-      tar_assert_lgl(self$terminate)
-      tar_assert_scalar(self$terminate)
-      tar_assert_none_na(self$terminate)
+      tar_assert_lgl(self$terminate_controller)
+      tar_assert_scalar(self$terminate_controller)
+      tar_assert_none_na(self$terminate_controller)
     }
   )
 )

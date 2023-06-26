@@ -94,6 +94,7 @@ tar_config_get_project <- function(name, yaml) {
     seconds_interval = yaml$seconds_interval %|||% 0.5,
     shortcut = yaml$shortcut %|||% FALSE,
     store = yaml$store %|||% path_store_default(),
+    use_crew = yaml$use_crew %|||% TRUE,
     workers = yaml$workers %|||% 1L
   )
 }
@@ -111,6 +112,7 @@ tar_config_get_convert <- function(name, value) {
     seconds_interval = as.numeric(value),
     shortcut = as.logical(value),
     store = as.character(value),
+    use_crew = as.logical(value),
     workers = as.integer(max(1L, as.integer(value)))
   )
 }
