@@ -51,15 +51,10 @@ reproducible.
 
 If you are using `targets` [with `crew` for distributed
 computing](https://books.ropensci.org/targets/crew.html), it is
-recommended to use `nanonext` version `0.8.3.9010` or higher, `mirai`
-version `0.8.7.9013` or higher, and `crew` version `0.2.0` or higher. If
-the latest CRAN releases are older, then you can install the development
-versions from R-universe.
+recommended to use `crew` version `0.4.0` or higher.
 
 ``` r
-install.packages("nanonext", repos = "https://shikokuchuo.r-universe.dev")
-install.packages("mirai", repos = "https://shikokuchuo.r-universe.dev")
-install.packages("crew", repos = "https://wlandau.r-universe.dev")
+install.packages("crew")
 ```
 
 There are multiple ways to install the `targets` package itself, and
@@ -131,8 +126,11 @@ to ask for help using `targets`.
 
 ## Courses
 
-- [Official half-day interactive
-  tutorial](https://github.com/wlandau/targets-tutorial).
+- [Carpentries
+  workshop](https://carpentries-incubator.github.io/targets-workshop/)
+  by [Joel Nitta](https://github.com/joelnitta)
+- [Half-day interactive tutorial with a Keras
+  example](https://github.com/wlandau/targets-tutorial)
 
 ## Recorded talks
 
@@ -141,6 +139,8 @@ to ask for help using `targets`.
 - [Get started with `targets` in 4 minutes
   (4:08)](https://vimeo.com/700982360)
 - [{targets} in Action](https://ropensci.org/commcalls/jan2023-targets/)
+  with [Joel Nitta](https://github.com/joelnitta) and [Eric
+  Scott](https://github.com/Aariq)
 - [R/Medicine 2021 (15.33)](https://youtu.be/HJI5mQJRGpY)
 - [R/Pharma 2020
   (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
@@ -150,17 +150,19 @@ to ask for help using `targets`.
   (1:54:28)](https://youtu.be/Gqn7Xn4d5NI)
 - [ds-incubator series,
   2021](https://www.youtube.com/playlist?list=PLvgdJdJDL-APJqHy5CXs6m4N7hUVp5rb4)
+  by [Mauro Lepore](https://github.com/maurolepore).
 - [Lille R User Group, June 2021 (45:54)](https://youtu.be/FODSavXGjYg)
 
 ### Español
 
 - [R-Ladies Barcelona, 2021-05-25
-  (1:25:12)](https://www.youtube.com/watch?v=Vj312AfdpBo).
+  (1:25:12)](https://www.youtube.com/watch?v=Vj312AfdpBo) por Irene Cruz
 
 ### 日本語
 
 - [Bio”Pack”athon, 2022-03-31
-  (1:04:10)](https://togotv.dbcls.jp/20220331.html)
+  (1:04:10)](https://togotv.dbcls.jp/20220331.html), [Joel
+  Nitta](https://github.com/joelnitta)
 
 ## Example projects
 
