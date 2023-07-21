@@ -1,13 +1,13 @@
 active_new <- function(
-    pipeline = NULL,
-    meta = NULL,
-    names = NULL,
-    shortcut = NULL,
-    queue = NULL,
-    reporter = NULL,
-    seconds_interval = NULL,
-    garbage_collection = NULL,
-    envir = NULL
+  pipeline = NULL,
+  meta = NULL,
+  names = NULL,
+  shortcut = NULL,
+  queue = NULL,
+  reporter = NULL,
+  seconds_interval = NULL,
+  garbage_collection = NULL,
+  envir = NULL
 ) {
   active_class$new(
     pipeline = pipeline,

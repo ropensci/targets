@@ -8,6 +8,7 @@ tar_test("tar_path_script() outside a pipeline", {
   expect_equal(tar_path_script_support(), "example_script_r")
 })
 
+# nolint start
 tar_test("tar_path_script() inside a pipeline", {
   skip_cran()
   script <- "example_script"
@@ -20,3 +21,4 @@ tar_test("tar_path_script() inside a pipeline", {
   tar_make(script = script, callr_function = NULL)
   expect_equal(tar_read(x), "example_script_r")
 })
+# nolint end

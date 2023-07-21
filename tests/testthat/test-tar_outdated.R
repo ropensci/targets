@@ -157,6 +157,7 @@ tar_test("tar_outdated() does not deduplicate metadata", {
   expect_equal(nrow(out), 1L)
 })
 
+# nolint start
 tar_test("tar_outdated() names arg works", {
    tar_script({
      envir <- new.env(parent = baseenv())
@@ -168,6 +169,7 @@ tar_test("tar_outdated() names arg works", {
    out <- tar_outdated(callr_function = NULL, names = "x")
    expect_equal(out, "x")
 })
+# nolint end
 
 tar_test("custom script and store args", {
   expect_equal(tar_config_get("script"), path_script_default())

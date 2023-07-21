@@ -114,7 +114,7 @@ crew_class <- R6::R6Class(
         globals <- globals[which_globals]
         common$envir <- "globalenv"
       } else {
-      # nocov end
+        # nocov end
         discard <- fltr(names(envir), ~is_internal_name(.x, envir))
         remove(list = discard, envir = envir)
         common$envir <- envir

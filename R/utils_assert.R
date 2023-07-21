@@ -668,7 +668,7 @@ tar_assert_objects_files <- function(store) {
   directories <- files[dir.exists(files)]
   if (length(directories) > 0L) {
     tar_throw_run(
-       "the write() function in tar_format() ",
+      "the write() function in tar_format() ",
       "must not create a directory. ",
       "Found directories inside the data store ",
       "where there should only be files: ",

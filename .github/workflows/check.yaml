@@ -60,5 +60,13 @@ jobs:
           needs: check
           cache-version: 2
 
+      - name: Install arrow
+        shell: Rscript {0}
+        run: arrow::install_arrow()
+
+      - name: Install torch
+        shell: Rscript {0}
+        run: torch::install_torch()
+
       - name: Check package
         uses: r-lib/actions/check-r-package@v2

@@ -35,6 +35,7 @@ tar_test("tar_format() default arguments are short", {
   expect_true(any(grepl("^repository=$", format)))
 })
 
+# nolint start
 tar_test("Deprecated tar_format() repostory arg", {
   expect_error(
     tar_format(
@@ -44,6 +45,7 @@ tar_test("Deprecated tar_format() repostory arg", {
     class = "tar_condition_validate"
   )
 })
+# nolint end
 
 tar_test("tar_format() generates a format string", {
   expect_warning(

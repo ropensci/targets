@@ -38,6 +38,14 @@ jobs:
           needs: coverage
           cache-version: 2
 
+      - name: Install arrow
+        shell: Rscript {0}
+        run: arrow::install_arrow()
+
+      - name: Install torch
+        shell: Rscript {0}
+        run: torch::install_torch()
+
       - name: Test coverage
         run: |
           covr::codecov(

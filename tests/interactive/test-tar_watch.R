@@ -40,11 +40,13 @@ tar_script({
     tar_target(y, stop("error message"), pattern = map(x), error = "continue"),
     tar_target(z, tar_cancel(), pattern = map(x)),
     tar_target(w, x, pattern = map(x)),
+    # nolint start
     tar_target(
       forever, {
       Sys.sleep(Inf)
       c(x, y, z, w)
     })
+    # nolint end
   )
 })
 tar_make() # Stop early.
