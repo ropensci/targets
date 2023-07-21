@@ -58,6 +58,7 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
+          cache-version: 2
 
       - name: Check package
         uses: r-lib/actions/check-r-package@v2

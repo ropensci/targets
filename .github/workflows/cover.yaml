@@ -36,6 +36,7 @@ jobs:
         with:
           extra-packages: any::covr
           needs: coverage
+          cache-version: 2
 
       - name: Test coverage
         run: |
