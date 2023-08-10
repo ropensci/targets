@@ -41,15 +41,10 @@ file_info_runtime_select <- function(info, x) {
 }
 
 file_move <- function(from, to) {
-  tryCatch(
-    file.rename(from = from, to = to),
+  if (!suppressWarnings(file.rename(from = from, to = to))) {
     # Not feasible to test:
     # nocov start
-    error = function(condition) {
-      file.copy(from = from, to = to, overwrite = TRUE)
-      unlink(from)
-    }
-    # nocov end
-  )
+    file.copy(from = from, to = to, overwrite = TRUE)
+  }
   invisible()
 }

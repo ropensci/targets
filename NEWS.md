@@ -1,3 +1,7 @@
+# targets 1.2.2.9000
+
+* Fix solution of #1103 so the copy fallback actually runs (@jds485, #1102, #1103).
+
 # targets 1.2.2
 
 * Fix a documentation issue for CRAN.
