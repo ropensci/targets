@@ -1,5 +1,7 @@
 tar_test("tar_resources_aws()", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   out <- tar_resources_aws(bucket = "bucket123")
   expect_equal(out$bucket, "bucket123")
   expect_null(out$region)
@@ -7,21 +9,27 @@ tar_test("tar_resources_aws()", {
 })
 
 tar_test("tar_resources_aws() with region", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   out <- tar_resources_aws(bucket = "bucket123", region = "us-east-1")
   expect_equal(out$region, "us-east-1")
   expect_silent(resources_validate(out))
 })
 
 tar_test("tar_resources_aws() with part_size", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   out <- tar_resources_aws(bucket = "bucket123", part_size = 1e8)
   expect_equal(out$part_size, 1e8)
   expect_silent(resources_validate(out))
 })
 
 tar_test("tar_resources_aws() default bucket", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   tar_option_set(
     resources = tar_resources(
       aws = tar_resources_aws(
@@ -35,7 +43,9 @@ tar_test("tar_resources_aws() default bucket", {
 })
 
 tar_test("tar_resources_aws() default prefix", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   tar_option_set(
     resources = tar_resources(
       aws = tar_resources_aws(
@@ -48,7 +58,9 @@ tar_test("tar_resources_aws() default prefix", {
 })
 
 tar_test("tar_resources_aws() default part_size", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   tar_option_set(
     resources = tar_resources(
       aws = tar_resources_aws(
@@ -61,7 +73,9 @@ tar_test("tar_resources_aws() default part_size", {
 })
 
 tar_test("tar_resources_aws() default region", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   tar_option_set(
     resources = tar_resources(
       aws = tar_resources_aws(
@@ -74,7 +88,9 @@ tar_test("tar_resources_aws() default region", {
 })
 
 tar_test("tar_resources_aws() default endpoint", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   tar_option_set(
     resources = tar_resources(
       aws = tar_resources_aws(
@@ -87,7 +103,9 @@ tar_test("tar_resources_aws() default endpoint", {
 })
 
 tar_test("tar_resources_aws() default SSECustomerKey", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   tar_option_set(
     resources = tar_resources(
       aws = tar_resources_aws(

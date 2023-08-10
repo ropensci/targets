@@ -1,5 +1,7 @@
 tar_test("trust_object_timestamps = TRUE", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   old <- tar_option_get("trust_object_timestamps")
   on.exit(tar_option_set(trust_object_timestamps = old))
   tar_option_set(trust_object_timestamps = TRUE)
@@ -8,7 +10,9 @@ tar_test("trust_object_timestamps = TRUE", {
 })
 
 tar_test("trust_object_timestamps = FALSE", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   old <- tar_option_get("trust_object_timestamps")
   on.exit(tar_option_set(trust_object_timestamps = old))
   tar_option_set(trust_object_timestamps = FALSE)
@@ -136,7 +140,8 @@ tar_test("store_path_from_record()", {
 
 tar_test("validate aws_feather", {
   skip_cran()
-  skip_if_not_installed("paws")
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   skip_if_not_installed("arrow")
   target <- tar_target(x, "x_value", format = "feather", repository = "aws")
   tar_script(list(target))

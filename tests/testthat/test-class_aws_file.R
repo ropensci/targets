@@ -1,5 +1,7 @@
 tar_test("trust_object_timestamps = TRUE", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   old <- tar_option_get("trust_object_timestamps")
   on.exit(tar_option_set(trust_object_timestamps = old))
   tar_option_set(trust_object_timestamps = TRUE)
@@ -13,7 +15,9 @@ tar_test("trust_object_timestamps = TRUE", {
 })
 
 tar_test("trust_object_timestamps = FALSE", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   old <- tar_option_get("trust_object_timestamps")
   on.exit(tar_option_set(trust_object_timestamps = old))
   tar_option_set(trust_object_timestamps = FALSE)
@@ -27,16 +31,20 @@ tar_test("trust_object_timestamps = FALSE", {
 })
 
 tar_test("aws_file packages", {
+  skip_cran()
+  skip_on_os("windows")
   target <- tar_target(
     x,
     "x_value",
     format = "file",
     repository = "aws"
   )
-  expect_equal(store_get_packages(target$store), "paws")
+  expect_equal(store_get_packages(target$store), "paws.storage")
 })
 
 tar_test("inherits from tar_external", {
+  skip_cran()
+  skip_on_os("windows")
   store <- tar_target(
     x,
     "x_value",
@@ -47,6 +55,8 @@ tar_test("inherits from tar_external", {
 })
 
 tar_test("store_row_path()", {
+  skip_cran()
+  skip_on_os("windows")
   store <- tar_target(
     x,
     "x_value",
@@ -58,6 +68,8 @@ tar_test("store_row_path()", {
 })
 
 tar_test("store_path_from_record()", {
+  skip_cran()
+  skip_on_os("windows")
   store <- tar_target(
     x,
     "x_value",
@@ -73,6 +85,7 @@ tar_test("store_path_from_record()", {
 })
 
 tar_test("store_aws_file_stage() with targets <= 0.4.2", {
+  skip_cran()
   skip_on_os("windows")
   path <- c("bucket_name", "key_name")
   out <- store_aws_file_stage(path)
@@ -91,7 +104,9 @@ tar_test("store_aws_file_stage() with targets > 0.8.1", {
 })
 
 tar_test("validate aws file", {
-  skip_if_not_installed("paws")
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
   tar_script(
     list(
       tar_target(

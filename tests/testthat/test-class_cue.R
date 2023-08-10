@@ -270,7 +270,7 @@ tar_test("cue_format() suppressed", {
 })
 
 tar_test("cue_repository()", {
-  skip_if_not_installed("paws")
+  skip_if_not_installed("paws.storage")
   tar_script(tar_target(x, 1, repository = "local"))
   tar_make(callr_function = NULL)
   expect_equal(tar_outdated(callr_function = NULL), character(0))
@@ -279,7 +279,7 @@ tar_test("cue_repository()", {
 })
 
 tar_test("cue_repository() suppressed", {
-  skip_if_not_installed("paws")
+  skip_if_not_installed("paws.storage")
   tar_script(
     tar_target(x, 1, repository = "local", cue = tar_cue(repository = FALSE))
   )
