@@ -165,7 +165,7 @@ database_class <- R6::R6Class(
         na = "",
         append = FALSE
       )
-      file.rename(from = tmp, to = self$path)
+      file_move(from = tmp, to = self$path)
     },
     produce_line = function(row) {
       old <- options(OutDec = ".")
