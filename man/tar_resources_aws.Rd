@@ -48,7 +48,7 @@ incompatibility.}
 
 \item{...}{Named arguments to functions in \code{paws.storage::s3()} to manage
 S3 storage. The documentation of these specific functions
-is linked from \url{https://www.paws-r-sdk.com/docs/s3}.
+is linked from \url{https://www.paws-r-sdk.com/docs/s3/}.
 The configurable functions themselves are:
 \itemize{
 \item \code{paws.storage::s3()$head_object()}
