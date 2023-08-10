@@ -31,7 +31,7 @@
 #' @importFrom tibble as_tibble
 #' @importFrom tidyselect all_of any_of contains ends_with everything
 #'   last_col matches num_range one_of starts_with
-#' @importFrom tools file_path_sans_ext
+#' @importFrom tools file_path_sans_ext R_user_dir
 #' @importFrom utils browseURL capture.output data globalVariables head menu
 #'   packageVersion stack tail
 #' @importFrom vctrs vec_c vec_rbind vec_size vec_slice

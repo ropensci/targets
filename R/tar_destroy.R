@@ -28,25 +28,29 @@
 #' @return `NULL` (invisibly).
 #' @inheritParams tar_validate
 #' @param destroy Character of length 1, what to destroy. Choices:
-#'   * `"all"`: destroy the entire data store (default: `_targets/`)
-#'     including cloud data.
-#'   * `"cloud"`: just try to delete cloud data, e.g. target data
+#'   * `"all"`: entire data store (default: `_targets/`)
+#'     including cloud data, as well as download/upload scratch files.
+#'   * `"cloud"`: cloud data, e.g. target data
 #'     from targets with `tar_target(..., repository = "aws")`.
+#'     Also deletes temporary staging files in
+#'     `tools::R_user_dir(package = "targets", which = "cache")`
+#'     that may have been accidentally left over from incomplete
+#'     uploads or downloads.
 #'   * `"local"`: all the local files in the data store but nothing
 #'     on the cloud.
-#'   * `"meta"`: just delete the metadata file at `meta/meta` in the
+#'   * `"meta"`: metadata file at `meta/meta` in the
 #'     data store, which invalidates all the targets but keeps the data.
-#'   * `"process"`: just delete the progress data file at
+#'   * `"process"`: progress data file at
 #'     `meta/process` in the data store, which resets the metadata
 #'     of the main process.
-#'   * `"progress"`: just delete the progress data file at
+#'   * `"progress"`: progress data file at
 #'     `meta/progress` in the data store,
 #'     which resets the progress tracking info.
-#'   * `"objects"`: delete all the target
+#'   * `"objects"`: all the target
 #'     return values in `objects/` in the data
 #'     store but keep progress and metadata.
 #'     Dynamic files are not deleted this way.
-#'   * `"scratch"`: temporary files saved during [tar_make()] that should
+#'   * `"scratch"`: temporary files in saved during [tar_make()] that should
 #'     automatically get deleted except if R crashed.
 #'   * `"workspaces"`: compressed lightweight files in `workspaces/`
 #'     in the data store with the saved workspaces of targets.
@@ -90,7 +94,7 @@ tar_destroy <- function(
     destroy,
     all = store,
     local = store,
-    cloud = tempfile(),
+    cloud = path_scratch_dir_cloud(),
     meta = path_meta(store),
     process = path_process(store),
     progress = path_progress(store),

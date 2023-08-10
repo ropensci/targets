@@ -128,7 +128,7 @@ store_read_object.tar_aws <- function(store) {
   key <- store_aws_key(path)
   bucket <- store_aws_bucket(path)
   scratch <- path_scratch(
-    path_store = tempdir(),
+    path_store = path_scratch_dir_cloud(),
     pattern = basename(store_aws_key(path))
   )
   on.exit(unlink(scratch))

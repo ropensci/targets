@@ -10,6 +10,20 @@ tar_test("tar_destroy('all')", {
   expect_false(file.exists("_targets"))
 })
 
+tar_test("tar_destroy('cloud')", {
+  skip_cran()
+  pipeline <- pipeline_init(list(target_init("x", quote(0))))
+  local_init(pipeline)$run()
+  dir_create(path_scratch_dir_cloud())
+  x <- file.path(path_scratch_dir_cloud(), "x")
+  file.create(x)
+  expect_true(file.exists(x))
+  expect_true(file.exists("_targets"))
+  tar_destroy(destroy = "cloud")
+  expect_false(file.exists(x))
+  expect_true(file.exists("_targets"))
+})
+
 tar_test("tar_destroy('local')", {
   pipeline <- pipeline_init(list(target_init("x", quote(0))))
   local_init(pipeline)$run()

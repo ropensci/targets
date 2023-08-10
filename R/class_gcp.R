@@ -72,7 +72,7 @@ store_read_object.tar_gcp <- function(store) {
   key <- store_gcp_key(path)
   bucket <- store_gcp_bucket(path)
   scratch <- path_scratch(
-    path_store = tempdir(),
+    path_store = path_scratch_dir_cloud(),
     pattern = basename(store_gcp_key(path))
   )
   on.exit(unlink(scratch))

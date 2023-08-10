@@ -14,25 +14,29 @@ tar_destroy(
 \arguments{
 \item{destroy}{Character of length 1, what to destroy. Choices:
 \itemize{
-\item \code{"all"}: destroy the entire data store (default: \verb{_targets/})
-including cloud data.
-\item \code{"cloud"}: just try to delete cloud data, e.g. target data
+\item \code{"all"}: entire data store (default: \verb{_targets/})
+including cloud data, as well as download/upload scratch files.
+\item \code{"cloud"}: cloud data, e.g. target data
 from targets with \code{tar_target(..., repository = "aws")}.
+Also deletes temporary staging files in
+\code{tools::R_user_dir(package = "targets", which = "cache")}
+that may have been accidentally left over from incomplete
+uploads or downloads.
 \item \code{"local"}: all the local files in the data store but nothing
 on the cloud.
-\item \code{"meta"}: just delete the metadata file at \code{meta/meta} in the
+\item \code{"meta"}: metadata file at \code{meta/meta} in the
 data store, which invalidates all the targets but keeps the data.
-\item \code{"process"}: just delete the progress data file at
+\item \code{"process"}: progress data file at
 \code{meta/process} in the data store, which resets the metadata
 of the main process.
-\item \code{"progress"}: just delete the progress data file at
+\item \code{"progress"}: progress data file at
 \code{meta/progress} in the data store,
 which resets the progress tracking info.
-\item \code{"objects"}: delete all the target
+\item \code{"objects"}: all the target
 return values in \verb{objects/} in the data
 store but keep progress and metadata.
 Dynamic files are not deleted this way.
-\item \code{"scratch"}: temporary files saved during \code{\link[=tar_make]{tar_make()}} that should
+\item \code{"scratch"}: temporary files in saved during \code{\link[=tar_make]{tar_make()}} that should
 automatically get deleted except if R crashed.
 \item \code{"workspaces"}: compressed lightweight files in \verb{workspaces/}
 in the data store with the saved workspaces of targets.

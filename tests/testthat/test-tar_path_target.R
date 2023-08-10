@@ -77,7 +77,7 @@ tar_test("tar_path_target() returns stage for cloud formats", {
   expect_false(file.exists(dirname(out)))
   out <- tar_path_target(create_dir = TRUE)
   expect_true(file.exists(dirname(out)))
-  expect_equal(dirname(out), dirname(path_scratch(tempdir())))
+  expect_equal(dirname(out), file.path(path_scratch_dir_cloud(), "scratch"))
   expect_equal(out, x$store$file$stage)
 })
 

@@ -21,7 +21,7 @@ store_aws_file_stage <- function(path) {
     if_any(
       length(path) <= 2L, # targets 0.4.2 and under
       path_scratch(
-        path_store = tempdir(),
+        path_store = path_scratch_dir_cloud(),
         paste0("targets_aws_file_", basename(store_aws_key(path)))
       ),
       path[3]
@@ -59,7 +59,7 @@ store_read_object.tar_aws_file <- function(store) {
   key <- store_aws_key(path)
   bucket <- store_aws_bucket(path)
   scratch <- path_scratch(
-    path_store = tempdir(),
+    path_store = path_scratch_dir_cloud(),
     pattern = basename(store_aws_key(path))
   )
   dir_create(dirname(scratch))
