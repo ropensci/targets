@@ -3,6 +3,7 @@
 * Add `tar_prune_list()` (#1090, @mglev1n).
 * Wrap `file.rename()` in `tryCatch()` and fall back on a copy-then-remove workaround (@jds485, #1102, #1103).
 * Stage temporary cloud upload/download files in `tools::R_user_dir(package = "targets", which = "cache")` instead of `tempdir()`. `tar_destroy(destroy = "cloud")` and `tar_destroy(destroy = "all")` remove any leftover files from failed uploads/downloads (@jds485, #1102, #1103).
+* Use `paws.storage` instead of all of `paws`.
 
 # targets 1.2.0
 
