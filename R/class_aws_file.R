@@ -88,7 +88,7 @@ store_read_object.tar_aws_file <- function(store) {
   )
   stage <- store_aws_file_stage(path)
   dir_create(dirname(stage))
-  file.rename(from = scratch, to = stage)
+  file_move(from = scratch, to = stage)
   stage
 }
 

@@ -1,6 +1,7 @@
 # targets 1.2.0.9000 (development)
 
 * Add `tar_prune_list()` (#1090, @mglev1n).
+* Wrap `file.rename()` in `tryCatch()` and fall back on a copy-then-remove workaround (@jds485, #1102, #1103).
 
 # targets 1.2.0
 

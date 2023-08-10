@@ -76,7 +76,7 @@ store_read_object.tar_gcp_file <- function(store) {
   )
   stage <- store_gcp_file_stage(path)
   dir_create(dirname(stage))
-  file.rename(from = scratch, to = stage)
+  file_move(from = scratch, to = stage)
   stage
 }
 

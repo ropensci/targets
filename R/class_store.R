@@ -127,7 +127,7 @@ store_write_object.default <- function(store, object) {
   dir_create_runtime(dirname(path))
   dir_create_runtime(dirname(stage))
   store_write_path(store, store_convert_object(store, object), stage)
-  file.rename(stage, path)
+  file_move(from = stage, to = path)
 }
 
 store_write_path <- function(store, object, path) {

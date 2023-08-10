@@ -39,3 +39,17 @@ file_info_runtime <- function(x) {
 file_info_runtime_select <- function(info, x) {
   list(size = info$size[x], mtime_numeric = info$mtime_numeric[x])
 }
+
+file_move <- function(from, to) {
+  tryCatch(
+    file.rename(from = from, to = to),
+    # Not feasible to test:
+    # nocov start
+    error = function(condition) {
+      file.copy(from = from, to = to, overwrite = TRUE)
+      unlink(from)
+    }
+    # nocov end
+  )
+  invisible()
+}
