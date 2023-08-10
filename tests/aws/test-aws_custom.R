@@ -3,7 +3,7 @@
 tar_test("aws with custom format", {
   skip_if_no_aws()
   skip_if_not_installed("torch")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))

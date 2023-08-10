@@ -3,7 +3,7 @@
 tar_test("delete cloud targets", {
   skip_if_no_aws()
   skip_if_not_installed("arrow")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
@@ -57,7 +57,7 @@ tar_test("delete cloud targets", {
 tar_test("same with versioning", {
   skip_if_no_aws()
   skip_if_not_installed("arrow")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   s3$put_bucket_versioning(
@@ -117,7 +117,7 @@ tar_test("same with versioning", {
 tar_test("tar_destroy() cloud targets", {
   skip_if_no_aws()
   skip_if_not_installed("arrow")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
@@ -172,7 +172,7 @@ tar_test("tar_destroy() cloud targets", {
 tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for aws", {
   skip_if_no_aws()
   skip_if_not_installed("arrow")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))

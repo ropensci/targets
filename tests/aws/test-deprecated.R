@@ -6,7 +6,7 @@
 tar_test("AWS S3 with old resources", {
   skip_if_no_aws()
   bucket_name <- random_bucket_name()
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
   code <- substitute({
@@ -37,7 +37,7 @@ tar_test("AWS S3 with old resources", {
 tar_test("deprecated format = \"aws_parquet\"", {
   skip_if_no_aws()
   skip_if_not_installed("arrow")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
@@ -65,7 +65,7 @@ tar_test("deprecated format = \"aws_parquet\"", {
 tar_test("migrate meta database", {
   skip_if_no_aws()
   skip_if_not_installed("arrow")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))

@@ -38,18 +38,18 @@
 #'   object versioning turned on, `targets` may fail to record object
 #'   versions. Google Cloud Storage in particular has this
 #'   incompatibility.
-#' @param ... Named arguments to functions in `paws::s3()` to manage
+#' @param ... Named arguments to functions in `paws.storage::s3()` to manage
 #'   S3 storage. The documentation of these specific functions
-#'   is linked from <https://paws-r.github.io/docs/s3/>.
+#'   is linked from <https://www.paws-r-sdk.com/docs/s3>.
 #'   The configurable functions themselves are:
-#'   * `paws::s3()$head_object()`
-#'   * `paws::s3()$get_object()`
-#'   * `paws::s3()$delete_object()`
-#'   * `paws::s3()$put_object()`
-#'   * `paws::s3()$create_multipart_upload()`
-#'   * `paws::s3()$abort_multipart_upload()`
-#'   * `paws::s3()$complete_multipart_upload()`
-#'   * `paws::s3()$upload_part()`
+#'   * `paws.storage::s3()$head_object()`
+#'   * `paws.storage::s3()$get_object()`
+#'   * `paws.storage::s3()$delete_object()`
+#'   * `paws.storage::s3()$put_object()`
+#'   * `paws.storage::s3()$create_multipart_upload()`
+#'   * `paws.storage::s3()$abort_multipart_upload()`
+#'   * `paws.storage::s3()$complete_multipart_upload()`
+#'   * `paws.storage::s3()$upload_part()`
 #'   The named arguments in `...` must not be any of
 #'   `"bucket"`, `"Bucket"`, `"key"`, `"Key"`,
 #'   `"prefix"`, `"region"`, `"part_size"`, `"endpoint"`,

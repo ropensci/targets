@@ -2,7 +2,7 @@
 # And afterwards, manually verify that all the buckets are gone.
 tar_test("AWS S3 + HPC", {
   skip_if_no_aws()
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))

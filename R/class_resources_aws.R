@@ -72,7 +72,7 @@ resources_aws_validate_args <- function(args) {
     paste(illegal, collapse = ", ")
   )
   tar_assert_not_in(names, illegal, msg = msg)
-  client <- paws::s3()
+  client <- paws.storage::s3()
   legal <- c(
     names(formals(client$head_object)),
     names(formals(client$get_object)),
@@ -86,12 +86,12 @@ resources_aws_validate_args <- function(args) {
   legal <- unique(legal)
   msg <- paste(
     "informal arguments (via ...) in tar_resources_aws() must be:",
-    "arguments to paws::s3() functions: head_object(), get_object(),",
+    "arguments to paws.storage::s3() functions: head_object(), get_object(),",
     "delete_object(), put_object(), create_multipart_upload(),",
     "abort_multipart_upload(), complete_multipart_upload(),",
     "or upload_part(). Documentation of these functions,",
     "including lists and explanations of the arguments,",
-    "are linked from https://paws-r.github.io/docs/s3/"
+    "are linked from https://www.paws-r-sdk.com/docs/s3"
   )
   tar_assert_in(names, legal, msg)
 }

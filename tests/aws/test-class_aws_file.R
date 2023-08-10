@@ -3,7 +3,7 @@
 tar_test("aws file gets stored", {
   skip_if_no_aws()
   bucket_name <- random_bucket_name()
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
@@ -55,7 +55,7 @@ tar_test("aws file gets stored", {
 tar_test("aws file gets stored with transient memory", {
   skip_if_no_aws()
   bucket_name <- random_bucket_name()
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
@@ -110,7 +110,7 @@ tar_test("aws file gets stored with transient memory", {
 # and then four times for transient.
 tar_test("aws_file format invalidation", {
   skip_if_no_aws()
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   for (memory in c("persistent", "transient")) {
     # print(memory) # Uncomment for debug() test. # nolint
     bucket_name <- random_bucket_name()
@@ -185,7 +185,7 @@ tar_test("aws_file format with a custom data store", {
   skip_if_no_aws()
   tar_config_set(store = "custom_targets_store")
   bucket_name <- random_bucket_name()
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
@@ -235,7 +235,7 @@ tar_test("aws_file format with a custom data store", {
 tar_test("aws_file format file with different region", {
   skip_if_no_aws()
   bucket_name <- random_bucket_name()
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   region <- "us-west-2"
   cfg <- list(LocationConstraint = region)
   s3$create_bucket(Bucket = bucket_name, CreateBucketConfiguration = cfg)

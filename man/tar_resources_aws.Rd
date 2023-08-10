@@ -46,19 +46,19 @@ object versioning turned on, \code{targets} may fail to record object
 versions. Google Cloud Storage in particular has this
 incompatibility.}
 
-\item{...}{Named arguments to functions in \code{paws::s3()} to manage
+\item{...}{Named arguments to functions in \code{paws.storage::s3()} to manage
 S3 storage. The documentation of these specific functions
-is linked from \url{https://paws-r.github.io/docs/s3/}.
+is linked from \url{https://www.paws-r-sdk.com/docs/s3}.
 The configurable functions themselves are:
 \itemize{
-\item \code{paws::s3()$head_object()}
-\item \code{paws::s3()$get_object()}
-\item \code{paws::s3()$delete_object()}
-\item \code{paws::s3()$put_object()}
-\item \code{paws::s3()$create_multipart_upload()}
-\item \code{paws::s3()$abort_multipart_upload()}
-\item \code{paws::s3()$complete_multipart_upload()}
-\item \code{paws::s3()$upload_part()}
+\item \code{paws.storage::s3()$head_object()}
+\item \code{paws.storage::s3()$get_object()}
+\item \code{paws.storage::s3()$delete_object()}
+\item \code{paws.storage::s3()$put_object()}
+\item \code{paws.storage::s3()$create_multipart_upload()}
+\item \code{paws.storage::s3()$abort_multipart_upload()}
+\item \code{paws.storage::s3()$complete_multipart_upload()}
+\item \code{paws.storage::s3()$upload_part()}
 The named arguments in \code{...} must not be any of
 \code{"bucket"}, \code{"Bucket"}, \code{"key"}, \code{"Key"},
 \code{"prefix"}, \code{"region"}, \code{"part_size"}, \code{"endpoint"},

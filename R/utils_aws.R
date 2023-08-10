@@ -210,6 +210,6 @@ aws_s3_client <- function(endpoint, region) {
   if (!is.null(region)) {
     config$region <- region
   }
-  paws::s3(config = config)
+  paws.storage::s3(config = config)
 }
 # nocov end

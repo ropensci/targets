@@ -5,7 +5,7 @@ endpoint <- "https://storage.googleapis.com"
 region <- "auto"
 
 client <- function() {
-  paws::s3(
+  paws.storage::s3(
     config = list(
       endpoint = endpoint,
       region = region

@@ -297,5 +297,5 @@ store_aws_hash <- function(key, bucket, region, endpoint, version, args) {
 
 #' @export
 store_get_packages.tar_aws <- function(store) {
-  c("paws", NextMethod())
+  c("paws.storage", NextMethod())
 }

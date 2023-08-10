@@ -3,7 +3,7 @@
 tar_test("aws_qs format data gets stored", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   on.exit(aws_s3_delete_bucket(bucket_name))
   s3$create_bucket(Bucket = bucket_name)
@@ -43,7 +43,7 @@ tar_test("aws_qs format data gets stored", {
 tar_test("aws_qs format data gets stored with worker storage", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
@@ -85,7 +85,7 @@ tar_test("aws_qs format data gets stored with worker storage", {
 tar_test("aws_qs format invalidation", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
@@ -132,7 +132,7 @@ tar_test("aws_qs format invalidation", {
 tar_test("aws_qs format and dynamic branching", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
@@ -164,7 +164,7 @@ tar_test("aws_qs format and dynamic branching", {
 tar_test("aws timestamp", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
@@ -195,7 +195,7 @@ tar_test("aws_qs format with an alternative data store", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
   tar_config_set(store = "custom_targets_store")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
@@ -235,7 +235,7 @@ tar_test("aws_qs format with an alternative data store", {
 tar_test("aws_qs format works with storage = \"none\"", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
@@ -281,7 +281,7 @@ tar_test("aws_qs format works with storage = \"none\"", {
 tar_test("aws_qs format with custom region", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   region <- "us-west-2"
   cfg <- list(LocationConstraint = region)
@@ -343,7 +343,7 @@ tar_test("aws_qs format with custom region", {
 tar_test("aws_qs format empty region string", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
@@ -367,7 +367,7 @@ tar_test("aws_qs format empty region string", {
 tar_test("aws_qs nonexistent bucket", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   expr <- quote({
@@ -399,7 +399,7 @@ tar_test("aws_qs format versioning", {
   # setup
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   on.exit(aws_s3_delete_bucket(bucket_name))
   s3$create_bucket(Bucket = bucket_name)
@@ -477,7 +477,7 @@ tar_test("aws_qs format versioning", {
 tar_test("cloud target paths are not in the file path cache", {
   skip_if_no_aws()
   skip_if_not_installed("qs")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   on.exit(aws_s3_delete_bucket(bucket_name))
   s3$create_bucket(Bucket = bucket_name)

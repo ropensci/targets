@@ -92,7 +92,7 @@ Suggests:
   nanonext (>= 0.9.0),
   rmarkdown (>= 2.4),
   parallelly (>= 1.35.0),
-  paws (>= 0.1.11),
+  paws.storage (>= 0.2.0),
   pingr (>= 2.0.1),
   pkgload (>= 1.1.0),
   processx (>= 3.4.3),

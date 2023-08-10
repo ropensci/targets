@@ -3,7 +3,7 @@
 tar_test("aws_parquet format returns data frames", {
   skip_if_no_aws()
   skip_if_not_installed("arrow")
-  s3 <- paws::s3()
+  s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
