@@ -8,8 +8,6 @@ tar_path_objects_dir(path_store)
 }
 \arguments{
 \item{path_store}{Path to the data store.}
-
-\item{name}{Target names.}
 }
 \description{
 Internal function. Not for users.

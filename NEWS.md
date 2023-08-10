@@ -1,3 +1,7 @@
+# targets 1.2.2
+
+* Fix a documentation issue for CRAN.
+
 # targets 1.2.1
 
 * Add `tar_prune_list()` (#1090, @mglev1n).

@@ -39,7 +39,6 @@ path_objects <- function(path_store, name) {
 #' @keywords internal
 #' @description Internal function. Not for users.
 #' @param path_store Path to the data store.
-#' @param name Target names.
 #' @examples
 #' tar_path_objects_dir("_targets")
 tar_path_objects_dir <- function(path_store) {
