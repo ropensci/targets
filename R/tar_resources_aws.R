@@ -40,7 +40,7 @@
 #'   incompatibility.
 #' @param ... Named arguments to functions in `paws.storage::s3()` to manage
 #'   S3 storage. The documentation of these specific functions
-#'   is linked from <https://www.paws-r-sdk.com/docs/s3/>.
+#'   is linked from `https://www.paws-r-sdk.com/docs/s3/`.
 #'   The configurable functions themselves are:
 #'   * `paws.storage::s3()$head_object()`
 #'   * `paws.storage::s3()$get_object()`
