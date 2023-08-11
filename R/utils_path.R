@@ -90,7 +90,11 @@ path_scratch_del <- function(path_store) {
 }
 
 path_scratch_dir_cloud <- function() {
-  tools::R_user_dir(package = "targets", which = "cache")
+  if_any(
+    tar_options$resources$network$verbose,
+    tools::R_user_dir(package = "targets", which = "cache"),
+    tempdir()
+  )
 }
 
 path_user_dir <- function(path_store) {
