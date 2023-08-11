@@ -89,12 +89,8 @@ path_scratch_del <- function(path_store) {
   unlink(path_scratch_dir(path_store), recursive = TRUE)
 }
 
-path_scratch_dir_cloud <- function() {
-  if_any(
-    tar_options$resources$network$verbose,
-    tools::R_user_dir(package = "targets", which = "cache"),
-    tempdir()
-  )
+path_scratch_dir_network <- function() {
+  tempdir()
 }
 
 path_user_dir <- function(path_store) {

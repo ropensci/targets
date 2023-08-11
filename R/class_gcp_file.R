@@ -48,7 +48,7 @@ store_read_object.tar_gcp_file <- function(store) {
   key <- store_gcp_key(path)
   bucket <- store_gcp_bucket(path)
   scratch <- path_scratch(
-    path_store = path_scratch_dir_cloud(),
+    path_store = path_scratch_dir_network(),
     pattern = basename(store_gcp_key(path))
   )
   dir_create(dirname(scratch))

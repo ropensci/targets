@@ -94,7 +94,7 @@ tar_destroy <- function(
     destroy,
     all = store,
     local = store,
-    cloud = path_scratch_dir_cloud(),
+    cloud = path_scratch_dir_network(),
     meta = path_meta(store),
     process = path_process(store),
     progress = path_progress(store),
