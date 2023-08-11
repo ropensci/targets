@@ -33,7 +33,7 @@
 #'   * `"cloud"`: cloud data, e.g. target data
 #'     from targets with `tar_target(..., repository = "aws")`.
 #'     Also deletes temporary staging files in
-#'     `tools::R_user_dir(package = "targets", which = "cache")`
+#'     `file.path(tempdir(), "targets")`
 #'     that may have been accidentally left over from incomplete
 #'     uploads or downloads.
 #'   * `"local"`: all the local files in the data store but nothing
@@ -106,6 +106,7 @@ tar_destroy <- function(
   if (destroy %in% c("all", "cloud")) {
     meta <- tar_meta(store = store)
     tar_delete_cloud(names = meta$name, meta = meta, path_store = store)
+    unlink(path_scratch_dir_network(), recursive = TRUE)
   }
   if (tar_should_delete(path = path, ask = ask)) {
     unlink(path, recursive = TRUE)

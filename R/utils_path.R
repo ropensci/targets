@@ -90,7 +90,7 @@ path_scratch_del <- function(path_store) {
 }
 
 path_scratch_dir_network <- function() {
-  tempdir()
+  file.path(tempdir(), "targets")
 }
 
 path_user_dir <- function(path_store) {

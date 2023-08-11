@@ -19,7 +19,7 @@ including cloud data, as well as download/upload scratch files.
 \item \code{"cloud"}: cloud data, e.g. target data
 from targets with \code{tar_target(..., repository = "aws")}.
 Also deletes temporary staging files in
-\code{tools::R_user_dir(package = "targets", which = "cache")}
+\code{file.path(tempdir(), "targets")}
 that may have been accidentally left over from incomplete
 uploads or downloads.
 \item \code{"local"}: all the local files in the data store but nothing
