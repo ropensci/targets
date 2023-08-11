@@ -45,6 +45,7 @@ file_move <- function(from, to) {
     # Not feasible to test:
     # nocov start
     file.copy(from = from, to = to, overwrite = TRUE)
+    # nocov end
   }
   invisible()
 }
