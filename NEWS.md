@@ -3,6 +3,7 @@
 * Fix solution of #1103 so the copy fallback actually runs (@jds485, #1102, #1103).
 * Switch back to `tempdir()` for #1103.
 * Move `path_scratch_dir_network()` to `file.path(tempdir(), "targets")` and make sure `tar_destroy("all")` and `tar_destroy("cloud")` delete it.
+* Display `tar_mermaid()` subgraphs with transparent fills and black borders.
 
 # targets 1.2.2
 

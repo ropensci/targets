@@ -153,7 +153,17 @@ mermaid_class <- R6::R6Class(
       from <- vertices[-length(vertices)]
       to <- vertices[-1]
       out <- sprintf("    %s --- %s", from, to)
-      out <- c("  subgraph legend", "    direction LR", out, "  end")
+      out <- c("  subgraph Legend", "    direction LR", out, "  end")
+    },
+    produce_graph_styles = function(show_legend) {
+      c(
+        if_any(
+          show_legend,
+          "  style Legend fill:#FFFFFF00,stroke:#000000;",
+          character(0L)
+        ),
+        "  style Graph fill:#FFFFFF00,stroke:#000000;"
+      )
     },
     produce_visual = function() {
       if (nrow(self$network$vertices) < 1L) {
@@ -175,7 +185,15 @@ mermaid_class <- R6::R6Class(
         self$produce_link_styles(),
         character(0)
       )
-      c("graph LR", legend, graph, class_defs, link_styles)
+      graph_styles <- self$produce_graph_styles(self$show_legend)
+      c(
+        "graph LR",
+        graph_styles,
+        legend,
+        graph,
+        class_defs,
+        link_styles
+      )
     },
     update_extra = function() {
     },
