@@ -52,8 +52,6 @@ target_read_value.tar_builder <- function(target, pipeline = NULL) {
 target_prepare.tar_builder <- function(target, pipeline, scheduler, meta) {
   target_patternview_started(target, pipeline, scheduler)
   scheduler$progress$register_started(target)
-  meta$database$dequeue_rows()
-  scheduler$progress$database$dequeue_rows()
   scheduler$reporter$report_started(target, scheduler$progress)
   builder_ensure_deps(target, pipeline, "main")
   builder_update_subpipeline(target, pipeline)
