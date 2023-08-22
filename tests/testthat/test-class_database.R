@@ -23,10 +23,14 @@ tar_test("database$set_row()", {
 })
 
 tar_test("database$get_data()", {
-  db <- database_init()
+  db <- database_init(
+    header = c("name", "x"),
+    list_columns = "x",
+    list_column_modes = "character"
+  )
   expect_equal(db$memory$names, character(0))
-  row1 <- list(name = "abc", string = "123")
-  row2 <- list(name = "xyz", string = "456")
+  row1 <- list(name = "abc", x = "123")
+  row2 <- list(name = "xyz")
   db$set_row(row1)
   db$set_row(row2)
   out <- db$get_data()
@@ -34,6 +38,23 @@ tar_test("database$get_data()", {
   expect_equal(sort(out$name), sort(c("abc", "xyz")))
   expect_equal(sort(out$string), sort(c("123", "456")))
   expect_false(file.exists(db$path))
+})
+
+tar_test("database$get_data() with list columns", {
+  skip_cran()
+  pipeline <- pipeline_map()
+  algorithm <- local_init(pipeline)
+  algorithm$run()
+  out <- algorithm$meta$database$get_data()
+  expect_true(is.list(out$path))
+  expect_true(is.list(out$children))
+  expect_equal(
+    length(out$children[[which(out$name == "map1")]][[1L]]),
+    3L
+  )
+  expect_false(anyNA(out$name))
+  expect_true(all(nzchar(out$name)))
+  expect_equal(as.integer(anyDuplicated(out$name)), 0L)
 })
 
 tar_test("database$ensure_storage()", {
