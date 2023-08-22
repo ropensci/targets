@@ -1,4 +1,4 @@
-# targets 1.2.2.9000
+# targets 1.2.2.9001 (development)
 
 * Fix solution of #1103 so the copy fallback actually runs (@jds485, #1102, #1103).
 * Switch back to `tempdir()` for #1103.
