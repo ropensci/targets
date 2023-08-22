@@ -5,6 +5,8 @@
 * Move `path_scratch_dir_network()` to `file.path(tempdir(), "targets")` and make sure `tar_destroy("all")` and `tar_destroy("cloud")` delete it.
 * Display `tar_mermaid()` subgraphs with transparent fills and black borders.
 * Allow `database$get_data()` to work with list columns.
+* Respect `seconds_interval` for writing metadata and console messages even for currently building targets (#1055).
+* Disallow functions that access the local data store (including metadata) from inside a target while the pipeline is running (#1055, #1063). The only exception to this is local file targets such as `tarchetypes` literate programming target factories like `tar_render()` and `tar_quarto()`.
 
 # targets 1.2.2
 
