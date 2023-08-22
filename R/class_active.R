@@ -74,12 +74,22 @@ active_class <- R6::R6Class(
       self$meta$database$dequeue_rows()
       self$scheduler$progress$database$dequeue_rows()
     },
-    poll_meta = function() {
+    dequeue_meta_time = function() {
       self$seconds_dequeued <- self$seconds_dequeued %|||% -Inf
       now <- time_seconds_local()
       if ((now - self$seconds_dequeued) > self$seconds_interval) {
         self$dequeue_meta()
         self$seconds_dequeued <- time_seconds_local()
+      }
+    },
+    dequeue_meta_file = function(target) {
+      settings <- .subset2(target, "settings")
+      format <- .subset2(settings, "format")
+      repository <- .subset2(settings, "repository")
+      dequeue <- (format == "file" || format == "file_fast") &&
+        (repository == "local")
+      if (dequeue) {
+        self$dequeue_meta()
       }
     },
     write_gitignore = function() {
@@ -145,6 +155,7 @@ active_class <- R6::R6Class(
       target_debug(target)
       target_update_depend(target, self$pipeline, self$meta)
       if (target_should_run(target, self$meta)) {
+        self$dequeue_meta_file(target)
         self$run_target(name)
       } else {
         self$skip_target(target)

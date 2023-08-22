@@ -233,7 +233,7 @@ clustermq_class <- R6::R6Class(
       self$scheduler$backoff$reset()
     },
     iterate = function() {
-      self$poll_meta()
+      self$dequeue_meta_time()
       message <- if_any(
         self$workers > 0L,
         self$worker_list$receive_data(),
