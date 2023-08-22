@@ -36,6 +36,22 @@ tar_test("database$get_data()", {
   expect_false(file.exists(db$path))
 })
 
+tar_test("database$get_condensed_data()", {
+  db <- database_init()
+  expect_equal(db$memory$names, character(0))
+  row1 <- list(name = "abc", string = "123")
+  row2 <- list(name = "xyz", string = "456")
+  db$set_row(row1)
+  db$set_row(row2)
+  db$set_row(row1)
+  db$set_row(row2)
+  out <- db$get_condensed_data()
+  expect_equal(dim(out), c(2L, 2L))
+  expect_equal(sort(out$name), sort(c("abc", "xyz")))
+  expect_equal(sort(out$string), sort(c("123", "456")))
+  expect_false(file.exists(db$path))
+})
+
 tar_test("database$ensure_storage()", {
   out <- database_init(header = c("col1", "col2"))
   path <- out$path

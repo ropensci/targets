@@ -59,8 +59,13 @@ database_class <- R6::R6Class(
     },
     get_data = function() {
       rows <- self$list_rows()
-      out <- map(rows, ~as_data_frame(self$get_row(.x)))
-      do.call(rbind, out)
+      columns <- self$header
+      n <- length(columns)
+      out <- map(rows, ~self$get_row(.x))
+      as_data_frame(data.table::rbindlist(out, fill = TRUE))
+    },
+    get_condensed_data = function() {
+      self$condense_data(self$get_data())
     },
     set_data = function(data) {
       list <- lapply(data, as.list)
@@ -307,5 +312,19 @@ compare_working_directories <- function() {
   }
 }
 
+database_as_data_frame <- function(x, columns) {
+  out <- vector(mode = "list")
+  for (column in columns) {
+    out[[column]] <- .subset2(x, column)
+  }
+  attributes(out) <- list(
+    names = columns,
+    class = "data.frame",
+    row.names = database_set_row_names
+  )
+  out
+}
+
+database_set_row_names <- .set_row_names(1L)
 database_sep_outer <- "|"
 database_sep_inner <- "*"
