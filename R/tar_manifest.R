@@ -3,6 +3,7 @@
 #' @family inspect
 #' @description Along with [tar_visnetwork()] and [tar_glimpse()],
 #'   `tar_manifest()` helps check that you constructed your pipeline correctly.
+#' @inheritSection tar_meta Storage access
 #' @return A data frame of information about the targets in the pipeline.
 #'   Rows appear in topological order (the order they will run
 #'   without any influence from parallel computing or priorities).

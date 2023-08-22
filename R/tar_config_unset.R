@@ -6,6 +6,7 @@
 #'   from the optional YAML configuration file.
 #'   After that, [tar_option_get()] will return the original
 #'   default values for those settings for the project.
+#' @inheritSection tar_meta Storage access
 #' @return `NULL` (invisibly)
 #' @inheritSection tar_config_set Configuration
 #' @inheritParams tar_config_set

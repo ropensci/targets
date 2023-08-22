@@ -13,6 +13,7 @@
 #'   in `tar_option_get("packages")` (default: `(.packages())`)
 #'   using `library()` with `lib.loc` defined in `tar_option_get("library")`
 #'   (default: `NULL`).
+#' @inheritSection tar_meta Storage access
 #' @return `NULL` (invisibly).
 #' @inheritParams tar_config_set
 #' @param envir Environment to source the target script (default: `_targets.R`).

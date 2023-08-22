@@ -25,6 +25,7 @@
 #'   input/output files tracked with `tar_target(..., format = "file")`).
 #'   The next run of the pipeline will start from scratch,
 #'   and it will not skip any targets.
+#' @inheritSection tar_meta Storage access
 #' @return `NULL` (invisibly).
 #' @inheritParams tar_validate
 #' @param destroy Character of length 1, what to destroy. Choices:

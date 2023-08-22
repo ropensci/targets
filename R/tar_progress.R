@@ -3,6 +3,7 @@
 #' @family progress
 #' @description Read a project's target progress data for the most recent
 #'   run of [tar_make()] or similar. Only the most recent record is shown.
+#' @inheritSection tar_meta Storage access
 #' @return A data frame with one row per target and the following columns:
 #'   * `name`: name of the target.
 #'   * `type`: type of target: `"stem"` for non-branching targets,

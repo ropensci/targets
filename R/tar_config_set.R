@@ -3,6 +3,7 @@
 #' @family configuration
 #' @description `tar_config_set()` writes special custom settings
 #'   for the current project to an optional YAML configuration file.
+#' @inheritSection tar_meta Storage access
 #' @section Configuration:
 #'   For several key functions like [tar_make()], the
 #'   default values of arguments are controlled though

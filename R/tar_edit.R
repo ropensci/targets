@@ -6,7 +6,7 @@
 #' @details The target script file is an R code file
 #'   that defines the pipeline. The default path is `_targets.R`,
 #'   but the default for the current project
-#'   can be configured with [tar_config_set()].
+#'   can be configured with [tar_config_set()]
 #' @inheritParams tar_validate
 tar_edit <- function(script = targets::tar_config_get("script")) {
   # Covered in tests/interactive/test-tar_edit.R # nolint

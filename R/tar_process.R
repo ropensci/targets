@@ -11,6 +11,7 @@
 #'   check the status with `tar_pid() %in% ps::ps_pids()`
 #'   before running another call to [tar_make()]
 #'   for the same project.
+#' @inheritSection tar_meta Storage access
 #' @return A data frame with metadata on the most recent main R process
 #'   to orchestrate the targets of the current project.
 #'   The output includes the `pid` of the main process.

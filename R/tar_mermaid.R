@@ -6,6 +6,7 @@
 #' @details `mermaid.js` is a JavaScript library for constructing
 #'   static visualizations of graphs.
 #' @inheritSection tar_network Dependency graph
+#' @inheritSection tar_meta Storage access
 #' @return A character vector of lines of code of the `mermaid.js` graph.
 #'   You can visualize the graph by copying the text
 #'   into a public online `mermaid.js` editor or a `mermaid` GitHub code chunk

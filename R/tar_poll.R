@@ -3,6 +3,7 @@
 #' @family progress
 #' @description Print the information in [tar_progress_summary()]
 #'   at regular intervals.
+#' @return `NULL` (invisibly). Called for its side effects.
 #' @inheritParams tar_progress_summary
 #' @param interval Number of seconds to wait between iterations
 #'   of polling progress.

@@ -9,6 +9,7 @@
 #'   renders faster. Also, `tar_glimpse()` omits functions and other global
 #'   objects by default (but you can include them with `targets_only = FALSE`).
 #' @inheritSection tar_network Dependency graph
+#' @inheritSection tar_meta Storage access
 #' @return A `visNetwork` HTML widget object.
 #' @inheritParams tar_network
 #' @param targets_only Logical, whether to restrict the output to just targets

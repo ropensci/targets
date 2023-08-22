@@ -4,7 +4,6 @@
 #' @description Shorthand for `tar_load(everything())` to load all
 #'   targets with entries in the metadata.
 #' @return Nothing.
-#' @inheritSection tar_read Limited scope
 #' @inheritParams tar_load
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN

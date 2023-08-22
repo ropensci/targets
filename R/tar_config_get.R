@@ -8,6 +8,7 @@
 #'   or the default value if the setting is not available.
 #'   The data type of the return value depends on your choice
 #'   of `name`.
+#' @inheritSection tar_meta Storage access
 #' @inheritSection tar_config_set Configuration
 #' @inheritParams tar_config_set
 #' @param name Character of length 1, name of the specific

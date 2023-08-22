@@ -4,6 +4,7 @@
 #' @description Visualize the pipeline dependency graph with a `visNetwork`
 #'   HTML widget.
 #' @inheritSection tar_network Dependency graph
+#' @inheritSection tar_meta Storage access
 #' @return A `visNetwork` HTML widget object.
 #' @inheritParams tar_glimpse
 #' @inheritParams tar_network

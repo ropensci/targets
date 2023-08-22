@@ -8,6 +8,7 @@
 #' @details Requires that you define a pipeline
 #'   with a target script file (default: `_targets.R`).
 #'   (See [tar_script()] for details.)
+#' @inheritSection tar_meta Storage access
 #' @return Names of the outdated targets.
 #' @param names Names of the targets. `tar_outdated()` will check
 #'   these targets and all upstream ancestors in the dependency graph.

@@ -10,6 +10,7 @@
 #'   so you must install `future` yourself.
 #' @details To configure `tar_make_future()` with a computing cluster,
 #'   see the `future.batchtools` package documentation.
+#' @inheritSection tar_meta Storage access
 #' @return `NULL` except if `callr_function = callr::r_bg()`, in which case
 #'   a handle to the `callr` background process is returned. Either way,
 #'   the value is invisibly returned.

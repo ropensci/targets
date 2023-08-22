@@ -3,6 +3,7 @@
 #' @family progress
 #' @description List targets whose progress is `"errored"`.
 #' @return A character vector of errored targets.
+#' @inheritSection tar_meta Storage access
 #' @inheritParams tar_progress
 #' @param names Optional, names of the targets. If supplied, the
 #'   function restricts its output to these targets.

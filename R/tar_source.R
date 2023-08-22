@@ -8,6 +8,7 @@
 #'   `tar_source()` recursively looks for files ending
 #'   in `.R` or `.r`, and it runs each with
 #'   `eval(parse(text = readLines(script_file, warn = FALSE)), envir)`.
+#' @inheritSection tar_meta Storage access
 #' @return `NULL` (invisibly)
 #' @param files Character vector of file and directory paths
 #'   to look for R scripts to run. Paths must either be absolute
