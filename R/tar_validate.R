@@ -62,6 +62,7 @@ tar_validate <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_validate")
   force(envir)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments, "callr_arguments mut be a list.")

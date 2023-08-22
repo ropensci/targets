@@ -22,6 +22,7 @@ tar_exist_objects <- function(
   cloud = TRUE,
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_exist_objects")
   tar_assert_chr(names, "names must be a character vector.")
   meta <- if_any(file.exists(store), tar_meta(store = store), data_frame())
   out <- map_lgl(

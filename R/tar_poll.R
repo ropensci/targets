@@ -28,6 +28,7 @@ tar_poll <- function(
   fields = c("skipped", "started", "built", "errored", "canceled", "since"),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_poll")
   start <- time_seconds()
   if (!tar_exist_progress(store = store)) {
     cli_blue_bullet(

@@ -83,12 +83,7 @@ active_class <- R6::R6Class(
       }
     },
     dequeue_meta_file = function(target) {
-      settings <- .subset2(target, "settings")
-      format <- .subset2(settings, "format")
-      repository <- .subset2(settings, "repository")
-      dequeue <- (format == "file" || format == "file_fast") &&
-        (repository == "local")
-      if (dequeue) {
+      if (target_allow_meta(target)) {
         self$dequeue_meta()
       }
     },

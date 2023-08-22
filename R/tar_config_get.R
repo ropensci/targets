@@ -31,6 +31,7 @@ tar_config_get <- function(
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   project = Sys.getenv("TAR_PROJECT", "main")
 ) {
+  tar_assert_allow_meta("tar_config_get")
   tar_assert_chr(config)
   tar_assert_scalar(config)
   tar_assert_chr(project)

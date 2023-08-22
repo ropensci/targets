@@ -39,6 +39,7 @@ tar_load_globals <- function(
   envir = parent.frame(),
   script = targets::tar_config_get("script")
 ) {
+  tar_assert_allow_meta("tar_load_globals")
   force(envir)
   tar_assert_script(script)
   eval(parse(text = readLines(script)), envir = envir)

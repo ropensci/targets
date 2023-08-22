@@ -26,6 +26,7 @@
 #' tar_unscript()
 #' })
 tar_unscript <- function(script = targets::tar_config_get("script")) {
+  tar_assert_allow_meta("tar_unscript")
   if (!tar_exist_script(script = script)) {
     return(invisible())
   }

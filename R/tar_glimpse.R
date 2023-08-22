@@ -60,6 +60,7 @@ tar_glimpse <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_glimpse")
   force(envir)
   tar_assert_package("visNetwork")
   tar_assert_lgl(targets_only)

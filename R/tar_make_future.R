@@ -46,6 +46,7 @@ tar_make_future <- function(
   store = targets::tar_config_get("store"),
   garbage_collection = targets::tar_config_get("garbage_collection")
 ) {
+  tar_assert_allow_meta("tar_make_future")
   force(envir)
   tar_assert_package("future")
   tar_assert_scalar(shortcut)

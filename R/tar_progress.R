@@ -41,6 +41,7 @@ tar_progress <- function(
   fields = "progress",
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_progress")
   tar_assert_scalar(store)
   tar_assert_chr(store)
   tar_assert_nzchar(store)

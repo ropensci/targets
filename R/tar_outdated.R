@@ -69,6 +69,7 @@ tar_outdated <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_outdated")
   force(envir)
   tar_assert_scalar(shortcut)
   tar_assert_lgl(shortcut)

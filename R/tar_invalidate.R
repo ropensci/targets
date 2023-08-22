@@ -35,6 +35,7 @@
 #' })
 #' }
 tar_invalidate <- function(names, store = targets::tar_config_get("store")) {
+  tar_assert_allow_meta("tar_invalidate")
   meta <- meta_init(path_store = store)
   data <- meta$database$read_condensed_data()
   names_quosure <- rlang::enquo(names)

@@ -86,6 +86,7 @@ tar_destroy <- function(
   ask = NULL,
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_destroy")
   if (!file.exists(store)) {
     return(invisible())
   }

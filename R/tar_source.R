@@ -37,6 +37,7 @@ tar_source <- function(
   envir = targets::tar_option_get("envir"),
   change_directory = FALSE
 ) {
+  tar_assert_allow_meta("tar_source")
   tar_assert_lgl(change_directory)
   tar_assert_scalar(change_directory)
   tar_assert_chr(files)

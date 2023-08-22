@@ -383,3 +383,17 @@ tar_test("tar_assert_objects_files()", {
     class = "tar_condition_run"
   )
 })
+
+tar_test("tar_assert_allow_meta()", {
+  old_target <- tar_runtime$target
+  on.exit(tar_runtime$target <- old_target)
+  tar_runtime$target <- NULL
+  expect_null(tar_assert_allow_meta("fun"))
+  tar_runtime$target <- tar_target(x, 1, format = "file", repository = "local")
+  expect_null(tar_assert_allow_meta("fun"))
+  tar_runtime$target <- tar_target(x, 1, format = "rds", repository = "aws")
+  expect_error(
+    tar_assert_allow_meta("fun"),
+    class = "tar_condition_validate"
+  )
+})
