@@ -8,6 +8,7 @@
 #'   back into R, and see
 #'   <https://docs.ropensci.org/targets/reference/index.html#clean>
 #'   to manage output files.
+#' @inheritSection tar_meta Storage access
 #' @return `NULL` except if `callr_function = callr::r_bg()`, in which case
 #'   a handle to the `callr` background process is returned. Either way,
 #'   the value is invisibly returned.
@@ -53,7 +54,7 @@
 #'   Also controls how often the reporter prints progress messages.
 #'   Higher values generally make the pipeline run faster, but unsaved
 #'   work (in the event of a crash) is not up to date.
-#'   When a target starts or the pipeline ends,
+#'   When the pipeline ends,
 #'   everything is saved/printed immediately,
 #'   regardless of `seconds_interval`.
 #' @param garbage_collection Logical of length 1. For a `crew`-integrated
@@ -119,6 +120,7 @@ tar_make <- function(
   use_crew = targets::tar_config_get("use_crew"),
   terminate_controller = TRUE
 ) {
+  tar_assert_allow_meta("tar_make")
   force(envir)
   tar_assert_scalar(shortcut)
   tar_assert_lgl(shortcut)

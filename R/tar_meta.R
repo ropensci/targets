@@ -6,6 +6,18 @@
 #'   [tar_progress()] shows information on targets that are running.
 #'   That is why the number of branches may disagree between [tar_meta()]
 #'   and [tar_progress()] for actively running pipelines.
+#' @inheritSection tar_meta Storage access
+#' @section Storage access:
+#'   Several functions like `tar_make()`, `tar_read()`, `tar_load()`,
+#'   `tar_meta()`, and `tar_progress()` read or modify
+#'   the local data store of the pipeline.
+#'   The local data store is in flux while a pipeline is running,
+#'   and depending on how distributed computing or cloud computing is set up,
+#'   not all targets can even reach it. So please do not call these
+#'   functions from inside a target as part of a running
+#'   pipeline. The only exception is literate programming
+#'   target factories in the `tarchetypes` package such as `tar_render()`
+#'   and `tar_quarto()`.
 #' @return A data frame with one row per target/object and the selected fields.
 #' @inheritParams tar_validate
 #' @param names Optional, names of the targets. If supplied, `tar_meta()`
@@ -89,6 +101,7 @@ tar_meta <- function(
   complete_only = FALSE,
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_meta")
   tar_assert_scalar(store)
   tar_assert_chr(store)
   tar_assert_nzchar(store)

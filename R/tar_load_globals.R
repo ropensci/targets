@@ -13,6 +13,7 @@
 #'   in `tar_option_get("packages")` (default: `(.packages())`)
 #'   using `library()` with `lib.loc` defined in `tar_option_get("library")`
 #'   (default: `NULL`).
+#' @inheritSection tar_meta Storage access
 #' @return `NULL` (invisibly).
 #' @inheritParams tar_config_set
 #' @param envir Environment to source the target script (default: `_targets.R`).
@@ -39,6 +40,7 @@ tar_load_globals <- function(
   envir = parent.frame(),
   script = targets::tar_config_get("script")
 ) {
+  tar_assert_allow_meta("tar_load_globals")
   force(envir)
   tar_assert_script(script)
   eval(parse(text = readLines(script)), envir = envir)

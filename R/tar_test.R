@@ -36,6 +36,7 @@ tar_test <- function(label, code) {
     tar_option_reset()
     on.exit(tar_option_reset(), add = TRUE)
     on.exit(processx::supervisor_kill(), add = TRUE)
+    tar_runtime$target <- NULL
     tar_option_set(envir = new.env(parent = globalenv()))
     suppressMessages(eval(expr, envir = parent.frame()))
   }

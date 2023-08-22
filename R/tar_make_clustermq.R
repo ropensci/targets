@@ -19,6 +19,7 @@
 #'   or <https://books.ropensci.org/targets/hpc.html>.
 #'   `clustermq` is not a strict dependency of `targets`,
 #'   so you must install `clustermq` yourself.
+#' @inheritSection tar_meta Storage access
 #' @return `NULL` except if `callr_function = callr::r_bg()`, in which case
 #'   a handle to the `callr` background process is returned. Either way,
 #'   the value is invisibly returned.
@@ -60,6 +61,7 @@ tar_make_clustermq <- function(
   # Cannot use multicore clustermq backend
   # due to https://github.com/ropensci/targets/discussions/780
   # nocov start
+  tar_assert_allow_meta("tar_make_clustermq")
   force(envir)
   tar_assert_package("clustermq")
   tar_assert_scalar(shortcut)

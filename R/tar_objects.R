@@ -4,6 +4,7 @@
 #' @description List targets currently saved to `_targets/objects/`
 #'   or the cloud. Does not include local files
 #'   with `tar_target(..., format = "file", repository = "local")`.
+#' @inheritSection tar_meta Storage access
 #' @return Character vector of targets saved to `_targets/objects/`.
 #' @inheritParams tar_validate
 #' @param names Optional `tidyselect` selector such as
@@ -29,6 +30,7 @@ tar_objects <- function(
   cloud = TRUE,
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_objects")
   if (!file.exists(store)) {
     return(character(0))
   }

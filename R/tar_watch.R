@@ -72,6 +72,7 @@ tar_watch <- function(
   stdout = "|",
   stderr = "|"
 ) {
+  tar_assert_allow_meta("tar_watch")
   tar_assert_watch_packages()
   tar_assert_chr(exclude)
   tar_assert_dbl(seconds)

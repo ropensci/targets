@@ -29,6 +29,9 @@ See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_
 about how to set the data store path persistently
 for a project.}
 }
+\value{
+\code{NULL} (invisibly). Called for its side effects.
+}
 \description{
 Print the information in \code{\link[=tar_progress_summary]{tar_progress_summary()}}
 at regular intervals.

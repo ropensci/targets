@@ -5,7 +5,7 @@
 #'   Do not use in `knitr` or R Markdown reports with `tarchetypes::tar_knit()`
 #'   or `tarchetypes::tar_render()`.
 #' @return Nothing.
-#' @inheritSection tar_read Limited scope
+#' @inheritSection tar_meta Storage access
 #' @inheritParams tar_read
 #' @param names Character vector, names of the targets to load.
 #'   Names are expected to appear in the metadata in `_targets/meta`.
@@ -49,6 +49,7 @@ tar_load_raw <- function(
   envir = parent.frame(),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_load_raw")
   tar_assert_store(store = store)
   force(meta)
   force(envir)

@@ -3,6 +3,7 @@
 #' @family configuration
 #' @description `tar_config_set()` writes special custom settings
 #'   for the current project to an optional YAML configuration file.
+#' @inheritSection tar_meta Storage access
 #' @section Configuration:
 #'   For several key functions like [tar_make()], the
 #'   default values of arguments are controlled though
@@ -154,6 +155,7 @@ tar_config_set <- function(
 ) {
   # TODO: remove single-project format, which was deprecated on
   # 2021-09-03 (version 0.7.0.9001).
+  tar_assert_allow_meta("tar_config_set")
   tar_assert_chr(config)
   tar_assert_scalar(config)
   tar_assert_chr(project)

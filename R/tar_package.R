@@ -18,7 +18,7 @@
 #' @importFrom cli col_blue col_green col_red col_yellow make_spinner
 #'   num_ansi_colors symbol
 #' @importFrom codetools findGlobals
-#' @importFrom data.table data.table fread fwrite set
+#' @importFrom data.table data.table fread fwrite rbindlist set
 #' @importFrom digest digest digest2int
 #' @importFrom igraph adjacent_vertices get.edgelist gorder
 #'   graph_from_data_frame igraph_opt igraph_options is_dag simplify topo_sort

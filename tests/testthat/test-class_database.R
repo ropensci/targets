@@ -36,6 +36,23 @@ tar_test("database$get_data()", {
   expect_false(file.exists(db$path))
 })
 
+tar_test("database$get_data() with list columns", {
+  skip_cran()
+  pipeline <- pipeline_map()
+  algorithm <- local_init(pipeline)
+  algorithm$run()
+  out <- algorithm$meta$database$get_data()
+  expect_true(is.list(out$path))
+  expect_true(is.list(out$children))
+  expect_equal(
+    length(out$children[[which(out$name == "map1")]][[1L]]),
+    3L
+  )
+  expect_false(anyNA(out$name))
+  expect_true(all(nzchar(out$name)))
+  expect_equal(as.integer(anyDuplicated(out$name)), 0L)
+})
+
 tar_test("database$ensure_storage()", {
   out <- database_init(header = c("col1", "col2"))
   path <- out$path

@@ -3,6 +3,7 @@
 #' @family progress
 #' @description Print the information in [tar_progress_summary()]
 #'   at regular intervals.
+#' @return `NULL` (invisibly). Called for its side effects.
 #' @inheritParams tar_progress_summary
 #' @param interval Number of seconds to wait between iterations
 #'   of polling progress.
@@ -28,6 +29,7 @@ tar_poll <- function(
   fields = c("skipped", "started", "built", "errored", "canceled", "since"),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_poll")
   start <- time_seconds()
   if (!tar_exist_progress(store = store)) {
     cli_blue_bullet(

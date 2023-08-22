@@ -85,6 +85,32 @@ which is only needed while \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar
 or \code{\link[=tar_make_future]{tar_make_future()}} is running. To list the targets that will be
 pruned without actually removing anything, use \code{\link[=tar_prune_list]{tar_prune_list()}}.
 }
+\section{Storage access}{
+
+Several functions like \code{tar_make()}, \code{tar_read()}, \code{tar_load()},
+\code{tar_meta()}, and \code{tar_progress()} read or modify
+the local data store of the pipeline.
+The local data store is in flux while a pipeline is running,
+and depending on how distributed computing or cloud computing is set up,
+not all targets can even reach it. So please do not call these
+functions from inside a target as part of a running
+pipeline. The only exception is literate programming
+target factories in the \code{tarchetypes} package such as \code{tar_render()}
+and \code{tar_quarto()}.
+
+
+Several functions like \code{tar_make()}, \code{tar_read()}, \code{tar_load()},
+\code{tar_meta()}, and \code{tar_progress()} read or modify
+the local data store of the pipeline.
+The local data store is in flux while a pipeline is running,
+and depending on how distributed computing or cloud computing is set up,
+not all targets can even reach it. So please do not call these
+functions from inside a target as part of a running
+pipeline. The only exception is literate programming
+target factories in the \code{tarchetypes} package such as \code{tar_render()}
+and \code{tar_quarto()}.
+}
+
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

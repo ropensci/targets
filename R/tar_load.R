@@ -8,7 +8,7 @@
 #'   [tar_load_everything()] is shorthand for `tar_load(everything())`
 #'   to load all targets.
 #' @return Nothing.
-#' @inheritSection tar_read Limited scope
+#' @inheritSection tar_meta Storage access
 #' @inheritParams tar_load_raw
 #' @param names Names of the targets to load.
 #'   You may supply `tidyselect` helpers like [any_of()] and [starts_with()].
@@ -41,6 +41,7 @@ tar_load <- function(
   envir = parent.frame(),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_load")
   tar_assert_store(store = store)
   force(meta)
   force(envir)

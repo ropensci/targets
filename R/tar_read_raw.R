@@ -7,7 +7,7 @@
 #' @return The target's return value from its file in
 #'   `_targets/objects/`, or the paths to the custom files and directories
 #'   if `format = "file"` was set.
-#' @inheritSection tar_read Limited scope
+#' @inheritSection tar_meta Storage access
 #' @inheritParams tar_validate
 #' @param name Character, name of the target to read.
 #' @param branches Integer of indices of the branches to load
@@ -31,6 +31,7 @@ tar_read_raw <- function(
   meta = tar_meta(store = store),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_read_raw")
   tar_assert_store(store = store)
   force(meta)
   tar_assert_chr(name)

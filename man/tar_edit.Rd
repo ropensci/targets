@@ -25,7 +25,7 @@ Requires the \code{usethis} package.
 The target script file is an R code file
 that defines the pipeline. The default path is \verb{_targets.R},
 but the default for the current project
-can be configured with \code{\link[=tar_config_set]{tar_config_set()}}.
+can be configured with \code{\link[=tar_config_set]{tar_config_set()}}
 }
 \seealso{
 Other scripts: 

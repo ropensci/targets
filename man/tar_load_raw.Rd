@@ -60,15 +60,30 @@ Same as \code{\link[=tar_load]{tar_load()}} except \code{names} is a character v
 Do not use in \code{knitr} or R Markdown reports with \code{tarchetypes::tar_knit()}
 or \code{tarchetypes::tar_render()}.
 }
-\section{Limited scope}{
+\section{Storage access}{
 
-\code{tar_read()} and \code{tar_load()}
-are only for exploratory analysis and literate programming,
-and \code{tar_read_raw()} and \code{tar_load_raw()} are only
-for exploratory analysis. \code{targets} automatically
-loads the correct dependencies into memory when the pipeline
-is running, so invoking these functions
-from inside a target is rarely advisable.
+Several functions like \code{tar_make()}, \code{tar_read()}, \code{tar_load()},
+\code{tar_meta()}, and \code{tar_progress()} read or modify
+the local data store of the pipeline.
+The local data store is in flux while a pipeline is running,
+and depending on how distributed computing or cloud computing is set up,
+not all targets can even reach it. So please do not call these
+functions from inside a target as part of a running
+pipeline. The only exception is literate programming
+target factories in the \code{tarchetypes} package such as \code{tar_render()}
+and \code{tar_quarto()}.
+
+
+Several functions like \code{tar_make()}, \code{tar_read()}, \code{tar_load()},
+\code{tar_meta()}, and \code{tar_progress()} read or modify
+the local data store of the pipeline.
+The local data store is in flux while a pipeline is running,
+and depending on how distributed computing or cloud computing is set up,
+not all targets can even reach it. So please do not call these
+functions from inside a target as part of a running
+pipeline. The only exception is literate programming
+target factories in the \code{tarchetypes} package such as \code{tar_render()}
+and \code{tar_quarto()}.
 }
 
 \examples{

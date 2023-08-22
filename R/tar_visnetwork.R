@@ -4,6 +4,7 @@
 #' @description Visualize the pipeline dependency graph with a `visNetwork`
 #'   HTML widget.
 #' @inheritSection tar_network Dependency graph
+#' @inheritSection tar_meta Storage access
 #' @return A `visNetwork` HTML widget object.
 #' @inheritParams tar_glimpse
 #' @inheritParams tar_network
@@ -47,6 +48,7 @@ tar_visnetwork <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_visnetwork")
   force(envir)
   tar_assert_package("visNetwork")
   tar_assert_lgl(targets_only, "targets_only must be logical.")

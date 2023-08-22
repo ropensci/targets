@@ -66,7 +66,7 @@ number of seconds between saves to the metadata and progress data.
 Also controls how often the reporter prints progress messages.
 Higher values generally make the pipeline run faster, but unsaved
 work (in the event of a crash) is not up to date.
-When a target starts or the pipeline ends,
+When the pipeline ends,
 everything is saved/printed immediately,
 regardless of \code{seconds_interval}.}
 
@@ -156,6 +156,32 @@ or \url{https://books.ropensci.org/targets/hpc.html}.
 \code{clustermq} is not a strict dependency of \code{targets},
 so you must install \code{clustermq} yourself.
 }
+\section{Storage access}{
+
+Several functions like \code{tar_make()}, \code{tar_read()}, \code{tar_load()},
+\code{tar_meta()}, and \code{tar_progress()} read or modify
+the local data store of the pipeline.
+The local data store is in flux while a pipeline is running,
+and depending on how distributed computing or cloud computing is set up,
+not all targets can even reach it. So please do not call these
+functions from inside a target as part of a running
+pipeline. The only exception is literate programming
+target factories in the \code{tarchetypes} package such as \code{tar_render()}
+and \code{tar_quarto()}.
+
+
+Several functions like \code{tar_make()}, \code{tar_read()}, \code{tar_load()},
+\code{tar_meta()}, and \code{tar_progress()} read or modify
+the local data store of the pipeline.
+The local data store is in flux while a pipeline is running,
+and depending on how distributed computing or cloud computing is set up,
+not all targets can even reach it. So please do not call these
+functions from inside a target as part of a running
+pipeline. The only exception is literate programming
+target factories in the \code{tarchetypes} package such as \code{tar_render()}
+and \code{tar_quarto()}.
+}
+
 \examples{
 if (!identical(tolower(Sys.info()[["sysname"]]), "windows")) {
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN

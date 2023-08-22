@@ -3,6 +3,7 @@
 #' @family progress
 #' @description List targets whose progress is `"errored"`.
 #' @return A character vector of errored targets.
+#' @inheritSection tar_meta Storage access
 #' @inheritParams tar_progress
 #' @param names Optional, names of the targets. If supplied, the
 #'   function restricts its output to these targets.
@@ -26,6 +27,7 @@ tar_errored <- function(
   names = NULL,
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_errored")
   progress <- progress_init(path_store = store)
   progress <- tibble::as_tibble(progress$database$read_condensed_data())
   names_quosure <- rlang::enquo(names)

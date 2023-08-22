@@ -14,6 +14,7 @@
 #'   For patterns recorded in the metadata, all the branches
 #'   will be invalidated. For patterns no longer in the metadata,
 #'   branches are left alone.
+#' @inheritSection tar_meta Storage access
 #' @return `NULL` (invisibly).
 #' @inheritParams tar_validate
 #' @param names Names of the targets to remove from the metadata list.
@@ -35,6 +36,7 @@
 #' })
 #' }
 tar_invalidate <- function(names, store = targets::tar_config_get("store")) {
+  tar_assert_allow_meta("tar_invalidate")
   meta <- meta_init(path_store = store)
   data <- meta$database$read_condensed_data()
   names_quosure <- rlang::enquo(names)

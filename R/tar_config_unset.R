@@ -6,6 +6,7 @@
 #'   from the optional YAML configuration file.
 #'   After that, [tar_option_get()] will return the original
 #'   default values for those settings for the project.
+#' @inheritSection tar_meta Storage access
 #' @return `NULL` (invisibly)
 #' @inheritSection tar_config_set Configuration
 #' @inheritParams tar_config_set
@@ -28,6 +29,7 @@ tar_config_unset <- function(
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   project = Sys.getenv("TAR_PROJECT", "main")
 ) {
+  tar_assert_allow_meta("tar_config_unset")
   tar_assert_chr(config)
   tar_assert_scalar(config)
   tar_assert_chr(project)

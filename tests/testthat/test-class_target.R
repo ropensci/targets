@@ -427,3 +427,18 @@ tar_test("invalidation: change a nested function", {
   expect_equal(tar_progress()$progress, "built")
   expect_equal(tar_read(x), 3L)
 })
+
+tar_test("target_allow_meta()", {
+  target <- tar_target(x, 1, format = "rds", repository = "aws")
+  expect_false(target_allow_meta(target))
+  target <- tar_target(x, 1, format = "file", repository = "aws")
+  expect_false(target_allow_meta(target))
+  target <- tar_target(x, 1, format = "file_fast", repository = "aws")
+  expect_false(target_allow_meta(target))
+  target <- tar_target(x, 1, format = "rds", repository = "local")
+  expect_false(target_allow_meta(target))
+  target <- tar_target(x, 1, format = "file", repository = "local")
+  expect_true(target_allow_meta(target))
+  target <- tar_target(x, 1, format = "file_fast", repository = "local")
+  expect_true(target_allow_meta(target))
+})

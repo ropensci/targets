@@ -730,3 +730,30 @@ tar_assert_watch_packages <- function() {
   tar_assert_package(pkgs)
 }
 # nocov end
+
+tar_assert_allow_meta <- function(fun) {
+  target <- tar_runtime$target
+  if (is.null(target)) {
+    return()
+  }
+  if (!target_allow_meta(target)) {
+    message <- paste0(
+      "target ",
+      target$settings$name,
+      " attempted to run targets::",
+      fun,
+      "() during a pipeline, which is unsupported ",
+      "except when format %in% c(\"file\", \"file_fast\") and ",
+      "repository == \"local\". This is because functions like ",
+      fun,
+      "() attempt to access or modify the local data store, ",
+      "which may not exist or be properly synced in certain situations. ",
+      "Also, please be aware that some functions like ",
+      "tar_make() and tar_destroy() ",
+      "should never run inside a target. ",
+      "Please find a different workaround ",
+      "for your use case."
+    )
+    tar_throw_validate(message)
+  }
+}

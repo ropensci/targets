@@ -4,7 +4,6 @@
 #' @description Shorthand for `tar_load(everything())` to load all
 #'   targets with entries in the metadata.
 #' @return Nothing.
-#' @inheritSection tar_read Limited scope
 #' @inheritParams tar_load
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
@@ -30,6 +29,7 @@ tar_load_everything <- function(
   envir = parent.frame(),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_load_everything")
   force(envir)
   tar_load(
     everything(),

@@ -210,7 +210,7 @@ future_class <- R6::R6Class(
       lapply(names, self$process_worker)
     },
     iterate = function() {
-      self$poll_meta()
+      self$dequeue_meta_time()
       self$process_workers()
       self$try_submit(wait = TRUE)
     },

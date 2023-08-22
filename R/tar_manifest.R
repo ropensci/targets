@@ -3,6 +3,7 @@
 #' @family inspect
 #' @description Along with [tar_visnetwork()] and [tar_glimpse()],
 #'   `tar_manifest()` helps check that you constructed your pipeline correctly.
+#' @inheritSection tar_meta Storage access
 #' @return A data frame of information about the targets in the pipeline.
 #'   Rows appear in topological order (the order they will run
 #'   without any influence from parallel computing or priorities).
@@ -76,6 +77,7 @@ tar_manifest <- function(
   envir = parent.frame(),
   script = targets::tar_config_get("script")
 ) {
+  tar_assert_allow_meta("tar_manifest")
   force(envir)
   tar_assert_lgl(drop_missing)
   tar_assert_scalar(drop_missing)

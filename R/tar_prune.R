@@ -5,6 +5,7 @@
 #' @description Remove target values from `_targets/objects/` and the cloud
 #'   and remove target metadata from `_targets/meta/meta`
 #'   for targets that are no longer part of the pipeline.
+#' @inheritSection tar_meta Storage access
 #' @details
 #'   `tar_prune()` is useful if you recently worked through
 #'   multiple changes to your project and are now trying to
@@ -44,6 +45,7 @@ tar_prune <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_prune")
   force(envir)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)

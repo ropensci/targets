@@ -418,6 +418,13 @@ target_get_packages.default <- function(target) {
   sort(unique(c(packages_command, packages_store)))
 }
 
+target_allow_meta <- function(target) {
+  settings <- .subset2(target, "settings")
+  format <- .subset2(settings, "format")
+  repository <- .subset2(settings, "repository")
+  (format == "file" || format == "file_fast") && (repository == "local")
+}
+
 target_validate <- function(target) {
   UseMethod("target_validate")
 }

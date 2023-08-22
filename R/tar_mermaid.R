@@ -6,6 +6,7 @@
 #' @details `mermaid.js` is a JavaScript library for constructing
 #'   static visualizations of graphs.
 #' @inheritSection tar_network Dependency graph
+#' @inheritSection tar_meta Storage access
 #' @return A character vector of lines of code of the `mermaid.js` graph.
 #'   You can visualize the graph by copying the text
 #'   into a public online `mermaid.js` editor or a `mermaid` GitHub code chunk
@@ -54,6 +55,7 @@ tar_mermaid <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_mermaidd")
   force(envir)
   tar_assert_lgl(targets_only, "targets_only must be logical.")
   tar_assert_lgl(outdated, "outdated in tar_mermaid() must be logical.")

@@ -18,6 +18,7 @@
 #'   For patterns recorded in the metadata, all the branches
 #'   will be deleted. For patterns no longer in the metadata,
 #'   branches are left alone.
+#' @inheritSection tar_meta Storage access
 #' @inheritParams tar_validate
 #' @param names Names of the targets to remove from `_targets/objects/`.
 #'   You can supply symbols
@@ -45,6 +46,7 @@ tar_delete <- function(
   cloud = TRUE,
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_delete")
   tar_assert_store(store = store)
   tar_assert_path(path_meta(store))
   meta <- meta_init(path_store = store)$database$read_condensed_data()

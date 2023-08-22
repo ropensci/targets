@@ -207,7 +207,7 @@ crew_class <- R6::R6Class(
       target_sync_file_meta(target, self$meta)
     },
     iterate = function() {
-      self$poll_meta()
+      self$dequeue_meta_time()
       queue <- self$scheduler$queue
       should_dequeue <- queue$should_dequeue()
       if (should_dequeue) {

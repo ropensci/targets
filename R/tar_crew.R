@@ -4,6 +4,7 @@
 #' @description For the most recent run of the pipeline with [tar_make()]
 #'   where a `crew` controller was started, get summary-level information
 #'   of the workers.
+#' @inheritSection tar_meta Storage access
 #' @return A data frame one row per `crew` worker and the following columns:
 #'   * `controller`: name of the `crew` controller.
 #'   * `launches`: number of times the worker was launched.
@@ -28,6 +29,7 @@
 #' })
 #' }
 tar_crew <- function(store = targets::tar_config_get("store")) {
+  tar_assert_allow_meta("tar_crew")
   tar_assert_scalar(store)
   tar_assert_chr(store)
   tar_assert_nzchar(store)

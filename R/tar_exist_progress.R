@@ -10,5 +10,6 @@
 #' @examples
 #' tar_exist_progress()
 tar_exist_progress <- function(store = targets::tar_config_get("store")) {
+  tar_assert_allow_meta("tar_exist_progress")
   file.exists(path_progress(path_store = store))
 }

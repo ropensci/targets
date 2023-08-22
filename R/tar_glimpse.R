@@ -9,6 +9,7 @@
 #'   renders faster. Also, `tar_glimpse()` omits functions and other global
 #'   objects by default (but you can include them with `targets_only = FALSE`).
 #' @inheritSection tar_network Dependency graph
+#' @inheritSection tar_meta Storage access
 #' @return A `visNetwork` HTML widget object.
 #' @inheritParams tar_network
 #' @param targets_only Logical, whether to restrict the output to just targets
@@ -60,6 +61,7 @@ tar_glimpse <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_allow_meta("tar_glimpse")
   force(envir)
   tar_assert_package("visNetwork")
   tar_assert_lgl(targets_only)
