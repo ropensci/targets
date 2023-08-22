@@ -23,14 +23,10 @@ tar_test("database$set_row()", {
 })
 
 tar_test("database$get_data()", {
-  db <- database_init(
-    header = c("name", "x"),
-    list_columns = "x",
-    list_column_modes = "character"
-  )
+  db <- database_init()
   expect_equal(db$memory$names, character(0))
-  row1 <- list(name = "abc", x = "123")
-  row2 <- list(name = "xyz")
+  row1 <- list(name = "abc", string = "123")
+  row2 <- list(name = "xyz", string = "456")
   db$set_row(row1)
   db$set_row(row2)
   out <- db$get_data()
