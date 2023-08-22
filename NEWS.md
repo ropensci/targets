@@ -4,6 +4,7 @@
 * Switch back to `tempdir()` for #1103.
 * Move `path_scratch_dir_network()` to `file.path(tempdir(), "targets")` and make sure `tar_destroy("all")` and `tar_destroy("cloud")` delete it.
 * Display `tar_mermaid()` subgraphs with transparent fills and black borders.
+* Allow `database$get_data()` to work with list columns.
 
 # targets 1.2.2
 
