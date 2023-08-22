@@ -157,7 +157,8 @@ database_meta <- function(path_store) {
   database_init(
     path = path_meta(path_store = path_store),
     header = header_meta(),
-    list_columns = c("path", "children")
+    list_columns = c("path", "children"),
+    list_column_modes <- c("character", "character")
   )
 }
 

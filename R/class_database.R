@@ -1,10 +1,11 @@
 database_init <- function(
   path = tempfile(),
   header = "name",
-  list_columns = character(0)
+  list_columns = character(0L),
+  list_column_modes = character(0L)
 ) {
   memory <- memory_init()
-  database_new(memory, path, header, list_columns)
+  database_new(memory, path, header, list_columns, list_column_modes)
 }
 
 database_new <- function(
@@ -12,6 +13,7 @@ database_new <- function(
   path = NULL,
   header = NULL,
   list_columns = NULL,
+  list_column_modes = NULL,
   queue = NULL
 ) {
   database_class$new(
@@ -19,6 +21,7 @@ database_new <- function(
     path = path,
     header = header,
     list_columns = list_columns,
+    list_column_modes = list_column_modes,
     queue = queue
   )
 }
@@ -34,18 +37,21 @@ database_class <- R6::R6Class(
       path = NULL,
       header = NULL,
       list_columns = NULL,
+      list_column_modes = NULL,
       queue = NULL
     ) {
       self$memory <- memory
       self$path <- path
       self$header <- header
       self$list_columns <- list_columns
+      self$list_column_modes <- list_column_modes
       self$queue <- queue
     },
     memory = NULL,
     path = NULL,
     header = NULL,
     list_columns = NULL,
+    list_column_modes = NULL,
     queue = NULL,
     get_row = function(name) {
       memory_get_object(self$memory, name)
@@ -59,13 +65,20 @@ database_class <- R6::R6Class(
     },
     get_data = function() {
       rows <- self$list_rows()
-      columns <- self$header
-      n <- length(columns)
-      out <- map(rows, ~self$get_row(.x))
-      as_data_frame(data.table::rbindlist(out, fill = TRUE))
-    },
-    get_condensed_data = function() {
-      self$condense_data(self$get_data())
+      list_columns <- self$list_columns
+      list_column_mode_list <- as.list(self$list_column_modes)
+      names(list_column_mode_list) <- list_columns
+      out <- map(
+        rows,
+        ~database_repair_list_columns(
+          .subset2(self, "get_row")(.x),
+          list_columns,
+          list_column_mode_list
+        )
+      )
+      out <- as_data_frame(data.table::rbindlist(out, fill = TRUE))
+      columns <- base::union(self$header, setdiff(colnames(out), self$header))
+      out[, columns, drop = FALSE]
     },
     set_data = function(data) {
       list <- lapply(data, as.list)
@@ -209,7 +222,6 @@ database_class <- R6::R6Class(
     read_existing_data = function() {
       # TODO: use sep2 once implemented:
       # https://github.com/Rdatatable/data.table/issues/1162
-      # We can also delete the list_columns arg then.
       encoding <- getOption("encoding")
       encoding <- if_any(
         identical(tolower(encoding), "latin1"),
@@ -312,19 +324,14 @@ compare_working_directories <- function() {
   }
 }
 
-database_as_data_frame <- function(x, columns) {
-  out <- vector(mode = "list")
+database_repair_list_columns <- function(x, columns, list_column_mode_list) {
   for (column in columns) {
-    out[[column]] <- .subset2(x, column)
+    na <- NA
+    mode(na) <- list_column_mode_list[[column]]
+    x[[column]] <- list(.subset2(x, column) %|||% na)
   }
-  attributes(out) <- list(
-    names = columns,
-    class = "data.frame",
-    row.names = database_set_row_names
-  )
-  out
+  x
 }
 
-database_set_row_names <- .set_row_names(1L)
 database_sep_outer <- "|"
 database_sep_inner <- "*"
