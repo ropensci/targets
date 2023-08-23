@@ -62,13 +62,15 @@ tar_source <- function(
   lapply(
     r_scripts,
     function(script) {
-      lines <- readLines(script, warn = FALSE)
       if (change_directory) {
         dir <- dirname(script)
         old <- eval(parse(text = "setwd(dir)"))
         on.exit(eval(parse(text = "setwd(old)")))
+        expr <- parse(file = basename(script), keep.source = TRUE)
+      } else {
+        expr <- parse(file = script, keep.source = TRUE)
       }
-      eval(parse(text = lines), envir = envir)
+      eval(expr = expr, envir = envir)
       invisible()
     }
   )

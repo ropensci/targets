@@ -16,6 +16,7 @@ Because of these changes, upgrading to this version of `targets` will unavoidabl
 * Respect `seconds_interval` for writing metadata and console messages even for currently building targets (#1055).
 * Disallow functions that access the local data store (including metadata) from inside a target while the pipeline is running (#1055, #1063). The only exception to this is local file targets such as `tarchetypes` literate programming target factories like `tar_render()` and `tar_quarto()`.
 * In the `hash_deps()` method of the metadata class, use a new custom `sort_chr()` function which temporarily sets the `LC_COLLATE` locale to `"C"` for sorting. This ensures lexicographic comparisons  are consistent across platforms (#1108).
+* In `tar_source()`, use the `file` argument and `keep.source = TRUE` to help with interactive debugging (#1120).
 
 # targets 1.2.2
 
