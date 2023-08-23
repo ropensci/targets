@@ -58,8 +58,8 @@ tar_assert_chr_no_delim <- function(x, msg = NULL) {
 
 tar_assert_correct_fields <- function(object, constructor) {
   tar_assert_identical_chr(
-    sort(names(object)),
-    sort(names(formals(constructor)))
+    sort_chr(names(object)),
+    sort_chr(names(formals(constructor)))
   )
 }
 

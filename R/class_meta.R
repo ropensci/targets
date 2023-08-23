@@ -78,7 +78,7 @@ meta_class <- R6::R6Class(
     },
     hash_deps = function(deps, pipeline) {
       hashes <- vapply(
-        X = sort.int(deps),
+        X = sort_chr(deps),
         FUN = self$hash_dep,
         pipeline = pipeline,
         FUN.VALUE = character(1L),

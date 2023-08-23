@@ -44,6 +44,6 @@ memory_validate <- function(memory) {
   tar_assert_correct_fields(memory, memory_new)
   tar_assert_chr(memory$names)
   tar_assert_envir(memory$envir)
-  tar_assert_in(sort(memory$names), sort(names(memory$envir)))
+  tar_assert_in(memory$names, names(memory$envir))
   tar_assert_identical(length(memory$names), memory$count)
 }

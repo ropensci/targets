@@ -251,7 +251,7 @@ target_sync_file_meta.tar_builder <- function(target, meta) {
 target_get_packages.tar_builder <- function(target) {
   packages_command <- target$command$packages
   packages_store <- store_get_packages(target$store)
-  sort(unique(c(packages_command, packages_store)))
+  sort_chr(unique(c(packages_command, packages_store)))
 }
 
 #' @export

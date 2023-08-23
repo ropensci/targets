@@ -74,7 +74,9 @@ hash_object.character <- function(value, name, hashes, graph) {
 #' @export
 hash_object.function <- function(value, name, hashes, graph) {
   str <- mask_pointers(tar_deparse_safe(value))
-  deps <- sort(names(igraph::neighbors(graph = graph, v = name, mode = "in")))
+  deps <- sort_chr(
+    names(igraph::neighbors(graph = graph, v = name, mode = "in"))
+  )
   dep_hashes <- unlist(lapply(deps, get_field, collection = hashes))
   base <- paste(c(str, dep_hashes), collapse = " ")
   assign(x = name, value = digest_chr64(base), envir = hashes)

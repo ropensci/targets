@@ -32,9 +32,11 @@ tar_workspaces <- function(
   dir <- path_workspaces_dir(path_store = store)
   choices <- if_any(
     dir.exists(dir),
-    sort(list.files(dir, all.files = TRUE, no.. = TRUE)),
+    sort_chr(list.files(dir, all.files = TRUE, no.. = TRUE)),
     character(0)
   )
   names_quosure <- rlang::enquo(names)
-  sort(as.character(tar_tidyselect_eval(names_quosure, choices) %|||% choices))
+  sort_chr(
+    as.character(tar_tidyselect_eval(names_quosure, choices) %|||% choices)
+  )
 }

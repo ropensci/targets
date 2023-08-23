@@ -54,3 +54,10 @@ tar_test("supported_args()", {
     )
   )
 })
+
+tar_test("sort_chr()", {
+  expect_equal(sort_chr(c("a", "b")), c("a", "b"))
+  expect_equal(sort_chr(character(0L)), character(0L))
+  expect_equal(sort_chr(""), "")
+  expect_equal(sort_chr(NULL), character(0L))
+})

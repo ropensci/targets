@@ -220,7 +220,7 @@ pipeline_get_packages <- function(pipeline) {
     pipeline_get_names(pipeline),
     ~target_get_packages(pipeline_get_target(pipeline, .x))
   )
-  sort(unique(unlist(out)))
+  sort_chr(unique(unlist(out)))
 }
 
 pipeline_bootstrap_deps <- function(pipeline, meta, names) {

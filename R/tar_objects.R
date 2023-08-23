@@ -53,5 +53,5 @@ tar_objects <- function(
     )
     remote <- names[exists]
   }
-  sort(unique(as.character(c(local, remote))))
+  sort_chr(unique(as.character(c(local, remote))))
 }

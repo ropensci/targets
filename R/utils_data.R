@@ -74,6 +74,19 @@ set_names <- function(x, names) {
   x
 }
 
+sort_chr <- function(x) {
+  old_locale <- Sys.getlocale(category = "LC_COLLATE")
+  on.exit(Sys.setlocale(category = "LC_COLLATE", locale = old_locale))
+  Sys.setlocale(category = "LC_COLLATE", locale = "C")
+  sort.int(
+    x = as.character(x),
+    decreasing = FALSE,
+    na.last = NA,
+    method = "radix",
+    index.return = FALSE
+  )
+}
+
 enclass <- function(x, class) {
   class(x) <- c(class, class(x))
   x
