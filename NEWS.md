@@ -1,5 +1,13 @@
 # targets 1.2.2.9001 (development)
 
+## Invalidating changes
+
+Because of these changes, upgrading to this version of `targets` will unavoidably invalidate previously built targets in existing pipelines. Your pipeline code should still work, but any targets you ran before will most likely need to rerun after the upgrade.
+
+* In the `hash_deps()` method of the metadata class, exclude symbols which are not actually dependencies, rather than just giving them empty strings. This change makes the method more resilient to differences in `sort()` between different platforms, and it further decouples the dependency hash from the hash of the target's command.
+
+## Other changes
+
 * Fix solution of #1103 so the copy fallback actually runs (@jds485, #1102, #1103).
 * Switch back to `tempdir()` for #1103.
 * Move `path_scratch_dir_network()` to `file.path(tempdir(), "targets")` and make sure `tar_destroy("all")` and `tar_destroy("cloud")` delete it.

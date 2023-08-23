@@ -81,13 +81,15 @@ meta_class <- R6::R6Class(
         X = sort.int(deps),
         FUN = self$hash_dep,
         pipeline = pipeline,
-        FUN.VALUE = character(1L)
+        FUN.VALUE = character(1L),
+        USE.NAMES = TRUE
       )
+      hashes <- hashes[nzchar(hashes)]
       string <- paste(c(names(hashes), hashes), collapse = "")
       digest_chr64(string)
     },
     produce_depend = function(target, pipeline) {
-      self$hash_deps(sort(target$command$deps), pipeline)
+      self$hash_deps(target$command$deps, pipeline)
     },
     handle_error = function(record) {
       if (!self$exists_record(record$name)) {
