@@ -25,14 +25,21 @@
 #'   `storage = "worker"` or `format = "file"`)
 #'   or via HTTP/HTTPS in cases like `format = "url"`,
 #'   `repository = "aws"`.
-#'   Not supported for `repository = "gcp"`.
+#'   Not supported for `repository = "gcp"`
+#'   because `googleAuthR` has its own exponential backoff algorithm
+#'   which only uses `max_tries`
+#'   (which `targets` sends to the `googleAuthR.tryAttempts` option).
 #' @param seconds_timeout Nonnegative numeric of length 1,
 #'   number of seconds to wait before timing out
 #'   while attempting to download, upload, or check
 #'   a remote network resource on a network file system (in the case of
 #'   `storage = "worker"` or `format = "file"`)
 #'   or via HTTP/HTTPS in cases like `format = "url"`,
-#'   `repository = "aws"`. Not supported for `repository = "gcp"`.
+#'   `repository = "aws"`.
+#'   Not supported for `repository = "gcp"`
+#'   because `googleAuthR` has its own exponential backoff algorithm
+#'   which only uses `max_tries`
+#'   (which `targets` sends to the `googleAuthR.tryAttempts` option).
 #'   For files saved to a network file system in the case of
 #'   `storage = "worker"`, it is recommended to set `seconds_timeout`
 #'   to at least `60`.

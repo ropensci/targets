@@ -13,13 +13,18 @@ tar_resources_network(
 }
 \arguments{
 \item{seconds_interval}{Nonnegative numeric of length 1,
-number of seconds to wait between individual retries
-while attempting to download, upload, or check
+controls the base of the exponent in the exponential backoff
+algorithm for network retries. Each retry waits
+\code{(1 + seconds_interval) ^ (tries - 1L) + runif(1)} seconds.
+Network retries are necessary safeguards to download, upload, or check
 a remote network resource on a network file system (in the case of
 \code{storage = "worker"} or \code{format = "file"})
 or via HTTP/HTTPS in cases like \code{format = "url"},
 \code{repository = "aws"}.
-Not supported for \code{repository = "gcp"}.}
+Not supported for \code{repository = "gcp"}
+because \code{googleAuthR} has its own exponential backoff algorithm
+which only uses \code{max_tries}
+(which \code{targets} sends to the \code{googleAuthR.tryAttempts} option).}
 
 \item{seconds_timeout}{Nonnegative numeric of length 1,
 number of seconds to wait before timing out
@@ -27,7 +32,11 @@ while attempting to download, upload, or check
 a remote network resource on a network file system (in the case of
 \code{storage = "worker"} or \code{format = "file"})
 or via HTTP/HTTPS in cases like \code{format = "url"},
-\code{repository = "aws"}. Not supported for \code{repository = "gcp"}.
+\code{repository = "aws"}.
+Not supported for \code{repository = "gcp"}
+because \code{googleAuthR} has its own exponential backoff algorithm
+which only uses \code{max_tries}
+(which \code{targets} sends to the \code{googleAuthR.tryAttempts} option).
 For files saved to a network file system in the case of
 \code{storage = "worker"}, it is recommended to set \code{seconds_timeout}
 to at least \code{60}.}
