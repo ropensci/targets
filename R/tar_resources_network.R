@@ -56,7 +56,7 @@
 tar_resources_network <- function(
   seconds_interval = 1,
   seconds_timeout = 60,
-  max_tries = 10,
+  max_tries = 5,
   verbose = TRUE
 ) {
   out <- resources_network_init(

@@ -152,3 +152,5 @@ url_port <- function(host, port, process, verbose = TRUE) {
   utils::browseURL(url)
 }
 # nocov end
+
+http_500 <- paste0("http_", seq(from = 500L, to = 599))

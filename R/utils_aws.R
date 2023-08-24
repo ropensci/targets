@@ -10,7 +10,11 @@ aws_s3_head <- function(
   region = NULL,
   endpoint = NULL,
   version = NULL,
-  args = list()
+  args = list(),
+  seconds_interval,
+  seconds_timeout,
+  max_retries,
+  verbose
 ) {
   client <- aws_s3_client(endpoint = endpoint, region = region)
   args$Key <- key
@@ -20,7 +24,16 @@ aws_s3_head <- function(
   }
   args <- supported_args(fun = client$head_object, args = args)
   tryCatch(
-    do.call(what = client$head_object, args = args),
+    retry_until_success(
+      fun = client$head_object,
+      args = args,
+      seconds_interval = seconds_interval,
+      seconds_timeout = seconds_timeout,
+      max_retries = max_retries,
+      verbose = verbose,
+      message = "AWS S3 head_object() failed.",
+      classes_retry = http_500
+    ),
     http_400 = function(condition) NULL
   )
 }
@@ -31,7 +44,11 @@ aws_s3_exists <- function(
   region = NULL,
   endpoint = NULL,
   version = NULL,
-  args = list()
+  args = list(),
+  seconds_interval,
+  seconds_timeout,
+  max_retries,
+  verbose
 ) {
   !is.null(
     aws_s3_head(
@@ -40,7 +57,11 @@ aws_s3_exists <- function(
       region = region,
       endpoint = endpoint,
       version = version,
-      args = args
+      args = args,
+      seconds_interval = seconds_interval,
+      seconds_timeout = seconds_timeout,
+      max_retries = max_retries,
+      verbose = verbose
     )
   )
 }
@@ -52,7 +73,11 @@ aws_s3_download <- function(
   region = NULL,
   endpoint = NULL,
   version = NULL,
-  args = list()
+  args = list(),
+  seconds_interval,
+  seconds_timeout,
+  max_retries,
+  verbose
 ) {
   client <- aws_s3_client(endpoint = endpoint, region = region)
   args$Key <- key
@@ -61,7 +86,16 @@ aws_s3_download <- function(
     args$VersionId <- version
   }
   args <- supported_args(fun = client$get_object, args = args)
-  out <- do.call(what = client$get_object, args = args)$Body
+  out <- retry_until_success(
+    fun = client$get_object,
+    args = args,
+    seconds_interval = seconds_interval,
+    seconds_timeout = seconds_timeout,
+    max_retries = max_retries,
+    verbose = verbose,
+    message = "AWS S3 get_object() failed.",
+    classes_retry = http_500
+  )$Body
   writeBin(out, con = file)
   invisible()
 }
@@ -72,7 +106,11 @@ aws_s3_delete <- function(
   region = NULL,
   endpoint = NULL,
   version = NULL,
-  args = list()
+  args = list(),
+  seconds_interval,
+  seconds_timeout,
+  max_retries,
+  verbose
 ) {
   client <- aws_s3_client(endpoint = endpoint, region = region)
   args$Key <- key
@@ -81,7 +119,16 @@ aws_s3_delete <- function(
     args$VersionId <- version
   }
   args <- supported_args(fun = client$delete_object, args = args)
-  do.call(what = client$delete_object, args = args)
+  retry_until_success(
+    fun = client$delete_object,
+    args = args,
+    seconds_interval = seconds_interval,
+    seconds_timeout = seconds_timeout,
+    max_retries = max_retries,
+    verbose = verbose,
+    message = "AWS S3 delete_object() failed.",
+    classes_retry = http_500
+  )
   invisible()
 }
 
@@ -97,7 +144,11 @@ aws_s3_upload <- function(
   metadata = list(),
   multipart = file.size(file) > part_size,
   part_size = 5 * (2 ^ 20),
-  args = list()
+  args = list(),
+  seconds_interval,
+  seconds_timeout,
+  max_retries,
+  verbose
 ) {
   client <- aws_s3_client(endpoint = endpoint, region = region)
   if (!multipart) {
@@ -110,7 +161,16 @@ aws_s3_upload <- function(
       fun = client$put_object,
       args = args_put_object
     )
-    out <- do.call(what = client$put_object, args = args_put_object)
+    out <- retry_until_success(
+      fun = client$put_object,
+      args = args_put_object,
+      seconds_interval = seconds_interval,
+      seconds_timeout = seconds_timeout,
+      max_retries = max_retries,
+      verbose = verbose,
+      message = "AWS S3 put_object() failed.",
+      classes_retry = http_500
+    )
     return(out)
   }
   args_create_multipart_upload <- args
@@ -121,9 +181,15 @@ aws_s3_upload <- function(
     fun = client$create_multipart_upload,
     args = args_create_multipart_upload
   )
-  multipart <- do.call(
-    what = client$create_multipart_upload,
-    args = args_create_multipart_upload
+  multipart <- retry_until_success(
+    fun = client$create_multipart_upload,
+    args = args_create_multipart_upload,
+    seconds_interval = seconds_interval,
+    seconds_timeout = seconds_timeout,
+    max_retries = max_retries,
+    verbose = verbose,
+    message = "AWS S3 create_multipart_upload() failed.",
+    classes_retry = http_500
   )
   response <- NULL
   on.exit({
@@ -136,9 +202,15 @@ aws_s3_upload <- function(
         fun = client$abort_multipart_upload,
         args = args_abort_multipart_upload
       )
-      do.call(
-        what = client$abort_multipart_upload,
-        args = args_abort_multipart_upload
+      retry_until_success(
+        fun = client$abort_multipart_upload,
+        args = args_abort_multipart_upload,
+        seconds_interval = seconds_interval,
+        seconds_timeout = seconds_timeout,
+        max_retries = max_retries,
+        verbose = verbose,
+        message = "AWS S3 abort_multipart_upload() failed.",
+        classes_retry = http_500
       )
       tar_throw_file(response)
     }
@@ -162,9 +234,15 @@ aws_s3_upload <- function(
       fun = client$complete_multipart_upload,
       args = args_complete_multipart_upload
     )
-    do.call(
-      what = client$complete_multipart_upload,
-      args = args_complete_multipart_upload
+    retry_until_success(
+      fun = client$complete_multipart_upload,
+      args = args_complete_multipart_upload,
+      seconds_interval = seconds_interval,
+      seconds_timeout = seconds_timeout,
+      max_retries = max_retries,
+      verbose = verbose,
+      message = "AWS S3 complete_multipart_upload() failed.",
+      classes_retry = http_500
     )
   }, silent = TRUE)
   response
@@ -180,7 +258,11 @@ aws_s3_upload_parts <- function(
   client,
   part_size,
   upload_id,
-  args = list()
+  args = list(),
+  seconds_interval,
+  seconds_timeout,
+  max_retries,
+  verbose
 ) {
   file_size <- file.size(file)
   num_parts <- ceiling(file_size / part_size)
@@ -196,7 +278,16 @@ aws_s3_upload_parts <- function(
     args$PartNumber <- i
     args$UploadId <- upload_id
     args <- supported_args(fun = client$upload_part, args = args)
-    part_response <- do.call(what = client$upload_part, args = args)
+    part_response <- retry_until_success(
+      fun = client$upload_part,
+      args = args,
+      seconds_interval = seconds_interval,
+      seconds_timeout = seconds_timeout,
+      max_retries = max_retries,
+      verbose = verbose,
+      message = "AWS S3 upload_part() failed.",
+      classes_retry = http_500
+    )
     parts <- c(parts, list(list(ETag = part_response$ETag, PartNumber = i)))
   }
   parts
