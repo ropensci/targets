@@ -185,29 +185,21 @@ store_ensure_correct_hash.tar_gcp <- function(store, storage, deployment) {
 
 #' @export
 store_has_correct_hash.tar_gcp <- function(store) {
-  path <- store$file$path
-  bucket <- store_gcp_bucket(path)
-  key <- store_gcp_key(path)
-  version <- store_gcp_version(path)
-  hash <- store_gcp_hash(
-    key = key,
-    bucket = bucket,
-    version = version,
-    verbose = store$resources$gcp$verbose %|||% FALSE
-  )
+  hash <- store_gcp_hash(store = store)
   !is.null(hash) && identical(hash, store$file$hash)
 }
 
-store_gcp_hash <- function(key, bucket, version, verbose) {
+store_gcp_hash <- function(store) {
+  path <- store$file$path
   old_try_attempts <- getOption("googleAuthR.tryAttempts")
   on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
   option <- store$resources$network$max_tries
   if_any(is.null(option), NULL, options(googleAuthR.tryAttempts = option))
   head <- gcp_gcs_head(
-    key = key,
-    bucket = bucket,
-    version = version,
-    verbose = verbose
+    key = store_gcp_key(path),
+    bucket = store_gcp_bucket(path),
+    version = store_gcp_version(path),
+    verbose = store$resources$gcp$verbose %|||% FALSE
   )
   head$metadata[["targets-hash"]]
 }

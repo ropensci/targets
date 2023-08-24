@@ -15,7 +15,7 @@ gcp_gcs_delete_targets_buckets <- function() {
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   buckets <- googleCloudStorageR::gcs_list_buckets(projectId = project)$name
   buckets <- grep(
-    pattern = "^targets-testing-bucket-",
+    pattern = "^targets-test-bucket-",
     x = buckets,
     value = TRUE
   )
