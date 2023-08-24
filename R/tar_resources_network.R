@@ -19,7 +19,7 @@
 #' @param seconds_interval Nonnegative numeric of length 1,
 #'   controls the base of the exponent in the exponential backoff
 #'   algorithm for network retries. Each retry waits
-#'   `(1 + seconds_interval) ^ (tries - 1L) + runif(1)` seconds.  
+#'   `(1 + seconds_interval) ^ (tries - 1L) + runif(1)` seconds.
 #'   Network retries are necessary safeguards to download, upload, or check
 #'   a remote network resource on a network file system (in the case of
 #'   `storage = "worker"` or `format = "file"`)

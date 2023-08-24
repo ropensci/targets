@@ -27,7 +27,7 @@ aws_s3_head <- function(
     fun = function(client, args) {
       tryCatch(
         do.call(what = client$head_object, args = args),
-        http_404 = function(condition) NULL
+        http_400 = function(condition) NULL
       )
     },
     args = list(client = client, args = args),
