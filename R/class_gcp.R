@@ -77,16 +77,13 @@ store_read_object.tar_gcp <- function(store) {
   )
   on.exit(unlink(scratch))
   dir_create(dirname(scratch))
-  old_try_attempts <- getOption("googleAuthR.tryAttempts")
-  on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
-  option <- store$resources$network$max_tries
-  if_any(is.null(option), NULL, options(googleAuthR.tryAttempts = option))
   gcp_gcs_download(
     key = key,
     bucket = bucket,
     file = scratch,
     version = store_gcp_version(path),
-    verbose = store$resources$gcp$verbose %|||% FALSE
+    verbose = store$resources$gcp$verbose %|||% FALSE,
+    max_tries = store$resources$network$max_tries %|||% 5L
   )
   store_convert_object(store, store_read_path(store, scratch))
 }
@@ -94,15 +91,12 @@ store_read_object.tar_gcp <- function(store) {
 #' @export
 store_exist_object.tar_gcp <- function(store, name = NULL) {
   path <- store$file$path
-  old_try_attempts <- getOption("googleAuthR.tryAttempts")
-  on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
-  option <- store$resources$network$max_tries
-  if_any(is.null(option), NULL, options(googleAuthR.tryAttempts = option))
   gcp_gcs_exists(
     key = store_gcp_key(path),
     bucket = store_gcp_bucket(path),
     version = store_gcp_version(path),
-    verbose = store$resources$gcp$verbose %|||% FALSE
+    verbose = store$resources$gcp$verbose %|||% FALSE,
+    max_tries = store$resources$network$max_tries %|||% 5L
   )
 }
 
@@ -119,16 +113,13 @@ store_delete_object.tar_gcp <- function(store, name = NULL) {
     "from trying to delete it.\nMessage: "
   )
   message <- sprintf(message, name, bucket, key, name)
-  old_try_attempts <- getOption("googleAuthR.tryAttempts")
-  on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
-  option <- store$resources$network$max_tries
-  if_any(is.null(option), NULL, options(googleAuthR.tryAttempts = option))
   tryCatch(
     gcp_gcs_delete(
       key = key,
       bucket =  bucket,
       version = version,
-      verbose = store$resources$gcp$verbose %|||% FALSE
+      verbose = store$resources$gcp$verbose %|||% FALSE,
+      max_tries = store$resources$network$max_tries %|||% 5L
     ),
     error = function(condition) {
       tar_throw_validate(message, conditionMessage(condition))
@@ -147,10 +138,6 @@ store_upload_object.tar_gcp <- function(store) {
 store_upload_object_gcp <- function(store) {
   key <- store_gcp_key(store$file$path)
   bucket <- store_gcp_bucket(store$file$path)
-  old_try_attempts <- getOption("googleAuthR.tryAttempts")
-  on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
-  option <- store$resources$network$max_tries
-  if_any(is.null(option), NULL, options(googleAuthR.tryAttempts = option))
   head <- if_any(
     file_exists_stage(store$file),
     gcp_gcs_upload(
@@ -159,7 +146,8 @@ store_upload_object_gcp <- function(store) {
       bucket = bucket,
       metadata = list("targets-hash" = store$file$hash),
       predefined_acl = store$resources$gcp$predefined_acl %|||% "private",
-      verbose = store$resources$gcp$verbose %|||% FALSE
+      verbose = store$resources$gcp$verbose %|||% FALSE,
+      max_tries = store$resources$network$max_tries %|||% 5L
     ),
     tar_throw_file(
       "Cannot upload non-existent gcp staging file ",
@@ -191,15 +179,12 @@ store_has_correct_hash.tar_gcp <- function(store) {
 
 store_gcp_hash <- function(store) {
   path <- store$file$path
-  old_try_attempts <- getOption("googleAuthR.tryAttempts")
-  on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
-  option <- store$resources$network$max_tries
-  if_any(is.null(option), NULL, options(googleAuthR.tryAttempts = option))
   head <- gcp_gcs_head(
     key = store_gcp_key(path),
     bucket = store_gcp_bucket(path),
     version = store_gcp_version(path),
-    verbose = store$resources$gcp$verbose %|||% FALSE
+    verbose = store$resources$gcp$verbose %|||% FALSE,
+    max_tries = store$resources$network$max_tries %|||% 5L
   )
   head$metadata[["targets-hash"]]
 }

@@ -5,7 +5,7 @@ tar_test("gcp_parquet format returns data frames", {
   skip_if_not_installed("arrow")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
