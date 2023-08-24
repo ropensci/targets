@@ -162,3 +162,30 @@ tar_test("retry_until_success() caught class", {
   )
   expect_equal(envir$count, 5L)
 })
+
+tar_test("retry_until_success() caught class", {
+  skip_on_cran()
+  tmp <- tempfile()
+  fun <- function(x) file.exists(x)
+  args <- list(x = tmp)
+  envir <- new.env(parent = emptyenv())
+  envir$count <- 0L
+  out <- retry_until_success(
+    fun = ~{
+      envir$count <- envir$count + 1L
+      class <- ifelse(envir$count %% 2L, "class1", "class2")
+      if (envir$count < 2L) {
+        rlang::abort(message = "error", class = class)
+      }
+      "returned"
+    },
+    args = args,
+    seconds_interval = 0.001,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    classes_retry = c("class1", "class2")
+  )
+  expect_equal(envir$count, 2L)
+  expect_equal(out, "returned")
+})
+

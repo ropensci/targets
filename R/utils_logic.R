@@ -50,43 +50,61 @@ retry_until_success <- function(
   classes_retry = character(0L)
 ) {
   force(envir)
-  fun <- rlang::as_function(fun)
-  result <- new.env(parent = emptyenv())
-  retry_until_true(
-    fun = function(fun, args, classes_retry, message, result) {
-      tryCatch(
-        {
-          result$result <- do.call(what = fun, args = args)
-          TRUE
-        },
-        error = function(condition) {
-          class <- class(condition)
-          if_any(
-            class %in% classes_retry,
-            FALSE,
-            tar_throw_expire(
-              paste0(message, ". ", conditionMessage(condition))
-            )
-          )
-        }
+  fun <- as_function(fun)
+  tries <- 0L
+  start <- time_seconds()
+  while (TRUE) {
+    result <- retry_attempt_success(fun, args, envir, verbose, classes_retry)
+    if (result$success) {
+      return(result$result)
+    }
+    if ((time_seconds() - start) > seconds_timeout) {
+      message <- paste(
+        "timed out after retrying for",
+        seconds_timeout,
+        "seconds.",
+        message
       )
-    },
-    args = list(
-      fun = fun,
-      args = args,
-      classes_retry = classes_retry,
-      message = message,
-      result = result
+      tar_throw_expire(message)
+    }
+    tries <- tries + 1L
+    if (tries >= max_tries) {
+      message <- paste(
+        "giving up after",
+        max_tries,
+        "attempts.",
+        message
+      )
+      tar_throw_expire(message)
+    }
+    jitter <- stats::runif(
+      n = 1L,
+      min = - seconds_interval / 3,
+      max = seconds_interval / 3
+    )
+    Sys.sleep(seconds_interval + jitter)
+  }
+  out
+}
+
+retry_attempt_success <- function(fun, args, envir, verbose, classes_retry) {
+  tryCatch(
+    list(
+      result = do.call(what = fun, args = args, envir = envir),
+      success = TRUE
     ),
-    seconds_interval = seconds_interval,
-    seconds_timeout = seconds_timeout,
-    max_tries = max_tries,
-    message = message,
-    envir = envir,
-    catch_error = FALSE,
-    verbose = verbose
+    error = function(condition) {
+      if (verbose) {
+        message(conditionMessage(condition))
+      }
+      class <- class(condition)
+      if (any(class %in% classes_retry)) {
+        list(success = FALSE)
+      } else {
+        tar_throw_expire(conditionMessage(condition))
+      }
+    }
   )
-  result$result
 }
 
 retry_until_true <- function(
@@ -104,7 +122,7 @@ retry_until_true <- function(
   fun <- as_function(fun)
   tries <- 0L
   start <- time_seconds()
-  while (!isTRUE(retry_attempt(fun, args, envir, catch_error, verbose))) {
+  while (!isTRUE(retry_attempt_true(fun, args, envir, catch_error, verbose))) {
     if ((time_seconds() - start) > seconds_timeout) {
       message <- paste(
         "timed out after retrying for",
@@ -134,11 +152,11 @@ retry_until_true <- function(
   invisible()
 }
 
-retry_attempt <- function(fun, args, envir, catch_error, verbose) {
+retry_attempt_true <- function(fun, args, envir, catch_error, verbose) {
   if_any(
     catch_error,
     tryCatch(
-      all(do.call(what = fun, args = args)),
+      all(do.call(what = fun, args = args, envir = envir)),
       error = function(condition) {
         if (verbose) {
           message(conditionMessage(condition))
@@ -146,6 +164,6 @@ retry_attempt <- function(fun, args, envir, catch_error, verbose) {
         FALSE
       }
     ),
-    all(do.call(what = fun, args = args))
+    all(do.call(what = fun, args = args, envir = envir))
   )
 }

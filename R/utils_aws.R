@@ -24,11 +24,13 @@ aws_s3_head <- function(
   }
   args <- supported_args(fun = client$head_object, args = args)
   retry_until_success(
-    fun = ~tryCatch(
-      do.call(what = client$head_object, args = args),
-      http_400 = function(condition) NULL
-    ),
-    args = list(args = args),
+    fun = function(client, args) {
+      tryCatch(
+        do.call(what = client$head_object, args = args),
+        http_400 = function(condition) NULL
+      )
+    },
+    args = list(client = client, args = args),
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
     max_tries = max_tries,
@@ -87,8 +89,10 @@ aws_s3_download <- function(
   }
   args <- supported_args(fun = client$get_object, args = args)
   out <- retry_until_success(
-    fun = client$get_object,
-    args = args,
+    fun = function(client, args) {
+      do.call(what = client$get_object, args = args)
+    },
+    args = list(client = client, args = args),
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
     max_tries = max_tries,
@@ -120,8 +124,10 @@ aws_s3_delete <- function(
   }
   args <- supported_args(fun = client$delete_object, args = args)
   retry_until_success(
-    fun = client$delete_object,
-    args = args,
+    fun = function(client, args) {
+      do.call(what = client$delete_object, args = args)
+    },
+    args = list(client = client, args = args),
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
     max_tries = max_tries,
@@ -162,8 +168,10 @@ aws_s3_upload <- function(
       args = args_put_object
     )
     out <- retry_until_success(
-      fun = client$put_object,
-      args = args_put_object,
+      fun = function(client, args) {
+        do.call(what = client$put_object, args = args)
+      },
+      args = list(client = client, args = args_put_object),
       seconds_interval = seconds_interval,
       seconds_timeout = seconds_timeout,
       max_tries = max_tries,
@@ -182,8 +190,10 @@ aws_s3_upload <- function(
     args = args_create_multipart_upload
   )
   multipart <- retry_until_success(
-    fun = client$create_multipart_upload,
-    args = args_create_multipart_upload,
+    fun = function(client, args) {
+      do.call(what = client$create_multipart_upload, args = args)
+    },
+    args = list(client = client, args = args_create_multipart_upload),
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
     max_tries = max_tries,
@@ -203,8 +213,10 @@ aws_s3_upload <- function(
         args = args_abort_multipart_upload
       )
       retry_until_success(
-        fun = client$abort_multipart_upload,
-        args = args_abort_multipart_upload,
+        fun = function(client, args) {
+          do.call(what = client$abort_multipart_upload, args = args)
+        },
+        args = list(client = client, args = args_abort_multipart_upload),
         seconds_interval = seconds_interval,
         seconds_timeout = seconds_timeout,
         max_tries = max_tries,
@@ -235,8 +247,10 @@ aws_s3_upload <- function(
       args = args_complete_multipart_upload
     )
     retry_until_success(
-      fun = client$complete_multipart_upload,
-      args = args_complete_multipart_upload,
+      fun = function(client, args) {
+        do.call(what = client$complete_multipart_upload, args = args)
+      },
+      args = list(client = client, args = args_complete_multipart_upload),
       seconds_interval = seconds_interval,
       seconds_timeout = seconds_timeout,
       max_tries = max_tries,
@@ -279,8 +293,10 @@ aws_s3_upload_parts <- function(
     args$UploadId <- upload_id
     args <- supported_args(fun = client$upload_part, args = args)
     part_response <- retry_until_success(
-      fun = client$upload_part,
-      args = args,
+      fun = function(client, args) {
+        do.call(what = client$upload_part, args = args)
+      },
+      args = list(client = client, args = args),
       seconds_interval = seconds_interval,
       seconds_timeout = seconds_timeout,
       max_tries = max_tries,

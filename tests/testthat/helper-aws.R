@@ -9,7 +9,7 @@ skip_if_no_aws <- function() {
 
 random_bucket_name <- function() {
   paste0(
-    "targets-test-bucket-",
+    "targets-testing-bucket-",
     substr(
       digest::digest(tempfile(), algo = "sha256"),
       start = 0,
@@ -50,7 +50,7 @@ aws_s3_delete_targets_buckets <- function(client = paws.storage::s3()) {
     )
   )
   buckets <- grep(
-    pattern = "^targets-test-bucket-",
+    pattern = "^targets-testing-bucket-",
     x = buckets,
     value = TRUE
   )
