@@ -90,6 +90,10 @@ Controls how messages are printed as targets are checked. Choices:
 targets found so far.
 }}
 
+\item{seconds_reporter}{Positive numeric of length 1 with the minimum
+number of seconds between times when the reporter prints progress
+messages to the R console.}
+
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session
 instead of an external process (but restart your R session just before

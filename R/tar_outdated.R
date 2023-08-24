@@ -10,6 +10,7 @@
 #'   (See [tar_script()] for details.)
 #' @inheritSection tar_meta Storage access
 #' @return Names of the outdated targets.
+#' @inheritParams tar_make
 #' @param names Names of the targets. `tar_outdated()` will check
 #'   these targets and all upstream ancestors in the dependency graph.
 #'   Set `names` to `NULL` to check/build all the targets (default).
@@ -39,8 +40,6 @@
 #'   * `"silent"`: print nothing.
 #'   * `"forecast"`: print running totals of the checked and outdated
 #'     targets found so far.
-#' @param seconds_interval Positive numeric of length 1, how often
-#'   (in seconds) the reporter prints progress messages.
 #' @inheritParams tar_validate
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
