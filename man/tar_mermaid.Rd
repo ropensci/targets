@@ -15,6 +15,7 @@ tar_mermaid(
   legend = TRUE,
   color = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
+  seconds_reporter = targets::tar_config_get("seconds_reporter"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function),
   envir = parent.frame(),

@@ -17,6 +17,7 @@ tar_visnetwork(
   degree_to = 1L,
   zoom_speed = 1,
   reporter = targets::tar_config_get("reporter_outdated"),
+  seconds_reporter = targets::tar_config_get("seconds_reporter"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function),
   envir = parent.frame(),

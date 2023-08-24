@@ -49,6 +49,7 @@ tar_mermaid <- function(
   legend = TRUE,
   color = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
+  seconds_reporter = targets::tar_config_get("seconds_reporter"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function),
   envir = parent.frame(),
@@ -67,6 +68,10 @@ tar_mermaid <- function(
   tar_config_assert_reporter_outdated(reporter)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments, "callr_arguments mut be a list.")
+  tar_assert_dbl(seconds_reporter)
+  tar_assert_scalar(seconds_reporter)
+  tar_assert_none_na(seconds_reporter)
+  tar_assert_ge(seconds_reporter, 0)
   targets_arguments <- list(
     path_store = store,
     targets_only = targets_only,
@@ -78,7 +83,8 @@ tar_mermaid <- function(
     label = label,
     legend = legend,
     color = color,
-    reporter = reporter
+    reporter = reporter,
+    seconds_reporter = seconds_reporter
   )
   callr_outer(
     targets_function = tar_mermaid_inner,
@@ -104,7 +110,8 @@ tar_mermaid_inner <- function(
   label,
   legend,
   color,
-  reporter
+  reporter,
+  seconds_reporter
 ) {
   names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
   network <- inspection_init(
@@ -117,7 +124,8 @@ tar_mermaid_inner <- function(
     allow = allow_quosure,
     exclude = exclude_quosure,
     outdated = outdated,
-    reporter = reporter
+    reporter = reporter,
+    seconds_reporter = seconds_reporter
   )
   visual <- mermaid_init(
     network = network,

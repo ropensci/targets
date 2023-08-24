@@ -79,6 +79,7 @@ tar_network <- function(
   exclude = NULL,
   outdated = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
+  seconds_reporter = targets::tar_config_get("seconds_reporter"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
   envir = parent.frame(),
@@ -90,6 +91,10 @@ tar_network <- function(
   tar_config_assert_reporter_outdated(reporter)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
+  tar_assert_dbl(seconds_reporter)
+  tar_assert_scalar(seconds_reporter)
+  tar_assert_none_na(seconds_reporter)
+  tar_assert_ge(seconds_reporter, 0)
   targets_arguments <- list(
     path_store = store,
     targets_only = targets_only,
@@ -98,7 +103,8 @@ tar_network <- function(
     allow_quosure = rlang::enquo(allow),
     exclude_quosure = rlang::enquo(exclude),
     outdated = outdated,
-    reporter = reporter
+    reporter = reporter,
+    seconds_reporter = seconds_reporter
   )
   callr_outer(
     targets_function = tar_network_inner,
@@ -121,7 +127,8 @@ tar_network_inner <- function(
   allow_quosure,
   exclude_quosure,
   outdated,
-  reporter
+  reporter,
+  seconds_reporter
 ) {
   meta <- meta_init(path_store = path_store)
   progress <- progress_init(path_store = path_store)
@@ -136,7 +143,8 @@ tar_network_inner <- function(
     allow = allow_quosure,
     exclude = exclude_quosure,
     outdated = outdated,
-    reporter = reporter
+    reporter = reporter,
+    seconds_reporter = seconds_reporter
   )
   inspection$update()
   list(
