@@ -38,6 +38,8 @@ tar_make_future <- function(
   names = NULL,
   shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
+  seconds_meta = targets::tar_config_get("seconds_meta"),
+  seconds_reporter = targets::tar_config_get("seconds_reporter"),
   seconds_interval = targets::tar_config_get("seconds_interval"),
   workers = targets::tar_config_get("workers"),
   callr_function = callr::r,
@@ -58,10 +60,15 @@ tar_make_future <- function(
   tar_assert_ge(workers, 1)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
-  tar_assert_dbl(seconds_interval)
-  tar_assert_scalar(seconds_interval)
-  tar_assert_none_na(seconds_interval)
-  tar_assert_ge(seconds_interval, 0)
+  tar_assert_dbl(seconds_meta)
+  tar_assert_scalar(seconds_meta)
+  tar_assert_none_na(seconds_meta)
+  tar_assert_ge(seconds_meta, 0)
+  tar_assert_dbl(seconds_reporter)
+  tar_assert_scalar(seconds_reporter)
+  tar_assert_none_na(seconds_reporter)
+  tar_assert_ge(seconds_reporter, 0)
+  tar_deprecate_seconds_interval(seconds_interval)
   tar_assert_lgl(garbage_collection)
   tar_assert_scalar(garbage_collection)
   tar_assert_none_na(garbage_collection)

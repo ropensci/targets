@@ -63,6 +63,7 @@ tar_outdated <- function(
   branches = FALSE,
   targets_only = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
+  seconds_reporter = targets::tar_config_get("seconds_reporter"),
   seconds_interval = targets::tar_config_get("seconds_interval"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
@@ -76,10 +77,11 @@ tar_outdated <- function(
   tar_assert_lgl(shortcut)
   tar_assert_lgl(branches)
   tar_assert_flag(reporter, tar_reporters_outdated())
-  tar_assert_dbl(seconds_interval)
-  tar_assert_scalar(seconds_interval)
-  tar_assert_none_na(seconds_interval)
-  tar_assert_ge(seconds_interval, 0)
+  tar_assert_dbl(seconds_reporter)
+  tar_assert_scalar(seconds_reporter)
+  tar_assert_none_na(seconds_reporter)
+  tar_assert_ge(seconds_reporter, 0)
+  tar_deprecate_seconds_interval(seconds_interval)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
   targets_arguments <- list(

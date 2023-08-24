@@ -757,3 +757,13 @@ tar_assert_allow_meta <- function(fun) {
     tar_throw_validate(message)
   }
 }
+
+tar_deprecate_seconds_interval <- function(seconds_interval) {
+  if (!is.null(seconds_interval)) {
+    tar_warn_deprecate(
+      "The seconds_interval argument of tar_make() and tar_config_set() ",
+      "is deprecated (2023-08-24, version 1.2.2.9001). ",
+      "Use arguments seconds_meta and seconds_reporter instead."
+    )
+  }
+}
