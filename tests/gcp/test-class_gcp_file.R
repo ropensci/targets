@@ -4,7 +4,7 @@ tar_test("gcp_file format file gets stored", {
   skip_if_no_gcp()
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
@@ -32,7 +32,11 @@ tar_test("gcp_file format file gets stored", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL, envir = tar_option_get("envir"))
   expect_true(
-    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/x")
+    gcp_gcs_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/x",
+      max_tries = 5
+    )
   )
   unlink("_targets/scratch", recursive = TRUE)
   expect_equal(tar_read(y), "x_lines")
@@ -48,7 +52,8 @@ tar_test("gcp_file format file gets stored", {
   gcp_gcs_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 5
   )
   expect_equal(readLines(tmp), "x_lines")
 })
@@ -59,7 +64,7 @@ tar_test("gcp_file format file gets stored", {
 # and then four times for transient.
 tar_test("gcp_file format invalidation", {
   skip_if_no_gcp()
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   for (memory in c("persistent", "transient")) {
     # print(memory) # Uncomment for debug() test. # nolint
@@ -137,7 +142,7 @@ tar_test("gcp_file format with a custom data store", {
   tar_config_set(store = "custom_targets_store")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
@@ -167,7 +172,11 @@ tar_test("gcp_file format with a custom data store", {
   expect_true(file.exists("custom_targets_store"))
   expect_false(file.exists(path_store_default()))
   expect_true(
-    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/x")
+    gcp_gcs_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/x",
+      max_tries = 5
+    )
   )
   expect_equal(tar_read(y), "x_lines")
   expect_equal(length(list.files("custom_targets_store/scratch/")), 0L)
@@ -180,7 +189,8 @@ tar_test("gcp_file format with a custom data store", {
   gcp_gcs_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 5
   )
   expect_equal(readLines(tmp), "x_lines")
 })

@@ -5,7 +5,7 @@ tar_test("gcp with custom format", {
   skip_if_not_installed("torch")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
@@ -53,7 +53,8 @@ tar_test("gcp with custom format", {
   gcp_gcs_download(
     key = "_targets/objects/a",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 5L
   )
   out <- torch::torch_load(tmp)
   expect_true(inherits(out, "torch_tensor"))

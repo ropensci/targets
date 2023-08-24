@@ -5,7 +5,7 @@ tar_test("gcp_qs format data gets stored", {
   skip_if_not_installed("qs")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
@@ -24,10 +24,18 @@ tar_test("gcp_qs format data gets stored", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
-    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/x")
+    gcp_gcs_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/x",
+      max_tries = 5L
+    )
   )
   expect_true(
-    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/y")
+    gcp_gcs_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/y",
+      max_tries = 5L
+    )
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
@@ -37,7 +45,8 @@ tar_test("gcp_qs format data gets stored", {
   gcp_gcs_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 5L
   )
   expect_equal(qs::qread(tmp), "x_value")
 })
@@ -47,7 +56,7 @@ tar_test("gcp_qs format data gets stored with worker storage", {
   skip_if_not_installed("qs")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
@@ -68,10 +77,18 @@ tar_test("gcp_qs format data gets stored with worker storage", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
-    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/x")
+    gcp_gcs_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/x",
+      max_tries = 5L
+    )
   )
   expect_true(
-    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/y")
+    gcp_gcs_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/y",
+      max_tries = 5L
+    )
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
@@ -81,7 +98,8 @@ tar_test("gcp_qs format data gets stored with worker storage", {
   gcp_gcs_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 5L
   )
   expect_equal(qs::qread(tmp), "x_value")
 })
@@ -91,7 +109,7 @@ tar_test("gcp_qs format invalidation", {
   skip_if_not_installed("qs")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
@@ -140,7 +158,7 @@ tar_test("gcp_qs format and dynamic branching", {
   skip_if_not_installed("qs")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
@@ -174,7 +192,7 @@ tar_test("gcp timestamp", {
   skip_if_not_installed("qs")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
@@ -207,7 +225,7 @@ tar_test("gcp_qs format with an alternative data store", {
   tar_config_set(store = "custom_targets_store")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
@@ -226,10 +244,18 @@ tar_test("gcp_qs format with an alternative data store", {
   expect_true(file.exists("custom_targets_store"))
   expect_false(file.exists(path_store_default()))
   expect_true(
-    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/x")
+    gcp_gcs_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/x",
+      max_tries = 5L
+    )
   )
   expect_true(
-    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/y")
+    gcp_gcs_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/y",
+      max_tries = 5L
+    )
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
@@ -239,7 +265,8 @@ tar_test("gcp_qs format with an alternative data store", {
   gcp_gcs_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 5L
   )
   expect_equal(qs::qread(tmp), "x_value")
 })
@@ -249,7 +276,7 @@ tar_test("gcp_qs format works with storage = \"none\"", {
   skip_if_not_installed("qs")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
@@ -274,10 +301,18 @@ tar_test("gcp_qs format works with storage = \"none\"", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
-    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/x")
+    gcp_gcs_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/x",
+      max_tries = 5L
+    )
   )
   expect_true(
-    gcp_gcs_exists(bucket = bucket_name, key = "_targets/objects/y")
+    gcp_gcs_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/y",
+      max_tries = 5L
+    )
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
@@ -287,7 +322,8 @@ tar_test("gcp_qs format works with storage = \"none\"", {
   gcp_gcs_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 5L
   )
   expect_equal(qs::qread(tmp), "x_value")
 })
@@ -297,7 +333,7 @@ tar_test("gcp_qs nonexistent bucket", {
   skip_if_not_installed("qs")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   expr <- quote({
@@ -331,7 +367,7 @@ tar_test("gcp_qs format versioning", {
   skip_if_not_installed("qs")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(
     bucket_name,

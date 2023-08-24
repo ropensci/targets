@@ -5,7 +5,7 @@ tar_test("delete cloud targets", {
   skip_if_not_installed("arrow")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
@@ -46,11 +46,15 @@ tar_test("delete cloud targets", {
   path_store <- path_store_default()
   key1 <- path_objects(path_store, "x")
   key2 <- path_objects(path_store, "gcp_file")
-  expect_true(gcp_gcs_exists(key = key1, bucket = bucket_name))
-  expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name))
+  expect_true(gcp_gcs_exists(key = key1, bucket = bucket_name, max_tries = 5L))
+  expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name, max_tries = 5L))
   tar_delete(everything())
-  expect_false(gcp_gcs_exists(key = key1, bucket = bucket_name))
-  expect_false(gcp_gcs_exists(key = key2, bucket = bucket_name))
+  expect_false(
+    gcp_gcs_exists(key = key1, bucket = bucket_name, max_tries = 5L)
+  )
+  expect_false(
+    gcp_gcs_exists(key = key2, bucket = bucket_name, max_tries = 5L)
+  )
   expect_true(file.exists("file.txt"))
   expect_silent(tar_delete(everything()))
   expect_silent(tar_delete(everything()))
@@ -61,7 +65,7 @@ tar_test("same with versioning", {
   skip_if_not_installed("arrow")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(
     bucket_name,
@@ -106,11 +110,19 @@ tar_test("same with versioning", {
   path_store <- path_store_default()
   key1 <- path_objects(path_store, "x")
   key2 <- path_objects(path_store, "gcp_file")
-  expect_true(gcp_gcs_exists(key = key1, bucket = bucket_name))
-  expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name))
+  expect_true(
+    gcp_gcs_exists(key = key1, bucket = bucket_name, max_tries = 5L)
+  )
+  expect_true(
+    gcp_gcs_exists(key = key2, bucket = bucket_name, max_tries = 5L)
+  )
   tar_delete(everything())
-  expect_false(gcp_gcs_exists(key = key1, bucket = bucket_name))
-  expect_false(gcp_gcs_exists(key = key2, bucket = bucket_name))
+  expect_false(
+    gcp_gcs_exists(key = key1, bucket = bucket_name, max_tries = 5L)
+  )
+  expect_false(
+    gcp_gcs_exists(key = key2, bucket = bucket_name, max_tries = 5L)
+  )
   expect_true(file.exists("file.txt"))
   expect_silent(tar_delete(everything()))
 })
@@ -120,7 +132,7 @@ tar_test("tar_destroy() cloud targets", {
   skip_if_not_installed("arrow")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
@@ -162,11 +174,19 @@ tar_test("tar_destroy() cloud targets", {
     path_store <- path_store_default()
     key1 <- path_objects(path_store, "x")
     key2 <- path_objects(path_store, "gcp_file")
-    expect_true(gcp_gcs_exists(key = key1, bucket = bucket_name))
-    expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name))
+    expect_true(
+      gcp_gcs_exists(key = key1, bucket = bucket_name, max_tries = 5L)
+    )
+    expect_true(
+      gcp_gcs_exists(key = key2, bucket = bucket_name, max_tries = 5L)
+    )
     tar_destroy(destroy = destroy)
-    expect_false(gcp_gcs_exists(key = key1, bucket = bucket_name))
-    expect_false(gcp_gcs_exists(key = key2, bucket = bucket_name))
+    expect_false(
+      gcp_gcs_exists(key = key1, bucket = bucket_name, max_tries = 5L)
+    )
+    expect_false(
+      gcp_gcs_exists(key = key2, bucket = bucket_name, max_tries = 5L)
+    )
     expect_true(file.exists("file.txt"))
   }
   expect_silent(tar_destroy(destroy = "cloud"))
@@ -177,7 +197,7 @@ tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for gcp", {
   skip_if_not_installed("arrow")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
-  gcp_gcs_auth()
+  gcp_gcs_auth(max_tries = 5L)
   project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
@@ -218,8 +238,8 @@ tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for gcp", {
   path_store <- path_store_default()
   key1 <- path_objects(path_store, "x")
   key2 <- path_objects(path_store, "gcp_file")
-  expect_true(gcp_gcs_exists(key = key1, bucket = bucket_name))
-  expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name))
+  expect_true(gcp_gcs_exists(key = key1, bucket = bucket_name, max_tries = 5L))
+  expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name, max_tries = 5L))
   expect_equal(
     tar_exist_objects(c("x", "local_file", "gcp_file")),
     c(TRUE, FALSE, TRUE)
@@ -256,8 +276,10 @@ tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for gcp", {
   path_store <- path_store_default()
   key1 <- path_objects(path_store, "x")
   key2 <- path_objects(path_store, "gcp_file")
-  expect_false(gcp_gcs_exists(key = key1, bucket = bucket_name))
-  expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name))
+  expect_false(
+    gcp_gcs_exists(key = key1, bucket = bucket_name, max_tries = 5L)
+  )
+  expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name, max_tries = 5L))
   expect_equal(
     tar_exist_objects(c("x", "local_file", "gcp_file")),
     c(FALSE, FALSE, TRUE)
