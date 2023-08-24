@@ -50,12 +50,13 @@ retry_until_success <- function(
   classes_retry = character(0L)
 ) {
   force(envir)
+  fun <- rlang::as_function(fun)
   result <- new.env(parent = emptyenv())
   retry_until_true(
-    fun = ~ {
+    fun = function(fun, args, classes_retry, message, result) {
       tryCatch(
         {
-          result$result <- do.call(what = rlang::as_function(fun), args = args)
+          result$result <- do.call(what = fun, args = args)
           TRUE
         },
         error = function(condition) {
@@ -63,7 +64,9 @@ retry_until_success <- function(
           if_any(
             class %in% classes_retry,
             FALSE,
-            tar_throw_expire(message)
+            tar_throw_expire(
+              paste0(message, ". ", conditionMessage(condition))
+            )
           )
         }
       )
