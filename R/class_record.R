@@ -158,7 +158,8 @@ record_encode_field <- function(field) {
 record_bootstrap_store <- function(record) {
   store <- store_init(
     format = record$format,
-    repository = record$repository
+    repository = record$repository,
+    resources = tar_options$get_resources()
   )
   store$file$path <- record$path
   store

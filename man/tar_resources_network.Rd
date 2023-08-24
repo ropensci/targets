@@ -5,9 +5,9 @@
 \title{Target resources for network connections}
 \usage{
 tar_resources_network(
-  seconds_interval = 0.25,
+  seconds_interval = 1,
   seconds_timeout = 60,
-  max_tries = Inf,
+  max_tries = 5L,
   verbose = TRUE
 )
 }

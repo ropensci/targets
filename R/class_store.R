@@ -24,7 +24,10 @@ store_mock <- function(
   format = "rds",
   repository = "local"
 ) {
-  mock <- enclass(list(), store_class_format(store_format_dispatch(format)))
+  mock <- enclass(
+    list(),
+    store_class_format(store_format_dispatch(format))
+  )
   class(mock) <- store_class_repository(
     repository = enclass(repository, repository),
     store = mock,

@@ -133,29 +133,18 @@ store_read_object.tar_aws <- function(store) {
   )
   on.exit(unlink(scratch))
   dir_create(dirname(scratch))
-  seconds_interval <- store$resources$network$seconds_interval %|||% 1
-  seconds_timeout <- store$resources$network$seconds_timeout %|||% 30
-  max_tries <- store$resources$network$max_tries %|||% Inf
-  verbose <- store$resources$network$verbose %|||% TRUE
-  retry_until_true(
-    fun = ~{
-      aws_s3_download(
-        key = key,
-        bucket = bucket,
-        file = scratch,
-        region = store_aws_region(path),
-        endpoint = store_aws_endpoint(path),
-        version = store_aws_version(path),
-        args = store$resources$aws$args
-      )
-      TRUE
-    },
-    seconds_interval = seconds_interval,
-    seconds_timeout = seconds_timeout,
-    max_tries = max_tries,
-    catch_error = TRUE,
-    message = sprintf("Cannot download object %s from bucket %s", key, bucket),
-    verbose = verbose
+  aws_s3_download(
+    key = key,
+    bucket = bucket,
+    file = scratch,
+    region = store_aws_region(path),
+    endpoint = store_aws_endpoint(path),
+    version = store_aws_version(path),
+    args = store$resources$aws$args,
+    seconds_interval = store$resources$network$seconds_interval %|||% 0L,
+    seconds_timeout = store$resources$network$seconds_timeout %|||% 0L,
+    max_tries = store$resources$network$max_tries %|||% 5L,
+    verbose = store$resources$network$verbose %|||% TRUE
   )
   store_convert_object(store, store_read_path(store, scratch))
 }
@@ -169,7 +158,11 @@ store_exist_object.tar_aws <- function(store, name = NULL) {
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
     version = store_aws_version(path),
-    args = store$resources$aws$args
+    args = store$resources$aws$args,
+    seconds_interval = store$resources$network$seconds_interval %|||% 0L,
+    seconds_timeout = store$resources$network$seconds_timeout %|||% 0L,
+    max_tries = store$resources$network$max_tries %|||% 5L,
+    verbose = store$resources$network$verbose %|||% TRUE
   )
   !is.null(head)
 }
@@ -196,7 +189,11 @@ store_delete_object.tar_aws <- function(store, name = NULL) {
       region = region,
       endpoint = endpoint,
       version = version,
-      args = store$resources$aws$args
+      args = store$resources$aws$args,
+      seconds_interval = store$resources$network$seconds_interval %|||% 0L,
+      seconds_timeout = store$resources$network$seconds_timeout %|||% 0L,
+      max_tries = store$resources$network$max_tries %|||% 5L,
+      verbose = store$resources$network$verbose %|||% TRUE
     ),
     error = function(condition) {
       tar_throw_validate(message, conditionMessage(condition))
@@ -217,29 +214,21 @@ store_upload_object_aws <- function(store) {
   seconds_timeout <- store$resources$network$seconds_timeout %|||% 30
   max_tries <- store$resources$network$max_tries %|||% Inf
   verbose <- store$resources$network$verbose %|||% TRUE
-  envir <- new.env(parent = emptyenv())
-  if_any(
+  head <- if_any(
     file_exists_stage(store$file),
-    retry_until_true(
-      ~{
-        envir$head <- aws_s3_upload(
-          file = store$file$stage,
-          key = key,
-          bucket = bucket,
-          region = store_aws_region(store$file$path),
-          endpoint = store_aws_endpoint(store$file$path),
-          metadata = list("targets-hash" = store$file$hash),
-          part_size = store$resources$aws$part_size %|||% (5 * (2 ^ 20)),
-          args = store$resources$aws$args
-        )
-        TRUE
-      },
-      seconds_interval = seconds_interval,
-      seconds_timeout = seconds_timeout,
-      max_tries = max_tries,
-      catch_error = TRUE,
-      message = sprintf("Cannot upload to object %s bucket %s", key, bucket),
-      verbose = verbose
+    aws_s3_upload(
+      file = store$file$stage,
+      key = key,
+      bucket = bucket,
+      region = store_aws_region(store$file$path),
+      endpoint = store_aws_endpoint(store$file$path),
+      metadata = list("targets-hash" = store$file$hash),
+      part_size = store$resources$aws$part_size %|||% (5 * (2 ^ 20)),
+      args = store$resources$aws$args,
+      seconds_interval = store$resources$network$seconds_interval %|||% 0L,
+      seconds_timeout = store$resources$network$seconds_timeout %|||% 0L,
+      max_tries = store$resources$network$max_tries %|||% 5L,
+      verbose = store$resources$network$verbose %|||% TRUE
     ),
     tar_throw_file(
       "Cannot upload non-existent AWS staging file ",
@@ -255,7 +244,7 @@ store_upload_object_aws <- function(store) {
     value = TRUE,
     invert = TRUE
   )
-  store$file$path <- c(path, paste0("version=", envir$head$VersionId))
+  store$file$path <- c(path, paste0("version=", head$VersionId))
   invisible()
 }
 
@@ -289,7 +278,11 @@ store_aws_hash <- function(key, bucket, region, endpoint, version, args) {
     region = region,
     endpoint = endpoint,
     version = version,
-    args = args
+    args = args,
+    seconds_interval = store$resources$network$seconds_interval %|||% 0L,
+    seconds_timeout = store$resources$network$seconds_timeout %|||% 0L,
+    max_tries = store$resources$network$max_tries %|||% 5L,
+    verbose = store$resources$network$verbose %|||% TRUE
   )
   head$Metadata[["targets-hash"]]
 }

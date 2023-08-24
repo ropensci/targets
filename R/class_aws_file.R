@@ -63,28 +63,17 @@ store_read_object.tar_aws_file <- function(store) {
     pattern = basename(store_aws_key(path))
   )
   dir_create(dirname(scratch))
-  seconds_interval <- store$resources$network$seconds_interval %|||% 1
-  seconds_timeout <- store$resources$network$seconds_timeout %|||% 30
-  max_tries <- store$resources$network$max_tries %|||% Inf
-  verbose <- store$resources$network$verbose %|||% TRUE
-  retry_until_true(
-    ~{
-      aws_s3_download(
-        key = key,
-        bucket = bucket,
-        file = scratch,
-        region = store_aws_region(path),
-        version = store_aws_version(path),
-        args = store$resources$aws$args
-      )
-      TRUE
-    },
-    seconds_interval = seconds_interval,
-    seconds_timeout = seconds_timeout,
-    max_tries = max_tries,
-    catch_error = TRUE,
-    message = sprintf("Cannot download object %s from bucket %s", key, bucket),
-    verbose = verbose
+  aws_s3_download(
+    key = key,
+    bucket = bucket,
+    file = scratch,
+    region = store_aws_region(path),
+    version = store_aws_version(path),
+    args = store$resources$aws$args,
+    seconds_interval = store$resources$network$seconds_interval %|||% 0L,
+    seconds_timeout = store$resources$network$seconds_timeout %|||% 0L,
+    max_tries = store$resources$network$max_tries %|||% 5L,
+    verbose = store$resources$network$verbose %|||% TRUE
   )
   stage <- store_aws_file_stage(path)
   dir_create(dirname(stage))
