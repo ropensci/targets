@@ -153,4 +153,4 @@ url_port <- function(host, port, process, verbose = TRUE) {
 }
 # nocov end
 
-http_500 <- paste0("http_", seq(from = 500L, to = 599))
+http_retry <- paste0("http_", seq(from = 500L, to = 599))

@@ -36,7 +36,7 @@ aws_s3_head <- function(
     max_tries = max_tries,
     verbose = verbose,
     message = "AWS S3 head_object() failed.",
-    classes_retry = http_500
+    classes_retry = http_retry
   )
 }
 
@@ -98,7 +98,7 @@ aws_s3_download <- function(
     max_tries = max_tries,
     verbose = verbose,
     message = "AWS S3 get_object() failed.",
-    classes_retry = http_500
+    classes_retry = http_retry
   )$Body
   writeBin(out, con = file)
   invisible()
@@ -133,7 +133,7 @@ aws_s3_delete <- function(
     max_tries = max_tries,
     verbose = verbose,
     message = "AWS S3 delete_object() failed.",
-    classes_retry = http_500
+    classes_retry = http_retry
   )
   invisible()
 }
@@ -177,7 +177,7 @@ aws_s3_upload <- function(
       max_tries = max_tries,
       verbose = verbose,
       message = "AWS S3 put_object() failed.",
-      classes_retry = http_500
+      classes_retry = http_retry
     )
     return(out)
   }
@@ -199,7 +199,7 @@ aws_s3_upload <- function(
     max_tries = max_tries,
     verbose = verbose,
     message = "AWS S3 create_multipart_upload() failed.",
-    classes_retry = http_500
+    classes_retry = http_retry
   )
   response <- NULL
   on.exit({
@@ -222,7 +222,7 @@ aws_s3_upload <- function(
         max_tries = max_tries,
         verbose = verbose,
         message = "AWS S3 abort_multipart_upload() failed.",
-        classes_retry = http_500
+        classes_retry = http_retry
       )
       tar_throw_file(response)
     }
@@ -256,7 +256,7 @@ aws_s3_upload <- function(
       max_tries = max_tries,
       verbose = verbose,
       message = "AWS S3 complete_multipart_upload() failed.",
-      classes_retry = http_500
+      classes_retry = http_retry
     )
   }, silent = TRUE)
   response
@@ -302,7 +302,7 @@ aws_s3_upload_parts <- function(
       max_tries = max_tries,
       verbose = verbose,
       message = "AWS S3 upload_part() failed.",
-      classes_retry = http_500
+      classes_retry = http_retry
     )
     parts <- c(parts, list(list(ETag = part_response$ETag, PartNumber = i)))
   }
