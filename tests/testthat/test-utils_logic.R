@@ -114,3 +114,51 @@ tar_test("retry_until_true() max_tries", {
   )
   expect_equal(envir$count, 5L)
 })
+
+tar_test("retry_until_success() uncaught class", {
+  skip_on_cran()
+  tmp <- tempfile()
+  fun <- function(x) file.exists(x)
+  args <- list(x = tmp)
+  envir <- new.env(parent = emptyenv())
+  envir$count <- 0L
+  expect_error(
+    retry_until_success(
+      fun = ~{
+        envir$count <- envir$count + 1L
+        rlang::abort(message = "error", class = "ad_hoc")
+      },
+      args = args,
+      seconds_interval = 0.001,
+      seconds_timeout = 60,
+      max_tries = 5L
+    ),
+    class = "tar_condition_expire"
+  )
+  expect_equal(envir$count, 1L)
+})
+
+tar_test("retry_until_success() caught class", {
+  skip_on_cran()
+  tmp <- tempfile()
+  fun <- function(x) file.exists(x)
+  args <- list(x = tmp)
+  envir <- new.env(parent = emptyenv())
+  envir$count <- 0L
+  expect_error(
+    retry_until_success(
+      fun = ~{
+        envir$count <- envir$count + 1L
+        class <- ifelse(envir$count %% 2L, "class1", "class2")
+        rlang::abort(message = "error", class = class)
+      },
+      args = args,
+      seconds_interval = 0.001,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      classes_retry = c("class1", "class2")
+    ),
+    class = "tar_condition_expire"
+  )
+  expect_equal(envir$count, 5L)
+})

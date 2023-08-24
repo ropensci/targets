@@ -38,6 +38,54 @@ if_any <- function(condition, x, y) {
   }
 }
 
+retry_until_success <- function(
+  fun,
+  args = list(),
+  seconds_interval = 0.1,
+  seconds_timeout = 5,
+  max_tries = Inf,
+  message = character(0),
+  envir = parent.frame(),
+  verbose = TRUE,
+  classes_retry = character(0L)
+) {
+  force(envir)
+  result <- new.env(parent = emptyenv())
+  retry_until_true(
+    fun = ~ {
+      tryCatch(
+        {
+          result$result <- do.call(what = rlang::as_function(fun), args = args)
+          TRUE
+        },
+        error = function(condition) {
+          class <- class(condition)
+          if_any(
+            class %in% classes_retry,
+            FALSE,
+            tar_throw_expire(message)
+          )
+        }
+      )
+    },
+    args = list(
+      fun = fun,
+      args = args,
+      classes_retry = classes_retry,
+      message = message,
+      result = result
+    ),
+    seconds_interval = seconds_interval,
+    seconds_timeout = seconds_timeout,
+    max_tries = max_tries,
+    message = message,
+    envir = envir,
+    catch_error = FALSE,
+    verbose = verbose
+  )
+  result$result
+}
+
 retry_until_true <- function(
   fun,
   args = list(),
