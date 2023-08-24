@@ -52,6 +52,10 @@ store_read_object.tar_gcp_file <- function(store) {
     pattern = basename(store_gcp_key(path))
   )
   dir_create(dirname(scratch))
+  old_try_attempts <- getOption("googleAuthR.tryAttempts")
+  on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
+  option <- store$resources$network$max_tries
+  if_any(is.null(option), NULL, options(googleAuthR.tryAttempts = option))
   gcp_gcs_download(
     key = key,
     bucket = bucket,

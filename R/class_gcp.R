@@ -77,6 +77,10 @@ store_read_object.tar_gcp <- function(store) {
   )
   on.exit(unlink(scratch))
   dir_create(dirname(scratch))
+  old_try_attempts <- getOption("googleAuthR.tryAttempts")
+  on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
+  option <- store$resources$network$max_tries
+  if_any(is.null(option), NULL, options(googleAuthR.tryAttempts = option))
   gcp_gcs_download(
     key = key,
     bucket = bucket,
@@ -90,6 +94,10 @@ store_read_object.tar_gcp <- function(store) {
 #' @export
 store_exist_object.tar_gcp <- function(store, name = NULL) {
   path <- store$file$path
+  old_try_attempts <- getOption("googleAuthR.tryAttempts")
+  on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
+  option <- store$resources$network$max_tries
+  if_any(is.null(option), NULL, options(googleAuthR.tryAttempts = option))
   gcp_gcs_exists(
     key = store_gcp_key(path),
     bucket = store_gcp_bucket(path),
@@ -111,6 +119,10 @@ store_delete_object.tar_gcp <- function(store, name = NULL) {
     "from trying to delete it.\nMessage: "
   )
   message <- sprintf(message, name, bucket, key, name)
+  old_try_attempts <- getOption("googleAuthR.tryAttempts")
+  on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
+  option <- store$resources$network$max_tries
+  if_any(is.null(option), NULL, options(googleAuthR.tryAttempts = option))
   tryCatch(
     gcp_gcs_delete(
       key = key,
@@ -135,6 +147,10 @@ store_upload_object.tar_gcp <- function(store) {
 store_upload_object_gcp <- function(store) {
   key <- store_gcp_key(store$file$path)
   bucket <- store_gcp_bucket(store$file$path)
+  old_try_attempts <- getOption("googleAuthR.tryAttempts")
+  on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
+  option <- store$resources$network$max_tries
+  if_any(is.null(option), NULL, options(googleAuthR.tryAttempts = option))
   head <- if_any(
     file_exists_stage(store$file),
     gcp_gcs_upload(
@@ -183,6 +199,10 @@ store_has_correct_hash.tar_gcp <- function(store) {
 }
 
 store_gcp_hash <- function(key, bucket, version, verbose) {
+  old_try_attempts <- getOption("googleAuthR.tryAttempts")
+  on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
+  option <- store$resources$network$max_tries
+  if_any(is.null(option), NULL, options(googleAuthR.tryAttempts = option))
   head <- gcp_gcs_head(
     key = key,
     bucket = bucket,
