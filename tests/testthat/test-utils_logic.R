@@ -188,4 +188,3 @@ tar_test("retry_until_success() caught class", {
   expect_equal(envir$count, 2L)
   expect_equal(out, "returned")
 })
-

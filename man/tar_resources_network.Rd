@@ -18,7 +18,8 @@ while attempting to download, upload, or check
 a remote network resource on a network file system (in the case of
 \code{storage = "worker"} or \code{format = "file"})
 or via HTTP/HTTPS in cases like \code{format = "url"},
-\code{repository = "aws"}, and \code{repository = "gcp"}.}
+\code{repository = "aws"}.
+Not supported for \code{repository = "gcp"}.}
 
 \item{seconds_timeout}{Nonnegative numeric of length 1,
 number of seconds to wait before timing out
@@ -26,7 +27,7 @@ while attempting to download, upload, or check
 a remote network resource on a network file system (in the case of
 \code{storage = "worker"} or \code{format = "file"})
 or via HTTP/HTTPS in cases like \code{format = "url"},
-\code{repository = "aws"}, and \code{repository = "gcp"}.
+\code{repository = "aws"}. Not supported for \code{repository = "gcp"}.
 For files saved to a network file system in the case of
 \code{storage = "worker"}, it is recommended to set \code{seconds_timeout}
 to at least \code{60}.}
@@ -36,10 +37,12 @@ maximum number of tries to download, upload, or check things
 while attempting to access a remote network resource on a
 network file system (in the case of \code{storage = "worker"})
 or via HTTP/HTTPS in cases like \code{format = "url"},
-\code{repository = "aws"}, and \code{repository = "gcp"}.}
+\code{repository = "aws"} and \code{repository = "gcp"}. In the case of
+\code{repository = "gcs"}, \code{max_retries} gets forwarded to
+the \code{googleAuthR.tryAttempts} option for GCS packages.}
 
 \item{verbose}{Logical of length 1, whether to print an informative message
-when an HTTP/HTTPS attempt fails.}
+when an HTTP/HTTPS attempt fails. Not supported for \code{repository = "gcp"}.}
 }
 \value{
 Object of class \code{"tar_resources_network"}, to be supplied

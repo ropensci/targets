@@ -52,27 +52,12 @@ store_read_object.tar_gcp_file <- function(store) {
     pattern = basename(store_gcp_key(path))
   )
   dir_create(dirname(scratch))
-  seconds_interval <- store$resources$network$seconds_interval %|||% 1
-  seconds_timeout <- store$resources$network$seconds_timeout %|||% 30
-  max_tries <- store$resources$network$max_tries %|||% Inf
-  verbose <- store$resources$network$verbose %|||% TRUE
-  retry_until_true(
-    ~{
-      gcp_gcs_download(
-        key = key,
-        bucket = bucket,
-        file = scratch,
-        version = store_gcp_version(path),
-        verbose = store$resources$gcp$verbose %|||% FALSE
-      )
-      TRUE
-    },
-    seconds_interval = seconds_interval,
-    seconds_timeout = seconds_timeout,
-    max_tries = max_tries,
-    catch_error = TRUE,
-    message = sprintf("Cannot download object %s from bucket %s", key, bucket),
-    verbose = verbose
+  gcp_gcs_download(
+    key = key,
+    bucket = bucket,
+    file = scratch,
+    version = store_gcp_version(path),
+    verbose = store$resources$gcp$verbose %|||% FALSE
   )
   stage <- store_gcp_file_stage(path)
   dir_create(dirname(stage))

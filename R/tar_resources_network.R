@@ -22,14 +22,15 @@
 #'   a remote network resource on a network file system (in the case of
 #'   `storage = "worker"` or `format = "file"`)
 #'   or via HTTP/HTTPS in cases like `format = "url"`,
-#'   `repository = "aws"`, and `repository = "gcp"`.
+#'   `repository = "aws"`.
+#'   Not supported for `repository = "gcp"`.
 #' @param seconds_timeout Nonnegative numeric of length 1,
 #'   number of seconds to wait before timing out
 #'   while attempting to download, upload, or check
 #'   a remote network resource on a network file system (in the case of
 #'   `storage = "worker"` or `format = "file"`)
 #'   or via HTTP/HTTPS in cases like `format = "url"`,
-#'   `repository = "aws"`, and `repository = "gcp"`.
+#'   `repository = "aws"`. Not supported for `repository = "gcp"`.
 #'   For files saved to a network file system in the case of
 #'   `storage = "worker"`, it is recommended to set `seconds_timeout`
 #'   to at least `60`.
@@ -38,9 +39,11 @@
 #'   while attempting to access a remote network resource on a
 #'   network file system (in the case of `storage = "worker"`)
 #'   or via HTTP/HTTPS in cases like `format = "url"`,
-#'   `repository = "aws"`, and `repository = "gcp"`.
+#'   `repository = "aws"` and `repository = "gcp"`. In the case of
+#'   `repository = "gcs"`, `max_retries` gets forwarded to
+#'   the `googleAuthR.tryAttempts` option for GCS packages.
 #' @param verbose Logical of length 1, whether to print an informative message
-#'   when an HTTP/HTTPS attempt fails.
+#'   when an HTTP/HTTPS attempt fails. Not supported for `repository = "gcp"`.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' # Somewhere in you target script file (usually _targets.R):
