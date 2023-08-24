@@ -254,31 +254,19 @@ store_ensure_correct_hash.tar_aws <- function(store, storage, deployment) {
 
 #' @export
 store_has_correct_hash.tar_aws <- function(store) {
-  path <- store$file$path
-  bucket <- store_aws_bucket(path)
-  region <- store_aws_region(path)
-  endpoint <- store_aws_endpoint(path)
-  key <- store_aws_key(path)
-  version <- store_aws_version(path)
-  hash <- store_aws_hash(
-    key = key,
-    bucket = bucket,
-    region = region,
-    endpoint = endpoint,
-    version = version,
-    args = store$resources$aws$args
-  )
+  hash <- store_aws_hash(store)
   !is.null(hash) && identical(hash, store$file$hash)
 }
 
-store_aws_hash <- function(key, bucket, region, endpoint, version, args) {
+store_aws_hash <- function(store) {
+  path <- store$file$path
   head <- aws_s3_head(
-    key = key,
-    bucket = bucket,
-    region = region,
-    endpoint = endpoint,
-    version = version,
-    args = args,
+    key = store_aws_key(path),
+    bucket = store_aws_bucket(path),
+    region = store_aws_region(path),
+    endpoint = store_aws_endpoint(path),
+    version = store_aws_version(path),
+    args = store$resources$aws$args,
     seconds_interval = store$resources$network$seconds_interval %|||% 0L,
     seconds_timeout = store$resources$network$seconds_timeout %|||% 0L,
     max_tries = store$resources$network$max_tries %|||% 5L,
