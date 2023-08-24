@@ -124,7 +124,12 @@ retry_until_true <- function(
       )
       tar_throw_expire(message)
     }
-    Sys.sleep(seconds_interval)
+    jitter <- stats::runif(
+      n = 1L,
+      min = - seconds_interval / 3,
+      max = seconds_interval / 3
+    )
+    Sys.sleep(seconds_interval + jitter)
   }
   invisible()
 }
