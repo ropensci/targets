@@ -5,7 +5,7 @@ algorithm_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
-  seconds_interval = NULL
+  seconds_meta = NULL
 ) {
   algorithm_class$new(
     pipeline = pipeline,
@@ -14,7 +14,7 @@ algorithm_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    seconds_interval = seconds_interval
+    seconds_meta = seconds_meta
   )
 }
 
@@ -30,7 +30,8 @@ algorithm_class <- R6::R6Class(
     shortcut = NULL,
     queue = NULL,
     reporter = NULL,
-    seconds_interval = NULL,
+    seconds_meta = NULL,
+    seconds_reporter = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
@@ -38,7 +39,8 @@ algorithm_class <- R6::R6Class(
       shortcut = NULL,
       queue = NULL,
       reporter = NULL,
-      seconds_interval = NULL
+      seconds_meta = NULL,
+      seconds_reporter = NULL
     ) {
       self$pipeline <- pipeline
       self$meta <- meta
@@ -46,7 +48,8 @@ algorithm_class <- R6::R6Class(
       self$shortcut <- shortcut
       self$queue <- queue
       self$reporter <- reporter
-      self$seconds_interval <- seconds_interval
+      self$seconds_meta <- seconds_meta
+      self$seconds_reporter <- seconds_reporter
     },
     update_scheduler = function() {
       self$scheduler <- scheduler_init(
@@ -54,7 +57,7 @@ algorithm_class <- R6::R6Class(
         meta = self$meta,
         queue = self$queue,
         reporter = self$reporter,
-        seconds_interval = self$seconds_interval,
+        seconds_reporter = self$seconds_reporter,
         names = self$names,
         shortcut = self$shortcut
       )
@@ -71,6 +74,12 @@ algorithm_class <- R6::R6Class(
       tar_assert_chr(self$names %|||% character(0))
       tar_assert_chr(self$queue %|||% character(0))
       tar_assert_chr(self$reporter %|||% character(0))
+      tar_assert_dbl(self$seconds_meta)
+      tar_assert_scalar(self$seconds_meta)
+      tar_assert_none_na(self$seconds_meta)
+      tar_assert_dbl(self$seconds_reporter)
+      tar_assert_scalar(self$seconds_reporter)
+      tar_assert_none_na(self$seconds_reporter)
     }
   )
 )

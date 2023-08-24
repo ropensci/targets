@@ -3,7 +3,7 @@ scheduler_init <- function(
   meta = meta_init(),
   queue = "parallel",
   reporter = "verbose",
-  seconds_interval = 0.5,
+  seconds_reporter = 0.5,
   names = NULL,
   shortcut = FALSE
 ) {
@@ -20,7 +20,7 @@ scheduler_init <- function(
     path_store = meta$store,
     queued = queued
   )
-  reporter <- reporter_init(reporter, seconds_interval = seconds_interval)
+  reporter <- reporter_init(reporter, seconds_interval = seconds_reporter)
   backoff <- tar_options$get_backoff()
   scheduler_new(
     graph = graph,

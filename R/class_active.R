@@ -5,7 +5,8 @@ active_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
-  seconds_interval = NULL,
+  seconds_meta = NULL,
+  seconds_reporter = NULL,
   garbage_collection = NULL,
   envir = NULL
 ) {
@@ -16,7 +17,8 @@ active_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    seconds_interval = seconds_interval,
+    seconds_meta = seconds_meta,
+    seconds_reporter = seconds_reporter,
     garbage_collection = garbage_collection,
     envir = envir
   )
@@ -41,7 +43,8 @@ active_class <- R6::R6Class(
       shortcut = NULL,
       queue = NULL,
       reporter = NULL,
-      seconds_interval = NULL,
+      seconds_meta = NULL,
+      seconds_reporter = NULL,
       envir = NULL,
       garbage_collection = NULL
     ) {
@@ -52,10 +55,10 @@ active_class <- R6::R6Class(
         shortcut = shortcut,
         queue = queue,
         reporter = reporter,
-        seconds_interval = seconds_interval
+        seconds_meta = seconds_meta,
+        seconds_reporter = seconds_reporter
       )
       self$garbage_collection <- garbage_collection
-      self$seconds_interval <- seconds_interval
       self$envir <- envir
     },
     ensure_meta = function() {
@@ -77,7 +80,7 @@ active_class <- R6::R6Class(
     dequeue_meta_time = function() {
       self$seconds_dequeued <- self$seconds_dequeued %|||% -Inf
       now <- time_seconds_local()
-      if ((now - self$seconds_dequeued) > self$seconds_interval) {
+      if ((now - self$seconds_dequeued) > self$seconds_meta) {
         self$dequeue_meta()
         self$seconds_dequeued <- time_seconds_local()
       }
@@ -188,9 +191,6 @@ active_class <- R6::R6Class(
       tar_assert_lgl(self$garbage_collection)
       tar_assert_scalar(self$garbage_collection)
       tar_assert_none_na(self$garbage_collection)
-      tar_assert_dbl(self$seconds_interval)
-      tar_assert_scalar(self$seconds_interval)
-      tar_assert_none_na(self$seconds_interval)
     }
   )
 )

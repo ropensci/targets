@@ -12,6 +12,8 @@ tar_config_set(
   reporter_make = NULL,
   reporter_outdated = NULL,
   script = NULL,
+  seconds_meta = NULL,
+  seconds_reporter = NULL,
   seconds_interval = NULL,
   store = NULL,
   shortcut = NULL,
@@ -63,12 +65,23 @@ run the script from the current working directory.
 If the argument \code{NULL}, the setting is not modified.
 Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 
-\item{seconds_interval}{Positive numeric of length 1 with the minimum
-number of seconds between saves to the metadata and progress data
-in \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_future]{tar_make_future()}}, and \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}.
-Also controls how often reporters print progress messages.
+\item{seconds_meta}{Argument of \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_clustermq]{tar_make_clustermq()}},
+and \code{\link[=tar_make_future]{tar_make_future()}}.
+Positive numeric of length 1 with the minimum
+number of seconds between saves to the metadata and progress data.
 Higher values generally make the pipeline run faster, but unsaved
-work (in the event of a crash) is not up to date.}
+work (in the event of a crash) is not up to date.
+When the pipeline ends,
+everything is saved/printed immediately,
+regardless of \code{seconds_meta}.}
+
+\item{seconds_reporter}{Argument of \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_clustermq]{tar_make_clustermq()}},
+and \code{\link[=tar_make_future]{tar_make_future()}}. Positive numeric of length 1 with the minimum
+number of seconds between times when the reporter prints progress
+messages to the R console.}
+
+\item{seconds_interval}{Deprecated on 2023-08-24 (version 1.2.2.9001).
+Use \code{seconds_meta} and \code{seconds_reporter} instead.}
 
 \item{store}{Character of length 1, path to the data store of the pipeline.
 If \code{NULL}, the \code{store} setting is left unchanged in the

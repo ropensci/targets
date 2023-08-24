@@ -8,6 +8,8 @@ tar_make(
   names = NULL,
   shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
+  seconds_meta = targets::tar_config_get("seconds_meta"),
+  seconds_reporter = targets::tar_config_get("seconds_reporter"),
   seconds_interval = targets::tar_config_get("seconds_interval"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
@@ -61,14 +63,20 @@ steps like data retrieval and output storage.
 except without messages for skipped targets.
 }}
 
-\item{seconds_interval}{Positive numeric of length 1 with the minimum
+\item{seconds_meta}{Positive numeric of length 1 with the minimum
 number of seconds between saves to the metadata and progress data.
-Also controls how often the reporter prints progress messages.
 Higher values generally make the pipeline run faster, but unsaved
 work (in the event of a crash) is not up to date.
 When the pipeline ends,
 everything is saved/printed immediately,
-regardless of \code{seconds_interval}.}
+regardless of \code{seconds_meta}.}
+
+\item{seconds_reporter}{Positive numeric of length 1 with the minimum
+number of seconds between times when the reporter prints progress
+messages to the R console.}
+
+\item{seconds_interval}{Deprecated on 2023-08-24 (version 1.2.2.9001).
+Use \code{seconds_meta} and \code{seconds_reporter} instead.}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session

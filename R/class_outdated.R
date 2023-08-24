@@ -5,7 +5,8 @@ outdated_init <- function(
   shortcut = FALSE,
   queue = "sequential",
   reporter = "silent",
-  seconds_interval = 0.5
+  seconds_meta = 15,
+  seconds_reporter = 0.5
 ) {
   outdated_new(
     pipeline = pipeline,
@@ -14,7 +15,8 @@ outdated_init <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    seconds_interval = seconds_interval,
+    seconds_meta = seconds_meta,
+    seconds_reporter = seconds_reporter,
     checked = counter_init(),
     outdated = counter_init()
   )
@@ -27,7 +29,8 @@ outdated_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
-  seconds_interval = NULL,
+  seconds_meta = NULL,
+  seconds_reporter = NULL,
   checked = NULL,
   outdated = NULL
 ) {
@@ -38,7 +41,8 @@ outdated_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    seconds_interval = seconds_interval,
+    seconds_meta = seconds_meta,
+    seconds_reporter = seconds_reporter,
     checked = checked,
     outdated = outdated
   )
@@ -60,7 +64,8 @@ outdated_class <- R6::R6Class(
       shortcut = NULL,
       queue = NULL,
       reporter = NULL,
-      seconds_interval = NULL,
+      seconds_meta = NULL,
+      seconds_reporter = NULL,
       checked = NULL,
       outdated = NULL
     ) {
@@ -71,7 +76,8 @@ outdated_class <- R6::R6Class(
         shortcut = shortcut,
         queue = queue,
         reporter = reporter,
-        seconds_interval = seconds_interval
+        seconds_meta = seconds_meta,
+        seconds_reporter = seconds_reporter
       )
       self$checked <- checked
       self$outdated <- outdated

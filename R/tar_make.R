@@ -153,7 +153,8 @@ tar_make <- function(
     names_quosure = rlang::enquo(names),
     shortcut = shortcut,
     reporter = reporter,
-    seconds_interval = seconds_interval,
+    seconds_meta = seconds_meta,
+    seconds_reporter = seconds_reporter,
     garbage_collection = garbage_collection,
     use_crew = use_crew,
     terminate_controller = terminate_controller
@@ -177,7 +178,8 @@ tar_make_inner <- function(
   names_quosure,
   shortcut,
   reporter,
-  seconds_interval,
+  seconds_meta,
+  seconds_reporter,
   garbage_collection,
   use_crew,
   terminate_controller
@@ -198,7 +200,8 @@ tar_make_inner <- function(
       shortcut = shortcut,
       queue = queue,
       reporter = reporter,
-      seconds_interval = seconds_interval,
+      seconds_meta = seconds_meta,
+      seconds_reporter = seconds_reporter,
       envir = tar_option_get("envir")
     )$run()
   } else {
@@ -210,7 +213,8 @@ tar_make_inner <- function(
       shortcut = shortcut,
       queue = "parallel",
       reporter = reporter,
-      seconds_interval = seconds_interval,
+      seconds_meta = seconds_meta,
+      seconds_reporter = seconds_reporter,
       garbage_collection = garbage_collection,
       envir = tar_option_get("envir"),
       controller = controller,

@@ -77,7 +77,8 @@ tar_make_future <- function(
     names_quosure = rlang::enquo(names),
     shortcut = shortcut,
     reporter = reporter,
-    seconds_interval = seconds_interval,
+    seconds_meta = seconds_meta,
+    seconds_reporter = seconds_reporter,
     garbage_collection = garbage_collection,
     workers = workers
   )
@@ -100,7 +101,8 @@ tar_make_future_inner <- function(
   names_quosure,
   shortcut,
   reporter,
-  seconds_interval,
+  seconds_meta,
+  seconds_reporter,
   garbage_collection,
   workers
 ) {
@@ -112,7 +114,8 @@ tar_make_future_inner <- function(
     shortcut = shortcut,
     queue = "parallel",
     reporter = reporter,
-    seconds_interval = seconds_interval,
+    seconds_meta = seconds_meta,
+    seconds_reporter = seconds_reporter,
     garbage_collection = garbage_collection,
     workers = workers
   )$run()

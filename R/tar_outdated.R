@@ -91,7 +91,7 @@ tar_outdated <- function(
     branches = branches,
     targets_only = targets_only,
     reporter = reporter,
-    seconds_interval = seconds_interval
+    seconds_reporter = seconds_reporter
   )
   callr_outer(
     targets_function = tar_outdated_inner,
@@ -113,7 +113,7 @@ tar_outdated_inner <- function(
   branches,
   targets_only,
   reporter,
-  seconds_interval
+  seconds_reporter
 ) {
   names_all <- pipeline_get_names(pipeline)
   names <- tar_tidyselect_eval(names_quosure, names_all)
@@ -130,7 +130,7 @@ tar_outdated_inner <- function(
     shortcut = shortcut,
     queue = "sequential",
     reporter = reporter,
-    seconds_interval = seconds_interval
+    seconds_reporter = seconds_reporter
   )
   outdated$run()
   outdated_targets <- counter_get_names(outdated$outdated)
