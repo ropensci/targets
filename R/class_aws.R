@@ -139,8 +139,8 @@ store_read_object.tar_aws <- function(store) {
     endpoint = store_aws_endpoint(path),
     version = store_aws_version(path),
     args = store$resources$aws$args,
-    seconds_interval = store$resources$network$seconds_interval %|||% 0L,
-    seconds_timeout = store$resources$network$seconds_timeout %|||% 0L,
+    seconds_interval = store$resources$network$seconds_interval %|||% 1L,
+    seconds_timeout = store$resources$network$seconds_timeout %|||% 60L,
     max_tries = store$resources$network$max_tries %|||% 5L,
     verbose = store$resources$network$verbose %|||% TRUE
   )
@@ -157,8 +157,8 @@ store_exist_object.tar_aws <- function(store, name = NULL) {
     endpoint = store_aws_endpoint(path),
     version = store_aws_version(path),
     args = store$resources$aws$args,
-    seconds_interval = store$resources$network$seconds_interval %|||% 0L,
-    seconds_timeout = store$resources$network$seconds_timeout %|||% 0L,
+    seconds_interval = store$resources$network$seconds_interval %|||% 1L,
+    seconds_timeout = store$resources$network$seconds_timeout %|||% 60L,
     max_tries = store$resources$network$max_tries %|||% 5L,
     verbose = store$resources$network$verbose %|||% TRUE
   )
@@ -188,8 +188,8 @@ store_delete_object.tar_aws <- function(store, name = NULL) {
       endpoint = endpoint,
       version = version,
       args = store$resources$aws$args,
-      seconds_interval = store$resources$network$seconds_interval %|||% 0L,
-      seconds_timeout = store$resources$network$seconds_timeout %|||% 0L,
+      seconds_interval = store$resources$network$seconds_interval %|||% 1L,
+      seconds_timeout = store$resources$network$seconds_timeout %|||% 60L,
       max_tries = store$resources$network$max_tries %|||% 5L,
       verbose = store$resources$network$verbose %|||% TRUE
     ),
@@ -208,10 +208,6 @@ store_upload_object.tar_aws <- function(store) {
 store_upload_object_aws <- function(store) {
   key <- store_aws_key(store$file$path)
   bucket <- store_aws_bucket(store$file$path)
-  seconds_interval <- store$resources$network$seconds_interval %|||% 1
-  seconds_timeout <- store$resources$network$seconds_timeout %|||% 30
-  max_tries <- store$resources$network$max_tries %|||% Inf
-  verbose <- store$resources$network$verbose %|||% TRUE
   head <- if_any(
     file_exists_stage(store$file),
     aws_s3_upload(
@@ -223,8 +219,8 @@ store_upload_object_aws <- function(store) {
       metadata = list("targets-hash" = store$file$hash),
       part_size = store$resources$aws$part_size %|||% (5 * (2 ^ 20)),
       args = store$resources$aws$args,
-      seconds_interval = store$resources$network$seconds_interval %|||% 0L,
-      seconds_timeout = store$resources$network$seconds_timeout %|||% 0L,
+      seconds_interval = store$resources$network$seconds_interval %|||% 1L,
+      seconds_timeout = store$resources$network$seconds_timeout %|||% 60L,
       max_tries = store$resources$network$max_tries %|||% 5L,
       verbose = store$resources$network$verbose %|||% TRUE
     ),
@@ -265,8 +261,8 @@ store_aws_hash <- function(store) {
     endpoint = store_aws_endpoint(path),
     version = store_aws_version(path),
     args = store$resources$aws$args,
-    seconds_interval = store$resources$network$seconds_interval %|||% 0L,
-    seconds_timeout = store$resources$network$seconds_timeout %|||% 0L,
+    seconds_interval = store$resources$network$seconds_interval %|||% 1L,
+    seconds_timeout = store$resources$network$seconds_timeout %|||% 60L,
     max_tries = store$resources$network$max_tries %|||% 5L,
     verbose = store$resources$network$verbose %|||% TRUE
   )

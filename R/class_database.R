@@ -8,33 +8,35 @@ database_init <- function(
   resources = tar_options$get_resources()
 ) {
   memory <- memory_init()
+  key <- file.path(resources[[repository]]$prefix, subkey)
   switch(
     repository,
     local = database_local_new(
       memory = memory,
       path = path,
-      subkey = subkey,
+      key = basename(path),
       header = header,
       list_columns = list_columns,
-      list_column_modes = list_column_modes
+      list_column_modes = list_column_modes,
+      resources = resources
     ),
     aws = database_aws_new(
       memory = memory,
       path = path,
-      subkey = subkey,
+      key = key,
       header = header,
       list_columns = list_columns,
       list_column_modes = list_column_modes,
-      resources = resources$aws
+      resources = resources
     ),
     gcp = database_gcp_new(
       memory = memory,
       path = path,
-      subkey = subkey,
+      key = key,
       header = header,
       list_columns = list_columns,
       list_column_modes = list_column_modes,
-      resources = resources$gcp
+      resources = resources
     ),
     default = tar_throw_validate(
       "unsupported repository \"",
@@ -52,26 +54,29 @@ database_class <- R6::R6Class(
   public = list(
     memory = NULL,
     path = NULL,
-    subkey = NULL,
+    key = NULL,
     header = NULL,
     list_columns = NULL,
     list_column_modes = NULL,
+    resources = NULL,
     queue = NULL,
     initialize = function(
       memory = NULL,
       path = NULL,
-      subkey = NULL,
+      key = NULL,
       header = NULL,
       list_columns = NULL,
       list_column_modes = NULL,
+      resources = NULL,
       queue = NULL
     ) {
       self$memory <- memory
       self$path <- path
-      self$subkey <- subkey
+      self$key <- key
       self$header <- header
       self$list_columns <- list_columns
       self$list_column_modes <- list_column_modes
+      self$resources <- resources
       self$queue <- queue
     },
     get_row = function(name) {
@@ -321,10 +326,10 @@ database_class <- R6::R6Class(
       tar_assert_scalar(self$path)
       tar_assert_none_na(self$path)
       tar_assert_nzchar(self$path)
-      tar_assert_chr(self$subkey)
-      tar_assert_scalar(self$subkey)
-      tar_assert_none_na(self$subkey)
-      tar_assert_nzchar(self$subkey)
+      tar_assert_chr(self$key)
+      tar_assert_scalar(self$key)
+      tar_assert_none_na(self$key)
+      tar_assert_nzchar(self$key)
       tar_assert_chr(self$header)
       tar_assert_chr(self$list_columns)
     }

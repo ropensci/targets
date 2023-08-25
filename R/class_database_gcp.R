@@ -1,4 +1,4 @@
-database_aws_new <- function(
+database_gcp_new <- function(
   memory = NULL,
   path = NULL,
   key = NULL,
@@ -8,7 +8,7 @@ database_aws_new <- function(
   queue = NULL,
   resources = NULL
 ) {
-  database_aws_class$new(
+  database_gcp_class$new(
     memory = memory,
     path = path,
     key = key,
@@ -20,8 +20,8 @@ database_aws_new <- function(
   )
 }
 
-database_aws_class <- R6::R6Class(
-  classname = "tar_database_aws",
+database_gcp_class <- R6::R6Class(
+  classname = "tar_database_gcp",
   inherit = database_class,
   class = FALSE,
   portable = FALSE,
@@ -31,26 +31,23 @@ database_aws_class <- R6::R6Class(
       super$validate()
       tar_assert_inherits(
         self$resources,
-        "tar_resources_aws",
+        "tar_resources_gcp",
         msg = paste(
-          "AWS resources must be supplied to the {targets} AWS ",
+          "gcp resources must be supplied to the {targets} gcp ",
           "database class. Set resources with tar_option_set()"
         )
       )
       resources_validate(self$resources)
     },
     download = function() {
-      aws <- self$resources$aws
+      gcp <- self$resources$gcp
       network <- self$resources$network
       file <- file_init(path = path)
       file_ensure_hash(file)
-      aws_s3_download(
+      gcp_gcs_download(
         file = self$path,
         key = self$key,
-        bucket = aws$bucket,
-        region = aws$region,
-        endpoint = aws$endpoint,
-        args = aws$args,
+        bucket = gcp$bucket,
         seconds_interval = network$seconds_interval %|||% 1,
         seconds_timeout = network$seconds_timeout %|||% 60,
         max_tries = network$max_tries %|||% 5L,
@@ -59,16 +56,13 @@ database_aws_class <- R6::R6Class(
       invisible()
     },
     upload = function() {
-      aws <- self$resources$aws
+      gcp <- self$resources$gcp
       network <- self$resources$network
-      aws_s3_upload(
+      gcp_gcs_upload(
         file = self$path,
         key = self$key,
-        bucket = aws$bucket,
-        region = aws$region,
-        endpoint = aws$endpoint,
-        part_size = aws$part_size,
-        args = aws$args,
+        bucket = gcp$bucket,
+        predefined_acl = gcp$predefined_acl %|||% "private",
         seconds_interval = network$seconds_interval %|||% 1,
         seconds_timeout = network$seconds_timeout %|||% 60,
         max_tries = network$max_tries %|||% 5L,
