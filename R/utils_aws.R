@@ -217,6 +217,7 @@ aws_s3_upload <- function(
       client = client,
       part_size = part_size,
       upload_id = multipart$UploadId,
+      max_tries = max_tries %|||% 5L,
       args = args
     )
     args_complete_multipart_upload <- args

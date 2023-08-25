@@ -8,10 +8,7 @@ tar_test("aws_s3_exists()", {
     aws_s3_exists(
       key = "x",
       bucket = bucket,
-      seconds_interval = 1,
-      seconds_timeout = 1,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   tmp <- tempfile()
@@ -25,10 +22,7 @@ tar_test("aws_s3_exists()", {
     aws_s3_exists(
       key = "x",
       bucket = bucket,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   expect_false(
@@ -36,10 +30,7 @@ tar_test("aws_s3_exists()", {
       key = "x",
       bucket = bucket,
       args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
 })
@@ -52,20 +43,14 @@ tar_test("aws_s3_head()", {
     aws_s3_head(
       key = "x",
       bucket = random_bucket_name(),
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   expect_null(
     aws_s3_head(
       key = "x",
       bucket = bucket,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   tmp <- tempfile()
@@ -74,10 +59,7 @@ tar_test("aws_s3_head()", {
   head <- aws_s3_head(
     key = "x",
     bucket = bucket,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_true(is.list(head))
   expect_true(is.character(head$ETag))
@@ -87,10 +69,7 @@ tar_test("aws_s3_head()", {
       key = "x",
       bucket = bucket,
       args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
 })
@@ -108,10 +87,7 @@ tar_test("aws_s3_download()", {
     file = tmp2,
     key = "x",
     bucket = bucket,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_error(
     aws_s3_download(
@@ -119,10 +95,7 @@ tar_test("aws_s3_download()", {
       key = "x",
       bucket = bucket,
       args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     ),
     class = "tar_condition_expire"
   )
@@ -141,10 +114,7 @@ tar_test("aws_s3_delete()", {
     aws_s3_exists(
       key = key,
       bucket = bucket,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   expect_error(
@@ -152,10 +122,7 @@ tar_test("aws_s3_delete()", {
       key = key,
       bucket = bucket,
       args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     ),
     class = "tar_condition_expire"
   )
@@ -163,37 +130,25 @@ tar_test("aws_s3_delete()", {
     aws_s3_exists(
       key = key,
       bucket = bucket,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   aws_s3_delete(
     key = key,
     bucket = bucket,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_false(
     aws_s3_exists(
       key = key,
       bucket = bucket,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   aws_s3_delete(
     key = key,
     bucket = bucket,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
 })
 
@@ -221,10 +176,7 @@ tar_test("aws_s3_delete() version", {
       key = key,
       bucket = bucket,
       version = version1,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   expect_true(
@@ -232,30 +184,21 @@ tar_test("aws_s3_delete() version", {
       key = key,
       bucket = bucket,
       version = version2,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   aws_s3_delete(
     key = key,
     bucket = bucket,
     version = version1,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_false(
     aws_s3_exists(
       key = key,
       bucket = bucket,
       version = version1,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   expect_true(
@@ -263,10 +206,7 @@ tar_test("aws_s3_delete() version", {
       key = key,
       bucket = bucket,
       version = version2,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
 })
@@ -279,10 +219,7 @@ tar_test("aws_s3_upload() without headers", {
     aws_s3_exists(
       key = "x",
       bucket = bucket,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   tmp <- tempfile()
@@ -293,10 +230,7 @@ tar_test("aws_s3_upload() without headers", {
       key = "x",
       bucket = bucket,
       args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     ),
     class = "tar_condition_expire"
   )
@@ -304,36 +238,31 @@ tar_test("aws_s3_upload() without headers", {
     aws_s3_exists(
       key = "x",
       bucket = bucket,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   aws_s3_upload(
     file = tmp,
     key = "x",
     bucket = bucket,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_true(
     aws_s3_exists(
       key = "x",
       bucket = bucket,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
 })
 
 tar_test("aws_s3_upload() and download with metadata and region", {
   bucket <- random_bucket_name()
-  region <- "us-west-2"
+  region <- ifelse(
+    Sys.getenv("AWS_REGION") == "us-east-1",
+    "us-east-2",
+    "us-east-1"
+  )
   client <- paws.storage::s3(config = list(region = region))
   client$create_bucket(
     Bucket = bucket,
@@ -345,10 +274,7 @@ tar_test("aws_s3_upload() and download with metadata and region", {
       key = "x",
       bucket = bucket,
       region = region,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   tmp <- tempfile()
@@ -359,30 +285,21 @@ tar_test("aws_s3_upload() and download with metadata and region", {
     bucket = bucket,
     metadata = list("custom" = "custom_metadata"),
     region = region,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_true(
     aws_s3_exists(
       key = "x",
       bucket = bucket,
       region = region,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   head <- aws_s3_head(
     key = "x",
     bucket = bucket,
     region = region,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_equal(head$Metadata$custom, "custom_metadata")
   tmp2 <- tempfile()
@@ -392,10 +309,7 @@ tar_test("aws_s3_upload() and download with metadata and region", {
     key = "x",
     bucket = bucket,
     region = region,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_equal(readLines(tmp2), "x")
 })
@@ -418,10 +332,7 @@ tar_test("upload twice, get the correct version", {
     key = "x",
     bucket = bucket,
     metadata = list("custom" = "first-meta"),
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   v1 <- head_first$VersionId
   writeLines("second", tmp)
@@ -430,16 +341,14 @@ tar_test("upload twice, get the correct version", {
     key = "x",
     bucket = bucket,
     metadata = list("custom" = "second-meta"),
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   v2 <- head_second$VersionId
   expect_true(
     aws_s3_exists(
       key = "x",
-      bucket = bucket
+      bucket = bucket,
+      max_tries = 1L
     )
   )
   expect_true(
@@ -447,10 +356,7 @@ tar_test("upload twice, get the correct version", {
       key = "x",
       bucket = bucket,
       version = v1,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   expect_true(
@@ -458,10 +364,7 @@ tar_test("upload twice, get the correct version", {
       key = "x",
       bucket = bucket,
       version = v2,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   expect_false(
@@ -469,29 +372,20 @@ tar_test("upload twice, get the correct version", {
       key = "x",
       bucket = bucket,
       version = "v3",
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   h1 <- aws_s3_head(
     key = "x",
     bucket = bucket,
     version = v1,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   h2 <- aws_s3_head(
     key = "x",
     bucket = bucket,
     version = v2,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_equal(h1$VersionId, v1)
   expect_equal(h2$VersionId, v2)
@@ -503,10 +397,7 @@ tar_test("upload twice, get the correct version", {
     key = "x",
     bucket = bucket,
     version = v1,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_equal(readLines(tmp), "first")
   aws_s3_download(
@@ -514,10 +405,7 @@ tar_test("upload twice, get the correct version", {
     key = "x",
     bucket = bucket,
     version = v2,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_equal(readLines(tmp), "second")
 })
@@ -541,10 +429,7 @@ tar_test("multipart: upload twice, get the correct version", {
     bucket = bucket,
     multipart = TRUE,
     metadata = list("custom" = "first-meta"),
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   v1 <- head_first$VersionId
   writeLines("second", tmp)
@@ -554,20 +439,14 @@ tar_test("multipart: upload twice, get the correct version", {
     bucket = bucket,
     multipart = TRUE,
     metadata = list("custom" = "second-meta"),
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   v2 <- head_second$VersionId
   expect_true(
     aws_s3_exists(
       key = "x",
       bucket = bucket,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   expect_true(
@@ -575,10 +454,7 @@ tar_test("multipart: upload twice, get the correct version", {
       key = "x",
       bucket = bucket,
       version = v1,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   expect_true(
@@ -586,10 +462,7 @@ tar_test("multipart: upload twice, get the correct version", {
       key = "x",
       bucket = bucket,
       version = v2,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   expect_false(
@@ -597,29 +470,20 @@ tar_test("multipart: upload twice, get the correct version", {
       key = "x",
       bucket = bucket,
       version = "v3",
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     )
   )
   h1 <- aws_s3_head(
     key = "x",
     bucket = bucket,
     version = v1,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   h2 <- aws_s3_head(
     key = "x",
     bucket = bucket,
     version = v2,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_equal(h1$VersionId, v1)
   expect_equal(h2$VersionId, v2)
@@ -631,10 +495,7 @@ tar_test("multipart: upload twice, get the correct version", {
     key = "x",
     bucket = bucket,
     version = v1,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_equal(readLines(tmp), "first")
   aws_s3_download(
@@ -642,10 +503,7 @@ tar_test("multipart: upload twice, get the correct version", {
     key = "x",
     bucket = bucket,
     version = v2,
-    seconds_interval = 0,
-    seconds_timeout = 0,
-    max_tries = 1L,
-    verbose = TRUE
+    max_tries = 1L
   )
   expect_equal(readLines(tmp), "second")
 })
@@ -663,10 +521,7 @@ tar_test("graceful error on multipart upload", {
       bucket = bucket,
       multipart = TRUE,
       part_size = 5e3,
-      seconds_interval = 0,
-      seconds_timeout = 0,
-      max_tries = 1L,
-      verbose = TRUE
+      max_tries = 1L
     ),
     class = "tar_condition_file"
   )
