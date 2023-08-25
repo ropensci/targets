@@ -1,3 +1,8 @@
+tar_test("progress database subkey", {
+  out <- progress_init()
+  expect_equal(out$database$subkey, file.path("meta", "progress"))
+})
+
 tar_test("progress$queued", {
   expect_silent(counter_validate(progress_init()$queued))
 })

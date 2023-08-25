@@ -8,6 +8,11 @@ tar_test("meta$depends", {
   expect_silent(memory_validate(out$depends))
 })
 
+tar_test("meta database subkey", {
+  out <- meta_init()
+  expect_equal(out$database$subkey, file.path("meta", "meta"))
+})
+
 tar_test("meta$get_record() for internal storage", {
   meta <- meta_init()
   row <- list(

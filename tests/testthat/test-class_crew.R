@@ -8,6 +8,11 @@ tar_test("crew$validate()", {
   expect_silent(out$validate())
 })
 
+tar_test("crew database subkey", {
+  out <- database_crew(path_store_default())
+  expect_equal(out$subkey, file.path("meta", "crew"))
+})
+
 tar_test("workerless deployment works", {
   skip_on_os("solaris")
   skip_if_not_installed("crew", minimum_version = "0.3.0")

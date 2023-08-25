@@ -228,6 +228,7 @@ progress_class <- R6::R6Class(
 database_progress <- function(path_store) {
   database_init(
     path = path_progress(path_store = path_store),
+    subkey = file.path(basename(path_meta("")), "progress"),
     header = header_progress(),
   )
 }

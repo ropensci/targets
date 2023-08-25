@@ -1,5 +1,6 @@
 database_init <- function(
   path = tempfile(),
+  subkey = basename(tempfile()),
   header = "name",
   list_columns = character(0L),
   list_column_modes = character(0L),
@@ -12,6 +13,7 @@ database_init <- function(
     local = database_local_new(
       memory = memory,
       path = path,
+      subkey = subkey,
       header = header,
       list_columns = list_columns,
       list_column_modes = list_column_modes
@@ -19,6 +21,7 @@ database_init <- function(
     aws = database_aws_new(
       memory = memory,
       path = path,
+      subkey = subkey,
       header = header,
       list_columns = list_columns,
       list_column_modes = list_column_modes,
@@ -27,6 +30,7 @@ database_init <- function(
     gcp = database_gcp_new(
       memory = memory,
       path = path,
+      subkey = subkey,
       header = header,
       list_columns = list_columns,
       list_column_modes = list_column_modes,
@@ -46,9 +50,17 @@ database_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    memory = NULL,
+    path = NULL,
+    subkey = NULL,
+    header = NULL,
+    list_columns = NULL,
+    list_column_modes = NULL,
+    queue = NULL,
     initialize = function(
       memory = NULL,
       path = NULL,
+      subkey = NULL,
       header = NULL,
       list_columns = NULL,
       list_column_modes = NULL,
@@ -56,17 +68,12 @@ database_class <- R6::R6Class(
     ) {
       self$memory <- memory
       self$path <- path
+      self$subkey <- subkey
       self$header <- header
       self$list_columns <- list_columns
       self$list_column_modes <- list_column_modes
       self$queue <- queue
     },
-    memory = NULL,
-    path = NULL,
-    header = NULL,
-    list_columns = NULL,
-    list_column_modes = NULL,
-    queue = NULL,
     get_row = function(name) {
       memory_get_object(self$memory, name)
     },
@@ -312,6 +319,12 @@ database_class <- R6::R6Class(
       self$validate_file()
       tar_assert_chr(self$path)
       tar_assert_scalar(self$path)
+      tar_assert_none_na(self$path)
+      tar_assert_nzchar(self$path)
+      tar_assert_chr(self$subkey)
+      tar_assert_scalar(self$subkey)
+      tar_assert_none_na(self$subkey)
+      tar_assert_nzchar(self$subkey)
       tar_assert_chr(self$header)
       tar_assert_chr(self$list_columns)
     }

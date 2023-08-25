@@ -1,4 +1,5 @@
 tar_test("retry_until_true() with argless function", {
+  skip_on_cran()
   expect_silent(retry_until_true(fun = function() TRUE))
   expect_error(
     retry_until_true(

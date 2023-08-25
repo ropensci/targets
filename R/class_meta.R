@@ -158,9 +158,10 @@ meta_class <- R6::R6Class(
 database_meta <- function(path_store) {
   database_init(
     path = path_meta(path_store = path_store),
+    subkey = file.path(basename(path_meta("")), "meta"),
     header = header_meta(),
     list_columns = c("path", "children"),
-    list_column_modes <- c("character", "character")
+    list_column_modes = c("character", "character")
   )
 }
 

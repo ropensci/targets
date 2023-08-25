@@ -1,6 +1,7 @@
 database_local_new <- function(
   memory = NULL,
   path = NULL,
+  subkey = NULL,
   header = NULL,
   list_columns = NULL,
   list_column_modes = NULL,
@@ -9,6 +10,7 @@ database_local_new <- function(
   database_local_class$new(
     memory = memory,
     path = path,
+    subkey = subkey,
     header = header,
     list_columns = list_columns,
     list_column_modes = list_column_modes,

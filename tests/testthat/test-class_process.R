@@ -1,3 +1,8 @@
+tar_test("process database subkey", {
+  out <- process_init()
+  expect_equal(out$database$subkey, file.path("meta", "process"))
+})
+
 tar_test("process$produce_process()", {
   x <- process_init()
   out <- x$produce_process()

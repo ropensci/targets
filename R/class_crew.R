@@ -319,6 +319,7 @@ crew_summary <- function(controller) {
 database_crew <- function(path_store) {
   database_init(
     path = file.path(path_meta_dir(path_store), "crew"),
+    subkey = file.path(basename(path_meta("")), "crew"),
     header = c("controller", "worker", "seconds", "targets")
   )
 }

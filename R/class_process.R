@@ -55,7 +55,8 @@ process_class <- R6::R6Class(
 database_process <- function(path_store) {
   database_init(
     path = path_process(path_store = path_store),
-    header = header_process(),
+    subkey = file.path(basename(path_meta("")), "process"),
+    header = header_process()
   )
 }
 
