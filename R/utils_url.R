@@ -27,31 +27,36 @@ url_exists <- function(
   max_tries,
   verbose
 ) {
-  tar_assert_internet()
-  handle <- url_handle(handle)
   envir <- new.env(parent = emptyenv())
   envir$out <- rep(FALSE, length(url))
-  retry_until_true(
-    ~{
-      envir$out <- map_lgl(url, url_exists_impl, handle = handle)
-      all(envir$out)
-    },
+  out <- map_lgl(
+    url,
+    url_exists_impl,
+    handle = handle,
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
     max_tries = max_tries,
-    catch_error = TRUE,
-    message = paste("Cannot connect to url:", url),
     verbose = verbose
   )
-  envir$out
+  all(out)
 }
 
-url_exists_impl <- function(url, handle) {
-  tryCatch(url_exists_try(url, handle), error = function(e) FALSE)
-}
-
-url_exists_try <- function(url, handle) {
-  req <- curl::curl_fetch_memory(as.character(url), handle = handle)
+url_exists_impl <- function(
+  url,
+  handle,
+  seconds_interval,
+  seconds_timeout,
+  max_tries,
+  verbose
+) {
+  req <- url_request(
+    url = url,
+    handle = handle,
+    seconds_interval = seconds_interval,
+    seconds_timeout = seconds_timeout,
+    max_tries = max_tries,
+    verbose = verbose
+  )
   url_status_success(req$status_code)
 }
 
@@ -64,23 +69,37 @@ url_hash <- function(
   verbose
 ) {
   envir <- new.env(parent = emptyenv())
-  retry_until_true(
-    ~{
-      envir$out <- digest_obj64(lapply(url, url_hash_impl, handle = handle))
-      TRUE
-    },
+  digest_obj64(
+    lapply(
+      url,
+      url_hash_impl,
+      handle = handle,
+      seconds_interval = seconds_interval,
+      seconds_timeout = seconds_timeout,
+      max_tries = max_tries,
+      verbose = verbose
+    )
+  )
+}
+
+url_hash_impl <- function(
+  url,
+  handle,
+  seconds_interval,
+  seconds_timeout,
+  max_tries,
+  verbose
+) {
+  req <- url_request(
+    url = url,
+    handle = handle,
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
     max_tries = max_tries,
-    catch_error = TRUE,
-    message = paste("Cannot connect to url:", url),
     verbose = verbose
   )
-  envir$out
-}
-
-url_hash_impl <- function(url, handle) {
-  headers <- url_headers(url = url, handle = handle)
+  headers <- curl::parse_headers_list(req$headers)
+  url_process_error(url = url, req = req, headers = headers)
   etag <- paste(headers[["etag"]], collapse = "")
   mtime <- paste(headers[["last-modified"]], collapse = "")
   out <- paste0(etag, mtime)
@@ -103,13 +122,35 @@ url_handle <- function(handle = NULL) {
   handle
 }
 
-url_headers <- function(url, handle) {
+url_request <- function(
+  url,
+  handle,
+  seconds_interval,
+  seconds_timeout,
+  max_tries,
+  verbose
+) {
   tar_assert_internet()
   handle <- url_handle(handle)
-  req <- curl::curl_fetch_memory(url, handle = handle)
-  headers <- curl::parse_headers_list(req$headers)
-  url_process_error(url, req, headers)
-  headers
+  envir <- new.env(parent = emptyenv())
+  retry_until_true(
+    fun = ~ {
+      envir$req <- curl::curl_fetch_memory(url, handle = handle)
+      !(envir$req$status_code %in% http_retry_codes)
+    },
+    args = list(url = url, handle = handle),
+    seconds_interval = seconds_interval,
+    seconds_timeout = seconds_timeout,
+    message = paste("could not access URL:", url),
+    max_tries = max_tries,
+    catch_error = FALSE,
+    verbose = verbose
+  )
+  envir$req
+}
+
+url_status_success <- function(status_code) {
+  (status_code >= 200L) && (status_code < 300L)
 }
 
 url_process_error <- function(url, req, headers) {
@@ -127,10 +168,6 @@ url_process_error <- function(url, req, headers) {
     header_text
   )
   tar_throw_run(msg)
-}
-
-url_status_success <- function(status_code) {
-  (status_code >= 200L) && (status_code < 300L)
 }
 # nocov end
 
@@ -153,4 +190,5 @@ url_port <- function(host, port, process, verbose = TRUE) {
 }
 # nocov end
 
-http_retry <- paste0("http_", seq(from = 500L, to = 599))
+http_retry_codes <- seq(from = 500L, to = 599)
+http_retry <- paste0("http_", http_retry_codes)

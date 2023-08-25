@@ -39,9 +39,9 @@ tar_resources_url <- function(
 ) {
   out <- resources_url_init(
     handle = handle,
-    max_tries = max_tries,
-    seconds_interval = seconds_interval,
-    seconds_timeout = seconds_timeout
+    max_tries = max_tries %|||% 10L,
+    seconds_interval = seconds_interval %|||% 1,
+    seconds_timeout = seconds_timeout %|||% 60
   )
   resources_validate(out)
   out

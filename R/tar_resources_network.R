@@ -29,16 +29,20 @@
 #' )
 #' }
 tar_resources_network <- function(
-  seconds_interval = 0.25,
-  seconds_timeout = 60,
-  max_tries = Inf,
-  verbose = TRUE
+  max_tries = targets::tar_option_get("resources")$network$max_tries,
+  seconds_interval = targets::tar_option_get(
+    "resources"
+  )$network$seconds_interval,
+  seconds_timeout = targets::tar_option_get(
+    "resources"
+  )$network$seconds_timeout,
+  verbose = targets::tar_option_get("resources")$network$verbose
 ) {
   out <- resources_network_init(
-    seconds_interval = seconds_interval,
-    seconds_timeout = seconds_timeout,
-    max_tries = max_tries,
-    verbose = verbose
+    seconds_interval = seconds_interval %|||% 0.25,
+    seconds_timeout = seconds_timeout %|||% 60,
+    max_tries = max_tries %|||% 60L,
+    verbose = verbose %|||% TRUE
   )
   resources_validate(out)
   out

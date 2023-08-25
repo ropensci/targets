@@ -235,7 +235,7 @@ tar_test("dynamic urls work from a custom data store", {
   expect_equal(unique(tar_progress()$progress), "skipped")
 })
 
-tar_test("tar_condition_run error on bad URL", {
+tar_test("tar_condition_run error on 404 URL", {
   skip_cran()
   skip_if_offline()
   tar_script(
@@ -244,9 +244,32 @@ tar_test("tar_condition_run error on bad URL", {
       "https://httpbin.org/status/404",
       format = "url",
       resources = tar_resources(
-        network = tar_resources_network(
+        url = tar_resources_url(
           seconds_interval = 0.5,
-          seconds_timeout = 0
+          seconds_timeout = 10,
+          max_tries = 2,
+          verbose = TRUE
+        )
+      )
+    )
+  )
+  expect_error(tar_make(callr_function = NULL), class = "tar_condition_run")
+})
+
+tar_test("tar_condition_run error on 502 URL", {
+  skip_cran()
+  skip_if_offline()
+  tar_script(
+    tar_target(
+      abc,
+      "https://httpbin.org/status/502",
+      format = "url",
+      resources = tar_resources(
+        url = tar_resources_url(
+          seconds_interval = 0.5,
+          seconds_timeout = 10,
+          max_tries = 2,
+          verbose = TRUE
         )
       )
     )

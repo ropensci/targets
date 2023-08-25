@@ -5,21 +5,21 @@
 \title{Target resources for network file systems.}
 \usage{
 tar_resources_network(
-  seconds_interval = 0.25,
-  seconds_timeout = 60,
-  max_tries = Inf,
-  verbose = TRUE
+  max_tries = targets::tar_option_get("resources")$network$max_tries,
+  seconds_interval = targets::tar_option_get("resources")$network$seconds_interval,
+  seconds_timeout = targets::tar_option_get("resources")$network$seconds_timeout,
+  verbose = targets::tar_option_get("resources")$network$verbose
 )
 }
 \arguments{
+\item{max_tries}{Positive integer of length 1. Max number of tries.}
+
 \item{seconds_interval}{Positive numeric of length 1.
 Multiplier for the exponential backoff algorithm, and width
 of the jitter. Units of seconds.}
 
 \item{seconds_timeout}{Positive numeric of length 1. Timeout length in
 seconds.}
-
-\item{max_tries}{Positive integer of length 1. Max number of tries.}
 
 \item{verbose}{Logical of length 1, whether to print informative
 console messages.}
