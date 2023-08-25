@@ -80,8 +80,8 @@ store_read_object.tar_gcp <- function(store) {
     bucket = bucket,
     file = scratch,
     version = store_gcp_version(path),
-    verbose = store$resources$gcp$verbose %|||% FALSE,
-    max_tries = store$resources$network$max_tries %|||% 5L
+    verbose = store$resources$gcp$verbose,
+    max_tries = store$resources$gcp$max_tries
   )
   store_convert_object(store, store_read_path(store, scratch))
 }
@@ -94,7 +94,7 @@ store_exist_object.tar_gcp <- function(store, name = NULL) {
     bucket = store_gcp_bucket(path),
     version = store_gcp_version(path),
     verbose = store$resources$gcp$verbose %|||% FALSE,
-    max_tries = store$resources$network$max_tries %|||% 5L
+    max_tries = store$resources$gcp$max_tries %|||% 5L
   )
 }
 
@@ -117,7 +117,7 @@ store_delete_object.tar_gcp <- function(store, name = NULL) {
       bucket =  bucket,
       version = version,
       verbose = store$resources$gcp$verbose %|||% FALSE,
-      max_tries = store$resources$network$max_tries %|||% 5L
+      max_tries = store$resources$gcp$max_tries %|||% 5L
     ),
     error = function(condition) {
       tar_throw_validate(message, conditionMessage(condition))
@@ -145,7 +145,7 @@ store_upload_object_gcp <- function(store) {
       metadata = list("targets-hash" = store$file$hash),
       predefined_acl = store$resources$gcp$predefined_acl %|||% "private",
       verbose = store$resources$gcp$verbose %|||% FALSE,
-      max_tries = store$resources$network$max_tries %|||% 5L
+      max_tries = store$resources$gcp$max_tries %|||% 5L
     ),
     tar_throw_file(
       "Cannot upload non-existent gcp staging file ",
@@ -182,7 +182,7 @@ store_gcp_hash <- function(store) {
     bucket = store_gcp_bucket(path),
     version = store_gcp_version(path),
     verbose = store$resources$gcp$verbose %|||% FALSE,
-    max_tries = store$resources$network$max_tries %|||% 5L
+    max_tries = store$resources$gcp$max_tries %|||% 5L
   )
   head$metadata[["targets-hash"]]
 }

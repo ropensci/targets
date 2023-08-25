@@ -58,6 +58,7 @@ tar_test("tar_resources_aws() default prefix", {
   tar_option_set(
     resources = tar_resources(
       aws = tar_resources_aws(
+        bucket = "x",
         prefix = "my_prefix"
       )
     )
@@ -74,7 +75,8 @@ tar_test("tar_resources_aws() default part_size", {
     resources = tar_resources(
       aws = tar_resources_aws(
         part_size = 1e2,
-        prefix = "x"
+        prefix = "x",
+        bucket = "x"
       )
     )
   )
@@ -90,7 +92,8 @@ tar_test("tar_resources_aws() default region", {
     resources = tar_resources(
       aws = tar_resources_aws(
         region = "the_moon",
-        prefix = "x"
+        prefix = "x",
+        bucket = "x"
       )
     )
   )
@@ -106,7 +109,8 @@ tar_test("tar_resources_aws() default endpoint", {
     resources = tar_resources(
       aws = tar_resources_aws(
         endpoint = "google",
-        prefix = "x"
+        prefix = "x",
+        bucket = "x"
       )
     )
   )
@@ -122,7 +126,8 @@ tar_test("tar_resources_aws() default SSECustomerKey", {
     resources = tar_resources(
       aws = tar_resources_aws(
         SSECustomerKey = "x",
-        prefix = "x"
+        prefix = "x",
+        bucket = "x"
       )
     )
   )

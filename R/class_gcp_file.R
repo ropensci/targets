@@ -54,8 +54,8 @@ store_read_object.tar_gcp_file <- function(store) {
     bucket = bucket,
     file = scratch,
     version = store_gcp_version(path),
-    verbose = store$resources$gcp$verbose %|||% FALSE,
-    max_tries = store$resources$network$max_tries %|||% 5L
+    verbose = store$resources$gcp$verbose,
+    max_tries = store$resources$gcp$max_tries
   )
   stage <- store_gcp_file_stage(path)
   dir_create(dirname(stage))

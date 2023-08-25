@@ -39,9 +39,11 @@ resources_aws_new <- function(
 
 #' @export
 resources_validate.tar_resources_aws <- function(resources) {
-  tar_assert_scalar(resources$bucket %|||% "bucket")
-  tar_assert_chr(resources$bucket %|||% "bucket")
-  tar_assert_nzchar(resources$bucket %|||% "bucket")
+  message <- "AWS resources require a valid bucket name."
+  tar_assert_scalar(resources$bucket, msg = message)
+  tar_assert_chr(resources$bucket, msg = message)
+  tar_assert_none_na(resources$bucket, msg = message)
+  tar_assert_nzchar(resources$bucket, msg = message)
   tar_assert_scalar(resources$prefix)
   tar_assert_chr(resources$prefix)
   tar_assert_nzchar(resources$prefix)

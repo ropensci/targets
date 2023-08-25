@@ -12,9 +12,14 @@ gcp_gcs_head <- function(
   verbose = FALSE,
   max_tries
 ) {
+  verbose <- verbose %|||% FALSE
   old_try_attempts <- getOption("googleAuthR.tryAttempts")
   on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
-  if_any(is.null(max_tries), NULL, options(googleAuthR.tryAttempts = max_tries))
+  if_any(
+    is.null(max_tries),
+    NULL,
+    options(googleAuthR.tryAttempts = max_tries %|||% 5L)
+  )
   gcp_gcs_auth(verbose = verbose, max_tries = max_tries)
   if_any(verbose, identity, suppressMessages) (
     tryCatch(
@@ -48,9 +53,14 @@ gcp_gcs_exists <- function(
 }
 
 gcp_gcs_bucket <- function(verbose = FALSE, max_tries) {
+  verbose <- verbose %|||% FALSE
   old_try_attempts <- getOption("googleAuthR.tryAttempts")
   on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
-  if_any(is.null(max_tries), NULL, options(googleAuthR.tryAttempts = max_tries))
+  if_any(
+    is.null(max_tries),
+    NULL,
+    options(googleAuthR.tryAttempts = max_tries %|||% 5L)
+  )
   gcp_gcs_auth(verbose = verbose, max_tries = max_tries)
   if_any(verbose, identity, suppressMessages) (
     googleCloudStorageR::gcs_get_global_bucket()
@@ -65,9 +75,14 @@ gcp_gcs_download <- function(
   verbose = FALSE,
   max_tries
 ) {
+  verbose <- verbose %|||% FALSE
   old_try_attempts <- getOption("googleAuthR.tryAttempts")
   on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
-  if_any(is.null(max_tries), NULL, options(googleAuthR.tryAttempts = max_tries))
+  if_any(
+    is.null(max_tries),
+    NULL,
+    options(googleAuthR.tryAttempts = max_tries %|||% 5L)
+  )
   gcp_gcs_auth(verbose = verbose, max_tries = max_tries)
   if_any(verbose, identity, suppressMessages) (
     googleCloudStorageR::gcs_get_object(
@@ -87,9 +102,14 @@ gcp_gcs_delete <- function(
   verbose = FALSE,
   max_tries
 ) {
+  verbose <- verbose %|||% FALSE
   old_try_attempts <- getOption("googleAuthR.tryAttempts")
   on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
-  if_any(is.null(max_tries), NULL, options(googleAuthR.tryAttempts = max_tries))
+  if_any(
+    is.null(max_tries),
+    NULL,
+    options(googleAuthR.tryAttempts = max_tries %|||% 5L)
+  )
   gcp_gcs_auth(verbose = verbose, max_tries = max_tries)
   if_any(verbose, identity, suppressMessages) (
     tryCatch(
@@ -113,9 +133,14 @@ gcp_gcs_upload <- function(
   verbose = FALSE,
   max_tries
 ) {
+  verbose <- verbose %|||% FALSE
   old_try_attempts <- getOption("googleAuthR.tryAttempts")
   on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
-  if_any(is.null(max_tries), NULL, options(googleAuthR.tryAttempts = max_tries))
+  if_any(
+    is.null(max_tries),
+    NULL,
+    options(googleAuthR.tryAttempts = max_tries %|||% 5L)
+  )
   gcp_gcs_auth(verbose = verbose, max_tries = max_tries)
   meta <- NULL
   if (length(metadata) > 0) {
@@ -136,12 +161,17 @@ gcp_gcs_upload <- function(
 }
 
 gcp_gcs_auth <- function(verbose = FALSE, max_tries) {
+  verbose <- verbose %|||% FALSE
   if (isTRUE(tar_runtime$gcp_auth)) {
     return()
   }
   old_try_attempts <- getOption("googleAuthR.tryAttempts")
   on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
-  if_any(is.null(max_tries), NULL, options(googleAuthR.tryAttempts = max_tries))
+  if_any(
+    is.null(max_tries),
+    NULL,
+    options(googleAuthR.tryAttempts = max_tries %|||% 5L)
+  )
   if_any(verbose, identity, suppressMessages) (
     googleCloudStorageR::gcs_auth(
       token = gargle::token_fetch(

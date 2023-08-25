@@ -28,7 +28,8 @@ tar_test("tar_resources_gcp() default prefix", {
   tar_option_set(
     resources = tar_resources(
       gcp = tar_resources_gcp(
-        prefix = "non_default"
+        prefix = "non_default",
+        bucket = "x"
       )
     )
   )
@@ -41,7 +42,8 @@ tar_test("tar_resources_gcp() default predefined_acl", {
     resources = tar_resources(
       gcp = tar_resources_gcp(
         predefined_acl = "non_default",
-        prefix = "x"
+        prefix = "x",
+        bucket = "x"
       )
     )
   )
@@ -54,7 +56,8 @@ tar_test("tar_resources_gcp() default predefined_acl", {
     resources = tar_resources(
       gcp = tar_resources_gcp(
         verbose = TRUE,
-        prefix = "x"
+        prefix = "x",
+        bucket = "x"
       )
     )
   )
