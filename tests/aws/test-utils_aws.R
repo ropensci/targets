@@ -334,11 +334,12 @@ tar_test("aws_s3_upload() without headers", {
 tar_test("aws_s3_upload() and download with metadata and region", {
   bucket <- random_bucket_name()
   region <- "us-west-2"
-  paws.storage::s3()$create_bucket(
+  client <- paws.storage::s3(config = list(region = region))
+  client$create_bucket(
     Bucket = bucket,
     CreateBucketConfiguration = list(LocationConstraint = region)
   )
-  on.exit(aws_s3_delete_bucket(bucket))
+  on.exit(aws_s3_delete_bucket(bucket, client = client))
   expect_false(
     aws_s3_exists(
       key = "x",

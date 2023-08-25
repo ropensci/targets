@@ -2,27 +2,41 @@ database_init <- function(
   path = tempfile(),
   header = "name",
   list_columns = character(0L),
-  list_column_modes = character(0L)
+  list_column_modes = character(0L),
+  repository = tar_options$get_repository(),
+  resources = tar_options$get_resources()
 ) {
   memory <- memory_init()
-  database_new(memory, path, header, list_columns, list_column_modes)
-}
-
-database_new <- function(
-  memory = NULL,
-  path = NULL,
-  header = NULL,
-  list_columns = NULL,
-  list_column_modes = NULL,
-  queue = NULL
-) {
-  database_class$new(
-    memory = memory,
-    path = path,
-    header = header,
-    list_columns = list_columns,
-    list_column_modes = list_column_modes,
-    queue = queue
+  switch(
+    repository,
+    local = database_local_new(
+      memory = memory,
+      path = path,
+      header = header,
+      list_columns = list_columns,
+      list_column_modes = list_column_modes
+    ),
+    aws = database_aws_new(
+      memory = memory,
+      path = path,
+      header = header,
+      list_columns = list_columns,
+      list_column_modes = list_column_modes,
+      resources = resources$aws
+    ),
+    gcp = database_gcp_new(
+      memory = memory,
+      path = path,
+      header = header,
+      list_columns = list_columns,
+      list_column_modes = list_column_modes,
+      resources = resources$gcp
+    ),
+    default = tar_throw_validate(
+      "unsupported repository \"",
+      repository,
+      "\" for {targets} database class."
+    )
   )
 }
 
