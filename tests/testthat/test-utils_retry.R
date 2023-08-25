@@ -4,8 +4,9 @@ tar_test("retry_until_true() with argless function", {
   expect_error(
     retry_until_true(
       fun = function() FALSE,
-      seconds_interval = 0.01,
-      seconds_timeout = 0.05
+      seconds_interval = 0.1,
+      seconds_timeout = 0.05,
+      verbose = TRUE
     ),
     class = "tar_condition_expire"
   )

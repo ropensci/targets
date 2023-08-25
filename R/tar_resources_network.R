@@ -1,76 +1,27 @@
 #' @title Target resources for network connections
 #' @export
 #' @family resources
-#' @description Create the `network` argument of `tar_resources()`
-#'   to specify optional settings for storage configurations that
-#'   rely on network file systems or network connections,
-#'    such as `storage = "worker"`, `format = "url"`,
-#'   `repository = "aws"`, and `repository = "gcp"`.
-#' @details The settings in these resources
-#'   configure how to handle unreliable network connections
-#'   in the case of uploading, downloading, and checking data
-#'   in situations that rely on network file systems or
-#'   HTTP/HTTPS requests. Specifically,
-#'   they configure retries and timeouts. These settings do not
-#'   apply to actions you take in the custom R command of the target.
+#' @description Deprecated on 2023-08-25 (`targets` 1.2.2.9000).
+#'   Use [tar_resources_url()], [tar_resources_aws()], and
+#'   [tar_resources_gcp()].
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_network"`, to be supplied
 #'   to the network argument of `tar_resources()`.
-#' @param seconds_interval Nonnegative numeric of length 1,
-#'   controls the base of the exponent in the exponential backoff
-#'   algorithm for network retries. Each retry waits
-#'   `(1 + seconds_interval) ^ (tries - 1L) + runif(1)` seconds.
-#'   Network retries are necessary safeguards to download, upload, or check
-#'   a remote network resource on a network file system (in the case of
-#'   `storage = "worker"` or `format = "file"`)
-#'   or via HTTP/HTTPS in cases like `format = "url"`,
-#'   `repository = "aws"`.
-#'   Not supported for `repository = "gcp"`
-#'   because `googleAuthR` has its own exponential backoff algorithm
-#'   which only uses `max_tries`
-#'   (which `targets` sends to the `googleAuthR.tryAttempts` option).
-#' @param seconds_timeout Nonnegative numeric of length 1,
-#'   number of seconds to wait before timing out
-#'   while attempting to download, upload, or check
-#'   a remote network resource on a network file system (in the case of
-#'   `storage = "worker"` or `format = "file"`)
-#'   or via HTTP/HTTPS in cases like `format = "url"`,
-#'   `repository = "aws"`.
-#'   Not supported for `repository = "gcp"`
-#'   because `googleAuthR` has its own exponential backoff algorithm
-#'   which only uses `max_tries`
-#'   (which `targets` sends to the `googleAuthR.tryAttempts` option).
-#'   For files saved to a network file system in the case of
-#'   `storage = "worker"`, it is recommended to set `seconds_timeout`
-#'   to at least `60`.
-#' @param max_tries Nonnegative numeric of length 1,
-#'   maximum number of tries to download, upload, or check things
-#'   while attempting to access a remote network resource on a
-#'   network file system (in the case of `storage = "worker"`)
-#'   or via HTTP/HTTPS in cases like `format = "url"`,
-#'   `repository = "aws"` and `repository = "gcp"`. In the case of
-#'   `repository = "gcs"`, `max_retries` gets forwarded to
-#'   the `googleAuthR.tryAttempts` option for GCS packages.
-#' @param verbose Logical of length 1, whether to print an informative message
-#'   when an HTTP/HTTPS attempt fails. Not supported for `repository = "gcp"`.
-#' @examples
-#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
-#' # Somewhere in you target script file (usually _targets.R):
-#' tar_target(
-#'   name = your_name,
-#'   command = your_command(),
-#'   format = "url",
-#'   resources = tar_resources(
-#'     network = tar_resources_network(max_tries = 3)
-#'   )
-#' )
-#' }
+#' @param seconds_interval Deprecated in [tar_resources_network()].
+#' @param seconds_timeout Deprecated in [tar_resources_network()].
+#' @param max_tries Deprecated in [tar_resources_network()].
+#' @param verbose Deprecated in [tar_resources_network()].
 tar_resources_network <- function(
   seconds_interval = 1,
   seconds_timeout = 60,
   max_tries = 5L,
   verbose = TRUE
 ) {
+  tar_warn_deprecate(
+    "tar_resources_network() was deprecated on 2023-08-25 ",
+    "({targets} 1.2.2.9000). Please use tar_resources_url(), ",
+    "tar_resources_aws(), and tar_resources_gcp()."
+  )
   out <- resources_network_init(
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,

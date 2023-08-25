@@ -1,15 +1,18 @@
 retry_until_success <- function(
   fun,
   args = list(),
-  seconds_interval = 0.1,
-  seconds_timeout = 5,
-  max_tries = Inf,
+  seconds_interval = 2,
+  seconds_timeout = 60,
+  max_tries = 5L,
   message = character(0),
   envir = parent.frame(),
   verbose = TRUE,
   classes_retry = character(0L)
 ) {
   force(envir)
+  seconds_interval <- seconds_interval %|||% 2
+  seconds_timeout <- seconds_timeout %|||% 60
+  max_tries <- max_tries %|||% 5L
   fun <- as_function(fun)
   start <- time_seconds()
   tries <- 0L
@@ -25,7 +28,8 @@ retry_until_success <- function(
       max_tries = max_tries,
       message = message,
       tries = tries,
-      start = start
+      start = start,
+      verbose = verbose
     )
   }
 }
@@ -53,15 +57,18 @@ retry_attempt_success <- function(fun, args, envir, verbose, classes_retry) {
 retry_until_true <- function(
   fun,
   args = list(),
-  seconds_interval = 0.1,
-  seconds_timeout = 5,
-  max_tries = Inf,
+  seconds_interval = 2,
+  seconds_timeout = 60,
+  max_tries = 5L,
   message = character(0),
   envir = parent.frame(),
   catch_error = TRUE,
   verbose = TRUE
 ) {
   force(envir)
+  seconds_interval <- seconds_interval %|||% 2
+  seconds_timeout <- seconds_timeout %|||% 60
+  max_tries <- max_tries %|||% 5L
   fun <- as_function(fun)
   start <- time_seconds()
   tries <- 0L
@@ -73,7 +80,8 @@ retry_until_true <- function(
       max_tries = max_tries,
       message = message,
       tries = tries,
-      start = start
+      start = start,
+      verbose = verbose
     )
   }
   invisible()
@@ -101,12 +109,14 @@ retry_iteration <- function(
   max_tries,
   message,
   tries,
-  start
+  start,
+  verbose
 ) {
-  if ((time_seconds() - start) > seconds_timeout) {
+  elapsed <- time_seconds() - start
+  if (elapsed > seconds_timeout) {
     message <- paste(
       "timed out after retrying for",
-      seconds_timeout,
+      elapsed,
       "seconds.",
       message
     )
@@ -122,8 +132,11 @@ retry_iteration <- function(
     tar_throw_expire(message)
   }
   # Exponential backoff algorithm borrowed from googleAuthR (MIT license):
-  backoff <- (1 + seconds_interval) ^ (tries - 1L)
-  jitter <- stats::runif(n = 1L, min = 0, max = 1)
+  backoff <- (seconds_interval) ^ tries
+  jitter <- stats::runif(n = 1L, min = 0, max = seconds_interval)
   delay <- backoff + jitter
+  if (verbose) {
+    tar_message_run("Retrying...")
+  }
   Sys.sleep(delay)
 }
