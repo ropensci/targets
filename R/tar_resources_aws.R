@@ -20,7 +20,7 @@
 #'   unique to your {targets} project.
 #'   In the future, {targets} will begin requiring
 #'   explicitly user-supplied prefixes. (This last note
-#'   was added on 2023-08-24: {targets} version 1.2.2.9000.) 
+#'   was added on 2023-08-24: {targets} version 1.2.2.9000.)
 #' @param region Character of length 1, AWS region containing the S3 bucket.
 #'   Set to `NULL` to use the default region.
 #' @param part_size Positive numeric of length 1, number of bytes
