@@ -133,7 +133,7 @@ retry_iteration <- function(
   }
   # Exponential backoff algorithm borrowed from googleAuthR (MIT license):
   backoff <- (seconds_interval) ^ tries
-  jitter <- stats::runif(n = 1L, min = 0, max = seconds_interval)
+  jitter <- stats::runif(n = 1L, min = 0, max = seconds_interval / 2)
   delay <- backoff + jitter
   if (verbose) {
     tar_message_run("Retrying...")

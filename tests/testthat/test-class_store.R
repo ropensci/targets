@@ -5,7 +5,7 @@ tar_test("store_wait_correct_hash()", {
   store <- store_init()
   store$file <- file
   store$resources <- tar_resources(
-    network = tar_resources_network(max_tries = 1L)
+    network = suppressWarnings(tar_resources_network(max_tries = 1L))
   )
   expect_error(
     store_wait_correct_hash(store),
