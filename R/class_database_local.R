@@ -6,7 +6,7 @@ database_local_new <- function(
   list_column_modes = NULL,
   queue = NULL
 ) {
-  database_class$new(
+  database_local_class$new(
     memory = memory,
     path = path,
     header = header,
@@ -18,7 +18,7 @@ database_local_new <- function(
 
 database_local_class <- R6::R6Class(
   classname = "tar_database_local",
-  inherit = "tar_database",
+  inherit = database_class,
   class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
