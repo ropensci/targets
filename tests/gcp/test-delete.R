@@ -12,7 +12,7 @@ tar_test("delete cloud targets", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     write_file <- function(path) {
@@ -76,7 +76,7 @@ tar_test("same with versioning", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     write_file <- function(path) {
@@ -139,7 +139,7 @@ tar_test("tar_destroy() cloud targets", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     write_file <- function(path) {
@@ -204,7 +204,7 @@ tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for gcp", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     write_file <- function(path) {
@@ -248,7 +248,7 @@ tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for gcp", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     write_file <- function(path) {

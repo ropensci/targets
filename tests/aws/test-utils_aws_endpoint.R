@@ -23,7 +23,11 @@ tar_test("aws_s3_exists()", {
       key = "x",
       bucket = bucket,
       region = region,
-      endpoint = endpoint
+      endpoint = endpoint,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
   tmp <- tempfile()
@@ -34,7 +38,11 @@ tar_test("aws_s3_exists()", {
       key = "x",
       bucket = bucket,
       region = region,
-      endpoint = endpoint
+      endpoint = endpoint,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
 })
@@ -50,7 +58,11 @@ tar_test("aws_s3_head()", {
     key = "x",
     bucket = bucket,
     region = region,
-    endpoint = endpoint
+    endpoint = endpoint,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   expect_true(is.list(head))
   expect_true(is.character(head$ETag))
@@ -71,7 +83,11 @@ tar_test("aws_s3_download()", {
     key = "x",
     bucket = bucket,
     region = region,
-    endpoint = endpoint
+    endpoint = endpoint,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   expect_equal(readLines(tmp2), "x")
 })
@@ -85,7 +101,11 @@ tar_test("aws_s3_upload() without headers", {
       key = "x",
       bucket = bucket,
       region = region,
-      endpoint = endpoint
+      endpoint = endpoint,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
   tmp <- tempfile()
@@ -95,14 +115,22 @@ tar_test("aws_s3_upload() without headers", {
     key = "x",
     bucket = bucket,
     region = region,
-    endpoint = endpoint
+    endpoint = endpoint,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   expect_true(
     aws_s3_exists(
       key = "x",
       bucket = bucket,
       region = region,
-      endpoint = endpoint
+      endpoint = endpoint,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
 })
@@ -116,7 +144,11 @@ tar_test("aws_s3_upload() and download with metadata", {
       key = "x",
       bucket = bucket,
       region = region,
-      endpoint = endpoint
+      endpoint = endpoint,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
   tmp <- tempfile()
@@ -127,21 +159,33 @@ tar_test("aws_s3_upload() and download with metadata", {
     bucket = bucket,
     metadata = list("custom" = "custom_metadata"),
     region = region,
-    endpoint = endpoint
+    endpoint = endpoint,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   expect_true(
     aws_s3_exists(
       key = "x",
       bucket = bucket,
       region = region,
-      endpoint = endpoint
+      endpoint = endpoint,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
   head <- aws_s3_head(
     key = "x",
     bucket = bucket,
     region = region,
-    endpoint = endpoint
+    endpoint = endpoint,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   expect_equal(head$Metadata$custom, "custom_metadata")
   tmp2 <- tempfile()
@@ -151,7 +195,11 @@ tar_test("aws_s3_upload() and download with metadata", {
     key = "x",
     bucket = bucket,
     region = region,
-    endpoint = endpoint
+    endpoint = endpoint,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   expect_equal(readLines(tmp2), "x")
 })
@@ -172,7 +220,11 @@ tar_test("upload twice, get the correct version", {
     bucket = bucket,
     region = region,
     endpoint = endpoint,
-    metadata = list("custom" = "first-meta")
+    metadata = list("custom" = "first-meta"),
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   v1 <- head_first$VersionId
   writeLines("second", tmp)
@@ -182,7 +234,11 @@ tar_test("upload twice, get the correct version", {
     bucket = bucket,
     region = region,
     endpoint = endpoint,
-    metadata = list("custom" = "second-meta")
+    metadata = list("custom" = "second-meta"),
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   v2 <- head_second$VersionId
   expect_true(
@@ -190,7 +246,11 @@ tar_test("upload twice, get the correct version", {
       key = "x",
       bucket = bucket,
       region = region,
-      endpoint = endpoint
+      endpoint = endpoint,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
   expect_true(
@@ -199,7 +259,11 @@ tar_test("upload twice, get the correct version", {
       bucket = bucket,
       region = region,
       endpoint = endpoint,
-      version = v1
+      version = v1,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
   expect_true(
@@ -208,7 +272,11 @@ tar_test("upload twice, get the correct version", {
       bucket = bucket,
       version = v2,
       region = region,
-      endpoint = endpoint
+      endpoint = endpoint,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
   expect_false(
@@ -217,7 +285,11 @@ tar_test("upload twice, get the correct version", {
       bucket = bucket,
       region = region,
       endpoint = endpoint,
-      version = "v3"
+      version = "v3",
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
   h1 <- aws_s3_head(
@@ -225,14 +297,22 @@ tar_test("upload twice, get the correct version", {
     bucket = bucket,
     region = region,
     endpoint = endpoint,
-    version = v1
+    version = v1,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   h2 <- aws_s3_head(
     key = "x",
     bucket = bucket,
     region = region,
     endpoint = endpoint,
-    version = v2
+    version = v2,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   expect_equal(h1$VersionId, v1)
   expect_equal(h2$VersionId, v2)
@@ -245,7 +325,11 @@ tar_test("upload twice, get the correct version", {
     bucket = bucket,
     region = region,
     endpoint = endpoint,
-    version = v1
+    version = v1,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   expect_equal(readLines(tmp), "first")
   aws_s3_download(
@@ -254,7 +338,11 @@ tar_test("upload twice, get the correct version", {
     bucket = bucket,
     region = region,
     endpoint = endpoint,
-    version = v2
+    version = v2,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   expect_equal(readLines(tmp), "second")
 })
@@ -275,7 +363,11 @@ tar_test("multipart: upload twice, get the correct version", {
     multipart = TRUE,
     region = region,
     endpoint = endpoint,
-    metadata = list("custom" = "first-meta")
+    metadata = list("custom" = "first-meta"),
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   v1 <- head_first$VersionId
   writeLines("second", tmp)
@@ -286,7 +378,11 @@ tar_test("multipart: upload twice, get the correct version", {
     multipart = TRUE,
     region = region,
     endpoint = endpoint,
-    metadata = list("custom" = "second-meta")
+    metadata = list("custom" = "second-meta"),
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   v2 <- head_second$VersionId
   expect_true(
@@ -294,7 +390,11 @@ tar_test("multipart: upload twice, get the correct version", {
       key = "x",
       bucket = bucket,
       region = region,
-      endpoint = endpoint
+      endpoint = endpoint,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
   expect_true(
@@ -303,7 +403,11 @@ tar_test("multipart: upload twice, get the correct version", {
       bucket = bucket,
       region = region,
       endpoint = endpoint,
-      version = v1
+      version = v1,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
   expect_true(
@@ -312,7 +416,11 @@ tar_test("multipart: upload twice, get the correct version", {
       bucket = bucket,
       region = region,
       endpoint = endpoint,
-      version = v2
+      version = v2,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
   expect_false(
@@ -321,7 +429,11 @@ tar_test("multipart: upload twice, get the correct version", {
       bucket = bucket,
       region = region,
       endpoint = endpoint,
-      version = "v3"
+      version = "v3",
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     )
   )
   h1 <- aws_s3_head(
@@ -329,14 +441,22 @@ tar_test("multipart: upload twice, get the correct version", {
     bucket = bucket,
     region = region,
     endpoint = endpoint,
-    version = v1
+    version = v1,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   h2 <- aws_s3_head(
     key = "x",
     bucket = bucket,
     region = region,
     endpoint = endpoint,
-    version = v2
+    version = v2,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   expect_equal(h1$VersionId, v1)
   expect_equal(h2$VersionId, v2)
@@ -349,7 +469,11 @@ tar_test("multipart: upload twice, get the correct version", {
     bucket = bucket,
     region = region,
     endpoint = endpoint,
-    version = v1
+    version = v1,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   expect_equal(readLines(tmp), "first")
   aws_s3_download(
@@ -358,7 +482,11 @@ tar_test("multipart: upload twice, get the correct version", {
     bucket = bucket,
     region = region,
     endpoint = endpoint,
-    version = v2
+    version = v2,
+    seconds_interval = 1,
+    seconds_timeout = 60,
+    max_tries = 5L,
+    verbose = TRUE
   )
   expect_equal(readLines(tmp), "second")
 })
@@ -377,7 +505,11 @@ tar_test("graceful error on multipart upload", {
       multipart = TRUE,
       region = region,
       endpoint = endpoint,
-      part_size = 5e3
+      part_size = 5e3,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
     ),
     class = "tar_condition_file"
   )

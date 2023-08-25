@@ -30,5 +30,14 @@ tar_test("aws_parquet format returns data frames", {
   tar_make(callr_function = NULL)
   out <- tar_read(x)
   expect_equal(out, data.frame(x = seq_len(2), y = seq_len(2)))
-  expect_true(aws_s3_exists(key = "custom/prefix/x", bucket = bucket_name))
+  expect_true(
+    aws_s3_exists(
+      key = "custom/prefix/objects/x",
+      bucket = bucket_name,
+      seconds_interval = 1,
+      seconds_timeout = 60,
+      max_tries = 5L,
+      verbose = TRUE
+    )
+  )
 })

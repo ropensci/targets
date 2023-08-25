@@ -15,7 +15,8 @@ tar_test("AWS S3 + HPC", {
       repository = "aws",
       resources = tar_resources(
         aws = tar_resources_aws(
-          bucket = bucket_name
+          bucket = bucket_name,
+          prefix = "_targets"
         )
       ),
       storage = "worker",

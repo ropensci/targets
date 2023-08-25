@@ -34,7 +34,7 @@ tar_test("gcp_parquet format returns data frames", {
   expect_equal(out, data.frame(x = seq_len(2), y = seq_len(2)))
   expect_true(
     gcp_gcs_exists(
-      key = "custom/prefix/x",
+      key = "custom/prefix/objects/x",
       bucket = bucket_name,
       max_tries = 5L
     )

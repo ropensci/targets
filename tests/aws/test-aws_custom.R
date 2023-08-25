@@ -33,7 +33,7 @@ tar_test("aws with custom format", {
       format = format,
       repository = "aws",
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       ),
       storage = "main",
       retrieval = "main"

@@ -26,7 +26,8 @@ tar_test("aws qs format data gets stored", {
         aws = tar_resources_aws(
           bucket = !!bucket_name,
           region = !!region,
-          endpoint = !!endpoint
+          endpoint = !!endpoint,
+          prefix = "_targets"
         )
       )
     )
@@ -82,7 +83,8 @@ tar_test("aws qs format invalidation", {
         aws = tar_resources_aws(
           bucket = !!bucket_name,
           region = !!region,
-          endpoint = !!endpoint
+          endpoint = !!endpoint,
+          prefix = "_targets"
         )
       )
     )
@@ -106,7 +108,8 @@ tar_test("aws qs format invalidation", {
         aws = tar_resources_aws(
           bucket = !!bucket_name,
           region = !!region,
-          endpoint = !!endpoint
+          endpoint = !!endpoint,
+          prefix = "_targets"
         )
       )
     )

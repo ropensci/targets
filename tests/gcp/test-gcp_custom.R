@@ -35,7 +35,7 @@ tar_test("gcp with custom format", {
       format = format,
       repository = "gcp",
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       ),
       storage = "main",
       retrieval = "main"

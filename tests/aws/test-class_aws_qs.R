@@ -10,7 +10,7 @@ tar_test("aws_qs format data gets stored", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -50,7 +50,7 @@ tar_test("aws_qs format data gets stored with worker storage", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       ),
       storage = "worker",
       retrieval = "worker"
@@ -92,7 +92,7 @@ tar_test("aws_qs format invalidation", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -112,7 +112,7 @@ tar_test("aws_qs format invalidation", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -139,7 +139,7 @@ tar_test("aws_qs format and dynamic branching", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       ),
       storage = "worker",
       retrieval = "worker",
@@ -171,7 +171,7 @@ tar_test("aws timestamp", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       ),
       format = "qs",
       repository = "aws"
@@ -201,7 +201,7 @@ tar_test("aws_qs format with an alternative data store", {
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
-      aws = tar_resources_aws(bucket = !!bucket_name)
+      aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
     ))
     list(
       tar_target(x, "x_value", format = "qs", repository = "aws"),
@@ -242,7 +242,7 @@ tar_test("aws_qs format works with storage = \"none\"", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -290,7 +290,11 @@ tar_test("aws_qs format with custom region", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name, region = !!region)
+        aws = tar_resources_aws(
+          bucket = !!bucket_name,
+          region = !!region,
+          prefix = "_targets"
+        )
       )
     )
     list(
@@ -350,7 +354,11 @@ tar_test("aws_qs format empty region string", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name, region = "")
+        aws = tar_resources_aws(
+          bucket = !!bucket_name,
+          region = "",
+          prefix = "_targets"
+        )
       )
     )
     list(
@@ -373,7 +381,11 @@ tar_test("aws_qs nonexistent bucket", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name, region = "")
+        aws = tar_resources_aws(
+          bucket = !!bucket_name,
+          region = "",
+          prefix = "_targets"
+        )
       )
     )
     list(
@@ -414,7 +426,7 @@ tar_test("aws_qs format versioning", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -436,7 +448,7 @@ tar_test("aws_qs format versioning", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -460,7 +472,7 @@ tar_test("aws_qs format versioning", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -484,7 +496,7 @@ tar_test("cloud target paths are not in the file path cache", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(

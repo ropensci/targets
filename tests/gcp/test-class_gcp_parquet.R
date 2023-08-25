@@ -12,7 +12,7 @@ tar_test("gcp_parquet format returns data frames", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name),
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets"),
         network = tar_resources_network(max_tries = 10L)
       ),
       format = "parquet",

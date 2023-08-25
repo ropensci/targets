@@ -10,7 +10,7 @@ tar_test("gcp_file format file gets stored", {
   on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
-      gcp = tar_resources_gcp(bucket = !!bucket_name)
+      gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
     ))
     evalq(
       write_local_file <- function(lines) {
@@ -74,7 +74,7 @@ tar_test("gcp_file format invalidation", {
     expr <- quote({
       tar_option_set(
         resources = tar_resources(
-          gcp = tar_resources_gcp(bucket = !!bucket_name)
+          gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
         ),
         memory = !!memory
       )
@@ -148,7 +148,7 @@ tar_test("gcp_file format with a custom data store", {
   on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
-      gcp = tar_resources_gcp(bucket = !!bucket_name)
+      gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
     ))
     evalq(
       write_local_file <- function(lines) {

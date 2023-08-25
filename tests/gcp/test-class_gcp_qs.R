@@ -12,7 +12,7 @@ tar_test("gcp_qs format data gets stored", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -63,7 +63,7 @@ tar_test("gcp_qs format data gets stored with worker storage", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       ),
       storage = "worker",
       retrieval = "worker"
@@ -116,7 +116,7 @@ tar_test("gcp_qs format invalidation", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -136,7 +136,7 @@ tar_test("gcp_qs format invalidation", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -165,7 +165,7 @@ tar_test("gcp_qs format and dynamic branching", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       ),
       storage = "worker",
       retrieval = "worker",
@@ -199,7 +199,7 @@ tar_test("gcp timestamp", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       ),
       format = "qs",
       repository = "gcp"
@@ -231,7 +231,7 @@ tar_test("gcp_qs format with an alternative data store", {
   on.exit(gcp_gcs_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
-      gcp = tar_resources_gcp(bucket = !!bucket_name)
+      gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
     ))
     list(
       tar_target(x, "x_value", format = "qs", repository = "gcp"),
@@ -283,7 +283,7 @@ tar_test("gcp_qs format works with storage = \"none\"", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -339,7 +339,7 @@ tar_test("gcp_qs nonexistent bucket", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -379,7 +379,7 @@ tar_test("gcp_qs format versioning", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -401,7 +401,7 @@ tar_test("gcp_qs format versioning", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(
@@ -425,7 +425,7 @@ tar_test("gcp_qs format versioning", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        gcp = tar_resources_gcp(bucket = !!bucket_name)
+        gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets")
       )
     )
     list(

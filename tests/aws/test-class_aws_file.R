@@ -8,7 +8,7 @@ tar_test("aws file gets stored", {
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(memory = "persistent", resources = tar_resources(
-      aws = tar_resources_aws(bucket = !!bucket_name)
+      aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
     ))
     evalq(
       write_local_file <- function(lines) {
@@ -60,7 +60,7 @@ tar_test("aws file gets stored with transient memory", {
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(memory = "transient", resources = tar_resources(
-      aws = tar_resources_aws(bucket = !!bucket_name)
+      aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
     ))
     evalq(
       write_local_file <- function(lines) {
@@ -118,7 +118,7 @@ tar_test("aws_file format invalidation", {
     expr <- quote({
       tar_option_set(
         resources = tar_resources(
-          aws = tar_resources_aws(bucket = !!bucket_name)
+          aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
         ),
         memory = !!memory
       )
@@ -150,7 +150,7 @@ tar_test("aws_file format invalidation", {
     expr <- quote({
       tar_option_set(
         resources = tar_resources(
-          aws = tar_resources_aws(bucket = !!bucket_name)
+          aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
         ),
         memory = !!memory
       )
@@ -190,7 +190,7 @@ tar_test("aws_file format with a custom data store", {
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
-      aws = tar_resources_aws(bucket = !!bucket_name)
+      aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
     ))
     evalq(
       write_local_file <- function(lines) {
@@ -242,7 +242,11 @@ tar_test("aws_file format file with different region", {
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
     tar_option_set(resources = tar_resources(
-      aws = tar_resources_aws(bucket = !!bucket_name, region = "us-west-2")
+      aws = tar_resources_aws(
+        bucket = !!bucket_name,
+        prefix = "_targets",
+        region = "us-west-2"
+      )
     ))
     evalq(
       write_local_file <- function(lines) {

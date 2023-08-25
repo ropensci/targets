@@ -44,7 +44,7 @@ tar_test("deprecated format = \"aws_parquet\"", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       ),
       format = "aws_parquet"
     )
@@ -72,7 +72,7 @@ tar_test("migrate meta database", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name)
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
       ),
       format = "parquet",
       repository = "aws"

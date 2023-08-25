@@ -17,7 +17,8 @@ tar_test("gcp + HPC", {
       repository = "gcp",
       resources = tar_resources(
         gcp = tar_resources_gcp(
-          bucket = bucket_name
+          bucket = bucket_name,
+          prefix = "_targets"
         )
       ),
       storage = "worker",

@@ -12,7 +12,8 @@ tar_test("aws_parquet format returns data frames", {
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = !!bucket_name,
-          ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"
+          ExpectedBucketOwner = "phantom_f4acd87c52d4e62b",
+          prefix = "_targets"
         )
       ),
       format = "parquet",
