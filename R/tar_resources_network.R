@@ -1,27 +1,39 @@
-#' @title Target resources for network connections
+#' @title Target resources for network file systems.
 #' @export
 #' @family resources
-#' @description Deprecated on 2023-08-25 (`targets` 1.2.2.9000).
-#'   Use [tar_resources_url()], [tar_resources_aws()], and
-#'   [tar_resources_gcp()].
+#' @description In high-performance computing on network file systems,
+#'   if `storage = "worker"` in [tar_target()] or [tar_option_set()], then
+#'   `targets` waits for hashes to synchronize before continuing the pipeline.
+#'   These resources control the retry mechanism.
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_network"`, to be supplied
 #'   to the network argument of `tar_resources()`.
-#' @param seconds_interval Deprecated in [tar_resources_network()].
-#' @param seconds_timeout Deprecated in [tar_resources_network()].
-#' @param max_tries Deprecated in [tar_resources_network()].
-#' @param verbose Deprecated in [tar_resources_network()].
+#' @param seconds_interval Positive numeric of length 1.
+#'   Multiplier for the exponential backoff algorithm, and width
+#'   of the jitter. Units of seconds.
+#' @param seconds_timeout Positive numeric of length 1. Timeout length in
+#'   seconds.
+#' @param max_tries Positive integer of length 1. Max number of tries.
+#' @param verbose Logical of length 1, whether to print informative
+#'   console messages.
+#' @examples
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+#' # Somewhere in you target script file (usually _targets.R):
+#' tar_target(
+#'   name = your_name,
+#'   command = your_command(),
+#'   storage = "worker",
+#'   resources = tar_resources(
+#'     network = tar_resources_network(max_tries = 3)
+#'   )
+#' )
+#' }
 tar_resources_network <- function(
-  seconds_interval = 1,
+  seconds_interval = 0.25,
   seconds_timeout = 60,
-  max_tries = 5L,
+  max_tries = Inf,
   verbose = TRUE
 ) {
-  tar_warn_deprecate(
-    "tar_resources_network() was deprecated on 2023-08-25 ",
-    "({targets} 1.2.2.9000). Please use tar_resources_url(), ",
-    "tar_resources_aws(), and tar_resources_gcp()."
-  )
   out <- resources_network_init(
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,

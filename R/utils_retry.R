@@ -1,7 +1,7 @@
 retry_until_success <- function(
   fun,
   args = list(),
-  seconds_interval = 2,
+  seconds_interval = 1,
   seconds_timeout = 60,
   max_tries = 5L,
   message = character(0),
@@ -10,7 +10,7 @@ retry_until_success <- function(
   classes_retry = character(0L)
 ) {
   force(envir)
-  seconds_interval <- seconds_interval %|||% 2
+  seconds_interval <- seconds_interval %|||% 1
   seconds_timeout <- seconds_timeout %|||% 60
   max_tries <- max_tries %|||% 5L
   fun <- as_function(fun)
@@ -57,7 +57,7 @@ retry_attempt_success <- function(fun, args, envir, verbose, classes_retry) {
 retry_until_true <- function(
   fun,
   args = list(),
-  seconds_interval = 2,
+  seconds_interval = 1,
   seconds_timeout = 60,
   max_tries = 5L,
   message = character(0),
@@ -66,7 +66,7 @@ retry_until_true <- function(
   verbose = TRUE
 ) {
   force(envir)
-  seconds_interval <- seconds_interval %|||% 2
+  seconds_interval <- seconds_interval %|||% 1
   seconds_timeout <- seconds_timeout %|||% 60
   max_tries <- max_tries %|||% 5L
   fun <- as_function(fun)
@@ -132,8 +132,9 @@ retry_iteration <- function(
     tar_throw_expire(message)
   }
   # Exponential backoff algorithm borrowed from googleAuthR (MIT license):
-  backoff <- (seconds_interval) ^ tries
-  jitter <- stats::runif(n = 1L, min = 0, max = seconds_interval / 2)
+  backoff <- seconds_interval * (2 ^ (tries - 1))
+  width <- seconds_interval / 2
+  jitter <- stats::runif(n = 1L, min = - width, max = width)
   delay <- backoff + jitter
   if (verbose) {
     tar_message_run("Retrying...")
