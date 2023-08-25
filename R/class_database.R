@@ -41,7 +41,7 @@ database_init <- function(
       list_column_modes = list_column_modes,
       resources = resources
     ),
-    default = tar_throw_validate(
+    tar_throw_validate(
       "unsupported repository \"",
       repository,
       "\" for {targets} database class."

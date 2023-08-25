@@ -61,3 +61,13 @@ tar_test("tar_resources_gcp() default predefined_acl", {
   out <- tar_resources_gcp()
   expect_equal(out$verbose, TRUE)
 })
+
+tar_test("tar_resources_gcp() wants a prefix", {
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("googleCloudStorageR")
+  expect_warning(
+    tar_resources_gcp(bucket = "bucket123", prefix = NULL),
+    class = "tar_warn_deprecate"
+  )
+})

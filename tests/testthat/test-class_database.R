@@ -401,3 +401,10 @@ tar_test("local database download_upload methods", {
   expect_silent(database$upload())
   expect_silent(database$download())
 })
+
+tar_test("database unknown repository", {
+  expect_error(
+    database_init(repository = "unknown"),
+    class = "tar_condition_validate"
+  )
+})

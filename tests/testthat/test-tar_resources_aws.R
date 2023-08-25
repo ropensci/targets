@@ -129,3 +129,13 @@ tar_test("tar_resources_aws() default SSECustomerKey", {
   out <- tar_resources_aws()
   expect_equal(out$args$SSECustomerKey, "x")
 })
+
+tar_test("tar_resources_aws() wants a prefix", {
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
+  expect_warning(
+    tar_resources_aws(bucket = "bucket123", prefix = NULL),
+    class = "tar_warn_deprecate"
+  )
+})
