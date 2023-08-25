@@ -51,7 +51,8 @@ tar_test("aws with custom format", {
   aws_s3_download(
     key = "_targets/objects/a",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 1L
   )
   out <- torch::torch_load(tmp)
   expect_true(inherits(out, "torch_tensor"))

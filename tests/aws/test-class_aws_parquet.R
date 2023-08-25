@@ -10,8 +10,11 @@ tar_test("aws_parquet format returns data frames", {
   expr <- quote({
     tar_option_set(
       resources = tar_resources(
-        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets"),
-        network = tar_resources_network(max_tries = 20)
+        aws = tar_resources_aws(
+          bucket = !!bucket_name,
+          prefix = "_targets",
+          max_tries = 20
+        )
       ),
       format = "parquet",
       repository = "aws"

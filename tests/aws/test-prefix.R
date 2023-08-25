@@ -34,10 +34,7 @@ tar_test("aws_parquet format returns data frames", {
     aws_s3_exists(
       key = "custom/prefix/objects/x",
       bucket = bucket_name,
-      seconds_interval = 1,
-      seconds_timeout = 60,
-      max_tries = 5L,
-      verbose = TRUE
+      max_tries = 5L
     )
   )
 })

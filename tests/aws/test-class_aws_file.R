@@ -30,7 +30,11 @@ tar_test("aws file gets stored", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL, envir = tar_option_get("envir"))
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
+    aws_s3_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/x",
+      max_tries = 1L
+    )
   )
   expect_false(file.exists("example_aws_file.txt"))
   unlink("_targets/scratch", recursive = TRUE)
@@ -47,7 +51,8 @@ tar_test("aws file gets stored", {
   aws_s3_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 1L
   )
   expect_equal(readLines(tmp), "x_lines")
 })
@@ -82,7 +87,11 @@ tar_test("aws file gets stored with transient memory", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL, envir = tar_option_get("envir"))
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
+    aws_s3_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/x",
+      max_tries = 1L
+    )
   )
   expect_false(file.exists("example_aws_file.txt"))
   unlink("_targets/scratch", recursive = TRUE)
@@ -99,7 +108,8 @@ tar_test("aws file gets stored with transient memory", {
   aws_s3_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 1L
   )
   expect_equal(readLines(tmp), "x_lines")
 })
@@ -214,7 +224,11 @@ tar_test("aws_file format with a custom data store", {
   expect_true(file.exists("custom_targets_store"))
   expect_false(file.exists(path_store_default()))
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
+    aws_s3_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/x",
+      max_tries = 1L
+    )
   )
   expect_equal(tar_read(y), "x_lines")
   expect_equal(length(list.files("custom_targets_store/scratch/")), 0L)
@@ -227,7 +241,8 @@ tar_test("aws_file format with a custom data store", {
   aws_s3_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 1L
   )
   expect_equal(readLines(tmp), "x_lines")
 })
@@ -236,7 +251,11 @@ tar_test("aws_file format file with different region", {
   skip_if_no_aws()
   bucket_name <- random_bucket_name()
   s3 <- paws.storage::s3()
-  region <- "us-west-2"
+  region <- ifelse(
+    Sys.getenv("AWS_REGION") == "us-east-1",
+    "us-east-2",
+    "us-east-1"
+  )
   cfg <- list(LocationConstraint = region)
   s3$create_bucket(Bucket = bucket_name, CreateBucketConfiguration = cfg)
   on.exit(aws_s3_delete_bucket(bucket_name))
@@ -245,7 +264,11 @@ tar_test("aws_file format file with different region", {
       aws = tar_resources_aws(
         bucket = !!bucket_name,
         prefix = "_targets",
-        region = "us-west-2"
+        region = region <- ifelse(
+          Sys.getenv("AWS_REGION") == "us-east-1",
+          "us-east-2",
+          "us-east-1"
+        )
       )
     ))
     evalq(
@@ -271,7 +294,8 @@ tar_test("aws_file format file with different region", {
     aws_s3_exists(
       bucket = bucket_name,
       key = "_targets/objects/x",
-      region = "us-west-2"
+      region = region,
+      max_tries = 1L
     )
   )
   unlink("_targets/scratch", recursive = TRUE)
@@ -289,7 +313,7 @@ tar_test("aws_file format file with different region", {
     c(
       sprintf("bucket=%s", bucket_name),
       sprintf("endpoint=%s", base64url::base64_urlencode("NULL")),
-      "region=us-west-2",
+      paste0("region=", region),
       "key=_targets/objects/x",
       "stage=example_aws_file.txt",
       "version="
@@ -301,7 +325,8 @@ tar_test("aws_file format file with different region", {
     key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp,
-    region = region
+    region = region,
+    max_tries = 1L
   )
   expect_equal(readLines(tmp), "x_lines")
   unlink("example_aws_file.txt")

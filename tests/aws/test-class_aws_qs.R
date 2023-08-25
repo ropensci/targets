@@ -22,10 +22,18 @@ tar_test("aws_qs format data gets stored", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
+    aws_s3_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/x",
+      max_tries = 1L
+    )
   )
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/y")
+    aws_s3_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/y",
+      max_tries = 1L
+    )
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
@@ -35,7 +43,8 @@ tar_test("aws_qs format data gets stored", {
   aws_s3_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 1L
   )
   expect_equal(qs::qread(tmp), "x_value")
 })
@@ -64,10 +73,18 @@ tar_test("aws_qs format data gets stored with worker storage", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
+    aws_s3_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/x",
+      max_tries = 1L
+    )
   )
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/y")
+    aws_s3_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/y",
+      max_tries = 1L
+    )
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
@@ -77,7 +94,8 @@ tar_test("aws_qs format data gets stored with worker storage", {
   aws_s3_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 1L
   )
   expect_equal(qs::qread(tmp), "x_value")
 })
@@ -214,10 +232,18 @@ tar_test("aws_qs format with an alternative data store", {
   expect_true(file.exists("custom_targets_store"))
   expect_false(file.exists(path_store_default()))
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
+    aws_s3_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/x",
+      max_tries = 1L
+    )
   )
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/y")
+    aws_s3_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/y",
+      max_tries = 1L
+    )
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
@@ -227,7 +253,8 @@ tar_test("aws_qs format with an alternative data store", {
   aws_s3_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 1L
   )
   expect_equal(qs::qread(tmp), "x_value")
 })
@@ -260,10 +287,18 @@ tar_test("aws_qs format works with storage = \"none\"", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL)
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/x")
+    aws_s3_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/x",
+      max_tries = 1L
+    )
   )
   expect_true(
-    aws_s3_exists(bucket = bucket_name, key = "_targets/objects/y")
+    aws_s3_exists(
+      bucket = bucket_name,
+      key = "_targets/objects/y",
+      max_tries = 1L
+    )
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
   expect_false(file.exists(file.path("_targets", "objects", "y")))
@@ -273,7 +308,8 @@ tar_test("aws_qs format works with storage = \"none\"", {
   aws_s3_download(
     key = "_targets/objects/x",
     bucket = bucket_name,
-    file = tmp
+    file = tmp,
+    max_tries = 1L
   )
   expect_equal(qs::qread(tmp), "x_value")
 })
@@ -283,7 +319,11 @@ tar_test("aws_qs format with custom region", {
   skip_if_not_installed("qs")
   s3 <- paws.storage::s3()
   bucket_name <- random_bucket_name()
-  region <- "us-west-2"
+  region <- region <- ifelse(
+    Sys.getenv("AWS_REGION") == "us-east-1",
+    "us-east-2",
+    "us-east-1"
+  )
   cfg <- list(LocationConstraint = region)
   s3$create_bucket(Bucket = bucket_name, CreateBucketConfiguration = cfg)
   on.exit(aws_s3_delete_bucket(bucket_name))
@@ -292,7 +332,11 @@ tar_test("aws_qs format with custom region", {
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = !!bucket_name,
-          region = !!region,
+          region = ifelse(
+            Sys.getenv("AWS_REGION") == "us-east-1",
+            "us-east-2",
+            "us-east-1"
+          ),
           prefix = "_targets"
         )
       )
@@ -309,14 +353,16 @@ tar_test("aws_qs format with custom region", {
     aws_s3_exists(
       bucket = bucket_name,
       key = "_targets/objects/x",
-      region = "us-west-2"
+      region = region,
+      max_tries = 1L
     )
   )
   expect_true(
     aws_s3_exists(
       bucket = bucket_name,
       key = "_targets/objects/y",
-      region = "us-west-2"
+      region = region,
+      max_tries = 1L
     )
   )
   expect_false(file.exists(file.path("_targets", "objects", "x")))
@@ -328,7 +374,7 @@ tar_test("aws_qs format with custom region", {
     c(
       sprintf("bucket=%s", bucket_name),
       sprintf("endpoint=%s", base64url::base64_urlencode("NULL")),
-      "region=us-west-2",
+      paste0("region=", region),
       "key=_targets/objects/x",
       "version="
     )
@@ -339,7 +385,8 @@ tar_test("aws_qs format with custom region", {
     key = "_targets/objects/x",
     bucket = bucket_name,
     file = tmp,
-    region = region
+    region = region,
+    max_tries = 1L
   )
   expect_equal(qs::qread(tmp), "x_value")
 })
