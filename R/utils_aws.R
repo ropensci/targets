@@ -30,7 +30,7 @@ aws_s3_head <- function(
     args = list(client = client, args = args),
     seconds_interval = 1,
     seconds_timeout = 60,
-    max_tries = max_tries,
+    max_tries = max_tries %|||% 5L,
     verbose = TRUE,
     message = "AWS S3 head_object() failed.",
     classes_retry = http_retry
@@ -83,7 +83,7 @@ aws_s3_download <- function(
     args = list(client = client, args = args),
     seconds_interval = 1,
     seconds_timeout = 60,
-    max_tries = max_tries,
+    max_tries = max_tries %|||% 5L,
     verbose = TRUE,
     message = "AWS S3 get_object() failed.",
     classes_retry = http_retry
@@ -115,7 +115,7 @@ aws_s3_delete <- function(
     args = list(client = client, args = args),
     seconds_interval = 1,
     seconds_timeout = 60,
-    max_tries = max_tries,
+    max_tries = max_tries %|||% 5L,
     verbose = TRUE,
     message = "AWS S3 delete_object() failed.",
     classes_retry = http_retry
@@ -156,7 +156,7 @@ aws_s3_upload <- function(
       args = list(client = client, args = args_put_object),
       seconds_interval = 1,
       seconds_timeout = 60,
-      max_tries = max_tries,
+      max_tries = max_tries %|||% 5L,
       verbose = TRUE,
       message = "AWS S3 put_object() failed.",
       classes_retry = http_retry
@@ -178,7 +178,7 @@ aws_s3_upload <- function(
     args = list(client = client, args = args_create_multipart_upload),
     seconds_interval = 1,
     seconds_timeout = 60,
-    max_tries = max_tries,
+    max_tries = max_tries %|||% 5L,
     verbose = TRUE,
     message = "AWS S3 create_multipart_upload() failed.",
     classes_retry = http_retry
@@ -201,7 +201,7 @@ aws_s3_upload <- function(
         args = list(client = client, args = args_abort_multipart_upload),
         seconds_interval = 1,
         seconds_timeout = 60,
-        max_tries = max_tries,
+        max_tries = max_tries %|||% 5L,
         verbose = TRUE,
         message = "AWS S3 abort_multipart_upload() failed.",
         classes_retry = http_retry
@@ -235,7 +235,7 @@ aws_s3_upload <- function(
       args = list(client = client, args = args_complete_multipart_upload),
       seconds_interval = 1,
       seconds_timeout = 60,
-      max_tries = max_tries,
+      max_tries = max_tries %|||% 5L,
       verbose = TRUE,
       message = "AWS S3 complete_multipart_upload() failed.",
       classes_retry = http_retry
@@ -278,7 +278,7 @@ aws_s3_upload_parts <- function(
       args = list(client = client, args = args),
       seconds_interval = 1,
       seconds_timeout = 60,
-      max_tries = max_tries,
+      max_tries = max_tries %|||% 5L,
       verbose = TRUE,
       message = "AWS S3 upload_part() failed.",
       classes_retry = http_retry
