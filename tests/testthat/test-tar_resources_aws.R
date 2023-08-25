@@ -2,7 +2,7 @@ tar_test("tar_resources_aws()", {
   skip_cran()
   skip_on_os("windows")
   skip_if_not_installed("paws.storage")
-  out <- tar_resources_aws(bucket = "bucket123")
+  out <- tar_resources_aws(bucket = "bucket123", prefix = "x")
   expect_equal(out$bucket, "bucket123")
   expect_null(out$region)
   expect_silent(resources_validate(out))
@@ -12,7 +12,11 @@ tar_test("tar_resources_aws() with region", {
   skip_cran()
   skip_on_os("windows")
   skip_if_not_installed("paws.storage")
-  out <- tar_resources_aws(bucket = "bucket123", region = "us-east-1")
+  out <- tar_resources_aws(
+    bucket = "bucket123",
+    region = "us-east-1",
+    prefix = "x"
+  )
   expect_equal(out$region, "us-east-1")
   expect_silent(resources_validate(out))
 })
@@ -21,7 +25,11 @@ tar_test("tar_resources_aws() with part_size", {
   skip_cran()
   skip_on_os("windows")
   skip_if_not_installed("paws.storage")
-  out <- tar_resources_aws(bucket = "bucket123", part_size = 1e8)
+  out <- tar_resources_aws(
+    bucket = "bucket123",
+    part_size = 1e8,
+    prefix = "x"
+  )
   expect_equal(out$part_size, 1e8)
   expect_silent(resources_validate(out))
 })
@@ -33,7 +41,8 @@ tar_test("tar_resources_aws() default bucket", {
   tar_option_set(
     resources = tar_resources(
       aws = tar_resources_aws(
-        bucket = "bucket123"
+        bucket = "bucket123",
+        prefix = "x"
       )
     )
   )
@@ -64,7 +73,8 @@ tar_test("tar_resources_aws() default part_size", {
   tar_option_set(
     resources = tar_resources(
       aws = tar_resources_aws(
-        part_size = 1e2
+        part_size = 1e2,
+        prefix = "x"
       )
     )
   )
@@ -79,7 +89,8 @@ tar_test("tar_resources_aws() default region", {
   tar_option_set(
     resources = tar_resources(
       aws = tar_resources_aws(
-        region = "the_moon"
+        region = "the_moon",
+        prefix = "x"
       )
     )
   )
@@ -94,7 +105,8 @@ tar_test("tar_resources_aws() default endpoint", {
   tar_option_set(
     resources = tar_resources(
       aws = tar_resources_aws(
-        endpoint = "google"
+        endpoint = "google",
+        prefix = "x"
       )
     )
   )
@@ -109,7 +121,8 @@ tar_test("tar_resources_aws() default SSECustomerKey", {
   tar_option_set(
     resources = tar_resources(
       aws = tar_resources_aws(
-        SSECustomerKey = "x"
+        SSECustomerKey = "x",
+        prefix = "x"
       )
     )
   )

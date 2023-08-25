@@ -82,6 +82,16 @@ tar_test("retry_until_true() max_tries", {
   expect_equal(envir$count, 5L)
 })
 
+tar_test("retry_until_success() success", {
+  skip_on_cran()
+  out <- retry_until_success(
+    fun = function() {
+      "done"
+    }
+  )
+  expect_equal(out, "done")
+})
+
 tar_test("retry_until_success() uncaught class", {
   skip_on_cran()
   tmp <- tempfile()

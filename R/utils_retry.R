@@ -28,7 +28,6 @@ retry_until_success <- function(
       start = start
     )
   }
-  out
 }
 
 retry_attempt_success <- function(fun, args, envir, verbose, classes_retry) {

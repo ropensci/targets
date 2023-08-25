@@ -7,8 +7,8 @@ tar_test("populated resources", {
   skip_on_os("windows")
   skip_if_not_installed("paws.storage")
   out <- tar_resources(
-    aws = resources_aws_init(),
-    gcp = resources_gcp_init(),
+    aws = resources_aws_init(prefix = "x"),
+    gcp = resources_gcp_init(prefix = "x"),
     clustermq = resources_clustermq_init(
       template = list(a = 1, n_cores = 123)
     )
@@ -24,11 +24,14 @@ tar_test("default resource args", {
   skip_cran()
   skip_on_os("windows")
   skip_if_not_installed("paws.storage")
-  tar_option_set(
-    resources = tar_resources(
-      aws = tar_resources_aws(bucket = "abc"),
-      fst = tar_resources_fst(compress = 10L)
-    )
+  suppressWarnings(
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = "abc"),
+        fst = tar_resources_fst(compress = 10L)
+      )
+    ),
+    classes = "tar_condition_deprecate"
   )
   target <- tar_target(
     x,

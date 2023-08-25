@@ -249,7 +249,7 @@ tar_test("tar_assert_resources()", {
     tar_assert_resources(list(aws = 1)),
     class = "tar_condition_deprecate"
   )
-  aws <- tar_resources_aws(bucket = "bucket")
+  aws <- tar_resources_aws(bucket = "bucket", prefix = "x")
   expect_silent(tar_assert_resources(tar_resources(aws = aws)))
 })
 
