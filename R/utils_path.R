@@ -90,7 +90,7 @@ path_scratch_del <- function(path_store) {
 }
 
 path_scratch_dir_network <- function() {
-  file.path(tempdir(), "targets")
+  file.path(tempdir(), path_scratch_dir(path_store_default()))
 }
 
 path_scratch_temp_network <- function(pattern = "tmp") {

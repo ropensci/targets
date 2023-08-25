@@ -767,3 +767,13 @@ tar_deprecate_seconds_interval <- function(seconds_interval) {
     )
   }
 }
+
+tar_warn_prefix <- function() {
+  tar_warn_deprecate(
+    "Please supply an explicit bucket prefix for you target object data ",
+    "and metadata. The prefix should be unique to your {targets} project. ",
+    "In the future, {targets} will begin requiring explicitly ",
+    "user-supplied prefixes. This warning was added on 2023-08-24 ",
+    "({targets} version 1.2.2.9000)."
+  )
+}

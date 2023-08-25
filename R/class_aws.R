@@ -38,9 +38,10 @@ store_produce_aws_path <- function(store, name, object, path_store) {
   tar_assert_nonempty(endpoint %|||% "endpoint")
   tar_assert_chr(endpoint %|||% "endpoint")
   tar_assert_scalar(endpoint %|||% "endpoint")
-  prefix <- store$resources$aws$prefix %|||%
+  root_prefix <- store$resources$aws$prefix %|||%
     store$resources$prefix %|||%
-    tar_path_objects_dir_cloud()
+    path_store_default()
+  prefix <- path_objects_dir(path_store = root_prefix)
   tar_assert_nonempty(prefix)
   tar_assert_chr(prefix)
   tar_assert_scalar(prefix)

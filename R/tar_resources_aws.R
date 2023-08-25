@@ -15,8 +15,12 @@
 #'   bucket to upload and download the return values
 #'   of the affected targets during the pipeline.
 #' @param prefix Character of length 1, "directory path"
-#'   in the bucket where the target return values are stored.
-#'   Defaults to `targets::tar_path_objects_dir_cloud()`.
+#'   in the bucket where your target object and metadata will go.
+#'   Please supply an explicit prefix
+#'   unique to your {targets} project.
+#'   In the future, {targets} will begin requiring
+#'   explicitly user-supplied prefixes. (This last note
+#'   was added on 2023-08-24: {targets} version 1.2.2.9000.) 
 #' @param region Character of length 1, AWS region containing the S3 bucket.
 #'   Set to `NULL` to use the default region.
 #' @param part_size Positive numeric of length 1, number of bytes
@@ -78,6 +82,10 @@ tar_resources_aws <- function(
   endpoint = targets::tar_option_get("resources")$aws$endpoint,
   ...
 ) {
+  if (is.null(prefix)) {
+    tar_warn_prefix()
+    prefix <- path_store_default()
+  }
   prefix <- prefix %|||% targets::tar_path_objects_dir_cloud()
   part_size <- part_size %|||% (5 * (2 ^ 20))
   args <- list(...)
