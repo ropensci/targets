@@ -10,7 +10,7 @@ tar_test("crew$validate()", {
 
 tar_test("crew database subkey", {
   out <- database_crew(path_store_default())
-  expect_equal(out$subkey, file.path("meta", "crew"))
+  expect_equal(out$key, file.path(path_store_default(), "meta", "crew"))
 })
 
 tar_test("workerless deployment works", {

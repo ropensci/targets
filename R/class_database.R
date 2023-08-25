@@ -8,13 +8,16 @@ database_init <- function(
   resources = tar_options$get_resources()
 ) {
   memory <- memory_init()
-  key <- file.path(resources[[repository]]$prefix, subkey)
+  key <- file.path(
+    resources[[repository]]$prefix %|||% path_store_default(),
+    subkey
+  )
   switch(
     repository,
     local = database_local_new(
       memory = memory,
       path = path,
-      key = basename(path),
+      key = key,
       header = header,
       list_columns = list_columns,
       list_column_modes = list_column_modes,

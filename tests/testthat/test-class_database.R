@@ -395,3 +395,9 @@ tar_test("compare_working_directories()", {
     class = "tar_condition_run"
   )
 })
+
+tar_test("local database download_upload methods", {
+  database <- database_init(repository = "local")
+  expect_silent(database$upload())
+  expect_silent(database$download())
+})

@@ -1,3 +1,5 @@
+# Covered in semi-automated cloud tests.
+# nocov start
 database_gcp_new <- function(
   memory = NULL,
   path = NULL,
@@ -30,14 +32,14 @@ database_gcp_class <- R6::R6Class(
     validate = function() {
       super$validate()
       tar_assert_inherits(
-        self$resources,
+        self$resources$gcp,
         "tar_resources_gcp",
         msg = paste(
-          "gcp resources must be supplied to the {targets} gcp ",
+          "GCP resources must be supplied to the {targets} GCP ",
           "database class. Set resources with tar_option_set()"
         )
       )
-      resources_validate(self$resources)
+      resources_validate(self$resources$gcp)
     },
     download = function() {
       gcp <- self$resources$gcp
@@ -48,8 +50,6 @@ database_gcp_class <- R6::R6Class(
         file = self$path,
         key = self$key,
         bucket = gcp$bucket,
-        seconds_interval = network$seconds_interval %|||% 1,
-        seconds_timeout = network$seconds_timeout %|||% 60,
         max_tries = network$max_tries %|||% 5L,
         verbose = network$verbose %|||% TRUE
       )
@@ -63,12 +63,11 @@ database_gcp_class <- R6::R6Class(
         key = self$key,
         bucket = gcp$bucket,
         predefined_acl = gcp$predefined_acl %|||% "private",
-        seconds_interval = network$seconds_interval %|||% 1,
-        seconds_timeout = network$seconds_timeout %|||% 60,
         max_tries = network$max_tries %|||% 5L,
         verbose = network$verbose %|||% TRUE
       )
       invisible()
-    },
+    }
   )
 )
+# nocov end

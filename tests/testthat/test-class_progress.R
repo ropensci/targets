@@ -1,6 +1,9 @@
 tar_test("progress database subkey", {
   out <- progress_init()
-  expect_equal(out$database$subkey, file.path("meta", "progress"))
+  expect_equal(
+    out$database$key,
+    file.path(path_store_default(), "meta", "progress")
+  )
 })
 
 tar_test("progress$queued", {

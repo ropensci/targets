@@ -1,3 +1,5 @@
+# Covered in semi-automated cloud tests.
+# nocov start
 database_aws_new <- function(
   memory = NULL,
   path = NULL,
@@ -30,14 +32,14 @@ database_aws_class <- R6::R6Class(
     validate = function() {
       super$validate()
       tar_assert_inherits(
-        self$resources,
+        self$resources$aws,
         "tar_resources_aws",
         msg = paste(
-          "AWS resources must be supplied to the {targets} AWS ",
+          "Resources must be supplied to the {targets} AWS ",
           "database class. Set resources with tar_option_set()"
         )
       )
-      resources_validate(self$resources)
+      resources_validate(self$resources$aws)
     },
     download = function() {
       aws <- self$resources$aws
@@ -75,6 +77,7 @@ database_aws_class <- R6::R6Class(
         verbose = network$verbose %|||% TRUE
       )
       invisible()
-    },
+    }
   )
 )
+# nocov end
