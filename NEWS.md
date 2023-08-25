@@ -21,6 +21,7 @@ Because of these changes, upgrading to this version of `targets` will unavoidabl
 * Deprecated `seconds_interval` in `tar_config_get()`, `tar_make()`, `tar_make_clustermq()` and `tar_make_future()`. Replace it with `seconds_meta` (to control how often metadata gets saved) and `seconds_interval` (to control how often to print messages to the R console) (#1119).
 * Retry all cloud REST API calls on HTTP 500 errors with the exponential backoff algorithm from `googleAuthR` (#1112).
 * Make cloud temp file instances unique in order to avoid file conflicts with the same target.
+* For `format = "url"`, only retry on HTTP 500 error codes.
 
 # targets 1.2.2
 
