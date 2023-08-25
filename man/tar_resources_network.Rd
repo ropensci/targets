@@ -2,76 +2,37 @@
 % Please edit documentation in R/tar_resources_network.R
 \name{tar_resources_network}
 \alias{tar_resources_network}
-\title{Target resources for network connections}
+\title{Target resources for network file systems.}
 \usage{
 tar_resources_network(
-  seconds_interval = 1,
+  seconds_interval = 0.25,
   seconds_timeout = 60,
-  max_tries = 5L,
+  max_tries = Inf,
   verbose = TRUE
 )
 }
 \arguments{
-\item{seconds_interval}{Nonnegative numeric of length 1,
-controls the base of the exponent in the exponential backoff
-algorithm for network retries. Each retry waits
-\code{(1 + seconds_interval) ^ (tries - 1L) + runif(1)} seconds.
-Network retries are necessary safeguards to download, upload, or check
-a remote network resource on a network file system (in the case of
-\code{storage = "worker"} or \code{format = "file"})
-or via HTTP/HTTPS in cases like \code{format = "url"},
-\code{repository = "aws"}.
-Not supported for \code{repository = "gcp"}
-because \code{googleAuthR} has its own exponential backoff algorithm
-which only uses \code{max_tries}
-(which \code{targets} sends to the \code{googleAuthR.tryAttempts} option).}
+\item{seconds_interval}{Positive numeric of length 1.
+Multiplier for the exponential backoff algorithm, and width
+of the jitter. Units of seconds.}
 
-\item{seconds_timeout}{Nonnegative numeric of length 1,
-number of seconds to wait before timing out
-while attempting to download, upload, or check
-a remote network resource on a network file system (in the case of
-\code{storage = "worker"} or \code{format = "file"})
-or via HTTP/HTTPS in cases like \code{format = "url"},
-\code{repository = "aws"}.
-Not supported for \code{repository = "gcp"}
-because \code{googleAuthR} has its own exponential backoff algorithm
-which only uses \code{max_tries}
-(which \code{targets} sends to the \code{googleAuthR.tryAttempts} option).
-For files saved to a network file system in the case of
-\code{storage = "worker"}, it is recommended to set \code{seconds_timeout}
-to at least \code{60}.}
+\item{seconds_timeout}{Positive numeric of length 1. Timeout length in
+seconds.}
 
-\item{max_tries}{Nonnegative numeric of length 1,
-maximum number of tries to download, upload, or check things
-while attempting to access a remote network resource on a
-network file system (in the case of \code{storage = "worker"})
-or via HTTP/HTTPS in cases like \code{format = "url"},
-\code{repository = "aws"} and \code{repository = "gcp"}. In the case of
-\code{repository = "gcs"}, \code{max_retries} gets forwarded to
-the \code{googleAuthR.tryAttempts} option for GCS packages.}
+\item{max_tries}{Positive integer of length 1. Max number of tries.}
 
-\item{verbose}{Logical of length 1, whether to print an informative message
-when an HTTP/HTTPS attempt fails. Not supported for \code{repository = "gcp"}.}
+\item{verbose}{Logical of length 1, whether to print informative
+console messages.}
 }
 \value{
 Object of class \code{"tar_resources_network"}, to be supplied
 to the network argument of \code{tar_resources()}.
 }
 \description{
-Create the \code{network} argument of \code{tar_resources()}
-to specify optional settings for storage configurations that
-rely on network file systems or network connections,
-such as \code{storage = "worker"}, \code{format = "url"},
-\code{repository = "aws"}, and \code{repository = "gcp"}.
-}
-\details{
-The settings in these resources
-configure how to handle unreliable network connections
-in the case of uploading, downloading, and checking data
-in situations that rely on network file systems or
-HTTP/HTTPS requests. Specifically,
-they configure retries and timeouts. These settings do not
-apply to actions you take in the custom R command of the target.
+In high-performance computing on network file systems,
+if \code{storage = "worker"} in \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_set]{tar_option_set()}}, then
+\code{targets} waits for hashes to synchronize before continuing the pipeline.
+These resources control the retry mechanism.
 }
 \section{Resources}{
 
@@ -102,7 +63,7 @@ if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 tar_target(
   name = your_name,
   command = your_command(),
-  format = "url",
+  storage = "worker",
   resources = tar_resources(
     network = tar_resources_network(max_tries = 3)
   )

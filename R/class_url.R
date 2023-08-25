@@ -47,11 +47,11 @@ store_assert_format.tar_url <- function(store, object, name) {
 #' @export
 store_hash_early.tar_url <- function(store) { # nolint
   handle <- store$resources$url$handle %|||% store$resources$handle
+  max_tries <- store$resources$network$max_tries %|||% 5L
   seconds_interval <- store$resources$network$seconds_interval %|||%
     (store$resources$url$seconds_interval %|||% 1)
   seconds_timeout <- store$resources$network$seconds_timeout %|||%
-    (store$resources$url$seconds_timeout %|||% 30)
-  max_tries <- store$resources$network$max_tries %|||% Inf
+    (store$resources$url$seconds_timeout %|||% 60)
   verbose <- store$resources$network$verbose %|||% TRUE
   store$file$hash <- url_hash(
     url = store$file$path,

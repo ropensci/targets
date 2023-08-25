@@ -9,11 +9,13 @@
 #'   to the url argument of `tar_resources()`.
 #' @param handle Object returned by `curl::new_handle` or `NULL`.
 #'   Defaults to `NULL`.
-#' @param seconds_interval Deprecated, nonnegative numeric of length 1,
+#' @param max_tries Positive integer of length 1, maximum number of tries
+#'   to access a URL.
+#' @param seconds_interval Nonnegative numeric of length 1,
 #'   number of seconds to wait between individual retries
 #'   while attempting to connect to the URL.
 #'   Use [tar_resources_network()] instead.
-#' @param seconds_timeout Deprecated, nonnegative numeric of length 1,
+#' @param seconds_timeout Nonnegative numeric of length 1,
 #'   number of seconds to wait before timing out while trying to
 #'   connect to the URL.
 #'   Use [tar_resources_network()] instead.
@@ -31,20 +33,15 @@
 #' }
 tar_resources_url <- function(
   handle = targets::tar_option_get("resources")$url$handle,
-  seconds_interval = NULL,
-  seconds_timeout = NULL
+  max_tries = targets::tar_option_get("resources")$url$max_tries,
+  seconds_interval = targets::tar_option_get("resources")$url$seconds_interval,
+  seconds_timeout = targets::tar_option_get("resources")$url$seconds_interval
 ) {
-  if (!is.null(seconds_interval) || !is.null(seconds_timeout)) {
-    tar_warn_deprecate(
-      "Arguments seconds_interval and seconds_timeout in tar_resources_url() ",
-      "are deprecated in targets version 1.1.0 and above (2023-05-11). ",
-      "Use the equivalent arguments in tar_resources_network() instead."
-    )
-  }
   out <- resources_url_init(
     handle = handle,
-    seconds_interval = seconds_interval %|||% 1,
-    seconds_timeout = seconds_timeout %|||% 10
+    max_tries = max_tries,
+    seconds_interval = seconds_interval,
+    seconds_timeout = seconds_timeout
   )
   resources_validate(out)
   out
