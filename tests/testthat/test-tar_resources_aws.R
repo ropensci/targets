@@ -136,6 +136,6 @@ tar_test("tar_resources_aws() wants a prefix", {
   skip_if_not_installed("paws.storage")
   expect_warning(
     tar_resources_aws(bucket = "bucket123", prefix = NULL),
-    class = "tar_warn_deprecate"
+    class = "tar_condition_deprecate"
   )
 })

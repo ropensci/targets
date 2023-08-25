@@ -5,18 +5,13 @@ tar_test("tar_resources_url()", {
 
 tar_test("tar_resources_url() default handle", {
   skip_if_not_installed("curl")
-  suppressWarnings(
-    expect_warning(
-      tar_option_set(
-        resources = tar_resources(
-          url = tar_resources_url(
-            handle = curl::new_handle(),
-            seconds_interval = 2,
-            seconds_timeout = 3
-          )
-        )
-      ),
-      class = "tar_condition_deprecate"
+  tar_option_set(
+    resources = tar_resources(
+      url = tar_resources_url(
+        handle = curl::new_handle(),
+        seconds_interval = 2,
+        seconds_timeout = 3
+      )
     )
   )
   out <- tar_option_get("resources")$url

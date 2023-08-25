@@ -68,6 +68,6 @@ tar_test("tar_resources_gcp() wants a prefix", {
   skip_if_not_installed("googleCloudStorageR")
   expect_warning(
     tar_resources_gcp(bucket = "bucket123", prefix = NULL),
-    class = "tar_warn_deprecate"
+    class = "tar_condition_deprecate"
   )
 })
