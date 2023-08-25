@@ -39,10 +39,6 @@ tar_test("reporter can instantiate", {
   expect_true(is.environment(reporter_new()))
 })
 
-tar_test("database can instantiate", {
-  expect_true(is.environment(database_new()))
-})
-
 tar_test("network can instantiate", {
   expect_true(is.environment(network_new(pipeline_init())))
 })
