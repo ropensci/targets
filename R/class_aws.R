@@ -139,10 +139,7 @@ store_read_object.tar_aws <- function(store) {
     endpoint = store_aws_endpoint(path),
     version = store_aws_version(path),
     args = store$resources$aws$args,
-    seconds_interval = store$resources$network$seconds_interval %|||% 1L,
-    seconds_timeout = store$resources$network$seconds_timeout %|||% 60L,
-    max_tries = store$resources$network$max_tries %|||% 5L,
-    verbose = store$resources$network$verbose %|||% TRUE
+    max_tries = store$resources$aws$max_tries
   )
   store_convert_object(store, store_read_path(store, scratch))
 }
@@ -157,10 +154,7 @@ store_exist_object.tar_aws <- function(store, name = NULL) {
     endpoint = store_aws_endpoint(path),
     version = store_aws_version(path),
     args = store$resources$aws$args,
-    seconds_interval = store$resources$network$seconds_interval %|||% 1L,
-    seconds_timeout = store$resources$network$seconds_timeout %|||% 60L,
-    max_tries = store$resources$network$max_tries %|||% 5L,
-    verbose = store$resources$network$verbose %|||% TRUE
+    max_tries = store$resources$aws$max_tries
   )
   !is.null(head)
 }
@@ -188,10 +182,7 @@ store_delete_object.tar_aws <- function(store, name = NULL) {
       endpoint = endpoint,
       version = version,
       args = store$resources$aws$args,
-      seconds_interval = store$resources$network$seconds_interval %|||% 1L,
-      seconds_timeout = store$resources$network$seconds_timeout %|||% 60L,
-      max_tries = store$resources$network$max_tries %|||% 5L,
-      verbose = store$resources$network$verbose %|||% TRUE
+      max_tries = store$resources$aws$max_tries
     ),
     error = function(condition) {
       tar_throw_validate(message, conditionMessage(condition))
@@ -219,10 +210,7 @@ store_upload_object_aws <- function(store) {
       metadata = list("targets-hash" = store$file$hash),
       part_size = store$resources$aws$part_size %|||% (5 * (2 ^ 20)),
       args = store$resources$aws$args,
-      seconds_interval = store$resources$network$seconds_interval %|||% 1L,
-      seconds_timeout = store$resources$network$seconds_timeout %|||% 60L,
-      max_tries = store$resources$network$max_tries %|||% 5L,
-      verbose = store$resources$network$verbose %|||% TRUE
+      max_tries = store$resources$aws$max_tries
     ),
     tar_throw_file(
       "Cannot upload non-existent AWS staging file ",
@@ -261,10 +249,7 @@ store_aws_hash <- function(store) {
     endpoint = store_aws_endpoint(path),
     version = store_aws_version(path),
     args = store$resources$aws$args,
-    seconds_interval = store$resources$network$seconds_interval %|||% 1L,
-    seconds_timeout = store$resources$network$seconds_timeout %|||% 60L,
-    max_tries = store$resources$network$max_tries %|||% 5L,
-    verbose = store$resources$network$verbose %|||% TRUE
+    max_tries = store$resources$aws$max_tries
   )
   head$Metadata[["targets-hash"]]
 }

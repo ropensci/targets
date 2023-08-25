@@ -42,6 +42,8 @@
 #'   object versioning turned on, `targets` may fail to record object
 #'   versions. Google Cloud Storage in particular has this
 #'   incompatibility.
+#' @param max_tries Positive integer of length 1, maximum number of attempts
+#'   to access a network resource on AWS.
 #' @param ... Named arguments to functions in `paws.storage::s3()` to manage
 #'   S3 storage. The documentation of these specific functions
 #'   is linked from `https://www.paws-r-sdk.com/docs/s3/`.
@@ -80,6 +82,7 @@ tar_resources_aws <- function(
   region = targets::tar_option_get("resources")$aws$region,
   part_size = targets::tar_option_get("resources")$aws$part_size,
   endpoint = targets::tar_option_get("resources")$aws$endpoint,
+  max_tries = targets::tar_option_get("resources")$aws$max_tries,
   ...
 ) {
   if (is.null(prefix)) {
@@ -99,6 +102,7 @@ tar_resources_aws <- function(
     region = region,
     part_size = part_size,
     endpoint = endpoint,
+    max_tries = max_tries,
     args = args
   )
   resources_validate(out)

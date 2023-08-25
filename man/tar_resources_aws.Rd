@@ -10,6 +10,7 @@ tar_resources_aws(
   region = targets::tar_option_get("resources")$aws$region,
   part_size = targets::tar_option_get("resources")$aws$part_size,
   endpoint = targets::tar_option_get("resources")$aws$endpoint,
+  max_tries = targets::tar_option_get("resources")$aws$max_tries,
   ...
 )
 }
@@ -49,6 +50,9 @@ There is one limitation, however: even if your bucket has
 object versioning turned on, \code{targets} may fail to record object
 versions. Google Cloud Storage in particular has this
 incompatibility.}
+
+\item{max_tries}{Positive integer of length 1, maximum number of attempts
+to access a network resource on AWS.}
 
 \item{...}{Named arguments to functions in \code{paws.storage::s3()} to manage
 S3 storage. The documentation of these specific functions

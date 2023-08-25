@@ -43,7 +43,6 @@ database_aws_class <- R6::R6Class(
     },
     download = function() {
       aws <- self$resources$aws
-      network <- self$resources$network
       file <- file_init(path = path)
       file_ensure_hash(file)
       aws_s3_download(
@@ -52,17 +51,13 @@ database_aws_class <- R6::R6Class(
         bucket = aws$bucket,
         region = aws$region,
         endpoint = aws$endpoint,
-        args = aws$args,
-        seconds_interval = network$seconds_interval %|||% 1,
-        seconds_timeout = network$seconds_timeout %|||% 60,
-        max_tries = network$max_tries %|||% 5L,
-        verbose = network$verbose %|||% TRUE
+        max_tries = aws$max_tries,
+        args = aws$args
       )
       invisible()
     },
     upload = function() {
       aws <- self$resources$aws
-      network <- self$resources$network
       aws_s3_upload(
         file = self$path,
         key = self$key,
@@ -70,11 +65,8 @@ database_aws_class <- R6::R6Class(
         region = aws$region,
         endpoint = aws$endpoint,
         part_size = aws$part_size,
-        args = aws$args,
-        seconds_interval = network$seconds_interval %|||% 1,
-        seconds_timeout = network$seconds_timeout %|||% 60,
-        max_tries = network$max_tries %|||% 5L,
-        verbose = network$verbose %|||% TRUE
+        max_tries = aws$max_tries,
+        args = aws$args
       )
       invisible()
     }

@@ -4,6 +4,7 @@ resources_aws_init <- function(
   region = NULL,
   part_size = 5 * (2 ^ 20),
   endpoint = NULL,
+  max_tries = NULL,
   args = list()
 ) {
   resources_aws_new(
@@ -12,6 +13,7 @@ resources_aws_init <- function(
     region = region,
     part_size = part_size,
     endpoint = endpoint,
+    max_tries = max_tries,
     args = args
   )
 }
@@ -22,6 +24,7 @@ resources_aws_new <- function(
   region = NULL,
   part_size = NULL,
   endpoint = NULL,
+  max_tries = NULL,
   args = NULL
 ) {
   force(bucket)
@@ -29,6 +32,7 @@ resources_aws_new <- function(
   force(region)
   force(part_size)
   force(endpoint)
+  force(max_tries)
   force(args)
   enclass(environment(), c("tar_resources_aws", "tar_resources"))
 }
@@ -48,6 +52,10 @@ resources_validate.tar_resources_aws <- function(resources) {
   tar_assert_positive(resources$part_size %|||% 1e8)
   tar_assert_scalar(resources$endpoint %|||% "endpoint")
   tar_assert_chr(resources$endpoint %|||% "endpoint")
+  tar_assert_scalar(resources$max_tries %|||% 1L)
+  tar_assert_dbl(resources$max_tries %|||% 1L)
+  tar_assert_none_na(resources$max_tries %|||% 1L)
+  tar_assert_ge(resources$max_tries %|||% 1L, 0L)
   resources_aws_validate_args(resources$args)
 }
 

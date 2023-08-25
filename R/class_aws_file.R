@@ -66,10 +66,7 @@ store_read_object.tar_aws_file <- function(store) {
     region = store_aws_region(path),
     version = store_aws_version(path),
     args = store$resources$aws$args,
-    seconds_interval = store$resources$network$seconds_interval %|||% 1L,
-    seconds_timeout = store$resources$network$seconds_timeout %|||% 60L,
-    max_tries = store$resources$network$max_tries %|||% 5L,
-    verbose = store$resources$network$verbose %|||% TRUE
+    max_tries = store$resources$aws$max_tries
   )
   stage <- store_aws_file_stage(path)
   dir_create(dirname(stage))
