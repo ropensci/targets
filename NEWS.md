@@ -1,5 +1,6 @@
 # targets 1.2.2.9001 (development)
 
+
 ## Invalidating changes
 
 Because of these changes, upgrading to this version of `targets` will unavoidably invalidate previously built targets in existing pipelines. Your pipeline code should still work, but any targets you ran before will most likely need to rerun after the upgrade.
