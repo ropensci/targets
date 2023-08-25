@@ -17,7 +17,8 @@ tar_test("gcp_parquet format returns data frames", {
       resources = tar_resources(
         gcp = tar_resources_gcp(
           bucket = !!bucket_name,
-          prefix = "custom/prefix"
+          prefix = "custom/prefix",
+          max_tries = 20
         )
       ),
       format = "parquet",
@@ -36,7 +37,7 @@ tar_test("gcp_parquet format returns data frames", {
     gcp_gcs_exists(
       key = "custom/prefix/objects/x",
       bucket = bucket_name,
-      max_tries = 5L
+      max_tries = 20L
     )
   )
 })
