@@ -20,9 +20,8 @@ store_aws_file_stage <- function(path) {
     store_aws_path_0.8.1(path), # targets 0.8.1 and under
     if_any(
       length(path) <= 2L, # targets 0.4.2 and under
-      path_scratch(
-        path_store = path_scratch_dir_network(),
-        paste0("targets_aws_file_", basename(store_aws_key(path)))
+      path_scratch_temp_network(
+        pattern = paste0("targets_aws_file_", basename(store_aws_key(path)))
       ),
       path[3]
     ),
@@ -58,10 +57,7 @@ store_read_object.tar_aws_file <- function(store) {
   path <- store$file$path
   key <- store_aws_key(path)
   bucket <- store_aws_bucket(path)
-  scratch <- path_scratch(
-    path_store = path_scratch_dir_network(),
-    pattern = basename(store_aws_key(path))
-  )
+  scratch <- path_scratch_temp_network(pattern = basename(store_aws_key(path)))
   dir_create(dirname(scratch))
   aws_s3_download(
     key = key,

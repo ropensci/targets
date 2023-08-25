@@ -15,7 +15,7 @@ store_tar_path.tar_cloud <- function(store, target, path_store) {
 
 #' @export
 store_produce_stage.tar_cloud <- function(store, name, object, path_store) {
-  path_scratch(path_store = path_scratch_dir_network(), pattern = name)
+  path_scratch_temp_network(pattern = name)
 }
 
 #' @export

@@ -71,10 +71,7 @@ store_read_object.tar_gcp <- function(store) {
   path <- store$file$path
   key <- store_gcp_key(path)
   bucket <- store_gcp_bucket(path)
-  scratch <- path_scratch(
-    path_store = path_scratch_dir_network(),
-    pattern = basename(store_gcp_key(path))
-  )
+  scratch <- path_scratch_temp_network(pattern = basename(store_gcp_key(path)))
   on.exit(unlink(scratch))
   dir_create(dirname(scratch))
   gcp_gcs_download(

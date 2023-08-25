@@ -93,6 +93,10 @@ path_scratch_dir_network <- function() {
   file.path(tempdir(), "targets")
 }
 
+path_scratch_temp_network <- function(pattern = "tmp") {
+  tempfile(tmpdir = path_scratch_dir_network(), pattern = pattern)
+}
+
 path_user_dir <- function(path_store) {
   file.path(path_store, "user")
 }
