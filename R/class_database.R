@@ -291,17 +291,18 @@ database_class <- R6::R6Class(
       out
     },
     deduplicate_storage = function() {
-      overwrite <- FALSE
-      if (file.exists(self$path)) {
+      exists <- file.exists(self$path)
+      overwrite <- !exists
+      if (exists) {
         old <- self$read_data()
         data <- self$condense_data(old)
         overwrite <- (nrow(data) != nrow(old))
-        if (overwrite) {
-          data <- data[order(data$name),, drop = FALSE] # nolint
-          self$overwrite_storage(data)
-        }
       }
-      overwrite
+      if (overwrite) {
+        data <- data[order(data$name),, drop = FALSE] # nolint
+        self$overwrite_storage(data)
+      }
+      invisible()
     },
     upload = function() {
       "upload"
@@ -319,7 +320,7 @@ database_class <- R6::R6Class(
         time = file$time
       )
     },
-    sync = function() {
+    sync = function(prefer_local = FALSE) {
       head <- self$head()
       file <- file_init(path = path)
       file_ensure_hash(file)
@@ -333,7 +334,10 @@ database_class <- R6::R6Class(
       } else if (exists_file && exists_object && changed) {
         time_file <- file_time_posixct(file$time)
         time_head <- file_time_posixct(head$time)
-        if_any(time_file > time_head, self$upload(), self$download())
+        file_newer <- time_file > time_head
+        file_same <- file$time == head$time
+        do_upload <- file_newer || (prefer_local && file_same)
+        if_any(do_upload, self$upload(), self$download())
       } else {
         invisible()
       }

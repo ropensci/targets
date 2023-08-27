@@ -178,9 +178,7 @@ active_class <- R6::R6Class(
       scheduler <- self$scheduler
       pipeline_unload_loaded(self$pipeline)
       self$meta$database$dequeue_rows(upload = FALSE)
-      if (self$meta$database$deduplicate_storage()) {
-        self$meta$database$upload()
-      }
+      self$meta$database$sync(prefer_local = TRUE)
       self$scheduler$progress$database$dequeue_rows(upload = TRUE)
       path_scratch_del(path_store = self$meta$store)
       compare_working_directories()
