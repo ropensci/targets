@@ -302,10 +302,10 @@ database_class <- R6::R6Class(
       "download"
     },
     head = function() {
-      file <- file_init(path = "path_mock")
+      file <- file_init(path = "path_cloud")
       file_ensure_hash(file)
       list(
-        exists = file.exists("path_mock"),
+        exists = file.exists("path_cloud"),
         hash = file$hash,
         size = file$size,
         time = file$time
@@ -326,6 +326,8 @@ database_class <- R6::R6Class(
         time_file <- file_time_posixct(file$time)
         time_head <- file_time_posixct(head$time)
         if_any(time_file > time_head, self$upload(), self$download())
+      } else {
+        invisible()
       }
     },
     validate_columns = function(header, list_columns) {
