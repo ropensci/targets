@@ -158,6 +158,7 @@ database_class <- R6::R6Class(
       if (length(self$queue)) {
         on.exit(self$queue <- NULL)
         self$append_lines(self$queue)
+        self$upload()
       }
     },
     write_row = function(row) {
@@ -294,6 +295,10 @@ database_class <- R6::R6Class(
         self$overwrite_storage(data)
       }
     },
+    upload = function() {
+    },
+    download = function() {
+    }
     validate_columns = function(header, list_columns) {
       if (!all(list_columns %in% header)) {
         tar_throw_validate("all list columns must be in the header")
