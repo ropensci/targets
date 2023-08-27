@@ -88,7 +88,7 @@ tar_test("aws database sync upload", {
   expect_equal(readLines(x$path), "meta_lines2")
 })
 
-tar_test("aws database sync first download", {
+tar_test("aws database sync download", {
   skip_if_no_aws()
   s3 <- paws.storage::s3()
   bucket <- random_bucket_name()

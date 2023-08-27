@@ -90,7 +90,7 @@ tar_test("gcp database sync upload", {
   expect_equal(readLines(x$path), "meta_lines2")
 })
 
-tar_test("gcp database sync first download", {
+tar_test("gcp database sync download", {
   skip_if_no_gcp()
   bucket <- random_bucket_name()
   gcp_gcs_auth(max_tries = 5)
