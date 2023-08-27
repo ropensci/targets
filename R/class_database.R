@@ -296,8 +296,37 @@ database_class <- R6::R6Class(
       }
     },
     upload = function() {
+      "upload"
     },
     download = function() {
+      "download"
+    },
+    head = function() {
+      file <- file_init(path = "path_mock")
+      file_ensure_hash(file)
+      list(
+        exists = file.exists("path_mock"),
+        hash = file$hash,
+        size = file$size,
+        time = file$time
+      )
+    },
+    sync = function() {
+      head <- self$head()
+      file <- file_init(path = path)
+      file_ensure_hash(file)
+      exists_file <- all(file.exists(path))
+      exists_object <- head$exists
+      changed <- !all(file$hash == head$hash)
+      if (exists_file && (!exists_object)) {
+        self$upload()
+      } else if ((!exists_file) && exists_object) {
+        self$download()
+      } else if (exists_file && exists_object && changed) {
+        time_file <- file_time_posixct(file$time)
+        time_head <- file_time_posixct(head$time)
+        if_any(time_file > time_head, self$upload(), self$download())
+      }
     },
     validate_columns = function(header, list_columns) {
       if (!all(list_columns %in% header)) {

@@ -43,32 +43,54 @@ database_aws_class <- R6::R6Class(
     },
     download = function() {
       aws <- self$resources$aws
-      file <- file_init(path = path)
-      file_ensure_hash(file)
       aws_s3_download(
         file = self$path,
         key = self$key,
         bucket = aws$bucket,
         region = aws$region,
         endpoint = aws$endpoint,
-        max_tries = aws$max_tries,
-        args = aws$args
+        args = aws$args,
+        max_tries = aws$max_tries %|||% 5L
       )
       invisible()
     },
     upload = function() {
       aws <- self$resources$aws
+      file <- file_init(path = path)
+      file_ensure_hash(file)
       aws_s3_upload(
         file = self$path,
         key = self$key,
         bucket = aws$bucket,
         region = aws$region,
         endpoint = aws$endpoint,
+        metadata = list(
+          "targets-database-hash" = file$hash,
+          "targets-database-size" = file$size,
+          "targets-database-time" = file$time
+        ),
         part_size = aws$part_size,
-        max_tries = aws$max_tries,
-        args = aws$args
+        args = aws$args,
+        max_tries = aws$max_tries %|||% 5L
       )
       invisible()
+    },
+    head = function() {
+      aws <- self$resources$aws
+      head <- aws_s3_head(
+        key = self$key,
+        bucket = aws$bucket,
+        region = aws$region,
+        endpoint = aws$endpoint,
+        args = aws$args,
+        max_tries = aws$max_tries %|||% 5L
+      )
+      list(
+        exists = !is.null(head),
+        hash = head$Metadata$`targets-database-hash`,
+        size = head$Metadata$`targets-database-size`,
+        time = head$Metadata$`targets-database-time`
+      )
     }
   )
 )

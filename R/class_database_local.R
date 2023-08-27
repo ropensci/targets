@@ -25,5 +25,16 @@ database_local_class <- R6::R6Class(
   inherit = database_class,
   class = FALSE,
   portable = FALSE,
-  cloneable = FALSE
+  cloneable = FALSE,
+  public = list(
+    upload = function() {
+      invisible()
+    },
+    download = function() {
+      invisible()
+    },
+    head = function() {
+      invisible()
+    }
+  )
 )
