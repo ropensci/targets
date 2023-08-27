@@ -4,7 +4,7 @@ database_init <- function(
   header = "name",
   list_columns = character(0L),
   list_column_modes = character(0L),
-  repository = tar_options$get_repository(),
+  repository = tar_options$get_repository_meta(),
   resources = tar_options$get_resources()
 ) {
   memory <- memory_init()
@@ -298,7 +298,7 @@ database_class <- R6::R6Class(
     upload = function() {
     },
     download = function() {
-    }
+    },
     validate_columns = function(header, list_columns) {
       if (!all(list_columns %in% header)) {
         tar_throw_validate("all list columns must be in the header")

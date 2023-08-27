@@ -6,6 +6,7 @@ options_init <- function(
   envir = NULL,
   format = NULL,
   repository = NULL,
+  repository_meta = NULL,
   iteration = NULL,
   error = NULL,
   memory = NULL,
@@ -32,6 +33,7 @@ options_init <- function(
     envir = envir,
     format = format,
     repository = repository,
+    repository_meta = repository_meta,
     iteration = iteration,
     error = error,
     memory = memory,
@@ -60,6 +62,7 @@ options_new <- function(
   envir = NULL,
   format = NULL,
   repository = NULL,
+  repository_meta = NULL,
   iteration = NULL,
   error = NULL,
   memory = NULL,
@@ -86,6 +89,7 @@ options_new <- function(
     envir = envir,
     format = format,
     repository = repository,
+    repository_meta = repository_meta,
     iteration = iteration,
     error = error,
     memory = memory,
@@ -119,6 +123,7 @@ options_class <- R6::R6Class(
     envir = NULL,
     format = NULL,
     repository = NULL,
+    repository_meta = NULL,
     iteration = NULL,
     error = NULL,
     memory = NULL,
@@ -144,6 +149,7 @@ options_class <- R6::R6Class(
       envir = NULL,
       format = NULL,
       repository = NULL,
+      repository_meta = NULL,
       iteration = NULL,
       error = NULL,
       memory = NULL,
@@ -169,6 +175,7 @@ options_class <- R6::R6Class(
       self$envir <- envir
       self$format <- format
       self$repository <- repository
+      self$repository_meta <- repository_meta
       self$iteration <- iteration
       self$error <- error
       self$memory <- memory
@@ -195,6 +202,7 @@ options_class <- R6::R6Class(
         library = self$get_library(),
         format = self$get_format(),
         repository = self$get_repository(),
+        repository_meta = self$get_repository_meta(),
         iteration = self$get_iteration(),
         error = self$get_error(),
         memory = self$get_memory(),
@@ -219,6 +227,7 @@ options_class <- R6::R6Class(
       self$set_library(list$library)
       self$set_format(list$format)
       self$set_repository(list$repository)
+      self$set_repository_meta(list$repository_meta)
       self$set_iteration(list$iteration)
       self$set_error(list$error)
       self$set_memory(list$memory)
@@ -243,6 +252,7 @@ options_class <- R6::R6Class(
       self$envir <- NULL
       self$format <- NULL
       self$repository <- NULL
+      self$repository_meta <- NULL
       self$iteration <- NULL
       self$error <- NULL
       self$memory <- NULL
@@ -281,6 +291,9 @@ options_class <- R6::R6Class(
     },
     get_repository = function() {
       self$repository %|||% "local"
+    },
+    get_repository_meta = function() {
+      (self$repository_meta %|||% self$repository) %|||% "local"
     },
     get_iteration = function() {
       self$iteration %|||% "vector"
@@ -360,6 +373,10 @@ options_class <- R6::R6Class(
     set_repository = function(repository) {
       self$validate_repository(repository)
       self$repository <- repository
+    },
+    set_repository_meta = function(repository_meta) {
+      self$validate_repository_meta(repository_meta)
+      self$repository_meta <- repository_meta
     },
     set_iteration = function(iteration) {
       self$validate_iteration(iteration)
@@ -466,6 +483,9 @@ options_class <- R6::R6Class(
     validate_repository = function(repository) {
       tar_assert_repository(repository)
     },
+    validate_repository_meta = function(repository_meta) {
+      tar_assert_repository(repository_meta)
+    },
     validate_iteration = function(iteration) {
       tar_assert_flag(iteration, c("vector", "list", "group"))
     },
@@ -547,6 +567,7 @@ options_class <- R6::R6Class(
       self$validate_envir(self$get_envir())
       self$validate_format(self$get_format())
       self$validate_repository(self$get_repository())
+      self$validate_repository_meta(self$get_repository_meta())
       self$validate_iteration(self$get_iteration())
       self$validate_error(self$get_error())
       self$validate_memory(self$get_memory())

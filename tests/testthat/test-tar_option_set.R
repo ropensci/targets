@@ -88,6 +88,32 @@ tar_test("repository", {
   )
 })
 
+tar_test("repository_meta", {
+  expect_equal(tar_option_get("repository_meta"), "local")
+  tar_option_set(repository_meta = "aws")
+  expect_equal(tar_option_get("repository_meta"), "aws")
+  tar_option_reset()
+  expect_equal(tar_option_get("repository_meta"), "local")
+  expect_error(
+    tar_option_set(repository_meta = 123),
+    class = "tar_condition_validate"
+  )
+})
+
+tar_test("repository_meta", {
+  tar_option_set(repository = "gcp")
+  expect_equal(tar_option_get("repository_meta"), "gcp")
+  tar_option_set(repository_meta = "aws")
+  expect_equal(tar_option_get("repository_meta"), "aws")
+  tar_option_reset()
+  tar_option_set(repository = "gcp")
+  expect_equal(tar_option_get("repository_meta"), "gcp")
+  expect_error(
+    tar_option_set(repository_meta = 123),
+    class = "tar_condition_validate"
+  )
+})
+
 tar_test("iteration", {
   expect_equal(tar_option_get("iteration"), "vector")
   tar_option_set(iteration = "list")
