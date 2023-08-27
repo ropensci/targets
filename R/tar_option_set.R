@@ -14,7 +14,7 @@
 #' @param repository_meta Character of length 1 with the same values as
 #'   `repository` (`"aws"`, `"gcp"`, `"local"`). Cloud repository
 #'   for the metadata text files in `_targets/meta/`, including target
-#'   metadata and progress data. Defaults to [tar_option_get("repository")].
+#'   metadata and progress data. Defaults to `tar_option_get("repository")`.
 #' @param imports Character vector of package names.
 #'   For every package listed, `targets` tracks every
 #'   dataset and every object in the package namespace

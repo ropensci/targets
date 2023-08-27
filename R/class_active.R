@@ -63,6 +63,7 @@ active_class <- R6::R6Class(
     },
     ensure_meta = function() {
       new_store <- !file.exists(self$meta$store)
+      self$meta$database$sync()
       self$meta$migrate_database()
       self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
@@ -74,8 +75,8 @@ active_class <- R6::R6Class(
       self$meta$restrict_records(self$pipeline)
     },
     dequeue_meta = function() {
-      self$meta$database$dequeue_rows()
-      self$scheduler$progress$database$dequeue_rows()
+      self$meta$database$dequeue_rows(upload = TRUE)
+      self$scheduler$progress$database$dequeue_rows(upload = TRUE)
     },
     dequeue_meta_time = function() {
       self$seconds_dequeued <- self$seconds_dequeued %|||% -Inf
@@ -174,15 +175,18 @@ active_class <- R6::R6Class(
       self$scheduler$reporter$report_start()
     },
     end = function() {
-      self$dequeue_meta()
-      pipeline_unload_loaded(self$pipeline)
-      seconds_elapsed <- time_seconds() - self$seconds_start
       scheduler <- self$scheduler
-      scheduler$reporter$report_end(scheduler$progress, seconds_elapsed)
+      pipeline_unload_loaded(self$pipeline)
+      self$meta$database$dequeue_rows(upload = FALSE)
+      if (self$meta$database$deduplicate_storage()) {
+        self$meta$database$upload()
+      }
+      self$scheduler$progress$database$dequeue_rows(upload = TRUE)
       path_scratch_del(path_store = self$meta$store)
-      self$meta$database$deduplicate_storage()
       compare_working_directories()
       tar_assert_objects_files(self$meta$store)
+      seconds_elapsed <- time_seconds() - self$seconds_start
+      scheduler$reporter$report_end(scheduler$progress, seconds_elapsed)
     },
     validate = function() {
       super$validate()

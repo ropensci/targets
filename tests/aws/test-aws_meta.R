@@ -31,5 +31,20 @@ tar_test("AWS meta", {
   do.call(tar_script, list(code = code))
   tar_make()
   expect_equal(tar_read(c), 2L)
+  
+  
+  
+  
+  for (file in c("meta", "process", "progress", "crew")) {
+    expect_true(
+      aws_s3_exists(
+        key = file.path("_targets/meta", file),
+        bucket = bucket_name,
+        max_tries = 5L
+      )
+    )
+  }
+  unlink(path_meta(path_store_default()))
+  expect_equal(sort(tar_outdated()), sort(c("a", "b", "c")))
   tar_make()
 })

@@ -154,11 +154,13 @@ database_class <- R6::R6Class(
       line <- self$produce_line(self$select_cols(row))
       self$queue[length(self$queue) + 1L] <- line
     },
-    dequeue_rows = function() {
+    dequeue_rows = function(upload = TRUE) {
       if (length(self$queue)) {
         on.exit(self$queue <- NULL)
         self$append_lines(self$queue)
-        self$upload()
+        if (upload) {
+          self$upload()
+        }
       }
     },
     write_row = function(row) {
@@ -289,11 +291,17 @@ database_class <- R6::R6Class(
       out
     },
     deduplicate_storage = function() {
+      overwrite <- FALSE
       if (file.exists(self$path)) {
-        data <- self$condense_data(self$read_data())
-        data <- data[order(data$name),, drop = FALSE] # nolint
-        self$overwrite_storage(data)
+        old <- self$read_data()
+        data <- self$condense_data(old)
+        overwrite <- (nrow(data) != nrow(old))
+        if (overwrite) {
+          data <- data[order(data$name),, drop = FALSE] # nolint
+          self$overwrite_storage(data)
+        }
       }
+      overwrite
     },
     upload = function() {
       "upload"
@@ -316,7 +324,7 @@ database_class <- R6::R6Class(
       file <- file_init(path = path)
       file_ensure_hash(file)
       exists_file <- all(file.exists(path))
-      exists_object <- head$exists
+      exists_object <- head$exists %|||% FALSE
       changed <- !all(file$hash == head$hash)
       if (exists_file && (!exists_object)) {
         self$upload()

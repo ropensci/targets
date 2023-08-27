@@ -141,7 +141,7 @@ the target runs.}
 \item{repository_meta}{Character of length 1 with the same values as
 \code{repository} (\code{"aws"}, \code{"gcp"}, \code{"local"}). Cloud repository
 for the metadata text files in \verb{_targets/meta/}, including target
-metadata and progress data. Defaults to \link{tar_option_get("repository")}.}
+metadata and progress data. Defaults to \code{tar_option_get("repository")}.}
 
 \item{iteration}{Character of length 1, name of the iteration mode
 of the target. Choices:
