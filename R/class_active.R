@@ -63,7 +63,7 @@ active_class <- R6::R6Class(
     },
     ensure_meta = function() {
       new_store <- !file.exists(self$meta$store)
-      self$meta$database$sync()
+      self$meta$database$sync(prefer_local = TRUE)
       self$meta$migrate_database()
       self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
