@@ -7,6 +7,11 @@ Because of these changes, upgrading to this version of `targets` will unavoidabl
 
 * In the `hash_deps()` method of the metadata class, exclude symbols which are not actually dependencies, rather than just giving them empty strings. This change decouples the dependency hash from the hash of the target's command (#1108).
 
+
+## Cloud metadata
+
+* Add a new `repository_meta` option to select the cloud repository of the metadata files in `_targets/meta/` (#1109). Defaults to `tar_option_get("repository")`.
+
 ## Other changes
 
 * Fix solution of #1103 so the copy fallback actually runs (@jds485, #1102, #1103).
