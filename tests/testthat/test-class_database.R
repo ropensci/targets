@@ -396,10 +396,11 @@ tar_test("compare_working_directories()", {
   )
 })
 
-tar_test("local database download_upload methods", {
+tar_test("local database cloud methods", {
   database <- database_init(repository = "local")
-  expect_silent(database$upload())
-  expect_silent(database$download())
+  expect_null(database$download())
+  expect_null(database$upload())
+  expect_null(database$head())
 })
 
 tar_test("database unknown repository", {
