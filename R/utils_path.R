@@ -77,6 +77,10 @@ path_process <- function(path_store) {
   file.path(path_meta_dir(path_store), "process")
 }
 
+path_crew <- function(path_store) {
+  file.path(path_meta_dir(path_store), "crew")
+}
+
 path_scratch <- function(path_store, pattern = "tmp") {
   file.path(path_scratch_dir(path_store), pattern)
 }

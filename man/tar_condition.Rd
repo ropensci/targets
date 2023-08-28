@@ -9,6 +9,7 @@
 \alias{tar_warn_deprecate}
 \alias{tar_warn_run}
 \alias{tar_warn_validate}
+\alias{tar_print}
 \alias{tar_error}
 \alias{tar_warning}
 \alias{tar_message}
@@ -27,6 +28,8 @@ tar_warn_deprecate(...)
 tar_warn_run(...)
 
 tar_warn_validate(...)
+
+tar_print(...)
 
 tar_error(message, class)
 

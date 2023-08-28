@@ -63,7 +63,7 @@ active_class <- R6::R6Class(
     },
     ensure_meta = function() {
       new_store <- !file.exists(self$meta$store)
-      self$meta$database$sync(prefer_local = TRUE)
+      self$meta$database$sync(prefer_local = TRUE, verbose = FALSE)
       self$meta$migrate_database()
       self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
@@ -179,7 +179,7 @@ active_class <- R6::R6Class(
       pipeline_unload_loaded(self$pipeline)
       self$meta$database$dequeue_rows(upload = FALSE)
       self$meta$database$deduplicate_storage()
-      self$meta$database$sync(prefer_local = TRUE)
+      self$meta$database$sync(prefer_local = TRUE, verbose = FALSE)
       self$scheduler$progress$database$dequeue_rows(upload = TRUE)
       path_scratch_del(path_store = self$meta$store)
       compare_working_directories()

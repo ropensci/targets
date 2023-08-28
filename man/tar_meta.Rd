@@ -126,6 +126,43 @@ target factories in the \code{tarchetypes} package such as \code{tar_render()}
 and \code{tar_quarto()}.
 }
 
+\section{Cloud metadata}{
+
+Metadata files help \code{targets}
+read data objects and decide if the pipeline is up to date.
+Usually, these metadata files live in files in the local
+\verb{_targets/meta/} folder in your project, e.g. \verb{_targets/meta/meta}.
+But in addition, if you set \code{repository} to anything other than
+\code{"local"} in \code{\link[=tar_option_set]{tar_option_set()}} in \verb{_targets.R}, then \code{\link[=tar_make]{tar_make()}}
+continuously uploads the metadata files to the bucket you specify
+in \code{resources}. \code{\link[=tar_meta_delete]{tar_meta_delete()}} will delete those files from the
+cloud, and so will \code{\link[=tar_destroy]{tar_destroy()}} if \code{destroy} is
+set to either \code{"all"} or \code{"cloud"}.
+
+Other functions in \code{targets}, such as \code{\link[=tar_meta]{tar_meta()}},
+\code{\link[=tar_visnetwork]{tar_visnetwork()}}, \code{\link[=tar_outdated]{tar_outdated()}}, and \code{\link[=tar_invalidate]{tar_invalidate()}},
+use the local metadata only and ignore the copies on the cloud.
+So if you are working on a different computer than the
+one running the pipeline, you will need to download the cloud metadata
+to your current machine using \code{\link[=tar_meta_download]{tar_meta_download()}}. Other functions
+\code{\link[=tar_meta_upload]{tar_meta_upload()}}, \code{\link[=tar_meta_sync]{tar_meta_sync()}}, and \code{\link[=tar_meta_delete]{tar_meta_delete()}}
+also manage metadata across the cloud and the local file system.
+
+Remarks:
+\itemize{
+\item The \code{repository_meta} option in \code{\link[=tar_option_set]{tar_option_set()}} is actually
+what controls where the metadata lives in the cloud, but it defaults
+to \code{repository}.
+\item Like \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_future]{tar_make_future()}} and \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}
+also continuously upload metadata files to the cloud bucket
+specified in \code{resources}.
+\item \code{\link[=tar_meta_download]{tar_meta_download()}} and related functions need to run \verb{_targets.R}
+to detect \code{\link[=tar_option_set]{tar_option_set()}} options \code{repository_meta} and \code{resources},
+so please be aware of side effects that may happen running your
+custom \verb{_targets.R} file.
+}
+}
+
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -142,15 +179,10 @@ tar_meta(starts_with("y_")) # see also any_of()
 }
 }
 \seealso{
-Other data: 
-\code{\link{tar_crew}()},
-\code{\link{tar_load_everything}()},
-\code{\link{tar_load_raw}()},
-\code{\link{tar_load}()},
-\code{\link{tar_objects}()},
-\code{\link{tar_pid}()},
-\code{\link{tar_process}()},
-\code{\link{tar_read_raw}()},
-\code{\link{tar_read}()}
+Other metadata: 
+\code{\link{tar_meta_delete}()},
+\code{\link{tar_meta_download}()},
+\code{\link{tar_meta_sync}()},
+\code{\link{tar_meta_upload}()}
 }
-\concept{data}
+\concept{metadata}

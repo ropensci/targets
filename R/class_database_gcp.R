@@ -43,8 +43,7 @@ database_gcp_class <- R6::R6Class(
     },
     download = function() {
       gcp <- self$resources$gcp
-      file <- file_init(path = path)
-      file_ensure_hash(file)
+      dir_create(dirname(self$path))
       gcp_gcs_download(
         file = self$path,
         key = self$key,

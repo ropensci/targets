@@ -436,47 +436,52 @@ tar_test("mock head",  {
 })
 
 tar_test("mock sync no action", {
-  x <- database_class$new(path = tempfile())
-  expect_null(x$sync())
+  x <- database_class$new(path = tempfile(), key = "x")
+  expect_null(x$sync(verbose = TRUE))
 })
 
 tar_test("mock sync only cloud", {
-  x <- database_class$new(path = tempfile())
+  x <- database_class$new(path = tempfile(), key = "x")
   file.create("path_cloud")
-  expect_equal(x$sync(), "download")
+  expect_equal(x$sync(verbose = TRUE), "download")
 })
 
 tar_test("mock sync only local", {
-  x <- database_class$new(path = tempfile())
+  x <- database_class$new(path = tempfile(), key = "x")
   file.create(x$path)
-  expect_equal(x$sync(), "upload")
+  expect_equal(x$sync(verbose = TRUE), "upload")
 })
 
 tar_test("mock sync only local", {
-  x <- database_class$new(path = tempfile())
+  x <- database_class$new(path = tempfile(), key = "x")
   file.create(x$path)
-  expect_equal(x$sync(), "upload")
+  expect_equal(x$sync(verbose = TRUE), "upload")
 })
 
 tar_test("mock sync no action on agreement", {
   x <- database_class$new(path = tempfile())
   writeLines("lines", x$path)
   file.copy(x$path, "path_cloud")
-  expect_null(x$sync())
+  expect_null(x$sync(verbose = TRUE))
 })
 
 tar_test("mock sync cloud file more recent", {
   old <- system.file("CITATION", package = "targets", mustWork = TRUE)
-  x <- database_class$new(path = old)
+  x <- database_class$new(path = old, key = "x")
   writeLines("lines", "path_cloud")
-  expect_equal(x$sync(), "download")
+  expect_equal(x$sync(verbose = TRUE), "download")
 })
 
 tar_test("mock sync local file more recent", {
   skip_cran()
-  x <- database_class$new(path = tempfile())
+  x <- database_class$new(path = tempfile(), key = "x")
   writeLines("lines", x$path)
   old <- system.file("CITATION", package = "targets", mustWork = TRUE)
-  file.copy(from = old, to = "path_cloud", copy.date = TRUE)
-  expect_equal(x$sync(), "upload")
+  file.copy(
+    from = old,
+    to = "path_cloud",
+    copy.date = TRUE,
+    overwrite = TRUE
+  )
+  expect_equal(x$sync(verbose = TRUE), "upload")
 })

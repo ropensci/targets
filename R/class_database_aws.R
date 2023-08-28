@@ -43,6 +43,7 @@ database_aws_class <- R6::R6Class(
     },
     download = function() {
       aws <- self$resources$aws
+      dir_create(dirname(self$path))
       aws_s3_download(
         file = self$path,
         key = self$key,
