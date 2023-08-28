@@ -41,7 +41,15 @@ database_gcp_class <- R6::R6Class(
       )
       resources_validate(self$resources$gcp)
     },
-    download = function() {
+    download = function(verbose = TRUE) {
+      if (verbose) {
+        tar_print(
+          "Downloading GCP cloud object ",
+          self$key,
+          " to local file ",
+          self$path
+        )
+      }
       gcp <- self$resources$gcp
       dir_create(dirname(self$path))
       gcp_gcs_download(
@@ -53,7 +61,15 @@ database_gcp_class <- R6::R6Class(
       )
       invisible()
     },
-    upload = function() {
+    upload = function(verbose = TRUE) {
+      if (verbose) {
+        tar_print(
+          "Uploading local file ",
+          self$path,
+          " to GCP cloud object ",
+          self$key
+        )
+      }
       gcp <- self$resources$gcp
       file <- file_init(path = path)
       file_ensure_hash(file)
@@ -87,7 +103,10 @@ database_gcp_class <- R6::R6Class(
         time = head$metadata$`targets-database-time`
       )
     },
-    delete_cloud = function() {
+    delete_cloud = function(verbose = TRUE) {
+      if (verbose) {
+        tar_print("Deleting GCP cloud object ", self$key)
+      }
       gcp <- self$resources$gcp
       head <- gcp_gcs_delete(
         key = self$key,
