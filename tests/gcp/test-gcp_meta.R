@@ -341,9 +341,10 @@ tar_test("gcp tar_meta_sync() upload", {
 tar_test("gcp tar_meta_sync() download", {
   skip_if_no_gcp()
   skip_if_not_installed("crew")
-  gcs <- pgcp.storage::gcs()
   bucket_name <- random_bucket_name()
-  gcs$create_bucket(Bucket = bucket_name)
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  gcp_gcs_auth(max_tries = 5)
+  googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
   code <- substitute({
     library(targets)
