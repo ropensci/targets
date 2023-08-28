@@ -44,7 +44,7 @@ tar_test("AWS meta", {
   for (object in c("a", "b", "c")) {
     expect_true(
       aws_s3_exists(
-        key = file.path("_targets/objects", file),
+        key = file.path("_targets/objects", object),
         bucket = bucket_name,
         max_tries = 5L
       )
@@ -67,7 +67,7 @@ tar_test("AWS meta", {
   for (object in c("a", "b", "c")) {
     expect_false(
       aws_s3_exists(
-        key = file.path("_targets/objects", file),
+        key = file.path("_targets/objects", object),
         bucket = bucket_name,
         max_tries = 5L
       )

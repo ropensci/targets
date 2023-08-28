@@ -46,7 +46,7 @@ tar_test("gcp meta", {
   for (object in c("a", "b", "c")) {
     expect_true(
       gcp_gcs_exists(
-        key = file.path("_targets/objects", file),
+        key = file.path("_targets/objects", object),
         bucket = bucket_name,
         max_tries = 5L
       )
@@ -69,7 +69,7 @@ tar_test("gcp meta", {
   for (object in c("a", "b", "c")) {
     expect_false(
       gcp_gcs_exists(
-        key = file.path("_targets/objects", file),
+        key = file.path("_targets/objects", object),
         bucket = bucket_name,
         max_tries = 5L
       )
