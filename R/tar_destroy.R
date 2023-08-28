@@ -107,7 +107,11 @@ tar_destroy <- function(
   )
   if (destroy %in% c("all", "cloud")) {
     meta <- tar_meta(store = store)
-    tar_delete_cloud_objects(names = meta$name, meta = meta, path_store = store)
+    tar_delete_cloud_objects(
+      names = meta$name,
+      meta = meta,
+      path_store = store
+    )
     unlink(path_scratch_dir_network(), recursive = TRUE)
   }
   if (tar_should_delete(path = path, ask = ask)) {
