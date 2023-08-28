@@ -171,7 +171,7 @@ tar_callr_inner_try <- function(
   on.exit(tar_runtime$file_info_exist <- NULL, add = TRUE)
   old <- options(options)
   on.exit(options(old), add = TRUE)
-  targets <- eval(parse(file = script), envir = envir)
+  targets <- eval(parse(file = script, keep.source = TRUE), envir = envir)
   targets_arguments$pipeline <- targets::tar_as_pipeline(targets)
   targets::tar_pipeline_validate_lite(targets_arguments$pipeline)
   do.call(targets_function, targets_arguments)

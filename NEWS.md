@@ -1,4 +1,4 @@
-# targets 1.2.2.9001 (development)
+# targets 1.2.2.9002 (development)
 
 ## Invalidating changes
 
@@ -27,6 +27,7 @@ Because of these changes, upgrading to this version of `targets` will unavoidabl
 * Make cloud temp file instances unique in order to avoid file conflicts with the same target.
 * For `format = "url"`, only retry on HTTP 500 error codes.
 * Un-deprecate `seconds_interval` and `seconds_timeout` from `tar_resources_url()`, and implement `max_tries` arguments in `tar_resources_aws()` and `tar_resources_gcp()` (#1127).
+* Use `file` and `keep.source` in `parse()` in `callr` utils and target Markdown.
 
 # targets 1.2.2
 

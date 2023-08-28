@@ -10,7 +10,7 @@ lapply(
   ),
   FUN = function(path) {
     eval(
-      expr = parse(text = readLines(con = path, warn = FALSE)),
+      expr = parse(file = path, keep.source = TRUE),
       envir = targets::tar_option_get(name = "envir")
     )
   }
@@ -25,7 +25,7 @@ lapply(
   ),
   FUN = function(path) {
     eval(
-      expr = parse(text = readLines(con = path, warn = FALSE)),
+      expr = parse(file = path, keep.source = TRUE),
       envir = targets::tar_option_get(name = "envir")
     )
   }
