@@ -53,13 +53,8 @@ can help set environment variables.}
 
 \item{script}{Character of length 1, path to the
 target script file. Defaults to \code{tar_config_get("script")},
-which in turn defaults to \verb{_targets.R}. When you set
-this argument, the value of \code{tar_config_get("script")}
-is temporarily changed for the current function call.
-See \code{\link[=tar_script]{tar_script()}},
-\code{\link[=tar_config_get]{tar_config_get()}}, and \code{\link[=tar_config_set]{tar_config_set()}} for details
-about the target script file and how to set it
-persistently for a project.}
+which in turn defaults to \verb{_targets.R}. If the script does not exist,
+then cloud metadata will not be deleted.}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

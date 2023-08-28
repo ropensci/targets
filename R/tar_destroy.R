@@ -62,6 +62,10 @@
 #'   before deleting files. To disable this menu, set the `TAR_ASK`
 #'   environment variable to `"false"`. `usethis::edit_r_environ()`
 #'   can help set environment variables.
+#' @param script Character of length 1, path to the
+#'   target script file. Defaults to `tar_config_get("script")`,
+#'   which in turn defaults to `_targets.R`. If the script does not exist,
+#'   then cloud metadata will not be deleted.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
