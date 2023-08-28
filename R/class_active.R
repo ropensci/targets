@@ -103,7 +103,7 @@ active_class <- R6::R6Class(
     ensure_process = function() {
       self$process <- process_init(path_store = self$meta$store)
       self$process$record_process()
-      self$process$database$upload()
+      self$process$database$upload(verbose = FALSE)
     },
     produce_exports = function(envir, path_store, is_globalenv = NULL) {
       map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises

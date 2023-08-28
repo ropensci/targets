@@ -159,7 +159,7 @@ database_class <- R6::R6Class(
         on.exit(self$queue <- NULL)
         self$append_lines(self$queue)
         if (upload) {
-          self$upload()
+          self$upload(verbose = FALSE)
         }
       }
     },
