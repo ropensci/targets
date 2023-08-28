@@ -214,7 +214,7 @@ tar_option_set <- function(
   if_any(
     is.null(repository_meta),
     NULL,
-    tar_options$set_repository(repository_meta)
+    tar_options$set_repository_meta(repository_meta)
   )
   if_any(is.null(iteration), NULL, tar_options$set_iteration(iteration))
   if_any(is.null(error), NULL, tar_options$set_error(error))
