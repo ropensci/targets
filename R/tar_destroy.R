@@ -122,7 +122,12 @@ tar_destroy <- function(
   invisible()
 }
 
+# Covered in AWS and GCP tests.
+# nocov start
 tar_delete_cloud_meta <- function(script) {
+  if (!file.exists(script)) {
+    return()
+  }
   options <- tar_option_script(script = script)
   old_repository_meta <- tar_options$get_repository_meta()
   old_resources <- tar_options$get_resources()
@@ -142,3 +147,4 @@ tar_delete_cloud_meta <- function(script) {
   crew$delete_cloud()
   invisible()
 }
+# nocov end
