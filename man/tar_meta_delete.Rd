@@ -6,6 +6,7 @@
 \usage{
 tar_meta_delete(
   which = "all",
+  verbose = TRUE,
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 )
@@ -15,6 +16,9 @@ tar_meta_delete(
 Choose \code{"local"} for local files, \code{"cloud"} for files on the cloud,
 or \code{"all"} to delete metadata files from both the local file system
 and the cloud.}
+
+\item{verbose}{Logical of length 1, whether to print informative
+console messages.}
 
 \item{script}{Character of length 1, path to the
 target script file. Defaults to \code{tar_config_get("script")},

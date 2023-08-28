@@ -4,7 +4,7 @@
 #' @description Upload local metadata files to the cloud location
 #'   (repository, bucket, and prefix) you set in
 #'   [tar_option_set()] in `_targets.R`.
-#' @inheritParams tar_validate
+#' @inheritParams tar_meta_sync
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -27,6 +27,7 @@
 #' })
 #' }
 tar_meta_upload <- function(
+  verbose = TRUE,
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
@@ -41,9 +42,9 @@ tar_meta_upload <- function(
   })
   tar_option_set(repository_meta = options$repository_meta)
   tar_option_set(resources = options$resources)
-  database_meta(path_store = store)$upload()
-  database_progress(path_store = store)$upload()
-  database_process(path_store = store)$upload()
-  database_crew(path_store = store)$upload()
+  database_meta(path_store = store)$upload(verbose = verbose)
+  database_progress(path_store = store)$upload(verbose = verbose)
+  database_process(path_store = store)$upload(verbose = verbose)
+  database_crew(path_store = store)$upload(verbose = verbose)
   invisible()
 }

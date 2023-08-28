@@ -145,10 +145,10 @@ tar_delete_cloud_meta <- function(script) {
   progress <- database_progress(path_store = tempfile())
   process <- database_process(path_store = tempfile())
   crew <- database_crew(path_store = tempfile())
-  meta$delete_cloud()
-  progress$delete_cloud()
-  process$delete_cloud()
-  crew$delete_cloud()
+  meta$delete_cloud(verbose = FALSE)
+  progress$delete_cloud(verbose = FALSE)
+  process$delete_cloud(verbose = FALSE)
+  crew$delete_cloud(verbose = FALSE)
   invisible()
 }
 # nocov end

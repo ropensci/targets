@@ -41,7 +41,15 @@ database_aws_class <- R6::R6Class(
       )
       resources_validate(self$resources$aws)
     },
-    download = function() {
+    download = function(verbose = TRUE) {
+      if (verbose) {
+        tar_print(
+          "Downloading AWS cloud object ",
+          self$key,
+          " to local file ",
+          self$path
+        )
+      }
       aws <- self$resources$aws
       dir_create(dirname(self$path))
       aws_s3_download(
@@ -55,7 +63,15 @@ database_aws_class <- R6::R6Class(
       )
       invisible()
     },
-    upload = function() {
+    upload = function(verbose = TRUE) {
+      if (verbose) {
+        tar_print(
+          "Uploading local file ",
+          self$path,
+          " to AWS cloud object ",
+          self$key
+        )
+      }
       aws <- self$resources$aws
       file <- file_init(path = path)
       file_ensure_hash(file)
@@ -93,7 +109,10 @@ database_aws_class <- R6::R6Class(
         time = head$Metadata$`targets-database-time`
       )
     },
-    delete_cloud = function() {
+    delete_cloud = function(verbose = TRUE) {
+      if (verbose) {
+        tar_print("Deleting AWS cloud object ", self$key)
+      }
       aws <- self$resources$aws
       aws_s3_delete(
         key = self$key,

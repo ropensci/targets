@@ -304,10 +304,10 @@ database_class <- R6::R6Class(
       }
       invisible()
     },
-    upload = function() {
+    upload = function(verbose = TRUE) {
       "upload"
     },
-    download = function() {
+    download = function(verbose = TRUE) {
       "download"
     },
     head = function() {
@@ -328,15 +328,9 @@ database_class <- R6::R6Class(
       exists_object <- head$exists %|||% FALSE
       changed <- !all(file$hash == head$hash)
       if (exists_file && (!exists_object)) {
-        if (verbose) {
-          tar_print("Uploading ", self$path, " to ", self$key, ".")
-        }
-        self$upload()
+        self$upload(verbose = verbose)
       } else if ((!exists_file) && exists_object) {
-        if (verbose) {
-          tar_print("Downloading ", self$key, " to ", self$path, ".")
-        }
-        self$download()
+        self$download(verbose = verbose)
       } else if (exists_file && exists_object && changed) {
         time_file <- file_time_posixct(file$time)
         time_head <- file_time_posixct(head$time)
@@ -344,19 +338,18 @@ database_class <- R6::R6Class(
         file_same <- file$time == head$time
         do_upload <- file_newer || (prefer_local && file_same)
         if (do_upload) {
-          if (verbose) {
-            tar_print("Uploading ", self$path, " to ", self$key, ".")
-          }
-          self$upload()
+          self$upload(verbose = verbose)
         } else {
-          if (verbose) {
-            tar_print("Downloading ", self$key, " to ", self$path, ".")
-          }
-          self$download()
+          self$download(verbose = verbose)
         }
       } else {
         if (verbose) {
-          tar_print("Skipped syncing ", self$path, " and ", self$key, ".")
+          tar_print(
+            "Skipped syncing ",
+            self$path,
+            " with cloud object ",
+            self$key
+          )
         }
         invisible()
       }

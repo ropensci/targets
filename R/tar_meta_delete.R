@@ -3,7 +3,7 @@
 #' @family metadata
 #' @description Delete the project metadata files from the local file system,
 #'   the cloud, or both.
-#' @inheritParams tar_validate
+#' @inheritParams tar_meta_sync
 #' @param which Character of length 1, which metadata files to delete.
 #'   Choose `"local"` for local files, `"cloud"` for files on the cloud,
 #'   or `"all"` to delete metadata files from both the local file system
@@ -31,6 +31,7 @@
 #' }
 tar_meta_delete <- function(
   which = "all",
+  verbose = TRUE,
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
@@ -60,10 +61,10 @@ tar_meta_delete <- function(
     })
     tar_option_set(repository_meta = options$repository_meta)
     tar_option_set(resources = options$resources)
-    database_meta(path_store = tempfile())$delete_cloud()
-    database_progress(path_store = tempfile())$delete_cloud()
-    database_process(path_store = tempfile())$delete_cloud()
-    database_crew(path_store = tempfile())$delete_cloud()
+    database_meta(path_store = tempfile())$delete_cloud(verbose = verbose)
+    database_progress(path_store = tempfile())$delete_cloud(verbose = verbose)
+    database_process(path_store = tempfile())$delete_cloud(verbose = verbose)
+    database_crew(path_store = tempfile())$delete_cloud(verbose = verbose)
   }
   invisible()
 }

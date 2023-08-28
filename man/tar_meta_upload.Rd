@@ -5,11 +5,15 @@
 \title{Upload local metadata to the cloud.}
 \usage{
 tar_meta_upload(
+  verbose = TRUE,
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 )
 }
 \arguments{
+\item{verbose}{Logical of length 1, whether to print informative
+console messages.}
+
 \item{script}{Character of length 1, path to the
 target script file. Defaults to \code{tar_config_get("script")},
 which in turn defaults to \verb{_targets.R}. When you set
