@@ -71,6 +71,7 @@ reference:
   - '`tar_read`'
   - '`tar_read_raw`'
 - title: Metadata
+  contents:
   - '`tar_meta`'
   - '`tar_meta_delete`'
   - '`tar_meta_download`'
