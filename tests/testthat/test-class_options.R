@@ -455,3 +455,25 @@ tar_test("trust_object_timestamps", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("tar_option_export", {
+  skip_cran()
+  script <- path_script_default()
+  tar_script(tar_target(x, 1), script = script)
+  out <- tar_option_script(script = script)
+  expect_true(is.list(out))
+  names <- c(
+    "packages",
+    "imports",
+    "library",
+    "format",
+    "repository",
+    "repository_meta",
+    "iteration",
+    "error",
+    "memory",
+    "garbage_collection",
+    "resources"
+  )
+  expect_true(all(names %in% names(out)))
+})
