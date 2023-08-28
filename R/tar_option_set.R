@@ -11,6 +11,10 @@
 #' @return `NULL` (invisibly).
 #' @inheritSection tar_target Storage formats
 #' @inheritParams tar_target
+#' @param repository_meta Character of length 1 with the same values as
+#'   `repository` (`"aws"`, `"gcp"`, `"local"`). Cloud repository
+#'   for the metadata text files in `_targets/meta/`, including target
+#'   metadata and progress data. Defaults to `tar_option_get("repository")`.
 #' @param imports Character vector of package names.
 #'   For every package listed, `targets` tracks every
 #'   dataset and every object in the package namespace
@@ -180,6 +184,7 @@ tar_option_set <- function(
   envir = NULL,
   format = NULL,
   repository = NULL,
+  repository_meta = NULL,
   iteration = NULL,
   error = NULL,
   memory = NULL,
@@ -206,6 +211,11 @@ tar_option_set <- function(
   if_any(is.null(envir), NULL, tar_options$set_envir(envir))
   if_any(is.null(format), NULL, tar_options$set_format(format))
   if_any(is.null(repository), NULL, tar_options$set_repository(repository))
+  if_any(
+    is.null(repository_meta),
+    NULL,
+    tar_options$set_repository_meta(repository_meta)
+  )
   if_any(is.null(iteration), NULL, tar_options$set_iteration(iteration))
   if_any(is.null(error), NULL, tar_options$set_error(error))
   if_any(is.null(memory), NULL, tar_options$set_memory(memory))

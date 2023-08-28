@@ -76,6 +76,7 @@ aws_s3_download <- function(
     args$VersionId <- version
   }
   args <- supported_args(fun = client$get_object, args = args)
+  dir_create(dirname(file))
   out <- retry_until_success(
     fun = function(client, args) {
       do.call(what = client$get_object, args = args)

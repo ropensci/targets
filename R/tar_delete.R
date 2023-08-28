@@ -61,7 +61,7 @@ tar_delete <- function(
   local_dynamic_files <- meta$name[index_local_dynamic_files]
   names <- setdiff(names, local_dynamic_files)
   if (cloud) {
-    tar_delete_cloud(names = names, meta = meta, path_store = store)
+    tar_delete_cloud_objects(names = names, meta = meta, path_store = store)
   }
   files <- list.files(path_objects_dir(store), all.files = TRUE)
   discard <- intersect(names, files)
@@ -71,7 +71,7 @@ tar_delete <- function(
 
 # Tested in tests/aws/test-delete.R
 # nocov start
-tar_delete_cloud <- function(names, meta, path_store) {
+tar_delete_cloud_objects <- function(names, meta, path_store) {
   index_cloud <- !is.na(meta$repository) & meta$repository != "local"
   meta <- meta[index_cloud,, drop = FALSE] # nolint
   meta <- meta[meta$name %in% names,, drop = FALSE] # nolint

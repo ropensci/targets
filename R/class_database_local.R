@@ -27,9 +27,26 @@ database_local_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    upload = function() {
+    upload = function(verbose = TRUE) {
+      if (verbose) {
+        tar_print(self$path, " not configured to upload to the cloud.")
+      }
+      invisible()
     },
-    download = function() {
+    download = function(verbose = TRUE) {
+      if (verbose) {
+        tar_print(self$path, " not configured to download from the cloud.")
+      }
+      invisible()
+    },
+    head = function() {
+      invisible()
+    },
+    delete_cloud = function(verbose = TRUE) {
+      if (verbose) {
+        tar_print("Not configured to delete cloud object ", self$key)
+      }
+      invisible()
     }
   )
 )

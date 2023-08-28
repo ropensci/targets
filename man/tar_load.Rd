@@ -114,7 +114,6 @@ Other data:
 \code{\link{tar_crew}()},
 \code{\link{tar_load_everything}()},
 \code{\link{tar_load_raw}()},
-\code{\link{tar_meta}()},
 \code{\link{tar_objects}()},
 \code{\link{tar_pid}()},
 \code{\link{tar_process}()},

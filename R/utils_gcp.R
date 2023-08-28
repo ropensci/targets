@@ -84,6 +84,7 @@ gcp_gcs_download <- function(
     options(googleAuthR.tryAttempts = max_tries %|||% 5L)
   )
   gcp_gcs_auth(verbose = verbose, max_tries = max_tries)
+  dir_create(dirname(file))
   if_any(verbose, identity, suppressMessages) (
     googleCloudStorageR::gcs_get_object(
       key,

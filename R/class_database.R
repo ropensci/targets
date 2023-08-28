@@ -4,7 +4,7 @@ database_init <- function(
   header = "name",
   list_columns = character(0L),
   list_column_modes = character(0L),
-  repository = tar_options$get_repository(),
+  repository = tar_options$get_repository_meta(),
   resources = tar_options$get_resources()
 ) {
   memory <- memory_init()
@@ -154,10 +154,13 @@ database_class <- R6::R6Class(
       line <- self$produce_line(self$select_cols(row))
       self$queue[length(self$queue) + 1L] <- line
     },
-    dequeue_rows = function() {
+    dequeue_rows = function(upload = TRUE) {
       if (length(self$queue)) {
         on.exit(self$queue <- NULL)
         self$append_lines(self$queue)
+        if (upload) {
+          self$upload(verbose = FALSE)
+        }
       }
     },
     write_row = function(row) {
@@ -288,10 +291,67 @@ database_class <- R6::R6Class(
       out
     },
     deduplicate_storage = function() {
-      if (file.exists(self$path)) {
-        data <- self$condense_data(self$read_data())
+      exists <- file.exists(self$path)
+      overwrite <- !exists
+      if (exists) {
+        old <- self$read_data()
+        data <- self$condense_data(old)
+        overwrite <- (nrow(data) != nrow(old))
+      }
+      if (overwrite) {
         data <- data[order(data$name),, drop = FALSE] # nolint
         self$overwrite_storage(data)
+      }
+      invisible()
+    },
+    upload = function(verbose = TRUE) {
+      "upload"
+    },
+    download = function(verbose = TRUE) {
+      "download"
+    },
+    head = function() {
+      file <- file_init(path = "path_cloud")
+      file_ensure_hash(file)
+      list(
+        exists = file.exists("path_cloud"),
+        hash = file$hash,
+        size = file$size,
+        time = file$time
+      )
+    },
+    sync = function(prefer_local = TRUE, verbose = TRUE) {
+      head <- self$head()
+      file <- file_init(path = self$path)
+      file_ensure_hash(file)
+      exists_file <- all(file.exists(self$path))
+      exists_object <- head$exists %|||% FALSE
+      changed <- !all(file$hash == head$hash)
+      if (exists_file && (!exists_object)) {
+        self$upload(verbose = verbose)
+      } else if ((!exists_file) && exists_object) {
+        self$download(verbose = verbose)
+      } else if (exists_file && exists_object && changed) {
+        time_file <- file_time_posixct(file$time)
+        time_head <- file_time_posixct(head$time)
+        file_newer <- time_file > time_head
+        file_same <- file$time == head$time
+        do_upload <- file_newer || (prefer_local && file_same)
+        if (do_upload) {
+          self$upload(verbose = verbose)
+        } else {
+          self$download(verbose = verbose)
+        }
+      } else {
+        if (verbose) {
+          tar_print(
+            "Skipped syncing ",
+            self$path,
+            " with cloud object ",
+            self$key
+          )
+        }
+        invisible()
       }
     },
     validate_columns = function(header, list_columns) {

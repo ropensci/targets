@@ -65,12 +65,17 @@ reference:
   - '`tar_load`'
   - '`tar_load_raw`'
   - '`tar_load_everything`'
-  - '`tar_meta`'
   - '`tar_objects`'
   - '`tar_pid`'
   - '`tar_process`'
   - '`tar_read`'
   - '`tar_read_raw`'
+- title: Metadata
+  - '`tar_meta`'
+  - '`tar_meta_delete`'
+  - '`tar_meta_download`'
+  - '`tar_meta_sync`'
+  - '`tar_meta_upload`'
 - title: Inspect
   contents:
   - '`tar_deps`'

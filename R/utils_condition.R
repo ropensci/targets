@@ -100,6 +100,15 @@ tar_warn_validate <- function(...) {
 
 #' @export
 #' @rdname tar_condition
+tar_print <- function(...) {
+  tar_message(
+    message = paste0(...),
+    class = c("tar_condition_run", "tar_condition_targets")
+  )
+}
+
+#' @export
+#' @rdname tar_condition
 tar_error <- function(message, class) {
   old_cli_number_ansi_colors <- getOption("cli.num_colors")
   on.exit(options(cli.num_colors = old_cli_number_ansi_colors))

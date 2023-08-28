@@ -1,11 +1,15 @@
 # targets 1.2.2.9001 (development)
 
-
 ## Invalidating changes
 
 Because of these changes, upgrading to this version of `targets` will unavoidably invalidate previously built targets in existing pipelines. Your pipeline code should still work, but any targets you ran before will most likely need to rerun after the upgrade.
 
 * In the `hash_deps()` method of the metadata class, exclude symbols which are not actually dependencies, rather than just giving them empty strings. This change decouples the dependency hash from the hash of the target's command (#1108).
+
+## Cloud metadata
+
+* Continuously upload metadata files to the cloud during `tar_make()`, `tar_make_clustermq()`, and `tar_make_future()` (#1109). Upload them to the repository specified in the `repository_meta` `tar_option_set()` option, and use the bucket and prefix set in the `resources` `tar_option_set()` option. `repository_meta` defaults to the existing `repository` `tar_option_set()` option.
+* Add new functions `tar_meta_download()`, `tar_meta_upload()`, `tar_meta_sync()`, and `tar_meta_delete()` to directly manage cloud metadata outside the pipeline (#1109).
 
 ## Other changes
 

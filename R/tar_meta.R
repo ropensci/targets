@@ -1,6 +1,6 @@
 #' @title Read a project's metadata.
 #' @export
-#' @family data
+#' @family metadata
 #' @description Read the metadata of all recorded targets and global objects.
 #' @details A metadata row only updates when the target is built.
 #'   [tar_progress()] shows information on targets that are running.
@@ -18,6 +18,38 @@
 #'   pipeline. The only exception is literate programming
 #'   target factories in the `tarchetypes` package such as `tar_render()`
 #'   and `tar_quarto()`.
+#' @section Cloud metadata:
+#'   Metadata files help `targets`
+#'   read data objects and decide if the pipeline is up to date.
+#'   Usually, these metadata files live in files in the local
+#'   `_targets/meta/` folder in your project, e.g. `_targets/meta/meta`.
+#'   But in addition, if you set `repository` to anything other than
+#'   `"local"` in [tar_option_set()] in `_targets.R`, then [tar_make()]
+#'   continuously uploads the metadata files to the bucket you specify
+#'   in `resources`. [tar_meta_delete()] will delete those files from the
+#'   cloud, and so will [tar_destroy()] if `destroy` is
+#'   set to either `"all"` or `"cloud"`.
+#'
+#'   Other functions in `targets`, such as [tar_meta()],
+#'   [tar_visnetwork()], [tar_outdated()], and [tar_invalidate()],
+#'   use the local metadata only and ignore the copies on the cloud.
+#'   So if you are working on a different computer than the
+#'   one running the pipeline, you will need to download the cloud metadata
+#'   to your current machine using [tar_meta_download()]. Other functions
+#'   [tar_meta_upload()], [tar_meta_sync()], and [tar_meta_delete()]
+#'   also manage metadata across the cloud and the local file system.
+#'
+#'   Remarks:
+#'   * The `repository_meta` option in [tar_option_set()] is actually
+#'     what controls where the metadata lives in the cloud, but it defaults
+#'     to `repository`.
+#'   * Like [tar_make()], [tar_make_future()] and [tar_make_clustermq()]
+#'     also continuously upload metadata files to the cloud bucket
+#'     specified in `resources`.
+#'   * [`tar_meta_download()`] and related functions need to run `_targets.R`
+#'     to detect [tar_option_set()] options `repository_meta` and `resources`,
+#'     so please be aware of side effects that may happen running your
+#'     custom `_targets.R` file.
 #' @return A data frame with one row per target/object and the selected fields.
 #' @inheritParams tar_validate
 #' @param names Optional, names of the targets. If supplied, `tar_meta()`

@@ -12,6 +12,7 @@ tar_option_set(
   envir = NULL,
   format = NULL,
   repository = NULL,
+  repository_meta = NULL,
   iteration = NULL,
   error = NULL,
   memory = NULL,
@@ -136,6 +137,11 @@ then the target should create a single output file.
 That output file is uploaded to the cloud and tracked for changes
 where it exists in the cloud. The local file is deleted after
 the target runs.}
+
+\item{repository_meta}{Character of length 1 with the same values as
+\code{repository} (\code{"aws"}, \code{"gcp"}, \code{"local"}). Cloud repository
+for the metadata text files in \verb{_targets/meta/}, including target
+metadata and progress data. Defaults to \code{tar_option_get("repository")}.}
 
 \item{iteration}{Character of length 1, name of the iteration mode
 of the target. Choices:

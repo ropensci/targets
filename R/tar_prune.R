@@ -76,7 +76,11 @@ tar_prune_inner <- function(pipeline, cloud, path_store) {
   dynamic_files <- data$name[data$format == "file"]
   discard <- setdiff(discard, dynamic_files)
   if (cloud) {
-    tar_delete_cloud(names = discard, meta = data, path_store = path_store)
+    tar_delete_cloud_objects(
+      names = discard,
+      meta = data,
+      path_store = path_store
+    )
   }
   data <- as_data_frame(data)[data$name %in% keep, ]
   meta$database$overwrite_storage(data)

@@ -63,6 +63,7 @@ active_class <- R6::R6Class(
     },
     ensure_meta = function() {
       new_store <- !file.exists(self$meta$store)
+      self$meta$database$sync(prefer_local = TRUE, verbose = FALSE)
       self$meta$migrate_database()
       self$meta$validate()
       self$meta$database$preprocess(write = TRUE)
@@ -74,8 +75,8 @@ active_class <- R6::R6Class(
       self$meta$restrict_records(self$pipeline)
     },
     dequeue_meta = function() {
-      self$meta$database$dequeue_rows()
-      self$scheduler$progress$database$dequeue_rows()
+      self$meta$database$dequeue_rows(upload = TRUE)
+      self$scheduler$progress$database$dequeue_rows(upload = TRUE)
     },
     dequeue_meta_time = function() {
       self$seconds_dequeued <- self$seconds_dequeued %|||% -Inf
@@ -102,6 +103,7 @@ active_class <- R6::R6Class(
     ensure_process = function() {
       self$process <- process_init(path_store = self$meta$store)
       self$process$record_process()
+      self$process$database$upload(verbose = FALSE)
     },
     produce_exports = function(envir, path_store, is_globalenv = NULL) {
       map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
@@ -173,15 +175,17 @@ active_class <- R6::R6Class(
       self$scheduler$reporter$report_start()
     },
     end = function() {
-      self$dequeue_meta()
-      pipeline_unload_loaded(self$pipeline)
-      seconds_elapsed <- time_seconds() - self$seconds_start
       scheduler <- self$scheduler
-      scheduler$reporter$report_end(scheduler$progress, seconds_elapsed)
-      path_scratch_del(path_store = self$meta$store)
+      pipeline_unload_loaded(self$pipeline)
+      self$meta$database$dequeue_rows(upload = FALSE)
       self$meta$database$deduplicate_storage()
+      self$meta$database$sync(prefer_local = TRUE, verbose = FALSE)
+      self$scheduler$progress$database$dequeue_rows(upload = TRUE)
+      path_scratch_del(path_store = self$meta$store)
       compare_working_directories()
       tar_assert_objects_files(self$meta$store)
+      seconds_elapsed <- time_seconds() - self$seconds_start
+      scheduler$reporter$report_end(scheduler$progress, seconds_elapsed)
     },
     validate = function() {
       super$validate()

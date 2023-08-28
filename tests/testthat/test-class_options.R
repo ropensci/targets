@@ -12,6 +12,7 @@ tar_test("validate non-default options", {
     envir = new.env(),
     format = "qs",
     repository = "aws",
+    repository_meta = "gcp",
     iteration = "list",
     error = "continue",
     memory = "transient",
@@ -40,6 +41,7 @@ tar_test("export", {
     library = "path",
     format = "qs",
     repository = "aws",
+    repository_meta = "gcp",
     iteration = "list",
     error = "continue",
     memory = "transient",
@@ -64,6 +66,7 @@ tar_test("export", {
     library = "path",
     format = "qs",
     repository = "aws",
+    repository_meta = "gcp",
     iteration = "list",
     error = "continue",
     memory = "transient",
@@ -94,6 +97,7 @@ tar_test("import", {
     library = "path",
     format = "qs",
     repository = "aws",
+    repository_meta = "gcp",
     iteration = "list",
     error = "continue",
     memory = "transient",
@@ -120,6 +124,7 @@ tar_test("import", {
   expect_equal(x$get_library(), "path")
   expect_equal(x$get_format(), "qs")
   expect_equal(x$get_repository(), "aws")
+  expect_equal(x$get_repository_meta(), "gcp")
   expect_equal(x$get_iteration(), "list")
   expect_equal(x$get_error(), "continue")
   expect_equal(x$get_memory(), "transient")
@@ -208,6 +213,28 @@ tar_test("repository", {
   x$reset()
   expect_equal(x$get_repository(), "local")
   expect_error(x$set_repository(123), class = "tar_condition_validate")
+})
+
+tar_test("repository_meta", {
+  x <- options_init()
+  expect_equal(x$get_repository_meta(), "local")
+  x$set_repository("aws")
+  expect_equal(x$get_repository_meta(), "aws")
+  x$reset()
+  expect_equal(x$get_repository_meta(), "local")
+  expect_error(x$set_repository_meta(123), class = "tar_condition_validate")
+})
+
+tar_test("repository_meta defaults to repository", {
+  x <- options_init()
+  x$set_repository("gcp")
+  expect_equal(x$get_repository_meta(), "gcp")
+  x$set_repository("aws")
+  expect_equal(x$get_repository_meta(), "aws")
+  x$reset()
+  x$set_repository("gcp")
+  expect_equal(x$get_repository_meta(), "gcp")
+  expect_error(x$set_repository_meta(123), class = "tar_condition_validate")
 })
 
 tar_test("iteration", {
@@ -427,4 +454,26 @@ tar_test("trust_object_timestamps", {
     x$set_trust_object_timestamps(0),
     class = "tar_condition_validate"
   )
+})
+
+tar_test("tar_option_export", {
+  skip_cran()
+  script <- path_script_default()
+  tar_script(tar_target(x, 1), script = script)
+  out <- tar_option_script(script = script)
+  expect_true(is.list(out))
+  names <- c(
+    "packages",
+    "imports",
+    "library",
+    "format",
+    "repository",
+    "repository_meta",
+    "iteration",
+    "error",
+    "memory",
+    "garbage_collection",
+    "resources"
+  )
+  expect_true(all(names %in% names(out)))
 })

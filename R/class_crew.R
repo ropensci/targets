@@ -268,6 +268,7 @@ crew_class <- R6::R6Class(
     record_controller_summary = function(summary) {
       database <- database_crew(self$meta$store)
       database$overwrite_storage(summary)
+      database$upload(verbose = FALSE)
     },
     finalize_crew = function() {
       summary <- crew_summary(self$controller)

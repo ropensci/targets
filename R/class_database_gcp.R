@@ -41,32 +41,79 @@ database_gcp_class <- R6::R6Class(
       )
       resources_validate(self$resources$gcp)
     },
-    download = function() {
+    download = function(verbose = TRUE) {
+      if (verbose) {
+        tar_print(
+          "Downloading GCP cloud object ",
+          self$key,
+          " to local file ",
+          self$path
+        )
+      }
       gcp <- self$resources$gcp
-      network <- self$resources$network
-      file <- file_init(path = path)
-      file_ensure_hash(file)
+      dir_create(dirname(self$path))
       gcp_gcs_download(
         file = self$path,
         key = self$key,
         bucket = gcp$bucket,
-        max_tries = network$max_tries %|||% 5L,
-        verbose = network$verbose %|||% TRUE
+        max_tries = gcp$max_tries %|||% 5L,
+        verbose = gcp$verbose %|||% TRUE
       )
       invisible()
     },
-    upload = function() {
+    upload = function(verbose = TRUE) {
+      if (verbose) {
+        tar_print(
+          "Uploading local file ",
+          self$path,
+          " to GCP cloud object ",
+          self$key
+        )
+      }
       gcp <- self$resources$gcp
-      network <- self$resources$network
+      file <- file_init(path = path)
+      file_ensure_hash(file)
       gcp_gcs_upload(
         file = self$path,
         key = self$key,
         bucket = gcp$bucket,
+        metadata = list(
+          "targets-database-hash" = file$hash,
+          "targets-database-size" = file$size,
+          "targets-database-time" = file$time
+        ),
         predefined_acl = gcp$predefined_acl %|||% "private",
-        max_tries = network$max_tries %|||% 5L,
-        verbose = network$verbose %|||% TRUE
+        max_tries = gcp$max_tries %|||% 5L,
+        verbose = gcp$verbose %|||% TRUE
       )
       invisible()
+    },
+    head = function() {
+      gcp <- self$resources$gcp
+      head <- gcp_gcs_head(
+        key = self$key,
+        bucket = gcp$bucket,
+        max_tries = gcp$max_tries %|||% 5L,
+        verbose = gcp$verbose %|||% TRUE
+      )
+      list(
+        exists = !is.null(head),
+        hash = head$metadata$`targets-database-hash`,
+        size = head$metadata$`targets-database-size`,
+        time = head$metadata$`targets-database-time`
+      )
+    },
+    delete_cloud = function(verbose = TRUE) {
+      if (verbose) {
+        tar_print("Deleting GCP cloud object ", self$key)
+      }
+      gcp <- self$resources$gcp
+      head <- gcp_gcs_delete(
+        key = self$key,
+        bucket = gcp$bucket,
+        max_tries = gcp$max_tries %|||% 5L,
+        verbose = gcp$verbose %|||% TRUE
+      )
     }
   )
 )
