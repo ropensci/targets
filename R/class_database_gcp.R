@@ -87,6 +87,15 @@ database_gcp_class <- R6::R6Class(
         size = head$metadata$`targets-database-size`,
         time = head$metadata$`targets-database-time`
       )
+    },
+    delete = function() {
+      gcp <- self$resources$gcp
+      head <- gcp_gcs_delete(
+        key = self$key,
+        bucket = gcp$bucket,
+        max_tries = gcp$max_tries %|||% 5L,
+        verbose = gcp$verbose %|||% TRUE
+      )
     }
   )
 )

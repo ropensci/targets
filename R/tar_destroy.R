@@ -31,7 +31,7 @@
 #' @param destroy Character of length 1, what to destroy. Choices:
 #'   * `"all"`: entire data store (default: `_targets/`)
 #'     including cloud data, as well as download/upload scratch files.
-#'   * `"cloud"`: cloud data, e.g. target data
+#'   * `"cloud"`: cloud data, including metadata as well as target object data
 #'     from targets with `tar_target(..., repository = "aws")`.
 #'     Also deletes temporary staging files in
 #'     `file.path(tempdir(), "targets")`
@@ -85,6 +85,7 @@ tar_destroy <- function(
     "user"
   ),
   ask = NULL,
+  script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
   tar_assert_allow_meta("tar_destroy")
@@ -112,10 +113,16 @@ tar_destroy <- function(
       meta = meta,
       path_store = store
     )
+    tar_delete_cloud_meta(script = script)
     unlink(path_scratch_dir_network(), recursive = TRUE)
   }
   if (tar_should_delete(path = path, ask = ask)) {
     unlink(path, recursive = TRUE)
   }
   invisible()
+}
+
+tar_delete_cloud_meta <- function(script) {
+  options <- tar_option_script(script = script)
+  browser()
 }

@@ -48,6 +48,21 @@ tar_test("gcp database basic methods", {
   file_ensure_hash(file)
   expect_equal(head$hash, file$hash)
   expect_equal(head$size, file$size)
+  expect_true(
+    gcp_gcs_exists(
+      key = key,
+      bucket = bucket,
+      max_tries = 20
+    )
+  )
+  x$delete()
+  expect_false(
+    gcp_gcs_exists(
+      key = key,
+      bucket = bucket,
+      max_tries = 20
+    )
+  )
 })
 
 tar_test("gcp database sync upload", {

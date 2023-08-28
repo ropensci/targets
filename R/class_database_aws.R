@@ -91,6 +91,17 @@ database_aws_class <- R6::R6Class(
         size = head$Metadata$`targets-database-size`,
         time = head$Metadata$`targets-database-time`
       )
+    },
+    delete = function() {
+      aws <- self$resources$aws
+      aws_s3_delete(
+        key = self$key,
+        bucket = aws$bucket,
+        region = aws$region,
+        endpoint = aws$endpoint,
+        args = aws$args,
+        max_tries = aws$max_tries %|||% 5L
+      )
     }
   )
 )

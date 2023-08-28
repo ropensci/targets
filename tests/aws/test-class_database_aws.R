@@ -47,6 +47,21 @@ tar_test("aws database basic methods", {
   file_ensure_hash(file)
   expect_equal(head$hash, file$hash)
   expect_equal(head$size, file$size)
+  expect_true(
+    aws_s3_exists(
+      key = key,
+      bucket = bucket,
+      max_tries = 20
+    )
+  )
+  x$delete()
+  expect_false(
+    aws_s3_exists(
+      key = key,
+      bucket = bucket,
+      max_tries = 20
+    )
+  )
 })
 
 tar_test("aws database sync upload", {
