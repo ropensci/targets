@@ -88,7 +88,7 @@ database_gcp_class <- R6::R6Class(
         time = head$metadata$`targets-database-time`
       )
     },
-    delete = function() {
+    delete_cloud = function() {
       gcp <- self$resources$gcp
       head <- gcp_gcs_delete(
         key = self$key,

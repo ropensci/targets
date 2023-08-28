@@ -42,14 +42,35 @@ tar_test("AWS meta", {
     )
   }
   for (object in c("a", "b", "c")) {
-    aws_s3_exists(
-      key = file.path("_targets/objects", file),
-      bucket = bucket_name,
-      max_tries = 5L
+    expect_true(
+      aws_s3_exists(
+        key = file.path("_targets/objects", file),
+        bucket = bucket_name,
+        max_tries = 5L
+      )
     )
   }
   unlink(path_meta(path_store_default()))
   expect_equal(sort(tar_outdated()), sort(c("a", "b", "c")))
   tar_make()
   expect_true(all(tar_progress()$progress == "skipped"))
+  tar_destroy()
+  for (file in c("meta", "process", "progress", "crew")) {
+    expect_false(
+      aws_s3_exists(
+        key = file.path("_targets/meta", file),
+        bucket = bucket_name,
+        max_tries = 5L
+      )
+    )
+  }
+  for (object in c("a", "b", "c")) {
+    expect_false(
+      aws_s3_exists(
+        key = file.path("_targets/objects", file),
+        bucket = bucket_name,
+        max_tries = 5L
+      )
+    )
+  }
 })

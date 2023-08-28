@@ -124,5 +124,21 @@ tar_destroy <- function(
 
 tar_delete_cloud_meta <- function(script) {
   options <- tar_option_script(script = script)
-  browser()
+  old_repository_meta <- tar_options$get_repository_meta()
+  old_resources <- tar_options$get_resources()
+  on.exit({
+    tar_options$set_repository_meta(old_repository_meta)
+    tar_options$set_resources(old_resources)
+  })
+  tar_option_set(repository_meta = options$repository_meta)
+  tar_option_set(resources = options$resources)
+  meta <- database_meta(path_store = tempfile())
+  progress <- database_progress(path_store = tempfile())
+  process <- database_process(path_store = tempfile())
+  crew <- database_crew(path_store = tempfile())
+  meta$delete_cloud()
+  progress$delete_cloud()
+  process$delete_cloud()
+  crew$delete_cloud()
+  invisible()
 }

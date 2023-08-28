@@ -54,7 +54,7 @@ tar_test("aws database basic methods", {
       max_tries = 20
     )
   )
-  x$delete()
+  x$delete_cloud()
   expect_false(
     aws_s3_exists(
       key = key,

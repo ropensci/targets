@@ -35,6 +35,9 @@ database_local_class <- R6::R6Class(
     },
     head = function() {
       invisible()
+    },
+    delete_cloud = function() {
+      invisible()
     }
   )
 )

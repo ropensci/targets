@@ -92,7 +92,7 @@ database_aws_class <- R6::R6Class(
         time = head$Metadata$`targets-database-time`
       )
     },
-    delete = function() {
+    delete_cloud = function() {
       aws <- self$resources$aws
       aws_s3_delete(
         key = self$key,

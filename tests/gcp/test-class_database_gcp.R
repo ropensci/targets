@@ -55,7 +55,7 @@ tar_test("gcp database basic methods", {
       max_tries = 20
     )
   )
-  x$delete()
+  x$delete_cloud()
   expect_false(
     gcp_gcs_exists(
       key = key,

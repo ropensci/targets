@@ -401,6 +401,7 @@ tar_test("local database cloud methods", {
   expect_null(database$download())
   expect_null(database$upload())
   expect_null(database$head())
+  expect_null(database$delete_cloud())
 })
 
 tar_test("database unknown repository", {
