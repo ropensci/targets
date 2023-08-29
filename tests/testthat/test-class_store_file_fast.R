@@ -123,3 +123,15 @@ tar_test("file and NULL", {
   expect_equal(tar_read(x), character(0))
   expect_equal(tar_read(y), character(0))
 })
+
+tar_test("file_fast gets converted to file for cloud", {
+  skip_cran()
+  x <- tar_target(x, 1, repository = "local", format = "file_fast")
+  expect_true(any(grepl("file_fast", class(x$store))))
+  skip_if_not_installed("paws.storage")
+  x <- tar_target(x, 1, repository = "aws", format = "file_fast")
+  expect_false(any(grepl("file_fast", class(x$store))))
+  skip_if_not_installed("googleCloudStorageR")
+  x <- tar_target(x, 1, repository = "gcp", format = "file_fast")
+  expect_false(any(grepl("file_fast", class(x$store))))
+})
