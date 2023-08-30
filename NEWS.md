@@ -18,14 +18,14 @@ Because of these changes, upgrading to this version of `targets` will unavoidabl
 * Move `path_scratch_dir_network()` to `file.path(tempdir(), "targets")` and make sure `tar_destroy("all")` and `tar_destroy("cloud")` delete it.
 * Display `tar_mermaid()` subgraphs with transparent fills and black borders.
 * Allow `database$get_data()` to work with list columns.
-* Respect `seconds_interval` for writing metadata and console messages even for currently building targets (#1055).
 * Disallow functions that access the local data store (including metadata) from inside a target while the pipeline is running (#1055, #1063). The only exception to this is local file targets such as `tarchetypes` literate programming target factories like `tar_render()` and `tar_quarto()`.
 * In the `hash_deps()` method of the metadata class, use a new custom `sort_chr()` function which temporarily sets the `LC_COLLATE` locale to `"C"` for sorting. This ensures lexicographic comparisons  are consistent across platforms (#1108).
 * In `tar_source()`, use the `file` argument and `keep.source = TRUE` to help with interactive debugging (#1120).
-* Deprecated `seconds_interval` in `tar_config_get()`, `tar_make()`, `tar_make_clustermq()` and `tar_make_future()`. Replace it with `seconds_meta` (to control how often metadata gets saved) and `seconds_interval` (to control how often to print messages to the R console) (#1119).
-* Retry all cloud REST API calls and URLs with HTTP error codes (429, 500-599) with the exponential backoff algorithm from `googleAuthR` (#1112).
+* Deprecated `seconds_interval` in `tar_config_get()`, `tar_make()`, `tar_make_clustermq()` and `tar_make_future()`. Replace it with `seconds_meta` (to control how often metadata gets saved) and `seconds_reporter` (to control how often to print messages to the R console) (#1119).
+* Respect `seconds_meta` and `seconds_reporter` for writing metadata and console messages even for currently building targets (#1055).
+* Retry all cloud REST API calls with HTTP error codes (429, 500-599) with the exponential backoff algorithm from `googleAuthR` (#1112).
+* For `format = "url"`, only retry on the HTTP error codes above.
 * Make cloud temp file instances unique in order to avoid file conflicts with the same target.
-* For `format = "url"`, only retry on HTTP 500 error codes.
 * Un-deprecate `seconds_interval` and `seconds_timeout` from `tar_resources_url()`, and implement `max_tries` arguments in `tar_resources_aws()` and `tar_resources_gcp()` (#1127).
 * Use `file` and `keep.source` in `parse()` in `callr` utils and target Markdown.
 * Automatically convert `"file_fast"` format to `"file"` format for cloud targets.
