@@ -50,6 +50,7 @@ tar_delete <- function(
   tar_assert_store(store = store)
   tar_assert_path(path_meta(store))
   meta <- meta_init(path_store = store)$database$read_condensed_data()
+  meta <- as.data.frame(meta)
   names_quosure <- rlang::enquo(names)
   names <- tar_tidyselect_eval(names_quosure, meta$name)
   tar_assert_chr(names, "names arg of tar_delete() must end up as character")
@@ -60,6 +61,7 @@ tar_delete <- function(
     meta$repository == "local"
   local_dynamic_files <- meta$name[index_local_dynamic_files]
   names <- setdiff(names, local_dynamic_files)
+  names <- setdiff(names, meta$name[meta$type == "pattern"])
   if (cloud) {
     tar_delete_cloud_objects(names = names, meta = meta, path_store = store)
   }
