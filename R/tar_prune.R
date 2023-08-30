@@ -75,6 +75,7 @@ tar_prune_inner <- function(pipeline, cloud, path_store) {
   discard <- setdiff(data$name, keep)
   dynamic_files <- data$name[data$format == "file"]
   discard <- setdiff(discard, dynamic_files)
+  discard <- setdiff(discard, data$name[data$type == "pattern"])
   if (cloud) {
     tar_delete_cloud_objects(
       names = discard,

@@ -190,5 +190,5 @@ url_port <- function(host, port, process, verbose = TRUE) {
 }
 # nocov end
 
-http_retry_codes <- seq(from = 500L, to = 599)
+http_retry_codes <- c(429L, seq(from = 500L, to = 599))
 http_retry <- paste0("http_", http_retry_codes)

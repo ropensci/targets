@@ -23,12 +23,13 @@ Because of these changes, upgrading to this version of `targets` will unavoidabl
 * In the `hash_deps()` method of the metadata class, use a new custom `sort_chr()` function which temporarily sets the `LC_COLLATE` locale to `"C"` for sorting. This ensures lexicographic comparisons  are consistent across platforms (#1108).
 * In `tar_source()`, use the `file` argument and `keep.source = TRUE` to help with interactive debugging (#1120).
 * Deprecated `seconds_interval` in `tar_config_get()`, `tar_make()`, `tar_make_clustermq()` and `tar_make_future()`. Replace it with `seconds_meta` (to control how often metadata gets saved) and `seconds_interval` (to control how often to print messages to the R console) (#1119).
-* Retry all cloud REST API calls on HTTP 500 errors with the exponential backoff algorithm from `googleAuthR` (#1112).
+* Retry all cloud REST API calls and URLs with HTTP error codes (429, 500-599) with the exponential backoff algorithm from `googleAuthR` (#1112).
 * Make cloud temp file instances unique in order to avoid file conflicts with the same target.
 * For `format = "url"`, only retry on HTTP 500 error codes.
 * Un-deprecate `seconds_interval` and `seconds_timeout` from `tar_resources_url()`, and implement `max_tries` arguments in `tar_resources_aws()` and `tar_resources_gcp()` (#1127).
 * Use `file` and `keep.source` in `parse()` in `callr` utils and target Markdown.
 * Automatically convert `"file_fast"` format to `"file"` format for cloud targets.
+* In `tar_prune()`, do not try to delete pattern targets which have no cloud storage.
 
 # targets 1.2.2
 
