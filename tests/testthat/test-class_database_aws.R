@@ -1,4 +1,5 @@
 tar_test("validate AWS database", {
+  skip_if_not_installed("paws.storage")
   out <- database_init(
     repository = "aws",
     resources = tar_resources(
