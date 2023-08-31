@@ -15,8 +15,14 @@ tar_test("feather format", {
   builder_update_paths(x, path_store_default())
   builder_update_object(x)
   exp <- envir$f()
-  expect_equal(arrow::read_feather(x$store$file$path), exp)
-  expect_equal(target_read_value(x)$object, exp)
+  expect_equal(
+    as.data.frame(arrow::read_feather(x$store$file$path)),
+    as.data.frame(exp)
+  )
+  expect_equal(
+    as.data.frame(target_read_value(x)$object),
+    as.data.frame(exp)
+  )
   expect_silent(target_validate(x))
 })
 
@@ -148,6 +154,12 @@ tar_test("feather and NULL", {
     )
   )
   tar_make(callr_function = NULL)
-  expect_equal(tar_read(x), as.data.frame(NULL))
-  expect_equal(tar_read(y), as.data.frame(NULL))
+  expect_equal(
+    as.data.frame(tar_read(x)),
+    as.data.frame(NULL)
+  )
+  expect_equal(
+    as.data.frame(tar_read(y)),
+    as.data.frame(NULL)
+  )
 })
