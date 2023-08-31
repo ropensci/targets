@@ -131,6 +131,7 @@ store_read_object.tar_aws <- function(store) {
   scratch <- path_scratch_temp_network(pattern = basename(store_aws_key(path)))
   on.exit(unlink(scratch))
   dir_create(dirname(scratch))
+  aws <- store$resources$aws
   aws_s3_download(
     key = key,
     bucket = bucket,
@@ -138,8 +139,11 @@ store_read_object.tar_aws <- function(store) {
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
     version = store_aws_version(path),
-    args = store$resources$aws$args,
-    max_tries = store$resources$aws$max_tries
+    args = aws$args,
+    max_tries = aws$max_tries,
+    seconds_timeout = aws$seconds_timeout,
+    close_connection = aws$close_connection,
+    s3_force_path_style = aws$s3_force_path_style
   )
   store_convert_object(store, store_read_path(store, scratch))
 }
@@ -147,14 +151,18 @@ store_read_object.tar_aws <- function(store) {
 #' @export
 store_exist_object.tar_aws <- function(store, name = NULL) {
   path <- store$file$path
+  aws <- store$resources$aws
   head <- aws_s3_exists(
     key = store_aws_key(path),
     bucket = store_aws_bucket(path),
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
     version = store_aws_version(path),
-    args = store$resources$aws$args,
-    max_tries = store$resources$aws$max_tries
+    args = aws$args,
+    max_tries = aws$max_tries,
+    seconds_timeout = aws$seconds_timeout,
+    close_connection = aws$close_connection,
+    s3_force_path_style = aws$s3_force_path_style
   )
   !is.null(head)
 }
@@ -167,6 +175,7 @@ store_delete_object.tar_aws <- function(store, name = NULL) {
   region <- store_aws_region(path)
   endpoint <- store_aws_endpoint(path)
   version <- store_aws_version(path)
+  aws <- store$resources$aws
   message <- paste(
     "could not delete target %s from AWS bucket %s key %s.",
     "Either delete the object manually in the AWS web console",
@@ -181,8 +190,11 @@ store_delete_object.tar_aws <- function(store, name = NULL) {
       region = region,
       endpoint = endpoint,
       version = version,
-      args = store$resources$aws$args,
-      max_tries = store$resources$aws$max_tries
+      args = aws$args,
+      max_tries = aws$max_tries,
+      seconds_timeout = aws$seconds_timeout,
+      close_connection = aws$close_connection,
+      s3_force_path_style = aws$s3_force_path_style
     ),
     error = function(condition) {
       tar_throw_validate(message, conditionMessage(condition))
@@ -199,6 +211,7 @@ store_upload_object.tar_aws <- function(store) {
 store_upload_object_aws <- function(store) {
   key <- store_aws_key(store$file$path)
   bucket <- store_aws_bucket(store$file$path)
+  aws <- store$resources$aws
   head <- if_any(
     file_exists_stage(store$file),
     aws_s3_upload(
@@ -208,9 +221,12 @@ store_upload_object_aws <- function(store) {
       region = store_aws_region(store$file$path),
       endpoint = store_aws_endpoint(store$file$path),
       metadata = list("targets-hash" = store$file$hash),
-      part_size = store$resources$aws$part_size %|||% (5 * (2 ^ 20)),
-      args = store$resources$aws$args,
-      max_tries = store$resources$aws$max_tries
+      part_size = aws$part_size,
+      args = aws$args,
+      max_tries = aws$max_tries,
+      seconds_timeout = aws$seconds_timeout,
+      close_connection = aws$close_connection,
+      s3_force_path_style = aws$s3_force_path_style
     ),
     tar_throw_file(
       "Cannot upload non-existent AWS staging file ",
@@ -242,14 +258,18 @@ store_has_correct_hash.tar_aws <- function(store) {
 
 store_aws_hash <- function(store) {
   path <- store$file$path
+  aws <- store$resources$aws
   head <- aws_s3_head(
     key = store_aws_key(path),
     bucket = store_aws_bucket(path),
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
     version = store_aws_version(path),
-    args = store$resources$aws$args,
-    max_tries = store$resources$aws$max_tries
+    args = aws$args,
+    max_tries = aws$max_tries,
+    seconds_timeout = aws$seconds_timeout,
+    close_connection = aws$close_connection,
+    s3_force_path_style = aws$s3_force_path_style
   )
   head$Metadata[["targets-hash"]]
 }

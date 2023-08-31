@@ -11,6 +11,9 @@ tar_resources_aws(
   part_size = targets::tar_option_get("resources")$aws$part_size,
   endpoint = targets::tar_option_get("resources")$aws$endpoint,
   max_tries = targets::tar_option_get("resources")$aws$max_tries,
+  seconds_timeout = targets::tar_option_get("resources")$aws$seconds_timeout,
+  close_connection = targets::tar_option_get("resources")$aws$close_connection,
+  s3_force_path_style = targets::tar_option_get("resources")$aws$s3_force_path_style,
   ...
 )
 }
@@ -53,6 +56,15 @@ incompatibility.}
 
 \item{max_tries}{Positive integer of length 1, maximum number of attempts
 to access a network resource on AWS.}
+
+\item{seconds_timeout}{Positive numeric of length 1,
+number of seconds until an HTTP connection times out.}
+
+\item{close_connection}{Logical of length 1, whether to close HTTP
+connections immediately.}
+
+\item{s3_force_path_style}{Logical of length 1, whether to use path-style
+addressing for S3 requests.}
 
 \item{...}{Named arguments to functions in \code{paws.storage::s3()} to manage
 S3 storage. The documentation of these specific functions

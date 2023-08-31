@@ -44,6 +44,12 @@
 #'   incompatibility.
 #' @param max_tries Positive integer of length 1, maximum number of attempts
 #'   to access a network resource on AWS.
+#' @param seconds_timeout Positive numeric of length 1,
+#'   number of seconds until an HTTP connection times out.
+#' @param close_connection Logical of length 1, whether to close HTTP
+#'   connections immediately.
+#' @param s3_force_path_style Logical of length 1, whether to use path-style
+#'   addressing for S3 requests.
 #' @param ... Named arguments to functions in `paws.storage::s3()` to manage
 #'   S3 storage. The documentation of these specific functions
 #'   is linked from `https://www.paws-r-sdk.com/docs/s3/`.
@@ -83,6 +89,11 @@ tar_resources_aws <- function(
   part_size = targets::tar_option_get("resources")$aws$part_size,
   endpoint = targets::tar_option_get("resources")$aws$endpoint,
   max_tries = targets::tar_option_get("resources")$aws$max_tries,
+  seconds_timeout = targets::tar_option_get("resources")$aws$seconds_timeout,
+  close_connection = targets::tar_option_get("resources")$aws$close_connection,
+  s3_force_path_style = targets::tar_option_get(
+    "resources"
+  )$aws$s3_force_path_style,
   ...
 ) {
   if (is.null(prefix)) {
@@ -103,6 +114,9 @@ tar_resources_aws <- function(
     part_size = part_size,
     endpoint = endpoint,
     max_tries = max_tries,
+    seconds_timeout = seconds_timeout,
+    close_connection = close_connection,
+    s3_force_path_style = s3_force_path_style,
     args = args
   )
   resources_validate(out)

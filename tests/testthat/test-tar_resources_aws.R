@@ -135,6 +135,57 @@ tar_test("tar_resources_aws() default SSECustomerKey", {
   expect_equal(out$args$SSECustomerKey, "x")
 })
 
+tar_test("tar_resources_aws() default seconds_timeout", {
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
+  tar_option_set(
+    resources = tar_resources(
+      aws = tar_resources_aws(
+        seconds_timeout = 2.1,
+        prefix = "x",
+        bucket = "x"
+      )
+    )
+  )
+  out <- tar_resources_aws()
+  expect_equal(out$seconds_timeout, 2.1)
+})
+
+tar_test("tar_resources_aws() default close_connection", {
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
+  tar_option_set(
+    resources = tar_resources(
+      aws = tar_resources_aws(
+        close_connection = FALSE,
+        prefix = "x",
+        bucket = "x"
+      )
+    )
+  )
+  out <- tar_resources_aws()
+  expect_equal(out$close_connection, FALSE)
+})
+
+tar_test("tar_resources_aws() default s3_force_path_style", {
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
+  tar_option_set(
+    resources = tar_resources(
+      aws = tar_resources_aws(
+        s3_force_path_style = TRUE,
+        prefix = "x",
+        bucket = "x"
+      )
+    )
+  )
+  out <- tar_resources_aws()
+  expect_equal(out$s3_force_path_style, TRUE)
+})
+
 tar_test("tar_resources_aws() wants a prefix", {
   skip_cran()
   skip_on_os("windows")

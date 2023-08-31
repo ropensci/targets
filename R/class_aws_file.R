@@ -59,14 +59,18 @@ store_read_object.tar_aws_file <- function(store) {
   bucket <- store_aws_bucket(path)
   scratch <- path_scratch_temp_network(pattern = basename(store_aws_key(path)))
   dir_create(dirname(scratch))
+  aws <- store$resources$aws
   aws_s3_download(
     key = key,
     bucket = bucket,
     file = scratch,
     region = store_aws_region(path),
     version = store_aws_version(path),
-    args = store$resources$aws$args,
-    max_tries = store$resources$aws$max_tries
+    args = aws$args,
+    max_tries = aws$max_tries,
+    seconds_timeout = aws$seconds_timeout,
+    close_connection = aws$close_connection,
+    s3_force_path_style = aws$s3_force_path_style
   )
   stage <- store_aws_file_stage(path)
   dir_create(dirname(stage))

@@ -11,9 +11,19 @@ aws_s3_head <- function(
   endpoint = NULL,
   version = NULL,
   args = list(),
-  max_tries
+  max_tries = NULL,
+  seconds_timeout = NULL,
+  close_connection = NULL,
+  s3_force_path_style = NULL
 ) {
-  client <- aws_s3_client(endpoint = endpoint, region = region)
+  client <- aws_s3_client(
+    endpoint = endpoint,
+    region = region,
+    seconds_timeout = seconds_timeout,
+    close_connection = close_connection,
+    s3_force_path_style = s3_force_path_style
+  )
+  max_tries <- max_tries %|||% 5L
   args$Key <- key
   args$Bucket <- bucket
   if (!is.null(version)) {
@@ -30,7 +40,7 @@ aws_s3_head <- function(
     args = list(client = client, args = args),
     seconds_interval = 1,
     seconds_timeout = 60,
-    max_tries = max_tries %|||% 5L,
+    max_tries = max_tries,
     verbose = TRUE,
     message = "AWS S3 head_object() failed.",
     classes_retry = http_retry
@@ -44,7 +54,10 @@ aws_s3_exists <- function(
   endpoint = NULL,
   version = NULL,
   args = list(),
-  max_tries
+  max_tries = NULL,
+  seconds_timeout = NULL,
+  close_connection = NULL,
+  s3_force_path_style = NULL
 ) {
   !is.null(
     aws_s3_head(
@@ -67,9 +80,19 @@ aws_s3_download <- function(
   endpoint = NULL,
   version = NULL,
   args = list(),
-  max_tries
+  max_tries = NULL,
+  seconds_timeout = NULL,
+  close_connection = NULL,
+  s3_force_path_style = NULL
 ) {
-  client <- aws_s3_client(endpoint = endpoint, region = region)
+  client <- aws_s3_client(
+    endpoint = endpoint,
+    region = region,
+    seconds_timeout = seconds_timeout,
+    close_connection = close_connection,
+    s3_force_path_style = s3_force_path_style
+  )
+  max_tries <- max_tries %|||% 5L
   args$Key <- key
   args$Bucket <- bucket
   if (!is.null(version)) {
@@ -84,7 +107,7 @@ aws_s3_download <- function(
     args = list(client = client, args = args),
     seconds_interval = 1,
     seconds_timeout = 60,
-    max_tries = max_tries %|||% 5L,
+    max_tries = max_tries,
     verbose = TRUE,
     message = "AWS S3 get_object() failed.",
     classes_retry = http_retry
@@ -100,9 +123,19 @@ aws_s3_delete <- function(
   endpoint = NULL,
   version = NULL,
   args = list(),
-  max_tries
+  max_tries = NULL,
+  seconds_timeout = NULL,
+  close_connection = NULL,
+  s3_force_path_style = NULL
 ) {
-  client <- aws_s3_client(endpoint = endpoint, region = region)
+  client <- aws_s3_client(
+    endpoint = endpoint,
+    region = region,
+    seconds_timeout = seconds_timeout,
+    close_connection = close_connection,
+    s3_force_path_style = s3_force_path_style
+  )
+  max_tries <- max_tries %|||% 5L
   args$Key <- key
   args$Bucket <- bucket
   if (!is.null(version)) {
@@ -116,7 +149,7 @@ aws_s3_delete <- function(
     args = list(client = client, args = args),
     seconds_interval = 1,
     seconds_timeout = 60,
-    max_tries = max_tries %|||% 5L,
+    max_tries = max_tries,
     verbose = TRUE,
     message = "AWS S3 delete_object() failed.",
     classes_retry = http_retry
@@ -137,9 +170,20 @@ aws_s3_upload <- function(
   multipart = file.size(file) > part_size,
   part_size = 5 * (2 ^ 20),
   args = list(),
-  max_tries
+  max_tries = NULL,
+  seconds_timeout = NULL,
+  close_connection = NULL,
+  s3_force_path_style = NULL
 ) {
-  client <- aws_s3_client(endpoint = endpoint, region = region)
+  client <- aws_s3_client(
+    endpoint = endpoint,
+    region = region,
+    seconds_timeout = seconds_timeout,
+    close_connection = close_connection,
+    s3_force_path_style = s3_force_path_style
+  )
+  part_size <- part_size %|||% 5 * (2 ^ 20)
+  max_tries <- max_tries %|||% 5L
   if (!multipart) {
     args_put_object <- args
     args_put_object$Body <- readBin(file, what = "raw", n = file.size(file))
@@ -157,7 +201,7 @@ aws_s3_upload <- function(
       args = list(client = client, args = args_put_object),
       seconds_interval = 1,
       seconds_timeout = 60,
-      max_tries = max_tries %|||% 5L,
+      max_tries = max_tries,
       verbose = TRUE,
       message = "AWS S3 put_object() failed.",
       classes_retry = http_retry
@@ -172,6 +216,9 @@ aws_s3_upload <- function(
     fun = client$create_multipart_upload,
     args = args_create_multipart_upload
   )
+  
+  browser()
+  
   multipart <- retry_until_success(
     fun = function(client, args) {
       do.call(what = client$create_multipart_upload, args = args)
@@ -179,7 +226,7 @@ aws_s3_upload <- function(
     args = list(client = client, args = args_create_multipart_upload),
     seconds_interval = 1,
     seconds_timeout = 60,
-    max_tries = max_tries %|||% 5L,
+    max_tries = max_tries,
     verbose = TRUE,
     message = "AWS S3 create_multipart_upload() failed.",
     classes_retry = http_retry
@@ -202,7 +249,7 @@ aws_s3_upload <- function(
         args = list(client = client, args = args_abort_multipart_upload),
         seconds_interval = 1,
         seconds_timeout = 60,
-        max_tries = max_tries %|||% 5L,
+        max_tries = max_tries,
         verbose = TRUE,
         message = "AWS S3 abort_multipart_upload() failed.",
         classes_retry = http_retry
@@ -218,7 +265,7 @@ aws_s3_upload <- function(
       client = client,
       part_size = part_size,
       upload_id = multipart$UploadId,
-      max_tries = max_tries %|||% 5L,
+      max_tries = max_tries,
       args = args
     )
     args_complete_multipart_upload <- args
@@ -280,7 +327,7 @@ aws_s3_upload_parts <- function(
       args = list(client = client, args = args),
       seconds_interval = 1,
       seconds_timeout = 60,
-      max_tries = max_tries %|||% 5L,
+      max_tries = max_tries,
       verbose = TRUE,
       message = "AWS S3 upload_part() failed.",
       classes_retry = http_retry
@@ -290,13 +337,28 @@ aws_s3_upload_parts <- function(
   parts
 }
 
-aws_s3_client <- function(endpoint, region) {
+aws_s3_client <- function(
+  endpoint,
+  region,
+  seconds_timeout,
+  close_connection,
+  s3_force_path_style
+) {
   config <- list()
   if (!is.null(endpoint)) {
     config$endpoint <- endpoint
   }
   if (!is.null(region)) {
     config$region <- region
+  }
+  if (!is.null(seconds_timeout)) {
+    config$seconds_timeout <- seconds_timeout
+  }
+  if (!is.null(close_connection)) {
+    config$close_connection <- close_connection
+  }
+  if (!is.null(s3_force_path_style)) {
+    config$s3_force_path_style <- s3_force_path_style
   }
   paws.storage::s3(config = config)
 }

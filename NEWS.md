@@ -30,6 +30,7 @@ Because of these changes, upgrading to this version of `targets` will unavoidabl
 * Use `file` and `keep.source` in `parse()` in `callr` utils and target Markdown.
 * Automatically convert `"file_fast"` format to `"file"` format for cloud targets.
 * In `tar_prune()` and `tar_delete()`, do not try to delete pattern targets which have no cloud storage.
+* Add new arguments `seconds_timeout`, `close_connection`, `s3_force_path_style` to `tar_resources_aws()` to support the analogous arguments in `paws.storage::s3()` (#1134, @snowpong).
 
 # targets 1.2.2
 
