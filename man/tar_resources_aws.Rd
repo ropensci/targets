@@ -43,7 +43,10 @@ argument is \code{5 * (2 ^ 20)}.}
 Defaults to the Amazon AWS endpoint if \code{NULL}. Example:
 To use the S3 protocol with Google Cloud Storage,
 set \code{endpoint = "https://storage.googleapis.com"}
-and \code{region = "auto"}. Also make sure to create
+and \code{region = "auto"}. (A custom endpoint may require that you
+explicitly set a custom region directly in \code{tar_resources_aws()}.
+\code{region = "auto"} happens to work with Google Cloud.)
+Also make sure to create
 HMAC access keys in the Google Cloud Storage console
 (under Settings => Interoperability) and set the
 \code{AWS_ACCESS_KEY_ID} and \code{AWS_SECRET_ACCESS_KEY} environment

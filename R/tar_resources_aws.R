@@ -32,7 +32,10 @@
 #'   Defaults to the Amazon AWS endpoint if `NULL`. Example:
 #'   To use the S3 protocol with Google Cloud Storage,
 #'   set `endpoint = "https://storage.googleapis.com"`
-#'   and `region = "auto"`. Also make sure to create
+#'   and `region = "auto"`. (A custom endpoint may require that you
+#'   explicitly set a custom region directly in `tar_resources_aws()`.
+#'   `region = "auto"` happens to work with Google Cloud.)
+#'   Also make sure to create
 #'   HMAC access keys in the Google Cloud Storage console
 #'   (under Settings => Interoperability) and set the
 #'   `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment
