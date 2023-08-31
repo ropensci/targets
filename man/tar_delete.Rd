@@ -44,6 +44,12 @@ does not try to delete the object.
 For patterns recorded in the metadata, all the branches
 will be deleted. For patterns no longer in the metadata,
 branches are left alone.
+
+If you plan to delete cloud targets, you may need to set the
+\code{resources} argument of \code{\link[=tar_option_set]{tar_option_set()}} accordingly.
+If your \verb{_targets.R} file already sets this option,
+\code{\link[=tar_load_globals]{tar_load_globals()}} with no arguments is a convenient way
+to set \code{resources} for your interactive R session.
 }
 \section{Storage access}{
 

@@ -18,6 +18,12 @@
 #'   For patterns recorded in the metadata, all the branches
 #'   will be deleted. For patterns no longer in the metadata,
 #'   branches are left alone.
+#'
+#'   If you plan to delete cloud targets, you may need to set the
+#'   `resources` argument of [tar_option_set()] accordingly.
+#'   If your `_targets.R` file already sets this option,
+#'   [tar_load_globals()] with no arguments is a convenient way
+#'   to set `resources` for your interactive R session.
 #' @inheritSection tar_meta Storage access
 #' @inheritParams tar_validate
 #' @param names Names of the targets to remove from `_targets/objects/`.
