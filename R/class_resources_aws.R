@@ -61,7 +61,6 @@ resources_validate.tar_resources_aws <- function(resources) {
     tar_assert_scalar(resources[[field]] %|||% "x")
     tar_assert_chr(resources[[field]] %|||% "x")
     tar_assert_none_na(resources[[field]] %|||% "x")
-    tar_assert_nzchar(resources[[field]] %|||% "x")
   }
   for (field in c("part_size", "max_tries", "seconds_timeout")) {
     tar_assert_scalar(resources[[field]] %|||% 1L)
