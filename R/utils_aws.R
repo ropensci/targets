@@ -216,9 +216,6 @@ aws_s3_upload <- function(
     fun = client$create_multipart_upload,
     args = args_create_multipart_upload
   )
-  
-  browser()
-  
   multipart <- retry_until_success(
     fun = function(client, args) {
       do.call(what = client$create_multipart_upload, args = args)
