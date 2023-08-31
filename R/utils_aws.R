@@ -182,7 +182,7 @@ aws_s3_upload <- function(
     close_connection = close_connection,
     s3_force_path_style = s3_force_path_style
   )
-  part_size <- part_size %|||% 5 * (2 ^ 20)
+  part_size <- part_size %|||% (5 * (2 ^ 20))
   max_tries <- max_tries %|||% 5L
   if (!multipart) {
     args_put_object <- args
