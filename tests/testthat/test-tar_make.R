@@ -253,10 +253,12 @@ tar_test("null environment", {
 tar_test("working directory antipattern", {
   skip_cran()
   dir.create("x")
+  old_dir <- getwd() # nolint
+  on.exit(setwd(old_dir)) # nolint
   tar_script(
     list(
       tar_target(x, {
-        setwd("x")
+        setwd("x") # nolint
         1
       }),
       tar_target(y, x)
