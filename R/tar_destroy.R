@@ -111,7 +111,7 @@ tar_destroy <- function(
     user = path_user_dir(store)
   )
   if (destroy %in% c("all", "cloud")) {
-    meta <- tar_meta(store = store)
+    meta <- suppressMessages(tar_meta(store = store))
     tar_delete_cloud_objects(
       names = meta$name,
       meta = meta,

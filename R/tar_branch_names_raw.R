@@ -33,7 +33,7 @@ tar_branch_names_raw <- function(
   tar_assert_scalar(name)
   tar_assert_dbl(index)
   tar_assert_store(store = store)
-  tar_assert_path(path_meta(path_store = store))
+  tar_assert_meta(store = store)
   meta <- meta_init(path_store = store)
   meta <- tibble::as_tibble(meta$database$read_condensed_data())
   tar_assert_in(name, meta$name, paste(name, "not in metadata."))

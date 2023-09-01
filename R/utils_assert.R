@@ -777,3 +777,51 @@ tar_warn_prefix <- function() {
     "({targets} version 1.2.2.9000)."
   )
 }
+
+tar_message_meta <- function(store) {
+  message <- paste(
+    "No local metadata. Did you remember to run tar_meta_download()?",
+    "Details: https://books.ropensci.org/targets/cloud-storage.html.",
+    "(Or maybe you need to run the pipeline with tar_make()?)",
+    "Silence this message with Sys.setenv(TAR_WARN = \"false\").",
+    sep = "\n"
+  )
+  show_message <- !identical(Sys.getenv("TAR_WARN"), "false") &&
+    (length(store) < 1L || !all(file.exists(path_meta(store))))
+  if (show_message) {
+    rlang::inform(
+      message = message,
+      class = c("tar_condition_validate", "tar_condition_targets")
+    )
+  }
+}
+
+tar_warn_meta <- function(store) {
+  message <- paste(
+    "No local metadata. Did you remember to run tar_meta_download()?",
+    "Details: https://books.ropensci.org/targets/cloud-storage.html.",
+    "(Or maybe you need to run the pipeline with tar_make()?)",
+    "Silence this warning with Sys.setenv(TAR_WARN = \"false\").",
+    sep = "\n"
+  )
+  throw_warning <- !identical(Sys.getenv("TAR_WARN"), "false") &&
+    (length(store) < 1L || !all(file.exists(path_meta(store))))
+  if (throw_warning) {
+    tar_warning(
+      message = message,
+      class = c("tar_condition_validate", "tar_condition_targets")
+    )
+  }
+}
+
+tar_assert_meta <- function(store) {
+  message <- paste(
+    "No local metadata. Did you remember to run tar_meta_download()?",
+    "Details: https://books.ropensci.org/targets/cloud-storage.html.",
+    "(Or maybe you need to run the pipeline with tar_make()?)",
+    sep = "\n"
+  )
+  if ((length(store) < 1L || !all(file.exists(path_meta(store))))) {
+    tar_throw_validate(message = message)
+  }
+}

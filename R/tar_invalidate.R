@@ -39,6 +39,7 @@ tar_invalidate <- function(names, store = targets::tar_config_get("store")) {
   tar_assert_allow_meta("tar_invalidate")
   meta <- meta_init(path_store = store)
   data <- meta$database$read_condensed_data()
+  tar_message_meta(store = store)
   names_quosure <- rlang::enquo(names)
   names <- tar_tidyselect_eval(names_quosure, data$name)
   tar_assert_chr(names)

@@ -49,6 +49,7 @@ tar_prune <- function(
   force(envir)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
+  tar_message_meta(store = store)
   path_scratch_del(store)
   out <- callr_outer(
     targets_function = tar_prune_inner,

@@ -62,6 +62,7 @@ tar_older <- function(
   tar_assert_nzchar(store)
   meta <- meta_init(path_store = store)
   meta <- tibble::as_tibble(meta$database$read_condensed_data())
+  tar_message_meta(meta)
   meta <- meta[!is.na(meta$time), ]
   meta$time <- file_time_posixct(meta$time)
   names_quosure <- rlang::enquo(names)

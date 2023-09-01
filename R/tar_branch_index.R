@@ -28,7 +28,7 @@
 tar_branch_index <- function(names, store = targets::tar_config_get("store")) {
   tar_assert_chr(names)
   tar_assert_store(store = store)
-  tar_assert_path(path_meta(path_store = store))
+  tar_assert_meta(store = store)
   meta <- meta_init(path_store = store)
   meta <- tibble::as_tibble(meta$database$read_condensed_data())
   missing_branches <- setdiff(names, meta$name[meta$type == "branch"])

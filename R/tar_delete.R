@@ -80,6 +80,7 @@ tar_delete <- function(
 # Tested in tests/aws/test-delete.R
 # nocov start
 tar_delete_cloud_objects <- function(names, meta, path_store) {
+  tar_message_meta(store = path_store)
   index_cloud <- !is.na(meta$repository) & meta$repository != "local"
   meta <- meta[index_cloud,, drop = FALSE] # nolint
   meta <- meta[meta$name %in% names,, drop = FALSE] # nolint

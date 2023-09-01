@@ -397,3 +397,42 @@ tar_test("tar_assert_allow_meta()", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("tar_message_meta()", {
+  skip_cran()
+  expect_message(
+    tar_message_meta(tempfile()),
+    class = "tar_condition_validate"
+  )
+  store <- tempfile()
+  meta <- path_meta(store)
+  dir_create(dirname(meta))
+  file.create(meta)
+  expect_silent(tar_message_meta(store))
+})
+
+tar_test("tar_warn_meta()", {
+  skip_cran()
+  expect_warning(
+    tar_warn_meta(tempfile()),
+    class = "tar_condition_validate"
+  )
+  store <- tempfile()
+  meta <- path_meta(store)
+  dir_create(dirname(meta))
+  file.create(meta)
+  expect_silent(tar_warn_meta(store))
+})
+
+tar_test("tar_assert_meta()", {
+  skip_cran()
+  expect_error(
+    tar_assert_meta(tempfile()),
+    class = "tar_condition_validate"
+  )
+  store <- tempfile()
+  meta <- path_meta(store)
+  dir_create(dirname(meta))
+  file.create(meta)
+  expect_silent(tar_assert_meta(store))
+})

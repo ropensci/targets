@@ -74,6 +74,7 @@ tar_timestamp_raw <- function(
     }
     name <- target_get_name(tar_runtime$target)
   }
+  tar_message_meta(store = store)
   meta <- meta_init(path_store = store)
   meta$database$preprocess(write = FALSE)
   if (!meta$exists_record(name)) {
