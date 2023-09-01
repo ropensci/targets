@@ -92,6 +92,7 @@ Because of these changes, upgrading to this version of `targets` will unavoidabl
 * Deprecate `seconds_interval` and `seconds_timeout` in `tar_resources_url()` in favor of the new equivalent arguments of `tar_resources_network()`
 * Safely withhold a target from its `crew` controller when the controller is saturated (#1074, @mglev1n).
 * Use exponential backoff when appending a target back to the queue in the case of a saturated `crew` controller.
+* Use native retries in `paws.common` (@DyfanJones).
 
 ## Speedups
 

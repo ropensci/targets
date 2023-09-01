@@ -15,6 +15,8 @@ client <- function() {
 }
 
 tar_test("aws_s3_exists()", {
+  skip_if_no_aws()
+  skip_if_no_gcp()
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
   on.exit(aws_s3_delete_bucket(bucket, client()))
@@ -42,6 +44,8 @@ tar_test("aws_s3_exists()", {
 })
 
 tar_test("aws_s3_head()", {
+  skip_if_no_aws()
+  skip_if_no_gcp()
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
   on.exit(aws_s3_delete_bucket(bucket, client()))
@@ -61,6 +65,8 @@ tar_test("aws_s3_head()", {
 })
 
 tar_test("aws_s3_download()", {
+  skip_if_no_aws()
+  skip_if_no_gcp()
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
   on.exit(aws_s3_delete_bucket(bucket, client()))
@@ -81,6 +87,8 @@ tar_test("aws_s3_download()", {
 })
 
 tar_test("aws_s3_upload() without headers", {
+  skip_if_no_aws()
+  skip_if_no_gcp()
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
   on.exit(aws_s3_delete_bucket(bucket, client()))
@@ -115,6 +123,8 @@ tar_test("aws_s3_upload() without headers", {
 })
 
 tar_test("aws_s3_upload() and download with metadata", {
+  skip_if_no_aws()
+  skip_if_no_gcp()
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
   on.exit(aws_s3_delete_bucket(bucket, client()))
@@ -171,6 +181,8 @@ tar_test("aws_s3_upload() and download with metadata", {
 # Go through this one fully manually.
 tar_test("upload twice, get the correct version", {
   skip("not working because GCP S3 interoperability does not get versions.")
+  skip_if_no_aws()
+  skip_if_no_gcp()
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
   on.exit(aws_s3_delete_bucket(bucket, client()))
@@ -283,6 +295,8 @@ tar_test("upload twice, get the correct version", {
 
 tar_test("multipart: upload twice, get the correct version", {
   skip("not working because GCP S3 interoperability does not get versions.")
+  skip_if_no_aws()
+  skip_if_no_gcp()
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
   on.exit(aws_s3_delete_bucket(bucket, client()))
@@ -396,6 +410,8 @@ tar_test("multipart: upload twice, get the correct version", {
 })
 
 tar_test("graceful error on multipart upload", {
+  skip_if_no_aws()
+  skip_if_no_gcp()
   bucket <- random_bucket_name()
   client()$create_bucket(Bucket = bucket)
   on.exit(aws_s3_delete_bucket(bucket, client()))

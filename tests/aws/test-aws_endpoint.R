@@ -15,6 +15,7 @@ client <- function() {
 
 tar_test("aws qs format data gets stored", {
   skip_if_no_aws()
+  skip_if_no_gcp()
   skip_if_not_installed("qs")
   s3 <- client()
   bucket_name <- random_bucket_name()
@@ -72,6 +73,7 @@ tar_test("aws qs format data gets stored", {
 
 tar_test("aws qs format invalidation", {
   skip_if_no_aws()
+  skip_if_no_gcp()
   skip_if_not_installed("qs")
   s3 <- client()
   bucket_name <- random_bucket_name()

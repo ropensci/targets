@@ -23,9 +23,11 @@ tar_test("deprecated format = \"aws_parquet\"", {
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
-  expect_warning(
-    tar_make(callr_function = NULL),
-    class = "tar_condition_deprecate"
+  suppressWarnings(
+    expect_warning(
+      tar_make(callr_function = NULL),
+      class = "tar_condition_deprecate"
+    )
   )
   out <- as.data.frame(tar_read(x))
   expect_equal(out, data.frame(x = seq_len(2), y = seq_len(2)))

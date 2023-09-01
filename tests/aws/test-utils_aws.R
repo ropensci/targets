@@ -97,7 +97,7 @@ tar_test("aws_s3_download()", {
       args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
       max_tries = 1L
     ),
-    class = "tar_condition_expire"
+    class = "http_400"
   )
   expect_equal(readLines(tmp2), "x")
 })
@@ -124,7 +124,7 @@ tar_test("aws_s3_delete()", {
       args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
       max_tries = 1L
     ),
-    class = "tar_condition_expire"
+    class = "http_400"
   )
   expect_true(
     aws_s3_exists(
@@ -232,7 +232,7 @@ tar_test("aws_s3_upload() without headers", {
       args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
       max_tries = 1L
     ),
-    class = "tar_condition_expire"
+    class = "http_400"
   )
   expect_false(
     aws_s3_exists(
