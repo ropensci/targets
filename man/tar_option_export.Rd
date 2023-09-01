@@ -6,9 +6,6 @@
 \usage{
 tar_option_export()
 }
-\arguments{
-\item{script}{Path to the target script.}
-}
 \value{
 A list of options from tar_option_set().
 }
