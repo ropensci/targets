@@ -213,6 +213,7 @@ crew_class <- R6::R6Class(
     },
     iterate = function() {
       self$dequeue_meta_time()
+      self$upload_meta_time()
       queue <- self$scheduler$queue
       should_dequeue <- queue$should_dequeue()
       if (should_dequeue) {

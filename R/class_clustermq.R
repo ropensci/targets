@@ -240,6 +240,7 @@ clustermq_class <- R6::R6Class(
     },
     iterate = function() {
       self$dequeue_meta_time()
+      self$upload_meta_time()
       message <- if_any(
         self$workers > 0L,
         self$worker_list$receive_data(),

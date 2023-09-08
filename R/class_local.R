@@ -76,6 +76,7 @@ local_class <- R6::R6Class(
     },
     process_next = function() {
       self$dequeue_meta_time()
+      self$upload_meta_time()
       self$process_target(self$scheduler$queue$dequeue())
     },
     run = function() {

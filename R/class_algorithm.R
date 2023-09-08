@@ -5,7 +5,9 @@ algorithm_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
-  seconds_meta = NULL
+  seconds_meta = NULL,
+  seconds_upload = NULL,
+  seconds_reporter = NULL
 ) {
   algorithm_class$new(
     pipeline = pipeline,
@@ -14,7 +16,9 @@ algorithm_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    seconds_meta = seconds_meta
+    seconds_meta = seconds_meta,
+    seconds_upload = seconds_upload,
+    seconds_reporter = seconds_reporter
   )
 }
 
@@ -31,6 +35,7 @@ algorithm_class <- R6::R6Class(
     queue = NULL,
     reporter = NULL,
     seconds_meta = NULL,
+    seconds_upload = NULL,
     seconds_reporter = NULL,
     initialize = function(
       pipeline = NULL,
@@ -40,6 +45,7 @@ algorithm_class <- R6::R6Class(
       queue = NULL,
       reporter = NULL,
       seconds_meta = NULL,
+      seconds_upload = NULL,
       seconds_reporter = NULL
     ) {
       self$pipeline <- pipeline
@@ -49,6 +55,7 @@ algorithm_class <- R6::R6Class(
       self$queue <- queue
       self$reporter <- reporter
       self$seconds_meta <- seconds_meta
+      self$seconds_upload <- seconds_upload
       self$seconds_reporter <- seconds_reporter
     },
     update_scheduler = function() {
@@ -74,12 +81,12 @@ algorithm_class <- R6::R6Class(
       tar_assert_chr(self$names %|||% character(0))
       tar_assert_chr(self$queue %|||% character(0))
       tar_assert_chr(self$reporter %|||% character(0))
-      tar_assert_dbl(self$seconds_meta)
-      tar_assert_scalar(self$seconds_meta)
-      tar_assert_none_na(self$seconds_meta)
-      tar_assert_dbl(self$seconds_reporter)
-      tar_assert_scalar(self$seconds_reporter)
-      tar_assert_none_na(self$seconds_reporter)
+      for (field in c("seconds_meta", "seconds_upload", "seconds_reporter")) {
+        tar_assert_dbl(self[[field]])
+        tar_assert_scalar(self[[field]])
+        tar_assert_none_na(self[[field]])
+        tar_assert_ge(self[[field]], 0)
+      }
     }
   )
 )

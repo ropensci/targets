@@ -63,6 +63,7 @@ database_class <- R6::R6Class(
     list_column_modes = NULL,
     resources = NULL,
     queue = NULL,
+    staged = NULL,
     initialize = function(
       memory = NULL,
       path = NULL,
@@ -154,13 +155,17 @@ database_class <- R6::R6Class(
       line <- self$produce_line(self$select_cols(row))
       self$queue[length(self$queue) + 1L] <- line
     },
-    dequeue_rows = function(upload = TRUE) {
+    dequeue_rows = function() {
       if (length(self$queue)) {
-        on.exit(self$queue <- NULL)
         self$append_lines(self$queue)
-        if (upload) {
-          self$upload(verbose = FALSE)
-        }
+        self$queue <- NULL
+        self$staged <- TRUE
+      }
+    },
+    upload_staged = function() {
+      if (!is.null(self$staged) && self$staged) {
+        self$upload(verbose = FALSE)
+        self$staged <- FALSE
       }
     },
     write_row = function(row) {

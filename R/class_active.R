@@ -6,6 +6,7 @@ active_new <- function(
   queue = NULL,
   reporter = NULL,
   seconds_meta = NULL,
+  seconds_upload = NULL,
   seconds_reporter = NULL,
   garbage_collection = NULL,
   envir = NULL
@@ -18,6 +19,7 @@ active_new <- function(
     queue = queue,
     reporter = reporter,
     seconds_meta = seconds_meta,
+    seconds_upload = seconds_upload,
     seconds_reporter = seconds_reporter,
     garbage_collection = garbage_collection,
     envir = envir
@@ -36,6 +38,7 @@ active_class <- R6::R6Class(
     process = NULL,
     seconds_start = NULL,
     seconds_dequeued = NULL,
+    seconds_uploaded = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
@@ -44,6 +47,7 @@ active_class <- R6::R6Class(
       queue = NULL,
       reporter = NULL,
       seconds_meta = NULL,
+      seconds_upload = NULL,
       seconds_reporter = NULL,
       envir = NULL,
       garbage_collection = NULL
@@ -56,6 +60,7 @@ active_class <- R6::R6Class(
         queue = queue,
         reporter = reporter,
         seconds_meta = seconds_meta,
+        seconds_upload = seconds_upload,
         seconds_reporter = seconds_reporter
       )
       self$garbage_collection <- garbage_collection
@@ -75,8 +80,12 @@ active_class <- R6::R6Class(
       self$meta$restrict_records(self$pipeline)
     },
     dequeue_meta = function() {
-      self$meta$database$dequeue_rows(upload = TRUE)
-      self$scheduler$progress$database$dequeue_rows(upload = TRUE)
+      self$meta$database$dequeue_rows()
+      self$scheduler$progress$database$dequeue_rows()
+    },
+    upload_meta = function() {
+      self$meta$database$upload_staged()
+      self$scheduler$progress$database$upload_staged()
     },
     dequeue_meta_time = function() {
       self$seconds_dequeued <- self$seconds_dequeued %|||% -Inf
@@ -86,9 +95,18 @@ active_class <- R6::R6Class(
         self$seconds_dequeued <- time_seconds_local()
       }
     },
-    dequeue_meta_file = function(target) {
+    upload_meta_time = function() {
+      self$seconds_uploaded <- self$seconds_uploaded %|||% -Inf
+      now <- time_seconds_local()
+      if ((now - self$seconds_uploaded) > self$seconds_upload) {
+        self$upload_staged()
+        self$seconds_uploaded <- time_seconds_local()
+      }
+    },
+    dequeue_upload_meta_file = function(target) {
       if (target_allow_meta(target)) {
         self$dequeue_meta()
+        self$upload_meta()
       }
     },
     write_gitignore = function() {
@@ -155,7 +173,7 @@ active_class <- R6::R6Class(
       target_debug(target)
       target_update_depend(target, self$pipeline, self$meta)
       if (target_should_run(target, self$meta)) {
-        self$dequeue_meta_file(target)
+        self$dequeue_upload_meta_file(target)
         self$run_target(name)
       } else {
         self$skip_target(target)
@@ -177,10 +195,9 @@ active_class <- R6::R6Class(
     end = function() {
       scheduler <- self$scheduler
       pipeline_unload_loaded(self$pipeline)
-      self$meta$database$dequeue_rows(upload = FALSE)
+      self$dequeue_meta()
       self$meta$database$deduplicate_storage()
-      self$meta$database$sync(prefer_local = TRUE, verbose = FALSE)
-      self$scheduler$progress$database$dequeue_rows(upload = TRUE)
+      self$upload_meta()
       path_scratch_del(path_store = self$meta$store)
       compare_working_directories()
       tar_assert_objects_files(self$meta$store)

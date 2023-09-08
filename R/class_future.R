@@ -217,6 +217,7 @@ future_class <- R6::R6Class(
     },
     iterate = function() {
       self$dequeue_meta_time()
+      self$upload_meta_time()
       self$process_workers()
       self$try_submit(wait = TRUE)
     },
