@@ -50,14 +50,25 @@
 #'   * `"verbose_positives"`: same as the `"verbose"` reporter
 #'     except without messages for skipped targets.
 #' @param seconds_interval Deprecated on 2023-08-24 (version 1.2.2.9001).
-#'   Use `seconds_meta` and `seconds_reporter` instead.
-#' @param seconds_meta Positive numeric of length 1 with the minimum
-#'   number of seconds between saves to the metadata and progress data.
+#'   Use `seconds_meta_append`, `seconds_meta_upload`,
+#'   and `seconds_reporter` instead.
+#' @param seconds_meta_append Positive numeric of length 1 with the minimum
+#'   number of seconds between saves to the local metadata and progress files
+#'   in the data store.
 #'   Higher values generally make the pipeline run faster, but unsaved
 #'   work (in the event of a crash) is not up to date.
 #'   When the pipeline ends,
-#'   everything is saved/printed immediately,
-#'   regardless of `seconds_meta`.
+#'   all the metadata and progress data is saved immediately,
+#'   regardless of `seconds_meta_append`.
+#' @param seconds_meta_upload Positive numeric of length 1 with the minimum
+#'   number of seconds between uploads of the metadata and progress data
+#'   to the cloud
+#'   (see <https://books.ropensci.org/targets/cloud-storage.html>).
+#'   Higher values generally make the pipeline run faster, but unsaved
+#'   work (in the event of a crash) may not be backed up to the cloud.
+#'   When the pipeline ends,
+#'   all the metadata and progress data is uploaded immediately,
+#'   regardless of `seconds_meta_upload`.
 #' @param seconds_reporter Positive numeric of length 1 with the minimum
 #'   number of seconds between times when the reporter prints progress
 #'   messages to the R console.
@@ -114,7 +125,8 @@ tar_make <- function(
   names = NULL,
   shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
-  seconds_meta = targets::tar_config_get("seconds_meta"),
+  seconds_meta_append = targets::tar_config_get("seconds_meta_append"),
+  seconds_meta_upload = targets::tar_config_get("seconds_meta_upload"),
   seconds_reporter = targets::tar_config_get("seconds_reporter"),
   seconds_interval = targets::tar_config_get("seconds_interval"),
   callr_function = callr::r,
@@ -133,10 +145,14 @@ tar_make <- function(
   tar_assert_flag(reporter, tar_reporters_make())
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
-  tar_assert_dbl(seconds_meta)
-  tar_assert_scalar(seconds_meta)
-  tar_assert_none_na(seconds_meta)
-  tar_assert_ge(seconds_meta, 0)
+  tar_assert_dbl(seconds_meta_append)
+  tar_assert_scalar(seconds_meta_append)
+  tar_assert_none_na(seconds_meta_append)
+  tar_assert_ge(seconds_meta_append, 0)
+  tar_assert_dbl(seconds_meta_upload)
+  tar_assert_scalar(seconds_meta_upload)
+  tar_assert_none_na(seconds_meta_upload)
+  tar_assert_ge(seconds_meta_upload, 0)
   tar_assert_dbl(seconds_reporter)
   tar_assert_scalar(seconds_reporter)
   tar_assert_none_na(seconds_reporter)
@@ -153,7 +169,8 @@ tar_make <- function(
     names_quosure = rlang::enquo(names),
     shortcut = shortcut,
     reporter = reporter,
-    seconds_meta = seconds_meta,
+    seconds_meta_append = seconds_meta_append,
+    seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
     garbage_collection = garbage_collection,
     use_crew = use_crew,
@@ -178,7 +195,8 @@ tar_make_inner <- function(
   names_quosure,
   shortcut,
   reporter,
-  seconds_meta,
+  seconds_meta_append,
+  seconds_meta_upload,
   seconds_reporter,
   garbage_collection,
   use_crew,
@@ -200,7 +218,8 @@ tar_make_inner <- function(
       shortcut = shortcut,
       queue = queue,
       reporter = reporter,
-      seconds_meta = seconds_meta,
+      seconds_meta_append = seconds_meta_append,
+      seconds_meta_upload = seconds_meta_upload,
       seconds_reporter = seconds_reporter,
       envir = tar_option_get("envir")
     )$run()
@@ -213,7 +232,8 @@ tar_make_inner <- function(
       shortcut = shortcut,
       queue = "parallel",
       reporter = reporter,
-      seconds_meta = seconds_meta,
+      seconds_meta_append = seconds_meta_append,
+      seconds_meta_upload = seconds_meta_upload,
       seconds_reporter = seconds_reporter,
       garbage_collection = garbage_collection,
       envir = tar_option_get("envir"),

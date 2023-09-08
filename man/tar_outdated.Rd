@@ -61,7 +61,8 @@ number of seconds between times when the reporter prints progress
 messages to the R console.}
 
 \item{seconds_interval}{Deprecated on 2023-08-24 (version 1.2.2.9001).
-Use \code{seconds_meta} and \code{seconds_reporter} instead.}
+Use \code{seconds_meta_append}, \code{seconds_meta_upload},
+and \code{seconds_reporter} instead.}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session

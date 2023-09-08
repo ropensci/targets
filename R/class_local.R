@@ -5,8 +5,9 @@ local_init <- function(
   shortcut = FALSE,
   queue = "parallel",
   reporter = "verbose",
-  seconds_meta = 15,
-  seconds_reporter = 0.5,
+  seconds_meta_append = 0,
+  seconds_meta_upload = 15,
+  seconds_reporter = 0,
   envir = tar_option_get("envir")
 ) {
   local_new(
@@ -16,7 +17,8 @@ local_init <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    seconds_meta = seconds_meta,
+    seconds_meta_append = seconds_meta_append,
+    seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
     garbage_collection = FALSE,
     envir = envir
@@ -30,7 +32,8 @@ local_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
-  seconds_meta = NULL,
+  seconds_meta_append = NULL,
+  seconds_meta_upload = NULL,
   seconds_reporter = NULL,
   garbage_collection = NULL,
   envir = NULL
@@ -42,7 +45,8 @@ local_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    seconds_meta = seconds_meta,
+    seconds_meta_append = seconds_meta_append,
+    seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
     garbage_collection = garbage_collection,
     envir = envir

@@ -46,7 +46,8 @@ tar_make_clustermq <- function(
   names = NULL,
   shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
-  seconds_meta = targets::tar_config_get("seconds_meta"),
+  seconds_meta_append = targets::tar_config_get("seconds_meta_append"),
+  seconds_meta_upload = targets::tar_config_get("seconds_meta_upload"),
   seconds_reporter = targets::tar_config_get("seconds_reporter"),
   seconds_interval = targets::tar_config_get("seconds_interval"),
   workers = targets::tar_config_get("workers"),
@@ -74,10 +75,14 @@ tar_make_clustermq <- function(
   tar_assert_ge(workers, 1)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
-  tar_assert_dbl(seconds_meta)
-  tar_assert_scalar(seconds_meta)
-  tar_assert_none_na(seconds_meta)
-  tar_assert_ge(seconds_meta, 0)
+  tar_assert_dbl(seconds_meta_append)
+  tar_assert_scalar(seconds_meta_append)
+  tar_assert_none_na(seconds_meta_append)
+  tar_assert_ge(seconds_meta_append, 0)
+  tar_assert_dbl(seconds_meta_upload)
+  tar_assert_scalar(seconds_meta_upload)
+  tar_assert_none_na(seconds_meta_upload)
+  tar_assert_ge(seconds_meta_upload, 0)
   tar_assert_dbl(seconds_reporter)
   tar_assert_scalar(seconds_reporter)
   tar_assert_none_na(seconds_reporter)
@@ -91,7 +96,8 @@ tar_make_clustermq <- function(
     names_quosure = rlang::enquo(names),
     shortcut = shortcut,
     reporter = reporter,
-    seconds_meta = seconds_meta,
+    seconds_meta_append = seconds_meta_append,
+    seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
     garbage_collection = garbage_collection,
     workers = workers,
@@ -116,7 +122,8 @@ tar_make_clustermq_inner <- function(
   names_quosure,
   shortcut,
   reporter,
-  seconds_meta,
+  seconds_meta_append,
+  seconds_meta_upload,
   seconds_reporter,
   garbage_collection,
   workers,
@@ -130,7 +137,8 @@ tar_make_clustermq_inner <- function(
     shortcut = shortcut,
     queue = "parallel",
     reporter = reporter,
-    seconds_meta = seconds_meta,
+    seconds_meta_append = seconds_meta_append,
+    seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
     garbage_collection = garbage_collection,
     envir = tar_option_get("envir"),

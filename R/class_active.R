@@ -5,8 +5,8 @@ active_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
-  seconds_meta = NULL,
-  seconds_upload = NULL,
+  seconds_meta_append = NULL,
+  seconds_meta_upload = NULL,
   seconds_reporter = NULL,
   garbage_collection = NULL,
   envir = NULL
@@ -18,8 +18,8 @@ active_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    seconds_meta = seconds_meta,
-    seconds_upload = seconds_upload,
+    seconds_meta_append = seconds_meta_append,
+    seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
     garbage_collection = garbage_collection,
     envir = envir
@@ -37,8 +37,8 @@ active_class <- R6::R6Class(
     exports = NULL,
     process = NULL,
     seconds_start = NULL,
-    seconds_dequeued = NULL,
-    seconds_uploaded = NULL,
+    seconds_meta_appended = NULL,
+    seconds_meta_uploaded = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
@@ -46,8 +46,8 @@ active_class <- R6::R6Class(
       shortcut = NULL,
       queue = NULL,
       reporter = NULL,
-      seconds_meta = NULL,
-      seconds_upload = NULL,
+      seconds_meta_append = NULL,
+      seconds_meta_upload = NULL,
       seconds_reporter = NULL,
       envir = NULL,
       garbage_collection = NULL
@@ -59,8 +59,8 @@ active_class <- R6::R6Class(
         shortcut = shortcut,
         queue = queue,
         reporter = reporter,
-        seconds_meta = seconds_meta,
-        seconds_upload = seconds_upload,
+        seconds_meta_append = seconds_meta_append,
+        seconds_meta_upload = seconds_meta_upload,
         seconds_reporter = seconds_reporter
       )
       self$garbage_collection <- garbage_collection
@@ -88,19 +88,19 @@ active_class <- R6::R6Class(
       self$scheduler$progress$database$upload_staged()
     },
     dequeue_meta_time = function() {
-      self$seconds_dequeued <- self$seconds_dequeued %|||% -Inf
+      self$seconds_meta_appended <- self$seconds_meta_appended %|||% -Inf
       now <- time_seconds_local()
-      if ((now - self$seconds_dequeued) > self$seconds_meta) {
+      if ((now - self$seconds_meta_appended) > self$seconds_meta_append) {
         self$dequeue_meta()
-        self$seconds_dequeued <- time_seconds_local()
+        self$seconds_meta_appended <- time_seconds_local()
       }
     },
     upload_meta_time = function() {
-      self$seconds_uploaded <- self$seconds_uploaded %|||% -Inf
+      self$seconds_meta_uploaded <- self$seconds_meta_uploaded %|||% -Inf
       now <- time_seconds_local()
-      if ((now - self$seconds_uploaded) > self$seconds_upload) {
+      if ((now - self$seconds_meta_uploaded) > self$seconds_meta_upload) {
         self$upload_staged()
-        self$seconds_uploaded <- time_seconds_local()
+        self$seconds_meta_uploaded <- time_seconds_local()
       }
     },
     dequeue_upload_meta_file = function(target) {

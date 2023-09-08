@@ -5,7 +5,8 @@ passive_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
-  seconds_meta = NULL,
+  seconds_meta_append = NULL,
+  seconds_meta_upload = NULL,
   seconds_reporter = NULL
 ) {
   passive_class$new(
@@ -15,7 +16,8 @@ passive_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    seconds_meta = seconds_meta,
+    seconds_meta_append = seconds_meta_append,
+    seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter
   )
 }

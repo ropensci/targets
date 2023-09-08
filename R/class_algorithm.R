@@ -5,8 +5,8 @@ algorithm_new <- function(
   shortcut = NULL,
   queue = NULL,
   reporter = NULL,
-  seconds_meta = NULL,
-  seconds_upload = NULL,
+  seconds_meta_append = NULL,
+  seconds_meta_upload = NULL,
   seconds_reporter = NULL
 ) {
   algorithm_class$new(
@@ -16,8 +16,8 @@ algorithm_new <- function(
     shortcut = shortcut,
     queue = queue,
     reporter = reporter,
-    seconds_meta = seconds_meta,
-    seconds_upload = seconds_upload,
+    seconds_meta_append = seconds_meta_append,
+    seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter
   )
 }
@@ -34,8 +34,8 @@ algorithm_class <- R6::R6Class(
     shortcut = NULL,
     queue = NULL,
     reporter = NULL,
-    seconds_meta = NULL,
-    seconds_upload = NULL,
+    seconds_meta_append = NULL,
+    seconds_meta_upload = NULL,
     seconds_reporter = NULL,
     initialize = function(
       pipeline = NULL,
@@ -44,8 +44,8 @@ algorithm_class <- R6::R6Class(
       shortcut = NULL,
       queue = NULL,
       reporter = NULL,
-      seconds_meta = NULL,
-      seconds_upload = NULL,
+      seconds_meta_append = NULL,
+      seconds_meta_upload = NULL,
       seconds_reporter = NULL
     ) {
       self$pipeline <- pipeline
@@ -54,8 +54,8 @@ algorithm_class <- R6::R6Class(
       self$shortcut <- shortcut
       self$queue <- queue
       self$reporter <- reporter
-      self$seconds_meta <- seconds_meta
-      self$seconds_upload <- seconds_upload
+      self$seconds_meta_append <- seconds_meta_append
+      self$seconds_meta_upload <- seconds_meta_upload
       self$seconds_reporter <- seconds_reporter
     },
     update_scheduler = function() {
@@ -81,7 +81,12 @@ algorithm_class <- R6::R6Class(
       tar_assert_chr(self$names %|||% character(0))
       tar_assert_chr(self$queue %|||% character(0))
       tar_assert_chr(self$reporter %|||% character(0))
-      for (field in c("seconds_meta", "seconds_upload", "seconds_reporter")) {
+      fields <- c(
+        "seconds_meta_append",
+        "seconds_meta_upload",
+        "seconds_reporter"
+      )
+      for (field in fields) {
         tar_assert_dbl(self[[field]])
         tar_assert_scalar(self[[field]])
         tar_assert_none_na(self[[field]])

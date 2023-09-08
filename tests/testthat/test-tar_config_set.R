@@ -136,19 +136,34 @@ tar_test("tar_config_set() with script and different yaml file", {
   expect_equal(tar_config_get("script", config = path), path_script_default())
 })
 
-tar_test("tar_config_set() with seconds_meta", {
+tar_test("tar_config_set() with seconds_meta_append", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
-  expect_equal(tar_config_get("seconds_meta"), 15)
+  expect_equal(tar_config_get("seconds_meta_append"), 0)
   path <- tempfile()
-  tar_config_set(seconds_meta = 10)
-  expect_equal(tar_config_get("seconds_meta"), 10)
+  tar_config_set(seconds_meta_append = 10)
+  expect_equal(tar_config_get("seconds_meta_append"), 10)
   expect_true(file.exists("_targets.yaml"))
   tar_config_set()
-  expect_equal(tar_config_get("seconds_meta"), 10)
+  expect_equal(tar_config_get("seconds_meta_append"), 10)
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
-  expect_equal(tar_config_get("seconds_meta"), 15)
+  expect_equal(tar_config_get("seconds_meta_append"), 0)
+})
+
+tar_test("tar_config_set() with seconds_meta_upload", {
+  skip_cran()
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("seconds_meta_upload"), 15)
+  path <- tempfile()
+  tar_config_set(seconds_meta_upload = 10)
+  expect_equal(tar_config_get("seconds_meta_upload"), 10)
+  expect_true(file.exists("_targets.yaml"))
+  tar_config_set()
+  expect_equal(tar_config_get("seconds_meta_upload"), 10)
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("seconds_meta_upload"), 15)
 })
 
 tar_test("tar_config_set() with seconds_reporter", {

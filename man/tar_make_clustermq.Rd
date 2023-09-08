@@ -8,7 +8,8 @@ tar_make_clustermq(
   names = NULL,
   shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_make"),
-  seconds_meta = targets::tar_config_get("seconds_meta"),
+  seconds_meta_append = targets::tar_config_get("seconds_meta_append"),
+  seconds_meta_upload = targets::tar_config_get("seconds_meta_upload"),
   seconds_reporter = targets::tar_config_get("seconds_reporter"),
   seconds_interval = targets::tar_config_get("seconds_interval"),
   workers = targets::tar_config_get("workers"),
@@ -63,20 +64,32 @@ steps like data retrieval and output storage.
 except without messages for skipped targets.
 }}
 
-\item{seconds_meta}{Positive numeric of length 1 with the minimum
-number of seconds between saves to the metadata and progress data.
+\item{seconds_meta_append}{Positive numeric of length 1 with the minimum
+number of seconds between saves to the local metadata and progress files
+in the data store.
 Higher values generally make the pipeline run faster, but unsaved
 work (in the event of a crash) is not up to date.
 When the pipeline ends,
-everything is saved/printed immediately,
-regardless of \code{seconds_meta}.}
+all the metadata and progress data is saved immediately,
+regardless of \code{seconds_meta_append}.}
+
+\item{seconds_meta_upload}{Positive numeric of length 1 with the minimum
+number of seconds between uploads of the metadata and progress data
+to the cloud
+(see \url{https://books.ropensci.org/targets/cloud-storage.html}).
+Higher values generally make the pipeline run faster, but unsaved
+work (in the event of a crash) may not be backed up to the cloud.
+When the pipeline ends,
+all the metadata and progress data is uploaded immediately,
+regardless of \code{seconds_meta_upload}.}
 
 \item{seconds_reporter}{Positive numeric of length 1 with the minimum
 number of seconds between times when the reporter prints progress
 messages to the R console.}
 
 \item{seconds_interval}{Deprecated on 2023-08-24 (version 1.2.2.9001).
-Use \code{seconds_meta} and \code{seconds_reporter} instead.}
+Use \code{seconds_meta_append}, \code{seconds_meta_upload},
+and \code{seconds_reporter} instead.}
 
 \item{workers}{Positive integer, number of persistent \code{clustermq} workers
 to create.}
