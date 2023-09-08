@@ -1,14 +1,17 @@
-#' @title Run a pipeline of targets in parallel with transient
+#' @title Superseded. Run a pipeline of targets in parallel with transient
 #'   `future` workers.
 #' @export
 #' @family pipeline
-#' @description This function is like [tar_make()] except that targets
+#' @description Superseded. Use [tar_make()] with `crew`:
+#'   <https://books.ropensci.org/targets/crew.html>.
+#' @details This function is like [tar_make()] except that targets
 #'   run in parallel with transient `future` workers. It requires
 #'   that you declare your `future::plan()` inside the
 #'   target script file (default: `_targets.R`).
 #'   `future` is not a strict dependency of `targets`,
 #'   so you must install `future` yourself.
-#' @details To configure `tar_make_future()` with a computing cluster,
+#'
+#'   To configure `tar_make_future()` with a computing cluster,
 #'   see the `future.batchtools` package documentation.
 #' @inheritSection tar_meta Storage access
 #' @return `NULL` except if `callr_function = callr::r_bg()`, in which case

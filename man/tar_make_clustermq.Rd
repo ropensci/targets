@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_make_clustermq.R
 \name{tar_make_clustermq}
 \alias{tar_make_clustermq}
-\title{Run a pipeline with persistent \code{clustermq} workers.}
+\title{Superseded. Run a pipeline with persistent \code{clustermq} workers.}
 \usage{
 tar_make_clustermq(
   names = NULL,
@@ -156,7 +156,8 @@ a handle to the \code{callr} background process is returned. Either way,
 the value is invisibly returned.
 }
 \description{
-Run a pipeline with persistent \code{clustermq} workers.
+Superseded. Use \code{\link[=tar_make]{tar_make()}} with \code{crew}:
+\url{https://books.ropensci.org/targets/crew.html}.
 }
 \details{
 \code{tar_make_clustermq()} is like \code{\link[=tar_make]{tar_make()}} except that targets

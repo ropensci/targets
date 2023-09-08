@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_make_future.R
 \name{tar_make_future}
 \alias{tar_make_future}
-\title{Run a pipeline of targets in parallel with transient
+\title{Superseded. Run a pipeline of targets in parallel with transient
 \code{future} workers.}
 \usage{
 tar_make_future(
@@ -152,14 +152,17 @@ a handle to the \code{callr} background process is returned. Either way,
 the value is invisibly returned.
 }
 \description{
+Superseded. Use \code{\link[=tar_make]{tar_make()}} with \code{crew}:
+\url{https://books.ropensci.org/targets/crew.html}.
+}
+\details{
 This function is like \code{\link[=tar_make]{tar_make()}} except that targets
 run in parallel with transient \code{future} workers. It requires
 that you declare your \code{future::plan()} inside the
 target script file (default: \verb{_targets.R}).
 \code{future} is not a strict dependency of \code{targets},
 so you must install \code{future} yourself.
-}
-\details{
+
 To configure \code{tar_make_future()} with a computing cluster,
 see the \code{future.batchtools} package documentation.
 }

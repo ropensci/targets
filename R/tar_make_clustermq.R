@@ -1,7 +1,8 @@
-#' @title Run a pipeline with persistent `clustermq` workers.
+#' @title Superseded. Run a pipeline with persistent `clustermq` workers.
 #' @export
 #' @family pipeline
-#' @description Run a pipeline with persistent `clustermq` workers.
+#' @description Superseded. Use [tar_make()] with `crew`:
+#'   <https://books.ropensci.org/targets/crew.html>.
 #' @details `tar_make_clustermq()` is like [tar_make()] except that targets
 #'   run in parallel on persistent workers. A persistent worker is an
 #'   R process that runs for a long time and builds multiple
