@@ -99,7 +99,7 @@ active_class <- R6::R6Class(
       self$seconds_meta_uploaded <- self$seconds_meta_uploaded %|||% -Inf
       now <- time_seconds_local()
       if ((now - self$seconds_meta_uploaded) > self$seconds_meta_upload) {
-        self$upload_staged()
+        self$upload_meta()
         self$seconds_meta_uploaded <- time_seconds_local()
       }
     },
