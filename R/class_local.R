@@ -79,9 +79,6 @@ local_class <- R6::R6Class(
       self$unload_transient()
     },
     process_next = function() {
-      
-      browser()
-      
       self$dequeue_meta_time()
       self$upload_meta_time()
       self$process_target(self$scheduler$queue$dequeue())
