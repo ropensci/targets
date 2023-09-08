@@ -5,7 +5,7 @@ prelocal_new <- function(
   queue = NULL,
   reporter = NULL,
   seconds_meta_append = NULL,
-  seconds_meta_upload = NULL, 
+  seconds_meta_upload = NULL,
   seconds_reporter = NULL,
   garbage_collection = NULL,
   envir = NULL,
