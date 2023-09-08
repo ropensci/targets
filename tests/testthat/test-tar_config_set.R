@@ -169,7 +169,7 @@ tar_test("tar_config_set() with seconds_meta_upload", {
 tar_test("tar_config_set() with seconds_reporter", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
-  expect_equal(tar_config_get("seconds_reporter"), 0.5)
+  expect_equal(tar_config_get("seconds_reporter"), 0)
   path <- tempfile()
   tar_config_set(seconds_reporter = 10)
   expect_equal(tar_config_get("seconds_reporter"), 10)
@@ -178,7 +178,7 @@ tar_test("tar_config_set() with seconds_reporter", {
   expect_equal(tar_config_get("seconds_reporter"), 10)
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
-  expect_equal(tar_config_get("seconds_reporter"), 0.5)
+  expect_equal(tar_config_get("seconds_reporter"), 0)
 })
 
 tar_test("tar_config_set() with seconds_interval", {
