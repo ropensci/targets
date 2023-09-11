@@ -86,8 +86,6 @@ tar_test("debug mode works for entire patterns", {
     list(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
   })
   tar_make(callr_function = NULL) # Should not debug.
-  # Pick one of the b_* branches branches and
-  # assign it to debug in tar_option_set.
   tar_script({
     envir <- new.env(parent = baseenv())
     tar_option_set(envir = envir, debug = "b")
@@ -95,7 +93,7 @@ tar_test("debug mode works for entire patterns", {
   }, ask = FALSE)
   # Now verify that we launch a debugger.
   tar_make(callr_function = NULL)
-  # Print targets::tar_name(). Should be the branch we picked in debug.
+  # Print targets::tar_name(). Should be a branch.
   # Also print out `a`.
   # Should be the value of the bud we are currently branching over.
 })
@@ -123,6 +121,21 @@ tar_test("debug mode works in tar_make_future()", {
   tar_script({
     envir <- new.env(parent = baseenv())
     tar_option_set(debug = "b", envir = envir)
+    list(tar_target(a, "a"), tar_target(b, a))
+  })
+  # Should launch an interactive debugger.
+  tar_make_future(callr_function = NULL)
+  # Also print out targets::tar_name() in the debugger. Should be "b".
+  # Also print out `a` in the debugger. Should be "a".
+})
+
+tar_test("debug mode works in crew", {
+  skip_on_os("windows")
+  skip_if_not_installed("crew")
+  tar_script({
+    envir <- new.env(parent = baseenv())
+    controller <- crew::crew_controller_local()
+    tar_option_set(debug = "b", envir = envir, controller = controller)
     list(tar_target(a, "a"), tar_target(b, a))
   })
   # Should launch an interactive debugger.
