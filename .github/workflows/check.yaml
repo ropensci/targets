@@ -68,5 +68,11 @@ jobs:
         shell: Rscript {0}
         run: torch::install_torch()
 
+      - name: Install dev crew
+        shell: Rscript {0}
+        run: |
+          install.packages("remotes")
+          remotes::install_github("wlandau/crew")
+
       - name: Check package
         uses: r-lib/actions/check-r-package@v2
