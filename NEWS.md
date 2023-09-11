@@ -1,4 +1,4 @@
-# targets 1.2.2.9003 (development)
+# targets 1.3.0
 
 ## Invalidating changes
 
