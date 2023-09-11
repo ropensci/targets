@@ -119,7 +119,7 @@ tar_test("file_ensure_hash() on a huge object in pipeline", {
     tar_option_set(trust_object_timestamps = TRUE)
     tar_target(x, stats::rnorm(n = 1e8))
   })
-  tar_make() # Should be fast (about half a second), should skip.
+  tar_make() # Should be faster, should skip.
   tar_destroy()
   unlink("_targets.R")
 })
