@@ -171,6 +171,7 @@ crew_class <- R6::R6Class(
         # nocov end
       } else {
         target_prepare(target, self$pipeline, self$scheduler, self$meta)
+        self$sync_meta_time()
         self$controller$push(
           command = command,
           data = data,
@@ -186,6 +187,7 @@ crew_class <- R6::R6Class(
     },
     run_main = function(target) {
       target_prepare(target, self$pipeline, self$scheduler, self$meta)
+      self$sync_meta_time()
       target_run(
         target = target,
         envir = self$envir,
@@ -218,8 +220,7 @@ crew_class <- R6::R6Class(
       target_sync_file_meta(target, self$meta)
     },
     iterate = function() {
-      self$dequeue_meta_time()
-      self$upload_meta_time()
+      self$sync_meta_time()
       queue <- self$scheduler$queue
       should_dequeue <- queue$should_dequeue()
       if (should_dequeue) {

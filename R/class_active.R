@@ -87,10 +87,14 @@ active_class <- R6::R6Class(
       self$meta$database$upload_staged()
       self$scheduler$progress$database$upload_staged()
     },
+    sync_meta_time = function() {
+      self$dequeue_meta_time()
+      self$upload_meta_time()
+    },
     dequeue_meta_time = function() {
       self$seconds_meta_appended <- self$seconds_meta_appended %|||% -Inf
       now <- time_seconds_local()
-      if ((now - self$seconds_meta_appended) > self$seconds_meta_append) {
+      if ((now - self$seconds_meta_appended) >= self$seconds_meta_append) {
         self$dequeue_meta()
         self$seconds_meta_appended <- time_seconds_local()
       }
@@ -98,7 +102,7 @@ active_class <- R6::R6Class(
     upload_meta_time = function() {
       self$seconds_meta_uploaded <- self$seconds_meta_uploaded %|||% -Inf
       now <- time_seconds_local()
-      if ((now - self$seconds_meta_uploaded) > self$seconds_meta_upload) {
+      if ((now - self$seconds_meta_uploaded) >= self$seconds_meta_upload) {
         self$upload_meta()
         self$seconds_meta_uploaded <- time_seconds_local()
       }

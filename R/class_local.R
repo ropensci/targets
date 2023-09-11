@@ -65,6 +65,7 @@ local_class <- R6::R6Class(
       target <- pipeline_get_target(self$pipeline, name)
       self$tar_assert_deployment(target)
       target_prepare(target, self$pipeline, self$scheduler, self$meta)
+      self$sync_meta_time()
       target_run(
         target = target,
         envir = self$envir,
@@ -79,8 +80,7 @@ local_class <- R6::R6Class(
       self$unload_transient()
     },
     process_next = function() {
-      self$dequeue_meta_time()
-      self$upload_meta_time()
+      self$sync_meta_time()
       self$process_target(self$scheduler$queue$dequeue())
     },
     run = function() {

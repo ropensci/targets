@@ -162,6 +162,7 @@ future_class <- R6::R6Class(
     run_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
       target_prepare(target, self$pipeline, self$scheduler, self$meta)
+      self$sync_meta_time()
       if_any(
         target_should_run_worker(target),
         self$run_worker(target),
@@ -222,8 +223,7 @@ future_class <- R6::R6Class(
       lapply(names, self$process_worker)
     },
     iterate = function() {
-      self$dequeue_meta_time()
-      self$upload_meta_time()
+      self$sync_meta_time()
       self$process_workers()
       self$try_submit(wait = TRUE)
     },
