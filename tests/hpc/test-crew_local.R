@@ -116,7 +116,7 @@ tar_test("heavily parallel workload should run fast", {
       )
     )
   })
-  tar_make()
+  tar_make(seconds_meta_append = 15, seconds_reporter = 15)
   expect_equal(tar_outdated(callr_function = NULL), character(0))
 })
 

@@ -165,7 +165,7 @@ tar_test("prevent high-memory data via target objects", {
   t <- list(tar_target(x, runif(1e7), deployment = "main", format = "qs"))
   pipeline <- pipeline_init(list(t[[1]], tar_target(y, x)))
   algo <- future_init(pipeline)
-  debug(algo$update_globals)
+  debug(algo$ensure_exports)
   tar_option_set(envir = environment())
   # should enter a debugger:
   algo$run()
