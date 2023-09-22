@@ -37,8 +37,10 @@ tar_make()
 \seealso{
 Other configuration: 
 \code{\link{tar_config_get}()},
+\code{\link{tar_config_projects}()},
 \code{\link{tar_config_set}()},
 \code{\link{tar_config_unset}()},
+\code{\link{tar_config_yaml}()},
 \code{\link{tar_envvars}()},
 \code{\link{tar_option_get}()},
 \code{\link{tar_option_set}()}

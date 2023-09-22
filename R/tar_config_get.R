@@ -38,7 +38,7 @@ tar_config_get <- function(
   tar_assert_scalar(project)
   choices <- setdiff(names(formals(tar_config_set)), c("config", "project"))
   tar_assert_flag(name, choices = choices)
-  yaml <- tar_config_read_yaml(config)
+  yaml <- tar_config_yaml(config)
   value <- if_any(
     tar_config_is_multi_project(yaml, config),
     tar_config_get_multi_project(name, yaml, project, memory_init()),

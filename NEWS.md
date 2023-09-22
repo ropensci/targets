@@ -1,5 +1,6 @@
-# targets 1.3.0.9000 (development)
+# targets 1.3.0.9001 (development)
 
+* Add `tar_config_projects()` and `tar_config_yaml()` (#1153, @psychelzh).
 
 # targets 1.3.0
 
