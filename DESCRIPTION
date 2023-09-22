@@ -106,7 +106,7 @@ Suggests:
   testthat (>= 3.0.0),
   torch (>= 0.1.0),
   usethis (>= 1.6.3),
-  visNetwork (>= 2.0.9)
+  visNetwork (>= 2.1.2)
 Encoding: UTF-8
 Language: en-US
 VignetteBuilder: knitr
