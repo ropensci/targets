@@ -36,8 +36,10 @@ reference:
 - title: Configuration
   contents:
   - '`tar_config_get`'
+  - '`tar_config_projects`'
   - '`tar_config_set`'
   - '`tar_config_unset`'
+  - '`tar_config_yaml`'
   - '`tar_envvars`'
   - '`tar_option_get`'
   - '`tar_option_reset`'
