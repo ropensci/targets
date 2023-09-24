@@ -1,6 +1,8 @@
 # targets 1.3.0.9001 (development)
 
 * Add `tar_config_projects()` and `tar_config_yaml()` (#1153, @psychelzh).
+* Apply error modes to `builder_wait_correct_hash()` in `target_conclude.tar_builder()` (#1154, @gadenbuie).
+* Remove duplicated error message from `builder_error_null()`.
 
 # targets 1.3.0
 

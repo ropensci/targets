@@ -188,17 +188,17 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
     meta = meta
   )
   builder_ensure_object(target, "main")
+  builder_ensure_correct_hash(target)
   switch(
     metrics_outcome(target$metrics),
     cancel = builder_cancel(target, pipeline, scheduler, meta),
     error = builder_error(target, pipeline, scheduler, meta),
-    built = builder_conclude(target, pipeline, scheduler, meta)
+    built = builder_built(target, pipeline, scheduler, meta)
   )
   NextMethod()
 }
 
-builder_conclude <- function(target, pipeline, scheduler, meta) {
-  builder_wait_correct_hash(target)
+builder_built <- function(target, pipeline, scheduler, meta) {
   store_cache_path(target$store, target$store$file$path)
   target_ensure_buds(target, pipeline, scheduler)
   meta$insert_record(target_produce_record(target, pipeline, meta))
@@ -345,7 +345,6 @@ builder_error_null <- function(target, pipeline, scheduler, meta) {
   target_patternview_meta(target, pipeline, meta)
   pipeline_register_loaded(pipeline, target_get_name(target))
   scheduler$progress$register_errored(target)
-  scheduler$reporter$report_errored(target, scheduler$progress)
 }
 
 builder_ensure_workspace <- function(target, pipeline, scheduler, meta) {
@@ -458,6 +457,15 @@ builder_error_internal <- function(target, error, prefix) {
     traceback = "No traceback available."
   )
   target
+}
+
+builder_ensure_correct_hash <- function(target) {
+  if (!metrics_terminated_early(target$metrics)) {
+    tryCatch(
+      builder_wait_correct_hash(target),
+      error = function(error) builder_error_internal(target, error, "_hash_")
+    )
+  }
 }
 
 builder_wait_correct_hash <- function(target) {
