@@ -5,21 +5,37 @@
 \title{Synchronize cloud metadata.}
 \usage{
 tar_meta_sync(
-  prefer_local = TRUE,
+  meta = TRUE,
+  progress = TRUE,
+  process = TRUE,
+  crew = TRUE,
   verbose = TRUE,
+  prefer_local = TRUE,
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 )
 }
 \arguments{
+\item{meta}{Logical of length 1, whether to process the main metadata file
+at \verb{_targets/meta/meta}.}
+
+\item{progress}{Logical of length 1, whether to process the progress file at
+\verb{_targets/meta/progress}.}
+
+\item{process}{Logical of length 1, whether to process the process file at
+\verb{_targets/meta/process}.}
+
+\item{crew}{Logical of length 1, whether to process the \code{crew} file at
+\verb{_targets/meta/crew}. Only exists if running \code{targets} with \code{crew}.}
+
+\item{verbose}{Logical of length 1, whether to print informative
+console messages.}
+
 \item{prefer_local}{Logical of length 1 to control which copy of each
 metadata file takes precedence if the local hash and cloud hash
 are different but the time stamps are the same. Set to \code{TRUE}
 to upload the local data file in that scenario, \code{FALSE} to download
 the cloud file.}
-
-\item{verbose}{Logical of length 1, whether to print informative
-console messages.}
 
 \item{script}{Character of length 1, path to the
 target script file. Defaults to \code{tar_config_get("script")},

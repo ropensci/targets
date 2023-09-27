@@ -3,6 +3,8 @@
 * Add `tar_config_projects()` and `tar_config_yaml()` (#1153, @psychelzh).
 * Apply error modes to `builder_wait_correct_hash()` in `target_conclude.tar_builder()` (#1154, @gadenbuie).
 * Remove duplicated error message from `builder_error_null()`.
+* Allow `tar_meta_upload()` and `tar_meta_download()` to avoid errors if one or more metadata files do not exist. Add a new argument `strict` to control error behavior.
+* Add new arguments `meta`, `progress`, `process`, and `crew` to control individual metadata files in `tar_meta_upload()`, `tar_meta_download()`, `tar_meta_sync()`, and `tar_meta_delete()`.
 
 # targets 1.3.0
 

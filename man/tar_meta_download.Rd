@@ -5,14 +5,36 @@
 \title{download local metadata to the cloud.}
 \usage{
 tar_meta_download(
+  meta = TRUE,
+  progress = TRUE,
+  process = TRUE,
+  crew = TRUE,
   verbose = TRUE,
+  strict = FALSE,
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 )
 }
 \arguments{
+\item{meta}{Logical of length 1, whether to process the main metadata file
+at \verb{_targets/meta/meta}.}
+
+\item{progress}{Logical of length 1, whether to process the progress file at
+\verb{_targets/meta/progress}.}
+
+\item{process}{Logical of length 1, whether to process the process file at
+\verb{_targets/meta/process}.}
+
+\item{crew}{Logical of length 1, whether to process the \code{crew} file at
+\verb{_targets/meta/crew}. Only exists if running \code{targets} with \code{crew}.}
+
 \item{verbose}{Logical of length 1, whether to print informative
 console messages.}
+
+\item{strict}{Logical of length 1. \code{TRUE} to error out if the file
+does not exist in the bucket, \code{FALSE} to proceed without an error or
+warning. If \code{strict} is \code{FALSE} and \code{verbose} is \code{TRUE},
+then an informative message will print to the R console.}
 
 \item{script}{Character of length 1, path to the
 target script file. Defaults to \code{tar_config_get("script")},

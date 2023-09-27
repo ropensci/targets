@@ -5,6 +5,10 @@
 #'   (repository, bucket, and prefix) you set in
 #'   [tar_option_set()] in `_targets.R`.
 #' @inheritParams tar_meta_sync
+#' @param strict Logical of length 1. `TRUE` to error out if the file
+#'   does not exist in the bucket, `FALSE` to proceed without an error or
+#'   warning. If `strict` is `FALSE` and `verbose` is `TRUE`,
+#'   then an informative message will print to the R console.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -27,10 +31,33 @@
 #' })
 #' }
 tar_meta_download <- function(
+  meta = TRUE,
+  progress = TRUE,
+  process = TRUE,
+  crew = TRUE,
   verbose = TRUE,
+  strict = FALSE,
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_lgl(meta)
+  tar_assert_scalar(meta)
+  tar_assert_none_na(meta)
+  tar_assert_lgl(progress)
+  tar_assert_scalar(progress)
+  tar_assert_none_na(progress)
+  tar_assert_lgl(process)
+  tar_assert_scalar(process)
+  tar_assert_none_na(process)
+  tar_assert_lgl(crew)
+  tar_assert_scalar(crew)
+  tar_assert_none_na(crew)
+  tar_assert_lgl(verbose)
+  tar_assert_scalar(verbose)
+  tar_assert_none_na(verbose)
+  tar_assert_lgl(strict)
+  tar_assert_scalar(strict)
+  tar_assert_none_na(strict)
   tar_assert_script(script)
   tar_assert_scalar(store)
   tar_assert_chr(store)
@@ -45,9 +72,29 @@ tar_meta_download <- function(
   })
   tar_options$set_repository_meta(options$repository_meta)
   tar_options$set_resources(options$resources)
-  database_meta(path_store = store)$download(verbose = verbose)
-  database_progress(path_store = store)$download(verbose = verbose)
-  database_process(path_store = store)$download(verbose = verbose)
-  database_crew(path_store = store)$download(verbose = verbose)
+  if (meta) {
+    database_meta(path_store = store)$nice_download(
+      verbose = verbose,
+      strict = strict
+    )
+  }
+  if (progress) {
+    database_progress(path_store = store)$nice_download(
+      verbose = verbose,
+      strict = strict
+    )
+  }
+  if (process) {
+    database_process(path_store = store)$nice_download(
+      verbose = verbose,
+      strict = strict
+    )
+  }
+  if (crew) {
+    database_crew(path_store = store)$nice_download(
+      verbose = verbose,
+      strict = strict
+    )
+  }
   invisible()
 }

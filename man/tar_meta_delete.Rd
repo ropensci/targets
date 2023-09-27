@@ -5,20 +5,36 @@
 \title{Delete metadata.}
 \usage{
 tar_meta_delete(
-  which = "all",
+  meta = TRUE,
+  progress = TRUE,
+  process = TRUE,
+  crew = TRUE,
   verbose = TRUE,
+  delete = "all",
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 )
 }
 \arguments{
-\item{which}{Character of length 1, which metadata files to delete.
-Choose \code{"local"} for local files, \code{"cloud"} for files on the cloud,
-or \code{"all"} to delete metadata files from both the local file system
-and the cloud.}
+\item{meta}{Logical of length 1, whether to process the main metadata file
+at \verb{_targets/meta/meta}.}
+
+\item{progress}{Logical of length 1, whether to process the progress file at
+\verb{_targets/meta/progress}.}
+
+\item{process}{Logical of length 1, whether to process the process file at
+\verb{_targets/meta/process}.}
+
+\item{crew}{Logical of length 1, whether to process the \code{crew} file at
+\verb{_targets/meta/crew}. Only exists if running \code{targets} with \code{crew}.}
 
 \item{verbose}{Logical of length 1, whether to print informative
 console messages.}
+
+\item{delete}{Character of length 1, which location to delete the files.
+Choose \code{"local"} for local files, \code{"cloud"} for files on the cloud,
+or \code{"all"} to delete metadata files from both the local file system
+and the cloud.}
 
 \item{script}{Character of length 1, path to the
 target script file. Defaults to \code{tar_config_get("script")},

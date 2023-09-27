@@ -39,9 +39,6 @@ database_local_class <- R6::R6Class(
       }
       invisible()
     },
-    head = function() {
-      invisible()
-    },
     delete_cloud = function(verbose = TRUE) {
       if (verbose) {
         tar_print("Not configured to delete cloud object ", self$key)

@@ -400,7 +400,7 @@ tar_test("local database cloud methods", {
   database <- database_init(repository = "local")
   expect_null(database$download())
   expect_null(database$upload())
-  expect_null(database$head())
+  expect_false(database$head()$exists)
   expect_null(database$delete_cloud())
 })
 
@@ -510,11 +510,14 @@ tar_test("mock failed nice_upload()", {
 tar_test("mock succeeded nice_upload()", {
   x <- database_class$new(path = tempfile(), key = "x")
   file.create(x$path)
-  for (verbose in c(TRUE, FALSE)) {
-    for (strict in c(TRUE, FALSE)) {
-      expect_silent(tmp <- x$nice_upload(verbose = verbose, strict = strict))
-      expect_equal(tmp, "upload")
-    }
+  for (strict in c(TRUE, FALSE)) {
+    expect_silent(tmp <- x$nice_upload(verbose = FALSE, strict = strict))
+    expect_equal(tmp, "upload")
+    expect_message(
+      tmp <- x$nice_upload(verbose = TRUE, strict = strict),
+      class = "tar_condition_run"
+    )
+    expect_equal(tmp, "upload")
   }
 })
 
@@ -542,10 +545,13 @@ tar_test("mock failed nice_download()", {
 tar_test("mock succeeded nice_download()", {
   x <- database_class$new(path = tempfile(), key = "x")
   file.create("path_cloud")
-  for (verbose in c(TRUE, FALSE)) {
-    for (strict in c(TRUE, FALSE)) {
-      expect_silent(tmp <- x$nice_download(verbose = verbose, strict = strict))
-      expect_equal(tmp, "download")
-    }
+  for (strict in c(TRUE, FALSE)) {
+    expect_silent(tmp <- x$nice_download(verbose = FALSE, strict = strict))
+    expect_equal(tmp, "download")
+    expect_message(
+      tmp <- x$nice_download(verbose = TRUE, strict = strict),
+      class = "tar_condition_run"
+    )
+    expect_equal(tmp, "download")
   }
 })

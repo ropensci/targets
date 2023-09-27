@@ -5,12 +5,29 @@
 \title{Upload local metadata to the cloud.}
 \usage{
 tar_meta_upload(
+  meta = TRUE,
+  progress = TRUE,
+  process = TRUE,
+  crew = TRUE,
   verbose = TRUE,
+  strict = FALSE,
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 )
 }
 \arguments{
+\item{meta}{Logical of length 1, whether to process the main metadata file
+at \verb{_targets/meta/meta}.}
+
+\item{progress}{Logical of length 1, whether to process the progress file at
+\verb{_targets/meta/progress}.}
+
+\item{process}{Logical of length 1, whether to process the process file at
+\verb{_targets/meta/process}.}
+
+\item{crew}{Logical of length 1, whether to process the \code{crew} file at
+\verb{_targets/meta/crew}. Only exists if running \code{targets} with \code{crew}.}
+
 \item{verbose}{Logical of length 1, whether to print informative
 console messages.}
 

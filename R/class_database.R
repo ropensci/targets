@@ -311,7 +311,7 @@ database_class <- R6::R6Class(
     },
     nice_upload = function(verbose = TRUE, strict = FALSE) {
       if (all(file.exists(self$path))) {
-        return(self$upload())
+        return(self$upload(verbose = verbose))
       }
       message <- paste("Path does not exist:", self$path)
       if (strict) {
@@ -322,7 +322,7 @@ database_class <- R6::R6Class(
     },
     nice_download = function(verbose = TRUE, strict = FALSE) {
       if (self$head()$exists) {
-        return(self$download())
+        return(self$download(verbose = verbose))
       }
       message <- paste("Path", self$path, "is not in your cloud bucket.")
       if (strict) {
@@ -332,9 +332,15 @@ database_class <- R6::R6Class(
       }
     },
     upload = function(verbose = TRUE) {
+      if (verbose) {
+        tar_message_run("uploading")
+      }
       "upload"
     },
     download = function(verbose = TRUE) {
+      if (verbose) {
+        tar_message_run("downloading")
+      }
       "download"
     },
     head = function() {

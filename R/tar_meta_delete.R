@@ -4,7 +4,7 @@
 #' @description Delete the project metadata files from the local file system,
 #'   the cloud, or both.
 #' @inheritParams tar_meta_sync
-#' @param which Character of length 1, which metadata files to delete.
+#' @param delete Character of length 1, which location to delete the files.
 #'   Choose `"local"` for local files, `"cloud"` for files on the cloud,
 #'   or `"all"` to delete metadata files from both the local file system
 #'   and the cloud.
@@ -30,27 +30,54 @@
 #' })
 #' }
 tar_meta_delete <- function(
-  which = "all",
+  meta = TRUE,
+  progress = TRUE,
+  process = TRUE,
+  crew = TRUE,
   verbose = TRUE,
+  delete = "all",
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_chr(which)
-  tar_assert_scalar(which)
-  tar_assert_none_na(which)
-  tar_assert_nzchar(which)
-  tar_assert_in(which, c("all", "local", "cloud"))
-  if (which %in% c("all", "local")) {
+  tar_assert_lgl(meta)
+  tar_assert_scalar(meta)
+  tar_assert_none_na(meta)
+  tar_assert_lgl(progress)
+  tar_assert_scalar(progress)
+  tar_assert_none_na(progress)
+  tar_assert_lgl(process)
+  tar_assert_scalar(process)
+  tar_assert_none_na(process)
+  tar_assert_lgl(crew)
+  tar_assert_scalar(crew)
+  tar_assert_none_na(crew)
+  tar_assert_lgl(verbose)
+  tar_assert_scalar(verbose)
+  tar_assert_none_na(verbose)
+  tar_assert_chr(delete)
+  tar_assert_scalar(delete)
+  tar_assert_none_na(delete)
+  tar_assert_nzchar(delete)
+  tar_assert_in(delete, c("all", "local", "cloud"))
+  if (delete %in% c("all", "local")) {
     tar_assert_scalar(store)
     tar_assert_chr(store)
     tar_assert_none_na(store)
     tar_assert_nzchar(store)
-    unlink(path_meta(store))
-    unlink(path_progress(store))
-    unlink(path_process(store))
-    unlink(path_crew(store))
+    if (meta) {
+      unlink(path_meta(store))
+    }
+    if (progress) {
+      unlink(path_progress(store))
+    }
+    if (process) {
+      unlink(path_process(store))
+    }
+    if (crew) {
+      unlink(path_crew(store))
+    }
   }
-  if (which %in% c("all", "cloud")) {
+  if (delete %in% c("all", "cloud")) {
     tar_assert_script(script)
     options <- tar_option_script(script = script)
     old_repository_meta <- tar_options$get_repository_meta()
@@ -61,10 +88,20 @@ tar_meta_delete <- function(
     })
     tar_options$set_repository_meta(options$repository_meta)
     tar_options$set_resources(options$resources)
-    database_meta(path_store = tempfile())$delete_cloud(verbose = verbose)
-    database_progress(path_store = tempfile())$delete_cloud(verbose = verbose)
-    database_process(path_store = tempfile())$delete_cloud(verbose = verbose)
-    database_crew(path_store = tempfile())$delete_cloud(verbose = verbose)
+    if (meta) {
+      database_meta(path_store = tempfile())$delete_cloud(verbose = verbose)
+    }
+    if (progress) {
+      database_progress(path_store = tempfile())$delete_cloud(
+        verbose = verbose
+      )
+    }
+    if (process) {
+      database_process(path_store = tempfile())$delete_cloud(verbose = verbose)
+    }
+    if (crew) {
+      database_crew(path_store = tempfile())$delete_cloud(verbose = verbose)
+    }
   }
   invisible()
 }
