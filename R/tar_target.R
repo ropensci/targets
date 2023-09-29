@@ -122,7 +122,7 @@
 #'     it is the user's responsibility to provide methods for (un)serialization
 #'     and (un)marshaling the return value of the target.
 #'   * The formats starting with `"aws_"` are deprecated as of 2022-03-13
-#'     (`targets version > 0.10.0). For cloud storage integration, use the
+#'     (`targets` version > 0.10.0). For cloud storage integration, use the
 #'     `repository` argument instead.
 #' @param repository Character of length 1, remote repository for target
 #'   storage. Choices:
