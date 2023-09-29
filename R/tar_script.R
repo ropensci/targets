@@ -15,24 +15,26 @@
 #'   and run it to set up the pipeline just prior to the main task.
 #'   Every target script file should run the following
 #'   steps in the order below:
-#'     1. Package: load the `targets` package. This step is automatically
+#'
+#'   1. Package: load the `targets` package. This step is automatically
 #'       inserted at the top of the target script file produced by
 #'       `tar_script()` if `library_targets` is `TRUE`,
 #'       so you do not need to explicitly include it in `code`.
-#'     1. Globals: load custom functions and global objects into memory.
+#'   2. Globals: load custom functions and global objects into memory.
 #'       Usually, this section is a bunch of calls to `source()` that run
 #'       scripts defining user-defined functions. These functions support
 #'       the R commands of the targets.
-#'     2. Options: call [tar_option_set()] to set defaults for targets-specific
+#'   3. Options: call [tar_option_set()] to set defaults for targets-specific
 #'       settings such as the names of required packages. Even if you have no
 #'       specific options to set, it is still recommended to call
 #'       [tar_option_set()] in order to register the proper environment.
-#'     3. Targets: define one or more target objects using [tar_target()].
-#'     4. Pipeline: call [list()] to bring the targets from (3)
+#'   4. Targets: define one or more target objects using [tar_target()].
+#'   5. Pipeline: call [list()] to bring the targets from (3)
 #'       together in a pipeline object. Every target script file must return
 #'       a pipeline object, which usually means ending with a call to
 #'       [list()]. In practice, (3) and (4) can be combined together
 #'       in the same function call.
+#'
 #' @return `NULL` (invisibly).
 #' @param code R code to write to the target script file.
 #'   If `NULL`, an example target script file is written instead.
