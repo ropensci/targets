@@ -5,6 +5,10 @@
 #'   (repository, bucket, and prefix) you set in
 #'   [tar_option_set()] in `_targets.R`.
 #' @inheritParams tar_meta_sync
+#' @param strict Logical of length 1. `TRUE` to error out if the file
+#'   does not exist locally, `FALSE` to proceed without an error or
+#'   warning. If `strict` is `FALSE` and `verbose` is `TRUE`,
+#'   then an informative message will print to the R console.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

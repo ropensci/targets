@@ -6,7 +6,7 @@
 \usage{
 tar_resources_crew(
   controller = targets::tar_option_get("resources")$crew$controller,
-  scale = targets::tar_option_get("resources")$crew$scale,
+  scale = NULL,
   seconds_timeout = targets::tar_option_get("resources")$crew$seconds_timeout
 )
 }
@@ -19,11 +19,8 @@ group to use. If you need heterogeneous workers,
 you can leverage this argument to send different
 targets to different worker groups.}
 
-\item{scale}{Logical of length 1, whether to automatically
-scale workers to meet
-demand. If \code{TRUE}, then \code{collect()} runs first
-so demand can be properly assessed before scaling and the number
-of workers is not too high.}
+\item{scale}{Deprecated in version 1.3.0.9002 (2023-10-02). No longer
+necessary.}
 
 \item{seconds_timeout}{Positive numeric of length 1,
 optional task timeout passed to the \code{.timeout}

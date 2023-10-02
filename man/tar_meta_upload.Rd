@@ -31,6 +31,11 @@ at \verb{_targets/meta/meta}.}
 \item{verbose}{Logical of length 1, whether to print informative
 console messages.}
 
+\item{strict}{Logical of length 1. \code{TRUE} to error out if the file
+does not exist locally, \code{FALSE} to proceed without an error or
+warning. If \code{strict} is \code{FALSE} and \code{verbose} is \code{TRUE},
+then an informative message will print to the R console.}
+
 \item{script}{Character of length 1, path to the
 target script file. Defaults to \code{tar_config_get("script")},
 which in turn defaults to \verb{_targets.R}. When you set

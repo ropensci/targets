@@ -157,11 +157,7 @@ crew_class <- R6::R6Class(
       globals <- self$exports$globals
       resources <- target$settings$resources$crew
       name <- target_get_name(target)
-      saturated <- self$controller$saturated(
-        collect = FALSE,
-        throttle = TRUE,
-        controller = resources$controller
-      )
+      saturated <- self$controller$saturated(controller = resources$controller)
       if (saturated) {
         # Requires a slow test. Covered in the saturation tests in
         # tests/hpc/test-crew_local.R # nolint
@@ -179,7 +175,7 @@ crew_class <- R6::R6Class(
           substitute = FALSE,
           name = name,
           controller = resources$controller,
-          scale = resources$scale %|||% TRUE,
+          scale = TRUE,
           seconds_timeout = resources$seconds_timeout
         )
         self$backoff_requeue$reset()
@@ -226,9 +222,7 @@ crew_class <- R6::R6Class(
       if (should_dequeue) {
         self$process_target(queue$dequeue())
       }
-      self$controller$collect(throttle = FALSE)
-      self$controller$scale(throttle = TRUE)
-      result <- self$controller$pop(scale = FALSE, collect = FALSE)
+      result <- self$controller$pop(scale = TRUE)
       self$conclude_worker_task(result)
       if_any(
         should_dequeue || (!is.null(result)),

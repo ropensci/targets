@@ -20,11 +20,8 @@
 #'   group to use. If you need heterogeneous workers,
 #'   you can leverage this argument to send different
 #'   targets to different worker groups.
-#' @param scale Logical of length 1, whether to automatically
-#'   scale workers to meet
-#'   demand. If `TRUE`, then `collect()` runs first
-#'   so demand can be properly assessed before scaling and the number
-#'   of workers is not too high.
+#' @param scale Deprecated in version 1.3.0.9002 (2023-10-02). No longer
+#'   necessary.
 #' @param seconds_timeout Positive numeric of length 1,
 #'   optional task timeout passed to the `.timeout`
 #'   argument of `mirai::mirai()` (after converting to milliseconds).
@@ -39,13 +36,17 @@
 #' )
 tar_resources_crew <- function(
   controller = targets::tar_option_get("resources")$crew$controller,
-  scale = targets::tar_option_get("resources")$crew$scale,
+  scale = NULL,
   seconds_timeout = targets::tar_option_get("resources")$crew$seconds_timeout
 ) {
-  scale <- scale %|||% TRUE
+  if (!is.null(scale)) {
+    tar_warn_deprecate(
+      "The scale argument of tar_resources_crew() is ",
+      "obsolete and deprecated (version 1.3.0.9002, 2023-10-02)."
+    )
+  }
   out <- resources_crew_init(
     controller = controller,
-    scale = scale,
     seconds_timeout = seconds_timeout
   )
   resources_validate(out)
