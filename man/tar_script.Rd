@@ -51,24 +51,26 @@ Functions \code{\link[=tar_make]{tar_make()}} and friends look for the target sc
 and run it to set up the pipeline just prior to the main task.
 Every target script file should run the following
 steps in the order below:
-1. Package: load the \code{targets} package. This step is automatically
+\enumerate{
+\item Package: load the \code{targets} package. This step is automatically
 inserted at the top of the target script file produced by
 \code{tar_script()} if \code{library_targets} is \code{TRUE},
 so you do not need to explicitly include it in \code{code}.
-1. Globals: load custom functions and global objects into memory.
+\item Globals: load custom functions and global objects into memory.
 Usually, this section is a bunch of calls to \code{source()} that run
 scripts defining user-defined functions. These functions support
 the R commands of the targets.
-2. Options: call \code{\link[=tar_option_set]{tar_option_set()}} to set defaults for targets-specific
+\item Options: call \code{\link[=tar_option_set]{tar_option_set()}} to set defaults for targets-specific
 settings such as the names of required packages. Even if you have no
 specific options to set, it is still recommended to call
 \code{\link[=tar_option_set]{tar_option_set()}} in order to register the proper environment.
-3. Targets: define one or more target objects using \code{\link[=tar_target]{tar_target()}}.
-4. Pipeline: call \code{\link[=list]{list()}} to bring the targets from (3)
+\item Targets: define one or more target objects using \code{\link[=tar_target]{tar_target()}}.
+\item Pipeline: call \code{\link[=list]{list()}} to bring the targets from (3)
 together in a pipeline object. Every target script file must return
 a pipeline object, which usually means ending with a call to
 \code{\link[=list]{list()}}. In practice, (3) and (4) can be combined together
 in the same function call.
+}
 }
 
 \examples{
