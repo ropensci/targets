@@ -84,7 +84,6 @@ tar_renv <- function(
   envir = parent.frame(),
   script = targets::tar_config_get("script")
 ) {
-  tar_assert_allow_meta("tar_renv", store)
   force(envir)
   tar_assert_chr(extras)
   tar_assert_chr(path)

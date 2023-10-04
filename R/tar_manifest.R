@@ -77,7 +77,6 @@ tar_manifest <- function(
   envir = parent.frame(),
   script = targets::tar_config_get("script")
 ) {
-  tar_assert_allow_meta("tar_manifest", store)
   force(envir)
   tar_assert_lgl(drop_missing)
   tar_assert_scalar(drop_missing)

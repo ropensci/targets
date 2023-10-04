@@ -36,7 +36,6 @@ tar_reprex <- function(
   run = tar_make(),
   ...
 ) {
-  tar_assert_allow_meta("tar_reprex", store)
   tar_assert_package("reprex")
   library <- "library(targets)"
   pipeline <- as.call(list(quote(tar_script), substitute(pipeline)))
