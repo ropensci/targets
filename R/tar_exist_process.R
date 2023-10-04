@@ -10,6 +10,6 @@
 #' @examples
 #' tar_exist_process()
 tar_exist_process <- function(store = targets::tar_config_get("store")) {
-  tar_assert_allow_meta("tar_exist_process")
+  tar_assert_allow_meta("tar_exist_process", store)
   file.exists(path_process(path_store = store))
 }

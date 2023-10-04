@@ -731,9 +731,15 @@ tar_assert_watch_packages <- function() {
 }
 # nocov end
 
-tar_assert_allow_meta <- function(fun) {
+tar_assert_allow_meta <- function(fun, store) {
   target <- tar_runtime$target
-  if (is.null(target)) {
+  safe <- is.null(target) ||
+    is.null(tar_runtime$store) ||
+    !identical(
+      normalizePath(as.character(store), mustWork = FALSE),
+      normalizePath(as.character(tar_runtime$store), mustWork = FALSE)
+    )
+  if (safe) {
     return()
   }
   if (!target_allow_meta(target)) {
@@ -742,9 +748,11 @@ tar_assert_allow_meta <- function(fun) {
       target$settings$name,
       " attempted to run targets::",
       fun,
-      "() during a pipeline, which is unsupported ",
+      "() to during a pipeline, which is unsupported ",
       "except when format %in% c(\"file\", \"file_fast\") and ",
-      "repository == \"local\". This is because functions like ",
+      "repository == \"local\", or if you are reading from a data store ",
+      "that does not belong to the current pipeline. ",
+      "This is because functions like ",
       fun,
       "() attempt to access or modify the local data store, ",
       "which may not exist or be properly synced in certain situations. ",

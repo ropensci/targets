@@ -386,14 +386,21 @@ tar_test("tar_assert_objects_files()", {
 
 tar_test("tar_assert_allow_meta()", {
   old_target <- tar_runtime$target
-  on.exit(tar_runtime$target <- old_target)
+  old_store <- tar_runtime$store
+  on.exit({
+    tar_runtime$target <- old_target
+    tar_runtime$store <- old_store
+  })
   tar_runtime$target <- NULL
-  expect_null(tar_assert_allow_meta("fun"))
+  tar_runtime$store <- NULL
+  store <- path_store_default()
+  expect_null(tar_assert_allow_meta("fun", store))
   tar_runtime$target <- tar_target(x, 1, format = "file", repository = "local")
-  expect_null(tar_assert_allow_meta("fun"))
+  tar_runtime$store <- store
+  expect_null(tar_assert_allow_meta("fun", store))
   tar_runtime$target <- tar_target(x, 1, format = "rds", repository = "aws")
   expect_error(
-    tar_assert_allow_meta("fun"),
+    tar_assert_allow_meta("fun", store),
     class = "tar_condition_validate"
   )
 })

@@ -52,7 +52,7 @@ tar_delete <- function(
   cloud = TRUE,
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_delete")
+  tar_assert_allow_meta("tar_delete", store)
   tar_assert_store(store = store)
   tar_assert_path(path_meta(store))
   meta <- meta_init(path_store = store)$database$read_condensed_data()

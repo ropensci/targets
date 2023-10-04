@@ -38,7 +38,7 @@ tar_progress_branches <- function(
   fields = NULL,
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_progress_branches")
+  tar_assert_allow_meta("tar_progress_branches", store)
   tar_assert_scalar(store)
   tar_assert_chr(store)
   tar_assert_nzchar(store)

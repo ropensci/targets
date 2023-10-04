@@ -138,7 +138,7 @@ tar_make <- function(
   use_crew = targets::tar_config_get("use_crew"),
   terminate_controller = TRUE
 ) {
-  tar_assert_allow_meta("tar_make")
+  tar_assert_allow_meta("tar_make", store)
   force(envir)
   tar_assert_scalar(shortcut)
   tar_assert_lgl(shortcut)

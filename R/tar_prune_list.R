@@ -34,7 +34,7 @@ tar_prune_list <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_prune_list")
+  tar_assert_allow_meta("tar_prune_list", store)
   force(envir)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)

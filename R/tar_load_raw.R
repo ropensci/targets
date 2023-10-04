@@ -49,7 +49,7 @@ tar_load_raw <- function(
   envir = parent.frame(),
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_load_raw")
+  tar_assert_allow_meta("tar_load_raw", store)
   tar_assert_store(store = store)
   force(meta)
   force(envir)

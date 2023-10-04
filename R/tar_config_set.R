@@ -180,7 +180,7 @@ tar_config_set <- function(
 ) {
   # TODO: remove single-project format, which was deprecated on
   # 2021-09-03 (version 0.7.0.9001).
-  tar_assert_allow_meta("tar_config_set")
+  tar_assert_allow_meta("tar_config_set", store)
   tar_assert_chr(config)
   tar_assert_scalar(config)
   tar_assert_chr(project)

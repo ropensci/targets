@@ -33,7 +33,7 @@ tar_progress_summary <- function(
   fields = c("skipped", "started", "built", "errored", "canceled", "since"),
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_progress_summary")
+  tar_assert_allow_meta("tar_progress_summary", store)
   tar_assert_scalar(store)
   tar_assert_chr(store)
   tar_assert_nzchar(store)

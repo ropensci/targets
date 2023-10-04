@@ -18,7 +18,6 @@ tar_watch_server <- function(
   config = Sys.getenv("TAR_CONFIG", "_targets.yaml"),
   project = Sys.getenv("TAR_PROJECT", "main")
 ) {
-  tar_assert_allow_meta("tar_watch_server")
   tar_assert_watch_packages()
   tar_assert_chr(
     exclude,

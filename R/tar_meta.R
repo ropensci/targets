@@ -133,7 +133,7 @@ tar_meta <- function(
   complete_only = FALSE,
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_meta")
+  tar_assert_allow_meta("tar_meta", store)
   tar_assert_scalar(store)
   tar_assert_chr(store)
   tar_assert_nzchar(store)

@@ -58,7 +58,7 @@ tar_workspace <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_workspace")
+  tar_assert_allow_meta("tar_workspace", store)
   force(envir)
   name <- tar_deparse_language(substitute(name))
   tar_assert_chr(name)

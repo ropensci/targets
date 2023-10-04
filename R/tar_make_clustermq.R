@@ -65,7 +65,7 @@ tar_make_clustermq <- function(
   # Cannot use multicore clustermq backend
   # due to https://github.com/ropensci/targets/discussions/780
   # nocov start
-  tar_assert_allow_meta("tar_make_clustermq")
+  tar_assert_allow_meta("tar_make_clustermq", store)
   force(envir)
   tar_assert_package("clustermq")
   tar_assert_scalar(shortcut)

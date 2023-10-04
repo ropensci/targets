@@ -1,4 +1,4 @@
-# targets 1.3.0.9001 (development)
+# targets 1.3.0.9003 (development)
 
 * Add `tar_config_projects()` and `tar_config_yaml()` (#1153, @psychelzh).
 * Apply error modes to `builder_wait_correct_hash()` in `target_conclude.tar_builder()` (#1154, @gadenbuie).
@@ -6,6 +6,7 @@
 * Allow `tar_meta_upload()` and `tar_meta_download()` to avoid errors if one or more metadata files do not exist. Add a new argument `strict` to control error behavior.
 * Add new arguments `meta`, `progress`, `process`, and `crew` to control individual metadata files in `tar_meta_upload()`, `tar_meta_download()`, `tar_meta_sync()`, and `tar_meta_delete()`.
 * Avoid newly deprecated arguments and functions in `crew` 0.5.0.9003 (https://github.com/wlnadau/crew/issues/131).
+* Allow `tar_read()` etc. inside a pipeline whenever it uses a different data store (#1158, @MilesMcBain).
 
 # targets 1.3.0
 

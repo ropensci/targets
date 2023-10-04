@@ -48,7 +48,7 @@ tar_newer <- function(
   inclusive = FALSE,
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_newer")
+  tar_assert_allow_meta("tar_newer", store)
   tar_assert_scalar(time)
   tar_assert_inherits(time, "POSIXct")
   tar_assert_scalar(inclusive)

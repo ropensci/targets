@@ -40,7 +40,7 @@ tar_process <- function(
   names = NULL,
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_process")
+  tar_assert_allow_meta("tar_process", store)
   tar_assert_scalar(store)
   tar_assert_chr(store)
   tar_assert_nzchar(store)

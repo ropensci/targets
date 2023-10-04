@@ -42,7 +42,7 @@ tar_traceback <- function(
   characters = getOption("width"),
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_traceback")
+  tar_assert_allow_meta("tar_traceback", store)
   tar_assert_scalar(characters, "characters must have length 1.")
   tar_assert_dbl(characters, "characters must be numeric.")
   tar_assert_positive(characters, "characters must be positive.")

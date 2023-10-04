@@ -78,7 +78,6 @@ use_targets <- function(
   overwrite = FALSE,
   job_name = targets::tar_random_name()
 ) {
-  tar_assert_allow_meta("use_targets")
   schedulers <- c(
     "multicore",
     "multiprocess",

@@ -26,7 +26,7 @@ tar_skipped <- function(
   names = NULL,
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_skipped")
+  tar_assert_allow_meta("tar_skipped", store)
   progress <- progress_init(path_store = store)
   progress <- tibble::as_tibble(progress$database$read_condensed_data())
   names_quosure <- rlang::enquo(names)

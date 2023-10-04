@@ -24,7 +24,7 @@ tar_read <- function(
   meta = tar_meta(store = store),
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_read")
+  tar_assert_allow_meta("tar_read", store)
   tar_assert_store(store = store)
   force(meta)
   name <- tar_deparse_language(substitute(name))

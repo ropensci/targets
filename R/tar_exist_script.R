@@ -10,6 +10,5 @@
 #' @examples
 #' tar_exist_script()
 tar_exist_script <- function(script = targets::tar_config_get("script")) {
-  tar_assert_allow_meta("tar_exist_script")
   file.exists(script)
 }

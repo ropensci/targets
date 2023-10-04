@@ -30,7 +30,7 @@ tar_objects <- function(
   cloud = TRUE,
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_objects")
+  tar_assert_allow_meta("tar_objects", store)
   if (!file.exists(store)) {
     return(character(0))
   }

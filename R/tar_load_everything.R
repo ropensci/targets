@@ -29,7 +29,7 @@ tar_load_everything <- function(
   envir = parent.frame(),
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_load_everything")
+  tar_assert_allow_meta("tar_load_everything", store)
   force(envir)
   tar_load(
     everything(),

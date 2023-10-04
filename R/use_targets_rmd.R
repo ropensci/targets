@@ -18,7 +18,6 @@
 use_targets_rmd <- function(path = "_targets.Rmd", open = interactive()) {
   # Covered in tests/interactive/test-use_targets_rmd.R.
   # nocov start
-  tar_assert_allow_meta("use_targets_rmd")
   tar_assert_package("usethis")
   source <- file.path(
     "..",

@@ -28,7 +28,7 @@ tar_workspaces <- function(
   names = NULL,
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_workspaces")
+  tar_assert_allow_meta("tar_workspaces", store)
   dir <- path_workspaces_dir(path_store = store)
   choices <- if_any(
     dir.exists(dir),
