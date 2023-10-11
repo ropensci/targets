@@ -1,4 +1,4 @@
-# targets 1.3.2.9000
+# targets 1.3.2.9000 (development)
 
 * Extra safeguard in the `crew` algorithm to opt back into the default RNG kind.
 
