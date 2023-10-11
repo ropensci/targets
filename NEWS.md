@@ -1,4 +1,4 @@
-# targets 1.3.0.9003 (development)
+# targets 1.3.1
 
 * Add `tar_config_projects()` and `tar_config_yaml()` (#1153, @psychelzh).
 * Apply error modes to `builder_wait_correct_hash()` in `target_conclude.tar_builder()` (#1154, @gadenbuie).
