@@ -406,7 +406,7 @@ options_class <- R6::R6Class(
       if (is.numeric(backoff)) {
         tar_warn_deprecate(
           "The use of a numeric for the backoff argument of ",
-          "tar_option_set() is deprecated as of {targets} 1.1.0 ",
+          "tar_option_set() is deprecated as of `targets` 1.1.0 ",
           "(2023-05-09). Supply the output of tar_backoff() instead."
         )
         tar_assert_ge(backoff, 0.001)

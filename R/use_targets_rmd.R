@@ -2,7 +2,7 @@
 #' @export
 #' @family help
 #' @description Create an example Target Markdown report
-#'   to get started with {targets}.
+#'   to get started with `targets`.
 #' @return `NULL` (invisibly).
 #' @param path Character of length 1, output path of the
 #'   Target Markdown report relative to the current active

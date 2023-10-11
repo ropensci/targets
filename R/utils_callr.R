@@ -229,7 +229,7 @@ tar_callr_args_default <- function(callr_function, reporter = NULL) {
 #' tar_callr_args_default(callr::r)
 callr_args_default <- function(callr_function, reporter = NULL) {
   msg <- paste(
-    "callr_args_default() is deprecated in {targets}.",
+    "callr_args_default() is deprecated in `targets`.",
     "please use tar_callr_args_default() instead"
   )
   cli_red_x(msg)

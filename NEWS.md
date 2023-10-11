@@ -1,3 +1,7 @@
+# targets 1.3.2
+
+* Try to fix function help files for CRAN.
+
 # targets 1.3.1
 
 * Add `tar_config_projects()` and `tar_config_yaml()` (#1153, @psychelzh).

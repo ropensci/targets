@@ -35,7 +35,7 @@ database_gcp_class <- R6::R6Class(
         self$resources$gcp,
         "tar_resources_gcp",
         msg = paste(
-          "GCP resources must be supplied to the {targets} GCP ",
+          "GCP resources must be supplied to the `targets` GCP ",
           "database class. Set resources with tar_option_set()"
         )
       )

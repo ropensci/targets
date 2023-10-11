@@ -13,7 +13,7 @@ tar_engine_knitr(options)
 Character, output generated from \code{knitr::engine_output()}.
 }
 \description{
-\code{knitr} language engine that runs \code{{targets}}
+\code{knitr} language engine that runs \code{targets}
 code chunks in Target Markdown.
 }
 \section{Target Markdown interactive mode}{
@@ -22,7 +22,7 @@ Target Markdown has two modes:
 \enumerate{
 \item Non-interactive mode. This is the default when you
 run \code{knitr::knit()} or \code{rmarkdown::render()}.
-Here, the code in \code{{targets}} code chunks gets written
+Here, the code in \code{targets} code chunks gets written
 to special script files in order to set up a \code{targets}
 pipeline to run later.
 \item Interactive mode: here, no scripts are written to set up
@@ -100,7 +100,7 @@ if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 if (requireNamespace("knitr", quietly = TRUE)) {
   knitr::knit_engines$set(targets = targets::tar_engine_knitr)
 }
-# Then, {targets} code chunks in a knitr report will run
+# Then, `targets` code chunks in a knitr report will run
 # as described at
 # <https://books.ropensci.org/targets/literate-programming.html>.
 }

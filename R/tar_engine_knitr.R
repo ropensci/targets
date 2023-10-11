@@ -2,7 +2,7 @@
 #' @export
 #' @family Target Markdown
 #' @seealso <https://books.ropensci.org/targets/literate-programming.html>
-#' @description `knitr` language engine that runs `{targets}`
+#' @description `knitr` language engine that runs ``targets``
 #'   code chunks in Target Markdown.
 #' @return Character, output generated from `knitr::engine_output()`.
 #' @param options A named list of `knitr` chunk options.
@@ -10,7 +10,7 @@
 #'   Target Markdown has two modes:
 #'   1. Non-interactive mode. This is the default when you
 #'     run `knitr::knit()` or `rmarkdown::render()`.
-#'     Here, the code in `{targets}` code chunks gets written
+#'     Here, the code in ``targets`` code chunks gets written
 #'     to special script files in order to set up a `targets`
 #'     pipeline to run later.
 #'   2. Interactive mode: here, no scripts are written to set up
@@ -80,7 +80,7 @@
 #' if (requireNamespace("knitr", quietly = TRUE)) {
 #'   knitr::knit_engines$set(targets = targets::tar_engine_knitr)
 #' }
-#' # Then, {targets} code chunks in a knitr report will run
+#' # Then, `targets` code chunks in a knitr report will run
 #' # as described at
 #' # <https://books.ropensci.org/targets/literate-programming.html>.
 #' }
@@ -376,7 +376,7 @@ warn_labels_unnamed <- function(options) {
   suppressed <- identical(Sys.getenv("TAR_WARN"), "false")
   if (!suppressed && any(grepl("unnamed-chunk-[0-9]*$", options$tar_name))) {
     tar_warn_validate(
-      "Please assign explicit labels to {targets} code chunks ",
+      "Please assign explicit labels to `targets` code chunks ",
       "in order to avoid accidental duplicated script files. ",
       "Warnings like this one are important, ",
       "but you can suppress them with Sys.setenv(TAR_WARN = \"false\")."

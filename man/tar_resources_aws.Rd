@@ -25,10 +25,10 @@ of the affected targets during the pipeline.}
 \item{prefix}{Character of length 1, "directory path"
 in the bucket where your target object and metadata will go.
 Please supply an explicit prefix
-unique to your {targets} project.
-In the future, {targets} will begin requiring
+unique to your \code{targets} project.
+In the future, \code{targets} will begin requiring
 explicitly user-supplied prefixes. (This last note
-was added on 2023-08-24: {targets} version 1.2.2.9000.)}
+was added on 2023-08-24: \code{targets} version 1.2.2.9000.)}
 
 \item{region}{Character of length 1, AWS region containing the S3 bucket.
 Set to \code{NULL} to use the default region.}

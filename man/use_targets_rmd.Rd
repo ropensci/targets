@@ -19,7 +19,7 @@ in the RStudio IDE.}
 }
 \description{
 Create an example Target Markdown report
-to get started with {targets}.
+to get started with \code{targets}.
 }
 \examples{
 if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {

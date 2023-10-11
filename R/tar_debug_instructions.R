@@ -59,6 +59,6 @@ tar_debug_instructions <- function() {
     )
   }
   cli_blank(
-    "Then debug the function as you would normally (without {targets})."
+    "Then debug the function as you would normally (without `targets`)."
   )
 }

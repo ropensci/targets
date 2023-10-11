@@ -44,7 +44,7 @@ database_init <- function(
     tar_throw_validate(
       "unsupported repository \"",
       repository,
-      "\" for {targets} database class."
+      "\" for `targets` database class."
     )
   )
 }

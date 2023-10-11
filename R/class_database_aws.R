@@ -35,7 +35,7 @@ database_aws_class <- R6::R6Class(
         self$resources$aws,
         "tar_resources_aws",
         msg = paste(
-          "Resources must be supplied to the {targets} AWS ",
+          "Resources must be supplied to the `targets` AWS ",
           "database class. Set resources with tar_option_set()"
         )
       )
