@@ -1,3 +1,7 @@
+# targets 1.3.2.9000
+
+* Extra safeguard in the `crew` algorithm to opt back into the default RNG kind.
+
 # targets 1.3.2
 
 * Try to fix function help files for CRAN.
