@@ -1,5 +1,5 @@
 tar_test("crew$validate()", {
-  skip_if_not_installed("crew", minimum_version = "0.3.0")
+  skip_if_not_installed("crew", minimum_version = "0.6.0")
   controller <- crew::crew_controller_local(
     host = "127.0.0.1",
     seconds_interval = 0.5
@@ -15,7 +15,7 @@ tar_test("crew database subkey", {
 
 tar_test("workerless deployment works", {
   skip_on_os("solaris")
-  skip_if_not_installed("crew", minimum_version = "0.3.0")
+  skip_if_not_installed("crew", minimum_version = "0.6.0")
   skip_if_not_installed("R.utils")
   tar_runtime$fun <- "tar_make"
   tar_option_set(backoff = tar_backoff(min = 0.5, max = 0.5))
@@ -98,7 +98,7 @@ tar_test("semi-workerless deployment works", {
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
-  skip_if_not_installed("crew", minimum_version = "0.3.0")
+  skip_if_not_installed("crew", minimum_version = "0.6.0")
   skip_if_not_installed("R.utils")
   crew_test_sleep()
   tar_runtime$fun <- "tar_make"
@@ -183,7 +183,7 @@ tar_test("some targets up to date, some not", {
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
-  skip_if_not_installed("crew", minimum_version = "0.3.0")
+  skip_if_not_installed("crew", minimum_version = "0.6.0")
   skip_if_not_installed("R.utils")
   tar_runtime$fun <- "tar_make"
   tar_option_set(backoff = tar_backoff(min = 0.5, max = 0.5))
@@ -238,7 +238,7 @@ tar_test("crew algo can skip targets", {
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
-  skip_if_not_installed("crew", minimum_version = "0.3.0")
+  skip_if_not_installed("crew", minimum_version = "0.6.0")
   skip_if_not_installed("R.utils")
   tar_runtime$fun <- "tar_make"
   tar_option_set(backoff = tar_backoff(min = 0.5, max = 0.5))
@@ -293,7 +293,7 @@ tar_test("nontrivial common data", {
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
-  skip_if_not_installed("crew", minimum_version = "0.3.0")
+  skip_if_not_installed("crew", minimum_version = "0.6.0")
   skip_if_not_installed("R.utils")
   tar_runtime$fun <- "tar_make"
   tar_option_set(backoff = tar_backoff(min = 0.5, max = 0.5))
