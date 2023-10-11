@@ -1,6 +1,7 @@
 crew_test_sleep()
 
 tar_test("tar_make_clustermq() works with callr_function = NULL", {
+  skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
   require_clustermq()

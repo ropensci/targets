@@ -1,4 +1,5 @@
 tar_test("clustermq$workers", {
+  skip_cran()
   out <- clustermq_init(list(), workers = 3L)
   expect_equal(out$workers, 3L)
 })
@@ -269,6 +270,7 @@ tar_test("cover the worker shutdown step in clustermq$iterate() event loop", {
 })
 
 tar_test("clustermq$validate()", {
+  skip_cran()
   out <- clustermq_init(pipeline_init())
   expect_silent(out$validate())
 })

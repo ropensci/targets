@@ -7,6 +7,7 @@
 * Add new arguments `meta`, `progress`, `process`, and `crew` to control individual metadata files in `tar_meta_upload()`, `tar_meta_download()`, `tar_meta_sync()`, and `tar_meta_delete()`.
 * Avoid newly deprecated arguments and functions in `crew` 0.5.0.9003 (https://github.com/wlnadau/crew/issues/131).
 * Allow `tar_read()` etc. inside a pipeline whenever it uses a different data store (#1158, @MilesMcBain).
+* Set `seed = FALSE` in `future::future()` (#1166, @svraka).
 
 # targets 1.3.0
 

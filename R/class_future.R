@@ -137,7 +137,7 @@ future_class <- R6::R6Class(
         label = target_get_name(target),
         resources = resources,
         lazy = FALSE,
-        seed = 0L
+        seed = FALSE
       )
       future <- do.call(what = future::future, args = args)
       memory_set_object(
