@@ -41,6 +41,7 @@ tar_visnetwork <- function(
   degree_from = 1L,
   degree_to = 1L,
   zoom_speed = 1,
+  physics = FALSE,
   reporter = targets::tar_config_get("reporter_outdated"),
   seconds_reporter = targets::tar_config_get("seconds_reporter"),
   callr_function = callr::r,
@@ -64,6 +65,8 @@ tar_visnetwork <- function(
   tar_assert_scalar(zoom_speed)
   tar_assert_dbl(zoom_speed)
   tar_assert_positive(zoom_speed)
+  tar_assert_lgl(physics)
+  tar_assert_scalar(physics)
   tar_config_assert_reporter_outdated(reporter)
   tar_assert_dbl(seconds_reporter)
   tar_assert_scalar(seconds_reporter)
@@ -84,6 +87,7 @@ tar_visnetwork <- function(
     degree_from = degree_from,
     degree_to = degree_to,
     zoom_speed = zoom_speed,
+    physics = physics,
     reporter = reporter,
     seconds_reporter = seconds_reporter
   )
@@ -113,6 +117,7 @@ tar_visnetwork_inner <- function(
   degree_from,
   degree_to,
   zoom_speed,
+  physics,
   reporter,
   seconds_reporter
 ) {
@@ -136,7 +141,8 @@ tar_visnetwork_inner <- function(
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
-    zoom_speed = zoom_speed
+    zoom_speed = zoom_speed,
+    physics = physics
   )
   visual$update()
   visual$visual

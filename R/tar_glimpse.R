@@ -30,6 +30,8 @@
 #' @param zoom_speed Positive numeric of length 1, scaling factor on the
 #'   zoom speed. Above 1 zooms faster than default, below 1 zooms
 #'   lower than default.
+#' @param physics Logical of length 1, whether to implement interactive
+#'   physics in the graph, e.g. edge elasticity.
 #' @examples
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -55,6 +57,7 @@ tar_glimpse <- function(
   degree_from = 1L,
   degree_to = 1L,
   zoom_speed = 1,
+  physics = FALSE,
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function),
   envir = parent.frame(),
@@ -74,6 +77,8 @@ tar_glimpse <- function(
   tar_assert_scalar(zoom_speed)
   tar_assert_dbl(zoom_speed)
   tar_assert_positive(zoom_speed)
+  tar_assert_lgl(physics)
+  tar_assert_scalar(physics)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
   targets_arguments <- list(
@@ -86,7 +91,8 @@ tar_glimpse <- function(
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
-    zoom_speed = zoom_speed
+    zoom_speed = zoom_speed,
+    physics = physics
   )
   callr_outer(
     targets_function = tar_glimpse_inner,
@@ -111,7 +117,8 @@ tar_glimpse_inner <- function(
   level_separation,
   degree_from,
   degree_to,
-  zoom_speed
+  zoom_speed,
+  physics
 ) {
   meta <- meta_init(path_store = path_store)
   progress <- progress_init(path_store = path_store)
@@ -131,7 +138,8 @@ tar_glimpse_inner <- function(
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
-    zoom_speed = zoom_speed
+    zoom_speed = zoom_speed,
+    physics = physics
   )
   visual$update()
   visual$visual

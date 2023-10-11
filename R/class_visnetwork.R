@@ -5,7 +5,8 @@ visnetwork_init <- function(
   level_separation = NULL,
   degree_from = 1L,
   degree_to = 1L,
-  zoom_speed = 1
+  zoom_speed = 1,
+  physics = FALSE
 ) {
   visnetwork_new(
     network = network,
@@ -14,7 +15,8 @@ visnetwork_init <- function(
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
-    zoom_speed = zoom_speed
+    zoom_speed = zoom_speed,
+    physics = physics
   )
 }
 
@@ -25,7 +27,8 @@ visnetwork_new <- function(
   level_separation = NULL,
   degree_from = NULL,
   degree_to = NULL,
-  zoom_speed = NULL
+  zoom_speed = NULL,
+  physics = NULL
 ) {
   visnetwork_class$new(
     network = network,
@@ -34,7 +37,8 @@ visnetwork_new <- function(
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
-    zoom_speed = zoom_speed
+    zoom_speed = zoom_speed,
+    physics = physics
   )
 }
 
@@ -49,6 +53,7 @@ visnetwork_class <- R6::R6Class(
     degree_from = NULL,
     degree_to = NULL,
     zoom_speed = NULL,
+    physics = NULL,
     initialize = function(
       network = NULL,
       label = NULL,
@@ -56,7 +61,8 @@ visnetwork_class <- R6::R6Class(
       level_separation = NULL,
       degree_from = NULL,
       degree_to = NULL,
-      zoom_speed = NULL
+      zoom_speed = NULL,
+      physics = NULL
     ) {
       super$initialize(
         network = network,
@@ -65,8 +71,9 @@ visnetwork_class <- R6::R6Class(
       )
       self$level_separation <- level_separation
       self$degree_from <- degree_from
-      self$zoom_speed <- zoom_speed
       self$degree_to <- degree_to
+      self$zoom_speed <- zoom_speed
+      self$physics <- physics
     },
     produce_shapes = function(type) {
       shapes <- c(
@@ -98,7 +105,7 @@ visnetwork_class <- R6::R6Class(
       vertices <- self$network$vertices
       edges <- self$network$edges
       out <- visNetwork::visNetwork(nodes = vertices, edges = edges, main = "")
-      out <- visNetwork::visNodes(out, physics = FALSE)
+      out <- visNetwork::visNodes(out, physics = self$physics)
       out <- visNetwork::visEdges(
         out,
         smooth = list(type = "cubicBezier", forceDirection = "horizontal")

@@ -16,6 +16,7 @@ tar_visnetwork(
   degree_from = 1L,
   degree_to = 1L,
   zoom_speed = 1,
+  physics = FALSE,
   reporter = targets::tar_config_get("reporter_outdated"),
   seconds_reporter = targets::tar_config_get("seconds_reporter"),
   callr_function = callr::r,
@@ -98,6 +99,9 @@ controls the number of edges the neighborhood extends downstream.}
 \item{zoom_speed}{Positive numeric of length 1, scaling factor on the
 zoom speed. Above 1 zooms faster than default, below 1 zooms
 lower than default.}
+
+\item{physics}{Logical of length 1, whether to implement interactive
+physics in the graph, e.g. edge elasticity.}
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets are checked. Choices:
