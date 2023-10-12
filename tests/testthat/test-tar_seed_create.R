@@ -1,9 +1,20 @@
+tar_test("tar_seed_create() value", {
+  out <- tar_seed_create(name = "name1", global_seed = 1L)
+  expect_true(is.integer(out))
+  expect_equal(length(out), 1L)
+  expect_false(anyNA(out))
+  expect_true(is.finite(out))
+})
+
 tar_test("tar_seed_create() with different names", {
   out0 <- tar_seed_create(name = "name1", global_seed = 1L)
   out1 <- tar_seed_create(name = "name1", global_seed = 1L)
   out2 <- tar_seed_create(name = "name2", global_seed = 1L)
   expect_equal(out0, out1)
   expect_false(out1 == out2)
+  expect_false(anyNA(out0))
+  expect_false(anyNA(out1))
+  expect_false(anyNA(out2))
 })
 
 tar_test("tar_seed_create() with different global seeds", {
@@ -17,6 +28,10 @@ tar_test("tar_seed_create() with different global seeds", {
   expect_equal(out0, out1)
   expect_equal(out0, out3)
   expect_false(out2 == out0)
+  expect_false(anyNA(out0))
+  expect_false(anyNA(out1))
+  expect_false(anyNA(out2))
+  expect_false(anyNA(out3))
 })
 
 tar_test("tar_seed_create() with NULL/NA global seed", {
