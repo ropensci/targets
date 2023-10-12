@@ -76,7 +76,7 @@ tar_test("tar_workspace() works", {
       tar_target(y, stop(x))
     )
   })
-  try(tar_make(callr_function = NULL), silent = TRUE)
+  try(tar_make(reporter = "silent"), silent = TRUE)
   seed <- .Random.seed
   envir <- new.env(parent = globalenv())
   tar_workspace(y, envir = envir)
