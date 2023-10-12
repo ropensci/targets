@@ -74,5 +74,9 @@ jobs:
           install.packages("remotes")
           remotes::install_github("wlandau/crew")
 
+      - name: Remove clustermq
+        shell: Rscript {0}
+        run: remove.packages("clustermq")
+
       - name: Check package
         uses: r-lib/actions/check-r-package@v2
