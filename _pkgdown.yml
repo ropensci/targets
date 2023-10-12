@@ -157,9 +157,9 @@ reference:
   - '`tar_toggle`'
 - title: Pseudo-random number generation
   contents:
-  '`tar_seed_create`'
-  '`tar_seed_get`'
-  '`tar_seed_set`'
+  - '`tar_seed_create`'
+  - '`tar_seed_get`'
+  - '`tar_seed_set`'
 - title: Utilities
   contents:
   - '`tar_active`'
