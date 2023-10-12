@@ -7,6 +7,13 @@
 #' @details [tar_seed_set()] gives the user-supplied `seed` to
 #'   `set.seed()` and sets arguments `kind = "default"`,
 #'   `normal.kind = "default"`, and `sample.kind = "default"`.
+#' @inheritSection tar_seed_create Seeds
+#' @inheritSection tar_seed_create RNG overlap
+#' @references
+#'   Pierre L'Ecuyer, David Munger, Boris Oreshkin, and Richard Simard
+#'   (2017). Random numbers for parallel computers: Requirements and methods,
+#'   with emphasis on GPUs. Mathematics and Computers in Simulation,
+#'   135, 3-17. <https://doi.org/10.1016/j.matcom.2016.05.005>.
 #' @return `NULL` (invisibly).
 #' @param seed Integer of length 1, value of the seed to set
 #'   with `set.seed()`.

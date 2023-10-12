@@ -22,18 +22,60 @@ the return value is \code{default}.
 Get the random number generator seed
 of the target currently running.
 }
-\details{
+\section{Seeds}{
+
 A target's random number generator seed
-is a deterministic function of its name. In this way,
-each target runs with a reproducible seed so someone else
-running the same pipeline should get the same results,
-and no two targets in the same pipeline share the same seed.
-(Even dynamic branches have different names and thus different seeds.)
+is a deterministic function of its name and the global pipeline seed.
+Consequently,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{1. Each target runs with a reproducible seed so that
+   different runs of the same pipeline in the same computing
+   environment produce identical results.
+2. No two targets in the same pipeline share the same seed.
+   Even dynamic branches have different names and thus different seeds.
+}\if{html}{\out{</div>}}
+
 You can retrieve the seed of a completed target
 with \code{tar_meta(your_target, seed)}
 and run \code{\link[=tar_seed_set]{tar_seed_set()}} on the result to locally
-recreate the target's initial RNG state.
+recreate the target's initial RNG state. \code{\link[=tar_workspace]{tar_workspace()}}
+does this automatically as part of recovering a workspace.
 }
+
+\section{RNG overlap}{
+
+In theory, there is a risk that the pseudo-random number generator
+streams of different targets will overlap and produce statistically
+correlated results. (For a discussion of the motivating problem,
+see the Section 6: "Random-number generation" in the \code{parallel}
+package vignette: \code{vignette(topic = "parallel", package = "parallel")}.)
+However, this risk is extremely small in practice.
+
+\code{targets} and \code{tarchetypes} take the approach discussed in
+L'Ecuyer et al. (2027) \url{https://doi.org/10.1016/j.matcom.2016.05.005}
+"A single RNG with a 'random' seed for each stream" (Section 4:
+under "How to produce parallel streams and substreams").
+Here, \code{\link[=tar_seed_create]{tar_seed_create()}} plays the role
+of the upstream pseudo-random number generator (RNG) that produces
+seeds for the subsequent parallel streams. Specifically,
+\code{\link[=tar_seed_create]{tar_seed_create()}} acts as a counter-based RNG,
+where the output function is the SHA512 hash algorithm.
+(See "counter-based RNGs" under Section 3: "Main classes of RNGs
+for simulation".) There are two notable quirks, but they are innocuous:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{1. Instead of a recursive integer counter, [tar_seed_create()] accepts
+   the name of the target as the argument.
+   Because target names map to small integers, this is equivalent to
+   traversing the RNG sequence in variable small jumps. This does not
+   affect the period length, and the argument in Section 4 of
+   L'Ecuyer et al. (2017) still holds.
+2. [tar_seed_create()] converts the SHA512 hash into an
+   integer using `digest::digest2int()`. This is necessary
+   because integers in R can only be 32 bits. `set.seed()`
+   cannot accept anything greater.
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 tar_seed_get()
 tar_seed_get(default = 123L)
@@ -45,8 +87,15 @@ tar_read(returns_seed)
 })
 }
 }
+\references{
+Pierre L'Ecuyer, David Munger, Boris Oreshkin, and Richard Simard
+(2017). Random numbers for parallel computers: Requirements and methods,
+with emphasis on GPUs. Mathematics and Computers in Simulation,
+135, 3-17. \url{https://doi.org/10.1016/j.matcom.2016.05.005}.
+}
 \seealso{
 Other pseudo-random number generation: 
+\code{\link{tar_seed_create}()},
 \code{\link{tar_seed_set}()}
 }
 \concept{pseudo-random number generation}
