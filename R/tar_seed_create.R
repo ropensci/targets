@@ -5,7 +5,7 @@
 #' @section Seeds:
 #'   A target's random number generator seed
 #'   is a deterministic function of its name and the global pipeline seed
-#'   from [tar_option_get("seed")]. Consequently,
+#'   from `tar_option_get("seed")`. Consequently,
 #'
 #'     1. Each target runs with a reproducible seed so that
 #'        different runs of the same pipeline in the same computing
