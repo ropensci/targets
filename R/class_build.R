@@ -62,14 +62,7 @@ build_new <- function(object = NULL, metrics = NULL) {
 
 build_run_expr <- function(expr, envir, seed, packages, library) {
   load_packages(packages = packages, library = library)
-  if (!anyNA(seed)) {
-    # Borrowed from https://github.com/r-lib/withr/blob/main/R/seed.R
-    # under the MIT license. See the NOTICE file
-    # in the targets package source.
-    old_seed <- .GlobalEnv[[".Random.seed"]]
-    set.seed(seed)
-    on.exit(restore_seed(old_seed), add = TRUE)
-  }
+  tar_seed_set(seed = seed)
   build_eval_fce17be7(expr, envir)
 }
 

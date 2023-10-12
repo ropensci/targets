@@ -11,7 +11,7 @@
 #'   (Even dynamic branches have different names and thus different seeds.)
 #'   You can retrieve the seed of a completed target
 #'   with `tar_meta(your_target, seed)`
-#'   and run `set.seed()` on the result to locally
+#'   and run [tar_seed_set()] on the result to locally
 #'   recreate the target's initial RNG state.
 #' @return Integer of length 1. If invoked inside a `targets` pipeline,
 #'   the return value is the seed of the target currently running,

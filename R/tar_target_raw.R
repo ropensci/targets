@@ -27,8 +27,8 @@
 #'   and no two targets in the same pipeline share the same seed.
 #'   (Even dynamic branches have different names and thus different seeds.)
 #'   You can recover the seed of a completed target
-#'   with `tar_meta(your_target, seed)` and run `set.seed()` on the result
-#'   to locally recreate the target's initial RNG state.
+#'   with `tar_meta(your_target, seed)` and run [tar_seed_set()]
+#'   on the result to locally recreate the target's initial RNG state.
 #' @param command Similar to the `command` argument of [`tar_target()`] except
 #'   the object must already be an expression instead of
 #'   informally quoted code.

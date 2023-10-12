@@ -176,9 +176,7 @@ crew_class <- R6::R6Class(
           name = name,
           controller = resources$controller,
           scale = TRUE,
-          seconds_timeout = resources$seconds_timeout,
-          seed = 0L,
-          algorithm = "default"
+          seconds_timeout = resources$seconds_timeout
         )
         self$backoff_requeue$reset()
       }

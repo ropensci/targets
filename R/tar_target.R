@@ -173,8 +173,8 @@
 #'   and no two targets in the same pipeline share the same seed.
 #'   (Even dynamic branches have different names and thus different seeds.)
 #'   You can recover the seed of a completed target
-#'   with `tar_meta(your_target, seed)` and run `set.seed()` on the result
-#'   to locally recreate the target's initial RNG state.
+#'   with `tar_meta(your_target, seed)` and run [tar_seed_set()]
+#'   on the result to locally recreate the target's initial RNG state.
 #' @param command R code to run the target.
 #' @param pattern Language to define branching for a target.
 #'   For example, in a pipeline with numeric vector targets `x` and `y`,

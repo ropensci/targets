@@ -18,7 +18,7 @@
 #'   workspace where the error happened. These objects include
 #'   the global objects at the time [tar_make()] was called and the
 #'   dependency targets. The random number generator seed for the
-#'   target is also assigned with `set.seed()`.
+#'   target is also assigned with [tar_seed_set()].
 #' @inheritParams tar_validate
 #' @param name Symbol, name of the target whose workspace to read.
 #' @param envir Environment in which to put the objects.
@@ -46,7 +46,8 @@
 #' tar_workspace(y)
 #' exists("x") # Should be TRUE.
 #' print(x) # "loaded"
-#' # Should be different: tar_workspace() runs set.seed(tar_meta(y, seed)$seed)
+#' # Should be different: tar_workspace() runs
+#' # tar_seed_set(tar_meta(y, seed)$seed)
 #' tail(.Random.seed)
 #' })
 #' }

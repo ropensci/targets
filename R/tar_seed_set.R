@@ -1,0 +1,31 @@
+#' @title Set a seed to run a target.
+#' @export
+#' @family seeds
+#' @description `targets` generates its own target-specific seeds
+#'   using [tar_seed_create()]. Use [tar_seed_set()] to set one of
+#'   these seeds in R.
+#' @details [tar_seed_set()] gives the user-supplied `seed` to
+#'   `set.seed()` and sets arguments `kind = "default"`,
+#'   `normal.kind = "default"`, and `sample.kind = "default"`.
+#' @return `NULL` (invisibly).
+#' @param seed Integer of length 1, value of the seed to set
+#'   with `set.seed()`.
+#' @examples
+#' seed <- tar_seed_create()
+#' seed
+#' sample(10)
+#' tar_seed_set(seed)
+#' sample(10)
+#' tar_seed_set(seed)
+#' sample(10)
+tar_seed_set <- function(seed) {
+  if (!is.null(seed) && !anyNA(seed)) {
+    set.seed(
+      seed = seed,
+      kind = "default",
+      normal.kind = "default",
+      sample.kind = "default"
+    )
+  }
+  invisible()
+}

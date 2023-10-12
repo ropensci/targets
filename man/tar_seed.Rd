@@ -31,7 +31,7 @@ and no two targets in the same pipeline share the same seed.
 (Even dynamic branches have different names and thus different seeds.)
 You can retrieve the seed of a completed target
 with \code{tar_meta(your_target, seed)}
-and run \code{set.seed()} on the result to locally
+and run \code{\link[=tar_seed_set]{tar_seed_set()}} on the result to locally
 recreate the target's initial RNG state.
 }
 \examples{

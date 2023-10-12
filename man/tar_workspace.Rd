@@ -52,7 +52,7 @@ into the environment (\code{envir} argument) in order to replicate the
 workspace where the error happened. These objects include
 the global objects at the time \code{\link[=tar_make]{tar_make()}} was called and the
 dependency targets. The random number generator seed for the
-target is also assigned with \code{set.seed()}.
+target is also assigned with \code{\link[=tar_seed_set]{tar_seed_set()}}.
 }
 \description{
 Load the packages, workspace, and random number generator seed
@@ -87,7 +87,8 @@ tail(.Random.seed) # for comparison to the RNG state after tar_workspace(y)
 tar_workspace(y)
 exists("x") # Should be TRUE.
 print(x) # "loaded"
-# Should be different: tar_workspace() runs set.seed(tar_meta(y, seed)$seed)
+# Should be different: tar_workspace() runs
+# tar_seed_set(tar_meta(y, seed)$seed)
 tail(.Random.seed)
 })
 }
