@@ -79,7 +79,7 @@
 #'     and no two targets in the same pipeline share the same seed.
 #'     (Even dynamic branches have different names and thus different seeds.)
 #'     You can recover the seed of a completed target
-#'     with `tar_meta(your_target, seed)` and run `set.seed()`
+#'     with `tar_meta(your_target, seed)` and run [tar_seed_set()]
 #'     on the result to locally recreate the target's initial RNG state.
 #'   * `path`: A list column of paths to target data. Usually, each element
 #'     is a single path, but there could be multiple paths per target

@@ -10,7 +10,7 @@ branch_init <- function(
   command <- command_clone(command)
   deps <- union(command$deps, deps)
   command$deps <- setdiff(deps, settings$dimensions)
-  command$seed <- produce_seed(child)
+  command$seed <- tar_seed_create(child)
   pedigree <- pedigree_new(settings$name, child, index)
   settings <- settings_clone(settings)
   settings$name <- child

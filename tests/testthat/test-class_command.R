@@ -26,12 +26,7 @@ tar_test("command$produce_build() uses seed", {
   x <- command_init(expr = quote(sample.int(1e9, 1L)))
   x$seed <- 0L
   sample_with_seed <- function(seed) {
-    # Borrowed from https://github.com/r-lib/withr/blob/main/R/seed.R
-    # under the MIT license. See the NOTICE file
-    # in the targets package source.
-    old_seed <- .GlobalEnv[[".Random.seed"]]
-    set.seed(seed)
-    on.exit(restore_seed(old_seed))
+    tar_seed_set(seed)
     sample.int(1e9, 1L)
   }
   exp0 <- sample_with_seed(0L)
