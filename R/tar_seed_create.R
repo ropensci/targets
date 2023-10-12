@@ -48,6 +48,13 @@
 #'        integer using `digest::digest2int()`. This is necessary
 #'        because integers in R can only be 32 bits. `set.seed()`
 #'        cannot accept anything greater.
+#' @return Integer of length 1, the target seed.
+#' @param name Character of length 1, target name.
+#' @param global_seed Integer of length 1, the overarching global
+#'   pipeline seed which governs the seeds of all the targets.
+#'   Set to `NULL` to default to `tar_option_get("seed")`.
+#'   Set to `NA` to disable seed setting in `targets` and make
+#'   [tar_seed_create()] return `NA_integer_`.
 #' @references
 #'   Pierre L'Ecuyer, David Munger, Boris Oreshkin, and Richard Simard
 #'   (2017). Random numbers for parallel computers: Requirements and methods,

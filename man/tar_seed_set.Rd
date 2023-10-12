@@ -78,7 +78,7 @@ for simulation".) There are two notable quirks, but they are innocuous:
 }
 
 \examples{
-seed <- tar_seed_create()
+seed <- tar_seed_create("target_name")
 seed
 sample(10)
 tar_seed_set(seed)

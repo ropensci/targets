@@ -6,6 +6,18 @@
 \usage{
 tar_seed_create(name, global_seed = NULL)
 }
+\arguments{
+\item{name}{Character of length 1, target name.}
+
+\item{global_seed}{Integer of length 1, the overarching global
+pipeline seed which governs the seeds of all the targets.
+Set to \code{NULL} to default to \code{tar_option_get("seed")}.
+Set to \code{NA} to disable seed setting in \code{targets} and make
+\code{\link[=tar_seed_create]{tar_seed_create()}} return \code{NA_integer_}.}
+}
+\value{
+Integer of length 1, the target seed.
+}
 \description{
 Create a seed for a target.
 }

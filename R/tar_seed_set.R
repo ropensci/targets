@@ -18,7 +18,7 @@
 #' @param seed Integer of length 1, value of the seed to set
 #'   with `set.seed()`.
 #' @examples
-#' seed <- tar_seed_create()
+#' seed <- tar_seed_create("target_name")
 #' seed
 #' sample(10)
 #' tar_seed_set(seed)
