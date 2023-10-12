@@ -1,6 +1,7 @@
-# targets 1.3.2.9000 (development)
+# targets 1.3.2.9001 (development)
 
 * Add function `tar_seed_set()` which sets a seed and the default RNG algorithms.
+* Deprecate `tar_seed()` in favor of the new `tar_seed_get()` function.
 
 # targets 1.3.2
 

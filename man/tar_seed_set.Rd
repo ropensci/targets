@@ -32,4 +32,8 @@ sample(10)
 tar_seed_set(seed)
 sample(10)
 }
-\concept{seeds}
+\seealso{
+Other pseudo-random number generation: 
+\code{\link{tar_seed_get}()}
+}
+\concept{pseudo-random number generation}

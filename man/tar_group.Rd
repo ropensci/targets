@@ -87,7 +87,6 @@ Other utilities:
 \code{\link{tar_path_store}()},
 \code{\link{tar_path_target}()},
 \code{\link{tar_path}()},
-\code{\link{tar_seed}()},
 \code{\link{tar_source}()},
 \code{\link{tar_store}()}
 }

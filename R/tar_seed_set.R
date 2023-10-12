@@ -1,6 +1,6 @@
 #' @title Set a seed to run a target.
 #' @export
-#' @family seeds
+#' @family pseudo-random number generation
 #' @description `targets` generates its own target-specific seeds
 #'   using [tar_seed_create()]. Use [tar_seed_set()] to set one of
 #'   these seeds in R.
