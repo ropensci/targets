@@ -19,7 +19,7 @@
 #'   num_ansi_colors symbol
 #' @importFrom codetools findGlobals
 #' @importFrom data.table data.table fread fwrite rbindlist set
-#' @importFrom digest digest digest2int
+#' @importFrom digest digest digest2int getVDigest
 #' @importFrom igraph adjacent_vertices get.edgelist gorder
 #'   graph_from_data_frame igraph_opt igraph_options is_dag simplify topo_sort
 #'   V
