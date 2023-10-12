@@ -1,6 +1,16 @@
 # targets 1.3.2.9001 (development)
 
-* Add function `tar_seed_set()` which sets a seed and the default RNG algorithms.
+## Invalidating changes
+
+Because of the changes below, upgrading to this version of `targets` will unavoidably invalidate previously built targets in existing pipelines. Your pipeline code should still work, but any targets you ran before will most likely need to rerun after the upgrade.
+
+* Use SHA512 during the creation of target-specific pseudo-random number generator seeds (#1139). This change decreases the risk of overlapping/correlated random number generator streams. See the "RNG overlap" section of the `tar_seed_create()` help file for details and justification.
+
+## Other changes
+
+* Add a new exported function `tar_seed_create()` which creates target-specific pseudo-random number generator seeds.
+* Add an "RNG overlap" section in the `tar_seed_create()` help file to justify and defend how `targets` and `tarchetypes` approach pseudo-random numbers.
+* Add function `tar_seed_set()` which sets a seed and sets all the RNG algorithms to their defaults in the R installation of the user. Each target now uses `tar_seed_set()` function to set its seed before running its R command (#1139).
 * Deprecate `tar_seed()` in favor of the new `tar_seed_get()` function.
 
 # targets 1.3.2

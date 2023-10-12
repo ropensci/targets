@@ -26,8 +26,8 @@ these seeds in R.
 \section{Seeds}{
 
 A target's random number generator seed
-is a deterministic function of its name and the global pipeline seed.
-Consequently,
+is a deterministic function of its name and the global pipeline seed
+from \link{tar_option_get("seed")}. Consequently,
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{1. Each target runs with a reproducible seed so that
    different runs of the same pipeline in the same computing
@@ -50,14 +50,14 @@ streams of different targets will overlap and produce statistically
 correlated results. (For a discussion of the motivating problem,
 see the Section 6: "Random-number generation" in the \code{parallel}
 package vignette: \code{vignette(topic = "parallel", package = "parallel")}.)
-However, this risk is extremely small in practice.
-
-\code{targets} and \code{tarchetypes} take the approach discussed in
+However, this risk is extremely small in practice, as shown by
 L'Ecuyer et al. (2027) \url{https://doi.org/10.1016/j.matcom.2016.05.005}
-"A single RNG with a 'random' seed for each stream" (Section 4:
+under "A single RNG with a 'random' seed for each stream" (Section 4:
 under "How to produce parallel streams and substreams").
-Here, \code{\link[=tar_seed_create]{tar_seed_create()}} plays the role
-of the upstream pseudo-random number generator (RNG) that produces
+
+\code{targets} and \code{tarchetypes} take the approach discussed in the
+aforementioned section of the paper, where \code{\link[=tar_seed_create]{tar_seed_create()}} plays the
+role of the upstream pseudo-random number generator (RNG) that produces
 seeds for the subsequent parallel streams. Specifically,
 \code{\link[=tar_seed_create]{tar_seed_create()}} acts as a counter-based RNG,
 where the output function is the SHA512 hash algorithm.

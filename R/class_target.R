@@ -19,7 +19,7 @@ target_init <- function(
   retrieval = "main",
   cue = NULL
 ) {
-  seed <- produce_seed(name)
+  seed <- tar_seed_create(name)
   command <- command_init(expr, packages, library, seed, deps, string)
   cue <- cue %|||% cue_init()
   if (any(grepl("^aws_", format))) {
