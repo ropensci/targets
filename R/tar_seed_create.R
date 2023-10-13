@@ -25,7 +25,7 @@
 #'   see the Section 6: "Random-number generation" in the `parallel`
 #'   package vignette: `vignette(topic = "parallel", package = "parallel")`.)
 #'   However, this risk is extremely small in practice, as shown by
-#'   L'Ecuyer et al. (2027) <https://doi.org/10.1016/j.matcom.2016.05.005>
+#'   L'Ecuyer et al. (2017) <https://doi.org/10.1016/j.matcom.2016.05.005>
 #'   under "A single RNG with a 'random' seed for each stream" (Section 4:
 #'   under "How to produce parallel streams and substreams").
 #'

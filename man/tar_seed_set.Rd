@@ -51,7 +51,7 @@ correlated results. (For a discussion of the motivating problem,
 see the Section 6: "Random-number generation" in the \code{parallel}
 package vignette: \code{vignette(topic = "parallel", package = "parallel")}.)
 However, this risk is extremely small in practice, as shown by
-L'Ecuyer et al. (2027) \url{https://doi.org/10.1016/j.matcom.2016.05.005}
+L'Ecuyer et al. (2017) \url{https://doi.org/10.1016/j.matcom.2016.05.005}
 under "A single RNG with a 'random' seed for each stream" (Section 4:
 under "How to produce parallel streams and substreams").
 
