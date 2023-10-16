@@ -224,7 +224,7 @@ tar_make_inner <- function(
       envir = tar_option_get("envir")
     )$run()
   } else {
-    tar_assert_package("crew (>= 0.5.0.9003)")
+    tar_assert_package("crew (>= 0.6.0)")
     crew_init(
       pipeline = pipeline,
       meta = meta_init(path_store = path_store),
