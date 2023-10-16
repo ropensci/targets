@@ -75,7 +75,7 @@ Imports:
 Suggests:
   arrow (>= 3.0.0),
   bs4Dash (>= 2.0.0),
-  clustermq (>= 0.8.95.1),
+  clustermq (>= 0.9.1),
   crew (>= 0.6.0),
   curl (>= 4.3),
   DT (>= 0.14),
