@@ -230,8 +230,9 @@ clustermq_class <- R6::R6Class(
     },
     iterate = function() {
       self$sync_meta_time()
-      target <- self$worker_list$recv()
-      self$conclude_worker_target(target)
+      if (self$workers > 0L) {
+        self$conclude_worker_target(self$worker_list$recv())
+      }
       if (self$scheduler$queue$is_nonempty()) {
         self$next_target()
       } else {

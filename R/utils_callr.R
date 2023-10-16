@@ -94,7 +94,7 @@ callr_inner <- function(
 ) {
   force(envir)
   parent <- parent.frame()
-  tryCatch(
+#  tryCatch(
     targets::tar_callr_inner_try(
       targets_function = targets_function,
       targets_arguments = targets_arguments,
@@ -104,9 +104,9 @@ callr_inner <- function(
       script = script,
       store = store,
       fun = fun
-    ),
-    error = function(condition) condition
-  )
+    )#,
+  #  error = function(condition) condition
+#  )
 }
 
 #' @title Invoke a `targets` task from inside a `callr` function.
