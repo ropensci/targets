@@ -89,7 +89,7 @@ tar_test("prevent high-memory data via target objects", {
   t <- list(tar_target(x, runif(1e7), deployment = "main", format = "qs"))
   pipeline <- pipeline_init(list(t[[1]], tar_target(y, x)))
   algo <- clustermq_init(pipeline)
-  debug(algo$set_common_data)
+  debug(algo$start_workers)
   tar_option_set(envir = environment())
   # should enter a debugger:
   algo$run()

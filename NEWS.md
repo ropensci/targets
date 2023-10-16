@@ -1,4 +1,4 @@
-# targets 1.3.2.9001 (development)
+# targets 1.3.2.9002 (development)
 
 ## Invalidating changes
 
@@ -12,6 +12,7 @@ Because of the changes below, upgrading to this version of `targets` will unavoi
 * Add an "RNG overlap" section in the `tar_seed_create()` help file to justify and defend how `targets` and `tarchetypes` approach pseudo-random numbers.
 * Add function `tar_seed_set()` which sets a seed and sets all the RNG algorithms to their defaults in the R installation of the user. Each target now uses `tar_seed_set()` function to set its seed before running its R command (#1139).
 * Deprecate `tar_seed()` in favor of the new `tar_seed_get()` function.
+* Migrate to the changes in `clustermq` 0.9.0 (@mschubert).
 
 # targets 1.3.2
 
