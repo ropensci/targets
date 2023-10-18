@@ -26,6 +26,7 @@
 #'   The next run of the pipeline will start from scratch,
 #'   and it will not skip any targets.
 #' @inheritSection tar_meta Storage access
+#' @inheritSection tar_unversion Deleting cloud target data
 #' @return `NULL` (invisibly).
 #' @inheritParams tar_validate
 #' @param destroy Character of length 1, what to destroy. Choices:

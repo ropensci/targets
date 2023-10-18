@@ -3,7 +3,7 @@
 #' @family clean
 #' @description Delete the output values of targets in `_targets/objects/`
 #'   (or the cloud if applicable)
-#'   but keep the records in `_targets/meta/meta`.
+#'   but keep the records in the metadata.
 #' @details If you have a small number of data-heavy targets you
 #'   need to discard to conserve storage, this function can help.
 #'   Local external files files (i.e. `format = "file"`
@@ -18,13 +18,8 @@
 #'   For patterns recorded in the metadata, all the branches
 #'   will be deleted. For patterns no longer in the metadata,
 #'   branches are left alone.
-#'
-#'   If you plan to delete cloud targets, you may need to set the
-#'   `resources` argument of [tar_option_set()] accordingly.
-#'   If your `_targets.R` file already sets this option,
-#'   [tar_load_globals()] with no arguments is a convenient way
-#'   to set `resources` for your interactive R session.
 #' @inheritSection tar_meta Storage access
+#' @inheritSection tar_unversion Deleting cloud target data
 #' @inheritParams tar_validate
 #' @param names Names of the targets to remove from `_targets/objects/`.
 #'   You can supply symbols

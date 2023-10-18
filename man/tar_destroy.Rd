@@ -122,6 +122,29 @@ target factories in the \code{tarchetypes} package such as \code{tar_render()}
 and \code{tar_quarto()}.
 }
 
+\section{Deleting cloud target data}{
+
+Some buckets in Amazon S3 or Google Cloud Storage are "versioned",
+which means they track historical versions of each data object.
+If you use \code{targets} with cloud storage
+(\url{https://books.ropensci.org/targets/cloud-storage.html})
+and versioning is turned on, then \code{targets} will record each
+version of each target in its metadata.
+
+By default, functions \code{\link[=tar_delete]{tar_delete()}} and \code{\link[=tar_destroy]{tar_destroy()}} only remove
+the current version ID of each target as recorded in the local
+metadata. Extra steps are required to remove all versions:
+\enumerate{
+\item Make sure your local copy of the metadata is current and
+up to date. You may need to run \code{\link[=tar_meta_download]{tar_meta_download()}} or
+\code{\link[=tar_meta_sync]{tar_meta_sync()}}.
+\item Run \code{\link[=tar_unversion]{tar_unversion()}} to remove the recorded version IDs of
+your targets in the local metadata.
+\item With the version IDs gone, \code{\link[=tar_delete]{tar_delete()}} and \code{\link[=tar_destroy]{tar_destroy()}}
+will delete all the versions of the affected targets.
+}
+}
+
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -137,6 +160,7 @@ Other clean:
 \code{\link{tar_delete}()},
 \code{\link{tar_invalidate}()},
 \code{\link{tar_prune_list}()},
-\code{\link{tar_prune}()}
+\code{\link{tar_prune}()},
+\code{\link{tar_unversion}()}
 }
 \concept{clean}
