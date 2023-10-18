@@ -27,6 +27,8 @@
 #' @param cloud Logical of length 1, whether to delete objects
 #'   from the cloud if applicable (e.g. AWS, GCP). If `FALSE`,
 #'   files are not deleted from the cloud.
+#' @param verbose Logical of length 1, whether to print console messages
+#'   to show progress when deleting each target from a cloud bucket.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -45,11 +47,18 @@
 tar_delete <- function(
   names,
   cloud = TRUE,
+  verbose = TRUE,
   store = targets::tar_config_get("store")
 ) {
   tar_assert_allow_meta("tar_delete", store)
   tar_assert_store(store = store)
   tar_assert_path(path_meta(store))
+  tar_assert_lgl(cloud)
+  tar_assert_scalar(cloud)
+  tar_assert_none_na(cloud)
+  tar_assert_lgl(verbose)
+  tar_assert_scalar(verbose)
+  tar_assert_none_na(verbose)
   meta <- meta_init(path_store = store)$database$read_condensed_data()
   meta <- as.data.frame(meta)
   names_quosure <- rlang::enquo(names)
@@ -64,7 +73,12 @@ tar_delete <- function(
   names <- setdiff(names, local_dynamic_files)
   names <- setdiff(names, meta$name[meta$type == "pattern"])
   if (cloud) {
-    tar_delete_cloud_objects(names = names, meta = meta, path_store = store)
+    tar_delete_cloud_objects(
+      names = names,
+      meta = meta,
+      path_store = store,
+      verbose = verbose
+    )
   }
   files <- list.files(path_objects_dir(store), all.files = TRUE)
   discard <- intersect(names, files)
@@ -74,18 +88,26 @@ tar_delete <- function(
 
 # Tested in tests/aws/test-delete.R
 # nocov start
-tar_delete_cloud_objects <- function(names, meta, path_store) {
+tar_delete_cloud_objects <- function(names, meta, path_store, verbose) {
   tar_message_meta(store = path_store)
   index_cloud <- !is.na(meta$repository) & meta$repository != "local"
   meta <- meta[index_cloud,, drop = FALSE] # nolint
   meta <- meta[meta$name %in% names,, drop = FALSE] # nolint
   map(
     meta$name,
-    ~tar_delete_cloud_target(name = .x, meta = meta, path_store = store)
+    ~tar_delete_cloud_target(
+      name = .x,
+      meta = meta,
+      path_store = store,
+      verbose = verbose
+    )
   )
 }
 
-tar_delete_cloud_target <- function(name, meta, path_store) {
+tar_delete_cloud_target <- function(name, meta, path_store, verbose) {
+  if (verbose) {
+    tar_message_run("Deleting target from the cloud: ", name)
+  }
   row <- meta[meta$name == name,, drop = FALSE] # nolint
   record <- record_from_row(row = row, path_store = path_store)
   store <- record_bootstrap_store(record)

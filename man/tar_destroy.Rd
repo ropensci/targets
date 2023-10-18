@@ -7,6 +7,7 @@
 tar_destroy(
   destroy = c("all", "cloud", "local", "meta", "process", "progress", "objects",
     "scratch", "workspaces", "user"),
+  verbose = TRUE,
   ask = NULL,
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
@@ -45,6 +46,9 @@ See \code{\link[=tar_workspace]{tar_workspace()}} for details.
 \item \code{"user"}: custom user-supplied files in the \verb{user/} folder in the
 data store.
 }}
+
+\item{verbose}{Logical of length 1, whether to print console messages
+to show progress when deleting each target from a cloud bucket.}
 
 \item{ask}{Logical of length 1, whether to pause with a menu prompt
 before deleting files. To disable this menu, set the \code{TAR_ASK}

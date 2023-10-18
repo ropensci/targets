@@ -4,7 +4,12 @@
 \alias{tar_delete}
 \title{Delete target output values.}
 \usage{
-tar_delete(names, cloud = TRUE, store = targets::tar_config_get("store"))
+tar_delete(
+  names,
+  cloud = TRUE,
+  verbose = TRUE,
+  store = targets::tar_config_get("store")
+)
 }
 \arguments{
 \item{names}{Names of the targets to remove from \verb{_targets/objects/}.
@@ -14,6 +19,9 @@ or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\lin
 \item{cloud}{Logical of length 1, whether to delete objects
 from the cloud if applicable (e.g. AWS, GCP). If \code{FALSE},
 files are not deleted from the cloud.}
+
+\item{verbose}{Logical of length 1, whether to print console messages
+to show progress when deleting each target from a cloud bucket.}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

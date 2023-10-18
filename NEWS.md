@@ -14,6 +14,7 @@ Because of the changes below, upgrading to this version of `targets` will unavoi
 * Deprecate `tar_seed()` in favor of the new `tar_seed_get()` function.
 * Migrate to the changes in `clustermq` 0.9.0 (@mschubert).
 * Add a new `tar_unversion()` function to remove version IDs from the metadata of cloud targets. This makes it easier to remove all versions of target data using functions `tar_destroy()` and `tar_delete()`.
+* Add a new `verbose` argument to `tar_delete()` and `tar_destroy()`.
 
 # targets 1.3.2
 
