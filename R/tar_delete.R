@@ -27,9 +27,11 @@
 #' @param cloud Logical of length 1, whether to delete objects
 #'   from the cloud if applicable (e.g. AWS, GCP). If `FALSE`,
 #'   files are not deleted from the cloud.
-#' @param batch_size Positive integer, number of target objects to delete
+#' @param batch_size Positive integer between 1 and 1000,
+#'   number of target objects to delete
 #'   from the cloud with each HTTP API request.
 #'   Currently only supported for AWS.
+#'   Cannot be more than 1000.
 #' @param verbose Logical of length 1, whether to print console messages
 #'   to show progress when deleting each batch of targets from each
 #'   cloud bucket. Batched deletion with verbosity is currently only supported
@@ -66,6 +68,7 @@ tar_delete <- function(
   tar_assert_scalar(batch_size)
   tar_assert_none_na(batch_size)
   tar_assert_ge(batch_size, 1L)
+  tar_assert_le(batch_size, 1000L)
   tar_assert_lgl(verbose)
   tar_assert_scalar(verbose)
   tar_assert_none_na(verbose)

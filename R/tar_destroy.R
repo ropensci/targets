@@ -101,6 +101,7 @@ tar_destroy <- function(
   tar_assert_scalar(batch_size)
   tar_assert_none_na(batch_size)
   tar_assert_ge(batch_size, 1L)
+  tar_assert_le(batch_size, 1000L)
   tar_assert_lgl(verbose)
   tar_assert_scalar(verbose)
   tar_assert_none_na(verbose)
