@@ -157,7 +157,9 @@ aws_s3_delete_objects <- function(
         "Deleting ",
         length(index),
         " objects from AWS S3 bucket ",
-        bucket
+        bucket,
+        " ",
+        sample(c("-", "\\", "|", "/"), size = 1L)
       )
     }
     do.call(what = client$delete_objects, args = args)
