@@ -207,10 +207,6 @@ store_upload_object_gcp <- function(store) {
 }
 
 #' @export
-store_ensure_correct_hash.tar_gcp <- function(store, storage, deployment) {
-}
-
-#' @export
 store_has_correct_hash.tar_gcp <- function(store) {
   hash <- store_gcp_hash(store = store)
   !is.null(hash) && identical(hash, store$file$hash)

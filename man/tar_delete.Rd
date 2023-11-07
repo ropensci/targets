@@ -21,9 +21,11 @@ or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\lin
 from the cloud if applicable (e.g. AWS, GCP). If \code{FALSE},
 files are not deleted from the cloud.}
 
-\item{batch_size}{Positive integer, number of target objects to delete
+\item{batch_size}{Positive integer between 1 and 1000,
+number of target objects to delete
 from the cloud with each HTTP API request.
-Currently only supported for AWS.}
+Currently only supported for AWS.
+Cannot be more than 1000.}
 
 \item{verbose}{Logical of length 1, whether to print console messages
 to show progress when deleting each batch of targets from each

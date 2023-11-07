@@ -41,7 +41,6 @@ store_hash_late.tar_cloud <- function(store) {
 
 #' @export
 store_ensure_correct_hash.tar_cloud <- function(store, storage, deployment) {
-  store_wait_correct_hash(store)
 }
 
 #' @export

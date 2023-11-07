@@ -251,10 +251,6 @@ store_upload_object_aws <- function(store) {
 }
 
 #' @export
-store_ensure_correct_hash.tar_aws <- function(store, storage, deployment) {
-}
-
-#' @export
 store_has_correct_hash.tar_aws <- function(store) {
   hash <- store_aws_hash(store)
   !is.null(hash) && identical(hash, store$file$hash)
