@@ -139,6 +139,13 @@ tar_test("tar_destroy() cloud targets", {
         repository = "aws"
       ),
       tar_target(
+        y,
+        x,
+        pattern = map(x),
+        format = "parquet",
+        repository = "aws"
+      ),
+      tar_target(
         local_file,
         write_file("file.txt"),
         format = "file",
@@ -159,11 +166,16 @@ tar_test("tar_destroy() cloud targets", {
     path_store <- path_store_default()
     key1 <- path_objects(path_store, "x")
     key2 <- path_objects(path_store, "aws_file")
+    name <- tar_meta(name = y, fields = children)$children[[1L]]
+    key3 <- path_objects(path_store, name)
     expect_true(
       aws_s3_exists(key = key1, bucket = bucket_name, max_tries = 1L)
     )
     expect_true(
       aws_s3_exists(key = key2, bucket = bucket_name, max_tries = 1L)
+    )
+    expect_true(
+      aws_s3_exists(key = key3, bucket = bucket_name, max_tries = 1L)
     )
     tar_destroy(destroy = destroy)
     expect_false(
@@ -171,6 +183,9 @@ tar_test("tar_destroy() cloud targets", {
     )
     expect_false(
       aws_s3_exists(key = key2, bucket = bucket_name, max_tries = 1L)
+    )
+    expect_false(
+      aws_s3_exists(key = key3, bucket = bucket_name, max_tries = 1L)
     )
     expect_true(file.exists("file.txt"))
   }
