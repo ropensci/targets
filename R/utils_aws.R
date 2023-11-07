@@ -124,6 +124,39 @@ aws_s3_delete <- function(
   invisible()
 }
 
+# See https://www.paws-r-sdk.com/docs/s3_delete_objects/
+# to format the "objects" argument.
+aws_s3_delete_objects <- function(
+  objects,
+  bucket,
+  batch_size = 1000L,
+  region = NULL,
+  endpoint = NULL,
+  args = list(),
+  max_tries = NULL,
+  seconds_timeout = NULL,
+  close_connection = NULL,
+  s3_force_path_style = NULL
+) {
+  client <- aws_s3_client(
+    endpoint = endpoint,
+    region = region,
+    seconds_timeout = seconds_timeout,
+    close_connection = close_connection,
+    s3_force_path_style = s3_force_path_style,
+    max_tries = max_tries
+  )
+  args$Bucket <- bucket
+  args <- supported_args(fun = client$delete_objects, args = args)
+  while (length(objects)) {
+    index <- seq_len(min(length(objects), batch_size))
+    args$Delete$Objects <- objects[index]
+    do.call(what = client$delete_objects, args = args)
+    objects <- objects[-index]
+  }
+  invisible()
+}
+
 # Copied from https://github.com/paws-r/paws/blob/main/examples/s3_multipart_upload.R # nolint
 # and modified under Apache 2.0.
 # See the NOTICE file at the top of this package for attribution.

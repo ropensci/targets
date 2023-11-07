@@ -211,6 +211,123 @@ tar_test("aws_s3_delete() version", {
   )
 })
 
+tar_test("aws_s3_delete_objects()", {
+  bucket <- random_bucket_name()
+  client <- paws.storage::s3()
+  client$create_bucket(Bucket = bucket)
+  on.exit(aws_s3_delete_bucket(bucket))
+  for (key in letters) {
+    client$put_object(
+      Bucket = bucket,
+      Key = key,
+      Body = charToRaw("contents")
+    )
+  }
+  for (key in letters) {
+    expect_true(aws_s3_exists(key = key, bucket = bucket))
+  }
+  objects <- lapply(letters, function(x) list(Key = x))
+  expect_error(
+    aws_s3_delete_objects(
+      objects = objects,
+      bucket = bucket,
+      args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
+      max_tries = 1L
+    ),
+    class = "http_400"
+  )
+  for (key in letters) {
+    expect_true(aws_s3_exists(key = key, bucket = bucket))
+  }
+  aws_s3_delete_objects(
+    objects = objects,
+    bucket = bucket,
+    batch_size = 10L
+  )
+  for (key in letters) {
+    expect_false(aws_s3_exists(key = key, bucket = bucket))
+  }
+})
+
+tar_test("aws_s3_delete_objects() versioned", {
+  bucket <- random_bucket_name()
+  client <- paws.storage::s3()
+  client$create_bucket(Bucket = bucket)
+  on.exit(aws_s3_delete_bucket(bucket))
+  client$put_bucket_versioning(
+    Bucket = bucket,
+    VersioningConfiguration = list(
+      MFADelete = "Disabled",
+      Status = "Enabled"
+    )
+  )
+  objects <- list()
+  index <- 1L
+  for (key in letters) {
+    head <- client$put_object(
+      Bucket = bucket,
+      Key = key,
+      Body = charToRaw("contents")
+    )
+    objects[[index]] <- list(Key = key, VersionId = head$VersionId)
+    index <- index + 1L
+  }
+  for (key in letters) {
+    client$put_object(
+      Bucket = bucket,
+      Key = key,
+      Body = charToRaw("contents_version2")
+    )
+  }
+  for (index in seq_along(letters)) {
+    expect_true(
+      aws_s3_exists(
+        key = objects[[index]]$Key,
+        bucket = bucket,
+        version = objects[[index]]$VersionId
+      )
+    )
+  }
+  expect_error(
+    aws_s3_delete_objects(
+      objects = objects,
+      bucket = bucket,
+      args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
+      max_tries = 1L
+    ),
+    class = "http_400"
+  )
+  for (index in seq_along(letters)) {
+    expect_true(
+      aws_s3_exists(
+        key = objects[[index]]$Key,
+        bucket = bucket,
+        version = objects[[index]]$VersionId
+      )
+    )
+  }
+  aws_s3_delete_objects(
+    objects = objects,
+    bucket = bucket,
+    batch_size = 10L
+  )
+  for (index in seq_along(letters)) {
+    expect_false(
+      aws_s3_exists(
+        key = objects[[index]]$Key,
+        bucket = bucket,
+        version = objects[[index]]$VersionId
+      )
+    )
+    expect_true(
+      aws_s3_exists(
+        key = objects[[index]]$Key,
+        bucket = bucket
+      )
+    )
+  }
+})
+
 tar_test("aws_s3_upload() without headers", {
   bucket <- random_bucket_name()
   paws.storage::s3()$create_bucket(Bucket = bucket)
