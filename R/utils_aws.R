@@ -136,7 +136,8 @@ aws_s3_delete_objects <- function(
   max_tries = NULL,
   seconds_timeout = NULL,
   close_connection = NULL,
-  s3_force_path_style = NULL
+  s3_force_path_style = NULL,
+  verbose = TRUE
 ) {
   client <- aws_s3_client(
     endpoint = endpoint,
@@ -151,6 +152,14 @@ aws_s3_delete_objects <- function(
   while (length(objects)) {
     index <- seq_len(min(length(objects), batch_size))
     args$Delete$Objects <- objects[index]
+    if (verbose) {
+      tar_message_run(
+        "Deleting ",
+        length(index),
+        " objects from AWS S3 bucket ",
+        bucket
+      )
+    }
     do.call(what = client$delete_objects, args = args)
     objects <- objects[-index]
   }
