@@ -7,8 +7,8 @@
 tar_destroy(
   destroy = c("all", "cloud", "local", "meta", "process", "progress", "objects",
     "scratch", "workspaces", "user"),
-  verbose = TRUE,
   batch_size = 1000L,
+  verbose = TRUE,
   ask = NULL,
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
@@ -48,14 +48,14 @@ See \code{\link[=tar_workspace]{tar_workspace()}} for details.
 data store.
 }}
 
+\item{batch_size}{Positive integer, number of target objects to delete
+from the cloud with each HTTP API request.
+Currently only supported for AWS.}
+
 \item{verbose}{Logical of length 1, whether to print console messages
 to show progress when deleting each batch of targets from each
 cloud bucket. Batched deletion with verbosity is currently only supported
 for AWS.}
-
-\item{batch_size}{Positive integer, number of target objects to delete
-from the cloud with each HTTP API request.
-Currently only supported for AWS.}
 
 \item{ask}{Logical of length 1, whether to pause with a menu prompt
 before deleting files. To disable this menu, set the \code{TAR_ASK}

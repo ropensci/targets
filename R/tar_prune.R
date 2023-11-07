@@ -39,6 +39,8 @@
 #' }
 tar_prune <- function(
   cloud = TRUE,
+  batch_size = 1000L,
+  verbose = TRUE,
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function),
   envir = parent.frame(),
@@ -47,13 +49,28 @@ tar_prune <- function(
 ) {
   tar_assert_allow_meta("tar_prune", store)
   force(envir)
+  tar_assert_lgl(cloud)
+  tar_assert_scalar(cloud)
+  tar_assert_none_na(cloud)
+  tar_assert_dbl(batch_size)
+  tar_assert_scalar(batch_size)
+  tar_assert_none_na(batch_size)
+  tar_assert_ge(batch_size, 1L)
+  tar_assert_lgl(verbose)
+  tar_assert_scalar(verbose)
+  tar_assert_none_na(verbose)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
   tar_message_meta(store = store)
   path_scratch_del(store)
   out <- callr_outer(
     targets_function = tar_prune_inner,
-    targets_arguments = list(cloud = cloud, path_store = store),
+    targets_arguments = list(
+      cloud = cloud,
+      path_store = store,
+      batch_size = batch_size,
+      verbose = verbose
+    ),
     callr_function = callr_function,
     callr_arguments = callr_arguments,
     envir = envir,
@@ -64,7 +81,7 @@ tar_prune <- function(
   invisible(out)
 }
 
-tar_prune_inner <- function(pipeline, cloud, path_store) {
+tar_prune_inner <- function(pipeline, cloud, path_store, batch_size, verbose) {
   tar_assert_store(path_store)
   names <- pipeline_get_names(pipeline)
   meta <- meta_init(path_store = path_store)
@@ -81,7 +98,9 @@ tar_prune_inner <- function(pipeline, cloud, path_store) {
     tar_delete_cloud_objects(
       names = discard,
       meta = data,
-      path_store = path_store
+      path_store = path_store,
+      batch_size = batch_size,
+      verbose = verbose
     )
   }
   data <- as_data_frame(data)[data$name %in% keep, ]

@@ -90,8 +90,8 @@ tar_destroy <- function(
     "workspaces",
     "user"
   ),
-  verbose = TRUE,
   batch_size = 1000L,
+  verbose = TRUE,
   ask = NULL,
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")

@@ -50,8 +50,8 @@ tar_test("delete cloud targets", {
   expect_false(aws_s3_exists(key = key1, bucket = bucket_name, max_tries = 1L))
   expect_false(aws_s3_exists(key = key2, bucket = bucket_name, max_tries = 1L))
   expect_true(file.exists("file.txt"))
-  expect_silent(tar_delete(everything()))
-  expect_silent(tar_delete(everything()))
+  expect_silent(tar_delete(everything(), verbose = FALSE))
+  expect_silent(tar_delete(everything(), verbose = FALSE))
 })
 
 tar_test("same with versioning", {
@@ -111,7 +111,7 @@ tar_test("same with versioning", {
   expect_false(aws_s3_exists(key = key1, bucket = bucket_name, max_tries = 1L))
   expect_false(aws_s3_exists(key = key2, bucket = bucket_name, max_tries = 1L))
   expect_true(file.exists("file.txt"))
-  expect_silent(tar_delete(everything()))
+  expect_message(tar_delete(everything()))
 })
 
 tar_test("tar_destroy() cloud targets", {
@@ -174,7 +174,7 @@ tar_test("tar_destroy() cloud targets", {
     )
     expect_true(file.exists("file.txt"))
   }
-  expect_silent(tar_destroy(destroy = "cloud"))
+  expect_silent(tar_destroy(destroy = "cloud", verbose = FALSE))
 })
 
 tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for aws", {

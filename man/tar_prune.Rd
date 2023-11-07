@@ -6,6 +6,8 @@
 \usage{
 tar_prune(
   cloud = TRUE,
+  batch_size = 1000L,
+  verbose = TRUE,
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function),
   envir = parent.frame(),
@@ -17,6 +19,15 @@ tar_prune(
 \item{cloud}{Logical of length 1, whether to delete objects
 from the cloud if applicable (e.g. AWS, GCP). If \code{FALSE},
 files are not deleted from the cloud.}
+
+\item{batch_size}{Positive integer, number of target objects to delete
+from the cloud with each HTTP API request.
+Currently only supported for AWS.}
+
+\item{verbose}{Logical of length 1, whether to print console messages
+to show progress when deleting each batch of targets from each
+cloud bucket. Batched deletion with verbosity is currently only supported
+for AWS.}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session
