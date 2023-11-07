@@ -125,6 +125,8 @@ store_delete_object.tar_gcp <- function(store, name = NULL) {
   )
 }
 
+# TODO: implement like store_delete_objects.tar_aws() with true batching
+#   when https://github.com/cloudyr/googleCloudStorageR/issues/188 is solved.
 #' @export
 store_delete_objects.tar_gcp <- function(store, meta, batch_size, verbose) {
   gcp <- store$resources$gcp

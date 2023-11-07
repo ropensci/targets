@@ -125,6 +125,10 @@ gcp_gcs_delete <- function(
   invisible()
 }
 
+# TODO: implement gcp_gcs_delete_objects() when
+# https://github.com/cloudyr/googleCloudStorageR/issues/188 is solved.
+# Then use it in store_delete_objects.tar_gcp().
+
 gcp_gcs_upload <- function(
   file,
   key,
