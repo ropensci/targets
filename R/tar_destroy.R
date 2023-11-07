@@ -91,11 +91,16 @@ tar_destroy <- function(
     "user"
   ),
   verbose = TRUE,
+  batch_size = 1000L,
   ask = NULL,
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
   tar_assert_allow_meta("tar_destroy", store)
+  tar_assert_dbl(batch_size)
+  tar_assert_scalar(batch_size)
+  tar_assert_none_na(batch_size)
+  tar_assert_ge(batch_size, 1L)
   tar_assert_lgl(verbose)
   tar_assert_scalar(verbose)
   tar_assert_none_na(verbose)
@@ -122,6 +127,7 @@ tar_destroy <- function(
       names = meta$name,
       meta = meta,
       path_store = store,
+      batch_size = batch_size,
       verbose = verbose
     )
     tar_delete_cloud_meta(script = script)

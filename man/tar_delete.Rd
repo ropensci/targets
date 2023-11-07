@@ -7,6 +7,7 @@
 tar_delete(
   names,
   cloud = TRUE,
+  batch_size = 1000L,
   verbose = TRUE,
   store = targets::tar_config_get("store")
 )
@@ -20,8 +21,14 @@ or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\lin
 from the cloud if applicable (e.g. AWS, GCP). If \code{FALSE},
 files are not deleted from the cloud.}
 
+\item{batch_size}{Positive integer, number of target objects to delete
+from the cloud with each HTTP API request.
+Currently only supported for AWS.}
+
 \item{verbose}{Logical of length 1, whether to print console messages
-to show progress when deleting each target from a cloud bucket.}
+to show progress when deleting each batch of targets from each
+cloud bucket. Batched deletion with verbosity is currently only supported
+for AWS.}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

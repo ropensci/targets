@@ -257,7 +257,6 @@ tar_test("aws_s3_delete_objects() versioned", {
   client$put_bucket_versioning(
     Bucket = bucket,
     VersioningConfiguration = list(
-      MFADelete = "Disabled",
       Status = "Enabled"
     )
   )

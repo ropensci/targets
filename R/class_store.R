@@ -168,6 +168,16 @@ store_delete_object.default <- function(store, name = NULL) {
   unlink(store$file$stage)
 }
 
+store_delete_objects <- function(store, meta, batch_size, verbose) {
+  UseMethod("store_delete_objects")
+}
+
+store_delete_objects.default <- function(store, meta, batch_size, verbose) {
+  tar_throw_validate(
+    "store_delete_objects() is for supported cloud objects only."
+  )
+}
+
 store_upload_object <- function(store) {
   UseMethod("store_upload_object")
 }

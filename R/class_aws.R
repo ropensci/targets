@@ -168,38 +168,42 @@ store_exist_object.tar_aws <- function(store, name = NULL) {
 }
 
 #' @export
-store_delete_object.tar_aws <- function(store, name = NULL) {
-  path <- store$file$path
-  key <- store_aws_key(path)
-  bucket <- store_aws_bucket(path)
-  region <- store_aws_region(path)
-  endpoint <- store_aws_endpoint(path)
-  version <- store_aws_version(path)
-  aws <- store$resources$aws
-  message <- paste(
-    "could not delete target %s from AWS bucket %s key %s.",
-    "Either delete the object manually in the AWS web console",
-    "or call tar_invalidate(%s) to prevent the targets package",
-    "from trying to delete it.\nMessage: "
-  )
-  message <- sprintf(message, name, bucket, key, name)
-  tryCatch(
-    aws_s3_delete(
-      key = key,
-      bucket =  bucket,
-      region = region,
-      endpoint = endpoint,
-      version = version,
-      args = aws$args,
-      max_tries = aws$max_tries,
-      seconds_timeout = aws$seconds_timeout,
-      close_connection = aws$close_connection,
-      s3_force_path_style = aws$s3_force_path_style
-    ),
-    error = function(condition) {
-      tar_throw_validate(message, conditionMessage(condition))
-    }
-  )
+store_delete_objects.tar_aws <- function(store, meta, batch_size, verbose) {
+  buckets <- map_chr(meta$path, ~store_aws_bucket(.x))
+  for (bucket in unique(buckets)) {
+    subset <- meta[buckets == bucket,, drop = FALSE] # nolint
+    example_path <- subset$path[[1L]]
+    region <- store_aws_region(example_path)
+    endpoint <- store_aws_endpoint(example_path)
+    aws <- store$resources$aws
+    objects <- map(
+      subset$path,
+      ~list(Key = store_aws_key(.x), VersionId = store_aws_version(.x))
+    )
+    message <- paste(
+      "could not delete one or more objects from AWS bucket %s.",
+      "You may need to delete them manually.\nMessage: "
+    )
+    message <- sprintf(message, bucket)
+    tryCatch(
+      aws_s3_delete_objects(
+        objects = objects,
+        bucket =  bucket,
+        batch_size = batch_size,
+        region = region,
+        endpoint = endpoint,
+        args = aws$args,
+        max_tries = aws$max_tries,
+        seconds_timeout = aws$seconds_timeout,
+        close_connection = aws$close_connection,
+        s3_force_path_style = aws$s3_force_path_style,
+        verbose = verbose
+      ),
+      error = function(condition) {
+        tar_throw_validate(message, conditionMessage(condition))
+      }
+    )
+  }
 }
 
 #' @export

@@ -27,8 +27,13 @@
 #' @param cloud Logical of length 1, whether to delete objects
 #'   from the cloud if applicable (e.g. AWS, GCP). If `FALSE`,
 #'   files are not deleted from the cloud.
+#' @param batch_size Positive integer, number of target objects to delete
+#'   from the cloud with each HTTP API request.
+#'   Currently only supported for AWS.
 #' @param verbose Logical of length 1, whether to print console messages
-#'   to show progress when deleting each target from a cloud bucket.
+#'   to show progress when deleting each batch of targets from each
+#'   cloud bucket. Batched deletion with verbosity is currently only supported
+#'   for AWS.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -47,6 +52,7 @@
 tar_delete <- function(
   names,
   cloud = TRUE,
+  batch_size = 1000L,
   verbose = TRUE,
   store = targets::tar_config_get("store")
 ) {
@@ -56,6 +62,10 @@ tar_delete <- function(
   tar_assert_lgl(cloud)
   tar_assert_scalar(cloud)
   tar_assert_none_na(cloud)
+  tar_assert_dbl(batch_size)
+  tar_assert_scalar(batch_size)
+  tar_assert_none_na(batch_size)
+  tar_assert_ge(batch_size, 1L)
   tar_assert_lgl(verbose)
   tar_assert_scalar(verbose)
   tar_assert_none_na(verbose)
@@ -77,6 +87,7 @@ tar_delete <- function(
       names = names,
       meta = meta,
       path_store = store,
+      batch_size = batch_size,
       verbose = verbose
     )
   }
@@ -88,29 +99,28 @@ tar_delete <- function(
 
 # Tested in tests/aws/test-delete.R
 # nocov start
-tar_delete_cloud_objects <- function(names, meta, path_store, verbose) {
+tar_delete_cloud_objects <- function(
+  names,
+  meta,
+  path_store,
+  batch_size,
+  verbose
+) {
   tar_message_meta(store = path_store)
   index_cloud <- !is.na(meta$repository) & meta$repository != "local"
   meta <- meta[index_cloud,, drop = FALSE] # nolint
   meta <- meta[meta$name %in% names,, drop = FALSE] # nolint
-  map(
-    meta$name,
-    ~tar_delete_cloud_target(
-      name = .x,
+  for (repository in unique(meta$repository)) {
+    subset <- meta[meta$repository == repository,, drop = FALSE] # nolint
+    row <- subset[1L,, drop = FALSE] # nolint
+    record <- record_from_row(row = row, path_store = path_store)
+    store <- record_bootstrap_store(record)
+    store_delete_objects(
+      store = store,
       meta = meta,
-      path_store = store,
+      batch_size = batch_size,
       verbose = verbose
     )
-  )
-}
-
-tar_delete_cloud_target <- function(name, meta, path_store, verbose) {
-  if (verbose) {
-    tar_message_run("Deleting target from the cloud: ", name)
   }
-  row <- meta[meta$name == name,, drop = FALSE] # nolint
-  record <- record_from_row(row = row, path_store = path_store)
-  store <- record_bootstrap_store(record)
-  store_delete_object(store = store, name = name)
 }
 # nocov end
