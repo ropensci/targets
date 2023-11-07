@@ -97,7 +97,8 @@ version of each target in its metadata.
 
 By default, functions \code{\link[=tar_delete]{tar_delete()}} and \code{\link[=tar_destroy]{tar_destroy()}} only remove
 the current version ID of each target as recorded in the local
-metadata. Extra steps are required to remove all versions:
+metadata. Extra steps are required to remove the \emph{latest} version
+of each object, whatever that version may be:
 \enumerate{
 \item Make sure your local copy of the metadata is current and
 up to date. You may need to run \code{\link[=tar_meta_download]{tar_meta_download()}} or
