@@ -42,6 +42,10 @@ tar_test("default delete and exists methods", {
   expect_true(file.exists(path))
   expect_true(store_exist_object(store))
   store_delete_object(store)
+  expect_error(
+    store_delete_objects(store, data_frame(name = "a"), 3, TRUE),
+    class = "tar_condition_validate"
+  )
   expect_false(file.exists(path))
   expect_false(store_exist_object(store))
 })

@@ -172,6 +172,7 @@ store_delete_objects <- function(store, meta, batch_size, verbose) {
   UseMethod("store_delete_objects")
 }
 
+#' @export
 store_delete_objects.default <- function(store, meta, batch_size, verbose) {
   tar_throw_validate(
     "store_delete_objects() is for supported cloud objects only."
