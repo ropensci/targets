@@ -14,7 +14,9 @@ Because of the changes below, upgrading to this version of `targets` will unavoi
 * Deprecate `tar_seed()` in favor of the new `tar_seed_get()` function.
 * Migrate to the changes in `clustermq` 0.9.0 (@mschubert).
 * Add a new `tar_unversion()` function to remove version IDs from the metadata of cloud targets. This makes it easier to remove all versions of target data using functions `tar_destroy()` and `tar_delete()`.
-* Add a new `verbose` argument to `tar_delete()` and `tar_destroy()`.
+* For AWS S3 targets, `tar_delete()`, `tar_destroy()`, and `tar_prune()` now use efficient batched calls to `delete_objects()` instead of costly individual calls to `delete_object()` (#1171).
+* Add a new `verbose` argument to `tar_delete()`, `tar_destroy()`, and `tar_prune()`.
+* Add a new `batch_size` argument to `tar_delete()`, `tar_destroy()`, and `tar_prune()`.
 
 # targets 1.3.2
 
