@@ -1,4 +1,4 @@
-#' @title Delete version IDs from local metadata.
+#' @title Delete cloud object version IDs from local metadata.
 #' @export
 #' @family clean
 #' @description Delete version IDs from local metadata.
@@ -12,7 +12,8 @@
 #'
 #'   By default, functions [tar_delete()] and [tar_destroy()] only remove
 #'   the current version ID of each target as recorded in the local
-#'   metadata. Extra steps are required to remove all versions:
+#'   metadata. Extra steps are required to remove the *latest* version
+#'   of each object, whatever that version may be:
 #'
 #'   1. Make sure your local copy of the metadata is current and
 #'     up to date. You may need to run [tar_meta_download()] or

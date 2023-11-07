@@ -125,7 +125,46 @@ store_delete_object.tar_gcp <- function(store, name = NULL) {
   )
 }
 
-
+#' @export
+store_delete_objects.tar_gcp <- function(store, meta, batch_size, verbose) {
+  gcp <- store$resources$gcp
+  buckets <- map_chr(meta$path, ~store_gcp_bucket(.x))
+  for (bucket in unique(buckets)) {
+    subset <- meta[buckets == bucket,, drop = FALSE] # nolint
+    for (index in seq_len(nrow(subset))) {
+      path <- subset$path[[index]]
+      key <- store_gcp_key(path)
+      version <- store_gcp_version(path)
+      message <- paste(
+        "could not object %s from gcp bucket %s.",
+        "You may need to delete it manually.\nMessage: "
+      )
+      message <- sprintf(message, key, bucket)
+      if (verbose) {
+        tar_message_run(
+          sprintf(
+            "Deleting object %s%s in bucket %s",
+            key,
+            if_any(is.null(version), "", paste(" version", version)),
+            bucket
+          )
+        )
+      }
+      tryCatch(
+        gcp_gcs_delete(
+          key = key,
+          bucket =  bucket,
+          version = version,
+          verbose = gcp$verbose %|||% FALSE,
+          max_tries = gcp$max_tries %|||% 5L
+        ),
+        error = function(condition) {
+          tar_throw_validate(message, conditionMessage(condition))
+        }
+      )
+    }
+  }
+}
 
 #' @export
 store_upload_object.tar_gcp <- function(store) {

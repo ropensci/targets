@@ -169,13 +169,13 @@ store_exist_object.tar_aws <- function(store, name = NULL) {
 
 #' @export
 store_delete_objects.tar_aws <- function(store, meta, batch_size, verbose) {
+  aws <- store$resources$aws
   buckets <- map_chr(meta$path, ~store_aws_bucket(.x))
   for (bucket in unique(buckets)) {
     subset <- meta[buckets == bucket,, drop = FALSE] # nolint
     example_path <- subset$path[[1L]]
     region <- store_aws_region(example_path)
     endpoint <- store_aws_endpoint(example_path)
-    aws <- store$resources$aws
     objects <- map(
       subset$path,
       ~list(Key = store_aws_key(.x), VersionId = store_aws_version(.x))

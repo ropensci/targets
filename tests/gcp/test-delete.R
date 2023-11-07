@@ -27,6 +27,13 @@ tar_test("delete cloud targets", {
         repository = "gcp"
       ),
       tar_target(
+        y,
+        x,
+        pattern = map(x),
+        format = "parquet",
+        repository = "gcp"
+      ),
+      tar_target(
         local_file,
         write_file("file.txt"),
         format = "file",
@@ -46,8 +53,11 @@ tar_test("delete cloud targets", {
   path_store <- path_store_default()
   key1 <- path_objects(path_store, "x")
   key2 <- path_objects(path_store, "gcp_file")
+  name <- tar_meta(name = y, fields = children)$children[[1L]]
+  key3 <- path_objects(path_store, name)
   expect_true(gcp_gcs_exists(key = key1, bucket = bucket_name, max_tries = 5L))
   expect_true(gcp_gcs_exists(key = key2, bucket = bucket_name, max_tries = 5L))
+  expect_true(gcp_gcs_exists(key = key3, bucket = bucket_name, max_tries = 5L))
   tar_delete(everything())
   expect_false(
     gcp_gcs_exists(key = key1, bucket = bucket_name, max_tries = 5L)
@@ -55,9 +65,12 @@ tar_test("delete cloud targets", {
   expect_false(
     gcp_gcs_exists(key = key2, bucket = bucket_name, max_tries = 5L)
   )
+  expect_false(
+    gcp_gcs_exists(key = key3, bucket = bucket_name, max_tries = 5L)
+  )
   expect_true(file.exists("file.txt"))
-  expect_silent(tar_delete(everything()))
-  expect_silent(tar_delete(everything()))
+  expect_message(tar_delete(everything()))
+  expect_silent(tar_delete(everything(), verbose = FALSE))
 })
 
 tar_test("same with versioning", {
@@ -124,7 +137,7 @@ tar_test("same with versioning", {
     gcp_gcs_exists(key = key2, bucket = bucket_name, max_tries = 5L)
   )
   expect_true(file.exists("file.txt"))
-  expect_silent(tar_delete(everything()))
+  expect_silent(tar_delete(everything(), verbose = FALSE))
 })
 
 tar_test("tar_destroy() cloud targets", {
@@ -189,7 +202,7 @@ tar_test("tar_destroy() cloud targets", {
     )
     expect_true(file.exists("file.txt"))
   }
-  expect_silent(tar_destroy(destroy = "cloud"))
+  expect_silent(tar_destroy(destroy = "cloud", verbose = FALSE))
 })
 
 tar_test("tar_prune(), tar_exist_objects(), and tar_objects() for gcp", {
