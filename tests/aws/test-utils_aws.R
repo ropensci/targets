@@ -642,3 +642,31 @@ tar_test("graceful error on multipart upload", {
     class = "tar_condition_file"
   )
 })
+
+tar_test("aws_s3_list_etags()", {
+  bucket <- random_bucket_name()
+  paws.storage::s3()$create_bucket(Bucket = bucket)
+  on.exit(aws_s3_delete_bucket(bucket))
+  expect_equal(
+    aws_s3_list_etags(prefix = "/", bucket = bucket),
+    list()
+  )
+  for (key in c("w", "x", "y", "z")) {
+    paws.storage::s3()$put_object(
+      Body = charToRaw(key),
+      Key = key,
+      Bucket = bucket
+    )
+  }
+  out <- aws_s3_list_etags(prefix = "", bucket = bucket)
+  out2 <- aws_s3_list_etags(prefix = "", bucket = bucket, page_size = 2L)
+  expect_equal(out, out2)
+  expect_equal(length(out), 4L)
+  expect_equal(sort(names(out)), sort(c("w", "x", "y", "z")))
+  for (etag in out) {
+    expect_true(is.character(etag))
+    expect_true(!anyNA(etag))
+    expect_equal(length(etag), 1L)
+    expect_gt(nchar(etag), 10L)
+  }
+})

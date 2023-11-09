@@ -96,7 +96,8 @@ aws_s3_list_etags <- function(
     )
   }
   pages <- paws.common::paginate(
-    Operation = do.call(what = client$list_objects_v2, args = args)
+    Operation = do.call(what = client$list_objects_v2, args = args),
+    PageSize = page_size
   )
   out <- list()
   for (page in pages) {
