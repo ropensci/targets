@@ -325,3 +325,40 @@ tar_test("gcp_gcs_upload: upload twice, get the correct version", {
   )
   expect_equal(readLines(tmp), "second")
 })
+
+tar_test("gcp_gcs_list_md5s()", {
+  skip_if_no_gcp()
+  gcp_gcs_auth(max_tries = 5)
+  bucket <- random_bucket_name()
+  # needs to be a GCP project the tester auth has access to
+  project <- Sys.getenv("GCE_DEFAULT_PROJECT_ID")
+  googleCloudStorageR::gcs_create_bucket(
+    bucket,
+    projectId = project,
+    versioning = TRUE
+  )
+  on.exit(gcp_gcs_delete_bucket(bucket))
+  expect_equal(
+    gcp_gcs_list_md5s(prefix = "/", bucket = bucket),
+    list()
+  )
+  tmp <- tempfile()
+  writeLines("a", tmp)
+  for (key in c("w", "x", "y", "z")) {
+    gcp_gcs_upload(
+      file = tmp,
+      key = key,
+      bucket = bucket,
+      max_tries = 5
+    )
+  }
+  out <- gcp_gcs_list_md5s(prefix = "", bucket = bucket)
+  expect_equal(length(out), 4L)
+  expect_equal(sort(names(out)), sort(c("w", "x", "y", "z")))
+  for (etag in out) {
+    expect_true(is.character(etag))
+    expect_true(!anyNA(etag))
+    expect_equal(length(etag), 1L)
+    expect_gt(nchar(etag), 10L)
+  }
+})
