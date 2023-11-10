@@ -101,6 +101,15 @@ store_aws_version <- function(path) {
   if_any(length(out) && nzchar(out), out, NULL)
 }
 
+store_aws_version_use <- function(store, path) {
+  if_any(
+    is.null(store$resources$aws$version) ||
+      store$resources$aws$version == "latest",
+    store_aws_version(path),
+    NULL
+  )
+}
+
 store_aws_path_field <- function(path, pattern) {
   path <- store_aws_split_colon(path)
   keyvalue_field(x = path, pattern = pattern)

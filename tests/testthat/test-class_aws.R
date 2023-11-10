@@ -66,7 +66,34 @@ tar_test("store_aws_version()", {
   expect_null(store_aws_version(letters))
 })
 
-tar_test("store_aws_version()", {
+tar_test("store_aws_version_use()", {
+  target <- tar_target(x, 1, repository = "aws")
+  path <- c("bucket=b", "version=number")
+  expect_equal(store_aws_version_use(target$store, path), "number")
+  expect_null(store_aws_version_use(target$store, letters))
+  resources <- tar_resources(
+    aws = tar_resources_aws(
+      bucket = "x",
+      prefix = "y",
+      version = "latest"
+    )
+  )
+  target <- tar_target(x, 1, repository = "aws", resources = resources)
+  expect_equal(store_aws_version_use(target$store, path), "number")
+  expect_null(store_aws_version_use(target$store, letters))
+  resources <- tar_resources(
+    aws = tar_resources_aws(
+      bucket = "x",
+      prefix = "y",
+      version = "meta"
+    )
+  )
+  target <- tar_target(x, 1, repository = "aws", resources = resources)
+  expect_null(store_aws_version_use(target$store, path))
+  expect_null(store_aws_version_use(target$store, letters))
+})
+
+tar_test("store_aws_version() endpoint", {
   path <- c(
     "bucket=b",
     sprintf("endpoint=%s", base64url::base64_urlencode("answer"))
