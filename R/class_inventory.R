@@ -18,7 +18,7 @@ inventory_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     cache = NULL,
-    cache_key = function(key, bucket, store) {
+    cache_key = function(key, bucket, version, store) {
       name <- self$name(key = key, bucket = bucket)
       self$cache[[name]] <- paste(store$file$hash, "key")
     },
@@ -48,6 +48,7 @@ inventory_class <- R6::R6Class(
           self$cache_key(
             key = key,
             bucket = bucket,
+            version = version,
             store = store
           )
         }

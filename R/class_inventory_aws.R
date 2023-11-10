@@ -18,7 +18,7 @@ inventory_aws_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    cache_key = function(key, bucket, store) {
+    cache_key = function(key, bucket, version, store) {
       path <- store$file$path
       aws <- store$resources$aws
       head <- aws_s3_head(
@@ -26,7 +26,7 @@ inventory_aws_class <- R6::R6Class(
         bucket = store_aws_bucket(path),
         region = store_aws_region(path),
         endpoint = store_aws_endpoint(path),
-        version = store_aws_version_use(store, path),
+        version = version,
         args = aws$args,
         max_tries = aws$max_tries,
         seconds_timeout = aws$seconds_timeout,
