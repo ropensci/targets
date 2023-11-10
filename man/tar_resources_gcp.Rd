@@ -8,6 +8,7 @@ Google Cloud Storage (GCS)}
 tar_resources_gcp(
   bucket = targets::tar_option_get("resources")$gcp$bucket,
   prefix = targets::tar_option_get("resources")$gcp$prefix,
+  version = targets::tar_option_get("resources")$gcp$version,
   predefined_acl = targets::tar_option_get("resources")$gcp$predefined_acl,
   max_tries = targets::tar_option_get("resources")$gcp$max_tries,
   verbose = targets::tar_option_get("resources")$gcp$verbose
@@ -25,6 +26,16 @@ unique to your \code{targets} project.
 In the future, \code{targets} will begin requiring
 explicitly user-supplied prefixes. (This last note
 was added on 2023-08-24: \code{targets} version 1.2.2.9000.)}
+
+\item{version}{Character of length 1: \code{"latest"} to read the latest
+version of the target in the bucket (default), or \code{"meta"} to
+read the version recorded in the metadata. This affects how \code{targets}
+downloads target data and makes sure it is up to date. \code{"latest"}
+is sufficient for most cases. Use \code{"meta"} if you are reverting to
+a historical copy of the metadata (\verb{_targets/meta/meta}) and wish to use
+\code{targets} to use the corresponding old copies of versioned data in a
+versioned bucket. The \code{version} argument is only applicable if
+the bucket has versioning enabled.}
 
 \item{predefined_acl}{Character of length 1, user access
 to the object. See \code{?googleCloudStorageR::gcs_upload}

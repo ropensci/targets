@@ -74,3 +74,42 @@ tar_test("tar_resources_gcp() wants a prefix", {
     class = "tar_condition_deprecate"
   )
 })
+
+tar_test("tar_resources_gcp() version", {
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("googleCloudStorageR")
+  tar_option_set(
+    resources = tar_resources(
+      gcp = tar_resources_gcp(
+        prefix = "x",
+        bucket = "x"
+      )
+    )
+  )
+  out <- tar_resources_gcp()
+  expect_equal(out$version, "latest")
+  tar_option_set(
+    resources = tar_resources(
+      gcp = tar_resources_gcp(
+        version = "meta",
+        prefix = "x",
+        bucket = "x"
+      )
+    )
+  )
+  out <- tar_resources_gcp()
+  expect_equal(out$version, "meta")
+  expect_error(
+    tar_option_set(
+      resources = tar_resources(
+        gcp = tar_resources_gcp(
+          version = "nope",
+          prefix = "x",
+          bucket = "x"
+        )
+      )
+    ),
+    class = "tar_condition_validate"
+  )
+})

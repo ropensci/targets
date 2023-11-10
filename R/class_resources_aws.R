@@ -2,24 +2,30 @@ resources_aws_init <- function(
   bucket = NULL,
   prefix = tar_path_objects_dir_cloud(),
   region = NULL,
-  part_size = 5 * (2 ^ 20),
   endpoint = NULL,
+  s3_force_path_style = NULL,
+  version = "latest",
+  part_size = 5 * (2 ^ 20),
+  page_size = 1000L,
   max_tries = NULL,
   seconds_timeout = NULL,
   close_connection = NULL,
-  s3_force_path_style = NULL,
+  verbose = TRUE,
   args = list()
 ) {
   resources_aws_new(
     bucket = bucket,
     prefix = prefix,
     region = region,
-    part_size = part_size,
     endpoint = endpoint,
+    s3_force_path_style = s3_force_path_style,
+    version = version,
+    part_size = part_size,
+    page_size = page_size,
     max_tries = max_tries,
     seconds_timeout = seconds_timeout,
     close_connection = close_connection,
-    s3_force_path_style = s3_force_path_style,
+    verbose = verbose,
     args = args
   )
 }
@@ -28,51 +34,58 @@ resources_aws_new <- function(
   bucket = NULL,
   prefix = NULL,
   region = NULL,
-  part_size = NULL,
   endpoint = NULL,
+  s3_force_path_style = NULL,
+  version = NULL,
+  part_size = NULL,
+  page_size = NULL,
   max_tries = NULL,
   seconds_timeout = NULL,
   close_connection = NULL,
-  s3_force_path_style = NULL,
+  verbose = TRUE,
   args = NULL
 ) {
   force(bucket)
   force(prefix)
   force(region)
-  force(part_size)
   force(endpoint)
+  force(s3_force_path_style)
+  force(version)
+  force(part_size)
+  force(page_size)
   force(max_tries)
   force(seconds_timeout)
   force(close_connection)
-  force(s3_force_path_style)
+  force(verbose)
   force(args)
   enclass(environment(), c("tar_resources_aws", "tar_resources"))
 }
 
 #' @export
 resources_validate.tar_resources_aws <- function(resources) {
-  for (field in c("bucket", "prefix")) {
+  for (field in c("bucket", "prefix", "version")) {
     tar_assert_scalar(resources[[field]])
     tar_assert_chr(resources[[field]])
     tar_assert_none_na(resources[[field]])
     tar_assert_nzchar(resources[[field]])
   }
-  for (field in c("region", "endpiont")) {
+  for (field in c("region", "endpoint")) {
     tar_assert_scalar(resources[[field]] %|||% "x")
     tar_assert_chr(resources[[field]] %|||% "x")
     tar_assert_none_na(resources[[field]] %|||% "x")
   }
-  for (field in c("part_size", "max_tries", "seconds_timeout")) {
+  for (field in c("part_size", "page_size", "max_tries", "seconds_timeout")) {
     tar_assert_scalar(resources[[field]] %|||% 1L)
     tar_assert_dbl(resources[[field]] %|||% 1L)
     tar_assert_none_na(resources[[field]] %|||% 1L)
     tar_assert_ge(resources[[field]] %|||% 1L, 0L)
   }
-  for (field in c("close_connection", "s3_force_path_style")) {
+  for (field in c("close_connection", "s3_force_path_style", "verbose")) {
     tar_assert_scalar(resources[[field]] %|||% TRUE)
     tar_assert_lgl(resources[[field]] %|||% TRUE)
     tar_assert_none_na(resources[[field]] %|||% TRUE)
   }
+  tar_assert_in(resources$version, c("latest", "meta"))
   resources_aws_validate_args(resources$args)
 }
 
