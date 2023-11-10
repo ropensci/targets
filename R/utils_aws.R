@@ -68,7 +68,6 @@ aws_s3_list_etags <- function(
   verbose = TRUE,
   region = NULL,
   endpoint = NULL,
-  version = NULL,
   args = list(),
   max_tries = NULL,
   seconds_timeout = NULL,
@@ -85,6 +84,8 @@ aws_s3_list_etags <- function(
   )
   args$Bucket <- bucket
   args$Prefix <- prefix
+  page_size <- page_size %|||% 1000L
+  verbose <- verbose %|||% TRUE
   args <- supported_args(fun = client$list_objects_v2, args = args)
   if (verbose) {
     tar_message_run(
