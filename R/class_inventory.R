@@ -35,7 +35,7 @@ inventory_class <- R6::R6Class(
     reset = function() {
       self$cache <- new.env(parent = emptyenv())
     },
-    hash = function(key, bucket, version, store) {
+    get = function(key, bucket, version, store) {
       name <- self$name(key = key, bucket = bucket)
       if (!exists(x = name, envir = self$cache)) {
         if (is.null(version)) {
