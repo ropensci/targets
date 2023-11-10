@@ -59,8 +59,7 @@ store_gcp_version <- function(path) {
 
 store_gcp_version_use <- function(store, path) {
   if_any(
-    is.null(store$resources$gcp$version) ||
-      store$resources$gcp$version == "latest",
+    store$resources$gcp$version == "meta",
     store_gcp_version(path),
     NULL
   )

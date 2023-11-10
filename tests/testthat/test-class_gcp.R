@@ -33,10 +33,6 @@ tar_test("store_gcp_version()", {
 })
 
 tar_test("store_gcp_version_use()", {
-  target <- tar_target(x, 1, repository = "gcp")
-  path <- c("bucket=b", "version=number")
-  expect_equal(store_gcp_version_use(target$store, path), "number")
-  expect_null(store_gcp_version_use(target$store, letters))
   resources <- tar_resources(
     gcp = tar_resources_gcp(
       bucket = "x",
@@ -45,7 +41,7 @@ tar_test("store_gcp_version_use()", {
     )
   )
   target <- tar_target(x, 1, repository = "gcp", resources = resources)
-  expect_equal(store_gcp_version_use(target$store, path), "number")
+  expect_null(store_gcp_version_use(target$store, path))
   expect_null(store_gcp_version_use(target$store, letters))
   resources <- tar_resources(
     gcp = tar_resources_gcp(
@@ -55,7 +51,7 @@ tar_test("store_gcp_version_use()", {
     )
   )
   target <- tar_target(x, 1, repository = "gcp", resources = resources)
-  expect_null(store_gcp_version_use(target$store, path))
+  expect_equal(store_gcp_version_use(target$store, path), "number")
   expect_null(store_gcp_version_use(target$store, letters))
 })
 

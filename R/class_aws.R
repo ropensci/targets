@@ -103,8 +103,7 @@ store_aws_version <- function(path) {
 
 store_aws_version_use <- function(store, path) {
   if_any(
-    is.null(store$resources$aws$version) ||
-      store$resources$aws$version == "latest",
+    store$resources$aws$version == "meta",
     store_aws_version(path),
     NULL
   )

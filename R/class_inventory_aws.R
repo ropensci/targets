@@ -2,7 +2,7 @@
 # cache_prefix() are for testing only. Only the subclasses
 # have serious versions of these methods.
 inventory_aws_init <- function() {
-  out <- inventory_new()
+  out <- inventory_aws_new()
   out$reset()
   out
 }
@@ -22,8 +22,8 @@ inventory_aws_class <- R6::R6Class(
       path <- store$file$path
       aws <- store$resources$aws
       head <- aws_s3_head(
-        key = store_aws_key(path),
-        bucket = store_aws_bucket(path),
+        key = key,
+        bucket = bucket,
         region = store_aws_region(path),
         endpoint = store_aws_endpoint(path),
         version = version,
@@ -39,10 +39,9 @@ inventory_aws_class <- R6::R6Class(
     },
     cache_prefix = function(key, bucket, store) {
       path <- store$file$path
-      bucket <- store_aws_bucket(path)
       aws <- store$resources$aws
       results <- aws_s3_list_etags(
-        prefix = dirname(store_aws_key(path)),
+        prefix = dirname(key),
         bucket = bucket,
         page_size = aws$page_size,
         verbose = aws$verbose,

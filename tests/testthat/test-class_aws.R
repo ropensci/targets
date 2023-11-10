@@ -67,10 +67,6 @@ tar_test("store_aws_version()", {
 })
 
 tar_test("store_aws_version_use()", {
-  target <- tar_target(x, 1, repository = "aws")
-  path <- c("bucket=b", "version=number")
-  expect_equal(store_aws_version_use(target$store, path), "number")
-  expect_null(store_aws_version_use(target$store, letters))
   resources <- tar_resources(
     aws = tar_resources_aws(
       bucket = "x",
@@ -79,7 +75,7 @@ tar_test("store_aws_version_use()", {
     )
   )
   target <- tar_target(x, 1, repository = "aws", resources = resources)
-  expect_equal(store_aws_version_use(target$store, path), "number")
+  expect_null(store_aws_version_use(target$store, path))
   expect_null(store_aws_version_use(target$store, letters))
   resources <- tar_resources(
     aws = tar_resources_aws(
@@ -89,7 +85,7 @@ tar_test("store_aws_version_use()", {
     )
   )
   target <- tar_target(x, 1, repository = "aws", resources = resources)
-  expect_null(store_aws_version_use(target$store, path))
+  expect_equal(store_aws_version_use(target$store, path), "number")
   expect_null(store_aws_version_use(target$store, letters))
 })
 
