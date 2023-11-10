@@ -224,7 +224,6 @@ store_upload_object_aws <- function(store) {
       bucket = bucket,
       region = store_aws_region(store$file$path),
       endpoint = store_aws_endpoint(store$file$path),
-      metadata = list("targets-hash" = store$file$hash),
       part_size = aws$part_size,
       args = aws$args,
       max_tries = aws$max_tries,
@@ -247,6 +246,7 @@ store_upload_object_aws <- function(store) {
     invert = TRUE
   )
   store$file$path <- c(path, paste0("version=", head$VersionId))
+  store$file$hash <- digest_chr64(head$ETag)
   invisible()
 }
 
@@ -271,7 +271,7 @@ store_aws_hash <- function(store) {
     close_connection = aws$close_connection,
     s3_force_path_style = aws$s3_force_path_style
   )
-  head$Metadata[["targets-hash"]]
+  digest_chr64(head$ETag)
 }
 # nocov end
 

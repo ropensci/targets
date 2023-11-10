@@ -39,7 +39,7 @@ tar_test("aws qs format data gets stored", {
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, reporter = "silent")
   expect_true(
     aws_s3_exists(
       bucket = bucket_name,
@@ -97,10 +97,10 @@ tar_test("aws qs format invalidation", {
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, reporter = "silent")
   expect_equal(tar_progress(x)$progress, "built")
   expect_equal(tar_progress(y)$progress, "built")
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, reporter = "silent")
   progress <- tar_progress()
   progress <- progress[progress$progress != "skipped", ]
   expect_equal(nrow(progress), 0L)
@@ -122,7 +122,7 @@ tar_test("aws qs format invalidation", {
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, reporter = "silent")
   expect_equal(tar_progress(x)$progress, "built")
   expect_equal(tar_progress(y)$progress, "built")
   expect_equal(tar_read(x), "x_value2")

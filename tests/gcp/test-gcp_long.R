@@ -41,7 +41,7 @@ tar_test("pipeline continuously uploads metadata", {
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   R.utils::withTimeout(
-    expr = tar_make(seconds_meta_upload = 1),
+    expr = tar_make(seconds_meta_upload = 1, reporter = "silent"),
     timeout = 30,
     onTimeout = "silent"
   )

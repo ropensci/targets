@@ -102,7 +102,7 @@ aws_s3_list_etags <- function(
   out <- list()
   for (page in pages) {
     for (object in page$Contents) {
-      out[[object$Key]] <- eval(parse(text = object$ETag))
+      out[[object$Key]] <- object$ETag
     }
   }
   out
