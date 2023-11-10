@@ -1,0 +1,22 @@
+tar_test("inventory class is valid", {
+  expect_silent(inventory_init()$validate())
+})
+
+tar_test("inventory class abstract class usage", {
+  x <- inventory_init()
+  store <- store_init()
+  store$file <- file_init(path = tempfile())
+  writeLines("x", store$file$path)
+  file_ensure_hash(store$file)
+  expect_true(nzchar(store$file$hash))
+  expect_equal(x$list(), character(0L))
+  out <- x$hash(store)
+  out2 <- x$hash(store)
+  expect_equal(out, out2)
+  expect_equal(out, store$file$hash)
+  expect_equal(x$list(), store$file$path)
+  expect_silent(x$validate())
+  x$reset()
+  expect_equal(x$list(), character(0L))
+  expect_silent(x$validate())
+})
