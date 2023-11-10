@@ -33,6 +33,7 @@ tar_test("store_gcp_version()", {
 })
 
 tar_test("store_gcp_version_use()", {
+  path <- c("bucket=b", "version=number")
   resources <- tar_resources(
     gcp = tar_resources_gcp(
       bucket = "x",

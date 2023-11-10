@@ -67,6 +67,7 @@ tar_test("store_aws_version()", {
 })
 
 tar_test("store_aws_version_use()", {
+  path <- c("bucket=b", "version=number")
   resources <- tar_resources(
     aws = tar_resources_aws(
       bucket = "x",
