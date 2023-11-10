@@ -87,7 +87,6 @@ Other clean:
 \code{\link{tar_delete}()},
 \code{\link{tar_destroy}()},
 \code{\link{tar_prune_list}()},
-\code{\link{tar_prune}()},
-\code{\link{tar_unversion}()}
+\code{\link{tar_prune}()}
 }
 \concept{clean}

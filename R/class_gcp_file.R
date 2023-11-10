@@ -53,7 +53,7 @@ store_read_object.tar_gcp_file <- function(store) {
     key = key,
     bucket = bucket,
     file = scratch,
-    version = store_gcp_version(path),
+    version = store_gcp_version_use(store, path),
     verbose = store$resources$gcp$verbose,
     max_tries = store$resources$gcp$max_tries
   )

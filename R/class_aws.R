@@ -147,7 +147,7 @@ store_read_object.tar_aws <- function(store) {
     file = scratch,
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
-    version = store_aws_version(path),
+    version = store_aws_version_use(store, path),
     args = aws$args,
     max_tries = aws$max_tries,
     seconds_timeout = aws$seconds_timeout,
@@ -166,7 +166,7 @@ store_exist_object.tar_aws <- function(store, name = NULL) {
     bucket = store_aws_bucket(path),
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
-    version = store_aws_version(path),
+    version = store_aws_version_use(store, path),
     args = aws$args,
     max_tries = aws$max_tries,
     seconds_timeout = aws$seconds_timeout,
@@ -187,7 +187,10 @@ store_delete_objects.tar_aws <- function(store, meta, batch_size, verbose) {
     endpoint <- store_aws_endpoint(example_path)
     objects <- map(
       subset$path,
-      ~list(Key = store_aws_key(.x), VersionId = store_aws_version(.x))
+      ~list(
+        Key = store_aws_key(.x),
+        VersionId = store_aws_version_use(store, .x)
+      )
     )
     message <- paste(
       "could not delete one or more objects from AWS bucket %s.",
@@ -273,7 +276,7 @@ store_aws_hash <- function(store) {
     bucket = store_aws_bucket(path),
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
-    version = store_aws_version(path),
+    version = store_aws_version_use(store, path),
     args = aws$args,
     max_tries = aws$max_tries,
     seconds_timeout = aws$seconds_timeout,

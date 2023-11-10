@@ -88,7 +88,7 @@ store_read_object.tar_gcp <- function(store) {
     key = key,
     bucket = bucket,
     file = scratch,
-    version = store_gcp_version(path),
+    version = store_gcp_version_use(store, path),
     verbose = store$resources$gcp$verbose,
     max_tries = store$resources$gcp$max_tries
   )
@@ -101,7 +101,7 @@ store_exist_object.tar_gcp <- function(store, name = NULL) {
   gcp_gcs_exists(
     key = store_gcp_key(path),
     bucket = store_gcp_bucket(path),
-    version = store_gcp_version(path),
+    version = store_gcp_version_use(store, path),
     verbose = store$resources$gcp$verbose %|||% FALSE,
     max_tries = store$resources$gcp$max_tries %|||% 5L
   )
@@ -112,7 +112,7 @@ store_delete_object.tar_gcp <- function(store, name = NULL) {
   path <- store$file$path
   key <- store_gcp_key(path)
   bucket <- store_gcp_bucket(path)
-  version <- store_gcp_version(path)
+  version <- store_gcp_version_use(store, path)
   message <- paste(
     "could not delete target %s from gcp bucket %s key %s.",
     "Either delete the object manually in the gcp web console",
@@ -145,7 +145,7 @@ store_delete_objects.tar_gcp <- function(store, meta, batch_size, verbose) {
     for (index in seq_len(nrow(subset))) {
       path <- subset$path[[index]]
       key <- store_gcp_key(path)
-      version <- store_gcp_version(path)
+      version <- store_gcp_version_use(store, path)
       message <- paste(
         "could not object %s from gcp bucket %s.",
         "You may need to delete it manually.\nMessage: "
@@ -226,7 +226,7 @@ store_gcp_hash <- function(store) {
   head <- gcp_gcs_head(
     key = store_gcp_key(path),
     bucket = store_gcp_bucket(path),
-    version = store_gcp_version(path),
+    version = store_gcp_version_use(store, path),
     verbose = store$resources$gcp$verbose %|||% FALSE,
     max_tries = store$resources$gcp$max_tries %|||% 5L
   )

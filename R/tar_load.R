@@ -9,6 +9,7 @@
 #'   to load all targets.
 #' @return Nothing.
 #' @inheritSection tar_meta Storage access
+#' @inheritSection tar_read Cloud target data versioning
 #' @inheritParams tar_load_raw
 #' @param names Names of the targets to load.
 #'   You may supply `tidyselect` helpers like [any_of()] and [starts_with()].

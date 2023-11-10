@@ -14,7 +14,6 @@ Because of the changes below, upgrading to this version of `targets` will unavoi
 * Add function `tar_seed_set()` which sets a seed and sets all the RNG algorithms to their defaults in the R installation of the user. Each target now uses `tar_seed_set()` function to set its seed before running its R command (#1139).
 * Deprecate `tar_seed()` in favor of the new `tar_seed_get()` function.
 * Migrate to the changes in `clustermq` 0.9.0 (@mschubert).
-* Add a new `tar_unversion()` function to remove version IDs from the metadata of cloud targets. This makes it easier to remove all versions of target data using functions `tar_destroy()` and `tar_delete()`.
 * For AWS S3 targets, `tar_delete()`, `tar_destroy()`, and `tar_prune()` now use efficient batched calls to `delete_objects()` instead of costly individual calls to `delete_object()` (#1171).
 * Add a new `verbose` argument to `tar_delete()`, `tar_destroy()`, and `tar_prune()`.
 * Add a new `batch_size` argument to `tar_delete()`, `tar_destroy()`, and `tar_prune()`.

@@ -66,7 +66,7 @@ store_read_object.tar_aws_file <- function(store) {
     file = scratch,
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
-    version = store_aws_version(path),
+    version = store_aws_version_use(store, path),
     args = aws$args,
     max_tries = aws$max_tries,
     seconds_timeout = aws$seconds_timeout,
