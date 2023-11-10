@@ -1,6 +1,5 @@
-# This is an abstract inventory. Methods cache_key() and
-# cache_prefix() are for testing only. Only the subclasses
-# have serious versions of these methods.
+# Covered in tests/aws/test-class_inventory_aws.R.
+# nocov start
 inventory_aws_init <- function() {
   out <- inventory_aws_new()
   out$reset()
@@ -60,3 +59,4 @@ inventory_aws_class <- R6::R6Class(
     }
   )
 )
+# nocov end
