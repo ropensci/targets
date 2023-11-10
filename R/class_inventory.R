@@ -28,7 +28,13 @@ inventory_class <- R6::R6Class(
     },
     name = function(key, bucket) {
       paste(bucket, key, sep = "|")
-    }
+    },
+    list = function() {
+      names(self$cache)
+    },
+    reset = function() {
+      self$cache <- new.env(parent = emptyenv())
+    },
     hash = function(key, bucket, version, store) {
       name <- self$name(key = key, bucket = bucket)
       if (!exists(x = name, envir = self$cache)) {
@@ -47,12 +53,6 @@ inventory_class <- R6::R6Class(
         }
       } 
       self$cache[[name]]
-    },
-    reset = function() {
-      self$cache <- new.env(parent = emptyenv())
-    },
-    list = function() {
-      names(self$cache)
     },
     validate = function() {
       tar_assert_envir(self$cache)
