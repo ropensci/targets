@@ -183,7 +183,6 @@ store_upload_object_gcp <- function(store) {
       file = store$file$stage,
       key = key,
       bucket = bucket,
-      metadata = list("targets-hash" = store$file$hash),
       predefined_acl = store$resources$gcp$predefined_acl %|||% "private",
       verbose = store$resources$gcp$verbose %|||% FALSE,
       max_tries = store$resources$gcp$max_tries %|||% 5L
@@ -203,6 +202,7 @@ store_upload_object_gcp <- function(store) {
     invert = TRUE
   )
   store$file$path <- c(path, paste0("version=", head$generation))
+  store$file$hash <- digest_chr64(head$md5)
   invisible()
 }
 
@@ -221,7 +221,7 @@ store_gcp_hash <- function(store) {
     verbose = store$resources$gcp$verbose %|||% FALSE,
     max_tries = store$resources$gcp$max_tries %|||% 5L
   )
-  head$metadata[["targets-hash"]]
+  digest_chr64(head$md5)
 }
 # nocov end
 
