@@ -18,6 +18,9 @@ Because of the changes below, upgrading to this version of `targets` will unavoi
 * For AWS S3 targets, `tar_delete()`, `tar_destroy()`, and `tar_prune()` now use efficient batched calls to `delete_objects()` instead of costly individual calls to `delete_object()` (#1171).
 * Add a new `verbose` argument to `tar_delete()`, `tar_destroy()`, and `tar_prune()`.
 * Add a new `batch_size` argument to `tar_delete()`, `tar_destroy()`, and `tar_prune()`.
+* Add new arguments `page_size`, `version`, and `verbose` to `tar_resources_aws()` (#1172).
+* Add new argument `version` to `tar_resources_gcp()` (#1172).
+
 
 # targets 1.3.2
 
