@@ -57,6 +57,15 @@ store_gcp_version <- function(path) {
   if_any(length(out) && nzchar(out), out, NULL)
 }
 
+store_gcp_version_use <- function(store, path) {
+  if_any(
+    is.null(store$resources$gcp$version) ||
+      store$resources$gcp$version == "latest",
+    store_gcp_version(path),
+    NULL
+  )
+}
+
 store_gcp_path_field <- function(path, pattern) {
   keyvalue_field(x = path, pattern = pattern)
 }
