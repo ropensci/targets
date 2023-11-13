@@ -53,6 +53,10 @@ store_hash_early.tar_aws_file <- function(store) { # nolint
 }
 
 #' @export
+store_hash_late.tar_aws_file <- function(store) { # nolint
+}
+
+#' @export
 store_read_object.tar_aws_file <- function(store) {
   path <- store$file$path
   key <- store_aws_key(path)

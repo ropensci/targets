@@ -43,6 +43,10 @@ store_hash_early.tar_gcp_file <- function(store) { # nolint
 }
 
 #' @export
+store_hash_late.tar_gcp_file <- function(store) { # nolint
+}
+
+#' @export
 store_read_object.tar_gcp_file <- function(store) {
   path <- store$file$path
   key <- store_gcp_key(path)
