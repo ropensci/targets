@@ -109,7 +109,8 @@ callr_inner <- function(
   )
 }
 
-#' @title Invoke a `targets` task from inside a `callr` function.
+#' @title Invoke a `targets` task from inside a `callr` function
+#'   (without error handling).
 #' @export
 #' @keywords internal
 #' @description Not a user-side function. Do not invoke directly.
@@ -139,42 +140,29 @@ tar_callr_inner_try <- function(
   store,
   fun
 ) {
-  if (is.null(envir)) {
-    envir <- parent
-  }
-  old_envir <- targets::tar_option_get("envir")
-  targets::tar_option_set(envir = envir)
-  tar_runtime <- targets::tar_runtime_object()
+  old_options <- options(options)
+  old_envir <- tar_options$get_envir()
+  on.exit({
+    options(old_options)
+    runtime_reset(tar_runtime)
+    tar_options$set_envir(old_envir)
+  })
+  callr_set_runtime(script = script, store = store, fun = fun)
+  envir <- if_any(is.null(envir), parent, envir)
+  tar_options$set_envir(envir = envir)
+  targets <- eval(parse(file = script, keep.source = TRUE), envir = envir)
+  targets_arguments$pipeline <- pipeline_from_list(targets)
+  pipeline_validate_lite(targets_arguments$pipeline)
+  do.call(targets_function, targets_arguments)
+}
+
+callr_set_runtime <- function(script, store, fun) {
   tar_runtime$script <- script
   tar_runtime$store <- store
   tar_runtime$working_directory <- getwd()
   tar_runtime$fun <- fun
-  objects <- list.files(
-    path = targets::tar_path_objects_dir(store),
-    all.files = TRUE,
-    full.names = TRUE,
-    no.. = TRUE
-  )
-  tar_runtime$file_exist <- targets::tar_counter(names = objects)
-  tar_runtime$file_info_exist <- targets::tar_counter(names = objects)
-  file_info <- as.list(file_info(objects)[, c("size", "mtime_numeric")])
-  names(file_info$size) <- objects
-  names(file_info$mtime_numeric) <- objects
-  tar_runtime$file_info <- file_info
-  on.exit(targets::tar_option_set(envir = old_envir))
-  on.exit(tar_runtime$script <- NULL, add = TRUE)
-  on.exit(tar_runtime$store <- NULL, add = TRUE)
-  on.exit(tar_runtime$working_directory <- NULL, add = TRUE)
-  on.exit(tar_runtime$fun <- NULL, add = TRUE)
-  on.exit(tar_runtime$file_exist <- NULL, add = TRUE)
-  on.exit(tar_runtime$file_info <- NULL, add = TRUE)
-  on.exit(tar_runtime$file_info_exist <- NULL, add = TRUE)
-  old <- options(options)
-  on.exit(options(old), add = TRUE)
-  targets <- eval(parse(file = script, keep.source = TRUE), envir = envir)
-  targets_arguments$pipeline <- targets::tar_as_pipeline(targets)
-  targets::tar_pipeline_validate_lite(targets_arguments$pipeline)
-  do.call(targets_function, targets_arguments)
+  tar_runtime$inventories <- list()
+  runtime_set_file_info(tar_runtime, store)
 }
 
 callr_prepare_arguments <- function(callr_function, callr_arguments) {

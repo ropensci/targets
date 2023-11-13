@@ -2,7 +2,8 @@
 % Please edit documentation in R/utils_callr.R
 \name{tar_callr_inner_try}
 \alias{tar_callr_inner_try}
-\title{Invoke a \code{targets} task from inside a \code{callr} function.}
+\title{Invoke a \code{targets} task from inside a \code{callr} function
+(without error handling).}
 \usage{
 tar_callr_inner_try(
   targets_function,

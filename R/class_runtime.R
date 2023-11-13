@@ -85,6 +85,27 @@ runtime_validate <- function(x) {
   }
 }
 
+runtime_set_file_info <- function(runtime, store) {
+  objects <- list.files(
+    path = targets::tar_path_objects_dir(store),
+    all.files = TRUE,
+    full.names = TRUE,
+    no.. = TRUE
+  )
+  file_info <- as.list(file_info(objects)[, c("size", "mtime_numeric")])
+  names(file_info$size) <- objects
+  names(file_info$mtime_numeric) <- objects
+  runtime$file_info <- file_info
+  runtime$file_exist <- targets::tar_counter(names = objects)
+  runtime$file_info_exist <- targets::tar_counter(names = objects)
+}
+
+runtime_reset <- function(x) {
+  for (field in names(x)) {
+    x[[field]] <- NULL
+  }
+}
+
 #' @title Get the `tar_runtime` object.
 #' @export
 #' @keywords internal

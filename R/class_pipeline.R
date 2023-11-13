@@ -282,43 +282,32 @@ pipeline_validate_conflicts <- function(pipeline) {
 }
 
 pipeline_validate <- function(pipeline) {
-  tar_pipeline_validate_lite(pipeline)
+  pipeline_validate_lite(pipeline)
   pipeline_validate_targets(pipeline$targets)
   pipeline_validate_dag(pipeline_produce_igraph(pipeline))
   counter_validate(pipeline$loaded)
   counter_validate(pipeline$transient)
 }
 
-#' @title Abridged pipeline validation function.
-#' @export
-#' @keywords internal
-#' @description Internal function. Do not invoke directly.
-#' @param pipeline A pipeline object.
-tar_pipeline_validate_lite <- function(pipeline) {
+pipeline_validate_lite <- function(pipeline) {
   tar_assert_inherits(pipeline, "tar_pipeline", msg = "invalid pipeline.")
   tar_assert_correct_fields(pipeline, pipeline_new)
   pipeline_validate_conflicts(pipeline)
 }
 
-#' @title Convert to a pipeline object.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function. Do not invoke directly.
-#' @return An object of class `"tar_pipeline"`.
-#' @param x A list of target objects or a pipeline object.
-tar_as_pipeline <- function(x) {
-  UseMethod("tar_as_pipeline")
+pipeline_from_list <- function(x) {
+  UseMethod("pipeline_from_list")
 }
 
 #' @export
 #' @keywords internal
-tar_as_pipeline.tar_pipeline <- function(x) {
+pipeline_from_list.tar_pipeline <- function(x) {
   x
 }
 
 #' @export
 #' @keywords internal
-tar_as_pipeline.default <- function(x) {
+pipeline_from_list.default <- function(x) {
   out <- unlist(list(x), recursive = TRUE)
   out <- fltr(out, ~inherits(x = .x, what = "tar_target"))
   pipeline_init(out)
