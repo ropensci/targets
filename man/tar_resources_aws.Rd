@@ -10,7 +10,6 @@ tar_resources_aws(
   region = targets::tar_option_get("resources")$aws$region,
   endpoint = targets::tar_option_get("resources")$aws$endpoint,
   s3_force_path_style = targets::tar_option_get("resources")$aws$s3_force_path_style,
-  version = targets::tar_option_get("resources")$aws$version,
   part_size = targets::tar_option_get("resources")$aws$part_size,
   page_size = targets::tar_option_get("resources")$aws$page_size,
   max_tries = targets::tar_option_get("resources")$aws$max_tries,
@@ -56,16 +55,6 @@ incompatibility.}
 
 \item{s3_force_path_style}{Logical of length 1, whether to use path-style
 addressing for S3 requests.}
-
-\item{version}{Character of length 1: \code{"latest"} to read the latest
-version of the target in the bucket (default), or \code{"meta"} to
-read the version recorded in the metadata. This affects how \code{targets}
-downloads target data and makes sure it is up to date. \code{"latest"}
-is sufficient for most cases. Use \code{"meta"} if you are reverting to
-a historical copy of the metadata (\verb{_targets/meta/meta}) and wish to use
-\code{targets} to use the corresponding old copies of versioned data in a
-versioned bucket. The \code{version} argument is only applicable if
-the bucket has versioning enabled.}
 
 \item{part_size}{Positive numeric of length 1, number of bytes
 for each part of a multipart upload. (Except the last part,

@@ -52,7 +52,7 @@ inventory_class <- R6::R6Class(
             store = store
           )
         }
-      } 
+      }
       self$cache[[name]]
     },
     validate = function() {

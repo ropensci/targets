@@ -42,15 +42,6 @@
 #'   incompatibility.
 #' @param s3_force_path_style Logical of length 1, whether to use path-style
 #'   addressing for S3 requests.
-#' @param version Character of length 1: `"latest"` to read the latest
-#'   version of the target in the bucket (default), or `"meta"` to
-#'   read the version recorded in the metadata. This affects how `targets`
-#'   downloads target data and makes sure it is up to date. `"latest"`
-#'   is sufficient for most cases. Use `"meta"` if you are reverting to
-#'   a historical copy of the metadata (`_targets/meta/meta`) and wish to use
-#'   `targets` to use the corresponding old copies of versioned data in a
-#'   versioned bucket. The `version` argument is only applicable if
-#'   the bucket has versioning enabled.
 #' @param part_size Positive numeric of length 1, number of bytes
 #'   for each part of a multipart upload. (Except the last part,
 #'   which is the remainder.) In a multipart upload, each part
@@ -107,7 +98,6 @@ tar_resources_aws <- function(
   s3_force_path_style = targets::tar_option_get(
     "resources"
   )$aws$s3_force_path_style,
-  version = targets::tar_option_get("resources")$aws$version,
   part_size = targets::tar_option_get("resources")$aws$part_size,
   page_size = targets::tar_option_get("resources")$aws$page_size,
   max_tries = targets::tar_option_get("resources")$aws$max_tries,
@@ -121,7 +111,6 @@ tar_resources_aws <- function(
     prefix <- path_store_default()
   }
   prefix <- prefix %|||% targets::tar_path_objects_dir_cloud()
-  version <- version %|||% "latest"
   part_size <- part_size %|||% (5 * (2 ^ 20))
   page_size <- page_size %|||% 1000L
   verbose <- verbose %|||% TRUE
@@ -136,7 +125,6 @@ tar_resources_aws <- function(
     region = region,
     endpoint = endpoint,
     s3_force_path_style = s3_force_path_style,
-    version = version,
     part_size = part_size,
     page_size = page_size,
     max_tries = max_tries,

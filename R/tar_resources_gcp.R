@@ -36,7 +36,6 @@
 tar_resources_gcp <- function(
   bucket = targets::tar_option_get("resources")$gcp$bucket,
   prefix = targets::tar_option_get("resources")$gcp$prefix,
-  version = targets::tar_option_get("resources")$gcp$version,
   predefined_acl = targets::tar_option_get("resources")$gcp$predefined_acl,
   max_tries = targets::tar_option_get("resources")$gcp$max_tries,
   verbose = targets::tar_option_get("resources")$gcp$verbose
@@ -45,13 +44,11 @@ tar_resources_gcp <- function(
     tar_warn_prefix()
     prefix <- path_store_default()
   }
-  version <- version %|||% "latest"
   predefined_acl <- predefined_acl %|||% "private"
   verbose <- verbose %|||% FALSE
   out <- resources_gcp_init(
     bucket = bucket,
     prefix = prefix,
-    version = version,
     predefined_acl = predefined_acl,
     max_tries = max_tries,
     verbose = verbose

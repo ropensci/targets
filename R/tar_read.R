@@ -15,7 +15,7 @@
 #'
 #'   However, by default,
 #'   `targets` *uses* only the latest version in the bucket.
-#'   You may instead want to 
+#'   You may instead want to
 #'   use the specific version of the target recorded in the local metadata
 #'   (for example, if you previously committed the metadata file
 #'   `_targets/meta/meta` to version control, and now you want to roll

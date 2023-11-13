@@ -4,7 +4,6 @@ resources_aws_init <- function(
   region = NULL,
   endpoint = NULL,
   s3_force_path_style = NULL,
-  version = "latest",
   part_size = 5 * (2 ^ 20),
   page_size = 1000L,
   max_tries = NULL,
@@ -19,7 +18,6 @@ resources_aws_init <- function(
     region = region,
     endpoint = endpoint,
     s3_force_path_style = s3_force_path_style,
-    version = version,
     part_size = part_size,
     page_size = page_size,
     max_tries = max_tries,
@@ -36,7 +34,6 @@ resources_aws_new <- function(
   region = NULL,
   endpoint = NULL,
   s3_force_path_style = NULL,
-  version = NULL,
   part_size = NULL,
   page_size = NULL,
   max_tries = NULL,
@@ -50,7 +47,6 @@ resources_aws_new <- function(
   force(region)
   force(endpoint)
   force(s3_force_path_style)
-  force(version)
   force(part_size)
   force(page_size)
   force(max_tries)
@@ -63,29 +59,32 @@ resources_aws_new <- function(
 
 #' @export
 resources_validate.tar_resources_aws <- function(resources) {
-  for (field in c("bucket", "prefix", "version")) {
-    tar_assert_scalar(resources[[field]])
-    tar_assert_chr(resources[[field]])
-    tar_assert_none_na(resources[[field]])
-    tar_assert_nzchar(resources[[field]])
+  for (field in c("bucket", "prefix")) {
+    msg <- paste("invalid AWS S3", field)
+    tar_assert_scalar(resources[[field]], msg = msg)
+    tar_assert_chr(resources[[field]], msg = msg)
+    tar_assert_none_na(resources[[field]], msg = msg)
+    tar_assert_nzchar(resources[[field]], msg = msg)
   }
   for (field in c("region", "endpoint")) {
-    tar_assert_scalar(resources[[field]] %|||% "x")
-    tar_assert_chr(resources[[field]] %|||% "x")
-    tar_assert_none_na(resources[[field]] %|||% "x")
+    msg <- paste("invalid AWS S3", field)
+    tar_assert_scalar(resources[[field]] %|||% "x", msg = msg)
+    tar_assert_chr(resources[[field]] %|||% "x", msg = msg)
+    tar_assert_none_na(resources[[field]] %|||% "x", msg = msg)
   }
   for (field in c("part_size", "page_size", "max_tries", "seconds_timeout")) {
-    tar_assert_scalar(resources[[field]] %|||% 1L)
-    tar_assert_dbl(resources[[field]] %|||% 1L)
-    tar_assert_none_na(resources[[field]] %|||% 1L)
-    tar_assert_ge(resources[[field]] %|||% 1L, 0L)
+    msg <- paste("invalid AWS S3", field)
+    tar_assert_scalar(resources[[field]] %|||% 1L, msg = msg)
+    tar_assert_dbl(resources[[field]] %|||% 1L, msg = msg)
+    tar_assert_none_na(resources[[field]] %|||% 1L, msg = msg)
+    tar_assert_ge(resources[[field]] %|||% 1L, 0L, msg = msg)
   }
   for (field in c("close_connection", "s3_force_path_style", "verbose")) {
-    tar_assert_scalar(resources[[field]] %|||% TRUE)
-    tar_assert_lgl(resources[[field]] %|||% TRUE)
-    tar_assert_none_na(resources[[field]] %|||% TRUE)
+    msg <- paste("invalid AWS S3", field)
+    tar_assert_scalar(resources[[field]] %|||% TRUE, msg = msg)
+    tar_assert_lgl(resources[[field]] %|||% TRUE, msg = msg)
+    tar_assert_none_na(resources[[field]] %|||% TRUE, msg = msg)
   }
-  tar_assert_in(resources$version, c("latest", "meta"))
   resources_aws_validate_args(resources$args)
 }
 
@@ -100,7 +99,7 @@ resources_aws_validate_args <- function(args) {
     setdiff(names(formals(tar_resources_aws)), "..."),
     "bucket", "Bucket", "key", "Key",
     "prefix", "region", "part_size", "endpoint",
-    "version", "VersionId", "body", "Body",
+    "VersionId", "body", "Body",
     "metadata", "Metadata", "UploadId", "MultipartUpload",
     "PartNumber"
   )
