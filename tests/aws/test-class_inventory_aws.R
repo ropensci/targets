@@ -105,15 +105,13 @@ tar_test("inventory_aws class with versioning from resource settings", {
   resources1 <- tar_resources(
     aws = tar_resources_aws(
       bucket = bucket1,
-      prefix = path_store_default(),
-      version = "latest"
+      prefix = path_store_default()
     )
   )
   resources2 <- tar_resources(
     aws = tar_resources_aws(
       bucket = bucket2,
-      prefix = path_store_default(),
-      version = "meta"
+      prefix = path_store_default()
     )
   )
   store1 <- store_init(repository = "aws", resources = resources1)

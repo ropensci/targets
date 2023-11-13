@@ -475,8 +475,7 @@ tar_test("aws_qs format versioning", {
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = !!bucket_name,
-          prefix = "_targets",
-          version = "meta"
+          prefix = "_targets"
         )
       )
     )
@@ -501,8 +500,7 @@ tar_test("aws_qs format versioning", {
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = !!bucket_name,
-          prefix = "_targets",
-          version = "meta"
+          prefix = "_targets"
         )
       )
     )
@@ -529,8 +527,7 @@ tar_test("aws_qs format versioning", {
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = !!bucket_name,
-          prefix = "_targets",
-          version = "meta"
+          prefix = "_targets"
         )
       )
     )
