@@ -1,4 +1,4 @@
-tar_test("inventory_aws class with versioning from the buckets", {
+tar_test("inventory_aws class", {
   bucket <- random_bucket_name()
   client <- paws.storage::s3()
   client$create_bucket(Bucket = bucket)
