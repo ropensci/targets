@@ -39,7 +39,10 @@ tar_test("aws_file packages", {
     format = "file",
     repository = "aws"
   )
-  expect_equal(store_get_packages(target$store), "paws.storage")
+  expect_equal(
+    sort(store_get_packages(target$store)),
+    sort(c("paws.common", "paws.storage"))
+  )
 })
 
 tar_test("inherits from tar_external", {
