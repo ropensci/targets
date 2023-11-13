@@ -10,7 +10,8 @@ runtime_new <- function(
   file_exist = NULL,
   file_info = NULL,
   file_info_exist = NULL,
-  nanonext = NULL
+  nanonext = NULL,
+  inventories = NULL
 ) {
   force(target)
   force(frames)
@@ -24,6 +25,7 @@ runtime_new <- function(
   force(file_info)
   force(file_info_exist)
   force(nanonext)
+  force(inventories)
   environment()
 }
 
@@ -77,6 +79,9 @@ runtime_validate <- function(x) {
   if (!is.null(x$nanonext)) {
     tar_assert_scalar(x$nanonext)
     tar_assert_lgl(x$nanonext)
+  }
+  if (!is.null(x$inventories)) {
+    tar_assert_list(x$inventories)
   }
 }
 

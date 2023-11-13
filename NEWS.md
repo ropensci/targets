@@ -6,20 +6,27 @@ Because of the changes below, upgrading to this version of `targets` will unavoi
 
 * Use SHA512 during the creation of target-specific pseudo-random number generator seeds (#1139). This change decreases the risk of overlapping/correlated random number generator streams. See the "RNG overlap" section of the `tar_seed_create()` help file for details and justification. Unfortunately, this change will invalidate all currently built targets because the seeds will be different. To avoid rerunning your whole pipeline, set `cue = tar_cue(seed = FALSE)` in `tar_target()`.
 * For cloud storage: instead of the hash of the local file, use the ETag for AWS S3 targets and the MD5 hash for GCP GCS targets (#1172). Sanitize with `targets:::digest_chr64()` in both cases before storing the result in the metadata.
+* For a cloud target to be truly up to date, the hash in the metadata now needs to match the *current* object in the bucket, not the version recorded in the metadata (#1172). In other words, `targets` now tries to ensure that the up-to-date data objects in the cloud are in their newest versions. So if you roll back the metadata to an older version, you will still be able to access historical data versions with e.g. `tar_read()`, but the pipeline will no longer be up to date.
 
-## Other changes
+## Other changes to seeds
 
 * Add a new exported function `tar_seed_create()` which creates target-specific pseudo-random number generator seeds.
 * Add an "RNG overlap" section in the `tar_seed_create()` help file to justify and defend how `targets` and `tarchetypes` approach pseudo-random numbers.
 * Add function `tar_seed_set()` which sets a seed and sets all the RNG algorithms to their defaults in the R installation of the user. Each target now uses `tar_seed_set()` function to set its seed before running its R command (#1139).
 * Deprecate `tar_seed()` in favor of the new `tar_seed_get()` function.
-* Migrate to the changes in `clustermq` 0.9.0 (@mschubert).
+
+## Other cloud storage improvements
+
+* For all cloud targets, check hashes in batched LIST requests instead of individual HEAD requests (#1172). Dramatically speeds up the process of checking if cloud targets are up to date.
 * For AWS S3 targets, `tar_delete()`, `tar_destroy()`, and `tar_prune()` now use efficient batched calls to `delete_objects()` instead of costly individual calls to `delete_object()` (#1171).
 * Add a new `verbose` argument to `tar_delete()`, `tar_destroy()`, and `tar_prune()`.
 * Add a new `batch_size` argument to `tar_delete()`, `tar_destroy()`, and `tar_prune()`.
-* Add new arguments `page_size`, `version`, and `verbose` to `tar_resources_aws()` (#1172).
-* Add new argument `version` to `tar_resources_gcp()` (#1172).
+* Add new arguments `page_size` and `verbose` to `tar_resources_aws()` (#1172).
+* Add a new `tar_unversion()` function to remove version IDs from the metadata of cloud targets. This makes it easier to interact with just the current version of each target, as opposed to the version ID recorded in the local metadata.
 
+## Other changes
+
+* Migrate to the changes in `clustermq` 0.9.0 (@mschubert).
 
 # targets 1.3.2
 
