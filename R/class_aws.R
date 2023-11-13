@@ -260,9 +260,6 @@ store_has_correct_hash.tar_aws <- function(store) {
 }
 
 store_aws_hash <- function(store) {
-  
-  browser()
-  
   tar_runtime$inventories$aws <- tar_runtime$inventories$aws %|||%
     inventory_aws_init()
   tar_runtime$inventories$aws$get_cache(store = store)

@@ -92,8 +92,7 @@ aws_s3_list_etags <- function(
       "Listing objects in AWS S3 bucket ",
       bucket,
       " prefix ",
-      prefix,
-      "..."
+      prefix
     )
   }
   pages <- paws.common::paginate(

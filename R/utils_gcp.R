@@ -72,8 +72,7 @@ gcp_gcs_list_md5s <- function(
       "Listing objects in GCS bucket ",
       bucket,
       " prefix ",
-      prefix,
-      "..."
+      prefix
     )
   }
   results <- googleCloudStorageR::gcs_list_objects(
