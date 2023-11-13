@@ -19,20 +19,22 @@ inventory_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     cache = NULL,
+    misses = NULL,
     get_key = function(store) {
       "example_key"
     },
     get_bucket = function(store) {
       "example_bucket"
     },
-    get_name = function(store) {
-      key <- self$get_key(store)
-      bucket <- self$get_bucket(store)
+    get_name = function(key, bucket) {
       paste(bucket, key, sep = "|")
     },
     get_cache = function(store) {
-      name <- self$get_name(store)
+      key <- self$get_key(store)
+      bucket <- self$get_bucket(store)
+      name <- self$get_name(key = key, bucket = bucket)
       if (!exists(x = name, envir = self$cache)) {
+        self$misses <- (self$misses %|||% 0L) + 1L
         self$set_cache(store)
       }
       self$cache[[name]]
@@ -41,7 +43,9 @@ inventory_class <- R6::R6Class(
       names(self$cache)
     },
     set_cache = function(store) {
-      name <- self$get_name(store)
+      key <- self$get_key(store)
+      bucket <- self$get_bucket(store)
+      name <- self$get_name(key = key, bucket = bucket)
       self$cache[[name]] <- "example_hash"
     },
     reset_cache = function() {

@@ -2,7 +2,7 @@
 # nocov start
 inventory_aws_init <- function() {
   out <- inventory_aws_new()
-  out$reset()
+  out$reset_cache()
   out
 }
 
@@ -23,12 +23,12 @@ inventory_aws_class <- R6::R6Class(
     get_bucket = function(store) {
       store_aws_bucket(store$file$path)
     },
-    set_cache = function(key, bucket, store) {
+    set_cache = function(store) {
       path <- store$file$path
-      bucket <- store_aws_bucket(path)
+      bucket <- self$get_bucket(store)
       aws <- store$resources$aws
       results <- aws_s3_list_etags(
-        prefix = dirname(store_aws_key(path)),
+        prefix = dirname(self$get_key(store)),
         bucket = bucket,
         page_size = aws$page_size,
         verbose = aws$verbose,
@@ -41,7 +41,7 @@ inventory_aws_class <- R6::R6Class(
         s3_force_path_style = aws$s3_force_path_style
       )
       for (key in names(results)) {
-        name <- self$name(key = key, bucket = bucket)
+        name <- self$get_name(key = key, bucket = bucket)
         self$cache[[name]] <- digest_chr64(results[[key]])
       }
     }
