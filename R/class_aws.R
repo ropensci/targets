@@ -101,14 +101,6 @@ store_aws_version <- function(path) {
   if_any(length(out) && nzchar(out), out, NULL)
 }
 
-store_aws_version_use <- function(store, path) {
-  if_any(
-    store$resources$aws$version == "meta",
-    store_aws_version(path),
-    NULL
-  )
-}
-
 store_aws_path_field <- function(path, pattern) {
   path <- store_aws_split_colon(path)
   keyvalue_field(x = path, pattern = pattern)
@@ -146,7 +138,7 @@ store_read_object.tar_aws <- function(store) {
     file = scratch,
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
-    version = store_aws_version_use(store, path),
+    version = store_aws_version(path),
     args = aws$args,
     max_tries = aws$max_tries,
     seconds_timeout = aws$seconds_timeout,
@@ -165,7 +157,7 @@ store_exist_object.tar_aws <- function(store, name = NULL) {
     bucket = store_aws_bucket(path),
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
-    version = store_aws_version_use(store, path),
+    version = store_aws_version(path),
     args = aws$args,
     max_tries = aws$max_tries,
     seconds_timeout = aws$seconds_timeout,
@@ -188,7 +180,7 @@ store_delete_objects.tar_aws <- function(store, meta, batch_size, verbose) {
       subset$path,
       ~list(
         Key = store_aws_key(.x),
-        VersionId = store_aws_version_use(store, .x)
+        VersionId = store_aws_version(.x)
       )
     )
     message <- paste(
@@ -275,7 +267,7 @@ store_aws_hash <- function(store) {
     bucket = store_aws_bucket(path),
     region = store_aws_region(path),
     endpoint = store_aws_endpoint(path),
-    version = store_aws_version_use(store, path),
+    version = store_aws_version(path),
     args = aws$args,
     max_tries = aws$max_tries,
     seconds_timeout = aws$seconds_timeout,
