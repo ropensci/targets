@@ -17,30 +17,18 @@ inventory_aws_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    cache_key = function(key, bucket, version, store) {
-      path <- store$file$path
-      aws <- store$resources$aws
-      head <- aws_s3_head(
-        key = key,
-        bucket = bucket,
-        region = store_aws_region(path),
-        endpoint = store_aws_endpoint(path),
-        version = version,
-        args = aws$args,
-        max_tries = aws$max_tries,
-        seconds_timeout = aws$seconds_timeout,
-        close_connection = aws$close_connection,
-        s3_force_path_style = aws$s3_force_path_style
-      )
-      digest_chr64(head$ETag)
-      name <- self$name(key = key, bucket = bucket)
-      self$cache[[name]] <- digest_chr64(head$ETag)
+    get_key = function(store) {
+      store_aws_key(store$file$path)
     },
-    cache_prefix = function(key, bucket, store) {
+    get_bucket = function(store) {
+      store_aws_bucket(store$file$path)
+    },
+    set_cache = function(key, bucket, store) {
       path <- store$file$path
+      bucket <- store_aws_bucket(path)
       aws <- store$resources$aws
       results <- aws_s3_list_etags(
-        prefix = dirname(key),
+        prefix = dirname(store_aws_key(path)),
         bucket = bucket,
         page_size = aws$page_size,
         verbose = aws$verbose,
