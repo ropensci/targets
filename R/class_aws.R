@@ -280,5 +280,5 @@ store_aws_hash <- function(store) {
 
 #' @export
 store_get_packages.tar_aws <- function(store) {
-  c("paws.storage", NextMethod())
+  c("paws.common", "paws.storage", NextMethod())
 }
