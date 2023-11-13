@@ -199,6 +199,7 @@ aws_s3_delete_objects <- function(
   while (length(objects)) {
     index <- seq_len(min(length(objects), batch_size))
     args$Delete$Objects <- objects[index]
+    args$Delete$Quiet <- TRUE
     if (verbose) {
       tar_message_run(
         "Deleting ",
