@@ -1,9 +1,10 @@
-# This is an abstract inventory. Methods cache_key() and
-# cache_prefix() are for testing only. Only the subclasses
+# This is an abstract inventory. The definitions of
+# get_key(), get_bucket(), and set_cache() below
+# are abstract and for testing only. Only the subclasses
 # have serious versions of these methods.
 inventory_init <- function() {
   out <- inventory_new()
-  out$reset()
+  out$reset_cache()
   out
 }
 
@@ -18,42 +19,33 @@ inventory_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     cache = NULL,
-    cache_key = function(key, bucket, version, store) {
-      name <- self$name(key = key, bucket = bucket)
-      self$cache[[name]] <- paste(store$file$hash, "key")
+    get_key = function(store) {
+      "example_key"
     },
-    cache_prefix = function(key, bucket, store) {
-      name <- self$name(key = key, bucket = bucket)
-      self$cache[[name]] <- paste(store$file$hash, "prefix")
+    get_bucket = function(store) {
+      "example_bucket"
     },
-    name = function(key, bucket) {
+    get_name = function(store) {
+      key <- self$get_key(store)
+      bucket <- self$get_bucket(store)
       paste(bucket, key, sep = "|")
     },
-    list = function() {
-      names(self$cache)
-    },
-    reset = function() {
-      self$cache <- new.env(parent = emptyenv())
-    },
-    get = function(key, bucket, version, store) {
-      name <- self$name(key = key, bucket = bucket)
+    get_cache = function(store) {
+      name <- self$get_name(store)
       if (!exists(x = name, envir = self$cache)) {
-        if (is.null(version)) {
-          self$cache_prefix(
-            key = key,
-            bucket = bucket,
-            store = store
-          )
-        } else {
-          self$cache_key(
-            key = key,
-            bucket = bucket,
-            version = version,
-            store = store
-          )
-        }
+        self$set_cache(store)
       }
       self$cache[[name]]
+    },
+    list_cache = function() {
+      names(self$cache)
+    },
+    set_cache = function(store) {
+      name <- self$get_name(store)
+      self$cache[[name]] <- "example_hash"
+    },
+    reset_cache = function() {
+      self$cache <- new.env(parent = emptyenv())
     },
     validate = function() {
       tar_assert_envir(self$cache)

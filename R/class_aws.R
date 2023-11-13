@@ -274,7 +274,7 @@ store_aws_hash <- function(store) {
     close_connection = aws$close_connection,
     s3_force_path_style = aws$s3_force_path_style
   )
-  digest_chr64(head$ETag)
+  if_any(is.null(head), NULL, digest_chr64(head$ETag))
 }
 # nocov end
 

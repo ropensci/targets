@@ -221,7 +221,7 @@ store_gcp_hash <- function(store) {
     verbose = store$resources$gcp$verbose %|||% FALSE,
     max_tries = store$resources$gcp$max_tries %|||% 5L
   )
-  digest_chr64(head$md5)
+  if_any(is.null(head), NULL, digest_chr64(head$md5))
 }
 # nocov end
 
