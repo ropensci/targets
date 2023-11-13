@@ -49,26 +49,24 @@ which means they track historical versions of each data object.
 If you use \code{targets} with cloud storage
 (\url{https://books.ropensci.org/targets/cloud-storage.html})
 and versioning is turned on, then \code{targets} will record each
-version of each target in its metadata.
+version of each target in its metadata. Functions like \code{\link[=tar_read]{tar_read()}}
+and \code{\link[=tar_load]{tar_load()}} load the version recorded in the local metadata,
+which may not be the same as the "current" version of the
+object in the bucket.
 
-However, by default,
-\code{targets} \emph{uses} only the latest version in the bucket.
-You may instead want to
-use the specific version of the target recorded in the local metadata
-(for example, if you previously committed the metadata file
-\verb{_targets/meta/meta} to version control, and now you want to roll
-back the code and data together to an earlier point in time).
-To do this, you will
-need to modify the \code{resources} argument of \code{\link[=tar_target]{tar_target()}} and/or
-\code{\link[=tar_option_set]{tar_option_set()}} via \code{\link[=tar_resources]{tar_resources()}}. In \code{\link[=tar_resources_aws]{tar_resources_aws()}}
-or \code{\link[=tar_resources_gcp]{tar_resources_gcp()}}, set the \code{version} argument to \code{"meta"}.
-Modifying your code this way in \verb{_targets.R} will control functions that
-read \verb{_targets.R} when they run, such as \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_outdated]{tar_outdated()}},
-and \code{\link[=tar_visnetwork]{tar_visnetwork()}}. To apply \code{version = "meta"} to functions that
-do not read \verb{_targets.R}, such as \code{\link[=tar_read]{tar_read()}} and \code{\link[=tar_load]{tar_load()}},
-set \code{resources} in \code{\link[=tar_option_set]{tar_option_set()}} in your local R session.
-You can do this manually, or if you coded those options in \verb{_targets.R},
-you can manually run \verb{_targets.R} using \code{\link[=tar_load_globals]{tar_load_globals()}}.
+Likewise, functions \code{\link[=tar_delete]{tar_delete()}} and \code{\link[=tar_destroy]{tar_destroy()}} only remove
+the version ID of each target as recorded in the local
+metadata. Extra steps are required to remove the \emph{latest} version
+of each object, whatever that version may be:
+\enumerate{
+\item Make sure your local copy of the metadata is current and
+up to date. You may need to run \code{\link[=tar_meta_download]{tar_meta_download()}} or
+\code{\link[=tar_meta_sync]{tar_meta_sync()}}.
+\item Run \code{\link[=tar_unversion]{tar_unversion()}} to remove the recorded version IDs of
+your targets in the local metadata.
+\item With the version IDs gone, \code{\link[=tar_delete]{tar_delete()}} and \code{\link[=tar_destroy]{tar_destroy()}}
+will delete all the versions of the affected targets.
+}
 }
 
 \section{Storage access}{

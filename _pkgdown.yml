@@ -101,6 +101,7 @@ reference:
   - '`tar_prune`'
   - '`tar_prune_list`'
   - '`tar_unscript`'
+  - '`tar_unversion`'
 - title: Progress
   contents:
   - '`tar_poll`'
