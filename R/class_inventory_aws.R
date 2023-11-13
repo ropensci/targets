@@ -2,7 +2,7 @@
 # nocov start
 inventory_aws_init <- function() {
   out <- inventory_aws_new()
-  out$reset_cache()
+  out$reset()
   out
 }
 

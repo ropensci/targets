@@ -2,7 +2,7 @@
 # nocov start
 inventory_gcp_init <- function() {
   out <- inventory_gcp_new()
-  out$reset_cache()
+  out$reset()
   out
 }
 

@@ -4,7 +4,7 @@
 # have serious versions of these methods.
 inventory_init <- function() {
   out <- inventory_new()
-  out$reset_cache()
+  out$reset()
   out
 }
 
@@ -19,7 +19,9 @@ inventory_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     cache = NULL,
+    prefixes = NULL,
     misses = NULL,
+    downloads = NULL,
     get_key = function(store) {
       "example_key"
     },
@@ -31,12 +33,17 @@ inventory_class <- R6::R6Class(
     },
     get_cache = function(store) {
       key <- self$get_key(store)
+      prefix <- dirname(key)
       bucket <- self$get_bucket(store)
       name <- self$get_name(key = key, bucket = bucket)
-      if (!exists(x = name, envir = self$cache)) {
-        self$misses <- (self$misses %|||% 0L) + 1L
+      miss <- !exists(x = name, envir = self$cache)
+      download <- !counter_exists_name(counter = self$prefixes, name = prefix)
+      if (download) {
+        counter_set_name(counter = self$prefixes, name = prefix)
         self$set_cache(store)
       }
+      self$misses <- self$misses + as.integer(miss)
+      self$downloads <- self$downloads + as.integer(download)
       self$cache[[name]]
     },
     list_cache = function() {
@@ -48,8 +55,11 @@ inventory_class <- R6::R6Class(
       name <- self$get_name(key = key, bucket = bucket)
       self$cache[[name]] <- "example_hash"
     },
-    reset_cache = function() {
+    reset = function() {
       self$cache <- new.env(parent = emptyenv())
+      self$prefixes <- counter_init()
+      self$misses <- 0L
+      self$downloads <- 0L
     },
     validate = function() {
       tar_assert_envir(self$cache)

@@ -21,7 +21,8 @@ tar_test("inventory_aws class", {
   )
   store <- store_init(repository = "aws", resources = resources)
   expect_equal(inventory$list_cache(), character(0L))
-  expect_null(inventory$misses)
+  expect_equal(inventory$downloads, 0L)
+  expect_equal(inventory$misses, 0L)
   for (key in rev(file.path(prefix, c("w", "x", "y", "z")))) {
     store$file$path <- store_produce_aws_path(
       store = store,
@@ -30,6 +31,7 @@ tar_test("inventory_aws class", {
     )
     out <- inventory$get_cache(store)
     expect_equal(inventory$misses, 1L)
+    expect_equal(inventory$downloads, 1L)
     expect_equal(out, digest_chr64(head[[key]]$ETag))
     expect_equal(
       sort(inventory$list_cache()),
@@ -42,4 +44,12 @@ tar_test("inventory_aws class", {
       )
     )
   }
+  store$file$path <- store_produce_aws_path(
+    store = store,
+    name = "nope",
+    path_store = path_store_default()
+  )
+  expect_null(inventory$get_cache(store))
+  expect_equal(inventory$downloads, 1L)
+  expect_equal(inventory$misses, 2L)
 })
