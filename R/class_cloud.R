@@ -33,8 +33,7 @@ store_cache_path.tar_cloud <- function(store, path) {
 store_hash_late.tar_cloud <- function(store) {
   tar_assert_path(store$file$stage)
   file <- file_init(path = store$file$stage)
-  file_update_hash(file)
-  store$file$hash <- file$hash
+  file_update_info(file)
   store$file$bytes <- file$bytes
   store$file$time <- file$time
 }
