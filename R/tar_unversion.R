@@ -2,26 +2,7 @@
 #' @export
 #' @family clean
 #' @description Delete version IDs from local metadata.
-#' @section Deleting cloud target data:
-#'   Some buckets in Amazon S3 or Google Cloud Storage are "versioned",
-#'   which means they track historical versions of each data object.
-#'   If you use `targets` with cloud storage
-#'   (<https://books.ropensci.org/targets/cloud-storage.html>)
-#'   and versioning is turned on, then `targets` will record each
-#'   version of each target in its metadata.
-#'
-#'   By default, functions [tar_delete()] and [tar_destroy()] only remove
-#'   the current version ID of each target as recorded in the local
-#'   metadata. Extra steps are required to remove the *latest* version
-#'   of each object, whatever that version may be:
-#'
-#'   1. Make sure your local copy of the metadata is current and
-#'     up to date. You may need to run [tar_meta_download()] or
-#'     [tar_meta_sync()].
-#'   2. Run [tar_unversion()] to remove the recorded version IDs of
-#'     your targets in the local metadata.
-#'   3. With the version IDs gone, [tar_delete()] and [tar_destroy()]
-#'     will delete all the versions of the affected targets.
+#' @inheritSection tar_read Cloud target data versioning
 #' @return `NULL` (invisibly).
 #' @param names Tidyselect expression to identify the targets to drop
 #'   version IDs.

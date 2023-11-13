@@ -34,14 +34,7 @@ path_objects <- function(path_store, name) {
   file.path(path_objects_dir(path_store), name)
 }
 
-#' @title Path to directory of saved targets
-#' @export
-#' @keywords internal
-#' @description Internal function. Not for users.
-#' @param path_store Path to the data store.
-#' @examples
-#' tar_path_objects_dir("_targets")
-tar_path_objects_dir <- function(path_store) {
+path_objects_dir <- function(path_store) {
   path_objects_dir(path_store = path_store)
 }
 
@@ -49,15 +42,7 @@ path_objects_dir <- function(path_store) {
   file.path(path_store, "objects")
 }
 
-#' @title Default pseudo-directory path of target data in the cloud
-#' @export
-#' @keywords internal
-#' @description Not a user-side function. Do not invoke directly.
-#' @return Character of length,
-#'   default pseudo-directory path of target data in the cloud.
-#' @examples
-#' tar_path_objects_dir_cloud()
-tar_path_objects_dir_cloud <- function() {
+path_objects_dir_cloud <- function() {
   file.path(path_store_default(), "objects", fsep = "/")
 }
 

@@ -195,3 +195,57 @@ tar_test("tar_resources_aws() wants a prefix", {
     class = "tar_condition_deprecate"
   )
 })
+
+tar_test("tar_resources_aws() verbose", {
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
+  tar_option_set(
+    resources = tar_resources(
+      aws = tar_resources_aws(
+        prefix = "x",
+        bucket = "x"
+      )
+    )
+  )
+  out <- tar_resources_aws()
+  expect_true(out$verbose)
+  tar_option_set(
+    resources = tar_resources(
+      aws = tar_resources_aws(
+        verbose = FALSE,
+        prefix = "x",
+        bucket = "x"
+      )
+    )
+  )
+  out <- tar_resources_aws()
+  expect_false(out$verbose)
+})
+
+tar_test("tar_resources_aws() page_size", {
+  skip_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("paws.storage")
+  tar_option_set(
+    resources = tar_resources(
+      aws = tar_resources_aws(
+        prefix = "x",
+        bucket = "x"
+      )
+    )
+  )
+  out <- tar_resources_aws()
+  expect_equal(out$page_size, 1000L)
+  tar_option_set(
+    resources = tar_resources(
+      aws = tar_resources_aws(
+        page_size = 3L,
+        prefix = "x",
+        bucket = "x"
+      )
+    )
+  )
+  out <- tar_resources_aws()
+  expect_equal(out$page_size, 3L)
+})

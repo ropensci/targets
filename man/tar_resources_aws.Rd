@@ -8,12 +8,14 @@ tar_resources_aws(
   bucket = targets::tar_option_get("resources")$aws$bucket,
   prefix = targets::tar_option_get("resources")$aws$prefix,
   region = targets::tar_option_get("resources")$aws$region,
-  part_size = targets::tar_option_get("resources")$aws$part_size,
   endpoint = targets::tar_option_get("resources")$aws$endpoint,
+  s3_force_path_style = targets::tar_option_get("resources")$aws$s3_force_path_style,
+  part_size = targets::tar_option_get("resources")$aws$part_size,
+  page_size = targets::tar_option_get("resources")$aws$page_size,
   max_tries = targets::tar_option_get("resources")$aws$max_tries,
   seconds_timeout = targets::tar_option_get("resources")$aws$seconds_timeout,
   close_connection = targets::tar_option_get("resources")$aws$close_connection,
-  s3_force_path_style = targets::tar_option_get("resources")$aws$s3_force_path_style,
+  verbose = targets::tar_option_get("resources")$aws$verbose,
   ...
 )
 }
@@ -33,12 +35,6 @@ was added on 2023-08-24: \code{targets} version 1.2.2.9000.)}
 \item{region}{Character of length 1, AWS region containing the S3 bucket.
 Set to \code{NULL} to use the default region.}
 
-\item{part_size}{Positive numeric of length 1, number of bytes
-for each part of a multipart upload. (Except the last part,
-which is the remainder.) In a multipart upload, each part
-must be at least 5 MB. The default value of the \code{part_size}
-argument is \code{5 * (2 ^ 20)}.}
-
 \item{endpoint}{Character of length 1, URL endpoint for S3 storage.
 Defaults to the Amazon AWS endpoint if \code{NULL}. Example:
 To use the S3 protocol with Google Cloud Storage,
@@ -57,6 +53,18 @@ object versioning turned on, \code{targets} may fail to record object
 versions. Google Cloud Storage in particular has this
 incompatibility.}
 
+\item{s3_force_path_style}{Logical of length 1, whether to use path-style
+addressing for S3 requests.}
+
+\item{part_size}{Positive numeric of length 1, number of bytes
+for each part of a multipart upload. (Except the last part,
+which is the remainder.) In a multipart upload, each part
+must be at least 5 MB. The default value of the \code{part_size}
+argument is \code{5 * (2 ^ 20)}.}
+
+\item{page_size}{Positive integer of length 1, number of items in each
+page for paginated HTTP requests such as listing objects.}
+
 \item{max_tries}{Positive integer of length 1, maximum number of attempts
 to access a network resource on AWS.}
 
@@ -66,8 +74,9 @@ number of seconds until an HTTP connection times out.}
 \item{close_connection}{Logical of length 1, whether to close HTTP
 connections immediately.}
 
-\item{s3_force_path_style}{Logical of length 1, whether to use path-style
-addressing for S3 requests.}
+\item{verbose}{Logical of length 1, whether to print console messages
+when running computationally expensive operations such as listing
+objects in a large bucket.}
 
 \item{...}{Named arguments to functions in \code{paws.storage::s3()} to manage
 S3 storage. The documentation of these specific functions

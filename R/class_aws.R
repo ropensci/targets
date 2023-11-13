@@ -178,7 +178,10 @@ store_delete_objects.tar_aws <- function(store, meta, batch_size, verbose) {
     endpoint <- store_aws_endpoint(example_path)
     objects <- map(
       subset$path,
-      ~list(Key = store_aws_key(.x), VersionId = store_aws_version(.x))
+      ~list(
+        Key = store_aws_key(.x),
+        VersionId = store_aws_version(.x)
+      )
     )
     message <- paste(
       "could not delete one or more objects from AWS bucket %s.",
@@ -224,7 +227,6 @@ store_upload_object_aws <- function(store) {
       bucket = bucket,
       region = store_aws_region(store$file$path),
       endpoint = store_aws_endpoint(store$file$path),
-      metadata = list("targets-hash" = store$file$hash),
       part_size = aws$part_size,
       args = aws$args,
       max_tries = aws$max_tries,
@@ -247,11 +249,8 @@ store_upload_object_aws <- function(store) {
     invert = TRUE
   )
   store$file$path <- c(path, paste0("version=", head$VersionId))
+  store$file$hash <- digest_chr64(head$ETag)
   invisible()
-}
-
-#' @export
-store_ensure_correct_hash.tar_aws <- function(store, storage, deployment) {
 }
 
 #' @export
@@ -261,25 +260,13 @@ store_has_correct_hash.tar_aws <- function(store) {
 }
 
 store_aws_hash <- function(store) {
-  path <- store$file$path
-  aws <- store$resources$aws
-  head <- aws_s3_head(
-    key = store_aws_key(path),
-    bucket = store_aws_bucket(path),
-    region = store_aws_region(path),
-    endpoint = store_aws_endpoint(path),
-    version = store_aws_version(path),
-    args = aws$args,
-    max_tries = aws$max_tries,
-    seconds_timeout = aws$seconds_timeout,
-    close_connection = aws$close_connection,
-    s3_force_path_style = aws$s3_force_path_style
-  )
-  head$Metadata[["targets-hash"]]
+  tar_runtime$inventories$aws <- tar_runtime$inventories$aws %|||%
+    inventory_aws_init()
+  tar_runtime$inventories$aws$get_cache(store = store)
 }
 # nocov end
 
 #' @export
 store_get_packages.tar_aws <- function(store) {
-  c("paws.storage", NextMethod())
+  c("paws.common", "paws.storage", NextMethod())
 }

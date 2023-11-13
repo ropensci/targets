@@ -119,6 +119,27 @@ tar_test("file_update_hash()", {
   expect_equal(length(file$time), 1L)
 })
 
+tar_test("file_update_info()", {
+  tmp <- tempfile()
+  file <- file_init(path = tmp)
+  writeLines("xyz", tmp)
+  file_update_info(file)
+  expect_true(is.na(file$hash))
+  expect_gt(file$bytes, 0)
+  expect_true(is.character(file$time))
+  expect_true(grepl("^t", file$time))
+  expect_true(grepl("s$", file$time))
+  expect_false(anyNA(file_time_posixct(file$time)))
+  expect_true(inherits(file_time_posixct(file$time), "POSIXct"))
+  expect_true(is.character(file$size))
+  expect_equal(nchar(file$size), 16L)
+  expect_true(is.numeric(file$bytes))
+  expect_true(is.finite(file$bytes))
+  expect_equal(length(file$bytes), 1L)
+  expect_equal(length(file$time), 1L)
+  expect_equal(length(file$time), 1L)
+})
+
 tar_test("file_update_hash() where two files exist", {
   tmp <- c(tempfile(), tempfile())
   file <- file_init(path = tmp)

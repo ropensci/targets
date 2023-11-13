@@ -8,6 +8,7 @@
 #'   `_targets/objects/`, or the paths to the custom files and directories
 #'   if `format = "file"` was set.
 #' @inheritSection tar_meta Storage access
+#' @inheritSection tar_read Cloud target data versioning
 #' @inheritParams tar_validate
 #' @param name Character, name of the target to read.
 #' @param branches Integer of indices of the branches to load

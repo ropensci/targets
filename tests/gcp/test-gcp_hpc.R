@@ -31,6 +31,6 @@ tar_test("gcp + HPC", {
     )
   }, env = list(bucket_name = bucket_name))
   do.call(tar_script, list(code = code))
-  tar_make_future()
+  tar_make_future(reporter = "silent")
   expect_equal(tar_read(c), 2L)
 })

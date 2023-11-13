@@ -1,6 +1,6 @@
 resources_gcp_init <- function(
   bucket = NULL,
-  prefix = tar_path_objects_dir_cloud(),
+  prefix = path_objects_dir_cloud(),
   predefined_acl = "private",
   max_tries = 5L,
   verbose = FALSE
@@ -31,17 +31,13 @@ resources_gcp_new <- function(
 
 #' @export
 resources_validate.tar_resources_gcp <- function(resources) {
-  message <- "GCP resources require a valid bucket name."
-  tar_assert_scalar(resources$bucket, msg = message)
-  tar_assert_chr(resources$bucket, msg = message)
-  tar_assert_none_na(resources$bucket, msg = message)
-  tar_assert_nzchar(resources$bucket, msg = message)
-  tar_assert_scalar(resources$prefix)
-  tar_assert_chr(resources$prefix)
-  tar_assert_nzchar(resources$prefix)
-  tar_assert_scalar(resources$predefined_acl)
-  tar_assert_chr(resources$predefined_acl)
-  tar_assert_nzchar(resources$predefined_acl)
+  for (field in c("bucket", "prefix", "predefined_acl")) {
+    msg <- paste("invalid GCP GCS", field)
+    tar_assert_scalar(resources[[field]], msg = msg)
+    tar_assert_chr(resources[[field]], msg = msg)
+    tar_assert_none_na(resources[[field]], msg = msg)
+    tar_assert_nzchar(resources[[field]], msg = msg)
+  }
   tar_assert_scalar(resources$max_tries %|||% 1L)
   tar_assert_dbl(resources$max_tries %|||% 1L)
   tar_assert_none_na(resources$max_tries %|||% 1L)

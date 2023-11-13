@@ -6,6 +6,7 @@
 #'   or `tarchetypes::tar_render()`.
 #' @return Nothing.
 #' @inheritSection tar_meta Storage access
+#' @inheritSection tar_read Cloud target data versioning
 #' @inheritParams tar_read
 #' @param names Character vector, names of the targets to load.
 #'   Names are expected to appear in the metadata in `_targets/meta`.

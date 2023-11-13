@@ -49,7 +49,11 @@ store_hash_early.tar_aws_file <- function(store) { # nolint
   store$file$path <- store_aws_file_stage(store$file$path)
   on.exit(store$file$path <- old)
   tar_assert_path(store$file$path)
-  file_update_hash(store$file)
+  file_update_info(store$file)
+}
+
+#' @export
+store_hash_late.tar_aws_file <- function(store) { # nolint
 }
 
 #' @export

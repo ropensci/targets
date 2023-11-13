@@ -61,6 +61,53 @@ aws_s3_exists <- function(
   )
 }
 
+aws_s3_list_etags <- function(
+  prefix,
+  bucket,
+  page_size = 1000L,
+  verbose = TRUE,
+  region = NULL,
+  endpoint = NULL,
+  args = list(),
+  max_tries = NULL,
+  seconds_timeout = NULL,
+  close_connection = NULL,
+  s3_force_path_style = NULL
+) {
+  client <- aws_s3_client(
+    endpoint = endpoint,
+    region = region,
+    seconds_timeout = seconds_timeout,
+    close_connection = close_connection,
+    s3_force_path_style = s3_force_path_style,
+    max_tries = max_tries
+  )
+  args$Bucket <- bucket
+  args$Prefix <- prefix
+  page_size <- page_size %|||% 1000L
+  verbose <- verbose %|||% TRUE
+  args <- supported_args(fun = client$list_objects_v2, args = args)
+  if (verbose) {
+    tar_message_run(
+      "Listing objects in AWS S3 bucket ",
+      bucket,
+      " prefix ",
+      prefix
+    )
+  }
+  pages <- paws.common::paginate(
+    Operation = do.call(what = client$list_objects_v2, args = args),
+    PageSize = page_size
+  )
+  out <- list()
+  for (page in pages) {
+    for (object in page$Contents) {
+      out[[object$Key]] <- object$ETag
+    }
+  }
+  out
+}
+
 aws_s3_download <- function(
   file,
   key,

@@ -49,6 +49,15 @@ file_exists_stage <- function(file) {
     all(file.exists(file$stage))
 }
 
+file_update_info <- function(file) {
+  files <- file_list_files(file$path)
+  info <- file_info(files)
+  file$time <- file_time(info)
+  file$bytes <- file_bytes(info)
+  file$size <- file_size(file$bytes)
+  invisible()
+}
+
 file_update_hash <- function(file) {
   files <- file_list_files(file$path)
   info <- file_info(files)

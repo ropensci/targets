@@ -6,6 +6,7 @@
 #'   and remove target metadata from `_targets/meta/meta`
 #'   for targets that are no longer part of the pipeline.
 #' @inheritSection tar_meta Storage access
+#' @inheritSection tar_read Cloud target data versioning
 #' @details
 #'   `tar_prune()` is useful if you recently worked through
 #'   multiple changes to your project and are now trying to

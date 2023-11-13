@@ -66,7 +66,7 @@ tar_test("store_aws_version()", {
   expect_null(store_aws_version(letters))
 })
 
-tar_test("store_aws_version()", {
+tar_test("store_aws_version() endpoint", {
   path <- c(
     "bucket=b",
     sprintf("endpoint=%s", base64url::base64_urlencode("answer"))
@@ -102,7 +102,7 @@ tar_test("package detection", {
   skip_cran()
   target <- tar_target(x, "x_value", format = "feather", repository = "aws")
   out <- sort(store_get_packages(target$store))
-  exp <- sort(c("paws.storage", "arrow"))
+  exp <- sort(c("paws.storage", "paws.common", "arrow"))
   expect_equal(out, exp)
 })
 

@@ -1,4 +1,4 @@
-tar_test("multiplication works", {
+tar_test("tar_unversion()", {
   skip_cran()
   lines <- c(
     paste0(

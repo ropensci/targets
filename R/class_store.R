@@ -141,7 +141,7 @@ store_cache_path <- function(store, path) {
   UseMethod("store_cache_path")
 }
 
-# @export
+#' @export
 store_cache_path.default <- function(store, path) {
   cache <- tar_runtime$file_exist
   if (!is.null(cache)) {

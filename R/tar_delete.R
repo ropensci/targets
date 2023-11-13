@@ -19,7 +19,7 @@
 #'   will be deleted. For patterns no longer in the metadata,
 #'   branches are left alone.
 #' @inheritSection tar_meta Storage access
-#' @inheritSection tar_unversion Deleting cloud target data
+#' @inheritSection tar_read Cloud target data versioning
 #' @inheritParams tar_validate
 #' @param names Names of the targets to remove from `_targets/objects/`.
 #'   You can supply symbols

@@ -5,6 +5,36 @@
 #'   `_targets/objects/`. For dynamic files (i.e. `format = "file"`)
 #'   the paths are returned.
 #' @inheritSection tar_meta Storage access
+#' @section Cloud target data versioning:
+#'   Some buckets in Amazon S3 or Google Cloud Storage are "versioned",
+#'   which means they track historical versions of each data object.
+#'   If you use `targets` with cloud storage
+#'   (<https://books.ropensci.org/targets/cloud-storage.html>)
+#'   and versioning is turned on, then `targets` will record each
+#'   version of each target in its metadata.
+#'
+#'   Functions like [tar_read()]
+#'   and [tar_load()] load the version recorded in the local metadata,
+#'   which may not be the same as the "current" version of the
+#'   object in the bucket. Likewise, functions [tar_delete()]
+#'   and [tar_destroy()] only remove
+#'   the version ID of each target as recorded in the local
+#'   metadata.
+#'
+#'   If you want to interact with the *latest* version of an object
+#'   instead of the version ID recorded in the local metadata,
+#'   then you will need to delete the object from the metadata.
+#'
+#'   1. Make sure your local copy of the metadata is current and
+#'     up to date. You may need to run [tar_meta_download()] or
+#'     [tar_meta_sync()] first.
+#'   2. Run [tar_unversion()] to remove the recorded version IDs of
+#'     your targets in the local metadata.
+#'   3. With the version IDs gone from the local metadata,
+#'     functions like [tar_read()] and [tar_destroy()] will use the
+#'     *latest* version of each target data object.
+#'   4. Optional: to back up the local metadata file with the version IDs
+#'     deleted, use [tar_meta_upload()].
 #' @return The target's return value from its file in
 #'   `_targets/objects/`, or the paths to the custom files and directories
 #'   if `format = "file"` was set.
