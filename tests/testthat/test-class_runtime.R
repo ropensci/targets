@@ -144,6 +144,43 @@ tar_test("validate non-null store", {
   expect_silent(runtime_validate(x))
 })
 
+tar_test("runtime reset", {
+  x <- runtime_new()
+  x$store <- "store"
+  x$script <- "script"
+  expect_equal(x$store, "store")
+  expect_equal(x$script, "script")
+  runtime_reset(x)
+  expect_null(x$store)
+  expect_null(x$script)
+})
+
+tar_test("runtime_set_file_info()", {
+  x <- runtime_new()
+  store <- path_store_default()
+  dir_create(path_objects_dir(store))
+  writeLines("x", path_objects(store, "x"))
+  writeLines("y", path_objects(store, "y"))
+  runtime_set_file_info(x, store)
+  for (field in c("size", "mtime_numeric")) {
+    expect_true(is.numeric(x$file_info[[field]]))
+    expect_equal(
+      sort(names(x$file_info[[field]])),
+      sort(c(path_objects(store, "x"), path_objects(store, "y")))
+    )
+  }
+  for (field in c("file_exist", "file_info_exist")) {
+    expect_true(is.environment(x[[field]]))
+    expect_silent(counter_validate(x[[field]]))
+    expect_equal(x[[field]]$count, 2L)
+    expect_equal(as.logical(as.list(x[[field]]$envir)), c(TRUE, TRUE))
+    expect_equal(
+      sort(names(as.list(x[[field]]$envir))),
+      sort(c(path_objects(store, "x"), path_objects(store, "y")))
+    )
+  }
+})
+
 tar_test("detect bad store", {
   x <- runtime_new()
   x$store <- FALSE

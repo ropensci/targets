@@ -1,6 +1,6 @@
 resources_aws_init <- function(
   bucket = NULL,
-  prefix = tar_path_objects_dir_cloud(),
+  prefix = path_objects_dir_cloud(),
   region = NULL,
   endpoint = NULL,
   s3_force_path_style = NULL,

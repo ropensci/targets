@@ -87,7 +87,7 @@ runtime_validate <- function(x) {
 
 runtime_set_file_info <- function(runtime, store) {
   objects <- list.files(
-    path = targets::tar_path_objects_dir(store),
+    path = path_objects_dir(store),
     all.files = TRUE,
     full.names = TRUE,
     no.. = TRUE
@@ -96,8 +96,8 @@ runtime_set_file_info <- function(runtime, store) {
   names(file_info$size) <- objects
   names(file_info$mtime_numeric) <- objects
   runtime$file_info <- file_info
-  runtime$file_exist <- targets::tar_counter(names = objects)
-  runtime$file_info_exist <- targets::tar_counter(names = objects)
+  runtime$file_exist <- tar_counter(names = objects)
+  runtime$file_info_exist <- tar_counter(names = objects)
 }
 
 runtime_reset <- function(x) {

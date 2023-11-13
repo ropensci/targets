@@ -110,12 +110,12 @@ tar_resources_aws <- function(
     tar_warn_prefix()
     prefix <- path_store_default()
   }
-  prefix <- prefix %|||% targets::tar_path_objects_dir_cloud()
+  prefix <- prefix %|||% path_objects_dir_cloud()
   part_size <- part_size %|||% (5 * (2 ^ 20))
   page_size <- page_size %|||% 1000L
   verbose <- verbose %|||% TRUE
   args <- list(...)
-  default_args <- targets::tar_option_get("resources")$aws$args
+  default_args <- tar_options$get_resources()$aws$args
   for (name in names(default_args)) {
     args[[name]] <- args[[name]] %|||% default_args[[name]]
   }
