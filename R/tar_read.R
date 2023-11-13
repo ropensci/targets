@@ -12,7 +12,7 @@
 #'   (<https://books.ropensci.org/targets/cloud-storage.html>)
 #'   and versioning is turned on, then `targets` will record each
 #'   version of each target in its metadata.
-#'   
+#'
 #'   Functions like [tar_read()]
 #'   and [tar_load()] load the version recorded in the local metadata,
 #'   which may not be the same as the "current" version of the
@@ -20,7 +20,7 @@
 #'   and [tar_destroy()] only remove
 #'   the version ID of each target as recorded in the local
 #'   metadata.
-#'   
+#'
 #'   If you want to interact with the *latest* version of an object
 #'   instead of the version ID recorded in the local metadata,
 #'   then you will need to delete the object from the metadata.
