@@ -213,15 +213,9 @@ store_has_correct_hash.tar_gcp <- function(store) {
 }
 
 store_gcp_hash <- function(store) {
-  path <- store$file$path
-  head <- gcp_gcs_head(
-    key = store_gcp_key(path),
-    bucket = store_gcp_bucket(path),
-    version = store_gcp_version(path),
-    verbose = store$resources$gcp$verbose %|||% FALSE,
-    max_tries = store$resources$gcp$max_tries %|||% 5L
-  )
-  if_any(is.null(head), NULL, digest_chr64(head$md5))
+  tar_runtime$inventories$gcp <- tar_runtime$inventories$gcp %|||%
+    inventory_gcp_init()
+  tar_runtime$inventories$gcp$get_cache(store = store)
 }
 # nocov end
 

@@ -58,7 +58,7 @@ gcp_gcs_list_md5s <- function(
   verbose = TRUE,
   max_tries = NULL
 ) {
-  verbose <- verbose %|||% FALSE
+  verbose <- verbose %|||% TRUE
   old_try_attempts <- getOption("googleAuthR.tryAttempts")
   on.exit(options(googleAuthR.tryAttempts = old_try_attempts), add = TRUE)
   if_any(
