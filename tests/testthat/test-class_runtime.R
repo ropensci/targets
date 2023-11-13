@@ -161,3 +161,14 @@ tar_test("detect bad fun", {
   x$fun <- ""
   expect_error(runtime_validate(x), class = "tar_condition_validate")
 })
+
+tar_test("runtime inventories", {
+  x <- runtime_new()
+  expect_silent(runtime_validate(x))
+  x$inventories <- list()
+  expect_silent(runtime_validate(x))
+  x$inventories$aws <- inventory_init()
+  expect_silent(runtime_validate(x))
+  x$inventories <- ""
+  expect_error(runtime_validate(x), class = "tar_condition_validate")
+})
