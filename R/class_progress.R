@@ -129,43 +129,43 @@ progress_class <- R6::R6Class(
         progress = progress
       )
     },
-    enqueue_progress = function(target, progress) {
-      self$database$enqueue_row(self$produce_row(target, progress))
+    buffer_progress = function(target, progress) {
+      self$database$buffer_row(self$produce_row(target, progress))
     },
-    enqueue_skipped = function(target) {
-      self$enqueue_progress(target, progress = "skipped")
+    buffer_skipped = function(target) {
+      self$buffer_progress(target, progress = "skipped")
     },
-    enqueue_started = function(target) {
-      self$enqueue_progress(target, progress = "started")
+    buffer_started = function(target) {
+      self$buffer_progress(target, progress = "started")
     },
-    enqueue_built = function(target) {
-      self$enqueue_progress(target, progress = "built")
+    buffer_built = function(target) {
+      self$buffer_progress(target, progress = "built")
     },
-    enqueue_errored = function(target) {
-      self$enqueue_progress(target, progress = "errored")
+    buffer_errored = function(target) {
+      self$buffer_progress(target, progress = "errored")
     },
-    enqueue_canceled = function(target) {
-      self$enqueue_progress(target, progress = "canceled")
+    buffer_canceled = function(target) {
+      self$buffer_progress(target, progress = "canceled")
     },
     register_skipped = function(target) {
       self$assign_skipped(target)
-      self$enqueue_skipped(target)
+      self$buffer_skipped(target)
     },
     register_started = function(target) {
       self$assign_started(target)
-      self$enqueue_started(target)
+      self$buffer_started(target)
     },
     register_built = function(target) {
       self$assign_built(target)
-      self$enqueue_built(target)
+      self$buffer_built(target)
     },
     register_errored = function(target) {
       self$assign_errored(target)
-      self$enqueue_errored(target)
+      self$buffer_errored(target)
     },
     register_canceled = function(target) {
       self$assign_canceled(target)
-      self$enqueue_canceled(target)
+      self$buffer_canceled(target)
     },
     uptodate = function() {
       self$skipped$count > 0L &&

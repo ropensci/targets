@@ -7,7 +7,7 @@ database_aws_new <- function(
   header = NULL,
   list_columns = NULL,
   list_column_modes = NULL,
-  queue = NULL,
+  buffer = NULL,
   resources = NULL
 ) {
   database_aws_class$new(
@@ -17,7 +17,7 @@ database_aws_new <- function(
     header = header,
     list_columns = list_columns,
     list_column_modes = list_column_modes,
-    queue = queue,
+    buffer = buffer,
     resources = resources
   )
 }

@@ -43,7 +43,7 @@ meta_class <- R6::R6Class(
       self$database$set_row(record_produce_row(record))
     },
     insert_record = function(record) {
-      self$database$enqueue_row(record_produce_row(record))
+      self$database$buffer_row(record_produce_row(record))
     },
     exists_record = function(name) {
       self$database$exists_row(name)

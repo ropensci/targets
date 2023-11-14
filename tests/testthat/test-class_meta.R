@@ -63,7 +63,7 @@ tar_test("builder metadata recording", {
   meta$insert_record(target_produce_record(target, pipeline, meta))
   expect_true(db$exists_row(target_get_name(target)))
   expect_equal(nrow(db$read_data()), 0L)
-  db$dequeue_rows()
+  db$flush_rows()
   expect_equal(nrow(db$read_data()), 1L)
 })
 

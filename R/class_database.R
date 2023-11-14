@@ -62,7 +62,7 @@ database_class <- R6::R6Class(
     list_columns = NULL,
     list_column_modes = NULL,
     resources = NULL,
-    queue = NULL,
+    buffer = NULL,
     staged = NULL,
     initialize = function(
       memory = NULL,
@@ -72,7 +72,7 @@ database_class <- R6::R6Class(
       list_columns = NULL,
       list_column_modes = NULL,
       resources = NULL,
-      queue = NULL
+      buffer = NULL
     ) {
       self$memory <- memory
       self$path <- path
@@ -81,7 +81,7 @@ database_class <- R6::R6Class(
       self$list_columns <- list_columns
       self$list_column_modes <- list_column_modes
       self$resources <- resources
-      self$queue <- queue
+      self$buffer <- buffer
     },
     get_row = function(name) {
       memory_get_object(self$memory, name)
@@ -150,15 +150,15 @@ database_class <- R6::R6Class(
       }
       as.list(data)[self$header]
     },
-    enqueue_row = function(row) {
+    buffer_row = function(row) {
       self$set_row(row)
       line <- self$produce_line(self$select_cols(row))
-      self$queue[length(self$queue) + 1L] <- line
+      self$buffer[length(self$buffer) + 1L] <- line
     },
-    dequeue_rows = function() {
-      if (length(self$queue)) {
-        self$append_lines(self$queue)
-        self$queue <- NULL
+    flush_rows = function() {
+      if (length(self$buffer)) {
+        self$append_lines(self$buffer)
+        self$buffer <- NULL
         self$staged <- TRUE
       }
     },

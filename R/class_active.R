@@ -79,23 +79,23 @@ active_class <- R6::R6Class(
       self$meta$record_imports(self$pipeline$imports, self$pipeline)
       self$meta$restrict_records(self$pipeline)
     },
-    dequeue_meta = function() {
-      self$meta$database$dequeue_rows()
-      self$scheduler$progress$database$dequeue_rows()
+    flush_meta = function() {
+      self$meta$database$flush_rows()
+      self$scheduler$progress$database$flush_rows()
     },
     upload_meta = function() {
       self$meta$database$upload_staged()
       self$scheduler$progress$database$upload_staged()
     },
     sync_meta_time = function() {
-      self$dequeue_meta_time()
+      self$flush_meta_time()
       self$upload_meta_time()
     },
-    dequeue_meta_time = function() {
+    flush_meta_time = function() {
       self$seconds_meta_appended <- self$seconds_meta_appended %|||% -Inf
       now <- time_seconds_local()
       if ((now - self$seconds_meta_appended) >= self$seconds_meta_append) {
-        self$dequeue_meta()
+        self$flush_meta()
         self$seconds_meta_appended <- time_seconds_local()
       }
     },
@@ -107,9 +107,9 @@ active_class <- R6::R6Class(
         self$seconds_meta_uploaded <- time_seconds_local()
       }
     },
-    dequeue_upload_meta_file = function(target) {
+    flush_upload_meta_file = function(target) {
       if (target_allow_meta(target)) {
-        self$dequeue_meta()
+        self$flush_meta()
         self$upload_meta()
       }
     },
@@ -177,7 +177,7 @@ active_class <- R6::R6Class(
       target_debug(target)
       target_update_depend(target, self$pipeline, self$meta)
       if (target_should_run(target, self$meta)) {
-        self$dequeue_upload_meta_file(target)
+        self$flush_upload_meta_file(target)
         self$run_target(name)
       } else {
         self$skip_target(target)
@@ -199,7 +199,7 @@ active_class <- R6::R6Class(
     end = function() {
       scheduler <- self$scheduler
       pipeline_unload_loaded(self$pipeline)
-      self$dequeue_meta()
+      self$flush_meta()
       self$meta$database$deduplicate_storage()
       self$upload_meta()
       path_scratch_del(path_store = self$meta$store)

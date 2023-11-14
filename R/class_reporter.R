@@ -27,17 +27,17 @@ reporter_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     seconds_interval = NULL,
-    queue = NULL,
-    seconds_dequeued = NULL,
+    buffer = NULL,
+    seconds_flushed = NULL,
     initialize = function(seconds_interval = NULL) {
       self$seconds_interval <- seconds_interval
     },
     poll = function() {
-      self$seconds_dequeued <- self$seconds_dequeued %|||% -Inf
+      self$seconds_flushed <- self$seconds_flushed %|||% -Inf
       now <- time_seconds_local()
-      if ((now - self$seconds_dequeued) > self$seconds_interval) {
-        self$dequeue()
-        self$seconds_dequeued <- time_seconds_local()
+      if ((now - self$seconds_flushed) > self$seconds_interval) {
+        self$flush_messages()
+        self$seconds_flushed <- time_seconds_local()
       }
     },
     report_start = function() {

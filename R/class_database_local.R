@@ -6,7 +6,7 @@ database_local_new <- function(
   list_columns = NULL,
   list_column_modes = NULL,
   resources = NULL,
-  queue = NULL
+  buffer = NULL
 ) {
   database_local_class$new(
     memory = memory,
@@ -16,7 +16,7 @@ database_local_new <- function(
     list_columns = list_columns,
     list_column_modes = list_column_modes,
     resources = resources,
-    queue = queue
+    buffer = buffer
   )
 }
 

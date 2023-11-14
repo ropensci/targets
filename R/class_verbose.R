@@ -9,18 +9,18 @@ verbose_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    dequeue = function() {
-      if (!is.null(self$queue)) {
-        message(paste(self$queue, collapse = "\n"))
-        self$queue <- NULL
+    flush_messages = function() {
+      if (!is.null(self$buffer)) {
+        message(paste(self$buffer, collapse = "\n"))
+        self$buffer <- NULL
       }
     },
-    enqueue = function(msg) {
-      self$queue[length(self$queue) + 1L] <- msg
+    buffer_message = function(msg) {
+      self$buffer[length(self$buffer) + 1L] <- msg
       self$poll()
     },
     report_started = function(target, progress = NULL) {
-      self$enqueue(
+      self$buffer_message(
         cli_start(
           target_get_name(target),
           target_get_type_cli(target),
@@ -29,7 +29,7 @@ verbose_class <- R6::R6Class(
       )
     },
     report_built = function(target, progress = NULL) {
-      self$enqueue(
+      self$buffer_message(
         cli_built(
           name = target_get_name(target),
           prefix = target_get_type_cli(target),
@@ -39,7 +39,7 @@ verbose_class <- R6::R6Class(
       )
     },
     report_skipped = function(target, progress = NULL) {
-      self$enqueue(
+      self$buffer_message(
         cli_skip(
           target_get_name(target),
           target_get_type_cli(target),
@@ -48,7 +48,7 @@ verbose_class <- R6::R6Class(
       )
     },
     report_errored = function(target, progress = NULL) {
-      self$enqueue(
+      self$buffer_message(
         cli_error(
           target_get_name(target),
           target_get_type_cli(target),
@@ -57,7 +57,7 @@ verbose_class <- R6::R6Class(
       )
     },
     report_canceled = function(target = NULL, progress = NULL) {
-      self$enqueue(
+      self$buffer_message(
         cli_cancel(
           target_get_name(target),
           target_get_type_cli(target),
@@ -66,10 +66,10 @@ verbose_class <- R6::R6Class(
       )
     },
     report_workspace = function(target) {
-      self$enqueue(cli_workspace(target_get_name(target), print = FALSE))
+      self$buffer_message(cli_workspace(target_get_name(target), print = FALSE))
     },
     report_end = function(progress = NULL, seconds_elapsed = NULL) {
-      self$dequeue()
+      self$flush_messages()
       progress$cli_end(seconds_elapsed = seconds_elapsed)
       super$report_end(progress)
     }
