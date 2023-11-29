@@ -42,7 +42,6 @@ tar_watch_ui <- function(
   display = "summary",
   displays = c("summary", "branches", "progress", "graph", "about")
 ) {
-  tar_assert_allow_meta("tar_watch_ui")
   tar_assert_watch_packages()
   tar_assert_dbl(seconds)
   tar_assert_dbl(seconds_min)

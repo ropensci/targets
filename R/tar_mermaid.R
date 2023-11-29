@@ -56,7 +56,7 @@ tar_mermaid <- function(
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
-  tar_assert_allow_meta("tar_mermaidd")
+  tar_assert_allow_meta("tar_mermaid", store)
   force(envir)
   tar_assert_lgl(targets_only, "targets_only must be logical.")
   tar_assert_lgl(outdated, "outdated in tar_mermaid() must be logical.")
