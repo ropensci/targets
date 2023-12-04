@@ -2,10 +2,12 @@ cli_dispatched <- function(
   name,
   prefix = NULL,
   time_stamp = FALSE,
-  print = TRUE
+  print = TRUE,
+  pending = FALSE
 ) {
   time <- if_any(time_stamp, time_stamp(), NULL)
-  msg <- paste(c(time, "dispatched", prefix, name), collapse = " ")
+  action <- if_any(pending, "dispatched (pending)", "dispatched")
+  msg <- paste(c(time, action, prefix, name), collapse = " ")
   cli_blue_play(msg, print = print)
 }
 

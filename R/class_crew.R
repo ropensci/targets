@@ -157,29 +157,25 @@ crew_class <- R6::R6Class(
       globals <- self$exports$globals
       resources <- target$settings$resources$crew
       name <- target_get_name(target)
-      saturated <- self$controller$saturated(controller = resources$controller)
-      if (saturated) {
-        # Requires a slow test. Covered in the saturation tests in
-        # tests/hpc/test-crew_local.R # nolint
-        # nocov start
-        self$scheduler$queue$append0(name = name)
-        self$backoff_requeue$wait()
-        # nocov end
-      } else {
-        target_prepare(target, self$pipeline, self$scheduler, self$meta)
-        self$sync_meta_time()
-        self$controller$push(
-          command = command,
-          data = data,
-          globals = globals,
-          substitute = FALSE,
-          name = name,
-          controller = resources$controller,
-          scale = TRUE,
-          seconds_timeout = resources$seconds_timeout
-        )
-        self$backoff_requeue$reset()
-      }
+      target_prepare(
+        target = target,
+        pipeline = self$pipeline, 
+        scheduler = self$scheduler,
+        meta = self$meta,
+        pending = self$controller$saturated(controller = resources$controller)
+      )
+      self$sync_meta_time()
+      self$controller$push(
+        command = command,
+        data = data,
+        globals = globals,
+        substitute = FALSE,
+        name = name,
+        controller = resources$controller,
+        scale = TRUE,
+        seconds_timeout = resources$seconds_timeout
+      )
+      self$backoff_requeue$reset()
     },
     run_main = function(target) {
       target_prepare(target, self$pipeline, self$scheduler, self$meta)

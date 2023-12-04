@@ -24,7 +24,7 @@ summary_class <- R6::R6Class(
     },
     report_error = function(error) {
     },
-    report_dispatched = function(target = NULL, progress) {
+    report_dispatched = function(target = NULL, progress, pending = FALSE) {
       self$report_progress(progress)
     },
     report_completed = function(target = NULL, progress) {

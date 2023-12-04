@@ -49,10 +49,20 @@ target_read_value.tar_builder <- function(target, pipeline = NULL) {
 }
 
 #' @export
-target_prepare.tar_builder <- function(target, pipeline, scheduler, meta) {
+target_prepare.tar_builder <- function(
+  target,
+  pipeline,
+  scheduler,
+  meta,
+  pending = FALSE
+) {
   target_patternview_dispatched(target, pipeline, scheduler)
   scheduler$progress$register_dispatched(target)
-  scheduler$reporter$report_dispatched(target, scheduler$progress)
+  scheduler$reporter$report_dispatched(
+    target = target,
+    progress = scheduler$progress,
+    pending = pending
+  )
   builder_ensure_deps(target, pipeline, "main")
   builder_update_subpipeline(target, pipeline)
   builder_marshal_subpipeline(target)

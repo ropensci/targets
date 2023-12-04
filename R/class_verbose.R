@@ -19,12 +19,13 @@ verbose_class <- R6::R6Class(
       self$buffer[length(self$buffer) + 1L] <- msg
       self$poll()
     },
-    report_dispatched = function(target, progress = NULL) {
+    report_dispatched = function(target, progress = NULL, pending = FALSE) {
       self$buffer_message(
         cli_dispatched(
           target_get_name(target),
           target_get_type_cli(target),
-          print = FALSE
+          print = FALSE,
+          pending = pending
         )
       )
     },
