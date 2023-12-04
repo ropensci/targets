@@ -17,7 +17,7 @@ tar_test("progress of successful pattern", {
   progress <- local$scheduler$progress$database$read_data()
   progress <- as_data_frame(progress)
   progress <- progress[progress$name == "map", ]
-  expect_equal(progress$progress, c("started", "built"))
+  expect_equal(progress$progress, c("dispatched", "completed"))
 })
 
 tar_test("progress of a pattern with a canceled branch", {

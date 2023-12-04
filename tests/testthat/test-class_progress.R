@@ -10,12 +10,12 @@ tar_test("progress$queued", {
   expect_silent(counter_validate(progress_init()$queued))
 })
 
-tar_test("progress$started", {
-  expect_silent(counter_validate(progress_init()$started))
+tar_test("progress$dispatched", {
+  expect_silent(counter_validate(progress_init()$dispatched))
 })
 
-tar_test("progress$built", {
-  expect_silent(counter_validate(progress_init()$built))
+tar_test("progress$completed", {
+  expect_silent(counter_validate(progress_init()$completed))
 })
 
 tar_test("progress$skipped", {
@@ -33,16 +33,16 @@ tar_test("progress$errored", {
 tar_test("progress$assign_queued()", {
   progress <- progress_init()
   progress$assign_queued(target_init("x", 1))
-  expect_equal(counter_get_names(progress$built), character(0))
+  expect_equal(counter_get_names(progress$completed), character(0))
   expect_equal(counter_get_names(progress$queued), "x")
 })
 
-tar_test("progress$assign_started()", {
+tar_test("progress$assign_dispatched()", {
   progress <- progress_init()
   progress$assign_queued(target_init("x", 1))
-  progress$assign_started(target_init("x", 1))
+  progress$assign_dispatched(target_init("x", 1))
   expect_equal(counter_get_names(progress$queued), character(0))
-  expect_equal(counter_get_names(progress$started), "x")
+  expect_equal(counter_get_names(progress$dispatched), "x")
 })
 
 tar_test("progress$assign_skipped()", {
@@ -53,35 +53,35 @@ tar_test("progress$assign_skipped()", {
   expect_equal(counter_get_names(progress$skipped), "x")
 })
 
-tar_test("progress$assign_built()", {
+tar_test("progress$assign_completed()", {
   progress <- progress_init()
-  progress$assign_started(target_init("x", 1))
-  progress$assign_built(target_init("x", 1))
-  expect_equal(counter_get_names(progress$started), character(0))
-  expect_equal(counter_get_names(progress$built), "x")
+  progress$assign_dispatched(target_init("x", 1))
+  progress$assign_completed(target_init("x", 1))
+  expect_equal(counter_get_names(progress$dispatched), character(0))
+  expect_equal(counter_get_names(progress$completed), "x")
 })
 
 tar_test("progress$assign_canceled()", {
   progress <- progress_init()
-  progress$assign_started(target_init("x", 1))
+  progress$assign_dispatched(target_init("x", 1))
   progress$assign_canceled(target_init("x", 1))
-  expect_equal(counter_get_names(progress$started), character(0))
+  expect_equal(counter_get_names(progress$dispatched), character(0))
   expect_equal(counter_get_names(progress$canceled), "x")
 })
 
 tar_test("progress$assign_errored()", {
   progress <- progress_init()
-  progress$assign_started(target_init("x", 1))
+  progress$assign_dispatched(target_init("x", 1))
   progress$assign_errored(target_init("x", 1))
-  expect_equal(counter_get_names(progress$started), character(0))
+  expect_equal(counter_get_names(progress$dispatched), character(0))
   expect_equal(counter_get_names(progress$errored), "x")
 })
 
-tar_test("progress$register_started()", {
+tar_test("progress$register_dispatched()", {
   progress <- progress_init()
   progress$database$reset_storage()
-  progress$register_started(target_init("x", 1))
-  expect_equal(counter_get_names(progress$started), "x")
+  progress$register_dispatched(target_init("x", 1))
+  expect_equal(counter_get_names(progress$dispatched), "x")
   progress$database$flush_rows()
   data <- progress$database$read_data()
   exp <- data_frame(
@@ -89,16 +89,16 @@ tar_test("progress$register_started()", {
     type = "stem",
     parent = "x",
     branches = 0L,
-    progress = "started"
+    progress = "dispatched"
   )
   expect_equal(data, exp)
 })
 
-tar_test("progress$register_built()", {
+tar_test("progress$register_completed()", {
   progress <- progress_init()
   progress$database$reset_storage()
-  progress$register_built(target_init("x", 1))
-  expect_equal(counter_get_names(progress$built), "x")
+  progress$register_completed(target_init("x", 1))
+  expect_equal(counter_get_names(progress$completed), "x")
   progress$database$flush_rows()
   data <- progress$database$read_data()
   exp <- data_frame(
@@ -106,7 +106,7 @@ tar_test("progress$register_built()", {
     type = "stem",
     parent = "x",
     branches = 0L,
-    progress = "built"
+    progress = "completed"
   )
   expect_equal(data, exp)
 })
@@ -155,14 +155,14 @@ tar_test("progress$any_remaining() while queued", {
 tar_test("progress$any_targets()", {
   progress <- progress_init()
   expect_false(progress$any_targets())
-  counter_set_name(progress$built, "x")
+  counter_set_name(progress$completed, "x")
   expect_true(progress$any_targets())
 })
 
-tar_test("progress$any_remaining() while started", {
+tar_test("progress$any_remaining() while dispatched", {
   progress <- progress_init()
   expect_false(progress$any_remaining())
-  progress$assign_started(target_init("x", 1))
+  progress$assign_dispatched(target_init("x", 1))
   expect_true(progress$any_remaining())
 })
 
@@ -177,7 +177,7 @@ tar_test("progress database gets used", {
     type = rep("stem", 4L),
     parent = c("x", "x", "y", "y"),
     branches = rep(0L, 4L),
-    progress = c("started", "built", "started", "built")
+    progress = c("dispatched", "completed", "dispatched", "completed")
   )
   expect_equal(out, exp)
   x <- target_init("x", quote(1))
@@ -206,7 +206,7 @@ tar_test("progress records dynamic branching data", {
   expect_equal(branches$type, rep("branch", 2))
   expect_equal(branches$parent, rep("y", 2))
   expect_equal(branches$branches, rep(0L, 2))
-  expect_equal(branches$progress, rep("built", 2))
+  expect_equal(branches$progress, rep("completed", 2))
   x <- out[out$name == "x", ]
   y <- out[out$name == "y", ]
   nonbranches <- rbind(x, y)
@@ -214,7 +214,7 @@ tar_test("progress records dynamic branching data", {
   expect_equal(nonbranches$type, c("stem", "pattern"))
   expect_equal(nonbranches$parent, c("x", "y"))
   expect_equal(nonbranches$branches, c(0L, 2L))
-  expect_equal(nonbranches$progress, rep("built", 2))
+  expect_equal(nonbranches$progress, rep("completed", 2))
 })
 
 tar_test("progress records dynamic branching error status", {

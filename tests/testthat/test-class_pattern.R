@@ -805,9 +805,9 @@ tar_test("bootstrap a pattern for a shortcut pattern and stem", {
   expect_equal(tar_read(z), 4L)
   p <- tar_progress()
   expect_equal(nrow(p), 4L)
-  expect_equal(p$progress[grepl("^y_", p$name)], rep("built", 2L))
-  expect_equal(p$progress[p$name == "y"], "built")
-  expect_equal(p$progress[p$name == "z"], "built")
+  expect_equal(p$progress[grepl("^y_", p$name)], rep("completed", 2L))
+  expect_equal(p$progress[p$name == "y"], "completed")
+  expect_equal(p$progress[p$name == "z"], "completed")
 })
 
 tar_test("shortcut error trying to branch over empty stem", {
@@ -823,7 +823,7 @@ tar_test("shortcut error trying to branch over empty stem", {
   tar_make(y, shortcut = TRUE, callr_function = NULL)
   out <- tar_progress()
   expect_equal(out$name, "y")
-  expect_equal(out$progress, "built")
+  expect_equal(out$progress, "completed")
   expect_null(tar_read(y))
   tar_script(
     list(
