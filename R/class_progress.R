@@ -201,13 +201,13 @@ progress_class <- R6::R6Class(
     },
     cli_data = function() {
       list(
-        queue = self$queued$count,
-        skip = self$skipped$count,
-        start = self$dispatched$count,
+        queued = self$queued$count,
+        skipped = self$skipped$count,
+        dispatched = self$dispatched$count,
         completed = self$completed$count,
-        error = self$errored$count,
-        warn = self$warned$count,
-        cancel = self$canceled$count,
+        errored = self$errored$count,
+        warned = self$warned$count,
+        canceled = self$canceled$count,
         time = time_stamp_short()
       )
     },

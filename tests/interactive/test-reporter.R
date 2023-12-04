@@ -26,7 +26,7 @@ for (index in seq_len(2L)) {
   local <- local_init(pipeline, reporter = "silent")$run()
 }
 
-# Should show one start and built message per target.
+# Should show one dispatched and one completed message per target.
 tar_destroy()
 local_init(pipeline_map(), reporter = "verbose")$run()
 
@@ -93,7 +93,7 @@ pipeline <- pipeline_init(list(target_init("x", quote(targets::tar_cancel()))))
 local <- local_init(pipeline, reporter = "verbose")$run()
 expect_equal(tar_progress()$progress, "canceled")
 
-# Should show one start and one built timestamped message per target.
+# Should show one start and one completed timestamped message per target.
 tar_destroy()
 local_init(pipeline_map(), reporter = "timestamp")$run()
 
@@ -130,11 +130,11 @@ local <- local_init(pipeline, reporter = "timestamp")$run()
 expect_equal(tar_progress()$progress, "canceled")
 
 # Should show counts per target status category
-# and show all built at the end.
+# and show all completed at the end.
 tar_destroy()
 local_init(pipeline_map(), reporter = "summary")$run()
 
-# Should see a started target for 2 seconds.
+# Should see a dispatched target for 2 seconds.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(Sys.sleep(2)))))
 local <- local_init(pipeline, reporter = "summary")$run()
