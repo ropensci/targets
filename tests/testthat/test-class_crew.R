@@ -90,8 +90,8 @@ tar_test("workerless deployment works", {
     crew_test_sleep()
   })
   R.utils::withTimeout(out$run(), timeout = 360)
-  built <- names(out$scheduler$progress$built$envir)
-  expect_equal(built, character(0))
+  completed <- names(out$scheduler$progress$completed$envir)
+  expect_equal(completed, character(0))
 })
 
 tar_test("semi-workerless deployment works", {
@@ -175,8 +175,8 @@ tar_test("semi-workerless deployment works", {
   })
   out <- crew_init(pipeline, controller = controller)
   R.utils::withTimeout(out$run(), timeout = 360)
-  built <- names(out$scheduler$progress$built$envir)
-  expect_equal(built, character(0))
+  completed <- names(out$scheduler$progress$completed$envir)
+  expect_equal(completed, character(0))
 })
 
 tar_test("some targets up to date, some not", {
@@ -228,7 +228,7 @@ tar_test("some targets up to date, some not", {
   })
   algo <- crew_init(pipeline, controller = controller)
   R.utils::withTimeout(algo$run(), timeout = 360)
-  out <- names(algo$scheduler$progress$built$envir)
+  out <- names(algo$scheduler$progress$completed$envir)
   expect_equal(out, "y")
   value <- target_read_value(pipeline_get_target(pipeline, "y"))
   expect_equal(value$object, 2L)
@@ -284,7 +284,7 @@ tar_test("crew algo can skip targets", {
   })
   algo <- crew_init(pipeline, controller = controller)
   R.utils::withTimeout(algo$run(), timeout = 360)
-  out <- names(algo$scheduler$progress$built$envir)
+  out <- names(algo$scheduler$progress$completed$envir)
   expect_equal(out, "x")
   expect_equal(tar_read(x), 1L)
 })
