@@ -21,7 +21,7 @@ timestamp_class <- R6::R6Class(
     },
     report_dispatched = function(target, progress = NULL) {
       self$buffer_message(
-        cli_start(
+        cli_dispatched(
           target_get_name(target),
           target_get_type_cli(target),
           time_stamp = TRUE,

@@ -1,6 +1,11 @@
-cli_start <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
+cli_dispatched <- function(
+  name,
+  prefix = NULL,
+  time_stamp = FALSE,
+  print = TRUE
+) {
   time <- if_any(time_stamp, time_stamp(), NULL)
-  msg <- paste(c(time, "start", prefix, name), collapse = " ")
+  msg <- paste(c(time, "dispatched", prefix, name), collapse = " ")
   cli_blue_play(msg, print = print)
 }
 
