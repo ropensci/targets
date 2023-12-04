@@ -51,7 +51,7 @@ create_plot <- function(data) {
 
 # Targets
 
-Our first target borrows the `airquality` dataset built into base R.
+Our first target borrows the `airquality` dataset from base R.
 
 ```{targets othername, tar_name = "raw_data", tar_simple = TRUE}
 airquality
