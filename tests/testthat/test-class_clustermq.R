@@ -26,8 +26,8 @@ tar_test("workerless deployment works", {
   pipeline <- pipeline_init(list(x, y, z))
   out <- clustermq_init(pipeline)
   out$run()
-  built <- names(out$scheduler$progress$built$envir)
-  expect_equal(built, character(0))
+  completed <- names(out$scheduler$progress$completed$envir)
+  expect_equal(completed, character(0))
 })
 
 tar_test("semi-workerless deployment works", {
@@ -56,8 +56,8 @@ tar_test("semi-workerless deployment works", {
   pipeline <- pipeline_init(list(x, y, z))
   out <- clustermq_init(pipeline)
   out$run()
-  built <- names(out$scheduler$progress$built$envir)
-  expect_equal(built, character(0))
+  completed <- names(out$scheduler$progress$completed$envir)
+  expect_equal(completed, character(0))
 })
 
 tar_test("some targets up to date, some not", {
@@ -82,7 +82,7 @@ tar_test("some targets up to date, some not", {
   # https://github.com/mschubert/clustermq/issues/269
   cmq <- clustermq_init(pipeline)
   suppressWarnings(cmq$run())
-  out <- names(cmq$scheduler$progress$built$envir)
+  out <- names(cmq$scheduler$progress$completed$envir)
   expect_equal(out, "y")
   value <- target_read_value(pipeline_get_target(pipeline, "y"))
   expect_equal(value$object, 2L)
@@ -111,7 +111,7 @@ tar_test("clustermq algo can skip targets", {
   cmq <- clustermq_init(pipeline)
   # https://github.com/mschubert/clustermq/issues/269
   suppressWarnings(cmq$run())
-  out <- names(cmq$scheduler$progress$built$envir)
+  out <- names(cmq$scheduler$progress$completed$envir)
   expect_equal(out, "x")
   expect_equal(tar_read(x), 1L)
 })
@@ -179,7 +179,7 @@ tar_test("clustermq with a dynamic file", {
   cmq <- clustermq_init(pipeline)
   # https://github.com/mschubert/clustermq/issues/269
   suppressWarnings(cmq$run())
-  out <- names(cmq$scheduler$progress$built$envir)
+  out <- names(cmq$scheduler$progress$completed$envir)
   expect_equal(out, "x")
   saveRDS(2L, pipeline_get_target(pipeline, "x")$store$file$path)
   x <- tar_target_raw("x", quote(save1()), format = "file")
@@ -187,7 +187,7 @@ tar_test("clustermq with a dynamic file", {
   cmq <- clustermq_init(pipeline)
   # https://github.com/mschubert/clustermq/issues/269
   suppressWarnings(cmq$run())
-  out <- names(cmq$scheduler$progress$built$envir)
+  out <- names(cmq$scheduler$progress$completed$envir)
   expect_equal(out, "x")
 })
 
@@ -211,8 +211,8 @@ tar_test("branching plan", {
   out2 <- clustermq_init(pipeline_map(), workers = 2L)
   # https://github.com/mschubert/clustermq/issues/269
   suppressWarnings(out2$run())
-  built <- names(out2$scheduler$progress$built$envir)
-  expect_equal(built, character(0))
+  completed <- names(out2$scheduler$progress$completed$envir)
+  expect_equal(completed, character(0))
   value <- function(name) {
     target_read_value(pipeline_get_target(pipeline, name))$object
   }
