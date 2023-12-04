@@ -1,5 +1,5 @@
 tar_test("tar_built() empty", {
-  expect_warning(tar_built(), class = "crew_condition_deprecate")
+  expect_warning(tar_built(), class = "tar_condition_deprecate")
   expect_equal(suppressWarnings(tar_built()), character(0))
   expect_equal(suppressWarnings(tar_built(contains("x"))), character(0))
 })
