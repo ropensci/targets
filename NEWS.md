@@ -1,4 +1,4 @@
-# targets 1.3.2.9004 (development)
+# targets 1.3.2.9005 (development)
 
 ## Invalidating changes
 
@@ -27,9 +27,11 @@ Because of the changes below, upgrading to this version of `targets` will unavoi
 ## Other changes
 
 * Migrate to the changes in `clustermq` 0.9.0 (@mschubert).
-* In progress statuses, change "started" to "dispatched" and change "built" to "completed" (#1182).
-* Deprecate `tar_started()` in favor of `tar_dispatched()` (#1182).
-* Deprecate `tar_built()` in favor of `tar_completed()` (#1182).
+* In progress statuses, change "started" to "dispatched" and change "built" to "completed" (#1192).
+* Deprecate `tar_started()` in favor of `tar_dispatched()` (#1192).
+* Deprecate `tar_built()` in favor of `tar_completed()` (#1192).
+* Console messages from reporters say "dispatched" and "completed" instead of "started" and "built" (#1192).
+* The `crew` scheduling algorithm no longer waits on saturated controllers, and targets that are ready are greedily dispatched to `crew` even if all workers are busy (#1182, #1192). To appropriately set expectations for users, reporters print "dispatched (pending)" instead of "dispatched" if the task load is backlogged at the moment.
 
 # targets 1.3.2
 
