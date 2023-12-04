@@ -409,6 +409,6 @@ tar_test("bootstrap a budding and a non-budding stem for shortcut", {
   expect_equal(unname(tar_read(z)), c(3L, 4L))
   p <- tar_progress()
   expect_equal(nrow(p), 3L)
-  expect_equal(p$progress[grepl("^z_", p$name)], rep("built", 2L))
-  expect_equal(p$progress[p$name == "z"], "built")
+  expect_equal(p$progress[grepl("^z_", p$name)], rep("completed", 2L))
+  expect_equal(p$progress[p$name == "z"], "completed")
 })

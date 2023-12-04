@@ -39,7 +39,7 @@ tar_test("progress of a pattern with a canceled branch", {
   progress <- local$scheduler$progress$database$read_data()
   progress <- as_data_frame(progress)
   progress <- progress[progress$name == "map", ]
-  expect_equal(progress$progress, c("started", "canceled"))
+  expect_equal(progress$progress, c("dispatched", "canceled"))
 })
 
 tar_test("progress of a pattern with a errored branch", {
@@ -61,7 +61,7 @@ tar_test("progress of a pattern with a errored branch", {
   progress <- local$scheduler$progress$database$read_data()
   progress <- as_data_frame(progress)
   progress <- progress[progress$name == "map", ]
-  expect_equal(progress$progress, c("started", "errored"))
+  expect_equal(progress$progress, c("dispatched", "errored"))
 })
 
 tar_test("same, but continue on error", {
@@ -84,7 +84,7 @@ tar_test("same, but continue on error", {
   progress <- local$scheduler$progress$database$read_data()
   progress <- as_data_frame(progress)
   progress <- progress[progress$name == "map", ]
-  expect_equal(progress$progress, c("started", "errored"))
+  expect_equal(progress$progress, c("dispatched", "errored"))
 })
 
 tar_test("patternview_validate()", {

@@ -52,7 +52,7 @@ tar_test("class_store_custom rds", {
     tar_target(x, "value", format = format)
   })
   tar_make(callr_function = NULL)
-  expect_equal(tar_progress(x)$progress, "built")
+  expect_equal(tar_progress(x)$progress, "completed")
   expect_equal(tar_read(x), "value")
 })
 
