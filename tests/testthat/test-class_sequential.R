@@ -17,12 +17,6 @@ tar_test("sequential$append()", {
   expect_equal(q$data, c("a", "b", "c", "d"))
 })
 
-tar_test("sequential$append0()", {
-  q <- sequential_init(c("a", "b"))
-  q$append0(name = "c")
-  expect_equal(q$data, c("a", "b", "c"))
-})
-
 tar_test("sequential$increment_ranks()", {
   q <- sequential_init(c("a", "b"))
   q$increment_ranks("a", 1L)
