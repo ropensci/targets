@@ -104,8 +104,8 @@ test_that("branching plan on SGE", {
   expect_equal(skipped, character(0))
   out2 <- clustermq_init(pipeline_map(), workers = 2L)
   out2$run()
-  built <- names(out2$scheduler$progress$built$envir)
-  expect_equal(built, character(0))
+  completed <- names(out2$scheduler$progress$completed$envir)
+  expect_equal(completed, character(0))
   value <- function(name) {
     target_read_value(pipeline_get_target(pipeline, name))$object
   }
@@ -236,14 +236,14 @@ test_that("clustermq with a dynamic file", {
   pipeline <- pipeline_init(list(x))
   cmq <- clustermq_init(pipeline)
   cmq$run()
-  out <- names(cmq$scheduler$progress$built$envir)
+  out <- names(cmq$scheduler$progress$completed$envir)
   expect_equal(out, "x")
   saveRDS(2L, pipeline_get_target(pipeline, "x")$store$file$path)
   x <- tar_target_raw("x", quote(save1()), format = "file")
   pipeline <- pipeline_init(list(x))
   cmq <- clustermq_init(pipeline)
   cmq$run()
-  out <- names(cmq$scheduler$progress$built$envir)
+  out <- names(cmq$scheduler$progress$completed$envir)
   expect_equal(out, "x")
 })
 

@@ -103,8 +103,8 @@ test_that("branching plan on SGE", {
   expect_equal(skipped, character(0))
   out2 <- future_init(pipeline_map(), workers = 2L)
   out2$run()
-  built <- names(out2$scheduler$progress$built$envir)
-  expect_equal(built, character(0))
+  completed <- names(out2$scheduler$progress$completed$envir)
+  expect_equal(completed, character(0))
   value <- function(name) {
     target_read_value(pipeline_get_target(pipeline, name))$object
   }
