@@ -22,7 +22,7 @@ about how to set the data store path persistently
 for a project.}
 }
 \value{
-A character vector of started targets.
+A character vector of dispatched targets.
 }
 \description{
 Deprecated in favor of \code{\link[=tar_dispatched]{tar_dispatched()}} on 2023-12-04

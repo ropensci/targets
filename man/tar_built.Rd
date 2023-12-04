@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_built.R
 \name{tar_built}
 \alias{tar_built}
-\title{List built targets.}
+\title{Deprecated: list built targets.}
 \usage{
 tar_built(names = NULL, store = targets::tar_config_get("store"))
 }
@@ -22,10 +22,11 @@ about how to set the data store path persistently
 for a project.}
 }
 \value{
-A character vector of built targets.
+A character vector of completed targets.
 }
 \description{
-List targets whose progress is \code{"built"}.
+Deprecated in favor of \code{\link[=tar_completed]{tar_completed()}} on 2023-12-04
+(version 1.3.2.9004).
 }
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
@@ -37,23 +38,9 @@ tar_script({
   )
 }, ask = FALSE)
 tar_make()
-tar_built()
-tar_built(starts_with("y_")) # see also any_of()
+tar_completed()
+tar_completed(starts_with("y_")) # see also any_of()
 })
 }
 }
-\seealso{
-Other progress: 
-\code{\link{tar_canceled}()},
-\code{\link{tar_dispatched}()},
-\code{\link{tar_errored}()},
-\code{\link{tar_poll}()},
-\code{\link{tar_progress_branches}()},
-\code{\link{tar_progress_summary}()},
-\code{\link{tar_progress}()},
-\code{\link{tar_skipped}()},
-\code{\link{tar_watch_server}()},
-\code{\link{tar_watch_ui}()},
-\code{\link{tar_watch}()}
-}
-\concept{progress}
+\keyword{internal}

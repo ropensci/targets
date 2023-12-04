@@ -44,7 +44,7 @@ tar_canceled(starts_with("y_")) # see also any_of()
 }
 \seealso{
 Other progress: 
-\code{\link{tar_built}()},
+\code{\link{tar_completed}()},
 \code{\link{tar_dispatched}()},
 \code{\link{tar_errored}()},
 \code{\link{tar_poll}()},
