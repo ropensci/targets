@@ -270,8 +270,8 @@ pattern_conclude_final <- function(target, pipeline, scheduler, meta) {
   pattern_begin_final(target, pipeline, scheduler, meta)
   pattern_record_meta(target, pipeline, meta)
   patternview_register_final(target$patternview, target, scheduler)
-  if (identical(target$patternview$progress, "built")) {
-    scheduler$reporter$report_built(target, scheduler$progress)
+  if (identical(target$patternview$progress, "completed")) {
+    scheduler$reporter$report_completed(target, scheduler$progress)
   } else if (identical(target$patternview$progress, "skipped")) {
     scheduler$reporter$report_skipped(target, scheduler$progress)
   }

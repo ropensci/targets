@@ -159,15 +159,17 @@ inspection_class <- R6::R6Class(
         target_get_type(pipeline_get_target(pipeline, name))
       })
       progress <- self$progress$database$read_condensed_data()
-      # Keep this line for legacy reasons:
-      progress$progress <- gsub("running", "started", x = progress$progress)
+      # Keep these gsub lines for legacy reasons:
+      progress$progress <- gsub("running", "dispatched", x = progress$progress)
+      progress$progress <- gsub("started", "dispatched", x = progress$progress)
+      progress$progress <- gsub("built", "completed", x = progress$progress)
       if (self$outdated) {
-        index <- !(progress$progress %in% c("skipped", "built"))
+        index <- !(progress$progress %in% c("skipped", "completed"))
         progress <- progress[index,, drop = FALSE] # nolint
       }
       out <- merge(vertices, progress, all.x = TRUE, sort = FALSE)
       out <- out[order(out$name),, drop = FALSE] # nolint
-      levels <- c("skipped", "started", "built", "canceled", "errored")
+      levels <- c("skipped", "dispatched", "completed", "canceled", "errored")
       in_levels <- !is.na(out$progress) & out$progress %in% levels
       status <- ifelse(in_levels, out$progress, status)
       status[is.na(status)] <- "queued"

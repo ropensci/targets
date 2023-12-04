@@ -87,11 +87,11 @@ scheduler_class <- R6::R6Class(
         self$progress$queued,
         deps
       )
-      deps_started <- counter_filter_exists(
-        self$progress$started,
+      deps_dispatched <- counter_filter_exists(
+        self$progress$dispatched,
         deps
       )
-      length(deps_queued) + length(deps_started)
+      length(deps_queued) + length(deps_dispatched)
     },
     abridge = function(target) {
       self$reporter$report_error(target$metrics$error)

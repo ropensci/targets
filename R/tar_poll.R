@@ -26,7 +26,14 @@
 tar_poll <- function(
   interval = 1,
   timeout = Inf,
-  fields = c("skipped", "started", "built", "errored", "canceled", "since"),
+  fields = c(
+    "skipped",
+    "dispatched",
+    "completed",
+    "errored",
+    "canceled",
+    "since"
+  ),
   store = targets::tar_config_get("store")
 ) {
   tar_assert_allow_meta("tar_poll", store)

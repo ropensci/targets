@@ -33,7 +33,7 @@ all the targets upstream as well). Selecting a small subgraph
 using \code{names} could speed up the load time of the visualization.
 Unlike \code{allow}, \code{names} is invoked before the graph
 is generated.
-Set to NULL to check/build all the targets (default).
+Set to NULL to check/run all the targets (default).
 Otherwise, you can supply symbols or tidyselect helpers
 like starts_with().
 Applies to ordinary targets (stem) and whole dynamic branching
@@ -68,7 +68,7 @@ targets from up-to-date targets. (Global functions and objects
 still show these colors.) Looking for outdated targets
 takes a lot of time for large pipelines with lots of branches,
 and setting \code{outdated} to \code{FALSE} is a nice way to speed up the graph
-if you only want to see dependency relationships and build progress.}
+if you only want to see dependency relationships and pipeline progress.}
 
 \item{label}{Character vector of one or more aesthetics to add to the
 vertex labels. Can contain \code{"time"} to show total runtime, \code{"size"}
@@ -169,7 +169,7 @@ edge indicates where a downstream node depends on an upstream node.
 The DAG is not always a tree, but it never contains a cycle because
 no target is allowed to directly or indirectly depend on itself.
 The dependency graph should show a natural progression of work from
-left to right. \code{targets} uses static code analysis to build the graph,
+left to right. \code{targets} uses static code analysis to create the graph,
 so the order of \code{tar_target()} calls in the \verb{_targets.R} file
 does not matter. However, targets does not support self-referential
 loops or other cycles. For more information on the dependency graph,

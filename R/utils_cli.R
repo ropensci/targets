@@ -4,7 +4,7 @@ cli_start <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
   cli_blue_play(msg, print = print)
 }
 
-cli_built <- function(
+cli_completed <- function(
   name,
   prefix = NULL,
   time_stamp = FALSE,
@@ -12,7 +12,7 @@ cli_built <- function(
   print = TRUE
 ) {
   time <- if_any(time_stamp, time_stamp(), NULL)
-  msg <- paste(c(time, "built", prefix, name), collapse = " ")
+  msg <- paste(c(time, "completed", prefix, name), collapse = " ")
   if (!is.null(seconds_elapsed)) {
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
     msg <- paste0(msg, msg_time)

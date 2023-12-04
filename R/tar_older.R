@@ -25,7 +25,7 @@
 #'   For example, if `time = Sys.time() - as.difftime(1, units = "weeks")`
 #'   then `tar_older()` returns targets older than one week ago.
 #' @param inclusive Logical of length 1, whether to include targets
-#'   built at exactly the `time` given.
+#'   completed at exactly the `time` given.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

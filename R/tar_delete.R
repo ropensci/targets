@@ -48,7 +48,7 @@
 #' }, ask = FALSE)
 #' tar_make()
 #' tar_delete(starts_with("y")) # Only deletes y1 and y2.
-#' tar_make() # y1 and y2 rebuild but return same values, so z is up to date.
+#' tar_make() # y1 and y2 rerun but return the same values, so z is up to date.
 #' })
 #' }
 tar_delete <- function(

@@ -19,7 +19,7 @@ timestamp_class <- R6::R6Class(
       self$buffer[length(self$buffer) + 1L] <- msg
       self$poll()
     },
-    report_started = function(target, progress = NULL) {
+    report_dispatched = function(target, progress = NULL) {
       self$buffer_message(
         cli_start(
           target_get_name(target),
@@ -29,9 +29,9 @@ timestamp_class <- R6::R6Class(
         )
       )
     },
-    report_built = function(target, progress) {
+    report_completed = function(target, progress) {
       self$buffer_message(
-        cli_built(
+        cli_completed(
           target_get_name(target),
           target_get_type_cli(target),
           time_stamp = TRUE,

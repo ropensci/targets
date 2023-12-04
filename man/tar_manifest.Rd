@@ -30,7 +30,7 @@ Possible fields are below. All of them can be set in \code{\link[=tar_target]{ta
 \code{\link[=tar_target_raw]{tar_target_raw()}}, or \code{\link[=tar_option_set]{tar_option_set()}}.
 \itemize{
 \item \code{name}: Name of the target.
-\item \code{command}: the R command that runs when the target builds.
+\item \code{command}: the R command that runs when the target runs.
 \item \code{pattern}: branching pattern of the target, if applicable.
 \item \code{format}: Storage format.
 \item \code{repository}: Storage repository.
@@ -43,8 +43,8 @@ Possible fields are below. All of them can be set in \code{\link[=tar_target]{ta
 computing scenarios.
 \item \code{priority}: Numeric of length 1 between 0 and 1. Controls which
 targets get deployed first when multiple competing targets are ready
-simultaneously. Targets with priorities closer to 1 get built earlier
-(and polled earlier in \code{\link[=tar_make_future]{tar_make_future()}}).
+simultaneously. Targets with priorities closer to 1 get dispatched
+earlier (and polled earlier in \code{\link[=tar_make_future]{tar_make_future()}}).
 \item \code{resources}: A list of target-specific resource requirements for
 \code{\link[=tar_make_future]{tar_make_future()}}.
 \item \code{cue_mode}: Cue mode from \code{\link[=tar_cue]{tar_cue()}}.
@@ -54,7 +54,7 @@ simultaneously. Targets with priorities closer to 1 get built earlier
 \item \code{cue_format}: Format cue from \code{\link[=tar_cue]{tar_cue()}}.
 \item \code{cue_repository}: Repository cue from \code{\link[=tar_cue]{tar_cue()}}.
 \item \code{cue_iteration}: Iteration cue from \code{\link[=tar_cue]{tar_cue()}}.
-\item \code{packages}: List columns of packages loaded before building the target.
+\item \code{packages}: List columns of packages loaded before running the target.
 \item \code{library}: List column of library paths to load the packages.
 }}
 

@@ -32,10 +32,10 @@ visual_class <- R6::R6Class(
     },
     produce_colors = function(status) {
       colors <- c(
-        built = "#000000",
+        completed = "#000000",
         uptodate = "#ffffff",
         outdated = "#000000",
-        started = "#000000",
+        dispatched = "#000000",
         canceled = "#000000",
         errored = "#ffffff",
         queued = "#000000",
@@ -46,10 +46,10 @@ visual_class <- R6::R6Class(
     },
     produce_fills = function(status) {
       fills <- c(
-        built = "#E1BD6D",
+        completed = "#E1BD6D",
         uptodate = "#354823",
         outdated = "#78B7C5",
-        started = "#DC863B",
+        dispatched = "#DC863B",
         canceled = "#FAD510",
         errored = "#C93312",
         queued = "#D2D2D0",

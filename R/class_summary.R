@@ -24,10 +24,10 @@ summary_class <- R6::R6Class(
     },
     report_error = function(error) {
     },
-    report_started = function(target = NULL, progress) {
+    report_dispatched = function(target = NULL, progress) {
       self$report_progress(progress)
     },
-    report_built = function(target = NULL, progress) {
+    report_completed = function(target = NULL, progress) {
       self$report_progress(progress)
     },
     report_skipped = function(target = NULL, progress) {

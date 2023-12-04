@@ -69,7 +69,7 @@
 #'     is not `"local"`). (These paths must be existing files
 #'     and nonempty directories.)
 #'     Then, `targets` automatically checks those files and cues
-#'     the appropriate build decisions if those files are out of date.
+#'     the appropriate run/skip decisions if those files are out of date.
 #'     Those paths must point to files or directories,
 #'     and they must not contain characters `|` or `*`.
 #'     All the files and directories you return must actually exist,
@@ -186,7 +186,7 @@
 #'   "bang-bang" operator `!!` to programmatically insert
 #'   the values of global objects.
 #' @param packages Character vector of packages to load right before
-#'   the target builds or the output data is reloaded for
+#'   the target runs or the output data is reloaded for
 #'   downstream targets. Use `tar_option_set()` to set packages
 #'   globally for all subsequent targets you define.
 #' @param library Character vector of library paths to try
@@ -230,11 +230,11 @@
 #'   just before the target runs.
 #' @param deployment Character of length 1, only relevant to
 #'   [tar_make_clustermq()] and [tar_make_future()]. If `"worker"`,
-#'   the target builds on a parallel worker. If `"main"`,
-#'   the target builds on the host machine / process managing the pipeline.
+#'   the target runs on a parallel worker. If `"main"`,
+#'   the target runs on the host machine / process managing the pipeline.
 #' @param priority Numeric of length 1 between 0 and 1. Controls which
 #'   targets get deployed first when multiple competing targets are ready
-#'   simultaneously. Targets with priorities closer to 1 get built earlier
+#'   simultaneously. Targets with priorities closer to 1 get dispatched earlier
 #'   (and polled earlier in [tar_make_future()]).
 #' @param resources Object returned by `tar_resources()`
 #'   with optional settings for high-performance computing
@@ -272,7 +272,7 @@
 #'   [tar_make_clustermq()] and [tar_make_future()].
 #'   Must be one of the following values:
 #'   * `"main"`: the target's dependencies are loaded on the host machine
-#'     and sent to the worker before the target builds.
+#'     and sent to the worker before the target runs.
 #'   * `"worker"`: the worker loads the targets dependencies.
 #'   * `"none"`: the dependencies are not loaded at all.
 #'     This choice is almost never recommended. It is only for

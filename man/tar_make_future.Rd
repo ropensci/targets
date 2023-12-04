@@ -23,8 +23,8 @@ tar_make_future(
 )
 }
 \arguments{
-\item{names}{Names of the targets to build or check. Set to \code{NULL} to
-check/build all the targets (default). Otherwise, you can supply
+\item{names}{Names of the targets to run or check. Set to \code{NULL} to
+check/run all the targets (default). Otherwise, you can supply
 \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.
 Because \code{\link[=tar_make]{tar_make()}} and friends run the pipeline in a new R session,
 if you pass a character vector to a tidyselect helper, you will need
@@ -48,7 +48,7 @@ Defaults to \code{tar_config_get("reporter_make")}. Choices:
 \itemize{
 \item \code{"silent"}: print nothing.
 \item \code{"summary"}: print a running total of the number of each targets in
-each status category (queued, started, skipped, build, canceled,
+each status category (queued, dispatched, skipped, completed, canceled,
 or errored). Also show a timestamp (\code{"\%H:\%M \%OS2"} \code{strptime()} format)
 of the last time the progress changed and printed to the screen.
 \item \code{"timestamp"}: same as the \code{"verbose"} reporter except that each

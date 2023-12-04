@@ -7,8 +7,8 @@
 #' @return A data frame with one row per target per progress status
 #'   and the following columns.
 #'   * `name`: name of the pattern.
-#'   * `progress`: progress status: `"started"`, `"built"`, `"cancelled"`,
-#'     or `"errored"`.
+#'   * `progress`: progress status: `"dispatched"`, `"completed"`,
+#'     `"cancelled"`, or `"errored"`.
 #'   * `branches`: number of branches in the progress category.
 #'   * `total`: total number of branches planned for the whole pattern.
 #'     Values within the same pattern should all be equal.
@@ -67,7 +67,7 @@ tar_progress_branches_summary <- function(progress) {
     progress = gsub(".* ", "", group),
     branches = as.integer(table)
   )
-  levels <- c("skipped", "started", "built", "errored", "canceled")
+  levels <- c("skipped", "dispatched", "completed", "errored", "canceled")
   bins <- map(levels, ~tar_progress_branches_bin(.x, long))
   out <- progress[progress$type == "pattern",, drop = FALSE] # nolint
   out <- tibble::tibble(name = out$name, branches = out$branches)

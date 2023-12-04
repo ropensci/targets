@@ -84,7 +84,7 @@
 #'   restart your R session just before running. You should also
 #'   [tar_make()], [tar_make_clustermq()], or [tar_make_future()].
 #'   For any target mentioned in `debug`, `targets` will force the target to
-#'   build locally (with `tar_cue(mode = "always")` and `deployment = "main"`
+#'   run locally (with `tar_cue(mode = "always")` and `deployment = "main"`
 #'   in the settings) and pause in an interactive debugger to help you diagnose
 #'   problems. This is like inserting a `browser()` statement at the
 #'   beginning of the target's expression, but without invalidating any

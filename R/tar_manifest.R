@@ -21,7 +21,7 @@
 #'   Possible fields are below. All of them can be set in [tar_target()],
 #'   [tar_target_raw()], or [tar_option_set()].
 #'   * `name`: Name of the target.
-#'   * `command`: the R command that runs when the target builds.
+#'   * `command`: the R command that runs when the target runs.
 #'   * `pattern`: branching pattern of the target, if applicable.
 #'   * `format`: Storage format.
 #'   * `repository`: Storage repository.
@@ -34,8 +34,8 @@
 #'     computing scenarios.
 #'   * `priority`: Numeric of length 1 between 0 and 1. Controls which
 #'     targets get deployed first when multiple competing targets are ready
-#'     simultaneously. Targets with priorities closer to 1 get built earlier
-#'     (and polled earlier in [tar_make_future()]).
+#'     simultaneously. Targets with priorities closer to 1 get dispatched
+#'     earlier (and polled earlier in [tar_make_future()]).
 #'   * `resources`: A list of target-specific resource requirements for
 #'     [tar_make_future()].
 #'   * `cue_mode`: Cue mode from [tar_cue()].
@@ -45,7 +45,7 @@
 #'   * `cue_format`: Format cue from [tar_cue()].
 #'   * `cue_repository`: Repository cue from [tar_cue()].
 #'   * `cue_iteration`: Iteration cue from [tar_cue()].
-#'   * `packages`: List columns of packages loaded before building the target.
+#'   * `packages`: List columns of packages loaded before running the target.
 #'   * `library`: List column of library paths to load the packages.
 #' @param drop_missing Logical of length 1, whether to automatically omit
 #'   empty columns and columns with all missing values.

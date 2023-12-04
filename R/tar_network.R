@@ -12,7 +12,7 @@
 #'   The DAG is not always a tree, but it never contains a cycle because
 #'   no target is allowed to directly or indirectly depend on itself.
 #'   The dependency graph should show a natural progression of work from
-#'   left to right. `targets` uses static code analysis to build the graph,
+#'   left to right. `targets` uses static code analysis to create the graph,
 #'   so the order of `tar_target()` calls in the `_targets.R` file
 #'   does not matter. However, targets does not support self-referential
 #'   loops or other cycles. For more information on the dependency graph,
@@ -22,7 +22,7 @@
 #'   vertices data frame has one row per target with fields to denote
 #'   the type of the target or object (stem, branch, map, cross, function,
 #'   or object) and the target's status
-#'   (up to date, outdated, started, canceled, or errored).
+#'   (up to date, outdated, dispatched, completed, canceled, or errored).
 #'   The edges data frame has one row for every edge and columns `to` and
 #'   `from` to mark the starting and terminating vertices.
 #' @inheritParams tar_outdated
@@ -34,7 +34,7 @@
 #'   using `names` could speed up the load time of the visualization.
 #'   Unlike `allow`, `names` is invoked before the graph
 #'   is generated.
-#'   Set to NULL to check/build all the targets (default).
+#'   Set to NULL to check/run all the targets (default).
 #'   Otherwise, you can supply symbols or tidyselect helpers
 #'   like starts_with().
 #'   Applies to ordinary targets (stem) and whole dynamic branching
@@ -56,7 +56,7 @@
 #'   still show these colors.) Looking for outdated targets
 #'   takes a lot of time for large pipelines with lots of branches,
 #'   and setting `outdated` to `FALSE` is a nice way to speed up the graph
-#'   if you only want to see dependency relationships and build progress.
+#'   if you only want to see dependency relationships and pipeline progress.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

@@ -5,8 +5,11 @@
 #' @return A data frame with one row and the following
 #'   optional columns that can be selected with `fields`.
 #'   (`time` is omitted by default.)
-#'   * `started`: number of targets that started and did not (yet) finish.
-#'   * `built`: number of targets that completed without error or cancellation.
+#'   * `dispatched`: number of targets that were sent off to run and
+#'     did not (yet) finish. These targets may not actually be running,
+#'     depending on the status and workload of parallel workers.
+#'   * `completed`: number of targets that completed without
+#'     error or cancellation.
 #'   * `errored`: number of targets that threw an error.
 #'   * `canceled`: number of canceled targets (see [tar_cancel()]).
 #'   * `since`: how long ago progress last changed (`Sys.time() - time`).
@@ -30,7 +33,14 @@
 #' })
 #' }
 tar_progress_summary <- function(
-  fields = c("skipped", "started", "built", "errored", "canceled", "since"),
+  fields = c(
+    "skipped",
+    "dispatched",
+    "completed",
+    "errored",
+    "canceled",
+    "since"
+  ),
   store = targets::tar_config_get("store")
 ) {
   tar_assert_allow_meta("tar_progress_summary", store)
@@ -43,8 +53,8 @@ tar_progress_summary <- function(
   progress <- progress[progress$type != "pattern",, drop = FALSE] # nolint
   out <- tibble::tibble(
     skipped = sum(progress$progress == "skipped"),
-    started = sum(progress$progress == "started"),
-    built = sum(progress$progress == "built"),
+    dispatched = sum(progress$progress == "dispatched"),
+    completed = sum(progress$progress == "completed"),
     errored = sum(progress$progress == "errored"),
     canceled = sum(progress$progress == "canceled"),
     since = units_seconds(difftime(Sys.time(), time, units = "secs")),
@@ -70,7 +80,7 @@ tar_progress_display_gt <- function(progress) {
     locations = gt::cells_column_labels(everything())
   )
   colors <- data_frame(
-    progress = c("skipped", "started", "built", "canceled", "errored"),
+    progress = c("skipped", "dispatched", "completed", "canceled", "errored"),
     fill = c("#3e236e", "#DC863B", "#E1BD6D", "#FAD510", "#C93312"),
     color = c("white", "black", "black", "black", "white")
   )

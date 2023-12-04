@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_cancel.R
 \name{tar_cancel}
 \alias{tar_cancel}
-\title{Cancel a target mid-build under a custom condition.}
+\title{Cancel a target mid-execution under a custom condition.}
 \usage{
 tar_cancel(condition = TRUE)
 }

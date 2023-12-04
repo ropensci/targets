@@ -106,13 +106,13 @@ target_patternview_meta.tar_branch <- function(target, pipeline, meta) {
 }
 
 #' @export
-target_patternview_started.tar_branch <- function(
+target_patternview_dispatched.tar_branch <- function(
   target,
   pipeline,
   scheduler
 ) {
   parent <- pipeline_get_target(pipeline, target_get_parent(target))
-  patternview_register_started(parent$patternview, parent, scheduler)
+  patternview_register_dispatched(parent$patternview, parent, scheduler)
 }
 
 #' @export

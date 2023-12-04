@@ -42,7 +42,7 @@ targets from up-to-date targets. (Global functions and objects
 still show these colors.) Looking for outdated targets
 takes a lot of time for large pipelines with lots of branches,
 and setting \code{outdated} to \code{FALSE} is a nice way to speed up the graph
-if you only want to see dependency relationships and build progress.}
+if you only want to see dependency relationships and pipeline progress.}
 
 \item{label}{Label argument to \code{\link[=tar_visnetwork]{tar_visnetwork()}}.}
 

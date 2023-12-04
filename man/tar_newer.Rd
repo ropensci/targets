@@ -24,7 +24,7 @@ or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\lin
 If \code{NULL}, all names are eligible.}
 
 \item{inclusive}{Logical of length 1, whether to include targets
-built at exactly the \code{time} given.}
+completed at exactly the \code{time} given.}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

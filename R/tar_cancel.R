@@ -1,4 +1,4 @@
-#' @title Cancel a target mid-build under a custom condition.
+#' @title Cancel a target mid-execution under a custom condition.
 #' @export
 #' @family utilities
 #' @description Cancel a target while its command is running

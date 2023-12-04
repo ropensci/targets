@@ -53,9 +53,9 @@ reporter_class <- R6::R6Class(
         cli_warned(progress$warned$count)
       }
     },
-    report_started = function(target = NULL, progress = NULL) {
+    report_dispatched = function(target = NULL, progress = NULL) {
     },
-    report_built = function(target = NULL, progress = NULL) {
+    report_completed = function(target = NULL, progress = NULL) {
     },
     report_skipped = function(target = NULL, progress = NULL) {
     },

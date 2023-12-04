@@ -13,8 +13,8 @@
 #'   a handle to the `callr` background process is returned. Either way,
 #'   the value is invisibly returned.
 #' @inheritParams tar_validate
-#' @param names Names of the targets to build or check. Set to `NULL` to
-#'   check/build all the targets (default). Otherwise, you can supply
+#' @param names Names of the targets to run or check. Set to `NULL` to
+#'   check/run all the targets (default). Otherwise, you can supply
 #'   `tidyselect` helpers like [any_of()] and [starts_with()].
 #'   Because [tar_make()] and friends run the pipeline in a new R session,
 #'   if you pass a character vector to a tidyselect helper, you will need
@@ -35,7 +35,7 @@
 #'   Defaults to `tar_config_get("reporter_make")`. Choices:
 #'   * `"silent"`: print nothing.
 #'   * `"summary"`: print a running total of the number of each targets in
-#'     each status category (queued, started, skipped, build, canceled,
+#'     each status category (queued, dispatched, skipped, completed, canceled,
 #'     or errored). Also show a timestamp (`"%H:%M %OS2"` `strptime()` format)
 #'     of the last time the progress changed and printed to the screen.
 #'   * `"timestamp"`: same as the `"verbose"` reporter except that each

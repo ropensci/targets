@@ -5,7 +5,7 @@
 #'   <https://books.ropensci.org/targets/crew.html>.
 #' @details `tar_make_clustermq()` is like [tar_make()] except that targets
 #'   run in parallel on persistent workers. A persistent worker is an
-#'   R process that runs for a long time and builds multiple
+#'   R process that runs for a long time and runs multiple
 #'   targets during its lifecycle. Persistent
 #'   workers launch as soon as the pipeline reaches an outdated
 #'   target with `deployment = "worker"`, and they keep running
