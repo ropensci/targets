@@ -75,6 +75,7 @@ jobs:
           remotes::install_github("wlandau/crew")
 
       - name: Remove clustermq
+        if: runner.os != 'Linux'
         shell: Rscript {0}
         run: remove.packages("clustermq")
 
