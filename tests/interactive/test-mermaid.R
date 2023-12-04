@@ -1,5 +1,5 @@
 mermaid <- function(x) {
-  DiagrammeR::mermaid(paste0(x, collapse = "\n"))
+  cat(paste0(x, collapse = "\n"))
 }
 
 # Should show a glimpse.
@@ -27,7 +27,7 @@ vis <- mermaid_init(network = net)
 vis$update()
 mermaid(vis$visual)
 
-# Same with everything built.
+# Same with everything completed.
 net <- inspection_init(pipeline_cross(), outdated = FALSE)
 vis <- mermaid_init(network = net)
 vis$update()
@@ -99,7 +99,7 @@ vis <- mermaid_init(network = net)
 vis$update()
 mermaid(vis$visual)
 
-# Should show one started target.
+# Should show one dispatched target.
 tar_option_set(envir = new.env(parent = globalenv()))
 x <- target_init("w", quote(Sys.sleep(100))) # Sleep for a long time.
 pipeline <- pipeline_init(list(x))
@@ -244,7 +244,7 @@ mermaid(tar_mermaid(targets_only = FALSE))
 # Should show a graph of 3 targets, f(), g(), and miscellaneous globals.
 mermaid(tar_mermaid(targets_only = FALSE, callr_function = NULL))
 
-# Should show a status of targets as built.
+# Should show a status of targets as completed.
 mermaid(tar_mermaid(targets_only = FALSE, outdated = FALSE))
 
 # Should show a graph of just y1 and y2.
