@@ -1,11 +1,11 @@
-tar_test("cli_start()", {
+tar_test("cli_dispatched()", {
   skip_cran()
-  expect_message(cli_start("x", time_stamp = TRUE))
+  expect_message(cli_dispatched("x", time_stamp = TRUE))
 })
 
-tar_test("cli_built()", {
+tar_test("cli_completed()", {
   skip_cran()
-  expect_message(cli_built("x", time_stamp = TRUE))
+  expect_message(cli_completed("x", time_stamp = TRUE))
 })
 
 tar_test("cli_skip()", {

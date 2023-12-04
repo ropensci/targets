@@ -69,7 +69,7 @@ tar_test("use timestamp in a target", {
   expect_true(inherits(out, "POSIXct"))
   expect_identical(as.numeric(out), as.numeric(file_time_reference))
   progress <- tar_progress()
-  expect_equal(progress$progress[progress$name == "y"], "built")
+  expect_equal(progress$progress[progress$name == "y"], "completed")
   tar_make(callr_function = NULL)
   progress <- tar_progress()
   expect_equal(progress$progress[progress$name == "y"], "canceled")

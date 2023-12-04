@@ -1,5 +1,5 @@
 tar_test("tar_progress() with defaults", {
-  for (result in c("built", "skipped")) {
+  for (result in c("completed", "skipped")) {
     pipeline <- pipeline_init(list(target_init("x", quote(1))))
     local_init(pipeline = pipeline)$run()
     out <- tar_progress()
@@ -18,7 +18,7 @@ tar_test("tar_progress() with fields = NULL", {
   expect_equal(out$type, "stem")
   expect_equal(out$parent, "x")
   expect_equal(out$branches, 0L)
-  expect_equal(out$progress, "built")
+  expect_equal(out$progress, "completed")
 })
 
 tar_test("tar_progress() tidyselect", {

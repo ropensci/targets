@@ -23,8 +23,8 @@ tar_test("tar_progress_branches()", {
     "name",
     "branches",
     "skipped",
-    "started",
-    "built",
+    "dispatched",
+    "completed",
     "errored",
     "canceled"
   )
@@ -34,8 +34,8 @@ tar_test("tar_progress_branches()", {
   expect_equal(colnames(out), cols)
   expect_equal(out$name, "y")
   expect_equal(out$branches, 1)
-  expect_equal(out$started, 0)
-  expect_equal(out$built, 1)
+  expect_equal(out$dispatched, 0)
+  expect_equal(out$completed, 1)
   expect_equal(out$canceled, 0)
   expect_equal(out$errored, 0)
   out <- tar_progress_branches(names = z)
@@ -43,8 +43,8 @@ tar_test("tar_progress_branches()", {
   expect_equal(colnames(out), cols)
   expect_equal(out$name, "z")
   expect_equal(out$branches, 1)
-  expect_equal(out$started, 0)
-  expect_equal(out$built, 0)
+  expect_equal(out$dispatched, 0)
+  expect_equal(out$completed, 0)
   expect_equal(out$canceled, 0)
   expect_equal(out$errored, 1)
 })
@@ -58,8 +58,8 @@ tar_test("tar_progress_branches() with fields", {
     )
   }, ask = FALSE)
   tar_make(callr_function = NULL)
-  out <- tar_progress_branches(fields = started)
-  exp <- tibble::tibble(name = "y", started = 0L)
+  out <- tar_progress_branches(fields = dispatched)
+  exp <- tibble::tibble(name = "y", dispatched = 0L)
   expect_equal(out, exp)
 })
 

@@ -175,5 +175,5 @@ tar_test("bootstrap builder for shortcut", {
   progress <- tar_progress()
   expect_equal(nrow(progress), 1L)
   expect_equal(progress$name, "z")
-  expect_equal(progress$progress, "built")
+  expect_equal(progress$progress, "completed")
 })

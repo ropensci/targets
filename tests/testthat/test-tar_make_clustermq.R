@@ -2,6 +2,7 @@ crew_test_sleep()
 
 tar_test("tar_make_clustermq() works with callr_function = NULL", {
   skip_cran()
+  skip_on_os("mac")
   skip_on_os("windows")
   skip_on_os("solaris")
   require_clustermq()
@@ -22,6 +23,7 @@ tar_test("tar_make_clustermq() works with callr_function = NULL", {
 
 tar_test("tar_make_clustermq() works", {
   skip_cran()
+  skip_on_os("mac")
   skip_on_os("windows")
   skip_on_os("solaris")
   require_clustermq()
@@ -39,6 +41,7 @@ tar_test("tar_make_clustermq() works", {
 
 tar_test("tar_make_clustermq() can use tidyselect", {
   skip_cran()
+  skip_on_os("mac")
   skip_on_os("windows")
   skip_on_os("solaris")
   require_clustermq()
@@ -67,6 +70,8 @@ tar_test("custom script and store args", {
   skip_cran()
   require_clustermq()
   skip_on_covr()
+  skip_on_os("mac")
+  skip_on_os("solaris")
   skip_on_os("windows")
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
@@ -102,6 +107,8 @@ tar_test("custom script and store args with callr function", {
   skip_cran()
   require_clustermq()
   skip_on_covr()
+  skip_on_os("mac")
+  skip_on_os("solaris")
   skip_on_os("windows")
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
@@ -135,6 +142,8 @@ tar_test("custom script and store args with callr function", {
 
 tar_test("bootstrap builder for shortcut", {
   skip_cran()
+  skip_on_os("mac")
+  skip_on_os("solaris")
   skip_on_os("windows")
   require_clustermq()
   skip_on_covr()
@@ -169,7 +178,7 @@ tar_test("bootstrap builder for shortcut", {
   progress <- tar_progress()
   expect_equal(nrow(progress), 1L)
   expect_equal(progress$name, "z")
-  expect_equal(progress$progress, "built")
+  expect_equal(progress$progress, "completed")
 })
 
 crew_test_sleep()

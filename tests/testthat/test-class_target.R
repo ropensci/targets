@@ -167,7 +167,7 @@ tar_test("invalidation: repeated non-branching run skipped", {
   skip_cran()
   local <- local_init(pipeline_order())
   local$run()
-  out <- counter_get_names(local$scheduler$progress$built)
+  out <- counter_get_names(local$scheduler$progress$completed)
   exp <- pipeline_get_names(local$pipeline)
   expect_equal(sort(out), sort(exp))
   local <- local_init(pipeline_order())
@@ -180,7 +180,7 @@ tar_test("invalidation: repeated branching run skipped", {
   skip_cran()
   local <- local_init(pipeline_map())
   local$run()
-  out <- counter_get_names(local$scheduler$progress$built)
+  out <- counter_get_names(local$scheduler$progress$completed)
   exp <- pipeline_get_names(local$pipeline)
   exp <- setdiff(exp, paste0("map", seq_len(6)))
   exp <- grep("data[0-9]_", invert = TRUE, value = TRUE, x = exp)
@@ -214,7 +214,7 @@ tar_test("invalidation: update an existing branch", {
     target_get_children(pipeline_get_target(pipeline, "y"))[2],
     target_get_children(pipeline_get_target(pipeline, "z"))[2]
   )
-  exp <- counter_get_names(local$scheduler$progress$built)
+  exp <- counter_get_names(local$scheduler$progress$completed)
   expect_equal(sort(c("x", "w", out)), sort(exp))
   for (branch in out) {
     expect_equal(
@@ -243,7 +243,7 @@ tar_test("invalidation: insert a branch", {
     target_get_children(pipeline_get_target(pipeline, "y"))[2],
     target_get_children(pipeline_get_target(pipeline, "z"))[2]
   )
-  exp <- counter_get_names(local$scheduler$progress$built)
+  exp <- counter_get_names(local$scheduler$progress$completed)
   expect_equal(sort(c("x", out)), sort(exp))
   for (branch in out) {
     expect_equal(
@@ -267,7 +267,7 @@ tar_test("invalidation: remove a branch", {
   pipeline <- pipeline_init(list(x, y, z))
   local <- local_init(pipeline)
   local$run()
-  out <- counter_get_names(local$scheduler$progress$built)
+  out <- counter_get_names(local$scheduler$progress$completed)
   expect_equal(out, "x")
 })
 
@@ -279,7 +279,7 @@ tar_test("invalidation: depend on all branches", {
   pipeline <- pipeline_init(list(x, y, z), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
-  out <- counter_get_names(local$scheduler$progress$built)
+  out <- counter_get_names(local$scheduler$progress$completed)
   exp <- c("x", "z", target_get_children(y))
   expect_equal(sort(out), sort(exp))
   x <- target_init("x", quote(c(1L, 5L, 3L)))
@@ -288,7 +288,7 @@ tar_test("invalidation: depend on all branches", {
   pipeline <- pipeline_init(list(x, y, z), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
-  out <- counter_get_names(local$scheduler$progress$built)
+  out <- counter_get_names(local$scheduler$progress$completed)
   exp <- c("x", "z", target_get_children(y)[2])
   expect_equal(sort(out), sort(exp))
 })
@@ -317,7 +317,7 @@ tar_test("invalidation: map over a stem with no branches previously", {
   meta <- meta_init()$database$read_condensed_data()
   last_children <- unlist(meta$children[meta$name == "z"])
   expect_equal(intersect(first_children, last_children), character(0))
-  out <- counter_get_names(local$scheduler$progress$built)
+  out <- counter_get_names(local$scheduler$progress$completed)
   expect_equal(length(out), 2L)
   expect_true(all(grepl("^z_", out)))
 })
@@ -377,7 +377,7 @@ tar_test("invalidation: chg pattern iter forces downstream reaggregation", {
   )
   local <- local_init(pipeline)
   local$run()
-  expect_true("z" %in% counter_get_names(local$scheduler$progress$built))
+  expect_true("z" %in% counter_get_names(local$scheduler$progress$completed))
 })
 
 tar_test("invalidation: change a nested function", {
@@ -424,7 +424,7 @@ tar_test("invalidation: change a nested function", {
   out <- tar_outdated(callr_function = NULL, targets_only = FALSE)
   expect_true(all(c("f", "g", "x") %in% out))
   tar_make(callr_function = NULL)
-  expect_equal(tar_progress()$progress, "built")
+  expect_equal(tar_progress()$progress, "completed")
   expect_equal(tar_read(x), 3L)
 })
 
