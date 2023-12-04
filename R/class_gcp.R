@@ -134,7 +134,6 @@ store_delete_objects.tar_gcp <- function(store, meta, batch_size, verbose) {
     x = meta$path,
     f = ~paste(
       store_gcp_bucket(.x),
-      store_gcp_region(.x),
       sep = "|"
     )
   )
