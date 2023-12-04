@@ -159,7 +159,7 @@ crew_class <- R6::R6Class(
       name <- target_get_name(target)
       target_prepare(
         target = target,
-        pipeline = self$pipeline, 
+        pipeline = self$pipeline,
         scheduler = self$scheduler,
         meta = self$meta,
         pending = self$controller$saturated(controller = resources$controller)
