@@ -26,7 +26,7 @@ vis <- visnetwork_init(network = net)
 vis$update()
 vis$visual
 
-# Same with everything built.
+# Same with everything completed.
 net <- inspection_init(pipeline_cross(), outdated = FALSE)
 vis <- visnetwork_init(network = net)
 vis$update()
@@ -98,7 +98,7 @@ vis <- visnetwork_init(network = net)
 vis$update()
 vis$visual
 
-# Should show one started target.
+# Should show one dispatched target.
 tar_option_set(envir = new.env(parent = globalenv()))
 x <- target_init("w", quote(Sys.sleep(100))) # Sleep for a long time.
 pipeline <- pipeline_init(list(x))

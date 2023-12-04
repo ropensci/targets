@@ -65,7 +65,7 @@ tar_test("dynamic urls work", {
     type = "stem",
     parent = "abc",
     branches = 0L,
-    progress = "built"
+    progress = "completed"
   )
   expect_equal(tar_progress(fields = NULL), exp)
   tar_make(callr_function = NULL)
@@ -109,7 +109,7 @@ tar_test("dynamic urls have non-NULL default resources", {
     type = "stem",
     parent = "abc",
     branches = 0L,
-    progress = "built"
+    progress = "completed"
   )
   expect_equal(tar_progress(fields = NULL), exp)
   tar_make(callr_function = NULL)
@@ -157,7 +157,7 @@ tar_test("dynamic urls in dynamic branches work", {
   })
   tar_make(callr_function = NULL)
   branch <- tar_branch_names(abc, 1)
-  expect_equal(tar_progress(fields = NULL)$progress, rep("built", 3))
+  expect_equal(tar_progress(fields = NULL)$progress, rep("completed", 3))
   tar_make(callr_function = NULL)
   expect_equal(tar_progress(fields = NULL)$progress, rep("skipped", 3))
   meta <- tar_meta()
@@ -210,7 +210,7 @@ tar_test("dynamic urls work from a custom data store", {
     type = "stem",
     parent = "abc",
     branches = 0L,
-    progress = "built"
+    progress = "completed"
   )
   expect_equal(tar_progress(fields = NULL), exp)
   tar_make(callr_function = NULL)

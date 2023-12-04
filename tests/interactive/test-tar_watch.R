@@ -32,7 +32,7 @@ rstudioapi::restartSession()
 tar_destroy()
 unlink("_targets.R")
 
-# View the progress tables. Should see some of each status except started.
+# View the progress tables. Should see some of each status except dispatched.
 library(targets)
 tar_script({
   list(
@@ -52,7 +52,7 @@ tar_script({
 tar_make() # Stop early.
 tar_watch(background = FALSE)
 
-# Should see started branches in the table.
+# Should see dispatched branches in the table.
 library(targets)
 tar_destroy()
 tar_script({
