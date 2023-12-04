@@ -54,13 +54,6 @@ parallel_class <- R6::R6Class(
       counter_set_names(counter, names)
       invisible()
     },
-    append0 = function(name) {
-      n <- length(self$data) + 1L
-      self$data[n] <- 0L
-      names(self$data)[n] <- name
-      counter_set_name(counter = self$counter, name = name)
-      invisible()
-    },
     increment_ranks = function(names, by) {
       index <- names(self$data) %in% names
       self$data[index] <- self$data[index] + by
