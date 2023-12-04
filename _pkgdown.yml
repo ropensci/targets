@@ -111,11 +111,11 @@ reference:
   - '`tar_progress`'
   - '`tar_progress_branches`'
   - '`tar_progress_summary`'
-  - '`tar_built`'
+  - '`tar_skipped`'
+  - '`tar_dispatched`'
+  - '`tar_completed`'
   - '`tar_canceled`'
   - '`tar_errored`'
-  - '`tar_skipped`'
-  - '`tar_started`'
 - title: Time
   contents:
   - '`tar_newer`'

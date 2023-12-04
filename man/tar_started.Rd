@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_started.R
 \name{tar_started}
 \alias{tar_started}
-\title{List started targets.}
+\title{Deprecated: list started targets.}
 \usage{
 tar_started(names = NULL, store = targets::tar_config_get("store"))
 }
@@ -25,7 +25,8 @@ for a project.}
 A character vector of started targets.
 }
 \description{
-List targets whose progress is \code{"started"}.
+Deprecated in favor of \code{\link[=tar_dispatched]{tar_dispatched()}} on 2023-12-04
+(version 1.3.2.9004).
 }
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
@@ -37,23 +38,9 @@ tar_script({
   )
 }, ask = FALSE)
 tar_make()
-tar_started()
-tar_started(starts_with("y_")) # see also any_of()
+tar_dispatched()
+tar_dispatched(starts_with("y_")) # see also any_of()
 })
 }
 }
-\seealso{
-Other progress: 
-\code{\link{tar_built}()},
-\code{\link{tar_canceled}()},
-\code{\link{tar_errored}()},
-\code{\link{tar_poll}()},
-\code{\link{tar_progress_branches}()},
-\code{\link{tar_progress_summary}()},
-\code{\link{tar_progress}()},
-\code{\link{tar_skipped}()},
-\code{\link{tar_watch_server}()},
-\code{\link{tar_watch_ui}()},
-\code{\link{tar_watch}()}
-}
-\concept{progress}
+\keyword{internal}

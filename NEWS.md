@@ -1,4 +1,4 @@
-# targets 1.3.2.9003 (development)
+# targets 1.3.2.9004 (development)
 
 ## Invalidating changes
 
@@ -27,6 +27,9 @@ Because of the changes below, upgrading to this version of `targets` will unavoi
 ## Other changes
 
 * Migrate to the changes in `clustermq` 0.9.0 (@mschubert).
+* In progress statuses, change "started" to "dispatched" and change "built" to "completed" (#1182).
+* Deprecate `tar_started()` in favor of `tar_dispatched()` (#1182).
+* Deprecate `tar_built()` in favor of `tar_completed()` (#1182).
 
 # targets 1.3.2
 
