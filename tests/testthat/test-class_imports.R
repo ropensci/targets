@@ -119,6 +119,6 @@ tar_test("imports setting works", {
   out <- tar_outdated(callr_function = NULL, targets_only = FALSE)
   expect_true(all(c("f", "g", "x") %in% out))
   tar_make(callr_function = NULL)
-  expect_equal(tar_progress(x)$progress, "built")
+  expect_equal(tar_progress(x)$progress, "completed")
   expect_equal(tar_read(x), 3L)
 })

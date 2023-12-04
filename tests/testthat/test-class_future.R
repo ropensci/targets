@@ -22,8 +22,8 @@ tar_test("workerless deployment works", {
   pipeline <- pipeline_init(list(x, y, z))
   out <- future_init(pipeline)
   out$run()
-  built <- names(out$scheduler$progress$built$envir)
-  expect_equal(built, character(0))
+  completed <- names(out$scheduler$progress$completed$envir)
+  expect_equal(completed, character(0))
 })
 
 tar_test("semi-workerless deployment works", {
@@ -45,8 +45,8 @@ tar_test("semi-workerless deployment works", {
   pipeline <- pipeline_init(list(x, y, z))
   out <- future_init(pipeline)
   out$run()
-  built <- names(out$scheduler$progress$built$envir)
-  expect_equal(built, character(0))
+  completed <- names(out$scheduler$progress$completed$envir)
+  expect_equal(completed, character(0))
 })
 
 tar_test("some targets up to date, some not", {
@@ -64,7 +64,7 @@ tar_test("some targets up to date, some not", {
   pipeline <- pipeline_init(list(x, y))
   future <- future_init(pipeline)
   future$run()
-  out <- names(future$scheduler$progress$built$envir)
+  out <- names(future$scheduler$progress$completed$envir)
   expect_equal(out, "y")
   value <- target_read_value(pipeline_get_target(pipeline, "y"))
   expect_equal(value$object, 2L)
@@ -87,7 +87,7 @@ tar_test("specialized plans (unstructured resources)", {
   pipeline <- pipeline_init(list(x, y))
   future <- future_init(pipeline)
   future$run()
-  out <- sort(names(future$scheduler$progress$built$envir))
+  out <- sort(names(future$scheduler$progress$completed$envir))
   expect_equal(out, sort(c("x", "y")))
   value <- target_read_value(pipeline_get_target(pipeline, "y"))
   expect_equal(value$object, 1L)
@@ -109,7 +109,7 @@ tar_test("future algo can skip targets", {
   pipeline <- pipeline_init(list(x, y))
   future <- future_init(pipeline)
   future$run()
-  out <- names(future$scheduler$progress$built$envir)
+  out <- names(future$scheduler$progress$completed$envir)
   expect_equal(out, "x")
   value <- target_read_value(pipeline_get_target(pipeline, "x"))
   expect_equal(value$object, 1L)
@@ -156,8 +156,8 @@ tar_test("branching plan", {
   expect_equal(skipped, character(0))
   out2 <- future_init(pipeline_map(), workers = 2L)
   out2$run()
-  built <- names(out2$scheduler$progress$built$envir)
-  expect_equal(built, character(0))
+  completed <- names(out2$scheduler$progress$completed$envir)
+  expect_equal(completed, character(0))
   value <- function(name) {
     target_read_value(pipeline_get_target(pipeline, name))$object
   }

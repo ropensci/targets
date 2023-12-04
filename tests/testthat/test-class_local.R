@@ -49,7 +49,7 @@ tar_test("can run on a subset of targets", {
   pipeline <- pipeline_order()
   local <- local_init(pipeline, names = c("min1", "max2"))
   local$run()
-  out <- counter_get_names(local$scheduler$progress$built)
+  out <- counter_get_names(local$scheduler$progress$completed)
   exp <- c("min1", "max2", "data1", "data2")
   expect_equal(sort(out), sort(exp))
   expect_equal(

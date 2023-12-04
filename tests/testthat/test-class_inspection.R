@@ -264,8 +264,8 @@ tar_test("target vertices get progress", {
   )
   lines <- c(
     "name|progress",
-    "w|built",
-    "x|started",
+    "w|completed",
+    "x|dispatched",
     "y|canceled",
     "z|errored"
   )
@@ -278,7 +278,7 @@ tar_test("target vertices get progress", {
   exp <- data_frame(
     name = c("w", "x", "y", "z"),
     type = rep("stem", 4L),
-    status = c("outdated", "started", "canceled", "errored")
+    status = c("outdated", "dispatched", "canceled", "errored")
   )
   exp <- exp[order(exp$name), ]
   rownames(vertices) <- NULL
@@ -299,8 +299,8 @@ tar_test("turn outdated off", {
   )
   lines <- c(
     "name|progress",
-    "w|built",
-    "x|started",
+    "w|completed",
+    "x|dispatched",
     "y|canceled",
     "z|errored"
   )
@@ -313,7 +313,7 @@ tar_test("turn outdated off", {
   exp <- data_frame(
     name = c("w", "x", "y", "z"),
     type = rep("stem", 4L),
-    status = c("built", "started", "canceled", "errored")
+    status = c("completed", "dispatched", "canceled", "errored")
   )
   exp <- exp[order(exp$name), ]
   rownames(vertices) <- NULL
