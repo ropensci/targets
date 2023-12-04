@@ -263,7 +263,7 @@ tar_test("storage = \"none\" ignores return value but tracks file", {
     )
   })
   tar_make(callr_function = NULL)
-  expect_equal(tar_progress(x)$progress, "built")
+  expect_equal(tar_progress(x)$progress, "completed")
   expect_equal(tar_progress(y)$progress, "skipped")
   expect_equal(hash, tar_meta(x, data)$data)
   tar_script({
@@ -281,8 +281,8 @@ tar_test("storage = \"none\" ignores return value but tracks file", {
     )
   })
   tar_make(callr_function = NULL)
-  expect_equal(tar_progress(x)$progress, "built")
-  expect_equal(tar_progress(y)$progress, "built")
+  expect_equal(tar_progress(x)$progress, "completed")
+  expect_equal(tar_progress(y)$progress, "completed")
   expect_false(any(hash == tar_meta(x, data)$data))
 })
 
@@ -405,17 +405,17 @@ tar_test("basic progress responses are correct", {
     sort(counter_get_names(progress$queued)),
     sort(pipeline_get_names(pipeline))
   )
-  expect_equal(sort(counter_get_names(progress$started)), character(0))
-  expect_equal(sort(counter_get_names(progress$built)), character(0))
+  expect_equal(sort(counter_get_names(progress$dispatched)), character(0))
+  expect_equal(sort(counter_get_names(progress$completed)), character(0))
   expect_equal(sort(counter_get_names(progress$skipped)), character(0))
   expect_equal(sort(counter_get_names(progress$canceled)), character(0))
   expect_equal(sort(counter_get_names(progress$errored)), character(0))
   local$run()
   progress <- local$scheduler$progress
   expect_equal(sort(counter_get_names(progress$queued)), character(0))
-  expect_equal(sort(counter_get_names(progress$started)), character(0))
+  expect_equal(sort(counter_get_names(progress$dispatched)), character(0))
   expect_equal(
-    sort(counter_get_names(progress$built)),
+    sort(counter_get_names(progress$completed)),
     sort(pipeline_get_names(pipeline))
   )
   expect_equal(sort(counter_get_names(progress$skipped)), character(0))
@@ -494,7 +494,7 @@ tar_test("bootstrap builder for shortcut", {
   progress <- tar_progress()
   expect_equal(nrow(progress), 1L)
   expect_equal(progress$name, "z")
-  expect_equal(progress$progress, "built")
+  expect_equal(progress$progress, "completed")
 })
 
 tar_test("informative error when bootstrap fails", {
@@ -551,7 +551,7 @@ tar_test("convert dep loading errors into runtime errors", {
   expect_true(anyNA(tar_meta(x3)$error))
   expect_equal(tar_progress(x1)$progress, "errored")
   expect_equal(tar_progress(x2)$progress, "errored")
-  expect_equal(tar_progress(x3)$progress, "built")
+  expect_equal(tar_progress(x3)$progress, "completed")
   expect_equal(tar_objects(), "x3")
   expect_true(tar_read(x3))
 })
@@ -572,12 +572,12 @@ tar_test("error = \"null\"", {
   })
   tar_make(callr_function = NULL)
   branches <- tar_meta(y)$children[[1]]
-  expect_equal(tar_progress(x)$progress, "built")
+  expect_equal(tar_progress(x)$progress, "completed")
   expect_equal(tar_progress(y)$progress, "errored")
-  expect_equal(tar_progress(z)$progress, "built")
+  expect_equal(tar_progress(z)$progress, "completed")
   progress <- tar_progress()
   value <- progress$progress[progress$name == branches[1]]
-  expect_equal(value, "built")
+  expect_equal(value, "completed")
   value <- progress$progress[progress$name == branches[2]]
   expect_equal(value, "errored")
   expect_equal(tar_read(x), seq_len(2))
