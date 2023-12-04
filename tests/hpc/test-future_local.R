@@ -17,7 +17,7 @@ tar_test("future workers actually launch (run interactively)", {
   tar_make_future(workers = 4)
   out <- tar_progress()
   out <- out[out$name != "x", ]
-  expect_true(all(out$progress == "started"))
+  expect_true(all(out$progress == "dispatched"))
   tar_destroy()
 })
 
@@ -43,10 +43,11 @@ tar_test("custom future plans through structured resources", {
   # The following should run 4 targets concurrently.
   tar_make_future(workers = 4)
   # After all 4 targets start, terminate the pipeline early and show progress.
-  # x should be built, and y and its 4 branches should be listed as started.
+  # x should be completed, and y and its 4 branches should be listed as
+  # dispatched.
   out <- tar_progress()
   out <- out[out$name != "x", ]
-  expect_true(all(out$progress == "started"))
+  expect_true(all(out$progress == "dispatched"))
   tar_destroy()
 })
 
@@ -71,10 +72,11 @@ tar_test("custom future plans through unstructured resources", {
   # The following should run 4 targets concurrently.
   tar_make_future(workers = 4)
   # After all 4 targets start, terminate the pipeline early and show progress.
-  # x should be built, and y and its 4 branches should be listed as started.
+  # x should be completed,
+  # and y and its 4 branches should be listed as dispatched.
   out <- tar_progress()
   out <- out[out$name != "x", ]
-  expect_true(all(out$progress == "started"))
+  expect_true(all(out$progress == "dispatched"))
   tar_destroy()
 })
 
