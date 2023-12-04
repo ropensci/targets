@@ -25,7 +25,7 @@ tar_test("test on Windows: pipeline keeps going #393", {
   expect_equal(tar_outdated(), character(0))
   # Progress info should be correct.
   expect_equal(tar_progress_branches()$branches, 200L)
-  expect_equal(tar_progress_branches()$built, 200L)
+  expect_equal(tar_progress_branches()$completed, 200L)
   # Should see error messages that it could not append
   # to progress but reattempted to do so.
   writeLines(readLines("err.txt"))

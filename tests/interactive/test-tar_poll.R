@@ -20,7 +20,7 @@ tar_test("tar_poll() with non-default columns", {
     )
   })
   px <- tar_make(callr_function = callr::r_bg, reporter = "silent")
-  tar_poll(interval = 0.001, fields = any_of(c("built", "time")))
+  tar_poll(interval = 0.001, fields = any_of(c("completed", "time")))
 })
 
 tar_test("tar_poll() timeout", {
