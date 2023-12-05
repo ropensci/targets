@@ -201,19 +201,20 @@ crew_class <- R6::R6Class(
     iterate = function() {
       self$sync_meta_time()
       queue <- self$scheduler$queue
-      should_dequeue <- queue$should_dequeue()
-      if (should_dequeue) {
-        self$process_target(queue$dequeue())
-      }
-      result <- self$controller$pop(scale = TRUE)
-      self$conclude_worker_task(result)
       if_any(
-        should_dequeue || (!is.null(result)),
-        self$scheduler$backoff$reset(),
-        self$backoff()
+        queue$should_dequeue(),
+        self$process_target(queue$dequeue()),
+        self$controller$wait(
+          mode = "one",
+          seconds_interval = 0.5,
+          seconds_timeout = 0.5,
+          scale = TRUE
+        )
       )
+      self$conclude_worker_task()
     },
-    conclude_worker_task = function(result) {
+    conclude_worker_task = function() {
+      result <- self$controller$pop(scale = TRUE)
       if (is.null(result)) {
         return()
       }
