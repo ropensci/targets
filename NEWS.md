@@ -32,6 +32,7 @@ Because of the changes below, upgrading to this version of `targets` will unavoi
 * Deprecate `tar_built()` in favor of `tar_completed()` (#1192).
 * Console messages from reporters say "dispatched" and "completed" instead of "started" and "built" (#1192).
 * The `crew` scheduling algorithm no longer waits on saturated controllers, and targets that are ready are greedily dispatched to `crew` even if all workers are busy (#1182, #1192). To appropriately set expectations for users, reporters print "dispatched (pending)" instead of "dispatched" if the task load is backlogged at the moment.
+* In the `crew` scheduling algorithm, waiting for tasks is now a truly event-driven process and consumes 5-10x less CPU resources (#1183). Only the auto-scaling of workers uses polling (with an inexpensive default polling interval of 0.5 seconds, configurable with `seconds_scale`).
 
 # targets 1.3.2
 
