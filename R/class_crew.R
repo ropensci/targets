@@ -310,13 +310,7 @@ crew_class <- R6::R6Class(
       tar_assert_dbl(self$seconds_scale)
       tar_assert_none_na(self$seconds_scale)
       tar_assert_ge(self$seconds_scale, 0)
-      if_any(
-        is.null(self$throttle),
-        NULL, {
-          tar_assert_inherits(self$throttle, "crew_class_throttle")
-          self$throttle$validate()
-        }
-      )
+      validate_crew_throttle(self$throttle)
     }
   )
 )
@@ -343,4 +337,11 @@ validate_crew_controller <- function(controller) {
   tar_assert_envir(controller, msg = "invalid crew controller")
   tar_assert_function(controller$validate, msg = "invalid crew controller")
   controller$validate()
+}
+
+validate_crew_throttle <- function(throttle) {
+  if (!is.null(throttle)) {
+    tar_assert_inherits(throttle, "crew_class_throttle")
+    throttle$validate()
+  }
 }
