@@ -108,8 +108,6 @@ Suggests:
   torch (>= 0.1.0),
   usethis (>= 1.6.3),
   visNetwork (>= 2.1.2)
-Additional_repositories:
-  https://mschubert.r-universe.dev
 Encoding: UTF-8
 Language: en-US
 VignetteBuilder: knitr

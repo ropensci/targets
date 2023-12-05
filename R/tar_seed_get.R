@@ -9,7 +9,7 @@
 #'   Pierre L'Ecuyer, David Munger, Boris Oreshkin, and Richard Simard
 #'   (2017). Random numbers for parallel computers: Requirements and methods,
 #'   with emphasis on GPUs. Mathematics and Computers in Simulation,
-#'   135, 3-17. <https://doi.org/10.1016/j.matcom.2016.05.005>.
+#'   135, 3-17. \doi{10.1016/j.matcom.2016.05.005}.
 #' @return Integer of length 1. If invoked inside a `targets` pipeline,
 #'   the return value is the seed of the target currently running,
 #'   which is a deterministic function of the target name. Otherwise,

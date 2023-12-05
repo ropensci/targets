@@ -49,7 +49,7 @@ correlated results. (For a discussion of the motivating problem,
 see the Section 6: "Random-number generation" in the \code{parallel}
 package vignette: \code{vignette(topic = "parallel", package = "parallel")}.)
 However, this risk is extremely small in practice, as shown by
-L'Ecuyer et al. (2017) \url{https://doi.org/10.1016/j.matcom.2016.05.005}
+L'Ecuyer et al. (2017) \doi{10.1016/j.matcom.2016.05.005}
 under "A single RNG with a 'random' seed for each stream" (Section 4:
 under "How to produce parallel streams and substreams").
 
@@ -79,7 +79,7 @@ for simulation".) There are two notable quirks, but they are innocuous:
 Pierre L'Ecuyer, David Munger, Boris Oreshkin, and Richard Simard
 (2017). Random numbers for parallel computers: Requirements and methods,
 with emphasis on GPUs. Mathematics and Computers in Simulation,
-135, 3-17. \url{https://doi.org/10.1016/j.matcom.2016.05.005}.
+135, 3-17. \doi{10.1016/j.matcom.2016.05.005}.
 }
 \seealso{
 Other pseudo-random number generation: 
