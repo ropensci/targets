@@ -181,6 +181,21 @@ tar_test("tar_config_set() with seconds_reporter", {
   expect_equal(tar_config_get("seconds_reporter"), 0)
 })
 
+tar_test("tar_config_set() with seconds_scale", {
+  skip_cran()
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("seconds_scale"), 0.5)
+  path <- tempfile()
+  tar_config_set(seconds_scale = 10)
+  expect_equal(tar_config_get("seconds_scale"), 10)
+  expect_true(file.exists("_targets.yaml"))
+  tar_config_set()
+  expect_equal(tar_config_get("seconds_scale"), 10)
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("seconds_scale"), 0.5)
+})
+
 tar_test("tar_config_set() with seconds_interval", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
