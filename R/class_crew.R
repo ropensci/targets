@@ -13,12 +13,6 @@ crew_init <- function(
   controller = NULL,
   terminate_controller = TRUE
 ) {
-  backoff <- tar_options$get_backoff()
-  backoff_requeue <- backoff_init(
-    min = backoff$min,
-    max = backoff$max,
-    rate = backoff$rate
-  )
   crew_new(
     pipeline = pipeline,
     meta = meta,
@@ -32,8 +26,7 @@ crew_init <- function(
     garbage_collection = garbage_collection,
     envir = envir,
     controller = controller,
-    terminate_controller = terminate_controller,
-    backoff_requeue = backoff_requeue
+    terminate_controller = terminate_controller
   )
 }
 
@@ -50,8 +43,7 @@ crew_new <- function(
   garbage_collection = NULL,
   envir = NULL,
   controller = NULL,
-  terminate_controller = NULL,
-  backoff_requeue = NULL
+  terminate_controller = NULL
 ) {
   crew_class$new(
     pipeline = pipeline,
@@ -66,8 +58,7 @@ crew_new <- function(
     garbage_collection = garbage_collection,
     envir = envir,
     controller = controller,
-    terminate_controller = terminate_controller,
-    backoff_requeue = backoff_requeue
+    terminate_controller = terminate_controller
   )
 }
 
@@ -79,7 +70,6 @@ crew_class <- R6::R6Class(
   public = list(
     controller = NULL,
     terminate_controller = NULL,
-    backoff_requeue = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
@@ -93,8 +83,7 @@ crew_class <- R6::R6Class(
       garbage_collection = NULL,
       envir = NULL,
       controller = NULL,
-      terminate_controller = NULL,
-      backoff_requeue = NULL
+      terminate_controller = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -111,7 +100,6 @@ crew_class <- R6::R6Class(
       )
       self$controller <- controller
       self$terminate_controller <- terminate_controller
-      self$backoff_requeue <- backoff_requeue
     },
     produce_exports = function(envir, path_store, is_globalenv = NULL) {
       map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
@@ -175,7 +163,6 @@ crew_class <- R6::R6Class(
         scale = TRUE,
         seconds_timeout = resources$seconds_timeout
       )
-      self$backoff_requeue$reset()
     },
     run_main = function(target) {
       target_prepare(target, self$pipeline, self$scheduler, self$meta)
