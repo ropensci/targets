@@ -93,9 +93,6 @@
 #'   and [tar_make_future()]. Positive numeric of length 1 with the minimum
 #'   number of seconds between times when the reporter prints progress
 #'   messages to the R console.
-#' @param seconds_scale Argument of [tar_make()].
-#'   Positive numeric of length 1, with the time interval (in seconds)
-#'   for auto-scaling `crew` workers if a `crew` controller is supplied.
 #' @param shortcut logical of length 1, default `shortcut` argument
 #'   to [tar_make()] and related functions.
 #'   If the argument `NULL`, the setting is not modified.
@@ -173,7 +170,6 @@ tar_config_set <- function(
   seconds_meta_append = NULL,
   seconds_meta_upload = NULL,
   seconds_reporter = NULL,
-  seconds_scale = NULL,
   seconds_interval = NULL,
   store = NULL,
   shortcut = NULL,
@@ -198,7 +194,6 @@ tar_config_set <- function(
   tar_config_assert_seconds_meta_append(seconds_meta_append)
   tar_config_assert_seconds_meta_upload(seconds_meta_upload)
   tar_config_assert_seconds_reporter(seconds_reporter)
-  tar_config_assert_seconds_scale(seconds_scale)
   tar_config_assert_seconds_interval(seconds_interval)
   tar_config_assert_shortcut(shortcut)
   tar_config_assert_store(store)
@@ -222,8 +217,6 @@ tar_config_set <- function(
     yaml[[project]]$seconds_meta_upload
   yaml[[project]]$seconds_reporter <- seconds_reporter %|||%
     yaml[[project]]$seconds_reporter
-  yaml[[project]]$seconds_scale <- seconds_scale %|||%
-    yaml[[project]]$seconds_scale
   yaml[[project]]$seconds_interval <- seconds_interval %|||%
     yaml[[project]]$seconds_interval
   yaml[[project]]$shortcut <- shortcut %|||% yaml[[project]]$shortcut
@@ -341,16 +334,6 @@ tar_config_assert_seconds_reporter <- function(seconds_reporter) {
   tar_assert_scalar(seconds_reporter)
   tar_assert_none_na(seconds_reporter)
   tar_assert_ge(seconds_reporter, 0)
-}
-
-tar_config_assert_seconds_scale <- function(seconds_scale) {
-  if (is.null(seconds_scale)) {
-    return()
-  }
-  tar_assert_dbl(seconds_scale)
-  tar_assert_scalar(seconds_scale)
-  tar_assert_none_na(seconds_scale)
-  tar_assert_ge(seconds_scale, 0)
 }
 
 tar_config_assert_shortcut <- function(shortcut) {

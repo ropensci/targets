@@ -72,9 +72,6 @@
 #' @param seconds_reporter Positive numeric of length 1 with the minimum
 #'   number of seconds between times when the reporter prints progress
 #'   messages to the R console.
-#' @param seconds_scale Positive numeric of length 1, with the time interval
-#'   (in seconds) for auto-scaling `crew` workers if a `crew` controller
-#'   is supplied via `tar_option_set()` in `_targets.R`.
 #' @param garbage_collection Logical of length 1. For a `crew`-integrated
 #'   pipeline, whether to run garbage collection on the main process
 #'   before sending a target
@@ -131,7 +128,6 @@ tar_make <- function(
   seconds_meta_append = targets::tar_config_get("seconds_meta_append"),
   seconds_meta_upload = targets::tar_config_get("seconds_meta_upload"),
   seconds_reporter = targets::tar_config_get("seconds_reporter"),
-  seconds_scale = targets::tar_config_get("seconds_scale"),
   seconds_interval = targets::tar_config_get("seconds_interval"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
@@ -161,9 +157,6 @@ tar_make <- function(
   tar_assert_scalar(seconds_reporter)
   tar_assert_none_na(seconds_reporter)
   tar_assert_ge(seconds_reporter, 0)
-  tar_assert_scalar(seconds_scale)
-  tar_assert_none_na(seconds_scale)
-  tar_assert_ge(seconds_scale, 0)
   tar_deprecate_seconds_interval(seconds_interval)
   tar_assert_lgl(garbage_collection)
   tar_assert_scalar(garbage_collection)
@@ -179,7 +172,6 @@ tar_make <- function(
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
-    seconds_scale = seconds_scale,
     garbage_collection = garbage_collection,
     use_crew = use_crew,
     terminate_controller = terminate_controller
@@ -206,7 +198,6 @@ tar_make_inner <- function(
   seconds_meta_append,
   seconds_meta_upload,
   seconds_reporter,
-  seconds_scale,
   garbage_collection,
   use_crew,
   terminate_controller
@@ -244,7 +235,6 @@ tar_make_inner <- function(
       seconds_meta_append = seconds_meta_append,
       seconds_meta_upload = seconds_meta_upload,
       seconds_reporter = seconds_reporter,
-      seconds_scale = seconds_scale,
       garbage_collection = garbage_collection,
       envir = tar_option_get("envir"),
       controller = controller,

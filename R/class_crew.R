@@ -8,7 +8,6 @@ crew_init <- function(
   seconds_meta_append = 0,
   seconds_meta_upload = 15,
   seconds_reporter = 0,
-  seconds_scale = 0.5,
   garbage_collection = FALSE,
   envir = tar_option_get("envir"),
   controller = NULL,
@@ -24,7 +23,6 @@ crew_init <- function(
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
-    seconds_scale = seconds_scale,
     garbage_collection = garbage_collection,
     envir = envir,
     controller = controller,
@@ -42,7 +40,6 @@ crew_new <- function(
   seconds_meta_append = NULL,
   seconds_meta_upload = NULL,
   seconds_reporter = NULL,
-  seconds_scale = NULL,
   garbage_collection = NULL,
   envir = NULL,
   controller = NULL,
@@ -58,7 +55,6 @@ crew_new <- function(
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
-    seconds_scale = seconds_scale,
     garbage_collection = garbage_collection,
     envir = envir,
     controller = controller,
@@ -74,8 +70,6 @@ crew_class <- R6::R6Class(
   public = list(
     controller = NULL,
     terminate_controller = NULL,
-    seconds_scale = NULL,
-    throttle = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
@@ -86,12 +80,10 @@ crew_class <- R6::R6Class(
       seconds_meta_append = NULL,
       seconds_meta_upload = NULL,
       seconds_reporter = NULL,
-      seconds_scale = NULL,
       garbage_collection = NULL,
       envir = NULL,
       controller = NULL,
-      terminate_controller = NULL,
-      throttle = NULL
+      terminate_controller = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -108,7 +100,6 @@ crew_class <- R6::R6Class(
       )
       self$controller <- controller
       self$terminate_controller <- terminate_controller
-      self$seconds_scale <- seconds_scale
     },
     produce_exports = function(envir, path_store, is_globalenv = NULL) {
       map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
@@ -170,6 +161,7 @@ crew_class <- R6::R6Class(
         name = name,
         controller = resources$controller,
         scale = TRUE,
+        throttle = TRUE,
         seconds_timeout = resources$seconds_timeout
       )
     },
@@ -210,8 +202,7 @@ crew_class <- R6::R6Class(
     iterate = function() {
       self$sync_meta_time()
       queue <- self$scheduler$queue
-      throttle <- self$throttle
-      interval <- throttle$seconds_interval
+      interval <- self$controller$launcher$seconds_interval
       if_any(
         queue$should_dequeue(),
         self$process_target(queue$dequeue()),
@@ -219,13 +210,14 @@ crew_class <- R6::R6Class(
           mode = "one",
           seconds_interval = interval,
           seconds_timeout = interval,
-          scale = throttle$poll()
+          scale = TRUE,
+          throttle = TRUE
         )
       )
       self$conclude_worker_task()
     },
     conclude_worker_task = function() {
-      result <- self$controller$pop(scale = TRUE)
+      result <- self$controller$pop(scale = TRUE, throttle = TRUE)
       if (is.null(result)) {
         return()
       }
@@ -283,12 +275,6 @@ crew_class <- R6::R6Class(
         self$iterate()
       }
     },
-    start = function() {
-      super$start()
-      self$throttle <- crew::crew_throttle(
-        seconds_interval = self$seconds_scale
-      )
-    },
     run = function() {
       self$start()
       on.exit(self$end())
@@ -306,11 +292,6 @@ crew_class <- R6::R6Class(
       tar_assert_lgl(self$terminate_controller)
       tar_assert_scalar(self$terminate_controller)
       tar_assert_none_na(self$terminate_controller)
-      tar_assert_scalar(self$seconds_scale)
-      tar_assert_dbl(self$seconds_scale)
-      tar_assert_none_na(self$seconds_scale)
-      tar_assert_ge(self$seconds_scale, 0)
-      validate_crew_throttle(self$throttle)
     }
   )
 )
@@ -337,11 +318,4 @@ validate_crew_controller <- function(controller) {
   tar_assert_envir(controller, msg = "invalid crew controller")
   tar_assert_function(controller$validate, msg = "invalid crew controller")
   controller$validate()
-}
-
-validate_crew_throttle <- function(throttle) {
-  if (!is.null(throttle)) {
-    tar_assert_inherits(throttle, "crew_class_throttle")
-    throttle$validate()
-  }
 }

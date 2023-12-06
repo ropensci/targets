@@ -11,7 +11,6 @@ tar_make(
   seconds_meta_append = targets::tar_config_get("seconds_meta_append"),
   seconds_meta_upload = targets::tar_config_get("seconds_meta_upload"),
   seconds_reporter = targets::tar_config_get("seconds_reporter"),
-  seconds_scale = targets::tar_config_get("seconds_scale"),
   seconds_interval = targets::tar_config_get("seconds_interval"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
@@ -87,10 +86,6 @@ regardless of \code{seconds_meta_upload}.}
 \item{seconds_reporter}{Positive numeric of length 1 with the minimum
 number of seconds between times when the reporter prints progress
 messages to the R console.}
-
-\item{seconds_scale}{Positive numeric of length 1, with the time interval
-(in seconds) for auto-scaling \code{crew} workers if a \code{crew} controller
-is supplied via \code{tar_option_set()} in \verb{_targets.R}.}
 
 \item{seconds_interval}{Deprecated on 2023-08-24 (version 1.2.2.9001).
 Use \code{seconds_meta_append}, \code{seconds_meta_upload},

@@ -15,7 +15,6 @@ tar_config_set(
   seconds_meta_append = NULL,
   seconds_meta_upload = NULL,
   seconds_reporter = NULL,
-  seconds_scale = NULL,
   seconds_interval = NULL,
   store = NULL,
   shortcut = NULL,
@@ -94,10 +93,6 @@ regardless of \code{seconds_meta_upload}.}
 and \code{\link[=tar_make_future]{tar_make_future()}}. Positive numeric of length 1 with the minimum
 number of seconds between times when the reporter prints progress
 messages to the R console.}
-
-\item{seconds_scale}{Argument of \code{\link[=tar_make]{tar_make()}}.
-Positive numeric of length 1, with the time interval (in seconds)
-for auto-scaling \code{crew} workers if a \code{crew} controller is supplied.}
 
 \item{seconds_interval}{Deprecated on 2023-08-24 (version 1.2.2.9001).
 Use \code{seconds_meta_append}, \code{seconds_meta_upload},
