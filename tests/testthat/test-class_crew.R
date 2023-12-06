@@ -332,16 +332,3 @@ tar_test("nontrivial common data", {
   value <- target_read_value(pipeline_get_target(pipeline, "x"))
   expect_equal(value$object, 3L)
 })
-
-tar_test("throttle validation", {
-  skip_cran()
-  skip_on_os("windows")
-  skip_on_os("solaris")
-  skip_if_not_installed("crew", minimum_version = "0.7.0")
-  expect_silent(validate_crew_throttle(NULL))
-  expect_silent(validate_crew_throttle(crew::crew_throttle()))
-  expect_error(
-    validate_crew_throttle(123),
-    class = "tar_condition_validate"
-  )
-})
