@@ -23,26 +23,30 @@ callr_outer <- function(
     fun = fun
   )
   if_any(
-    inherits(out, "error"),
-    callr_error(condition = out, fun = fun),
+    inherits(out, "tar_condition_traced"),
+    callr_error(traced_condition = out, fun = fun),
     out
   )
 }
 
-callr_error <- function(condition, fun) {
+callr_error <- function(traced_condition, fun) {
   message <- sprintf(
     paste0(
       "Error running targets::%s()\n",
-      "  Error messages: ",
+      "Error messages: ",
       "targets::tar_meta(fields = error, complete_only = TRUE)\n",
-      "  Debugging guide: https://books.ropensci.org/targets/debugging.html\n",
-      "  How to ask for help: https://books.ropensci.org/targets/help.html\n",
-      "  Last error: %s"
+      "Debugging guide: https://books.ropensci.org/targets/debugging.html\n",
+      "How to ask for help: https://books.ropensci.org/targets/help.html\n",
+      "Last error:\n",
+      "    %s\n",
+      "Traceback:\n",
+      "%s"
     ),
     fun,
-    conditionMessage(condition)
+    conditionMessage(traced_condition$condition),
+    traced_condition$trace
   )
-  tar_throw_run(message, class = class(condition))
+  tar_throw_run(message, class = class(traced_condition$condition))
 }
 
 callr_dispatch <- function(
@@ -94,6 +98,9 @@ callr_inner <- function(
 ) {
   force(envir)
   parent <- parent.frame()
+  
+  browser()
+  
   tryCatch(
     targets::tar_callr_inner_try(
       targets_function = targets_function,
@@ -105,7 +112,12 @@ callr_inner <- function(
       store = store,
       fun = fun
     ),
-    error = function(condition) condition
+    error = function(condition) {
+      targets::tar_condition_traced(
+        condition = condition,
+        trace = .traceback()
+      )
+    }
   )
 }
 

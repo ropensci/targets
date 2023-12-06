@@ -56,6 +56,12 @@ target_prepare.tar_builder <- function(
   meta,
   pending = FALSE
 ) {
+  
+  
+  browser()
+  
+  stop("stuck")
+  
   target_patternview_dispatched(target, pipeline, scheduler)
   scheduler$progress$register_dispatched(target)
   scheduler$reporter$report_dispatched(

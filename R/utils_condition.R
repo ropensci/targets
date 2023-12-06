@@ -139,6 +139,35 @@ tar_message <- function(message, class) {
   rlang::inform(message = message, class = class)
 }
 
+#' @title Contain an error condition and formatted traceback.
+#' @export
+#' @keywords internal
+#' @description Not a user-side function.
+#' @return Contain an error condition and formatted traceback.
+#' @param condition An error condition object thrown by `stop()` or
+#'   `rlang::abort()`.
+#' @param trace An unformatted list of characters with the traceback.
+tar_condition_traced <- function(condition, trace) {
+  structure(
+    list(
+      condition = condition,
+      trace = tar_format_trace(trace)
+    ),
+    class = c("tar_condition_traced", "tar_condition_targets")
+  )
+}
+
+tar_format_trace <- function(trace) {
+  trace <- as.character(trace)
+  indent <- "    "
+  width <- min(getOption("width"), 79L) - nchar(indent)
+  long <- nchar(trace) > width
+  trace[long] <- substr(trace[long], start = 0, stop = width - 3L)
+  trace[long] <- paste0(trace[long], "...")
+  trace <- paste0(indent, trace)
+  paste(trace, collapse = "\n")
+}
+
 as_immediate_condition <- function(x) {
   x$call <- NULL
   enclass(x, "immediateCondition")
