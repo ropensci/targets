@@ -77,16 +77,6 @@ build_traceback <- function(calls) {
   trace[seq(from = limit, to = length(trace))]
 }
 
-#' @export
-build_traceback.tar_condition_cancel <- function(condition, calls) {
-  NULL
-}
-
-#' @export
-build_traceback.default <- function(condition, calls) {
-  as.character(calls)
-}
-
 build_message <- function(condition, prefix = character(0)) {
   out <- build_message_text_substr(
     message = conditionMessage(condition),
