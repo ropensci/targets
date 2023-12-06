@@ -24,7 +24,7 @@ Because of the changes below, upgrading to this version of `targets` will unavoi
 * Add new arguments `page_size` and `verbose` to `tar_resources_aws()` (#1172).
 * Add a new `tar_unversion()` function to remove version IDs from the metadata of cloud targets. This makes it easier to interact with just the current version of each target, as opposed to the version ID recorded in the local metadata.
 
-## Other changes
+## Other improvements
 
 * Migrate to the changes in `clustermq` 0.9.0 (@mschubert).
 * In progress statuses, change "started" to "dispatched" and change "built" to "completed" (#1192).
@@ -33,6 +33,8 @@ Because of the changes below, upgrading to this version of `targets` will unavoi
 * Console messages from reporters say "dispatched" and "completed" instead of "started" and "built" (#1192).
 * The `crew` scheduling algorithm no longer waits on saturated controllers, and targets that are ready are greedily dispatched to `crew` even if all workers are busy (#1182, #1192). To appropriately set expectations for users, reporters print "dispatched (pending)" instead of "dispatched" if the task load is backlogged at the moment.
 * In the `crew` scheduling algorithm, waiting for tasks is now a truly event-driven process and consumes 5-10x less CPU resources (#1183). Only the auto-scaling of workers uses polling (with an inexpensive default polling interval of 0.5 seconds, configurable through `seconds_interval` in the controller).
+* Simplify stored target tracebacks.
+* Print the traceback on error.
 
 # targets 1.3.2
 

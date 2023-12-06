@@ -9,7 +9,7 @@ tar_traceback(
   envir = NULL,
   packages = NULL,
   source = NULL,
-  characters = getOption("width"),
+  characters = NULL,
   store = targets::tar_config_get("store")
 )
 }
@@ -27,8 +27,7 @@ global object dependencies into \code{envir}. If \code{TRUE}, then \code{envir}
 should either be the global environment or inherit from the
 global environment.}
 
-\item{characters}{Positive integer. Each line of the traceback
-is shortened to this number of characters.}
+\item{characters}{Deprecated in \code{targets} 1.4.0 (2023-12-06).}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

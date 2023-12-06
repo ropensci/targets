@@ -8,7 +8,7 @@ build_init <- function(
   capture_error <- function(condition) {
     state$error <- build_message(condition)
     state$error_class <- class(condition)
-    state$traceback <- build_traceback(condition, sys.calls())
+    state$traceback <- build_traceback(sys.calls())
     NULL
   }
   capture_warning <- function(condition) {
@@ -71,8 +71,10 @@ build_eval_fce17be7 <- function(expr, envir) {
   eval(expr = expr, envir = envir)
 }
 
-build_traceback <- function(condition, calls) {
-  UseMethod("build_traceback")
+build_traceback <- function(calls) {
+  trace <- tar_format_trace(calls)
+  limit <- max(grep(pattern = "build_eval_fce17be7", x = trace)) + 3L
+  trace[seq(from = limit, to = length(trace))]
 }
 
 #' @export

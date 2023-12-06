@@ -37,14 +37,14 @@ callr_error <- function(traced_condition, fun) {
       "targets::tar_meta(fields = error, complete_only = TRUE)\n",
       "Debugging guide: https://books.ropensci.org/targets/debugging.html\n",
       "How to ask for help: https://books.ropensci.org/targets/help.html\n",
-      "Last error:\n",
+      "Last error message:\n",
       "    %s\n",
-      "Traceback:\n",
+      "Last error traceback:\n",
       "%s"
     ),
     fun,
     conditionMessage(traced_condition$condition),
-    traced_condition$trace
+    paste(paste0("    ", traced_condition$trace), collapse = "\n")
   )
   tar_throw_run(message, class = class(traced_condition$condition))
 }
@@ -98,27 +98,35 @@ callr_inner <- function(
 ) {
   force(envir)
   parent <- parent.frame()
-  
-  browser()
-  
+  result <- new.env(parent = emptyenv())
   tryCatch(
-    targets::tar_callr_inner_try(
-      targets_function = targets_function,
-      targets_arguments = targets_arguments,
-      options = options,
-      envir = envir,
-      parent = parent,
-      script = script,
-      store = store,
-      fun = fun
+    out <- withCallingHandlers(
+      targets::tar_callr_inner_try(
+        targets_function = targets_function,
+        targets_arguments = targets_arguments,
+        options = options,
+        envir = envir,
+        parent = parent,
+        script = script,
+        store = store,
+        fun = fun
+      ),
+      error = function(condition) {
+        trace <- .traceback(x = 3L)
+        result$condition <- targets::tar_condition_traced(
+          condition = condition,
+          trace = trace
+        )
+      }
     ),
     error = function(condition) {
-      targets::tar_condition_traced(
-        condition = condition,
-        trace = .traceback()
-      )
     }
   )
+  if (is.null(result$condition)) {
+    out
+  } else {
+    result$condition
+  }
 }
 
 #' @title Invoke a `targets` task from inside a `callr` function
@@ -156,8 +164,10 @@ tar_callr_inner_try <- function(
   old_envir <- tar_options$get_envir()
   on.exit({
     options(old_options)
-    runtime_reset(tar_runtime)
     tar_options$set_envir(old_envir)
+    traceback <- tar_runtime$traceback
+    runtime_reset(tar_runtime)
+    tar_runtime$traceback <- traceback
   })
   callr_set_runtime(script = script, store = store, fun = fun)
   envir <- if_any(is.null(envir), parent, envir)

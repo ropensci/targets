@@ -4,7 +4,7 @@ tar_test("tar_traceback()", {
     list(tar_target(y, stop("3c47b24bd4a7ad8e5ce70f05eefe7c9c")))
   })
   try(tar_make(callr_function = NULL), silent = TRUE)
-  out <- tar_traceback(y, characters = Inf)
+  out <- tar_traceback(y)
   expect_true(any(grepl("3c47b24bd4a7ad8e5ce70f05eefe7c9c", out)))
 })
 
@@ -26,6 +26,10 @@ tar_test("tar_traceback() deprecated arguments", {
   tar_make(callr_function = NULL)
   expect_warning(
     tar_traceback(z, envir = emptyenv()),
+    class = "tar_condition_deprecate"
+  )
+  expect_warning(
+    tar_traceback(z, characters = 2L),
     class = "tar_condition_deprecate"
   )
 })

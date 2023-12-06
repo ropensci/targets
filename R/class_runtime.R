@@ -11,7 +11,8 @@ runtime_new <- function(
   file_info = NULL,
   file_info_exist = NULL,
   nanonext = NULL,
-  inventories = NULL
+  inventories = NULL,
+  traceback = NULL
 ) {
   force(target)
   force(frames)
@@ -26,6 +27,7 @@ runtime_new <- function(
   force(file_info_exist)
   force(nanonext)
   force(inventories)
+  force(traceback)
   environment()
 }
 
@@ -82,6 +84,9 @@ runtime_validate <- function(x) {
   }
   if (!is.null(x$inventories)) {
     tar_assert_list(x$inventories)
+  }
+  if (!is.null(x$traceback)) {
+    tar_assert_chr(x$traceback)
   }
 }
 

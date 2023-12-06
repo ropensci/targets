@@ -9,8 +9,7 @@
 #'   if it exists.
 #' @inheritParams tar_validate
 #' @param name Symbol, name of the target whose workspace to read.
-#' @param characters Positive integer. Each line of the traceback
-#'   is shortened to this number of characters.
+#' @param characters Deprecated in `targets` 1.4.0 (2023-12-06).
 #' @param envir Deprecated in `targets` > 0.3.1 (2021-03-28).
 #' @param packages Logical, whether to load the required packages
 #'   of the target.
@@ -39,17 +38,20 @@ tar_traceback <- function(
   envir = NULL,
   packages = NULL,
   source = NULL,
-  characters = getOption("width"),
+  characters = NULL,
   store = targets::tar_config_get("store")
 ) {
   tar_assert_allow_meta("tar_traceback", store)
-  tar_assert_scalar(characters, "characters must have length 1.")
-  tar_assert_dbl(characters, "characters must be numeric.")
-  tar_assert_positive(characters, "characters must be positive.")
   if (!is.null(envir) || !is.null(packages) || !is.null(source)) {
     tar_warn_deprecate(
       "The envir, packages, and source arguments of tar_traceback() ",
       "are deprectaed in targets > 0.3.1 (2021-03-28)."
+    )
+  }
+  if (!is.null(characters)) {
+    tar_warn_deprecate(
+      "The characters argument of tar_traceback() ",
+      "are deprectaed in targets > 1.4.0 (2021-12-06)."
     )
   }
   name <- tar_deparse_language(substitute(name))
@@ -60,10 +62,5 @@ tar_traceback <- function(
   if (is.null(out)) {
     return(character(0))
   }
-  min <- max(which(grepl("^build_eval_fce17be7", out))) %||% 1 %||NA% 1
-  if (is.finite(min) && length(min) == 1L) {
-    out <- out[seq(min + 1, length(out))]
-  }
-  characters <- min(characters, max(nchar(out)))
-  substr(out, 0, characters)
+  out
 }

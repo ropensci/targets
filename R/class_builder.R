@@ -56,12 +56,6 @@ target_prepare.tar_builder <- function(
   meta,
   pending = FALSE
 ) {
-  
-  
-  browser()
-  
-  stop("stuck")
-  
   target_patternview_dispatched(target, pipeline, scheduler)
   scheduler$progress$register_dispatched(target)
   scheduler$reporter$report_dispatched(
@@ -350,6 +344,7 @@ builder_error_continue <- function(target, scheduler) {
 }
 
 builder_error_exit <- function(target, pipeline, scheduler, meta) {
+  tar_runtime$traceback <- target$metrics$traceback
   tar_throw_run(target$metrics$error, class = target$metrics$error_class)
 }
 

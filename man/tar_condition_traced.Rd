@@ -10,7 +10,7 @@ tar_condition_traced(condition, trace)
 \item{condition}{An error condition object thrown by \code{stop()} or
 \code{rlang::abort()}.}
 
-\item{trace}{An unformatted list of characters with the traceback.}
+\item{trace}{A raw return value from \code{.traceback()}.}
 }
 \value{
 Contain an error condition and formatted traceback.

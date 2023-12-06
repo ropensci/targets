@@ -146,26 +146,35 @@ tar_message <- function(message, class) {
 #' @return Contain an error condition and formatted traceback.
 #' @param condition An error condition object thrown by `stop()` or
 #'   `rlang::abort()`.
-#' @param trace An unformatted list of characters with the traceback.
+#' @param trace A raw return value from `.traceback()`.
 tar_condition_traced <- function(condition, trace) {
+  trace <- if_any(
+    is.null(tar_runtime$traceback),
+    tar_format_trace(rev(trace)),
+    tar_runtime$traceback
+  )
   structure(
-    list(
-      condition = condition,
-      trace = tar_format_trace(trace)
-    ),
+    list(condition = condition, trace = trace),
     class = c("tar_condition_traced", "tar_condition_targets")
   )
 }
 
 tar_format_trace <- function(trace) {
-  trace <- as.character(trace)
-  indent <- "    "
-  width <- min(getOption("width"), 79L) - nchar(indent)
+  trace <- map_chr(
+    trace,
+    ~ {
+      line <- .x
+      if (!is.character(line)) {
+        line <- tar_deparse_safe(.x, collapse = " ")
+      }
+      paste(trimws(line), collapse = " ")
+    }
+  )
+  width <- min(getOption("width"), 79L) - 4L
   long <- nchar(trace) > width
   trace[long] <- substr(trace[long], start = 0, stop = width - 3L)
   trace[long] <- paste0(trace[long], "...")
-  trace <- paste0(indent, trace)
-  paste(trace, collapse = "\n")
+  trace
 }
 
 as_immediate_condition <- function(x) {
