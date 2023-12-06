@@ -97,6 +97,14 @@ tar_test("nanonext", {
   expect_silent(runtime_validate(x))
 })
 
+tar_test("traceback", {
+  x <- runtime_new()
+  expect_null(x$traceback)
+  x$traceback <- "calls"
+  expect_equal(x$traceback, "calls")
+  expect_silent(runtime_validate(x))
+})
+
 tar_test("validate null fields", {
   x <- runtime_new()
   expect_silent(runtime_validate(x))
