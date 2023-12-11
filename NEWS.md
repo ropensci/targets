@@ -2,6 +2,7 @@
 
 * Print "errored pipeline" when at least one target errors.
 * Bump minimum `clustermq` version to 0.9.2.
+* Repair the `tar_debug_instructions()` tips for when commands are long.
 
 # targets 1.4.0
 

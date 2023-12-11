@@ -12,7 +12,8 @@ tar_debug_instructions <- function() {
   if (is.expression(expr)) {
     expr <- expr[[1]]
   }
-  text <- paste("    ", targets::tar_deparse_safe(expr))
+  deparsed <- targets::tar_deparse_safe(expr)
+  text <- paste("    ", deparsed)
   cli_mark_info(
     sprintf(
       "You are now running an interactive debugger in target %s.",
@@ -37,14 +38,14 @@ tar_debug_instructions <- function() {
     cli_mark_info(
       paste0(
         "Tip: run ",
-        sprintf("debug(%s)", deparse(expr)),
+        sprintf("debug(%s)", deparsed),
         " and then enter \"c\""
       )
     )
     cli_blank(
       paste0(
         "to move the debugger inside function ",
-        deparse(expr),
+        deparsed,
         "()."
       )
     )
