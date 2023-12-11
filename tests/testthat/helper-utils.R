@@ -9,7 +9,7 @@ tmpenv <- function(...) {
 }
 
 require_clustermq <- function() {
-  skip_if_not_installed("clustermq", minimum_version = "0.9.1")
+  skip_if_not_installed("clustermq", minimum_version = "0.9.2")
   skip_if(Sys.getenv("TAR_SKIP_CLUSTERMQ") != "", "skipping clustermq tests")
 }
 

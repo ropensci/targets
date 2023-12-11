@@ -1,3 +1,8 @@
+# targets 1.4.0.9000 (development)
+
+* Print "errored pipeline" when at least one target errors.
+* Bump minimum `clustermq` version to 0.9.2.
+
 # targets 1.4.0
 
 ## Invalidating changes

@@ -67,7 +67,7 @@ tar_make_clustermq <- function(
   # nocov start
   tar_assert_allow_meta("tar_make_clustermq", store)
   force(envir)
-  tar_assert_package("clustermq (>= 0.9.1)")
+  tar_assert_package("clustermq (>= 0.9.2)")
   tar_assert_scalar(shortcut)
   tar_assert_lgl(shortcut)
   tar_assert_flag(reporter, tar_reporters_make())

@@ -2,7 +2,6 @@ crew_test_sleep()
 
 tar_test("tar_make_clustermq() works with callr_function = NULL", {
   skip_cran()
-  skip_on_os("mac")
   skip_on_os("windows")
   skip_on_os("solaris")
   require_clustermq()
@@ -23,7 +22,6 @@ tar_test("tar_make_clustermq() works with callr_function = NULL", {
 
 tar_test("tar_make_clustermq() works", {
   skip_cran()
-  skip_on_os("mac")
   skip_on_os("windows")
   skip_on_os("solaris")
   require_clustermq()
@@ -41,7 +39,6 @@ tar_test("tar_make_clustermq() works", {
 
 tar_test("tar_make_clustermq() can use tidyselect", {
   skip_cran()
-  skip_on_os("mac")
   skip_on_os("windows")
   skip_on_os("solaris")
   require_clustermq()
@@ -70,7 +67,6 @@ tar_test("custom script and store args", {
   skip_cran()
   require_clustermq()
   skip_on_covr()
-  skip_on_os("mac")
   skip_on_os("solaris")
   skip_on_os("windows")
   expect_equal(tar_config_get("script"), path_script_default())
@@ -107,7 +103,6 @@ tar_test("custom script and store args with callr function", {
   skip_cran()
   require_clustermq()
   skip_on_covr()
-  skip_on_os("mac")
   skip_on_os("solaris")
   skip_on_os("windows")
   expect_equal(tar_config_get("script"), path_script_default())
@@ -142,7 +137,6 @@ tar_test("custom script and store args with callr function", {
 
 tar_test("bootstrap builder for shortcut", {
   skip_cran()
-  skip_on_os("mac")
   skip_on_os("solaris")
   skip_on_os("windows")
   require_clustermq()

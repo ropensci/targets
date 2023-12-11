@@ -174,18 +174,27 @@ progress_class <- R6::R6Class(
         self$canceled$count == 0L
     },
     cli_end = function(time_stamp = FALSE, seconds_elapsed = NULL) {
-      if_any(
-        self$uptodate(),
-        cli_uptodate(
+      if (self$uptodate()) {
+        cli_pipeline_uptodate(
           time_stamp = time_stamp,
           seconds_elapsed = seconds_elapsed
-        ),
-        if_any(
-          self$any_targets(),
-          cli_done(time_stamp = time_stamp, seconds_elapsed = seconds_elapsed),
-          cli_empty(time_stamp = time_stamp, seconds_elapsed = seconds_elapsed)
         )
-      )
+      } else if (!self$any_targets()) {
+        cli_pipeline_empty(
+          time_stamp = time_stamp,
+          seconds_elapsed = seconds_elapsed
+        )
+      } else if (self$errored$count > 0L) {
+        cli_pipeline_errored(
+          time_stamp = time_stamp,
+          seconds_elapsed = seconds_elapsed
+        )
+      } else {
+        cli_pipeline_done(
+          time_stamp = time_stamp,
+          seconds_elapsed = seconds_elapsed
+        )
+      }
     },
     any_remaining = function() {
       self$queued$count > 0L || self$dispatched$count > 0L
