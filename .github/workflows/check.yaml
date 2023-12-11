@@ -49,11 +49,6 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - name: Add r-universe to repos
-        run: |
-          cat("\noptions(repos=c(mschubert = 'https://mschubert.r-universe.dev', shikokuchuo = 'https://shikokuchuo.r-universe.dev', wlandau = 'https://wlandau.r-universe.dev', CRAN = 'https://cloud.r-project.org'))\n", file = "~/.Rprofile", append = TRUE)
-        shell: Rscript {0}
-
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
@@ -67,17 +62,6 @@ jobs:
       - name: Install torch
         shell: Rscript {0}
         run: torch::install_torch()
-
-      - name: Install dev crew
-        shell: Rscript {0}
-        run: |
-          install.packages("remotes")
-          remotes::install_github("wlandau/crew")
-
-      - name: Remove clustermq
-        if: runner.os != 'Linux'
-        shell: Rscript {0}
-        run: remove.packages("clustermq")
 
       - name: Check package
         uses: r-lib/actions/check-r-package@v2
