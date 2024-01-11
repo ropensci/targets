@@ -132,31 +132,31 @@ to ask for help using `targets`.
 - [Half-day interactive tutorial with a Keras
   example](https://github.com/wlandau/targets-tutorial)
 
-## Recorded talks
+## Selected talks
 
 ### English
 
 - [Get started with `targets` in 4 minutes
   (4:08)](https://vimeo.com/700982360)
-- [{targets} in Action](https://ropensci.org/commcalls/jan2023-targets/)
+- [`targets` in Action](https://ropensci.org/commcalls/jan2023-targets/)
   with [Joel Nitta](https://github.com/joelnitta) and [Eric
-  Scott](https://github.com/Aariq)
-- [R/Medicine 2021 (15.33)](https://youtu.be/HJI5mQJRGpY)
-- [R/Pharma 2020
-  (9:24)](https://www.youtube.com/watch?v=GRqKJBaC5g4&list=PLMtxz1fUYA5C0YflXsR8EEAQXfjntlV1H&index=6)
-- [LA R Users Meetup, October 2020
-  (1:14:40)](https://www.youtube.com/watch?v=Qq25BUxpJu4)
-- [New York Open Statistical Programming Meetup, December 2020
-  (1:54:28)](https://youtu.be/Gqn7Xn4d5NI)
+  Scott](https://github.com/Aariq). rOpenSci Community Call (1:09:56).
+- [`targets` and `crew` for clinical trial simulation
+  pipelines](https://www.youtube.com/watch?v=cyF2dzloVLo&list=PLMtxz1fUYA5C0csy8-wTfFmRYQEB30vr3).
+  R/Pharma 2023 (1:57:22).
+- [`targets` and `stantargets` for Bayesian model validation
+  pipelines](https://youtu.be/HJI5mQJRGpY). R/Medicine 2021 (15:33)
+- [Reproducible computation at scale in R with
+  `targets`](https://youtu.be/Gqn7Xn4d5NI) New York Open Statistical
+  Programming Meetup, December 2020 (1:54:28).
 - [ds-incubator series,
   2021](https://www.youtube.com/playlist?list=PLvgdJdJDL-APJqHy5CXs6m4N7hUVp5rb4)
   by [Mauro Lepore](https://github.com/maurolepore).
-- [Lille R User Group, June 2021 (45:54)](https://youtu.be/FODSavXGjYg)
 
 ### Español
 
-- [R-Ladies Barcelona, 2021-05-25
-  (1:25:12)](https://www.youtube.com/watch?v=Vj312AfdpBo) por Irene Cruz
+- [Introducción a targets](https://www.youtube.com/watch?v=Vj312AfdpBo).
+  Irene Cruz, R-Ladies Barcelona, 2021-05-25 (1:25:12).
 
 ### 日本語
 
