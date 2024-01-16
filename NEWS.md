@@ -1,6 +1,6 @@
 # targets 1.4.1.9000 (development)
 
-
+* Update the documentation of the `deployment` argument of `tar_target()` to reflect the advent of `crew` (#1208, @psychelzh).
 
 # targets 1.4.1
 
