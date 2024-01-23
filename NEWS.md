@@ -1,6 +1,7 @@
-# targets 1.4.1.9000 (development)
+# targets 1.4.1.9001 (development)
 
 * Update the documentation of the `deployment` argument of `tar_target()` to reflect the advent of `crew` (#1208, @psychelzh).
+* Unset `cli.num_colors` on exit in `tar_error()` and `tar_warning()` (#1210, @dipterix).
 
 # targets 1.4.1
 
