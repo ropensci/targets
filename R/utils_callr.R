@@ -59,7 +59,7 @@ callr_dispatch <- function(
   store,
   fun
 ) {
-  options <- list(crayon.enabled = interactive())
+  options <- list()
   callr_arguments$func <- callr_inner
   callr_arguments$args <- list(
     targets_function = targets_function,
