@@ -1,5 +1,13 @@
 # targets 1.4.1.9002 (development)
 
+## Invalidating changes
+
+Because of the changes below, upgrading to this version of `targets` will unavoidably invalidate previously built targets in existing pipelines. Your pipeline code should still work, but any targets you ran before will most likely need to rerun after the upgrade.
+
+* In `tar_seed_create()`, use `secretbase::sha3(x = TARGET_NAME, bits = 32L, convert = NA)` to generate target seeds that are more resistant to overlapping RNG streams (#1139, @shikokuchuo). The previous approach used a less rigorous combination of `digest::digest(algo = "sha512")` and `digets::digest2int()`.
+
+## Other changes
+
 * Update the documentation of the `deployment` argument of `tar_target()` to reflect the advent of `crew` (#1208, @psychelzh).
 * Unset `cli.num_colors` on exit in `tar_error()` and `tar_warning()` (#1210, @dipterix).
 * Do not try to access `seconds_timeout` if the `crew` controller is actually a controller group (#1207, https://github.com/wlandau/crew.cluster/discussions/35, @stemangiola, @drejom).

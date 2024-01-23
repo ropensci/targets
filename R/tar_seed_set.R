@@ -10,10 +10,13 @@
 #' @inheritSection tar_seed_create Seeds
 #' @inheritSection tar_seed_create RNG overlap
 #' @references
-#'   Pierre L'Ecuyer, David Munger, Boris Oreshkin, and Richard Simard
-#'   (2017). Random numbers for parallel computers: Requirements and methods,
-#'   with emphasis on GPUs. Mathematics and Computers in Simulation,
-#'   135, 3-17. \doi{10.1016/j.matcom.2016.05.005}.
+#'   * Gao C (2024). `secretbase`: Cryptographic Hash and
+#'     Extendable-Output Functions. R package version 0.1.0,
+#'     \doi{10.5281/zenodo.10553140}.
+#'   * Pierre L'Ecuyer, David Munger, Boris Oreshkin, and Richard Simard
+#'     (2017). Random numbers for parallel computers: Requirements and methods,
+#'     with emphasis on GPUs. Mathematics and Computers in Simulation,
+#'     135, 3-17. \doi{10.1016/j.matcom.2016.05.005}.
 #' @return `NULL` (invisibly).
 #' @param seed Integer of length 1, value of the seed to set
 #'   with `set.seed()`.

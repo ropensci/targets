@@ -54,27 +54,14 @@ However, this risk is extremely small in practice, as shown by
 L'Ecuyer et al. (2017) \doi{10.1016/j.matcom.2016.05.005}
 under "A single RNG with a 'random' seed for each stream" (Section 4:
 under "How to produce parallel streams and substreams").
-
 \code{targets} and \code{tarchetypes} take the approach discussed in the
-aforementioned section of the paper, where \code{\link[=tar_seed_create]{tar_seed_create()}} plays the
-role of the upstream pseudo-random number generator (RNG) that produces
-seeds for the subsequent parallel streams. Specifically,
-\code{\link[=tar_seed_create]{tar_seed_create()}} acts as a counter-based RNG,
-where the output function is the SHA512 hash algorithm.
-(See "counter-based RNGs" under Section 3: "Main classes of RNGs
-for simulation".) There are two notable quirks, but they are innocuous:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{1. Instead of a recursive integer counter, [tar_seed_create()] accepts
-   the name of the target as the argument.
-   Because target names map to small integers, this is equivalent to
-   traversing the RNG sequence in variable small jumps. This does not
-   affect the period length, and the argument in Section 4 of
-   L'Ecuyer et al. (2017) still holds.
-2. [tar_seed_create()] converts the SHA512 hash into an
-   integer using `digest::digest2int()`. This is necessary
-   because integers in R can only be 32 bits. `set.seed()`
-   cannot accept anything greater.
-}\if{html}{\out{</div>}}
+aforementioned section of the paper using the
+\code{secretbase} package by Charlie Gao (2024) \doi{10.5281/zenodo.10553140}.
+To generate the 32-bit integer \code{seed} argument of \code{set.seed()}
+for each target, \code{secretbase} generates a cryptographic SHA3 hash
+and robustly converts it to 32-bit output using the SHAKE256
+extendable output function (XOF). \code{secretbase} uses algorithms from
+the \verb{Mbed TLS} C library.
 }
 
 \examples{
@@ -87,10 +74,15 @@ tar_seed_set(seed)
 sample(10)
 }
 \references{
-Pierre L'Ecuyer, David Munger, Boris Oreshkin, and Richard Simard
+\itemize{
+\item Gao C (2024). \code{secretbase}: Cryptographic Hash and
+Extendable-Output Functions. R package version 0.1.0,
+\doi{10.5281/zenodo.10553140}.
+\item Pierre L'Ecuyer, David Munger, Boris Oreshkin, and Richard Simard
 (2017). Random numbers for parallel computers: Requirements and methods,
 with emphasis on GPUs. Mathematics and Computers in Simulation,
 135, 3-17. \doi{10.1016/j.matcom.2016.05.005}.
+}
 }
 \seealso{
 Other pseudo-random number generation: 
