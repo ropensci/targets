@@ -111,6 +111,7 @@ store_read_object <- function(store) {
   UseMethod("store_read_object")
 }
 
+#' @export
 store_read_object.default <- function(store) {
   store_convert_object(store, store_read_path(store, store$file$path))
 }
