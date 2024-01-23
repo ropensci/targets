@@ -202,14 +202,13 @@ crew_class <- R6::R6Class(
     iterate = function() {
       self$sync_meta_time()
       queue <- self$scheduler$queue
-      interval <- self$controller$launcher$seconds_interval
       if_any(
         queue$should_dequeue(),
         self$process_target(queue$dequeue()),
         self$controller$wait(
           mode = "one",
-          seconds_interval = interval,
-          seconds_timeout = interval,
+          seconds_interval = 0.5,
+          seconds_timeout = 0.5,
           scale = TRUE,
           throttle = TRUE
         )
