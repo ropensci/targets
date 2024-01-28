@@ -82,6 +82,25 @@ tar_test("prevent high-memory data via target objects", {
   pryr::object_size(self)
 })
 
+tar_test("saturated controllers should get tasks", {
+  # Also watch CPU usage on htop. Should be low.
+  skip_on_cran()
+  skip_if_not_installed("crew")
+  tar_script({
+    library(targets)
+    controller <- crew::crew_controller_local(workers = 2)
+    tar_option_set(controller = controller)
+    list(
+      tar_target(w, Sys.sleep(10)),
+      tar_target(x, Sys.sleep(10)),
+      tar_target(y, Sys.sleep(10)),
+      tar_target(z, Sys.sleep(10))
+    )
+  })
+  tar_make() # All 4 targets should start and the last 2 should be "pending".
+  expect_equal(tar_outdated(callr_function = NULL), character(0))
+})
+
 tar_test("heavily parallel workload should run fast", {
   skip_on_cran()
   skip_if_not_installed("crew")
@@ -120,21 +139,19 @@ tar_test("heavily parallel workload should run fast", {
   expect_equal(tar_outdated(callr_function = NULL), character(0))
 })
 
-tar_test("saturated controllers should get tasks", {
-  # Also watch CPU usage on htop. Should be low.
+tar_test("crew local with many tasks and many workers", {
   skip_on_cran()
   skip_if_not_installed("crew")
   tar_script({
+    library(crew)
     library(targets)
-    controller <- crew::crew_controller_local(workers = 2)
+    controller <- crew_controller_local(workers = 25, tasks_max = 100)
     tar_option_set(controller = controller)
     list(
-      tar_target(w, Sys.sleep(10)),
-      tar_target(x, Sys.sleep(10)),
-      tar_target(y, Sys.sleep(10)),
-      tar_target(z, Sys.sleep(10))
+      tar_target(x, seq_len(10000)),
+      tar_target(y, Sys.sleep(1), pattern = map(x))
     )
   })
-  tar_make() # All 4 targets should start and the last 2 should be "pending".
-  expect_equal(tar_outdated(callr_function = NULL), character(0))
+  tar_make()
+  expect_equal(tar_outdated(reporter = "forecast"), character(0))
 })
