@@ -173,7 +173,6 @@ tar_callr_inner_try <- function(
   envir <- if_any(is.null(envir), parent, envir)
   tar_options$set_envir(envir = envir)
   targets <- eval(parse(file = script, keep.source = TRUE), envir = envir)
-  tar_warn_devtools()
   targets_arguments$pipeline <- pipeline_from_list(targets)
   pipeline_validate_lite(targets_arguments$pipeline)
   do.call(targets_function, targets_arguments)

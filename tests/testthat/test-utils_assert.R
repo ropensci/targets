@@ -180,14 +180,6 @@ tar_test("tar_assert_null()", {
   )
 })
 
-tar_test("tar_warn_devtools()", {
-  skip_on_cran()
-  old <- Sys.getenv("TAR_WARN")
-  on.exit(Sys.setenv(TAR_WARN = old))
-  Sys.setenv(TAR_WARN = "false")
-  expect_silent(tar_warn_devtools())
-})
-
 tar_test("tar_assert_all_na()", {
   skip_cran()
   expect_silent(tar_assert_all_na(NA_character_))

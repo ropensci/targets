@@ -648,33 +648,6 @@ tar_assert_script <- function(script) {
   tar_assert_not_in(vars, choices, msg)
 }
 
-tar_warn_devtools <- function() {
-  for (name in grep(pattern = "^package:", x = search(), value = TRUE)) {
-    if (name != "package:targets") {
-      package <- gsub(pattern = "^package:", replacement = "", x = name)
-      should_warn <- !is.null(getNamespace(package)$.__DEVTOOLS__) &&
-        !identical(Sys.getenv("TAR_WARN", unset = ""), "false")
-      if_any(
-        should_warn,
-        tar_warn_validate(
-          "Detected package {",
-          package,
-          "} loaded with pkgload::load_all() or devtools::load_all(). ",
-          "Functions loaded this way cannot be detected with static code ",
-          "analysis and cannot be loaded into parallel workers. ",
-          "Please explicitly install the package, and if appropriate, ",
-          "use the 'envir' and 'imports' arguments of tar_option_set() ",
-          "as described at ",
-          "https://books.ropensci.org/targets/packages.html. ",
-          "This warning can be suppressed by setting ",
-          "Sys.setenv(TAR_WARN = \"false\") in your _targets.R file."
-        ),
-        NULL
-      )
-    }
-  }
-}
-
 tar_assert_objects_files <- function(store) {
   objects <- path_objects_dir(store)
   files <- list.files(
