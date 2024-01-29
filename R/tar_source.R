@@ -44,7 +44,7 @@ tar_source <- function(
   tar_assert_nzchar(files)
   missing_files <- files[!file.exists(files)]
   if (length(missing_files)) {
-    tar_warn_validate(
+    tar_message_validate(
       "tar_source(): these files do not exist: ",
       paste(missing_files, collapse = ", ")
     )
@@ -53,7 +53,7 @@ tar_source <- function(
   r_scripts <- grep(pattern = "\\.[rR]$", x = all_files, value = TRUE)
   non_r_scripts <- setdiff(all_files, r_scripts)
   if (length(non_r_scripts)) {
-    tar_warn_validate(
+    tar_message_validate(
       "tar_source() only sources R scripts. Ignoring non-R files: ",
       paste(non_r_scripts, collapse = ", ")
     )

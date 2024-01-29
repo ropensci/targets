@@ -54,7 +54,7 @@ tar_test("superseded ultra-custom formats and error null", {
   for (format in c("keras", "torch")) {
     expect_warning(
       tmp <- tar_target(x, "y", format = format, error = "null"),
-      class = "tar_condition_validate"
+      class = "tar_condition_deprecate"
     )
   }
   for (format in c("rds", "qs")) {

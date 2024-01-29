@@ -168,6 +168,6 @@ warn_error_format <- function(error, format) {
       "\" is incompatible with error = \"null\" ",
       "(and superseded by tar_format())."
     )
-    tar_warn_validate(message)
+    tar_warn_deprecate(message)
   }
 }

@@ -30,6 +30,7 @@
 \alias{tar_assert_named}
 \alias{tar_assert_names}
 \alias{tar_assert_nonempty}
+\alias{tar_assert_null}
 \alias{tar_assert_not_expr}
 \alias{tar_assert_nzchar}
 \alias{tar_assert_package}
@@ -101,6 +102,8 @@ tar_assert_named(x, msg = NULL)
 tar_assert_names(x, msg = NULL)
 
 tar_assert_nonempty(x, msg = NULL)
+
+tar_assert_null(x, msg = NULL)
 
 tar_assert_not_expr(x, msg = NULL)
 

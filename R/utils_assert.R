@@ -421,6 +421,15 @@ tar_assert_nonempty <- function(x, msg = NULL) {
   }
 }
 
+#' @export
+#' @rdname tar_assert
+tar_assert_null <- function(x, msg = NULL) {
+  if (!is.null(x)) {
+    default <- paste(tar_deparse_safe(substitute(x)), "must be NULL.")
+    tar_throw_validate(msg %|||% default)
+  }
+}
+
 tar_assert_all_na <- function(x, msg = NULL) {
   if (!all(is.na(x))) {
     default <- paste(
@@ -637,21 +646,31 @@ tar_assert_script <- function(script) {
     "that would source the target script again and cause infinite recursion."
   )
   tar_assert_not_in(vars, choices, msg)
-  msg <- paste(
-    "Do not use %s() from {devtools} or {pkgload} to load",
-    "packages or custom functions/globals for `targets`. If you do,",
-    "custom functions will go to a package environment where `targets`",
-    "may not track them, and the loaded data will not be available in",
-    "parallel workers created by tar_make_clustermq() or tar_make_future().",
-    "Read https://books.ropensci.org/targets/packages.html#loading-and-configuring-r-packages", # nolint
-    "and https://books.ropensci.org/targets/packages.html#package-based-invalidation", # nolint
-    "for the correct way to load packages for `targets` pipelines.",
-    "Warnings like this one are important, but if you must suppress them, ",
-    "you can do so with Sys.setenv(TAR_WARN = \"false\")."
-  )
-  for (loader in c("load_all", "load_code", "load_data", "load_dll")) {
-    if (!identical(Sys.getenv("TAR_WARN"), "false") && loader %in% vars) {
-      tar_warn_validate(sprintf(msg, loader))
+}
+
+tar_warn_devtools <- function() {
+  for (name in grep(pattern = "^package:", x = search(), value = TRUE)) {
+    if (name != "package:targets") {
+      package <- gsub(pattern = "^package:", replacement = "", x = name)
+      should_warn <- !is.null(getNamespace(package)$.__DEVTOOLS__) &&
+        !identical(Sys.getenv("TAR_WARN", unset = ""), "false")
+      if_any(
+        should_warn,
+        tar_warn_validate(
+          "Detected package {",
+          package,
+          "} loaded with pkgload::load_all() or devtools::load_all(). ",
+          "Functions loaded this way cannot be detected with static code ",
+          "analysis and cannot be loaded into parallel workers. ",
+          "Please explicitly install the package, and if appropriate, ",
+          "use the 'envir' and 'imports' arguments of tar_option_set() ",
+          "as described at ",
+          "https://books.ropensci.org/targets/packages.html. ",
+          "This warning can be suppressed by setting ",
+          "Sys.setenv(TAR_WARN = \"false\") in your _targets.R file."
+        ),
+        NULL
+      )
     }
   }
 }

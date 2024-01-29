@@ -5,6 +5,7 @@
 Because of the changes below, upgrading to this version of `targets` will unavoidably invalidate previously built targets in existing pipelines. Your pipeline code should still work, but any targets you ran before will most likely need to rerun after the upgrade.
 
 * In `tar_seed_create()`, use `secretbase::sha3(x = TARGET_NAME, bits = 32L, convert = NA)` to generate target seeds that are more resistant to overlapping RNG streams (#1139, @shikokuchuo). The previous approach used a less rigorous combination of `digest::digest(algo = "sha512")` and `digets::digest2int()`.
+* Use `.__DEVTOOLS__` instead of static code analysis to detect `pkgload::load_all()` (#1218).
 
 ## Other changes
 

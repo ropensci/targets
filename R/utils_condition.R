@@ -100,6 +100,15 @@ tar_warn_validate <- function(...) {
 
 #' @export
 #' @rdname tar_condition
+tar_message_validate <- function(...) {
+  tar_message(
+    message = paste0(...),
+    class = c("tar_condition_validate", "tar_condition_targets")
+  )
+}
+
+#' @export
+#' @rdname tar_condition
 tar_print <- function(...) {
   tar_message(
     message = paste0(...),
