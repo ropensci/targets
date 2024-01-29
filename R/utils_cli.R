@@ -70,7 +70,7 @@ cli_pipeline_done <- function(
   print = TRUE
 ) {
   time <- if_any(time_stamp, time_stamp(), NULL)
-  msg <- paste(c(time, "completed pipeline"), collapse = " ")
+  msg <- paste(c(time, "ended pipeline"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
     msg <- paste0(msg, msg_time)
