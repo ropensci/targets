@@ -34,31 +34,14 @@ tar_debug_instructions <- function() {
   message()
   message(text)
   message()
-  if (is.call(expr)) {
-    cli_mark_info(
-      paste0(
-        "Tip: run ",
-        sprintf("debug(%s)", deparsed),
-        " and then enter \"c\""
-      )
+  cli_mark_info("Tip: run debug(your_function) and then enter \"c\"")
+  cli_blank("to move the debugger inside your_function(),")
+  cli_blank(
+    sprintf(
+      "where your_function() is called from the command of target %s.",
+      name
     )
-    cli_blank(
-      paste0(
-        "to move the debugger inside function ",
-        deparsed,
-        "()."
-      )
-    )
-  } else {
-    cli_mark_info("Tip: run debug(your_function) and then enter \"c\"")
-    cli_blank("to move the debugger inside your_function(),")
-    cli_blank(
-      sprintf(
-        "where your_function() is called from the command of target %s.",
-        name
-      )
-    )
-  }
+  )
   cli_blank(
     "Then debug the function as you would normally (without `targets`)."
   )
