@@ -19,7 +19,8 @@ tar_make(
   store = targets::tar_config_get("store"),
   garbage_collection = targets::tar_config_get("garbage_collection"),
   use_crew = targets::tar_config_get("use_crew"),
-  terminate_controller = TRUE
+  terminate_controller = TRUE,
+  as_job = targets::tar_config_get("as_job")
 )
 }
 \arguments{
@@ -164,6 +165,11 @@ tasks that completed but were not collected with \code{pop()}.
 You can manually terminate the controller with
 \code{tar_option_get("controller")$summary()} to close down the dispatcher
 and worker processes.}
+
+\item{as_job}{\code{TRUE} to run as an RStudio IDE / Posit Workbench job,
+\code{FALSE} to run as a \code{callr} process in the main R session
+(depending on the \code{callr_function} argument).
+If \code{as_job_} is \code{TRUE}, then the \code{rstudioapi} package must be installed.}
 }
 \value{
 \code{NULL} except if \code{callr_function = callr::r_bg()}, in which case

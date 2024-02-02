@@ -13,6 +13,21 @@ tar_test("tar_config_set() inherits", {
   expect_null(tar_config_get("inherits"))
 })
 
+tar_test("tar_config_set() as_job", {
+  skip_cran()
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("as_job"), FALSE)
+  tar_config_set(as_job = TRUE)
+  expect_equal(tar_config_get("as_job"), TRUE)
+  expect_true(file.exists("_targets.yaml"))
+  expect_true(any(grepl("as_job", readLines("_targets.yaml"))))
+  tar_config_set()
+  expect_equal(tar_config_get("as_job"), TRUE)
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("as_job"), FALSE)
+})
+
 tar_test("tar_config_set() garbage_collection", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))

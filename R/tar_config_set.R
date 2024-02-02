@@ -37,6 +37,11 @@
 #'   defaults to `Sys.getenv("TAR_PROJECT", "main")`.
 #'   If the `inherits` argument `NULL`, the `inherits` setting is not modified.
 #'   Use [tar_config_unset()] to delete a setting.
+#' @param as_job Logical of length 1, `as_job` argument of [tar_make()].
+#'   `TRUE` to run as an RStudio IDE / Posit Workbench job,
+#'   `FALSE` to run as a `callr` process in the main R session
+#'   (depending on the `callr_function` argument).
+#'   If `as_job_` is `TRUE`, then the `rstudioapi` package must be installed.
 #' @param garbage_collection Logical of length 1, `garbage_collection`
 #'   argument of [tar_make()] (if `crew` is enabled),
 #'   [tar_make_clustermq()], and [tar_make_future()].
@@ -161,6 +166,7 @@
 #' }
 tar_config_set <- function(
   inherits = NULL,
+  as_job = NULL,
   garbage_collection = NULL,
   label = NULL,
   level_separation = NULL,
@@ -185,6 +191,7 @@ tar_config_set <- function(
   tar_assert_chr(project)
   tar_assert_scalar(project)
   tar_config_assert_inherits(inherits)
+  tar_config_assert_as_job(as_job)
   tar_config_assert_garbage_collection(garbage_collection)
   tar_config_assert_label(label)
   tar_config_assert_level_separation(level_separation)
@@ -201,6 +208,7 @@ tar_config_set <- function(
   tar_config_assert_workers(workers)
   yaml <- tar_config_yaml(config = config)
   yaml[[project]]$inherits <- inherits %|||% yaml[[project]]$inherits
+  yaml[[project]]$as_job <- as_job %|||% yaml[[project]]$as_job
   yaml[[project]]$garbage_collection <- garbage_collection %|||%
     yaml[[project]]$garbage_collection
   yaml[[project]]$label <- label %|||% yaml[[project]]$label
@@ -244,6 +252,15 @@ tar_config_assert_inherits <- function(inherits) {
   tar_assert_scalar(inherits)
   tar_assert_chr(inherits)
   tar_assert_nzchar(inherits)
+}
+
+tar_config_assert_as_job <- function(as_job) {
+  if (is.null(as_job)) {
+    return()
+  }
+  tar_assert_lgl(as_job)
+  tar_assert_scalar(as_job)
+  tar_assert_none_na(as_job)
 }
 
 tar_config_assert_garbage_collection <- function(garbage_collection) {

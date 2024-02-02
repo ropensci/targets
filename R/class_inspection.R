@@ -203,7 +203,7 @@ inspection_class <- R6::R6Class(
     update_imports = function() {
       envir <- self$pipeline$imports
       graph <- graph_envir(envir)
-      edges <- lapply(as_data_frame(igraph::get.edgelist(graph)), as.character)
+      edges <- lapply(as_data_frame(igraph::as_edgelist(graph)), as.character)
       edges <- data_frame(from = edges[[1]], to = edges[[2]])
       edges <- edges[edges$from != edges$to,, drop = FALSE] # nolint
       vertices <- self$hashes_to_vertices(hash_imports_graph(envir, graph))

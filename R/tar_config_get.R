@@ -86,6 +86,7 @@ tar_config_get_project <- function(name, yaml) {
   switch(
     name,
     inherits = yaml$inherits,
+    as_job = yaml$as_job %|||% FALSE,
     garbage_collection = yaml$garbage_collection %|||% FALSE,
     label = yaml$label,
     level_separation = yaml$level_separation,
@@ -107,6 +108,7 @@ tar_config_get_convert <- function(name, value) {
   switch(
     name,
     inherits = if_any(is.null(value), NULL, as.character(value)),
+    as_job = as.logical(value),
     garbage_collection = as.logical(value),
     label = if_any(is.null(value), NULL, as.character(value)),
     level_separation = if_any(is.null(value), NULL, as.numeric(value)),

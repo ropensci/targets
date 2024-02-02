@@ -6,6 +6,7 @@
 \usage{
 tar_config_set(
   inherits = NULL,
+  as_job = NULL,
   garbage_collection = NULL,
   label = NULL,
   level_separation = NULL,
@@ -31,6 +32,12 @@ The current project is the \code{project} argument, which
 defaults to \code{Sys.getenv("TAR_PROJECT", "main")}.
 If the \code{inherits} argument \code{NULL}, the \code{inherits} setting is not modified.
 Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
+
+\item{as_job}{Logical of length 1, \code{as_job} argument of \code{\link[=tar_make]{tar_make()}}.
+\code{TRUE} to run as an RStudio IDE / Posit Workbench job,
+\code{FALSE} to run as a \code{callr} process in the main R session
+(depending on the \code{callr_function} argument).
+If \code{as_job_} is \code{TRUE}, then the \code{rstudioapi} package must be installed.}
 
 \item{garbage_collection}{Logical of length 1, \code{garbage_collection}
 argument of \code{\link[=tar_make]{tar_make()}} (if \code{crew} is enabled),

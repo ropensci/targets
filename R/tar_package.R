@@ -19,7 +19,7 @@
 #' @importFrom codetools findGlobals
 #' @importFrom data.table data.table fread fwrite rbindlist set
 #' @importFrom digest digest getVDigest
-#' @importFrom igraph adjacent_vertices get.edgelist gorder
+#' @importFrom igraph adjacent_vertices as_edgelist gorder
 #'   graph_from_data_frame igraph_opt igraph_options is_dag simplify topo_sort
 #'   V
 #' @importFrom knitr engine_output knit_engines

@@ -14,6 +14,8 @@ Because of the changes below, upgrading to this version of `targets` will unavoi
 * Update the documentation of the `deployment` argument of `tar_target()` to reflect the advent of `crew` (#1208, @psychelzh).
 * Unset `cli.num_colors` on exit in `tar_error()` and `tar_warning()` (#1210, @dipterix).
 * Do not try to access `seconds_timeout` if the `crew` controller is actually a controller group (#1207, https://github.com/wlandau/crew.cluster/discussions/35, @stemangiola, @drejom).
+* `tar_make()` gains an `as_job` argument to optionally run a `targets` pipeline as an RStudio job.
+* Bump required `igraph` version to 2.0.0 because `igraph::get.edgelist()` was deprecated in favor of `igraph::as_edgelist()`.
 
 # targets 1.4.1
 
