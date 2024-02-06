@@ -17,6 +17,7 @@ Because of the changes below, upgrading to this version of `targets` will unavoi
 * Make the debugger message more generic (#1223, @eliocamp).
 * Throw an early and informative error from `tar_make()` if there is already a `targets` pipeline running on a local process on the same local data store. The local process is detected using the process ID and time stamp from `tar_process()` (with a 1.01-second tolerance for the time stamp).
 * Remove `pkgload::load_all()` warning (#1218). Tried using `.__DEVTOOLS__` but it interferes with reverse dependencies.
+* Add documentation and an assertion in `tar_target_raw()` to let users know that `iteration = "group"` is invalid for dynamic targets (ones with `pattern = map(...)` etc.; #1226, @bmfazio).
 
 # targets 1.4.1
 
