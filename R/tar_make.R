@@ -277,7 +277,7 @@ tar_make_as_job <- function(call) {
   tar_assert_true(
     rstudioapi::isAvailable(),
     msg = paste(
-      "tar_make() can only run with as_job = TRUE inside the RStudio IDE",
+      "tar_make(as_job = TRUE) can only run inside the RStudio IDE",
       "or Posit Workbench. If you are running the pipeline in a terminal",
       "or a different IDE, then please set as_job = FALSE.",
       "You can set as_job = FALSE either manually",
