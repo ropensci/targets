@@ -9,7 +9,7 @@ tar_test("crew SGE with many tasks and many workers", {
       tasks_max = 100,
       script_lines = "module load R/4.2.2"
     )
-    tar_option_set(controller = controller)
+    tar_option_set(controller = crew_controller_group(controller))
     list(
       tar_target(x, seq_len(10000)),
       tar_target(y, Sys.sleep(1), pattern = map(x))
