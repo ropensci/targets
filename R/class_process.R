@@ -23,9 +23,10 @@ process_class <- R6::R6Class(
       self$database$read_data()
     },
     produce_process = function() {
-      names <- c("pid", "version_r", "version_targets")
+      names <- c("pid", "created", "version_r", "version_targets")
       values <- c(
         as.character(Sys.getpid()),
+        time_stamp(ps::ps_create_time()),
         as.character(getRversion()),
         as.character(utils::packageVersion("targets"))
       )

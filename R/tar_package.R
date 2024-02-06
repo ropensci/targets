@@ -23,6 +23,7 @@
 #'   graph_from_data_frame igraph_opt igraph_options is_dag simplify topo_sort
 #'   V
 #' @importFrom knitr engine_output knit_engines
+#' @importFrom ps ps_create_time
 #' @importFrom R6 R6Class
 #' @importFrom rlang abort as_function check_installed enquo inform
 #'   is_installed quo_squash warn

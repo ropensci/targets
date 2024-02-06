@@ -1,9 +1,3 @@
-vdigest32 <- digest::getVDigest(algo = "xxhash32")
-
-vdigest64 <- digest::getVDigest(algo = "xxhash64")
-
-vdigest64_file <- digest::getVDigest(algo = "xxhash64", errormode = "warn")
-
 digest_chr32 <- function(object, ...) {
   vdigest32(object, serialize = FALSE, file = FALSE, seed = 0L, ...)
 }
@@ -46,5 +40,11 @@ digest_obj64 <- function(object, ...) {
     ...
   )
 }
+
+vdigest32 <- digest::getVDigest(algo = "xxhash32")
+
+vdigest64 <- digest::getVDigest(algo = "xxhash64")
+
+vdigest64_file <- digest::getVDigest(algo = "xxhash64", errormode = "warn")
 
 null64 <- digest_obj64(NULL)

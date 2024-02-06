@@ -1,5 +1,9 @@
 time_stamp <- function(time = Sys.time()) {
-  format(time, "%z UTC %Y-%m-%d %H:%M %OS2")
+  format(time, time_stamp_format, tz = "UTC")
+}
+
+posixct_time <- function(time_stamp) {
+  as.POSIXct(x = time_stamp, format = time_stamp_format, tz = "UTC")
 }
 
 time_stamp_short <- function(time = Sys.time()) {
@@ -24,3 +28,5 @@ time_seconds_local <- function() {
     as.numeric(proc.time()["elapsed"])
   )
 }
+
+time_stamp_format <- "%Y-%m-%d %H:%M:%S.%OS"
