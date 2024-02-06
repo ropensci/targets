@@ -12,7 +12,7 @@ tar_test("crew SGE with many tasks and many workers", {
     tar_option_set(controller = crew_controller_group(controller))
     list(
       tar_target(x, seq_len(10000)),
-      tar_target(y, Sys.sleep(1), pattern = map(x))
+      tar_target(y, Sys.sleep(0.1), pattern = map(x))
     )
   })
   tar_make()
