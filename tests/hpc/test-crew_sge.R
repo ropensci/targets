@@ -1,4 +1,4 @@
-tar_test("crew SGE with many tasks and many workers", {
+test_that("crew SGE with many tasks and many workers", {
   skip_on_cran()
   skip_if_not_installed("crew.cluster")
   tar_script({
