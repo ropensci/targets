@@ -214,8 +214,15 @@ crew_class <- R6::R6Class(
       # nocov start
       if (queue$should_dequeue()) {
         self$process_target(queue$dequeue())
+        self$conclude_worker_task()
       } else if (length(backlog <- self$controller$pop_backlog())) {
-        map(backlog, ~self$process_target(.x))
+        map(
+          x = backlog,
+          f = ~{
+            self$process_target(.x)
+            self$conclude_worker_task()
+          }
+        )
       } else {
         self$controller$wait(
           mode = "one",
@@ -224,9 +231,9 @@ crew_class <- R6::R6Class(
           scale = TRUE,
           throttle = TRUE
         )
+        self$conclude_worker_task()
       }
       # nocov end
-      self$conclude_worker_task()
     },
     conclude_worker_task = function() {
       result <- self$controller$pop(scale = TRUE, throttle = TRUE)
