@@ -6,7 +6,7 @@ tar_test("crew SGE with many tasks and many workers", {
     controller <- crew.cluster::crew_controller_sge(
       workers = 25,
       tasks_max = 100,
-      script_lines = "module load R/4.2.2"
+      script_lines = paste0("module load R/", getRversion())
     )
     tar_option_set(controller = crew::crew_controller_group(controller))
     list(
