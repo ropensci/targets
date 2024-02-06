@@ -183,8 +183,8 @@ print(file.exists("_targets")) # Should be FALSE.
 Other clean: 
 \code{\link{tar_delete}()},
 \code{\link{tar_invalidate}()},
-\code{\link{tar_prune_list}()},
 \code{\link{tar_prune}()},
+\code{\link{tar_prune_list}()},
 \code{\link{tar_unversion}()}
 }
 \concept{clean}

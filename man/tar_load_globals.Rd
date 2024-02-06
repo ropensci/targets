@@ -89,7 +89,7 @@ print("callr" \%in\% (.packages()))
 \seealso{
 Other debug: 
 \code{\link{tar_traceback}()},
-\code{\link{tar_workspaces}()},
-\code{\link{tar_workspace}()}
+\code{\link{tar_workspace}()},
+\code{\link{tar_workspaces}()}
 }
 \concept{debug}

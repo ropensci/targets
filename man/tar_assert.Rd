@@ -109,7 +109,7 @@ tar_assert_not_expr(x, msg = NULL)
 
 tar_assert_nzchar(x, msg = NULL)
 
-tar_assert_package(package)
+tar_assert_package(package, msg = NULL)
 
 tar_assert_path(path, msg = NULL)
 

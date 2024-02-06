@@ -142,8 +142,8 @@ tar_make() # y1 and y2 rerun but return the same values, so z is up to date.
 Other clean: 
 \code{\link{tar_destroy}()},
 \code{\link{tar_invalidate}()},
-\code{\link{tar_prune_list}()},
 \code{\link{tar_prune}()},
+\code{\link{tar_prune_list}()},
 \code{\link{tar_unversion}()}
 }
 \concept{clean}

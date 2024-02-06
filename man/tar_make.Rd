@@ -169,7 +169,7 @@ and worker processes.}
 \item{as_job}{\code{TRUE} to run as an RStudio IDE / Posit Workbench job,
 \code{FALSE} to run as a \code{callr} process in the main R session
 (depending on the \code{callr_function} argument).
-If \code{as_job_} is \code{TRUE}, then the \code{rstudioapi} package must be installed.}
+If \code{as_job} is \code{TRUE}, then the \code{rstudioapi} package must be installed.}
 }
 \value{
 \code{NULL} except if \code{callr_function = callr::r_bg()}, in which case

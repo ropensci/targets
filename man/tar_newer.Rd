@@ -76,7 +76,7 @@ tar_make()
 \seealso{
 Other time: 
 \code{\link{tar_older}()},
-\code{\link{tar_timestamp_raw}()},
-\code{\link{tar_timestamp}()}
+\code{\link{tar_timestamp}()},
+\code{\link{tar_timestamp_raw}()}
 }
 \concept{time}

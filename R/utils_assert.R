@@ -472,11 +472,11 @@ tar_assert_nzchar <- function(x, msg = NULL) {
 
 #' @export
 #' @rdname tar_assert
-tar_assert_package <- function(package) {
+tar_assert_package <- function(package, msg = NULL) {
   tryCatch(
     rlang::check_installed(package),
     error = function(e) {
-      tar_throw_validate(conditionMessage(e))
+      tar_throw_validate(msg %|||% conditionMessage(e))
     }
   )
 }

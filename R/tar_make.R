@@ -99,7 +99,7 @@
 #' @param as_job `TRUE` to run as an RStudio IDE / Posit Workbench job,
 #'   `FALSE` to run as a `callr` process in the main R session
 #'   (depending on the `callr_function` argument).
-#'   If `as_job_` is `TRUE`, then the `rstudioapi` package must be installed.
+#'   If `as_job` is `TRUE`, then the `rstudioapi` package must be installed.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -263,7 +263,29 @@ tar_make_inner <- function(
 # Tested in tests/interactive/test-job.R.
 # nocov start
 tar_make_as_job <- function(call) {
-  tar_assert_package("rstudioapi")
+  tar_assert_package(
+    "rstudioapi",
+    msg = paste(
+      "The 'rstudioapi' package is required to run tar_make()",
+      "with as_job = TRUE. Either install the package or set as_job = FALSE.",
+      "You can set as_job = FALSE either manually",
+      "in tar_make() or persistently",
+      "for the project in _targets.yaml",
+      "using tar_config_set(as_job = FALSE)."
+    )
+  )
+  tar_assert_true(
+    rstudioapi::isAvailable(),
+    msg = paste(
+      "tar_make() can only run with as_job = TRUE inside the RStudio IDE",
+      "or Posit Workbench. If you are running the pipeline in a terminal",
+      "or a different IDE, then please set as_job = FALSE.",
+      "You can set as_job = FALSE either manually",
+      "in tar_make() or persistently",
+      "for the project in _targets.yaml",
+      "using tar_config_set(as_job = FALSE)."
+    )
+  )
   args <- as.list(call)[-1L]
   args$as_job <- FALSE
   args <- paste(names(args), "=", map_chr(args, tar_deparse_safe))

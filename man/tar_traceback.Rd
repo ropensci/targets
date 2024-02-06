@@ -67,7 +67,7 @@ tar_traceback(y, characters = 60)
 \seealso{
 Other debug: 
 \code{\link{tar_load_globals}()},
-\code{\link{tar_workspaces}()},
-\code{\link{tar_workspace}()}
+\code{\link{tar_workspace}()},
+\code{\link{tar_workspaces}()}
 }
 \concept{debug}

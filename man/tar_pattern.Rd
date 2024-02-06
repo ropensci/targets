@@ -95,8 +95,8 @@ tar_pattern(
 \seealso{
 Other branching: 
 \code{\link{tar_branch_index}()},
-\code{\link{tar_branch_names_raw}()},
 \code{\link{tar_branch_names}()},
+\code{\link{tar_branch_names_raw}()},
 \code{\link{tar_branches}()}
 }
 \concept{branching}

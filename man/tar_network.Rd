@@ -174,8 +174,8 @@ tar_network(targets_only = TRUE)
 }
 \seealso{
 Other inspect: 
-\code{\link{tar_deps_raw}()},
 \code{\link{tar_deps}()},
+\code{\link{tar_deps_raw}()},
 \code{\link{tar_manifest}()},
 \code{\link{tar_outdated}()},
 \code{\link{tar_sitrep}()},

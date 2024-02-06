@@ -72,6 +72,7 @@ tar_target(
 }
 \seealso{
 Other resources: 
+\code{\link{tar_resources}()},
 \code{\link{tar_resources_aws}()},
 \code{\link{tar_resources_clustermq}()},
 \code{\link{tar_resources_crew}()},
@@ -81,7 +82,6 @@ Other resources:
 \code{\link{tar_resources_gcp}()},
 \code{\link{tar_resources_parquet}()},
 \code{\link{tar_resources_qs}()},
-\code{\link{tar_resources_url}()},
-\code{\link{tar_resources}()}
+\code{\link{tar_resources_url}()}
 }
 \concept{resources}

@@ -175,8 +175,8 @@ tar_meta(starts_with("y_")) # see also any_of()
 }
 \seealso{
 Other inspect: 
-\code{\link{tar_deps_raw}()},
 \code{\link{tar_deps}()},
+\code{\link{tar_deps_raw}()},
 \code{\link{tar_manifest}()},
 \code{\link{tar_network}()},
 \code{\link{tar_outdated}()},

@@ -193,7 +193,7 @@ tar_target(
 \seealso{
 Other targets: 
 \code{\link{tar_cue}()},
-\code{\link{tar_target_raw}()},
-\code{\link{tar_target}()}
+\code{\link{tar_target}()},
+\code{\link{tar_target_raw}()}
 }
 \concept{targets}

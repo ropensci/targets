@@ -72,9 +72,9 @@ tar_meta_download()
 }
 \seealso{
 Other metadata: 
+\code{\link{tar_meta}()},
 \code{\link{tar_meta_delete}()},
 \code{\link{tar_meta_sync}()},
-\code{\link{tar_meta_upload}()},
-\code{\link{tar_meta}()}
+\code{\link{tar_meta_upload}()}
 }
 \concept{metadata}

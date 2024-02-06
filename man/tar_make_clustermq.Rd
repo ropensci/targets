@@ -220,7 +220,7 @@ tar_make_clustermq()
 }
 \seealso{
 Other pipeline: 
-\code{\link{tar_make_future}()},
-\code{\link{tar_make}()}
+\code{\link{tar_make}()},
+\code{\link{tar_make_future}()}
 }
 \concept{pipeline}
