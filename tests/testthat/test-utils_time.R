@@ -8,3 +8,8 @@ test_that("time_seconds_local()", {
   }
   expect_equal(2 * 2, 4)
 })
+
+test_that("time stamps", {
+  skip_cran()
+  expect_s3_class(posixct_time(time_stamp()), "POSIXct")
+})
