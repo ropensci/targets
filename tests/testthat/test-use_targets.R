@@ -21,3 +21,14 @@ tar_test("use_targets() script works", {
   tar_make(names = tidyselect::contains("data"), callr_function = NULL)
   expect_true(is.data.frame(tar_read(data)))
 })
+
+tar_test("use_targets() deprecations", {
+  expect_warning(
+    use_targets(scheduler = "sge"),
+    class = "tar_condition_deprecate"
+  )
+  expect_warning(
+    use_targets(job_name = "name"),
+    class = "tar_condition_deprecate"
+  )
+})

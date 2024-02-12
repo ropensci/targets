@@ -28,15 +28,6 @@ use_targets <- function(
   scheduler = NULL,
   job_name = NULL
 ) {
-  schedulers <- c(
-    "multicore",
-    "multiprocess",
-    "slurm",
-    "sge",
-    "lsf",
-    "pbs",
-    "torque"
-  )
   tar_assert_scalar(script)
   tar_assert_chr(script)
   tar_assert_none_na(script)
