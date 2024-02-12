@@ -1,6 +1,6 @@
 # targets 1.5.0.9000 (development)
 
-
+* Avoid `arrow`-related CRAN notes.
 
 # targets 1.5.0
 

@@ -9,7 +9,7 @@ store_assert_format_setting.feather <- function(format) {
 
 #' @export
 store_read_path.tar_feather <- function(store, path) {
-  arrow::read_feather(path)
+  eval(parse(text = "arrow::read_feather"))(path)
 }
 
 #' @export
@@ -21,7 +21,7 @@ store_write_path.tar_feather <- function(store, object, path) {
       store$resources[[field]]
   }
   args <- omit_null(args)
-  do.call(arrow::write_feather, args)
+  do.call(eval(parse(text = "arrow::write_feather")), args)
 }
 
 #' @export

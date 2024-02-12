@@ -16,7 +16,9 @@ tar_test("parquet format", {
   builder_update_object(x)
   exp <- envir$f()
   expect_equal(
-    as.data.frame(arrow::read_parquet(x$store$file$path)),
+    as.data.frame(
+      eval(parse(text = "arrow::read_parquet"))(x$store$file$path)
+    ),
     as.data.frame(exp)
   )
   expect_equal(

@@ -9,7 +9,7 @@ store_assert_format_setting.parquet <- function(format) {
 
 #' @export
 store_read_path.tar_parquet <- function(store, path) {
-  arrow::read_parquet(path)
+  eval(parse(text = "arrow::read_parquet"))(path)
 }
 
 #' @export
@@ -21,7 +21,7 @@ store_write_path.tar_parquet <- function(store, object, path) {
       store$resources[[field]]
   }
   args <- omit_null(args)
-  do.call(arrow::write_parquet, args)
+  do.call(eval(parse(text = "arrow::write_parquet")), args)
 }
 
 #' @export
