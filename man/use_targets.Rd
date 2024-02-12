@@ -6,10 +6,10 @@
 \usage{
 use_targets(
   script = targets::tar_config_get("script"),
-  scheduler = targets::use_targets_scheduler(),
   open = interactive(),
   overwrite = FALSE,
-  job_name = targets::tar_random_name()
+  scheduler = NULL,
+  job_name = NULL
 )
 }
 \arguments{
@@ -17,31 +17,15 @@ use_targets(
 the target script file. Defaults to \code{tar_config_get("script")},
 which in turn defaults to \verb{_targets.R}.}
 
-\item{scheduler}{Character of length 1, type of scheduler
-for parallel computing. See <books.ropensci.org/targets/hpc.html>
-for details. The default is automatically detected from your system
-(but PBS and Torque cannot be distinguished from SGE, and SGE
-is the default among the three).
-Possible values:
-\itemize{
-\item \code{"multicore"}: local forked processes on Linux-like systems
-(but same as \code{"multiprocess"} for \code{\link[=tar_make_future]{tar_make_future()}} options).
-\item \code{"multiprocess"}: local platform-independent and multi-process.
-\item \code{"slurm"}: SLURM clusters.
-\item \code{"sge"}: Sun Grid Engine clusters.
-\item \code{"lsf"}: LSF clusters.
-\item \code{"pbs"}: PBS clusters. (\code{batchtools} template file not available.)
-\item \code{"torque"}: Torque clusters.
-}}
-
-\item{open}{Logical, whether to open the file for editing
+\item{open}{Logical of length 1, whether to open the file for editing
 in the RStudio IDE.}
 
-\item{overwrite}{Logical of length 1, whether to overwrite
-the targets file and supporting files if they already exist.}
+\item{overwrite}{Logical of length 1, \code{TRUE} to overwrite the the target
+script file, \code{FALSE} otherwise.}
 
-\item{job_name}{Character of length 1, job name to supply to
-schedulers like SLURM.}
+\item{scheduler}{Deprecated in version 1.5.0.9001 (2024-02-12).}
+
+\item{job_name}{Deprecated in version 1.5.0.9001 (2024-02-12).}
 }
 \value{
 \code{NULL} (invisibly).
@@ -50,54 +34,11 @@ schedulers like SLURM.}
 Set up \code{targets} for an existing project.
 }
 \details{
-To set up a project-oriented function-oriented
-workflow for \code{targets}, \code{use_targets()} writes:
-\enumerate{
-\item A target script \verb{_targets.R} tailored to your system.
-\item Template files \code{"clustermq.tmpl"} and \code{"future.tmpl"}
-to configure \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}
-to a resource manager if detected on your system.
-They should work out of the box on most systems, but
-you may need to modify them by hand if you encounter errors.
-\item Script \code{run.R} to conveniently execute the pipeline using
-\code{\link[=tar_make]{tar_make()}}. You can change this to \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}
-or \code{\link[=tar_make_future]{tar_make_future()}} and supply the \code{workers} argument to either.
-\item Script \code{run.sh} to conveniently call \code{run.R} in a persistent
-background process. Enter \code{./run.sh} in the shell to run it.
-\item If you have a high-performance computing scheduler
-like Sun Grid Engine (SGE) (or select one using the
-\code{scheduler} argument of \code{use_targets()}), then
-script \code{job.sh} is created. \code{job.sh} conveniently executes \code{run.R}
-as a job on a cluster. For example, to run the pipeline as a
-job on an SGE cluster, enter \verb{qsub job.sh} in the terminal.
-\code{job.sh} should work out of the box on most systems, but
-you may need to modify it by hand if you encounter errors.
-}
-
-After you call \code{use_targets()}, there is still configuration left to do:
-\enumerate{
-\item Open \verb{_targets.R} and edit by hand. Follow the comments to
-write any options, packages, and target definitions
-that your pipeline requires.
-\item Edit \code{run.R} and choose which pipeline function to execute
-(\code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_clustermq]{tar_make_clustermq()}}, or \code{\link[=tar_make_future]{tar_make_future()}}).
-\item If applicable, edit \code{clustermq.tmpl} and/or \code{future.tmpl}
-to configure settings for your resource manager.
-\item If applicable, configure \code{job.sh}, \code{"clustermq.tmpl"}, and/or
-\code{"future.tmpl"} for your resource manager.
-}
-
-After you finished configuring your project, follow the steps at
-\url{https://books.ropensci.org/targets/walkthrough.html#inspect-the-pipeline}: # nolint
-\enumerate{
-\item Run \code{\link[=tar_glimpse]{tar_glimpse()}} and \code{\link[=tar_manifest]{tar_manifest()}} to check that the
-targets in the pipeline are defined correctly.
-\item Run the pipeline. You may wish to call a \verb{tar_make*()} function
-directly, or you may run \code{run.R} or \code{run.sh}.
-\item Inspect the target output using \code{\link[=tar_read]{tar_read()}} and/or \code{\link[=tar_load]{tar_load()}}.
-\item Develop the pipeline as needed by manually editing \verb{_targets.R}
-and the scripts in \verb{R/} and repeating steps (1) through (3).
-}
+\code{use_targets()} writes an example \verb{_targets.R} script to
+get started with a \code{targets} pipeline for the current project.
+Follow the comments in this script to adapt it as needed.
+For more information, please visit
+\url{https://books.ropensci.org/targets/walkthrough.html}.
 }
 \examples{
 if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {

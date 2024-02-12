@@ -9,7 +9,7 @@ library(targets)
 
 # Set target options:
 tar_option_set(
-  packages = c("tibble") # packages that your targets need to run
+  packages = c("tibble") # Packages that your targets need for their tasks.
   # format = "qs", # Optionally set the default storage format. qs is fast.
   #
   # Pipelines that take a long time to run may benefit from
@@ -22,11 +22,16 @@ tar_option_set(
   #   controller = crew::crew_controller_local(workers = 2)
   #
   # Alternatively, if you want workers to run on a high-performance computing
-  # cluster, select a controller from the {crew.cluster} package. The following
-  # example is a controller for Sun Grid Engine (SGE).
+  # cluster, select a controller from the {crew.cluster} package.
+  # For the cloud, see plugin packages like {crew.aws.batch}.
+  # The following example is a controller for Sun Grid Engine (SGE).
   # 
   #   controller = crew.cluster::crew_controller_sge(
-  #     workers = 50,
+  #     # Number of workers that the pipeline can scale up to:
+  #     workers = 10,
+  #     # It is recommended to set an idle time so workers can shut themselves
+  #     # down if they are not running tasks.
+  #     seconds_idle = 120,
   #     # Many clusters install R as an environment module, and you can load it
   #     # with the script_lines argument. To select a specific verison of R,
   #     # you may need to include a version string, e.g. "module load R/4.3.0".
@@ -37,24 +42,16 @@ tar_option_set(
   # Set other options as needed.
 )
 
-# tar_make_clustermq() is an older (pre-{crew}) way to do distributed computing
-# in {targets}, and its configuration for your machine is below.
-CLUSTERMQ
-
-# tar_make_future() is an older (pre-{crew}) way to do distributed computing
-# in {targets}, and its configuration for your machine is below.
-FUTURE
-
 # Run the R scripts in the R/ folder with your custom functions:
 tar_source()
-# source("other_functions.R") # Source other scripts as needed.
+# tar_source("other_functions.R") # Source other scripts as needed.
 
 # Replace the target list below with your own:
 list(
   tar_target(
     name = data,
     command = tibble(x = rnorm(100), y = rnorm(100))
-    # format = "feather" # efficient storage for large data frames
+    # format = "qs" # Efficient storage for general data objects.
   ),
   tar_target(
     name = model,
