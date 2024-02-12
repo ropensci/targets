@@ -34,7 +34,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::covrk, any::arrow
+          extra-packages: any::covr, any::arrow
           needs: coverage
           cache-version: 2
 
