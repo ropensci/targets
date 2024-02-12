@@ -12,7 +12,7 @@ tar_option_set(
   packages = c("tibble") # packages that your targets need to run
   # format = "qs", # Optionally set the default storage format. qs is fast.
   #
-  # Workflows that take a long time to run may benefit from
+  # Pipelines that take a long time to run may benefit from
   # optional distributed computing. To use this capability
   # in tar_make(), supply a {crew} controller
   # as discussed at https://books.ropensci.org/targets/crew.html.
