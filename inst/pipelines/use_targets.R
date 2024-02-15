@@ -17,9 +17,11 @@ tar_option_set(
   # in tar_make(), supply a {crew} controller
   # as discussed at https://books.ropensci.org/targets/crew.html.
   # Choose a controller that suits your needs. For example, the following
-  # sets a controller with 2 workers which will run as local R processes:
+  # sets a controller that scales up to a maximum of two workers
+  # which run as local R processes. Each worker launches when there is work
+  # to do and exits if 60 seconds pass with no tasks to run.
   #
-  #   controller = crew::crew_controller_local(workers = 2)
+  #   controller = crew::crew_controller_local(workers = 2, seconds_idle = 60)
   #
   # Alternatively, if you want workers to run on a high-performance computing
   # cluster, select a controller from the {crew.cluster} package.
@@ -34,7 +36,7 @@ tar_option_set(
   #     seconds_idle = 120,
   #     # Many clusters install R as an environment module, and you can load it
   #     # with the script_lines argument. To select a specific verison of R,
-  #     # you may need to include a version string, e.g. "module load R/4.3.0".
+  #     # you may need to include a version string, e.g. "module load R/4.3.2".
   #     # Check with your system administrator if you are unsure.
   #     script_lines = "module load R"
   #   )
