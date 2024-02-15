@@ -1,6 +1,6 @@
-# targets 1.5.0.9001 (development)
+# targets 1.5.1
 
-* Avoid `arrow`-related CRAN notes.
+* Avoid `arrow`-related CRAN check NOTE.
 * `use_targets()` only writes the `_targets.R` script. The `run.sh` and `run.R` scripts are superseded by the `as_job` argument of `tar_make()`. Users not using the RStudio IDE can call `tar_make()` with `callr_function = callr::r_bg` to run the pipeline as a background process. `tar_make_clustermq()` and `tar_make_future()` are superseded in favor `tar_make(use_crwe = TRUE)`, so template files are no longer written for the former automatically.
 
 # targets 1.5.0
