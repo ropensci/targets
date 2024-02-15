@@ -40,14 +40,14 @@ use_targets <- function(
   tar_assert_none_na(overwrite)
   if (!is.null(scheduler)) {
     tar_warn_deprecate(
-      "The 'scheduler' argument use_targets() was deprecated ",
-      "in version 1.5.0.9001 (2024-02-12)."
+      "The 'scheduler' argument of use_targets() was deprecated ",
+      "in version 1.5.0.9001 (2024-02-12) and is no longer used."
     )
   }
   if (!is.null(job_name)) {
     tar_warn_deprecate(
-      "The 'job_name' argument use_targets() was deprecated ",
-      "in version 1.5.0.9001 (2024-02-12)."
+      "The 'job_name' argument of use_targets() was deprecated ",
+      "in version 1.5.0.9001 (2024-02-12) and is no longer used."
     )
   }
   from <- file.path("pipelines", "use_targets.R")
