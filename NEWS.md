@@ -1,3 +1,7 @@
+# targets 1.5.1.9000 (development)
+
+* Modernize `extras` in `tar_renv()`.
+
 # targets 1.5.1
 
 * Avoid `arrow`-related CRAN check NOTE.

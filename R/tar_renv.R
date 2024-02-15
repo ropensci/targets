@@ -67,8 +67,7 @@
 tar_renv <- function(
   extras = c(
     "bs4Dash",
-    "clustermq",
-    "future",
+    "crew",
     "gt",
     "markdown",
     "pingr",
