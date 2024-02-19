@@ -14,9 +14,7 @@
 #'   to show total storage size, or `"branches"` to show the number of
 #'   branches in each pattern. You can choose multiple aesthetics
 #'   at once, e.g. `label = c("description", "time")`.
-#'   Only the description is enabled by default
-#' @param label_width Positive numeric of length 1, maximum width
-#'   (in number of characters) of the node labels.
+#'   Only the description is enabled by default.
 #' @examples
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

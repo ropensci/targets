@@ -10,6 +10,8 @@ tar_glimpse(
   shortcut = FALSE,
   allow = NULL,
   exclude = ".Random.seed",
+  label = targets::tar_config_get("label"),
+  label_width = targets::tar_config_get("label_width"),
   level_separation = targets::tar_config_get("level_separation"),
   degree_from = 1L,
   degree_to = 1L,
@@ -60,6 +62,13 @@ resolved, so it will not speed up execution.
 Set to \code{NULL} to exclude no vertices.
 Otherwise, you can supply symbols or \code{tidyselect}
 helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+
+\item{label}{Character vector of one or more aesthetics to add to the
+vertex labels. Currently, the only option is  \code{"description"} to show each
+target's custom description, or \code{character(0)} to suppress it.}
+
+\item{label_width}{Positive numeric of length 1, maximum width
+(in number of characters) of the node labels.}
 
 \item{level_separation}{Numeric of length 1,
 \code{levelSeparation} argument of \code{visNetwork::visHierarchicalLayout()}.

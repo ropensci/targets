@@ -76,7 +76,7 @@ target's custom description, \code{"time"} to show total runtime, \code{"size"}
 to show total storage size, or \code{"branches"} to show the number of
 branches in each pattern. You can choose multiple aesthetics
 at once, e.g. \code{label = c("description", "time")}.
-Only the description is enabled by default}
+Only the description is enabled by default.}
 
 \item{label_width}{Positive numeric of length 1, maximum width
 (in number of characters) of the node labels.}

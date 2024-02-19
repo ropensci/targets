@@ -42,13 +42,13 @@ vis$visual
 # Should show all optional labels.
 tar_script({
   list(
-    tar_target(x, seq_len(3)),
+    tar_target(x, seq_len(3), description = "x info"),
     tar_target(y, x, pattern = map(x)),
     tar_target(z, y, pattern = map(y))
   )
 })
 tar_make()
-tar_visnetwork(label = c("time", "size", "branches"))
+tar_visnetwork(label = c("description", "time", "size", "branches"))
 
 # Same, but no labels.
 tar_visnetwork()
@@ -267,21 +267,33 @@ tar_script(list(tar_target(y1, tar_cancel())))
 tar_make()
 tar_visnetwork(outdated = FALSE)
 
-# Neighborhoods
+# Neighborhoods and descriptions
 tar_script({
   g <- function(x) x - 1
   f <- function(x) g(x) + 1
   list(
     tar_target(y1, f(1)),
     tar_target(y2, 1 + 1),
-    tar_target(z, y1 + y2),
-    tar_target(a, z),
+    tar_target(z, y1 + y2, description = "short description"),
+    tar_target(a, z, description = "very very very very long description"),
     tar_target(b, a),
     tar_target(c, a),
     tar_target(d, c),
     tar_target(e, d)
   )
 })
+
+# Everything in the description.
+tar_glimpse()
+tar_visnetwork()
+
+# Truncate descriptions
+tar_glimpse(label_width = 17)
+tar_visnetwork(label_width = 17)
+
+# Suppress descriptions
+tar_glimpse(label = character(0L))
+tar_visnetwork(label = character(0L))
 
 # Click for highlighted neighborhoods
 # of upstream degree 1 and downstream degree 2.
