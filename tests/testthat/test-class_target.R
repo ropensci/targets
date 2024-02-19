@@ -4,8 +4,9 @@ tar_test("target$command", {
 })
 
 tar_test("target$settings", {
-  x <- target_init(name = "abc", expr = quote(a))
+  x <- target_init(name = "abc", expr = quote(a), description = "info")
   expect_silent(settings_validate(x$settings))
+  expect_equal(x$settings$description, "info")
 })
 
 tar_test("target$settings$priority", {

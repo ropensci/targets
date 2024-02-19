@@ -17,7 +17,8 @@ target_init <- function(
   resources = list(),
   storage = "main",
   retrieval = "main",
-  cue = NULL
+  cue = NULL,
+  description = character(0L)
 ) {
   seed <- tar_seed_create(name)
   command <- command_init(expr, packages, library, seed, deps, string)
@@ -34,6 +35,7 @@ target_init <- function(
   }
   settings <- settings_init(
     name = name,
+    description = description,
     format = format,
     repository = repository,
     pattern = pattern,

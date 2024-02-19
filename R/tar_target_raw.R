@@ -174,7 +174,8 @@ tar_target_raw <- function(
     resources = resources,
     storage = storage,
     retrieval = retrieval,
-    cue = cue
+    cue = cue,
+    description = description
   )
 }
 
