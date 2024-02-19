@@ -90,14 +90,17 @@ process_class <- R6::R6Class(
           dirname(dirname(self$database$path)),
           "folder as the local data store for data and metadata files.",
           "Please do not attempt to run more than one pipeline on the same",
-          "data store because it will mangle thos important local files.",
+          "data store because it will mangle those important local files.",
           "Before trying again, check that process",
           pid,
           "is really a {targets} pipeline and not a false positive,",
           "then terminate it manually. In case of a false positive,",
-          "remove file",
-          self$database$path,
-          "and try again."
+          "remove the file",
+          shQuote(self$database$path),
+          "and try again. False positives may happen if you run",
+          "different calls to tar_make() in quick succession",
+          "or if you run tar_make(callr_function = NULL) in a",
+          "different R process and keep that process running."
         )
       )
       # nocov end
