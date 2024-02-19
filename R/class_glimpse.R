@@ -7,7 +7,7 @@ glimpse_init <- function(
   shortcut = FALSE,
   allow = NULL,
   exclude = NULL,
-  characters_description = 60L
+  length_description = 60L
 ) {
   glimpse_new(
     pipeline = pipeline,
@@ -18,7 +18,7 @@ glimpse_init <- function(
     shortcut = shortcut,
     allow = allow,
     exclude = exclude,
-    characters_description = characters_description
+    length_description = length_description
   )
 }
 
@@ -31,7 +31,7 @@ glimpse_new <- function(
   shortcut = NULL,
   allow = NULL,
   exclude = NULL,
-  characters_description = NULL,
+  length_description = NULL,
   vertices = NULL,
   edges = NULL,
   vertices_imports = NULL,
@@ -48,7 +48,7 @@ glimpse_new <- function(
     shortcut = shortcut,
     allow = allow,
     exclude = exclude,
-    characters_description = characters_description,
+    length_description = length_description,
     vertices = vertices,
     edges = edges,
     vertices_imports = vertices_imports,
@@ -65,7 +65,7 @@ glimpse_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    characters_description = NULL,
+    length_description = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
@@ -75,7 +75,7 @@ glimpse_class <- R6::R6Class(
       shortcut = NULL,
       allow = NULL,
       exclude = NULL,
-      characters_description = NULL,
+      length_description = NULL,
       vertices = NULL,
       edges = NULL,
       vertices_imports = NULL,
@@ -99,7 +99,7 @@ glimpse_class <- R6::R6Class(
         vertices_targets = vertices_targets,
         edges_targets = edges_targets
       )
-      self$characters_description <- characters_description
+      self$length_description <- length_description
     },
     update_imports = function() {
       envir <- self$pipeline$imports
@@ -136,7 +136,7 @@ glimpse_class <- R6::R6Class(
       )
       descriptions <- truncate_character(
         descriptions,
-        n = self$characters_description
+        n = self$length_description
       )
       vertices <- data_frame(
         name = names,

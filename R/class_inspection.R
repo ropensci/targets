@@ -7,7 +7,7 @@ inspection_init <- function(
   shortcut = FALSE,
   allow = NULL,
   exclude = NULL,
-  characters_description = 60L,
+  length_description = 60L,
   outdated = TRUE,
   reporter = "silent",
   seconds_reporter = 0.5
@@ -21,7 +21,7 @@ inspection_init <- function(
     shortcut = shortcut,
     allow = allow,
     exclude = exclude,
-    characters_description = characters_description,
+    length_description = length_description,
     outdated = outdated,
     reporter = reporter,
     seconds_reporter = seconds_reporter
@@ -37,7 +37,7 @@ inspection_new <- function(
   shortcut = NULL,
   allow = NULL,
   exclude = NULL,
-  characters_description = NULL,
+  length_description = NULL,
   outdated = NULL,
   reporter = NULL,
   seconds_reporter = NULL,
@@ -57,7 +57,7 @@ inspection_new <- function(
     shortcut = shortcut,
     allow = allow,
     exclude = exclude,
-    characters_description = characters_description,
+    length_description = length_description,
     outdated = outdated,
     reporter = reporter,
     seconds_reporter = seconds_reporter,
@@ -77,7 +77,7 @@ inspection_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    characters_description = NULL,
+    length_description = NULL,
     outdated = NULL,
     reporter = NULL,
     seconds_reporter = NULL,
@@ -90,7 +90,7 @@ inspection_class <- R6::R6Class(
       shortcut = NULL,
       allow = NULL,
       exclude = NULL,
-      characters_description = NULL,
+      length_description = NULL,
       outdated = NULL,
       reporter = NULL,
       seconds_reporter = NULL,
@@ -117,7 +117,7 @@ inspection_class <- R6::R6Class(
         vertices_targets = vertices_targets,
         edges_targets = edges_targets
       )
-      self$characters_description <- characters_description
+      self$length_description <- length_description
       self$outdated <- outdated
       self$reporter <- reporter
       self$seconds_reporter <- seconds_reporter
@@ -198,7 +198,7 @@ inspection_class <- R6::R6Class(
       )
       descriptions <- truncate_character(
         descriptions,
-        n = self$characters_description
+        n = self$length_description
       )
       data_frame(
         name = vertices$name,
