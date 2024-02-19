@@ -19,10 +19,12 @@
 #'   please read
 #'   <https://books.ropensci.org/targets/targets.html#dependencies>.
 #' @return A list with two data frames: `vertices` and `edges`. The
-#'   vertices data frame has one row per target with fields to denote
+#'   vertices data frame has one row per target and columns with the
 #'   the type of the target or object (stem, branch, map, cross, function,
-#'   or object) and the target's status
-#'   (up to date, outdated, dispatched, completed, canceled, or errored).
+#'   or object), each target's description, and each target's status
+#'   (up to date, outdated, dispatched, completed, canceled, or errored),
+#'   as well as metadata if available (seconds of runtime, bytes of
+#'   storage, and number of dynamic branches).
 #'   The edges data frame has one row for every edge and columns `to` and
 #'   `from` to mark the starting and terminating vertices.
 #' @inheritParams tar_outdated
@@ -63,8 +65,8 @@
 #'   tar_option_set()
 #'   list(
 #'     tar_target(y1, 1 + 1),
-#'     tar_target(y2, 1 + 1),
-#'     tar_target(z, y1 + y2)
+#'     tar_target(y2, 1 + 1, description = "y2 info"),
+#'     tar_target(z, y1 + y2, description = "z info")
 #'   )
 #' }, ask = FALSE)
 #' tar_network(targets_only = TRUE)
