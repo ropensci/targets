@@ -48,8 +48,8 @@ tar_test("vertices and edges", {
   exp_imports <- data_frame(
     name = c("g", "f", "h", "i"),
     type = c("function", "function", "object", "object"),
-    status = rep("none", 4L),
     description = NA_character_,
+    status = rep("none", 4L),
     seconds = NA_real_,
     bytes = NA_real_,
     branches = NA_real_
@@ -57,8 +57,8 @@ tar_test("vertices and edges", {
   exp_targets <- data_frame(
     name = c("x", "y", "z"),
     type = rep("stem", 3L),
-    status = rep("none", 3L),
     description = c(rep(NA_character_, 2L), "info"),
+    status = rep("none", 3L),
     seconds = NA_real_,
     bytes = NA_real_,
     branches = NA_real_

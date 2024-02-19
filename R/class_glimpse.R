@@ -73,8 +73,8 @@ glimpse_class <- R6::R6Class(
       vertices <- data_frame(
         name = names,
         type = type,
-        status = status,
         description = rep(NA_real_, length(names)),
+        status = status,
         seconds = rep(NA_real_, length(names)),
         bytes = rep(NA_real_, length(names)),
         branches = rep(NA_integer_, length(names))
@@ -97,8 +97,8 @@ glimpse_class <- R6::R6Class(
       vertices <- data_frame(
         name = names,
         type = type,
-        status = status,
         description = descriptions,
+        status = status,
         seconds = rep(NA_real_, length(names)),
         bytes = rep(NA_real_, length(names)),
         branches = rep(NA_integer_, length(names))
