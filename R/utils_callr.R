@@ -60,6 +60,7 @@ callr_dispatch <- function(
   fun
 ) {
   options <- list()
+  pid_parent <- as.integer(Sys.getpid())
   callr_arguments$func <- callr_inner
   callr_arguments$args <- list(
     targets_function = targets_function,
@@ -67,7 +68,8 @@ callr_dispatch <- function(
     options = options,
     script = script,
     store = store,
-    fun = fun
+    fun = fun,
+    pid_parent = pid_parent
   )
   if_any(
     is.null(callr_function),
@@ -78,7 +80,8 @@ callr_dispatch <- function(
       envir = envir,
       script = script,
       store = store,
-      fun = fun
+      fun = fun,
+      pid_parent = pid_parent
     ),
     do.call(
       callr_function,
@@ -94,7 +97,8 @@ callr_inner <- function(
   envir = NULL,
   script,
   store,
-  fun
+  fun,
+  pid_parent
 ) {
   force(envir)
   parent <- parent.frame()
@@ -109,7 +113,8 @@ callr_inner <- function(
         parent = parent,
         script = script,
         store = store,
-        fun = fun
+        fun = fun,
+        pid_parent = pid_parent
       ),
       error = function(condition) {
         trace <- .traceback(x = 3L)
@@ -148,6 +153,8 @@ callr_inner <- function(
 #'   `tar_call_inner()`.
 #' @param fun Character of length 1, name of the `targets`
 #'   function being called.
+#' @param pid_parent Integer of length 1, process ID of the calling process,
+#'   e.g. the one that called [tar_make()].
 #' @examples
 #' # See the examples of tar_make().
 tar_callr_inner_try <- function(
@@ -158,7 +165,8 @@ tar_callr_inner_try <- function(
   parent,
   script,
   store,
-  fun
+  fun,
+  pid_parent
 ) {
   old_options <- options(options)
   old_envir <- tar_options$get_envir()
@@ -169,7 +177,12 @@ tar_callr_inner_try <- function(
     runtime_reset(tar_runtime)
     tar_runtime$traceback <- traceback
   })
-  callr_set_runtime(script = script, store = store, fun = fun)
+  callr_set_runtime(
+    script = script,
+    store = store,
+    fun = fun,
+    pid_parent = pid_parent
+  )
   envir <- if_any(is.null(envir), parent, envir)
   tar_options$set_envir(envir = envir)
   targets <- eval(parse(file = script, keep.source = TRUE), envir = envir)
@@ -178,11 +191,12 @@ tar_callr_inner_try <- function(
   do.call(targets_function, targets_arguments)
 }
 
-callr_set_runtime <- function(script, store, fun) {
+callr_set_runtime <- function(script, store, fun, pid_parent) {
   tar_runtime$script <- script
   tar_runtime$store <- store
   tar_runtime$working_directory <- getwd()
   tar_runtime$fun <- fun
+  tar_runtime$pid_parent <- pid_parent
   tar_runtime$inventories <- list()
   runtime_set_file_info(tar_runtime, store)
 }

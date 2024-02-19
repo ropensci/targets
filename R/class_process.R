@@ -62,6 +62,10 @@ process_class <- R6::R6Class(
       if (identical(pid, as.integer(Sys.getpid()))) {
         return()
       }
+      pid_parent <- tar_runtime$pid_parent
+      if (!is.null(pid_parent) && identical(pid, pid_parent)) {
+        return()
+      }
       handle <- tryCatch(
         ps::ps_handle(pid = pid),
         error = function(condition) NULL

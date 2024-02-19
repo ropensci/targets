@@ -12,7 +12,8 @@ runtime_new <- function(
   file_info_exist = NULL,
   nanonext = NULL,
   inventories = NULL,
-  traceback = NULL
+  traceback = NULL,
+  pid_parent = NULL
 ) {
   force(target)
   force(frames)
@@ -28,6 +29,7 @@ runtime_new <- function(
   force(nanonext)
   force(inventories)
   force(traceback)
+  force(pid_parent)
   environment()
 }
 
@@ -87,6 +89,12 @@ runtime_validate <- function(x) {
   }
   if (!is.null(x$traceback)) {
     tar_assert_chr(x$traceback)
+  }
+  if (!is.null(x$pid_parent)) {
+    tar_assert_int(x$pid_parent)
+    tar_assert_scalar(x$pid_parent)
+    tar_assert_none_na(x$pid_parent)
+    tar_assert_ge(x$pid_parent, 0L)
   }
 }
 

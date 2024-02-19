@@ -105,6 +105,16 @@ tar_test("traceback", {
   expect_silent(runtime_validate(x))
 })
 
+tar_test("pid_parent", {
+  x <- runtime_new()
+  expect_null(x$pid_parent)
+  x$pid_parent <- 1L
+  expect_equal(x$pid_parent, 1L)
+  expect_silent(runtime_validate(x))
+  x$pid_parent <- "bad"
+  expect_error(runtime_validate(x), class = "tar_condition_validate")
+})
+
 tar_test("validate null fields", {
   x <- runtime_new()
   expect_silent(runtime_validate(x))

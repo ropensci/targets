@@ -23,3 +23,16 @@ tar_test("error running two pipelines on _targets/ at the same time", {
   tar_make(callr_function = NULL)
   expect_false(tar_read(x))
 })
+
+tar_test("current parent PID can be the old pipeline PID", {
+  tar_script(
+    list(
+      tar_target(x, "x"),
+      tar_target(y, "y")
+    )
+  )
+  tar_make(callr_function = NULL, names = any_of("x"))
+  tar_make()
+  expect_equal(tar_read(x), "x")
+  expect_equal(tar_read(y), "y")
+})

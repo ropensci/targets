@@ -13,7 +13,8 @@ tar_callr_inner_try(
   parent,
   script,
   store,
-  fun
+  fun,
+  pid_parent
 )
 }
 \arguments{
@@ -51,6 +52,9 @@ for a project.}
 
 \item{fun}{Character of length 1, name of the \code{targets}
 function being called.}
+
+\item{pid_parent}{Integer of length 1, process ID of the calling process,
+e.g. the one that called \code{\link[=tar_make]{tar_make()}}.}
 }
 \value{
 The output of a call to a \code{targets} function that uses
