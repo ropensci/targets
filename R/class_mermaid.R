@@ -2,6 +2,7 @@ mermaid_init <- function(
   network,
   label = NULL,
   label_break = "<br>",
+  label_width = 60L,
   show_legend = TRUE,
   show_color = TRUE
 ) {
@@ -9,6 +10,7 @@ mermaid_init <- function(
     network = network,
     label = label,
     label_break = label_break,
+    label_width = label_width,
     show_legend = show_legend,
     show_color = show_color
   )
@@ -18,6 +20,7 @@ mermaid_new <- function(
   network = NULL,
   label = NULL,
   label_break = NULL,
+  label_width = NULL,
   show_legend = NULL,
   show_color = NULL
 ) {
@@ -25,6 +28,7 @@ mermaid_new <- function(
     network = network,
     label = label,
     label_break = label_break,
+    label_width = label_width,
     show_legend = show_legend,
     show_color = show_color
   )
@@ -43,13 +47,15 @@ mermaid_class <- R6::R6Class(
       network = NULL,
       label = NULL,
       label_break = NULL,
+      label_width = NULL,
       show_legend = NULL,
       show_color = NULL
     ) {
       super$initialize(
         network = network,
         label = label,
-        label_break = label_break
+        label_break = label_break,
+        label_width = label_width
       )
       self$show_legend <- show_legend
       self$show_color <- show_color

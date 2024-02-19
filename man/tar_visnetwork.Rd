@@ -74,11 +74,12 @@ and setting \code{outdated} to \code{FALSE} is a nice way to speed up the graph
 if you only want to see dependency relationships and pipeline progress.}
 
 \item{label}{Character vector of one or more aesthetics to add to the
-vertex labels. Can contain \code{"time"} to show total runtime, \code{"size"}
+vertex labels. Can contain \code{"description"} to show each
+target's custom description, \code{"time"} to show total runtime, \code{"size"}
 to show total storage size, or \code{"branches"} to show the number of
 branches in each pattern. You can choose multiple aesthetics
-at once, e.g. \code{label = c("time", "branches")}. All are disabled
-by default because they clutter the graph.}
+at once, e.g. \code{label = c("description", "time")}.
+Only the description is enabled by default}
 
 \item{label_width}{Positive numeric of length 1, maximum width
 (in number of characters) of the node labels.}
