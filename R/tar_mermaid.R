@@ -29,7 +29,7 @@
 #'   list(
 #'     tar_target(y1, 1 + 1),
 #'     tar_target(y2, 1 + 1),
-#'     tar_target(z, y1 + y2)
+#'     tar_target(z, y1 + y2, description = "sum of two other sums")
 #'   )
 #' })
 #' # Copy the text into a mermaid.js online editor
@@ -45,7 +45,8 @@ tar_mermaid <- function(
   allow = NULL,
   exclude = ".Random.seed",
   outdated = TRUE,
-  label = NULL,
+  label = targets::tar_config_get("label"),
+  label_width = targets::tar_config_get("label_width"),
   legend = TRUE,
   color = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
@@ -60,7 +61,10 @@ tar_mermaid <- function(
   force(envir)
   tar_assert_lgl(targets_only, "targets_only must be logical.")
   tar_assert_lgl(outdated, "outdated in tar_mermaid() must be logical.")
-  tar_assert_in(label, c("time", "size", "branches"))
+  tar_assert_in(label, c("description", "time", "size", "branches"))
+  tar_assert_dbl(label_width)
+  tar_assert_scalar(label_width)
+  tar_assert_none_na(label_width)
   tar_assert_lgl(legend)
   tar_assert_lgl(color)
   tar_assert_scalar(legend)
@@ -81,6 +85,7 @@ tar_mermaid <- function(
     exclude_quosure = rlang::enquo(exclude),
     outdated = outdated,
     label = label,
+    label_width = label_width,
     legend = legend,
     color = color,
     reporter = reporter,
@@ -108,6 +113,7 @@ tar_mermaid_inner <- function(
   exclude_quosure,
   outdated,
   label,
+  label_width,
   legend,
   color,
   reporter,
@@ -130,6 +136,7 @@ tar_mermaid_inner <- function(
   visual <- mermaid_init(
     network = network,
     label = label,
+    label_width = label_width,
     show_legend = legend,
     show_color = color
   )

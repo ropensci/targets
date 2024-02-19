@@ -15,8 +15,10 @@
 #' @inheritParams tar_validate
 #' @param names Optional, names of the targets. If supplied, `tar_progress()`
 #'   only returns progress information on these targets.
-#'   You can supply symbols
-#'   or `tidyselect` helpers like [starts_with()].
+#'   The object supplied to `names` should be `NULL` or a
+#'   `tidyselect` expression like [any_of()] or [starts_with()]
+#'   from `tidyselect` itself, or [tar_described_as()] to select target names
+#'   based on their descriptions.
 #' @param fields Optional, names of progress data columns to read.
 #'   Set to `NULL` to read all fields.
 #' @examples

@@ -4,10 +4,6 @@
 #' @description List targets whose progress is `"skipped"`.
 #' @return A character vector of skipped targets.
 #' @inheritParams tar_progress
-#' @param names Optional, names of the targets. If supplied, the
-#'   function restricts its output to these targets.
-#'   You can supply symbols
-#'   or `tidyselect` helpers like [any_of()] and [starts_with()].
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

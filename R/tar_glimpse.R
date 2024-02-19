@@ -14,6 +14,11 @@
 #' @inheritParams tar_network
 #' @param targets_only Logical, whether to restrict the output to just targets
 #'   (`FALSE`) or to also include global functions and objects.
+#' @param label Character vector of one or more aesthetics to add to the
+#'   vertex labels. Currently, the only option is  `"description"` to show each
+#'   target's custom description, or `character(0)` to suppress it.
+#' @param label_width Positive numeric of length 1, maximum width
+#'   (in number of characters) of the node labels.
 #' @param level_separation Numeric of length 1,
 #'   `levelSeparation` argument of `visNetwork::visHierarchicalLayout()`.
 #'   Controls the distance between hierarchical levels.
@@ -53,6 +58,8 @@ tar_glimpse <- function(
   shortcut = FALSE,
   allow = NULL,
   exclude = ".Random.seed",
+  label = targets::tar_config_get("label"),
+  label_width = targets::tar_config_get("label_width"),
   level_separation = targets::tar_config_get("level_separation"),
   degree_from = 1L,
   degree_to = 1L,
@@ -68,6 +75,10 @@ tar_glimpse <- function(
   force(envir)
   tar_assert_package("visNetwork")
   tar_assert_lgl(targets_only)
+  tar_assert_in(label, "description")
+  tar_assert_dbl(label_width)
+  tar_assert_scalar(label_width)
+  tar_assert_none_na(label_width)
   tar_assert_scalar(degree_from)
   tar_assert_scalar(degree_to)
   tar_assert_dbl(degree_from)
@@ -88,6 +99,8 @@ tar_glimpse <- function(
     shortcut = shortcut,
     allow_quosure = rlang::enquo(allow),
     exclude_quosure = rlang::enquo(exclude),
+    label = label,
+    label_width = label_width,
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
@@ -114,6 +127,8 @@ tar_glimpse_inner <- function(
   shortcut,
   allow_quosure,
   exclude_quosure,
+  label,
+  label_width,
   level_separation,
   degree_from,
   degree_to,
@@ -135,6 +150,8 @@ tar_glimpse_inner <- function(
   )
   visual <- visnetwork_init(
     network = network,
+    label = label,
+    label_width = label_width,
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,

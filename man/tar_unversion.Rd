@@ -11,7 +11,11 @@ tar_unversion(
 }
 \arguments{
 \item{names}{Tidyselect expression to identify the targets to drop
-version IDs.}
+version IDs.
+The object supplied to \code{names} should be \code{NULL} or a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

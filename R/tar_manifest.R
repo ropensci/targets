@@ -9,19 +9,21 @@
 #'   without any influence from parallel computing or priorities).
 #' @inheritParams tar_validate
 #' @param names Names of the targets to show. Set to `NULL` to
-#'   show all the targets (default). Otherwise, you can supply
-#'   symbols, a character vector, or `tidyselect` helpers like
-#'   [any_of()] and [starts_with()].
+#'   show all the targets (default). Otherwise,
+#'   the object supplied to `names` should be a
+#'   `tidyselect` expression like [any_of()] or [starts_with()]
+#'   from `tidyselect` itself, or [tar_described_as()] to select target names
+#'   based on their descriptions.
 #' @param fields Names of the fields, or columns, to show. Set to `NULL` to
-#'   show all the fields (default). Otherwise, you can supply
-#'   `tidyselect` helpers like [starts_with()].
-#'   Set to `NULL` to print all the fields.
-#'   The name of the target is always included as the first column
-#'   regardless of the selection.
+#'   show all the fields (default). Otherwise, the value of `fields` should be
+#'   a `tidyselect` expression like [starts_with()] to select the columns
+#'   to show in the output.
 #'   Possible fields are below. All of them can be set in [tar_target()],
 #'   [tar_target_raw()], or [tar_option_set()].
 #'   * `name`: Name of the target.
 #'   * `command`: the R command that runs when the target runs.
+#'   * `description`: custom free-form text description of the target,
+#'     if available.
 #'   * `pattern`: branching pattern of the target, if applicable.
 #'   * `format`: Storage format.
 #'   * `repository`: Storage repository.
@@ -58,19 +60,19 @@
 #'     tar_target(y1, 1 + 1),
 #'     tar_target(y2, 1 + 1),
 #'     tar_target(z, y1 + y2),
-#'     tar_target(m, z, pattern = map(z)),
+#'     tar_target(m, z, pattern = map(z), description = "branching over z"),
 #'     tar_target(c, z, pattern = cross(z))
 #'   )
 #' }, ask = FALSE)
 #' tar_manifest()
-#' tar_manifest(fields = c("name", "command"))
-#' tar_manifest(fields = "command")
+#' tar_manifest(fields = any_of(c("name", "command")))
+#' tar_manifest(fields = any_of("command"))
 #' tar_manifest(fields = starts_with("cue"))
 #' })
 #' }
 tar_manifest <- function(
   names = NULL,
-  fields = tidyselect::any_of(c("name", "command", "pattern")),
+  fields = tidyselect::any_of(c("name", "command", "pattern", "description")),
   drop_missing = TRUE,
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function),
@@ -95,7 +97,7 @@ tar_manifest <- function(
     callr_arguments = callr_arguments,
     envir = envir,
     script = script,
-    store = tar_config_get("store"),
+    store = tempfile(),
     fun = "tar_manifest"
   )
 }
@@ -129,6 +131,7 @@ tar_manifest_target <- function(target) {
   out <- list(
     name = target_get_name(target),
     command = tar_manifest_command(target$command$expr),
+    description = target$settings$description %||% NA_character_,
     pattern = tar_manifest_pattern(target$settings$pattern),
     format = target$settings$format,
     repository = target$settings$repository,

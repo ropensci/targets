@@ -4,6 +4,13 @@ tar_test("tar_target_raw() works", {
   expect_silent(target_validate(x))
   expect_equal(target_get_name(x), "x")
   expect_equal(x$command$string, "expression(get_data())")
+  expect_equal(x$settings$description, character(0L))
+})
+
+tar_test("tar_target_raw() description", {
+  x <- tar_target_raw("x", expression(get_data()), description = "info")
+  expect_silent(target_validate(x))
+  expect_equal(x$settings$description, "info")
 })
 
 tar_test("tar_target_raw() gets priorities", {

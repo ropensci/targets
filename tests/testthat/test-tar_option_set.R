@@ -286,6 +286,18 @@ tar_test("cue", {
   )
 })
 
+tar_test("description", {
+  expect_equal(tar_option_get("description"), character(0L))
+  tar_option_set(description = "my description")
+  expect_equal(tar_option_get("description"), "my description")
+  tar_option_reset()
+  expect_equal(tar_option_get("description"), character(0L))
+  expect_error(
+    tar_option_set(description = 123),
+    class = "tar_condition_validate"
+  )
+})
+
 tar_test("debug", {
   expect_equal(tar_option_get("debug"), character(0))
   tar_option_set(debug = "x")

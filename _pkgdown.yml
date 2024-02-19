@@ -168,6 +168,7 @@ reference:
   - 'tar_call'
   - 'tar_cancel'
   - 'tar_definition'
+  - 'tar_described_as'
   - 'tar_envir'
   - 'tar_group'
   - 'tar_name'

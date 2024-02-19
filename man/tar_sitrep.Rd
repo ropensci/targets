@@ -19,8 +19,10 @@ tar_sitrep(
 \arguments{
 \item{names}{Optional, names of the targets. If supplied, \code{tar_sitrep()}
 only returns metadata on these targets.
-You can supply symbols
-or \code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
+The object supplied to \code{names} should be \code{NULL} or a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{fields}{Optional, names of columns/fields to select. If supplied,
 \code{tar_sitrep()} only returns the selected metadata columns.

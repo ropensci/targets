@@ -1,12 +1,14 @@
 visual_new <- function(
   network = NULL,
   label = NULL,
-  label_break = NULL
+  label_break = NULL,
+  label_width = NULL
 ) {
   visual_class$new(
     network = network,
     label = label,
-    label_break = label_break
+    label_break = label_break,
+    label_width = label_width
   )
 }
 
@@ -20,15 +22,18 @@ visual_class <- R6::R6Class(
     legend = NULL,
     label = NULL,
     label_break = NULL,
+    label_width = NULL,
     visual = NULL,
     initialize = function(
       network = NULL,
       label = NULL,
-      label_break = NULL
+      label_break = NULL,
+      label_width = NULL
     ) {
       self$network <- network
       self$label <- label
       self$label_break <- label_break
+      self$label_width <- label_width
     },
     produce_colors = function(status) {
       colors <- c(
@@ -60,10 +65,23 @@ visual_class <- R6::R6Class(
     },
     produce_labels = function() {
       vertices <- self$network$vertices
-      seconds <- units_seconds(vertices$seconds)
-      bytes <- units_bytes(vertices$bytes)
-      branches <- units_branches(vertices$branches)
+      description <- vertices$description
+      description[is.na(description)] <- ""
+      seconds <- as.character(units_seconds(vertices$seconds))
+      bytes <- as.character(units_bytes(vertices$bytes))
+      branches <- as.character(units_branches(vertices$branches))
+      if (!is.null(self$label_width)) {
+        n <- self$label_width
+        description <- truncate_character(description, n)
+        seconds <- truncate_character(seconds, n)
+        bytes <- truncate_character(bytes, n)
+        branches <- truncate_character(branches, n)
+      }
       out <- vertices$name
+      if ("description" %in% self$label) {
+        i <- nzchar(description)
+        out[i] <- paste(out[i], description[i], sep = self$label_break)
+      }
       if ("time" %in% self$label) {
         i <- nzchar(seconds)
         out[i] <- paste(out[i], seconds[i], sep = self$label_break)

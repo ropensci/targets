@@ -17,11 +17,10 @@
 #'   The output includes the `pid` of the main process.
 #' @inheritParams tar_validate
 #' @param names Optional, names of the data points to return.
-#'    If supplied, `tar_process()`
+#'   If supplied, `tar_process()`
 #'   returns only the rows of the names you select.
-#'   You can supply symbols
-#'   or `tidyselect` helpers like [any_of()] and [starts_with()].
-#'   If `NULL`, all names are selected.
+#'   The object supplied to `names` should be `NULL` or a
+#'   `tidyselect` expression like [any_of()] or [starts_with()].
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

@@ -28,13 +28,12 @@ tar_network(
 only on these targets (and unless \code{shortcut} is \code{TRUE},
 all the targets upstream as well). Selecting a small subgraph
 using \code{names} could speed up the load time of the visualization.
-Unlike \code{allow}, \code{names} is invoked before the graph
-is generated.
+Unlike \code{allow}, \code{names} is invoked before the graph is generated.
 Set to NULL to check/run all the targets (default).
-Otherwise, you can supply symbols or tidyselect helpers
-like starts_with().
-Applies to ordinary targets (stem) and whole dynamic branching
-targets (patterns) but not individual dynamic branches.}
+Otherwise, the object supplied to \code{names} should be a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{shortcut}{Logical of length 1, how to interpret the \code{names} argument.
 If \code{shortcut} is \code{FALSE} (default) then the function checks
@@ -128,10 +127,12 @@ for a project.}
 }
 \value{
 A list with two data frames: \code{vertices} and \code{edges}. The
-vertices data frame has one row per target with fields to denote
+vertices data frame has one row per target and columns with the
 the type of the target or object (stem, branch, map, cross, function,
-or object) and the target's status
-(up to date, outdated, dispatched, completed, canceled, or errored).
+or object), each target's description, and each target's status
+(up to date, outdated, dispatched, completed, canceled, or errored),
+as well as metadata if available (seconds of runtime, bytes of
+storage, and number of dynamic branches).
 The edges data frame has one row for every edge and columns \code{to} and
 \code{from} to mark the starting and terminating vertices.
 }
@@ -164,8 +165,8 @@ tar_script({
   tar_option_set()
   list(
     tar_target(y1, 1 + 1),
-    tar_target(y2, 1 + 1),
-    tar_target(z, y1 + y2)
+    tar_target(y2, 1 + 1, description = "y2 info"),
+    tar_target(z, y1 + y2, description = "z info")
   )
 }, ask = FALSE)
 tar_network(targets_only = TRUE)

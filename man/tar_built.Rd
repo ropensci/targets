@@ -8,9 +8,11 @@ tar_built(names = NULL, store = targets::tar_config_get("store"))
 }
 \arguments{
 \item{names}{Optional, names of the targets. If supplied, the
-function restricts its output to these targets.
-You can supply symbols
-or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+output is restricted to the selected targets.
+The object supplied to \code{names} should be \code{NULL} or a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

@@ -19,10 +19,12 @@
 #'   please read
 #'   <https://books.ropensci.org/targets/targets.html#dependencies>.
 #' @return A list with two data frames: `vertices` and `edges`. The
-#'   vertices data frame has one row per target with fields to denote
+#'   vertices data frame has one row per target and columns with the
 #'   the type of the target or object (stem, branch, map, cross, function,
-#'   or object) and the target's status
-#'   (up to date, outdated, dispatched, completed, canceled, or errored).
+#'   or object), each target's description, and each target's status
+#'   (up to date, outdated, dispatched, completed, canceled, or errored),
+#'   as well as metadata if available (seconds of runtime, bytes of
+#'   storage, and number of dynamic branches).
 #'   The edges data frame has one row for every edge and columns `to` and
 #'   `from` to mark the starting and terminating vertices.
 #' @inheritParams tar_outdated
@@ -32,13 +34,12 @@
 #'   only on these targets (and unless `shortcut` is `TRUE`,
 #'   all the targets upstream as well). Selecting a small subgraph
 #'   using `names` could speed up the load time of the visualization.
-#'   Unlike `allow`, `names` is invoked before the graph
-#'   is generated.
+#'   Unlike `allow`, `names` is invoked before the graph is generated.
 #'   Set to NULL to check/run all the targets (default).
-#'   Otherwise, you can supply symbols or tidyselect helpers
-#'   like starts_with().
-#'   Applies to ordinary targets (stem) and whole dynamic branching
-#'   targets (patterns) but not individual dynamic branches.
+#'   Otherwise, the object supplied to `names` should be a
+#'   `tidyselect` expression like [any_of()] or [starts_with()]
+#'   from `tidyselect` itself, or [tar_described_as()] to select target names
+#'   based on their descriptions.
 #' @param allow Optional, define the set of allowable vertices in the graph.
 #'   Unlike `names`, `allow` is invoked only after the graph is mostly
 #'   resolved, so it will not speed up execution.
@@ -64,8 +65,8 @@
 #'   tar_option_set()
 #'   list(
 #'     tar_target(y1, 1 + 1),
-#'     tar_target(y2, 1 + 1),
-#'     tar_target(z, y1 + y2)
+#'     tar_target(y2, 1 + 1, description = "y2 info"),
+#'     tar_target(z, y1 + y2, description = "z info")
 #'   )
 #' }, ask = FALSE)
 #' tar_network(targets_only = TRUE)

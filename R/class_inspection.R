@@ -139,13 +139,23 @@ inspection_class <- R6::R6Class(
     },
     resolve_import_status = function(vertices) {
       out <- tar_outdated_globals(pipeline = self$pipeline, meta = self$meta)
+      vertices$description <- rep(NA_character_, nrow(vertices))
       vertices$status <- ifelse(vertices$name %in% out, "outdated", "uptodate")
       vertices$status <- as.character(vertices$status)
       vertices$status[is.na(vertices$status)] <- "queued"
       vertices$seconds <- rep(NA_real_, nrow(vertices))
       vertices$bytes <- rep(NA_real_, nrow(vertices))
       vertices$branches <- rep(NA_integer_, nrow(vertices))
-      vertices[, c("name", "type", "status", "seconds", "bytes", "branches")]
+      columns <- c(
+        "name",
+        "type",
+        "description",
+        "status",
+        "seconds",
+        "bytes",
+        "branches"
+      )
+      vertices[, columns, drop = FALSE]
     },
     resolve_target_status = function(vertices) {
       vertices <- vertices[order(vertices$name),, drop = FALSE] # nolint
@@ -173,7 +183,18 @@ inspection_class <- R6::R6Class(
       in_levels <- !is.na(out$progress) & out$progress %in% levels
       status <- ifelse(in_levels, out$progress, status)
       status[is.na(status)] <- "queued"
-      data_frame(name = vertices$name, type = type, status = status)
+      pipeline <- self$pipeline
+      descriptions <- map_chr(
+        vertices$name,
+        ~pipeline_get_target(pipeline, .x)$settings$description %||%
+          NA_character_
+      )
+      data_frame(
+        name = vertices$name,
+        type = type,
+        description = as.character(descriptions),
+        status = status
+      )
     },
     resolve_target_meta = function(vertices) {
       self$meta$database$ensure_preprocessed(write = FALSE)

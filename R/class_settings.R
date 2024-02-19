@@ -1,5 +1,6 @@
 settings_init <- function(
-  name = character(0),
+  name = character(0L),
+  description = character(0L),
   format = "rds",
   repository = "local",
   pattern = NULL,
@@ -18,6 +19,7 @@ settings_init <- function(
   settings_validate_pattern(name, pattern, dimensions)
   settings_new(
     name = name,
+    description = description,
     format = format,
     repository = repository,
     pattern = pattern,
@@ -36,6 +38,7 @@ settings_init <- function(
 
 settings_new <- function(
   name = NULL,
+  description = NULL,
   format = NULL,
   repository = NULL,
   pattern = NULL,
@@ -51,6 +54,7 @@ settings_new <- function(
   retrieval = NULL
 ) {
   force(name)
+  force(description)
   force(format)
   force(repository)
   force(pattern)
@@ -87,6 +91,7 @@ settings_produce_store <- function(settings) {
 settings_clone <- function(settings) {
   settings_new(
     name = settings$name,
+    description = settings$description,
     format = settings$format,
     repository = settings$repository,
     pattern = settings$pattern,
@@ -140,6 +145,9 @@ settings_validate_pattern_names <- c(
 settings_validate <- function(settings) {
   tar_assert_correct_fields(settings, settings_new)
   tar_assert_name(settings$name)
+  tar_assert_chr(settings$description)
+  tar_assert_scalar(settings$description %||% "x")
+  tar_assert_none_na(settings$description)
   tar_assert_format(settings$format)
   tar_assert_repository(settings$repository)
   settings_validate_pattern(

@@ -11,7 +11,8 @@ tar_mermaid(
   allow = NULL,
   exclude = ".Random.seed",
   outdated = TRUE,
-  label = NULL,
+  label = targets::tar_config_get("label"),
+  label_width = targets::tar_config_get("label_width"),
   legend = TRUE,
   color = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
@@ -31,13 +32,12 @@ tar_mermaid(
 only on these targets (and unless \code{shortcut} is \code{TRUE},
 all the targets upstream as well). Selecting a small subgraph
 using \code{names} could speed up the load time of the visualization.
-Unlike \code{allow}, \code{names} is invoked before the graph
-is generated.
+Unlike \code{allow}, \code{names} is invoked before the graph is generated.
 Set to NULL to check/run all the targets (default).
-Otherwise, you can supply symbols or tidyselect helpers
-like starts_with().
-Applies to ordinary targets (stem) and whole dynamic branching
-targets (patterns) but not individual dynamic branches.}
+Otherwise, the object supplied to \code{names} should be a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{shortcut}{Logical of length 1, how to interpret the \code{names} argument.
 If \code{shortcut} is \code{FALSE} (default) then the function checks
@@ -71,11 +71,15 @@ and setting \code{outdated} to \code{FALSE} is a nice way to speed up the graph
 if you only want to see dependency relationships and pipeline progress.}
 
 \item{label}{Character vector of one or more aesthetics to add to the
-vertex labels. Can contain \code{"time"} to show total runtime, \code{"size"}
+vertex labels. Can contain \code{"description"} to show each
+target's custom description, \code{"time"} to show total runtime, \code{"size"}
 to show total storage size, or \code{"branches"} to show the number of
 branches in each pattern. You can choose multiple aesthetics
-at once, e.g. \code{label = c("time", "branches")}. All are disabled
-by default because they clutter the graph.}
+at once, e.g. \code{label = c("description", "time")}.
+Only the description is enabled by default.}
+
+\item{label_width}{Positive numeric of length 1, maximum width
+(in number of characters) of the node labels.}
 
 \item{legend}{Logical of length 1, whether to display the legend.}
 
@@ -211,7 +215,7 @@ tar_script({
   list(
     tar_target(y1, 1 + 1),
     tar_target(y2, 1 + 1),
-    tar_target(z, y1 + y2)
+    tar_target(z, y1 + y2, description = "sum of two other sums")
   )
 })
 # Copy the text into a mermaid.js online editor

@@ -91,7 +91,8 @@ tar_target_raw <- function(
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
   retrieval = targets::tar_option_get("retrieval"),
-  cue = targets::tar_option_get("cue")
+  cue = targets::tar_option_get("cue"),
+  description = targets::tar_option_get("description")
 ) {
   tar_assert_nonmissing(name)
   tar_assert_name(name)
@@ -137,6 +138,9 @@ tar_target_raw <- function(
   if (!is.null(cue)) {
     cue_validate(cue)
   }
+  tar_assert_chr(description)
+  tar_assert_scalar(description %||% "x")
+  tar_assert_none_na(description)
   tar_assert_true(
     is.null(pattern) || (iteration != "group"),
     msg = sprintf(
@@ -170,7 +174,8 @@ tar_target_raw <- function(
     resources = resources,
     storage = storage,
     retrieval = retrieval,
-    cue = cue
+    cue = cue,
+    description = description
   )
 }
 

@@ -9,11 +9,12 @@
 #' @inheritParams tar_glimpse
 #' @inheritParams tar_network
 #' @param label Character vector of one or more aesthetics to add to the
-#'   vertex labels. Can contain `"time"` to show total runtime, `"size"`
+#'   vertex labels. Can contain `"description"` to show each
+#'   target's custom description, `"time"` to show total runtime, `"size"`
 #'   to show total storage size, or `"branches"` to show the number of
 #'   branches in each pattern. You can choose multiple aesthetics
-#'   at once, e.g. `label = c("time", "branches")`. All are disabled
-#'   by default because they clutter the graph.
+#'   at once, e.g. `label = c("description", "time")`.
+#'   Only the description is enabled by default.
 #' @examples
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -22,7 +23,7 @@
 #'   list(
 #'     tar_target(y1, 1 + 1),
 #'     tar_target(y2, 1 + 1),
-#'     tar_target(z, y1 + y2)
+#'     tar_target(z, y1 + y2, description = "sum of two other sums")
 #'   )
 #' })
 #' tar_visnetwork()
@@ -37,6 +38,7 @@ tar_visnetwork <- function(
   exclude = ".Random.seed",
   outdated = TRUE,
   label = targets::tar_config_get("label"),
+  label_width = targets::tar_config_get("label_width"),
   level_separation = targets::tar_config_get("level_separation"),
   degree_from = 1L,
   degree_to = 1L,
@@ -55,7 +57,11 @@ tar_visnetwork <- function(
   tar_assert_package("visNetwork")
   tar_assert_lgl(targets_only, "targets_only must be logical.")
   tar_assert_lgl(outdated, "outdated in tar_visnetwork() must be logical.")
-  tar_assert_in(label, c("time", "size", "branches"))
+  tar_assert_in(label, c("description", "time", "size", "branches"))
+  tar_assert_dbl(label_width)
+  tar_assert_scalar(label_width)
+  tar_assert_none_na(label_width)
+  tar_assert_ge(label_width, 1L)
   tar_assert_scalar(degree_from, "degree_from must have length 1.")
   tar_assert_scalar(degree_to, "degree_to must have length 1.")
   tar_assert_dbl(degree_from, "degree_from must be numeric.")
@@ -83,6 +89,7 @@ tar_visnetwork <- function(
     exclude_quosure = rlang::enquo(exclude),
     outdated = outdated,
     label = label,
+    label_width = label_width,
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,
@@ -113,6 +120,7 @@ tar_visnetwork_inner <- function(
   exclude_quosure,
   outdated,
   label,
+  label_width,
   level_separation,
   degree_from,
   degree_to,
@@ -138,6 +146,7 @@ tar_visnetwork_inner <- function(
   visual <- visnetwork_init(
     network = network,
     label = label,
+    label_width = label_width,
     level_separation = level_separation,
     degree_from = degree_from,
     degree_to = degree_to,

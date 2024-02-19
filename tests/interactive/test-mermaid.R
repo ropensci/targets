@@ -44,15 +44,15 @@ mermaid(vis$visual)
 tar_script({
   list(
     tar_target(x, seq_len(3)),
-    tar_target(y, x, pattern = map(x)),
+    tar_target(y, x, pattern = map(x), description = "x info"),
     tar_target(z, y, pattern = map(y))
   )
 })
 tar_make()
-mermaid(tar_mermaid(label = c("time", "size", "branches")))
+mermaid(tar_mermaid(label = c("description", "time", "size", "branches")))
 
 # Same, but no labels.
-mermaid(tar_mermaid())
+mermaid(tar_mermaid(label = character(0L)))
 
 # Labels for time and branches
 net <- inspection_init(pipeline_cross())
@@ -93,11 +93,11 @@ vis <- mermaid_init(network = net)
 vis$update()
 mermaid(vis$visual)
 
-# Should show an empty widget.
+# Should show an empty string.
 net <- glimpse_init(pipeline_init())
 vis <- mermaid_init(network = net)
 vis$update()
-mermaid(vis$visual)
+vis$visual
 
 # Should show one dispatched target.
 tar_option_set(envir = new.env(parent = globalenv()))
@@ -123,7 +123,7 @@ mermaid(vis$visual)
 # Should show one errored target.
 x <- target_init("x", quote(stop("123")))
 pipeline <- pipeline_init(list(x))
-local_init(pipeline = pipeline)$run()
+try(local_init(pipeline = pipeline)$run(), silent = TRUE)
 x <- target_init("x", quote(stop("123")))
 pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
@@ -135,7 +135,7 @@ mermaid(vis$visual)
 tar_destroy()
 x <- target_init("x", quote(stop("123")), error = "continue")
 pipeline <- pipeline_init(list(x))
-local_init(pipeline = pipeline)$run()
+try(local_init(pipeline = pipeline)$run(), silent = TRUE)
 x <- target_init("x", quote(stop("123")), error = "continue")
 pipeline <- pipeline_init(list(x))
 net <- inspection_init(pipeline)
@@ -153,7 +153,7 @@ x <- target_init(
   error = "continue"
 )
 pipeline <- pipeline_init(list(w, x))
-local_init(pipeline = pipeline)$run()
+try(local_init(pipeline = pipeline)$run(), silent = TRUE)
 w <- target_init("w", quote(seq_len(2)))
 x <- target_init(
   "x",
@@ -176,7 +176,7 @@ x <- target_init(
   pattern = quote(map(w))
 )
 pipeline <- pipeline_init(list(w, x))
-local_init(pipeline = pipeline)$run()
+try(local_init(pipeline = pipeline)$run(), silent = TRUE)
 w <- target_init("w", quote(seq_len(2)))
 x <- target_init(
   "x",
@@ -262,12 +262,37 @@ mermaid(tar_mermaid(names = starts_with("z"), shortcut = TRUE))
 
 # Should show status queued (light gray).
 tar_destroy()
-tar_mermaid(outdated = FALSE)
+writeLines(tar_mermaid(outdated = FALSE))
 
 # Should show a canceled target.
 tar_script(list(tar_target(y1, tar_cancel())))
 tar_make()
 mermaid(tar_mermaid(outdated = FALSE))
+
+# Descriptions
+tar_script({
+  g <- function(x) x - 1
+  f <- function(x) g(x) + 1
+  list(
+    tar_target(y1, f(1)),
+    tar_target(y2, 1 + 1),
+    tar_target(z, y1 + y2, description = "short description"),
+    tar_target(a, z, description = "very very very very long description"),
+    tar_target(b, a),
+    tar_target(c, a),
+    tar_target(d, c),
+    tar_target(e, d)
+  )
+})
+
+# Everything in the description.
+writeLines(tar_mermaid())
+
+# Truncate descriptions
+writeLines(tar_mermaid(label_width = 17))
+
+# Suppress descriptions
+writeLines(tar_mermaid(label = character(0L)))
 
 # Clean up.
 unlink("_targets.R")

@@ -2,8 +2,8 @@ tar_test("tar_network() works", {
   tar_script(
     list(
       tar_target(y1, 1 + 1),
-      tar_target(y2, 1 + 1),
-      tar_target(z, y1 + y2)
+      tar_target(y2, 1 + 1, description = "y2 info"),
+      tar_target(z, y1 + y2, description = "z info")
     )
   )
   out <- tar_network(
@@ -16,6 +16,7 @@ tar_test("tar_network() works", {
   exp <- data_frame(
     name = c("z", "y1", "y2"),
     type = "stem",
+    description = c("z info", NA_character_, "y2 info"),
     status = "outdated",
     seconds = NA_real_,
     bytes = NA_real_,

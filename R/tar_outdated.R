@@ -14,10 +14,10 @@
 #' @param names Names of the targets. `tar_outdated()` will check
 #'   these targets and all upstream ancestors in the dependency graph.
 #'   Set `names` to `NULL` to check/build all the targets (default).
-#'   Otherwise, you can supply symbols
-#'   or `tidyselect` helpers like [any_of()] and [starts_with()].
-#'   Applies to ordinary targets (stem) and whole dynamic branching targets
-#'   (patterns) but not to individual dynamic branches.
+#'   The object supplied to `names` should be `NULL` or a
+#'   `tidyselect` expression like [any_of()] or [starts_with()]
+#'   from `tidyselect` itself, or [tar_described_as()] to select target names
+#'   based on their descriptions.
 #' @param shortcut Logical of length 1, how to interpret the `names` argument.
 #'   If `shortcut` is `FALSE` (default) then the function checks
 #'   all targets upstream of `names` as far back as the dependency graph goes.

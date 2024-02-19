@@ -9,7 +9,11 @@ tar_workspaces(names = NULL, store = targets::tar_config_get("store"))
 \arguments{
 \item{names}{Optional \code{tidyselect} selector to return
 a tactical subset of workspace names.
-If \code{NULL}, all names are selected.}
+If \code{NULL}, all names are selected.
+The object supplied to \code{names} should be \code{NULL} or a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

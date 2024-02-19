@@ -26,3 +26,10 @@ paste_list <- function(x) {
     list()
   )
 }
+
+truncate_character <- function(x, n) {
+  index <- !is.na(x) & (nchar(x) > n)
+  x[index] <- substr(x[index], start = 0L, stop = n - 3L)
+  x[index] <- paste0(x[index], "...")
+  x
+}

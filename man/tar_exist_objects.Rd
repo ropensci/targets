@@ -11,7 +11,8 @@ tar_exist_objects(
 )
 }
 \arguments{
-\item{names}{Character vector of target names.}
+\item{names}{Character vector of target names.
+Not \code{tidyselect}-compatible.}
 
 \item{cloud}{Logical of length 1, whether to include
 cloud targets in the output

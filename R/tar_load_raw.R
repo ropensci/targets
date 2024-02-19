@@ -9,7 +9,8 @@
 #' @inheritSection tar_read Cloud target data versioning
 #' @inheritParams tar_read
 #' @param names Character vector, names of the targets to load.
-#'   Names are expected to appear in the metadata in `_targets/meta`.
+#'   Not `tidyselect`-compatible.
+#'   Names are expected to be in the metadata in `_targets/meta`.
 #'   Any target names not in the metadata are ignored.
 #' @param branches Integer of indices of the branches to load
 #'   for any targets that are patterns.

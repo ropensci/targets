@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_backoff.R
 \name{tar_backoff}
 \alias{tar_backoff}
-\title{Exponential backoff}
+\title{Superseded: exponential backoff}
 \usage{
 tar_backoff(min = 0.001, max = 0.1, rate = 1.5)
 }
@@ -22,16 +22,14 @@ Actual polling intervals are sampled uniformly from the current
 minimum to \code{max}.}
 }
 \description{
-Configure exponential backoff while polling for tasks
-during the pipeline.
+Superseded: configure exponential backoff
+while polling for tasks during the pipeline.
 }
 \details{
-This function is for advanced usage only. Most users
-should not need to modify the default exponential backoff.
-To configure exponential backoff for a pipeline,
-supply the output of \code{tar_backoff()} to the \code{backoff} argument
-of \code{\link[=tar_option_set]{tar_option_set()}} in the \verb{_targets.R} file. See the Backoff
-section of the help file for details.
+This function is superseded and is now only relevant to other
+superseded functions \code{\link[=tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[=tar_make_future]{tar_make_future()}}.
+\code{\link[=tar_make]{tar_make()}} uses \code{crew} in an efficient non-polling way, making
+exponential backoff unnecessary.
 }
 \section{Backoff}{
 
@@ -61,6 +59,7 @@ Other utilities:
 \code{\link{tar_call}()},
 \code{\link{tar_cancel}()},
 \code{\link{tar_definition}()},
+\code{\link{tar_described_as}()},
 \code{\link{tar_envir}()},
 \code{\link{tar_group}()},
 \code{\link{tar_name}()},

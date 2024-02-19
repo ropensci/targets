@@ -15,6 +15,7 @@
 #' @inheritParams tar_validate
 #' @inheritParams tar_objects
 #' @param names Character vector of target names.
+#'   Not `tidyselect`-compatible.
 #' @examples
 #' tar_exist_objects(c("target1", "target2"))
 tar_exist_objects <- function(

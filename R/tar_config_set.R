@@ -51,7 +51,11 @@
 #'   ignored if `tar_option_get("controller")` is `NULL`.
 #'   Independent from the `garbage_collection` argument of [tar_target()],
 #'   which controls garbage collection on the worker.
-#' @param label Argument of [tar_visnetwork()] to control node labels.
+#' @param label Argument of [tar_glimpse()] and [tar_visnetwork()]
+#'   to control node labels.
+#' @param label_width Argument of [tar_glimpse()] and [tar_visnetwork()]
+#'   to control the maximum width (number of characters wide)
+#'   of the node labels.
 #' @param level_separation Argument of [tar_visnetwork()] and [tar_glimpse()]
 #'   to control the space between hierarchical levels.
 #' @param reporter_make Character of length 1, `reporter` argument to
@@ -169,6 +173,7 @@ tar_config_set <- function(
   as_job = NULL,
   garbage_collection = NULL,
   label = NULL,
+  label_width = NULL,
   level_separation = NULL,
   reporter_make = NULL,
   reporter_outdated = NULL,
@@ -194,6 +199,7 @@ tar_config_set <- function(
   tar_config_assert_as_job(as_job)
   tar_config_assert_garbage_collection(garbage_collection)
   tar_config_assert_label(label)
+  tar_config_assert_label_width(label_width)
   tar_config_assert_level_separation(level_separation)
   tar_config_assert_reporter_make(reporter_make)
   tar_config_assert_reporter_outdated(reporter_outdated)
@@ -212,6 +218,7 @@ tar_config_set <- function(
   yaml[[project]]$garbage_collection <- garbage_collection %|||%
     yaml[[project]]$garbage_collection
   yaml[[project]]$label <- label %|||% yaml[[project]]$label
+  yaml[[project]]$label_width <- label_width %|||% yaml[[project]]$label_width
   yaml[[project]]$level_separation <- level_separation %|||%
     yaml[[project]]$level_separation
   yaml[[project]]$reporter_make <- reporter_make %|||%
@@ -279,6 +286,16 @@ tar_config_assert_label <- function(label) {
   tar_assert_chr(label)
   tar_assert_none_na(label)
   tar_assert_nzchar(label)
+}
+
+tar_config_assert_label_width <- function(label_width) {
+  if (is.null(label_width)) {
+    return()
+  }
+  tar_assert_dbl(label_width)
+  tar_assert_ge(label_width, 1L)
+  tar_assert_none_na(label_width)
+  tar_assert_scalar(label_width)
 }
 
 tar_config_assert_level_separation <- function(level_separation) {

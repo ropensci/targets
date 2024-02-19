@@ -54,16 +54,17 @@ tar_test("vertices and edges of empty imports", {
   vis$update()
   vertices <- vis$vertices_imports
   exp <- data_frame(
-    name = character(0),
-    type = character(0),
-    status = character(0),
-    seconds = numeric(0),
-    bytes = numeric(0),
-    branches = integer(0)
+    name = character(0L),
+    type = character(0L),
+    description = character(0L),
+    status = character(0L),
+    seconds = numeric(0L),
+    bytes = numeric(0L),
+    branches = integer(0L)
   )
   expect_equal(vertices, exp)
   edges <- vis$edges_imports
-  exp <- data_frame(from = character(0), to = character(0))
+  exp <- data_frame(from = character(0L), to = character(0L))
   expect_equal(edges, exp)
 })
 
@@ -356,6 +357,18 @@ tar_test("inspection$update() with names", {
   expect_equal(sort(net$vertices$name), sort(c("x", "y")))
   expect_equal(net$edges$from, "x")
   expect_equal(net$edges$to, "y")
+})
+
+tar_test("inspection$update() descriptions", {
+  skip_if_not_installed("visNetwork")
+  x <- target_init("x", quote(1), description = "x info")
+  y <- target_init("y", quote(x), description = "y info")
+  z <- target_init("z", quote(y))
+  pipeline <- pipeline_init(list(x, y, z))
+  net <- inspection_init(pipeline, targets_only = TRUE)
+  net$update()
+  expect_equal(net$vertices$description[net$vertices$name == "x"], "x info")
+  expect_equal(net$vertices$description[net$vertices$name == "y"], "y info")
 })
 
 tar_test("inspection$update() with names and shortcut", {

@@ -286,6 +286,14 @@
 #'     explicitly from another language.
 #' @param cue An optional object from `tar_cue()` to customize the
 #'   rules that decide whether the target is up to date.
+#' @param description Character of length 1, a custom free-form human-readable
+#'   text description of the target. Descriptions appear as target labels
+#'   in functions like [tar_manifest()] and [tar_visnetwork()],
+#'   and they let you select subsets of targets for the `names` argument of
+#'   functions like [tar_make()]. For example,
+#'   `tar_manifest(names = tar_described_as(starts_with("survival model")))`
+#'   lists all the targets whose descriptions start with the character
+#'   string `"survival model"`.
 #' @examples
 #' # Defining targets does not run them.
 #' data <- tar_target(target_name, get_data(), packages = "tidyverse")
@@ -327,7 +335,8 @@ tar_target <- function(
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
   retrieval = targets::tar_option_get("retrieval"),
-  cue = targets::tar_option_get("cue")
+  cue = targets::tar_option_get("cue"),
+  description = targets::tar_option_get("description")
 ) {
   name <- tar_deparse_language(substitute(name))
   tar_assert_chr(name)
@@ -356,6 +365,7 @@ tar_target <- function(
     resources = resources,
     storage = storage,
     retrieval = retrieval,
-    cue = cue
+    cue = cue,
+    description = description
   )
 }

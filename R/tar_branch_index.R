@@ -5,7 +5,7 @@
 #'   within their corresponding dynamic branching targets.
 #' @return A named integer vector of branch indexes.
 #' @inheritParams tar_meta
-#' @param names Character vector of branch names
+#' @param names Character vector of branch names.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

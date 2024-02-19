@@ -1,14 +1,12 @@
-#' @title Exponential backoff
+#' @title Superseded: exponential backoff
 #' @export
 #' @family utilities
-#' @description Configure exponential backoff while polling for tasks
-#'   during the pipeline.
-#' @details This function is for advanced usage only. Most users
-#'   should not need to modify the default exponential backoff.
-#'   To configure exponential backoff for a pipeline,
-#'   supply the output of `tar_backoff()` to the `backoff` argument
-#'   of [tar_option_set()] in the `_targets.R` file. See the Backoff
-#'   section of the help file for details.
+#' @description Superseded: configure exponential backoff
+#'   while polling for tasks during the pipeline.
+#' @details This function is superseded and is now only relevant to other
+#'   superseded functions [tar_make_clustermq()] and [tar_make_future()].
+#'   [tar_make()] uses `crew` in an efficient non-polling way, making
+#'   exponential backoff unnecessary.
 #' @section Backoff:
 #'   In high-performance computing it can be expensive to repeatedly poll the
 #'   priority queue if no targets are ready to process. The number of seconds

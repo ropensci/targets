@@ -23,10 +23,10 @@ tar_outdated(
 \item{names}{Names of the targets. \code{tar_outdated()} will check
 these targets and all upstream ancestors in the dependency graph.
 Set \code{names} to \code{NULL} to check/build all the targets (default).
-Otherwise, you can supply symbols
-or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.
-Applies to ordinary targets (stem) and whole dynamic branching targets
-(patterns) but not to individual dynamic branches.}
+The object supplied to \code{names} should be \code{NULL} or a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{shortcut}{Logical of length 1, how to interpret the \code{names} argument.
 If \code{shortcut} is \code{FALSE} (default) then the function checks

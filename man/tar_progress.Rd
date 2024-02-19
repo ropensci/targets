@@ -11,10 +11,12 @@ tar_progress(
 )
 }
 \arguments{
-\item{names}{Optional, names of the targets. If supplied, \code{tar_progress()}
-only returns progress information on these targets.
-You can supply symbols
-or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+\item{names}{Optional, names of the targets. If supplied, the
+output is restricted to the selected targets.
+The object supplied to \code{names} should be \code{NULL} or a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{fields}{Optional, names of progress data columns to read.
 Set to \code{NULL} to read all fields.}

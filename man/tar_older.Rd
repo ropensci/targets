@@ -19,9 +19,10 @@ then \code{tar_older()} returns targets older than one week ago.}
 
 \item{names}{Names of eligible targets. Targets excluded from \code{names}
 will not be returned even if they are old.
-You can supply symbols
-or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.
-If \code{NULL}, all names are eligible.}
+The object supplied to \code{names} should be \code{NULL} or a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{inclusive}{Logical of length 1, whether to include targets
 completed at exactly the \code{time} given.}

@@ -10,9 +10,8 @@ tar_process(names = NULL, store = targets::tar_config_get("store"))
 \item{names}{Optional, names of the data points to return.
 If supplied, \code{tar_process()}
 returns only the rows of the names you select.
-You can supply symbols
-or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.
-If \code{NULL}, all names are selected.}
+The object supplied to \code{names} should be \code{NULL} or a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}.}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

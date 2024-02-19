@@ -46,7 +46,7 @@ tar_test("tar_config_set() garbage_collection", {
 tar_test("tar_config_set() label", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
-  expect_null(tar_config_get("label"))
+  expect_equal(tar_config_get("label"), "description")
   tar_config_set(label = c("size", "time"))
   expect_equal(tar_config_get("label"), c("size", "time"))
   expect_true(file.exists("_targets.yaml"))
@@ -54,8 +54,31 @@ tar_test("tar_config_set() label", {
   tar_config_set()
   expect_equal(tar_config_get("label"), c("size", "time"))
   expect_true(file.exists("_targets.yaml"))
+  tar_config_set(label = NULL)
+  expect_equal(tar_config_get("label"), c("size", "time"))
+  tar_config_set(label = character(0L))
+  expect_equal(tar_config_get("label"), character(0L))
   unlink("_targets.yaml")
-  expect_null(tar_config_get("label"))
+  expect_equal(tar_config_get("label"), "description")
+})
+
+tar_test("tar_config_set() label_width", {
+  skip_cran()
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("label_width"), 60L)
+  tar_config_set(label_width = 120L)
+  expect_equal(tar_config_get("label_width"), 120L)
+  expect_true(file.exists("_targets.yaml"))
+  expect_true(any(grepl("label_width", readLines("_targets.yaml"))))
+  tar_config_set()
+  expect_equal(tar_config_get("label_width"), 120L)
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("label_width"), 60L)
+  expect_error(
+    tar_config_set(label_width = -1L),
+    class = "tar_condition_validate"
+  )
 })
 
 tar_test("tar_config_set() level_separation", {

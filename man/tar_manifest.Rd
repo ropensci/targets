@@ -6,7 +6,7 @@
 \usage{
 tar_manifest(
   names = NULL,
-  fields = tidyselect::any_of(c("name", "command", "pattern")),
+  fields = tidyselect::any_of(c("name", "command", "pattern", "description")),
   drop_missing = TRUE,
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function),
@@ -16,21 +16,23 @@ tar_manifest(
 }
 \arguments{
 \item{names}{Names of the targets to show. Set to \code{NULL} to
-show all the targets (default). Otherwise, you can supply
-symbols, a character vector, or \code{tidyselect} helpers like
-\code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+show all the targets (default). Otherwise,
+the object supplied to \code{names} should be a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{fields}{Names of the fields, or columns, to show. Set to \code{NULL} to
-show all the fields (default). Otherwise, you can supply
-\code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.
-Set to \code{NULL} to print all the fields.
-The name of the target is always included as the first column
-regardless of the selection.
+show all the fields (default). Otherwise, the value of \code{fields} should be
+a \code{tidyselect} expression like \code{\link[=starts_with]{starts_with()}} to select the columns
+to show in the output.
 Possible fields are below. All of them can be set in \code{\link[=tar_target]{tar_target()}},
 \code{\link[=tar_target_raw]{tar_target_raw()}}, or \code{\link[=tar_option_set]{tar_option_set()}}.
 \itemize{
 \item \code{name}: Name of the target.
 \item \code{command}: the R command that runs when the target runs.
+\item \code{description}: custom free-form text description of the target,
+if available.
 \item \code{pattern}: branching pattern of the target, if applicable.
 \item \code{format}: Storage format.
 \item \code{repository}: Storage repository.
@@ -143,13 +145,13 @@ tar_script({
     tar_target(y1, 1 + 1),
     tar_target(y2, 1 + 1),
     tar_target(z, y1 + y2),
-    tar_target(m, z, pattern = map(z)),
+    tar_target(m, z, pattern = map(z), description = "branching over z"),
     tar_target(c, z, pattern = cross(z))
   )
 }, ask = FALSE)
 tar_manifest()
-tar_manifest(fields = c("name", "command"))
-tar_manifest(fields = "command")
+tar_manifest(fields = any_of(c("name", "command")))
+tar_manifest(fields = any_of("command"))
 tar_manifest(fields = starts_with("cue"))
 })
 }
