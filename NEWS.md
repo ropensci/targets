@@ -1,6 +1,10 @@
-# targets 1.5.1.9000 (development)
+# targets 1.5.1.9001 (development)
 
 * Modernize `extras` in `tar_renv()`.
+* `tar_target()` gains a `description` argument for free-form text describing what the target is about (#1230, #1235, #1236, @tjmahr).
+* `tar_visnetwork()`, `tar_glimpse()`, `tar_network()`, `tar_mermaid()`, and `tar_manifest()` now optionally show target descriptions (#1230, #1235, #1236, @tjmahr).
+* `tar_described_as()` is a new wrapper around `tidyselect::any_of()` to select specific subsets of targets based on the description rather than the name (#1136, #1196, @noamross, @mattmoo).
+* Fix the documentation of the `names` argument (nudge users toward `tidyselect` expressions).
 
 # targets 1.5.1
 
