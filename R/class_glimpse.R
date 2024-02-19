@@ -97,7 +97,7 @@ glimpse_class <- R6::R6Class(
       vertices <- data_frame(
         name = names,
         type = type,
-        description = descriptions,
+        description = as.character(descriptions),
         status = status,
         seconds = rep(NA_real_, length(names)),
         bytes = rep(NA_real_, length(names)),
