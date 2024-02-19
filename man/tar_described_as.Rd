@@ -93,7 +93,7 @@ tar_script({
     tar_target(g4, TRUE, description = "green three")
   )
 }, ask = FALSE)
-described_as(starts_with("green"), tidyselect = FALSE)
+tar_described_as(starts_with("green"), tidyselect = FALSE)
 tar_make(names = tar_described_as(starts_with("green")))
 tar_progress() # Only `g2`, `g3`, and `g4` ran.
 })

@@ -35,7 +35,7 @@
 #'     tar_target(g4, TRUE, description = "green three")
 #'   )
 #' }, ask = FALSE)
-#' described_as(starts_with("green"), tidyselect = FALSE)
+#' tar_described_as(starts_with("green"), tidyselect = FALSE)
 #' tar_make(names = tar_described_as(starts_with("green")))
 #' tar_progress() # Only `g2`, `g3`, and `g4` ran.
 #' })
@@ -56,10 +56,11 @@ tar_described_as <- function(
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
   tar_assert_script(script)
-  callr_outer(
+  out <- callr_outer(
     targets_function = tar_described_as_inner,
     targets_arguments = list(
-      described_as_quosure = rlang::enquo(described_as)
+      described_as_quosure = rlang::enquo(described_as),
+      tidyselect = tidyselect
     ),
     callr_function = callr_function,
     callr_arguments = callr_arguments,
@@ -68,9 +69,14 @@ tar_described_as <- function(
     store = tempfile(),
     fun = "tar_described_as"
   )
+  if_any(tidyselect, tidyselect::any_of(out), out)
 }
 
-tar_described_as_inner <- function(pipeline, described_as_quosure) {
+tar_described_as_inner <- function(
+  pipeline,
+  described_as_quosure,
+  tidyselect
+) {
   descriptions <- unlist(map(pipeline$targets, ~.x$settings$description))
   chosen <- tar_tidyselect_eval(described_as_quosure, unique(descriptions))
   sort(unique(names(descriptions[descriptions %in% chosen])))

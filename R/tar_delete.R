@@ -72,7 +72,7 @@ tar_delete <- function(
   tar_assert_lgl(verbose)
   tar_assert_scalar(verbose)
   tar_assert_none_na(verbose)
-  tar_message_meta(store = path_store)
+  tar_message_meta(store = store)
   meta <- meta_init(path_store = store)$database$read_condensed_data()
   meta <- as.data.frame(meta)
   names_quosure <- rlang::enquo(names)
