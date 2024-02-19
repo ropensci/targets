@@ -18,8 +18,10 @@
 #' @return `NULL` (invisibly).
 #' @inheritParams tar_validate
 #' @param names Names of the targets to remove from the metadata list.
-#'   You can supply symbols
-#'   or `tidyselect` helpers like [any_of()] and [starts_with()].
+#'   The object supplied to `names` should be a
+#'   `tidyselect` expression like [any_of()] or [starts_with()]
+#'   from `tidyselect` itself, or [tar_described_as()] to select target names
+#'   based on their descriptions.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

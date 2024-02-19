@@ -6,6 +6,10 @@
 #' @return `NULL` (invisibly).
 #' @param names Tidyselect expression to identify the targets to drop
 #'   version IDs.
+#'   The object supplied to `names` should be `NULL` or a
+#'   `tidyselect` expression like [any_of()] or [starts_with()]
+#'   from `tidyselect` itself, or [tar_described_as()] to select target names
+#'   based on their descriptions.
 #' @inheritParams tar_validate
 tar_unversion <- function(
   names = tidyselect::everything(),

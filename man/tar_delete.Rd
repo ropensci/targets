@@ -13,9 +13,11 @@ tar_delete(
 )
 }
 \arguments{
-\item{names}{Names of the targets to remove from \verb{_targets/objects/}.
-You can supply symbols
-or \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+\item{names}{Optional, names of the targets to delete. If supplied, the
+\code{names} argument restricts the targets which are deleted.
+The value is a \code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{cloud}{Logical of length 1, whether to delete objects
 from the cloud if applicable (e.g. AWS, GCP). If \code{FALSE},

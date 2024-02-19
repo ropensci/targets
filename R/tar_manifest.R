@@ -9,9 +9,11 @@
 #'   without any influence from parallel computing or priorities).
 #' @inheritParams tar_validate
 #' @param names Names of the targets to show. Set to `NULL` to
-#'   show all the targets (default). Otherwise, you can supply
-#'   symbols, a character vector, or `tidyselect` helpers like
-#'   [any_of()] and [starts_with()].
+#'   show all the targets (default). Otherwise,
+#'   the object supplied to `names` should be a
+#'   `tidyselect` expression like [any_of()] or [starts_with()]
+#'   from `tidyselect` itself, or [tar_described_as()] to select target names
+#'   based on their descriptions.
 #' @param fields Names of the fields, or columns, to show. Set to `NULL` to
 #'   show all the fields (default). Otherwise, you can supply
 #'   `tidyselect` helpers like [starts_with()] to select targets based on

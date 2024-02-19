@@ -16,7 +16,8 @@ tar_load_raw(
 }
 \arguments{
 \item{names}{Character vector, names of the targets to load.
-Names are expected to appear in the metadata in \verb{_targets/meta}.
+Not \code{tidyselect}-compatible.
+Names are expected to be in the metadata in \verb{_targets/meta}.
 Any target names not in the metadata are ignored.}
 
 \item{branches}{Integer of indices of the branches to load

@@ -31,13 +31,12 @@ tar_mermaid(
 only on these targets (and unless \code{shortcut} is \code{TRUE},
 all the targets upstream as well). Selecting a small subgraph
 using \code{names} could speed up the load time of the visualization.
-Unlike \code{allow}, \code{names} is invoked before the graph
-is generated.
+Unlike \code{allow}, \code{names} is invoked before the graph is generated.
 Set to NULL to check/run all the targets (default).
-Otherwise, you can supply symbols or tidyselect helpers
-like starts_with().
-Applies to ordinary targets (stem) and whole dynamic branching
-targets (patterns) but not individual dynamic branches.}
+Otherwise, the object supplied to \code{names} should be a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{shortcut}{Logical of length 1, how to interpret the \code{names} argument.
 If \code{shortcut} is \code{FALSE} (default) then the function checks

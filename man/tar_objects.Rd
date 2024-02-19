@@ -11,10 +11,11 @@ tar_objects(
 )
 }
 \arguments{
-\item{names}{Optional \code{tidyselect} selector such as
-\code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}} to return
-a tactical subset of target names.
-If \code{NULL}, all names are selected.}
+\item{names}{Names of targets to select.
+The object supplied to \code{names} should be \code{NULL} or a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{cloud}{Logical of length 1, whether to include
 cloud targets in the output

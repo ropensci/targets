@@ -9,6 +9,10 @@
 #' @param names Optional `tidyselect` selector to return
 #'   a tactical subset of workspace names.
 #'   If `NULL`, all names are selected.
+#'   The object supplied to `names` should be `NULL` or a
+#'   `tidyselect` expression like [any_of()] or [starts_with()]
+#'   from `tidyselect` itself, or [tar_described_as()] to select target names
+#'   based on their descriptions.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

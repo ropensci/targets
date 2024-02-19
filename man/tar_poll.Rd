@@ -17,8 +17,8 @@ of polling progress.}
 
 \item{timeout}{How many seconds to run before exiting.}
 
-\item{fields}{Optional, names of progress data columns to read.
-Set to \code{NULL} to read all fields.}
+\item{fields}{Optional character vector of names of progress data
+columns to read. Set to \code{NULL} to read all fields.}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

@@ -21,10 +21,8 @@ targets in the pipeline whose \code{description} arguments
 of \code{\link[=tar_target]{tar_target()}} start with the text string \code{"survival model"}.}
 
 \item{tidyselect}{If \code{TRUE}, return a call to \code{tidyselect::all_of()}
-identifying the selected targets, which can then be supplied to the
-\code{names} argument of downstream functions like \code{\link[=tar_make]{tar_make()}} and
-\code{\link[=tar_manifest]{tar_manifest()}}. If \code{FALSE}, return a simple character vector of
-target names.}
+identifying the selected targets, which can then be supplied to any
+\code{tidyselect}-compatible names\verb{argument of downstream functions like [tar_make()] and [tar_manifest()]. If}FALSE`, return a simple character vector of target names.}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session

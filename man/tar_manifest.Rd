@@ -16,9 +16,11 @@ tar_manifest(
 }
 \arguments{
 \item{names}{Names of the targets to show. Set to \code{NULL} to
-show all the targets (default). Otherwise, you can supply
-symbols, a character vector, or \code{tidyselect} helpers like
-\code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+show all the targets (default). Otherwise,
+the object supplied to \code{names} should be a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{fields}{Names of the fields, or columns, to show. Set to \code{NULL} to
 show all the fields (default). Otherwise, you can supply

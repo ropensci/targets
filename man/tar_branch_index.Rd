@@ -7,7 +7,7 @@
 tar_branch_index(names, store = targets::tar_config_get("store"))
 }
 \arguments{
-\item{names}{Character vector of branch names}
+\item{names}{Character vector of branch names.}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

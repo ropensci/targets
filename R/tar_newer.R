@@ -15,9 +15,10 @@
 #' @inheritParams tar_older
 #' @param names Names of eligible targets. Targets excluded from `names`
 #'   will not be returned even if they are newer than the given `time`.
-#'   You can supply symbols
-#'   or `tidyselect` helpers like [any_of()] and [starts_with()].
-#'   If `NULL`, all names are eligible.
+#'   The object supplied to `names` should be `NULL` or a
+#'   `tidyselect` expression like [any_of()] or [starts_with()]
+#'   from `tidyselect` itself, or [tar_described_as()] to select target names
+#'   based on their descriptions.
 #' @param time A `POSIXct` object of length 1, time threshold.
 #'   Targets newer than this time stamp are returned.
 #'   For example, if `time = Sys.time - as.difftime(1, units = "weeks")`

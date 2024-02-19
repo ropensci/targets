@@ -12,9 +12,10 @@
 #' @inheritSection tar_read Cloud target data versioning
 #' @inheritParams tar_load_raw
 #' @param names Names of the targets to load.
-#'   You may supply `tidyselect` helpers like [any_of()] and [starts_with()].
-#'   Names are selected from the metadata in `_targets/meta`,
-#'   which may include errored targets.
+#'   The object supplied to `names` should be a
+#'   `tidyselect` expression like [any_of()] or [starts_with()]
+#'   from `tidyselect` itself, or [tar_described_as()] to select target names
+#'   based on their descriptions.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

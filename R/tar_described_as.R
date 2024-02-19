@@ -19,10 +19,10 @@
 #'   targets in the pipeline whose `description` arguments
 #'   of [tar_target()] start with the text string `"survival model"`.
 #' @param tidyselect If `TRUE`, return a call to `tidyselect::all_of()`
-#'   identifying the selected targets, which can then be supplied to the
-#'   `names` argument of downstream functions like [tar_make()] and
-#'   [tar_manifest()]. If `FALSE`, return a simple character vector of
-#'   target names.
+#'   identifying the selected targets, which can then be supplied to any
+#'   `tidyselect`-compatible names` argument of downstream functions
+#'   like [tar_make()] and [tar_manifest()].
+#'   If `FALSE`, return a simple character vector of target names.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

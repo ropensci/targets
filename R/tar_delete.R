@@ -21,9 +21,11 @@
 #' @inheritSection tar_meta Storage access
 #' @inheritSection tar_read Cloud target data versioning
 #' @inheritParams tar_validate
-#' @param names Names of the targets to remove from `_targets/objects/`.
-#'   You can supply symbols
-#'   or `tidyselect` helpers like [any_of()] and [starts_with()].
+#' @param names Optional, names of the targets to delete. If supplied, the
+#'   `names` argument restricts the targets which are deleted.
+#'   The value is a `tidyselect` expression like [any_of()] or [starts_with()]
+#'   from `tidyselect` itself, or [tar_described_as()] to select target names
+#'   based on their descriptions.
 #' @param cloud Logical of length 1, whether to delete objects
 #'   from the cloud if applicable (e.g. AWS, GCP). If `FALSE`,
 #'   files are not deleted from the cloud.

@@ -24,14 +24,11 @@ tar_make_future(
 }
 \arguments{
 \item{names}{Names of the targets to run or check. Set to \code{NULL} to
-check/run all the targets (default). Otherwise, you can supply
-\code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.
-Because \code{\link[=tar_make]{tar_make()}} and friends run the pipeline in a new R session,
-if you pass a character vector to a tidyselect helper, you will need
-to evaluate that character vector early with \verb{!!}, e.g.
-\code{tar_make(names = any_of(!!your_vector))}.
-Applies to ordinary targets (stem) and whole dynamic branching targets
-(patterns) but not to individual dynamic branches.}
+check/run all the targets (default).
+The object supplied to \code{names} should be a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{shortcut}{Logical of length 1, how to interpret the \code{names} argument.
 If \code{shortcut} is \code{FALSE} (default) then the function checks

@@ -16,8 +16,8 @@
 #'   * `time`: the time when the progress last changed
 #'     (modification timestamp of the `_targets/meta/progress` file).
 #' @inheritParams tar_validate
-#' @param fields Optional, names of progress data columns to read.
-#'   Set to `NULL` to read all fields.
+#' @param fields Optional character vector of names of progress data
+#'   columns to read. Set to `NULL` to read all fields.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

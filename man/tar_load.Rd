@@ -16,9 +16,10 @@ tar_load(
 }
 \arguments{
 \item{names}{Names of the targets to load.
-You may supply \code{tidyselect} helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.
-Names are selected from the metadata in \verb{_targets/meta},
-which may include errored targets.}
+The object supplied to \code{names} should be a
+\code{tidyselect} expression like \code{\link[=any_of]{any_of()}} or \code{\link[=starts_with]{starts_with()}}
+from \code{tidyselect} itself, or \code{\link[=tar_described_as]{tar_described_as()}} to select target names
+based on their descriptions.}
 
 \item{branches}{Integer of indices of the branches to load
 for any targets that are patterns.}
