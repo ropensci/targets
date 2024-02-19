@@ -31,7 +31,7 @@
 #'     tar_target(b2, TRUE, description = "blue two"),
 #'     tar_target(b3, TRUE, description = "blue three"),
 #'     tar_target(g2, TRUE, description = "green two"),
-#'     tar_target(g3, TRUE, description = "green three")
+#'     tar_target(g3, TRUE, description = "green three"),
 #'     tar_target(g4, TRUE, description = "green three")
 #'   )
 #' }, ask = FALSE)
