@@ -55,7 +55,7 @@ tar_visnetwork <- function(
   tar_assert_package("visNetwork")
   tar_assert_lgl(targets_only, "targets_only must be logical.")
   tar_assert_lgl(outdated, "outdated in tar_visnetwork() must be logical.")
-  tar_assert_in(label, c("time", "size", "branches"))
+  tar_assert_in(label, c("description", "time", "size", "branches"))
   tar_assert_scalar(degree_from, "degree_from must have length 1.")
   tar_assert_scalar(degree_to, "degree_to must have length 1.")
   tar_assert_dbl(degree_from, "degree_from must be numeric.")
