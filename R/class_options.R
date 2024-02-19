@@ -18,6 +18,7 @@ options_init <- function(
   storage = NULL,
   retrieval = NULL,
   cue = NULL,
+  description = NULL,
   debug = NULL,
   workspaces = NULL,
   workspace_on_error = NULL,
@@ -45,6 +46,7 @@ options_init <- function(
     storage = storage,
     retrieval = retrieval,
     cue = cue,
+    description = description,
     debug = debug,
     workspaces = workspaces,
     workspace_on_error = workspace_on_error,
@@ -74,6 +76,7 @@ options_new <- function(
   storage = NULL,
   retrieval = NULL,
   cue = NULL,
+  description = NULL,
   debug = NULL,
   workspaces = NULL,
   workspace_on_error = NULL,
@@ -101,6 +104,7 @@ options_new <- function(
     storage = storage,
     retrieval = retrieval,
     cue = cue,
+    description = description,
     debug = debug,
     workspaces = workspaces,
     workspace_on_error = workspace_on_error,
@@ -135,6 +139,7 @@ options_class <- R6::R6Class(
     storage = NULL,
     retrieval = NULL,
     cue = NULL,
+    description = NULL,
     debug = NULL,
     workspaces = NULL,
     workspace_on_error = NULL,
@@ -161,6 +166,7 @@ options_class <- R6::R6Class(
       storage = NULL,
       retrieval = NULL,
       cue = NULL,
+      description = NULL,
       debug = NULL,
       workspaces = NULL,
       workspace_on_error = NULL,
@@ -187,6 +193,7 @@ options_class <- R6::R6Class(
       self$storage <- storage
       self$retrieval <- retrieval
       self$cue <- cue
+      self$description <- description
       self$debug <- debug
       self$workspaces <- workspaces
       self$workspace_on_error <- workspace_on_error
@@ -213,6 +220,7 @@ options_class <- R6::R6Class(
         storage = self$get_storage(),
         retrieval = self$get_retrieval(),
         cue = self$get_cue(),
+        description = self$get_description(),
         debug = self$get_debug(),
         workspaces = self$get_workspaces(),
         workspace_on_error = self$get_workspace_on_error(),
@@ -238,6 +246,7 @@ options_class <- R6::R6Class(
       self$set_storage(list$storage)
       self$set_retrieval(list$retrieval)
       self$set_cue(list$cue)
+      self$set_description(list$description)
       self$set_debug(list$debug)
       self$set_workspaces(list$workspaces)
       self$set_workspace_on_error(list$workspace_on_error)
@@ -264,6 +273,7 @@ options_class <- R6::R6Class(
       self$storage <- NULL
       self$retrieval <- NULL
       self$cue <- NULL
+      self$description <- NULL
       self$debug <- NULL
       self$workspaces <- NULL
       self$workspace_on_error <- NULL
@@ -328,11 +338,14 @@ options_class <- R6::R6Class(
     get_cue = function() {
       self$cue %|||% tar_cue()
     },
+    get_description = function() {
+      self$description %|||% character(0L)
+    },
     get_debug = function() {
-      self$debug %|||% character(0)
+      self$debug %|||% character(0L)
     },
     get_workspaces = function() {
-      self$workspaces %|||% character(0)
+      self$workspaces %|||% character(0L)
     },
     get_workspace_on_error = function() {
       self$workspace_on_error %|||% FALSE
@@ -432,6 +445,10 @@ options_class <- R6::R6Class(
       self$validate_cue(cue)
       self$cue <- cue
     },
+    set_description = function(description) {
+      self$validate_description(description)
+      self$description <- description
+    },
     set_debug = function(debug) {
       self$validate_debug(debug)
       self$debug <- debug
@@ -528,6 +545,11 @@ options_class <- R6::R6Class(
     validate_cue = function(cue) {
       cue_validate(cue)
     },
+    validate_description = function(description) {
+      tar_assert_chr(description)
+      tar_assert_scalar(description %||% "x")
+      tar_assert_none_na(description)
+    },
     validate_debug = function(debug) {
       tar_assert_chr(debug)
       tar_assert_none_na(trust_object_timestamps)
@@ -579,6 +601,7 @@ options_class <- R6::R6Class(
       self$validate_storage(self$get_storage())
       self$validate_retrieval(self$get_retrieval())
       self$validate_cue(self$get_cue())
+      self$validate_description(self$get_description())
       self$validate_debug(self$get_debug())
       self$validate_workspaces(self$get_workspaces())
       self$validate_workspace_on_error(self$get_workspace_on_error())

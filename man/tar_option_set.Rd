@@ -24,6 +24,7 @@ tar_option_set(
   storage = NULL,
   retrieval = NULL,
   cue = NULL,
+  description = NULL,
   debug = NULL,
   workspaces = NULL,
   workspace_on_error = NULL,

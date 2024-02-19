@@ -196,6 +196,7 @@ tar_option_set <- function(
   storage = NULL,
   retrieval = NULL,
   cue = NULL,
+  description = NULL,
   debug = NULL,
   workspaces = NULL,
   workspace_on_error = NULL,
@@ -231,6 +232,7 @@ tar_option_set <- function(
   if_any(is.null(storage), NULL, tar_options$set_storage(storage))
   if_any(is.null(retrieval), NULL, tar_options$set_retrieval(retrieval))
   if_any(is.null(cue), NULL, tar_options$set_cue(cue))
+  if_any(is.null(description), NULL, tar_options$set_description(description))
   if_any(is.null(debug), NULL, tar_options$set_debug(debug))
   if_any(is.null(workspaces), NULL, tar_options$set_workspaces(workspaces))
   if_any(

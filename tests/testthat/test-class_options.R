@@ -24,6 +24,7 @@ tar_test("validate non-default options", {
     storage = "worker",
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
+    description = "my description",
     debug = "x",
     workspaces = letters,
     workspace_on_error = TRUE,
@@ -52,6 +53,7 @@ tar_test("export", {
     storage = "worker",
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
+    description = "my description",
     debug = "x",
     workspaces = letters,
     workspace_on_error = TRUE,
@@ -77,6 +79,7 @@ tar_test("export", {
     storage = "worker",
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
+    description = "my description",
     debug = "x",
     workspaces = letters,
     workspace_on_error = TRUE,
@@ -108,6 +111,7 @@ tar_test("import", {
     storage = "worker",
     retrieval = "worker",
     cue = tar_cue(mode = "never", command = FALSE),
+    description = "my description",
     debug = "x",
     workspaces = "x",
     workspace_on_error = TRUE,
@@ -138,6 +142,7 @@ tar_test("import", {
     as.list(x$get_cue()),
     as.list(tar_cue(mode = "never", command = FALSE))
   )
+  expect_equal(x$get_description(), "my description")
   expect_equal(x$get_debug(), "x")
   expect_equal(x$get_workspaces(), "x")
   expect_equal(x$get_workspace_on_error(), TRUE)
@@ -372,6 +377,21 @@ tar_test("cue", {
   expect_equal(as.list(x$get_cue()), exp_default)
   expect_error(x$set_cue("invalid"), class = "tar_condition_validate")
 })
+
+tar_test("description", {
+  x <- options_init()
+  expect_equal(x$get_description(), character(0L))
+  x$set_description("my description")
+  expect_equal(x$get_description(), "my description")
+  x$reset()
+  expect_equal(x$get_description(), character(0L))
+  expect_error(
+    x$set_description(NA_character_),
+    class = "tar_condition_validate"
+  )
+  expect_error(x$set_description(123), class = "tar_condition_validate")
+})
+
 
 tar_test("debug", {
   x <- options_init()

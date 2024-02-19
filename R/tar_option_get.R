@@ -63,6 +63,7 @@ tar_option_get <- function(name = NULL, option = NULL) {
     storage = tar_options$get_storage(),
     retrieval = tar_options$get_retrieval(),
     cue = tar_options$get_cue(),
+    description = tar_options$get_description(),
     debug = tar_options$get_debug(),
     workspaces = tar_options$get_workspaces(),
     workspace_on_error = tar_options$get_workspace_on_error(),
