@@ -6,12 +6,13 @@ tar_test("tar_manifest() with default settings", {
       tar_target(y2, 1 + 1),
       tar_target(z, y1 + y2),
       tar_target(m, z, pattern = map(z)),
-      tar_target(c, z, pattern = cross(z))
+      tar_target(c, z, pattern = cross(z), description = "over z")
     )
   })
   out <- tar_manifest(callr_function = NULL)
-  expect_equal(colnames(out), c("name", "command", "pattern"))
+  expect_equal(colnames(out), c("name", "command", "pattern", "description"))
   expect_equal(nrow(out), 5L)
+  expect_equal(out$description[out$name == "c"], "over z")
 })
 
 tar_test("tar_manifest() drop_missing FALSE", {
@@ -140,7 +141,7 @@ tar_test("tar_manifest() shows all fields if the fields arg is NULL", {
     callr_function = NULL,
     drop_missing = FALSE
   )
-  expect_equal(dim(out), c(5L, 22L))
+  expect_equal(dim(out), c(5L, 23L))
 })
 
 tar_test("tar_manifest() uses topo sort", {
