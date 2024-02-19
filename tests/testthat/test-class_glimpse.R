@@ -38,7 +38,7 @@ tar_test("vertices and edges", {
     list(
       target_init("x", quote(f(1))),
       target_init("y", quote(g(2))),
-      target_init("z", quote(x + y))
+      target_init("z", quote(x + y), description = "info")
     )
   )
   vis <- glimpse_init(pipeline, targets_only = FALSE)
@@ -49,6 +49,7 @@ tar_test("vertices and edges", {
     name = c("g", "f", "h", "i"),
     type = c("function", "function", "object", "object"),
     status = rep("none", 4L),
+    description = NA_character_,
     seconds = NA_real_,
     bytes = NA_real_,
     branches = NA_real_
@@ -57,6 +58,7 @@ tar_test("vertices and edges", {
     name = c("x", "y", "z"),
     type = rep("stem", 3L),
     status = rep("none", 3L),
+    description = c(rep(NA_character_, 2L), "info"),
     seconds = NA_real_,
     bytes = NA_real_,
     branches = NA_real_

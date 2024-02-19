@@ -74,6 +74,7 @@ glimpse_class <- R6::R6Class(
         name = names,
         type = type,
         status = status,
+        description = rep(NA_real_, length(names)),
         seconds = rep(NA_real_, length(names)),
         bytes = rep(NA_real_, length(names)),
         branches = rep(NA_integer_, length(names))
@@ -87,10 +88,17 @@ glimpse_class <- R6::R6Class(
         target_get_type(pipeline_get_target(pipeline, name))
       })
       status <- rep("none", length(names))
+      pipeline <- self$pipeline
+      descriptions <- map_chr(
+        names,
+        ~pipeline_get_target(pipeline, .x)$settings$description %||%
+          NA_character_
+      )
       vertices <- data_frame(
         name = names,
         type = type,
         status = status,
+        description = descriptions,
         seconds = rep(NA_real_, length(names)),
         bytes = rep(NA_real_, length(names)),
         branches = rep(NA_integer_, length(names))
