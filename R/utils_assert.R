@@ -222,7 +222,7 @@ tar_assert_ge <- function(x, threshold, msg = NULL) {
   if (any(x < threshold)) {
     default <- paste(
       tar_deparse_safe(substitute(x)),
-      "must be less than or equal to",
+      "must be greater than or equal to",
       threshold
     )
     tar_throw_validate(msg %|||% default)
