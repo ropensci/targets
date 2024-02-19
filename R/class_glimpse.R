@@ -6,7 +6,8 @@ glimpse_init <- function(
   names = NULL,
   shortcut = FALSE,
   allow = NULL,
-  exclude = NULL
+  exclude = NULL,
+  characters_description = 60L
 ) {
   glimpse_new(
     pipeline = pipeline,
@@ -16,7 +17,8 @@ glimpse_init <- function(
     names = names,
     shortcut = shortcut,
     allow = allow,
-    exclude = exclude
+    exclude = exclude,
+    characters_description = characters_description
   )
 }
 
@@ -29,6 +31,7 @@ glimpse_new <- function(
   shortcut = NULL,
   allow = NULL,
   exclude = NULL,
+  characters_description = NULL,
   vertices = NULL,
   edges = NULL,
   vertices_imports = NULL,
@@ -45,6 +48,7 @@ glimpse_new <- function(
     shortcut = shortcut,
     allow = allow,
     exclude = exclude,
+    characters_description = characters_description,
     vertices = vertices,
     edges = edges,
     vertices_imports = vertices_imports,
@@ -61,6 +65,42 @@ glimpse_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    characters_description = NULL,
+    initialize = function(
+      pipeline = NULL,
+      meta = NULL,
+      progress = NULL,
+      targets_only = NULL,
+      names = NULL,
+      shortcut = NULL,
+      allow = NULL,
+      exclude = NULL,
+      characters_description = NULL,
+      vertices = NULL,
+      edges = NULL,
+      vertices_imports = NULL,
+      edges_imports = NULL,
+      vertices_targets = NULL,
+      edges_targets = NULL
+    ) {
+      super$initialize(
+        pipeline = pipeline,
+        meta = meta,
+        progress = progress,
+        targets_only = targets_only,
+        names = names,
+        shortcut = shortcut,
+        allow = allow,
+        exclude = exclude,
+        vertices = vertices,
+        edges = edges,
+        vertices_imports = vertices_imports,
+        edges_imports = edges_imports,
+        vertices_targets = vertices_targets,
+        edges_targets = edges_targets
+      )
+      self$characters_description <- characters_description
+    },
     update_imports = function() {
       envir <- self$pipeline$imports
       graph <- graph_envir(envir)
@@ -93,6 +133,10 @@ glimpse_class <- R6::R6Class(
         names,
         ~pipeline_get_target(pipeline, .x)$settings$description %||%
           NA_character_
+      )
+      descriptions <- truncate_character(
+        descriptions,
+        n = self$characters_description
       )
       vertices <- data_frame(
         name = names,
