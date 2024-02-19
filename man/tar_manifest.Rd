@@ -22,7 +22,8 @@ symbols, a character vector, or \code{tidyselect} helpers like
 
 \item{fields}{Names of the fields, or columns, to show. Set to \code{NULL} to
 show all the fields (default). Otherwise, you can supply
-\code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.
+\code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}} to select targets based on
+the substrings in the target names.
 Set to \code{NULL} to print all the fields.
 The name of the target is always included as the first column
 regardless of the selection.

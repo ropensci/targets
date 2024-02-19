@@ -291,7 +291,7 @@
 #'   in functions like [tar_manifest()] and [tar_visnetwork()],
 #'   and they let you select subsets of targets for the `names` argument of
 #'   functions like [tar_make()]. For example,
-#'   `tar_manifest(names = tar_described(starts_with("survival model")))`
+#'   `tar_manifest(names = tar_described_as(starts_with("survival model")))`
 #'   lists all the targets whose descriptions start with the character
 #'   string `"survival model"`.
 #' @examples

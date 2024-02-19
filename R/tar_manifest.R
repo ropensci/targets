@@ -14,7 +14,8 @@
 #'   [any_of()] and [starts_with()].
 #' @param fields Names of the fields, or columns, to show. Set to `NULL` to
 #'   show all the fields (default). Otherwise, you can supply
-#'   `tidyselect` helpers like [starts_with()].
+#'   `tidyselect` helpers like [starts_with()] to select targets based on
+#'   the substrings in the target names.
 #'   Set to `NULL` to print all the fields.
 #'   The name of the target is always included as the first column
 #'   regardless of the selection.
@@ -95,7 +96,7 @@ tar_manifest <- function(
     callr_arguments = callr_arguments,
     envir = envir,
     script = script,
-    store = tar_config_get("store"),
+    store = tempfile(),
     fun = "tar_manifest"
   )
 }
