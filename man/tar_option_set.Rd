@@ -269,6 +269,15 @@ explicitly from another language.
 \item{cue}{An optional object from \code{tar_cue()} to customize the
 rules that decide whether the target is up to date.}
 
+\item{description}{Character of length 1, a custom free-form human-readable
+text description of the target. Descriptions appear as target labels
+in functions like \code{\link[=tar_manifest]{tar_manifest()}} and \code{\link[=tar_visnetwork]{tar_visnetwork()}},
+and they let you select subsets of targets for the \code{names} argument of
+functions like \code{\link[=tar_make]{tar_make()}}. For example,
+\code{tar_manifest(names = tar_described(starts_with("survival model")))}
+lists all the targets whose descriptions start with the character
+string \code{"survival model"}.}
+
 \item{debug}{Character vector of names of targets to run in debug mode.
 To use effectively, you must set \code{callr_function = NULL} and
 restart your R session just before running. You should also
