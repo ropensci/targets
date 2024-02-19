@@ -55,7 +55,7 @@ to control node labels.}
 
 \item{label_width}{Argument of \code{\link[=tar_glimpse]{tar_glimpse()}} and \code{\link[=tar_visnetwork]{tar_visnetwork()}}
 to control the maximum width (number of characters wide)
-in the node labels.}
+of the node labels.}
 
 \item{level_separation}{Argument of \code{\link[=tar_visnetwork]{tar_visnetwork()}} and \code{\link[=tar_glimpse]{tar_glimpse()}}
 to control the space between hierarchical levels.}

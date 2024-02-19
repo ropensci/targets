@@ -65,7 +65,8 @@ visual_class <- R6::R6Class(
     },
     produce_labels = function() {
       vertices <- self$network$vertices
-      description <- vertices$description %||NA% ""
+      description <- vertices$description
+      description[is.na(description)] <- ""
       seconds <- as.character(units_seconds(vertices$seconds))
       bytes <- as.character(units_bytes(vertices$bytes))
       branches <- as.character(units_branches(vertices$branches))

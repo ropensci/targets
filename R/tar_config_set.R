@@ -55,7 +55,7 @@
 #'   to control node labels.
 #' @param label_width Argument of [tar_glimpse()] and [tar_visnetwork()]
 #'   to control the maximum width (number of characters wide)
-#'   in the node labels.
+#'   of the node labels.
 #' @param level_separation Argument of [tar_visnetwork()] and [tar_glimpse()]
 #'   to control the space between hierarchical levels.
 #' @param reporter_make Character of length 1, `reporter` argument to

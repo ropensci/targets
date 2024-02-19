@@ -12,6 +12,7 @@ tar_visnetwork(
   exclude = ".Random.seed",
   outdated = TRUE,
   label = targets::tar_config_get("label"),
+  label_width = targets::tar_config_get("label_width"),
   level_separation = targets::tar_config_get("level_separation"),
   degree_from = 1L,
   degree_to = 1L,
@@ -78,6 +79,9 @@ to show total storage size, or \code{"branches"} to show the number of
 branches in each pattern. You can choose multiple aesthetics
 at once, e.g. \code{label = c("time", "branches")}. All are disabled
 by default because they clutter the graph.}
+
+\item{label_width}{Positive numeric of length 1, maximum width
+(in number of characters) of the node labels.}
 
 \item{level_separation}{Numeric of length 1,
 \code{levelSeparation} argument of \code{visNetwork::visHierarchicalLayout()}.
@@ -218,7 +222,7 @@ tar_script({
   list(
     tar_target(y1, 1 + 1),
     tar_target(y2, 1 + 1),
-    tar_target(z, y1 + y2)
+    tar_target(z, y1 + y2, description = "sum of two other sums")
   )
 })
 tar_visnetwork()
