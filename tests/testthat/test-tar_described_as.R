@@ -1,4 +1,4 @@
-test_that("tar_described_as() return character vector", {
+tar_test("tar_described_as() return character vector", {
   tar_script(
     list(
       tar_target(b2, TRUE, description = "blue two"),
@@ -26,7 +26,7 @@ test_that("tar_described_as() return character vector", {
   expect_equal(sort(out), sort(c("b2", "g2")))
 })
 
-test_that("tar_described_as() to select target names in another function", {
+tar_test("tar_described_as() to select target names in another function", {
   skip_cran()
   tar_script(
     list(

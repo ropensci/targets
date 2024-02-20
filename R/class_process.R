@@ -48,6 +48,7 @@ process_class <- R6::R6Class(
       self$write_process(self$get_process())
     },
     assert_unique = function() {
+      # nolint start
       # Tested in tests/interactive/test-process.R
       # nocov start
       if (!any(file.exists(self$database$path))) {
@@ -104,6 +105,7 @@ process_class <- R6::R6Class(
         )
       )
       # nocov end
+      # nolint end
     },
     validate = function() {
       self$database$validate()

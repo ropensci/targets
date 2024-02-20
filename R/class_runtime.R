@@ -34,6 +34,7 @@ runtime_new <- function(
 }
 
 runtime_validate <- function(x) {
+  # nolint start
   tar_assert_correct_fields(x, runtime_new)
   if (!is.null(x$target)) {
     tar_assert_inherits(x$target, "tar_target")
@@ -96,6 +97,7 @@ runtime_validate <- function(x) {
     tar_assert_none_na(x$pid_parent)
     tar_assert_ge(x$pid_parent, 0L)
   }
+  # nolint end
 }
 
 runtime_set_file_info <- function(runtime, store) {

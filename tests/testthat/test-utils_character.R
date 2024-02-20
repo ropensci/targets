@@ -1,4 +1,4 @@
-test_that("truncate_character()", {
+tar_test("truncate_character()", {
   x <- c(
     "not so very long",
     "very very very very very very long",
