@@ -2,7 +2,7 @@ visnetwork_init <- function(
   network,
   label = NULL,
   label_break = "\n",
-  label_width = 60L,
+  label_width = 21L,
   level_separation = NULL,
   degree_from = 1L,
   degree_to = 1L,

@@ -89,7 +89,7 @@ tar_config_get_project <- function(name, yaml) {
     as_job = yaml$as_job %|||% FALSE,
     garbage_collection = yaml$garbage_collection %|||% FALSE,
     label = yaml$label %|||% "description",
-    label_width = yaml$label_width %|||% 60L,
+    label_width = yaml$label_width %|||% 21L,
     level_separation = yaml$level_separation,
     reporter_make = yaml$reporter_make %|||% "verbose",
     reporter_outdated = yaml$reporter_outdated %|||% "silent",
