@@ -26,7 +26,7 @@ process_class <- R6::R6Class(
       names <- c("pid", "created", "version_r", "version_targets")
       values <- c(
         as.character(Sys.getpid()),
-        time_stamp(ps::ps_create_time()),
+        time_stamp_pid(pid = Sys.getpid()),
         as.character(getRversion()),
         as.character(utils::packageVersion("targets"))
       )
@@ -62,43 +62,34 @@ process_class <- R6::R6Class(
       if (process_pid_is_exempt(pid)) {
         return()
       }
-      handle <- tryCatch(
-        ps::ps_handle(pid = pid),
-        error = function(condition) NULL
-      )
-      if (is.null(handle)) {
-        return()
-      }
-      time_file <- posixct_time(old$value[old$name == "created"])
-      time_ps <- ps::ps_create_time(p = handle)
+      time_ps <- time_stamp_pid(pid = pid)
+      time_file <- old$value[old$name == "created"]
       if (anyNA(time_file) || anyNA(time_ps)) {
         return()
       }
-      diff <- abs(difftime(time_file, time_ps, units = "secs"))
-      tolerance <- as.difftime(1.01, units = "secs")
-      tar_assert_ge(
-        x = diff,
-        threshold = tolerance,
-        msg = paste(
-          "Process ID",
-          pid,
-          "is already running a {targets} pipeline with the",
-          dirname(dirname(self$database$path)),
-          "folder as the local data store for data and metadata files.",
-          "Please do not attempt to run more than one pipeline on the same",
-          "data store because it will mangle those important local files.",
-          "Before trying again, check that process",
-          pid,
-          "is really a {targets} pipeline and not a false positive,",
-          "then terminate it manually. In case of a false positive,",
-          "remove the file",
-          shQuote(self$database$path),
-          "and try again. False positives may happen if you run",
-          "different calls to tar_make() in quick succession",
-          "or if you run tar_make(callr_function = NULL) in a",
-          "different R process and keep that process running."
+      if (any(time_file != time_ps)) {
+        tar_throw_run(
+          paste(
+            "Process ID",
+            pid,
+            "is already running a {targets} pipeline with the",
+            dirname(dirname(self$database$path)),
+            "folder as the local data store for data and metadata files.",
+            "Please do not attempt to run more than one pipeline on the",
+            "same data store because it will mangle those important local",
+            "files. Before trying again, check that process",
+            pid,
+            "is really a {targets} pipeline and not a false positive,",
+            "then terminate it manually. In case of a false positive,",
+            "remove the file",
+            shQuote(self$database$path),
+            "and try again. False positives may happen if you run",
+            "different calls to tar_make() in quick succession",
+            "or if you run tar_make(callr_function = NULL) in a",
+            "different R process and keep that process running."
+          )
         )
-      )
+      }
       # nocov end
     },
     validate = function() {

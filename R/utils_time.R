@@ -10,6 +10,17 @@ time_stamp_short <- function(time = Sys.time()) {
   format(time, "%H:%M %OS2")
 }
 
+time_stamp_pid <- function(pid = Sys.getpid()) {
+  handle <- tryCatch(
+    ps::ps_handle(pid = pid),
+    error = function(condition) NULL
+  )
+  if (is.null(handle)) {
+    return(NA_character_)
+  }
+  time_stamp(time = ps::ps_create_time(p = handle))
+}
+
 time_seconds <- function() {
   if_any(
     tar_runtime$fun %in% c("tar_make_future", "tar_make_clustermq"),
@@ -29,4 +40,4 @@ time_seconds_local <- function() {
   )
 }
 
-time_stamp_format <- "%Y-%m-%d %H:%M:%S.%OS"
+time_stamp_format <- "%Y-%m-%d %H:%M:%OS2"
