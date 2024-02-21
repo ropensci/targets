@@ -358,8 +358,8 @@ file system has low-precision timestamps, you can run
 \verb{file.create("x"); nanonext::msleep(1); file.create("y");}
 from within the directory containing the \verb{_targets} data store
 and then check
-\code{difftime(file.mtime("y"), file.mtime("x"), units = "secs")}.
-If the value from \code{difftime()} is around 0.001 seconds
+\code{difftime(file.mtime("y"), file.mtime("x"), units = "secs") - 1}.
+If the result is around 0.001 seconds
 (must be strictly above 0 and below 1) then you do not need to set
 \code{trust_object_timestamps = FALSE}.}
 }
