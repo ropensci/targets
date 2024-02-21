@@ -1,9 +1,5 @@
 time_stamp <- function(time = Sys.time()) {
-  format(time, time_stamp_format, tz = "UTC")
-}
-
-posixct_time <- function(time_stamp) {
-  as.POSIXct(x = time_stamp, format = time_stamp_format, tz = "UTC")
+  format(time, "%Y-%m-%d %H:%M:%OS2", tz = "UTC")
 }
 
 time_stamp_short <- function(time = Sys.time()) {
@@ -18,7 +14,8 @@ time_stamp_pid <- function(pid = Sys.getpid()) {
   if (is.null(handle)) {
     return(NA_character_)
   }
-  time_stamp(time = ps::ps_create_time(p = handle))
+  time <- ps::ps_create_time(p = handle)
+  format(time, "%Y-%m-%d %H:%M:%OS6", tz = "UTC")
 }
 
 time_seconds <- function() {
@@ -39,5 +36,3 @@ time_seconds_local <- function() {
     as.numeric(proc.time()["elapsed"])
   )
 }
-
-time_stamp_format <- "%Y-%m-%d %H:%M:%OS2"

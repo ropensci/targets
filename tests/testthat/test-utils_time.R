@@ -11,9 +11,10 @@ tar_test("time_seconds_local()", {
 
 tar_test("time stamps", {
   skip_cran()
-  expect_s3_class(posixct_time(time_stamp()), "POSIXct")
+  out <- time_stamp(time = Sys.time())
+  expect_true(is.character(out))
+  expect_false(anyNA(out))
 })
-
 
 tar_test("time stamp_pid", {
   skip_cran()
