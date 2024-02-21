@@ -67,7 +67,7 @@ process_class <- R6::R6Class(
       if (anyNA(time_file) || anyNA(time_ps)) {
         return()
       }
-      if (any(time_file != time_ps)) {
+      if (any(time_file == time_ps)) {
         tar_throw_run(
           paste(
             "Process ID",

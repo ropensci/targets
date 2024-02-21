@@ -7,7 +7,7 @@ tar_test("error running two pipelines on _targets/ at the same time", {
   for (index in seq_len(2L)) {
     expect_error(
       tar_make(callr_function = NULL),
-      class = "tar_condition_validate"
+      class = "tar_condition_run"
     )
   }
   temp <- tempfile()
