@@ -154,8 +154,8 @@
 #'   `file.create("x"); nanonext::msleep(1); file.create("y");`
 #'   from within the directory containing the `_targets` data store
 #'   and then check
-#'   `difftime(file.mtime("y"), file.mtime("x"), units = "secs")`.
-#'   If the value from `difftime()` is around 0.001 seconds
+#'   `difftime(file.mtime("y"), file.mtime("x"), units = "secs") - 1`.
+#'   If the result is around 0.001 seconds
 #'   (must be strictly above 0 and below 1) then you do not need to set
 #'   `trust_object_timestamps = FALSE`.
 #' @examples
