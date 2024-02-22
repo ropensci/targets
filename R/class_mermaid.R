@@ -122,7 +122,7 @@ mermaid_class <- R6::R6Class(
     produce_mermaid_vertices = function(data) {
       sprintf(
         "%s%s%s%s:::%s",
-        sprintf("x%s", digest_chr64(data$name)),
+        sprintf("x%s", as.character(map_chr(data$name, digest_chr64))),
         data$open,
         sprintf("\"%s\"", data$label),
         data$close,
