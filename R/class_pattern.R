@@ -360,7 +360,8 @@ pattern_combine_niblings_siblings <- function(niblings, siblings) {
 }
 
 pattern_name_branches <- function(parent, niblings) {
-  suffixes <- digest_chr32(do.call(paste, niblings))
+  tuples <- do.call(paste, niblings)
+  suffixes <- map_chr(tuples, digest_chr32)
   paste0(parent, "_", suffixes)
 }
 
