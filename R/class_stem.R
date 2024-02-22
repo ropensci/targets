@@ -179,6 +179,7 @@ print.tar_stem <- function(x, ...) {
   cat(
     "<tar_stem>",
     "\n  name:", target_get_name(x),
+    "\n  description:", x$settings$description,
     "\n  command:\n   ",
     produce_lines(string_sub_expression(x$command$string)),
     "\n  format:", x$settings$format,

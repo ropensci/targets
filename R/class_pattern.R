@@ -163,6 +163,7 @@ print.tar_pattern <- function(x, ...) {
   cat(
     "<tar_pattern>",
     "\n  name:", target_get_name(x),
+    "\n  description:", x$settings$description,
     "\n  command:\n   ",
     produce_lines(string_sub_expression(x$command$string)),
     "\n  pattern:\n   ",
