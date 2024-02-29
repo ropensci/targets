@@ -2,6 +2,10 @@ time_stamp <- function(time = Sys.time()) {
   format(time, "%Y-%m-%d %H:%M:%OS2", tz = "UTC")
 }
 
+time_stamp_cli <- function(time = Sys.time()) {
+  paste(time_stamp(time = time), "UTC")
+}
+
 time_stamp_short <- function(time = Sys.time()) {
   format(time, "%H:%M %OS2")
 }

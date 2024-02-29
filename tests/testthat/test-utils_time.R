@@ -9,11 +9,19 @@ tar_test("time_seconds_local()", {
   expect_equal(2 * 2, 4)
 })
 
-tar_test("time stamps", {
+tar_test("time_stamp()", {
   skip_cran()
   out <- time_stamp(time = Sys.time())
   expect_true(is.character(out))
   expect_false(anyNA(out))
+})
+
+tar_test("time_stamp_cli()", {
+  skip_cran()
+  out <- time_stamp_cli(time = Sys.time())
+  expect_true(is.character(out))
+  expect_false(anyNA(out))
+  expect_true(grepl("UTC$", out))
 })
 
 tar_test("time stamp_pid", {

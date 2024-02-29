@@ -5,7 +5,7 @@ cli_dispatched <- function(
   print = TRUE,
   pending = FALSE
 ) {
-  time <- if_any(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
   action <- if_any(pending, "dispatched (pending)", "dispatched")
   msg <- paste(c(time, action, prefix, name), collapse = " ")
   cli_blue_play(msg, print = print)
@@ -18,7 +18,7 @@ cli_completed <- function(
   seconds_elapsed = NULL,
   print = TRUE
 ) {
-  time <- if_any(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "completed", prefix, name), collapse = " ")
   if (!is.null(seconds_elapsed)) {
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
@@ -28,13 +28,13 @@ cli_completed <- function(
 }
 
 cli_skip <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
-  time <- if_any(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "skipped", prefix, name), collapse = " ")
   cli_green_check(msg, print = print)
 }
 
 cli_error <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
-  time <- if_any(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "errored", prefix, name), collapse = " ")
   cli_red_x(msg, print = print)
 }
@@ -45,7 +45,7 @@ cli_cancel <- function(
   time_stamp = FALSE,
   print = TRUE
 ) {
-  time <- if_any(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "canceled", prefix, name), collapse = " ")
   cli_yellow_box(msg, print = print)
 }
@@ -55,7 +55,7 @@ cli_pipeline_uptodate <- function(
   seconds_elapsed = NULL,
   print = TRUE
 ) {
-  time <- if_any(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "skipped pipeline"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
@@ -69,7 +69,7 @@ cli_pipeline_done <- function(
   seconds_elapsed = NULL,
   print = TRUE
 ) {
-  time <- if_any(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "ended pipeline"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
@@ -83,7 +83,7 @@ cli_pipeline_empty <- function(
   seconds_elapsed = NULL,
   print = TRUE
 ) {
-  time <- if_any(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "empty pipeline"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
@@ -97,7 +97,7 @@ cli_pipeline_errored <- function(
   seconds_elapsed = NULL,
   print = TRUE
 ) {
-  time <- if_any(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "errored pipeline"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
@@ -107,7 +107,7 @@ cli_pipeline_errored <- function(
 }
 
 cli_workspace <- function(name, time_stamp = FALSE, print = TRUE) {
-  time <- if_any(time_stamp, time_stamp(), NULL)
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "recorded workspace", name), collapse = " ")
   cli_blue_play(msg, print = print)
 }
