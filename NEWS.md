@@ -1,4 +1,4 @@
-# targets 1.5.1.9001 (development)
+# targets 1.6.0
 
 * Modernize `extras` in `tar_renv()`.
 * `tar_target()` gains a `description` argument for free-form text describing what the target is about (#1230, #1235, #1236, @tjmahr).
