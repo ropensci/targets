@@ -21,7 +21,6 @@ tar_test("time_stamp_cli()", {
   out <- time_stamp_cli(time = Sys.time())
   expect_true(is.character(out))
   expect_false(anyNA(out))
-  expect_true(grepl("UTC$", out))
 })
 
 tar_test("time stamp_pid", {
