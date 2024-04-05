@@ -294,10 +294,16 @@ database_class <- R6::R6Class(
       )
       out <- as_data_frame(out)
       for (name in self$integer_columns) {
-        out[[name]] <- as.integer(out[[name]])
+        value <- out[[name]]
+        if (!is.null(value)) {
+          out[[name]] <- as.integer(value)
+        }
       }
       for (name in self$numeric_columns) {
-        out[[name]] <- as.numeric(out[[name]])
+        value <- out[[name]]
+        if (!is.null(value)) {
+          out[[name]] <- as.numeric(value)
+        }
       }
       if (nrow(out) < 1L) {
         return(out)
