@@ -259,7 +259,7 @@ pattern_priority <- function() {
 
 pattern_produce_data_hash <- function(target, pipeline, meta) {
   hash_branches <- meta$hash_deps(target_get_children(target), pipeline)
-  hash_character(paste(target$settings$iteration, hash_branches))
+  hash_object(paste(target$settings$iteration, hash_branches))
 }
 
 pattern_conclude_initial <- function(target, pipeline, scheduler, meta) {
@@ -361,7 +361,7 @@ pattern_combine_niblings_siblings <- function(niblings, siblings) {
 
 pattern_name_branches <- function(parent, niblings) {
   tuples <- do.call(paste, niblings)
-  suffixes <- map_chr(tuples, hash_character)
+  suffixes <- map_chr(tuples, hash_object)
   paste0(parent, "_", suffixes)
 }
 

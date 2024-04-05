@@ -152,11 +152,11 @@ file_hash <- function(files) {
   if (identical(n, 0L)) {
     return(hash_null)
   }
-  hash <- hash_file(files)
+  hash <- map_chr(x = files, f = hash_file, USE.NAMES = FALSE)
   if (identical(n, 1L)) {
     return(hash)
   }
-  hash_character(paste(hash, collapse = ""))
+  hash_object(paste(hash, collapse = ""))
 }
 
 file_info <- function(files) {

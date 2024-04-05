@@ -1,6 +1,8 @@
-# targets 1.6.0.9000
+# targets 1.6.0.9001
 
+## Invalidating changes
 
+* Use `secretbase::siphash13()` instead of `digest(algo = "xxhash64", serializationVersion = 3)` so hashes of in-memory objects no longer depend on serialization version 3 headers (#1244, @shikokuchuo). Unfortunately, pipelines built with earlier versions of `targets` will need to rerun. However, `tar_make()` now prompts the user so a decision can be made to continue or downgrade in the interactive case. 
 
 # targets 1.6.0
 

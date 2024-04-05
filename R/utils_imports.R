@@ -72,7 +72,7 @@ hash_import_object <- function(value, name, hashes, graph) {
 #' @export
 hash_import_object.character <- function(value, name, hashes, graph) {
   base <- paste(value, collapse = " ")
-  assign(x = name, value = hash_character(base), envir = hashes)
+  assign(x = name, value = hash_object(base), envir = hashes)
 }
 
 #' @export
@@ -83,7 +83,7 @@ hash_import_object.function <- function(value, name, hashes, graph) {
   )
   dep_hashes <- unlist(lapply(deps, get_field, collection = hashes))
   base <- paste(c(str, dep_hashes), collapse = " ")
-  assign(x = name, value = hash_character(base), envir = hashes)
+  assign(x = name, value = hash_object(base), envir = hashes)
 }
 
 #' @export
