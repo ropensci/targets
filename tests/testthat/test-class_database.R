@@ -118,7 +118,6 @@ tar_test("database$overwrite_storage()", {
     col2 = c("e12", "e22"),
     col3 = list(c("e13", "e14"), c("e23", "e24", "e25"))
   )
-  
   db <- database_init(header = c("name", "col2", "col3"))
   exp <- c(
     "name|col2|col3",
