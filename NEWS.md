@@ -2,10 +2,11 @@
 
 ## Invalidating changes
 
-* Use `secretbase::siphash13()` instead of `digest(algo = "xxhash64", serializationVersion = 3)` so hashes of in-memory objects no longer depend on serialization version 3 headers (#1244, @shikokuchuo). Unfortunately, pipelines built with earlier versions of `targets` will need to rerun. However, `tar_make()` now prompts the user so a decision can be made to continue or downgrade in the interactive case. 
+* Use `secretbase::siphash13()` instead of `digest(algo = "xxhash64", serializationVersion = 3)` so hashes of in-memory objects no longer depend on serialization version 3 headers (#1244, @shikokuchuo). Unfortunately, pipelines built with earlier versions of `targets` will need to rerun.
 
 ## Other improvements
 
+* Inform and prompt the user when the pipeline was built with an old version of `targets` and changes to the package will cause the current work to rerun (#1244). For the `tar_make*()` functions, `utils::menu()` prompts the user to give people a chance to downgrade if necessary.
 * For type safety in the internal database class, read all columns as character vectors in `data.table::fread()`, then convert them to the correct types afterwards.
 
 # targets 1.6.0
