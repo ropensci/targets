@@ -247,17 +247,19 @@ tar_test("database$preprocess() on empty data", {
 tar_test("database$preprocess()", {
   path <- tempfile()
   lines <- c(
-    "name|col2|col3|col4",
-    "x|e02|1*2|1",
-    "e|e12|e13*e14|2",
-    "e|e22|e23*e24*e25|3",
-    "f|e32|x|4"
+    "name|col2|col3|col4|col5",
+    "x|e02|1*2|1|1",
+    "e|e12|e13*e14|2|2",
+    "e|e22|e23*e24*e25|3|3",
+    "f|e32|x|4|4"
   )
   writeLines(lines, path)
   db <- database_init(
     path = path,
     header = colnames(data),
-    list_columns = "col3"
+    list_columns = "col3",
+    integer_columns = "col4",
+    numeric_columns = "col5"
   )
   db$preprocess(write = TRUE)
   out <- readLines(path)
@@ -267,12 +269,19 @@ tar_test("database$preprocess()", {
     name = "e",
     col2 = "e22",
     col3 = c("e23", "e24", "e25"),
-    col4 = 3L
+    col4 = 3L,
+    col5 = 3
   )
   expect_equal(db$get_row("e"), exp)
-  exp <- list(name = "f", col2 = "e32", col3 = "x", col4 = 4L)
+  exp <- list(name = "f", col2 = "e32", col3 = "x", col4 = 4L, col5 = 4)
   expect_equal(db$get_row("f"), exp)
-  exp <- list(name = "x", col2 = "e02", col3 = c("1", "2"), col4 = 1L)
+  exp <- list(
+    name = "x",
+    col2 = "e02",
+    col3 = c("1", "2"),
+    col4 = 1L,
+    col5 = 1
+  )
   expect_equal(db$get_row("x"), exp)
 })
 
