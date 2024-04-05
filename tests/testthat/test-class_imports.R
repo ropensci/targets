@@ -41,23 +41,23 @@ tar_test("imports_set_datasets()", {
 })
 
 tar_test("imports_init()", {
-  tar_option_set(imports = c("utils", "digest"))
+  tar_option_set(imports = c("utils", "secretbase"))
   envir <- new.env(parent = emptyenv())
   envir$head <- "abc"
   expect_null(envir$tail)
-  expect_null(envir$digest)
+  expect_null(envir$siphash13)
   imports <- imports_init(envir)
   expect_equal(imports$head, "abc")
   expect_true(is.function(imports$tail))
-  expect_true(is.function(imports$digest))
+  expect_true(is.function(imports$siphash13))
   expect_null(envir$tail)
-  expect_null(envir$digest)
+  expect_null(envir$siphash13)
   expect_true(inherits(imports, "tar_imports"))
   expect_false(inherits(envir, "tar_imports"))
 })
 
 tar_test("imports_init() idempotence", {
-  tar_option_set(imports = c("utils", "digest"))
+  tar_option_set(imports = c("utils", "secretbase"))
   imports <- imports_init(imports_new(new.env(parent = emptyenv())))
   expect_true(inherits(imports, "tar_imports"))
   expect_equal(length(imports), 0L)
