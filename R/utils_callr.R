@@ -8,10 +8,22 @@ callr_outer <- function(
   store,
   fun
 ) {
+  tar_assert_script(script)
   tar_assert_scalar(store)
   tar_assert_chr(store)
   tar_assert_nzchar(store)
-  tar_assert_script(script)
+  choice <- tar_assert_store_noninvalidating(
+    store,
+    threshold = "1.6.0",
+    prompt = grepl("^tar_make", fun)
+  )
+  # Tested in tests/interactive/test-tar_assert_store_noninvalidating.R
+  # nocov start
+  if (identical(choice, 1L)) {
+    tar_message_run("Pipeline stopped.")
+    return(invisible())
+  }
+  # nocov end
   out <- callr_dispatch(
     targets_function = targets_function,
     targets_arguments = targets_arguments,
