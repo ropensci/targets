@@ -26,14 +26,14 @@ tar_test("value_produce_slice(list)", {
 tar_test("value_hash_slice(list)", {
   x <- value_init(object = "abc", iteration = "list")
   x$object <- data_frame(x = seq_len(26), y = letters)
-  expect_equal(value_hash_slice(x, 1L), digest_obj32(seq_len(26)))
-  expect_equal(value_hash_slice(x, 2L), digest_obj32(letters))
+  expect_equal(value_hash_slice(x, 1L), digest_obj64(seq_len(26)))
+  expect_equal(value_hash_slice(x, 2L), digest_obj64(letters))
 })
 
 tar_test("value_hash_slices(list)", {
   x <- value_init(object = "abc", iteration = "list")
   x$object <- data_frame(x = seq_len(26), y = letters)
-  exp <- c(digest_obj32(seq_len(26)), digest_obj32(letters))
+  exp <- c(digest_obj64(seq_len(26)), digest_obj64(letters))
   expect_equal(value_hash_slices(x), exp)
 })
 
