@@ -91,7 +91,7 @@ target_branches_over.tar_pattern <- function(target, name) {
 #' @export
 target_update_depend.tar_pattern <- function(target, pipeline, meta) {
   depends <- meta$depends
-  memory_set_object(depends, target_get_name(target), null64)
+  memory_set_object(depends, target_get_name(target), hash_null)
 }
 
 #' @export
@@ -259,7 +259,7 @@ pattern_priority <- function() {
 
 pattern_produce_data_hash <- function(target, pipeline, meta) {
   hash_branches <- meta$hash_deps(target_get_children(target), pipeline)
-  digest_chr64(paste(target$settings$iteration, hash_branches))
+  hash_character(paste(target$settings$iteration, hash_branches))
 }
 
 pattern_conclude_initial <- function(target, pipeline, scheduler, meta) {
@@ -361,7 +361,7 @@ pattern_combine_niblings_siblings <- function(niblings, siblings) {
 
 pattern_name_branches <- function(parent, niblings) {
   tuples <- do.call(paste, niblings)
-  suffixes <- map_chr(tuples, digest_chr64)
+  suffixes <- map_chr(tuples, hash_character)
   paste0(parent, "_", suffixes)
 }
 

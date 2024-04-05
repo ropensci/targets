@@ -86,7 +86,7 @@ meta_class <- R6::R6Class(
       )
       hashes <- hashes[nzchar(hashes)]
       string <- paste(c(names(hashes), hashes), collapse = "")
-      digest_chr64(string)
+      hash_character(string)
     },
     produce_depend = function(target, pipeline) {
       self$hash_deps(target$command$deps, pipeline)

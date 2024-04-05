@@ -2,9 +2,9 @@
 
 S3method(future_value_target,condition)
 S3method(future_value_target,tar_target)
-S3method(hash_object,"function")
-S3method(hash_object,character)
-S3method(hash_object,default)
+S3method(hash_import_object,"function")
+S3method(hash_import_object,character)
+S3method(hash_import_object,default)
 S3method(imports_init,default)
 S3method(imports_init,tar_imports)
 S3method(pipeline_from_list,default)

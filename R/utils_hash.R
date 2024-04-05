@@ -1,8 +1,8 @@
-digest_chr64 <- function(object, ...) {
+hash_character <- function(object, ...) {
   vdigest64(object, serialize = FALSE, file = FALSE, seed = 0L, ...)
 }
 
-digest_file64 <- function(object, ...) {
+hash_file <- function(object, ...) {
   vapply(
     X = object,
     FUN = vdigest64_file,
@@ -15,7 +15,7 @@ digest_file64 <- function(object, ...) {
   )
 }
 
-digest_obj64 <- function(object, ...) {
+hash_object <- function(object, ...) {
   vdigest64(
     object = list(object),
     serialize = TRUE,
@@ -30,4 +30,4 @@ vdigest64 <- digest::getVDigest(algo = "xxhash64")
 
 vdigest64_file <- digest::getVDigest(algo = "xxhash64", errormode = "warn")
 
-null64 <- digest_obj64(NULL)
+hash_null <- hash_object(NULL)
