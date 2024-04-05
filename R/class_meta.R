@@ -86,7 +86,7 @@ meta_class <- R6::R6Class(
       )
       hashes <- hashes[nzchar(hashes)]
       string <- paste(c(names(hashes), hashes), collapse = "")
-      digest_chr64(string)
+      hash_object(string)
     },
     produce_depend = function(target, pipeline) {
       self$hash_deps(target$command$deps, pipeline)
@@ -160,6 +160,8 @@ database_meta <- function(path_store) {
     path = path_meta(path_store = path_store),
     subkey = file.path(basename(path_meta("")), "meta"),
     header = header_meta(),
+    integer_columns = "seed",
+    numeric_columns = c("bytes", "seconds"),
     list_columns = c("path", "children"),
     list_column_modes = c("character", "character")
   )

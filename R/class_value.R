@@ -13,7 +13,7 @@ value_new <- function(object = NULL) {
 }
 
 value_hash_slice <- function(value, index) {
-  digest_obj32(value_produce_slice_kernel(value, index))
+  hash_object(value_produce_slice_kernel(value, index))
 }
 
 value_hash_slices <- function(value) {

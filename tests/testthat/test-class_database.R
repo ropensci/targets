@@ -118,7 +118,6 @@ tar_test("database$overwrite_storage()", {
     col2 = c("e12", "e22"),
     col3 = list(c("e13", "e14"), c("e23", "e24", "e25"))
   )
-
   db <- database_init(header = c("name", "col2", "col3"))
   exp <- c(
     "name|col2|col3",
@@ -244,36 +243,59 @@ tar_test("database$preprocess() on empty data", {
   expect_equal(readLines(db$path), "name|col3")
 })
 
-tar_test("database$preprocess()", {
+tar_test("database$preprocess() on different column types", {
   path <- tempfile()
+  on.exit(unlink(path))
   lines <- c(
-    "name|col2|col3|col4",
-    "x|e02|1*2|1",
-    "e|e12|e13*e14|2",
-    "e|e22|e23*e24*e25|3",
-    "f|e32|x|4"
+    "name|col2|col3|col4|col5|col6",
+    "x|e02|1*2|1|1|TRUE",
+    "e|e12|e13*e14|2|2|FALSE",
+    "e|e22|e23*e24*e25|3|3|TRUE",
+    "f|e32|x|4|4|FALSE"
   )
-  writeLines(lines, path)
-  db <- database_init(
-    path = path,
-    header = colnames(data),
-    list_columns = "col3"
-  )
-  db$preprocess(write = TRUE)
-  out <- readLines(path)
-  expect_equal(out, lines[-3])
-  expect_equal(sort(db$memory$names), sort(c("e", "f", "x")))
-  exp <- list(
-    name = "e",
-    col2 = "e22",
-    col3 = c("e23", "e24", "e25"),
-    col4 = 3L
-  )
-  expect_equal(db$get_row("e"), exp)
-  exp <- list(name = "f", col2 = "e32", col3 = "x", col4 = 4L)
-  expect_equal(db$get_row("f"), exp)
-  exp <- list(name = "x", col2 = "e02", col3 = c("1", "2"), col4 = 1L)
-  expect_equal(db$get_row("x"), exp)
+  for (repository in c("local", "aws", "gcp")) {
+    writeLines(lines, path)
+    db <- database_init(
+      path = path,
+      header = colnames(data),
+      list_columns = "col3",
+      logical_columns = "col6",
+      integer_columns = "col4",
+      numeric_columns = "col5",
+      repository = repository
+    )
+    db$preprocess(write = TRUE)
+    out <- readLines(path)
+    expect_equal(out, lines[-3])
+    expect_equal(sort(db$memory$names), sort(c("e", "f", "x")))
+    exp <- list(
+      name = "e",
+      col2 = "e22",
+      col3 = c("e23", "e24", "e25"),
+      col4 = 3L,
+      col5 = 3,
+      col6 = TRUE
+    )
+    expect_equal(db$get_row("e"), exp)
+    exp <- list(
+      name = "f",
+      col2 = "e32",
+      col3 = "x",
+      col4 = 4L,
+      col5 = 4,
+      col6 = FALSE
+    )
+    expect_equal(db$get_row("f"), exp)
+    exp <- list(
+      name = "x",
+      col2 = "e02",
+      col3 = c("1", "2"),
+      col4 = 1L,
+      col5 = 1,
+      col6 = TRUE
+    )
+    expect_equal(db$get_row("x"), exp)
+  }
 })
 
 tar_test("database$write_row()", {

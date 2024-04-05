@@ -9,7 +9,7 @@ command_init <- function(
   expr <- as.expression(expr)
   deps <- deps %|||% deps_function(embody_expr(expr))
   string <- string %|||% mask_pointers(tar_deparse_safe(expr))
-  hash <- digest_chr64(string)
+  hash <- hash_object(string)
   command_new(expr, packages, library, deps, seed, string, hash)
 }
 

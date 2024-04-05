@@ -69,7 +69,7 @@ url_hash <- function(
   verbose
 ) {
   envir <- new.env(parent = emptyenv())
-  digest_obj64(
+  hash_object(
     lapply(
       url,
       url_hash_impl,

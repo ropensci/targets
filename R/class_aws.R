@@ -258,7 +258,7 @@ store_upload_object_aws <- function(store) {
     invert = TRUE
   )
   store$file$path <- c(path, paste0("version=", head$VersionId))
-  store$file$hash <- digest_chr64(head$ETag)
+  store$file$hash <- hash_object(head$ETag)
   invisible()
 }
 

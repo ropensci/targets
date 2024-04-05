@@ -2,6 +2,9 @@ database_init <- function(
   path = tempfile(),
   subkey = basename(tempfile()),
   header = "name",
+  logical_columns = character(0L),
+  integer_columns = character(0L),
+  numeric_columns = character(0L),
   list_columns = character(0L),
   list_column_modes = character(0L),
   repository = tar_options$get_repository_meta(),
@@ -19,6 +22,9 @@ database_init <- function(
       path = path,
       key = key,
       header = header,
+      logical_columns = logical_columns,
+      integer_columns = integer_columns,
+      numeric_columns = numeric_columns,
       list_columns = list_columns,
       list_column_modes = list_column_modes,
       resources = resources
@@ -28,6 +34,9 @@ database_init <- function(
       path = path,
       key = key,
       header = header,
+      logical_columns = logical_columns,
+      integer_columns = integer_columns,
+      numeric_columns = numeric_columns,
       list_columns = list_columns,
       list_column_modes = list_column_modes,
       resources = resources
@@ -37,6 +46,9 @@ database_init <- function(
       path = path,
       key = key,
       header = header,
+      logical_columns = logical_columns,
+      integer_columns = integer_columns,
+      numeric_columns = numeric_columns,
       list_columns = list_columns,
       list_column_modes = list_column_modes,
       resources = resources
@@ -59,6 +71,9 @@ database_class <- R6::R6Class(
     path = NULL,
     key = NULL,
     header = NULL,
+    logical_columns = NULL,
+    integer_columns = NULL,
+    numeric_columns = NULL,
     list_columns = NULL,
     list_column_modes = NULL,
     resources = NULL,
@@ -69,6 +84,9 @@ database_class <- R6::R6Class(
       path = NULL,
       key = NULL,
       header = NULL,
+      logical_columns = NULL,
+      integer_columns = NULL,
+      numeric_columns = NULL,
       list_columns = NULL,
       list_column_modes = NULL,
       resources = NULL,
@@ -78,6 +96,9 @@ database_class <- R6::R6Class(
       self$path <- path
       self$key <- key
       self$header <- header
+      self$logical_columns <- logical_columns
+      self$integer_columns <- integer_columns
+      self$numeric_columns <- numeric_columns
       self$list_columns <- list_columns
       self$list_column_modes <- list_column_modes
       self$resources <- resources
@@ -275,9 +296,28 @@ database_class <- R6::R6Class(
         sep = database_sep_outer,
         fill = TRUE,
         na.strings = "",
-        encoding = encoding
+        encoding = encoding,
+        colClasses = "character"
       )
       out <- as_data_frame(out)
+      for (name in self$logical_columns) {
+        value <- out[[name]]
+        if (!is.null(value)) {
+          out[[name]] <- as.logical(value)
+        }
+      }
+      for (name in self$integer_columns) {
+        value <- out[[name]]
+        if (!is.null(value)) {
+          out[[name]] <- as.integer(value)
+        }
+      }
+      for (name in self$numeric_columns) {
+        value <- out[[name]]
+        if (!is.null(value)) {
+          out[[name]] <- as.numeric(value)
+        }
+      }
       if (nrow(out) < 1L) {
         return(out)
       }
@@ -387,9 +427,23 @@ database_class <- R6::R6Class(
         invisible()
       }
     },
-    validate_columns = function(header, list_columns) {
-      if (!all(list_columns %in% header)) {
-        tar_throw_validate("all list columns must be in the header")
+    validate_columns = function(
+      header,
+      logical_columns,
+      integer_columns,
+      numeric_columns,
+      list_columns
+    ) {
+      special_columns <- c(
+        logical_columns,
+        integer_columns,
+        numeric_columns,
+        list_columns
+      )
+      if (!all(special_columns %in% header)) {
+        tar_throw_validate(
+          "all logical/integer/numeric/list columns must be in the header"
+        )
       }
       if (!is.null(header) && !("name" %in% header)) {
         tar_throw_validate("header must have a column called \"name\"")
@@ -416,7 +470,6 @@ database_class <- R6::R6Class(
     },
     validate = function() {
       memory_validate(self$memory)
-      self$validate_columns(self$header, self$list_columns)
       self$validate_file()
       tar_assert_chr(self$path)
       tar_assert_scalar(self$path)
@@ -427,7 +480,18 @@ database_class <- R6::R6Class(
       tar_assert_none_na(self$key)
       tar_assert_nzchar(self$key)
       tar_assert_chr(self$header)
+      tar_assert_chr(self$logical_columns)
+      tar_assert_chr(self$integer_columns)
+      tar_assert_chr(self$numeric_columns)
       tar_assert_chr(self$list_columns)
+      tar_assert_chr(self$list_column_modes)
+      self$validate_columns(
+        self$header,
+        self$logical_columns,
+        self$integer_columns,
+        self$numeric_columns,
+        self$list_columns
+      )
     }
   )
 )

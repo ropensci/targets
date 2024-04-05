@@ -33,7 +33,7 @@ tar_test("value_hash_slice(group)", {
   for (index in seq_len(3)) {
     exp_object <- object[object$tar_group == index, ]
     exp_object$tar_group <- NULL
-    exp <- digest_obj32(exp_object)
+    exp <- hash_object(exp_object)
     expect_equiv(value_hash_slice(x, index), exp)
   }
 })
@@ -47,7 +47,7 @@ tar_test("value_hash_slices(group)", {
   exp <- map_chr(seq_len(3), function(index) {
     exp_object <- object[object$tar_group == index, ]
     exp_object$tar_group <- NULL
-    digest_obj32(exp_object)
+    hash_object(exp_object)
   })
   expect_equal(value_hash_slices(x), exp)
 })

@@ -57,7 +57,7 @@
 #'      Append the hashes of those dependencies to the string representation
 #'      of the current function.
 #'    1. Compute the hash of the final string representation using
-#'      `targets:::digest_chr64()`.
+#'      `targets:::hash_object()`.
 #'
 #'   Above, (3) is important because user-defined functions
 #'   have dependencies of their own, such as other user-defined

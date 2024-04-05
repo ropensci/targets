@@ -587,6 +587,48 @@ tar_assert_store <- function(store) {
   )
 }
 
+# Tested in tests/interactive/test-tar_assert_store_noninvalidating.R
+# nocov start
+tar_assert_store_noninvalidating <- function(store, threshold, prompt) {
+  process <- tar_process(
+    names = tidyselect::any_of("version_targets"),
+    store = store
+  )
+  version_old <- process$value
+  if (!length(version_old)) {
+    return()
+  }
+  version_current <- as.character(utils::packageVersion("targets"))
+  if (utils::compareVersion(a = version_old, b = threshold) > 0L) {
+    return()
+  }
+  tar_message_run(
+    "You are running {targets} version ",
+    version_current,
+    ", and the pipeline was last run with version ",
+    version_old,
+    ". Just after version ",
+    threshold,
+    ", {targets} made changes that cause the targets in old pipelines ",
+    "to rerun. For details, please see ",
+    "https://github.com/ropensci/targets/blob/main/NEWS.md. Sorry for the ",
+    "inconvenience. As a workaround, you can either rerun this pipeline ",
+    "from scratch, or you can stop/interrupt the pipeline and downgrade ",
+    "to {targets} version ",
+    threshold,
+    " to keep your work up to date in the short term."
+  )
+  choice <- NULL
+  if (prompt) {
+    choice <- utils::menu(
+      title = "\nStop the pipeline?",
+      choices = c("Yes", "No")
+    )
+  }
+  choice
+}
+# nocov end
+
 #' @export
 #' @rdname tar_assert
 tar_assert_target <- function(x, msg = NULL) {

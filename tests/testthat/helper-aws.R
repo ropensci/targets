@@ -11,7 +11,7 @@ random_bucket_name <- function() {
   paste0(
     "targets-test-bucket-",
     substr(
-      digest::digest(tempfile(), algo = "sha256"),
+      secretbase::siphash13(tempfile()),
       start = 0,
       stop = 43
     )

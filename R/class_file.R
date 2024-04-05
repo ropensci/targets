@@ -150,13 +150,13 @@ file_list_files <- function(path) {
 file_hash <- function(files) {
   n <- length(files)
   if (identical(n, 0L)) {
-    return(null64)
+    return(hash_null)
   }
-  hash <- digest_file64(files)
+  hash <- map_chr(x = files, f = hash_file, USE.NAMES = FALSE)
   if (identical(n, 1L)) {
     return(hash)
   }
-  digest_chr64(paste(hash, collapse = ""))
+  hash_object(paste(hash, collapse = ""))
 }
 
 file_info <- function(files) {
@@ -189,7 +189,7 @@ file_bytes <- function(info) {
 }
 
 file_size <- function(bytes) {
-  digest_obj64(bytes)
+  hash_object(bytes)
 }
 
 file_diff_chr <- function(dbl) {

@@ -239,6 +239,7 @@ database_progress <- function(path_store) {
     path = path_progress(path_store = path_store),
     subkey = file.path(basename(path_meta("")), "progress"),
     header = header_progress(),
+    integer_columns = "branches"
   )
 }
 

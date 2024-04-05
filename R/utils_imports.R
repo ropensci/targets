@@ -62,31 +62,31 @@ rep_to <- function(index, names, lengths) {
 
 hash_import <- function(name, hashes, envir, graph) {
   value <- base::get(x = name, envir = envir, inherits = FALSE)
-  hash_object(value, name, hashes, graph)
+  hash_import_object(value, name, hashes, graph)
 }
 
-hash_object <- function(value, name, hashes, graph) {
-  UseMethod("hash_object")
+hash_import_object <- function(value, name, hashes, graph) {
+  UseMethod("hash_import_object")
 }
 
 #' @export
-hash_object.character <- function(value, name, hashes, graph) {
+hash_import_object.character <- function(value, name, hashes, graph) {
   base <- paste(value, collapse = " ")
-  assign(x = name, value = digest_chr64(base), envir = hashes)
+  assign(x = name, value = hash_object(base), envir = hashes)
 }
 
 #' @export
-hash_object.function <- function(value, name, hashes, graph) {
+hash_import_object.function <- function(value, name, hashes, graph) {
   str <- mask_pointers(tar_deparse_safe(value))
   deps <- sort_chr(
     names(igraph::neighbors(graph = graph, v = name, mode = "in"))
   )
   dep_hashes <- unlist(lapply(deps, get_field, collection = hashes))
   base <- paste(c(str, dep_hashes), collapse = " ")
-  assign(x = name, value = digest_chr64(base), envir = hashes)
+  assign(x = name, value = hash_object(base), envir = hashes)
 }
 
 #' @export
-hash_object.default <- function(value, name, hashes, graph) {
-  assign(x = name, value = digest_obj64(value), envir = hashes)
+hash_import_object.default <- function(value, name, hashes, graph) {
+  assign(x = name, value = hash_object(value), envir = hashes)
 }

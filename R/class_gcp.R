@@ -209,7 +209,7 @@ store_upload_object_gcp <- function(store) {
     invert = TRUE
   )
   store$file$path <- c(path, paste0("version=", head$generation))
-  store$file$hash <- digest_chr64(head$md5)
+  store$file$hash <- hash_object(head$md5)
   invisible()
 }
 

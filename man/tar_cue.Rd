@@ -110,7 +110,7 @@ and global objects that the current function depends on.
 Append the hashes of those dependencies to the string representation
 of the current function.
 \item Compute the hash of the final string representation using
-\code{targets:::digest_chr64()}.
+\code{targets:::hash_object()}.
 }
 
 Above, (3) is important because user-defined functions

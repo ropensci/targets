@@ -36,7 +36,7 @@ tar_test("inventory_gcp class", {
     out <- inventory$get_cache(store)
     expect_equal(inventory$misses, 1L)
     expect_equal(inventory$downloads, 1L)
-    expect_equal(out, digest_chr64(head[[key]]$md5))
+    expect_equal(out, hash_object(head[[key]]$md5))
     expect_equal(
       sort(inventory$list_cache()),
       sort(

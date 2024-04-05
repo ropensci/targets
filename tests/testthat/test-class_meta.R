@@ -243,7 +243,7 @@ tar_test("data hash of pattern updates", {
   hash <- data$data[data$name == "map"]
   expect_equal(length(hash), 1L)
   expect_false(is.na(hash))
-  expect_false(hash == null64)
+  expect_false(hash == hash_null)
   pipeline <- pipeline_init(
     list(
       target_init(

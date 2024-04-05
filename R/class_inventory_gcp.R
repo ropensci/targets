@@ -35,7 +35,7 @@ inventory_gcp_class <- R6::R6Class(
       )
       for (key in names(results)) {
         name <- self$get_name(key = key, bucket = bucket)
-        self$cache[[name]] <- digest_chr64(results[[key]])
+        self$cache[[name]] <- hash_object(results[[key]])
       }
     }
   )
