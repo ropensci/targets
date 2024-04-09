@@ -81,6 +81,7 @@ store_assert_format_setting.format_custom <- function(format) {
 #' @export
 store_read_path.tar_store_custom <- function(store, path) {
   store_custom_call_method(
+    store = store,
     text = store$read,
     args = list(path = path)
   )
@@ -89,6 +90,7 @@ store_read_path.tar_store_custom <- function(store, path) {
 #' @export
 store_write_path.tar_store_custom <- function(store, object, path) {
   store_custom_call_method(
+    store = store,
     text = store$write,
     args = list(object = object, path = path)
   )
@@ -97,6 +99,7 @@ store_write_path.tar_store_custom <- function(store, object, path) {
 #' @export
 store_marshal_object.tar_store_custom <- function(store, object) {
   store_custom_call_method(
+    store = store,
     text = store$marshal,
     args = list(object = object)
   )
@@ -105,6 +108,7 @@ store_marshal_object.tar_store_custom <- function(store, object) {
 #' @export
 store_unmarshal_object.tar_store_custom <- function(store, object) {
   store_custom_call_method(
+    store = store,
     text = store$unmarshal,
     args = list(object = object)
   )
@@ -113,6 +117,7 @@ store_unmarshal_object.tar_store_custom <- function(store, object) {
 #' @export
 store_convert_object.tar_store_custom <- function(store, object) {
   store_custom_call_method(
+    store = store,
     text = store$convert,
     args = list(object = object)
   )
@@ -121,12 +126,20 @@ store_convert_object.tar_store_custom <- function(store, object) {
 #' @export
 store_copy_object.tar_store_custom <- function(store, object) {
   store_custom_call_method(
+    store = store,
     text = store$copy,
     args = list(object = object)
   )
 }
 
-store_custom_call_method <- function(text, args) {
+store_custom_call_method <- function(store, text, args) {
+  envvars <- store$resources$custom_format$envvars
+  if (length(envvars)) {
+    names <- names(envvars)
+    previous <- Sys.getenv(names, names = TRUE)
+    on.exit(do.call(what = Sys.setenv, args = as.list(previous)))
+    do.call(what = Sys.setenv, args = as.list(envvars))
+  }
   envir <- new.env(parent = baseenv())
   what <- eval(parse(text = text), envir = envir)
   do.call(what = what, args = args, envir = envir)

@@ -1,4 +1,4 @@
-# targets 1.6.0.9001
+# targets 1.6.0.9002
 
 ## Invalidating changes
 
@@ -8,6 +8,7 @@
 
 * Inform and prompt the user when the pipeline was built with an old version of `targets` and changes to the package will cause the current work to rerun (#1244). For the `tar_make*()` functions, `utils::menu()` prompts the user to give people a chance to downgrade if necessary.
 * For type safety in the internal database class, read all columns as character vectors in `data.table::fread()`, then convert them to the correct types afterwards.
+* Add a new `tar_resources_custom_format()` function which can pass environment variables to customize the behavior of custom `tar_format()` storage formats (#1263, #1232, @Aariq, @noamross).
 
 # targets 1.6.0
 

@@ -81,6 +81,7 @@ Other resources:
 \code{\link{tar_resources}()},
 \code{\link{tar_resources_aws}()},
 \code{\link{tar_resources_clustermq}()},
+\code{\link{tar_resources_custom_format}()},
 \code{\link{tar_resources_feather}()},
 \code{\link{tar_resources_fst}()},
 \code{\link{tar_resources_future}()},
