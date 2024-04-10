@@ -142,6 +142,7 @@ reference:
   - 'tar_resources_aws'
   - 'tar_resources_clustermq'
   - 'tar_resources_crew'
+  - 'tar_resources_custom_format'
   - 'tar_resources_feather'
   - 'tar_resources_fst'
   - 'tar_resources_future'
