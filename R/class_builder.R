@@ -315,6 +315,14 @@ builder_unmarshal_subpipeline <- function(target) {
   if (!is.null(subpipeline) && identical(retrieval, "main")) {
     pipeline_unmarshal_values(target$subpipeline)
   }
+  patterns <- fltr(
+    names(subpipeline$targets),
+    ~inherits(pipeline_get_target(subpipeline, .x), "tar_pattern")
+  )
+  map(
+    setdiff(patterns, target$settings$dimensions),
+    ~target_ensure_value(pipeline_get_target(subpipeline, .x), subpipeline)
+  )
 }
 
 builder_handle_warnings <- function(target, scheduler) {
