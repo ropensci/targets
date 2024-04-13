@@ -413,12 +413,22 @@ target_sync_file_meta.default <- function(target, meta) {
 }
 
 target_marshal_value <- function(target) {
+  UseMethod("target_marshal_value")
+}
+
+#' @export
+target_marshal_value.default <- function(target) {
   if (!is.null(target$value)) {
     store_marshal_value(target$store, target)
   }
 }
 
 target_unmarshal_value <- function(target) {
+  UseMethod("target_unmarshal_value")
+}
+
+#' @export
+target_unmarshal_value.default <- function(target) {
   if (!is.null(target$value)) {
     store_unmarshal_value(target$store, target)
   }
