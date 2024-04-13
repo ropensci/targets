@@ -65,7 +65,6 @@ target_prepare.tar_builder <- function(
   )
   builder_ensure_deps(target, pipeline, "main")
   builder_update_subpipeline(target, pipeline)
-  builder_marshal_subpipeline(target)
 }
 
 # nocov start
@@ -127,7 +126,6 @@ target_run.tar_builder <- function(target, envir, path_store) {
     target$subpipeline <- NULL
   })
   target_gc(target)
-  builder_unmarshal_subpipeline(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
   frames <- frames_produce(envir, target, target$subpipeline)
   builder_set_tar_runtime(target, frames, path_store)
@@ -154,6 +152,7 @@ target_run_worker.tar_builder <- function(
   tar_runtime$fun <- fun
   tar_options$import(options)
   set_envvars(envvars)
+  builder_unmarshal_subpipeline(target)
   target_run(target, envir, path_store)
   builder_marshal_value(target)
   target
