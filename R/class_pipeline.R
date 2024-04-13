@@ -192,8 +192,12 @@ pipeline_unmarshal_values <- function(pipeline) {
     names,
     ~target_unmarshal_value(pipeline_get_target(pipeline, .x))
   )
-  map(
+  patterns <- fltr(
     names,
+    ~inherits(pipeline_get_target(pipeline, .x), "tar_pattern")
+  )
+  map(
+    patterns,
     ~target_ensure_value(pipeline_get_target(pipeline, .x), pipeline)
   )
 }
