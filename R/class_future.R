@@ -97,6 +97,7 @@ future_class <- R6::R6Class(
       self$worker_list <- memory_init()
     },
     run_worker = function(target) {
+      builder_marshal_subpipeline(target)
       if (self$garbage_collection) {
         gc()
       }
@@ -162,7 +163,6 @@ future_class <- R6::R6Class(
     run_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
       target_prepare(target, self$pipeline, self$scheduler, self$meta)
-      builder_marshal_subpipeline(target)
       self$sync_meta_time()
       if_any(
         target_should_run_worker(target),

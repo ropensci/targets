@@ -129,6 +129,7 @@ clustermq_class <- R6::R6Class(
       length(need_workers) > 0L
     },
     run_worker = function(target) {
+      builder_marshal_subpipeline(target)
       if (self$garbage_collection) {
         gc()
       }
@@ -161,7 +162,6 @@ clustermq_class <- R6::R6Class(
     run_target = function(name) {
       target <- pipeline_get_target(self$pipeline, name)
       target_prepare(target, self$pipeline, self$scheduler, self$meta)
-      builder_marshal_subpipeline(target)
       self$sync_meta_time()
       if_any(
         target_should_run_worker(target),
