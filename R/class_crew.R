@@ -160,6 +160,7 @@ crew_class <- R6::R6Class(
         meta = self$meta,
         pending = FALSE
       )
+      builder_marshal_subpipeline(target)
       self$sync_meta_time()
       self$controller$push(
         command = command,

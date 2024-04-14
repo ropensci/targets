@@ -122,3 +122,34 @@ tar_test("custom format envvar resources", {
   expect_equal(tar_read(target_name), data.frame(x = 1L))
   expect_equal(Sys.getenv("SERIALIZATION", unset = ""), "")
 })
+
+tar_test("patterns are marshaled correctly", {
+  skip_cran()
+  skip_on_os("windows")
+  skip_on_os("solaris")
+  skip_if_not_installed("crew", minimum_version = "0.9.0")
+  skip_if_not_installed("torch")
+  on.exit(crew_test_sleep())
+  tar_script({
+    tar_option_set(controller = crew::crew_controller_local())
+    list(
+      tar_target(x, c(1L, 2L)),
+      tar_target(
+        y,
+        torch::torch_tensor(x),
+        pattern = map(x),
+        format = "torch",
+        iteration = "list"
+      ),
+      tar_target(
+        z,
+        y[[1]] + y[[2]],
+        format = "torch"
+      )
+    )
+  })
+  tar_make(callr_function = NULL)
+  tar_load(z)
+  expect_s3_class(z, "torch_tensor")
+  expect_true(identical(as.integer(z), 3L))
+})

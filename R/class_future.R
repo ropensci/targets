@@ -97,6 +97,7 @@ future_class <- R6::R6Class(
       self$worker_list <- memory_init()
     },
     run_worker = function(target) {
+      builder_marshal_subpipeline(target)
       if (self$garbage_collection) {
         gc()
       }

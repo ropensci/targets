@@ -159,6 +159,16 @@ target_bootstrap.tar_pattern <- function(
 }
 
 #' @export
+target_marshal_value.tar_pattern <- function(target) {
+  target$value <- NULL
+}
+
+#' @export
+target_unmarshal_value.tar_pattern <- function(target) {
+  target$value <- NULL
+}
+
+#' @export
 print.tar_pattern <- function(x, ...) {
   cat(
     "<tar_pattern>",

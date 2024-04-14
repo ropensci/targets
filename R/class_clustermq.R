@@ -129,6 +129,7 @@ clustermq_class <- R6::R6Class(
       length(need_workers) > 0L
     },
     run_worker = function(target) {
+      builder_marshal_subpipeline(target)
       if (self$garbage_collection) {
         gc()
       }

@@ -187,8 +187,9 @@ pipeline_marshal_values <- function(pipeline) {
 }
 
 pipeline_unmarshal_values <- function(pipeline) {
+  names <- pipeline_get_names(pipeline)
   map(
-    pipeline_get_names(pipeline),
+    names,
     ~target_unmarshal_value(pipeline_get_target(pipeline, .x))
   )
 }
