@@ -1,5 +1,9 @@
 # targets 1.7.0.9000 (development)
 
+
+
+# targets 1.7.0
+
 ## Invalidating changes
 
 * Use `secretbase::siphash13()` instead of `digest(algo = "xxhash64", serializationVersion = 3)` so hashes of in-memory objects no longer depend on serialization version 3 headers (#1244, @shikokuchuo). Unfortunately, pipelines built with earlier versions of `targets` will need to rerun.
