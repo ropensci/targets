@@ -26,7 +26,7 @@
 #' @importFrom R6 R6Class
 #' @importFrom rlang abort as_function check_installed enquo inform
 #'   is_installed quo_squash warn
-#' @importFrom secretbase sha3 siphash13
+#' @importFrom secretbase shake256 siphash13
 #' @importFrom stats complete.cases runif
 #' @importFrom tibble as_tibble
 #' @importFrom tidyselect all_of any_of contains ends_with everything
