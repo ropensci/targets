@@ -56,10 +56,9 @@ under "How to produce parallel streams and substreams").
 aforementioned section of the paper using the
 \code{secretbase} package by Charlie Gao (2024) \doi{10.5281/zenodo.10553140}.
 To generate the 32-bit integer \code{seed} argument of \code{set.seed()}
-for each target, \code{secretbase} generates a cryptographic SHA3 hash
-and robustly converts it to 32-bit output using the SHAKE256
-extendable output function (XOF). \code{secretbase} uses algorithms from
-the \verb{Mbed TLS} C library.
+for each target, \code{secretbase} generates a cryptographic hash using the
+SHAKE256 extendable output function (XOF). \code{secretbase} uses algorithms
+from the \verb{Mbed TLS} C library.
 }
 
 \references{

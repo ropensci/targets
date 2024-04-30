@@ -32,10 +32,9 @@
 #'   aforementioned section of the paper using the
 #'   `secretbase` package by Charlie Gao (2024) \doi{10.5281/zenodo.10553140}.
 #'   To generate the 32-bit integer `seed` argument of `set.seed()`
-#'   for each target, `secretbase` generates a cryptographic SHA3 hash
-#'   and robustly converts it to 32-bit output using the SHAKE256
-#'   extendable output function (XOF). `secretbase` uses algorithms from
-#'   the `Mbed TLS` C library.
+#'   for each target, `secretbase` generates a cryptographic hash using the
+#'   SHAKE256 extendable output function (XOF). `secretbase` uses algorithms
+#'   from the `Mbed TLS` C library.
 #' @return Integer of length 1, the target seed.
 #' @param name Character of length 1, target name.
 #' @param global_seed Integer of length 1, the overarching global
@@ -59,5 +58,5 @@ tar_seed_create <- function(name, global_seed = NULL) {
     return(NA_integer_)
   }
   x <- list(as.character(name), as.integer(global_seed))
-  secretbase::sha3(x = x, bits = 32L, convert = NA)
+  secretbase::shake256(x = x, bits = 32L, convert = NA)
 }
