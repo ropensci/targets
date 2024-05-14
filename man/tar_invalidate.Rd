@@ -54,18 +54,6 @@ functions from inside a target as part of a running
 pipeline. The only exception is literate programming
 target factories in the \code{tarchetypes} package such as \code{tar_render()}
 and \code{tar_quarto()}.
-
-
-Several functions like \code{tar_make()}, \code{tar_read()}, \code{tar_load()},
-\code{tar_meta()}, and \code{tar_progress()} read or modify
-the local data store of the pipeline.
-The local data store is in flux while a pipeline is running,
-and depending on how distributed computing or cloud computing is set up,
-not all targets can even reach it. So please do not call these
-functions from inside a target as part of a running
-pipeline. The only exception is literate programming
-target factories in the \code{tarchetypes} package such as \code{tar_render()}
-and \code{tar_quarto()}.
 }
 
 \examples{

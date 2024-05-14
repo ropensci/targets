@@ -6,7 +6,6 @@
 #'   [tar_progress()] shows information on targets that are running.
 #'   That is why the number of branches may disagree between [tar_meta()]
 #'   and [tar_progress()] for actively running pipelines.
-#' @inheritSection tar_meta Storage access
 #' @section Storage access:
 #'   Several functions like `tar_make()`, `tar_read()`, `tar_load()`,
 #'   `tar_meta()`, and `tar_progress()` read or modify
