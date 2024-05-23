@@ -14,7 +14,7 @@ Binding: rstudio_addin_tar_make_bg
 Interactive: false
 
 Name: Launch app to watch progress
-Description: Calls tar_watch(). Requires a _targets.R file and packages bs4Dash, pingr, shiny, and visNetwork.
+Description: Calls tar_watch(). Requires a _targets.R file and packages bslib, pingr, shiny, and visNetwork.
 Binding: tar_watch
 Interactive: false
 

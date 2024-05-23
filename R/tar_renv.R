@@ -66,7 +66,7 @@
 #' tar_option_reset()
 tar_renv <- function(
   extras = c(
-    "bs4Dash",
+    "bslib",
     "crew",
     "gt",
     "markdown",

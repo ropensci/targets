@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ropensci/targets",
   "issueTracker": "https://github.com/ropensci/targets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.6.0.9001",
+  "version": "1.7.0.9001",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.3.2 (2023-10-31)",
+  "runtimePlatform": "R version 4.4.0 (2024-04-24)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -62,16 +62,15 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
-      "identifier": "bs4Dash",
-      "name": "bs4Dash",
-      "version": ">= 2.0.0",
+      "identifier": "bslib",
+      "name": "bslib",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=bs4Dash"
+      "sameAs": "https://CRAN.R-project.org/package=bslib"
     },
     {
       "@type": "SoftwareApplication",
@@ -643,7 +642,7 @@
       "@type": "SoftwareApplication",
       "identifier": "secretbase",
       "name": "secretbase",
-      "version": ">= 0.4.0",
+      "version": ">= 0.5.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -721,7 +720,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2608.25KB",
+  "fileSize": "2602.537KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",

@@ -12,7 +12,7 @@ Description: Pipeline tools coordinate the pieces of computationally
   The methodology in this package
   borrows from GNU 'Make' (2015, ISBN:978-9881443519)
   and 'drake' (2018, <doi:10.21105/joss.00550>).
-Version: 1.7.0.9000
+Version: 1.7.0.9001
 License: MIT + file LICENSE
 URL: https://docs.ropensci.org/targets/, https://github.com/ropensci/targets
 BugReports: https://github.com/ropensci/targets/issues
@@ -74,7 +74,7 @@ Imports:
   vctrs (>= 0.2.4),
   yaml (>= 2.2.1)
 Suggests:
-  bs4Dash (>= 2.0.0),
+  bslib,
   clustermq (>= 0.9.2),
   crew (>= 0.9.0),
   curl (>= 4.3),

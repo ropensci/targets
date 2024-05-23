@@ -17,7 +17,8 @@ tar_watch_app_ui(
   degree_to,
   height,
   display,
-  displays
+  displays,
+  theme = bslib::bs_theme()
 )
 }
 \arguments{
@@ -70,6 +71,8 @@ height of the \code{visNetwork} widget and branches table.}
 \item{displays}{Character vector of choices for the display.
 Elements can be any of
 \code{"graph"}, \code{"summary"}, \code{"branches"}, or \code{"about"}.}
+
+\item{theme}{A \code{bslib} theme object from \code{bs_theme()}.}
 }
 \value{
 A Shiny UI.

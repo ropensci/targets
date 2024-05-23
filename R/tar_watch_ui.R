@@ -66,15 +66,10 @@ tar_watch_ui <- function(
   seconds_max <- max(seconds_max, seconds)
   seconds_step <- min(seconds_step, seconds_max)
   ns <- shiny::NS(id)
-  shiny::fluidRow(
-    bs4Dash::bs4Card(
-      inputID = ns("control"),
-      title = "Control",
-      status = "primary",
-      closable = FALSE,
-      collapsible = FALSE,
-      width = 3,
-      solidHeader = TRUE,
+  accordion <- bslib::accordion(
+    id = ns("accordion"),
+    bslib::accordion_panel(
+      title = "Choose display",
       shinyWidgets::radioGroupButtons(
         inputId = ns("display"),
         label = NULL,
@@ -83,25 +78,38 @@ tar_watch_ui <- function(
         choiceValues = displays,
         selected = display,
         direction = "vertical"
-      ),
+      )
+    ),
+    bslib::accordion_panel(
+      title = "Refresh settings",
       shinyWidgets::actionBttn(
         inputId = ns("refresh"),
-        label = "refresh",
+        label = "Refresh once",
         style = "simple",
         color = "primary",
         size = "sm",
         block = FALSE,
         no_outline = TRUE
       ),
-      shiny::br(),
-      shiny::br(),
       shinyWidgets::materialSwitch(
         inputId = ns("watch"),
-        label = "watch",
+        label = "Refresh periodically",
         value = TRUE,
         status = "primary",
         right = TRUE
       ),
+      shiny::sliderInput(
+        inputId = ns("seconds"),
+        label = "Refresh seconds",
+        value = seconds,
+        min = seconds_min,
+        max = seconds_max,
+        step = seconds_step,
+        ticks = FALSE
+      )
+    ),
+    bslib::accordion_panel(
+      title = "Graph settings",
       shinyWidgets::materialSwitch(
         inputId = ns("targets_only"),
         label = "targets only",
@@ -131,15 +139,6 @@ tar_watch_ui <- function(
       ),
       shinyWidgets::chooseSliderSkin("Flat", color = "blue"),
       shiny::sliderInput(
-        inputId = ns("seconds"),
-        label = "seconds",
-        value = seconds,
-        min = seconds_min,
-        max = seconds_max,
-        step = seconds_step,
-        ticks = FALSE
-      ),
-      shiny::sliderInput(
         inputId = ns("level_separation"),
         label = "level_separation",
         value = as.numeric(level_separation),
@@ -162,17 +161,16 @@ tar_watch_ui <- function(
         min = 0,
         step = 1
       )
-    ),
-    bs4Dash::bs4Card(
-      inputID = ns("output"),
-      title = "Output",
-      status = "primary",
-      closable = FALSE,
-      collapsible = FALSE,
-      solidHeader = TRUE,
-      width = 9,
-      shiny::uiOutput(ns("display"))
     )
+  )
+  sidebar <- bslib::sidebar(
+    title = "Settings",
+    id = ns("sidebar"),
+    accordion
+  )
+  bslib::card(
+    id = ns("ui"),
+    bslib::layout_sidebar(sidebar = sidebar, shiny::uiOutput(ns("display")))
   )
 }
 # nocov end

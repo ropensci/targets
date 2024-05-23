@@ -751,7 +751,7 @@ tar_assert_unique_targets <- function(x) {
 # tested in tests/interactive/test-tar_watch.R
 tar_assert_watch_packages <- function() {
   pkgs <- c(
-    "bs4Dash",
+    "bslib",
     "DT",
     "gt",
     "markdown",

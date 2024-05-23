@@ -1,6 +1,6 @@
-# targets 1.7.0.9000 (development)
+# targets 1.7.0.9001 (development)
 
-
+* Use `bslib` in `tar_watch()`.
 
 # targets 1.7.0
 

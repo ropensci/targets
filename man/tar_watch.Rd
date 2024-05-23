@@ -29,7 +29,8 @@ tar_watch(
   supervise = TRUE,
   poll_connection = TRUE,
   stdout = "|",
-  stderr = "|"
+  stderr = "|",
+  theme = bslib::bs_theme()
 )
 }
 \arguments{

@@ -5,7 +5,7 @@
 \title{Set up package dependencies for compatibility with \code{renv}}
 \usage{
 tar_renv(
-  extras = c("bs4Dash", "crew", "gt", "markdown", "pingr", "rstudioapi", "shiny",
+  extras = c("bslib", "crew", "gt", "markdown", "pingr", "rstudioapi", "shiny",
     "shinybusy", "shinyWidgets", "visNetwork"),
   path = "_targets_packages.R",
   callr_function = callr::r,

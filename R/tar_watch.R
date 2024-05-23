@@ -70,7 +70,8 @@ tar_watch <- function(
   supervise = TRUE,
   poll_connection = TRUE,
   stdout = "|",
-  stderr = "|"
+  stderr = "|",
+  theme = bslib::bs_theme()
 ) {
   tar_assert_watch_packages()
   tar_assert_chr(exclude)
@@ -114,7 +115,8 @@ tar_watch <- function(
     display = display,
     displays = displays,
     host = host,
-    port = port
+    port = port,
+    theme = theme
   )
   if (!background) {
     return(do.call(tar_watch_app, args))
@@ -154,7 +156,8 @@ tar_watch_app <- function(
   display,
   displays,
   host,
-  port
+  port,
+  theme
 ) {
   ui <- targets::tar_watch_app_ui(
     seconds = seconds,
@@ -169,7 +172,8 @@ tar_watch_app <- function(
     degree_to = degree_to,
     height = height,
     display = display,
-    displays = displays
+    displays = displays,
+    theme = theme
   )
   server <- function(input, output, session) {
     targets::tar_watch_server(
@@ -193,6 +197,7 @@ tar_watch_app <- function(
 #' @return A Shiny UI.
 #' @inheritParams tar_watch_ui
 #' @param label Label argument to [tar_visnetwork()].
+#' @param theme A `bslib` theme object from `bs_theme()`.
 tar_watch_app_ui <- function(
   seconds,
   seconds_min,
@@ -206,9 +211,10 @@ tar_watch_app_ui <- function(
   degree_to,
   height,
   display,
-  displays
+  displays,
+  theme = bslib::bs_theme()
 ) {
-  body <- bs4Dash::bs4DashBody(
+  bslib::page(
     shinybusy::add_busy_spinner(position = "top-left"),
     tar_watch_ui(
       id = "tar_watch_id",
@@ -226,14 +232,9 @@ tar_watch_app_ui <- function(
       height = height,
       display = display,
       displays = displays
-    )
-  )
-  bs4Dash::bs4DashPage(
+    ),
     title = "",
-    body = body,
-    header = bs4Dash::bs4DashNavbar(controlbarIcon = NULL),
-    sidebar = bs4Dash::bs4DashSidebar(disable = TRUE),
-    dark = FALSE
+    theme = theme
   )
 }
 # nocov end
