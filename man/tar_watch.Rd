@@ -156,6 +156,8 @@ in which case they will be correctly interleaved. If this is the
 string \code{"2>&1"}, then standard error is redirected to standard output.
 IF \code{NULL} (the default), then standard output is not returned, but
 it is recorded and included in the error object if an error happens.}
+
+\item{theme}{A \code{bslib} theme object from \code{bs_theme()}.}
 }
 \value{
 A handle to \code{callr::r_bg()} background process running the app.

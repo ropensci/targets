@@ -12,6 +12,7 @@
 #'   the arguments of [`tar_visnetwork()`].
 #' @return A handle to `callr::r_bg()` background process running the app.
 #' @inheritParams callr::r_bg
+#' @inheritParams tar_watch_app_ui
 #' @inheritParams tar_watch_ui
 #' @inheritParams tar_watch_server
 #' @param exclude Character vector of nodes to omit from the graph.
