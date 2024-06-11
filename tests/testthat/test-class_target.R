@@ -117,7 +117,7 @@ tar_test("target_downstream_nonbranching()", {
 tar_test("target_upstream_edges()", {
   skip_cran()
   x <- target_init(name = "x", expr = quote(a + b))
-  e <- remove_loops(target_upstream_edges(x))
+  e <- remove_loops(as.data.frame(target_upstream_edges(x)))
   expect_true(is.data.frame(e))
   expect_equal(dim(e), c(3L, 2L))
   expect_equal(unique(e$to), "x")

@@ -1,6 +1,7 @@
-# targets 1.7.0.9001 (development)
+# targets 1.7.0.9002 (development)
 
 * Use `bslib` in `tar_watch()`.
+* Speed up `target_upstream_edges()` and `pipeline_upstream_edges()` by avoiding data frames until the last minute (17% speedup for certain kinds of large pipelines).
 
 # targets 1.7.0
 

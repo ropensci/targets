@@ -106,9 +106,15 @@ pipeline_targets_only_edges <- function(edges) {
 
 pipeline_upstream_edges <- function(pipeline, targets_only = TRUE) {
   edge_list <- map(pipeline$targets, ~target_upstream_edges(.x))
-  edges <- do.call(rbind, edge_list)
+  from <- map(edge_list, ~.x$from)
+  to <- map(edge_list, ~.x$to)
+  from <- unlist(from, recursive = FALSE, use.names = FALSE)
+  to <- unlist(to, recursive = FALSE, use.names = FALSE)
+  edges <- data_frame(from = from, to = to)
   edges <- if_any(targets_only, pipeline_targets_only_edges(edges), edges)
-  edges <- edges %|||% data_frame(from = character(0), to = character(0))
+  if (ncol(edges) < 2L) {
+    edges <- data_frame(from = character(0), to = character(0))
+  }
   rownames(edges) <- NULL
   edges
 }

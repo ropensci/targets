@@ -140,7 +140,7 @@ target_upstream_edges <- function(target) {
   name <- target_get_name(target)
   from <- c(name, target$command$deps)
   to <- rep(name, length(from))
-  data_frame(from = from, to = to)
+  list(from = from, to = to)
 }
 
 target_update_queue <- function(target, scheduler) {
