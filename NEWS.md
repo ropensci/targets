@@ -1,7 +1,8 @@
-# targets 1.7.0.9002 (development)
+# targets 1.7.1
 
 * Use `bslib` in `tar_watch()`.
 * Speed up `target_upstream_edges()` and `pipeline_upstream_edges()` by avoiding data frames until the last minute (17% speedup for certain kinds of large pipelines).
+* Automatically set `as_job` to `FALSE` in `tar_make()` if `rstudioapi` and/or RStudio is not available.
 
 # targets 1.7.0
 

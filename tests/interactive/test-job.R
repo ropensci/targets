@@ -1,3 +1,4 @@
+# Test both in RStudio and the terminal.
 tar_test("tar_make(as_job = TRUE)", {
   tar_script({
     list(

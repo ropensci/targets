@@ -29,3 +29,27 @@ rstudio_symbol_at_cursor <- function(context) {
   )
 }
 # nocov end
+
+# Tested in tests/interactive/test-job.R
+# nocov start
+rstudio_available <- function(verbose = TRUE) {
+  available <- TRUE
+  if (!rlang::is_installed("rstudioapi")) {
+    available <- FALSE
+    reason <- "package {rstudioapi} is not installed."
+  }
+  if (!rstudioapi::isAvailable()) {
+    available <- FALSE
+    reason <- "RStudio API / Posit Workbench is not running."
+  }
+  if (!available && verbose) {
+    message <- paste(
+      "as_job is TRUE in tar_make(), but",
+      reason,
+      "Running with as_job = FALSE."
+    )
+    tar_message(message, class = "tar_condition_validate")
+  }
+  available
+}
+# nocov end

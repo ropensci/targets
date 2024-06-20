@@ -164,6 +164,7 @@ You can manually terminate the controller with
 and worker processes.}
 
 \item{as_job}{\code{TRUE} to run as an RStudio IDE / Posit Workbench job,
+if running on RStudio IDE / Posit Workbench.
 \code{FALSE} to run as a \code{callr} process in the main R session
 (depending on the \code{callr_function} argument).
 If \code{as_job} is \code{TRUE}, then the \code{rstudioapi} package must be installed.}
