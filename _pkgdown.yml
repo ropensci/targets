@@ -1,23 +1,18 @@
 destination: docs/
 navbar:
-  title: targets
-  type: default
-  left:
-  - icon: fa-home fa-lg
-    href: index.html
-  - text: Functions
-    href: reference/index.html
-  - text: Overview
-    href: articles/overview.html
-  - text: Manual
-    href: https://books.ropensci.org/targets
-  - text: Design
-    href: https://books.ropensci.org/targets-design
-  - text: News
-    href: news/index.html
-  right:
-  - icon: fa-github fa-lg
-    href: https://github.com/ropensci/targets
+  components:
+    overview:
+      text: Overview
+      href: articles/overview.html
+    manual:
+      text: Manual
+      href: https://books.ropensci.org/targets
+    design:
+      text: Design
+      href: https://books.ropensci.org/targets-design
+  structure:
+    left:  [intro, reference, overview, manual, design, articles, tutorials, news]
+    right: [search, github, lightswitch]
 reference:
 - title: Help
   contents:
