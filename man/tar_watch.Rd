@@ -30,7 +30,9 @@ tar_watch(
   poll_connection = TRUE,
   stdout = "|",
   stderr = "|",
-  theme = bslib::bs_theme()
+  title = "",
+  theme = bslib::bs_theme(),
+  spinner = TRUE
 )
 }
 \arguments{
@@ -157,7 +159,11 @@ string \code{"2>&1"}, then standard error is redirected to standard output.
 IF \code{NULL} (the default), then standard output is not returned, but
 it is recorded and included in the error object if an error happens.}
 
-\item{theme}{A \code{bslib} theme object from \code{bs_theme()}.}
+\item{title}{Character of length 1, title of the UI.}
+
+\item{theme}{A call to \code{\link[bslib:bs_theme]{bslib::bs_theme()}} with the \code{bslib} theme.}
+
+\item{spinner}{\code{TRUE} to add a busy spinner, \code{FALSE} to omit.}
 }
 \value{
 A handle to \code{callr::r_bg()} background process running the app.

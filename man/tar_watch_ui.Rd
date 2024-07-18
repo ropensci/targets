@@ -19,7 +19,10 @@ tar_watch_ui(
   degree_to = 1L,
   height = "650px",
   display = "summary",
-  displays = c("summary", "branches", "progress", "graph", "about")
+  displays = c("summary", "branches", "progress", "graph", "about"),
+  title = "",
+  theme = bslib::bs_theme(),
+  spinner = FALSE
 )
 }
 \arguments{
@@ -78,6 +81,12 @@ height of the \code{visNetwork} widget and branches table.}
 \item{displays}{Character vector of choices for the display.
 Elements can be any of
 \code{"graph"}, \code{"summary"}, \code{"branches"}, or \code{"about"}.}
+
+\item{title}{Character of length 1, title of the UI.}
+
+\item{theme}{A call to \code{\link[bslib:bs_theme]{bslib::bs_theme()}} with the \code{bslib} theme.}
+
+\item{spinner}{\code{TRUE} to add a busy spinner, \code{FALSE} to omit.}
 }
 \value{
 A Shiny module UI.

@@ -18,7 +18,9 @@ tar_watch_app_ui(
   height,
   display,
   displays,
-  theme = bslib::bs_theme()
+  title,
+  theme,
+  spinner
 )
 }
 \arguments{
@@ -72,7 +74,11 @@ height of the \code{visNetwork} widget and branches table.}
 Elements can be any of
 \code{"graph"}, \code{"summary"}, \code{"branches"}, or \code{"about"}.}
 
-\item{theme}{A \code{bslib} theme object from \code{bs_theme()}.}
+\item{title}{Character of length 1, title of the UI.}
+
+\item{theme}{A call to \code{\link[bslib:bs_theme]{bslib::bs_theme()}} with the \code{bslib} theme.}
+
+\item{spinner}{\code{TRUE} to add a busy spinner, \code{FALSE} to omit.}
 }
 \value{
 A Shiny UI.

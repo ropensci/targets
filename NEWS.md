@@ -1,6 +1,6 @@
-# targets 1.7.1.9000 (development)
+# targets 1.7.1.9001 (development)
 
-
+* Wrap `tar_watch()` UI module in `bslib::page()` (#1302, @kwbyron-lilly).
 
 # targets 1.7.1
 

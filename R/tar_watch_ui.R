@@ -25,6 +25,9 @@
 #' @param displays Character vector of choices for the display.
 #'   Elements can be any of
 #'   `"graph"`, `"summary"`, `"branches"`, or `"about"`.
+#' @param title Character of length 1, title of the UI.
+#' @param theme A call to [bslib::bs_theme()] with the `bslib` theme.
+#' @param spinner `TRUE` to add a busy spinner, `FALSE` to omit.
 tar_watch_ui <- function(
   id,
   label = "tar_watch_label",
@@ -40,9 +43,13 @@ tar_watch_ui <- function(
   degree_to = 1L,
   height = "650px",
   display = "summary",
-  displays = c("summary", "branches", "progress", "graph", "about")
+  displays = c("summary", "branches", "progress", "graph", "about"),
+  title = "",
+  theme = bslib::bs_theme(),
+  spinner = FALSE
 ) {
   tar_assert_watch_packages()
+  tar_assert_chr(title)
   tar_assert_dbl(seconds)
   tar_assert_dbl(seconds_min)
   tar_assert_dbl(seconds_max)
@@ -53,10 +60,13 @@ tar_watch_ui <- function(
   tar_assert_scalar(seconds_step)
   tar_assert_scalar(degree_from)
   tar_assert_scalar(degree_to)
+  tar_assert_scalar(title)
+  tar_assert_scalar(spinner)
   tar_assert_dbl(degree_from)
   tar_assert_dbl(degree_to)
   tar_assert_ge(degree_from, 0L)
   tar_assert_ge(degree_to, 0L)
+  tar_assert_lgl(spinner)
   tar_assert_in(
     displays,
     c("summary", "branches", "progress", "graph", "about")
@@ -168,9 +178,17 @@ tar_watch_ui <- function(
     id = ns("sidebar"),
     accordion
   )
-  bslib::card(
-    id = ns("ui"),
-    bslib::layout_sidebar(sidebar = sidebar, shiny::uiOutput(ns("display")))
+  bslib::page(
+    if_any(spinner, shinybusy::add_busy_spinner(position = "top-left"), NULL),
+    bslib::card(
+      id = ns("ui"),
+      bslib::layout_sidebar(
+        sidebar = sidebar,
+        shiny::uiOutput(ns("display"))
+      )
+    ),
+    title = title,
+    theme = theme
   )
 }
 # nocov end
