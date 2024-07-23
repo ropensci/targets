@@ -266,6 +266,7 @@ tar_make_inner <- function(
 tar_make_as_job <- function(call) {
   args <- as.list(call)[-1L]
   args$as_job <- FALSE
+  args$callr_function <- NULL
   args <- paste(names(args), "=", map_chr(args, tar_deparse_safe))
   args <- c(args, "callr_function = NULL")
   args <- paste0(args, collapse = ", ")
