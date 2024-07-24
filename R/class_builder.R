@@ -443,11 +443,11 @@ builder_unload_value <- function(target) {
 }
 
 builder_update_object <- function(target) {
+  on.exit(builder_unload_value(target))
   file_validate_path(target$store$file$path)
   if (!identical(target$settings$storage, "none")) {
     store_write_object(target$store, target$value$object)
   }
-  builder_unload_value(target)
   store_hash_late(target$store)
   store_upload_object(target$store)
 }
