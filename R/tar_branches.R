@@ -54,7 +54,7 @@ tar_branches <- function(
     names <- pipeline_get_names(pipeline)
     tar_assert_in(
       name,
-      names, 
+      names,
       msg = paste(name, "is not a target in", script)
     )
     target <- pipeline_get_target(pipeline, name)
