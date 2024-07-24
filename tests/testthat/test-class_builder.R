@@ -556,7 +556,38 @@ tar_test("convert dep loading errors into runtime errors", {
   expect_true(tar_read(x3))
 })
 
-tar_test("error = \"null\"", {
+tar_test("error = \"null\" without branching", {
+  skip_cran()
+  tar_script({
+    library(targets)
+    f <- function(x) {
+      stopifnot(x < 1.5)
+      x
+    }
+    list(
+      tar_target(x, 2),
+      tar_target(y, f(x), error = "null"),
+      tar_target(z, y)
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress(x)$progress, "completed")
+  expect_equal(tar_progress(y)$progress, "errored")
+  expect_equal(tar_progress(z)$progress, "completed")
+  expect_equal(tar_read(x), 2L)
+  expect_null(unname(tar_read(y)))
+  expect_null(unname(tar_read(z)))
+  expect_equal(
+    sort(tar_objects()),
+    sort(c("x", "y", "z"))
+  )
+  expect_equal(
+    list.files(path_objects_dir(path_store_default())),
+    sort(c("x", "y", "z"))
+  )
+})
+
+tar_test("error = \"null\" with branching", {
   skip_cran()
   tar_script({
     library(targets)
