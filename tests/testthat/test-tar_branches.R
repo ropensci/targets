@@ -85,3 +85,19 @@ tar_test("custom script and store args", {
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))
 })
+
+tar_test("tar_branches() with the default pattern", {
+  skip_cran()
+  tar_script(
+    list(
+      tar_target(x, seq_len(2)),
+      tar_target(y, x, pattern = map(x))
+    )
+  )
+  tar_make(callr_function = NULL)
+  out <- tar_branches(y)
+  expect_equal(dim(out), c(2L, 2L))
+  expect_equal(sort(colnames(out)), c("x", "y"))
+  expect_equal(sort(out$x), sort(tar_meta(x, children)$children[[1]]))
+  expect_equal(sort(out$y), sort(tar_meta(y, children)$children[[1]]))
+})

@@ -1,8 +1,9 @@
-# targets 1.7.1.9003 (development)
+# targets 1.7.1.9004 (development)
 
 * Wrap `tar_watch()` UI module in `bslib::page()` (#1302, @kwbyron-lilly).
 * Remove `callr_function` in `tar_make_as_job()` argument list.
 * Ensure `storage = "worker"` is respected when the process of storing an object generates an error (#1304, @multimeric).
+* Default to the `_targets.R` pattern in `tar_branches()` (#1306, @multimeric, @mattwarkentin).
 
 # targets 1.7.1
 

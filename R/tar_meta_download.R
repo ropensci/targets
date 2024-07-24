@@ -63,7 +63,7 @@ tar_meta_download <- function(
   tar_assert_chr(store)
   tar_assert_none_na(store)
   tar_assert_nzchar(store)
-  options <- tar_option_script(script = script)
+  options <- tar_script_options(script = script)
   old_repository_meta <- tar_options$get_repository_meta()
   old_resources <- tar_options$get_resources()
   on.exit({

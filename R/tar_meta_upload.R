@@ -60,7 +60,7 @@ tar_meta_upload <- function(
   tar_assert_none_na(strict)
   tar_assert_script(script)
   tar_assert_store(store)
-  options <- tar_option_script(script = script)
+  options <- tar_script_options(script = script)
   old_repository_meta <- tar_options$get_repository_meta()
   old_resources <- tar_options$get_resources()
   on.exit({

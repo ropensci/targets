@@ -4,16 +4,30 @@
 \alias{tar_branches}
 \title{Reconstruct the branch names and the names of their dependencies.}
 \usage{
-tar_branches(name, pattern, store = targets::tar_config_get("store"))
+tar_branches(
+  name,
+  pattern = NULL,
+  script = targets::tar_config_get("script"),
+  store = targets::tar_config_get("store")
+)
 }
 \arguments{
 \item{name}{Symbol, name of the target.}
 
-\item{pattern}{Language to define branching for a target.
-For example, in a pipeline with numeric vector targets \code{x} and \code{y},
-\code{tar_target(z, x + y, pattern = map(x, y))} implicitly defines
-branches of \code{z} that each compute \code{x[1] + y[1]}, \code{x[2] + y[2]},
-and so on. See the user manual for details.}
+\item{pattern}{Language to define branching for a target
+(just like in \code{\link[=tar_target]{tar_target()}}) or \code{NULL} to get the pattern
+from the \code{targets} pipeline script specified in the \code{script} argument
+(default: \verb{_targets.R}).}
+
+\item{script}{Character of length 1, path to the
+target script file. Defaults to \code{tar_config_get("script")},
+which in turn defaults to \verb{_targets.R}. When you set
+this argument, the value of \code{tar_config_get("script")}
+is temporarily changed for the current function call.
+See \code{\link[=tar_script]{tar_script()}},
+\code{\link[=tar_config_get]{tar_config_get()}}, and \code{\link[=tar_config_set]{tar_config_set()}} for details
+about the target script file and how to set it
+persistently for a project.}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},
@@ -56,6 +70,7 @@ tar_script({
   )
 }, ask = FALSE)
 tar_make()
+tar_branches(dynamic)
 tar_branches(dynamic, pattern = cross(z, map(x, y)))
 })
 }

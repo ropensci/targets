@@ -146,7 +146,7 @@ tar_delete_cloud_meta <- function(script) {
   if (!file.exists(script)) {
     return()
   }
-  options <- tar_option_script(script = script)
+  options <- tar_script_options(script = script)
   old_repository_meta <- tar_options$get_repository_meta()
   old_resources <- tar_options$get_resources()
   on.exit({

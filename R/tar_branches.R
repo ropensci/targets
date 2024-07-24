@@ -18,6 +18,10 @@
 #' @inheritParams tar_target
 #' @inheritParams tar_validate
 #' @param name Symbol, name of the target.
+#' @param pattern Language to define branching for a target
+#'   (just like in [tar_target()]) or `NULL` to get the pattern
+#'   from the `targets` pipeline script specified in the `script` argument
+#'   (default: `_targets.R`).
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -30,19 +34,34 @@
 #'   )
 #' }, ask = FALSE)
 #' tar_make()
+#' tar_branches(dynamic)
 #' tar_branches(dynamic, pattern = cross(z, map(x, y)))
 #' })
 #' }
 tar_branches <- function(
   name,
-  pattern,
+  pattern = NULL,
+  script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store")
 ) {
   name <- tar_deparse_language(substitute(name))
   tar_assert_chr(name)
   tar_assert_store(store = store)
   tar_assert_meta(store = store)
-  pattern <- as.expression(substitute(pattern))
+  pattern <- substitute(pattern)
+  if (is.null(pattern)) {
+    pipeline <- pipeline_init(tar_script_targets(script))
+    names <- pipeline_get_names(pipeline)
+    tar_assert_in(
+      name,
+      names, 
+      msg = paste(name, "is not a target in", script)
+    )
+    target <- pipeline_get_target(pipeline, name)
+    pattern <- target$settings$pattern
+    tar_assert_nonempty(pattern, msg = paste(name, "is not dynamic"))
+  }
+  pattern <- as.expression(pattern)
   deps <- all.vars(pattern, functions = FALSE, unique = TRUE)
   vars <- c(name, deps)
   meta <- meta_init(path_store = store)
@@ -61,17 +80,6 @@ tar_branches <- function(
   )
   children <- data_frame(x = meta[meta$name == name, "children"][[1]])
   colnames(children) <- name
-  tar_assert_identical(
-    nrow(out),
-    nrow(children),
-    paste0(
-      "number of predicted branches (",
-      nrow(out),
-      ") disagrees with number of past observed branches (",
-      nrow(children),
-      ")"
-    )
-  )
   out <- cbind(children, out)
   tibble::as_tibble(out)
 }
