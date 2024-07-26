@@ -50,7 +50,7 @@ tar_branches <- function(
   tar_assert_meta(store = store)
   pattern <- substitute(pattern)
   if (is.null(pattern)) {
-    pipeline <- pipeline_init(tar_script_targets(script))
+    pipeline <- pipeline_from_list(tar_script_targets(script))
     names <- pipeline_get_names(pipeline)
     tar_assert_in(
       name,
