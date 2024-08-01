@@ -53,7 +53,7 @@
 #' @param feather Output of function [tar_resources_feather()].
 #'   Non-default arguments to `arrow::read_feather()` and
 #'   `arrow::write_feather()` for `arrow`/feather-based storage formats.
-#'   Applies to all formats ending with the `"_feather"` suffix.
+#'   Applies to the `"feather"` storage format.
 #'   For details on formats, see the `format` argument of [tar_target()].
 #' @param fst Output of function `tar_resources_fst()`.
 #'   Non-default arguments to `fst::read_fst()` and
@@ -75,6 +75,12 @@
 #'   See the cloud storage section of
 #'   <https://books.ropensci.org/targets/data.html>
 #'   for details for instructions.
+#' @param nanoparquet Output of function `tar_resources_nanoparquet()`.
+#'   Non-default arguments to `nanoparquet::read_parquet()` and
+#'   `nanoparquet::write_parquet()` for `arrow`/parquet-based storage formats.
+#'   Applies to the `"nanoparquet"` storage format.
+#'   For details on formats, see the `format` argument of [tar_target()].
+#' @param qs Output of function `tar_resources_qs()`.
 #' @param network Output of function `tar_resources_network()`.
 #'   Settings to configure how to handle unreliable network connections
 #'   in the case of uploading, downloading, and checking data
@@ -88,7 +94,7 @@
 #' @param parquet Output of function `tar_resources_parquet()`.
 #'   Non-default arguments to `arrow::read_parquet()` and
 #'   `arrow::write_parquet()` for `arrow`/parquet-based storage formats.
-#'   Applies to all formats ending with the `"_parquet"` suffix.
+#'   Applies to the `"parquet"` storage format.
 #'   For details on formats, see the `format` argument of [tar_target()].
 #' @param qs Output of function `tar_resources_qs()`.
 #'   Non-default arguments to `qs::qread()` and
@@ -120,6 +126,7 @@ tar_resources <- function(
   fst = tar_option_get("resources")$fst,
   future = tar_option_get("resources")$future,
   gcp = tar_option_get("resources")$gcp,
+  nanoparquet = tar_option_get("resources")$nanoparquet,
   network = tar_option_get("resources")$network,
   parquet = tar_option_get("resources")$parquet,
   qs = tar_option_get("resources")$qs,

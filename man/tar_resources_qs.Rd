@@ -65,6 +65,7 @@ Other resources:
 \code{\link{tar_resources_fst}()},
 \code{\link{tar_resources_future}()},
 \code{\link{tar_resources_gcp}()},
+\code{\link{tar_resources_nanoparquet}()},
 \code{\link{tar_resources_network}()},
 \code{\link{tar_resources_parquet}()},
 \code{\link{tar_resources_url}()}

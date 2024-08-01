@@ -28,17 +28,21 @@
 #'   * `"qs"`: Uses `qs::qsave()` and `qs::qread()`. Should work for
 #'     most objects, much faster than `"rds"`. Optionally set the
 #'     preset for `qsave()` through `tar_resources()` and `tar_resources_qs()`.
-#'   * `"feather"`: Uses `arrow::write_feather()` and
-#'     `arrow::read_feather()` (version 2.0). Much faster than `"rds"`,
-#'     but the value must be a data frame. Optionally set
-#'     `compression` and `compression_level` in `arrow::write_feather()`
-#'     through `tar_resources()` and `tar_resources_feather()`.
-#'     Requires the `arrow` package (not installed by default).
+#'   * `"nanoparquet"`: Uses `nanoparquet::write_parquet()` and
+#'     `nanoparquet::read_parquet()`. Much faster than `"rds"`, but
+#'     the value must be a data frame and is converted into a `tibble`.
+#'     Requires the `nanoparquet` package (not installed by default).
 #'   * `"parquet"`: Uses `arrow::write_parquet()` and
 #'     `arrow::read_parquet()` (version 2.0). Much faster than `"rds"`,
 #'     but the value must be a data frame. Optionally set
 #'     `compression` and `compression_level` in `arrow::write_parquet()`
 #'     through `tar_resources()` and `tar_resources_parquet()`.
+#'     Requires the `arrow` package (not installed by default).
+#'   * `"feather"`: Uses `arrow::write_feather()` and
+#'     `arrow::read_feather()` (version 2.0). Much faster than `"rds"`,
+#'     but the value must be a data frame. Optionally set
+#'     `compression` and `compression_level` in `arrow::write_feather()`
+#'     through `tar_resources()` and `tar_resources_feather()`.
 #'     Requires the `arrow` package (not installed by default).
 #'   * `"fst"`: Uses `fst::write_fst()` and `fst::read_fst()`.
 #'     Much faster than `"rds"`, but the value must be

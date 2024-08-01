@@ -13,6 +13,7 @@ tar_resources(
   fst = tar_option_get("resources")$fst,
   future = tar_option_get("resources")$future,
   gcp = tar_option_get("resources")$gcp,
+  nanoparquet = tar_option_get("resources")$nanoparquet,
   network = tar_option_get("resources")$network,
   parquet = tar_option_get("resources")$parquet,
   qs = tar_option_get("resources")$qs,
@@ -51,7 +52,7 @@ with configuration details for \code{\link[=tar_format]{tar_format()}} storage f
 \item{feather}{Output of function \code{\link[=tar_resources_feather]{tar_resources_feather()}}.
 Non-default arguments to \code{arrow::read_feather()} and
 \code{arrow::write_feather()} for \code{arrow}/feather-based storage formats.
-Applies to all formats ending with the \code{"_feather"} suffix.
+Applies to the \code{"feather"} storage format.
 For details on formats, see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
 
 \item{fst}{Output of function \code{tar_resources_fst()}.
@@ -77,6 +78,12 @@ See the cloud storage section of
 \url{https://books.ropensci.org/targets/data.html}
 for details for instructions.}
 
+\item{nanoparquet}{Output of function \code{tar_resources_nanoparquet()}.
+Non-default arguments to \code{nanoparquet::read_parquet()} and
+\code{nanoparquet::write_parquet()} for \code{arrow}/parquet-based storage formats.
+Applies to the \code{"nanoparquet"} storage format.
+For details on formats, see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
+
 \item{network}{Output of function \code{tar_resources_network()}.
 Settings to configure how to handle unreliable network connections
 in the case of uploading, downloading, and checking data
@@ -91,7 +98,7 @@ apply to actions you take in the custom R command of the target.}
 \item{parquet}{Output of function \code{tar_resources_parquet()}.
 Non-default arguments to \code{arrow::read_parquet()} and
 \code{arrow::write_parquet()} for \code{arrow}/parquet-based storage formats.
-Applies to all formats ending with the \code{"_parquet"} suffix.
+Applies to the \code{"parquet"} storage format.
 For details on formats, see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
 
 \item{qs}{Output of function \code{tar_resources_qs()}.
@@ -160,6 +167,7 @@ Other resources:
 \code{\link{tar_resources_fst}()},
 \code{\link{tar_resources_future}()},
 \code{\link{tar_resources_gcp}()},
+\code{\link{tar_resources_nanoparquet}()},
 \code{\link{tar_resources_network}()},
 \code{\link{tar_resources_parquet}()},
 \code{\link{tar_resources_qs}()},

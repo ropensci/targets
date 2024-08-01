@@ -383,17 +383,21 @@ most objects, but slow.
 \item \code{"qs"}: Uses \code{qs::qsave()} and \code{qs::qread()}. Should work for
 most objects, much faster than \code{"rds"}. Optionally set the
 preset for \code{qsave()} through \code{tar_resources()} and \code{tar_resources_qs()}.
-\item \code{"feather"}: Uses \code{arrow::write_feather()} and
-\code{arrow::read_feather()} (version 2.0). Much faster than \code{"rds"},
-but the value must be a data frame. Optionally set
-\code{compression} and \code{compression_level} in \code{arrow::write_feather()}
-through \code{tar_resources()} and \code{tar_resources_feather()}.
-Requires the \code{arrow} package (not installed by default).
+\item \code{"nanoparquet"}: Uses \code{nanoparquet::write_parquet()} and
+\code{nanoparquet::read_parquet()}. Much faster than \code{"rds"}, but
+the value must be a data frame and is converted into a \code{tibble}.
+Requires the \code{nanoparquet} package (not installed by default).
 \item \code{"parquet"}: Uses \code{arrow::write_parquet()} and
 \code{arrow::read_parquet()} (version 2.0). Much faster than \code{"rds"},
 but the value must be a data frame. Optionally set
 \code{compression} and \code{compression_level} in \code{arrow::write_parquet()}
 through \code{tar_resources()} and \code{tar_resources_parquet()}.
+Requires the \code{arrow} package (not installed by default).
+\item \code{"feather"}: Uses \code{arrow::write_feather()} and
+\code{arrow::read_feather()} (version 2.0). Much faster than \code{"rds"},
+but the value must be a data frame. Optionally set
+\code{compression} and \code{compression_level} in \code{arrow::write_feather()}
+through \code{tar_resources()} and \code{tar_resources_feather()}.
 Requires the \code{arrow} package (not installed by default).
 \item \code{"fst"}: Uses \code{fst::write_fst()} and \code{fst::read_fst()}.
 Much faster than \code{"rds"}, but the value must be
