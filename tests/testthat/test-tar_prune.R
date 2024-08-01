@@ -37,19 +37,26 @@ tar_test("tar_prune() works with patterns", {
   expect_true(all(grepl("^y_|^x", names)))
 })
 
-tar_test("tar_prune() does not remove global objects from metadata", {
+tar_test("tar_prune() removes old global objects from metadata", {
   skip_cran()
   envir <- new.env(parent = baseenv())
   envir$a <- 1L
   envir$f <- identity
+  envir$g <- identity
   tar_option_set(envir = envir)
-  x <- target_init("x", quote(f(a)))
+  x <- target_init("x", quote(f(g(a))))
   pipeline <- pipeline_init(list(x))
   local_init(pipeline = pipeline)$run()
-  tar_script(list(tar_target(x, quote(1))))
+  names <- meta_init()$database$read_data()$name
+  expect_equal(sort(names), sort(c("a", "f", "g", "x")))
+  tar_script({
+    a <- 1L
+    g <- identity
+    list(tar_target(x, quote(g(a))))
+  })
   tar_prune(callr_arguments = list(show = FALSE))
   names <- meta_init()$database$read_data()$name
-  expect_equal(sort(names), sort(c("a", "f", "x")))
+  expect_equal(sort(names), sort(c("a", "g", "x")))
 })
 
 tar_test("tar_delete() does not delete dynamic files", {

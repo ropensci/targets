@@ -88,7 +88,7 @@ tar_prune_inner <- function(pipeline, cloud, path_store, batch_size, verbose) {
   names <- pipeline_get_names(pipeline)
   meta <- meta_init(path_store = path_store)
   data <- as.data.frame(meta$database$read_condensed_data())
-  imports <- data$name[data$type %in% c("function", "object")]
+  imports <- names(pipeline$imports)
   children <- unlist(data$children[data$name %in% names])
   children <- unique(children[!is.na(children)])
   keep <- c(names, children, imports)
