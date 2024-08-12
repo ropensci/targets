@@ -1,8 +1,8 @@
 #' @title Load a saved workspace and seed for debugging.
 #' @export
 #' @family debug
-#' @description Load the packages, workspace, and random number generator seed
-#'   of target attempted with a workspace file.
+#' @description Load the packages, environment, and random number generator
+#'   seed of a target.
 #' @details If you activate workspaces through the `workspaces` argument
 #'   of [tar_option_set()], then under the circumstances you specify,
 #'   `targets` will save a special workspace file to a location in

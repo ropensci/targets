@@ -6,6 +6,7 @@
 * Default to the `_targets.R` pattern in `tar_branches()` (#1306, @multimeric, @mattwarkentin).
 * Remove superfluous functions and globals from metadata with `tar_prune()` (#1312, @benzipperer).
 * Change the default `workspace_on_error` option to `TRUE`.
+* Enhance and organize the `error = "stop"` error message.
 
 # targets 1.7.1
 

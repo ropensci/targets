@@ -55,8 +55,8 @@ dependency targets. The random number generator seed for the
 target is also assigned with \code{\link[=tar_seed_set]{tar_seed_set()}}.
 }
 \description{
-Load the packages, workspace, and random number generator seed
-of target attempted with a workspace file.
+Load the packages, environment, and random number generator
+seed of a target.
 }
 \details{
 If you activate workspaces through the \code{workspaces} argument
