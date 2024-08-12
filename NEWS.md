@@ -7,6 +7,7 @@
 * Remove superfluous functions and globals from metadata with `tar_prune()` (#1312, @benzipperer).
 * Change the default `workspace_on_error` option to `TRUE`.
 * Enhance and organize the `error = "stop"` error message.
+* Avoid saving a file in `_targets/objects` for `error = "null"`. Instead, switch to a special `"null"` storage format class if `error` is `"null"` the target throws an error. This should allow users to more freely create new formats with `tar_format()` without worrying about how to handle `NULL` objects created by `error = "null"`.
 
 # targets 1.7.1
 

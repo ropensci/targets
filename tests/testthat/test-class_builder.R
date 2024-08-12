@@ -579,12 +579,13 @@ tar_test("error = \"null\" without branching", {
   expect_null(unname(tar_read(z)))
   expect_equal(
     sort(tar_objects()),
-    sort(c("x", "y", "z"))
+    sort(c("x", "z"))
   )
   expect_equal(
     list.files(path_objects_dir(path_store_default())),
-    sort(c("x", "y", "z"))
+    sort(c("x", "z"))
   )
+  expect_null(tar_read(y))
 })
 
 tar_test("error = \"null\" with branching", {

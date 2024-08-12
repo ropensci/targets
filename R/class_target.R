@@ -453,6 +453,11 @@ target_allow_meta <- function(target) {
   (format == "file" || format == "file_fast") && (repository == "local")
 }
 
+target_reformat <- function(target, format) {
+  target$settings$format <- format
+  target$store <- settings_produce_store(target$settings)
+}
+
 target_validate <- function(target) {
   UseMethod("target_validate")
 }

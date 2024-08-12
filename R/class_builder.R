@@ -406,7 +406,16 @@ builder_update_build <- function(target, envir) {
   if (!identical(target$settings$storage, "none")) {
     target$value <- value_init(object, target$settings$iteration)
   }
+  builder_update_format(target)
   invisible()
+}
+
+builder_update_format <- function(target) {
+  outcome <- metrics_outcome(target$metrics)
+  error <- target$settings$error
+  if (identical(outcome, "error") && identical(error, "null")) {
+    target_reformat(target, "null")
+  }
 }
 
 builder_resolve_object <- function(target, build) {
