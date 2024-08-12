@@ -25,6 +25,11 @@
 #' @section Storage formats:
 #'   * `"rds"`: Default, uses `saveRDS()` and `readRDS()`. Should work for
 #'     most objects, but slow.
+#'   * `"auto"`: either `"file"` or `"qs"`, depending on the return value
+#'     of the target. If the return value is a character vector of
+#'     existing files (and/or directories), then the format becomes
+#'     `"file"` before [tar_make()] saves the target. Otherwise,
+#'     the format becomes `"qs"`.
 #'   * `"qs"`: Uses `qs::qsave()` and `qs::qread()`. Should work for
 #'     most objects, much faster than `"rds"`. Optionally set the
 #'     preset for `qsave()` through `tar_resources()` and `tar_resources_qs()`.
@@ -93,7 +98,8 @@
 #'     (see the `trust_object_timestamps` argument of [tar_option_set()]),
 #'     then consider `format = "file_fast"` instead.
 #'   * `"file_fast"`: same as `format = "file"`, except that `targets`
-#'     uses time stamps to check if a file is up to date. If the time stamp
+#'     uses time stamps in addition to hashes
+#'     to check if a file is up to date. If the time stamp
 #'     of the file agrees with the time stamp in the metadata, the
 #'     file is considered up to date. Otherwise, `targets` recomputes the
 #'     hash of the file to make a final determination. Low-precision

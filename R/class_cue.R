@@ -93,7 +93,9 @@ cue_format <- function(cue, target, meta, record) {
   }
   old <- record$format
   new <- target$settings$format
-  !identical(old, new)
+  up_to_date <- identical(old, new) ||
+    (identical(new, "auto") && (old %in% c("file", "qs")))
+  !up_to_date
 }
 
 cue_repository <- function(cue, target, meta, record) {

@@ -13,7 +13,7 @@ tar_test("null format works", {
       tar_target(y, x)
     )
   )
-  tar_make(callr_function = NULL)
+  suppressWarnings(tar_make(callr_function = NULL))
   expect_null(tar_read(x))
   expect_null(tar_read(y))
   expect_false(tar_exist_objects("x"))

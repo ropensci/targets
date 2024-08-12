@@ -454,8 +454,10 @@ target_allow_meta <- function(target) {
 }
 
 target_reformat <- function(target, format) {
+  file <- target$store$file
   target$settings$format <- format
   target$store <- settings_produce_store(target$settings)
+  target$store$file <- file
 }
 
 target_validate <- function(target) {

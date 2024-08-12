@@ -411,11 +411,8 @@ builder_update_build <- function(target, envir) {
 }
 
 builder_update_format <- function(target) {
-  outcome <- metrics_outcome(target$metrics)
-  error <- target$settings$error
-  if (identical(outcome, "error") && identical(error, "null")) {
-    target_reformat(target, "null")
-  }
+  store_reformat_auto(target)
+  store_reformat_null(target)
 }
 
 builder_resolve_object <- function(target, build) {

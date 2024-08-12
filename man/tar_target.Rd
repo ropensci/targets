@@ -259,6 +259,11 @@ details the structure and composition of target objects.
 \itemize{
 \item \code{"rds"}: Default, uses \code{saveRDS()} and \code{readRDS()}. Should work for
 most objects, but slow.
+\item \code{"auto"}: either \code{"file"} or \code{"qs"}, depending on the return value
+of the target. If the return value is a character vector of
+existing files (and/or directories), then the format becomes
+\code{"file"} before \code{\link[=tar_make]{tar_make()}} saves the target. Otherwise,
+the format becomes \code{"qs"}.
 \item \code{"qs"}: Uses \code{qs::qsave()} and \code{qs::qread()}. Should work for
 most objects, much faster than \code{"rds"}. Optionally set the
 preset for \code{qsave()} through \code{tar_resources()} and \code{tar_resources_qs()}.
@@ -327,7 +332,8 @@ and if you trust the time stamps on your file system
 (see the \code{trust_object_timestamps} argument of \code{\link[=tar_option_set]{tar_option_set()}}),
 then consider \code{format = "file_fast"} instead.
 \item \code{"file_fast"}: same as \code{format = "file"}, except that \code{targets}
-uses time stamps to check if a file is up to date. If the time stamp
+uses time stamps in addition to hashes
+to check if a file is up to date. If the time stamp
 of the file agrees with the time stamp in the metadata, the
 file is considered up to date. Otherwise, \code{targets} recomputes the
 hash of the file to make a final determination. Low-precision
