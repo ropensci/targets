@@ -114,7 +114,7 @@ tar_test("import", {
     description = "my description",
     debug = "x",
     workspaces = "x",
-    workspace_on_error = TRUE,
+    workspace_on_error = FALSE,
     seed = 57L,
     trust_object_timestamps = FALSE
   )
@@ -145,7 +145,7 @@ tar_test("import", {
   expect_equal(x$get_description(), "my description")
   expect_equal(x$get_debug(), "x")
   expect_equal(x$get_workspaces(), "x")
-  expect_equal(x$get_workspace_on_error(), TRUE)
+  expect_equal(x$get_workspace_on_error(), FALSE)
   expect_equal(x$get_seed(), 57L)
   expect_equal(x$get_trust_object_timestamps(), FALSE)
 })
@@ -415,11 +415,11 @@ tar_test("workspaces", {
 
 tar_test("workspace_on_error", {
   x <- options_init()
-  expect_equal(x$get_workspace_on_error(), FALSE)
-  x$set_workspace_on_error(workspace_on_error = TRUE)
   expect_equal(x$get_workspace_on_error(), TRUE)
-  x$reset()
+  x$set_workspace_on_error(workspace_on_error = FALSE)
   expect_equal(x$get_workspace_on_error(), FALSE)
+  x$reset()
+  expect_equal(x$get_workspace_on_error(), TRUE)
   expect_error(x$set_workspace_on_error(123), class = "tar_condition_validate")
 })
 

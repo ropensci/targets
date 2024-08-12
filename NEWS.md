@@ -5,6 +5,7 @@
 * Ensure `storage = "worker"` is respected when the process of storing an object generates an error (#1304, @multimeric).
 * Default to the `_targets.R` pattern in `tar_branches()` (#1306, @multimeric, @mattwarkentin).
 * Remove superfluous functions and globals from metadata with `tar_prune()` (#1312, @benzipperer).
+* Change the default `workspace_on_error` option to `TRUE`.
 
 # targets 1.7.1
 

@@ -323,11 +323,11 @@ tar_test("workspaces", {
 })
 
 tar_test("workspace_on_error", {
-  expect_equal(tar_option_get("workspace_on_error"), FALSE)
-  tar_option_set(workspace_on_error = TRUE)
   expect_equal(tar_option_get("workspace_on_error"), TRUE)
-  tar_option_reset()
+  tar_option_set(workspace_on_error = FALSE)
   expect_equal(tar_option_get("workspace_on_error"), FALSE)
+  tar_option_reset()
+  expect_equal(tar_option_get("workspace_on_error"), TRUE)
   expect_error(
     tar_option_set(workspace_on_error = 123),
     class = "tar_condition_validate"

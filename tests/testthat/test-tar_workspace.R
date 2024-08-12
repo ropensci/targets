@@ -1,5 +1,8 @@
-tar_test("workspaces are not saved if error = 'stop'", {
+tar_test("workspaces are not saved if workspace_on_error is FALSE", {
   skip_cran()
+  default <- tar_option_get("workspace_on_error")
+  tar_option_set(workspace_on_error = FALSE)
+  on.exit(tar_option_set(workspace_on_error = default))
   pipeline <- pipeline_init(
     list(
       target_init("y", quote(1)),
@@ -11,7 +14,7 @@ tar_test("workspaces are not saved if error = 'stop'", {
   expect_false(file.exists(path_workspace(path_store_default(), "x")))
 })
 
-tar_test("workspaces are not saved by default", {
+tar_test("workspaces are saved by default", {
   skip_cran()
   pipeline <- pipeline_init(
     list(
@@ -22,12 +25,14 @@ tar_test("workspaces are not saved by default", {
   local <- local_init(pipeline, reporter = "verbose")
   suppressMessages(local$run())
   expect_true(grepl("12345", tar_meta(x)$error[[1]]))
-  expect_false(file.exists(path_workspace(path_store_default(), "x")))
+  expect_true(file.exists(path_workspace(path_store_default(), "x")))
 })
 
 tar_test("workspaces are saved if requested on error", {
   skip_cran()
+  default <- tar_option_get("workspace_on_error")
   tar_option_set(workspace_on_error = TRUE)
+  on.exit(tar_option_set(workspace_on_error = default))
   pipeline <- pipeline_init(
     list(
       target_init("y", quote(1)),

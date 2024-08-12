@@ -348,7 +348,7 @@ options_class <- R6::R6Class(
       self$workspaces %|||% character(0L)
     },
     get_workspace_on_error = function() {
-      self$workspace_on_error %|||% FALSE
+      self$workspace_on_error %|||% TRUE
     },
     get_seed = function() {
       self$seed %|||% 0L
