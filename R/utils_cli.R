@@ -221,6 +221,10 @@ cli_df_text <- function(x) {
   c(line1, line2)
 }
 
+cli_url <- function(url) {
+  cli::style_hyperlink(text = url, url = url)
+}
+
 cli_symbol_bullet_blue <- cli::col_blue(cli::symbol$bullet)
 cli_symbol_play_blue <- cli::col_blue(cli::symbol$play)
 cli_symbol_record_green <- cli::col_green(cli::symbol$record)

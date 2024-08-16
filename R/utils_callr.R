@@ -69,21 +69,14 @@ callr_error <- function(traced_condition, fun) {
   tailored <- character(0L)
   if (any(!is.na(meta$time))) {
     name <- meta$name[meta$time == max(meta$time, na.rm = TRUE)]
+    meta <- sprintf("tar_meta(%s)$error", name)
+    workspace <- sprintf("tar_workspace(%s)", name)
     tailored <- c(
       utils::capture.output(
         cli::cli_h1(paste("Debug target", name)),
         type = "message"
       ),
-      paste(
-        "   ",
-        sprintf(
-          c(
-            "tar_meta(any_of(\"%s\"))$error",
-            "tar_workspace(%s)"
-          ),
-          name
-        )
-      )
+      paste("   ", c(meta, workspace))
     )
   }
   how_to <- c(
@@ -94,9 +87,12 @@ callr_error <- function(traced_condition, fun) {
         c(
           paste(
             "Debug:",
-            "https://books.ropensci.org/targets/debugging.html"
+            cli_url("https://books.ropensci.org/targets/debugging.html")
           ),
-          "Ask for help: https://books.ropensci.org/targets/help.html"
+          paste(
+            "Help:",
+            cli_url("https://books.ropensci.org/targets/help.html")
+          )
         ),
         print = FALSE
       )
