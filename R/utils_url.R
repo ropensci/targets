@@ -177,7 +177,7 @@ url_port <- function(host, port, process, verbose = TRUE) {
   spin <- cli::make_spinner()
   if_any(verbose, spin$spin(), NULL)
   .is_up <- function(host, port) {
-    con <- try(socketConnection(host, port = port, open = "r+"), silent = TRUE)
+    con <- try(suppressWarnings(socketConnection(host, port, open = "r")), silent = TRUE)
     if (inherits(con, "try-error")) {
       return(FALSE)
     } else {
