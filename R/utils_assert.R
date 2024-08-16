@@ -755,7 +755,6 @@ tar_assert_watch_packages <- function() {
     "DT",
     "gt",
     "markdown",
-    "pingr",
     "shiny",
     "shinybusy",
     "shinyWidgets",

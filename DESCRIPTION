@@ -94,7 +94,6 @@ Suggests:
   parallelly (>= 1.35.0),
   paws.common (>= 0.6.4),
   paws.storage (>= 0.4.0),
-  pingr (>= 2.0.1),
   pkgload (>= 1.1.0),
   processx (>= 3.4.3),
   qs (>= 0.24.1),

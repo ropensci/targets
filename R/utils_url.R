@@ -176,7 +176,16 @@ url_process_error <- function(url, req, headers) {
 url_port <- function(host, port, process, verbose = TRUE) {
   spin <- cli::make_spinner()
   if_any(verbose, spin$spin(), NULL)
-  while (!pingr::is_up(destination = host, port = port)) {
+  .is_up <- function(host, port) {
+    con <- try(socketConnection(host, port = port, open = "r+"), silent = TRUE)
+    if (inherits(con, "try-error")) {
+      return(FALSE)
+    } else {
+      close(con)
+      return(TRUE)
+    }
+  }
+  while (!.is_up(host = host, port = port)) {
     if_any(
       process$is_alive(),
       Sys.sleep(0.01),

@@ -321,19 +321,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "pingr",
-      "name": "pingr",
-      "version": ">= 2.0.1",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=pingr"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "pkgload",
       "name": "pkgload",
       "version": ">= 1.1.0",
