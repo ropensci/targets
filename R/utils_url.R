@@ -173,10 +173,11 @@ url_process_error <- function(url, req, headers) {
 
 # Tested in tests/interactive/test-tar_watch.R. # nolint
 # nocov start
-url_port <- function(host, port, process, verbose = TRUE) {
+# Only use for trusted URLs on a local network.
+url_local_port <- function(host, port, process, verbose = TRUE) {
   spin <- cli::make_spinner()
   if_any(verbose, spin$spin(), NULL)
-  while (!pingr::is_up(destination = host, port = port)) {
+  while (!url_local_up(host = host, port = port)) {
     if_any(
       process$is_alive(),
       Sys.sleep(0.01),
@@ -187,6 +188,16 @@ url_port <- function(host, port, process, verbose = TRUE) {
   if_any(verbose, spin$finish(), NULL)
   url <- paste0("http://", host, ":", port)
   utils::browseURL(url)
+}
+
+# Only use for trusted URLs on a local network.
+url_local_up <- function(host, port) {
+  con <- try(
+    suppressWarnings(socketConnection(host = host, port = port, open = "r")),
+    silent = TRUE
+  )
+  on.exit(try(close(con), silent = TRUE))
+  inherits(con, "connection") && isOpen(con)
 }
 # nocov end
 

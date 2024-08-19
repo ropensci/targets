@@ -135,7 +135,12 @@ tar_watch <- function(
     poll_connection = poll_connection
   )
   if (browse) {
-    url_port(host = host, port = port,  process = process, verbose = verbose)
+    url_local_port(
+      host = host,
+      port = port,
+      process = process,
+      verbose = verbose
+    )
   }
   if (verbose) {
     cli_port(host = as.character(host), port = as.character(port))

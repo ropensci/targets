@@ -70,7 +70,6 @@ tar_renv <- function(
     "crew",
     "gt",
     "markdown",
-    "pingr",
     "rstudioapi",
     "shiny",
     "shinybusy",
