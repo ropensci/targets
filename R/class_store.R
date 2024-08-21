@@ -4,7 +4,8 @@ store_init <- function(
   resources = list()
 ) {
   format_dispatch <- store_format_dispatch(format)
-  repository_dispatch <- enclass(repository, repository)
+  class_repository <- gsub("&.*$", "", repository)
+  repository_dispatch <- enclass(repository, class_repository)
   store <- store_new(
     format = format_dispatch,
     file = file_init(),
@@ -28,8 +29,9 @@ store_mock <- function(
     list(),
     store_class_format(store_format_dispatch(format))
   )
+  class_repository <- gsub("&.*$", "", repository)
   class(mock) <- store_class_repository(
-    repository = enclass(repository, repository),
+    repository = enclass(repository, class_repository),
     store = mock,
     format = format
   )
