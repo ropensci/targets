@@ -84,11 +84,6 @@ argument of \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_s
 Define a custom target storage format for the
 \code{format} argument of \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_set]{tar_option_set()}}.
 }
-\details{
-It is good practice to write formats that correctly handle
-\code{NULL} objects if you are planning to set \code{error = "null"}
-in \code{\link[=tar_option_set]{tar_option_set()}}.
-}
 \section{Marshalling}{
 
 If an object can only be used in the R session
@@ -110,7 +105,7 @@ let you control how marshalling and unmarshalling happens.
 
 \section{Format functions}{
 
-In \code{tar_format()}, functions like \code{read}, \code{write},
+In \code{\link[=tar_format]{tar_format()}}, functions like \code{read}, \code{write},
 \code{marshal}, and \code{unmarshal} must be perfectly pure
 and perfectly self-sufficient.
 They must load or namespace all their own packages,
@@ -193,6 +188,7 @@ tar_target(
 \seealso{
 Other targets: 
 \code{\link{tar_cue}()},
+\code{\link{tar_repository_cas}()},
 \code{\link{tar_target}()},
 \code{\link{tar_target_raw}()}
 }

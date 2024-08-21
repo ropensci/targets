@@ -128,6 +128,7 @@ x <- tar_target(x, download_data(), cue = tar_cue(mode = "always"))
 \seealso{
 Other targets: 
 \code{\link{tar_format}()},
+\code{\link{tar_repository_cas}()},
 \code{\link{tar_target}()},
 \code{\link{tar_target_raw}()}
 }

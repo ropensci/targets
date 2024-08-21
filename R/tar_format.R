@@ -3,9 +3,6 @@
 #' @family targets
 #' @description Define a custom target storage format for the
 #'   `format` argument of [tar_target()] or [tar_option_set()].
-#' @details It is good practice to write formats that correctly handle
-#'   `NULL` objects if you are planning to set `error = "null"`
-#'   in [tar_option_set()].
 #' @return A character string of length 1 encoding the custom format.
 #'   You can supply this string directly to the `format`
 #'   argument of [tar_target()] or [tar_option_set()].
@@ -26,7 +23,7 @@
 #'   Arguments `marshal` and `unmarshal` of `tar_format()`
 #'   let you control how marshalling and unmarshalling happens.
 #' @section Format functions:
-#'   In `tar_format()`, functions like `read`, `write`,
+#'   In [tar_format()], functions like `read`, `write`,
 #'   `marshal`, and `unmarshal` must be perfectly pure
 #'   and perfectly self-sufficient.
 #'   They must load or namespace all their own packages,

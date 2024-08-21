@@ -295,6 +295,7 @@ tar_read(x)
 Other targets: 
 \code{\link{tar_cue}()},
 \code{\link{tar_format}()},
+\code{\link{tar_repository_cas}()},
 \code{\link{tar_target}()}
 }
 \concept{targets}
