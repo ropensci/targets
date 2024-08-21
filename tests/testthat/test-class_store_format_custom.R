@@ -215,36 +215,36 @@ tar_test("class_store_custom equilvalent of fst_dt format", {
   expect_equal(tar_read(target_c), "a")
 })
 
-tar_test("store_custom_default_read()", {
-  fun <- eval(parse(text = store_custom_default_read()))
+tar_test("store_format_custom_default_read()", {
+  fun <- eval(parse(text = store_format_custom_default_read()))
   tmp <- tempfile()
   saveRDS("x", tmp)
   expect_equal(fun(tmp), "x")
 })
 
-tar_test("store_custom_default_write()", {
-  fun <- eval(parse(text = store_custom_default_write()))
+tar_test("store_format_custom_default_write()", {
+  fun <- eval(parse(text = store_format_custom_default_write()))
   tmp <- tempfile()
   fun(object = "x", path = tmp)
   expect_equal(readRDS(tmp), "x")
 })
 
-tar_test("store_custom_default_marshal()", {
-  fun <- eval(parse(text = store_custom_default_marshal()))
+tar_test("store_format_custom_default_marshal()", {
+  fun <- eval(parse(text = store_format_custom_default_marshal()))
   expect_equal(fun("x"), "x")
 })
 
-tar_test("store_custom_default_unmarshal()", {
-  fun <- eval(parse(text = store_custom_default_unmarshal()))
+tar_test("store_format_custom_default_unmarshal()", {
+  fun <- eval(parse(text = store_format_custom_default_unmarshal()))
   expect_equal(fun("x"), "x")
 })
 
-tar_test("store_custom_default_convert()", {
-  fun <- eval(parse(text = store_custom_default_convert()))
+tar_test("store_format_custom_default_convert()", {
+  fun <- eval(parse(text = store_format_custom_default_convert()))
   expect_equal(fun("x"), "x")
 })
 
-tar_test("store_custom_default_copy()", {
-  fun <- eval(parse(text = store_custom_default_copy()))
+tar_test("store_format_custom_default_copy()", {
+  fun <- eval(parse(text = store_format_custom_default_copy()))
   expect_equal(fun("x"), "x")
 })

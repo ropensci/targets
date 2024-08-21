@@ -1,4 +1,4 @@
-tar_test("tar_repository_cas() generates a format string", {
+tar_test("tar_repository_cas() generates an encoded string", {
   out <- tar_repository_cas(
     upload = function(path, key) {
       file.move(path, file.path("cas", key))
