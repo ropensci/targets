@@ -49,7 +49,7 @@ tar_test("torch in-memory serialization of deps", {
   )
   tar_load(tensor)
   expect_true(inherits(tensor, "torch_tensor"))
-  expect_equal(length(tensor), 10)
+  expect_length(tensor, 10)
   tar_load(array)
   expect_equal(array, rep(0, 10))
 })

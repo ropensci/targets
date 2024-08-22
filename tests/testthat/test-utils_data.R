@@ -25,12 +25,12 @@ tar_test("keyvalue_field()", {
 
 tar_test("omit_null()", {
   x <- list(e = 1L, a = NULL, c = 2L, d = NULL, b = 3L)
-  expect_equal(length(x), 5)
-  expect_equal(names(x), c("e", "a", "c", "d", "b"))
+  expect_length(x, 5)
+  expect_named(x, c("e", "a", "c", "d", "b"))
   y <- omit_null(x)
   expect_equal(y, list(e = 1L, c = 2L, b = 3L))
-  expect_equal(length(y), 3)
-  expect_equal(names(y), c("e", "c", "b"))
+  expect_length(y, 3)
+  expect_named(y, c("e", "c", "b"))
 })
 
 tar_test("supported_args()", {

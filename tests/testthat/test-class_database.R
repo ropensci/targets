@@ -44,10 +44,7 @@ tar_test("database$get_data() with list columns", {
   out <- algorithm$meta$database$get_data()
   expect_true(is.list(out$path))
   expect_true(is.list(out$children))
-  expect_equal(
-    length(out$children[[which(out$name == "map1")]][[1L]]),
-    3L
-  )
+  expect_length(out$children[[which(out$name == "map1")]][[1L]], 3L)
   expect_false(anyNA(out$name))
   expect_true(all(nzchar(out$name)))
   expect_equal(as.integer(anyDuplicated(out$name)), 0L)

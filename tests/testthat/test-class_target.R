@@ -319,7 +319,7 @@ tar_test("invalidation: map over a stem with no branches previously", {
   last_children <- unlist(meta$children[meta$name == "z"])
   expect_equal(intersect(first_children, last_children), character(0))
   out <- counter_get_names(local$scheduler$progress$completed)
-  expect_equal(length(out), 2L)
+  expect_length(out, 2L)
   expect_true(all(grepl("^z_", out)))
 })
 

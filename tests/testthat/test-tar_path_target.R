@@ -1,7 +1,7 @@
 tar_test("tar_path_target() outside a pipeline with no arguments", {
   expect_true(is.character(tar_path_target()))
   expect_true(is.na(tar_path_target()))
-  expect_equal(length(tar_path_target()), 1L)
+  expect_length(tar_path_target(), 1L)
   expect_equal(tar_path_target(default = "x"), "x")
 })
 

@@ -7,7 +7,7 @@ tar_test("command$hash", {
   command <- command_init(quote(a <- b + c))
   out <- command$hash
   expect_true(is.character(out))
-  expect_equal(length(out), 1L)
+  expect_length(out, 1L)
   expect_equal(nchar(out), 16L)
 })
 

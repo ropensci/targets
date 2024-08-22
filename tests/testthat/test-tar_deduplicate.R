@@ -13,9 +13,9 @@ tar_test("tar_deduplicate() works", {
   writeLines(lines_progress, path_progress(path_store_default()))
   expect_warning(tar_deduplicate(), class = "tar_condition_deprecate")
   lines_meta <- readLines(path_meta(path_store_default()))
-  expect_equal(length(lines_meta), 2L)
+  expect_length(lines_meta, 2L)
   lines_progress <- readLines(path_progress(path_store_default()))
-  expect_equal(length(lines_progress), 2L)
+  expect_length(lines_progress, 2L)
 })
 
 tar_test("custom script and store args", {

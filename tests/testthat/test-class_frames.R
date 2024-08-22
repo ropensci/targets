@@ -77,7 +77,7 @@ tar_test("frames_clear_objects()", {
     out$targets$names,
     character(0)
   )
-  expect_equal(names(out$targets$envir), character(0))
+  expect_named(out$targets$envir, character(0))
   expect_identical(
     parent.env(out$targets$envir),
     out$imports$envir
@@ -94,7 +94,7 @@ tar_test("target_frames_deps()", {
   saveRDS("value", tmp)
   file <- x$store$file$path <- tmp
   file <- y$store$file$path <- tmp
-  expect_equal(names(frames_get_envir(frames)), character(0))
+  expect_named(frames_get_envir(frames), character(0))
   x <- pipeline_get_target(pipeline, "abc")
   y <- pipeline_get_target(pipeline, "def")
   x$value <- value_init(object = "x")

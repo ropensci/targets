@@ -3,7 +3,7 @@ tar_test("tar_path() outside a pipeline with no arguments", {
   expect_warning(tar_path(), class = "tar_condition_deprecate")
   expect_true(is.character(suppressWarnings(tar_path())))
   expect_true(is.na(suppressWarnings(tar_path())))
-  expect_equal(length(suppressWarnings(tar_path())), 1L)
+  expect_length(suppressWarnings(tar_path()), 1L)
   expect_equal(suppressWarnings(tar_path(default = "x")), "x")
 })
 

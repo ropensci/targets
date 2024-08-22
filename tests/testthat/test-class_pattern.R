@@ -119,10 +119,7 @@ tar_test("vector aggregation", {
   local$run()
   out <- target_read_value(pipeline_get_target(pipeline, "combine"))$object
   expect_equiv(out, seq_len(3L))
-  expect_equal(
-    names(out),
-    target_get_children(pipeline_get_target(pipeline, "map"))
-  )
+  expect_named(out, target_get_children(pipeline_get_target(pipeline, "map")))
 })
 
 tar_test("list aggregation", {
@@ -148,10 +145,7 @@ tar_test("list aggregation", {
   local$run()
   out <- target_read_value(pipeline_get_target(pipeline, "combine"))$object
   expect_equiv(out, as.list(seq_len(3L)))
-  expect_equal(
-    names(out),
-    target_get_children(pipeline_get_target(pipeline, "map"))
-  )
+  expect_named(out, target_get_children(pipeline_get_target(pipeline, "map")))
 })
 
 tar_test("group iteration", {
@@ -387,7 +381,7 @@ tar_test("map over a stem that was not mapped over last time", {
     seq_len(3L)
   )
   branches <- target_get_children(pipeline_get_target(pipeline, "map"))
-  expect_equal(length(branches), 3L)
+  expect_length(branches, 3L)
   for (index in seq_along(branches)) {
     value <- target_read_value(pipeline_get_target(pipeline, branches[index]))
     out <- value$object
@@ -507,8 +501,8 @@ tar_test("patterns and branches get correct ranks with priorities", {
   pipeline <- pipeline_init(
     list(
       target_init("x", quote(seq_len(2)), priority = 0.1),
-      target_init("z", quote(stop(x)), pattern = quote(map(x)), priority = .3),
-      target_init("y", quote(stop(x)), pattern = quote(map(x)), priority = .2),
+      target_init("z", quote(stop(x)), pattern = quote(map(x)), priority = 0.3),
+      target_init("y", quote(stop(x)), pattern = quote(map(x)), priority = 0.2),
       target_init("w", quote(c(y, z)), priority = 0.4)
     )
   )
@@ -740,7 +734,7 @@ tar_test("sample pattern in pipeline", {
   out2 <- tar_read(dynamic)
   expect_equal(out, out2)
   expect_true(is.numeric(out))
-  expect_equal(length(out), 2)
+  expect_length(out, 2)
 })
 
 tar_test("cross pattern validate", {
@@ -758,8 +752,8 @@ tar_test("aggregate names of branches with length > 1 (#320)", {
   })
   expect_silent(tar_make(callr_function = NULL, reporter = "silent"))
   out <- tar_read(z)
-  expect_equal(length(names(out)), 4)
-  expect_equal(length(unique(names(out))), 4)
+  expect_length(names(out), 4)
+  expect_length(unique(names(out)), 4)
   expect_equal(unname(out), c(1, 1, 2, 2))
 })
 

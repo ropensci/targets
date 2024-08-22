@@ -30,7 +30,7 @@ graph_class <- R6::R6Class(
         self$upstream,
         self$downstream
       )
-      unname(map_int(list[names], length))
+      unname(lengths(list[names]))
     },
     produce_upstream = function(name) {
       as.character(self$upstream[[name]])

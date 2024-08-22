@@ -1,9 +1,9 @@
 tar_test("inspection$targets_only", {
   skip_if_not_installed("visNetwork")
   net <- inspection_init(pipeline_init(), targets_only = FALSE)
-  expect_equal(net$targets_only, FALSE)
+  expect_false(net$targets_only)
   net <- inspection_init(pipeline_init(), targets_only = TRUE)
-  expect_equal(net$targets_only, TRUE)
+  expect_true(net$targets_only)
 })
 
 tar_test("inspection$allow", {
@@ -37,7 +37,7 @@ tar_test("inspection$progress", {
 
 tar_test("inspection$outdated", {
   out <- inspection_init(pipeline_init(), outdated = FALSE)
-  expect_equal(out$outdated, FALSE)
+  expect_false(out$outdated)
 })
 
 tar_test("vertices and edges of empty imports", {
@@ -155,8 +155,8 @@ tar_test("same for targets", {
   rownames(vertices) <- NULL
   rownames(exp) <- NULL
   expect_equal(vertices[, colnames(exp)], exp)
-  expect_false(any(is.na(vertices$seconds)))
-  expect_false(any(is.na(vertices$bytes)))
+  expect_false(anyNA(vertices$seconds))
+  expect_false(anyNA(vertices$bytes))
   expect_true(is.numeric(vertices$seconds))
   expect_true(is.numeric(vertices$bytes))
   expect_true(all(vertices$seconds >= 0))

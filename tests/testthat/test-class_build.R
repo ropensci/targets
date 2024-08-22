@@ -2,7 +2,7 @@ tar_test("keep track of seconds", {
   build <- build_init(quote(1L + 1L), baseenv())
   out <- build$metrics$seconds
   expect_true(is.numeric(out))
-  expect_equal(length(out), 1L)
+  expect_length(out, 1L)
 })
 
 tar_test("run without error", {

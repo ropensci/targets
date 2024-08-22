@@ -166,7 +166,7 @@ tar_test("tar_resources_aws() default close_connection", {
     )
   )
   out <- tar_resources_aws()
-  expect_equal(out$close_connection, FALSE)
+  expect_false(out$close_connection)
 })
 
 tar_test("tar_resources_aws() default s3_force_path_style", {
@@ -183,7 +183,7 @@ tar_test("tar_resources_aws() default s3_force_path_style", {
     )
   )
   out <- tar_resources_aws()
-  expect_equal(out$s3_force_path_style, TRUE)
+  expect_true(out$s3_force_path_style)
 })
 
 tar_test("tar_resources_aws() wants a prefix", {

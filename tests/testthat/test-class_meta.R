@@ -203,7 +203,7 @@ tar_test("meta$produce_depend() empty", {
   local$run()
   meta <- local$meta
   out <- meta$produce_depend(x)
-  expect_equal(length(out), 1L)
+  expect_length(out, 1L)
   expect_equal(nchar(out), 16L)
 })
 
@@ -218,7 +218,7 @@ tar_test("meta$produce_depend() nonempty", {
   local$run()
   meta <- local$meta
   out <- meta$produce_depend(y, pipeline)
-  expect_equal(length(out), 1L)
+  expect_length(out, 1L)
   expect_equal(nchar(out), 16L)
 })
 
@@ -241,7 +241,7 @@ tar_test("data hash of pattern updates", {
   data <- meta_init()$database$read_data()
   expect_true("map" %in% data$name)
   hash <- data$data[data$name == "map"]
-  expect_equal(length(hash), 1L)
+  expect_length(hash, 1L)
   expect_false(is.na(hash))
   expect_false(hash == hash_null)
   pipeline <- pipeline_init(
@@ -294,7 +294,7 @@ tar_test("migrate meta database", {
   data <- as_data_frame(meta$database$read_condensed_data())
   expect_false(is.null(data$repository))
   data$repository <- NULL
-  expect_true(is.null(data$repository))
+  expect_null(data$repository)
   meta$database$overwrite_storage(data)
   expect_equal(tar_outdated(callr_function = NULL), character(0))
   expect_equal(tar_read(x), "value")

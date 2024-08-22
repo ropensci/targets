@@ -62,7 +62,7 @@ tar_test("tar_resources_gcp() default predefined_acl", {
     )
   )
   out <- tar_resources_gcp()
-  expect_equal(out$verbose, TRUE)
+  expect_true(out$verbose)
 })
 
 tar_test("tar_resources_gcp() wants a prefix", {

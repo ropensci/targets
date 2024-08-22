@@ -1,7 +1,7 @@
 tar_test("tar_seed_create() value", {
   out <- tar_seed_create(name = "name1", global_seed = 1L)
   expect_true(is.integer(out))
-  expect_equal(length(out), 1L)
+  expect_length(out, 1L)
   expect_false(anyNA(out))
   expect_true(is.finite(out))
 })

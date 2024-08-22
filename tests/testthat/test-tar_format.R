@@ -13,7 +13,7 @@ tar_test("tar_format() generates a format string", {
       keras::unserialize_model(object)
     },
   )
-  expect_equal(length(format), 1)
+  expect_length(format, 1)
   format <- unlist(strsplit(format, split = "&", fixed = TRUE))
   expect_equal(format[1], "format_custom")
   expect_true(any(grepl("^read=+.", format)))
@@ -25,7 +25,7 @@ tar_test("tar_format() generates a format string", {
 
 tar_test("tar_format() default arguments are short", {
   format <- tar_format()
-  expect_equal(length(format), 1)
+  expect_length(format, 1)
   format <- unlist(strsplit(format, split = "&", fixed = TRUE))
   expect_equal(format[1], "format_custom")
   expect_true(any(grepl("^read=$", format)))
@@ -66,7 +66,7 @@ tar_test("tar_format() generates a format string", {
     ),
     class = "tar_condition_deprecate"
   )
-  expect_equal(length(format), 1)
+  expect_length(format, 1)
   format <- unlist(strsplit(format, split = "&", fixed = TRUE))
   expect_equal(format[1], "format_custom")
   expect_true(any(grepl("^read=+.", format)))

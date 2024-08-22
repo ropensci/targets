@@ -5,7 +5,7 @@ store_class_repository.gcp <- function(repository, store, format) {
     sprintf("tar_gcp_%s", format),
     "tar_gcp",
     "tar_cloud",
-    if_any("tar_external" %in% class(store), character(0), "tar_external"),
+    if_any(inherits(store, "tar_external"), character(0), "tar_external"),
     class(store)
   )
 }

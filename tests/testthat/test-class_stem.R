@@ -25,7 +25,7 @@ tar_test("stem$update_junction() on a good stem", {
   stem_update_junction(x, pipeline)
   expect_silent(junction_validate(x$junction))
   out <- x$junction$splits
-  expect_equal(length(out), 10L)
+  expect_length(out, 10L)
   expect_true(all(grepl("abc_", out)))
 })
 
@@ -37,7 +37,7 @@ tar_test("stem_produce_buds()", {
   stem_update_junction(x, pipeline)
   children <- stem_produce_buds(x)
   expect_true(is.list(children))
-  expect_equal(length(children), length(letters))
+  expect_length(children, length(letters))
   for (index in seq_along(letters)) {
     expect_true(inherits(children[[index]], "tar_bud"))
     expect_null(children[[index]]$value)
@@ -54,7 +54,7 @@ tar_test("stem$ensure_children()", {
   local$process_target("data1")
   x <- pipeline_get_target(pipeline, "data1")
   names <- target_get_children(x)
-  expect_equal(length(names), 3L)
+  expect_length(names, 3L)
   expect_true(all(grepl("^data1_", names)))
   expect_true(all(names %in% pipeline_get_names(pipeline)))
 })
@@ -274,7 +274,7 @@ tar_test("buds names make it into metadata so junctions can be restored", {
   })
   tar_make(callr_function = NULL)
   buds <- tar_meta(x, children)$children[[1]]
-  expect_equal(length(unique(buds)), 3L)
+  expect_length(unique(buds), 3L)
   expect_true(all(grepl("x_", buds)))
 })
 
@@ -295,7 +295,7 @@ tar_test("buds names stay in metadata on error", {
   })
   expect_error(tar_make(callr_function = NULL), class = "tar_condition_run")
   buds <- tar_meta(x, children)$children[[1]]
-  expect_equal(length(unique(buds)), 3L)
+  expect_length(unique(buds), 3L)
   expect_true(all(grepl("x_", buds)))
 })
 
@@ -317,7 +317,7 @@ tar_test("branches can use old buds if continuing on error", {
   })
   tar_make(callr_function = NULL)
   buds <- tar_meta(y, children)$children[[1]]
-  expect_equal(length(unique(buds)), 3L)
+  expect_length(unique(buds), 3L)
   expect_true(all(grepl("y_", buds)))
   expect_equal(unname(tar_read(y)), seq_len(3))
 })
@@ -340,7 +340,7 @@ tar_test("branches can use old buds if stem is canceled", {
   })
   tar_make(callr_function = NULL)
   buds <- tar_meta(y, children)$children[[1]]
-  expect_equal(length(unique(buds)), 3L)
+  expect_length(unique(buds), 3L)
   expect_true(all(grepl("y_", buds)))
   expect_equal(unname(tar_read(y)), seq_len(3))
 })
@@ -363,7 +363,7 @@ tar_test("branches can use old buds if stem is canceled (worker storage)", {
   })
   tar_make(callr_function = NULL)
   buds <- tar_meta(y, children)$children[[1]]
-  expect_equal(length(unique(buds)), 3L)
+  expect_length(unique(buds), 3L)
   expect_true(all(grepl("y_", buds)))
   expect_equal(unname(tar_read(y)), seq_len(3))
 })
