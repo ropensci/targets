@@ -21,13 +21,6 @@ store_hash_early.tar_repository_cas <- function(store) {
 #' @export
 store_hash_late.tar_repository_cas <- function(store) {
   tar_assert_file(store$file$stage)
-  tar_assert_scalar(
-    store$file$stage,
-    msg = paste(
-      "custom a target with a tar_repository_cas() repository",
-      "can only handle a single file or directory."
-    )
-  )
   path <- store$file$path
   on.exit(store$file$path <- path)
   store$file$path <- store$file$stage
@@ -36,6 +29,7 @@ store_hash_late.tar_repository_cas <- function(store) {
 
 #' @export
 store_upload_object.tar_repository_cas <- function(store) {
+  on.exit(unlink(store$file$stage, recursive = TRUE, force = TRUE))
   store_format_custom_call_method(
     store = store,
     text = store$methods_repository$upload,
