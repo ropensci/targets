@@ -1,7 +1,7 @@
 tar_test("tar_repository_cas() generates an encoded string", {
   out <- tar_repository_cas(
     upload = function(path, key) {
-      file.move(path, file.path("cas", key))
+      file.rename(path, file.path("cas", key))
     },
     download = function(path, key) {
       file.copy(file.path("cas", key), path)

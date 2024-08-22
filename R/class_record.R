@@ -162,6 +162,7 @@ record_bootstrap_store <- function(record) {
     resources = tar_options$get_resources()
   )
   store$file$path <- record$path
+  store$file$hash <- record$data
   store
 }
 
