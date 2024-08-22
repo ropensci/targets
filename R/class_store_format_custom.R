@@ -3,30 +3,6 @@ store_class_format.format_custom <- function(format) {
   c("tar_store_format_custom", "tar_nonexportable", "tar_store")
 }
 
-store_format_custom_new <- function(
-  file = NULL,
-  resources = NULL,
-  read = NULL,
-  write = NULL,
-  marshal = NULL,
-  unmarshal = NULL,
-  convert = NULL,
-  copy = NULL
-) {
-  force(file)
-  force(resources)
-  force(read)
-  force(write)
-  force(marshal)
-  force(unmarshal)
-  force(convert)
-  force(copy)
-  enclass(
-    environment(),
-    store_class_format.format_custom(NULL)
-  )
-}
-
 store_format_custom_field <- function(format, pattern, default) {
   out <- base64url::base64_urldecode(keyvalue_field(format, pattern))
   if ((length(out) < 1L) || !any(nzchar(out))) {
