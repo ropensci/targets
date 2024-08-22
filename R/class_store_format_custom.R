@@ -1,43 +1,4 @@
 #' @export
-store_new.format_custom <- function(format, file = NULL, resources = NULL) {
-  format <- unlist(strsplit(format, split = "&", fixed = TRUE))
-  store <- store_format_custom_new(
-    file = file,
-    resources = resources,
-    read = store_format_custom_field(
-      format = format,
-      pattern = "^read=",
-      default = store_format_custom_default_read()
-    ),
-    write = store_format_custom_field(
-      format = format,
-      pattern = "^write=",
-      default = store_format_custom_default_write()
-    ),
-    marshal = store_format_custom_field(
-      format = format,
-      pattern = "^marshal=",
-      default = store_format_custom_default_marshal()
-    ),
-    unmarshal = store_format_custom_field(
-      format = format,
-      pattern = "^unmarshal=",
-      default = store_format_custom_default_unmarshal()
-    ),
-    convert = store_format_custom_field(
-      format = format,
-      pattern = "^convert=",
-      default = store_format_custom_default_convert()
-    ),
-    copy = store_format_custom_field(
-      format = format,
-      pattern = "^copy=",
-      default = store_format_custom_default_copy()
-    )
-  )
-}
-
-#' @export
 store_class_format.format_custom <- function(format) {
   c("tar_store_format_custom", "tar_nonexportable", "tar_store")
 }
@@ -82,7 +43,7 @@ store_assert_format_setting.format_custom <- function(format) {
 store_read_path.tar_store_format_custom <- function(store, path) {
   store_format_custom_call_method(
     store = store,
-    text = store$read,
+    text = store$methods_format$read,
     args = list(path = path)
   )
 }
@@ -91,7 +52,7 @@ store_read_path.tar_store_format_custom <- function(store, path) {
 store_write_path.tar_store_format_custom <- function(store, object, path) {
   store_format_custom_call_method(
     store = store,
-    text = store$write,
+    text = store$methods_format$write,
     args = list(object = object, path = path)
   )
 }
@@ -100,7 +61,7 @@ store_write_path.tar_store_format_custom <- function(store, object, path) {
 store_marshal_object.tar_store_format_custom <- function(store, object) {
   store_format_custom_call_method(
     store = store,
-    text = store$marshal,
+    text = store$methods_format$marshal,
     args = list(object = object)
   )
 }
@@ -109,7 +70,7 @@ store_marshal_object.tar_store_format_custom <- function(store, object) {
 store_unmarshal_object.tar_store_format_custom <- function(store, object) {
   store_format_custom_call_method(
     store = store,
-    text = store$unmarshal,
+    text = store$methods_format$unmarshal,
     args = list(object = object)
   )
 }
@@ -118,7 +79,7 @@ store_unmarshal_object.tar_store_format_custom <- function(store, object) {
 store_convert_object.tar_store_format_custom <- function(store, object) {
   store_format_custom_call_method(
     store = store,
-    text = store$convert,
+    text = store$methods_format$convert,
     args = list(object = object)
   )
 }
@@ -127,7 +88,7 @@ store_convert_object.tar_store_format_custom <- function(store, object) {
 store_copy_object.tar_store_format_custom <- function(store, object) {
   store_format_custom_call_method(
     store = store,
-    text = store$copy,
+    text = store$methods_format$copy,
     args = list(object = object)
   )
 }
@@ -145,59 +106,9 @@ store_format_custom_call_method <- function(store, text, args) {
   do.call(what = what, args = args, envir = envir)
 }
 
-#' @export
-store_validate.tar_store_format_custom <- function(store) {
-  store_validate_packages(store)
-  tar_assert_list(store$resources)
-  for (field in c("read", "write", "marshal", "unmarshal", "convert")) {
-    tar_assert_chr(store[[field]])
-    tar_assert_scalar(store[[field]])
-    tar_assert_nzchar(store[[field]])
-  }
-  NextMethod()
-}
-
 store_format_custom_old_repository <- function(format) {
   format <- unlist(strsplit(format, split = "&", fixed = TRUE))
   value <- grep("^repository=", format, value = TRUE)
   value <- gsub("^repository=", "", value)
   value %||% "local"
-}
-
-store_format_custom_default_read <- function() {
-  tar_deparse_safe(
-    function(path) readRDS(path)
-  )
-}
-
-store_format_custom_default_write <- function() {
-  tar_deparse_safe(
-    function(object, path) {
-      saveRDS(object = object, file = path, version = 3L)
-    }
-  )
-}
-
-store_format_custom_default_marshal <- function() {
-  tar_deparse_safe(
-    function(object) object
-  )
-}
-
-store_format_custom_default_unmarshal <- function() {
-  tar_deparse_safe(
-    function(object) object
-  )
-}
-
-store_format_custom_default_convert <- function() {
-  tar_deparse_safe(
-    function(object) object
-  )
-}
-
-store_format_custom_default_copy <- function() {
-  tar_deparse_safe(
-    function(object) object
-  )
 }
