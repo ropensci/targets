@@ -147,7 +147,6 @@ store_format_custom_call_method <- function(store, text, args) {
 
 #' @export
 store_validate.tar_store_format_custom <- function(store) {
-  tar_assert_correct_fields(store, store_format_custom_new)
   store_validate_packages(store)
   tar_assert_list(store$resources)
   for (field in c("read", "write", "marshal", "unmarshal", "convert")) {
@@ -155,6 +154,7 @@ store_validate.tar_store_format_custom <- function(store) {
     tar_assert_scalar(store[[field]])
     tar_assert_nzchar(store[[field]])
   }
+  NextMethod()
 }
 
 store_format_custom_old_repository <- function(format) {

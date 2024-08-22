@@ -3,20 +3,13 @@ store_init <- function(
   repository = "local",
   resources = list()
 ) {
-  format_dispatch <- store_format_dispatch(format)
-  class_repository <- gsub("&.*$", "", repository)
-  repository_dispatch <- enclass(repository, class_repository)
   store <- store_new(
-    format = format_dispatch,
     file = file_init(),
-    resources = resources
+    resources = resources,
+    methods_format = store_methods_custom(format),
+    methods_repository = store_methods_custom(repository)
   )
-  class(store) <- store_class_format(format_dispatch)
-  class(store) <- store_class_repository(
-    repository = repository_dispatch,
-    store = store,
-    format = format
-  )
+  store <- store_enclass(store, format = format, repository = repository)
   store_set_timestamp_trust(store)
   store
 }
@@ -25,32 +18,38 @@ store_mock <- function(
   format = "rds",
   repository = "local"
 ) {
-  mock <- enclass(
-    list(),
-    store_class_format(store_format_dispatch(format))
+  mock <- list(
+    methods_format = store_methods_custom(format),
+    methods_repository = store_methods_custom(repository)
   )
-  class_repository <- gsub("&.*$", "", repository)
-  class(mock) <- store_class_repository(
-    repository = enclass(repository, class_repository),
-    store = mock,
-    format = format
-  )
-  mock
+  store_enclass(mock, format = format, repository = repository)
 }
 
-store_new <- function(format, file = NULL, resources = NULL) {
-  UseMethod("store_new")
-}
-
-#' @export
-store_new.default <- function(format, file = NULL, resources = NULL) {
-  store_new_default(file = file, resources = resources)
-}
-
-store_new_default <- function(file = NULL, resources = NULL) {
+store_new <- function(
+  file = NULL,
+  resources = NULL,
+  methods_format = NULL,
+  methods_repository = NULL
+) {
   force(file)
   force(resources)
+  force(methods_format)
+  force(methods_repository)
   environment()
+}
+
+store_enclass <- function(store, format, repository) {
+  class(store) <- store_class_format(store_dispatch_format(format))
+  class(store) <- store_class_repository(
+    repository = store_dispatch_repository(repository),
+    store = store,
+    format = format
+  )
+  store
+}
+
+store_methods_custom <- function(...) {
+  
 }
 
 store_class_format <- function(format) {
@@ -69,13 +68,22 @@ store_class_repository.default <- function(repository, store, format) {
 # A format should not be a full class like the store
 # because the responsibilities of store and format
 # would overlap too much.
-store_format_dispatch <- function(format) {
+store_dispatch_format <- function(format) {
   class <- if_any(
     grepl(pattern = "format_custom", x = format, fixed = TRUE),
     "format_custom",
     format
   )
   enclass(format, class)
+}
+
+store_dispatch_repository <- function(repository) {
+  class <- if_any(
+    grepl(pattern = "repository_cas", x = repository, fixed = TRUE),
+    "repository_cas",
+    repository
+  )
+  enclass(repository, class)
 }
 
 store_assert_format_setting <- function(format) {
@@ -439,8 +447,8 @@ store_validate <- function(store) {
 }
 
 #' @export
-store_validate.default <- function(store) {
-  tar_assert_correct_fields(store, store_new_default)
+store_validate <- function(store) {
+ # tar_assert_correct_fields(store, store_new)
   store_validate_packages(store)
   tar_assert_list(store$resources)
 }

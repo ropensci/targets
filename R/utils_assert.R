@@ -163,7 +163,7 @@ tar_assert_format <- function(format) {
     )
     format <- gsub("^aws_", "", format)
   }
-  store_assert_format_setting(store_format_dispatch(format))
+  store_assert_format_setting(store_dispatch_format(format))
 }
 
 tar_assert_repository <- function(repository) {
