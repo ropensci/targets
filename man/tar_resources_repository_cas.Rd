@@ -57,16 +57,16 @@ tar_target(
   name = target_name,
   command = data.frame(x = 1),
   repository = tar_repository_cas(
-    upload = function(path, key) {
+    upload = function(key, path) {
       if (dir.exists(path)) {
         stop("This CAS repository does not support directory outputs.")
       }
       if (!file.exists("cas")) {
         dir.create("cas", recursive = TRUE)
       }
-      file.rename(path, file.path("cas", key))
+      file.copy(path, file.path("cas", key))
     },
-    download = function(path, key) {
+    download = function(key, path) {
       file.copy(file.path("cas", key), path)
     },
     exists = function(key) {

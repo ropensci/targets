@@ -38,7 +38,7 @@ it is the only way \code{targets} can safely use the current results
 for downstream computations.}
 }
 \value{
-A character string from \code{\link[=tar_repsitory_cas]{tar_repsitory_cas()}} which may be
+A character string from \code{\link[=tar_repository_cas]{tar_repository_cas()}} which may be
 passed to the \code{repository} argument of \code{\link[=tar_target]{tar_target()}} or
 \code{\link[=tar_option_set]{tar_option_set()}} to use a local CAS system.
 }
