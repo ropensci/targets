@@ -95,6 +95,9 @@
 #'   `qs::qsave()` for `qs`-based storage formats.
 #'   Applies to all formats ending with the `"_qs"` suffix.
 #'   For details on formats, see the `format` argument of [tar_target()].
+#' @param repository_cas Output of function [tar_resources_repository_cas()]
+#'   with configuration details for [tar_repository_cas()] storage
+#'   repositories.
 #' @param url Output of function `tar_resources_url()`.
 #'   Non-default settings for storage formats ending with the `"_url"` suffix.
 #'   These settings include the `curl` handle for extra control over HTTP
@@ -123,6 +126,7 @@ tar_resources <- function(
   network = tar_option_get("resources")$network,
   parquet = tar_option_get("resources")$parquet,
   qs = tar_option_get("resources")$qs,
+  repository_cas = tar_option_get("resources")$repository_cas,
   url = tar_option_get("resources")$url
 ) {
   envir <- environment()

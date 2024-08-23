@@ -17,7 +17,7 @@ store_upload_object.tar_repository_cas_file <- function(store) {
       "a single file or single directory."
     )
   )
-  store_format_custom_call_method(
+  store_repository_cas_call_method(
     store = store,
     text = store$methods_repository$upload,
     args = list(path = store$file$path, key = store$file$hash)
@@ -42,7 +42,7 @@ store_ensure_correct_hash.tar_repository_cas <- function(
 #' @export
 store_read_object.tar_repository_cas_file <- function(store) {
   scratch <- path_scratch_temp_network()
-  store_format_custom_call_method(
+  store_repository_cas_call_method(
     store = store,
     text = store$methods_repository$download,
     args = list(path = scratch, key = store$file$hash)

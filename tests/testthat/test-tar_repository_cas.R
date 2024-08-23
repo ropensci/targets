@@ -25,7 +25,12 @@ tar_test("CAS repository works", {
   tar_script({
     repository <- tar_repository_cas(
       upload = function(path, key) {
-        fs::dir_create("cas", recurse = TRUE)
+        if (!file.exists("cas")) {
+          dir.create("cas", recursive = TRUE)
+        }
+        if (dir.exists(path)) {
+          stop("This CAS repository does not support directory outputs.")
+        }
         file.rename(path, file.path("cas", key))
       },
       download = function(path, key) {
@@ -68,7 +73,12 @@ tar_test("CAS repository works with transient memory", {
     tar_option_set(memory = "transient")
     repository <- tar_repository_cas(
       upload = function(path, key) {
-        fs::dir_create("cas", recurse = TRUE)
+        if (!file.exists("cas")) {
+          dir.create("cas", recursive = TRUE)
+        }
+        if (dir.exists(path)) {
+          stop("This CAS repository does not support directory outputs.")
+        }
         file.rename(path, file.path("cas", key))
       },
       download = function(path, key) {
@@ -95,6 +105,43 @@ tar_test("CAS repository works with transient memory", {
   )
 })
 
+tar_test("CAS repository works with custom envvars", {
+  tar_script({
+    tar_option_set(memory = "transient")
+    repository <- tar_repository_cas(
+      upload = function(path, key) {
+        if (!file.exists("cas")) {
+          dir.create("cas", recursive = TRUE)
+        }
+        if (dir.exists(path)) {
+          stop("This CAS repository does not support directory outputs.")
+        }
+        writeLines(Sys.getenv("TARGETS_TEST_CUSTOM_ENVVAR"), "envvar.txt")
+        file.rename(path, file.path("cas", key))
+      },
+      download = function(path, key) {
+        file.copy(file.path("cas", key), path)
+      },
+      exists = function(key) {
+        file.exists(file.path("cas", key))
+      },
+      consistent = TRUE
+    )
+    resources = tar_resources(
+      repository_cas = tar_resources_repository_cas(
+        envvars = c(TARGETS_TEST_CUSTOM_ENVVAR = "abcdefg")
+      )
+    )
+    list(
+      tar_target(x, 1L, repository = repository, resources = resources)
+    )
+  })
+  Sys.unsetenv("TARGETS_TEST_CUSTOM_ENVVAR")
+  out <- tar_make(callr_function = NULL, reporter = "silent")
+  expect_equal(readLines("envvar.txt"), "abcdefg")
+  Sys.unsetenv("TARGETS_TEST_CUSTOM_ENVVAR")
+})
+
 tar_test("custom format + CAS repository", {
   skip_cran()
   tar_script({
@@ -108,7 +155,12 @@ tar_test("custom format + CAS repository", {
     )
     repository <- tar_repository_cas(
       upload = function(path, key) {
-        fs::dir_create("cas", recurse = TRUE)
+        if (!file.exists("cas")) {
+          dir.create("cas", recursive = TRUE)
+        }
+        if (dir.exists(path)) {
+          stop("This CAS repository does not support directory outputs.")
+        }
         file.rename(path, file.path("cas", key))
       },
       download = function(path, key) {
@@ -136,7 +188,12 @@ tar_test("revert and appear up to date", {
   tar_script({
     repository <- tar_repository_cas(
       upload = function(path, key) {
-        fs::dir_create("cas", recurse = TRUE)
+        if (!file.exists("cas")) {
+          dir.create("cas", recursive = TRUE)
+        }
+        if (dir.exists(path)) {
+          stop("This CAS repository does not support directory outputs.")
+        }
         file.rename(path, file.path("cas", key))
       },
       download = function(path, key) {
@@ -160,7 +217,12 @@ tar_test("revert and appear up to date", {
   tar_script({
     repository <- tar_repository_cas(
       upload = function(path, key) {
-        fs::dir_create("cas", recurse = TRUE)
+        if (!file.exists("cas")) {
+          dir.create("cas", recursive = TRUE)
+        }
+        if (dir.exists(path)) {
+          stop("This CAS repository does not support directory outputs.")
+        }
         file.rename(path, file.path("cas", key))
       },
       download = function(path, key) {
@@ -183,7 +245,12 @@ tar_test("revert and appear up to date", {
   tar_script({
     repository <- tar_repository_cas(
       upload = function(path, key) {
-        fs::dir_create("cas", recurse = TRUE)
+        if (!file.exists("cas")) {
+          dir.create("cas", recursive = TRUE)
+        }
+        if (dir.exists(path)) {
+          stop("This CAS repository does not support directory outputs.")
+        }
         file.rename(path, file.path("cas", key))
       },
       download = function(path, key) {

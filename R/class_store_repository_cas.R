@@ -30,7 +30,7 @@ store_hash_late.tar_repository_cas <- function(store) {
 #' @export
 store_upload_object.tar_repository_cas <- function(store) {
   on.exit(unlink(store$file$stage, recursive = TRUE, force = TRUE))
-  store_format_custom_call_method(
+  store_repository_cas_call_method(
     store = store,
     text = store$methods_repository$upload,
     args = list(path = store$file$stage, key = store$file$hash)
@@ -40,7 +40,7 @@ store_upload_object.tar_repository_cas <- function(store) {
 #' @export
 store_read_object.tar_repository_cas <- function(store) {
   scratch <- path_scratch_temp_network()
-  store_format_custom_call_method(
+  store_repository_cas_call_method(
     store = store,
     text = store$methods_repository$download,
     args = list(path = scratch, key = store$file$hash)
@@ -50,7 +50,7 @@ store_read_object.tar_repository_cas <- function(store) {
 
 #' @export
 store_has_correct_hash.tar_repository_cas <- function(store) {
-  store_format_custom_call_method(
+  store_repository_cas_call_method(
     store = store,
     text = store$methods_repository$exists,
     args = list(key = store$file$hash)

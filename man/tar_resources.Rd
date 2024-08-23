@@ -16,6 +16,7 @@ tar_resources(
   network = tar_option_get("resources")$network,
   parquet = tar_option_get("resources")$parquet,
   qs = tar_option_get("resources")$qs,
+  repository_cas = tar_option_get("resources")$repository_cas,
   url = tar_option_get("resources")$url
 )
 }
@@ -100,6 +101,10 @@ Non-default arguments to \code{qs::qread()} and
 Applies to all formats ending with the \code{"_qs"} suffix.
 For details on formats, see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
 
+\item{repository_cas}{Output of function \code{\link[=tar_resources_repository_cas]{tar_resources_repository_cas()}}
+with configuration details for \code{\link[=tar_repository_cas]{tar_repository_cas()}} storage
+repositories.}
+
 \item{url}{Output of function \code{tar_resources_url()}.
 Non-default settings for storage formats ending with the \code{"_url"} suffix.
 These settings include the \code{curl} handle for extra control over HTTP
@@ -163,6 +168,7 @@ Other resources:
 \code{\link{tar_resources_network}()},
 \code{\link{tar_resources_parquet}()},
 \code{\link{tar_resources_qs}()},
+\code{\link{tar_resources_repository_cas}()},
 \code{\link{tar_resources_url}()}
 }
 \concept{resources}

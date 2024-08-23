@@ -69,6 +69,11 @@ so it must not rely on any data in the closure.
 This disqualifies functions produced by \code{Vectorize()},
 for example.
 
+\code{upload} and \code{download} should also handle directory outputs in
+some way. Either they should assume \code{path} can be a directory
+as well as a file, or \code{upload} should throw an error if \code{path}
+is a directory.
+
 Some functions may need to be adapted and configured based on other
 inputs. For example, you may want to define
 \verb{upload = \\(path, key) file.move(path, file.path(folder, key))}
@@ -93,7 +98,12 @@ tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script({
   repository <- tar_repository_cas(
     upload = function(path, key) {
-      fs::dir_create("cas", recurse = TRUE)
+      if (dir.exists(path)) {
+        stop("This CAS repository does not support directory outputs.")
+      }
+      if (!file.exists("cas")) {
+        dir.create("cas", recursive = TRUE)
+      }
       file.rename(path, file.path("cas", key))
     },
     download = function(path, key) {
@@ -101,8 +111,7 @@ tar_script({
     },
     exists = function(key) {
       file.exists(file.path("cas", key))
-    },
-    consistent = TRUE
+    }
   )
   write_file <- function(object) {
     writeLines(as.character(object), "file.txt")

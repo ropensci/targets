@@ -14,6 +14,11 @@
 #'   so it must not rely on any data in the closure.
 #'   This disqualifies functions produced by `Vectorize()`,
 #'   for example.
+#'   
+#'   `upload` and `download` should also handle directory outputs in
+#'   some way. Either they should assume `path` can be a directory
+#'   as well as a file, or `upload` should throw an error if `path`
+#'   is a directory.
 #'
 #'   Some functions may need to be adapted and configured based on other
 #'   inputs. For example, you may want to define
@@ -80,7 +85,12 @@
 #' tar_script({
 #'   repository <- tar_repository_cas(
 #'     upload = function(path, key) {
-#'       fs::dir_create("cas", recurse = TRUE)
+#'       if (dir.exists(path)) {
+#'         stop("This CAS repository does not support directory outputs.")
+#'       }
+#'       if (!file.exists("cas")) {
+#'         dir.create("cas", recursive = TRUE)
+#'       }
 #'       file.rename(path, file.path("cas", key))
 #'     },
 #'     download = function(path, key) {
@@ -88,8 +98,7 @@
 #'     },
 #'     exists = function(key) {
 #'       file.exists(file.path("cas", key))
-#'     },
-#'     consistent = TRUE
+#'     }
 #'   )
 #'   write_file <- function(object) {
 #'     writeLines(as.character(object), "file.txt")
