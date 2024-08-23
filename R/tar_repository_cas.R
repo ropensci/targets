@@ -28,7 +28,7 @@
 #'     list(folder = "my_cas")
 #'   )
 #'   ```
-#'   
+#'
 #'   Temporary or sensitive such as authentication credentials
 #'   should not be injected
 #'   this way into the function body. Instead, pass them as environment
