@@ -56,9 +56,9 @@
 #'   location. `key` denotes the name of the destination data object
 #'   in the CAS system.
 #'
-#'   `upload` should usually copy the file to its destination instead of
-#'   removing the original source path. This is because `format = "file"`
-#'   targets should remain on disk after the upload phase. For non-"file"
+#'   `upload` must only copy the file to its destination and not
+#'   remove the original source path. This is because `format = "file"`
+#'   targets should remain on disk after the upload phase. For non-`"file"`
 #'   formats, `targets` will remove the temporary staging file
 #'   automatically after the upload is finished. If you are working on your
 #'   local machine and have need for a CAS system, it is likely that the

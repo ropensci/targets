@@ -35,11 +35,22 @@ store_upload_object.tar_repository_cas <- function(store) {
     text = store$methods_repository$upload,
     args = list(key = store$file$hash, path = store$file$stage)
   )
+  tar_assert_true(
+    all(file.exists(store$file$stage)),
+    msg = paste0(
+      "CAS repository upload attempted deleted file ",
+      store$file$stage,
+      ". Uploads should not delete the output files from targets ",
+      "because it causes problems with format = \"file\"."
+    )
+  )
 }
 
 #' @export
 store_read_object.tar_repository_cas <- function(store) {
   scratch <- path_scratch_temp_network()
+  dir_create(dirname(scratch))
+  on.exit(unlink(scratch))
   store_repository_cas_call_method(
     store = store,
     text = store$methods_repository$download,
@@ -64,11 +75,7 @@ store_ensure_correct_hash.tar_repository_cas <- function(
   deployment
 ) {
   if (!store$methods_repository$consistent) {
-    store_ensure_correct_hash.default(
-      store = store,
-      storage = storage,
-      deployment = deployment
-    )
+    store_wait_correct_hash(store)
   }
 }
 

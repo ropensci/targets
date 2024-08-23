@@ -15,9 +15,9 @@ system. It could be a staging area or a custom \code{format = "file"}
 location. \code{key} denotes the name of the destination data object
 in the CAS system.
 
-\code{upload} should usually copy the file to its destination instead of
-removing the original source path. This is because \code{format = "file"}
-targets should remain on disk after the upload phase. For non-"file"
+\code{upload} must only copy the file to its destination and not
+remove the original source path. This is because \code{format = "file"}
+targets should remain on disk after the upload phase. For non-\code{"file"}
 formats, \code{targets} will remove the temporary staging file
 automatically after the upload is finished. If you are working on your
 local machine and have need for a CAS system, it is likely that the

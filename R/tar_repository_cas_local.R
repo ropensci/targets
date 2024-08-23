@@ -10,6 +10,34 @@
 #' @inheritParams tar_repository_cas
 #' @param path Character string, file path to the CAS repository
 #'   where all the data object files will be stored.
+#' @examples
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+#' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
+#' tar_script({
+#'   repository <- tar_repository_cas_local("cas")
+#'   write_file <- function(object) {
+#'     writeLines(as.character(object), "file.txt")
+#'     "file.txt"
+#'   }
+#'   list(
+#'     tar_target(x, c(2L, 4L), repository = repository),
+#'     tar_target(
+#'       y,
+#'       x,
+#'       pattern = map(x),
+#'       format = "qs",
+#'       repository = repository
+#'     ),
+#'     tar_target(z, write_file(y), format = "file", repository = repository)
+#'   )
+#' })
+#' tar_make(callr_function = NULL)
+#' tar_read(y)
+#' tar_read(z)
+#' list.files("cas")
+#' tar_meta(any_of(c("x", "z")), fields = any_of("data"))
+#' })
+#' }
 tar_repository_cas_local <- function(
   path,
   consistent = FALSE

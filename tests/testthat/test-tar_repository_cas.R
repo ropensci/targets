@@ -1,7 +1,7 @@
 tar_test("tar_repository_cas() generates an encoded string", {
   out <- tar_repository_cas(
     upload = function(key, path) {
-      file.rename(path, file.path("cas", key))
+      file.copy(path, file.path("cas", key))
     },
     download = function(key, path) {
       file.copy(file.path("cas", key), path)
@@ -31,7 +31,7 @@ tar_test("CAS repository works", {
         if (dir.exists(path)) {
           stop("This CAS repository does not support directory outputs.")
         }
-        file.rename(path, file.path("cas", key))
+        file.copy(path, file.path("cas", key))
       },
       download = function(key, path) {
         file.copy(file.path("cas", key), path)
@@ -79,7 +79,7 @@ tar_test("CAS repository works with transient memory", {
         if (dir.exists(path)) {
           stop("This CAS repository does not support directory outputs.")
         }
-        file.rename(path, file.path("cas", key))
+        file.copy(path, file.path("cas", key))
       },
       download = function(key, path) {
         file.copy(file.path("cas", key), path)
@@ -117,7 +117,7 @@ tar_test("CAS repository works with custom envvars", {
           stop("This CAS repository does not support directory outputs.")
         }
         writeLines(Sys.getenv("TARGETS_TEST_CUSTOM_ENVVAR"), "envvar.txt")
-        file.rename(path, file.path("cas", key))
+        file.copy(path, file.path("cas", key))
       },
       download = function(key, path) {
         file.copy(file.path("cas", key), path)
@@ -161,7 +161,7 @@ tar_test("custom format + CAS repository", {
         if (dir.exists(path)) {
           stop("This CAS repository does not support directory outputs.")
         }
-        file.rename(path, file.path("cas", key))
+        file.copy(path, file.path("cas", key))
       },
       download = function(key, path) {
         file.copy(file.path("cas", key), path)
@@ -194,7 +194,7 @@ tar_test("revert and appear up to date", {
         if (dir.exists(path)) {
           stop("This CAS repository does not support directory outputs.")
         }
-        file.rename(path, file.path("cas", key))
+        file.copy(path, file.path("cas", key))
       },
       download = function(key, path) {
         file.copy(file.path("cas", key), path)
@@ -223,7 +223,7 @@ tar_test("revert and appear up to date", {
         if (dir.exists(path)) {
           stop("This CAS repository does not support directory outputs.")
         }
-        file.rename(path, file.path("cas", key))
+        file.copy(path, file.path("cas", key))
       },
       download = function(key, path) {
         file.copy(file.path("cas", key), path)
@@ -251,7 +251,7 @@ tar_test("revert and appear up to date", {
         if (dir.exists(path)) {
           stop("This CAS repository does not support directory outputs.")
         }
-        file.rename(path, file.path("cas", key))
+        file.copy(path, file.path("cas", key))
       },
       download = function(key, path) {
         file.copy(file.path("cas", key), path)

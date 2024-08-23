@@ -49,6 +49,35 @@ Local content-addressable storage (CAS) repository.
 Pass to the \code{repository} argument of \code{\link[=tar_target]{tar_target()}} or
 \code{\link[=tar_option_set]{tar_option_set()}} to use a local CAS system.
 }
+\examples{
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
+tar_script({
+  repository <- tar_repository_cas_local("cas")
+  write_file <- function(object) {
+    writeLines(as.character(object), "file.txt")
+    "file.txt"
+  }
+  list(
+    tar_target(x, c(2L, 4L), repository = repository),
+    tar_target(
+      y,
+      x,
+      pattern = map(x),
+      format = "qs",
+      repository = repository
+    ),
+    tar_target(z, write_file(y), format = "file", repository = repository)
+  )
+})
+tar_make(callr_function = NULL)
+tar_read(y)
+tar_read(z)
+list.files("cas")
+tar_meta(any_of(c("x", "z")), fields = any_of("data"))
+})
+}
+}
 \seealso{
 Other storage: 
 \code{\link{tar_format}()},
