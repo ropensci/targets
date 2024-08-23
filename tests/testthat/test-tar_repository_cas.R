@@ -63,8 +63,9 @@ tar_test("CAS repository works", {
   tar_destroy()
 })
 
-tar_test("CAS repository works", {
+tar_test("CAS repository works with transient memory", {
   tar_script({
+    tar_option_set(memory = "transient")
     repository <- tar_repository_cas(
       upload = function(path, key) {
         fs::dir_create("cas", recurse = TRUE)
@@ -79,15 +80,19 @@ tar_test("CAS repository works", {
       consistent = TRUE
     )
     list(
-      tar_target(x, TRUE, repository = repository),
-      tar_target(y, x, repository = repository)
+      tar_target(x, 1L, repository = repository),
+      tar_target(y, x + 1L, repository = repository),
+      tar_target(z, y + 1L, repository = repository)
     )
   })
   tar_make(callr_function = NULL)
+  expect_equal(tar_read(z), 3L)
+  expect_equal(tar_outdated(callr_function = NULL), character(0L))
   tar_invalidate(y)
-  tar_make(callr_function = NULL)
-  
-  
+  expect_equal(
+    sort(tar_outdated(callr_function = NULL)),
+    sort(c("y", "z"))
+  )
 })
 
 tar_test("custom format + CAS repository", {

@@ -167,9 +167,7 @@ target_skip.tar_builder <- function(
   active
 ) {
   target_update_queue(target, scheduler)
-  path <- meta$get_record(target_get_name(target))$path
-  file <- target$store$file
-  file$path <- path
+  file_repopulate(target$store$file, meta$get_record(target_get_name(target)))
   if (active) {
     builder_ensure_workspace(
       target = target,
