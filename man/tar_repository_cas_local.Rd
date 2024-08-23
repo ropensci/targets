@@ -2,7 +2,8 @@
 % Please edit documentation in R/tar_repository_cas_local.R
 \name{tar_repository_cas_local}
 \alias{tar_repository_cas_local}
-\title{Local content-addressable storage (CAS) repository.}
+\title{Local content-addressable storage (CAS) repository
+(an experimental feature).}
 \usage{
 tar_repository_cas_local(path, consistent = FALSE)
 }

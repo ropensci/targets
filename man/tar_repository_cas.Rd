@@ -2,7 +2,8 @@
 % Please edit documentation in R/tar_repository_cas.R
 \name{tar_repository_cas}
 \alias{tar_repository_cas}
-\title{Define a custom content-addressable storage (CAS) repository.}
+\title{Define a custom content-addressable storage
+(CAS) repository (an experimental feature).}
 \usage{
 tar_repository_cas(upload, download, exists, consistent = FALSE)
 }
@@ -73,8 +74,8 @@ Define a custom storage repository that uses
 content-addressable storage (CAS).
 }
 \details{
-See the \code{\link[=tar_repository_cas_local]{tar_repository_cas_local()}} function for a
-sophisticated CAS system based on a local folder on disk.
+See the \code{\link[=tar_repository_cas_local]{tar_repository_cas_local()}} function for an example
+CAS system based on a local folder on disk.
 It uses \code{\link[=tar_repository_cas_local_upload]{tar_repository_cas_local_upload()}},
 \code{\link[=tar_repository_cas_local_download]{tar_repository_cas_local_download()}}, and
 \code{\link[=tar_repository_cas_local_exists]{tar_repository_cas_local_exists()}} for the respective

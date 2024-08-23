@@ -1,10 +1,11 @@
-#' @title Define a custom content-addressable storage (CAS) repository.
+#' @title Define a custom content-addressable storage
+#'   (CAS) repository (an experimental feature).
 #' @export
 #' @family storage
 #' @description Define a custom storage repository that uses
 #'   content-addressable storage (CAS).
-#' @details See the [tar_repository_cas_local()] function for a
-#'   sophisticated CAS system based on a local folder on disk.
+#' @details See the [tar_repository_cas_local()] function for an example
+#'   CAS system based on a local folder on disk.
 #'   It uses [tar_repository_cas_local_upload()],
 #'   [tar_repository_cas_local_download()], and
 #'   [tar_repository_cas_local_exists()] for the respective

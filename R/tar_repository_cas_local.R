@@ -1,4 +1,5 @@
-#' @title Local content-addressable storage (CAS) repository.
+#' @title Local content-addressable storage (CAS) repository
+#'   (an experimental feature).
 #' @export
 #' @family storage
 #' @description Local content-addressable storage (CAS) repository.
