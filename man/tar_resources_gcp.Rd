@@ -83,8 +83,11 @@ tar_target(
   format = "qs",
   repository = "gcp",
   resources = tar_resources(
-    gcp = tar_resources_gcp(bucket = "yourbucketname"),
-    qs = tar_resources_qs(preset = "fast")
+    gcp = tar_resources_gcp(
+      bucket = "yourbucketname",
+      prefix = "_targets"
+    ),
+    qs = tar_resources_qs(preset = "fast"),
   )
 )
 }
