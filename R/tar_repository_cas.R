@@ -22,7 +22,7 @@
 #'   so it must not rely on any data in the closure.
 #'   This disqualifies functions produced by `Vectorize()`,
 #'   for example.
-#'   
+#'
 #'   `upload` and `download` should also handle directory outputs in
 #'   some way. Either they should assume `path` can be a directory
 #'   as well as a file, or `upload` should throw an error if `path`
@@ -78,7 +78,7 @@
 #'   New lookups can check the cache and potentially avoid expensive
 #'   queries to the CAS system. See the source code of
 #'   [tar_repository_cas_local_exists()]
-#'   for an example of how this can work for a local file system CAS. 
+#'   for an example of how this can work for a local file system CAS.
 #' @param consistent Logical. Set to `TRUE` if the storage platform is
 #'   strongly read-after-write consistent. Set to `FALSE` if the platform
 #'   is not necessarily strongly read-after-write consistent.

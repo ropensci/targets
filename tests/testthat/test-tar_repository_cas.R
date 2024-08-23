@@ -127,7 +127,7 @@ tar_test("CAS repository works with custom envvars", {
       },
       consistent = TRUE
     )
-    resources = tar_resources(
+    resources <- tar_resources(
       repository_cas = tar_resources_repository_cas(
         envvars = c(TARGETS_TEST_CUSTOM_ENVVAR = "abcdefg")
       )
