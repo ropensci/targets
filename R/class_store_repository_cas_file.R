@@ -13,8 +13,8 @@ store_upload_object.tar_repository_cas_file <- function(store) {
   tar_assert_scalar(
     store$file$path,
     msg = paste(
-      "custom a target with a tar_repository_cas() repository",
-      "can only handle a single file or directory."
+      "for a\ tar_repository_cas() target, the output must be",
+      "a single file or single directory."
     )
   )
   store_format_custom_call_method(
