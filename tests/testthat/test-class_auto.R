@@ -39,3 +39,12 @@ tar_test("auto format with error null", {
   expect_equal(tar_meta(tidyselect::any_of("y"))$format, "null")
   expect_equal(sort(tar_outdated(callr_function = NULL)), sort(c("x", "y")))
 })
+
+tar_test("store_get_packages.tar_auto()", {
+  expect_equal(store_get_packages.tar_auto(list()), "qs")
+})
+
+tar_test("store_reformat_auto()", {
+  target <- list(settings = list(format = "qs"))
+  expect_null(store_reformat_auto(target))
+})
