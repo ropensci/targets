@@ -72,6 +72,15 @@ store_ensure_correct_hash.tar_repository_cas <- function(
   }
 }
 
+#' @export
+store_delete_objects.tar_repository_cas <- function(
+  store,
+  meta,
+  batch_size,
+  verbose
+) {
+}
+
 store_repository_cas_call_method <- function(store, text, args) {
   envvars <- store$resources$repository_cas$envvars
   if (length(envvars)) {

@@ -8,15 +8,18 @@ tar_repository_cas(upload, download, exists, consistent = FALSE)
 }
 \arguments{
 \item{upload}{A function with arguments \code{path} and \code{key}, in that order.
-This function should upload the file or directory at \code{path}
-to the CAS system. \code{key} denotes the name of the destination data object
+This function should upload the file or directory from \code{path}
+to the CAS system.
+\code{path} is where the file is originally saved to disk outside the CAS
+system. It could be a staging area or a custom \code{format = "file"}
+location. \code{key} denotes the name of the destination data object
 in the CAS system.}
 
 \item{download}{A function with arguments \code{path} and \code{key}, in that order.
 This function should download the data object at \code{key} from
 the CAS system to the file or directory at \code{path}.
-to the CAS system. \code{key} denotes the name of the destination data object
-in the CAS system.}
+\code{key} denotes the name of the data object in the CAS system.
+\code{path} is a temporary staging area and not the final destination.}
 
 \item{exists}{A function with a single argument \code{key}.
 This function should check if there is an object at \code{key} in
@@ -78,6 +81,52 @@ For example:
   list(folder = "my_cas")
 )
 }\if{html}{\out{</div>}}
+
+Temporary or sensitive such as authentication credentials
+should not be injected
+this way into the function body. Instead, pass them as environment
+variables using \code{\link[=tar_resources_repository_cas]{tar_resources_repository_cas()}}.
+}
+\examples{
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
+tar_script({
+  repository <- tar_repository_cas(
+    upload = function(path, key) {
+      fs::dir_create("cas", recurse = TRUE)
+      file.rename(path, file.path("cas", key))
+    },
+    download = function(path, key) {
+      file.copy(file.path("cas", key), path)
+    },
+    exists = function(key) {
+      file.exists(file.path("cas", key))
+    },
+    consistent = TRUE
+  )
+  write_file <- function(object) {
+    writeLines(as.character(object), "file.txt")
+    "file.txt"
+  }
+  list(
+    tar_target(x, c(2L, 4L), repository = repository),
+    tar_target(
+      y,
+      x,
+      pattern = map(x),
+      format = "qs",
+      repository = repository
+    ),
+    tar_target(z, write_file(y), format = "file", repository = repository)
+  )
+})
+tar_make(callr_function = NULL)
+tar_read(y)
+tar_read(z)
+list.files("cas")
+tar_meta(any_of(c("x", "z")), fields = any_of("data"))
+})
+}
 }
 \seealso{
 Other targets: 

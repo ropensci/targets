@@ -28,15 +28,23 @@
 #'     list(folder = "my_cas")
 #'   )
 #'   ```
+#'   
+#'   Temporary or sensitive such as authentication credentials
+#'   should not be injected
+#'   this way into the function body. Instead, pass them as environment
+#'   variables using [tar_resources_repository_cas()].
 #' @param upload A function with arguments `path` and `key`, in that order.
-#'   This function should upload the file or directory at `path`
-#'   to the CAS system. `key` denotes the name of the destination data object
+#'   This function should upload the file or directory from `path`
+#'   to the CAS system.
+#'   `path` is where the file is originally saved to disk outside the CAS
+#'   system. It could be a staging area or a custom `format = "file"`
+#'   location. `key` denotes the name of the destination data object
 #'   in the CAS system.
 #' @param download A function with arguments `path` and `key`, in that order.
 #'   This function should download the data object at `key` from
 #'   the CAS system to the file or directory at `path`.
-#'   to the CAS system. `key` denotes the name of the destination data object
-#'   in the CAS system.
+#'   `key` denotes the name of the data object in the CAS system.
+#'   `path` is a temporary staging area and not the final destination.
 #' @param exists A function with a single argument `key`.
 #'   This function should check if there is an object at `key` in
 #'   the CAS system.'
@@ -66,6 +74,46 @@
 #'   but on systems which are not strongly read-after-write consistent,
 #'   it is the only way `targets` can safely use the current results
 #'   for downstream computations.
+#' @examples
+#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+#' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
+#' tar_script({
+#'   repository <- tar_repository_cas(
+#'     upload = function(path, key) {
+#'       fs::dir_create("cas", recurse = TRUE)
+#'       file.rename(path, file.path("cas", key))
+#'     },
+#'     download = function(path, key) {
+#'       file.copy(file.path("cas", key), path)
+#'     },
+#'     exists = function(key) {
+#'       file.exists(file.path("cas", key))
+#'     },
+#'     consistent = TRUE
+#'   )
+#'   write_file <- function(object) {
+#'     writeLines(as.character(object), "file.txt")
+#'     "file.txt"
+#'   }
+#'   list(
+#'     tar_target(x, c(2L, 4L), repository = repository),
+#'     tar_target(
+#'       y,
+#'       x,
+#'       pattern = map(x),
+#'       format = "qs",
+#'       repository = repository
+#'     ),
+#'     tar_target(z, write_file(y), format = "file", repository = repository)
+#'   )
+#' })
+#' tar_make(callr_function = NULL)
+#' tar_read(y)
+#' tar_read(z)
+#' list.files("cas")
+#' tar_meta(any_of(c("x", "z")), fields = any_of("data"))
+#' })
+#' }
 tar_repository_cas <- function(
   upload,
   download,
