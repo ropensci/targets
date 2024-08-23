@@ -57,6 +57,21 @@ store_has_correct_hash.tar_repository_cas <- function(store) {
   )
 }
 
+#' @export
+store_ensure_correct_hash.tar_repository_cas <- function(
+  store,
+  storage,
+  deployment
+) {
+  if (!store$methods_repository$consistent) {
+    store_ensure_correct_hash.default(
+      store = store,
+      storage = storage,
+      deployment = deployment
+    )
+  }
+}
+
 store_repository_cas_call_method <- function(store, text, args) {
   envvars <- store$resources$repository_cas$envvars
   if (length(envvars)) {

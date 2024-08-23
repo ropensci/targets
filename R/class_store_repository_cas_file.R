@@ -25,6 +25,21 @@ store_upload_object.tar_repository_cas_file <- function(store) {
 }
 
 #' @export
+store_ensure_correct_hash.tar_repository_cas <- function(
+  store,
+  storage,
+  deployment
+) {
+  if (!store$methods_repository$consistent) {
+    store_ensure_correct_hash.tar_store_file(
+      store = store,
+      storage = storage,
+      deployment = deployment
+    )
+  }
+}
+
+#' @export
 store_read_object.tar_repository_cas_file <- function(store) {
   scratch <- path_scratch_temp_network()
   store_format_custom_call_method(

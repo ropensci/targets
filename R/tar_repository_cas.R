@@ -40,10 +40,37 @@
 #' @param exists A function with a single argument `key`.
 #'   This function should check if there is an object at `key` in
 #'   the CAS system.'
+#' @param consistent Logical. Set to `TRUE` if the storage platform is
+#'   strongly read-after-write consistent. Set to `FALSE` if the platform
+#'   is not necessarily strongly read-after-write consistent.
+#'
+#'   A data storage system is said to have strong read-after-write consistency
+#'   if a new object is fully available for reading as soon as the write
+#'   operation finishes. Many modern cloud services like Amazon S3 and
+#'   Google Cloud Storage have strong read-after-write consistency,
+#'   meaning that if you upload an object with a PUT request, then a
+#'   GET request immediately afterwards will retrieve the precise
+#'   version of the object you just uploaded.
+#'
+#'   Some storage systems do not have strong read-after-write consistency.
+#'   One example is network file systems (NFS). On a computing cluster,
+#'   if one node creates a file on an NFS, then there is a delay before
+#'   other nodes can access the new file. `targets` handles this situation
+#'   by waiting for the new file to appear with the correct hash
+#'   before attempting to use it in downstream computations.
+#'   `consistent = FALSE` imposes a waiting period in which `targets`
+#'   repeatedly calls the `exists` method until the file becomes available
+#'   (at time intervals configurable with [tar_resources_network()]).
+#'   These extra calls to `exists` may come with a
+#'   little extra latency / computational burden,
+#'   but on systems which are not strongly read-after-write consistent,
+#'   it is the only way `targets` can safely use the current results
+#'   for downstream computations.
 tar_repository_cas <- function(
   upload,
   download,
-  exists
+  exists,
+  consistent = FALSE
 ) {
   tar_assert_function(upload)
   tar_assert_function(download)
@@ -51,11 +78,15 @@ tar_repository_cas <- function(
   tar_assert_function_arguments(upload, c("path", "key"))
   tar_assert_function_arguments(download, c("path", "key"))
   tar_assert_function_arguments(exists, "key")
+  tar_assert_scalar(consistent)
+  tar_assert_lgl(consistent)
+  tar_assert_none_na(consistent)
   paste(
     "repository_cas",
     tar_repository_cas_field("upload", upload),
     tar_repository_cas_field("download", download),
     tar_repository_cas_field("exists", exists),
+    tar_repository_cas_field("consistent", consistent),
     sep = "&"
   )
 }

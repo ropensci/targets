@@ -8,9 +8,8 @@
 #' @inheritSection tar_resources Resources
 #' @return Object of class `"tar_resources_network"`, to be supplied
 #'   to the network argument of `tar_resources()`.
-#' @param seconds_interval Positive numeric of length 1.
-#'   Multiplier for the exponential backoff algorithm, and width
-#'   of the jitter. Units of seconds.
+#' @param seconds_interval Positive numeric of length 1, seconds between
+#'   retries.
 #' @param seconds_timeout Positive numeric of length 1. Timeout length in
 #'   seconds.
 #' @param max_tries Positive integer of length 1. Max number of tries.

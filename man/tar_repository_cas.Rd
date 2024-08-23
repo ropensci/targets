@@ -4,7 +4,7 @@
 \alias{tar_repository_cas}
 \title{Define a custom content-addressable storage (CAS) repository.}
 \usage{
-tar_repository_cas(upload, download, exists)
+tar_repository_cas(upload, download, exists, consistent = FALSE)
 }
 \arguments{
 \item{upload}{A function with arguments \code{path} and \code{key}, in that order.
@@ -21,6 +21,33 @@ in the CAS system.}
 \item{exists}{A function with a single argument \code{key}.
 This function should check if there is an object at \code{key} in
 the CAS system.'}
+
+\item{consistent}{Logical. Set to \code{TRUE} if the storage platform is
+strongly read-after-write consistent. Set to \code{FALSE} if the platform
+is not necessarily strongly read-after-write consistent.
+
+A data storage system is said to have strong read-after-write consistency
+if a new object is fully available for reading as soon as the write
+operation finishes. Many modern cloud services like Amazon S3 and
+Google Cloud Storage have strong read-after-write consistency,
+meaning that if you upload an object with a PUT request, then a
+GET request immediately afterwards will retrieve the precise
+version of the object you just uploaded.
+
+Some storage systems do not have strong read-after-write consistency.
+One example is network file systems (NFS). On a computing cluster,
+if one node creates a file on an NFS, then there is a delay before
+other nodes can access the new file. \code{targets} handles this situation
+by waiting for the new file to appear with the correct hash
+before attempting to use it in downstream computations.
+\code{consistent = FALSE} imposes a waiting period in which \code{targets}
+repeatedly calls the \code{exists} method until the file becomes available
+(at time intervals configurable with \code{\link[=tar_resources_network]{tar_resources_network()}}).
+These extra calls to \code{exists} may come with a
+little extra latency / computational burden,
+but on systems which are not strongly read-after-write consistent,
+it is the only way \code{targets} can safely use the current results
+for downstream computations.}
 }
 \description{
 Define a custom storage repository that uses
