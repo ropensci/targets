@@ -72,7 +72,7 @@ azure_list_etags <- function(
     if (nrow(files) > 0) {
       files$name |>
         purrr::map(\(x) AzureStor::get_storage_properties(container, x)$etag) |>
-        setNames(files$name)
+        stats::setNames(files$name)
     } else {
       list()
     }
