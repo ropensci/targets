@@ -16,7 +16,9 @@ azure_head <- function(
   auth_sas = NULL
 ) {
   tryCatch(
-    AzureStor::storage_endpoint(endpoint, key = auth_key, token = auth_token,
+    AzureStor::storage_endpoint(endpoint,
+                                key = auth_key,
+                                token = auth_token,
                                 sas = auth_sas) |>
       AzureStor::storage_container(name = bucket) |>
       AzureStor::get_storage_properties(key),
@@ -130,34 +132,12 @@ azure_upload <- function(
   auth_token = azure_auth_token(),
   auth_sas = NULL
 ) {
-  # meta <- NULL
-  # if (length(metadata) > 0) {
-  #   meta <- AzureStor::storage_endpoint(endpoint,
-  #                                       key = auth_key,
-  #                                       token = auth_token,
-  #                                       sas = auth_sas) |>
-  #     AzureStor::storage_container(name = bucket) |>
-  #     AzureStor::get_storage_metadata(file)
-  # }
   AzureStor::storage_endpoint(endpoint,
                               key = auth_key,
                               token = auth_token,
                               sas = auth_sas) |>
     AzureStor::storage_container(name = bucket) |>
     AzureStor::storage_upload(src = file, dest = key)
-  # # the following will not change file metadata
-  # # per ?AzureStor::set_storage_metadata, metadata must be supplied as
-  # # name-value pairs (e.g., `name1 = "value1"`) in order to properly set
-  # # metadata for blob or file
-  # # TODO: determine how to convert meta object to name-value pair
-  # if (!is.null(meta)) {
-  #   AzureStor::storage_endpoint(endpoint,
-  #                               key = auth_key,
-  #                               token = auth_token,
-  #                               sas = auth_sas) |>
-  #     AzureStor::storage_container(name = bucket) |>
-  #     AzureStor::set_storage_metadata(file, meta)
-  # }
 }
 
 azure_auth_token <- function(
