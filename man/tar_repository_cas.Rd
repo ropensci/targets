@@ -7,15 +7,25 @@
 tar_repository_cas(upload, download, exists, consistent = FALSE)
 }
 \arguments{
-\item{upload}{A function with arguments \code{path} and \code{key}, in that order.
+\item{upload}{A function with arguments \code{key} and \code{path}, in that order.
 This function should upload the file or directory from \code{path}
 to the CAS system.
 \code{path} is where the file is originally saved to disk outside the CAS
 system. It could be a staging area or a custom \code{format = "file"}
 location. \code{key} denotes the name of the destination data object
-in the CAS system.}
+in the CAS system.
 
-\item{download}{A function with arguments \code{path} and \code{key}, in that order.
+\code{upload} should usually copy the file to its destination instead of
+removing the original source path. This is because \code{format = "file"}
+targets should remain on disk after the upload phase. For non-"file"
+formats, \code{targets} will remove the temporary staging file
+automatically after the upload is finished. If you are working on your
+local machine and have need for a CAS system, it is likely that the
+CAS object files will exist on a different drive than your local
+file environment anyway, which means copying will probably have to
+take place regardless.}
+
+\item{download}{A function with arguments \code{key} and \code{path}, in that order.
 This function should download the data object at \code{key} from
 the CAS system to the file or directory at \code{path}.
 \code{key} denotes the name of the data object in the CAS system.
@@ -23,7 +33,13 @@ the CAS system to the file or directory at \code{path}.
 
 \item{exists}{A function with a single argument \code{key}.
 This function should check if there is an object at \code{key} in
-the CAS system.'}
+the CAS system.
+
+For efficiency, \code{exists} can maintain an in-memory cache of keys.
+New lookups can check the cache and potentially avoid expensive
+queries to the CAS system. See the source code of
+\code{\link[=tar_repository_cas_local_exists]{tar_repository_cas_local_exists()}}
+for an example of how this can work for a local file system CAS.}
 
 \item{consistent}{Logical. Set to \code{TRUE} if the storage platform is
 strongly read-after-write consistent. Set to \code{FALSE} if the platform
@@ -57,7 +73,17 @@ Define a custom storage repository that uses
 content-addressable storage (CAS).
 }
 \details{
-Repository functions:
+See the \code{\link[=tar_repository_cas_local]{tar_repository_cas_local()}} function for a
+sophisiticated CAS system based on a local folder on disk.
+It uses \code{\link[=tar_repository_cas_local_upload]{tar_repository_cas_local_upload()}},
+\code{\link[=tar_repository_cas_local_download]{tar_repository_cas_local_download()}}, and
+\code{\link[=tar_repository_cas_local_exists]{tar_repository_cas_local_exists()}} for the respective
+\code{upload}, \code{download}, and \code{exists} methods.
+See the "Repository functions" section for specific advice on how
+to write your own methods.
+}
+\section{Repository functions}{
+
 In \code{\link[=tar_repository_cas]{tar_repository_cas()}}, functions \code{upload}, \code{download},
 and \code{exists} must be perfectly pure
 and perfectly self-sufficient.
@@ -76,15 +102,17 @@ is a directory.
 
 Some functions may need to be adapted and configured based on other
 inputs. For example, you may want to define
-\verb{upload = \\(path, key) file.move(path, file.path(folder, key))}
+\verb{upload = \\(key, path) file.move(path, file.path(folder, key))}
 but do not want to hard-code a value of \code{folder} when you write the
-underlying function. \code{substitute()} can help inject values as needed.
-For example:
+underlying function. \code{substitute()} can help inject values into the
+body of a function. For example:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{upload = substitute(
-  \\(path, key) file.move(path, file.path(folder, key)),
+\if{html}{\out{<div class="sourceCode">}}\preformatted{upload <-  \\(key, path) \{\}
+body(upload) <- substitute(
+  file.move(path, file.path(folder, key)),
   list(folder = "my_cas")
 )
+print(upload)
 }\if{html}{\out{</div>}}
 
 Temporary or sensitive such as authentication credentials
@@ -92,21 +120,22 @@ should not be injected
 this way into the function body. Instead, pass them as environment
 variables using \code{\link[=tar_resources_repository_cas]{tar_resources_repository_cas()}}.
 }
+
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script({
   repository <- tar_repository_cas(
-    upload = function(path, key) {
+    upload = function(key, path) {
       if (dir.exists(path)) {
         stop("This CAS repository does not support directory outputs.")
       }
       if (!file.exists("cas")) {
         dir.create("cas", recursive = TRUE)
       }
-      file.rename(path, file.path("cas", key))
+      file.copy(path, file.path("cas", key))
     },
-    download = function(path, key) {
+    download = function(key, path) {
       file.copy(file.path("cas", key), path)
     },
     exists = function(key) {
@@ -138,10 +167,14 @@ tar_meta(any_of(c("x", "z")), fields = any_of("data"))
 }
 }
 \seealso{
-Other targets: 
-\code{\link{tar_cue}()},
+Other storage: 
 \code{\link{tar_format}()},
-\code{\link{tar_target}()},
-\code{\link{tar_target_raw}()}
+\code{\link{tar_load}()},
+\code{\link{tar_load_everything}()},
+\code{\link{tar_load_raw}()},
+\code{\link{tar_objects}()},
+\code{\link{tar_read}()},
+\code{\link{tar_read_raw}()},
+\code{\link{tar_repository_cas_local}()}
 }
-\concept{targets}
+\concept{storage}

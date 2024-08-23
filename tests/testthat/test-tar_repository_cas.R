@@ -1,9 +1,9 @@
 tar_test("tar_repository_cas() generates an encoded string", {
   out <- tar_repository_cas(
-    upload = function(path, key) {
+    upload = function(key, path) {
       file.rename(path, file.path("cas", key))
     },
-    download = function(path, key) {
+    download = function(key, path) {
       file.copy(file.path("cas", key), path)
     },
     exists = function(key) {
@@ -24,7 +24,7 @@ tar_test("CAS repository works", {
   skip_if_not_installed("qs")
   tar_script({
     repository <- tar_repository_cas(
-      upload = function(path, key) {
+      upload = function(key, path) {
         if (!file.exists("cas")) {
           dir.create("cas", recursive = TRUE)
         }
@@ -33,7 +33,7 @@ tar_test("CAS repository works", {
         }
         file.rename(path, file.path("cas", key))
       },
-      download = function(path, key) {
+      download = function(key, path) {
         file.copy(file.path("cas", key), path)
       },
       exists = function(key) {
@@ -72,7 +72,7 @@ tar_test("CAS repository works with transient memory", {
   tar_script({
     tar_option_set(memory = "transient")
     repository <- tar_repository_cas(
-      upload = function(path, key) {
+      upload = function(key, path) {
         if (!file.exists("cas")) {
           dir.create("cas", recursive = TRUE)
         }
@@ -81,7 +81,7 @@ tar_test("CAS repository works with transient memory", {
         }
         file.rename(path, file.path("cas", key))
       },
-      download = function(path, key) {
+      download = function(key, path) {
         file.copy(file.path("cas", key), path)
       },
       exists = function(key) {
@@ -109,7 +109,7 @@ tar_test("CAS repository works with custom envvars", {
   tar_script({
     tar_option_set(memory = "transient")
     repository <- tar_repository_cas(
-      upload = function(path, key) {
+      upload = function(key, path) {
         if (!file.exists("cas")) {
           dir.create("cas", recursive = TRUE)
         }
@@ -119,7 +119,7 @@ tar_test("CAS repository works with custom envvars", {
         writeLines(Sys.getenv("TARGETS_TEST_CUSTOM_ENVVAR"), "envvar.txt")
         file.rename(path, file.path("cas", key))
       },
-      download = function(path, key) {
+      download = function(key, path) {
         file.copy(file.path("cas", key), path)
       },
       exists = function(key) {
@@ -154,7 +154,7 @@ tar_test("custom format + CAS repository", {
       }
     )
     repository <- tar_repository_cas(
-      upload = function(path, key) {
+      upload = function(key, path) {
         if (!file.exists("cas")) {
           dir.create("cas", recursive = TRUE)
         }
@@ -163,7 +163,7 @@ tar_test("custom format + CAS repository", {
         }
         file.rename(path, file.path("cas", key))
       },
-      download = function(path, key) {
+      download = function(key, path) {
         file.copy(file.path("cas", key), path)
       },
       exists = function(key) {
@@ -187,7 +187,7 @@ tar_test("revert and appear up to date", {
   skip_cran()
   tar_script({
     repository <- tar_repository_cas(
-      upload = function(path, key) {
+      upload = function(key, path) {
         if (!file.exists("cas")) {
           dir.create("cas", recursive = TRUE)
         }
@@ -196,7 +196,7 @@ tar_test("revert and appear up to date", {
         }
         file.rename(path, file.path("cas", key))
       },
-      download = function(path, key) {
+      download = function(key, path) {
         file.copy(file.path("cas", key), path)
       },
       exists = function(key) {
@@ -216,7 +216,7 @@ tar_test("revert and appear up to date", {
   file.copy("_targets/meta/meta", "first_meta")
   tar_script({
     repository <- tar_repository_cas(
-      upload = function(path, key) {
+      upload = function(key, path) {
         if (!file.exists("cas")) {
           dir.create("cas", recursive = TRUE)
         }
@@ -225,7 +225,7 @@ tar_test("revert and appear up to date", {
         }
         file.rename(path, file.path("cas", key))
       },
-      download = function(path, key) {
+      download = function(key, path) {
         file.copy(file.path("cas", key), path)
       },
       exists = function(key) {
@@ -244,7 +244,7 @@ tar_test("revert and appear up to date", {
   tar_make(callr_function = NULL)
   tar_script({
     repository <- tar_repository_cas(
-      upload = function(path, key) {
+      upload = function(key, path) {
         if (!file.exists("cas")) {
           dir.create("cas", recursive = TRUE)
         }
@@ -253,7 +253,7 @@ tar_test("revert and appear up to date", {
         }
         file.rename(path, file.path("cas", key))
       },
-      download = function(path, key) {
+      download = function(key, path) {
         file.copy(file.path("cas", key), path)
       },
       exists = function(key) {

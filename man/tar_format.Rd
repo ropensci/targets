@@ -186,10 +186,14 @@ tar_target(
 )
 }
 \seealso{
-Other targets: 
-\code{\link{tar_cue}()},
+Other storage: 
+\code{\link{tar_load}()},
+\code{\link{tar_load_everything}()},
+\code{\link{tar_load_raw}()},
+\code{\link{tar_objects}()},
+\code{\link{tar_read}()},
+\code{\link{tar_read_raw}()},
 \code{\link{tar_repository_cas}()},
-\code{\link{tar_target}()},
-\code{\link{tar_target_raw}()}
+\code{\link{tar_repository_cas_local}()}
 }
-\concept{targets}
+\concept{storage}

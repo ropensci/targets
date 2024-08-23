@@ -1,6 +1,6 @@
 #' @title Define a custom target storage format.
 #' @export
-#' @family targets
+#' @family storage
 #' @description Define a custom target storage format for the
 #'   `format` argument of [tar_target()] or [tar_option_set()].
 #' @return A character string of length 1 encoding the custom format.
