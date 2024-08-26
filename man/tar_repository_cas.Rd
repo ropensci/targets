@@ -74,6 +74,41 @@ Define a custom storage repository that uses
 content-addressable storage (CAS).
 }
 \details{
+Without content-addressable storage (CAS),
+the output data of a pipeline is organized based
+on the names of the targets. For example,
+if your pipeline has a target \code{x},
+then by default \code{\link[=tar_make]{tar_make()}} will store the data in a file
+at \verb{_targets/objects/x}.
+Here, the storage location of \code{x} depends on its target name.
+
+Content-addressable storage (CAS) is different:
+output files are organized based on their contents, not target names.
+In a CAS system, the name of each output object is its hash, and the
+metadata in
+\code{tar_meta(fields = any_of(c("name", "data")), targets_only = TRUE)}
+maps target names to object names.
+
+CAS is ideal for data versioning and collaboration
+because it accrues an ever-growing collection of historical objects
+that the metadata can reassign to different target names as needed.
+For example, if your code and metadata (\verb{_targets/meta/meta})
+are in the same version-controlled source code repository and you
+revert to a previous commit, then you can revisit a historical
+version of your pipeline with your targets still up to date.
+And in collaborative settings, you can fork your colleague's
+code and metadata and leverage their up-to-date targets.
+
+The weakness of CAS is the heavy buildup of data objects over time.
+Whereas non-CAS storage maintains only the current version of target
+\code{x} at any given time, a CAS system maintains each version of \code{x}
+in its own file. Over time, this adds up to a lot of data and
+a lot of files. Most pipelines using CAS
+should have a garbage collection system to remove objects no longer
+needed. This could involve removing files with sufficiently old
+access dates, or if historical versioning is not desired,
+removing files no longer in \code{tar_meta()$data}.
+
 See the \code{\link[=tar_repository_cas_local]{tar_repository_cas_local()}} function for an example
 CAS system based on a local folder on disk.
 It uses \code{\link[=tar_repository_cas_local_upload]{tar_repository_cas_local_upload()}},
