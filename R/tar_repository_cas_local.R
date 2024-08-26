@@ -40,7 +40,7 @@
 #' })
 #' }
 tar_repository_cas_local <- function(
-  path,
+  path = file.path(targets::tar_config_get("store"), "cas"),
   consistent = FALSE
 ) {
   tar_assert_scalar(path)

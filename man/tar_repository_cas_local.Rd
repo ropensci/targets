@@ -5,7 +5,10 @@
 \title{Local content-addressable storage (CAS) repository
 (an experimental feature).}
 \usage{
-tar_repository_cas_local(path, consistent = FALSE)
+tar_repository_cas_local(
+  path = file.path(targets::tar_config_get("store"), "cas"),
+  consistent = FALSE
+)
 }
 \arguments{
 \item{path}{Character string, file path to the CAS repository
