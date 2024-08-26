@@ -57,15 +57,15 @@ tar_repository_cas_local <- function(
   exists <- function(key) {
   }
   body(upload) <- substitute(
-    targets::tar_repository_cas_local_upload(cas, key, path),
+    targets::tar_cas_u(cas, key, path),
     env = data
   )
   body(download) <- substitute(
-    targets::tar_repository_cas_local_download(cas, key, path),
+    targets::tar_cas_d(cas, key, path),
     env = data
   )
   body(exists) <- substitute(
-    targets::tar_repository_cas_local_exists(cas, key),
+    targets::tar_cas_e(cas, key),
     env = data
   )
   tar_repository_cas(
@@ -80,11 +80,13 @@ tar_repository_cas_local <- function(
 #' @export
 #' @keywords internal
 #' @description For internal use only.
+#' @details The short function name helps reduce the size of the
+#'   [tar_repository_cas()] format string and save space in the metadata.
 #' @return Called for its side effects.
 #' @param cas File path to the CAS repository.
 #' @param key Key of the object in the CAS system.
 #' @param path Staging path of the file.
-tar_repository_cas_local_upload <- function(cas, key, path) {
+tar_cas_u <- function(cas, key, path) {
   to <- file.path(cas, key)
   if (!file.exists(to)) {
     # Defined in R/utils_files.R. Works on both files and directories.
@@ -97,8 +99,8 @@ tar_repository_cas_local_upload <- function(cas, key, path) {
 #' @keywords internal
 #' @description For internal use only.
 #' @return Called for its side effects.
-#' @inheritParams tar_repository_cas_local_upload
-tar_repository_cas_local_download <- function(cas, key, path) {
+#' @inheritParams tar_cas_u
+tar_cas_d <- function(cas, key, path) {
   # Defined in R/utils_files.R. Works on both directories.
   file_copy(file.path(cas, key), path)
 }
@@ -107,13 +109,15 @@ tar_repository_cas_local_download <- function(cas, key, path) {
 #' @export
 #' @keywords internal
 #' @description For internal use only.
-#' @details [tar_repository_cas_local_exists()] uses an in-memory cache
+#' @details The short function name helps reduce the size of the
+#'   [tar_repository_cas()] format string and save space in the metadata.
+#' @details [tar_cas_e()] uses an in-memory cache
 #'   in a package internal environment to maintain a list of keys that
 #'   exists. This avoids expensive one-time lookups to the file system
 #'   during [tar_make()].
 #' @return `TRUE` if the key exists in the CAS system, `FALSE` otherwise.
-#' @inheritParams tar_repository_cas_local_upload
-tar_repository_cas_local_exists <- function(cas, key) {
+#' @inheritParams tar_cas_u
+tar_cas_e <- function(cas, key) {
   if (is.null(tar_repository_cas_local_cache[[cas]])) {
     keys <- list.files(cas)
     data <- rep(TRUE, length(keys))
