@@ -1,10 +1,11 @@
 #' @title Local content-addressable storage (CAS) repository
 #'   (an experimental feature).
 #' @export
-#' @family storage
+#' @family content-addressable storage
 #' @description Local content-addressable storage (CAS) repository.
 #' @details Pass to the `repository` argument of [tar_target()] or
 #'   [tar_option_set()] to use a local CAS system.
+#' @inheritSection tar_repository_cas Content-addressable storage
 #' @return A character string from [tar_repository_cas()] which may be
 #'   passed to the `repository` argument of [tar_target()] or
 #'   [tar_option_set()] to use a local CAS system.
@@ -32,7 +33,7 @@
 #'     tar_target(z, write_file(y), format = "file", repository = repository)
 #'   )
 #' })
-#' tar_make(callr_function = NULL)
+#' tar_make()
 #' tar_read(y)
 #' tar_read(z)
 #' list.files("cas")

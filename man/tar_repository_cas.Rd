@@ -73,7 +73,8 @@ for downstream computations.}
 Define a custom storage repository that uses
 content-addressable storage (CAS).
 }
-\details{
+\section{Content-addressable storage}{
+
 Without content-addressable storage (CAS),
 the output data of a pipeline is organized based
 on the names of the targets. For example,
@@ -118,6 +119,7 @@ It uses \code{\link[=tar_repository_cas_local_upload]{tar_repository_cas_local_u
 See the "Repository functions" section for specific advice on how
 to write your own methods.
 }
+
 \section{Repository functions}{
 
 In \code{\link[=tar_repository_cas]{tar_repository_cas()}}, functions \code{upload}, \code{download},
@@ -194,7 +196,7 @@ tar_script({
     tar_target(z, write_file(y), format = "file", repository = repository)
   )
 })
-tar_make(callr_function = NULL)
+tar_make()
 tar_read(y)
 tar_read(z)
 list.files("cas")
@@ -203,14 +205,8 @@ tar_meta(any_of(c("x", "z")), fields = any_of("data"))
 }
 }
 \seealso{
-Other storage: 
-\code{\link{tar_format}()},
-\code{\link{tar_load}()},
-\code{\link{tar_load_everything}()},
-\code{\link{tar_load_raw}()},
-\code{\link{tar_objects}()},
-\code{\link{tar_read}()},
-\code{\link{tar_read_raw}()},
-\code{\link{tar_repository_cas_local}()}
+Other content-addressable storage: 
+\code{\link{tar_repository_cas_local}()},
+\code{\link{tar_repository_cas_local_gc}()}
 }
-\concept{storage}
+\concept{content-addressable storage}

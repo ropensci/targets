@@ -1,10 +1,11 @@
 #' @title Define a custom content-addressable storage
 #'   (CAS) repository (an experimental feature).
 #' @export
-#' @family storage
+#' @family content-addressable storage
 #' @description Define a custom storage repository that uses
 #'   content-addressable storage (CAS).
-#' @details Without content-addressable storage (CAS),
+#' @section Content-addressable storage:
+#'   Without content-addressable storage (CAS),
 #'   the output data of a pipeline is organized based
 #'   on the names of the targets. For example,
 #'   if your pipeline has a target `x`,
@@ -178,7 +179,7 @@
 #'     tar_target(z, write_file(y), format = "file", repository = repository)
 #'   )
 #' })
-#' tar_make(callr_function = NULL)
+#' tar_make()
 #' tar_read(y)
 #' tar_read(z)
 #' list.files("cas")

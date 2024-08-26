@@ -62,10 +62,13 @@ reference:
   - 'tar_load_raw'
   - 'tar_load_everything'
   - 'tar_objects'
-  - 'tar_repository_cas'
-  - 'tar_repository_cas_local'
   - 'tar_read'
   - 'tar_read_raw'
+- title: Content-addressable storage
+  contents:
+  - 'tar_repository_cas'
+  - 'tar_repository_cas_local'
+  - 'tar_repository_cas_local_gc'
 - title: Metadata
   contents:
   - 'tar_crew'

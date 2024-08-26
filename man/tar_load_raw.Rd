@@ -133,8 +133,6 @@ Other storage:
 \code{\link{tar_load_everything}()},
 \code{\link{tar_objects}()},
 \code{\link{tar_read}()},
-\code{\link{tar_read_raw}()},
-\code{\link{tar_repository_cas}()},
-\code{\link{tar_repository_cas_local}()}
+\code{\link{tar_read_raw}()}
 }
 \concept{storage}
