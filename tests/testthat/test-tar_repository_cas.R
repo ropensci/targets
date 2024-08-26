@@ -20,6 +20,23 @@ tar_test("tar_repository_cas() generates an encoded string", {
   expect_true(any(grepl("^consistent=+.", out)))
 })
 
+tar_test("validate CAS repository class", {
+  repository <- tar_repository_cas(
+    upload = function(key, path) {
+      file.copy(path, file.path("cas", key))
+    },
+    download = function(key, path) {
+      file.copy(file.path("cas", key), path)
+    },
+    exists = function(key) {
+      file.exists(file.path("cas", key))
+    },
+    consistent = TRUE
+  )
+  target <- tar_target(x, 1, repository = repository)
+  expect_silent(store_validate(target$store))
+})
+
 tar_test("CAS repository works", {
   skip_if_not_installed("qs")
   tar_script({
