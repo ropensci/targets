@@ -78,11 +78,11 @@ store_methods_repository <- function(repository) {
 }
 
 is_format_custom <- function(format) {
-  grepl(pattern = "^format_custom", x = format)
+  !is.null(format) && grepl(pattern = "^format_custom", x = format)
 }
 
 is_repository_cas <- function(repository) {
-  grepl(pattern = "^repository_cas", x = repository)
+  !is.null(repository) && grepl(pattern = "^repository_cas", x = repository)
 }
 
 store_class_format <- function(format) {

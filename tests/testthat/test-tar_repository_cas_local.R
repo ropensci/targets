@@ -27,7 +27,37 @@ tar_test("tar_cas_e() (exists)", {
   expect_true(tar_cas_e("cas", "key2"))
 })
 
-tar_test("local CAS repository works", {
+tar_test("local CAS repository works on default directory", {
+  skip_cran()
+  tar_script({
+    repository <- tar_repository_cas_local()
+    write_file <- function(object) {
+      writeLines(as.character(object), "file.txt")
+      "file.txt"
+    }
+    list(
+      tar_target(x, c(2L, 4L), repository = repository),
+      tar_target(
+        y,
+        x,
+        pattern = map(x),
+        repository = repository
+      ),
+      tar_target(z, write_file(y), format = "file", repository = repository)
+    )
+  })
+  tar_make(reporter = "silent")
+  expect_equal(tar_read(x), c(2L, 4L))
+  expect_equal(unname(tar_read(y)), c(2L, 4L))
+  expect_equal(unname(tar_read(y, branches = 2L)), 4L)
+  expect_equal(readLines(tar_read(z)), c("2", "4"))
+  expect_equal(tar_outdated(), character(0L))
+  unlink(file.path(tar_config_get("store"), "cas", tar_meta(z)$data))
+  expect_equal(tar_outdated(), "z")
+  tar_destroy()
+})
+
+tar_test("local CAS repository works on custom directory", {
   skip_cran()
   tar_script({
     repository <- tar_repository_cas_local(path = "cas")

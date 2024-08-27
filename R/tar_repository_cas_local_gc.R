@@ -28,9 +28,13 @@
 #' })
 #' }
 tar_repository_cas_local_gc <- function(
-  path = file.path(targets::tar_config_get("store"), "cas"),
+  path = NULL,
   store = targets::tar_config_get("store")
 ) {
+  tar_assert_scalar(path %|||% "x")
+  tar_assert_chr(path %|||% "x")
+  tar_assert_nzchar(path %|||% "x")
+  path <- path %|||% path_cas_dir(store)
   meta <- targets::tar_meta(
     fields = tidyselect::any_of("data"),
     targets_only = TRUE,

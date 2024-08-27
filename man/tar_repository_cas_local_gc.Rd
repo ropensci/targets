@@ -5,13 +5,14 @@
 \title{Local CAS garbage collection}
 \usage{
 tar_repository_cas_local_gc(
-  path = file.path(targets::tar_config_get("store"), "cas"),
+  path = NULL,
   store = targets::tar_config_get("store")
 )
 }
 \arguments{
 \item{path}{Character string, file path to the CAS repository
-where all the data object files will be stored.}
+where all the data object files will be stored. \code{NULL} to default to
+\code{file.path(tar_config_get("store"), "cas")} (usually \code{"_targets/cas/"}).}
 
 \item{store}{Character of length 1, path to the
 \code{targets} data store. Defaults to \code{tar_config_get("store")},

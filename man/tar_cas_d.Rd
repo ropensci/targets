@@ -7,7 +7,8 @@
 tar_cas_d(cas, key, path)
 }
 \arguments{
-\item{cas}{File path to the CAS repository.}
+\item{cas}{File path to the CAS repository. \code{NULL} to default to
+\code{file.path(tar_config_get("store"), "cas")} (usually \code{"_targets/cas/"}).}
 
 \item{key}{Key of the object in the CAS system.}
 

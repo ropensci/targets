@@ -40,6 +40,9 @@ tar_read_raw <- function(
 }
 
 tar_read_inner <- function(name, branches, meta, path_store) {
+  old_store <- tar_runtime$store
+  tar_runtime$store <- path_store
+  on.exit(tar_runtime$store <- old_store)
   index <- meta$name == name
   if (!any(index)) {
     tar_throw_validate("target ", name, " not found")

@@ -5,14 +5,12 @@
 \title{Local content-addressable storage (CAS) repository
 (an experimental feature).}
 \usage{
-tar_repository_cas_local(
-  path = file.path(targets::tar_config_get("store"), "cas"),
-  consistent = FALSE
-)
+tar_repository_cas_local(path = NULL, consistent = FALSE)
 }
 \arguments{
 \item{path}{Character string, file path to the CAS repository
-where all the data object files will be stored.}
+where all the data object files will be stored. \code{NULL} to default to
+\code{file.path(tar_config_get("store"), "cas")} (usually \code{"_targets/cas/"}).}
 
 \item{consistent}{Logical. Set to \code{TRUE} if the storage platform is
 strongly read-after-write consistent. Set to \code{FALSE} if the platform

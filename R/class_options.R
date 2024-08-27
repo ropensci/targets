@@ -303,10 +303,9 @@ options_class <- R6::R6Class(
       self$repository %|||% "local"
     },
     get_repository_meta = function() {
-      (self$repository_meta %|||% 
-         if_any(is_repository_cas(self$repository), "local", self$repository)
-      ) %|||%
-        "local"
+      default <- self$repository_meta %|||%
+        if_any(is_repository_cas(self$repository), "local", self$repository)
+      default %|||% "local"
     },
     get_iteration = function() {
       self$iteration %|||% "vector"
