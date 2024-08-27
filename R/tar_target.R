@@ -144,6 +144,8 @@
 #'     See the cloud storage section of
 #'     <https://books.ropensci.org/targets/data.html>
 #'     for details for instructions.
+#'   * A character string from [tar_repository_cas()] for content-addressable
+#'     storage.
 #'
 #'   Note: if `repository` is not `"local"` and `format` is `"file"`
 #'   then the target should create a single output file.

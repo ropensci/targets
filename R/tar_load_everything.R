@@ -1,6 +1,6 @@
 #' @title Load the values of all available targets.
 #' @export
-#' @family data
+#' @family storage
 #' @description Shorthand for `tar_load(everything())` to load all
 #'   targets with entries in the metadata.
 #' @return Nothing.

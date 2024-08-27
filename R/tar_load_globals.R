@@ -42,7 +42,7 @@ tar_load_globals <- function(
 ) {
   force(envir)
   tar_assert_script(script)
-  eval(parse(file = script), envir = envir)
+  eval(parse(file = script, keep.source = TRUE), envir = envir)
   map(
     x = tar_option_get("packages"),
     f = library,

@@ -30,12 +30,12 @@ path_gitignore <- function(path_store) {
   file.path(path_store, ".gitignore")
 }
 
-path_objects <- function(path_store, name) {
-  file.path(path_objects_dir(path_store), name)
+path_cas_dir <- function(path_store) {
+  file.path(path_store, "cas")
 }
 
-path_objects_dir <- function(path_store) {
-  path_objects_dir(path_store = path_store)
+path_objects <- function(path_store, name) {
+  file.path(path_objects_dir(path_store), name)
 }
 
 path_objects_dir <- function(path_store) {

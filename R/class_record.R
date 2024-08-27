@@ -161,7 +161,7 @@ record_bootstrap_store <- function(record) {
     repository = record$repository,
     resources = tar_options$get_resources()
   )
-  store$file$path <- record$path
+  file_repopulate(store$file, record)
   store
 }
 

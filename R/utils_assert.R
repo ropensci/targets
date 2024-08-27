@@ -163,14 +163,14 @@ tar_assert_format <- function(format) {
     )
     format <- gsub("^aws_", "", format)
   }
-  store_assert_format_setting(store_format_dispatch(format))
+  store_assert_format_setting(store_dispatch_format(format))
 }
 
 tar_assert_repository <- function(repository) {
   tar_assert_scalar(repository)
   tar_assert_chr(repository)
   tar_assert_nzchar(repository)
-  store_assert_repository_setting(enclass(repository, repository))
+  store_assert_repository_setting(store_dispatch_repository(repository))
 }
 
 #' @export
@@ -666,7 +666,7 @@ tar_assert_script <- function(script) {
     "Functions tar_edit() and tar_script() can help. "
   )
   tar_assert_path(script, msg)
-  vars <- all.vars(parse(file = script), functions = TRUE)
+  vars <- all.vars(parse(file = script, keep.source = TRUE), functions = TRUE)
   exclude <- c(
     "glimpse",
     "make",

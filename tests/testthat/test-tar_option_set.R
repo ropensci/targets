@@ -98,6 +98,12 @@ tar_test("repository_meta", {
     tar_option_set(repository_meta = 123),
     class = "tar_condition_validate"
   )
+  expect_error(
+    tar_option_set(repository_meta = tar_repository_cas_local()),
+    class = "tar_condition_validate"
+  )
+  tar_option_set(repository = tar_repository_cas_local())
+  expect_equal(tar_option_get("repository_meta"), "local")
 })
 
 tar_test("repository_meta", {

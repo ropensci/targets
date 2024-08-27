@@ -76,6 +76,11 @@ file_should_rehash <- function(file, time, size) {
   )
 }
 
+file_repopulate <- function(file, record) {
+  file$path <- record$path
+  file$hash <- record$data
+}
+
 file_ensure_hash <- function(file) {
   files <- file_list_files(file$path)
   info <- file_info(files)

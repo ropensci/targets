@@ -128,7 +128,7 @@ target_run.tar_builder <- function(target, envir, path_store) {
   target_gc(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
   frames <- frames_produce(envir, target, target$subpipeline)
-  builder_set_tar_runtime(target, frames, path_store)
+  builder_set_tar_runtime(target, frames)
   store_update_stage_early(target$store, target$settings$name, path_store)
   builder_update_build(target, frames_get_envir(frames))
   builder_ensure_paths(target, path_store)
@@ -167,9 +167,7 @@ target_skip.tar_builder <- function(
   active
 ) {
   target_update_queue(target, scheduler)
-  path <- meta$get_record(target_get_name(target))$path
-  file <- target$store$file
-  file$path <- path
+  file_repopulate(target$store$file, meta$get_record(target_get_name(target)))
   if (active) {
     builder_ensure_workspace(
       target = target,
@@ -188,6 +186,8 @@ target_skip.tar_builder <- function(
 
 #' @export
 target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
+  on.exit(builder_unset_tar_runtime())
+  builder_set_tar_runtime(target, NULL)
   target_update_queue(target, scheduler)
   builder_handle_warnings(target, scheduler)
   builder_ensure_workspace(
@@ -498,7 +498,7 @@ builder_wait_correct_hash <- function(target) {
   store_ensure_correct_hash(target$store, storage, deployment)
 }
 
-builder_set_tar_runtime <- function(target, frames, path_store) {
+builder_set_tar_runtime <- function(target, frames) {
   tar_runtime$target <- target
   tar_runtime$frames <- frames
 }

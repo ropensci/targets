@@ -83,8 +83,11 @@ tar_target(
   format = "qs",
   repository = "gcp",
   resources = tar_resources(
-    gcp = tar_resources_gcp(bucket = "yourbucketname"),
-    qs = tar_resources_qs(preset = "fast")
+    gcp = tar_resources_gcp(
+      bucket = "yourbucketname",
+      prefix = "_targets"
+    ),
+    qs = tar_resources_qs(preset = "fast"),
   )
 )
 }
@@ -101,6 +104,7 @@ Other resources:
 \code{\link{tar_resources_network}()},
 \code{\link{tar_resources_parquet}()},
 \code{\link{tar_resources_qs}()},
+\code{\link{tar_resources_repository_cas}()},
 \code{\link{tar_resources_url}()}
 }
 \concept{resources}

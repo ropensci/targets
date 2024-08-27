@@ -12,7 +12,10 @@
 #' message(x)
 #' }
 tar_make_interactive <- function(code) {
-  targets <- eval(parse(text = code), envir = tar_option_get("envir"))
+  targets <- eval(
+    parse(text = code, keep.source = TRUE),
+    envir = tar_option_get("envir")
+  )
   pipeline <- pipeline_from_list(targets)
   pipeline_reset_deployments(pipeline)
   queue <- if_any(

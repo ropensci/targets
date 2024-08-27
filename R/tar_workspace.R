@@ -71,7 +71,7 @@ tar_workspace <- function(
     workspace_load_packages(workspace)
   }
   if (source) {
-    eval(parse(text = readLines(script)), envir = envir)
+    eval(parse(text = readLines(script), keep.source = TRUE), envir = envir)
   }
   workspace_set_seed(workspace)
   invisible()

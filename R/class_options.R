@@ -303,7 +303,9 @@ options_class <- R6::R6Class(
       self$repository %|||% "local"
     },
     get_repository_meta = function() {
-      (self$repository_meta %|||% self$repository) %|||% "local"
+      default <- self$repository_meta %|||%
+        if_any(is_repository_cas(self$repository), "local", self$repository)
+      default %|||% "local"
     },
     get_iteration = function() {
       self$iteration %|||% "vector"
@@ -501,7 +503,11 @@ options_class <- R6::R6Class(
       tar_assert_repository(repository)
     },
     validate_repository_meta = function(repository_meta) {
-      tar_assert_repository(repository_meta)
+      tar_assert_in(
+        repository_meta,
+        choices = c("local", "aws", "gcp"),
+        msg = "repository_meta must be one of \"local\", \"aws\", or \"gcp\"."
+      )
     },
     validate_iteration = function(iteration) {
       tar_assert_flag(iteration, c("vector", "list", "group"))

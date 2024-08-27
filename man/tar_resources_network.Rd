@@ -14,9 +14,8 @@ tar_resources_network(
 \arguments{
 \item{max_tries}{Positive integer of length 1. Max number of tries.}
 
-\item{seconds_interval}{Positive numeric of length 1.
-Multiplier for the exponential backoff algorithm, and width
-of the jitter. Units of seconds.}
+\item{seconds_interval}{Positive numeric of length 1, seconds between
+retries.}
 
 \item{seconds_timeout}{Positive numeric of length 1. Timeout length in
 seconds.}
@@ -83,6 +82,7 @@ Other resources:
 \code{\link{tar_resources_gcp}()},
 \code{\link{tar_resources_parquet}()},
 \code{\link{tar_resources_qs}()},
+\code{\link{tar_resources_repository_cas}()},
 \code{\link{tar_resources_url}()}
 }
 \concept{resources}

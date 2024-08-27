@@ -63,8 +63,8 @@ tar_source <- function(
     function(script) {
       if (change_directory) {
         dir <- dirname(script)
-        old <- eval(parse(text = "setwd(dir)"))
-        on.exit(eval(parse(text = "setwd(old)")))
+        old <- eval(parse(text = "setwd(dir)", keep.source = FALSE))
+        on.exit(eval(parse(text = "setwd(old)", keep.source = FALSE)))
         expr <- parse(file = basename(script), keep.source = TRUE)
       } else {
         expr <- parse(file = script, keep.source = TRUE)

@@ -31,7 +31,14 @@ counter_exists_name <- function(counter, name) {
 }
 
 counter_exist_names <- function(counter, names) {
-  unlist(lapply(names, exists, envir = counter$envir, inherits = FALSE))
+  as.logical(
+    lapply(
+      names,
+      exists,
+      envir = counter$envir,
+      inherits = FALSE
+    )
+  )
 }
 
 counter_filter_exists <- function(counter, names) {
