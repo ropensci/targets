@@ -40,48 +40,73 @@ other colleagues who worked on the same project.
 }
 \section{Content-addressable storage}{
 
-Without content-addressable storage (CAS),
-the output data of a pipeline is organized based
-on the names of the targets. For example,
-if your pipeline has a target \code{x},
-then by default \code{\link[=tar_make]{tar_make()}} will store the data in a file
-at \verb{_targets/objects/x}.
-Here, the storage location of \code{x} depends on its target name.
+Normally, \code{targets} organizes output data
+based on target names. For example,
+if a pipeline has a single target \code{x} with default settings,
+then \code{\link[=tar_make]{tar_make()}} saves the output data to the file
+\verb{_targets/objects/x}. When the output of \code{x} changes, \code{\link[=tar_make]{tar_make()}}
+overwrites \verb{_targets/objects/x}.
+In other words, no matter how many changes happen to \code{x},
+the data store always looks like this:
 
-Content-addressable storage (CAS) is different:
-output files are organized based on their contents, not target names.
-In a CAS system, the name of each output object is its hash, and the
-metadata in
-\code{tar_meta(fields = any_of(c("name", "data")), targets_only = TRUE)}
-maps target names to object names.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{_targets/
+├── meta/
+│   └── meta
+└── objects/
+    └── x
+}\if{html}{\out{</div>}}
 
-CAS is ideal for data versioning and collaboration
-because it accrues an ever-growing collection of historical objects
-that the metadata can reassign to different target names as needed.
-For example, if your code and metadata (\verb{_targets/meta/meta})
-are in the same version-controlled source code repository and you
-revert to a previous commit, then you can revisit a historical
-version of your pipeline with your targets still up to date.
-And in collaborative settings, you can fork your colleague's
-code and metadata and leverage their up-to-date targets.
+By contrast, with content-addressable storage (CAS),
+\code{targets} organizes outputs based on the hashes of their contents.
+The name of each output file is its hash, and the
+metadata maps these hashes to target names. For example, suppose
+target \code{x} has \code{repository = tar_repository_cas_local("my_cas")}.
+When the output of \code{x} changes, \code{\link[=tar_make]{tar_make()}} creates a new file
+inside \verb{my_cas/} without overwriting or deleting any other files
+in that folder. If you run \code{\link[=tar_make]{tar_make()}} three different times
+with three different values of \code{x}, then storage will look like this:
 
-The weakness of CAS is the heavy buildup of data objects over time.
-Whereas non-CAS storage maintains only the current version of target
-\code{x} at any given time, a CAS system maintains each version of \code{x}
-in its own file. Over time, this adds up to a lot of data and
-a lot of files. Most pipelines using CAS
-should have a garbage collection system to remove objects no longer
-needed. This could involve removing files with sufficiently old
-access dates, or if historical versioning is not desired,
-removing files no longer in \code{tar_meta()$data}.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{_targets/
+└── meta/
+    └── meta
+my_cas/
+├── 1fffeb09ad36e84a
+├── 68328d833e6361d3
+└── 798af464fb2f6b30
+}\if{html}{\out{</div>}}
 
-See the \code{\link[=tar_repository_cas_local]{tar_repository_cas_local()}} function for an example
+The next call to \code{tar_read(x)} uses \code{tar_meta(x)$data}
+to look up the current hash of \code{x}. If \code{tar_meta(x)$data} returns
+\code{"1fffeb09ad36e84a"}, then \code{tar_read(x)} returns the data from
+\verb{my_cas/1fffeb09ad36e84a}. Files \verb{my_cas/68328d833e6361d3} and
+and \verb{my_cas/798af464fb2f6b30} are left over from previous values of \code{x}.
+
+Because CAS accumulates historical data objects,
+it is ideal for data versioning and collaboration.
+If you commit the \verb{_targets/meta/meta} file to version control
+alongside the source code,
+then you can revert to a previous state of a pipeline with all your
+targets up to date, and a colleague can leverage your hard-won
+results using a fork of your metadata.
+
+The downside of CAS is the cost of accumulating many data objects
+over time. Most pipelines that use CAS
+should have a garbage collection system or retention policy
+to remove data objects when they no longer needed.
+
+The \code{\link[=tar_repository_cas]{tar_repository_cas()}} function lets you create your own CAS system
+for \code{targets}. You can supply arbitrary custom methods to upload,
+download, and check for the existence of data objects. Your custom
+CAS system can exist locally on a shared file system or remotely
+on the cloud (e.g. in an AWS S3 bucket).
+See the "Repository functions" section for specific advice on how
+to write your own methods.
+
+The \code{\link[=tar_repository_cas_local]{tar_repository_cas_local()}} function has an example
 CAS system based on a local folder on disk.
 It uses \code{\link[=tar_cas_u]{tar_cas_u()}} for uploads,
 \code{\link[=tar_cas_d]{tar_cas_d()}} for downloads, and
 \code{\link[=tar_cas_e]{tar_cas_e()}} for existence.
-See the "Repository functions" section for specific advice on how
-to write your own methods.
 }
 
 \examples{

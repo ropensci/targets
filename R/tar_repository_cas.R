@@ -5,48 +5,75 @@
 #' @description Define a custom storage repository that uses
 #'   content-addressable storage (CAS).
 #' @section Content-addressable storage:
-#'   Without content-addressable storage (CAS),
-#'   the output data of a pipeline is organized based
-#'   on the names of the targets. For example,
-#'   if your pipeline has a target `x`,
-#'   then by default [tar_make()] will store the data in a file
-#'   at `_targets/objects/x`.
-#'   Here, the storage location of `x` depends on its target name.
+#'   Normally, `targets` organizes output data
+#'   based on target names. For example,
+#'   if a pipeline has a single target `x` with default settings,
+#'   then [tar_make()] saves the output data to the file
+#'   `_targets/objects/x`. When the output of `x` changes, [tar_make()]
+#'   overwrites `_targets/objects/x`.
+#'   In other words, no matter how many changes happen to `x`,
+#'   the data store always looks like this:
 #'
-#'   Content-addressable storage (CAS) is different:
-#'   output files are organized based on their contents, not target names.
-#'   In a CAS system, the name of each output object is its hash, and the
-#'   metadata in
-#'   `tar_meta(fields = any_of(c("name", "data")), targets_only = TRUE)`
-#'   maps target names to object names.
+#'   ```
+#'   _targets/
+#'   ├── meta/
+#'   │   └── meta
+#'   └── objects/
+#'       └── x
+#'   ```
 #'
-#'   CAS is ideal for data versioning and collaboration
-#'   because it accrues an ever-growing collection of historical objects
-#'   that the metadata can reassign to different target names as needed.
-#'   For example, if your code and metadata (`_targets/meta/meta`)
-#'   are in the same version-controlled source code repository and you
-#'   revert to a previous commit, then you can revisit a historical
-#'   version of your pipeline with your targets still up to date.
-#'   And in collaborative settings, you can fork your colleague's
-#'   code and metadata and leverage their up-to-date targets.
+#'   By contrast, with content-addressable storage (CAS),
+#'   `targets` organizes outputs based on the hashes of their contents.
+#'   The name of each output file is its hash, and the
+#'   metadata maps these hashes to target names. For example, suppose
+#'   target `x` has `repository = tar_repository_cas_local("my_cas")`.
+#'   When the output of `x` changes, [tar_make()] creates a new file
+#'   inside `my_cas/` without overwriting or deleting any other files
+#'   in that folder. If you run [tar_make()] three different times
+#'   with three different values of `x`, then storage will look like this:
 #'
-#'   The weakness of CAS is the heavy buildup of data objects over time.
-#'   Whereas non-CAS storage maintains only the current version of target
-#'   `x` at any given time, a CAS system maintains each version of `x`
-#'   in its own file. Over time, this adds up to a lot of data and
-#'   a lot of files. Most pipelines using CAS
-#'   should have a garbage collection system to remove objects no longer
-#'   needed. This could involve removing files with sufficiently old
-#'   access dates, or if historical versioning is not desired,
-#'   removing files no longer in `tar_meta()$data`.
+#'   ```
+#'   _targets/
+#'   └── meta/
+#'       └── meta
+#'   my_cas/
+#'   ├── 1fffeb09ad36e84a
+#'   ├── 68328d833e6361d3
+#'   └── 798af464fb2f6b30
+#'   ```
 #'
-#'   See the [tar_repository_cas_local()] function for an example
+#'   The next call to `tar_read(x)` uses `tar_meta(x)$data`
+#'   to look up the current hash of `x`. If `tar_meta(x)$data` returns
+#'   `"1fffeb09ad36e84a"`, then `tar_read(x)` returns the data from
+#'   `my_cas/1fffeb09ad36e84a`. Files `my_cas/68328d833e6361d3` and
+#'   and `my_cas/798af464fb2f6b30` are left over from previous values of `x`.
+#'
+#'   Because CAS accumulates historical data objects,
+#'   it is ideal for data versioning and collaboration.
+#'   If you commit the `_targets/meta/meta` file to version control
+#'   alongside the source code,
+#'   then you can revert to a previous state of a pipeline with all your
+#'   targets up to date, and a colleague can leverage your hard-won
+#'   results using a fork of your metadata.
+#'
+#'   The downside of CAS is the cost of accumulating many data objects
+#'   over time. Most pipelines that use CAS
+#'   should have a garbage collection system or retention policy
+#'   to remove data objects when they no longer needed.
+#'
+#'   The [tar_repository_cas()] function lets you create your own CAS system
+#'   for `targets`. You can supply arbitrary custom methods to upload,
+#'   download, and check for the existence of data objects. Your custom
+#'   CAS system can exist locally on a shared file system or remotely
+#'   on the cloud (e.g. in an AWS S3 bucket).
+#'   See the "Repository functions" section for specific advice on how
+#'   to write your own methods.
+#'
+#'   The [tar_repository_cas_local()] function has an example
 #'   CAS system based on a local folder on disk.
 #'   It uses [tar_cas_u()] for uploads,
 #'   [tar_cas_d()] for downloads, and
 #'   [tar_cas_e()] for existence.
-#'   See the "Repository functions" section for specific advice on how
-#'   to write your own methods.
 #' @section Repository functions:
 #'   In [tar_repository_cas()], functions `upload`, `download`,
 #'   and `exists` must be perfectly pure
