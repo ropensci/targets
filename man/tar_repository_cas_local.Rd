@@ -98,9 +98,9 @@ Because CAS accumulates historical data objects,
 it is ideal for data versioning and collaboration.
 If you commit the \verb{_targets/meta/meta} file to version control
 alongside the source code,
-then you can revert to a previous state of a pipeline with all your
+then you can revert to a previous state of your pipeline with all your
 targets up to date, and a colleague can leverage your hard-won
-results using a fork of your metadata.
+results using a fork of your code and metadata.
 
 The downside of CAS is the cost of accumulating many data objects
 over time. Most pipelines that use CAS
