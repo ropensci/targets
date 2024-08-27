@@ -78,7 +78,7 @@ store_format_custom_call_method <- function(store, text, args) {
     do.call(what = Sys.setenv, args = as.list(envvars))
   }
   envir <- new.env(parent = baseenv())
-  what <- eval(parse(text = text), envir = envir)
+  what <- eval(parse(text = text, keep.source = FALSE), envir = envir)
   do.call(what = what, args = args, envir = envir)
 }
 

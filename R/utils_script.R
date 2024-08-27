@@ -13,7 +13,10 @@ tar_script_options <- function(script) {
     # Covered in unit tests but runs in a different R process.
     # nocov start
     func = function(script) {
-      eval(parse(file = script), envir = targets::tar_option_get("envir"))
+      eval(
+        parse(file = script, keep.source = TRUE),
+        envir = targets::tar_option_get("envir")
+      )
       targets::tar_option_export()
     },
     # nocov end
@@ -27,7 +30,10 @@ tar_script_targets <- function(script) {
     # Covered in unit tests but runs in a different R process.
     # nocov start
     func = function(script) {
-      eval(parse(file = script), envir = targets::tar_option_get("envir"))
+      eval(
+        parse(file = script, keep.source = TRUE),
+        envir = targets::tar_option_get("envir")
+      )
     },
     # nocov end
     args = list(script = script)

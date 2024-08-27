@@ -666,7 +666,7 @@ tar_assert_script <- function(script) {
     "Functions tar_edit() and tar_script() can help. "
   )
   tar_assert_path(script, msg)
-  vars <- all.vars(parse(file = script), functions = TRUE)
+  vars <- all.vars(parse(file = script, keep.source = TRUE), functions = TRUE)
   exclude <- c(
     "glimpse",
     "make",
