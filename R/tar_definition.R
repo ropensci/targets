@@ -31,6 +31,10 @@
 tar_definition <- function(
   default = targets::tar_target_raw("target_name", quote(identity()))
 ) {
-  tar_assert_target(default)
-  if_any(!is.null(tar_runtime$target), tar_runtime$target, default)
+  if (is.null(tar_runtime$target)) {
+    tar_assert_target(default)
+    default
+  } else {
+    .subset2(tar_runtime, "target")
+  }
 }

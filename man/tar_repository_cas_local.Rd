@@ -90,10 +90,9 @@ removing files no longer in \code{tar_meta()$data}.
 
 See the \code{\link[=tar_repository_cas_local]{tar_repository_cas_local()}} function for an example
 CAS system based on a local folder on disk.
-It uses \code{\link[=tar_repository_cas_local_upload]{tar_repository_cas_local_upload()}},
-\code{\link[=tar_repository_cas_local_download]{tar_repository_cas_local_download()}}, and
-\code{\link[=tar_repository_cas_local_exists]{tar_repository_cas_local_exists()}} for the respective
-\code{upload}, \code{download}, and \code{exists} methods.
+It uses \code{\link[=tar_cas_u]{tar_cas_u()}} for uploads,
+\code{\link[=tar_cas_d]{tar_cas_d()}} for downloads, and
+\code{\link[=tar_cas_e]{tar_cas_e()}} for existence.
 See the "Repository functions" section for specific advice on how
 to write your own methods.
 }

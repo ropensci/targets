@@ -42,10 +42,9 @@
 #'
 #'   See the [tar_repository_cas_local()] function for an example
 #'   CAS system based on a local folder on disk.
-#'   It uses [tar_repository_cas_local_upload()],
-#'   [tar_repository_cas_local_download()], and
-#'   [tar_repository_cas_local_exists()] for the respective
-#'   `upload`, `download`, and `exists` methods.
+#'   It uses [tar_cas_u()] for uploads,
+#'   [tar_cas_d()] for downloads, and
+#'   [tar_cas_e()] for existence.
 #'   See the "Repository functions" section for specific advice on how
 #'   to write your own methods.
 #' @section Repository functions:

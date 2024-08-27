@@ -35,15 +35,6 @@ store_upload_object.tar_repository_cas <- function(store) {
     text = store$methods_repository$upload,
     args = list(key = store$file$hash, path = store$file$stage)
   )
-  tar_assert_true(
-    all(file.exists(store$file$stage)),
-    msg = paste0(
-      "CAS repository upload attempted deleted file ",
-      store$file$stage,
-      ". Uploads should not delete the output files from targets ",
-      "because it causes problems with format = \"file\"."
-    )
-  )
 }
 
 #' @export

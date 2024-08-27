@@ -93,8 +93,11 @@ tar_cas_u <- function(cas, key, path) {
   cas <- cas %|||% path_cas_dir(tar_runtime$store)
   to <- file.path(cas, key)
   if (!file.exists(to)) {
-    # Defined in R/utils_files.R. Works on both files and directories.
-    file_copy(path, to)
+    if_any(
+      identical(tar_definition()$settings$format, "file"),
+      file_copy(path, to), # Defined in R/utils_files.R for files & dirs.
+      file_move(path, to)  # Defined in R/utils_files.R for files & dirs.
+    )
   }
 }
 
@@ -106,7 +109,7 @@ tar_cas_u <- function(cas, key, path) {
 #' @inheritParams tar_cas_u
 tar_cas_d <- function(cas, key, path) {
   cas <- cas %|||% path_cas_dir(tar_runtime$store)
-  # Defined in R/utils_files.R. Works on both directories.
+  # Defined in R/utils_files.R. Works on both files and directories.
   file_copy(file.path(cas, key), path)
 }
 

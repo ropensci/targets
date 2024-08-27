@@ -46,15 +46,19 @@ tar_test("local CAS repository works on default directory", {
       tar_target(z, write_file(y), format = "file", repository = repository)
     )
   })
-  tar_make(reporter = "silent")
-  expect_equal(tar_read(x), c(2L, 4L))
-  expect_equal(unname(tar_read(y)), c(2L, 4L))
-  expect_equal(unname(tar_read(y, branches = 2L)), 4L)
-  expect_equal(readLines(tar_read(z)), c("2", "4"))
-  expect_equal(tar_outdated(), character(0L))
-  unlink(file.path(tar_config_get("store"), "cas", tar_meta(z)$data))
-  expect_equal(tar_outdated(), "z")
-  tar_destroy()
+  on.exit(tar_option_reset())
+  for (storage in c("main", "worker")) {
+    tar_option_set(storage = storage, retrieval = storage)
+    tar_make(callr_function = NULL, reporter = "silent")
+    expect_equal(tar_read(x), c(2L, 4L))
+    expect_equal(unname(tar_read(y)), c(2L, 4L))
+    expect_equal(unname(tar_read(y, branches = 2L)), 4L)
+    expect_equal(readLines(tar_read(z)), c("2", "4"))
+    expect_equal(tar_outdated(), character(0L))
+    unlink(file.path(tar_config_get("store"), "cas", tar_meta(z)$data))
+    expect_equal(tar_outdated(), "z")
+    tar_destroy()
+  }
 })
 
 tar_test("local CAS repository works on custom directory", {
