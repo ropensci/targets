@@ -38,8 +38,7 @@ the CAS system.
 
 For efficiency, \code{exists} can maintain an in-memory cache of keys.
 New lookups can check the cache and potentially avoid expensive
-queries to the CAS system. See the source code of
-\code{\link[=tar_repository_cas_local_exists]{tar_repository_cas_local_exists()}}
+queries to the CAS system. See the source code of \code{\link[=tar_cas_e]{tar_cas_e()}}
 for an example of how this can work for a local file system CAS.}
 
 \item{consistent}{Logical. Set to \code{TRUE} if the storage platform is

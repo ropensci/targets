@@ -30,6 +30,13 @@ store_hash_late.tar_repository_cas <- function(store) {
 #' @export
 store_upload_object.tar_repository_cas <- function(store) {
   on.exit(unlink(store$file$stage, recursive = TRUE, force = TRUE))
+  tar_assert_scalar(
+    store$file$path,
+    msg = paste(
+      "for a tar_repository_cas() target, the output must be",
+      "a single file or single directory."
+    )
+  )
   store_repository_cas_call_method(
     store = store,
     text = store$methods_repository$upload,

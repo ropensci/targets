@@ -112,8 +112,7 @@
 #'
 #'   For efficiency, `exists` can maintain an in-memory cache of keys.
 #'   New lookups can check the cache and potentially avoid expensive
-#'   queries to the CAS system. See the source code of
-#'   [tar_repository_cas_local_exists()]
+#'   queries to the CAS system. See the source code of [tar_cas_e()]
 #'   for an example of how this can work for a local file system CAS.
 #' @param consistent Logical. Set to `TRUE` if the storage platform is
 #'   strongly read-after-write consistent. Set to `FALSE` if the platform
