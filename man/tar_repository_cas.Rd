@@ -16,21 +16,29 @@ system. It could be a staging area or a custom \code{format = "file"}
 location. \code{key} denotes the name of the destination data object
 in the CAS system.
 
-\code{upload} must only copy the file to its destination and not
-remove the original source path. This is because \code{format = "file"}
-targets should remain on disk after the upload phase. For non-\code{"file"}
-formats, \code{targets} will remove the temporary staging file
-automatically after the upload is finished. If you are working on your
-local machine and have need for a CAS system, it is likely that the
-CAS object files will exist on a different drive than your local
-file environment anyway, which means copying will probably have to
-take place regardless.}
+In the case of \code{format = "file"}, \code{upload} must not delete or move
+the original file at \code{path}. In other words, \code{path} must still
+exist in its original form after \code{upload} finishes.
+But in the case of non-\code{"file"} targets,
+\code{path} is a staging area which is automatically removed
+after upload, so \code{upload} can safely remove \code{path} if needed.
+
+To differentiate between
+\code{format = "file"} targets and non-\code{"file"} targets, the \code{upload}
+method can use \code{\link[=tar_format_get]{tar_format_get()}}. For example, to make
+\code{\link[=tar_repository_cas_local]{tar_repository_cas_local()}} efficient, \code{upload} moves the file
+if \code{targets::tar_format_get() == "file"} and copies it otherwise.}
 
 \item{download}{A function with arguments \code{key} and \code{path}, in that order.
 This function should download the data object at \code{key} from
 the CAS system to the file or directory at \code{path}.
 \code{key} denotes the name of the data object in the CAS system.
-\code{path} is a temporary staging area and not the final destination.}
+\code{path} is a temporary staging area and not the final destination.
+
+Please be careful to avoid deleting the object at \code{key} from the CAS
+system. If the CAS system is a local file system, for example,
+\code{download} should copy the file and not simply move it
+(e.g. please avoid \code{file.rename()}).}
 
 \item{exists}{A function with a single argument \code{key}.
 This function should check if there is an object at \code{key} in
@@ -133,7 +141,8 @@ for \code{targets}. You can supply arbitrary custom methods to upload,
 download, and check for the existence of data objects. Your custom
 CAS system can exist locally on a shared file system or remotely
 on the cloud (e.g. in an AWS S3 bucket).
-See the "Repository functions" section for specific advice on how
+See the "Repository functions" section and the documentation
+of individual arguments for advice on how
 to write your own methods.
 
 The \code{\link[=tar_repository_cas_local]{tar_repository_cas_local()}} function has an example
@@ -146,8 +155,7 @@ It uses \code{\link[=tar_cas_u]{tar_cas_u()}} for uploads,
 \section{Repository functions}{
 
 In \code{\link[=tar_repository_cas]{tar_repository_cas()}}, functions \code{upload}, \code{download},
-and \code{exists} must be perfectly pure
-and perfectly self-sufficient.
+and \code{exists} must be completely pure and self-sufficient.
 They must load or namespace all their own packages,
 and they must not depend on any custom user-defined
 functions or objects in the global environment of your pipeline.
@@ -156,10 +164,20 @@ so it must not rely on any data in the closure.
 This disqualifies functions produced by \code{Vectorize()},
 for example.
 
-\code{upload} and \code{download} should also handle directory outputs in
-some way. Either they should assume \code{path} can be a directory
-as well as a file, or \code{upload} should throw an error if \code{path}
-is a directory.
+\code{upload} and \code{download} can assume \code{length(path)} is 1, but they should
+account for the possibility that \code{path} could be a directory. To simply
+avoid supporting directories, \code{upload} could simply call an assertion:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{targets::tar_assert_not_dir(
+  path,
+  msg = "This CAS upload method does not support directories."
+)
+}\if{html}{\out{</div>}}
+
+Otherwise, support for directories may require handling them as a
+special case. For example, \code{upload} and \code{download} could copy
+all the files in the given directory,
+or they could manage the directory as a zip archive.
 
 Some functions may need to be adapted and configured based on other
 inputs. For example, you may want to define

@@ -99,7 +99,8 @@ for \code{targets}. You can supply arbitrary custom methods to upload,
 download, and check for the existence of data objects. Your custom
 CAS system can exist locally on a shared file system or remotely
 on the cloud (e.g. in an AWS S3 bucket).
-See the "Repository functions" section for specific advice on how
+See the "Repository functions" section and the documentation
+of individual arguments for advice on how
 to write your own methods.
 
 The \code{\link[=tar_repository_cas_local]{tar_repository_cas_local()}} function has an example

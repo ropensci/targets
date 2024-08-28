@@ -66,7 +66,8 @@
 #'   download, and check for the existence of data objects. Your custom
 #'   CAS system can exist locally on a shared file system or remotely
 #'   on the cloud (e.g. in an AWS S3 bucket).
-#'   See the "Repository functions" section for specific advice on how
+#'   See the "Repository functions" section and the documentation
+#'   of individual arguments for advice on how
 #'   to write your own methods.
 #'
 #'   The [tar_repository_cas_local()] function has an example
@@ -76,8 +77,7 @@
 #'   [tar_cas_e()] for existence.
 #' @section Repository functions:
 #'   In [tar_repository_cas()], functions `upload`, `download`,
-#'   and `exists` must be perfectly pure
-#'   and perfectly self-sufficient.
+#'   and `exists` must be completely pure and self-sufficient.
 #'   They must load or namespace all their own packages,
 #'   and they must not depend on any custom user-defined
 #'   functions or objects in the global environment of your pipeline.
@@ -86,10 +86,21 @@
 #'   This disqualifies functions produced by `Vectorize()`,
 #'   for example.
 #'
-#'   `upload` and `download` should also handle directory outputs in
-#'   some way. Either they should assume `path` can be a directory
-#'   as well as a file, or `upload` should throw an error if `path`
-#'   is a directory.
+#'   `upload` and `download` can assume `length(path)` is 1, but they should
+#'   account for the possibility that `path` could be a directory. To simply
+#'   avoid supporting directories, `upload` could simply call an assertion:
+#'
+#'   ```r
+#'   targets::tar_assert_not_dir(
+#'     path,
+#'     msg = "This CAS upload method does not support directories."
+#'   )
+#'   ```
+#'
+#'   Otherwise, support for directories may require handling them as a
+#'   special case. For example, `upload` and `download` could copy
+#'   all the files in the given directory,
+#'   or they could manage the directory as a zip archive.
 #'
 #'   Some functions may need to be adapted and configured based on other
 #'   inputs. For example, you may want to define
@@ -119,20 +130,28 @@
 #'   location. `key` denotes the name of the destination data object
 #'   in the CAS system.
 #'
-#'   `upload` must only copy the file to its destination and not
-#'   remove the original source path. This is because `format = "file"`
-#'   targets should remain on disk after the upload phase. For non-`"file"`
-#'   formats, `targets` will remove the temporary staging file
-#'   automatically after the upload is finished. If you are working on your
-#'   local machine and have need for a CAS system, it is likely that the
-#'   CAS object files will exist on a different drive than your local
-#'   file environment anyway, which means copying will probably have to
-#'   take place regardless.
+#'   In the case of `format = "file"`, `upload` must not delete or move
+#'   the original file at `path`. In other words, `path` must still
+#'   exist in its original form after `upload` finishes.
+#'   But in the case of non-`"file"` targets,
+#'   `path` is a staging area which is automatically removed
+#'   after upload, so `upload` can safely remove `path` if needed.
+#'
+#'   To differentiate between
+#'   `format = "file"` targets and non-`"file"` targets, the `upload`
+#'   method can use [tar_format_get()]. For example, to make
+#'   [tar_repository_cas_local()] efficient, `upload` moves the file
+#'   if `targets::tar_format_get() == "file"` and copies it otherwise.
 #' @param download A function with arguments `key` and `path`, in that order.
 #'   This function should download the data object at `key` from
 #'   the CAS system to the file or directory at `path`.
 #'   `key` denotes the name of the data object in the CAS system.
 #'   `path` is a temporary staging area and not the final destination.
+#'
+#'   Please be careful to avoid deleting the object at `key` from the CAS
+#'   system. If the CAS system is a local file system, for example,
+#'   `download` should copy the file and not simply move it
+#'   (e.g. please avoid `file.rename()`).
 #' @param exists A function with a single argument `key`.
 #'   This function should check if there is an object at `key` in
 #'   the CAS system.
