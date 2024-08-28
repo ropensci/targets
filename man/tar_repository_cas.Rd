@@ -27,7 +27,9 @@ To differentiate between
 \code{format = "file"} targets and non-\code{"file"} targets, the \code{upload}
 method can use \code{\link[=tar_format_get]{tar_format_get()}}. For example, to make
 \code{\link[=tar_repository_cas_local]{tar_repository_cas_local()}} efficient, \code{upload} moves the file
-if \code{targets::tar_format_get() == "file"} and copies it otherwise.}
+if \code{targets::tar_format_get() == "file"} and copies it otherwise.
+
+See the "Repository functions" section for more details.}
 
 \item{download}{A function with arguments \code{key} and \code{path}, in that order.
 This function should download the data object at \code{key} from
@@ -38,7 +40,9 @@ the CAS system to the file or directory at \code{path}.
 Please be careful to avoid deleting the object at \code{key} from the CAS
 system. If the CAS system is a local file system, for example,
 \code{download} should copy the file and not simply move it
-(e.g. please avoid \code{file.rename()}).}
+(e.g. please avoid \code{file.rename()}).
+
+See the "Repository functions" section for more details.}
 
 \item{exists}{A function with a single argument \code{key}.
 This function should check if there is an object at \code{key} in
@@ -47,7 +51,9 @@ the CAS system.
 For efficiency, \code{exists} can maintain an in-memory cache of keys.
 New lookups can check the cache and potentially avoid expensive
 queries to the CAS system. See the source code of \code{\link[=tar_cas_e]{tar_cas_e()}}
-for an example of how this can work for a local file system CAS.}
+for an example of how this can work for a local file system CAS.
+
+See the "Repository functions" section for more details.}
 
 \item{consistent}{Logical. Set to \code{TRUE} if the storage platform is
 strongly read-after-write consistent. Set to \code{FALSE} if the platform

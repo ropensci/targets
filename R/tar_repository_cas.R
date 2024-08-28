@@ -142,6 +142,8 @@
 #'   method can use [tar_format_get()]. For example, to make
 #'   [tar_repository_cas_local()] efficient, `upload` moves the file
 #'   if `targets::tar_format_get() == "file"` and copies it otherwise.
+#'
+#'   See the "Repository functions" section for more details.
 #' @param download A function with arguments `key` and `path`, in that order.
 #'   This function should download the data object at `key` from
 #'   the CAS system to the file or directory at `path`.
@@ -152,6 +154,8 @@
 #'   system. If the CAS system is a local file system, for example,
 #'   `download` should copy the file and not simply move it
 #'   (e.g. please avoid `file.rename()`).
+#'
+#'   See the "Repository functions" section for more details.
 #' @param exists A function with a single argument `key`.
 #'   This function should check if there is an object at `key` in
 #'   the CAS system.
@@ -160,6 +164,8 @@
 #'   New lookups can check the cache and potentially avoid expensive
 #'   queries to the CAS system. See the source code of [tar_cas_e()]
 #'   for an example of how this can work for a local file system CAS.
+#'
+#'   See the "Repository functions" section for more details.
 #' @param consistent Logical. Set to `TRUE` if the storage platform is
 #'   strongly read-after-write consistent. Set to `FALSE` if the platform
 #'   is not necessarily strongly read-after-write consistent.
