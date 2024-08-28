@@ -11,6 +11,7 @@
 * Implement `format = "auto"` (#1311, @hadley).
 * Replace `pingr` dependency with `base::socketConnection()` for local URL utilities (#1317, #1318, @Adafede).
 * Implement `tar_repository_cas()`, `tar_repository_cas_local()`, and `tar_repository_cas_local_gc()` for content-addressable storage (#1232, #1314, @noamross).
+* Add `tar_format_get()` to make implementing CAS systems easier.
 
 # targets 1.7.1
 

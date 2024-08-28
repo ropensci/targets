@@ -172,6 +172,7 @@ reference:
   - 'tar_definition'
   - 'tar_described_as'
   - 'tar_envir'
+  - 'tar_format_get'
   - 'tar_group'
   - 'tar_name'
   - 'tar_path_script'
