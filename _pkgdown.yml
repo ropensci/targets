@@ -42,7 +42,6 @@ reference:
 - title: Targets
   contents:
   - 'tar_cue'
-  - 'tar_format'
   - 'tar_target'
   - 'tar_target_raw'
 - title: Pipeline
@@ -56,24 +55,30 @@ reference:
   - 'tar_traceback'
   - 'tar_workspace'
   - 'tar_workspaces'
-- title: Data
+- title: Storage
   contents:
-  - 'tar_crew'
+  - 'tar_format'
   - 'tar_load'
   - 'tar_load_raw'
   - 'tar_load_everything'
   - 'tar_objects'
-  - 'tar_pid'
-  - 'tar_process'
   - 'tar_read'
   - 'tar_read_raw'
+- title: Content-addressable storage
+  contents:
+  - 'tar_repository_cas'
+  - 'tar_repository_cas_local'
+  - 'tar_repository_cas_local_gc'
 - title: Metadata
   contents:
+  - 'tar_crew'
   - 'tar_meta'
   - 'tar_meta_delete'
   - 'tar_meta_download'
   - 'tar_meta_sync'
   - 'tar_meta_upload'
+  - 'tar_pid'
+  - 'tar_process'
 - title: Inspect
   contents:
   - 'tar_deps'
@@ -145,6 +150,7 @@ reference:
   - 'tar_resources_network'
   - 'tar_resources_parquet'
   - 'tar_resources_qs'
+  - 'tar_resources_repository_cas'
   - 'tar_resources_url'
 - title: Target Markdown
   contents:
@@ -166,6 +172,7 @@ reference:
   - 'tar_definition'
   - 'tar_described_as'
   - 'tar_envir'
+  - 'tar_format_get'
   - 'tar_group'
   - 'tar_name'
   - 'tar_path_script'

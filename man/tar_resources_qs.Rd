@@ -67,6 +67,7 @@ Other resources:
 \code{\link{tar_resources_gcp}()},
 \code{\link{tar_resources_network}()},
 \code{\link{tar_resources_parquet}()},
+\code{\link{tar_resources_repository_cas}()},
 \code{\link{tar_resources_url}()}
 }
 \concept{resources}

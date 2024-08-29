@@ -12,9 +12,13 @@
 #' @inheritSection tar_target Storage formats
 #' @inheritParams tar_target
 #' @param repository_meta Character of length 1 with the same values as
-#'   `repository` (`"aws"`, `"gcp"`, `"local"`). Cloud repository
+#'   `repository` but excluding content-addressable storage
+#'   (`"aws"`, `"gcp"`, `"local"`). Cloud repository
 #'   for the metadata text files in `_targets/meta/`, including target
-#'   metadata and progress data. Defaults to `tar_option_get("repository")`.
+#'   metadata and progress data. Defaults to `tar_option_get("repository")`
+#'   except in the case of content-addressable storage (CAS).
+#'   When `tar_option_get("repository")` is a CAS repository,
+#'   the default value of `repository_meta` is `"local"`.
 #' @param imports Character vector of package names.
 #'   For every package listed, `targets` tracks every
 #'   dataset and every object in the package namespace

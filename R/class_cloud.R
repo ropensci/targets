@@ -1,5 +1,5 @@
 #' @export
-store_set_timestamp_trust.default <- function(store) {
+store_set_timestamp_trust.tar_cloud <- function(store) {
   store$file$trust_timestamps <- FALSE
 }
 

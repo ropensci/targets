@@ -23,14 +23,14 @@ tar_test("class_store_custom rds", {
   format <- tar_meta(x, format)$format
   store <- store_init(format)
   expect_silent(store_validate(store))
-  expect_true(nzchar(store$read))
-  expect_true(any(grepl("readRDS", store$read)))
-  expect_true(nzchar(store$write))
-  expect_true(any(grepl("saveRDS", store$write)))
-  expect_true(nzchar(store$marshal))
-  expect_true(any(grepl("identity", store$marshal)))
-  expect_true(nzchar(store$unmarshal))
-  expect_true(any(grepl("identity", store$unmarshal)))
+  expect_true(nzchar(store$methods_format$read))
+  expect_true(any(grepl("readRDS", store$methods_format$read)))
+  expect_true(nzchar(store$methods_format$write))
+  expect_true(any(grepl("saveRDS", store$methods_format$write)))
+  expect_true(nzchar(store$methods_format$marshal))
+  expect_true(any(grepl("identity", store$methods_format$marshal)))
+  expect_true(nzchar(store$methods_format$unmarshal))
+  expect_true(any(grepl("identity", store$methods_format$unmarshal)))
   expect_equal(tar_read(x), "value")
   tar_make(callr_function = NULL)
   expect_equal(tar_progress(x)$progress, "skipped")
@@ -99,16 +99,16 @@ tar_test("torch as custom format", {
   format <- tar_meta(a, format)$format
   store <- store_init(format)
   expect_silent(store_validate(store))
-  expect_true(nzchar(store$read))
-  expect_true(any(grepl("torch_load", store$read)))
-  expect_true(nzchar(store$write))
-  expect_true(any(grepl("torch_save", store$write)))
-  expect_true(nzchar(store$marshal))
-  expect_true(any(grepl("torch_save", store$marshal)))
-  expect_true(any(grepl("rawConnectionValue", store$marshal)))
-  expect_true(nzchar(store$unmarshal))
-  expect_true(any(grepl("torch_load", store$unmarshal)))
-  expect_true(any(grepl("rawConnection", store$unmarshal)))
+  expect_true(nzchar(store$methods_format$read))
+  expect_true(any(grepl("torch_load", store$methods_format$read)))
+  expect_true(nzchar(store$methods_format$write))
+  expect_true(any(grepl("torch_save", store$methods_format$write)))
+  expect_true(nzchar(store$methods_format$marshal))
+  expect_true(any(grepl("torch_save", store$methods_format$marshal)))
+  expect_true(any(grepl("rawConnectionValue", store$methods_format$marshal)))
+  expect_true(nzchar(store$methods_format$unmarshal))
+  expect_true(any(grepl("torch_load", store$methods_format$unmarshal)))
+  expect_true(any(grepl("rawConnection", store$methods_format$unmarshal)))
 })
 
 tar_test("deprecated: aws custom store is valid", {
@@ -215,36 +215,36 @@ tar_test("class_store_custom equilvalent of fst_dt format", {
   expect_equal(tar_read(target_c), "a")
 })
 
-tar_test("store_custom_default_read()", {
-  fun <- eval(parse(text = store_custom_default_read()))
+tar_test("store_format_custom_default_read()", {
+  fun <- eval(parse(text = store_format_custom_default_read()))
   tmp <- tempfile()
   saveRDS("x", tmp)
   expect_equal(fun(tmp), "x")
 })
 
-tar_test("store_custom_default_write()", {
-  fun <- eval(parse(text = store_custom_default_write()))
+tar_test("store_format_custom_default_write()", {
+  fun <- eval(parse(text = store_format_custom_default_write()))
   tmp <- tempfile()
   fun(object = "x", path = tmp)
   expect_equal(readRDS(tmp), "x")
 })
 
-tar_test("store_custom_default_marshal()", {
-  fun <- eval(parse(text = store_custom_default_marshal()))
+tar_test("store_format_custom_default_marshal()", {
+  fun <- eval(parse(text = store_format_custom_default_marshal()))
   expect_equal(fun("x"), "x")
 })
 
-tar_test("store_custom_default_unmarshal()", {
-  fun <- eval(parse(text = store_custom_default_unmarshal()))
+tar_test("store_format_custom_default_unmarshal()", {
+  fun <- eval(parse(text = store_format_custom_default_unmarshal()))
   expect_equal(fun("x"), "x")
 })
 
-tar_test("store_custom_default_convert()", {
-  fun <- eval(parse(text = store_custom_default_convert()))
+tar_test("store_format_custom_default_convert()", {
+  fun <- eval(parse(text = store_format_custom_default_convert()))
   expect_equal(fun("x"), "x")
 })
 
-tar_test("store_custom_default_copy()", {
-  fun <- eval(parse(text = store_custom_default_copy()))
+tar_test("store_format_custom_default_copy()", {
+  fun <- eval(parse(text = store_format_custom_default_copy()))
   expect_equal(fun("x"), "x")
 })

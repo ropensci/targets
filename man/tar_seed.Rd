@@ -23,11 +23,11 @@ Deprecated on 2023-10-12 (version 1.3.2.9001).
 Use \code{\link[=tar_seed_get]{tar_seed_get()}} instead.
 }
 \examples{
-tar_seed()
-tar_seed(default = 123L)
+tar_seed_get()
+tar_seed_get(default = 123L)
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
-tar_script(tar_target(returns_seed, tar_seed()), ask = FALSE)
+tar_script(tar_target(returns_seed, tar_seed_get()), ask = FALSE)
 tar_make()
 tar_read(returns_seed)
 })

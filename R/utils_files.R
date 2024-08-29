@@ -41,11 +41,29 @@ file_info_runtime_select <- function(info, x) {
 }
 
 file_move <- function(from, to) {
+  dir_create(dirname(to))
   if (!suppressWarnings(file.rename(from = from, to = to))) {
-    # Not feasible to test:
-    # nocov start
-    file.copy(from = from, to = to, overwrite = TRUE)
-    # nocov end
+    file_move_force(from = from, to = to)
   }
   invisible()
+}
+
+file_move_force <- function(from, to) {
+  file_copy(from = from, to = to)
+  unlink(from, recursive = TRUE)
+}
+
+file_copy <- function(from, to) {
+  dir_create(dirname(to))
+  if (dir.exists(from)) {
+    unlink(to, recursive = TRUE)
+    dir_create(to)
+    file.copy(
+      from = list.files(from, full.names = TRUE),
+      to = to,
+      recursive = TRUE
+    )
+  } else {
+    file.copy(from = from, to = to, overwrite = TRUE)
+  }
 }

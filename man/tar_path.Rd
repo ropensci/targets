@@ -84,6 +84,7 @@ Other utilities:
 \code{\link{tar_definition}()},
 \code{\link{tar_described_as}()},
 \code{\link{tar_envir}()},
+\code{\link{tar_format_get}()},
 \code{\link{tar_group}()},
 \code{\link{tar_name}()},
 \code{\link{tar_path_script}()},

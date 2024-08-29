@@ -158,3 +158,65 @@ tar_test("file_info_runtime_select()", {
   expect_equal(out$mtime_numeric, info$mtime_numeric[index])
   expect_equal(out$size, info$size[index])
 })
+
+tar_test("file_move() on files", {
+  file.create("x")
+  dir.create("z")
+  file_move(from = "x", to = file.path("z", "y"))
+  expect_true(file.exists(file.path("z", "y")))
+  expect_false(file.exists("x"))
+  writeLines("contents", "x")
+  file_move(from = "x", to = file.path("z", "y"))
+  expect_true(file.exists(file.path("z", "y")))
+  expect_false(file.exists("x"))
+  expect_equal(readLines(file.path("z", "y")), "contents")
+})
+
+tar_test("file_move() to empty directories", {
+  dir.create("x")
+  file.create(file.path("x", "x"))
+  file_move(from = "x", to = file.path("z", "z2"))
+  expect_true(file.exists(file.path("z", "z2", "x")))
+  expect_false(file.exists("x"))
+})
+
+tar_test("file_move() to existing directories", {
+  dir.create("x")
+  file.create(file.path("x", "x"))
+  dir.create(file.path("z", "z2"), recursive = TRUE)
+  file.create(file.path("z", "z2", "z3"))
+  file_move(from = "x", to = file.path("z", "z2"))
+  expect_true(file.exists(file.path("z", "z2", "x")))
+  expect_false(file.exists("x"))
+})
+
+tar_test("file_copy() on files", {
+  file.create("x")
+  dir.create("z")
+  file_copy(from = "x", to = file.path("z", "y"))
+  expect_true(file.exists(file.path("z", "y")))
+  expect_true(file.exists("x"))
+  writeLines("contents", "x")
+  file_copy(from = "x", to = file.path("z", "y"))
+  expect_true(file.exists(file.path("z", "y")))
+  expect_true(file.exists("x"))
+  expect_equal(readLines(file.path("z", "y")), "contents")
+})
+
+tar_test("file_copy() to empty directories", {
+  dir.create("x")
+  file.create(file.path("x", "x"))
+  file_copy(from = "x", to = file.path("z", "z2"))
+  expect_true(file.exists(file.path("z", "z2", "x")))
+  expect_true(file.exists("x"))
+})
+
+tar_test("file_copy() to existing directories", {
+  dir.create("x")
+  file.create(file.path("x", "x"))
+  dir.create(file.path("z", "z2"), recursive = TRUE)
+  file.create(file.path("z", "z2", "z3"))
+  file_copy(from = "x", to = file.path("z", "z2"))
+  expect_true(file.exists(file.path("z", "z2", "x")))
+  expect_true(file.exists("x"))
+})

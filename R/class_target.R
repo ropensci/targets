@@ -30,7 +30,7 @@ target_init <- function(
   if (identical(format, "url")) {
     repository <- "local"
   }
-  if (store_custom_old_repository(format) == "aws") {
+  if (store_format_custom_old_repository(format) == "aws") {
     repository <- "aws"
   }
   settings <- settings_init(

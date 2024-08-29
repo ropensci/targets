@@ -1,6 +1,6 @@
 #' @title Read a target's value from storage.
 #' @export
-#' @family data
+#' @family storage
 #' @description Read a target's return value from its file in
 #'   `_targets/objects/`. For dynamic files (i.e. `format = "file"`)
 #'   the paths are returned.

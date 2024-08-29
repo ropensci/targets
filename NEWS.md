@@ -10,6 +10,8 @@
 * Avoid saving a file in `_targets/objects` for `error = "null"`. Instead, switch to a special `"null"` storage format class if `error` is `"null"` the target throws an error. This should allow users to more freely create new formats with `tar_format()` without worrying about how to handle `NULL` objects created by `error = "null"`.
 * Implement `format = "auto"` (#1311, @hadley).
 * Replace `pingr` dependency with `base::socketConnection()` for local URL utilities (#1317, #1318, @Adafede).
+* Implement `tar_repository_cas()`, `tar_repository_cas_local()`, and `tar_repository_cas_local_gc()` for content-addressable storage (#1232, #1314, @noamross).
+* Add `tar_format_get()` to make implementing CAS systems easier.
 
 # targets 1.7.1
 

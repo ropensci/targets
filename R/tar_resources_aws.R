@@ -85,8 +85,11 @@
 #'   format = "qs",
 #'   repository = "aws",
 #'   resources = tar_resources(
-#'     aws = tar_resources_aws(bucket = "yourbucketname"),
-#'     qs = tar_resources_qs(preset = "fast")
+#'     aws = tar_resources_aws(
+#'       bucket = "yourbucketname",
+#'       prefix = "_targets"
+#'     ),
+#'     qs = tar_resources_qs(preset = "fast"),
 #'   )
 #' )
 #' }
