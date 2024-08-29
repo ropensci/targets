@@ -60,7 +60,7 @@ tar_test("imports_init() idempotence", {
   tar_option_set(imports = c("utils", "secretbase"))
   imports <- imports_init(imports_new(new.env(parent = emptyenv())))
   expect_true(inherits(imports, "tar_imports"))
-  expect_equal(length(imports), 0L)
+  expect_length(imports, 0L)
   expect_null(imports$head)
 })
 

@@ -90,7 +90,7 @@ tar_test("record_encode_field() with bad characters", {
   out <- record_encode_field(c("a\nb*|c\r", "b\t"))
   expect_equal(out, "abc b ")
   expect_true(nzchar(out))
-  expect_equal(length(out), 1L)
+  expect_length(out, 1L)
 })
 
 tar_test("record_encode_field() with more bad characters", {

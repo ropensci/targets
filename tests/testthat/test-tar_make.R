@@ -53,7 +53,7 @@ tar_test("tar_make() works with crew", {
     timeout = 360
   )
   out <- tar_read(x)
-  expect_equal(out, TRUE)
+  expect_true(out)
   expect_true(is.data.frame(tar_crew()))
 })
 
@@ -176,7 +176,7 @@ tar_test("custom script and store args", {
   expect_true(file.exists("example/store"))
   expect_true(file.exists("example/store/meta/meta"))
   expect_true(file.exists("example/store/objects/x"))
-  expect_equal(readRDS("example/store/objects/x"), TRUE)
+  expect_true(readRDS("example/store/objects/x"))
   tar_config_set(script = "x")
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))
@@ -204,7 +204,7 @@ tar_test("custom script and store args with callr function", {
   expect_true(file.exists("example/store"))
   expect_true(file.exists("example/store/meta/meta"))
   expect_true(file.exists("example/store/objects/x"))
-  expect_equal(readRDS("example/store/objects/x"), TRUE)
+  expect_true(readRDS("example/store/objects/x"))
   tar_config_set(script = "x")
   expect_equal(tar_config_get("script"), "x")
   expect_true(file.exists("_targets.yaml"))

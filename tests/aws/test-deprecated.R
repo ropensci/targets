@@ -60,7 +60,7 @@ tar_test("migrate meta database", {
   data <- as_data_frame(meta$database$read_condensed_data())
   expect_false(is.null(data$repository))
   data$repository <- NULL
-  expect_true(is.null(data$repository))
+  expect_null(data$repository)
   data$format[!is.na(data$format)] <- "aws_parquet"
   meta$database$overwrite_storage(data)
   expect_equal(tar_outdated(callr_function = NULL), character(0))

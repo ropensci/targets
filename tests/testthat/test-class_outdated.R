@@ -7,14 +7,14 @@ tar_test("outdated$outdated", {
 tar_test("outdated$is_outdated()", {
   skip_cran()
   out <- outdated_init(pipeline_init(), reporter = "silent")
-  expect_equal(out$is_outdated("x"), FALSE)
+  expect_false(out$is_outdated("x"))
 })
 
 tar_test("outdated$register_outdated()", {
   skip_cran()
   out <- outdated_init(pipeline_init(), reporter = "silent")
   out$register_outdated("x")
-  expect_equal(out$is_outdated("x"), TRUE)
+  expect_true(out$is_outdated("x"))
 })
 
 tar_test("counter_validate(outdated)", {
@@ -256,7 +256,7 @@ tar_test("map over a stem with no branches previously", {
   out$run()
   names <- counter_get_names(out$outdated)
   expect_true("z" %in% names)
-  expect_equal(length(names), 3L)
+  expect_length(names, 3L)
   expect_equal(sum(grepl("^z_", names)), 2L)
 })
 

@@ -131,6 +131,6 @@ tar_test("tar_load() error in strict mode", {
   suppressWarnings(
     tar_load(everything(), strict = FALSE, silent = TRUE, envir = envir)
   )
-  expect_equal(names(envir), "x")
+  expect_named(envir, "x")
   expect_equal(envir$x, "value")
 })

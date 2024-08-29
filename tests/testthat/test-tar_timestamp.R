@@ -49,7 +49,7 @@ tar_test("one timestamp for two files", {
   out <- tar_timestamp(y)
   expect_true(inherits(out, "POSIXct"))
   expect_false(any(as.numeric(out) == as.numeric(file_time_reference)))
-  expect_equal(length(out), 1L)
+  expect_length(out, 1L)
 })
 
 tar_test("use timestamp in a target", {

@@ -30,7 +30,7 @@ tar_test("tar_visnetwork() does not deduplicate metadata", {
   out <- meta_init()$database$read_data()
   expect_equal(nrow(out), 1L)
   meta_lines <- readLines(path_meta(path_store_default()))
-  expect_equal(length(meta_lines), 2L)
+  expect_length(meta_lines, 2L)
   meta_lines <- c(meta_lines, meta_lines[2])
   writeLines(meta_lines, path_meta(path_store_default()))
   out <- meta_init()$database$read_data()

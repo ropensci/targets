@@ -16,7 +16,7 @@ tar_test("%||NA%", {
   expect_equal("x" %||NA% "y", "x")
   expect_equal(character(0) %||NA% "y", character(0))
   expect_equal(NA_character_ %||NA% "y", "y")
-  expect_equal(NULL %||NA% "y", NULL)
+  expect_null(NULL %||NA% "y")
 })
 
 tar_test("%||nf%", {

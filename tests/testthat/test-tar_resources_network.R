@@ -18,5 +18,5 @@ tar_test("tar_resources_network() non-default resources", {
   expect_equal(out$seconds_interval, 2)
   expect_equal(out$seconds_timeout, 3)
   expect_equal(out$max_tries, 5)
-  expect_equal(out$verbose, FALSE)
+  expect_false(out$verbose)
 })

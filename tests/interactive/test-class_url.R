@@ -25,7 +25,7 @@ tar_test("tar_timestamp() for URLs", {
   tar_make(callr_function = NULL)
   # correctly parsed posix object
   out <- tar_timestamp(abc)
-  expect_equal(length(out), 1L)
+  expect_length(out, 1L)
   expect_true(inherits(out, "POSIXct"))
   expect_false(anyNA(out))
 })

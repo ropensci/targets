@@ -13,11 +13,11 @@ tar_test("deprecated option argument", {
 })
 
 tar_test("tidy_eval", {
-  expect_equal(tar_option_get("tidy_eval"), TRUE)
+  expect_true(tar_option_get("tidy_eval"))
   tar_option_set(tidy_eval = FALSE)
-  expect_equal(tar_option_get("tidy_eval"), FALSE)
+  expect_false(tar_option_get("tidy_eval"))
   tar_option_reset()
-  expect_equal(tar_option_get("tidy_eval"), TRUE)
+  expect_true(tar_option_get("tidy_eval"))
   expect_error(
     tar_option_set(tidy_eval = "bad"),
     class = "tar_condition_validate"
@@ -45,11 +45,11 @@ tar_test("imports", {
 })
 
 tar_test("library", {
-  expect_equal(tar_option_get("library"), NULL)
+  expect_null(tar_option_get("library"))
   tar_option_set(library = "x")
   expect_equal(tar_option_get("library"), "x")
   tar_option_reset()
-  expect_equal(tar_option_get("library"), NULL)
+  expect_null(tar_option_get("library"))
   expect_error(tar_option_set(library = 123), class = "tar_condition_validate")
 })
 
@@ -165,11 +165,11 @@ tar_test("memory", {
 })
 
 tar_test("garbage_collection", {
-  expect_equal(tar_option_get("garbage_collection"), FALSE)
+  expect_false(tar_option_get("garbage_collection"))
   tar_option_set(garbage_collection = TRUE)
-  expect_equal(tar_option_get("garbage_collection"), TRUE)
+  expect_true(tar_option_get("garbage_collection"))
   tar_option_reset()
-  expect_equal(tar_option_get("garbage_collection"), FALSE)
+  expect_false(tar_option_get("garbage_collection"))
   expect_error(
     tar_option_set(garbage_collection = 0),
     class = "tar_condition_validate"
@@ -329,11 +329,11 @@ tar_test("workspaces", {
 })
 
 tar_test("workspace_on_error", {
-  expect_equal(tar_option_get("workspace_on_error"), TRUE)
+  expect_true(tar_option_get("workspace_on_error"))
   tar_option_set(workspace_on_error = FALSE)
-  expect_equal(tar_option_get("workspace_on_error"), FALSE)
+  expect_false(tar_option_get("workspace_on_error"))
   tar_option_reset()
-  expect_equal(tar_option_get("workspace_on_error"), TRUE)
+  expect_true(tar_option_get("workspace_on_error"))
   expect_error(
     tar_option_set(workspace_on_error = 123),
     class = "tar_condition_validate"
@@ -372,11 +372,11 @@ tar_test("controller", {
 })
 
 tar_test("trust_object_timestamps", {
-  expect_equal(tar_option_get("trust_object_timestamps"), TRUE)
+  expect_true(tar_option_get("trust_object_timestamps"))
   tar_option_set(trust_object_timestamps = FALSE)
-  expect_equal(tar_option_get("trust_object_timestamps"), FALSE)
+  expect_false(tar_option_get("trust_object_timestamps"))
   tar_option_reset()
-  expect_equal(tar_option_get("trust_object_timestamps"), TRUE)
+  expect_true(tar_option_get("trust_object_timestamps"))
   expect_error(
     tar_option_set(trust_object_timestamps = 0),
     class = "tar_condition_validate"

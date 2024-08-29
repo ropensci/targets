@@ -124,7 +124,7 @@ tar_test("parallel$dequeue() with one ready", {
 tar_test("parallel$dequeue() with multiple ready", {
   q <- parallel_init(names = letters[seq_len(3)], ranks = c(0L, 0L, 3L))
   data <- q$data
-  expect_identical(length(out <- q$dequeue()), 1L)
+  expect_length(out <- q$dequeue(), 1L)
   data <- sort(data[names(data) != out])
   expect_identical(q$data, data)
 })

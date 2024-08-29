@@ -1,9 +1,9 @@
 tar_test("glimpse$targets_only", {
   skip_if_not_installed("visNetwork")
   net <- glimpse_init(pipeline_init(), targets_only = FALSE)
-  expect_equal(net$targets_only, FALSE)
+  expect_false(net$targets_only)
   net <- glimpse_init(pipeline_init(), targets_only = TRUE)
-  expect_equal(net$targets_only, TRUE)
+  expect_true(net$targets_only)
 })
 
 tar_test("glimpse$allow", {

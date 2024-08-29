@@ -13,9 +13,9 @@ tar_test("tar_format() generates a format string", {
       keras::unserialize_model(object)
     },
   )
-  expect_equal(length(format), 1)
+  expect_length(format, 1L)
   format <- unlist(strsplit(format, split = "&", fixed = TRUE))
-  expect_equal(format[1], "format_custom")
+  expect_equal(format[1L], "format_custom")
   expect_true(any(grepl("^read=+.", format)))
   expect_true(any(grepl("^write=+.", format)))
   expect_true(any(grepl("^marshal=+.", format)))
@@ -42,7 +42,7 @@ tar_test("same with deprecated repository argument", {
     ),
     class = "tar_condition_deprecate"
   )
-  expect_equal(length(format), 1)
+  expect_length(format, 1L)
   format <- unlist(strsplit(format, split = "&", fixed = TRUE))
   expect_equal(format[1], "format_custom")
   expect_true(any(grepl("^read=+.", format)))
@@ -54,7 +54,7 @@ tar_test("same with deprecated repository argument", {
 
 tar_test("tar_format() default arguments are short", {
   format <- tar_format()
-  expect_equal(length(format), 1)
+  expect_length(format, 1L)
   format <- unlist(strsplit(format, split = "&", fixed = TRUE))
   expect_equal(format[1], "format_custom")
   expect_true(any(grepl("^read=$", format)))
