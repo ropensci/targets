@@ -63,11 +63,9 @@ tar_test("file_ensure_hash() on a huge file while not trusting timestamps", {
 tar_test("file_ensure_hash() on a huge file in pipeline (timestamps on)", {
   # Restart the R session to run in a clean global environment.
   # Avoids false positive slowness.
-  tar_option_set(trust_timestamps = TRUE)
-  on.exit(tar_option_reset())
   tmp <- "tempfile"
   expr <- quote({
-    tar_option_set(packages = character(0))
+    tar_option_set(packages = character(0), trust_timestamps = TRUE)
     list(tar_target(x_target, "tempfile", format = "file"))
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -99,7 +97,7 @@ tar_test("file_ensure_hash() on a huge file in pipeline (timestamps off)", {
   # Avoids false positive slowness.
   tmp <- "tempfile"
   expr <- quote({
-    tar_option_set(packages = character(0))
+    tar_option_set(packages = character(0), trust_timestamps = FALSE)
     list(tar_target(x_target, "tempfile", format = "file"))
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
