@@ -76,7 +76,8 @@ trust_timestamps <- function(path) {
   out <- rep(FALSE, length(path))
   exists <- file.exists(path)
   safe <- c(
-    "apfs"
+    "apfs",
+    "ext4"
   )
   if (any(exists)) {
     out[exists] <- tolower(ps::ps_fs_info(path = path[exists])$type) %in% safe
