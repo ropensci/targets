@@ -114,8 +114,10 @@ runtime_set_file_info <- function(runtime, store) {
     no.. = TRUE
   )
   file_info <- as.list(file_info(objects)[, c("size", "mtime_numeric")])
+  file_info$trust_timestamps <- trust_timestamps(objects)
   names(file_info$size) <- objects
   names(file_info$mtime_numeric) <- objects
+  names(file_info$trust_timestamps) <- objects
   runtime$file_info <- file_info
   runtime$file_exist <- tar_counter(names = objects)
   runtime$file_info_exist <- tar_counter(names = objects)

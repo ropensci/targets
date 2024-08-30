@@ -67,3 +67,9 @@ file_copy <- function(from, to) {
     file.copy(from = from, to = to, overwrite = TRUE)
   }
 }
+
+trust_timestamps <- function(path) {
+  tolower(ps::ps_fs_info(path = path)$type) %in% c(
+    "apfs"
+  )
+}
