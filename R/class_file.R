@@ -66,7 +66,7 @@ file_update_hash <- function(file) {
 
 file_should_rehash <- function(file, time, size, trust_timestamps) {
   if_any(
-    trust_timestamps,
+    .subset2(tar_options, "trust_timestamps") %|||% trust_timestamps,
     !identical(time, file$time) || !identical(size, file$size),
     TRUE
   )

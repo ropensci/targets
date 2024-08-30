@@ -37,7 +37,11 @@ file_info_runtime <- function(x) {
 }
 
 file_info_runtime_select <- function(info, x) {
-  list(size = info$size[x], mtime_numeric = info$mtime_numeric[x])
+  list(
+    size = .subset2(info, "size")[x],
+    mtime_numeric = .subset2(info, "mtime_numeric")[x],
+    trust_timestamps = .subset2(info, "trust_timestamps")[x]
+  )
 }
 
 file_move <- function(from, to) {
@@ -69,7 +73,13 @@ file_copy <- function(from, to) {
 }
 
 trust_timestamps <- function(path) {
-  tolower(ps::ps_fs_info(path = path)$type) %in% c(
+  out <- rep(FALSE, length(path))
+  exists <- file.exists(path)
+  safe <- c(
     "apfs"
   )
+  if (any(exists)) {
+    out[exists] <- tolower(ps::ps_fs_info(path = path[exists])$type) %in% safe
+  }
+  out
 }

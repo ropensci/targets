@@ -434,12 +434,16 @@ tar_test("target_allow_meta()", {
   expect_false(target_allow_meta(target))
   target <- tar_target(x, 1, format = "file", repository = "aws")
   expect_false(target_allow_meta(target))
-  target <- tar_target(x, 1, format = "file_fast", repository = "aws")
-  expect_false(target_allow_meta(target))
   target <- tar_target(x, 1, format = "rds", repository = "local")
   expect_false(target_allow_meta(target))
   target <- tar_target(x, 1, format = "file", repository = "local")
   expect_true(target_allow_meta(target))
-  target <- tar_target(x, 1, format = "file_fast", repository = "local")
-  expect_true(target_allow_meta(target))
+})
+
+tar_test("deprecate file_fast", {
+  expect_warning(
+    target <- tar_target(x, 1, format = "file_fast"),
+    class = "tar_condition_deprecate"
+  )
+  expect_equal(target$settings$format, "file")
 })

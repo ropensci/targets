@@ -128,13 +128,18 @@
 #' @param controller A controller or controller group object
 #'   produced by the `crew` R package. `crew` brings auto-scaled
 #'   distributed computing to [tar_make()].
-#' @param trust_object_timestamps Logical of length 1, whether to use
+#' @param trust_timestamps Logical of length 1, whether to use
 #'   file system modification timestamps to check whether the target output
-#'   data files in `_targets/objects/` are up to date. This is an advanced
+#'   data files in are up to date. This is an advanced
 #'   setting and usually does not need to be set by the user
 #'   except on old or difficult platforms.
 #'
-#'   If `trust_object_timestamps`
+#'   If `trust_timestamps` was reset with [tar_option_reset()]
+#'   or never set at all (recommended)
+#'   then `targets` makes a decision based on the type of file system
+#'   of the given file.
+#'
+#'   If `trust_timestamps`
 #'   is `TRUE` (default), then `targets` looks at the timestamp first.
 #'   If it agrees with the timestamp recorded in the metadata, then `targets`
 #'   considers the file unchanged. If the timestamps disagree, then `targets`
@@ -149,9 +154,8 @@
 #'   after the pipeline finishes.
 #'   If the data store is on a file system with low-precision timestamps,
 #'   then you may
-#'   consider setting `trust_object_timestamps` to `FALSE` so `targets`
-#'   errs on the safe side and always recomputes the hashes of files in
-#'   `_targets/objects/`.
+#'   consider setting `trust_timestamps` to `FALSE` so `targets`
+#'   errs on the safe side and always recomputes the hashes of files.
 #'
 #'   To check if your
 #'   file system has low-precision timestamps, you can run
@@ -161,7 +165,8 @@
 #'   `difftime(file.mtime("y"), file.mtime("x"), units = "secs")`.
 #'   If the value from `difftime()` is around 0.001 seconds
 #'   (must be strictly above 0 and below 1) then you do not need to set
-#'   `trust_object_timestamps = FALSE`.
+#'   `trust_timestamps = FALSE`.
+#' @param trust_object_timestamps Deprecated. Use `trust_timestamps` instead.
 #' @examples
 #' tar_option_get("format") # default format before we set anything
 #' tar_target(x, 1)$settings$format
@@ -206,9 +211,16 @@ tar_option_set <- function(
   workspace_on_error = NULL,
   seed = NULL,
   controller = NULL,
+  trust_timestamps = NULL,
   trust_object_timestamps = NULL
 ) {
   force(envir)
+  if (!is.null(trust_object_timestamps)) {
+    tar_warn_deprecate(
+      "trust_object_timestamps was deprecated in tar_option_set(). ",
+      "Use the more unified trust_timestamps instead."
+    )
+  }
   if_any(is.null(tidy_eval), NULL, tar_options$set_tidy_eval(tidy_eval))
   if_any(is.null(packages), NULL, tar_options$set_packages(packages))
   if_any(is.null(imports), NULL, tar_options$set_imports(imports))
@@ -247,9 +259,9 @@ tar_option_set <- function(
   if_any(is.null(seed), NULL, tar_options$set_seed(seed))
   if_any(is.null(controller), NULL, tar_options$set_controller(controller))
   if_any(
-    is.null(trust_object_timestamps),
+    is.null(trust_timestamps),
     NULL,
-    tar_options$set_trust_object_timestamps(trust_object_timestamps)
+    tar_options$set_trust_timestamps(trust_timestamps)
   )
   invisible()
 }

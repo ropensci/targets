@@ -126,8 +126,7 @@ cue_file <- function(cue, target, meta, record) {
     hash = record$data,
     time = record$time,
     size = record$size,
-    bytes = record$bytes,
-    trust_timestamps = file_current$trust_timestamps
+    bytes = record$bytes
   )
   on.exit(target$store$file <- file_current)
   target$store$file <- file_recorded

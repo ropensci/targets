@@ -114,7 +114,10 @@ runtime_set_file_info <- function(runtime, store) {
     no.. = TRUE
   )
   file_info <- as.list(file_info(objects)[, c("size", "mtime_numeric")])
-  file_info$trust_timestamps <- trust_timestamps(objects)
+  file_info$trust_timestamps <- rep(
+    trust_timestamps(path_objects_dir(store)),
+    length(objects)
+  )
   names(file_info$size) <- objects
   names(file_info$mtime_numeric) <- objects
   names(file_info$trust_timestamps) <- objects

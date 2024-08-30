@@ -1,8 +1,3 @@
-#' @export
-store_set_timestamp_trust.tar_cloud <- function(store) {
-  store$file$trust_timestamps <- FALSE
-}
-
 # Semi-automated tests of Amazon S3 integration live in tests/aws/. # nolint
 # Same for other potential cloud storage functionality.
 # These tests should not be fully automated because they

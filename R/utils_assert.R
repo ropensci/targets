@@ -163,6 +163,14 @@ tar_assert_format <- function(format) {
     )
     format <- gsub("^aws_", "", format)
   }
+  if (identical(as.character(format), "file_fast")) {
+    tar_warn_deprecate(
+      "format = \"file_fast\" is deprecated. ",
+      "please use format = \"file\" and set trust_timestamps to TRUE or ",
+      "FALSE in tar_option_set() as needed."
+    )
+    format <- gsub("^aws_", "", format)
+  }
   store_assert_format_setting(store_dispatch_format(format))
 }
 

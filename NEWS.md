@@ -1,4 +1,4 @@
-# targets 1.7.1.9005 (development)
+# targets 1.7.1.9006 (development)
 
 * Wrap `tar_watch()` UI module in `bslib::page()` (#1302, @kwbyron-lilly).
 * Remove `callr_function` in `tar_make_as_job()` argument list.
@@ -12,6 +12,9 @@
 * Replace `pingr` dependency with `base::socketConnection()` for local URL utilities (#1317, #1318, @Adafede).
 * Implement `tar_repository_cas()`, `tar_repository_cas_local()`, and `tar_repository_cas_local_gc()` for content-addressable storage (#1232, #1314, @noamross).
 * Add `tar_format_get()` to make implementing CAS systems easier.
+* Use the file system type to decide whether to trust time stamps (#1315, @hadley, @gaborcsardi).
+* Deprecate `format = "file_fast"` in favor of the above (#1315).
+* Deprecate `trust_object_timestamps` in favor of the more unified `trust_timestamps` in `tar_option_set()` (#1315).
 
 # targets 1.7.1
 
