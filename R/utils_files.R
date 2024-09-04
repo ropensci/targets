@@ -75,12 +75,31 @@ file_copy <- function(from, to) {
 trust_timestamps <- function(path) {
   out <- rep(FALSE, length(path))
   exists <- file.exists(path)
-  safe <- c(
-    "apfs",
-    "ext4"
+  unsafe <- c(
+    "adfs",
+    "bfs",
+    "exfat",
+    "ext",
+    "ext2",
+    "ext3",
+    "ext3cow",
+    "fat",
+    "fat12",
+    "fat16b",
+    "fat32",
+    "hfs",
+    "hfs+",
+    "hfsplus",
+    "mfs",
+    "next3",
+    "pfs",
+    "reiserfs",
+    "sfs",
+    "tux3"
   )
   if (any(exists)) {
-    out[exists] <- tolower(ps::ps_fs_info(path = path[exists])$type) %in% safe
+    types <- tolower(ps::ps_fs_info(path = path[exists])$type)
+    out[exists] <- !(types %in% unsafe)
   }
   out
 }
