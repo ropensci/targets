@@ -85,7 +85,7 @@ tar_test("CAS repository works", {
   tar_destroy()
 })
 
-tar_test("CAS repository works with transient memory", {
+tar_test("CAS repository works with transient memory and files", {
   tar_script({
     tar_option_set(memory = "transient")
     repository <- tar_repository_cas(
@@ -96,7 +96,7 @@ tar_test("CAS repository works with transient memory", {
         if (dir.exists(path)) {
           stop("This CAS repository does not support directory outputs.")
         }
-        file.copy(path, file.path("cas", key))
+        file.rename(path, file.path("cas", key))
       },
       download = function(key, path) {
         file.copy(file.path("cas", key), path)
@@ -109,16 +109,40 @@ tar_test("CAS repository works with transient memory", {
     list(
       tar_target(x, 1L, repository = repository),
       tar_target(y, x + 1L, repository = repository),
-      tar_target(z, y + 1L, repository = repository)
+      tar_target(z, y + 1L, repository = repository),
+      tar_target(
+        a, {
+          saveRDS(z, "file_a.rds")
+          "file_a.rds"
+        },
+        repository = repository,
+        format = "file"
+      ),
+      tar_target(
+        b, {
+          saveRDS(readRDS(a), "file_b.rds")
+          "file_b.rds"
+        },
+        repository = repository,
+        format = "file"
+      ),
+      tar_target(
+        c,
+        readRDS(b),
+        repository = repository
+      )
     )
   })
   tar_make(callr_function = NULL)
   expect_equal(tar_read(z), 3L)
+  expect_equal(readRDS(tar_read(a)), 3L)
+  expect_equal(readRDS(tar_read(b)), 3L)
+  expect_equal(tar_read(c), 3L)
   expect_equal(tar_outdated(callr_function = NULL), character(0L))
   tar_invalidate(y)
   expect_equal(
     sort(tar_outdated(callr_function = NULL)),
-    sort(c("y", "z"))
+    sort(c("a", "b", "c", "y", "z"))
   )
 })
 

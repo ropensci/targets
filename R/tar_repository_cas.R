@@ -104,7 +104,7 @@
 #'
 #'   Some functions may need to be adapted and configured based on other
 #'   inputs. For example, you may want to define
-#'   `upload = \(key, path) file.move(path, file.path(folder, key))`
+#'   `upload = \(key, path) file.rename(path, file.path(folder, key))`
 #'   but do not want to hard-code a value of `folder` when you write the
 #'   underlying function. `substitute()` can help inject values into the
 #'   body of a function. For example:
@@ -112,7 +112,7 @@
 #'   ```
 #'   upload <-  \(key, path) {}
 #'   body(upload) <- substitute(
-#'     file.move(path, file.path(folder, key)),
+#'     file.rename(path, file.path(folder, key)),
 #'     list(folder = "my_cas")
 #'   )
 #'   print(upload)
@@ -129,13 +129,6 @@
 #'   system. It could be a staging area or a custom `format = "file"`
 #'   location. `key` denotes the name of the destination data object
 #'   in the CAS system.
-#'
-#'   In the case of `format = "file"`, `upload` must not delete or move
-#'   the original file at `path`. In other words, `path` must still
-#'   exist in its original form after `upload` finishes.
-#'   But in the case of non-`"file"` targets,
-#'   `path` is a staging area which is automatically removed
-#'   after upload, so `upload` can safely remove `path` if needed.
 #'
 #'   To differentiate between
 #'   `format = "file"` targets and non-`"file"` targets, the `upload`
@@ -204,7 +197,7 @@
 #'       if (!file.exists("cas")) {
 #'         dir.create("cas", recursive = TRUE)
 #'       }
-#'       file.copy(path, file.path("cas", key))
+#'       file.rename(path, file.path("cas", key))
 #'     },
 #'     download = function(key, path) {
 #'       file.copy(file.path("cas", key), path)

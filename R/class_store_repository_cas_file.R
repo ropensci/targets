@@ -10,26 +10,7 @@ store_hash_late.tar_repository_cas_file <- function(store) {
 
 #' @export
 store_upload_object.tar_repository_cas_file <- function(store) {
-  tar_assert_scalar(
-    store$file$path,
-    msg = paste(
-      "for a tar_repository_cas() target, the output must be",
-      "a single file or single directory."
-    )
-  )
-  store_repository_cas_call_method(
-    store = store,
-    text = store$methods_repository$upload,
-    args = list(key = store$file$hash, path = store$file$path)
-  )
-  tar_assert_true(
-    all(file.exists(store$file$path)),
-    msg = paste0(
-      "CAS repository upload deleted file ",
-      store$file$path,
-      ". Uploads should not delete format = \"file\" output files."
-    )
-  )
+  store_upload_object_cas(store, store$file$path)
 }
 
 #' @export
@@ -45,4 +26,10 @@ store_read_object.tar_repository_cas_file <- function(store) {
   dir_create(dirname(store$file$hash))
   file_move(from = scratch, to = store$file$path)
   store$file$path
+}
+
+#' @export
+store_unload.tar_repository_cas_file <- function(store, target) {
+  unlink(as.character(target$value$object))
+  NextMethod()
 }

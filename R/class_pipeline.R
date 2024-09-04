@@ -139,7 +139,6 @@ pipeline_register_loaded <- function(pipeline, names) {
 pipeline_unload_target <- function(pipeline, name) {
   target <- pipeline_get_target(pipeline, name)
   store_unload(target$store, target)
-  target$value <- NULL
   counter_del_name(pipeline$loaded, name)
   counter_del_name(pipeline$transient, name)
 }

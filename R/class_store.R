@@ -418,6 +418,7 @@ store_unload <- function(store, target) {
 
 #' @export
 store_unload.default <- function(store, target) {
+  target$value <- NULL
 }
 
 store_marshal_object <- function(store, object) {
