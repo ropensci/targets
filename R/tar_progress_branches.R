@@ -8,7 +8,7 @@
 #'   and the following columns.
 #'   * `name`: name of the pattern.
 #'   * `progress`: progress status: `"dispatched"`, `"completed"`,
-#'     `"cancelled"`, or `"errored"`.
+#'     `"canceled"`, or `"errored"`.
 #'   * `branches`: number of branches in the progress category.
 #'   * `total`: total number of branches planned for the whole pattern.
 #'     Values within the same pattern should all be equal.
