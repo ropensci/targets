@@ -73,7 +73,7 @@ file_copy <- function(from, to) {
 }
 
 trust_timestamps <- function(path) {
-  out <- rep(FALSE, length(path))
+  trust <- rep(FALSE, length(path))
   exists <- file.exists(path)
   unsafe <- c(
     "adfs",
@@ -98,8 +98,15 @@ trust_timestamps <- function(path) {
     "tux3"
   )
   if (any(exists)) {
-    types <- tolower(ps::ps_fs_info(path = path[exists])$type)
-    out[exists] <- !(types %in% unsafe)
+    existing <- path[exists]
+    file_systems <- .subset2(tar_runtime, "file_systems")
+    if (is.null(file_systems)) {
+      file_systems <- runtime_file_systems()
+      tar_runtime$file_systems <- file_systems
+    }
+    mounts <- ps::ps_fs_mount_point(existing)
+    types <- as.character(file_systems[mounts])
+    trust[exists] <- !(types %in% unsafe)
   }
-  out
+  trust
 }
