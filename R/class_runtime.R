@@ -14,7 +14,8 @@ runtime_new <- function(
   inventories = NULL,
   traceback = NULL,
   pid_parent = NULL,
-  file_systems = NULL
+  file_systems = NULL,
+  trust_timestamps_store = NULL
 ) {
   force(target)
   force(frames)
@@ -32,6 +33,7 @@ runtime_new <- function(
   force(traceback)
   force(pid_parent)
   force(file_systems)
+  force(trust_timestamps_store)
   environment()
 }
 
@@ -109,9 +111,13 @@ runtime_validate_extras <- function(x) {
   if (!is.null(x$file_systems)) {
     tar_assert_chr(x$file_systems)
   }
+  if (!is.null(x$trust_timestamps_store)) {
+    tar_assert_lgl(x$trust_timestamps_store)
+  }
 }
 
 runtime_set_file_info <- function(runtime, store) {
+  runtime$trust_timestamps_store <- trust_timestamps(store)
   objects <- list.files(
     path = path_objects_dir(store),
     all.files = TRUE,
@@ -119,8 +125,12 @@ runtime_set_file_info <- function(runtime, store) {
     no.. = TRUE
   )
   runtime$file_systems <- runtime_file_systems()
-  columns <- c("size", "mtime_numeric", "trust_timestamps")
-  file_info <- as.list(file_info(objects)[, columns])
+  file_info <- file_info(objects, trust_timestamps = FALSE)
+  file_info <- as.list(file_info[, c("size", "mtime_numeric")])
+  file_info$trust_timestamps <- rep(
+    runtime$trust_timestamps_store,
+    length(objects)
+  )
   names(file_info$size) <- objects
   names(file_info$mtime_numeric) <- objects
   names(file_info$trust_timestamps) <- objects

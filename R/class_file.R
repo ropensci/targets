@@ -167,10 +167,14 @@ file_hash <- function(files) {
   hash_object(paste(hash, collapse = ""))
 }
 
-file_info <- function(files) {
+file_info <- function(files, trust_timestamps = NULL) {
   out <- file.info(files, extra_cols = FALSE)
   out$mtime_numeric <- file_time_numeric(out$mtime)
-  out$trust_timestamps <- trust_timestamps(files)
+  if (is.null(trust_timestamps)) {
+    out$trust_timestamps <- trust_timestamps(files)
+  } else {
+    out$trust_timestamps <- rep(trust_timestamps, nrow(out))
+  }
   out
 }
 

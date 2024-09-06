@@ -73,8 +73,13 @@ file_copy <- function(from, to) {
 }
 
 trust_timestamps <- function(path) {
+  store <- .subset2(tar_runtime, "store")
+  grandparent <- unique(dirname(dirname(path)))
+  if (identical(store, grandparent)) {
+    return(rep(TRUE, length(path)))
+  }
   trust <- rep(FALSE, length(path))
-  exists <- file.exists(path)
+  exists <- file_exists_runtime(path)
   unsafe <- c(
     "adfs",
     "bfs",
