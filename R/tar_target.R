@@ -211,13 +211,17 @@
 #'   stops and throws an error. Options:
 #'   * `"stop"`: the whole pipeline stops and throws an error.
 #'   * `"continue"`: the whole pipeline keeps going.
-#'   * `"abridge"`: any currently running targets keep running,
-#'     but no new targets launch after that.
-#'   (Visit <https://books.ropensci.org/targets/debugging.html>
-#'   to learn how to debug targets using saved workspaces.)
 #'   * `"null"`: The errored target continues and returns `NULL`.
 #'     The data hash is deliberately wrong so the target is not
 #'     up to date for the next run of the pipeline.
+#'   * `"abridge"`: any currently running targets keep running,
+#'     but no new targets launch after that.
+#'   * `"trim"`: any currently running targets keep running,
+#'     and everything downstream of the error is canceled.
+#'     In addition, if the error happens in a dynamic branch,
+#'     then all not-yet-dispatched sibling branches are canceled.
+#'   (Visit <https://books.ropensci.org/targets/debugging.html>
+#'   to learn how to debug targets using saved workspaces.)
 #' @param memory Character of length 1, memory strategy.
 #'   If `"persistent"`, the target stays in memory
 #'   until the end of the pipeline (unless `storage` is `"worker"`,
