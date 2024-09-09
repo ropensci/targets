@@ -632,3 +632,117 @@ tar_test("error = \"null\" with branching", {
   value <- progress$progress[progress$name == branches[2]]
   expect_equal(value, "errored")
 })
+
+tar_test("error = \"trim\" on a stem", {
+  skip_cran()
+  tar_script({
+    tar_option_set(error = "trim")
+    list(
+      tar_target(index, seq_len(2L)),
+      tar_target(a, stop(paste(as.character(index), collapse = ""))),
+      tar_target(b, a),
+      tar_target(b2, b, pattern = map(b)),
+      tar_target(c, index),
+      tar_target(c2, c),
+      tar_target(d, index,  pattern = map(index)),
+      tar_target(d2, d, pattern = map(d))
+    )
+  })
+  tar_make(callr_function = NULL)
+  progress <- tar_progress()
+  progress <- progress[order(progress$name), ]
+  expect_equal(
+    progress$name,
+    c(
+      "a", "c", "c2",
+      "d", "d_6d03443cebc2cf01", "d_ef1ae9b9954fc770", "d2",
+      "d2_6c00f247f5280799",
+      "d2_b37ef839cbb72a79", "index"
+    )
+  )
+  expect_equal(
+    progress$progress,
+    c(
+      "errored",
+      "completed", "completed", "completed", "completed", "completed",
+      "completed", "completed", "completed", "completed"
+    )
+  )
+  tar_make(callr_function = NULL)
+  progress <- tar_progress()
+  progress <- progress[order(progress$name), ]
+  expect_equal(
+    progress$name,
+    c(
+      "a", "c", "c2",
+      "d", "d_6d03443cebc2cf01", "d_ef1ae9b9954fc770", "d2",
+      "d2_6c00f247f5280799",
+      "d2_b37ef839cbb72a79", "index"
+    )
+  )
+  expect_equal(
+    progress$progress,
+    c(
+      "errored",
+      "skipped", "skipped", "skipped", "skipped", "skipped",
+      "skipped", "skipped", "skipped", "skipped"
+    )
+  )
+})
+
+tar_test("error = \"trim\" on a dynamic branch", {
+  skip_cran()
+  tar_script({
+    tar_option_set(error = "trim")
+    list(
+      tar_target(index, seq_len(2L)),
+      tar_target(a, if (index < 2L) stop(), pattern = map(index)),
+      tar_target(b, a, pattern = map(a)),
+      tar_target(b2, b),
+      tar_target(c, index),
+      tar_target(c2, c),
+      tar_target(d, index,  pattern = map(index)),
+      tar_target(d2, d, pattern = map(d))
+    )
+  })
+  tar_make(callr_function = NULL)
+  progress <- tar_progress()
+  progress <- progress[order(progress$name), ]
+  expect_equal(
+    progress$name,
+    c(
+      "a", "a_ef1ae9b9954fc770", "c", "c2",
+      "d", "d_6d03443cebc2cf01", "d_ef1ae9b9954fc770", "d2",
+      "d2_6c00f247f5280799",
+      "d2_b37ef839cbb72a79", "index"
+    )
+  )
+  expect_equal(
+    progress$progress,
+    c(
+      "errored", "errored",
+      "completed", "completed", "completed", "completed", "completed",
+      "completed", "completed", "completed", "completed"
+    )
+  )
+  tar_make(callr_function = NULL)
+  progress <- tar_progress()
+  progress <- progress[order(progress$name), ]
+  expect_equal(
+    progress$name,
+    c(
+      "a", "a_ef1ae9b9954fc770", "c", "c2",
+      "d", "d_6d03443cebc2cf01", "d_ef1ae9b9954fc770", "d2",
+      "d2_6c00f247f5280799",
+      "d2_b37ef839cbb72a79", "index"
+    )
+  )
+  expect_equal(
+    progress$progress,
+    c(
+      "errored", "errored",
+      "skipped", "skipped", "skipped", "skipped", "skipped",
+      "skipped", "skipped", "skipped", "skipped"
+    )
+  )
+})
