@@ -17,7 +17,7 @@ pattern_new <- function(
 
 #' @export
 target_get_children.tar_pattern <- function(target) {
-  target$junction$splits
+  as.character(target$junction$splits)
 }
 
 #' @export

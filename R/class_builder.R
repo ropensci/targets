@@ -339,6 +339,7 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
     target$settings$error,
     continue = builder_error_continue(target, scheduler),
     abridge = scheduler$abridge(target),
+    trim = scheduler$trim(target, pipeline),
     stop = builder_error_exit(target, pipeline, scheduler, meta),
     null = builder_error_null(target, pipeline, scheduler, meta),
     workspace = builder_error_exit(target, pipeline, scheduler, meta)

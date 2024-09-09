@@ -632,3 +632,77 @@ tar_test("error = \"null\" with branching", {
   value <- progress$progress[progress$name == branches[2]]
   expect_equal(value, "errored")
 })
+
+tar_test("error = \"trim\" on a stem", {
+  skip_cran()
+  tar_script({
+    tar_option_set(error = "trim")
+    list(
+      tar_target(index, seq_len(2L)),
+      tar_target(a, stop(paste(as.character(index), collapse = ""))),
+      tar_target(b, a),
+      tar_target(b2, b, pattern = map(b)),
+      tar_target(c, index),
+      tar_target(c2, c),
+      tar_target(d, index,  pattern = map(index)),
+      tar_target(d2, d, pattern = map(d))
+    )
+  })
+  tar_make(callr_function = NULL)
+  names <- c(
+    "a", "c", "c2",
+    "d", tar_meta(d)$children[[1L]], "d2",
+    tar_meta(d2)$children[[1L]], "index"
+  )
+  progress <- tar_progress()
+  expect_equal(nrow(progress), 10L)
+  expect_false(any(c("b", "b2") %in% progress$name))
+  progress <- tar_progress(names = tidyselect::any_of(names))
+  expect_equal(progress$name, names)
+  expect_equal(progress$progress, c("errored", rep("completed", 9L)))
+  tar_make(callr_function = NULL)
+  progress <- tar_progress()
+  expect_equal(nrow(progress), 10L)
+  expect_false(any(c("b", "b2") %in% progress$name))
+  progress <- tar_progress(names = tidyselect::any_of(names))
+  expect_equal(progress$name, names)
+  expect_equal(progress$progress, c("errored", rep("skipped", 9L)))
+})
+
+tar_test("error = \"trim\" on a dynamic branch", {
+  skip_cran()
+  tar_script({
+    tar_option_set(error = "trim")
+    list(
+      tar_target(index, seq_len(2L)),
+      tar_target(a, if (index < 2L) stop(), pattern = map(index)),
+      tar_target(b, a, pattern = map(a)),
+      tar_target(b2, b),
+      tar_target(c, index),
+      tar_target(c2, c),
+      tar_target(d, index,  pattern = map(index)),
+      tar_target(d2, d, pattern = map(d))
+    )
+  })
+  tar_make(callr_function = NULL)
+  names <- c(
+    "c", "c2",
+    "d", tar_meta(d)$children[[1L]], "d2",
+    tar_meta(d2)$children[[1L]], "index"
+  )
+  progress <- tar_progress()
+  expect_equal(nrow(progress), 11L)
+  expect_false(any(c("b", "b2") %in% progress$name))
+  progress <- tar_progress(names = tidyselect::starts_with("a"))
+  expect_equal(unique(progress$progress), "errored")
+  progress <- tar_progress(names = tidyselect::any_of(names))
+  expect_equal(unique(progress$progress), "completed")
+  tar_make(callr_function = NULL)
+  progress <- tar_progress()
+  expect_equal(nrow(progress), 11L)
+  expect_false(any(c("b", "b2") %in% progress$name))
+  progress <- tar_progress(names = tidyselect::starts_with("a"))
+  expect_equal(unique(progress$progress), "errored")
+  progress <- tar_progress(names = tidyselect::any_of(names))
+  expect_equal(unique(progress$progress), "skipped")
+})

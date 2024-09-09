@@ -189,7 +189,9 @@ active_class <- R6::R6Class(
       target <- pipeline_get_target(self$pipeline, name)
       target_debug(target)
       target_update_depend(target, self$pipeline, self$meta)
-      if (target_should_run(target, self$meta)) {
+      if (counter_exists_name(self$scheduler$trimmed, name)) {
+        self$scheduler$trim(target, self$pipeline)
+      } else if (target_should_run(target, self$meta)) {
         self$flush_upload_meta_file(target)
         self$run_target(name)
       } else {
