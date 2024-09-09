@@ -70,5 +70,6 @@ store_read_object.tar_gcp_file <- function(store) {
 #' @export
 store_unload.tar_gcp_file <- function(store, target) {
   unlink(as.character(target$value$object))
+  NextMethod()
 }
 # nocov end

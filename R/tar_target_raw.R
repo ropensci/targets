@@ -120,7 +120,7 @@ tar_target_raw <- function(
   tar_assert_flag(iteration, c("vector", "list", "group"))
   tar_assert_flag(
     error,
-    c("stop", "continue", "abridge", "workspace", "null")
+    c("stop", "continue", "null", "abridge", "trim", "workspace")
   )
   deprecate_error_workspace(error)
   tar_assert_flag(memory, c("persistent", "transient"))

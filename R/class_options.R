@@ -516,7 +516,7 @@ options_class <- R6::R6Class(
       deprecate_error_workspace(error)
       tar_assert_flag(
         error,
-        c("stop", "continue", "abridge", "workspace", "null")
+        c("stop", "continue", "null", "abridge", "trim", "workspace")
       )
     },
     validate_memory = function(memory) {

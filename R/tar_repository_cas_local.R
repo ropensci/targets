@@ -93,11 +93,8 @@ tar_cas_u <- function(cas, key, path) {
   cas <- cas %|||% path_cas_dir(tar_runtime$store)
   to <- file.path(cas, key)
   if (!file.exists(to)) {
-    if (identical(tar_format_get(), "file")) {
-      file_copy(path, to) # Defined in R/utils_files.R for files & dirs.
-    } else {
-      file_move(path, to)  # Defined in R/utils_files.R for files & dirs.
-    }
+    # Defined in R/utils_files.R. Works on both files and directories.
+    file_move(path, to)
   }
 }
 

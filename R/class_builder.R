@@ -339,6 +339,7 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
     target$settings$error,
     continue = builder_error_continue(target, scheduler),
     abridge = scheduler$abridge(target),
+    trim = scheduler$trim(target, pipeline),
     stop = builder_error_exit(target, pipeline, scheduler, meta),
     null = builder_error_null(target, pipeline, scheduler, meta),
     workspace = builder_error_exit(target, pipeline, scheduler, meta)
@@ -346,7 +347,7 @@ builder_handle_error <- function(target, pipeline, scheduler, meta) {
 }
 
 builder_error_continue <- function(target, scheduler) {
-  target$value <- NULL
+  store_unload(store = target$store, target = target)
   scheduler$reporter$report_error(target$metrics$error)
 }
 
@@ -444,7 +445,7 @@ builder_unload_value <- function(target) {
   clear <- identical(settings$deployment, "worker") &&
     identical(settings$storage, "worker")
   if (clear) {
-    target$value <- NULL
+    store_unload(store = target$store, target = target)
   }
 }
 

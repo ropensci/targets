@@ -12,6 +12,7 @@
 * Replace `pingr` dependency with `base::socketConnection()` for local URL utilities (#1317, #1318, @Adafede).
 * Implement `tar_repository_cas()`, `tar_repository_cas_local()`, and `tar_repository_cas_local_gc()` for content-addressable storage (#1232, #1314, @noamross).
 * Add `tar_format_get()` to make implementing CAS systems easier.
+* Implement `error = "trim"` in `tar_target()` and `tar_option_set()` (#1310, #1311, @hadley).
 * Use the file system type to decide whether to trust time stamps (#1315, @hadley, @gaborcsardi).
 * Deprecate `format = "file_fast"` in favor of the above (#1315).
 * Deprecate `trust_object_timestamps` in favor of the more unified `trust_timestamps` in `tar_option_set()` (#1315).

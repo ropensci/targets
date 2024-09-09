@@ -16,13 +16,6 @@ system. It could be a staging area or a custom \code{format = "file"}
 location. \code{key} denotes the name of the destination data object
 in the CAS system.
 
-In the case of \code{format = "file"}, \code{upload} must not delete or move
-the original file at \code{path}. In other words, \code{path} must still
-exist in its original form after \code{upload} finishes.
-But in the case of non-\code{"file"} targets,
-\code{path} is a staging area which is automatically removed
-after upload, so \code{upload} can safely remove \code{path} if needed.
-
 To differentiate between
 \code{format = "file"} targets and non-\code{"file"} targets, the \code{upload}
 method can use \code{\link[=tar_format_get]{tar_format_get()}}. For example, to make
@@ -187,14 +180,14 @@ or they could manage the directory as a zip archive.
 
 Some functions may need to be adapted and configured based on other
 inputs. For example, you may want to define
-\verb{upload = \\(key, path) file.move(path, file.path(folder, key))}
+\verb{upload = \\(key, path) file.rename(path, file.path(folder, key))}
 but do not want to hard-code a value of \code{folder} when you write the
 underlying function. \code{substitute()} can help inject values into the
 body of a function. For example:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{upload <-  \\(key, path) \{\}
 body(upload) <- substitute(
-  file.move(path, file.path(folder, key)),
+  file.rename(path, file.path(folder, key)),
   list(folder = "my_cas")
 )
 print(upload)
@@ -218,7 +211,7 @@ tar_script({
       if (!file.exists("cas")) {
         dir.create("cas", recursive = TRUE)
       }
-      file.copy(path, file.path("cas", key))
+      file.rename(path, file.path("cas", key))
     },
     download = function(key, path) {
       file.copy(file.path("cas", key), path)
