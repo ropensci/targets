@@ -216,8 +216,8 @@
 #'     up to date for the next run of the pipeline.
 #'   * `"abridge"`: any currently running targets keep running,
 #'     but no new targets launch after that.
-#'   * `"trim"`: all currently running targets stay running. In addition,
-#'     a target not yet running is allowed to start if:
+#'   * `"trim"`: all currently running targets stay running. A queued
+#'     target is allowed to start if:
 #'
 #'       1. It is not downstream of the error, and
 #'       2. It is not a sibling branch from the same [tar_target()] call

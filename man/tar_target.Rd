@@ -124,8 +124,8 @@ The data hash is deliberately wrong so the target is not
 up to date for the next run of the pipeline.
 \item \code{"abridge"}: any currently running targets keep running,
 but no new targets launch after that.
-\item \code{"trim"}: all currently running targets stay running. In addition,
-a target not yet running is allowed to start if:
+\item \code{"trim"}: all currently running targets stay running. A queued
+target is allowed to start if:
 \enumerate{
 \item It is not downstream of the error, and
 \item It is not a sibling branch from the same \code{\link[=tar_target]{tar_target()}} call
