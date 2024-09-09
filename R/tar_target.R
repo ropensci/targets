@@ -216,10 +216,17 @@
 #'     up to date for the next run of the pipeline.
 #'   * `"abridge"`: any currently running targets keep running,
 #'     but no new targets launch after that.
-#'   * `"trim"`: any currently running targets keep running,
-#'     and everything downstream of the error is canceled.
-#'     In addition, if the error happens in a dynamic branch,
-#'     then all not-yet-dispatched sibling branches are canceled.
+#'   * `"trim"`: all currently running targets stay running. In addition,
+#'     a target not yet running is allowed to start if:
+#'
+#'       1. It is not downstream of the error, and
+#'       2. It is not a sibling branch from the same [tar_target()] call
+#'         (if the error happened in a dynamic branch).
+#'
+#'     The idea is to avoid starting any new work that the immediate error
+#'     impacts. `error = "trim"` is just like `error = "abridge"`,
+#'     but it allows potentially healthy regions of the dependency graph
+#'     to begin running.
 #'   (Visit <https://books.ropensci.org/targets/debugging.html>
 #'   to learn how to debug targets using saved workspaces.)
 #' @param memory Character of length 1, memory strategy.
