@@ -1,25 +1,3 @@
-tar_test("trust_object_timestamps = TRUE", {
-  skip_cran()
-  skip_on_os("windows")
-  skip_if_not_installed("paws.storage")
-  old <- tar_option_get("trust_object_timestamps")
-  on.exit(tar_option_set(trust_object_timestamps = old))
-  tar_option_set(trust_object_timestamps = TRUE)
-  x <- target_init(name = "abc", expr = quote(a), repository = "aws")
-  expect_false(x$store$file$trust_timestamps)
-})
-
-tar_test("trust_object_timestamps = FALSE", {
-  skip_cran()
-  skip_on_os("windows")
-  skip_if_not_installed("paws.storage")
-  old <- tar_option_get("trust_object_timestamps")
-  on.exit(tar_option_set(trust_object_timestamps = old))
-  tar_option_set(trust_object_timestamps = FALSE)
-  x <- target_init(name = "abc", expr = quote(a), repository = "aws")
-  expect_false(x$store$file$trust_timestamps)
-})
-
 tar_test("bucket with tech debt: 0.8.1.9000 metabucket format", {
   expect_equal(store_aws_bucket("bucket=abc:region=xyz"), "abc")
 })

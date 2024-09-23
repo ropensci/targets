@@ -13,7 +13,9 @@ runtime_new <- function(
   nanonext = NULL,
   inventories = NULL,
   traceback = NULL,
-  pid_parent = NULL
+  pid_parent = NULL,
+  file_systems = NULL,
+  trust_timestamps_store = NULL
 ) {
   force(target)
   force(frames)
@@ -30,6 +32,8 @@ runtime_new <- function(
   force(inventories)
   force(traceback)
   force(pid_parent)
+  force(file_systems)
+  force(trust_timestamps_store)
   environment()
 }
 
@@ -104,21 +108,42 @@ runtime_validate_extras <- function(x) {
     tar_assert_none_na(x$pid_parent)
     tar_assert_ge(x$pid_parent, 0L)
   }
+  if (!is.null(x$file_systems)) {
+    tar_assert_chr(x$file_systems)
+  }
+  if (!is.null(x$trust_timestamps_store)) {
+    tar_assert_lgl(x$trust_timestamps_store)
+  }
 }
 
 runtime_set_file_info <- function(runtime, store) {
+  runtime$trust_timestamps_store <- trust_timestamps(store)
   objects <- list.files(
     path = path_objects_dir(store),
     all.files = TRUE,
     full.names = TRUE,
     no.. = TRUE
   )
-  file_info <- as.list(file_info(objects)[, c("size", "mtime_numeric")])
+  runtime$file_systems <- runtime_file_systems()
+  file_info <- file_info(objects, trust_timestamps = FALSE)
+  file_info <- as.list(file_info[, c("size", "mtime_numeric")])
+  file_info$trust_timestamps <- rep(
+    runtime$trust_timestamps_store,
+    length(objects)
+  )
   names(file_info$size) <- objects
   names(file_info$mtime_numeric) <- objects
+  names(file_info$trust_timestamps) <- objects
   runtime$file_info <- file_info
   runtime$file_exist <- tar_counter(names = objects)
   runtime$file_info_exist <- tar_counter(names = objects)
+}
+
+runtime_file_systems <- function() {
+  info <- ps::ps_disk_partitions()
+  out <- .subset2(info, "fstype")
+  names(out) <- .subset2(info, "mountpoint")
+  out
 }
 
 runtime_reset <- function(x) {

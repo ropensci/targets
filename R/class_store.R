@@ -9,9 +9,7 @@ store_init <- function(
     methods_format = store_methods_format(format),
     methods_repository = store_methods_repository(repository)
   )
-  store <- store_enclass(store, format = format, repository = repository)
-  store_set_timestamp_trust(store)
-  store
+  store_enclass(store, format = format, repository = repository)
 }
 
 store_mock <- function(
@@ -118,15 +116,6 @@ store_assert_repository_setting.default <- function(repository) {
 
 #' @export
 store_assert_repository_setting.local <- function(repository) {
-}
-
-store_set_timestamp_trust <- function(store) {
-  UseMethod("store_set_timestamp_trust")
-}
-
-#' @export
-store_set_timestamp_trust.default <- function(store) {
-  store$file$trust_timestamps <- tar_options$get_trust_object_timestamps()
 }
 
 store_read_object <- function(store) {

@@ -4,8 +4,7 @@ file_init <- function(
   hash = NA_character_,
   time = NA_character_,
   size = NA_character_,
-  bytes = 0,
-  trust_timestamps = FALSE
+  bytes = 0
 ) {
   file_new(
     path = path,
@@ -13,8 +12,7 @@ file_init <- function(
     hash = hash,
     time = time,
     size = size,
-    bytes = bytes,
-    trust_timestamps = trust_timestamps
+    bytes = bytes
   )
 }
 
@@ -24,8 +22,7 @@ file_new <- function(
   hash = NULL,
   time = NULL,
   size = NULL,
-  bytes = NULL,
-  trust_timestamps = NULL
+  bytes = NULL
 ) {
   force(path)
   force(stage)
@@ -33,7 +30,6 @@ file_new <- function(
   force(time)
   force(size)
   force(bytes)
-  force(trust_timestamps)
   environment()
 }
 
@@ -68,9 +64,9 @@ file_update_hash <- function(file) {
   invisible()
 }
 
-file_should_rehash <- function(file, time, size) {
+file_should_rehash <- function(file, time, size, trust_timestamps) {
   if_any(
-    file$trust_timestamps,
+    .subset2(tar_options, "trust_timestamps") %|||% trust_timestamps,
     !identical(time, file$time) || !identical(size, file$size),
     TRUE
   )
@@ -87,7 +83,12 @@ file_ensure_hash <- function(file) {
   time <- file_time(info)
   bytes <- file_bytes(info)
   size <- file_size(bytes)
-  do <- file_should_rehash(file = file, time = time, size = size)
+  do <- file_should_rehash(
+    file = file,
+    time = time,
+    size = size,
+    trust_timestamps = all(info$trust_timestamps)
+  )
   hash <- if_any(do, file_hash(files), file$hash)
   file$hash <- hash
   file$time <- time
@@ -101,7 +102,12 @@ file_has_correct_hash <- function(file) {
   time <- file_time(info)
   bytes <- file_bytes(info)
   size <- file_size(bytes)
-  do <- file_should_rehash(file = file, time = time, size = size)
+  do <- file_should_rehash(
+    file = file,
+    time = time,
+    size = size,
+    trust_timestamps = all(info$trust_timestamps)
+  )
   if_any(do, identical(file$hash, file_hash(files)), TRUE)
 }
 
@@ -120,13 +126,10 @@ file_validate <- function(file) {
   tar_assert_chr(file$time)
   tar_assert_chr(file$size)
   tar_assert_dbl(file$bytes)
-  tar_assert_lgl(file$trust_timestamps)
-  tar_assert_none_na(file$trust_timestamps)
   tar_assert_scalar(file$hash)
   tar_assert_scalar(file$time)
   tar_assert_scalar(file$size)
   tar_assert_scalar(file$bytes)
-  tar_assert_scalar(file$trust_timestamps)
 }
 
 file_list_files <- function(path) {
@@ -164,9 +167,14 @@ file_hash <- function(files) {
   hash_object(paste(hash, collapse = ""))
 }
 
-file_info <- function(files) {
+file_info <- function(files, trust_timestamps = NULL) {
   out <- file.info(files, extra_cols = FALSE)
   out$mtime_numeric <- file_time_numeric(out$mtime)
+  if (is.null(trust_timestamps)) {
+    out$trust_timestamps <- trust_timestamps(files)
+  } else {
+    out$trust_timestamps <- rep(trust_timestamps, nrow(out))
+  }
   out
 }
 

@@ -1,8 +1,10 @@
 # Needs to create a delay to be sure large files
 # get hashed at the correct times.
 tar_test("file_ensure_hash() on a huge file while trusting timestamps", {
+  tar_option_set(trust_timestamps = TRUE)
+  on.exit(tar_option_reset())
   tmp <- tempfile()
-  file <- file_init(path = tmp, trust_timestamps = TRUE)
+  file <- file_init(path = tmp)
   x <- paste(letters, collapse = "")
   writeLines(rep(x, 1e8), tmp) # Pause here.
   # First analysis of the file.
@@ -29,8 +31,10 @@ tar_test("file_ensure_hash() on a huge file while trusting timestamps", {
 })
 
 tar_test("file_ensure_hash() on a huge file while not trusting timestamps", {
+  tar_option_set(trust_timestamps = FALSE)
+  on.exit(tar_option_reset())
   tmp <- tempfile()
-  file <- file_init(path = tmp, trust_timestamps = FALSE)
+  file <- file_init(path = tmp)
   x <- paste(letters, collapse = "")
   writeLines(rep(x, 1e8), tmp) # Pause here.
   # First analysis of the file.
@@ -61,8 +65,8 @@ tar_test("file_ensure_hash() on a huge file in pipeline (timestamps on)", {
   # Avoids false positive slowness.
   tmp <- "tempfile"
   expr <- quote({
-    tar_option_set(packages = character(0))
-    list(tar_target(x_target, "tempfile", format = "file_fast"))
+    tar_option_set(packages = character(0), trust_timestamps = TRUE)
+    list(tar_target(x_target, "tempfile", format = "file"))
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   do.call(tar_script, list(code = expr))
@@ -93,7 +97,7 @@ tar_test("file_ensure_hash() on a huge file in pipeline (timestamps off)", {
   # Avoids false positive slowness.
   tmp <- "tempfile"
   expr <- quote({
-    tar_option_set(packages = character(0))
+    tar_option_set(packages = character(0), trust_timestamps = FALSE)
     list(tar_target(x_target, "tempfile", format = "file"))
   })
   expr <- tar_tidy_eval(expr, environment(), TRUE)
@@ -110,13 +114,13 @@ tar_test("file_ensure_hash() on a huge file in pipeline (timestamps off)", {
 
 tar_test("file_ensure_hash() on a huge object in pipeline", {
   tar_script({
-    tar_option_set(trust_object_timestamps = FALSE)
+    tar_option_set(trust_timestamps = FALSE)
     tar_target(x, stats::rnorm(n = 1e8))
   })
   tar_make() # Should be slow, should run.
   tar_make() # Should be slow (half a second), should skip.
   tar_script({
-    tar_option_set(trust_object_timestamps = TRUE)
+    tar_option_set(trust_timestamps = TRUE)
     tar_target(x, stats::rnorm(n = 1e8))
   })
   tar_make() # Should be faster, should skip.

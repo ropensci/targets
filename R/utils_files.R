@@ -37,7 +37,11 @@ file_info_runtime <- function(x) {
 }
 
 file_info_runtime_select <- function(info, x) {
-  list(size = info$size[x], mtime_numeric = info$mtime_numeric[x])
+  list(
+    size = .subset2(info, "size")[x],
+    mtime_numeric = .subset2(info, "mtime_numeric")[x],
+    trust_timestamps = .subset2(info, "trust_timestamps")[x]
+  )
 }
 
 file_move <- function(from, to) {
@@ -66,4 +70,48 @@ file_copy <- function(from, to) {
   } else {
     file.copy(from = from, to = to, overwrite = TRUE)
   }
+}
+
+trust_timestamps <- function(path) {
+  store <- .subset2(tar_runtime, "store")
+  grandparent <- unique(dirname(dirname(path)))
+  if (identical(store, grandparent)) {
+    return(rep(TRUE, length(path)))
+  }
+  trust <- rep(FALSE, length(path))
+  exists <- file_exists_runtime(path)
+  unsafe <- c(
+    "adfs",
+    "bfs",
+    "exfat",
+    "ext",
+    "ext2",
+    "ext3",
+    "ext3cow",
+    "fat",
+    "fat12",
+    "fat16b",
+    "fat32",
+    "hfs",
+    "hfs+",
+    "hfsplus",
+    "mfs",
+    "next3",
+    "pfs",
+    "reiserfs",
+    "sfs",
+    "tux3"
+  )
+  if (any(exists)) {
+    existing <- path[exists]
+    file_systems <- .subset2(tar_runtime, "file_systems")
+    if (is.null(file_systems)) {
+      file_systems <- runtime_file_systems()
+      tar_runtime$file_systems <- file_systems
+    }
+    mounts <- ps::ps_fs_mount_point(existing)
+    types <- as.character(file_systems[mounts])
+    trust[exists] <- !(types %in% unsafe)
+  }
+  trust
 }

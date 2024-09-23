@@ -84,6 +84,8 @@ tar_test("file_list_files() with cache for all", {
 })
 
 tar_test("file_should_rehash()", {
+  tar_option_set(trust_timestamps = FALSE)
+  on.exit(tar_option_reset())
   tmp <- tempfile()
   file <- file_init(path = tmp)
   writeLines("xyz", tmp)
@@ -91,7 +93,8 @@ tar_test("file_should_rehash()", {
     file_should_rehash(
       file = file,
       time = file$time,
-      size = file$size
+      size = file$size,
+      trust_timestamps = FALSE
     )
   )
 })

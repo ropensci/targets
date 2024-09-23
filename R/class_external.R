@@ -1,9 +1,4 @@
 #' @export
-store_set_timestamp_trust.tar_external <- function(store) {
-  store$file$trust_timestamps <- FALSE
-}
-
-#' @export
 store_row_path.tar_external <- function(store) {
   store$file$path
 }

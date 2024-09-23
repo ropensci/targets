@@ -15,24 +15,6 @@ tar_test("qs format", {
   expect_silent(target_validate(x))
 })
 
-tar_test("trust_object_timestamps = TRUE", {
-  skip_if_not_installed("qs")
-  old <- tar_option_get("trust_object_timestamps")
-  on.exit(tar_option_set(trust_object_timestamps = old))
-  tar_option_set(trust_object_timestamps = TRUE)
-  x <- target_init(name = "abc", expr = quote(a), format = "qs")
-  expect_true(x$store$file$trust_timestamps)
-})
-
-tar_test("trust_object_timestamps = FALSE", {
-  skip_if_not_installed("qs")
-  old <- tar_option_get("trust_object_timestamps")
-  on.exit(tar_option_set(trust_object_timestamps = old))
-  tar_option_set(trust_object_timestamps = FALSE)
-  x <- target_init(name = "abc", expr = quote(a), format = "qs")
-  expect_false(x$store$file$trust_timestamps)
-})
-
 tar_test("bad compression level throws error (structured resources)", {
   skip_if_not_installed("qs")
   tar_script({

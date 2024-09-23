@@ -8,6 +8,10 @@ store_assert_format_setting.file <- function(format) {
 }
 
 #' @export
+store_assert_format_setting.file_fast <- function(format) {
+}
+
+#' @export
 store_read_path.tar_store_file <- function(store, path) {
   path[!is.na(path)]
 }

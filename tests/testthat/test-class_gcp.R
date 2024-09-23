@@ -1,21 +1,3 @@
-tar_test("trust_object_timestamps = TRUE", {
-  skip_if_not_installed("googleCloudStorageR")
-  old <- tar_option_get("trust_object_timestamps")
-  on.exit(tar_option_set(trust_object_timestamps = old))
-  tar_option_set(trust_object_timestamps = TRUE)
-  x <- target_init(name = "abc", expr = quote(a), repository = "gcp")
-  expect_false(x$store$file$trust_timestamps)
-})
-
-tar_test("trust_object_timestamps = FALSE", {
-  skip_if_not_installed("googleCloudStorageR")
-  old <- tar_option_get("trust_object_timestamps")
-  on.exit(tar_option_set(trust_object_timestamps = old))
-  tar_option_set(trust_object_timestamps = FALSE)
-  x <- target_init(name = "abc", expr = quote(a), repository = "gcp")
-  expect_false(x$store$file$trust_timestamps)
-})
-
 tar_test("store_gcp_bucket()", {
   path <- c("bucket=b", "region=r", "key=key_name", "stage=stage_name")
   expect_equal(store_gcp_bucket(path), "b")

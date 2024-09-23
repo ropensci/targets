@@ -114,7 +114,7 @@ tar_target_raw <- function(
   )
   tar_assert_format(format)
   tar_assert_repository(repository)
-  if (format == "file_fast" && repository != "local") {
+  if (format == "file_fast") {
     format <- "file"
   }
   tar_assert_flag(iteration, c("vector", "list", "group"))

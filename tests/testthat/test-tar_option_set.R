@@ -371,14 +371,26 @@ tar_test("controller", {
   )
 })
 
-tar_test("trust_object_timestamps", {
-  expect_true(tar_option_get("trust_object_timestamps"))
-  tar_option_set(trust_object_timestamps = FALSE)
-  expect_false(tar_option_get("trust_object_timestamps"))
+tar_test("trust_timestamps", {
+  expect_null(tar_option_get("trust_timestamps"))
+  tar_option_set(trust_timestamps = FALSE)
+  expect_false(tar_option_get("trust_timestamps"))
   tar_option_reset()
-  expect_true(tar_option_get("trust_object_timestamps"))
+  expect_null(tar_option_get("trust_timestamps"))
   expect_error(
-    tar_option_set(trust_object_timestamps = 0),
+    tar_option_set(trust_timestamps = 0),
     class = "tar_condition_validate"
+  )
+})
+
+tar_test("deprecate trust_object_timestamps", {
+  expect_warning(
+    out <- tar_option_get("trust_object_timestamps"),
+    class = "tar_condition_deprecate"
+  )
+  expect_null(out)
+  expect_warning(
+    tar_option_set(trust_object_timestamps = FALSE),
+    class = "tar_condition_deprecate"
   )
 })

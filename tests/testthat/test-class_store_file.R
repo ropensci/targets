@@ -28,22 +28,6 @@ tar_test("dynamic files work", {
   expect_equal(out, exp)
 })
 
-tar_test("trust_object_timestamps = TRUE", {
-  old <- tar_option_get("trust_object_timestamps")
-  on.exit(tar_option_set(trust_object_timestamps = old))
-  tar_option_set(trust_object_timestamps = TRUE)
-  x <- target_init(name = "abc", expr = quote(a), format = "file")
-  expect_false(x$store$file$trust_timestamps)
-})
-
-tar_test("trust_object_timestamps = FALSE", {
-  old <- tar_option_get("trust_object_timestamps")
-  on.exit(tar_option_set(trust_object_timestamps = old))
-  tar_option_set(trust_object_timestamps = FALSE)
-  x <- target_init(name = "abc", expr = quote(a), format = "file")
-  expect_false(x$store$file$trust_timestamps)
-})
-
 tar_test("dynamic files must return characters", {
   x <- target_init(
     name = "abc",

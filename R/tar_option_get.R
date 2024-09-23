@@ -40,6 +40,12 @@ tar_option_get <- function(name = NULL, option = NULL) {
     )
     name <- option
   }
+  if (identical(as.character(name), "trust_object_timestamps")) {
+    tar_warn_deprecate(
+      "tar_option_get(\"trust_object_timestamps\") is deprecated. ",
+      "Please use the more unified tar_option_get(\"trust_timestamps\")."
+    )
+  }
   tar_assert_nonempty(name)
   tar_assert_flag(name, choices = names(formals(tar_option_set)))
   switch(
@@ -69,6 +75,7 @@ tar_option_get <- function(name = NULL, option = NULL) {
     workspace_on_error = tar_options$get_workspace_on_error(),
     seed = tar_options$get_seed(),
     controller = tar_options$get_controller(),
-    trust_object_timestamps = tar_options$get_trust_object_timestamps()
+    trust_timestamps = tar_options$get_trust_timestamps(),
+    trust_object_timestamps = NULL
   )
 }
