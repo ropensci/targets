@@ -1,4 +1,4 @@
-# targets 1.7.1.9005 (development)
+# targets 1.7.1.9006 (development)
 
 * Wrap `tar_watch()` UI module in `bslib::page()` (#1302, @kwbyron-lilly).
 * Remove `callr_function` in `tar_make_as_job()` argument list.
@@ -13,6 +13,7 @@
 * Implement `tar_repository_cas()`, `tar_repository_cas_local()`, and `tar_repository_cas_local_gc()` for content-addressable storage (#1232, #1314, @noamross).
 * Add `tar_format_get()` to make implementing CAS systems easier.
 * Implement `error = "trim"` in `tar_target()` and `tar_option_set()` (#1310, #1311, @hadley).
+* Print storage size of each target in verbose reporters (#1337, @psychelzh).
 
 # targets 1.7.1
 
