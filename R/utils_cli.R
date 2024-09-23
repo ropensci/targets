@@ -16,15 +16,22 @@ cli_completed <- function(
   prefix = NULL,
   time_stamp = FALSE,
   seconds_elapsed = NULL,
+  bytes_storage = NULL,
   print = TRUE
 ) {
   time <- if_any(time_stamp, time_stamp_cli(), NULL)
-  msg <- paste(c(time, "completed", prefix, name), collapse = " ")
-  if (!is.null(seconds_elapsed)) {
-    msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
-    msg <- paste0(msg, msg_time)
+  message <- paste(c(time, "completed", prefix, name), collapse = " ")
+  metrics <- character(0L)
+  if (!is.null(seconds_elapsed) && !anyNA(seconds_elapsed)) {
+    metrics <- c(metrics, units_seconds(seconds_elapsed))
   }
-  cli_green_record(msg, print = print)
+  if (!is.null(bytes_storage) && !anyNA(bytes_storage)) {
+    metrics <- c(metrics, units_bytes(bytes_storage))
+  }
+  if (length(metrics)) {
+    metrics <- paste0("[", paste(metrics, collapse = ", "), "]")
+  }
+  cli_green_record(paste(message, metrics), print = print)
 }
 
 cli_skip <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
