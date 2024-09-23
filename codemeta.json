@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/ropensci/targets",
   "issueTracker": "https://github.com/ropensci/targets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.7.0.9001",
+  "version": "1.7.1.9007",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -321,19 +321,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "pingr",
-      "name": "pingr",
-      "version": ">= 2.0.1",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=pingr"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "pkgload",
       "name": "pkgload",
       "version": ">= 1.1.0",
@@ -604,6 +591,7 @@
       "@type": "SoftwareApplication",
       "identifier": "ps",
       "name": "ps",
+      "version": ">= 1.8.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -720,7 +708,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2602.537KB",
+  "fileSize": "2684.19KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
