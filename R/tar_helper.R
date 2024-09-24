@@ -4,7 +4,7 @@
 #' @description Write a helper R script for a `targets` pipeline.
 #'   Could be supporting functions or the target script file
 #'   (default: `_targets.R`) itself.
-#'   
+#'
 #'   [tar_helper()] expects an unevaluated expression for the `code`
 #'   argument, whereas [tar_helper_raw()] expects an evaluated
 #'   expression object.

@@ -18,7 +18,6 @@
 #' @return If the target is not recorded in the metadata
 #'   or cannot be parsed correctly, then
 #'   `tar_timestamp()` returns a `POSIXct` object at `1970-01-01 UTC`.
-#' @inheritParams tar_timestamp_raw
 #' @param name Name of the target. If `NULL` (default)
 #'   then `tar_timestamp()` will attempt to return the timestamp
 #'   of the target currently running. Must be called inside a target's
