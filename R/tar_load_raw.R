@@ -1,47 +1,5 @@
-#' @title Load the values of targets (raw version).
+#' @rdname tar_load
 #' @export
-#' @family storage
-#' @description Same as [tar_load()] except `names` is a character vector.
-#'   Do not use in `knitr` or R Markdown reports with `tarchetypes::tar_knit()`
-#'   or `tarchetypes::tar_render()`.
-#' @return Nothing.
-#' @inheritSection tar_meta Storage access
-#' @inheritSection tar_read Cloud target data versioning
-#' @inheritParams tar_read
-#' @param names Character vector, names of the targets to load.
-#'   Not `tidyselect`-compatible.
-#'   Names are expected to be in the metadata in `_targets/meta`.
-#'   Any target names not in the metadata are ignored.
-#' @param branches Integer of indices of the branches to load
-#'   for any targets that are patterns.
-#' @param strict Logical of length 1, whether to error out
-#'   if one of the selected targets is in the metadata
-#'   but cannot be loaded.
-#'   Set to `FALSE` to just load the targets in the metadata
-#'   that can be loaded and skip the others.
-#' @param silent Logical of length 1. Only relevant when
-#'   `strict` is `FALSE`. If `silent` is `FALSE`
-#'   and `strict` is `FALSE`, then a message will be printed
-#'   if a target is in the metadata but cannot be loaded.
-#'   However, load failures
-#'   will not stop other targets from being loaded.
-#' @param envir Environment to put the loaded targets.
-#' @examples
-#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
-#' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
-#' tar_script({
-#'   list(
-#'     tar_target(y1, 1 + 1),
-#'     tar_target(y2, 1 + 1),
-#'     tar_target(z, y1 + y2)
-#'   )
-#' }, ask = FALSE)
-#' tar_make()
-#' tar_load_raw(any_of(c("y1", "y2")))
-#' y1
-#' y2
-#' })
-#' }
 tar_load_raw <- function(
   names,
   branches = NULL,

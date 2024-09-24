@@ -127,7 +127,6 @@ x <- tar_target(x, download_data(), cue = tar_cue(mode = "always"))
 }
 \seealso{
 Other targets: 
-\code{\link{tar_target}()},
-\code{\link{tar_target_raw}()}
+\code{\link{tar_target}()}
 }
 \concept{targets}

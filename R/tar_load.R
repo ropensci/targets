@@ -7,15 +7,41 @@
 #'   `format = "file"`) the paths loaded in place of the values.
 #'   [tar_load_everything()] is shorthand for `tar_load(everything())`
 #'   to load all targets.
+#'
+#'   [tar_load()] uses non-standard evaluation in the `names` argument
+#'   (example: `tar_load(names = everything())`), whereas [tar_load_raw()]
+#'   uses standard evaluation for `names`
+#'   (example: `tar_load_raw(names = quote(everything()))`).
 #' @return Nothing.
 #' @inheritSection tar_meta Storage access
 #' @inheritSection tar_read Cloud target data versioning
-#' @inheritParams tar_load_raw
 #' @param names Names of the targets to load.
+#'   [tar_load()] uses non-standard evaluation in the `names` argument
+#'   (example: `tar_load(names = everything())`), whereas [tar_load_raw()]
+#'   uses standard evaluation for `names`
+#'   (example: `tar_load_raw(names = quote(everything()))`).
+#'
 #'   The object supplied to `names` should be a
 #'   `tidyselect` expression like [any_of()] or [starts_with()]
 #'   from `tidyselect` itself, or [tar_described_as()] to select target names
 #'   based on their descriptions.
+#' @param branches Integer of indices of the branches to load
+#'   for any targets that are patterns.
+#' @param strict Logical of length 1, whether to error out
+#'   if one of the selected targets is in the metadata
+#'   but cannot be loaded.
+#'   Set to `FALSE` to just load the targets in the metadata
+#'   that can be loaded and skip the others.
+#' @param silent Logical of length 1. Only relevant when
+#'   `strict` is `FALSE`. If `silent` is `FALSE`
+#'   and `strict` is `FALSE`, then a message will be printed
+#'   if a target is in the metadata but cannot be loaded.
+#'   However, load failures
+#'   will not stop other targets from being loaded.
+#' @param meta Data frame of target metadata from [tar_meta()].
+#' @param envir R environment in which to load target return values.
+#' @param store Character of length 1, directory path to the data store
+#'   of the pipeline.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -37,7 +63,7 @@
 tar_load <- function(
   names,
   branches = NULL,
-  meta = tar_meta(targets_only = TRUE, store = store),
+  meta = targets::tar_meta(targets_only = TRUE, store = store),
   strict = TRUE,
   silent = FALSE,
   envir = parent.frame(),

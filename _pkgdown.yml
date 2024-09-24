@@ -43,7 +43,6 @@ reference:
   contents:
   - 'tar_cue'
   - 'tar_target'
-  - 'tar_target_raw'
 - title: Pipeline
   contents:
   - 'tar_make'
@@ -59,7 +58,6 @@ reference:
   contents:
   - 'tar_format'
   - 'tar_load'
-  - 'tar_load_raw'
   - 'tar_load_everything'
   - 'tar_objects'
   - 'tar_read'

@@ -7,6 +7,20 @@
 #'   by the commands of targets downstream. Targets that
 #'   are already up to date are skipped. See the user manual
 #'   for more details.
+#'
+#'   [tar_target()] defines a target using non-standard evaluation.
+#'   The `name` argument is an unevaluated symbol,
+#'   and the `command` and `pattern`
+#'   arguments are unevaluated expressions. Example:
+#'   `tar_target(name = data, command = get_data())`.
+#'
+#'   [tar_target_raw()] defines a target with standard evaluation.
+#'   The `name` argument is an evaluated symbol,
+#'   and the `command` and `pattern`
+#'   arguments are evaluated expressions. Example:
+#'   `tar_target_raw(name = quote(data), command = quote(get_data()))`.
+#'   [tar_target_raw()] also has extra arguments `deps` and `string`
+#'   for advanced customization.
 #' @section Target objects:
 #'   Functions like `tar_target()` produce target objects,
 #'   special objects with specialized sets of S3 classes.
@@ -155,8 +169,13 @@
 #' @return A target object. Users should not modify these directly,
 #'   just feed them to [list()] in your target script file
 #'   (default: `_targets.R`).
-#' @param name Symbol, name of the target. A target
-#'   name must be a valid name for a symbol in R, and it
+#' @param name Symbol, name of the target.
+#'   In [tar_target()], `name` is an unevaluated symbol, e.g.
+#'   `tar_target(name = data)`.
+#'   In [tar_target_raw()], `name` is an evaluated symbol, e.g.
+#'   `tar_target_raw(name = quote(data))`.
+#'
+#'   A target name must be a valid name for a symbol in R, and it
 #'   must not start with a dot. Subsequent targets
 #'   can refer to this name symbolically to induce a dependency relationship:
 #'   e.g. `tar_target(downstream_target, f(upstream_target))` is a
@@ -171,8 +190,18 @@
 #'   with `tar_meta(your_target, seed)` and run [tar_seed_set()]
 #'   on the result to locally recreate the target's initial RNG state.
 #' @param command R code to run the target.
-#' @param pattern Language to define branching for a target.
-#'   For example, in a pipeline with numeric vector targets `x` and `y`,
+#'   In [tar_target()], `command` is an unevaluated expression, e.g.
+#'   `tar_target(command = data)`.
+#'   In [tar_target_raw()], `command` is an evaluated expression, e.g.
+#'   `tar_target_raw(command = quote(data))`.
+#' @param pattern Code to define a dynamic branching branching for a target.
+#'   In [tar_target()], `pattern` is an unevaluated expression, e.g.
+#'   `tar_target(pattern = map(data))`.
+#'   In [tar_target_raw()], `command` is an evaluated expression, e.g.
+#'   `tar_target_raw(pattern = quote(map(data)))`.
+#'
+#'   To demonstrate dynamic branching patterns, suppose we have
+#'   a pipeline with numeric vector targets `x` and `y`. Then,
 #'   `tar_target(z, x + y, pattern = map(x, y))` implicitly defines
 #'   branches of `z` that each compute `x[1] + y[1]`, `x[2] + y[2]`,
 #'   and so on. See the user manual for details.
@@ -297,6 +326,21 @@
 #'   `tar_manifest(names = tar_described_as(starts_with("survival model")))`
 #'   lists all the targets whose descriptions start with the character
 #'   string `"survival model"`.
+#' @param deps Optional character vector of the adjacent upstream
+#'   dependencies of the target, including targets and global objects.
+#'   If `NULL`, dependencies are resolved automatically as usual.
+#'   The `deps` argument is only for developers of extension
+#'   packages such as `tarchetypes`,
+#'   not for end users, and it should almost never be used at all.
+#'   In scenarios that at first appear to requires `deps`,
+#'   there is almost always a simpler and more robust workaround
+#'   that avoids setting `deps`.
+#' @param string Optional string representation of the command.
+#'   Internally, the string gets hashed to check if the command changed
+#'   since last run, which helps `targets` decide whether the
+#'   target is up to date. External interfaces can take control of
+#'   `string` to ignore changes in certain parts of the command.
+#'   If `NULL`, the strings is just deparsed from `command` (default).
 #' @examples
 #' # Defining targets does not run them.
 #' data <- tar_target(target_name, get_data(), packages = "tidyverse")
