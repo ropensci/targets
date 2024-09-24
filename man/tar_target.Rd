@@ -54,8 +54,8 @@ tar_target_raw(
 \item{name}{Symbol, name of the target.
 In \code{\link[=tar_target]{tar_target()}}, \code{name} is an unevaluated symbol, e.g.
 \code{tar_target(name = data)}.
-In \code{\link[=tar_target_raw]{tar_target_raw()}}, \code{name} is an evaluated symbol, e.g.
-\code{tar_target_raw(name = quote(data))}.
+In \code{\link[=tar_target_raw]{tar_target_raw()}}, \code{name} is a character string, e.g.
+\code{tar_target_raw(name = "data")}.
 
 A target name must be a valid name for a symbol in R, and it
 must not start with a dot. Subsequent targets
@@ -313,10 +313,10 @@ arguments are unevaluated expressions. Example:
 \code{tar_target(name = data, command = get_data())}.
 
 \code{\link[=tar_target_raw]{tar_target_raw()}} defines a target with standard evaluation.
-The \code{name} argument is an evaluated symbol,
+The \code{name} argument is a character string,
 and the \code{command} and \code{pattern}
 arguments are evaluated expressions. Example:
-\code{tar_target_raw(name = quote(data), command = quote(get_data()))}.
+\code{tar_target_raw(name = "data", command = quote(get_data()))}.
 \code{\link[=tar_target_raw]{tar_target_raw()}} also has extra arguments \code{deps} and \code{string}
 for advanced customization.
 }

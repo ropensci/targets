@@ -15,10 +15,10 @@
 #'   `tar_target(name = data, command = get_data())`.
 #'
 #'   [tar_target_raw()] defines a target with standard evaluation.
-#'   The `name` argument is an evaluated symbol,
+#'   The `name` argument is a character string,
 #'   and the `command` and `pattern`
 #'   arguments are evaluated expressions. Example:
-#'   `tar_target_raw(name = quote(data), command = quote(get_data()))`.
+#'   `tar_target_raw(name = "data", command = quote(get_data()))`.
 #'   [tar_target_raw()] also has extra arguments `deps` and `string`
 #'   for advanced customization.
 #' @section Target objects:
@@ -172,8 +172,8 @@
 #' @param name Symbol, name of the target.
 #'   In [tar_target()], `name` is an unevaluated symbol, e.g.
 #'   `tar_target(name = data)`.
-#'   In [tar_target_raw()], `name` is an evaluated symbol, e.g.
-#'   `tar_target_raw(name = quote(data))`.
+#'   In [tar_target_raw()], `name` is a character string, e.g.
+#'   `tar_target_raw(name = "data")`.
 #'
 #'   A target name must be a valid name for a symbol in R, and it
 #'   must not start with a dot. Subsequent targets
