@@ -49,6 +49,8 @@ data.frame(
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script({
 library(dplyr)
+library(targets)
+library(tarchetypes)
 list(
   tar_target(
     data,

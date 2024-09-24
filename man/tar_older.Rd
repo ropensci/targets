@@ -59,6 +59,8 @@ or \code{repository = "aws"} in \code{\link[=tar_target]{tar_target()}}.
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script({
+  library(targets)
+  library(tarchetypes)
   list(tar_target(x, seq_len(2)))
 }, ask = FALSE)
 tar_make()
@@ -79,7 +81,6 @@ tar_make()
 \seealso{
 Other time: 
 \code{\link{tar_newer}()},
-\code{\link{tar_timestamp}()},
-\code{\link{tar_timestamp_raw}()}
+\code{\link{tar_timestamp}()}
 }
 \concept{time}

@@ -1,31 +1,5 @@
-#' @title Read a target's value from storage (raw version)
+#' @rdname tar_read
 #' @export
-#' @family storage
-#' @description Like [tar_read()] except `name` is a character string.
-#'   Do not use in `knitr` or R Markdown reports with `tarchetypes::tar_knit()`
-#'   or `tarchetypes::tar_render()`.
-#' @return The target's return value from its file in
-#'   `_targets/objects/`, or the paths to the custom files and directories
-#'   if `format = "file"` was set.
-#' @inheritSection tar_meta Storage access
-#' @inheritSection tar_read Cloud target data versioning
-#' @inheritParams tar_validate
-#' @param name Character, name of the target to read.
-#' @param branches Integer of indices of the branches to load
-#'   if the target is a pattern.
-#' @param meta Data frame of metadata from [tar_meta()].
-#'   `tar_read()` with the default arguments can be inefficient for large
-#'   pipelines because all the metadata is stored in a single file.
-#'   However, if you call [tar_meta()] beforehand and supply it to the `meta`
-#'   argument, then successive calls to `tar_read()` may run much faster.
-#' @examples
-#' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
-#' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
-#' tar_script(list(tar_target(x, 1 + 1)), ask = FALSE)
-#' tar_make()
-#' tar_read_raw("x")
-#' })
-#' }
 tar_read_raw <- function(
   name,
   branches = NULL,

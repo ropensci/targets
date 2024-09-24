@@ -199,6 +199,8 @@ and \code{tar_quarto()}.
 if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script({
+  library(targets)
+  library(tarchetypes)
   tar_option_set()
   list(
     tar_target(y1, 1 + 1),

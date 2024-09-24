@@ -25,7 +25,6 @@ reference:
   - 'tar_edit'
   - 'tar_github_actions'
   - 'tar_helper'
-  - 'tar_helper_raw'
   - 'tar_renv'
   - 'tar_script'
 - title: Configuration
@@ -61,7 +60,6 @@ reference:
   - 'tar_load_everything'
   - 'tar_objects'
   - 'tar_read'
-  - 'tar_read_raw'
 - title: Content-addressable storage
   contents:
   - 'tar_repository_cas'
@@ -80,7 +78,6 @@ reference:
 - title: Inspect
   contents:
   - 'tar_deps'
-  - 'tar_deps_raw'
   - 'tar_manifest'
   - 'tar_outdated'
   - 'tar_sitrep'
@@ -119,7 +116,6 @@ reference:
   - 'tar_newer'
   - 'tar_older'
   - 'tar_timestamp'
-  - 'tar_timestamp_raw'
 - title: Existence
   contents:
   - 'tar_exist_meta'
@@ -131,7 +127,6 @@ reference:
   contents:
   - 'tar_branch_index'
   - 'tar_branch_names'
-  - 'tar_branch_names_raw'
   - 'tar_branches'
   - 'tar_pattern'
 - title: Resources

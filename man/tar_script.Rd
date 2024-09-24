@@ -78,6 +78,8 @@ tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script() # Writes an example target script file.
 # Writes a user-defined target script:
 tar_script({
+  library(targets)
+  library(tarchetypes)
   x <- tar_target(x, 1 + 1)
   tar_option_set()
   list(x)
@@ -90,7 +92,6 @@ Other scripts:
 \code{\link{tar_edit}()},
 \code{\link{tar_github_actions}()},
 \code{\link{tar_helper}()},
-\code{\link{tar_helper_raw}()},
 \code{\link{tar_renv}()}
 }
 \concept{scripts}

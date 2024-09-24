@@ -442,13 +442,14 @@ analysis <- tar_target(analysis, analyze(x), pattern = map(x))
 # In a pipeline:
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
-tar_script(
+tar_script({
+  library(targets)
+  library(tarchetypes)
   list(
     tar_target(name = x, command = 1 + 1),
     tar_target_raw(name = "y", command = quote(x + y))
-  ),
-  ask = FALSE
-)
+  )
+})
 tar_make()
 tar_read(x)
 })

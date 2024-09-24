@@ -56,6 +56,8 @@
 #' tar_script() # Writes an example target script file.
 #' # Writes a user-defined target script:
 #' tar_script({
+#'   library(targets)
+#'   library(tarchetypes)
 #'   x <- tar_target(x, 1 + 1)
 #'   tar_option_set()
 #'   list(x)

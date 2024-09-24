@@ -3,6 +3,9 @@
 #' @family time
 #' @description Get the timestamp associated with a target's
 #'   last successful run.
+#'   [tar_timestamp()] expects the `name` argument to be an unevaluated
+#'   symbol, whereas [tar_timestamp_raw()] expects `name`
+#'   to be a character string.
 #' @details `tar_timestamp()` checks the metadata in `_targets/meta/meta`,
 #'   not the actual returned data of the target.
 #'   The timestamp depends on the storage format of the target.
@@ -16,14 +19,25 @@
 #'   or cannot be parsed correctly, then
 #'   `tar_timestamp()` returns a `POSIXct` object at `1970-01-01 UTC`.
 #' @inheritParams tar_timestamp_raw
-#' @param name Symbol, name of the target. If `NULL` (default)
+#' @param name Name of the target. If `NULL` (default)
 #'   then `tar_timestamp()` will attempt to return the timestamp
 #'   of the target currently running. Must be called inside a target's
 #'   command or a supporting function in order to work.
+#'
+#'   [tar_timestamp()] expects the `name` argument to be an unevaluated
+#'   symbol, whereas [tar_timestamp_raw()] expects `name`
+#'   to be a character string.
+#' @param store Character string, directory path to the data store
+#'   of the pipeline.
+#' @param format Deprecated in `targets` version 0.6.0 (2021-07-21).
+#' @param tz Deprecated in `targets` version 0.6.0 (2021-07-21).
+#' @param parse Deprecated in `targets` version 0.6.0 (2021-07-21).
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #' tar_script({
+#'   library(targets)
+#'   library(tarchetypes)
 #'   list(tar_target(x, 1))
 #' }, ask = FALSE)
 #' tar_make()

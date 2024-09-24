@@ -31,6 +31,8 @@
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #' tar_script({
+#'   library(targets)
+#'   library(tarchetypes)
 #'   list(tar_target(x, seq_len(2)))
 #' }, ask = FALSE)
 #' tar_make()

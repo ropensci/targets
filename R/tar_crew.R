@@ -16,6 +16,8 @@
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #' if (requireNamespace("crew", quietly = TRUE)) {
 #' tar_script({
+#'   library(targets)
+#'   library(tarchetypes)
 #'   tar_option_set(controller = crew::crew_controller_local())
 #'   list(
 #'     tar_target(x, seq_len(2)),

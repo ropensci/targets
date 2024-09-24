@@ -31,6 +31,8 @@
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #' tar_script({
+#'   library(targets)
+#'   library(tarchetypes)
 #'   sleep_run <- function(...) {
 #'     Sys.sleep(10)
 #'   }

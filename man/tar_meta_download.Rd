@@ -64,7 +64,21 @@ download local metadata files to the cloud location
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script({
-}, ask = FALSE)
+  library(targets)
+  library(tarchetypes)
+  tar_option_set(
+    resources = tar_resources(
+      aws = tar_resources_aws(
+        bucket = "YOUR_BUCKET_NAME",
+        prefix = "YOUR_PROJECT_NAME"
+      )
+    ),
+    repository = "aws"
+  )
+  list(
+    tar_target(x, data.frame(x = seq_len(2), y = seq_len(2)))
+  )
+})
 tar_make()
 tar_meta_download()
 })

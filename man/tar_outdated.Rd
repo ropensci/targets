@@ -145,6 +145,8 @@ tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script(list(tar_target(x, 1 + 1)))
 tar_outdated()
 tar_script({
+  library(targets)
+  library(tarchetypes)
   list(
     tar_target(y1, 1 + 1),
     tar_target(y2, 1 + 1),
@@ -158,7 +160,6 @@ tar_outdated()
 \seealso{
 Other inspect: 
 \code{\link{tar_deps}()},
-\code{\link{tar_deps_raw}()},
 \code{\link{tar_manifest}()},
 \code{\link{tar_network}()},
 \code{\link{tar_sitrep}()},

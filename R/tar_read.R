@@ -2,8 +2,12 @@
 #' @export
 #' @family storage
 #' @description Read a target's return value from its file in
-#'   `_targets/objects/`. For dynamic files (i.e. `format = "file"`)
+#'   `_targets/objects/`. For file targets (i.e. `format = "file"`)
 #'   the paths are returned.
+#'
+#'   [tar_read()] expects an
+#'   unevaluated symbol for the `name` argument, whereas [tar_read_raw()]
+#'   expects a character string.
 #' @inheritSection tar_meta Storage access
 #' @section Cloud target data versioning:
 #'   Some buckets in Amazon S3 or Google Cloud Storage are "versioned",
@@ -39,13 +43,29 @@
 #'   `_targets/objects/`, or the paths to the custom files and directories
 #'   if `format = "file"` was set.
 #' @inheritParams tar_read_raw
-#' @param name Symbol, name of the target to read.
+#' @inheritParams tar_validate
+#' @param name Name of the target to read.
+#'   [tar_read()] expects an
+#'   unevaluated symbol for the `name` argument, whereas [tar_read_raw()]
+#'   expects a character string.
+#' @param branches Integer of indices of the branches to load
+#'   if the target is a pattern.
+#' @param meta Data frame of metadata from [tar_meta()].
+#'   `tar_read()` with the default arguments can be inefficient for large
+#'   pipelines because all the metadata is stored in a single file.
+#'   However, if you call [tar_meta()] beforehand and supply it to the `meta`
+#'   argument, then successive calls to `tar_read()` may run much faster.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
-#' tar_script(list(tar_target(x, 1 + 1)), ask = FALSE)
+#' tar_script({
+#'   library(targets)
+#'   library(tarchetypes)
+#'   list(tar_target(x, 1 + 1))
+#' })
 #' tar_make()
 #' tar_read(x)
+#' tar_read_raw("x")
 #' })
 #' }
 tar_read <- function(

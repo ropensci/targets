@@ -36,6 +36,8 @@ List target workspaces currently saved to
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script({
+  library(targets)
+  library(tarchetypes)
   tar_option_set(workspace_on_error = TRUE)
   list(
     tar_target(x, "value"),

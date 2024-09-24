@@ -83,6 +83,8 @@ Targets with empty descriptions are ignored.
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 tar_script({
+  library(targets)
+  library(tarchetypes)
   list(
     tar_target(b2, TRUE, description = "blue two"),
     tar_target(b3, TRUE, description = "blue three"),

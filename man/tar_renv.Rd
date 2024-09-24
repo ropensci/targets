@@ -118,6 +118,8 @@ to check the health of your \code{renv} project library.
 \examples{
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
   tar_script({
+    library(targets)
+    library(tarchetypes)
     tar_option_set(packages = c("tibble", "qs"))
     list()
   }, ask = FALSE)
@@ -133,7 +135,6 @@ Other scripts:
 \code{\link{tar_edit}()},
 \code{\link{tar_github_actions}()},
 \code{\link{tar_helper}()},
-\code{\link{tar_helper_raw}()},
 \code{\link{tar_script}()}
 }
 \concept{scripts}
