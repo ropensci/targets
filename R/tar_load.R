@@ -56,7 +56,7 @@
 #' ls() # Does not have "y1", "y2", or "z".
 #' tar_load(starts_with("y"))
 #' ls() # Has "y1" and "y2" but not "z".
-#' tar_load(any_of("z"))
+#' tar_load_raw(quote(any_of("z")))
 #' ls() # Has "y1", "y2", and "z".
 #' })
 #' }

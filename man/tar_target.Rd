@@ -439,8 +439,19 @@ and (un)marshaling the return value of the target.
 # Defining targets does not run them.
 data <- tar_target(target_name, get_data(), packages = "tidyverse")
 analysis <- tar_target(analysis, analyze(x), pattern = map(x))
-# Pipelines accept targets.
-pipeline <- list(data, analysis)
+# In a pipeline:
+if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
+tar_script(
+  list(
+    tar_target(name = x, command = 1 + 1),
+    tar_target_raw(name = "y", command = quote(x + y))
+  ),
+  ask = FALSE
+)
+tar_make()
+tar_read(x)
+})
 # Tidy evaluation
 tar_option_set(envir = environment())
 n_rows <- 30L
@@ -450,13 +461,6 @@ print(data)
 data <- tar_target(target_name, get_data(!!n_rows), tidy_eval = FALSE)
 print(data)
 tar_option_reset()
-# In a pipeline:
-if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
-tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
-tar_script(tar_target(x, 1 + 1), ask = FALSE)
-tar_make()
-tar_read(x)
-})
 }
 }
 \seealso{
