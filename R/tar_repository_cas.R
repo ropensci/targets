@@ -106,17 +106,10 @@
 #'   inputs. For example, you may want to define
 #'   `upload = \(key, path) file.rename(path, file.path(folder, key))`
 #'   but do not want to hard-code a value of `folder` when you write the
-#'   underlying function. `substitute()` can help inject values into the
-#'   body of a function. For example:
-#'
-#'   ```
-#'   upload <-  \(key, path) {}
-#'   body(upload) <- substitute(
-#'     file.rename(path, file.path(folder, key)),
-#'     list(folder = "my_cas")
-#'   )
-#'   print(upload)
-#'   ```
+#'   underlying function. The `substitute` argument handles this situation.
+#'   For example, if `substitute` is `list(folder = "my_folder")`,
+#'   then `upload` will end up as
+#'   `\(key, path) file.rename(path, file.path("my_folder", key))`.
 #'
 #'   Temporary or sensitive such as authentication credentials
 #'   should not be injected
@@ -185,6 +178,22 @@
 #'   but on systems which are not strongly read-after-write consistent,
 #'   it is the only way `targets` can safely use the current results
 #'   for downstream computations.
+#' @param substitute Named list of values to be inserted into the
+#'   body of each custom function in place of symbols in the body.
+#'   For example, if
+#'   `upload = function(key, path) do_upload(key, path, bucket = X)`
+#'   and `substitute = list(X = "my_aws_bucket")`, then
+#'   the `upload` function will actually end up being
+#'   `function(key, path) do_upload(key, path, bucket = "my_aws_bucket")`.
+#'
+#'   Please do not include temporary or sensitive information
+#'   such as authentication credentials.
+#'   If you do, then `targets` will write them
+#'   to metadata on disk, and a malicious actor could
+#'   steal and misuse them. Instead, pass sensitive information
+#'   as environment variables using [tar_resources_repository_cas()].
+#'   These environment variables only exist in the transient memory
+#'   spaces of the R sessions of the local and worker processes.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -235,7 +244,8 @@ tar_repository_cas <- function(
   upload,
   download,
   exists,
-  consistent = FALSE
+  consistent = FALSE,
+  substitute = list()
 ) {
   tar_assert_function(upload)
   tar_assert_function(download)
@@ -248,9 +258,9 @@ tar_repository_cas <- function(
   tar_assert_none_na(consistent)
   paste(
     "repository_cas",
-    tar_repository_cas_field("upload", upload),
-    tar_repository_cas_field("download", download),
-    tar_repository_cas_field("exists", exists),
+    tar_repository_cas_field("upload", tar_sub_body(upload, substitute)),
+    tar_repository_cas_field("download", tar_sub_body(download, substitute)),
+    tar_repository_cas_field("exists", tar_sub_body(exists, substitute)),
     tar_repository_cas_field("consistent", consistent),
     sep = "&"
   )

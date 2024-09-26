@@ -11,6 +11,7 @@ tar_format(
   unmarshal = NULL,
   convert = NULL,
   copy = NULL,
+  substitute = list(),
   repository = NULL
 )
 }
@@ -71,6 +72,23 @@ before a downstream target attempts to use it (in the case of
 \code{data.table} objects, using \code{data.table::copy()}).
 If \code{NULL}, the \code{copy} argument defaults to just
 returning the original object without any modifications.}
+
+\item{substitute}{Named list of values to be inserted into the
+body of each custom function in place of symbols in the body.
+For example, if
+\code{write = function(object, path) saveRDS(object, path, version = VERSION)}
+and \code{substitute = list(VERSION = 3)}, then
+the \code{write} function will actually end up being
+\code{function(object, path) saveRDS(object, path, version = 3)}.
+
+Please do not include temporary or sensitive information
+such as authentication credentials.
+If you do, then \code{targets} will write them
+to metadata on disk, and a malicious actor could
+steal and misuse them. Instead, pass sensitive information
+as environment variables using \code{\link[=tar_resources_custom_format]{tar_resources_custom_format()}}.
+These environment variables only exist in the transient memory
+spaces of the R sessions of the local and worker processes.}
 
 \item{repository}{Deprecated. Use the \code{repository} argument of
 \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_set]{tar_option_set()}} instead.}

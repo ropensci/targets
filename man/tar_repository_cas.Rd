@@ -5,7 +5,13 @@
 \title{Define a custom content-addressable storage
 (CAS) repository (an experimental feature).}
 \usage{
-tar_repository_cas(upload, download, exists, consistent = FALSE)
+tar_repository_cas(
+  upload,
+  download,
+  exists,
+  consistent = FALSE,
+  substitute = list()
+)
 }
 \arguments{
 \item{upload}{A function with arguments \code{key} and \code{path}, in that order.
@@ -74,6 +80,23 @@ little extra latency / computational burden,
 but on systems which are not strongly read-after-write consistent,
 it is the only way \code{targets} can safely use the current results
 for downstream computations.}
+
+\item{substitute}{Named list of values to be inserted into the
+body of each custom function in place of symbols in the body.
+For example, if
+\code{upload = function(key, path) do_upload(key, path, bucket = X)}
+and \code{substitute = list(X = "my_aws_bucket")}, then
+the \code{upload} function will actually end up being
+\code{function(key, path) do_upload(key, path, bucket = "my_aws_bucket")}.
+
+Please do not include temporary or sensitive information
+such as authentication credentials.
+If you do, then \code{targets} will write them
+to metadata on disk, and a malicious actor could
+steal and misuse them. Instead, pass sensitive information
+as environment variables using \code{\link[=tar_resources_repository_cas]{tar_resources_repository_cas()}}.
+These environment variables only exist in the transient memory
+spaces of the R sessions of the local and worker processes.}
 }
 \description{
 Define a custom storage repository that uses
@@ -182,16 +205,10 @@ Some functions may need to be adapted and configured based on other
 inputs. For example, you may want to define
 \verb{upload = \\(key, path) file.rename(path, file.path(folder, key))}
 but do not want to hard-code a value of \code{folder} when you write the
-underlying function. \code{substitute()} can help inject values into the
-body of a function. For example:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{upload <-  \\(key, path) \{\}
-body(upload) <- substitute(
-  file.rename(path, file.path(folder, key)),
-  list(folder = "my_cas")
-)
-print(upload)
-}\if{html}{\out{</div>}}
+underlying function. The \code{substitute} argument handles this situation.
+For example, if \code{substitute} is \code{list(folder = "my_folder")},
+then \code{upload} will end up as
+\verb{\\(key, path) file.rename(path, file.path("my_folder", key))}.
 
 Temporary or sensitive such as authentication credentials
 should not be injected

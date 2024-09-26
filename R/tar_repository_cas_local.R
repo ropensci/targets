@@ -53,30 +53,12 @@ tar_repository_cas_local <- function(
   tar_assert_scalar(consistent)
   tar_assert_lgl(consistent)
   tar_assert_none_na(consistent)
-  data <- list(cas = path)
-  upload <- function(key, path) {
-  }
-  download <- function(key, path) {
-  }
-  exists <- function(key) {
-  }
-  body(upload) <- substitute(
-    targets::tar_cas_u(cas, key, path),
-    env = data
-  )
-  body(download) <- substitute(
-    targets::tar_cas_d(cas, key, path),
-    env = data
-  )
-  body(exists) <- substitute(
-    targets::tar_cas_e(cas, key),
-    env = data
-  )
   tar_repository_cas(
-    upload = upload,
-    download = download,
-    exists = exists,
-    consistent = consistent
+    upload = function(key, path) targets::tar_cas_u(cas, key, path),
+    download = function(key, path) targets::tar_cas_d(cas, key, path),
+    exists = function(key) targets::tar_cas_e(cas, key),
+    consistent = consistent,
+    substitute = list(cas = path)
   )
 }
 
