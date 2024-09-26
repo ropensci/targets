@@ -1,4 +1,4 @@
-# targets 1.7.1.9008 (development)
+# targets 1.7.1.9009 (development)
 
 * Wrap `tar_watch()` UI module in `bslib::page()` (#1302, @kwbyron-lilly).
 * Remove `callr_function` in `tar_make_as_job()` argument list.
@@ -18,6 +18,7 @@
 * Deprecate `trust_object_timestamps` in favor of the more unified `trust_timestamps` in `tar_option_set()` (#1315).
 * Print storage size of each target in verbose reporters (#1337, @psychelzh).
 * Combine help files of `tar_target()` and `tar_target_raw()`. Same with `tar_load()` and `tar_load_raw()`.
+* Add a `substitute` argument to `tar_format()` to make it easier to write custom storage formats without metaprogramming.
 
 # targets 1.7.1
 

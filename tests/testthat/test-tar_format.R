@@ -123,6 +123,26 @@ tar_test("custom format envvar resources", {
   expect_equal(Sys.getenv("SERIALIZATION", unset = ""), "")
 })
 
+tar_test("custom format insertions", {
+  tar_script(
+    tar_target(
+      name = target_name,
+      command = data.frame(x = 1L),
+      format = tar_format(
+        read = function(path) {
+          readRDS(file = path)
+        },
+        write = function(object, path) {
+          saveRDS(object = object, file = path, version = VERSION_VARIABLE)
+        },
+        substitute = list(VERSION_VARIABLE = 3)
+      )
+    )
+  )
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(target_name), data.frame(x = 1L))
+})
+
 tar_test("patterns are marshaled correctly", {
   skip_cran()
   skip_on_os("windows")

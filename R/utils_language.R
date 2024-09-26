@@ -110,3 +110,13 @@ tar_tidyselect_eval <- function(names_quosure, choices) {
   )
   out
 }
+
+tar_insert_body <- function(fun, values) {
+  body(fun) <- eval(
+    substitute(
+      substitute(expr = expr, env = env),
+      env = list(expr = body(fun), env = values)
+    )
+  )
+  fun
+}
