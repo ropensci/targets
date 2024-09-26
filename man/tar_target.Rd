@@ -340,6 +340,8 @@ details the structure and composition of target objects.
 
 \section{Storage formats}{
 
+\code{targets} has several built-in storage formats to control how return
+values are saved and loaded from disk:
 \itemize{
 \item \code{"rds"}: Default, uses \code{saveRDS()} and \code{readRDS()}. Should work for
 most objects, but slow.
@@ -433,6 +435,15 @@ and (un)marshaling the return value of the target.
 (\code{targets} version > 0.10.0). For cloud storage integration, use the
 \code{repository} argument instead.
 }
+
+Formats \code{"rds"}, \code{"file"}, and \code{"url"} are general-purpose formats
+that belong in the \code{targets} package itself.
+Going forward, any additional formats should be implemented with
+\code{\link[=tar_format]{tar_format()}} in third-party packages like \code{tarchetypes}
+and \code{geotargets} (for example: \code{tarchetypes::tar_format_nanoparquet()}).
+Formats \code{"qs"}, \code{"fst"}, etc. are legacy formats from before the
+existence of \code{\link[=tar_format]{tar_format()}}, and they will continue to remain in
+\code{targets} without deprecation.
 }
 
 \examples{

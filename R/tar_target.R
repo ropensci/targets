@@ -37,6 +37,9 @@
 #'   <https://books.ropensci.org/targets-design/>
 #'   details the structure and composition of target objects.
 #' @section Storage formats:
+#'   `targets` has several built-in storage formats to control how return
+#'   values are saved and loaded from disk:
+#'
 #'   * `"rds"`: Default, uses `saveRDS()` and `readRDS()`. Should work for
 #'     most objects, but slow.
 #'   * `"auto"`: either `"file"` or `"qs"`, depending on the return value
@@ -128,6 +131,15 @@
 #'   * The formats starting with `"aws_"` are deprecated as of 2022-03-13
 #'     (`targets` version > 0.10.0). For cloud storage integration, use the
 #'     `repository` argument instead.
+#'
+#'   Formats `"rds"`, `"file"`, and `"url"` are general-purpose formats
+#'   that belong in the `targets` package itself.
+#'   Going forward, any additional formats should be implemented with
+#'   [tar_format()] in third-party packages like `tarchetypes`
+#'   and `geotargets` (for example: `tarchetypes::tar_format_nanoparquet()`).
+#'   Formats `"qs"`, `"fst"`, etc. are legacy formats from before the
+#'   existence of [tar_format()], and they will continue to remain in
+#'   `targets` without deprecation.
 #' @param repository Character of length 1, remote repository for target
 #'   storage. Choices:
 #'   * `"local"`: file system of the local machine.
