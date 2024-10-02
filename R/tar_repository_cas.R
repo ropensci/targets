@@ -16,10 +16,10 @@
 #'
 #'   ```
 #'   _targets/
-#'   ├── meta/
-#'   │   └── meta
-#'   └── objects/
-#'       └── x
+#'       meta/
+#'           meta
+#'       objects/
+#'           x
 #'   ```
 #'
 #'   By contrast, with content-addressable storage (CAS),
@@ -34,12 +34,12 @@
 #'
 #'   ```
 #'   _targets/
-#'   └── meta/
-#'       └── meta
+#'       meta/
+#'           meta
 #'   my_cas/
-#'   ├── 1fffeb09ad36e84a
-#'   ├── 68328d833e6361d3
-#'   └── 798af464fb2f6b30
+#'       1fffeb09ad36e84a
+#'       68328d833e6361d3
+#'       798af464fb2f6b30
 #'   ```
 #'
 #'   The next call to `tar_read(x)` uses `tar_meta(x)$data`

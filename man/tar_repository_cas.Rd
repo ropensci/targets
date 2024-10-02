@@ -114,10 +114,10 @@ In other words, no matter how many changes happen to \code{x},
 the data store always looks like this:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{_targets/
-├── meta/
-│   └── meta
-└── objects/
-    └── x
+    meta/
+        meta
+    objects/
+        x
 }\if{html}{\out{</div>}}
 
 By contrast, with content-addressable storage (CAS),
@@ -131,12 +131,12 @@ in that folder. If you run \code{\link[=tar_make]{tar_make()}} three different t
 with three different values of \code{x}, then storage will look like this:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{_targets/
-└── meta/
-    └── meta
+    meta/
+        meta
 my_cas/
-├── 1fffeb09ad36e84a
-├── 68328d833e6361d3
-└── 798af464fb2f6b30
+    1fffeb09ad36e84a
+    68328d833e6361d3
+    798af464fb2f6b30
 }\if{html}{\out{</div>}}
 
 The next call to \code{tar_read(x)} uses \code{tar_meta(x)$data}
