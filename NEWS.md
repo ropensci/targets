@@ -1,4 +1,4 @@
-# targets 1.7.1.9009 (development)
+# targets 1.8.0
 
 * Wrap `tar_watch()` UI module in `bslib::page()` (#1302, @kwbyron-lilly).
 * Remove `callr_function` in `tar_make_as_job()` argument list.
