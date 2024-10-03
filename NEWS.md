@@ -1,6 +1,6 @@
-# targets 1.8.0.9000 (development)
+# targets 1.8.0.9001 (development)
 
-
+* Un-break workflows that use `format = "file_fast"` (#1339, @koefoeden).
 
 # targets 1.8.0
 
