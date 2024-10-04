@@ -1,6 +1,7 @@
-# targets 1.8.0.9001 (development)
+# targets 1.8.0.9002 (development)
 
 * Un-break workflows that use `format = "file_fast"` (#1339, @koefoeden).
+* Fix deadlock in `error = "trim"` (#1340, @koefoeden).
 
 # targets 1.8.0
 

@@ -6,7 +6,8 @@ progress_init <- function(
   skipped = counter_init(),
   errored = counter_init(),
   warned = counter_init(),
-  canceled = counter_init()
+  canceled = counter_init(),
+  trimmed = counter_init()
 ) {
   database <- database_progress(path_store = path_store)
   progress_new(
@@ -17,7 +18,8 @@ progress_init <- function(
     skipped = skipped,
     errored = errored,
     warned = warned,
-    canceled = canceled
+    canceled = canceled,
+    trimmed = trimmed
   )
 }
 
@@ -29,7 +31,8 @@ progress_new <- function(
   completed = NULL,
   errored = NULL,
   warned = NULL,
-  canceled = NULL
+  canceled = NULL,
+  trimmed = NULL
 ) {
   progress_class$new(
     database = database,
@@ -39,7 +42,8 @@ progress_new <- function(
     completed = completed,
     errored = errored,
     warned = warned,
-    canceled = canceled
+    canceled = canceled,
+    trimmed = trimmed
   )
 }
 
@@ -57,6 +61,7 @@ progress_class <- R6::R6Class(
     errored = NULL,
     warned = NULL,
     canceled = NULL,
+    trimmed = NULL,
     initialize = function(
       database = NULL,
       queued = NULL,
@@ -65,7 +70,8 @@ progress_class <- R6::R6Class(
       completed = NULL,
       errored = NULL,
       warned = NULL,
-      canceled = NULL
+      canceled = NULL,
+      trimmed = NULL
     ) {
       self$database <- database
       self$queued <- queued
@@ -75,6 +81,7 @@ progress_class <- R6::R6Class(
       self$errored <- errored
       self$warned <- warned
       self$canceled <- canceled
+      self$trimmed <- trimmed
     },
     assign_dequeued = function(target) {
       counter_del_name(self$queued, target_get_name(target))
@@ -112,6 +119,10 @@ progress_class <- R6::R6Class(
       name <- target_get_name(target)
       counter_del_name(self$dispatched, name)
       counter_set_name(self$warned, name)
+    },
+    assign_trimmed = function(names) {
+      counter_del_names(self$queued, names)
+      counter_set_names(self$trimmed, names)
     },
     produce_row = function(target, progress) {
       name <- target_get_name(target)
@@ -230,6 +241,7 @@ progress_class <- R6::R6Class(
       counter_validate(self$skipped)
       counter_validate(self$errored)
       counter_validate(self$canceled)
+      counter_validate(self$trimmed)
     }
   )
 )

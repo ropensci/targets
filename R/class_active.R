@@ -189,7 +189,7 @@ active_class <- R6::R6Class(
       target <- pipeline_get_target(self$pipeline, name)
       target_debug(target)
       target_update_depend(target, self$pipeline, self$meta)
-      if (counter_exists_name(self$scheduler$trimmed, name)) {
+      if (counter_exists_name(self$scheduler$progress$trimmed, name)) {
         self$scheduler$trim(target, self$pipeline)
         counter_del_name(self$scheduler$progress$queued, name)
       } else if (target_should_run(target, self$meta)) {

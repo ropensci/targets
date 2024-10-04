@@ -22,14 +22,12 @@ scheduler_init <- function(
   )
   reporter <- reporter_init(reporter, seconds_interval = seconds_reporter)
   backoff <- tar_options$get_backoff()
-  trimmed <- counter_init()
   scheduler_new(
     graph = graph,
     queue = queue,
     progress = progress,
     reporter = reporter,
-    backoff = backoff,
-    trimmed <- trimmed
+    backoff = backoff
   )
 }
 
@@ -54,10 +52,9 @@ scheduler_new <- function(
   queue = NULL,
   progress = NULL,
   reporter = NULL,
-  backoff = NULL,
-  trimmed = NULL
+  backoff = NULL
 ) {
-  scheduler_class$new(graph, queue, progress, reporter, backoff, trimmed)
+  scheduler_class$new(graph, queue, progress, reporter, backoff)
 }
 
 scheduler_class <- R6::R6Class(
@@ -71,21 +68,18 @@ scheduler_class <- R6::R6Class(
     progress = NULL,
     reporter = NULL,
     backoff = NULL,
-    trimmed = NULL,
     initialize = function(
       graph = NULL,
       queue = NULL,
       progress = NULL,
       reporter = NULL,
-      backoff = NULL,
-      trimmed = NULL
+      backoff = NULL
     ) {
       self$graph <- graph
       self$queue <- queue
       self$progress <- progress
       self$reporter <- reporter
       self$backoff <- backoff
-      self$trimmed <- trimmed
     },
     count_unfinished_deps = function(name) {
       deps <- self$graph$produce_upstream(name)
@@ -117,8 +111,7 @@ scheduler_class <- R6::R6Class(
         )
         trim <- c(trim, target_get_children(downstream_parent_target))
       }
-      counter_set_names(self$trimmed, trim)
-      counter_del_names(self$progress$queued, trim)
+      self$progress$assign_trimmed(trim)
     },
     validate = function() {
       self$graph$validate()
@@ -126,7 +119,6 @@ scheduler_class <- R6::R6Class(
       self$progress$validate()
       self$reporter$validate()
       self$backoff$validate()
-      counter_validate(self$trimmed)
     }
   )
 )
