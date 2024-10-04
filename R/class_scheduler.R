@@ -107,9 +107,18 @@ scheduler_class <- R6::R6Class(
     trim = function(target, pipeline) {
       parent_name <- target_get_parent(target)
       parent_target <- pipeline_get_target(pipeline, parent_name)
-      downstream <- self$graph$produce_downstream(parent_name)
-      siblings <- target_get_children(parent_target)
-      counter_set_names(self$trimmed, c(downstream, siblings))
+      current_child_names <- target_get_children(parent_target)
+      downstream_parent_names <- self$graph$produce_downstream(parent_name)
+      trim <- c(parent_name, current_child_names, downstream_parent_names)
+      for (downstream_parent_name in downstream_parent_names) {
+        downstream_parent_target <- pipeline_get_target(
+          pipeline,
+          downstream_parent_name
+        )
+        trim <- c(trim, target_get_children(downstream_parent_target))
+      }
+      counter_set_names(self$trimmed, trim)
+      counter_del_names(self$progress$queued, trim)
     },
     validate = function() {
       self$graph$validate()

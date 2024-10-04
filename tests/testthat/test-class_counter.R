@@ -70,6 +70,15 @@ tar_test("counter$del_name(old)", {
   expect_equal(x$count, 25L)
 })
 
+tar_test("counter$del_name(old, nonexistent)", {
+  x <- counter_init(letters)
+  expect_equal(sort(counter_get_names(x)), sort(letters))
+  expect_equal(x$count, 26L)
+  counter_del_name(x, "bcde")
+  expect_equal(sort(counter_get_names(x)), sort(letters))
+  expect_equal(x$count, 26L)
+})
+
 tar_test("counter_validate() nonempty counter", {
   x <- counter_init(letters)
   expect_silent(counter_validate(x))

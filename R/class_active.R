@@ -191,6 +191,7 @@ active_class <- R6::R6Class(
       target_update_depend(target, self$pipeline, self$meta)
       if (counter_exists_name(self$scheduler$trimmed, name)) {
         self$scheduler$trim(target, self$pipeline)
+        counter_del_name(self$scheduler$progress$queued, name)
       } else if (target_should_run(target, self$meta)) {
         self$flush_upload_meta_file(target)
         self$run_target(name)
