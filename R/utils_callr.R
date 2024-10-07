@@ -44,7 +44,7 @@ callr_outer <- function(
 callr_error <- function(traced_condition, fun) {
   general <- c(
     utils::capture.output(
-      cli::cli_h1("General debugging"),
+      cli::cli_h1("Debugging"),
       type = "message"
     ),
     paste(
@@ -60,25 +60,6 @@ callr_error <- function(traced_condition, fun) {
       )
     )
   )
-  suppressMessages(
-    meta <- tar_meta(
-      fields = tidyselect::any_of(c("name", "time", "error")),
-      complete_only = TRUE
-    )
-  )
-  tailored <- character(0L)
-  if (any(!is.na(meta$time))) {
-    name <- meta$name[meta$time == max(meta$time, na.rm = TRUE)]
-    meta <- sprintf("tar_meta(%s)$error", name)
-    workspace <- sprintf("tar_workspace(%s)", name)
-    tailored <- c(
-      utils::capture.output(
-        cli::cli_h1(paste("Debug target", name)),
-        type = "message"
-      ),
-      paste("   ", c(meta, workspace))
-    )
-  }
   how_to <- c(
     utils::capture.output(cli::cli_h1("How to"), type = "message"),
     paste(
@@ -112,7 +93,6 @@ callr_error <- function(traced_condition, fun) {
   )
   lines <- c(
     sprintf("targets::%s() error", fun),
-    tailored,
     general,
     how_to,
     data
