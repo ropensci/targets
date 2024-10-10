@@ -211,8 +211,9 @@ tar_assert_function <- function(x, msg = NULL) {
 #' @export
 #' @rdname tar_assert
 tar_assert_function_arguments <- function(x, args, msg = NULL) {
-  exp <- as.character(names(formals(x)))
-  equal <- identical(exp, as.character(args))
+  out <- as.character(names(formals(x)))
+  exp <- as.character(args)
+  equal <- identical(out, exp)
   msg <- paste(
     "function",
     tar_deparse_safe(substitute(x)),
