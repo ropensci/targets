@@ -1,8 +1,9 @@
-# targets 1.8.0.9002 (development)
+# targets 1.8.0.9003 (development)
 
 * Un-break workflows that use `format = "file_fast"` (#1339, @koefoeden).
 * Fix deadlock in `error = "trim"` (#1340, @koefoeden).
 * Remove tailored debugging message (#1341, @koefoeden).
+* Store warnings while writing to storage (#1345, @Aariq).
 
 # targets 1.8.0
 

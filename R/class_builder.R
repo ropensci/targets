@@ -189,7 +189,6 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   on.exit(builder_unset_tar_runtime())
   builder_set_tar_runtime(target, NULL)
   target_update_queue(target, scheduler)
-  builder_handle_warnings(target, scheduler)
   builder_ensure_workspace(
     target = target,
     pipeline = pipeline,
@@ -198,6 +197,7 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   )
   builder_ensure_object(target, "main")
   builder_ensure_correct_hash(target)
+  builder_handle_warnings(target, scheduler)
   switch(
     metrics_outcome(target$metrics),
     cancel = builder_cancel(target, pipeline, scheduler, meta),
@@ -453,7 +453,19 @@ builder_update_object <- function(target) {
   on.exit(builder_unload_value(target))
   file_validate_path(target$store$file$path)
   if (!identical(target$settings$storage, "none")) {
-    store_write_object(target$store, target$value$object)
+    withCallingHandlers(
+      store_write_object(target$store, target$value$object),
+      warning = function(condition) {
+        if (length(target$metrics$warnings) < 51L) {
+          target$metrics$warnings <- paste(
+            c(target$metrics$warnings, build_message(condition)),
+            collapse = ". "
+          )
+        }
+        warning(as_immediate_condition(condition))
+        invokeRestart("muffleWarning")
+      }
+    )
   }
   store_hash_late(target$store)
   store_upload_object(target$store)

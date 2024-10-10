@@ -706,3 +706,34 @@ tar_test("error = \"trim\" on a dynamic branch", {
   progress <- tar_progress(names = tidyselect::any_of(names))
   expect_equal(unique(progress$progress), "skipped")
 })
+
+tar_test("capture storage warnings", {
+  skip_cran()
+  tar_script(
+    list(
+      tar_target(
+        x, {
+          warning("run_warning")
+          123L
+        },
+        format = tar_format(
+          read = function(path) {
+            readRDS(path)
+          },
+          write = function(object, path) {
+            warning("storage_warning")
+            saveRDS(object, path)
+          }
+        )
+      )
+    )
+  )
+  suppressWarnings(
+    expect_warning(
+      tar_make(callr_function = NULL),
+      class = "tar_condition_run"
+    )
+  )
+  expect_equal(tar_read(x), 123L)
+  expect_equal(tar_meta(x)$warnings, "run_warning. storage_warning")
+})
