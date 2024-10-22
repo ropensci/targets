@@ -317,7 +317,7 @@ options_class <- R6::R6Class(
       self$memory %|||% "persistent"
     },
     get_garbage_collection = function() {
-      self$garbage_collection %|||% 0L
+      self$garbage_collection %|||% 1000L
     },
     get_deployment = function() {
       self$deployment %|||% "worker"
