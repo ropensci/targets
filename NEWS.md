@@ -4,6 +4,7 @@
 * Fix deadlock in `error = "trim"` (#1340, @koefoeden).
 * Remove tailored debugging message (#1341, @koefoeden).
 * Store warnings while writing to storage (#1345, @Aariq).
+* Allow `garbage_collection` to be a non-negative integer to control the frequency of garbage collection in a performant, convenient, unified way (#1351).
 * Deprecate the `garbage_collection` argument of `tar_make()`, `tar_make_future()`, and `tar_make_clusterm()` (#1351).
 
 # targets 1.8.0

@@ -406,6 +406,7 @@ options_class <- R6::R6Class(
       self$memory <- memory
     },
     set_garbage_collection = function(garbage_collection) {
+      garbage_collection <- as.integer(garbage_collection)
       self$validate_garbage_collection(garbage_collection)
       self$garbage_collection <- as.integer(garbage_collection)
     },

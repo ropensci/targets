@@ -11,7 +11,7 @@
 #' @return `NULL` (invisibly).
 #' @inheritSection tar_target Storage formats
 #' @inheritParams tar_target
-#' @param garbage_collection A positive integer.
+#' @param garbage_collection A non-negative integer.
 #'   If `0`, do not run garbage collection.
 #'   If `1`, run garbage collection on every target
 #'   that is not skipped, both

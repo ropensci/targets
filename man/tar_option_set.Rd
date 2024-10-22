@@ -216,7 +216,7 @@ and \code{"transient"} means it gets deleted as soon as possible.
 The former conserves bandwidth,
 and the latter conserves local storage.}
 
-\item{garbage_collection}{A positive integer.
+\item{garbage_collection}{A non-negative integer.
 If \code{0}, do not run garbage collection.
 If \code{1}, run garbage collection on every target
 that is not skipped, both
