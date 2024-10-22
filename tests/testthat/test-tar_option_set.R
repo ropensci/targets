@@ -171,7 +171,7 @@ tar_test("garbage_collection", {
   tar_option_reset()
   expect_equal(tar_option_get("garbage_collection"), 1000L)
   expect_error(
-    tar_option_set(garbage_collection = "abc"),
+    suppressWarnings(tar_option_set(garbage_collection = "abc")),
     class = "tar_condition_validate"
   )
 })
