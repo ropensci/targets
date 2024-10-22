@@ -17,7 +17,7 @@ tar_make(
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = targets::tar_config_get("garbage_collection"),
+  garbage_collection = NULL,
   use_crew = targets::tar_config_get("use_crew"),
   terminate_controller = TRUE,
   as_job = targets::tar_config_get("as_job")
@@ -136,12 +136,11 @@ See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_
 about how to set the data store path persistently
 for a project.}
 
-\item{garbage_collection}{Logical of length 1. For a \code{crew}-integrated
-pipeline, whether to run garbage collection on the main process
-before sending a target
-to a worker. Ignored if \code{tar_option_get("controller")} is \code{NULL}.
-Independent from the \code{garbage_collection} argument of \code{\link[=tar_target]{tar_target()}},
-which controls garbage collection on the worker.}
+\item{garbage_collection}{Deprecated. Use the \code{garbage_collection}
+argument of \code{\link[=tar_option_set]{tar_option_set()}} instead to run garbage collection
+at regular intervals in a pipeline, or use the argument of the same
+name in \code{\link[=tar_target]{tar_target()}} to activate garbage collection for
+a specific target.}
 
 \item{use_crew}{Logical of length 1, whether to use \code{crew} if the
 \code{controller} option is set in \code{tar_option_set()} in the target script

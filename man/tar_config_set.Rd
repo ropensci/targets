@@ -40,15 +40,11 @@ Use \code{\link[=tar_config_unset]{tar_config_unset()}} to delete a setting.}
 (depending on the \code{callr_function} argument).
 If \code{as_job_} is \code{TRUE}, then the \code{rstudioapi} package must be installed.}
 
-\item{garbage_collection}{Logical of length 1, \code{garbage_collection}
-argument of \code{\link[=tar_make]{tar_make()}} (if \code{crew} is enabled),
-\code{\link[=tar_make_clustermq]{tar_make_clustermq()}}, and \code{\link[=tar_make_future]{tar_make_future()}}.
-Whether to run garbage collection on the main process
-before sending a target
-to a worker. For \code{\link[=tar_make]{tar_make()}}, this argument is
-ignored if \code{tar_option_get("controller")} is \code{NULL}.
-Independent from the \code{garbage_collection} argument of \code{\link[=tar_target]{tar_target()}},
-which controls garbage collection on the worker.}
+\item{garbage_collection}{Deprecated. Use the \code{garbage_collection}
+argument of \code{\link[=tar_option_set]{tar_option_set()}} instead to run garbage collection
+at regular intervals in a pipeline, or use the argument of the same
+name in \code{\link[=tar_target]{tar_target()}} to activate garbage collection for
+a specific target.}
 
 \item{label}{Argument of \code{\link[=tar_glimpse]{tar_glimpse()}} and \code{\link[=tar_visnetwork]{tar_visnetwork()}}
 to control node labels.}

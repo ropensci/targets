@@ -11,6 +11,15 @@
 #' @return `NULL` (invisibly).
 #' @inheritSection tar_target Storage formats
 #' @inheritParams tar_target
+#' @param garbage_collection A positive integer.
+#'   If `0`, do not run garbage collection.
+#'   If `1`, run garbage collection on every target
+#'   that is not skipped, both
+#'   locally and on all parallel workers.
+#'   If `garbage_collection` is a positive integer `n`, then garbage
+#'   collection runs every `n`'th target that is not skipped.
+#'   For example, `garbage_collection = 3` will run garbage collection
+#'   on every third active target, both locally and on all parallel workers.
 #' @param repository_meta Character of length 1 with the same values as
 #'   `repository` but excluding content-addressable storage
 #'   (`"aws"`, `"gcp"`, `"local"`). Cloud repository

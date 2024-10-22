@@ -42,15 +42,11 @@
 #'   `FALSE` to run as a `callr` process in the main R session
 #'   (depending on the `callr_function` argument).
 #'   If `as_job_` is `TRUE`, then the `rstudioapi` package must be installed.
-#' @param garbage_collection Logical of length 1, `garbage_collection`
-#'   argument of [tar_make()] (if `crew` is enabled),
-#'   [tar_make_clustermq()], and [tar_make_future()].
-#'   Whether to run garbage collection on the main process
-#'   before sending a target
-#'   to a worker. For [tar_make()], this argument is
-#'   ignored if `tar_option_get("controller")` is `NULL`.
-#'   Independent from the `garbage_collection` argument of [tar_target()],
-#'   which controls garbage collection on the worker.
+#' @param garbage_collection Deprecated. Use the `garbage_collection`
+#'   argument of [tar_option_set()] instead to run garbage collection
+#'   at regular intervals in a pipeline, or use the argument of the same
+#'   name in [tar_target()] to activate garbage collection for
+#'   a specific target.
 #' @param label Argument of [tar_glimpse()] and [tar_visnetwork()]
 #'   to control node labels.
 #' @param label_width Argument of [tar_glimpse()] and [tar_visnetwork()]
@@ -274,6 +270,12 @@ tar_config_assert_garbage_collection <- function(garbage_collection) {
   if (is.null(garbage_collection)) {
     return()
   }
+  tar_warn_deprecate(
+    "The garbage_collection argument of tar_config_set() was deprecated ",
+    "in version 1.8.0.9004 (2024-10-22). The garbage_collection ",
+    "argument of tar_option_set() is more unified and featureful now. ",
+    "Please have a look at its documentation."
+  )
   tar_assert_lgl(garbage_collection)
   tar_assert_scalar(garbage_collection)
   tar_assert_none_na(garbage_collection)

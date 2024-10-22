@@ -13,7 +13,7 @@ tar_target_raw <- function(
   iteration = targets::tar_option_get("iteration"),
   error = targets::tar_option_get("error"),
   memory = targets::tar_option_get("memory"),
-  garbage_collection = targets::tar_option_get("garbage_collection"),
+  garbage_collection = isTRUE(targets::tar_option_get("garbage_collection")),
   deployment = targets::tar_option_get("deployment"),
   priority = targets::tar_option_get("priority"),
   resources = targets::tar_option_get("resources"),
@@ -52,6 +52,7 @@ tar_target_raw <- function(
   )
   deprecate_error_workspace(error)
   tar_assert_flag(memory, c("persistent", "transient"))
+  garbage_collection <- isTRUE(garbage_collection)
   tar_assert_lgl(garbage_collection)
   tar_assert_scalar(garbage_collection)
   tar_assert_flag(deployment, c("worker", "main"))

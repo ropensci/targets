@@ -216,8 +216,15 @@ and \code{"transient"} means it gets deleted as soon as possible.
 The former conserves bandwidth,
 and the latter conserves local storage.}
 
-\item{garbage_collection}{Logical, whether to run \code{base::gc()}
-just before the target runs.}
+\item{garbage_collection}{A positive integer.
+If \code{0}, do not run garbage collection.
+If \code{1}, run garbage collection on every target
+that is not skipped, both
+locally and on all parallel workers.
+If \code{garbage_collection} is a positive integer \code{n}, then garbage
+collection runs every \code{n}'th target that is not skipped.
+For example, \code{garbage_collection = 3} will run garbage collection
+on every third active target, both locally and on all parallel workers.}
 
 \item{deployment}{Character of length 1. If \code{deployment} is
 \code{"main"}, then the target will run on the central controlling R process.

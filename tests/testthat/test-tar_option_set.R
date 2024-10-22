@@ -165,13 +165,13 @@ tar_test("memory", {
 })
 
 tar_test("garbage_collection", {
-  expect_false(tar_option_get("garbage_collection"))
-  tar_option_set(garbage_collection = TRUE)
-  expect_true(tar_option_get("garbage_collection"))
+  expect_equal(tar_option_get("garbage_collection"), 0L)
+  tar_option_set(garbage_collection = 5L)
+  expect_equal(tar_option_get("garbage_collection"), 5L)
   tar_option_reset()
-  expect_false(tar_option_get("garbage_collection"))
+  expect_equal(tar_option_get("garbage_collection"), 0L)
   expect_error(
-    tar_option_set(garbage_collection = 0),
+    tar_option_set(garbage_collection = "abc"),
     class = "tar_condition_validate"
   )
 })

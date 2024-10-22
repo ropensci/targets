@@ -273,8 +273,17 @@
 #'   and `"transient"` means it gets deleted as soon as possible.
 #'   The former conserves bandwidth,
 #'   and the latter conserves local storage.
-#' @param garbage_collection Logical, whether to run `base::gc()`
-#'   just before the target runs.
+#' @param garbage_collection Logical: `TRUE` to run `base::gc()`
+#'   just before the target runs,
+#'   `FALSE` to omit garbage collection.
+#'   In the case of high-performance computing,
+#'   `gc()` runs both locally and on the parallel worker.
+#'   All this garbage collection is skipped if the actual target
+#'   is skipped in the pipeline.
+#'   Non-logical values of `garbage_collection` are converted to `TRUE` or
+#'   `FALSE` using `isTRUE()`. In other words, non-logical values are
+#'   converted `FALSE`. For example, `garbage_collection = 2`
+#'   is equivalent to `garbage_collection = FALSE`.
 #' @param deployment Character of length 1. If `deployment` is
 #'   `"main"`, then the target will run on the central controlling R process.
 #'   Otherwise, if `deployment` is `"worker"` and you set up the pipeline
@@ -393,7 +402,7 @@ tar_target <- function(
   iteration = targets::tar_option_get("iteration"),
   error = targets::tar_option_get("error"),
   memory = targets::tar_option_get("memory"),
-  garbage_collection = targets::tar_option_get("garbage_collection"),
+  garbage_collection = isTRUE(targets::tar_option_get("garbage_collection")),
   deployment = targets::tar_option_get("deployment"),
   priority = targets::tar_option_get("priority"),
   resources = targets::tar_option_get("resources"),
@@ -412,6 +421,7 @@ tar_target <- function(
   command <- tar_tidy_eval(command, envir, tidy_eval)
   pattern <- as.expression(substitute(pattern))
   pattern <- tar_tidy_eval(pattern, envir, tidy_eval)
+  garbage_collection <- isTRUE(garbage_collection)
   tar_target_raw(
     name = name,
     command = command,

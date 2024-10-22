@@ -8,7 +8,6 @@ clustermq_init <- function(
   seconds_meta_append = 0,
   seconds_meta_upload = 15,
   seconds_reporter = 0,
-  garbage_collection = FALSE,
   envir = tar_option_get("envir"),
   workers = 1L,
   log_worker = FALSE
@@ -23,7 +22,6 @@ clustermq_init <- function(
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
-    garbage_collection = garbage_collection,
     envir = envir,
     workers = as.integer(workers),
     log_worker = log_worker
@@ -40,7 +38,6 @@ clustermq_new <- function(
   seconds_meta_append = NULL,
   seconds_meta_upload = NULL,
   seconds_reporter = NULL,
-  garbage_collection = NULL,
   envir = NULL,
   workers = NULL,
   log_worker = NULL
@@ -55,7 +52,6 @@ clustermq_new <- function(
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
-    garbage_collection = garbage_collection,
     envir = envir,
     workers = workers,
     log_worker = log_worker
@@ -81,7 +77,6 @@ clustermq_class <- R6::R6Class(
       seconds_meta_append = NULL,
       seconds_meta_upload = NULL,
       seconds_reporter = NULL,
-      garbage_collection = NULL,
       envir = NULL,
       workers = NULL,
       log_worker = NULL
@@ -96,7 +91,6 @@ clustermq_class <- R6::R6Class(
         seconds_meta_append = seconds_meta_append,
         seconds_meta_upload = seconds_meta_upload,
         seconds_reporter = seconds_reporter,
-        garbage_collection = garbage_collection,
         envir = envir
       )
       self$workers <- as.integer(workers)
@@ -130,9 +124,6 @@ clustermq_class <- R6::R6Class(
     },
     run_worker = function(target) {
       builder_marshal_subpipeline(target)
-      if (self$garbage_collection) {
-        gc()
-      }
       self$worker_list$send(
         cmd = targets::target_run_worker(
           target = target,
@@ -247,7 +238,6 @@ clustermq_class <- R6::R6Class(
         names = self$names,
         queue = self$queue,
         reporter = self$reporter,
-        garbage_collection = self$garbage_collection,
         seconds_meta_append = self$seconds_meta_append,
         seconds_meta_upload = self$seconds_meta_upload,
         seconds_reporter = self$seconds_reporter,

@@ -60,7 +60,7 @@ tar_make_clustermq <- function(
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = targets::tar_config_get("garbage_collection")
+  garbage_collection = NULL
 ) {
   # Need to suppress tests on covr only, due to
   # https://github.com/r-lib/covr/issues/315.
@@ -91,9 +91,16 @@ tar_make_clustermq <- function(
   tar_assert_none_na(seconds_reporter)
   tar_assert_ge(seconds_reporter, 0)
   tar_deprecate_seconds_interval(seconds_interval)
-  tar_assert_lgl(garbage_collection)
-  tar_assert_scalar(garbage_collection)
-  tar_assert_none_na(garbage_collection)
+  if_any(
+    is.null(garbage_collection),
+    NULL,
+    tar_warn_deprecate(
+      "The garbage_collection argument of tar_make() was deprecated ",
+      "in version 1.8.0.9004 (2024-10-22). The garbage_collection ",
+      "argument of tar_option_set() is more unified and featureful now. ",
+      "Please have a look at its documentation."
+    )
+  )
   targets_arguments <- list(
     path_store = store,
     names_quosure = rlang::enquo(names),
@@ -102,7 +109,6 @@ tar_make_clustermq <- function(
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
-    garbage_collection = garbage_collection,
     workers = workers,
     log_worker = log_worker
   )
@@ -128,7 +134,6 @@ tar_make_clustermq_inner <- function(
   seconds_meta_append,
   seconds_meta_upload,
   seconds_reporter,
-  garbage_collection,
   workers,
   log_worker
 ) {
@@ -143,7 +148,6 @@ tar_make_clustermq_inner <- function(
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
-    garbage_collection = garbage_collection,
     envir = tar_option_get("envir"),
     workers = workers,
     log_worker = log_worker

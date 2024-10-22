@@ -69,12 +69,11 @@
 #' @param seconds_reporter Positive numeric of length 1 with the minimum
 #'   number of seconds between times when the reporter prints progress
 #'   messages to the R console.
-#' @param garbage_collection Logical of length 1. For a `crew`-integrated
-#'   pipeline, whether to run garbage collection on the main process
-#'   before sending a target
-#'   to a worker. Ignored if `tar_option_get("controller")` is `NULL`.
-#'   Independent from the `garbage_collection` argument of [tar_target()],
-#'   which controls garbage collection on the worker.
+#' @param garbage_collection Deprecated. Use the `garbage_collection`
+#'   argument of [tar_option_set()] instead to run garbage collection
+#'   at regular intervals in a pipeline, or use the argument of the same
+#'   name in [tar_target()] to activate garbage collection for
+#'   a specific target.
 #' @param use_crew Logical of length 1, whether to use `crew` if the
 #'   `controller` option is set in `tar_option_set()` in the target script
 #'   (`_targets.R`). See <https://books.ropensci.org/targets/crew.html>
@@ -140,7 +139,7 @@ tar_make <- function(
   envir = parent.frame(),
   script = targets::tar_config_get("script"),
   store = targets::tar_config_get("store"),
-  garbage_collection = targets::tar_config_get("garbage_collection"),
+  garbage_collection = NULL,
   use_crew = targets::tar_config_get("use_crew"),
   terminate_controller = TRUE,
   as_job = targets::tar_config_get("as_job")
@@ -165,15 +164,22 @@ tar_make <- function(
   tar_assert_none_na(seconds_reporter)
   tar_assert_ge(seconds_reporter, 0)
   tar_deprecate_seconds_interval(seconds_interval)
-  tar_assert_lgl(garbage_collection)
-  tar_assert_scalar(garbage_collection)
-  tar_assert_none_na(garbage_collection)
   tar_assert_lgl(terminate_controller)
   tar_assert_scalar(terminate_controller)
   tar_assert_none_na(terminate_controller)
   tar_assert_lgl(as_job)
   tar_assert_scalar(as_job)
   tar_assert_none_na(as_job)
+  if_any(
+    is.null(garbage_collection),
+    NULL,
+    tar_warn_deprecate(
+      "The garbage_collection argument of tar_make() was deprecated ",
+      "in version 1.8.0.9004 (2024-10-22). The garbage_collection ",
+      "argument of tar_option_set() is more unified and featureful now. ",
+      "Please have a look at its documentation."
+    )
+  )
   # Tested in tests/interactive/test-job.R.
   # nocov start
   if (as_job && !rstudio_available(verbose = reporter != "silent")) {
@@ -193,7 +199,6 @@ tar_make <- function(
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
-    garbage_collection = garbage_collection,
     use_crew = use_crew,
     terminate_controller = terminate_controller
   )
@@ -219,7 +224,6 @@ tar_make_inner <- function(
   seconds_meta_append,
   seconds_meta_upload,
   seconds_reporter,
-  garbage_collection,
   use_crew,
   terminate_controller
 ) {
@@ -256,7 +260,6 @@ tar_make_inner <- function(
       seconds_meta_append = seconds_meta_append,
       seconds_meta_upload = seconds_meta_upload,
       seconds_reporter = seconds_reporter,
-      garbage_collection = garbage_collection,
       envir = tar_option_get("envir"),
       controller = controller,
       terminate_controller = terminate_controller

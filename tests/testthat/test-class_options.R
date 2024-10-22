@@ -16,7 +16,7 @@ tar_test("validate non-default options", {
     iteration = "list",
     error = "continue",
     memory = "transient",
-    garbage_collection = TRUE,
+    garbage_collection = 3L,
     deployment = "main",
     priority = 0.5,
     backoff = backoff_init(),
@@ -46,7 +46,7 @@ tar_test("export", {
     iteration = "list",
     error = "continue",
     memory = "transient",
-    garbage_collection = TRUE,
+    garbage_collection = 3L,
     deployment = "main",
     priority = 0.5,
     resources = list(ncpu = 2),
@@ -72,7 +72,7 @@ tar_test("export", {
     iteration = "list",
     error = "continue",
     memory = "transient",
-    garbage_collection = TRUE,
+    garbage_collection = 3L,
     deployment = "main",
     priority = 0.5,
     resources = list(ncpu = 2),
@@ -104,7 +104,7 @@ tar_test("import", {
     iteration = "list",
     error = "continue",
     memory = "transient",
-    garbage_collection = TRUE,
+    garbage_collection = 4L,
     deployment = "main",
     priority = 0.5,
     resources = resources,
@@ -132,7 +132,7 @@ tar_test("import", {
   expect_equal(x$get_iteration(), "list")
   expect_equal(x$get_error(), "continue")
   expect_equal(x$get_memory(), "transient")
-  expect_true(x$get_garbage_collection())
+  expect_equal(x$get_garbage_collection(), 4L)
   expect_equal(x$get_deployment(), "main")
   expect_equal(x$get_priority(), 0.5)
   expect_equal(x$get_resources(), resources)
@@ -282,12 +282,15 @@ tar_test("memory", {
 
 tar_test("garbage_collection", {
   x <- options_init()
-  expect_false(x$get_garbage_collection())
-  x$set_garbage_collection(TRUE)
-  expect_true(x$get_garbage_collection())
+  expect_equal(x$get_garbage_collection(), 0L)
+  x$set_garbage_collection(6L)
+  expect_equal(x$get_garbage_collection(), 6L)
   x$reset()
-  expect_false(x$get_garbage_collection())
-  expect_error(x$set_garbage_collection(0), class = "tar_condition_validate")
+  expect_equal(x$get_garbage_collection(), 0L)
+  expect_error(
+    x$set_garbage_collection("a"),
+    class = "tar_condition_validate"
+  )
 })
 
 tar_test("deployment", {

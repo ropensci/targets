@@ -23,22 +23,19 @@ tar_test("workerless deployment works", {
     "x",
     quote(1L),
     deployment = "main",
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   y <- tar_target_raw(
     "y",
     quote(x),
     deployment = "main",
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   z <- tar_target_raw(
     "z",
     quote(x + 1L),
     deployment = "main",
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y, z))
   controller <- crew::crew_controller_local(
@@ -59,22 +56,19 @@ tar_test("workerless deployment works", {
     "x",
     quote(1L),
     deployment = "main",
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   y <- tar_target_raw(
     "y",
     quote(x),
     deployment = "main",
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   z <- tar_target_raw(
     "z",
     quote(x + 1L),
     deployment = "main",
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y, z))
   controller <- crew::crew_controller_local(
@@ -107,22 +101,19 @@ tar_test("semi-workerless deployment works", {
     "x",
     quote(1L),
     deployment = "main",
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   y <- tar_target_raw(
     "y",
     quote(x),
     deployment = "worker",
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   z <- tar_target_raw(
     "z",
     quote(x + 1L),
     deployment = "main",
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y, z))
   controller <- crew::crew_controller_local(
@@ -144,22 +135,19 @@ tar_test("semi-workerless deployment works", {
     "x",
     quote(1L),
     deployment = "main",
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   y <- tar_target_raw(
     "y",
     quote(x),
     deployment = "worker",
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   z <- tar_target_raw(
     "z",
     quote(x + 1L),
     deployment = "main",
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y, z))
   controller <- crew::crew_controller_local(
@@ -190,14 +178,12 @@ tar_test("some targets up to date, some not", {
   x <- tar_target_raw(
     "x",
     quote(1L),
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   y <- tar_target_raw(
     "y",
     quote(x),
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y))
   local <- local_init(pipeline)
@@ -205,14 +191,12 @@ tar_test("some targets up to date, some not", {
   x <- tar_target_raw(
     "x",
     quote(1L),
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   y <- tar_target_raw(
     "y",
     quote(x + 1L),
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y))
   controller <- crew::crew_controller_local(
@@ -245,14 +229,12 @@ tar_test("crew algo can skip targets", {
   x <- tar_target_raw(
     "x",
     quote(1L),
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   y <- tar_target_raw(
     "y",
     quote(x),
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y))
   local <- local_init(pipeline)
@@ -261,14 +243,12 @@ tar_test("crew algo can skip targets", {
   x <- tar_target_raw(
     "x",
     quote(1L),
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   y <- tar_target_raw(
     "y",
     quote(x),
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y))
   controller <- crew::crew_controller_local(
@@ -311,8 +291,7 @@ tar_test("nontrivial common data", {
   x <- tar_target_raw(
     "x",
     quote(f(1L)),
-    memory = "transient",
-    garbage_collection = TRUE
+    memory = "transient"
   )
   pipeline <- pipeline_init(list(x))
   controller <- crew::crew_controller_local(

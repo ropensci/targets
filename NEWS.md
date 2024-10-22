@@ -1,9 +1,10 @@
-# targets 1.8.0.9003 (development)
+# targets 1.8.0.9004 (development)
 
 * Un-break workflows that use `format = "file_fast"` (#1339, @koefoeden).
 * Fix deadlock in `error = "trim"` (#1340, @koefoeden).
 * Remove tailored debugging message (#1341, @koefoeden).
 * Store warnings while writing to storage (#1345, @Aariq).
+* Deprecate the `garbage_collection` argument of `tar_make()`, `tar_make_future()`, and `tar_make_clusterm()` (#1351).
 
 # targets 1.8.0
 

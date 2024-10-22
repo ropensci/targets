@@ -31,8 +31,11 @@ tar_test("tar_config_set() as_job", {
 tar_test("tar_config_set() garbage_collection", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
-  expect_false(tar_config_get("garbage_collection"))
-  tar_config_set(garbage_collection = TRUE)
+  expect_null(tar_config_get("garbage_collection"))
+  expect_warning(
+    tar_config_set(garbage_collection = TRUE),
+    class = "tar_condition_deprecate"
+  )
   expect_true(tar_config_get("garbage_collection"))
   expect_true(file.exists("_targets.yaml"))
   expect_true(any(grepl("garbage_collection", readLines("_targets.yaml"))))
@@ -40,7 +43,7 @@ tar_test("tar_config_set() garbage_collection", {
   expect_true(tar_config_get("garbage_collection"))
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
-  expect_false(tar_config_get("garbage_collection"))
+  expect_null(tar_config_get("garbage_collection"))
 })
 
 tar_test("tar_config_set() label", {

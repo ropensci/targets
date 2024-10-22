@@ -8,7 +8,6 @@ active_new <- function(
   seconds_meta_append = NULL,
   seconds_meta_upload = NULL,
   seconds_reporter = NULL,
-  garbage_collection = NULL,
   envir = NULL
 ) {
   active_class$new(
@@ -21,7 +20,6 @@ active_new <- function(
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
-    garbage_collection = garbage_collection,
     envir = envir
   )
 }
@@ -32,7 +30,6 @@ active_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    garbage_collection = NULL,
     envir = NULL,
     exports = NULL,
     process = NULL,
@@ -49,8 +46,7 @@ active_class <- R6::R6Class(
       seconds_meta_append = NULL,
       seconds_meta_upload = NULL,
       seconds_reporter = NULL,
-      envir = NULL,
-      garbage_collection = NULL
+      envir = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -63,7 +59,6 @@ active_class <- R6::R6Class(
         seconds_meta_upload = seconds_meta_upload,
         seconds_reporter = seconds_reporter
       )
-      self$garbage_collection <- garbage_collection
       self$envir <- envir
     },
     ensure_meta = function() {
@@ -229,9 +224,6 @@ active_class <- R6::R6Class(
       if (!is.null(self$process)) {
         self$process$validate()
       }
-      tar_assert_lgl(self$garbage_collection)
-      tar_assert_scalar(self$garbage_collection)
-      tar_assert_none_na(self$garbage_collection)
     }
   )
 )
