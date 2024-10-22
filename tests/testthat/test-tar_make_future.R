@@ -3,8 +3,7 @@ tar_test("tar_make_future() works with callr_function = NULL", {
   tar_script(list(tar_target(x, "x")))
   tar_make_future(
     callr_function = NULL,
-    reporter = "silent",
-    garbage_collection = TRUE
+    reporter = "silent"
   )
   expect_equal(tar_read(x), "x")
 })
