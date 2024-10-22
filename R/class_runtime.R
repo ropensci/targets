@@ -16,7 +16,8 @@ runtime_new <- function(
   pid_parent = NULL,
   file_systems = NULL,
   trust_timestamps_store = NULL,
-  number_targets_run = NULL
+  number_targets_run = NULL,
+  installed_packages = NULL
 ) {
   force(target)
   force(frames)
@@ -36,6 +37,7 @@ runtime_new <- function(
   force(file_systems)
   force(trust_timestamps_store)
   force(number_targets_run)
+  force(installed_packages)
   environment()
 }
 

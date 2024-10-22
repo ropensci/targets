@@ -56,6 +56,11 @@ target_prepare.tar_builder <- function(
   meta,
   pending = FALSE
 ) {
+  if (installed_autometric) {
+    phase <- paste("prepare:", target$settings$name)
+    autometric::log_phase_set(phase = phase)
+    on.exit(autometric::log_phase_reset())
+  }
   target_patternview_dispatched(target, pipeline, scheduler)
   scheduler$progress$register_dispatched(target)
   scheduler$reporter$report_dispatched(
@@ -121,10 +126,12 @@ target_needs_worker.tar_builder <- function(target) {
 
 #' @export
 target_run.tar_builder <- function(target, envir, path_store) {
-  on.exit({
-    builder_unset_tar_runtime()
-    target$subpipeline <- NULL
-  })
+  if (installed_autometric) {
+    autometric::log_phase_set(phase = target$settings$name)
+    on.exit(autometric::log_phase_reset())
+  }
+  on.exit(builder_unset_tar_runtime(), add = TRUE)
+  on.exit(target$subpipeline <- NULL, add = TRUE)
   builder_ensure_deps(target, target$subpipeline, "worker")
   frames <- frames_produce(envir, target, target$subpipeline)
   builder_set_tar_runtime(target, frames)
@@ -145,6 +152,10 @@ target_run_worker.tar_builder <- function(
   options,
   envvars
 ) {
+  if (installed_autometric) {
+    autometric::log_phase_set(phase = target$settings$name)
+    on.exit(autometric::log_phase_reset())
+  }
   set_envvars(envvars)
   tar_options$import(options)
   envir <- if_any(identical(envir, "globalenv"), globalenv(), envir)
@@ -187,7 +198,12 @@ target_skip.tar_builder <- function(
 
 #' @export
 target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
-  on.exit(builder_unset_tar_runtime())
+  if (installed_autometric) {
+    phase <- paste("conclude:", target$settings$name)
+    autometric::log_phase_set(phase = phase)
+    on.exit(autometric::log_phase_reset())
+  }
+  on.exit(builder_unset_tar_runtime(), add = TRUE)
   builder_set_tar_runtime(target, NULL)
   target_update_queue(target, scheduler)
   builder_ensure_workspace(

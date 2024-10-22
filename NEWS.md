@@ -6,6 +6,7 @@
 * Store warnings while writing to storage (#1345, @Aariq).
 * Allow `garbage_collection` to be a non-negative integer to control the frequency of garbage collection in a performant, convenient, unified way (#1351).
 * Deprecate the `garbage_collection` argument of `tar_make()`, `tar_make_future()`, and `tar_make_clusterm()` (#1351).
+* Instrument `target_run()`, `target_prepare()`, and `target_conclude()` using `autometric`.
 
 # targets 1.8.0
 

@@ -19,3 +19,8 @@ load_packages <- function(packages, library) {
   )
   tar_assert_true(all(out), msg)
 }
+
+installed_autometric <- rlang::is_installed(
+  pkg = "autometric",
+  version = "0.0.5.9001"
+)

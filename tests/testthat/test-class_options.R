@@ -288,7 +288,7 @@ tar_test("garbage_collection", {
   x$reset()
   expect_equal(x$get_garbage_collection(), 1000L)
   expect_error(
-    x$set_garbage_collection("a"),
+    suppressWarnings(x$set_garbage_collection("a")),
     class = "tar_condition_validate"
   )
 })
