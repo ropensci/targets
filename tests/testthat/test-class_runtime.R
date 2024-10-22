@@ -227,3 +227,12 @@ tar_test("runtime inventories", {
   x$inventories <- ""
   expect_error(runtime_validate(x), class = "tar_condition_validate")
 })
+
+tar_test("runtime_increment_targets_run()", {
+  x <- runtime_new()
+  expect_null(x$number_targets_run)
+  runtime_increment_targets_run(x)
+  expect_equal(x$number_targets_run, 1L)
+  runtime_increment_targets_run(x)
+  expect_equal(x$number_targets_run, 2L)
+})

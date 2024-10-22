@@ -125,7 +125,6 @@ target_run.tar_builder <- function(target, envir, path_store) {
     builder_unset_tar_runtime()
     target$subpipeline <- NULL
   })
-  target_gc(target)
   builder_ensure_deps(target, target$subpipeline, "worker")
   frames <- frames_produce(envir, target, target$subpipeline)
   builder_set_tar_runtime(target, frames)
@@ -146,12 +145,14 @@ target_run_worker.tar_builder <- function(
   options,
   envvars
 ) {
+  set_envvars(envvars)
+  tar_options$import(options)
   envir <- if_any(identical(envir, "globalenv"), globalenv(), envir)
   tar_option_set(envir = envir)
   tar_runtime$store <- path_store
   tar_runtime$fun <- fun
-  tar_options$import(options)
-  set_envvars(envvars)
+  runtime_increment_targets_run(tar_runtime)
+  target_gc(target)
   builder_unmarshal_subpipeline(target)
   target_run(target, envir, path_store)
   builder_marshal_value(target)

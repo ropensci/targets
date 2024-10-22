@@ -15,7 +15,8 @@ runtime_new <- function(
   traceback = NULL,
   pid_parent = NULL,
   file_systems = NULL,
-  trust_timestamps_store = NULL
+  trust_timestamps_store = NULL,
+  number_targets_run = NULL
 ) {
   force(target)
   force(frames)
@@ -34,6 +35,7 @@ runtime_new <- function(
   force(pid_parent)
   force(file_systems)
   force(trust_timestamps_store)
+  force(number_targets_run)
   environment()
 }
 
@@ -74,6 +76,12 @@ runtime_validate_basics <- function(x) {
     tar_assert_scalar(x$fun)
     tar_assert_chr(x$fun)
     tar_assert_nzchar(x$fun)
+  }
+  if (!is.null(x$number_targets_run)) {
+    tar_assert_scalar(x$number_targets_run)
+    tar_assert_int(x$number_targets_run)
+    tar_assert_none_na(x$number_targets_run)
+    tar_assert_ge(x$number_targets_run, 1L)
   }
 }
 
@@ -144,6 +152,15 @@ runtime_file_systems <- function() {
   out <- .subset2(info, "fstype")
   names(out) <- .subset2(info, "mountpoint")
   out
+}
+
+runtime_increment_targets_run <- function(x) {
+  count <- .subset2(x, "number_targets_run")
+  if (is.null(count)) {
+    count <- 0L
+  }
+  count <- count + 1L
+  x$number_targets_run <- count
 }
 
 runtime_reset <- function(x) {

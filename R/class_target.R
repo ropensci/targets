@@ -293,6 +293,12 @@ target_run_worker <- function(
 target_gc <- function(target) {
   if (target$settings$garbage_collection) {
     gc()
+  } else {
+    count <- .subset2(tar_runtime, "number_targets_run") %|||% 0L
+    interval <- .subset2(tar_options, "get_garbage_collection")()
+    if (interval > 0L && (count %% interval) == 0L) {
+      gc()
+    }
   }
 }
 

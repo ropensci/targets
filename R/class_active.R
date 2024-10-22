@@ -189,6 +189,8 @@ active_class <- R6::R6Class(
         counter_del_name(self$scheduler$progress$queued, name)
       } else if (target_should_run(target, self$meta)) {
         self$flush_upload_meta_file(target)
+        runtime_increment_targets_run(tar_runtime)
+        target_gc(target)
         self$run_target(name)
       } else {
         self$skip_target(target)
