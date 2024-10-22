@@ -8,7 +8,6 @@ future_init <- function(
   seconds_meta_append = 0,
   seconds_meta_upload = 15,
   seconds_reporter = 0,
-  garbage_collection = FALSE,
   envir = tar_option_get("envir"),
   workers = 1L
 ) {
@@ -22,7 +21,6 @@ future_init <- function(
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
-    garbage_collection = garbage_collection,
     envir = envir,
     workers = as.integer(workers)
   )
@@ -39,7 +37,6 @@ future_new <- function(
   seconds_meta_append = NULL,
   seconds_meta_upload = NULL,
   seconds_reporter = NULL,
-  garbage_collection = NULL,
   workers = NULL
 ) {
   future_class$new(
@@ -52,7 +49,6 @@ future_new <- function(
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
     seconds_reporter = seconds_reporter,
-    garbage_collection = garbage_collection,
     envir = envir,
     workers = workers
   )
@@ -76,7 +72,6 @@ future_class <- R6::R6Class(
       seconds_meta_append = NULL,
       seconds_meta_upload = NULL,
       seconds_reporter = NULL,
-      garbage_collection = NULL,
       envir = NULL,
       workers = NULL
     ) {
@@ -90,7 +85,6 @@ future_class <- R6::R6Class(
         seconds_meta_append = seconds_meta_append,
         seconds_meta_upload = seconds_meta_upload,
         seconds_reporter = seconds_reporter,
-        garbage_collection = garbage_collection,
         envir = envir
       )
       self$workers <- workers
@@ -98,9 +92,6 @@ future_class <- R6::R6Class(
     },
     run_worker = function(target) {
       builder_marshal_subpipeline(target)
-      if (self$garbage_collection) {
-        gc()
-      }
       self$ensure_exports()
       globals <- self$exports
       globals$.tar_target_5048826d <- target
