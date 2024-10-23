@@ -74,6 +74,7 @@ Imports:
   vctrs (>= 0.2.4),
   yaml (>= 2.2.1)
 Suggests:
+  autometric (>= 0.0.5.9002),
   bslib,
   clustermq (>= 0.9.2),
   crew (>= 0.9.0),
@@ -108,6 +109,8 @@ Suggests:
   torch (>= 0.1.0),
   usethis (>= 1.6.3),
   visNetwork (>= 2.1.2)
+Remotes:
+  wlandau/autometric
 Encoding: UTF-8
 Language: en-US
 VignetteBuilder: knitr
