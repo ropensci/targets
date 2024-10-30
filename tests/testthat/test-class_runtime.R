@@ -235,4 +235,5 @@ tar_test("runtime_increment_targets_run()", {
   expect_equal(x$number_targets_run, 1L)
   runtime_increment_targets_run(x)
   expect_equal(x$number_targets_run, 2L)
+  expect_silent(runtime_validate(x))
 })
