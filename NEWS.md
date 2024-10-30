@@ -1,4 +1,4 @@
-# targets 1.8.0.9004 (development)
+# targets 1.8.0.9005 (development)
 
 * Un-break workflows that use `format = "file_fast"` (#1339, @koefoeden).
 * Fix deadlock in `error = "trim"` (#1340, @koefoeden).
@@ -7,6 +7,7 @@
 * Allow `garbage_collection` to be a non-negative integer to control the frequency of garbage collection in a performant, convenient, unified way (#1351).
 * Deprecate the `garbage_collection` argument of `tar_make()`, `tar_make_future()`, and `tar_make_clusterm()` (#1351).
 * Instrument `target_run()`, `target_prepare()`, and `target_conclude()` using `autometric`.
+* Avoid sending problematic error classes such as `"vctrs_error_subscript_oob"` to `rlang::abort()` (#1354, @Jiefei-Wang).
 
 # targets 1.8.0
 

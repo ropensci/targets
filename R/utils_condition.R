@@ -125,6 +125,7 @@ tar_error <- function(message, class) {
   old <- options(rlang_backtrace_on_error = "none")
   on.exit(options(old), add = TRUE)
   message <- cli::col_red(message)
+  class <- safe_condition_class(class)
   rlang::abort(message = message, class = class, call = tar_empty_envir)
 }
 
@@ -137,6 +138,7 @@ tar_warning <- function(message, class) {
   old <- options(rlang_backtrace_on_error = "none")
   on.exit(options(old), add = TRUE)
   message <- cli::col_red(message)
+  class <- safe_condition_class(class)
   rlang::warn(message = message, class = class)
 }
 
@@ -145,6 +147,7 @@ tar_warning <- function(message, class) {
 tar_message <- function(message, class) {
   old <- options(rlang_backtrace_on_error = "none")
   on.exit(options(old))
+  class <- safe_condition_class(class)
   rlang::inform(message = message, class = class)
 }
 
@@ -199,3 +202,15 @@ default_error_classes <- tryCatch(
   rlang::abort("msg", class = NULL),
   error = function(condition) class(condition)
 )
+
+safe_condition_class <- function(class) {
+  while (length(class) && is_unsafe_condition_class(class)) {
+    class <- class[-1L] # nocov
+  }
+  class
+}
+
+is_unsafe_condition_class <- function(class) {
+  condition <- try(rlang::inform(message = "x", class = class), silent = TRUE)
+  inherits(condition, "try-error")
+}
