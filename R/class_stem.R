@@ -8,15 +8,16 @@ stem_new <- function(
   subpipeline = NULL,
   junction = NULL
 ) {
-  force(command)
-  force(settings)
-  force(cue)
-  force(value)
-  force(metrics)
-  force(store)
-  force(subpipeline)
-  force(junction)
-  enclass(environment(), c("tar_stem", "tar_builder", "tar_target"))
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$command <- command
+  out$settings <- settings
+  out$cue <- cue
+  out$value <- value
+  out$metrics <- metrics
+  out$store <- store
+  out$subpipeline <- subpipeline
+  out$junction <- junction
+  enclass(out, c("tar_stem", "tar_builder", "tar_target"))
 }
 
 #' @export

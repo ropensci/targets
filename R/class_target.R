@@ -74,11 +74,12 @@ target_new <- function(
   cue = NULL,
   value = NULL
 ) {
-  force(command)
-  force(settings)
-  force(cue)
-  force(value)
-  enclass(environment(), "tar_target")
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$command
+  out$settings
+  out$cue
+  out$value
+  enclass(out, "tar_target")
 }
 
 target_get_name <- function(target) {

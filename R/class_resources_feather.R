@@ -12,9 +12,10 @@ resources_feather_new <- function(
   compression = NULL,
   compression_level = NULL
 ) {
-  force(compression)
-  force(compression_level)
-  enclass(environment(), c("tar_resources_feather", "tar_resources"))
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$compression <- compression
+  out$compression_level <- compression_level
+  enclass(out, c("tar_resources_feather", "tar_resources"))
 }
 
 #' @export

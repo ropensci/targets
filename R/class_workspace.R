@@ -9,9 +9,10 @@ workspace_init <- function(target, pipeline) {
 }
 
 workspace_new <- function(target = NULL, subpipeline = NULL) {
-  force(target)
-  force(subpipeline)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$target <- target
+  out$subpipeline <- subpipeline
+  out
 }
 
 workspace_save <- function(workspace, path_store) {

@@ -53,22 +53,23 @@ settings_new <- function(
   storage = NULL,
   retrieval = NULL
 ) {
-  force(name)
-  force(description)
-  force(format)
-  force(repository)
-  force(pattern)
-  force(dimensions)
-  force(iteration)
-  force(error)
-  force(memory)
-  force(garbage_collection)
-  force(deployment)
-  force(priority)
-  force(resources)
-  force(storage)
-  force(retrieval)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$name <- name
+  out$description <- description
+  out$format <- format
+  out$repository <- repository
+  out$pattern <- pattern
+  out$dimensions <- dimensions
+  out$iteration <- iteration
+  out$error <- error
+  out$memory <- memory
+  out$garbage_collection <- garbage_collection
+  out$deployment <- deployment
+  out$priority <- priority
+  out$resources <- resources
+  out$storage <- storage
+  out$retrieval <- retrieval
+  out
 }
 
 settings_produce_pattern <- function(pattern) {

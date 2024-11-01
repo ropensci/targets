@@ -21,12 +21,13 @@ resources_gcp_new <- function(
   max_tries = NULL,
   verbose = NULL
 ) {
-  force(bucket)
-  force(prefix)
-  force(predefined_acl)
-  force(max_tries)
-  force(verbose)
-  enclass(environment(), c("tar_resources_gcp", "tar_resources"))
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$bucket <- bucket
+  out$prefix <- prefix
+  out$predefined_acl <- predefined_acl
+  out$max_tries <- max_tries
+  out$verbose <- verbose
+  enclass(out, c("tar_resources_gcp", "tar_resources"))
 }
 
 #' @export

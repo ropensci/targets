@@ -42,19 +42,20 @@ resources_aws_new <- function(
   verbose = TRUE,
   args = NULL
 ) {
-  force(bucket)
-  force(prefix)
-  force(region)
-  force(endpoint)
-  force(s3_force_path_style)
-  force(part_size)
-  force(page_size)
-  force(max_tries)
-  force(seconds_timeout)
-  force(close_connection)
-  force(verbose)
-  force(args)
-  enclass(environment(), c("tar_resources_aws", "tar_resources"))
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$bucket <- bucket
+  out$prefix <- prefix
+  out$region <- region
+  out$endpoint <- endpoint
+  out$s3_force_path_style <- s3_force_path_style
+  out$part_size <- part_size
+  out$page_size <- page_size
+  out$max_tries <- max_tries
+  out$seconds_timeout <- seconds_timeout
+  out$close_connection <- close_connection
+  out$verbose <- verbose
+  out$args <- args
+  enclass(out, c("tar_resources_aws", "tar_resources"))
 }
 
 #' @export

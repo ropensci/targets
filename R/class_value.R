@@ -9,7 +9,9 @@ value_init <- function(object = NULL, iteration = "vector") {
 }
 
 value_new <- function(object = NULL) {
-  enclass(environment(), "tar_value")
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$object <- object
+  enclass(out, "tar_value")
 }
 
 value_hash_slice <- function(value, index) {

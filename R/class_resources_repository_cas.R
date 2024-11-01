@@ -9,8 +9,9 @@ resources_repository_cas_init <- function(
 resources_repository_cas_new <- function(
   envvars = NULL
 ) {
-  force(envvars)
-  enclass(environment(), c("tar_resources_repository_cas", "tar_resources"))
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$envvars <- envvars
+  enclass(out, c("tar_resources_repository_cas", "tar_resources"))
 }
 
 #' @export

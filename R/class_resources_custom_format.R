@@ -9,8 +9,9 @@ resources_custom_format_init <- function(
 resources_custom_format_new <- function(
   envvars = NULL
 ) {
-  force(envvars)
-  enclass(environment(), c("tar_resources_custom_format", "tar_resources"))
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$envvars <- envvars
+  enclass(out, c("tar_resources_custom_format", "tar_resources"))
 }
 
 #' @export

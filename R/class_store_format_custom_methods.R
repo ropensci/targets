@@ -42,13 +42,14 @@ store_format_custom_methods_new <- function(
   convert = NULL,
   copy = NULL
 ) {
-  force(read)
-  force(write)
-  force(marshal)
-  force(unmarshal)
-  force(convert)
-  force(copy)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$read <- read
+  out$write <- write
+  out$marshal <- marshal
+  out$unmarshal <- unmarshal
+  out$convert <- convert
+  out$copy <- copy
+  out
 }
 
 store_format_custom_methods_validate <- function(methods) {

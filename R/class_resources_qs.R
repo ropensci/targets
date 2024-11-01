@@ -9,8 +9,9 @@ resources_qs_init <- function(
 resources_qs_new <- function(
   preset = NULL
 ) {
-  force(preset)
-  enclass(environment(), c("tar_resources_qs", "tar_resources"))
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$preset <- preset
+  enclass(out, c("tar_resources_qs", "tar_resources"))
 }
 
 #' @export

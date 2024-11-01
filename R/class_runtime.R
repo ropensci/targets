@@ -19,26 +19,27 @@ runtime_new <- function(
   number_targets_run = NULL,
   installed_packages = NULL
 ) {
-  force(target)
-  force(frames)
-  force(interactive)
-  force(script)
-  force(store)
-  force(working_directory)
-  force(fun)
-  force(gcp_auth)
-  force(file_exist)
-  force(file_info)
-  force(file_info_exist)
-  force(nanonext)
-  force(inventories)
-  force(traceback)
-  force(pid_parent)
-  force(file_systems)
-  force(trust_timestamps_store)
-  force(number_targets_run)
-  force(installed_packages)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$target <- target
+  out$frames <- frames
+  out$interactive <- interactive
+  out$script <- script
+  out$store <- store
+  out$working_directory <- working_directory
+  out$fun <- fun
+  out$gcp_auth <- gcp_auth
+  out$file_exist <- file_exist
+  out$file_info <- file_info
+  out$file_info_exist <- file_info_exist
+  out$nanonext <- nanonext
+  out$inventories <- inventories
+  out$traceback <- traceback
+  out$pid_parent <- pid_parent
+  out$file_systems <- file_systems
+  out$trust_timestamps_store <- trust_timestamps_store
+  out$number_targets_run <- number_targets_run
+  out$installed_packages <- installed_packages
+  out
 }
 
 runtime_validate <- function(x) {

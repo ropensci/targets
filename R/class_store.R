@@ -29,11 +29,12 @@ store_new <- function(
   methods_format = NULL,
   methods_repository = NULL
 ) {
-  force(file)
-  force(resources)
-  force(methods_format)
-  force(methods_repository)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$file <- file
+  out$resources <- resources
+  out$methods_format <- methods_format
+  out$methods_repository <- methods_repository
+  out
 }
 
 store_enclass <- function(store, format, repository) {

@@ -16,11 +16,12 @@ store_repository_cas_methods_new <- function(
   exists = NULL,
   consistent = NULL
 ) {
-  force(upload)
-  force(download)
-  force(exists)
-  force(consistent)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$upload <- upload
+  out$download <- download
+  out$exists <- exists
+  out$consistent <- consistent
+  out
 }
 
 store_repository_cas_methods_validate <- function(methods) {
