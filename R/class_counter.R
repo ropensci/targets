@@ -17,9 +17,10 @@ counter_init <- function(names = NULL) {
 }
 
 counter_new <- function(count = NULL, envir = NULL) {
-  force(count)
-  force(envir)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$count <- count
+  out$envir <- envir
+  out
 }
 
 counter_get_names <- function(counter) {

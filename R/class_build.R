@@ -55,9 +55,10 @@ build_init <- function(
 }
 
 build_new <- function(object = NULL, metrics = NULL) {
-  force(object)
-  force(metrics)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$object <- object
+  out$metrics <- metrics
+  out
 }
 
 build_run_expr <- function(expr, envir, seed, packages, library) {

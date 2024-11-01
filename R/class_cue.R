@@ -30,15 +30,16 @@ cue_new <- function(
   file = NULL,
   seed = NULL
 ) {
-  force(mode)
-  force(command)
-  force(depend)
-  force(format)
-  force(repository)
-  force(iteration)
-  force(file)
-  force(seed)
-  enclass(environment(), "tar_cue")
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$mode <- mode
+  out$command <- command
+  out$depend <- depend
+  out$format <- format
+  out$repository <- repository
+  out$iteration <- iteration
+  out$file <- file
+  out$seed <- seed
+  enclass(out, "tar_cue")
 }
 
 cue_record_exists <- function(cue, target, meta) {

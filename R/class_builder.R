@@ -7,14 +7,15 @@ builder_new <- function(
   store = NULL,
   subpipeline = NULL
 ) {
-  force(command)
-  force(settings)
-  force(cue)
-  force(value)
-  force(metrics)
-  force(store)
-  force(subpipeline)
-  enclass(environment(), c("tar_builder", "tar_target"))
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$command <- command
+  out$settings <- settings
+  out$cue <- cue
+  out$value <- value
+  out$metrics <- metrics
+  out$store <- store
+  out$subpipeline <- subpipeline
+  enclass(out, c("tar_builder", "tar_target"))
 }
 
 #' @export

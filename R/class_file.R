@@ -24,13 +24,26 @@ file_new <- function(
   size = NULL,
   bytes = NULL
 ) {
-  force(path)
-  force(stage)
-  force(hash)
-  force(time)
-  force(size)
-  force(bytes)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  if (!is.null(path)) {
+    out$path <- path
+  }
+  if (!is.null(stage)) {
+    out$stage <- stage
+  }
+  if (!is.null(hash)) {
+    out$hash <- hash
+  }
+  if (!is.null(time)) {
+    out$time <- time
+  }
+  if (!is.null(size)) {
+    out$size <- size
+  }
+  if (!is.null(bytes)) {
+    out$bytes <- bytes
+  }
+  out
 }
 
 file_exists_path <- function(file) {

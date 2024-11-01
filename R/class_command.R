@@ -22,14 +22,15 @@ command_new <- function(
   string = NULL,
   hash = NULL
 ) {
-  force(expr)
-  force(packages)
-  force(library)
-  force(deps)
-  force(seed)
-  force(string)
-  force(hash)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$expr <- expr
+  out$packages <- packages
+  out$library <- library
+  out$deps <- deps
+  out$seed <- seed
+  out$string <- string
+  out$hash <- hash
+  out
 }
 
 command_produce_build <- function(command, envir) {

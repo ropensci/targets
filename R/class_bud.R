@@ -23,12 +23,13 @@ bud_new <- function(
   value = NULL,
   pedigree = NULL
 ) {
-  force(command)
-  force(settings)
-  force(cue)
-  force(value)
-  force(pedigree)
-  enclass(environment(), c("tar_bud", "tar_target"))
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$command <- command
+  out$settings <- settings
+  out$cue <- cue
+  out$value <- value
+  out$pedigree <- pedigree
+  enclass(out, c("tar_bud", "tar_target"))
 }
 
 #' @export
