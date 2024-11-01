@@ -6,13 +6,14 @@ pattern_new <- function(
   junction = NULL,
   patternview = NULL
 ) {
-  force(command)
-  force(settings)
-  force(cue)
-  force(value)
-  force(junction)
-  force(patternview)
-  enclass(environment(), c("tar_pattern", "tar_target"))
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$command <- command
+  out$settings <- settings
+  out$cue <- cue
+  out$value <- value
+  out$junction <- junction
+  out$patternview <- patternview
+  enclass(out, c("tar_pattern", "tar_target"))
 }
 
 #' @export

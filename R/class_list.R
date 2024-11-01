@@ -1,5 +1,7 @@
 list_new <- function(object = NULL) {
-  enclass(environment(), c("tar_list", "tar_value"))
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$object <- object
+  enclass(out, c("tar_list", "tar_value"))
 }
 
 #' @export

@@ -6,13 +6,14 @@ metrics_new <- function(
   traceback = NULL,
   cancel = NULL
 ) {
-  force(seconds)
-  force(warnings)
-  force(error)
-  force(error_class)
-  force(traceback)
-  force(cancel)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$seconds <- seconds
+  out$warnings <- warnings
+  out$error <- error
+  out$error_class <- error_class
+  out$traceback <- traceback
+  out$cancel <- cancel
+  out
 }
 
 metrics_has_warnings <- function(metrics) {

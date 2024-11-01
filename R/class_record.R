@@ -66,25 +66,26 @@ record_new <- function(
   warnings = NULL,
   error = NULL
 ) {
-  force(name)
-  force(parent)
-  force(type)
-  force(command)
-  force(seed)
-  force(depend)
-  force(path)
-  force(data)
-  force(time)
-  force(size)
-  force(bytes)
-  force(format)
-  force(repository)
-  force(iteration)
-  force(children)
-  force(seconds)
-  force(warnings)
-  force(error)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$name <- name
+  out$parent <- parent
+  out$type <- type
+  out$command <- command
+  out$seed <- seed
+  out$depend <- depend
+  out$path <- path
+  out$data <- data
+  out$time <- time
+  out$size <- size
+  out$bytes <- bytes
+  out$format <- format
+  out$repository <- repository
+  out$iteration <- iteration
+  out$children <- children
+  out$seconds <- seconds
+  out$warnings <- warnings
+  out$error <- error
+  out
 }
 
 record_has_error <- function(record) {

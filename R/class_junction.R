@@ -10,10 +10,11 @@ junction_init <- function(
 }
 
 junction_new <- function(nexus = NULL, splits = NULL, deps = NULL) {
-  force(nexus)
-  force(splits)
-  force(deps)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$nexus <- nexus
+  out$splits <- splits
+  out$deps <- deps
+  out
 }
 
 junction_upstream_edges <- function(junction) {

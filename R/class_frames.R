@@ -4,9 +4,10 @@ frames_init <- function(imports = memory_init()) {
 }
 
 frames_new <- function(imports = NULL, targets = NULL) {
-  force(imports)
-  force(targets)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$imports <- imports
+  out$targets <- targets
+  out
 }
 
 frames_get_envir <- function(frames) {

@@ -3,11 +3,11 @@ patternview_init <- function(seconds = 0, bytes = 0, progress = "queued") {
 }
 
 patternview_new <- function(seconds = 0, bytes = 0, progress = NULL) {
-  force(seconds)
-  force(bytes)
-  force(progress)
-  force(progress)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$seconds <- seconds
+  out$bytes <- bytes
+  out$progress <- progress
+  out
 }
 
 patternview_register_meta <- function(patternview, record) {

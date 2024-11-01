@@ -4,10 +4,11 @@ memory_init <- function(envir = new.env(parent = emptyenv())) {
 }
 
 memory_new <- function(envir = NULL, names = NULL, count = NULL) {
-  force(envir)
-  force(names)
-  force(count)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$envir <- envir
+  out$names <- names
+  out$count <- count
+  out
 }
 
 memory_exists_object <- function(memory, name) {

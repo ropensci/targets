@@ -15,11 +15,12 @@ pipeline_new <- function(
   loaded = NULL,
   transient = NULL
 ) {
-  force(targets)
-  force(imports)
-  force(loaded)
-  force(transient)
-  enclass(environment(), "tar_pipeline")
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$targets <- targets
+  out$imports <- imports
+  out$loaded <- loaded
+  out$transient <- transient
+  enclass(out, "tar_pipeline")
 }
 
 pipeline_targets_init <- function(targets, clone_targets) {

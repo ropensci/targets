@@ -3,10 +3,11 @@ pedigree_init <- function(parent, child, index) {
 }
 
 pedigree_new <- function(parent = NULL, child = NULL, index = NULL) {
-  force(parent)
-  force(child)
-  force(index)
-  environment()
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$parent <- parent
+  out$child <- child
+  out$index <- index
+  out
 }
 
 pedigree_validate <- function(pedigree) {
