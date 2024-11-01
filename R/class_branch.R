@@ -37,15 +37,16 @@ branch_new <- function(
   subpipeline = NULL,
   pedigree = NULL
 ) {
-  force(command)
-  force(settings)
-  force(cue)
-  force(value)
-  force(metrics)
-  force(store)
-  force(subpipeline)
-  force(pedigree)
-  enclass(environment(), c("tar_branch", "tar_builder", "tar_target"))
+  out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$command <- command
+  out$settings <- settings
+  out$cue <- cue
+  out$value <- value
+  out$metrics <- metrics
+  out$store <- store
+  out$subpipeline <- subpipeline
+  out$pedigree <- pedigree
+  enclass(out, c("tar_branch", "tar_builder", "tar_target"))
 }
 
 #' @export
