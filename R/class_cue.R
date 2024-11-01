@@ -39,8 +39,10 @@ cue_new <- function(
   out$iteration <- iteration
   out$file <- file
   out$seed <- seed
-  enclass(out, "tar_cue")
+  enclass(out, cue_s3_class)
 }
+
+cue_s3_class <- "tar_cue"
 
 cue_record_exists <- function(cue, target, meta) {
   !meta$exists_record(target_get_name(target))

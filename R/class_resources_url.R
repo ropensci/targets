@@ -23,8 +23,10 @@ resources_url_new <- function(
   out$max_tries <- max_tries
   out$seconds_interval <- seconds_interval
   out$seconds_timeout <- seconds_timeout
-  enclass(out, c("tar_resources_url", "tar_resources"))
+  enclass(out, resources_url_s3_class)
 }
+
+resources_url_s3_class <- c("tar_resources_url", "tar_resources")
 
 #' @export
 resources_validate.tar_resources_url <- function(resources) {

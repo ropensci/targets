@@ -11,8 +11,10 @@ resources_clustermq_new <- function(
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$template <- template
-  enclass(out, c("tar_resources_clustermq", "tar_resources"))
+  enclass(out, resources_clustermq_s3_class)
 }
+
+resources_clustermq_s3_class <- c("tar_resources_clustermq", "tar_resources")
 
 #' @export
 resources_validate.tar_resources_clustermq <- function(resources) {

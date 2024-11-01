@@ -15,8 +15,10 @@ resources_feather_new <- function(
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$compression <- compression
   out$compression_level <- compression_level
-  enclass(out, c("tar_resources_feather", "tar_resources"))
+  enclass(out, resouces_feather_s3_class)
 }
+
+resouces_feather_s3_class <- c("tar_resources_feather", "tar_resources")
 
 #' @export
 resources_validate.tar_resources_feather <- function(resources) {

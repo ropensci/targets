@@ -11,8 +11,13 @@ resources_repository_cas_new <- function(
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$envvars <- envvars
-  enclass(out, c("tar_resources_repository_cas", "tar_resources"))
+  enclass(out, resources_repository_cas_s3_class)
 }
+
+resources_repository_cas_s3_class <- c(
+  "tar_resources_repository_cas",
+  "tar_resources"
+)
 
 #' @export
 resources_validate.tar_resources_repository_cas <- function(resources) {

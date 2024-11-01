@@ -11,8 +11,10 @@ resources_qs_new <- function(
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$preset <- preset
-  enclass(out, c("tar_resources_qs", "tar_resources"))
+  enclass(out, resources_qs_s3_class)
 }
+
+resources_qs_s3_class <- c("tar_resources_qs", "tar_resources")
 
 #' @export
 resources_validate.tar_resources_qs <- function(resources) {

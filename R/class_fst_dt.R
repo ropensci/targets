@@ -1,7 +1,9 @@
 #' @export
 store_class_format.fst_dt <- function(format) {
-  c("tar_fst_dt", "tar_fst", "tar_store")
+  store_class_format_fst_dt
 }
+
+store_class_format_fst_dt <- c("tar_fst_dt", "tar_fst", "tar_store")
 
 #' @export
 store_assert_format_setting.fst_dt <- function(format) {

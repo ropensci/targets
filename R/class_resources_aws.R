@@ -55,8 +55,10 @@ resources_aws_new <- function(
   out$close_connection <- close_connection
   out$verbose <- verbose
   out$args <- args
-  enclass(out, c("tar_resources_aws", "tar_resources"))
+  enclass(out, resources_aws_s3_class)
 }
+
+resources_aws_s3_class <- c("tar_resources_aws", "tar_resources")
 
 #' @export
 resources_validate.tar_resources_aws <- function(resources) {

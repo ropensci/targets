@@ -13,8 +13,10 @@ pattern_new <- function(
   out$value <- value
   out$junction <- junction
   out$patternview <- patternview
-  enclass(out, c("tar_pattern", "tar_target"))
+  enclass(out, pattern_s3_class)
 }
+
+pattern_s3_class <- c("tar_pattern", "tar_target")
 
 #' @export
 target_get_children.tar_pattern <- function(target) {

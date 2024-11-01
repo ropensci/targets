@@ -27,8 +27,10 @@ resources_gcp_new <- function(
   out$predefined_acl <- predefined_acl
   out$max_tries <- max_tries
   out$verbose <- verbose
-  enclass(out, c("tar_resources_gcp", "tar_resources"))
+  enclass(out, resources_gcp_s3_class)
 }
+
+resources_gcp_s3_class <- c("tar_resources_gcp", "tar_resources")
 
 #' @export
 resources_validate.tar_resources_gcp <- function(resources) {

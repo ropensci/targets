@@ -1,8 +1,10 @@
 vector_new <- function(object = NULL) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$object <- object
-  enclass(out, c("tar_vector", "tar_value"))
+  enclass(out, vector_s3_class)
 }
+
+vector_s3_class <- c("tar_vector", "tar_value")
 
 #' @export
 value_count_slices.tar_vector <- function(value) {

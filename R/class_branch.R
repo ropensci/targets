@@ -46,8 +46,10 @@ branch_new <- function(
   out$store <- store
   out$subpipeline <- subpipeline
   out$pedigree <- pedigree
-  enclass(out, c("tar_branch", "tar_builder", "tar_target"))
+  enclass(out, branch_s3_class)
 }
+
+branch_s3_class <- c("tar_branch", "tar_builder", "tar_target")
 
 #' @export
 target_get_parent.tar_branch <- function(target) {

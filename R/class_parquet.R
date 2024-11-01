@@ -1,7 +1,9 @@
 #' @export
 store_class_format.parquet <- function(format) {
-  c("tar_parquet", "tar_store")
+  store_class_format_parquet
 }
+
+store_class_format_parquet <- c("tar_parquet", "tar_store")
 
 #' @export
 store_assert_format_setting.parquet <- function(format) {

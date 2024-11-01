@@ -1,7 +1,13 @@
 #' @export
 store_class_format.format_custom <- function(format) {
-  c("tar_store_format_custom", "tar_nonexportable", "tar_store")
+  store_class_format_format_custom
 }
+
+store_class_format_format_custom <- c(
+  "tar_store_format_custom",
+  "tar_nonexportable",
+  "tar_store"
+)
 
 store_format_custom_field <- function(format, pattern, default) {
   out <- base64url::base64_urldecode(keyvalue_field(format, pattern))

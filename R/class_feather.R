@@ -1,7 +1,9 @@
 #' @export
 store_class_format.feather <- function(format) {
-  c("tar_feather", "tar_store")
+  store_class_format_feather
 }
+
+store_class_format_feather <- c("tar_feather", "tar_store")
 
 #' @export
 store_assert_format_setting.feather <- function(format) {

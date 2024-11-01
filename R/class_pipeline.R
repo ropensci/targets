@@ -20,8 +20,10 @@ pipeline_new <- function(
   out$imports <- imports
   out$loaded <- loaded
   out$transient <- transient
-  enclass(out, "tar_pipeline")
+  enclass(out, pipeline_s3_class)
 }
+
+pipeline_s3_class <- "tar_pipeline"
 
 pipeline_targets_init <- function(targets, clone_targets) {
   targets <- targets %|||% list()

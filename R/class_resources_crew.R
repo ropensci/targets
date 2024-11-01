@@ -15,8 +15,10 @@ resources_crew_new <- function(
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$controller <- controller
   out$seconds_timeout <- seconds_timeout
-  enclass(out, c("tar_resources_crew", "tar_resources"))
+  enclass(out, resources_crew_s3_class)
 }
+
+resources_crew_s3_class <- c("tar_resources_crew", "tar_resources")
 
 #' @export
 resources_validate.tar_resources_crew <- function(resources) {

@@ -191,8 +191,10 @@ tar_format_trace <- function(trace) {
 
 as_immediate_condition <- function(x) {
   x$call <- NULL
-  enclass(x, "immediateCondition")
+  enclass(x, immediate_condition_s3_class)
 }
+
+immediate_condition_s3_class <- "immediateCondition"
 
 custom_error_classes <- function(class) {
   setdiff(class, default_error_classes)

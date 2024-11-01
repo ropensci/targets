@@ -1,7 +1,9 @@
 #' @export
 store_class_format.auto <- function(format) {
-  c("tar_auto", "tar_store")
+  store_class_format_auto
 }
+
+store_class_format_auto <- c("tar_auto", "tar_store")
 
 #' @export
 store_assert_format_setting.auto <- function(format) {

@@ -17,8 +17,10 @@ stem_new <- function(
   out$store <- store
   out$subpipeline <- subpipeline
   out$junction <- junction
-  enclass(out, c("tar_stem", "tar_builder", "tar_target"))
+  enclass(out, stem_s3_class)
 }
+
+stem_s3_class <- c("tar_stem", "tar_builder", "tar_target")
 
 #' @export
 target_get_children.tar_stem <- function(target) {

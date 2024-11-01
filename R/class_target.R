@@ -79,8 +79,10 @@ target_new <- function(
   out$settings
   out$cue
   out$value
-  enclass(out, "tar_target")
+  enclass(out, target_s3_class)
 }
+
+target_s3_class <- "tar_target"
 
 target_get_name <- function(target) {
   target$settings$name

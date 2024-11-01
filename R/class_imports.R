@@ -17,8 +17,10 @@ imports_init.default <- function(envir) {
 }
 
 imports_new <- function(envir) {
-  enclass(envir, "tar_imports")
+  enclass(envir, imports_s3_class)
 }
+
+imports_s3_class <- "tar_imports"
 
 imports_set_package <- function(imports, package) {
   imports_set_namespace(imports, package)

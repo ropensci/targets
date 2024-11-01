@@ -1,7 +1,9 @@
 #' @export
 store_class_format.qs <- function(format) {
-  c("tar_qs", "tar_store")
+  store_class_format_qs
 }
+
+store_class_format_qs <- c("tar_qs", "tar_store")
 
 #' @export
 store_assert_format_setting.qs <- function(format) {

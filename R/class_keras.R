@@ -1,7 +1,9 @@
 #' @export
 store_class_format.keras <- function(format) {
-  c("tar_keras", "tar_nonexportable", "tar_store")
+  store_class_format_keras
 }
+
+store_class_format_keras <- c("tar_keras", "tar_nonexportable", "tar_store")
 
 #' @export
 store_assert_format_setting.keras <- function(format) {

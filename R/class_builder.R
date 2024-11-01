@@ -15,8 +15,10 @@ builder_new <- function(
   out$metrics <- metrics
   out$store <- store
   out$subpipeline <- subpipeline
-  enclass(out, c("tar_builder", "tar_target"))
+  enclass(out, builder_s3_class)
 }
+
+builder_s3_class <- c("tar_builder", "tar_target")
 
 #' @export
 target_update_depend.tar_builder <- function(target, pipeline, meta) {

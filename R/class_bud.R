@@ -29,8 +29,10 @@ bud_new <- function(
   out$cue <- cue
   out$value <- value
   out$pedigree <- pedigree
-  enclass(out, c("tar_bud", "tar_target"))
+  enclass(out, bud_s3_class)
 }
+
+bud_s3_class <- c("tar_bud", "tar_target")
 
 #' @export
 target_get_parent.tar_bud <- function(target) {

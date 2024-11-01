@@ -1,7 +1,9 @@
 #' @export
 store_class_format.null <- function(format) {
-  c("tar_null", "tar_store")
+  store_class_format_null
 }
+
+store_class_format_null <- c("tar_null", "tar_store")
 
 #' @export
 store_assert_format_setting.null <- function(format) {

@@ -15,8 +15,10 @@ resources_future_new <- function(
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$plan <- plan
   out$resources <- resources
-  enclass(out, c("tar_resources_future", "tar_resources"))
+  enclass(out, resources_future_s3_class)
 }
+
+resources_future_s3_class <- c("tar_resources_future", "tar_resources")
 
 #' @export
 resources_validate.tar_resources_future <- function(resources) {

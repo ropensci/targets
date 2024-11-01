@@ -1,8 +1,10 @@
 list_new <- function(object = NULL) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$object <- object
-  enclass(out, c("tar_list", "tar_value"))
+  enclass(out, list_s3_class)
 }
+
+list_s3_class <- c("tar_list", "tar_value")
 
 #' @export
 value_count_slices.tar_list <- function(value) {
