@@ -107,3 +107,10 @@ tar_test("file and NULL", {
   expect_equal(tar_read(x), character(0))
   expect_equal(tar_read(y), character(0))
 })
+
+tar_test("store_class_format.file_fast()", {
+  expect_equal(
+    store_class_format.file_fast("file_fast"),
+    c("tar_store_file", "tar_external", "tar_store")
+  )
+})

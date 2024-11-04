@@ -447,3 +447,13 @@ tar_test("deprecate file_fast", {
   )
   expect_equal(target$settings$format, "file")
 })
+
+tar_test("target_gc()", {
+  skip_cran()
+  tar_option_set(garbage_collection = 2L)
+  on.exit(tar_option_reset())
+  x <- tar_target(x, 1, garbage_collection = FALSE)
+  for (index in seq_len(2L)) {
+    expect_silent(target_gc(x))
+  }
+})

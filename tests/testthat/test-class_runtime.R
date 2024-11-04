@@ -129,6 +129,26 @@ tar_test("validate non-null runtime", {
   expect_silent(runtime_validate(x))
 })
 
+tar_test("validate non-null file_systems", {
+  x <- runtime_new(
+    target = tar_target(x, 1),
+    frames = frames_init(),
+    interactive = FALSE,
+    file_systems = "x"
+  )
+  expect_silent(runtime_validate(x))
+})
+
+tar_test("validate non-null trust_timestamps_store", {
+  x <- runtime_new(
+    target = tar_target(x, 1),
+    frames = frames_init(),
+    interactive = FALSE,
+    trust_timestamps_store = TRUE
+  )
+  expect_silent(runtime_validate(x))
+})
+
 tar_test("invalidate bad runtime", {
   x <- runtime_new(target = 1, frames = frames_init())
   expect_error(runtime_validate(x), class = "tar_condition_validate")
