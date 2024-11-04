@@ -437,7 +437,9 @@ builder_update_format <- function(target) {
 }
 
 builder_resolve_object <- function(target, build) {
-  if (!builder_should_save(target)) {
+  no_storage_expected <- !builder_expect_storage(target)
+  storage_off <- identical(target$settings$storage, "none")
+  if (no_storage_expected || storage_off) {
     return(build$object)
   }
   store_assert_format(target$store, build$object, target_get_name(target))
@@ -445,7 +447,7 @@ builder_resolve_object <- function(target, build) {
 }
 
 builder_ensure_paths <- function(target, path_store) {
-  if (builder_should_save(target)) {
+  if (builder_expect_storage(target)) {
     tryCatch(
       builder_update_paths(target, path_store),
       error = function(error) builder_error_internal(target, error, "_paths_")
@@ -491,7 +493,7 @@ builder_update_object <- function(target) {
   store_upload_object(target$store)
 }
 
-builder_should_save <- function(target) {
+builder_expect_storage <- function(target) {
   error_null <- identical(target$settings$error, "null") &&
     metrics_has_error(target$metrics)
   !metrics_terminated_early(target$metrics) || error_null
@@ -499,7 +501,7 @@ builder_should_save <- function(target) {
 
 builder_ensure_object <- function(target, storage) {
   context <- identical(target$settings$storage, storage)
-  if (context && builder_should_save(target)) {
+  if (context && builder_expect_storage(target)) {
     tryCatch(
       builder_update_object(target),
       error = function(error) builder_error_internal(target, error, "_store_")
