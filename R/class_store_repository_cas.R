@@ -74,12 +74,16 @@ store_has_correct_hash.tar_repository_cas <- function(store) {
       text = store$methods_repository$list,
       args = list(keys = keys_meta)
     )
-    keys <- intersect(keys_meta, as.character(keys_cas))
-    lookups[[repository]] <- lookup_init(names = keys)
+    found <- as.character(keys_cas)
+    missing <- setdiff(keys_meta, keys_cas)
+    lookups[[repository]] <- lookup_init(true = found, false = missing)
   }
   lookup <- .subset2(lookups, repository)
   key <- .subset2(.subset2(store, "file"), "hash")
-  if (lookup_exists(lookup, key)) {
+  
+  browser()
+  
+  if (lookup_exists(lookup, name = key)) {
     return(TRUE)
   } else {
     exists <- store_repository_cas_call_method(
@@ -87,9 +91,7 @@ store_has_correct_hash.tar_repository_cas <- function(store) {
       text = store$methods_repository$exists,
       args = list(key = key)
     )
-    if (exists) {
-      lookup_set(lookup, key)
-    }
+    lookup_set(lookup, name = key, value = exists)
     return(exists)
   }
 }
