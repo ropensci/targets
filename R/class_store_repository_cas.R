@@ -65,29 +65,33 @@ store_read_object.tar_repository_cas <- function(store) {
 store_has_correct_hash.tar_repository_cas <- function(store) {
   repository <- .subset2(.subset2(store, "methods_repository"), "repository")
   meta <- .subset2(tar_runtime, "meta")
-  hash_tables <- .subset2(meta, "repository_hash_tables")
-  hash_table <- .subset2(hash_tables, repository)
-  if (!is.environment(hash_table)) {
-    meta_hashes <- as.character(hash_table)
-    existing_keys <- store_repository_cas_call_method(
+  lookups <- .subset2(meta, "repository_key_lookup")
+  lookup <- .subset2(lookups, repository)
+  if (!is.environment(lookup)) {
+    keys_meta <- as.character(lookup)
+    keys_cas <- store_repository_cas_call_method(
       store = store,
-      text = store$methods_repository$keys,
-      args = list(previous = meta_hashes)
+      text = store$methods_repository$list,
+      args = list(keys = keys_meta)
     )
-    exists <- hashes %in% exi
+    keys <- intersect(keys_meta, as.character(keys_cas))
+    lookups[[repository]] <- lookup_init(names = keys)
   }
-  as.character(.subset2(hash_tables, repository))
-  
-  if (!exists(x = repository, envir = hash_tables)) {
-    
+  lookup <- .subset2(lookups, repository)
+  key <- .subset2(.subset2(store, "file"), "hash")
+  if (lookup_exists(lookup, key)) {
+    return(TRUE)
+  } else {
+    exists <- store_repository_cas_call_method(
+      store = store,
+      text = store$methods_repository$exists,
+      args = list(key = key)
+    )
+    if (exists) {
+      lookup_set(lookup, key)
+    }
+    return(exists)
   }
-  browser()
-  
-  store_repository_cas_call_method(
-    store = store,
-    text = store$methods_repository$exists,
-    args = list(key = store$file$hash)
-  )
 }
 
 #' @export

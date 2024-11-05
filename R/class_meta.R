@@ -21,7 +21,7 @@ meta_class <- R6::R6Class(
     database = NULL,
     depends = NULL,
     store = NULL,
-    repository_hash_tables = NULL,
+    repository_key_lookup = NULL,
     initialize = function(
       database = NULL,
       depends = NULL,
@@ -120,7 +120,7 @@ meta_class <- R6::R6Class(
     },
     preprocess = function(write = FALSE) {
       data <- self$database$read_condensed_data()
-      self$preset_repository_hash_tables(data)
+      self$preset_repository_key_lookup(data)
       self$database$preprocess(data = data, write = write)
       tar_runtime$meta <- self
     },
@@ -129,16 +129,16 @@ meta_class <- R6::R6Class(
         self$preprocess(write = write)
       }
     },
-    preset_repository_hash_tables = function(data) {
+    preset_repository_key_lookup = function(data) {
       data <- data[!is.na(data$repository), c("data", "repository")]
-      self$repository_hash_tables <- list2env(
+      self$repository_key_lookup <- list2env(
         split(x = data$data, f = data$repository),
         parent = emptyenv(),
         hash = TRUE
       )
     },
     set_repository_hash_table = function(repository, data) {
-      self$repository_hash_tables[[repository]] <- list2env(
+      self$repository_key_lookup[[repository]] <- list2env(
         as.list(data),
         parent = emptyenv(),
         hash = TRUE

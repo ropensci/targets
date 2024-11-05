@@ -9,8 +9,9 @@ tar_repository_cas(
   upload,
   download,
   exists,
+  list = NULL,
   consistent = FALSE,
-  substitute = list()
+  substitute = base::list()
 )
 }
 \arguments{
@@ -43,13 +44,27 @@ system. If the CAS system is a local file system, for example,
 
 See the "Repository functions" section for more details.}
 
-\item{exists}{A function with a single argument \code{key}.
+\item{exists}{A function with a single argument \code{key},
+where \code{key} is a single character string (\code{length(key)} is 1).
 This function should check if there is an object at \code{key} in
-the CAS system.
+the CAS system. See the source code of \code{\link[=tar_cas_e]{tar_cas_e()}}
+for an example of how this can work for a local file system CAS.
 
-For efficiency, \code{exists} can maintain an in-memory cache of keys.
-New lookups can check the cache and potentially avoid expensive
-queries to the CAS system. See the source code of \code{\link[=tar_cas_e]{tar_cas_e()}}
+See the "Repository functions" section for more details.}
+
+\item{list}{Either \code{NULL} or an optional function with a single
+argument named \code{keys}.
+The \code{list} function increases efficiency by reducing repeated calls
+to the \code{exists} function (see above).
+The \code{list} function should return a character vector of keys that
+already exist in the CAS system.
+The \code{keys} argument of \code{list} is a character vector of
+CAS keys (hashes) which are already recorded in the pipeline metadata
+(\code{tar_meta()}).
+For greater efficiency, the \code{list} function can restrict its query
+to these existing keys instead of trying to list the billions of keys
+that could exist in a CAS system.
+See the source code of \code{\link[=tar_cas_l]{tar_cas_l()}}
 for an example of how this can work for a local file system CAS.
 
 See the "Repository functions" section for more details.}
@@ -177,7 +192,7 @@ It uses \code{\link[=tar_cas_u]{tar_cas_u()}} for uploads,
 \section{Repository functions}{
 
 In \code{\link[=tar_repository_cas]{tar_repository_cas()}}, functions \code{upload}, \code{download},
-and \code{exists} must be completely pure and self-sufficient.
+\code{exists}, and \code{keys} must be completely pure and self-sufficient.
 They must load or namespace all their own packages,
 and they must not depend on any custom user-defined
 functions or objects in the global environment of your pipeline.
@@ -237,6 +252,9 @@ tar_script({
     },
     exists = function(key) {
       file.exists(file.path("cas", key))
+    },
+    list = function(keys) {
+      keys[file.exists(file.path("cas", keys))]
     }
   )
   write_file <- function(object) {

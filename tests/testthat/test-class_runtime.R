@@ -257,3 +257,8 @@ tar_test("runtime_increment_targets_run()", {
   expect_equal(x$number_targets_run, 2L)
   expect_silent(runtime_validate(x))
 })
+
+tar_test("validate non-null metadata", {
+  x <- runtime_new(meta = meta_init())
+  expect_silent(runtime_validate(x))
+})

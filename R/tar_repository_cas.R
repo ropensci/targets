@@ -142,22 +142,23 @@
 #'   (e.g. please avoid `file.rename()`).
 #'
 #'   See the "Repository functions" section for more details.
-#' @param exists A function with a single argument `key`.
+#' @param exists A function with a single argument `key`,
+#'   where `key` is a single character string (`length(key)` is 1).
 #'   This function should check if there is an object at `key` in
 #'   the CAS system. See the source code of [tar_cas_e()]
 #'   for an example of how this can work for a local file system CAS.
 #'
 #'   See the "Repository functions" section for more details.
-#' @param keys Either `NULL` or an optional function with a single
-#'   argument named `previous`.
-#'   The `keys` function increases efficiency by reducing repeated calls
+#' @param list Either `NULL` or an optional function with a single
+#'   argument named `keys`.
+#'   The `list` function increases efficiency by reducing repeated calls
 #'   to the `exists` function (see above).
-#'   The `keys` function should return a character vector of keys that
+#'   The `list` function should return a character vector of keys that
 #'   already exist in the CAS system.
-#'   The `previous` argument of `keys` is a character vector of
+#'   The `keys` argument of `list` is a character vector of
 #'   CAS keys (hashes) which are already recorded in the pipeline metadata
 #'   (`tar_meta()`).
-#'   For greater efficiency, the `keys` function can restrict its query
+#'   For greater efficiency, the `list` function can restrict its query
 #'   to these existing keys instead of trying to list the billions of keys
 #'   that could exist in a CAS system.
 #'   See the source code of [tar_cas_l()]
@@ -228,8 +229,8 @@
 #'     exists = function(key) {
 #'       file.exists(file.path("cas", key))
 #'     },
-#'     keys = function(previous) {
-#'       previous[file.exists(file.path("cas", previous))]
+#'     list = function(keys) {
+#'       keys[file.exists(file.path("cas", keys))]
 #'     }
 #'   )
 #'   write_file <- function(object) {
@@ -259,9 +260,9 @@ tar_repository_cas <- function(
   upload,
   download,
   exists,
-  keys = NULL,
+  list = NULL,
   consistent = FALSE,
-  substitute = list()
+  substitute = base::list()
 ) {
   tar_assert_function(upload)
   tar_assert_function(download)
@@ -269,8 +270,9 @@ tar_repository_cas <- function(
   tar_assert_function_arguments(upload, c("key", "path"))
   tar_assert_function_arguments(download, c("key", "path"))
   tar_assert_function_arguments(exists, "key")
-  if (!is.null(keys)) {
-    tar_assert_function_arguments(keys, "previous")
+  list_function <- environment()$list
+  if (!is.null(list_function)) {
+    tar_assert_function_arguments(list_function, "keys")
   }
   tar_assert_scalar(consistent)
   tar_assert_lgl(consistent)
@@ -280,7 +282,7 @@ tar_repository_cas <- function(
     tar_repository_cas_field("upload", tar_sub_body(upload, substitute)),
     tar_repository_cas_field("download", tar_sub_body(download, substitute)),
     tar_repository_cas_field("exists", tar_sub_body(exists, substitute)),
-    tar_repository_cas_field("keys", tar_sub_body(keys, substitute)),
+    tar_repository_cas_field("list", tar_sub_body(list_function, substitute)),
     tar_repository_cas_field("consistent", consistent),
     sep = "&"
   )
