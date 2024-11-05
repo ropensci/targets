@@ -63,6 +63,26 @@ store_read_object.tar_repository_cas <- function(store) {
 
 #' @export
 store_has_correct_hash.tar_repository_cas <- function(store) {
+  repository <- .subset2(.subset2(store, "methods_repository"), "repository")
+  meta <- .subset2(tar_runtime, "meta")
+  hash_tables <- .subset2(meta, "repository_hash_tables")
+  hash_table <- .subset2(hash_tables, repository)
+  if (!is.environment(hash_table)) {
+    meta_hashes <- as.character(hash_table)
+    existing_keys <- store_repository_cas_call_method(
+      store = store,
+      text = store$methods_repository$keys,
+      args = list(previous = meta_hashes)
+    )
+    exists <- hashes %in% exi
+  }
+  as.character(.subset2(hash_tables, repository))
+  
+  if (!exists(x = repository, envir = hash_tables)) {
+    
+  }
+  browser()
+  
   store_repository_cas_call_method(
     store = store,
     text = store$methods_repository$exists,

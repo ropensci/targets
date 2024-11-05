@@ -142,7 +142,7 @@ tar_outdated_inner <- function(
 }
 
 tar_outdated_globals <- function(pipeline, meta) {
-  meta$database$ensure_preprocessed(write = FALSE)
+  meta$ensure_preprocessed(write = FALSE)
   new <- hash_imports(pipeline$imports)
   new$new <- new$data
   recorded <- fltr(new$name, ~meta$exists_record(.x))

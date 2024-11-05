@@ -66,7 +66,7 @@ active_class <- R6::R6Class(
       self$meta$database$sync(prefer_local = TRUE, verbose = FALSE)
       self$meta$migrate_database()
       self$meta$validate()
-      self$meta$database$preprocess(write = TRUE)
+      self$meta$preprocess(write = TRUE)
       if (new_store) {
         self$write_gitignore()
         self$write_user()

@@ -147,8 +147,8 @@ database_class <- R6::R6Class(
     read_condensed_data = function() {
       self$condense_data(self$read_data())
     },
-    preprocess = function(write = FALSE) {
-      data <- self$read_condensed_data()
+    preprocess = function(data = NULL, write = FALSE) {
+      data <- data %|||% self$read_condensed_data()
       self$set_data(data)
       if (write) {
         self$ensure_storage()
@@ -263,11 +263,6 @@ database_class <- R6::R6Class(
     ensure_storage = function() {
       if (!file.exists(self$path)) {
         self$reset_storage()
-      }
-    },
-    ensure_preprocessed = function(write = FALSE) {
-      if (identical(self$memory$count, 0L)) {
-        self$preprocess(write = write)
       }
     },
     read_data = function() {

@@ -21,6 +21,7 @@ meta_class <- R6::R6Class(
     database = NULL,
     depends = NULL,
     store = NULL,
+    repository_hash_tables = NULL,
     initialize = function(
       database = NULL,
       depends = NULL,
@@ -116,6 +117,32 @@ meta_class <- R6::R6Class(
     set_imports = function(envir, pipeline) {
       data <- self$data_imports(envir, pipeline)
       self$database$set_data(data)
+    },
+    preprocess = function(write = FALSE) {
+      data <- self$database$read_condensed_data()
+      self$preset_repository_hash_tables(data)
+      self$database$preprocess(data = data, write = write)
+      tar_runtime$meta <- self
+    },
+    ensure_preprocessed = function(write = FALSE) {
+      if (identical(self$database$memory$count, 0L)) {
+        self$preprocess(write = write)
+      }
+    },
+    preset_repository_hash_tables = function(data) {
+      data <- data[!is.na(data$repository), c("data", "repository")]
+      self$repository_hash_tables <- list2env(
+        split(x = data$data, f = data$repository),
+        parent = emptyenv(),
+        hash = TRUE
+      )
+    },
+    set_repository_hash_table = function(repository, data) {
+      self$repository_hash_tables[[repository]] <- list2env(
+        as.list(data),
+        parent = emptyenv(),
+        hash = TRUE
+      )
     },
     migrate_database = function() {
       # Add the repository column (> 0.10.0).
