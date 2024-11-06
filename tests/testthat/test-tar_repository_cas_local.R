@@ -25,43 +25,47 @@ tar_test("tar_cas_l() (list)", {
 
 tar_test("local CAS repository works on default directory", {
   skip_cran()
-  tar_script({
-    repository <- tar_repository_cas_local()
-    write_file <- function(object) {
-      writeLines(as.character(object), "file.txt")
-      "file.txt"
+  for (consistent in c(TRUE, FALSE)) {
+    tar_script({
+      write_file <- function(object) {
+        writeLines(as.character(object), "file.txt")
+        "file.txt"
+      }
+      list(
+        tar_target(x, c(2L, 4L)),
+        tar_target(
+          y,
+          x,
+          pattern = map(x)
+        ),
+        tar_target(z, write_file(y), format = "file")
+      )
+    })
+    on.exit(tar_option_reset())
+    for (consistent in c(TRUE, FALSE)) {
+      repository <- tar_repository_cas_local(consistent = consistent)
+      tar_option_set(repository = repository)
+      for (storage in c("main", "worker")) {
+        tar_option_set(storage = storage, retrieval = storage)
+        tar_make(callr_function = NULL, reporter = "silent")
+        expect_equal(tar_read(x), c(2L, 4L))
+        expect_equal(unname(tar_read(y)), c(2L, 4L))
+        expect_equal(unname(tar_read(y, branches = 2L)), 4L)
+        expect_equal(readLines(tar_read(z)), c("2", "4"))
+        expect_equal(tar_outdated(callr_function = NULL), character(0L))
+        tar_make(callr_function = NULL, reporter = "silent")
+        expect_equal(unique(tar_progress()$progress), "skipped")
+        unlink(file.path(tar_config_get("store"), "cas", tar_meta(z)$data))
+        expect_equal(tar_outdated(callr_function = NULL), "z")
+        tar_make(callr_function = NULL, reporter = "silent")
+        progress <- tar_progress()
+        expect_equal(
+          progress$progress,
+          ifelse(progress$name == "z", "completed", "skipped")
+        )
+        tar_destroy()
+      }
     }
-    list(
-      tar_target(x, c(2L, 4L), repository = repository),
-      tar_target(
-        y,
-        x,
-        pattern = map(x),
-        repository = repository
-      ),
-      tar_target(z, write_file(y), format = "file", repository = repository)
-    )
-  })
-  on.exit(tar_option_reset())
-  for (storage in c("main", "worker")) {
-    tar_option_set(storage = storage, retrieval = storage)
-    tar_make(callr_function = NULL, reporter = "silent")
-    expect_equal(tar_read(x), c(2L, 4L))
-    expect_equal(unname(tar_read(y)), c(2L, 4L))
-    expect_equal(unname(tar_read(y, branches = 2L)), 4L)
-    expect_equal(readLines(tar_read(z)), c("2", "4"))
-    expect_equal(tar_outdated(), character(0L))
-    tar_make(callr_function = NULL, reporter = "silent")
-    expect_equal(unique(tar_progress()$progress), "skipped")
-    unlink(file.path(tar_config_get("store"), "cas", tar_meta(z)$data))
-    expect_equal(tar_outdated(callr_function = NULL), "z")
-    tar_make(callr_function = NULL, reporter = "silent")
-    progress <- tar_progress()
-    expect_equal(
-      progress$progress,
-      ifelse(progress$name == "z", "completed", "skipped")
-    )
-    tar_destroy()
   }
 })
 

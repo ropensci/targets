@@ -53,7 +53,7 @@ tar_repository_cas_local <- function(
   tar_repository_cas(
     upload = function(key, path) targets::tar_cas_u(cas, key, path),
     download = function(key, path) targets::tar_cas_d(cas, key, path),
-    exists = function(keys) targets::tar_cas_e(cas, keys),
+    exists = function(key) targets::tar_cas_e(cas, key),
     list = function(keys) targets::tar_cas_l(cas, keys),
     consistent = consistent,
     substitute = list(cas = path)

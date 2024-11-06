@@ -50,6 +50,7 @@ to identify a single object in the CAS system.
 
 The \code{exists} function should check if there is a single object at
 a single \code{key} in the CAS system.
+It is ignored if \code{list} is given and \code{consistent} is \code{TRUE}.
 
 See the "Repository functions" section for more details.}
 

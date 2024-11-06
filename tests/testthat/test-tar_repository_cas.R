@@ -9,6 +9,9 @@ tar_test("tar_repository_cas() generates an encoded string", {
     exists = function(key) {
       file.exists(file.path("cas", key))
     },
+    list = function(keys) {
+      keys[file.exists(file.path("cas", keys))]
+    },
     consistent = TRUE
   )
   expect_equal(length(out), 1)
@@ -17,7 +20,70 @@ tar_test("tar_repository_cas() generates an encoded string", {
   expect_true(any(grepl("^upload=+.", out)))
   expect_true(any(grepl("^download=+.", out)))
   expect_true(any(grepl("^exists=+.", out)))
+  expect_true(any(grepl("^list=+.", out)))
   expect_true(any(grepl("^consistent=+.", out)))
+})
+
+tar_test("tar_repository_cas() keeps 'exists' at the right times", {
+  out <- tar_repository_cas(
+    upload = function(key, path) {
+      file.copy(path, file.path("cas", key))
+    },
+    download = function(key, path) {
+      file.copy(file.path("cas", key), path)
+    },
+    exists = function(key) {
+      file.exists(file.path("cas", key))
+    },
+    list = function(keys) {
+      keys[file.exists(file.path("cas", keys))]
+    },
+    consistent = TRUE
+  )
+  out <- unlist(strsplit(out, split = "&", fixed = TRUE))
+  exists <- base64url::base64_urldecode(
+    gsub("^exists=", "", out[grepl("^exists=+.", out)])
+  )
+  expect_equal(exists, "NULL")
+  out <- tar_repository_cas(
+    upload = function(key, path) {
+      file.copy(path, file.path("cas", key))
+    },
+    download = function(key, path) {
+      file.copy(file.path("cas", key), path)
+    },
+    exists = function(key) {
+      file.exists(file.path("cas", key))
+    },
+    list = function(keys) {
+      keys[file.exists(file.path("cas", keys))]
+    },
+    consistent = FALSE
+  )
+  out <- unlist(strsplit(out, split = "&", fixed = TRUE))
+  exists <- base64url::base64_urldecode(
+    gsub("^exists=", "", out[grepl("^exists=+.", out)])
+  )
+  expect_false(exists == "NULL")
+  for (consistent in c(TRUE, FALSE)) {
+    out <- tar_repository_cas(
+      upload = function(key, path) {
+        file.copy(path, file.path("cas", key))
+      },
+      download = function(key, path) {
+        file.copy(file.path("cas", key), path)
+      },
+      exists = function(key) {
+        file.exists(file.path("cas", key))
+      },
+      consistent = consistent
+    )
+    out <- unlist(strsplit(out, split = "&", fixed = TRUE))
+    exists <- base64url::base64_urldecode(
+      gsub("^exists=", "", out[grepl("^exists=+.", out)])
+    )
+    expect_false(exists == "NULL") 
+  }
 })
 
 tar_test("validate CAS repository class", {
