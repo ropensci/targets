@@ -24,6 +24,10 @@ lookup_set <- function(lookup, names, value) {
   }
 }
 
+lookup_unset <- function(lookup, names) {
+  rm(list = names, envir = lookup)
+}
+
 lookup_validate <- function(lookup) {
   tar_assert_envir(lookup)
 }

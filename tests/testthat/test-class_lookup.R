@@ -18,6 +18,9 @@ tar_test("class lookup", {
   lookup_set(lookup, "abc", FALSE)
   expect_true(lookup_exists(lookup, "abc"))
   expect_false(lookup_get(lookup, "abc"))
+  lookup_unset(lookup, "abc")
+  expect_false(lookup_exists(lookup, "abc"))
+  expect_null(lookup_get(lookup, "abc"))
   expect_silent(lookup_validate(lookup))
 })
 
