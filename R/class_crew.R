@@ -180,8 +180,7 @@ crew_class <- R6::R6Class(
         self$meta
       )
     },
-    run_target = function(name) {
-      target <- pipeline_get_target(self$pipeline, name)
+    run_target = function(target) {
       if_any(
         target_should_run_worker(target),
         self$run_worker(target),

@@ -191,7 +191,7 @@ active_class <- R6::R6Class(
         self$flush_upload_meta_file(target)
         runtime_increment_targets_run(tar_runtime)
         target_gc(target)
-        self$run_target(name)
+        self$run_target(target)
       } else {
         self$skip_target(target)
       }

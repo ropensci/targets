@@ -58,8 +58,7 @@ local_class <- R6::R6Class(
   public = list(
     tar_assert_deployment = function(target) {
     },
-    run_target = function(name) {
-      target <- pipeline_get_target(self$pipeline, name)
+    run_target = function(target) {
       self$tar_assert_deployment(target)
       target_prepare(target, self$pipeline, self$scheduler, self$meta)
       self$sync_meta_time()
