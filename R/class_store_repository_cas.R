@@ -42,15 +42,15 @@ store_upload_object_cas <- function(store, path) {
     )
   )
   key <- store$file$hash
-  
-  print(paste("uploading", key))
-  
-  store_repository_cas_call_method(
-    store = store,
-    text = store$methods_repository$upload,
-    args = list(key = key, path = path)
-  )
-  lookup_set(tar_repository_cas_lookup(store), name = key, value = TRUE)
+  lookup <- tar_repository_cas_lookup(store)
+  if (lookup_missing(lookup, key) || !lookup_get(lookup, key)) {
+    store_repository_cas_call_method(
+      store = store,
+      text = store$methods_repository$upload,
+      args = list(key = key, path = path)
+    )
+    lookup_set(lookup = lookup, names = key, value = TRUE)
+  }
 }
 
 #' @export
@@ -66,44 +66,11 @@ store_read_object.tar_repository_cas <- function(store) {
   store_convert_object(store, store_read_path(store, scratch))
 }
 
-tar_repository_cas_lookup <- function(store) {
-  meta <- .subset2(tar_runtime, "meta")
-  lookup_table <- .subset2(meta, "repository_cas_lookup_table")
-  repository <- .subset2(.subset2(store, "methods_repository"), "repository")
-  lookup <- lookup_get(lookup_table, repository)
-  if (is.environment(lookup)) {
-    
-    print("repository lookup found")
-    
-    return(lookup) 
-  }
-  
-  print("building repository lookup")
-  
-  keys_meta <- as.character(lookup)
-  keys_cas <- store_repository_cas_call_method(
-    store = store,
-    text = store$methods_repository$list,
-    args = list(keys = keys_meta)
-  )
-  lookup <- lookup_new()
-  lookup_set(lookup, names = as.character(keys_cas), value = TRUE)
-  lookup_set(lookup, names = setdiff(keys_meta, keys_cas), value = FALSE)
-  lookup_set(lookup_table, names = repository, value = lookup)
-  lookup
-}
-
 #' @export
 store_has_correct_hash.tar_repository_cas <- function(store) {
   lookup <- tar_repository_cas_lookup(store)
   key <- store$file$hash
-  
-  print(paste("looking up", key))
-  
   if (lookup_missing(lookup, name = key)) {
-    
-    print(paste("finding in CAS:", key))
-    
     exists <- store_repository_cas_call_method(
       store = store,
       text = store$methods_repository$exists,
@@ -132,6 +99,27 @@ store_delete_objects.tar_repository_cas <- function(
   batch_size,
   verbose
 ) {
+}
+
+tar_repository_cas_lookup <- function(store) {
+  meta <- .subset2(tar_runtime, "meta")
+  lookup_table <- .subset2(meta, "repository_cas_lookup_table")
+  repository <- .subset2(.subset2(store, "methods_repository"), "repository")
+  lookup <- lookup_get(lookup_table, repository)
+  if (is.environment(lookup)) {
+    return(lookup) 
+  }
+  keys_meta <- as.character(lookup)
+  keys_cas <- store_repository_cas_call_method(
+    store = store,
+    text = store$methods_repository$list,
+    args = list(keys = keys_meta)
+  )
+  lookup <- lookup_new()
+  lookup_set(lookup, names = as.character(keys_cas), value = TRUE)
+  lookup_set(lookup, names = setdiff(keys_meta, keys_cas), value = FALSE)
+  lookup_set(lookup_table, names = repository, value = lookup)
+  lookup
 }
 
 store_repository_cas_call_method <- function(store, text, args) {

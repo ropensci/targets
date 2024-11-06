@@ -29,6 +29,7 @@
 ^_targets\.Rmd$
 ^_targets\.yaml$
 ^skeleton\.html$
+^cas$
 ^docs$
 ^CODE_OF_CONDUCT.md$
 ^codemeta\.json$
