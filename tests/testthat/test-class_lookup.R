@@ -1,5 +1,5 @@
 tar_test("class lookup", {
-  lookup <- lookup_init()
+  lookup <- lookup_new()
   lookup_set(lookup, names = letters, value = TRUE)
   lookup_set(lookup, names = LETTERS, value = FALSE)
   expect_equal(sort(lookup_list(lookup)), sort(c(letters, LETTERS)))
@@ -18,4 +18,10 @@ tar_test("class lookup", {
   expect_silent(lookup_validate(lookup))
   lookup$x <- 123L
   expect_error(lookup_validate(lookup), class = "tar_condition_validate")
+})
+
+tar_test("class lookup methods on NULL objects", {
+  expect_false(lookup_exists(NULL, "a"))
+  expect_null(lookup_true(NULL, "a"))
+  expect_equal(lookup_list(NULL), character(0L))
 })
