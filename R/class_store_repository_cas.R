@@ -49,7 +49,7 @@ store_upload_object_cas <- function(store, path) {
       text = store$methods_repository$upload,
       args = list(key = key, path = path)
     )
-    lookup_unset(lookup = lookup, key = key)
+    lookup_unset(lookup = lookup, name = key)
   }
 }
 
