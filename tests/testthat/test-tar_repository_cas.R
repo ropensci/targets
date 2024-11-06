@@ -82,7 +82,7 @@ tar_test("tar_repository_cas() keeps 'exists' at the right times", {
     exists <- base64url::base64_urldecode(
       gsub("^exists=", "", out[grepl("^exists=+.", out)])
     )
-    expect_false(exists == "NULL") 
+    expect_false(exists == "NULL")
   }
 })
 
