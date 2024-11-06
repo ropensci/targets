@@ -25,7 +25,9 @@ lookup_set <- function(lookup, names, value) {
 }
 
 lookup_unset <- function(lookup, names) {
-  rm(list = names, envir = lookup)
+  for (name in names) {
+    lookup[[name]] <- NULL
+  }
 }
 
 lookup_validate <- function(lookup) {
