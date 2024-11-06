@@ -41,7 +41,11 @@ pipeline_targets_init <- function(targets, clone_targets) {
 }
 
 pipeline_get_target <- function(pipeline, name) {
-  pipeline$targets[[name]]
+  out <- .subset2(.subset2(pipeline, "targets"), name)
+  if (is.raw(out)) {
+    return(tar_unserialize(out))
+  }
+  out
 }
 
 pipeline_get_names <- function(pipeline) {

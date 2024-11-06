@@ -63,6 +63,7 @@ Imports:
   igraph (>= 2.0.0),
   knitr (>= 1.34),
   ps (>= 1.8.0),
+  qs2 (>= 0.1.2),
   R6 (>= 2.4.1),
   rlang (>= 1.0.0),
   secretbase (>= 0.5.0),
@@ -110,6 +111,7 @@ Suggests:
   usethis (>= 1.6.3),
   visNetwork (>= 2.1.2)
 Remotes:
+  qsbase/qs2,
   wlandau/autometric
 Encoding: UTF-8
 Language: en-US
