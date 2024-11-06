@@ -1,4 +1,4 @@
-# targets 1.8.0.9007 (development)
+# targets 1.8.0.9008 (development)
 
 * Un-break workflows that use `format = "file_fast"` (#1339, @koefoeden).
 * Fix deadlock in `error = "trim"` (#1340, @koefoeden).
@@ -10,6 +10,7 @@
 * Avoid sending problematic error classes such as `"vctrs_error_subscript_oob"` to `rlang::abort()` (#1354, @Jiefei-Wang).
 * Reduce memory consumption by ~23% in large pipelines by avoiding the accumulation of promise objects (#1352).
 * Avoid `store_assert_format()` and `store_convert_object()` is `storage` is `"none"`.
+* Add a `list()` method to `tar_repository_cas()` to make it easier and more efficient to specify custom CAS repositories (#1366).
 
 # targets 1.8.0
 
