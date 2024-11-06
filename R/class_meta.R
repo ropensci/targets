@@ -21,7 +21,6 @@ meta_class <- R6::R6Class(
     database = NULL,
     depends = NULL,
     store = NULL,
-    repository_cas_hashes = NULL,
     repository_cas_lookup_table = NULL,
     initialize = function(
       database = NULL,
@@ -132,8 +131,12 @@ meta_class <- R6::R6Class(
     },
     update_repository_cas_lookup_table = function(data) {
       data <- data[!is.na(data$repository), c("data", "repository")]
-      self$repository_cas_hashes <- split(x = data$data, f = data$repository)
-      self$repository_cas_lookup_table <- lookup_table_new()
+      hashes <- split(x = data$data, f = data$repository)
+      lookup_table <- lookup_new()
+      for (name in names(hashes)) {
+        lookup_set(lookup_table, names = name, value = .subset2(hashes, name))
+      }
+      self$repository_cas_lookup_table <- lookup_table
     },
     set_repository_hash_table = function(repository, data) {
       self$repository_key_lookup[[repository]] <- list2env(

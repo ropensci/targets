@@ -41,11 +41,16 @@ store_upload_object_cas <- function(store, path) {
       "a single file or single directory."
     )
   )
+  key <- store$file$hash
+  
+  print(paste("uploading", key))
+  
   store_repository_cas_call_method(
     store = store,
     text = store$methods_repository$upload,
-    args = list(key = store$file$hash, path = path)
+    args = list(key = key, path = path)
   )
+  lookup_set(tar_repository_cas_lookup(store), name = key, value = TRUE)
 }
 
 #' @export
@@ -65,52 +70,48 @@ tar_repository_cas_lookup <- function(store) {
   meta <- .subset2(tar_runtime, "meta")
   lookup_table <- .subset2(meta, "repository_cas_lookup_table")
   repository <- .subset2(.subset2(store, "methods_repository"), "repository")
-  if (lookup_table_exists_category(lookup_table, repository)) {
-    return(lookup_table_get_lookup(lookup_table, repository)) 
+  lookup <- lookup_get(lookup_table, repository)
+  if (is.environment(lookup)) {
+    
+    print("repository lookup found")
+    
+    return(lookup) 
   }
   
-  browser()
+  print("building repository lookup")
   
+  keys_meta <- as.character(lookup)
+  keys_cas <- store_repository_cas_call_method(
+    store = store,
+    text = store$methods_repository$list,
+    args = list(keys = keys_meta)
+  )
+  lookup <- lookup_new()
+  lookup_set(lookup, names = as.character(keys_cas), value = TRUE)
+  lookup_set(lookup, names = setdiff(keys_meta, keys_cas), value = FALSE)
+  lookup_set(lookup_table, names = repository, value = lookup)
+  lookup
 }
 
 #' @export
 store_has_correct_hash.tar_repository_cas <- function(store) {
-  
-  
-  
   lookup <- tar_repository_cas_lookup(store)
+  key <- store$file$hash
   
+  print(paste("looking up", key))
   
-  if (lookup_table_missing_category(lookup_table, category = repository)) {
+  if (lookup_missing(lookup, name = key)) {
     
-    browser()
+    print(paste("finding in CAS:", key))
     
-    keys_meta <- as.character(lookup)
-    keys_cas <- store_repository_cas_call_method(
-      store = store,
-      text = store$methods_repository$list,
-      args = list(keys = keys_meta)
-    )
-    found <- as.character(keys_cas)
-    missing <- setdiff(keys_meta, keys_cas)
-    lookups[[repository]] <- lookup_init(true = found, false = missing)
-  }
-  lookup <- .subset2(lookups, repository)
-  key <- .subset2(.subset2(store, "file"), "hash")
-  
-  browser()
-  
-  if (lookup_exists(lookup, name = key)) {
-    return(TRUE)
-  } else {
     exists <- store_repository_cas_call_method(
       store = store,
       text = store$methods_repository$exists,
       args = list(key = key)
     )
     lookup_set(lookup, name = key, value = exists)
-    return(exists)
   }
+  lookup_get(lookup = lookup, name = key)
 }
 
 #' @export

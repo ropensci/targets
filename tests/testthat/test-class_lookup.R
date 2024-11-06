@@ -6,26 +6,24 @@ tar_test("class lookup", {
   for (x in letters) {
     expect_true(lookup_exists(lookup, x))
     expect_false(lookup_missing(lookup, x))
-    expect_true(lookup_true(lookup, x))
+    expect_true(lookup_get(lookup, x))
   }
   for (x in LETTERS) {
     expect_true(lookup_exists(lookup, x))
     expect_false(lookup_missing(lookup, x))
-    expect_false(lookup_true(lookup, x))
+    expect_false(lookup_get(lookup, x))
   }
   expect_false(lookup_exists(lookup, "abc"))
   expect_true(lookup_missing(lookup, "abc"))
   lookup_set(lookup, "abc", FALSE)
   expect_true(lookup_exists(lookup, "abc"))
-  expect_false(lookup_true(lookup, "abc"))
+  expect_false(lookup_get(lookup, "abc"))
   expect_silent(lookup_validate(lookup))
-  lookup$x <- 123L
-  expect_error(lookup_validate(lookup), class = "tar_condition_validate")
 })
 
 tar_test("class lookup methods on NULL objects", {
   expect_false(lookup_exists(NULL, "a"))
   expect_true(lookup_missing(NULL, "a"))
-  expect_null(lookup_true(NULL, "a"))
+  expect_null(lookup_get(NULL, "a"))
   expect_equal(lookup_list(NULL), character(0L))
 })
