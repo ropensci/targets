@@ -13,18 +13,14 @@ tar_test("tar_cas_d() (download)", {
   expect_true(file.exists("file"))
 })
 
-tar_test("tar_cas_e() (exists)", {
-  tar_repository_cas_local_cache[["cas"]] <- NULL
-  on.exit(tar_repository_cas_local_cache[["cas"]] <- NULL)
-  expect_false(tar_cas_e("cas", "key"))
-  file.create("x")
-  tar_cas_u("cas", "key", "x")
-  expect_true(tar_cas_e("cas", "key"))
-  expect_true(tar_cas_e("cas", "key"))
-  expect_false(tar_cas_e("cas", "key2"))
-  file.create("x")
-  tar_cas_u("cas", "key2", "x")
-  expect_true(tar_cas_e("cas", "key2"))
+tar_test("tar_cas_l() (list)", {
+  dir.create("cas")
+  on.exit(unlink("cas", recursive = TRUE))
+  expect_equal(tar_cas_l("cas", letters), character(0L))
+  file.create(file.path("cas", "a"))
+  file.create(file.path("cas", "b"))
+  file.create(file.path("cas", "123"))
+  expect_equal(sort(tar_cas_l("cas", letters)), sort(c("a", "b")))
 })
 
 tar_test("local CAS repository works on default directory", {
@@ -55,8 +51,16 @@ tar_test("local CAS repository works on default directory", {
     expect_equal(unname(tar_read(y, branches = 2L)), 4L)
     expect_equal(readLines(tar_read(z)), c("2", "4"))
     expect_equal(tar_outdated(), character(0L))
+    tar_make(callr_function = NULL, reporter = "silent")
+    expect_equal(unique(tar_progress()$progress), "skipped")
     unlink(file.path(tar_config_get("store"), "cas", tar_meta(z)$data))
-    expect_equal(tar_outdated(), "z")
+    expect_equal(tar_outdated(callr_function = NULL), "z")
+    tar_make(callr_function = NULL, reporter = "silent")
+    progress <- tar_progress()
+    expect_equal(
+      progress$progress,
+      ifelse(progress$name == "z", "completed", "skipped")
+    )
     tar_destroy()
   }
 })

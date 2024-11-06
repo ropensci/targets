@@ -52,9 +52,8 @@ to identify a single object in the CAS system.
 At least one of \code{exists} or \code{list} must not be \code{NULL}.
 If both are not \code{NULL}, then only \code{list} is used.
 
-The \code{exists} function should check if there is an object at \code{key} in
-the CAS system. See the source code of \code{\link[=tar_cas_e]{tar_cas_e()}}
-for an example of how this can work for a local file system CAS.
+The \code{exists} function should check if there is a single object at
+a single \code{key} in the CAS system.
 
 See the "Repository functions" section for more details.}
 
@@ -196,7 +195,7 @@ The \code{\link[=tar_repository_cas_local]{tar_repository_cas_local()}} function
 CAS system based on a local folder on disk.
 It uses \code{\link[=tar_cas_u]{tar_cas_u()}} for uploads,
 \code{\link[=tar_cas_d]{tar_cas_d()}} for downloads, and
-\code{\link[=tar_cas_e]{tar_cas_e()}} for existence.
+\code{\link[=tar_cas_l]{tar_cas_l()}} for listing keys.
 }
 
 \section{Repository functions}{
@@ -260,6 +259,8 @@ tar_script({
     download = function(key, path) {
       file.copy(file.path("cas", key), path)
     },
+    # 'exists' is optional if 'list' is given, but both
+    # are included here anyway for demonstration purposes:
     exists = function(key) {
       file.exists(file.path("cas", key))
     },

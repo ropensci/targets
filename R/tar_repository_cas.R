@@ -74,7 +74,7 @@
 #'   CAS system based on a local folder on disk.
 #'   It uses [tar_cas_u()] for uploads,
 #'   [tar_cas_d()] for downloads, and
-#'   [tar_cas_e()] for existence.
+#'   [tar_cas_l()] for listing keys.
 #' @section Repository functions:
 #'   In [tar_repository_cas()], functions `upload`, `download`,
 #'   `exists`, and `keys` must be completely pure and self-sufficient.
@@ -150,9 +150,8 @@
 #'   At least one of `exists` or `list` must not be `NULL`.
 #'   If both are not `NULL`, then only `list` is used.
 #'
-#'   The `exists` function should check if there is an object at `key` in
-#'   the CAS system. See the source code of [tar_cas_e()]
-#'   for an example of how this can work for a local file system CAS.
+#'   The `exists` function should check if there is a single object at
+#'   a single `key` in the CAS system.
 #'
 #'   See the "Repository functions" section for more details.
 #' @param list Either `NULL` or a function with a single
@@ -236,6 +235,8 @@
 #'     download = function(key, path) {
 #'       file.copy(file.path("cas", key), path)
 #'     },
+#'     # 'exists' is optional if 'list' is given, but both
+#'     # are included here anyway for demonstration purposes:
 #'     exists = function(key) {
 #'       file.exists(file.path("cas", key))
 #'     },
@@ -276,10 +277,12 @@ tar_repository_cas <- function(
 ) {
   tar_assert_function(upload)
   tar_assert_function(download)
-  tar_assert_function(exists)
   tar_assert_function_arguments(upload, c("key", "path"))
   tar_assert_function_arguments(download, c("key", "path"))
-  tar_assert_function_arguments(exists, "key")
+  if (!is.null(exists)) {
+    tar_assert_function(exists)
+    tar_assert_function_arguments(exists, "key")
+  }
   list_function <- environment()$list
   if (!is.null(list_function)) {
     tar_assert_function_arguments(list_function, "keys")

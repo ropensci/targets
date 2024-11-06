@@ -56,7 +56,7 @@ tar_repository_cas_local <- function(
   tar_repository_cas(
     upload = function(key, path) targets::tar_cas_u(cas, key, path),
     download = function(key, path) targets::tar_cas_d(cas, key, path),
-    exists = function(key) targets::tar_cas_e(cas, key),
+    list = function(keys) targets::tar_cas_l(cas, keys),
     consistent = consistent,
     substitute = list(cas = path)
   )
@@ -94,34 +94,19 @@ tar_cas_d <- function(cas, key, path) {
   file_copy(file.path(cas, key), path)
 }
 
-#' @title Existence check in local CAS.
+#' @title List keys in local CAS.
 #' @export
 #' @keywords internal
 #' @description For internal use only.
 #' @details The short function name helps reduce the size of the
 #'   [tar_repository_cas()] format string and save space in the metadata.
-#' @details [tar_cas_e()] uses an in-memory cache
-#'   in a package internal environment to maintain a list of keys that
-#'   exists. This avoids expensive one-time lookups to the file system
-#'   during [tar_make()].
-#' @return `TRUE` if the key exists in the CAS system, `FALSE` otherwise.
+#' @return Character vector of keys (metadata hashes) found in the CAS system.
 #' @inheritParams tar_cas_u
-tar_cas_e <- function(cas, key) {
+#' @param keys Character vector of keys in the metadata hashes
+#'   (`tar_meta()$data`). Used to restrict the output of the return value
+#'   to avoid listing all the potentially millions of files in the
+#'   CAS system.
+tar_cas_l <- function(cas, keys) {
   cas <- cas %|||% path_cas_dir(tar_runtime$store)
-  if (is.null(tar_repository_cas_local_cache[[cas]])) {
-    keys <- list.files(cas)
-    data <- rep(TRUE, length(keys))
-    names(data) <- keys
-    tar_repository_cas_local_cache[[cas]] <- list2env(as.list(data))
-  }
-  if (isTRUE(tar_repository_cas_local_cache[[cas]][[key]])) {
-    return(TRUE)
-  }
-  out <- file.exists(file.path(cas, key))
-  if (out) {
-    tar_repository_cas_local_cache[[cas]][[key]] <- out
-  }
-  out
+  keys[file.exists(file.path(cas, keys))]
 }
-
-tar_repository_cas_local_cache <- new.env(parent = emptyenv(), hash = TRUE)

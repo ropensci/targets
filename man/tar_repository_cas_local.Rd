@@ -120,7 +120,7 @@ The \code{\link[=tar_repository_cas_local]{tar_repository_cas_local()}} function
 CAS system based on a local folder on disk.
 It uses \code{\link[=tar_cas_u]{tar_cas_u()}} for uploads,
 \code{\link[=tar_cas_d]{tar_cas_d()}} for downloads, and
-\code{\link[=tar_cas_e]{tar_cas_e()}} for existence.
+\code{\link[=tar_cas_l]{tar_cas_l()}} for listing keys.
 }
 
 \examples{
