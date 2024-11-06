@@ -8,7 +8,7 @@
 tar_repository_cas(
   upload,
   download,
-  exists,
+  exists = NULL,
   list = NULL,
   consistent = FALSE,
   substitute = base::list()
@@ -44,16 +44,26 @@ system. If the CAS system is a local file system, for example,
 
 See the "Repository functions" section for more details.}
 
-\item{exists}{A function with a single argument \code{key},
-where \code{key} is a single character string (\code{length(key)} is 1).
-This function should check if there is an object at \code{key} in
+\item{exists}{Either \code{NULL} or a function with a
+single argument \code{key},
+where \code{key} is a single character string (\code{length(key)} is 1)
+to identify a single object in the CAS system.
+
+At least one of \code{exists} or \code{list} must not be \code{NULL}.
+If both are not \code{NULL}, then only \code{list} is used.
+
+The \code{exists} function should check if there is an object at \code{key} in
 the CAS system. See the source code of \code{\link[=tar_cas_e]{tar_cas_e()}}
 for an example of how this can work for a local file system CAS.
 
 See the "Repository functions" section for more details.}
 
-\item{list}{Either \code{NULL} or an optional function with a single
+\item{list}{Either \code{NULL} or a function with a single
 argument named \code{keys}.
+
+At least one of \code{exists} or \code{list} must not be \code{NULL}.
+If both are not \code{NULL}, then only \code{list} is used.
+
 The \code{list} function increases efficiency by reducing repeated calls
 to the \code{exists} function (see above).
 The \code{list} function should return a character vector of keys that

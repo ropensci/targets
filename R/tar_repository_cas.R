@@ -142,15 +142,25 @@
 #'   (e.g. please avoid `file.rename()`).
 #'
 #'   See the "Repository functions" section for more details.
-#' @param exists A function with a single argument `key`,
-#'   where `key` is a single character string (`length(key)` is 1).
-#'   This function should check if there is an object at `key` in
+#' @param exists Either `NULL` or a function with a
+#'   single argument `key`,
+#'   where `key` is a single character string (`length(key)` is 1)
+#'   to identify a single object in the CAS system.
+#'
+#'   At least one of `exists` or `list` must not be `NULL`.
+#'   If both are not `NULL`, then only `list` is used.
+#'
+#'   The `exists` function should check if there is an object at `key` in
 #'   the CAS system. See the source code of [tar_cas_e()]
 #'   for an example of how this can work for a local file system CAS.
 #'
 #'   See the "Repository functions" section for more details.
-#' @param list Either `NULL` or an optional function with a single
+#' @param list Either `NULL` or a function with a single
 #'   argument named `keys`.
+#'
+#'   At least one of `exists` or `list` must not be `NULL`.
+#'   If both are not `NULL`, then only `list` is used.
+#'
 #'   The `list` function increases efficiency by reducing repeated calls
 #'   to the `exists` function (see above).
 #'   The `list` function should return a character vector of keys that
@@ -259,7 +269,7 @@
 tar_repository_cas <- function(
   upload,
   download,
-  exists,
+  exists = NULL,
   list = NULL,
   consistent = FALSE,
   substitute = base::list()
@@ -277,12 +287,29 @@ tar_repository_cas <- function(
   tar_assert_scalar(consistent)
   tar_assert_lgl(consistent)
   tar_assert_none_na(consistent)
+  tar_assert_true(
+    !is.null(list_function) || !is.null(exists),
+    msg = paste(
+      "In tar_repository_cas(), at least one of 'exists' or 'list'",
+      "must not be NULL."
+    )
+  )
+  exists_field <- if_any(
+    is.null(exists) || !is.null(list_function),
+    tar_repository_cas_field("exists", NULL),
+    tar_repository_cas_field("exists", tar_sub_body(exists, substitute))
+  )
+  list_field <- if_any(
+    is.null(list_function),
+    tar_repository_cas_field("list", NULL),
+    tar_repository_cas_field("list", tar_sub_body(list_function, substitute))
+  )
   paste(
     "repository_cas",
     tar_repository_cas_field("upload", tar_sub_body(upload, substitute)),
     tar_repository_cas_field("download", tar_sub_body(download, substitute)),
-    tar_repository_cas_field("exists", tar_sub_body(exists, substitute)),
-    tar_repository_cas_field("list", tar_sub_body(list_function, substitute)),
+    exists_field,
+    list_field,
     tar_repository_cas_field("consistent", consistent),
     sep = "&"
   )

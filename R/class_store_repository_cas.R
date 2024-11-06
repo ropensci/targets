@@ -104,15 +104,20 @@ store_delete_objects.tar_repository_cas <- function(
 tar_repository_cas_lookup <- function(store) {
   meta <- .subset2(tar_runtime, "meta")
   lookup_table <- .subset2(meta, "repository_cas_lookup_table")
-  repository <- .subset2(.subset2(store, "methods_repository"), "repository")
+  methods <- .subset2(store, "methods_repository")
+  repository <- .subset2(methods, "repository")
   lookup <- lookup_get(lookup_table, repository)
   if (is.environment(lookup)) {
     return(lookup)
   }
+  list_method <- .subset2(methods, "list")
+  if (all(list_method == "NULL")) {
+    return(lookup_new())
+  }
   keys_meta <- as.character(lookup)
   keys_cas <- store_repository_cas_call_method(
     store = store,
-    text = store$methods_repository$list,
+    text = list_method,
     args = list(keys = keys_meta)
   )
   lookup <- lookup_new()
