@@ -21,7 +21,8 @@ meta_class <- R6::R6Class(
     database = NULL,
     depends = NULL,
     store = NULL,
-    repository_key_lookup = NULL,
+    repository_cas_hashes = NULL,
+    repository_cas_lookup_table = NULL,
     initialize = function(
       database = NULL,
       depends = NULL,
@@ -120,7 +121,7 @@ meta_class <- R6::R6Class(
     },
     preprocess = function(write = FALSE) {
       data <- self$database$read_condensed_data()
-      self$preset_repository_key_lookup(data)
+      self$update_repository_cas_lookup_table(data)
       self$database$preprocess(data = data, write = write)
       tar_runtime$meta <- self
     },
@@ -129,13 +130,10 @@ meta_class <- R6::R6Class(
         self$preprocess(write = write)
       }
     },
-    preset_repository_key_lookup = function(data) {
+    update_repository_cas_lookup_table = function(data) {
       data <- data[!is.na(data$repository), c("data", "repository")]
-      self$repository_key_lookup <- list2env(
-        split(x = data$data, f = data$repository),
-        parent = emptyenv(),
-        hash = TRUE
-      )
+      self$repository_cas_hashes <- split(x = data$data, f = data$repository)
+      self$repository_cas_lookup_table <- lookup_table_new()
     },
     set_repository_hash_table = function(repository, data) {
       self$repository_key_lookup[[repository]] <- list2env(

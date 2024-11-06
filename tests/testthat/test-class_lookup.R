@@ -5,13 +5,16 @@ tar_test("class lookup", {
   expect_equal(sort(lookup_list(lookup)), sort(c(letters, LETTERS)))
   for (x in letters) {
     expect_true(lookup_exists(lookup, x))
+    expect_false(lookup_missing(lookup, x))
     expect_true(lookup_true(lookup, x))
   }
   for (x in LETTERS) {
     expect_true(lookup_exists(lookup, x))
+    expect_false(lookup_missing(lookup, x))
     expect_false(lookup_true(lookup, x))
   }
   expect_false(lookup_exists(lookup, "abc"))
+  expect_true(lookup_missing(lookup, "abc"))
   lookup_set(lookup, "abc", FALSE)
   expect_true(lookup_exists(lookup, "abc"))
   expect_false(lookup_true(lookup, "abc"))
@@ -22,6 +25,7 @@ tar_test("class lookup", {
 
 tar_test("class lookup methods on NULL objects", {
   expect_false(lookup_exists(NULL, "a"))
+  expect_true(lookup_missing(NULL, "a"))
   expect_null(lookup_true(NULL, "a"))
   expect_equal(lookup_list(NULL), character(0L))
 })

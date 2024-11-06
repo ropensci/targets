@@ -61,13 +61,30 @@ store_read_object.tar_repository_cas <- function(store) {
   store_convert_object(store, store_read_path(store, scratch))
 }
 
+tar_repository_cas_lookup <- function(store) {
+  meta <- .subset2(tar_runtime, "meta")
+  lookup_table <- .subset2(meta, "repository_cas_lookup_table")
+  repository <- .subset2(.subset2(store, "methods_repository"), "repository")
+  if (lookup_table_exists_category(lookup_table, repository)) {
+    return(lookup_table_get_lookup(lookup_table, repository)) 
+  }
+  
+  browser()
+  
+}
+
 #' @export
 store_has_correct_hash.tar_repository_cas <- function(store) {
-  repository <- .subset2(.subset2(store, "methods_repository"), "repository")
-  meta <- .subset2(tar_runtime, "meta")
-  lookups <- .subset2(meta, "repository_key_lookup")
-  lookup <- .subset2(lookups, repository)
-  if (!is.environment(lookup)) {
+  
+  
+  
+  lookup <- tar_repository_cas_lookup(store)
+  
+  
+  if (lookup_table_missing_category(lookup_table, category = repository)) {
+    
+    browser()
+    
     keys_meta <- as.character(lookup)
     keys_cas <- store_repository_cas_call_method(
       store = store,

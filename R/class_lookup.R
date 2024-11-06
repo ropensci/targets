@@ -6,7 +6,11 @@ lookup_exists <- function(lookup, name) {
   !is.null(.subset2(lookup, name))
 }
 
-lookup_true <- function(lookup, name) {
+lookup_missing <- function(lookup, name) {
+  is.null(.subset2(lookup, name))
+}
+
+lookup_get <- function(lookup, name) {
   .subset2(lookup, name)
 }
 
@@ -22,5 +26,4 @@ lookup_set <- function(lookup, names, value) {
 
 lookup_validate <- function(lookup) {
   tar_assert_envir(lookup)
-  tar_assert_true(is.logical(unlist(as.list(lookup))))
 }
