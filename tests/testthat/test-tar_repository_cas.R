@@ -122,7 +122,10 @@ tar_test("CAS repository works", {
       exists = function(key) {
         file.exists(file.path("cas", key))
       },
-      consistent = TRUE
+      list = function(keys) {
+        keys[file.exists(file.path("cas", keys))]
+      },
+      consistent = FALSE
     )
     write_file <- function(object) {
       writeLines(as.character(object), "file.txt")
@@ -170,7 +173,10 @@ tar_test("CAS repository works with transient memory and files", {
       exists = function(key) {
         file.exists(file.path("cas", key))
       },
-      consistent = TRUE
+      list = function(keys) {
+        keys[file.exists(file.path("cas", keys))]
+      },
+      consistent = FALSE
     )
     list(
       tar_target(x, 1L, repository = repository),
@@ -232,7 +238,10 @@ tar_test("CAS repository works with custom envvars", {
       exists = function(key) {
         file.exists(file.path("cas", key))
       },
-      consistent = TRUE
+      list = function(keys) {
+        keys[file.exists(file.path("cas", keys))]
+      },
+      consistent = FALSE
     )
     resources <- tar_resources(
       repository_cas = tar_resources_repository_cas(
@@ -276,7 +285,10 @@ tar_test("custom format + CAS repository", {
       exists = function(key) {
         file.exists(file.path("cas", key))
       },
-      consistent = TRUE
+      list = function(keys) {
+        keys[file.exists(file.path("cas", keys))]
+      },
+      consistent = FALSE
     )
     write_file <- function(object) {
       writeLines(as.character(object), "file.txt")
@@ -309,7 +321,10 @@ tar_test("revert and appear up to date", {
       exists = function(key) {
         file.exists(file.path("cas", key))
       },
-      consistent = TRUE
+      list = function(keys) {
+        keys[file.exists(file.path("cas", keys))]
+      },
+      consistent = FALSE
     )
     write_file <- function(object) {
       writeLines(as.character(object), "file.txt")
@@ -338,7 +353,10 @@ tar_test("revert and appear up to date", {
       exists = function(key) {
         file.exists(file.path("cas", key))
       },
-      consistent = TRUE
+      list = function(keys) {
+        keys[file.exists(file.path("cas", keys))]
+      },
+      consistent = FALSE
     )
     write_file <- function(object) {
       writeLines(as.character(object), "file.txt")
@@ -366,7 +384,10 @@ tar_test("revert and appear up to date", {
       exists = function(key) {
         file.exists(file.path("cas", key))
       },
-      consistent = TRUE
+      list = function(keys) {
+        keys[file.exists(file.path("cas", keys))]
+      },
+      consistent = FALSE
     )
     write_file <- function(object) {
       writeLines(as.character(object), "file.txt")
