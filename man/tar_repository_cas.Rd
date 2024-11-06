@@ -44,27 +44,22 @@ system. If the CAS system is a local file system, for example,
 
 See the "Repository functions" section for more details.}
 
-\item{exists}{Either \code{NULL} or a function with a
-single argument \code{key},
+\item{exists}{A function with a single argument \code{key},
 where \code{key} is a single character string (\code{length(key)} is 1)
 to identify a single object in the CAS system.
-
-At least one of \code{exists} or \code{list} must not be \code{NULL}.
-If both are not \code{NULL}, then only \code{list} is used.
 
 The \code{exists} function should check if there is a single object at
 a single \code{key} in the CAS system.
 
 See the "Repository functions" section for more details.}
 
-\item{list}{Either \code{NULL} or a function with a single
+\item{list}{Either \code{NULL} or an optional function with a single
 argument named \code{keys}.
 
-At least one of \code{exists} or \code{list} must not be \code{NULL}.
-If both are not \code{NULL}, then only \code{list} is used.
-
 The \code{list} function increases efficiency by reducing repeated calls
-to the \code{exists} function (see above).
+to the \code{exists} function (see above) or entirely avoiding them
+if \code{consistent} is `TRUE.
+
 The \code{list} function should return a character vector of keys that
 already exist in the CAS system.
 The \code{keys} argument of \code{list} is a character vector of
@@ -259,14 +254,13 @@ tar_script({
     download = function(key, path) {
       file.copy(file.path("cas", key), path)
     },
-    # 'exists' is optional if 'list' is given, but both
-    # are included here anyway for demonstration purposes:
     exists = function(key) {
       file.exists(file.path("cas", key))
     },
     list = function(keys) {
       keys[file.exists(file.path("cas", keys))]
-    }
+    },
+    consistent = FALSE
   )
   write_file <- function(object) {
     writeLines(as.character(object), "file.txt")

@@ -49,7 +49,6 @@ store_upload_object_cas <- function(store, path) {
       text = store$methods_repository$upload,
       args = list(key = key, path = path)
     )
-    lookup_set(lookup = lookup, names = key, value = TRUE)
   }
 }
 
@@ -69,16 +68,16 @@ store_read_object.tar_repository_cas <- function(store) {
 #' @export
 store_has_correct_hash.tar_repository_cas <- function(store) {
   lookup <- tar_repository_cas_lookup(store)
-  key <- store$file$hash
-  if (lookup_missing(lookup, name = key)) {
-    exists <- store_repository_cas_call_method(
+  key <- .subset2(.subset2(store, "file"), "hash")
+  if_any(
+    lookup_missing(lookup = lookup, name = key),
+    store_repository_cas_call_method(
       store = store,
       text = store$methods_repository$exists,
       args = list(key = key)
-    )
-    lookup_set(lookup, name = key, value = exists)
-  }
-  lookup_get(lookup = lookup, name = key)
+    ),
+    lookup_get(lookup = lookup, name = key)
+  )
 }
 
 #' @export

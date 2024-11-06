@@ -142,26 +142,21 @@
 #'   (e.g. please avoid `file.rename()`).
 #'
 #'   See the "Repository functions" section for more details.
-#' @param exists Either `NULL` or a function with a
-#'   single argument `key`,
+#' @param exists A function with a single argument `key`,
 #'   where `key` is a single character string (`length(key)` is 1)
 #'   to identify a single object in the CAS system.
-#'
-#'   At least one of `exists` or `list` must not be `NULL`.
-#'   If both are not `NULL`, then only `list` is used.
 #'
 #'   The `exists` function should check if there is a single object at
 #'   a single `key` in the CAS system.
 #'
 #'   See the "Repository functions" section for more details.
-#' @param list Either `NULL` or a function with a single
+#' @param list Either `NULL` or an optional function with a single
 #'   argument named `keys`.
 #'
-#'   At least one of `exists` or `list` must not be `NULL`.
-#'   If both are not `NULL`, then only `list` is used.
-#'
 #'   The `list` function increases efficiency by reducing repeated calls
-#'   to the `exists` function (see above).
+#'   to the `exists` function (see above) or entirely avoiding them
+#'   if `consistent` is `TRUE.
+#'
 #'   The `list` function should return a character vector of keys that
 #'   already exist in the CAS system.
 #'   The `keys` argument of `list` is a character vector of
@@ -235,14 +230,13 @@
 #'     download = function(key, path) {
 #'       file.copy(file.path("cas", key), path)
 #'     },
-#'     # 'exists' is optional if 'list' is given, but both
-#'     # are included here anyway for demonstration purposes:
 #'     exists = function(key) {
 #'       file.exists(file.path("cas", key))
 #'     },
 #'     list = function(keys) {
 #'       keys[file.exists(file.path("cas", keys))]
-#'     }
+#'     },
+#'     consistent = FALSE
 #'   )
 #'   write_file <- function(object) {
 #'     writeLines(as.character(object), "file.txt")
@@ -277,12 +271,10 @@ tar_repository_cas <- function(
 ) {
   tar_assert_function(upload)
   tar_assert_function(download)
+  tar_assert_function(exists)
   tar_assert_function_arguments(upload, c("key", "path"))
   tar_assert_function_arguments(download, c("key", "path"))
-  if (!is.null(exists)) {
-    tar_assert_function(exists)
-    tar_assert_function_arguments(exists, "key")
-  }
+  tar_assert_function_arguments(exists, "key")
   list_function <- environment()$list
   if (!is.null(list_function)) {
     tar_assert_function_arguments(list_function, "keys")
@@ -297,11 +289,6 @@ tar_repository_cas <- function(
       "must not be NULL."
     )
   )
-  exists_field <- if_any(
-    is.null(exists) || !is.null(list_function),
-    tar_repository_cas_field("exists", NULL),
-    tar_repository_cas_field("exists", tar_sub_body(exists, substitute))
-  )
   list_field <- if_any(
     is.null(list_function),
     tar_repository_cas_field("list", NULL),
@@ -311,7 +298,7 @@ tar_repository_cas <- function(
     "repository_cas",
     tar_repository_cas_field("upload", tar_sub_body(upload, substitute)),
     tar_repository_cas_field("download", tar_sub_body(download, substitute)),
-    exists_field,
+    tar_repository_cas_field("exists", tar_sub_body(exists, substitute)),
     list_field,
     tar_repository_cas_field("consistent", consistent),
     sep = "&"

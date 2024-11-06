@@ -47,15 +47,13 @@ tar_repository_cas_local <- function(
   path = NULL,
   consistent = FALSE
 ) {
-  tar_assert_scalar(path %|||% "x")
-  tar_assert_chr(path %|||% "x")
-  tar_assert_nzchar(path %|||% "x")
-  tar_assert_scalar(consistent)
-  tar_assert_lgl(consistent)
-  tar_assert_none_na(consistent)
+  tar_assert_scalar(path %|||% "cas")
+  tar_assert_chr(path %|||% "cas")
+  tar_assert_nzchar(path %|||% "cas")
   tar_repository_cas(
     upload = function(key, path) targets::tar_cas_u(cas, key, path),
     download = function(key, path) targets::tar_cas_d(cas, key, path),
+    exists = function(keys) targets::tar_cas_e(cas, keys),
     list = function(keys) targets::tar_cas_l(cas, keys),
     consistent = consistent,
     substitute = list(cas = path)
@@ -92,6 +90,19 @@ tar_cas_d <- function(cas, key, path) {
   cas <- cas %|||% path_cas_dir(tar_runtime$store)
   # Defined in R/utils_files.R. Works on both files and directories.
   file_copy(file.path(cas, key), path)
+}
+
+#' @title Check existence in local CAS.
+#' @export
+#' @keywords internal
+#' @description For internal use only.
+#' @details The short function name helps reduce the size of the
+#'   [tar_repository_cas()] format string and save space in the metadata.
+#' @return Character vector of keys (metadata hashes) found in the CAS system.
+#' @inheritParams tar_cas_u
+tar_cas_e <- function(cas, key) {
+  cas <- cas %|||% path_cas_dir(tar_runtime$store)
+  file.exists(file.path(cas, key))
 }
 
 #' @title List keys in local CAS.
