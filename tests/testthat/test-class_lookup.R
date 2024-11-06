@@ -1,5 +1,8 @@
 tar_test("class lookup", {
-  lookup <- lookup_init(true = letters, false = LETTERS)
+  lookup <- lookup_init()
+  lookup_set(lookup, names = letters, value = TRUE)
+  lookup_set(lookup, names = LETTERS, value = FALSE)
+  expect_equal(sort(lookup_list(lookup)), sort(c(letters, LETTERS)))
   for (x in letters) {
     expect_true(lookup_exists(lookup, x))
     expect_true(lookup_true(lookup, x))
