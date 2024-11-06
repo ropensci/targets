@@ -76,7 +76,7 @@ store_has_correct_hash.tar_repository_cas <- function(store) {
       text = store$methods_repository$exists,
       args = list(key = key)
     )
-    lookup_set(lookup = lookup, name = key, value = value)
+    lookup_set(lookup = lookup, names = key, value = value)
   }
   lookup_get(lookup = lookup, name = key)
 }
