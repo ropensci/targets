@@ -164,7 +164,7 @@
 #'   See the source code of [tar_cas_l()]
 #'   for an example of how this can work for a local file system CAS.
 #'
-#'   See the "Repository functions" section for more details. 
+#'   See the "Repository functions" section for more details.
 #' @param consistent Logical. Set to `TRUE` if the storage platform is
 #'   strongly read-after-write consistent. Set to `FALSE` if the platform
 #'   is not necessarily strongly read-after-write consistent.

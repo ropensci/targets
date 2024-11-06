@@ -107,7 +107,7 @@ tar_repository_cas_lookup <- function(store) {
   repository <- .subset2(.subset2(store, "methods_repository"), "repository")
   lookup <- lookup_get(lookup_table, repository)
   if (is.environment(lookup)) {
-    return(lookup) 
+    return(lookup)
   }
   keys_meta <- as.character(lookup)
   keys_cas <- store_repository_cas_call_method(
