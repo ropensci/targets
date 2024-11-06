@@ -147,8 +147,7 @@ target_bootstrap.tar_pattern <- function(
   name <- target$settings$name
   children <- record$children
   target$junction <- junction_init(nexus = name, splits = children)
-  branches <- pattern_produce_branches(target, pipeline)
-  lapply(branches, pipeline_set_target, pipeline = pipeline)
+  pattern_set_branches(target, pipeline)
   map(
     children,
     ~target_bootstrap(
@@ -235,12 +234,31 @@ pattern_produce_branches <- function(target, pipeline) {
   )
 }
 
+
+pattern_set_branches <- function(target, pipeline) {
+  command <- target$command
+  settings <- target$settings
+  cue <- target$cue
+  specs <- junction_transpose(target$junction)
+  for (spec in specs) {
+    branch <- branch_init(
+      command = command,
+      settings = settings,
+      cue = cue,
+      deps = spec$deps,
+      child = spec$split,
+      index = spec$index
+    )
+    pipeline_set_target(pipeline, branch)
+  }
+}
+
 pattern_insert_branches <- function(target, pipeline, scheduler) {
-  branches <- pattern_produce_branches(target, pipeline)
-  lapply(branches, pipeline_set_target, pipeline = pipeline)
   pattern_engraph_branches(target, pipeline, scheduler)
-  lapply(branches, scheduler$progress$assign_queued)
   pattern_prepend_branches(target, scheduler)
+  pattern_set_branches(target, pipeline)
+  lapply(target_get_children(target), scheduler$progress$assign_queued)
+  NULL
 }
 
 pattern_requeue_downstream_branching <- function(

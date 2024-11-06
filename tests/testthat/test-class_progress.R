@@ -32,14 +32,14 @@ tar_test("progress$errored", {
 
 tar_test("progress$assign_queued()", {
   progress <- progress_init()
-  progress$assign_queued(target_init("x", 1))
+  progress$assign_queued("x")
   expect_equal(counter_get_names(progress$completed), character(0))
   expect_equal(counter_get_names(progress$queued), "x")
 })
 
 tar_test("progress$assign_dispatched()", {
   progress <- progress_init()
-  progress$assign_queued(target_init("x", 1))
+  progress$assign_queued("x")
   progress$assign_dispatched(target_init("x", 1))
   expect_equal(counter_get_names(progress$queued), character(0))
   expect_equal(counter_get_names(progress$dispatched), "x")
@@ -47,7 +47,7 @@ tar_test("progress$assign_dispatched()", {
 
 tar_test("progress$assign_skipped()", {
   progress <- progress_init()
-  progress$assign_queued(target_init("x", 1))
+  progress$assign_queued("x")
   progress$assign_skipped(target_init("x", 1))
   expect_equal(counter_get_names(progress$queued), character(0))
   expect_equal(counter_get_names(progress$skipped), "x")
@@ -148,7 +148,7 @@ tar_test("progress$register_errored()", {
 tar_test("progress$any_remaining() while queued", {
   progress <- progress_init()
   expect_false(progress$any_remaining())
-  progress$assign_queued(target_init("x", 1))
+  progress$assign_queued("x")
   expect_true(progress$any_remaining())
 })
 
