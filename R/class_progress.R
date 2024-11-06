@@ -83,8 +83,8 @@ progress_class <- R6::R6Class(
       self$canceled <- canceled
       self$trimmed <- trimmed
     },
-    assign_dequeued = function(target) {
-      counter_del_name(self$queued, target_get_name(target))
+    assign_dequeued = function(name) {
+      counter_del_name(self$queued, name)
     },
     assign_queued = function(name) {
       counter_set_name(self$queued, name)

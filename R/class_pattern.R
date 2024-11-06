@@ -317,7 +317,7 @@ pattern_begin_initial <- function(target, pipeline, scheduler, meta) {
 }
 
 pattern_begin_final <- function(target, pipeline, scheduler, meta) {
-  scheduler$progress$assign_dequeued(target)
+  scheduler$progress$assign_dequeued(target_get_name(target))
   pattern_requeue_downstream_nonbranching(target, pipeline, scheduler)
 }
 
