@@ -40,7 +40,7 @@ tar_test("progress$assign_queued()", {
 tar_test("progress$assign_dispatched()", {
   progress <- progress_init()
   progress$assign_queued("x")
-  progress$assign_dispatched(target_init("x", 1))
+  progress$assign_dispatched("x")
   expect_equal(counter_get_names(progress$queued), character(0))
   expect_equal(counter_get_names(progress$dispatched), "x")
 })
@@ -48,31 +48,31 @@ tar_test("progress$assign_dispatched()", {
 tar_test("progress$assign_skipped()", {
   progress <- progress_init()
   progress$assign_queued("x")
-  progress$assign_skipped(target_init("x", 1))
+  progress$assign_skipped("x")
   expect_equal(counter_get_names(progress$queued), character(0))
   expect_equal(counter_get_names(progress$skipped), "x")
 })
 
 tar_test("progress$assign_completed()", {
   progress <- progress_init()
-  progress$assign_dispatched(target_init("x", 1))
-  progress$assign_completed(target_init("x", 1))
+  progress$assign_dispatched("x")
+  progress$assign_completed("x")
   expect_equal(counter_get_names(progress$dispatched), character(0))
   expect_equal(counter_get_names(progress$completed), "x")
 })
 
 tar_test("progress$assign_canceled()", {
   progress <- progress_init()
-  progress$assign_dispatched(target_init("x", 1))
-  progress$assign_canceled(target_init("x", 1))
+  progress$assign_dispatched("x")
+  progress$assign_canceled("x")
   expect_equal(counter_get_names(progress$dispatched), character(0))
   expect_equal(counter_get_names(progress$canceled), "x")
 })
 
 tar_test("progress$assign_errored()", {
   progress <- progress_init()
-  progress$assign_dispatched(target_init("x", 1))
-  progress$assign_errored(target_init("x", 1))
+  progress$assign_dispatched("x")
+  progress$assign_errored("x")
   expect_equal(counter_get_names(progress$dispatched), character(0))
   expect_equal(counter_get_names(progress$errored), "x")
 })
@@ -162,7 +162,7 @@ tar_test("progress$any_targets()", {
 tar_test("progress$any_remaining() while dispatched", {
   progress <- progress_init()
   expect_false(progress$any_remaining())
-  progress$assign_dispatched(target_init("x", 1))
+  progress$assign_dispatched("x")
   expect_true(progress$any_remaining())
 })
 

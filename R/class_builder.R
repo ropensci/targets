@@ -194,7 +194,7 @@ target_skip.tar_builder <- function(
   if_any(
     active,
     scheduler$progress$register_skipped(target),
-    scheduler$progress$assign_skipped(target)
+    scheduler$progress$assign_skipped(target_get_name(target))
   )
   scheduler$reporter$report_skipped(target, scheduler$progress)
 }
@@ -347,7 +347,7 @@ builder_unmarshal_subpipeline <- function(target) {
 
 builder_handle_warnings <- function(target, scheduler) {
   if (metrics_has_warnings(target$metrics)) {
-    scheduler$progress$assign_warned(target)
+    scheduler$progress$assign_warned(target_get_name(target))
   }
 }
 
