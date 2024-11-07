@@ -18,13 +18,13 @@ tar_test("target seed", {
   on.exit(tar_option_reset())
   out <- integer(0)
   tar_option_set(seed = 1L)
-  out[1] <- target_init(name = "x", expr = quote(a))$command$seed
-  out[2] <- target_init(name = "x", expr = quote(a))$command$seed
-  out[3] <- target_init(name = "y", expr = quote(a))$command$seed
+  out[1] <- target_init(name = "x", expr = quote(a))$seed
+  out[2] <- target_init(name = "x", expr = quote(a))$seed
+  out[3] <- target_init(name = "y", expr = quote(a))$seed
   tar_option_set(seed = 2L)
-  out[4] <- target_init(name = "y", expr = quote(a))$command$seed
+  out[4] <- target_init(name = "y", expr = quote(a))$seed
   tar_option_set(seed = NA)
-  out[5] <- target_init(name = "z", expr = quote(a))$command$seed
+  out[5] <- target_init(name = "z", expr = quote(a))$seed
   expect_equal(out[1], out[2])
   expect_false(out[1] == out[3])
   expect_false(out[3] == out[4])
