@@ -24,16 +24,17 @@ tar_test("inventory_gcp class", {
     )
   )
   store <- store_init(repository = "gcp", resources = resources)
+  file <- file_init()
   expect_equal(inventory$list_cache(), character(0L))
   expect_equal(inventory$downloads, 0L)
   expect_equal(inventory$misses, 0L)
   for (key in rev(file.path(prefix, c("w", "x", "y", "z")))) {
-    store$file$path <- store_produce_gcp_path(
+    file$path <- store_produce_gcp_path(
       store = store,
       name = basename(key),
       path_store = path_store_default()
     )
-    out <- inventory$get_cache(store)
+    out <- inventory$get_cache(store, file)
     expect_equal(inventory$misses, 1L)
     expect_equal(inventory$downloads, 1L)
     expect_equal(out, hash_object(head[[key]]$md5))
@@ -48,12 +49,12 @@ tar_test("inventory_gcp class", {
       )
     )
   }
-  store$file$path <- store_produce_gcp_path(
+  file$path <- store_produce_gcp_path(
     store = store,
     name = "nope",
     path_store = path_store_default()
   )
-  expect_null(inventory$get_cache(store))
+  expect_null(inventory$get_cache(store, file))
   expect_equal(inventory$downloads, 1L)
   expect_equal(inventory$misses, 2L)
 })

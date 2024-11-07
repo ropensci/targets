@@ -443,9 +443,11 @@ tar_test("inherits from tar_external", {
 })
 
 tar_test("store_row_path()", {
-  store <- tar_target(x, "x_value", format = "url")$store
-  store$file$path <- "path"
-  expect_equal(store_row_path(store), "path")
+  target <- tar_target(x, "x_value", format = "url")
+  store <- target$store
+  file <- target$file
+  file$path <- "path"
+  expect_equal(store_row_path(store, file), "path")
 })
 
 tar_test("store_path_from_record()", {
