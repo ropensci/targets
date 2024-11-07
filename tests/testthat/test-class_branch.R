@@ -8,8 +8,7 @@ tar_test("branch creation", {
     deps_parent = character(0L),
     deps_child = character(0L),
     settings = settings,
-    cue = cue,
-    index = 1L
+    cue = cue
   )
   expect_true(inherits(branch, "tar_branch"))
 })
@@ -24,10 +23,8 @@ tar_test("branch name vs parent name", {
     deps_parent = character(0L),
     deps_child = character(0L),
     settings = settings,
-    cue = cue,
-    index = 1L
+    cue = cue
   )
-  expect_silent(pedigree_validate(branch$pedigree))
   expect_equal(settings$name, "x")
   expect_equal(branch$settings$name, "x")
   expect_equal(branch$name, "x_1")
@@ -49,8 +46,7 @@ tar_test("branch priority", {
     deps_parent = character(0L),
     deps_child = character(0L),
     settings = settings,
-    cue = cue,
-    index = 1L
+    cue = cue
   )
   expect_equal(branch$settings$priority, 0.5)
 })
@@ -65,8 +61,7 @@ tar_test("branches are not branchable", {
     deps_parent = character(0L),
     deps_child = character(0L),
     settings = settings,
-    cue = cue,
-    index = 1L
+    cue = cue
   )
   expect_false(target_is_branchable(branch))
 })
@@ -81,8 +76,7 @@ tar_test("target_get_name()", {
     deps_parent = character(0L),
     deps_child = character(0L),
     settings = settings,
-    cue = cue,
-    index = 1L
+    cue = cue
   )
   expect_equal(settings$name, "x")
   expect_equal(target_get_name(branch), "y")
@@ -98,8 +92,7 @@ tar_test("target_get_parent(branch)", {
     deps_parent = character(0L),
     deps_child = character(0L),
     settings = settings,
-    cue = cue,
-    index = 1L
+    cue = cue
   )
   expect_equal(target_get_parent(branch), "x")
 })
@@ -171,8 +164,7 @@ tar_test("branch_validate()", {
     deps_parent = character(0L),
     deps_child = character(0L),
     settings = settings,
-    cue = cue,
-    index = 1L
+    cue = cue
   )
   expect_silent(target_validate(branch))
 })

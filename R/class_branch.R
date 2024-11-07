@@ -4,11 +4,9 @@ branch_init <- function(
   deps_parent = character(0L),
   deps_child = character(0L),
   settings = NULL,
-  cue = NULL,
-  index = integer(0L)
+  cue = NULL
 ) {
   deps <- setdiff(unique(c(deps_parent, deps_child)), settings$dimensions)
-  pedigree <- pedigree_new(settings$name, name, index)
   store <- settings_produce_store(settings)
   branch_new(
     name = name,
@@ -17,8 +15,7 @@ branch_init <- function(
     deps = deps,
     settings = settings,
     cue = cue,
-    store = store,
-    pedigree = pedigree
+    store = store
   )
 }
 
@@ -29,8 +26,7 @@ branch_new <- function(
   deps = NULL,
   settings = NULL,
   cue = NULL,
-  store = NULL,
-  pedigree = NULL
+  store = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$name <- name
@@ -40,7 +36,6 @@ branch_new <- function(
   out$settings <- settings
   out$cue <- cue
   out$store <- store
-  out$pedigree <- pedigree
   enclass(out, branch_s3_class)
 }
 
@@ -96,7 +91,6 @@ target_validate.tar_branch <- function(target) {
   tar_assert_scalar(target$seed)
   tar_assert_none_na(target$seed)
   tar_assert_chr(target$deps)
-  pedigree_validate(target$pedigree)
 }
 
 #' @export

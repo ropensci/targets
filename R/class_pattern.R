@@ -237,8 +237,7 @@ pattern_set_branches <- function(target, pipeline) {
       deps_parent = deps_parent,
       deps_child = .subset2(spec, "deps"),
       settings = settings,
-      cue = cue,
-      index = .subset2(spec, "index")
+      cue = cue
     )
     pipeline_set_target(pipeline, branch)
   }

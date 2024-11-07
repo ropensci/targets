@@ -145,7 +145,7 @@ stem_tar_assert_nonempty <- function(target) {
 stem_produce_buds <- function(target) {
   settings <- target$settings
   names <- target_get_children(target)
-  map(seq_along(names), ~bud_init(names[.x], settings, .x))
+  map(seq_along(names), ~bud_new(names[.x], settings, .x))
 }
 
 stem_insert_buds <- function(target, pipeline) {
