@@ -8,7 +8,6 @@ tar_test("branch$pedigree", {
     deps = character(0L),
     settings = settings,
     cue = cue,
-    value = NULL,
     index = 1L
   )
   expect_true(inherits(branch, "tar_branch"))
@@ -24,7 +23,6 @@ tar_test("branch$pedigree", {
     deps = character(0),
     settings = settings,
     cue = cue,
-    value = NULL,
     index = 1L
   )
   expect_silent(pedigree_validate(branch$pedigree))
@@ -46,7 +44,6 @@ tar_test("branch priority", {
     deps = character(0),
     settings = settings,
     cue = cue,
-    value = NULL,
     index = 1L
   )
   expect_equal(branch$settings$priority, 0.5)
@@ -62,7 +59,6 @@ tar_test("branches are not branchable", {
     deps = character(0),
     settings = settings,
     cue = cue,
-    value = NULL,
     index = 1L
   )
   expect_false(target_is_branchable(branch))
@@ -78,7 +74,6 @@ tar_test("target_get_name()", {
     deps = character(0),
     settings = settings,
     cue = cue,
-    value = NULL,
     index = 1L
   )
   expect_equal(settings$name, "x")
@@ -95,7 +90,6 @@ tar_test("target_get_parent(branch)", {
     deps = character(0),
     settings = settings,
     cue = cue,
-    value = NULL,
     index = 1L
   )
   expect_equal(target_get_parent(branch), "x")
@@ -168,7 +162,6 @@ tar_test("branch_validate()", {
     deps = character(0),
     settings = settings,
     cue = cue,
-    value = NULL,
     index = 1L
   )
   expect_silent(target_validate(branch))

@@ -4,7 +4,6 @@ branch_init <- function(
   deps = character(0),
   settings = NULL,
   cue = NULL,
-  value = NULL,
   index = integer(0)
 ) {
   command <- command_clone(command)
@@ -23,10 +22,7 @@ branch_init <- function(
     deps = deps,
     settings = settings,
     cue = cue,
-    value = value,
-    metrics = NULL,
     store = store,
-    subpipeline = NULL,
     pedigree = pedigree
   )
 }
@@ -38,10 +34,7 @@ branch_new <- function(
   deps = NULL,
   settings = NULL,
   cue = NULL,
-  value = NULL,
-  metrics = NULL,
   store = NULL,
-  subpipeline = NULL,
   pedigree = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
@@ -51,10 +44,7 @@ branch_new <- function(
   out$deps <- deps
   out$settings <- settings
   out$cue <- cue
-  out$value <- value
-  out$metrics <- metrics
   out$store <- store
-  out$subpipeline <- subpipeline
   out$pedigree <- pedigree
   enclass(out, branch_s3_class)
 }
@@ -105,7 +95,11 @@ target_restore_buds.tar_branch <- function(target, pipeline, scheduler, meta) {
 
 #' @export
 target_validate.tar_branch <- function(target) {
-  tar_assert_correct_fields(target, branch_new)
+  tar_assert_correct_fields(
+    target,
+    branch_new,
+    optional = c("value", "metrics", "subpipeline")
+  )
   NextMethod()
   command_validate(target$command)
   tar_assert_dbl(target$seed)

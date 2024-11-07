@@ -9,7 +9,6 @@ bud_init <- function(
   bud_new(
     name = name,
     settings = settings,
-    value = NULL,
     pedigree = pedigree_new(parent, name, index)
   )
 }
@@ -17,13 +16,11 @@ bud_init <- function(
 bud_new <- function(
   name = NULL,
   settings = NULL,
-  value = NULL,
   pedigree = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$name <- name
   out$settings <- settings
-  out$value <- value
   out$pedigree <- pedigree
   enclass(out, bud_s3_class)
 }
