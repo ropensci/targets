@@ -254,7 +254,8 @@ pattern_set_branches <- function(target, pipeline) {
   cue <- target$cue
   store <- target$store
   specs <- junction_transpose(target$junction)
-  for (spec in specs) {
+  for (index in seq_along(specs)) {
+    spec <- .subset2(specs, index)
     branch <- branch_init(
       name = .subset2(spec, "split"),
       command = command,
@@ -262,7 +263,8 @@ pattern_set_branches <- function(target, pipeline) {
       deps_child = .subset2(spec, "deps"),
       settings = settings,
       cue = cue,
-      store = store
+      store = store,
+      index = index
     )
     pipeline_set_target(pipeline, branch)
   }

@@ -5,7 +5,8 @@ branch_init <- function(
   deps_child = character(0L),
   settings = NULL,
   cue = NULL,
-  store = NULL
+  store = NULL,
+  index = NULL
 ) {
   deps <- setdiff(unique(c(deps_parent, deps_child)), settings$dimensions)
   branch_new(
@@ -16,7 +17,8 @@ branch_init <- function(
     settings = settings,
     cue = cue,
     store = store,
-    file = file_init()
+    file = file_init(),
+    index = index
   )
 }
 
@@ -28,7 +30,8 @@ branch_new <- function(
   settings = NULL,
   cue = NULL,
   store = NULL,
-  file = NULL
+  file = NULL,
+  index = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$name <- name
@@ -39,6 +42,7 @@ branch_new <- function(
   out$cue <- cue
   out$store <- store
   out$file <- file
+  out$index <- index
   enclass(out, branch_s3_class)
 }
 
@@ -96,6 +100,10 @@ target_validate.tar_branch <- function(target) {
   tar_assert_chr(target$deps)
   store_validate(target$store)
   file_validate(target$file)
+  tar_assert_int(target$index)
+  tar_assert_scalar(target$index)
+  tar_assert_finite(target$index)
+  tar_assert_ge(target$index, 1L)
 }
 
 #' @export
