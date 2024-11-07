@@ -10,7 +10,7 @@ store_hash_late.tar_repository_cas_file <- function(store, file) {
 
 #' @export
 store_upload_object.tar_repository_cas_file <- function(store, file) {
-  store_upload_object_cas(store, file)
+  store_upload_object_cas(store, file, file$path)
 }
 
 #' @export

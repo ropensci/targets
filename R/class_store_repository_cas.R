@@ -29,15 +29,11 @@ store_hash_late.tar_repository_cas <- function(store, file) {
 
 #' @export
 store_upload_object.tar_repository_cas <- function(store, file) {
-  store_upload_object_cas(store, file)
+  store_upload_object_cas(store, file, file$stage)
 }
 
-store_upload_object_cas <- function(store, file) {
-  
-  browser()
-  
-  path <- file$stage
-  on.exit(unlink(path, recursive = TRUE, force = TRUE))
+store_upload_object_cas <- function(store, file, path) {
+  on.exit(unlink(store$file$stage, recursive = TRUE, force = TRUE))
   tar_assert_scalar(
     path,
     msg = paste(
