@@ -229,7 +229,7 @@ pattern_set_branches <- function(target, pipeline) {
   deps_parent <- target$deps
   settings <- target$settings
   cue <- target$cue
-  store <- target$store
+  store <- settings_produce_store(settings)
   specs <- junction_transpose(target$junction)
   for (spec in specs) {
     branch <- branch_init(

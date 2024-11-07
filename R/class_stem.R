@@ -134,6 +134,8 @@ target_validate.tar_stem <- function(target) {
   tar_assert_scalar(target$seed)
   tar_assert_none_na(target$seed)
   tar_assert_chr(target$deps)
+  store_validate(target$store)
+  file_validate(target$file)
   if (!is.null(target$junction)) {
     junction_validate(target$junction)
   }
