@@ -89,26 +89,6 @@ settings_produce_store <- function(settings) {
   )
 }
 
-settings_clone <- function(settings) {
-  settings_new(
-    name = settings$name,
-    description = settings$description,
-    format = settings$format,
-    repository = settings$repository,
-    pattern = settings$pattern,
-    dimensions = settings$dimensions,
-    iteration = settings$iteration,
-    error = settings$error,
-    memory = settings$memory,
-    garbage_collection = settings$garbage_collection,
-    deployment = settings$deployment,
-    priority = settings$priority,
-    resources = settings$resources,
-    storage = settings$storage,
-    retrieval = settings$retrieval
-  )
-}
-
 settings_validate_pattern <- function(name, pattern, dimensions) {
   if (is.null(pattern)) {
     return()
