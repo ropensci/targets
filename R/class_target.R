@@ -22,7 +22,7 @@ target_init <- function(
 ) {
   seed <- tar_seed_create(name)
   deps <- deps <- deps %|||% deps_function(embody_expr(expr))
-  command <- command_init(expr, packages, library, seed, deps, string)
+  command <- command_init(expr, packages, library, deps, string)
   cue <- cue %|||% cue_init()
   if (any(grepl("^aws_", format))) {
     format <- gsub("^aws_", "", format)

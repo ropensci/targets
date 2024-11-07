@@ -2,14 +2,13 @@ command_init <- function(
   expr = expression(NULL),
   packages = character(0),
   library = NULL,
-  seed = 0L,
   deps = NULL,
   string = NULL
 ) {
   expr <- as.expression(expr)
   string <- string %|||% mask_pointers(tar_deparse_safe(expr))
   hash <- hash_object(string)
-  command_new(expr, packages, library, deps, seed, string, hash)
+  command_new(expr, packages, library, deps, string, hash)
 }
 
 command_new <- function(
@@ -17,7 +16,6 @@ command_new <- function(
   packages = NULL,
   library = NULL,
   deps = NULL,
-  seed = NULL,
   string = NULL,
   hash = NULL
 ) {
@@ -26,7 +24,6 @@ command_new <- function(
   out$packages <- packages
   out$library <- library
   out$deps <- deps
-  out$seed <- seed
   out$string <- string
   out$hash <- hash
   out
@@ -69,7 +66,6 @@ command_null <- command_new(
   expr = expression(NULL),
   packages = character(0),
   deps = character(0),
-  seed = 0L,
   string = "",
   hash = ""
 )
