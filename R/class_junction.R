@@ -30,7 +30,6 @@ junction_transpose <- function(junction) {
     replicate(length(splits), list(deps = character(0)), simplify = FALSE)
   for (index in seq_along(splits)) {
     out[[index]]$split <- splits[index]
-    out[[index]]$index <- index
   }
   out
 }
