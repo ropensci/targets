@@ -22,9 +22,10 @@
 tar_name <- function(default = "target") {
   tar_assert_chr(default)
   tar_assert_scalar(default)
-  if_any(
-    !is.null(tar_runtime$target),
-    target_get_name(tar_runtime$target),
-    as.character(default)
-  )
+  target <- .subset2(tar_runtime, "target")
+  if (is.null(target)) {
+    default
+  } else {
+    target_get_name(target)
+  }
 }
