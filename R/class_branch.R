@@ -15,7 +15,8 @@ branch_init <- function(
     deps = deps,
     settings = settings,
     cue = cue,
-    store = store
+    store = store,
+    file = file_init()
   )
 }
 
@@ -26,7 +27,8 @@ branch_new <- function(
   deps = NULL,
   settings = NULL,
   cue = NULL,
-  store = NULL
+  store = NULL,
+  file = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$name <- name
@@ -36,6 +38,7 @@ branch_new <- function(
   out$settings <- settings
   out$cue <- cue
   out$store <- store
+  out$file <- file
   enclass(out, branch_s3_class)
 }
 

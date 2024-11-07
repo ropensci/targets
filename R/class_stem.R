@@ -1,3 +1,23 @@
+stem_init <- function(
+  name = NULL,
+  command = NULL,
+  seed = NULL,
+  deps = NULL,
+  settings = NULL,
+  cue = NULL
+) {
+  stem_new(
+    name = name,
+    command = command,
+    seed = seed,
+    deps = deps,
+    settings = settings,
+    cue = cue,
+    store = settings_produce_store(settings),
+    file = file_init()
+  )
+}
+
 stem_new <- function(
   name = NULL,
   command = NULL,
@@ -5,7 +25,8 @@ stem_new <- function(
   deps = NULL,
   settings = NULL,
   cue = NULL,
-  store = NULL
+  store = NULL,
+  file = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$name <- name
@@ -15,6 +36,7 @@ stem_new <- function(
   out$settings <- settings
   out$cue <- cue
   out$store <- store
+  out$file <- file
   enclass(out, stem_s3_class)
 }
 

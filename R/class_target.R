@@ -54,14 +54,13 @@ target_init <- function(
   deps <- setdiff(deps, name)
   if_any(
     is.null(settings$pattern),
-    stem_new(
+    stem_init(
       name = name,
       command = command,
       seed = seed,
       deps = deps,
       settings = settings,
-      cue = cue,
-      store = settings_produce_store(settings)
+      cue = cue
     ),
     pattern_new(
       name = name,

@@ -5,6 +5,7 @@ builder_new <- function(
   value = NULL,
   metrics = NULL,
   store = NULL,
+  file = NULL,
   subpipeline = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
@@ -14,6 +15,7 @@ builder_new <- function(
   out$value <- value
   out$metrics <- metrics
   out$store <- store
+  out$file <- file
   out$subpipeline <- subpipeline
   enclass(out, builder_s3_class)
 }
