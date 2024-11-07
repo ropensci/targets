@@ -33,6 +33,9 @@ store_upload_object.tar_repository_cas <- function(store, file) {
 }
 
 store_upload_object_cas <- function(store, file) {
+  
+  browser()
+  
   path <- file$stage
   on.exit(unlink(path, recursive = TRUE, force = TRUE))
   tar_assert_scalar(
