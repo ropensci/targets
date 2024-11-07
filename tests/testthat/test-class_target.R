@@ -113,7 +113,7 @@ tar_test("target_deps_shallow()", {
   x <- target_init("x", quote(1 + 1))
   y <- target_init("y", quote(x + z))
   pipeline <- pipeline_init(list(x, y))
-  expect_true("z" %in% y$command$deps)
+  expect_true("z" %in% y$deps)
   expect_equal(target_deps_shallow(y, pipeline), "x")
 })
 

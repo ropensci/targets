@@ -791,7 +791,7 @@ tar_assert_allow_meta <- function(fun, store) {
   if (!target_allow_meta(target)) {
     message <- paste0(
       "target ",
-      target$settings$name,
+      target_get_name(target),
       " attempted to run targets::",
       fun,
       "() to during a pipeline, which is unsupported ",

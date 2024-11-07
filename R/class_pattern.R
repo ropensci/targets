@@ -155,7 +155,7 @@ target_bootstrap.tar_pattern <- function(
   branched_over = FALSE
 ) {
   record <- target_bootstrap_record(target, meta)
-  name <- target$settings$name
+  name <- target_get_name(target)
   children <- record$children
   target$junction <- junction_init(nexus = name, splits = children)
   pattern_set_branches(target, pipeline)

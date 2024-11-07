@@ -60,7 +60,7 @@ target_prepare.tar_builder <- function(
   pending = FALSE
 ) {
   if (installed_autometric) {
-    phase <- paste("prepare:", target$settings$name)
+    phase <- paste("prepare:", target_get_name(target))
     autometric::log_phase_set(phase = phase)
     on.exit(autometric::log_phase_reset())
   }
@@ -130,7 +130,7 @@ target_needs_worker.tar_builder <- function(target) {
 #' @export
 target_run.tar_builder <- function(target, envir, path_store) {
   if (installed_autometric) {
-    autometric::log_phase_set(phase = target$settings$name)
+    autometric::log_phase_set(phase = target_get_name(target))
     on.exit(autometric::log_phase_reset())
   }
   on.exit(builder_unset_tar_runtime(), add = TRUE)
@@ -138,7 +138,7 @@ target_run.tar_builder <- function(target, envir, path_store) {
   builder_ensure_deps(target, target$subpipeline, "worker")
   frames <- frames_produce(envir, target, target$subpipeline)
   builder_set_tar_runtime(target, frames)
-  store_update_stage_early(target$store, target$settings$name, path_store)
+  store_update_stage_early(target$store, target_get_name(target), path_store)
   builder_update_build(target, frames_get_envir(frames))
   builder_ensure_paths(target, path_store)
   builder_ensure_object(target, "worker")
@@ -156,7 +156,7 @@ target_run_worker.tar_builder <- function(
   envvars
 ) {
   if (installed_autometric) {
-    autometric::log_phase_set(phase = target$settings$name)
+    autometric::log_phase_set(phase = target_get_name(target))
     on.exit(autometric::log_phase_reset())
   }
   set_envvars(envvars)
@@ -202,7 +202,7 @@ target_skip.tar_builder <- function(
 #' @export
 target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   if (installed_autometric) {
-    phase <- paste("conclude:", target$settings$name)
+    phase <- paste("conclude:", target_get_name(target))
     autometric::log_phase_set(phase = phase)
     on.exit(autometric::log_phase_reset())
   }

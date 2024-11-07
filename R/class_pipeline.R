@@ -28,7 +28,7 @@ pipeline_s3_class <- "tar_pipeline"
 pipeline_targets_init <- function(targets, clone_targets) {
   targets <- targets %|||% list()
   tar_assert_target_list(targets)
-  names <- map_chr(targets, ~.x$settings$name)
+  names <- map_chr(targets, ~target_get_name(.x))
   tar_assert_unique_targets(names)
   if (clone_targets) {
     # If the user has target objects in the global environment,
@@ -83,14 +83,10 @@ pipeline_reset_deployment <- function(pipeline, name) {
 }
 
 pipeline_set_target <- function(pipeline, target) {
-  assign(
-    x = target$settings$name,
-    value = target,
-    envir = pipeline$targets,
-    inherits = FALSE,
-    immediate = TRUE
-  )
-  invisible()
+  envir <- .subset2(pipeline, "targets")
+  name <- target_get_name(target)
+  envir[[name]] <- target
+  NULL
 }
 
 pipeline_exists_target <- function(pipeline, name) {

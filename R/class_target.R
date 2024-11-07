@@ -90,7 +90,7 @@ target_new <- function(
 target_s3_class <- "tar_target"
 
 target_get_name <- function(target) {
-  target$settings$name
+  .subset2(target, "name")
 }
 
 target_ensure_dep <- function(target, dep, pipeline) {
@@ -344,7 +344,7 @@ target_bootstrap <- function(target, pipeline, meta, branched_over) {
 }
 
 target_bootstrap_record <- function(target, meta) {
-  name <- target$settings$name
+  name <- target_get_name(target)
   if (!meta$exists_record(name)) {
     tar_throw_validate(
       "cannot bootstrap target ",

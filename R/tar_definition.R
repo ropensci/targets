@@ -18,7 +18,7 @@
 #'   which helps peel back layers of code and troubleshoot bugs.
 #' @examples
 #' class(tar_definition())
-#' tar_definition()$settings$name
+#' tar_definition()$name
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #' tar_script(
