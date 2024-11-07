@@ -44,7 +44,7 @@ workspace_load_packages <- function(workspace) {
 }
 
 workspace_set_seed <- function(workspace) {
-  tar_seed_set(workspace$target$command$seed)
+  tar_seed_set(workspace$target$seed)
 }
 
 workspace_validate <- function(workspace) {

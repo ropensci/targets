@@ -32,7 +32,7 @@ target_produce_record.tar_pattern <- function(target, pipeline, meta) {
     type = target_get_type(target),
     data = pattern_produce_data_hash(target, pipeline, meta),
     command = target$command$hash,
-    seed = target$command$seed,
+    seed = target$seed,
     bytes = target$patternview$bytes,
     format = target$settings$format,
     repository = target$settings$repository,
@@ -111,7 +111,7 @@ target_produce_junction.tar_pattern <- function(target, pipeline) {
   siblings <- setdiff(target_deps_shallow(target, pipeline), dimensions)
   niblings <- pattern_children_columns(dimensions, pipeline)
   pattern <- target$settings$pattern
-  niblings <- pattern_produce_grid(pattern, niblings, target$command$seed)
+  niblings <- pattern_produce_grid(pattern, niblings, target$seed)
   all_deps <- pattern_combine_niblings_siblings(niblings, siblings)
   nibling_deps <- all_deps[, dimensions, drop = FALSE]
   names <- pattern_name_branches(target_get_parent(target), nibling_deps)

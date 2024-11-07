@@ -417,7 +417,7 @@ builder_record_error_meta <- function(target, pipeline, meta) {
 }
 
 builder_update_build <- function(target, envir) {
-  build <- command_produce_build(target$command, envir)
+  build <- command_produce_build(target$command, target$seed, envir)
   target$metrics <- build$metrics
   object <- build$object
   object <- tryCatch(

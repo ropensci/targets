@@ -7,10 +7,8 @@ branch_init <- function(
   index = integer(0)
 ) {
   command <- command_clone(command)
-  seed <- tar_seed_create(name)
-  deps <- union(command$deps, deps)
+  deps <- unique(c(command$deps, deps))
   command$deps <- setdiff(deps, settings$dimensions)
-  command$seed <- seed
   pedigree <- pedigree_new(settings$name, name, index)
   settings <- settings_clone(settings)
   settings$name <- name
@@ -18,7 +16,7 @@ branch_init <- function(
   branch_new(
     name = name,
     command = command,
-    seed = seed,
+    seed = tar_seed_create(name),
     deps = deps,
     settings = settings,
     cue = cue,
@@ -69,7 +67,7 @@ target_produce_record.tar_branch <- function(target, pipeline, meta) {
     parent = target_get_parent(target),
     type = "branch",
     command = target$command$hash,
-    seed = target$command$seed,
+    seed = target$seed,
     depend = meta$get_depend(target_get_name(target)),
     path = file$path,
     data = file$hash,

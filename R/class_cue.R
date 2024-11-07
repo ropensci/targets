@@ -141,7 +141,7 @@ cue_seed <- function(cue, target, meta, record) {
     return(FALSE)
   }
   old <- as.integer(record$seed)
-  new <- as.integer(target$command$seed)
+  new <- as.integer(target$seed)
   anyNA(new) || !identical(old, new)
 }
 

@@ -55,7 +55,7 @@ target_produce_record.tar_stem <- function(target, pipeline, meta) {
     name = target_get_name(target),
     type = "stem",
     command = target$command$hash,
-    seed = target$command$seed,
+    seed = target$seed,
     depend = meta$get_depend(target_get_name(target)),
     path = file$path,
     data = file$hash,

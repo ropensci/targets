@@ -32,11 +32,11 @@ command_new <- function(
   out
 }
 
-command_produce_build <- function(command, envir) {
+command_produce_build <- function(command, seed, envir) {
   build_init(
     expr = command$expr,
     envir = envir,
-    seed = command$seed,
+    seed = seed,
     packages = command$packages,
     library = command$library
   )
@@ -47,8 +47,7 @@ command_clone <- function(command) {
     command$expr,
     command$packages,
     command$library,
-    command$deps,
-    command$seed
+    command$deps
   )
   out$string <- command$string
   out$hash <- command$hash
@@ -60,8 +59,6 @@ command_validate <- function(command) {
   tar_assert_expr(command$expr)
   tar_assert_chr(command$packages)
   tar_assert_chr(command$library %|||% character(0))
-  tar_assert_int(command$seed)
-  tar_assert_scalar(command$seed)
   tar_assert_chr(command$string)
   tar_assert_scalar(command$string)
   tar_assert_chr(command$hash)

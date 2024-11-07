@@ -16,7 +16,7 @@ tar_test("command_produce_build()", {
   b <- 1L
   c <- 2L
   envir <- environment()
-  build <- command_produce_build(command, envir)
+  build <- command_produce_build(command, 1L, envir)
   expect_silent(build_validate(build))
   expect_equal(build$object, 3L)
   expect_true(is.numeric(build$metrics$seconds))
@@ -24,20 +24,20 @@ tar_test("command_produce_build()", {
 
 tar_test("command$produce_build() uses seed", {
   x <- command_init(expr = quote(sample.int(1e9, 1L)))
-  x$seed <- 0L
+  seed <- 0L
   sample_with_seed <- function(seed) {
     tar_seed_set(seed)
     sample.int(1e9, 1L)
   }
   exp0 <- sample_with_seed(0L)
   for (i in seq_len(2)) {
-    out <- command_produce_build(x, environment())$object
+    out <- command_produce_build(x, seed, environment())$object
     expect_equal(out, exp0)
   }
-  x$seed <- 1L
+  seed <- 1L
   exp1 <- sample_with_seed(1L)
   for (i in seq_len(2)) {
-    out <- command_produce_build(x, environment())$object
+    out <- command_produce_build(x, seed, environment())$object
     expect_equal(out, exp1)
   }
   expect_false(exp0 == exp1)
@@ -107,12 +107,4 @@ tar_test("command_validate() with bad hash field", {
     seed = 0L
   )
   expect_error(command_validate(command), class = "tar_condition_validate")
-})
-
-tar_test("command_validate() with a bad seed", {
-  x <- command_init(expr = quote(a <- b + c))
-  x$seed <- "123"
-  expect_error(command_validate(x), class = "tar_condition_validate")
-  x$seed <- integer(0)
-  expect_error(command_validate(x), class = "tar_condition_validate")
 })
