@@ -5,11 +5,7 @@ stem_new <- function(
   deps = NULL,
   settings = NULL,
   cue = NULL,
-  value = NULL,
-  metrics = NULL,
-  store = NULL,
-  subpipeline = NULL,
-  junction = NULL
+  store = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$name <- name
@@ -18,11 +14,7 @@ stem_new <- function(
   out$deps <- deps
   out$settings <- settings
   out$cue <- cue
-  out$value <- value
-  out$metrics <- metrics
   out$store <- store
-  out$subpipeline <- subpipeline
-  out$junction <- junction
   enclass(out, stem_s3_class)
 }
 
@@ -109,7 +101,11 @@ target_is_branchable.tar_stem <- function(target) {
 
 #' @export
 target_validate.tar_stem <- function(target) {
-  tar_assert_correct_fields(target, stem_new)
+  tar_assert_correct_fields(
+    target,
+    stem_new,
+    optional = c("junction", "metrics", "subpipeline", "value")
+  )
   NextMethod()
   command_validate(target$command)
   tar_assert_dbl(target$seed)

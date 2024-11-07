@@ -78,14 +78,12 @@ target_init <- function(
 target_new <- function(
   command = NULL,
   settings = NULL,
-  cue = NULL,
-  value = NULL
+  cue = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
-  out$command
-  out$settings
-  out$cue
-  out$value
+  out$command <- command
+  out$settings <- settings
+  out$cue <- cue
   enclass(out, target_s3_class)
 }
 

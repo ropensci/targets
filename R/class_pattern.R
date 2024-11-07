@@ -5,8 +5,6 @@ pattern_new <- function(
   deps = NULL,
   settings = NULL,
   cue = NULL,
-  value = NULL,
-  junction = NULL,
   patternview = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
@@ -16,8 +14,6 @@ pattern_new <- function(
   out$deps <- deps
   out$settings <- settings
   out$cue <- cue
-  out$value <- value
-  out$junction <- junction
   out$patternview <- patternview
   enclass(out, pattern_s3_class)
 }
@@ -135,7 +131,11 @@ target_needs_worker.tar_pattern <- function(target) {
 
 #' @export
 target_validate.tar_pattern <- function(target) {
-  tar_assert_correct_fields(target, pattern_new)
+  tar_assert_correct_fields(
+    target,
+    pattern_new,
+    optional = c("junction", "value")
+  )
   NextMethod()
   command_validate(target$command)
   tar_assert_dbl(target$seed)
