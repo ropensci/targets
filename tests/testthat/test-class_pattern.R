@@ -481,7 +481,7 @@ tar_test("must branch over stems and patterns", {
 
 tar_test("pattern dims are always deps", {
   x <- target_init("x", quote(seq_len(2)), pattern = quote(map(y)))
-  expect_true("y" %in% x$command$deps)
+  expect_true("y" %in% x$deps)
 })
 
 tar_test("pattern dims are always deps when run", {
