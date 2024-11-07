@@ -62,14 +62,13 @@ target_init <- function(
       settings = settings,
       cue = cue
     ),
-    pattern_new(
+    pattern_init(
       name = name,
       command = command,
       seed = seed,
       deps = deps,
       settings = settings,
-      cue = cue,
-      patternview = patternview_init()
+      cue = cue
     )
   )
 }

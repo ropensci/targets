@@ -1,3 +1,23 @@
+pattern_init <- function(
+  name = NULL,
+  command = NULL,
+  seed = NULL,
+  deps = NULL,
+  settings = NULL,
+  cue = NULL
+) {
+  pattern_new(
+    name = name,
+    command = command,
+    seed = seed,
+    deps = deps,
+    settings = settings,
+    cue = cue,
+    store = settings_produce_store(settings),
+    patternview = patternview_init()
+  )
+}
+
 pattern_new <- function(
   name = NULL,
   command = NULL,
@@ -5,6 +25,7 @@ pattern_new <- function(
   deps = NULL,
   settings = NULL,
   cue = NULL,
+  store = NULL,
   patternview = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
@@ -14,6 +35,7 @@ pattern_new <- function(
   out$deps <- deps
   out$settings <- settings
   out$cue <- cue
+  out$store <- store
   out$patternview <- patternview
   enclass(out, pattern_s3_class)
 }
@@ -142,6 +164,7 @@ target_validate.tar_pattern <- function(target) {
   tar_assert_scalar(target$seed)
   tar_assert_none_na(target$seed)
   tar_assert_chr(target$deps)
+  store_validate(target$store)
   if (!is.null(target$junction)) {
     junction_validate(target$junction)
   }
@@ -229,7 +252,7 @@ pattern_set_branches <- function(target, pipeline) {
   deps_parent <- target$deps
   settings <- target$settings
   cue <- target$cue
-  store <- settings_produce_store(settings)
+  store <- target$store
   specs <- junction_transpose(target$junction)
   for (spec in specs) {
     branch <- branch_init(
