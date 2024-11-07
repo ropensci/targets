@@ -92,8 +92,7 @@ tar_test("command_validate() with bad string field", {
   command <- command_new(
     expr = quote(a <- b + c),
     packages = character(0),
-    deps = character(0),
-    seed = 0L
+    deps = character(0)
   )
   expect_error(command_validate(command), class = "tar_condition_validate")
 })
@@ -103,8 +102,7 @@ tar_test("command_validate() with bad hash field", {
     expr = quote(a <- b + c),
     packages = character(0),
     deps = character(0),
-    string = "abcde",
-    seed = 0L
+    string = "abcde"
   )
   expect_error(command_validate(command), class = "tar_condition_validate")
 })
