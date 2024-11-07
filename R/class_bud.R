@@ -3,13 +3,10 @@ bud_init <- function(
   settings = settings_init(),
   index = integer(0)
 ) {
-  parent <- settings$name
-  settings <- settings_clone(settings)
-  settings$name <- name
   bud_new(
     name = name,
     settings = settings,
-    pedigree = pedigree_new(parent, name, index)
+    pedigree = pedigree_new(settings$name, name, index)
   )
 }
 
@@ -26,11 +23,6 @@ bud_new <- function(
 }
 
 bud_s3_class <- c("tar_bud", "tar_target")
-
-#' @export
-target_get_parent.tar_bud <- function(target) {
-  target$pedigree$parent
-}
 
 #' @export
 target_read_value.tar_bud <- function(target, pipeline) {

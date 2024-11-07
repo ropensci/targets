@@ -7,11 +7,8 @@ branch_init <- function(
   cue = NULL,
   index = integer(0L)
 ) {
-  deps <- unique(c(deps_parent, deps_child))
-  deps <- setdiff(deps, settings$dimensions)
+  deps <- setdiff(unique(c(deps_parent, deps_child)), settings$dimensions)
   pedigree <- pedigree_new(settings$name, name, index)
-  settings <- settings_clone(settings)
-  settings$name <- name
   store <- settings_produce_store(settings)
   branch_new(
     name = name,
@@ -48,11 +45,6 @@ branch_new <- function(
 }
 
 branch_s3_class <- c("tar_branch", "tar_builder", "tar_target")
-
-#' @export
-target_get_parent.tar_branch <- function(target) {
-  target$pedigree$parent
-}
 
 #' @export
 target_get_type.tar_branch <- function(target) {

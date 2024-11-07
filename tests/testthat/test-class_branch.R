@@ -1,4 +1,4 @@
-tar_test("branch$pedigree", {
+tar_test("branch creation", {
   command <- command_init(quote(1 + 1))
   settings <- settings_init(name = "x", pattern = quote(map(y)))
   cue <- cue_init()
@@ -14,7 +14,7 @@ tar_test("branch$pedigree", {
   expect_true(inherits(branch, "tar_branch"))
 })
 
-tar_test("branch$pedigree", {
+tar_test("branch name vs parent name", {
   command <- command_init(quote(1 + 1))
   settings <- settings_init(name = "x", pattern = quote(map(y)))
   cue <- cue_init()
@@ -29,7 +29,10 @@ tar_test("branch$pedigree", {
   )
   expect_silent(pedigree_validate(branch$pedigree))
   expect_equal(settings$name, "x")
-  expect_equal(branch$settings$name, "x_1")
+  expect_equal(branch$settings$name, "x")
+  expect_equal(branch$name, "x_1")
+  settings$name <- "y"
+  expect_equal(branch$settings$name, "y")
 })
 
 tar_test("branch priority", {

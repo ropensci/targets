@@ -164,12 +164,7 @@ target_decrement_ranks <- function(names, scheduler) {
 }
 
 target_get_parent <- function(target) {
-  UseMethod("target_get_parent")
-}
-
-#' @export
-target_get_parent.default <- function(target) {
-  target_get_name(target)
+  .subset2(.subset2(target, "settings"), "name")
 }
 
 target_get_children <- function(target) {
