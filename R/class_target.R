@@ -22,7 +22,7 @@ target_init <- function(
 ) {
   seed <- tar_seed_create(name)
   deps <- deps <- deps %|||% deps_function(embody_expr(expr))
-  command <- command_init(expr, packages, library, deps, string)
+  command <- command_init(expr, packages, library, string)
   cue <- cue %|||% cue_init()
   if (any(grepl("^aws_", format))) {
     format <- gsub("^aws_", "", format)
@@ -50,8 +50,8 @@ target_init <- function(
     storage = storage,
     retrieval = retrieval
   )
-  command$deps <- unique(c(command$deps, settings$dimensions))
-  command$deps <- setdiff(command$deps, name)
+  deps <- unique(c(deps, settings$dimensions))
+  deps <- setdiff(deps, name)
   if_any(
     is.null(settings$pattern),
     stem_new(
@@ -116,7 +116,7 @@ target_ensure_value <- function(target, pipeline) {
 }
 
 target_deps_shallow <- function(target, pipeline) {
-  fltr(target$command$deps, ~pipeline_exists_target(pipeline, .x))
+  fltr(target$deps, ~pipeline_exists_target(pipeline, .x))
 }
 
 target_deps_deep <- function(target, pipeline) {
@@ -146,7 +146,7 @@ target_downstream_nonbranching <- function(target, pipeline, scheduler) {
 
 target_upstream_edges <- function(target) {
   name <- target_get_name(target)
-  from <- c(name, target$command$deps)
+  from <- c(name, target$deps)
   to <- rep(name, length(from))
   list(from = from, to = to)
 }

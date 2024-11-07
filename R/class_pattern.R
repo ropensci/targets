@@ -229,11 +229,13 @@ pattern_set_branches <- function(target, pipeline) {
   settings <- target$settings
   cue <- target$cue
   specs <- junction_transpose(target$junction)
+  deps_parent <- target$deps
   for (spec in specs) {
     branch <- branch_init(
       name = .subset2(spec, "split"),
       command = command,
-      deps = .subset2(spec, "deps"),
+      deps_parent = deps_parent,
+      deps_child = .subset2(spec, "deps"),
       settings = settings,
       cue = cue,
       index = .subset2(spec, "index")

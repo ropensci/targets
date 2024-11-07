@@ -1,14 +1,14 @@
 branch_init <- function(
   name = NULL,
   command = NULL,
-  deps = character(0),
+  deps_parent = character(0L),
+  deps_child = character(0L),
   settings = NULL,
   cue = NULL,
-  index = integer(0)
+  index = integer(0L)
 ) {
-  command <- command_clone(command)
-  deps <- unique(c(command$deps, deps))
-  command$deps <- setdiff(deps, settings$dimensions)
+  deps <- unique(c(deps_parent, deps_child))
+  deps <- setdiff(deps, settings$dimensions)
   pedigree <- pedigree_new(settings$name, name, index)
   settings <- settings_clone(settings)
   settings$name <- name

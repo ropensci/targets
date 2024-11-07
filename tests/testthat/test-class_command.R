@@ -43,11 +43,6 @@ tar_test("command$produce_build() uses seed", {
   expect_false(exp0 == exp1)
 })
 
-tar_test("command_init(deps)", {
-  command <- command_init(quote(a <- b + c), deps = "custom")
-  expect_equal(command$deps, "custom")
-})
-
 tar_test("command_init(string)", {
   command <- command_init(quote(a <- b + c), string = "custom")
   expect_equal(command$string, "custom")
@@ -91,8 +86,7 @@ tar_test("command_validate() with bad library field", {
 tar_test("command_validate() with bad string field", {
   command <- command_new(
     expr = quote(a <- b + c),
-    packages = character(0),
-    deps = character(0)
+    packages = character(0)
   )
   expect_error(command_validate(command), class = "tar_condition_validate")
 })
@@ -101,7 +95,6 @@ tar_test("command_validate() with bad hash field", {
   command <- command_new(
     expr = quote(a <- b + c),
     packages = character(0),
-    deps = character(0),
     string = "abcde"
   )
   expect_error(command_validate(command), class = "tar_condition_validate")

@@ -5,7 +5,8 @@ tar_test("branch$pedigree", {
   branch <- branch_init(
     name = "x",
     command = command,
-    deps = character(0L),
+    deps_parent = character(0L),
+    deps_child = character(0L),
     settings = settings,
     cue = cue,
     index = 1L
@@ -20,7 +21,8 @@ tar_test("branch$pedigree", {
   branch <- branch_init(
     name = "x_1",
     command = command,
-    deps = character(0),
+    deps_parent = character(0L),
+    deps_child = character(0L),
     settings = settings,
     cue = cue,
     index = 1L
@@ -41,7 +43,8 @@ tar_test("branch priority", {
   branch <- branch_init(
     name = "y",
     command = command,
-    deps = character(0),
+    deps_parent = character(0L),
+    deps_child = character(0L),
     settings = settings,
     cue = cue,
     index = 1L
@@ -56,7 +59,8 @@ tar_test("branches are not branchable", {
   branch <- branch_init(
     name = "y",
     command = command,
-    deps = character(0),
+    deps_parent = character(0L),
+    deps_child = character(0L),
     settings = settings,
     cue = cue,
     index = 1L
@@ -71,7 +75,8 @@ tar_test("target_get_name()", {
   branch <- branch_init(
     name = "y",
     command = command,
-    deps = character(0),
+    deps_parent = character(0L),
+    deps_child = character(0L),
     settings = settings,
     cue = cue,
     index = 1L
@@ -87,7 +92,8 @@ tar_test("target_get_parent(branch)", {
   branch <- branch_init(
     name = "y",
     command = command,
-    deps = character(0),
+    deps_parent = character(0L),
+    deps_child = character(0L),
     settings = settings,
     cue = cue,
     index = 1L
@@ -159,7 +165,8 @@ tar_test("branch_validate()", {
   branch <- branch_init(
     name = "x_f4acd87c52d4e62b",
     command = command,
-    deps = character(0),
+    deps_parent = character(0L),
+    deps_child = character(0L),
     settings = settings,
     cue = cue,
     index = 1L

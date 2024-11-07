@@ -2,20 +2,18 @@ command_init <- function(
   expr = expression(NULL),
   packages = character(0),
   library = NULL,
-  deps = NULL,
   string = NULL
 ) {
   expr <- as.expression(expr)
   string <- string %|||% mask_pointers(tar_deparse_safe(expr))
   hash <- hash_object(string)
-  command_new(expr, packages, library, deps, string, hash)
+  command_new(expr, packages, library, string, hash)
 }
 
 command_new <- function(
   expr = NULL,
   packages = NULL,
   library = NULL,
-  deps = NULL,
   string = NULL,
   hash = NULL
 ) {
@@ -23,7 +21,6 @@ command_new <- function(
   out$expr <- expr
   out$packages <- packages
   out$library <- library
-  out$deps <- deps
   out$string <- string
   out$hash <- hash
   out
@@ -37,18 +34,6 @@ command_produce_build <- function(command, seed, envir) {
     packages = command$packages,
     library = command$library
   )
-}
-
-command_clone <- function(command) {
-  out <- command_new(
-    command$expr,
-    command$packages,
-    command$library,
-    command$deps
-  )
-  out$string <- command$string
-  out$hash <- command$hash
-  out
 }
 
 command_validate <- function(command) {
@@ -65,7 +50,6 @@ command_validate <- function(command) {
 command_null <- command_new(
   expr = expression(NULL),
   packages = character(0),
-  deps = character(0),
   string = "",
   hash = ""
 )

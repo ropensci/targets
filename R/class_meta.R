@@ -90,7 +90,7 @@ meta_class <- R6::R6Class(
       hash_object(string)
     },
     produce_depend = function(target, pipeline) {
-      self$hash_deps(target$command$deps, pipeline)
+      self$hash_deps(target$deps, pipeline)
     },
     handle_error = function(record) {
       if (!self$exists_record(record$name)) {

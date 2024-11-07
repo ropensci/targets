@@ -237,7 +237,7 @@ pipeline_get_packages <- function(pipeline) {
 }
 
 pipeline_bootstrap_deps <- function(pipeline, meta, names) {
-  deps <- map(names, ~pipeline_get_target(pipeline, .x)$command$deps)
+  deps <- map(names, ~pipeline_get_target(pipeline, .x)$deps)
   deps <- intersect(unique(unlist(deps)), pipeline_get_names(pipeline))
   deps <- setdiff(x = deps, y = names)
   branched_over <- map(
