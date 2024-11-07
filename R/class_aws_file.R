@@ -39,26 +39,26 @@ store_assert_format_setting.aws_file <- function(format) {
 }
 
 #' @export
-store_upload_object.tar_aws_file <- function(store) {
-  store_upload_object_aws(store)
+store_upload_object.tar_aws_file <- function(store, file) {
+  store_upload_object_aws(store, file)
 }
 
 #' @export
-store_hash_early.tar_aws_file <- function(store) { # nolint
-  old <- store$file$path
-  store$file$path <- store_aws_file_stage(store$file$path)
-  on.exit(store$file$path <- old)
-  tar_assert_path(store$file$path)
-  file_update_info(store$file)
+store_hash_early.tar_aws_file <- function(store, file) { # nolint
+  old <- file$path
+  file$path <- store_aws_file_stage(file$path)
+  on.exit(file$path <- old)
+  tar_assert_path(file$path)
+  file_update_info(file)
 }
 
 #' @export
-store_hash_late.tar_aws_file <- function(store) { # nolint
+store_hash_late.tar_aws_file <- function(store, file) { # nolint
 }
 
 #' @export
-store_read_object.tar_aws_file <- function(store) {
-  path <- store$file$path
+store_read_object.tar_aws_file <- function(store, file) {
+  path <- file$path
   key <- store_aws_key(path)
   bucket <- store_aws_bucket(path)
   scratch <- path_scratch_temp_network(pattern = basename(store_aws_key(path)))

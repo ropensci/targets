@@ -125,8 +125,7 @@ record_row_path <- function(record) {
     format = record$format,
     repository = record$repository
   )
-  store$file$path <- record$path
-  store_row_path(store)
+  store_row_path(store, file_init(path = record$path))
 }
 
 record_from_row <- function(row, path_store) {
@@ -162,8 +161,13 @@ record_bootstrap_store <- function(record) {
     repository = record$repository,
     resources = tar_options$get_resources()
   )
-  file_repopulate(store$file, record)
   store
+}
+
+record_bootstrap_file <- function(record) {
+  file <- file_init()
+  file_repopulate(file, record)
+  file
 }
 
 record_validate <- function(record) {

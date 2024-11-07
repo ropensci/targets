@@ -41,6 +41,7 @@ target_bootstrap.tar_builder <- function(
 ) {
   record <- target_bootstrap_record(target, meta)
   target$store <- record_bootstrap_store(record)
+  target$file <- record_bootstrap_file(record)
   invisible()
 }
 
@@ -48,7 +49,7 @@ target_bootstrap.tar_builder <- function(
 target_read_value.tar_builder <- function(target, pipeline = NULL) {
   command <- target$command
   load_packages(packages = command$packages, library = command$library)
-  object <- store_read_object(target$store)
+  object <- store_read_object(target$store, target$file)
   iteration <- target$settings$iteration
   value_init(object, iteration)
 }
@@ -140,7 +141,12 @@ target_run.tar_builder <- function(target, envir, path_store) {
   builder_ensure_deps(target, target$subpipeline, "worker")
   frames <- frames_produce(envir, target, target$subpipeline)
   builder_set_tar_runtime(target, frames)
-  store_update_stage_early(target$store, target_get_name(target), path_store)
+  store_update_stage_early(
+    store = target$store,
+    file = target$file,
+    name = target_get_name(target),
+    path_store = path_store
+  )
   builder_update_build(target, frames_get_envir(frames))
   builder_ensure_paths(target, path_store)
   builder_ensure_object(target, "worker")
@@ -184,7 +190,7 @@ target_skip.tar_builder <- function(
   active
 ) {
   target_update_queue(target, scheduler)
-  file_repopulate(target$store$file, meta$get_record(target_get_name(target)))
+  file_repopulate(target$file, meta$get_record(target_get_name(target)))
   if (active) {
     builder_ensure_workspace(
       target = target,
@@ -230,7 +236,7 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
 }
 
 builder_completed <- function(target, pipeline, scheduler, meta) {
-  store_cache_path(target$store, target$store$file$path)
+  store_cache_path(target$store, target$file$path)
   target_ensure_buds(target, pipeline, scheduler)
   meta$insert_record(target_produce_record(target, pipeline, meta))
   target_patternview_meta(target, pipeline, meta)
@@ -459,9 +465,21 @@ builder_ensure_paths <- function(target, path_store) {
 
 builder_update_paths <- function(target, path_store) {
   name <- target_get_name(target)
-  store_update_path(target$store, name, target$value$object, path_store)
-  store_update_stage_late(target$store, name, target$value$object, path_store)
-  store_hash_early(target$store)
+  store_update_path(
+    store = target$store,
+    file = target$file,
+    name = name,
+    object = target$value$object,
+    path_store = path_store
+  )
+  store_update_stage_late(
+    store = target$store,
+    file = target$file,
+    name = name,
+    object = target$value$object,
+    path_store = path_store
+  )
+  store_hash_early(target$store, target$file)
 }
 
 builder_unload_value <- function(target) {
@@ -475,10 +493,10 @@ builder_unload_value <- function(target) {
 
 builder_update_object <- function(target) {
   on.exit(builder_unload_value(target))
-  file_validate_path(target$store$file$path)
+  file_validate_path(target$file$path)
   if (!identical(target$settings$storage, "none")) {
     withCallingHandlers(
-      store_write_object(target$store, target$value$object),
+      store_write_object(target$store, target$file, target$value$object),
       warning = function(condition) {
         if (length(target$metrics$warnings) < 51L) {
           target$metrics$warnings <- paste(
@@ -491,8 +509,8 @@ builder_update_object <- function(target) {
       }
     )
   }
-  store_hash_late(target$store)
-  store_upload_object(target$store)
+  store_hash_late(target$store, target$file)
+  store_upload_object(target$store, target$file)
 }
 
 builder_expect_storage <- function(target) {
@@ -532,7 +550,7 @@ builder_ensure_correct_hash <- function(target) {
 builder_wait_correct_hash <- function(target) {
   storage <- target$settings$storage
   deployment <- target$settings$deployment
-  store_ensure_correct_hash(target$store, storage, deployment)
+  store_ensure_correct_hash(target$store, target$file, storage, deployment)
 }
 
 builder_set_tar_runtime <- function(target, frames) {

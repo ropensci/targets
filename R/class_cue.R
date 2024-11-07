@@ -123,7 +123,7 @@ cue_file <- function(cue, target, meta, record) {
   if (!cue$file) {
     return(FALSE)
   }
-  file_current <- target$store$file
+  file_current <- target$file
   file_recorded <- file_new(
     path = record$path,
     hash = record$data,
@@ -131,9 +131,9 @@ cue_file <- function(cue, target, meta, record) {
     size = record$size,
     bytes = record$bytes
   )
-  on.exit(target$store$file <- file_current)
-  target$store$file <- file_recorded
-  !store_has_correct_hash(target$store)
+  on.exit(target$file <- file_current)
+  target$file <- file_recorded
+  !store_has_correct_hash(target$store, target$file)
 }
 
 cue_seed <- function(cue, target, meta, record) {

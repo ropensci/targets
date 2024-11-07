@@ -15,25 +15,26 @@ store_assert_repository_setting.repository_cas <- function(repository) {
 }
 
 #' @export
-store_hash_early.tar_repository_cas <- function(store) {
+store_hash_early.tar_repository_cas <- function(store, file) {
 }
 
 #' @export
-store_hash_late.tar_repository_cas <- function(store) {
-  tar_assert_file(store$file$stage)
-  path <- store$file$path
-  on.exit(store$file$path <- path)
-  store$file$path <- store$file$stage
-  file_update_hash(store$file)
+store_hash_late.tar_repository_cas <- function(store, file) {
+  tar_assert_file(file$stage)
+  path <- file$path
+  on.exit(file$path <- path)
+  file$path <- file$stage
+  file_update_hash(file)
 }
 
 #' @export
-store_upload_object.tar_repository_cas <- function(store) {
-  store_upload_object_cas(store, store$file$stage)
+store_upload_object.tar_repository_cas <- function(store, file) {
+  store_upload_object_cas(store, file)
 }
 
-store_upload_object_cas <- function(store, path) {
-  on.exit(unlink(store$file$stage, recursive = TRUE, force = TRUE))
+store_upload_object_cas <- function(store, file) {
+  path <- file$stage
+  on.exit(unlink(path, recursive = TRUE, force = TRUE))
   tar_assert_scalar(
     path,
     msg = paste(
@@ -41,7 +42,7 @@ store_upload_object_cas <- function(store, path) {
       "a single file or single directory."
     )
   )
-  key <- store$file$hash
+  key <- file$hash
   lookup <- tar_repository_cas_lookup(store)
   if (lookup_missing(lookup, key) || !lookup_get(lookup, key)) {
     store_repository_cas_call_method(
@@ -54,20 +55,20 @@ store_upload_object_cas <- function(store, path) {
 }
 
 #' @export
-store_read_object.tar_repository_cas <- function(store) {
+store_read_object.tar_repository_cas <- function(store, file) {
   scratch <- path_scratch_temp_network()
   dir_create(dirname(scratch))
   on.exit(unlink(scratch))
   store_repository_cas_call_method(
     store = store,
     text = store$methods_repository$download,
-    args = list(key = store$file$hash, path = scratch)
+    args = list(key = file$hash, path = scratch)
   )
   store_convert_object(store, store_read_path(store, scratch))
 }
 
 #' @export
-store_has_correct_hash.tar_repository_cas <- function(store) {
+store_has_correct_hash.tar_repository_cas <- function(store, file) {
   lookup <- tar_repository_cas_lookup(store)
   key <- .subset2(.subset2(store, "file"), "hash")
   if (lookup_missing(lookup = lookup, name = key)) {
@@ -84,11 +85,12 @@ store_has_correct_hash.tar_repository_cas <- function(store) {
 #' @export
 store_ensure_correct_hash.tar_repository_cas <- function(
   store,
+  file,
   storage,
   deployment
 ) {
   if (!store$methods_repository$consistent) {
-    store_wait_correct_hash(store)
+    store_wait_correct_hash(store, file)
   }
 }
 

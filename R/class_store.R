@@ -119,27 +119,27 @@ store_assert_repository_setting.default <- function(repository) {
 store_assert_repository_setting.local <- function(repository) {
 }
 
-store_read_object <- function(store) {
+store_read_object <- function(store, file) {
   UseMethod("store_read_object")
 }
 
 #' @export
-store_read_object.default <- function(store) {
-  store_convert_object(store, store_read_path(store, store$file$path))
+store_read_object.default <- function(store, file) {
+  store_convert_object(store, store_read_path(store, file$path))
 }
 
 store_read_path <- function(store, path) {
   UseMethod("store_read_path")
 }
 
-store_write_object <- function(store, object) {
+store_write_object <- function(store, file, object) {
   UseMethod("store_write_object")
 }
 
 #' @export
-store_write_object.default <- function(store, object) {
-  path <- store$file$path
-  stage <- store$file$stage
+store_write_object.default <- function(store, file, object) {
+  path <- file$path
+  stage <- file$stage
   dir_create_runtime(dirname(path))
   dir_create_runtime(dirname(stage))
   store_write_path(store, store_convert_object(store, object), stage)
@@ -162,23 +162,23 @@ store_cache_path.default <- function(store, path) {
   }
 }
 
-store_exist_object <- function(store, name = NULL) {
+store_exist_object <- function(store, file, name = NULL) {
   UseMethod("store_exist_object")
 }
 
 #' @export
-store_exist_object.default <- function(store, name = NULL) {
-  all(file.exists(store$file$path))
+store_exist_object.default <- function(store, file, name = NULL) {
+  all(file.exists(file$path))
 }
 
-store_delete_object <- function(store, name = NULL) {
+store_delete_object <- function(store, file, name = NULL) {
   UseMethod("store_delete_object")
 }
 
 #' @export
-store_delete_object.default <- function(store, name = NULL) {
-  unlink(store$file$path)
-  unlink(store$file$stage)
+store_delete_object.default <- function(store, file, name = NULL) {
+  unlink(file$path)
+  unlink(file$stage)
 }
 
 store_delete_objects <- function(store, meta, batch_size, verbose) {
@@ -192,15 +192,16 @@ store_delete_objects.default <- function(store, meta, batch_size, verbose) {
   )
 }
 
-store_upload_object <- function(store) {
+store_upload_object <- function(store, file) {
   UseMethod("store_upload_object")
 }
 
-store_upload_object.default <- function(store) {
+#' @export
+store_upload_object.default <- function(store, file) {
 }
 
-store_update_path <- function(store, name, object, path_store) {
-  store$file$path <- store_produce_path(store, name, object, path_store)
+store_update_path <- function(store, file, name, object, path_store) {
+  file$path <- store_produce_path(store, name, object, path_store)
 }
 
 store_produce_path <- function(store, name, object, path_store) {
@@ -212,12 +213,12 @@ store_produce_path.default <- function(store, name, object, path_store) {
   path_objects(path_store = path_store, name = name)
 }
 
-store_row_path <- function(store) {
+store_row_path <- function(store, file) {
   UseMethod("store_row_path")
 }
 
 #' @export
-store_row_path.default <- function(store) {
+store_row_path.default <- function(store, file) {
   NA_character_
 }
 
@@ -239,13 +240,13 @@ store_tar_path.default <- function(store, target, path_store) {
   path_objects(path_store = path_store, name = target_get_name(target))
 }
 
-store_update_stage_early <- function(store, name, path_store) {
+store_update_stage_early <- function(store, file, name, path_store) {
   UseMethod("store_update_stage_early")
 }
 
 #' @export
-store_update_stage_early.default <- function(store, name, path_store) {
-  store$file$stage <- store_produce_stage(
+store_update_stage_early.default <- function(store, file, name, path_store) {
+  file$stage <- store_produce_stage(
     store = store,
     name = name,
     object = NULL,
@@ -253,17 +254,23 @@ store_update_stage_early.default <- function(store, name, path_store) {
   )
 }
 
-store_update_stage_late <- function(store, name, object, path_store) {
+store_update_stage_late <- function(store, file, name, object, path_store) {
   UseMethod("store_update_stage_late")
 }
 
 #' @export
-store_update_stage_late.default <- function(store, name, object, path_store) {
+store_update_stage_late.default <- function(
+  store,
+  file,
+  name,
+  object,
+  path_store
+) {
 }
 
 #' @export
-store_update_stage_early.default <- function(store, name, path_store) {
-  store$file$stage <- store_produce_stage(
+store_update_stage_early.default <- function(store, file, name, path_store) {
+  file$stage <- store_produce_stage(
     store = store,
     name = name,
     object = NULL,
@@ -304,26 +311,27 @@ store_assert_format <- function(store, object, name) {
 store_assert_format.default <- function(store, object, name) {
 }
 
-store_hash_early <- function(store) {
+store_hash_early <- function(store, file) {
   UseMethod("store_hash_early")
 }
 
 #' @export
-store_hash_early.default <- function(store) {
+store_hash_early.default <- function(store, file) {
 }
 
-store_hash_late <- function(store) {
+store_hash_late <- function(store, file) {
   UseMethod("store_hash_late")
 }
 
 #' @export
-store_hash_late.default <- function(store) {
-  tar_assert_path(store$file$path)
-  file_update_hash(store$file)
+store_hash_late.default <- function(store, file) {
+  tar_assert_path(file$path)
+  file_update_hash(file)
 }
 
 store_ensure_correct_hash <- function(
   store,
+  file,
   storage,
   deployment
 ) {
@@ -331,26 +339,31 @@ store_ensure_correct_hash <- function(
 }
 
 #' @export
-store_ensure_correct_hash.default <- function(store, storage, deployment) {
+store_ensure_correct_hash.default <- function(
+  store,
+  file,
+  storage,
+  deployment
+) {
   if (identical(storage, "worker") && identical(deployment, "worker")) {
-    store_wait_correct_hash(store)
+    store_wait_correct_hash(store, file)
   }
 }
 
-store_wait_correct_hash <- function(store) {
+store_wait_correct_hash <- function(store, file) {
   seconds_interval <- store$resources$network$seconds_interval %|||% 0.25
   seconds_timeout <- store$resources$network$seconds_timeout %|||% 60
   max_tries <- store$resources$network$max_tries %|||% Inf
   verbose <- store$resources$network$verbose %|||% TRUE
   retry_until_true(
-    fun = ~store_has_correct_hash(store),
+    fun = ~store_has_correct_hash(store, file),
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
     max_tries = max_tries,
     catch_error = FALSE,
     message = paste(
       "Path",
-      paste(store$file$path, collapse = " "),
+      paste(file$path, collapse = " "),
       "does not exist or has incorrect hash.",
       "File sync timed out."
     ),
@@ -358,14 +371,14 @@ store_wait_correct_hash <- function(store) {
   )
 }
 
-store_has_correct_hash <- function(store) {
+store_has_correct_hash <- function(store, file) {
   UseMethod("store_has_correct_hash")
 }
 
 #' @export
-store_has_correct_hash.default <- function(store) {
-  (all(is.na(store$file$path)) || file_exists_path(store$file)) &&
-    file_has_correct_hash(store$file)
+store_has_correct_hash.default <- function(store, file) {
+  (all(is.na(file$path)) || file_exists_path(file)) &&
+    file_has_correct_hash(file)
 }
 
 store_sync_file_meta <- function(store, target, meta) {
@@ -386,7 +399,7 @@ store_sync_file_meta.default <- function(store, target, meta) {
     size = record$size,
     bytes = record$bytes
   )
-  info <- file_info_runtime(target$store$file$path)
+  info <- file_info_runtime(target$file$path)
   time <- file_time(info)
   bytes <- file_bytes(info)
   size <- file_size(bytes)

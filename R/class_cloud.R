@@ -5,7 +5,7 @@
 # nocov start
 #' @export
 store_tar_path.tar_cloud <- function(store, target, path_store) {
-  store$file$stage
+  target$file$stage
 }
 
 #' @export
@@ -14,8 +14,8 @@ store_produce_stage.tar_cloud <- function(store, name, object, path_store) {
 }
 
 #' @export
-store_write_object.tar_cloud <- function(store, object) {
-  stage <- store$file$stage
+store_write_object.tar_cloud <- function(store, file, object) {
+  stage <- file$stage
   dir_create(dirname(stage))
   store_write_path(store, store_convert_object(store, object), stage)
 }
@@ -25,16 +25,21 @@ store_cache_path.tar_cloud <- function(store, path) {
 }
 
 #' @export
-store_hash_late.tar_cloud <- function(store) {
-  tar_assert_path(store$file$stage)
-  file <- file_init(path = store$file$stage)
+store_hash_late.tar_cloud <- function(store, file) {
+  tar_assert_path(file$stage)
+  file <- file_init(path = file$stage)
   file_update_info(file)
-  store$file$bytes <- file$bytes
-  store$file$time <- file$time
+  file$bytes <- file$bytes
+  file$time <- file$time
 }
 
 #' @export
-store_ensure_correct_hash.tar_cloud <- function(store, storage, deployment) {
+store_ensure_correct_hash.tar_cloud <- function(
+  store,
+  file,
+  storage,
+  deployment
+) {
 }
 
 #' @export

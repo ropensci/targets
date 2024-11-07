@@ -35,7 +35,7 @@ verbose_class <- R6::R6Class(
           name = target_get_name(target),
           prefix = target_get_type_cli(target),
           seconds_elapsed = target$metrics$seconds,
-          bytes_storage = target$store$file$bytes,
+          bytes_storage = target$file$bytes,
           print = FALSE
         )
       )

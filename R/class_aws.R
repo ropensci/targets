@@ -124,8 +124,8 @@ store_aws_split_colon <- function(path) {
 # external contributors from the open source community.
 # nocov start
 #' @export
-store_read_object.tar_aws <- function(store) {
-  path <- store$file$path
+store_read_object.tar_aws <- function(store, file) {
+  path <- file$path
   key <- store_aws_key(path)
   bucket <- store_aws_bucket(path)
   scratch <- path_scratch_temp_network(pattern = basename(store_aws_key(path)))
@@ -149,8 +149,8 @@ store_read_object.tar_aws <- function(store) {
 }
 
 #' @export
-store_exist_object.tar_aws <- function(store, name = NULL) {
-  path <- store$file$path
+store_exist_object.tar_aws <- function(store, file, name = NULL) {
+  path <- file$path
   aws <- store$resources$aws
   head <- aws_s3_exists(
     key = store_aws_key(path),
@@ -219,23 +219,23 @@ store_delete_objects.tar_aws <- function(store, meta, batch_size, verbose) {
 }
 
 #' @export
-store_upload_object.tar_aws <- function(store) {
-  on.exit(unlink(store$file$stage, recursive = TRUE, force = TRUE))
-  store_upload_object_aws(store)
+store_upload_object.tar_aws <- function(store, file) {
+  on.exit(unlink(file$stage, recursive = TRUE, force = TRUE))
+  store_upload_object_aws(store, file)
 }
 
-store_upload_object_aws <- function(store) {
-  key <- store_aws_key(store$file$path)
-  bucket <- store_aws_bucket(store$file$path)
+store_upload_object_aws <- function(store, file) {
+  key <- store_aws_key(file$path)
+  bucket <- store_aws_bucket(file$path)
   aws <- store$resources$aws
   head <- if_any(
-    file_exists_stage(store$file),
+    file_exists_stage(file),
     aws_s3_upload(
-      file = store$file$stage,
+      file = file$stage,
       key = key,
       bucket = bucket,
-      region = store_aws_region(store$file$path),
-      endpoint = store_aws_endpoint(store$file$path),
+      region = store_aws_region(file$path),
+      endpoint = store_aws_endpoint(file$path),
       part_size = aws$part_size,
       args = aws$args,
       max_tries = aws$max_tries,
@@ -245,7 +245,7 @@ store_upload_object_aws <- function(store) {
     ),
     tar_throw_file(
       "Cannot upload non-existent AWS staging file ",
-      store$file$stage,
+      file$stage,
       " to key ",
       key,
       ". The target probably encountered an error."
@@ -253,25 +253,25 @@ store_upload_object_aws <- function(store) {
   )
   path <- grep(
     pattern = "^version=",
-    x = store$file$path,
+    x = file$path,
     value = TRUE,
     invert = TRUE
   )
-  store$file$path <- c(path, paste0("version=", head$VersionId))
-  store$file$hash <- hash_object(head$ETag)
+  file$path <- c(path, paste0("version=", head$VersionId))
+  file$hash <- hash_object(head$ETag)
   invisible()
 }
 
 #' @export
-store_has_correct_hash.tar_aws <- function(store) {
-  hash <- store_aws_hash(store)
-  !is.null(hash) && identical(hash, store$file$hash)
+store_has_correct_hash.tar_aws <- function(store, file) {
+  hash <- store_aws_hash(store, file)
+  !is.null(hash) && identical(hash, file$hash)
 }
 
-store_aws_hash <- function(store) {
+store_aws_hash <- function(store, file) {
   tar_runtime$inventories$aws <- tar_runtime$inventories$aws %|||%
     inventory_aws_init()
-  tar_runtime$inventories$aws$get_cache(store = store)
+  tar_runtime$inventories$aws$get_cache(store = store, file = file)
 }
 # nocov end
 

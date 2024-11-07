@@ -226,10 +226,11 @@ pattern_prepend_branches <- function(target, scheduler) {
 
 pattern_set_branches <- function(target, pipeline) {
   command <- target$command
+  deps_parent <- target$deps
   settings <- target$settings
   cue <- target$cue
+  store <- target$store
   specs <- junction_transpose(target$junction)
-  deps_parent <- target$deps
   for (spec in specs) {
     branch <- branch_init(
       name = .subset2(spec, "split"),
@@ -237,7 +238,8 @@ pattern_set_branches <- function(target, pipeline) {
       deps_parent = deps_parent,
       deps_child = .subset2(spec, "deps"),
       settings = settings,
-      cue = cue
+      cue = cue,
+      store = store
     )
     pipeline_set_target(pipeline, branch)
   }

@@ -17,18 +17,18 @@ inventory_gcp_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    get_key = function(store) {
-      store_gcp_key(store$file$path)
+    get_key = function(store, file) {
+      store_gcp_key(file$path)
     },
-    get_bucket = function(store) {
-      store_gcp_bucket(store$file$path)
+    get_bucket = function(store, file) {
+      store_gcp_bucket(file$path)
     },
-    set_cache = function(store) {
-      path <- store$file$path
-      bucket <- self$get_bucket(store)
+    set_cache = function(store, file) {
+      path <- file$path
+      bucket <- self$get_bucket(store, file)
       gcp <- store$resources$gcp
       results <- gcp_gcs_list_md5s(
-        prefix = dirname(self$get_key(store)),
+        prefix = dirname(self$get_key(store, file)),
         bucket = bucket,
         verbose = gcp$verbose,
         max_tries = gcp$max_tries

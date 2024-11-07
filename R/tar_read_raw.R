@@ -31,7 +31,9 @@ tar_read_inner <- function(name, branches, meta, path_store) {
 }
 
 read_builder <- function(record) {
-  store_read_object(record_bootstrap_store(record))
+  store <- record_bootstrap_store(record)
+  file <- record_bootstrap_file(record)
+  store_read_object(store, file)
 }
 
 read_pattern <- function(name, record, meta, branches, path_store) {

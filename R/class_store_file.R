@@ -24,7 +24,7 @@ store_read_path.tar_store_file <- function(store, path) {
 }
 
 #' @export
-store_write_object.tar_store_file <- function(store, object) {
+store_write_object.tar_store_file <- function(store, file, object) {
 }
 
 #' @export
@@ -58,17 +58,23 @@ store_assert_format.tar_store_file <- function(store, object, name) { # nolint
 }
 
 #' @export
-store_update_stage_early.tar_store_file <- function(store, name, path_store) {
+store_update_stage_early.tar_store_file <- function(
+  store,
+  file,
+  name,
+  path_store
+) {
 }
 
 #' @export
 store_update_stage_late.tar_store_file <- function(
   store,
+  file,
   name,
   object,
   path_store
 ) {
-  store$file$stage <- store_produce_stage(
+  file$stage <- store_produce_stage(
     store = store,
     name = name,
     object = object,
@@ -77,24 +83,25 @@ store_update_stage_late.tar_store_file <- function(
 }
 
 #' @export
-store_hash_early.tar_store_file <- function(store) { # nolint
-  tar_assert_path(store$file$path)
-  file_update_hash(store$file)
+store_hash_early.tar_store_file <- function(store, file) { # nolint
+  tar_assert_path(file$path)
+  file_update_hash(file)
 }
 
 #' @export
-store_hash_late.tar_store_file <- function(store) { # nolint
+store_hash_late.tar_store_file <- function(store, file) { # nolint
 }
 
 #' @export
 store_ensure_correct_hash.tar_store_file <- function(
   store,
+  file,
   storage,
   deployment
 ) {
   if_any(
     identical(deployment, "worker"),
-    store_wait_correct_hash(store),
-    tar_assert_path(store$file$path)
+    store_wait_correct_hash(store, file),
+    tar_assert_path(file$path)
   )
 }

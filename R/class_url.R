@@ -16,7 +16,7 @@ store_read_path.tar_url <- function(store, path) {
 }
 
 #' @export
-store_write_object.tar_url <- function(store, object) {
+store_write_object.tar_url <- function(store, file, object) {
 }
 
 #' @export
@@ -45,14 +45,14 @@ store_assert_format.tar_url <- function(store, object, name) {
 }
 
 #' @export
-store_hash_early.tar_url <- function(store) { # nolint
+store_hash_early.tar_url <- function(store, file) { # nolint
   handle <- store$resources$url$handle %|||% store$resources$handle
   max_tries <- store$resources$url$max_tries %|||% 5L
   seconds_interval <- store$resources$url$seconds_interval %|||% 1
   seconds_timeout <- store$resources$url$seconds_timeout %|||% 60
   verbose <- store$resources$url$verbose %|||% TRUE
-  store$file$hash <- url_hash(
-    url = store$file$path,
+  file$hash <- url_hash(
+    url = file$path,
     handle = handle,
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
@@ -62,12 +62,13 @@ store_hash_early.tar_url <- function(store) { # nolint
 }
 
 #' @export
-store_hash_late.tar_url <- function(store) { # nolint
+store_hash_late.tar_url <- function(store, file) { # nolint
 }
 
 #' @export
 store_ensure_correct_hash.tar_url <- function( # nolint
   store,
+  file,
   storage,
   deployment
 ) {
@@ -78,18 +79,18 @@ store_sync_file_meta.tar_url <- function(store, target, meta) {
 }
 
 #' @export
-store_has_correct_hash.tar_url <- function(store) {
+store_has_correct_hash.tar_url <- function(store, file) {
   handle <- store$resources$url$handle %|||% store$resources$handle
   identical(
     url_hash(
-      url = store$file$path,
+      url = file$path,
       handle = handle,
       seconds_interval = 0,
       seconds_timeout = 0,
       max_tries = 1L,
       verbose = TRUE
     ),
-    store$file$hash
+    file$hash
   )
 }
 

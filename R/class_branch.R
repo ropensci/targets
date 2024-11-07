@@ -4,10 +4,10 @@ branch_init <- function(
   deps_parent = character(0L),
   deps_child = character(0L),
   settings = NULL,
-  cue = NULL
+  cue = NULL,
+  store = NULL
 ) {
   deps <- setdiff(unique(c(deps_parent, deps_child)), settings$dimensions)
-  store <- settings_produce_store(settings)
   branch_new(
     name = name,
     command = command,
@@ -51,7 +51,7 @@ target_get_type.tar_branch <- function(target) {
 
 #' @export
 target_produce_record.tar_branch <- function(target, pipeline, meta) {
-  file <- target$store$file
+  file <- target$file
   record_init(
     name = target_get_name(target),
     parent = target_get_parent(target),

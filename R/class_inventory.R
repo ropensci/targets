@@ -22,25 +22,25 @@ inventory_class <- R6::R6Class(
     prefixes = NULL,
     misses = NULL,
     downloads = NULL,
-    get_key = function(store) {
+    get_key = function(store, file) {
       "example_key"
     },
-    get_bucket = function(store) {
+    get_bucket = function(store, file) {
       "example_bucket"
     },
     get_name = function(key, bucket) {
       paste(bucket, key, sep = "|")
     },
-    get_cache = function(store) {
-      key <- self$get_key(store)
+    get_cache = function(store, file) {
+      key <- self$get_key(store, file)
       prefix <- dirname(key)
-      bucket <- self$get_bucket(store)
+      bucket <- self$get_bucket(store, file)
       name <- self$get_name(key = key, bucket = bucket)
       miss <- !exists(x = name, envir = self$cache)
       download <- !counter_exists_name(counter = self$prefixes, name = prefix)
       if (download) {
         counter_set_name(counter = self$prefixes, name = prefix)
-        self$set_cache(store)
+        self$set_cache(store, file)
       }
       self$misses <- self$misses + as.integer(miss)
       self$downloads <- self$downloads + as.integer(download)
@@ -49,9 +49,9 @@ inventory_class <- R6::R6Class(
     list_cache = function() {
       names(self$cache)
     },
-    set_cache = function(store) {
-      key <- self$get_key(store)
-      bucket <- self$get_bucket(store)
+    set_cache = function(store, file) {
+      key <- self$get_key(store, file)
+      bucket <- self$get_bucket(store, sfile)
       name <- self$get_name(key = key, bucket = bucket)
       self$cache[[name]] <- "example_hash"
     },

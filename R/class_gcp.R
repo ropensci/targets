@@ -68,8 +68,8 @@ store_gcp_path_field <- function(path, pattern) {
 # external contributors from the open source community.
 # nocov start
 #' @export
-store_read_object.tar_gcp <- function(store) {
-  path <- store$file$path
+store_read_object.tar_gcp <- function(store, file) {
+  path <- file$path
   key <- store_gcp_key(path)
   bucket <- store_gcp_bucket(path)
   scratch <- path_scratch_temp_network(pattern = basename(store_gcp_key(path)))
@@ -87,8 +87,8 @@ store_read_object.tar_gcp <- function(store) {
 }
 
 #' @export
-store_exist_object.tar_gcp <- function(store, name = NULL) {
-  path <- store$file$path
+store_exist_object.tar_gcp <- function(store, file, name = NULL) {
+  path <- file$path
   gcp_gcs_exists(
     key = store_gcp_key(path),
     bucket = store_gcp_bucket(path),
@@ -99,8 +99,8 @@ store_exist_object.tar_gcp <- function(store, name = NULL) {
 }
 
 #' @export
-store_delete_object.tar_gcp <- function(store, name = NULL) {
-  path <- store$file$path
+store_delete_object.tar_gcp <- function(store, file, name = NULL) {
+  path <- file$path
   key <- store_gcp_key(path)
   bucket <- store_gcp_bucket(path)
   version <- store_gcp_version(path)
@@ -176,18 +176,18 @@ store_delete_objects.tar_gcp <- function(store, meta, batch_size, verbose) {
 }
 
 #' @export
-store_upload_object.tar_gcp <- function(store) {
-  on.exit(unlink(store$file$stage, recursive = TRUE, force = TRUE))
-  store_upload_object_gcp(store)
+store_upload_object.tar_gcp <- function(store, file) {
+  on.exit(unlink(file$stage, recursive = TRUE, force = TRUE))
+  store_upload_object_gcp(store, file)
 }
 
-store_upload_object_gcp <- function(store) {
-  key <- store_gcp_key(store$file$path)
-  bucket <- store_gcp_bucket(store$file$path)
+store_upload_object_gcp <- function(store, file) {
+  key <- store_gcp_key(file$path)
+  bucket <- store_gcp_bucket(file$path)
   head <- if_any(
-    file_exists_stage(store$file),
+    file_exists_stage(file),
     gcp_gcs_upload(
-      file = store$file$stage,
+      file = file$stage,
       key = key,
       bucket = bucket,
       predefined_acl = store$resources$gcp$predefined_acl %|||% "private",
@@ -196,7 +196,7 @@ store_upload_object_gcp <- function(store) {
     ),
     tar_throw_file(
       "Cannot upload non-existent gcp staging file ",
-      store$file$stage,
+      file$stage,
       " to key ",
       key,
       ". The target probably encountered an error."
@@ -204,25 +204,25 @@ store_upload_object_gcp <- function(store) {
   )
   path <- grep(
     pattern = "^version=",
-    x = store$file$path,
+    x = file$path,
     value = TRUE,
     invert = TRUE
   )
-  store$file$path <- c(path, paste0("version=", head$generation))
-  store$file$hash <- hash_object(head$md5)
+  file$path <- c(path, paste0("version=", head$generation))
+  file$hash <- hash_object(head$md5)
   invisible()
 }
 
 #' @export
-store_has_correct_hash.tar_gcp <- function(store) {
-  hash <- store_gcp_hash(store = store)
-  !is.null(hash) && identical(hash, store$file$hash)
+store_has_correct_hash.tar_gcp <- function(store, file) {
+  hash <- store_gcp_hash(store = store, file = file)
+  !is.null(hash) && identical(hash, file$hash)
 }
 
-store_gcp_hash <- function(store) {
+store_gcp_hash <- function(store, file) {
   tar_runtime$inventories$gcp <- tar_runtime$inventories$gcp %|||%
     inventory_gcp_init()
-  tar_runtime$inventories$gcp$get_cache(store = store)
+  tar_runtime$inventories$gcp$get_cache(store = store, file = file)
 }
 # nocov end
 

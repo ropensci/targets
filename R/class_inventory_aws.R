@@ -17,18 +17,18 @@ inventory_aws_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    get_key = function(store) {
-      store_aws_key(store$file$path)
+    get_key = function(store, file) {
+      store_aws_key(file$path)
     },
-    get_bucket = function(store) {
-      store_aws_bucket(store$file$path)
+    get_bucket = function(store, file) {
+      store_aws_bucket(file$path)
     },
-    set_cache = function(store) {
-      path <- store$file$path
-      bucket <- self$get_bucket(store)
+    set_cache = function(store, file) {
+      path <- file$path
+      bucket <- self$get_bucket(store, file)
       aws <- store$resources$aws
       results <- aws_s3_list_etags(
-        prefix = dirname(self$get_key(store)),
+        prefix = dirname(self$get_key(store, file)),
         bucket = bucket,
         page_size = aws$page_size,
         verbose = aws$verbose,
