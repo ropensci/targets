@@ -24,13 +24,29 @@ record_init <- function(
   warnings = NA_character_,
   error = NA_character_
 ) {
+  path <- as.character(path)
+  children <- as.character(children)
+  warnings <- as.character(warnings)
+  error <- as.character(error)
+  if (!length(path)) {
+    path <- NA_character_
+  }
+  if (!length(children)) {
+    children <- NA_character_
+  }
+  if (!length(warnings)) {
+    warnings <- NA_character_
+  }
+  if (!length(error)) {
+    error <- NA_character_
+  }
   record_new(
     name = as.character(name),
     type = as.character(type),
     command = as.character(command),
     seed = as.integer(seed),
     depend = as.character(depend),
-    path = as.character(path) %||% NA_character_,
+    path = path,
     data = as.character(data),
     time = as.character(time),
     size = as.character(size),
@@ -39,10 +55,10 @@ record_init <- function(
     repository = as.character(repository),
     iteration = as.character(iteration),
     parent = as.character(parent),
-    children = as.character(children) %||% NA_character_,
+    children = children,
     seconds = as.numeric(seconds),
-    warnings = as.character(warnings) %||% NA_character_,
-    error = as.character(error) %||% NA_character_
+    warnings = warnings,
+    error = error
   )
 }
 
@@ -121,11 +137,12 @@ record_produce_row <- function(record) {
 }
 
 record_row_path <- function(record) {
-  store <- store_init(
+  store <- store_enclass(
+    list(),
     format = record$format,
     repository = record$repository
   )
-  store_row_path(store, file_init(path = record$path))
+  store_row_path(store, list(path = record$path))
 }
 
 record_from_row <- function(row, path_store) {

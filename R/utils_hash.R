@@ -1,5 +1,4 @@
 hash_file <- function(path) {
-  stopifnot(length(path) == 1L)
   secretbase::siphash13(file = path)
 }
 

@@ -12,7 +12,13 @@ tar_script({
   )
 })
 start <- proc.time()["elapsed"]
-px <- pprof(tar_make(reporter = "summary", callr_function = NULL))
+px <- proffer::pprof(
+  tar_make(
+    reporter = "silent",
+    seconds_meta_append = 1,
+    callr_function = NULL
+  )
+)
 message(proc.time()["elapsed"] - start)
 
 # With silent reporter

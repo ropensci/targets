@@ -24,13 +24,8 @@ memory_set_object <- function(memory, name, object) {
     memory$names <- c(memory$names, name)
     memory$count <- memory$count + 1L
   }
-  assign(
-    x = name,
-    value = object,
-    envir = memory$envir,
-    inherits = FALSE,
-    immediate = TRUE
-  )
+  envir <- .subset2(memory, "envir")
+  envir[[name]] <- object
 }
 
 memory_del_objects <- function(memory, names) {

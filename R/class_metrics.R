@@ -33,11 +33,13 @@ metrics_terminated_early <- function(metrics) {
 }
 
 metrics_outcome <- function(metrics) {
-  if_any(
-    metrics_has_cancel(metrics),
-    "cancel",
-    if_any(metrics_has_error(metrics), "error", "completed")
-  )
+  if (metrics_has_cancel(metrics)) {
+    return("cancel")
+  }
+  if (metrics_has_error(metrics)) {
+    return("error")
+  }
+  "completed"
 }
 
 metrics_validate <- function(metrics) {

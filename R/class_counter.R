@@ -28,16 +28,18 @@ counter_get_names <- function(counter) {
 }
 
 counter_exists_name <- function(counter, name) {
+  !is.null(.subset2(.subset2(counter, "envir"), name))
   exists(name, envir = counter$envir, inherits = FALSE)
 }
 
 counter_exist_names <- function(counter, names) {
+  envir <- .subset2(counter, "envir")
   as.logical(
     lapply(
       names,
-      exists,
-      envir = counter$envir,
-      inherits = FALSE
+      function(name) {
+        !is.null(envir[[name]])
+      }
     )
   )
 }

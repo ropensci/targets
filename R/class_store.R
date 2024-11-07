@@ -4,7 +4,6 @@ store_init <- function(
   resources = list()
 ) {
   store <- store_new(
-    file = file_init(),
     resources = resources,
     methods_format = store_methods_format(format),
     methods_repository = store_methods_repository(repository)
@@ -24,13 +23,11 @@ store_mock <- function(
 }
 
 store_new <- function(
-  file = NULL,
   resources = NULL,
   methods_format = NULL,
   methods_repository = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
-  out$file <- file
   out$resources <- resources
   out$methods_format <- methods_format
   out$methods_repository <- methods_repository
@@ -51,12 +48,20 @@ store_enclass <- function(store, format, repository) {
 # because the responsibilities of store and format
 # would overlap too much.
 store_dispatch_format <- function(format) {
-  class <- if_any(is_format_custom(format), "format_custom", format)
+  if (is_format_custom(format)) {
+    class <- "format_custom"
+  } else {
+    class <- format
+  }
   enclass(format, class)
 }
 
 store_dispatch_repository <- function(repository) {
-  class <- if_any(is_repository_cas(repository), "repository_cas", repository)
+  if (is_repository_cas(repository)) {
+    class <- "repository_cas"
+  } else {
+    class <- repository
+  }
   enclass(repository, class)
 }
 
