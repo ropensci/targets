@@ -7,7 +7,6 @@ command_init <- function(
   string = NULL
 ) {
   expr <- as.expression(expr)
-  deps <- deps %|||% deps_function(embody_expr(expr))
   string <- string %|||% mask_pointers(tar_deparse_safe(expr))
   hash <- hash_object(string)
   command_new(expr, packages, library, deps, seed, string, hash)
@@ -61,7 +60,6 @@ command_validate <- function(command) {
   tar_assert_expr(command$expr)
   tar_assert_chr(command$packages)
   tar_assert_chr(command$library %|||% character(0))
-  tar_assert_chr(command$deps)
   tar_assert_int(command$seed)
   tar_assert_scalar(command$seed)
   tar_assert_chr(command$string)

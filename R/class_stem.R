@@ -1,5 +1,8 @@
 stem_new <- function(
+  name = NULL,
   command = NULL,
+  seed = NULL,
+  deps = NULL,
   settings = NULL,
   cue = NULL,
   value = NULL,
@@ -9,7 +12,10 @@ stem_new <- function(
   junction = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$name <- name
   out$command <- command
+  out$seed <- seed
+  out$deps <- deps
   out$settings <- settings
   out$cue <- cue
   out$value <- value
@@ -105,6 +111,11 @@ target_is_branchable.tar_stem <- function(target) {
 target_validate.tar_stem <- function(target) {
   tar_assert_correct_fields(target, stem_new)
   NextMethod()
+  command_validate(target$command)
+  tar_assert_dbl(target$seed)
+  tar_assert_scalar(target$seed)
+  tar_assert_none_na(target$seed)
+  tar_assert_chr(target$deps)
   if (!is.null(target$junction)) {
     junction_validate(target$junction)
   }
@@ -138,7 +149,7 @@ stem_tar_assert_nonempty <- function(target) {
 stem_produce_buds <- function(target) {
   settings <- target$settings
   names <- target_get_children(target)
-  map(seq_along(names), ~bud_init(settings, names[.x], .x))
+  map(seq_along(names), ~bud_init(names[.x], settings, .x))
 }
 
 stem_insert_buds <- function(target, pipeline) {

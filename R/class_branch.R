@@ -1,22 +1,26 @@
 branch_init <- function(
+  name = NULL,
   command = NULL,
+  deps = character(0),
   settings = NULL,
   cue = NULL,
   value = NULL,
-  deps = character(0),
-  child = character(0),
   index = integer(0)
 ) {
   command <- command_clone(command)
+  seed <- tar_seed_create(name)
   deps <- union(command$deps, deps)
   command$deps <- setdiff(deps, settings$dimensions)
-  command$seed <- tar_seed_create(child)
-  pedigree <- pedigree_new(settings$name, child, index)
+  command$seed <- seed
+  pedigree <- pedigree_new(settings$name, name, index)
   settings <- settings_clone(settings)
-  settings$name <- child
+  settings$name <- name
   store <- settings_produce_store(settings)
   branch_new(
+    name = name,
     command = command,
+    seed = seed,
+    deps = deps,
     settings = settings,
     cue = cue,
     value = value,
@@ -28,7 +32,10 @@ branch_init <- function(
 }
 
 branch_new <- function(
+  name = NULL,
   command = NULL,
+  seed = NULL,
+  deps = NULL,
   settings = NULL,
   cue = NULL,
   value = NULL,
@@ -38,7 +45,10 @@ branch_new <- function(
   pedigree = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$name <- name
   out$command <- command
+  out$seed <- seed
+  out$deps <- deps
   out$settings <- settings
   out$cue <- cue
   out$value <- value
@@ -96,8 +106,13 @@ target_restore_buds.tar_branch <- function(target, pipeline, scheduler, meta) {
 #' @export
 target_validate.tar_branch <- function(target) {
   tar_assert_correct_fields(target, branch_new)
-  pedigree_validate(target$pedigree)
   NextMethod()
+  command_validate(target$command)
+  tar_assert_dbl(target$seed)
+  tar_assert_scalar(target$seed)
+  tar_assert_none_na(target$seed)
+  tar_assert_chr(target$deps)
+  pedigree_validate(target$pedigree)
 }
 
 #' @export

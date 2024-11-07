@@ -32,6 +32,41 @@ tar_test("target seed", {
   expect_true(is.na(out[5]))
 })
 
+tar_test("stem with automatic deps", {
+  target <- target_init(name = "x", expr = quote(a <- b + c))
+  expect_true(all(c("b", "c") %in% target$deps))
+  expect_false("a" %in% target$deps)
+})
+
+tar_test("pattern with automatic deps", {
+  target <- target_init(
+    name = "x",
+    expr = quote(a <- b + c),
+    pattern = quote(map(b))
+  )
+  expect_true(all(c("b", "c") %in% target$deps))
+  expect_false("a" %in% target$deps)
+})
+
+tar_test("stem inspect formulas", {
+  target <- target_init(
+    name = "x",
+    expr = quote(map_dfr(data, ~do_row(.x, dataset)))
+  )
+  expect_true(all(c("dataset", "do_row") %in% target$deps))
+  expect_false("~" %in% target$deps)
+})
+
+tar_test("pattern inspect formulas", {
+  target <- target_init(
+    name = "x",
+    expr = quote(map_dfr(data, ~do_row(.x, dataset))),
+    pattern = quote(map(dataset))
+  )
+  expect_true(all(c("dataset", "do_row") %in% target$deps))
+  expect_false("~" %in% target$deps)
+})
+
 tar_test("target$value", {
   x <- target_init(name = "abc", expr = quote(1L))
   builder_update_build(x, baseenv())

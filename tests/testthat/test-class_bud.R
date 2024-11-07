@@ -1,25 +1,25 @@
 tar_test("bud$pedigree", {
   settings <- settings_init(name = "x")
-  bud <- bud_init(settings, "x_1", 1L)
+  bud <- bud_init(name = "x_1", settings = settings, index = 1L)
   expect_silent(pedigree_validate(bud$pedigree))
 })
 
 tar_test("bud$value", {
   settings <- settings_init(name = "x")
-  bud <- bud_init(settings, "y", 1L)
+  bud <- bud_init(name = "y", settings = settings, index = 1L)
   bud$value <- value_init("123")
   expect_equal(bud$value$object, "123")
 })
 
 tar_test("target_get_parent(bud)", {
   settings <- settings_init(name = "x")
-  bud <- bud_init(settings, "y", 1L)
+  bud <- bud_init(name = "y", settings = settings, index = 1L)
   expect_equal(target_get_parent(bud), "x")
 })
 
 tar_test("buds are not branchable", {
   settings <- settings_init(name = "x")
-  bud <- bud_init(settings, "y", 1L)
+  bud <- bud_init(name = "y", settings = settings, index = 1L)
   expect_false(target_is_branchable(bud))
 })
 
@@ -105,12 +105,12 @@ tar_test("buds can load values from memory", {
 
 tar_test("target_needs_worker(bud)", {
   settings <- settings_init(name = "x")
-  bud <- bud_init(settings, "y", 1L)
+  bud <- bud_init(name = "y", settings = settings, index = 1L)
   expect_false(target_needs_worker(bud))
 })
 
 tar_test("target_validate(bud)", {
   settings <- settings_init(name = "x")
-  bud <- bud_init(settings, "x_hash", 1L)
+  bud <- bud_init(name = "x_hash", settings = settings, index = 1L)
   expect_silent(target_validate(bud))
 })

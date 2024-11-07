@@ -48,18 +48,6 @@ tar_test("command_init(deps)", {
   expect_equal(command$deps, "custom")
 })
 
-tar_test("command_init() with automatic deps", {
-  command <- command_init(quote(a <- b + c))
-  expect_true(all(c("b", "c") %in% command$deps))
-  expect_false("a" %in% command$deps)
-})
-
-tar_test("command_init() inspects formulas", {
-  command <- command_init(quote(map_dfr(data, ~do_row(.x, dataset))))
-  expect_true(all(c("dataset", "do_row") %in% command$deps))
-  expect_false("~" %in% command$deps)
-})
-
 tar_test("command_init(string)", {
   command <- command_init(quote(a <- b + c), string = "custom")
   expect_equal(command$string, "custom")
@@ -97,12 +85,6 @@ tar_test("command validation with packages (test 2)", {
 
 tar_test("command_validate() with bad library field", {
   command <- command_init(expr = quote(a <- b + c), library = 123)
-  expect_error(command_validate(command), class = "tar_condition_validate")
-})
-
-tar_test("command_validate() with bad deps field", {
-  command <- command_init(expr = quote(a <- b + c))
-  command$deps <- 123L
   expect_error(command_validate(command), class = "tar_condition_validate")
 })
 

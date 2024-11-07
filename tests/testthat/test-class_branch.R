@@ -3,13 +3,13 @@ tar_test("branch$pedigree", {
   settings <- settings_init(name = "x", pattern = quote(map(y)))
   cue <- cue_init()
   branch <- branch_init(
-    command,
-    settings,
-    cue,
-    NULL,
-    character(0),
-    "y",
-    1L
+    name = "x",
+    command = command,
+    deps = character(0L),
+    settings = settings,
+    cue = cue,
+    value = NULL,
+    index = 1L
   )
   expect_true(inherits(branch, "tar_branch"))
 })
@@ -19,13 +19,13 @@ tar_test("branch$pedigree", {
   settings <- settings_init(name = "x", pattern = quote(map(y)))
   cue <- cue_init()
   branch <- branch_init(
-    command,
-    settings,
-    cue,
-    NULL,
-    character(0),
-    "x_1",
-    1L
+    name = "x_1",
+    command = command,
+    deps = character(0),
+    settings = settings,
+    cue = cue,
+    value = NULL,
+    index = 1L
   )
   expect_silent(pedigree_validate(branch$pedigree))
   expect_equal(settings$name, "x")
@@ -41,13 +41,13 @@ tar_test("branch priority", {
   )
   cue <- cue_init()
   branch <- branch_init(
-    command,
-    settings,
-    cue,
-    NULL,
-    character(0),
-    "y",
-    1L
+    name = "y",
+    command = command,
+    deps = character(0),
+    settings = settings,
+    cue = cue,
+    value = NULL,
+    index = 1L
   )
   expect_equal(branch$settings$priority, 0.5)
 })
@@ -57,13 +57,13 @@ tar_test("branches are not branchable", {
   settings <- settings_init(name = "x", pattern = quote(map(y)))
   cue <- cue_init()
   branch <- branch_init(
-    command,
-    settings,
-    cue,
-    NULL,
-    character(0),
-    "y",
-    1L
+    name = "y",
+    command = command,
+    deps = character(0),
+    settings = settings,
+    cue = cue,
+    value = NULL,
+    index = 1L
   )
   expect_false(target_is_branchable(branch))
 })
@@ -73,13 +73,13 @@ tar_test("target_get_name()", {
   settings <- settings_init(name = "x", pattern = quote(map(y)))
   cue <- cue_init()
   branch <- branch_init(
-    command,
-    settings,
-    cue,
-    NULL,
-    character(0),
-    "y",
-    1L
+    name = "y",
+    command = command,
+    deps = character(0),
+    settings = settings,
+    cue = cue,
+    value = NULL,
+    index = 1L
   )
   expect_equal(settings$name, "x")
   expect_equal(target_get_name(branch), "y")
@@ -90,13 +90,13 @@ tar_test("target_get_parent(branch)", {
   settings <- settings_init(name = "x", pattern = quote(map(y)))
   cue <- cue_init()
   branch <- branch_init(
-    command,
-    settings,
-    cue,
-    NULL,
-    character(0),
-    "y",
-    1L
+    name = "y",
+    command = command,
+    deps = character(0),
+    settings = settings,
+    cue = cue,
+    value = NULL,
+    index = 1L
   )
   expect_equal(target_get_parent(branch), "x")
 })
@@ -163,13 +163,13 @@ tar_test("branch_validate()", {
   settings <- settings_init(name = "x", pattern = quote(map(y)))
   cue <- cue_init()
   branch <- branch_init(
-    command,
-    settings,
-    cue,
-    NULL,
-    character(0),
-    "x_f4acd87c52d4e62b",
-    1L
+    name = "x_f4acd87c52d4e62b",
+    command = command,
+    deps = character(0),
+    settings = settings,
+    cue = cue,
+    value = NULL,
+    index = 1L
   )
   expect_silent(target_validate(branch))
 })

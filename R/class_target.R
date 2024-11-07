@@ -21,6 +21,7 @@ target_init <- function(
   description = character(0L)
 ) {
   seed <- tar_seed_create(name)
+  deps <- deps <- deps %|||% deps_function(embody_expr(expr))
   command <- command_init(expr, packages, library, seed, deps, string)
   cue <- cue %|||% cue_init()
   if (any(grepl("^aws_", format))) {
@@ -54,15 +55,21 @@ target_init <- function(
   if_any(
     is.null(settings$pattern),
     stem_new(
-      command,
-      settings,
-      cue,
+      name = name,
+      command = command,
+      seed = seed,
+      deps = deps,
+      settings = settings,
+      cue = cue,
       store = settings_produce_store(settings)
     ),
     pattern_new(
-      command,
-      settings,
-      cue,
+      name = name,
+      command = command,
+      seed = seed,
+      deps = deps,
+      settings = settings,
+      cue = cue,
       patternview = patternview_init()
     )
   )
@@ -481,7 +488,9 @@ target_validate <- function(target) {
 
 #' @export
 target_validate.tar_target <- function(target) {
-  command_validate(target$command)
+  tar_assert_chr(target$name)
+  tar_assert_scalar(target$name)
+  tar_assert_nzchar(target$name)
   settings_validate(target$settings)
   if (!is.null(target$cue)) {
     cue_validate(target$cue)

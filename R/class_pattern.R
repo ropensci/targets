@@ -1,5 +1,8 @@
 pattern_new <- function(
+  name = NULL,
   command = NULL,
+  seed = NULL,
+  deps = NULL,
   settings = NULL,
   cue = NULL,
   value = NULL,
@@ -7,7 +10,10 @@ pattern_new <- function(
   patternview = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
+  out$name <- name
   out$command <- command
+  out$seed <- seed
+  out$deps <- deps
   out$settings <- settings
   out$cue <- cue
   out$value <- value
@@ -130,10 +136,15 @@ target_needs_worker.tar_pattern <- function(target) {
 #' @export
 target_validate.tar_pattern <- function(target) {
   tar_assert_correct_fields(target, pattern_new)
+  NextMethod()
+  command_validate(target$command)
+  tar_assert_dbl(target$seed)
+  tar_assert_scalar(target$seed)
+  tar_assert_none_na(target$seed)
+  tar_assert_chr(target$deps)
   if (!is.null(target$junction)) {
     junction_validate(target$junction)
   }
-  NextMethod()
 }
 
 #' @export
@@ -213,28 +224,6 @@ pattern_prepend_branches <- function(target, scheduler) {
   scheduler$queue$prepend(children, ranks)
 }
 
-pattern_produce_branch <- function(spec, command, settings, cue) {
-  branch_init(
-    command = command,
-    settings = settings,
-    cue = cue,
-    deps = spec$deps,
-    child = spec$split,
-    index = spec$index
-  )
-}
-
-pattern_produce_branches <- function(target, pipeline) {
-  map(
-    junction_transpose(target$junction),
-    pattern_produce_branch,
-    command = target$command,
-    settings = target$settings,
-    cue = target$cue
-  )
-}
-
-
 pattern_set_branches <- function(target, pipeline) {
   command <- target$command
   settings <- target$settings
@@ -242,12 +231,12 @@ pattern_set_branches <- function(target, pipeline) {
   specs <- junction_transpose(target$junction)
   for (spec in specs) {
     branch <- branch_init(
+      name = .subset2(spec, "split"),
       command = command,
+      deps = .subset2(spec, "deps"),
       settings = settings,
       cue = cue,
-      deps = spec$deps,
-      child = spec$split,
-      index = spec$index
+      index = .subset2(spec, "index")
     )
     pipeline_set_target(pipeline, branch)
   }
