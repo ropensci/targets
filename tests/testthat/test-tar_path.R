@@ -80,7 +80,12 @@ tar_test("tar_path() returns stage for cloud formats", {
   skip_cran()
   skip_on_os("windows")
   x <- tar_target(x, 1, format = "parquet", repository = "aws")
-  store_update_stage_early(x$store, x$settings$name, path_store_default())
+  store_update_stage_early(
+    x$store,
+    x$file,
+    x$settings$name,
+    path_store_default()
+  )
   dir <- dirname(x$file$stage)
   unlink(dir, recursive = TRUE)
   on.exit(tar_runtime$target <- NULL)

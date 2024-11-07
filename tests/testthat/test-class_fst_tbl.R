@@ -10,7 +10,7 @@ tar_test("fst_tbl format", {
     expr = quote(f()),
     format = "fst_tbl"
   )
-  store_update_stage_early(x$store, "abc", path_store_default())
+  store_update_stage_early(x$store, x$file, "abc", path_store_default())
   builder_update_build(x, envir = envir)
   builder_update_paths(x, path_store_default())
   builder_update_object(x)
@@ -33,7 +33,7 @@ tar_test("fst_tbl coercion", {
     expr = quote(f()),
     format = "fst_tbl"
   )
-  store_update_stage_early(x$store, "abc", path_store_default())
+  store_update_stage_early(x$store, x$file, "abc", path_store_default())
   builder_update_build(x, envir)
   expect_true(inherits(x$value$object, "tbl_df"))
   builder_update_paths(x, path_store_default())

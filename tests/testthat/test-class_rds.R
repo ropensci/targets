@@ -4,7 +4,7 @@ tar_test("rds update_object()", {
   builder_update_paths(x, path_store_default())
   expect_false(file.exists(x$file$path))
   expect_true(is.na(x$file$hash))
-  store_update_stage_early(x$store, "abc", path_store_default())
+  store_update_stage_early(x$store, x$file, "abc", path_store_default())
   builder_update_object(x)
   expect_true(file.exists(x$file$path))
   expect_false(is.na(x$file$hash))
