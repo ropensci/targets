@@ -74,9 +74,11 @@ tar_test("does not inherit from tar_external", {
 })
 
 tar_test("store_row_path()", {
-  store <- tar_target(x, "x_value", format = "torch")$store
-  store$file$path <- "path"
-  expect_equal(store_row_path(store), NA_character_)
+  target <- tar_target(x, "x_value", format = "torch")
+  store <- target$store
+  file <- target$file
+  file$path <- "path"
+  expect_equal(store_row_path(store, file), NA_character_)
 })
 
 tar_test("store_path_from_record()", {

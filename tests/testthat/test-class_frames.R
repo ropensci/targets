@@ -92,8 +92,8 @@ tar_test("target_frames_deps()", {
   frames <- frames_init()
   tmp <- tempfile()
   saveRDS("value", tmp)
-  file <- x$store$file$path <- tmp
-  file <- y$store$file$path <- tmp
+  file <- x$file$path <- tmp
+  file <- y$file$path <- tmp
   expect_named(frames_get_envir(frames), character(0))
   x <- pipeline_get_target(pipeline, "abc")
   y <- pipeline_get_target(pipeline, "def")

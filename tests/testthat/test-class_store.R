@@ -3,16 +3,15 @@ tar_test("store_wait_correct_hash()", {
   file <- file_init(path = tmp)
   writeLines("lines", tmp)
   store <- store_init()
-  store$file <- file
   store$resources <- tar_resources(
     network = suppressWarnings(tar_resources_network(max_tries = 1L))
   )
   expect_error(
-    store_wait_correct_hash(store),
+    store_wait_correct_hash(store, file),
     class = "tar_condition_expire"
   )
   file_update_hash(file)
-  expect_silent(store_wait_correct_hash(store))
+  expect_silent(store_wait_correct_hash(store, file))
 })
 
 tar_test("default serialization/unserialization methods", {

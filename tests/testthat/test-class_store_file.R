@@ -11,20 +11,20 @@ tar_test("dynamic files work", {
     file
   }
   builder_update_build(x, envir)
-  expect_equal(x$store$file$path, character(0))
-  expect_true(is.na(x$store$file$hash))
+  expect_equal(x$file$path, character(0))
+  expect_true(is.na(x$file$hash))
   builder_update_paths(x, path_store_default())
-  expect_true(file.exists(x$store$file$path))
-  expect_true(nzchar(x$store$file$path))
-  expect_false(is.na(x$store$file$hash))
+  expect_true(file.exists(x$file$path))
+  expect_true(nzchar(x$file$path))
+  expect_false(is.na(x$file$hash))
   expect_silent(store_validate(x$store))
-  expect_true(file.exists(x$store$file$path))
-  expect_false(is.na(x$store$file$hash))
+  expect_true(file.exists(x$file$path))
+  expect_false(is.na(x$file$hash))
   builder_update_object(x)
   expect_false(file.exists(file.path("_targets", "objects", "abc")))
   expect_equal(readLines(x$value$object), "lines")
   out <- target_read_value(x)$object
-  exp <- x$store$file$path
+  exp <- x$file$path
   expect_equal(out, exp)
 })
 
@@ -57,9 +57,11 @@ tar_test("inherits from tar_external", {
 })
 
 tar_test("store_row_path()", {
-  store <- tar_target(x, "x_value", format = "file")$store
-  store$file$path <- "path"
-  expect_equal(store_row_path(store), "path")
+  target <- tar_target(x, "x_value", format = "file")
+  store <- target$store
+  file <- target$file
+  file$path <- "path"
+  expect_equal(store_row_path(store, file), "path")
 })
 
 tar_test("store_path_from_record()", {

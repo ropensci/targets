@@ -15,7 +15,7 @@ tar_test("fst_tbl format", {
   builder_update_paths(x, path_store_default())
   builder_update_object(x)
   exp <- envir$f()
-  out <- tibble::as_tibble(fst::read_fst(x$store$file$path))
+  out <- tibble::as_tibble(fst::read_fst(x$file$path))
   expect_equal(out, exp)
   expect_equal(target_read_value(x)$object, exp)
   expect_silent(target_validate(x))
@@ -89,9 +89,11 @@ tar_test("does not inherit from tar_external", {
 tar_test("store_row_path()", {
   skip_if_not_installed("fst")
   skip_if_not_installed("tibble")
-  store <- tar_target(x, "x_value", format = "fst_tbl")$store
-  store$file$path <- "path"
-  expect_equal(store_row_path(store), NA_character_)
+  target <- tar_target(x, "x_value", format = "fst_tbl")
+  store <- target$store
+  file <- target$file
+  file$path <- "path"
+  expect_equal(store_row_path(store, file), NA_character_)
 })
 
 tar_test("store_path_from_record()", {

@@ -7,7 +7,7 @@ tar_test("target_load_value()", {
   x <- target_init(name = "abc", expr = quote(2L), format = "rds")
   tmp <- tempfile()
   saveRDS("abc", tmp)
-  file <- x$store$file
+  file <- x$file
   file$path <- tmp
   pipeline <- pipeline_init(list(x))
   expect_equal(counter_get_names(pipeline$loaded), character(0))

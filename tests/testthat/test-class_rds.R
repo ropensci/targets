@@ -2,12 +2,12 @@ tar_test("rds update_object()", {
   x <- target_init(name = "abc", expr = quote(a), format = "rds")
   builder_update_build(x, tmpenv(a = "123"))
   builder_update_paths(x, path_store_default())
-  expect_false(file.exists(x$store$file$path))
-  expect_true(is.na(x$store$file$hash))
+  expect_false(file.exists(x$file$path))
+  expect_true(is.na(x$file$hash))
   store_update_stage_early(x$store, "abc", path_store_default())
   builder_update_object(x)
-  expect_true(file.exists(x$store$file$path))
-  expect_false(is.na(x$store$file$hash))
+  expect_true(file.exists(x$file$path))
+  expect_false(is.na(x$file$hash))
   path <- file.path("_targets", "objects", "abc")
   expect_equal(readRDS(path), "123")
   expect_equal(target_read_value(x)$object, "123")
@@ -32,9 +32,11 @@ tar_test("does not inherit from tar_external", {
 })
 
 tar_test("store_row_path()", {
-  store <- tar_target(x, "x_value", format = "rds")$store
-  store$file$path <- "path"
-  expect_equal(store_row_path(store), NA_character_)
+  target <- tar_target(x, "x_value", format = "rds")
+  store <- target$store
+  file <- target$file
+  file$path <- "path"
+  expect_equal(store_row_path(store, file), NA_character_)
 })
 
 tar_test("store_path_from_record()", {

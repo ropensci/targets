@@ -181,7 +181,7 @@ tar_test("clustermq with a dynamic file", {
   suppressWarnings(cmq$run())
   out <- names(cmq$scheduler$progress$completed$envir)
   expect_equal(out, "x")
-  saveRDS(2L, pipeline_get_target(pipeline, "x")$store$file$path)
+  saveRDS(2L, pipeline_get_target(pipeline, "x")$file$path)
   x <- tar_target_raw("x", quote(save1()), format = "file")
   pipeline <- pipeline_init(list(x))
   cmq <- clustermq_init(pipeline)

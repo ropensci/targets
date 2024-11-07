@@ -14,7 +14,7 @@ tar_test("fst format", {
   builder_update_paths(x, path_store_default())
   builder_update_object(x)
   exp <- envir$f()
-  expect_equal(fst::read_fst(x$store$file$path), exp)
+  expect_equal(fst::read_fst(x$file$path), exp)
   expect_equal(target_read_value(x)$object, exp)
   expect_silent(target_validate(x))
 })
@@ -92,9 +92,11 @@ tar_test("does not inherit from tar_external", {
 
 tar_test("store_row_path()", {
   skip_if_not_installed("fst")
-  store <- tar_target(x, "x_value", format = "fst")$store
-  store$file$path <- "path"
-  expect_equal(store_row_path(store), NA_character_)
+  target <- tar_target(x, "x_value", format = "fst")
+  store <- target$store
+  file <- target$file
+  file$path <- "path"
+  expect_equal(store_row_path(store, file), NA_character_)
 })
 
 tar_test("store_path_from_record()", {

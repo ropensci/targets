@@ -83,7 +83,7 @@ tar_test("target_ensure_value() loads values", {
   x <- target_init(name = "abc", expr = quote(2L), format = "rds")
   tmp <- tempfile()
   saveRDS("abc", tmp)
-  file <- x$store$file
+  file <- x$file
   file$path <- tmp
   pipeline <- pipeline_init(list(x))
   for (index in seq_len(2)) {
@@ -99,7 +99,7 @@ tar_test("target_ensure_dep()", {
   pipeline <- pipeline_init(list(x, y))
   tmp <- tempfile()
   saveRDS("value", tmp)
-  file <- y$store$file
+  file <- y$file
   file$path <- tmp
   expect_null(y$value$object)
   for (index in seq_len(2)) {

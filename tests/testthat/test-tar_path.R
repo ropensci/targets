@@ -81,7 +81,7 @@ tar_test("tar_path() returns stage for cloud formats", {
   skip_on_os("windows")
   x <- tar_target(x, 1, format = "parquet", repository = "aws")
   store_update_stage_early(x$store, x$settings$name, path_store_default())
-  dir <- dirname(x$store$file$stage)
+  dir <- dirname(x$file$stage)
   unlink(dir, recursive = TRUE)
   on.exit(tar_runtime$target <- NULL)
   on.exit(unlink(dir, recursive = TRUE), add = TRUE)
@@ -91,7 +91,7 @@ tar_test("tar_path() returns stage for cloud formats", {
   out <- suppressWarnings(tar_path(create_dir = TRUE))
   expect_true(file.exists(dirname(out)))
   expect_equal(dirname(out), file.path(path_scratch_dir_network()))
-  expect_equal(out, x$store$file$stage)
+  expect_equal(out, x$file$stage)
 })
 
 tar_test("tar_path() with alternative data store in tar_make()", {
