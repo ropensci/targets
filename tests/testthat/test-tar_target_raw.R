@@ -36,14 +36,14 @@ tar_test("can set deps", {
     "notebook",
     command = quote(abc)
   )
-  expect_equal(out$command$deps, "abc")
+  expect_equal(out$deps, "abc")
   expect_true(grepl("abc", out$command$string))
   out <- tar_target_raw(
     "notebook",
     command = quote(abc),
     deps = "xyz"
   )
-  expect_equal(out$command$deps, "xyz")
+  expect_equal(out$deps, "xyz")
   expect_true(grepl("abc", out$command$string))
 })
 
@@ -52,14 +52,14 @@ tar_test("can set string", {
     "notebook",
     command = quote(abc)
   )
-  expect_equal(out$command$deps, "abc")
+  expect_equal(out$deps, "abc")
   expect_true(grepl("abc", out$command$string))
   out <- tar_target_raw(
     "notebook",
     command = quote(abc),
     string = "xyz"
   )
-  expect_equal(out$command$deps, "abc")
+  expect_equal(out$deps, "abc")
   expect_equal(out$command$string, "xyz")
 })
 
