@@ -164,7 +164,8 @@ tar_test("branch_validate()", {
     deps_parent = character(0L),
     deps_child = character(0L),
     settings = settings,
-    cue = cue
+    cue = cue,
+    store = settings_produce_store(settings)
   )
   expect_silent(target_validate(branch))
 })
