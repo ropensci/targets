@@ -4,14 +4,11 @@ bud_init <- function(
   index = integer(0)
 ) {
   parent <- settings$name
-  command <- command_null
   settings <- settings_clone(settings)
   settings$name <- name
   bud_new(
     name = name,
-    command = command,
     settings = settings,
-    cue = NULL,
     value = NULL,
     pedigree = pedigree_new(parent, name, index)
   )
@@ -19,17 +16,13 @@ bud_init <- function(
 
 bud_new <- function(
   name = NULL,
-  command = NULL,
   settings = NULL,
-  cue = NULL,
   value = NULL,
   pedigree = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$name <- name
-  out$command <- command
   out$settings <- settings
-  out$cue <- cue
   out$value <- value
   out$pedigree <- pedigree
   enclass(out, bud_s3_class)
