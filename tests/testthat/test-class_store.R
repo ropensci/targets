@@ -38,15 +38,16 @@ tar_test("default delete and exists methods", {
   meta <- meta[meta$name == "x",, drop = FALSE] # nolint
   record <- record_from_row(row = meta, path_store = path_store_default())
   store <- record_bootstrap_store(record)
+  file <- record_bootstrap_file(record)
   expect_true(file.exists(path))
-  expect_true(store_exist_object(store))
-  store_delete_object(store)
+  expect_true(store_exist_object(store, file))
+  store_delete_object(store, file)
   expect_error(
     store_delete_objects(store, data_frame(name = "a"), 3, TRUE),
     class = "tar_condition_validate"
   )
   expect_false(file.exists(path))
-  expect_false(store_exist_object(store))
+  expect_false(store_exist_object(store, file))
 })
 
 tar_test("alternate storage with _targets.yaml", {
