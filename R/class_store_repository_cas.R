@@ -70,7 +70,7 @@ store_read_object.tar_repository_cas <- function(store, file) {
 #' @export
 store_has_correct_hash.tar_repository_cas <- function(store, file) {
   lookup <- tar_repository_cas_lookup(store)
-  key <- .subset2(.subset2(store, "file"), "hash")
+  key <- .subset2(file, "hash")
   if (lookup_missing(lookup = lookup, name = key)) {
     value <- store_repository_cas_call_method(
       store = store,
