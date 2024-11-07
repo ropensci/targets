@@ -71,11 +71,3 @@ supported_args <- function(fun, args) {
   common <- intersect(names(formals(fun)), names(args))
   args[common]
 }
-
-tar_serialize <- function(x) {
-  qs2::qs_serialize(object = x, shuffle = FALSE)
-}
-
-tar_unserialize <- function(x) {
-  qs2::qs_deserialize(input = x, validate_checksum = FALSE)
-}
