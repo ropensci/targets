@@ -44,6 +44,13 @@ pipeline_get_target <- function(pipeline, name) {
   .subset2(.subset2(pipeline, "targets"), name)
 }
 
+pipeline_set_target <- function(pipeline, target) {
+  envir <- .subset2(pipeline, "targets")
+  name <- target_get_name(target)
+  envir[[name]] <- target
+  NULL
+}
+
 pipeline_get_names <- function(pipeline) {
   names(pipeline$targets)
 }
@@ -76,13 +83,6 @@ pipeline_reset_deployments <- function(pipeline) {
 pipeline_reset_deployment <- function(pipeline, name) {
   target <- pipeline_get_target(pipeline, name)
   target$settings$deployment <- "main"
-}
-
-pipeline_set_target <- function(pipeline, target) {
-  envir <- .subset2(pipeline, "targets")
-  name <- target_get_name(target)
-  envir[[name]] <- target
-  NULL
 }
 
 pipeline_exists_target <- function(pipeline, name) {
@@ -180,7 +180,7 @@ pipeline_produce_subpipeline <- function(pipeline, name, keep_value = NULL) {
 pipeline_assign_target_copy <- function(pipeline, name, envir, keep_value) {
   target <- pipeline_get_target(pipeline, name)
   copy <- target_subpipeline_copy(target, keep_value)
-  assign(name, copy, envir = envir)
+  envir[[name]] <- copy
 }
 
 pipeline_marshal_values <- function(pipeline) {

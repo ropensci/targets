@@ -226,6 +226,7 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   builder_ensure_object(target, "main")
   builder_ensure_correct_hash(target)
   builder_handle_warnings(target, scheduler)
+  pipeline_set_target(pipeline, target)
   switch(
     metrics_outcome(target$metrics),
     cancel = builder_cancel(target, pipeline, scheduler, meta),
