@@ -104,8 +104,7 @@ outdated_class <- R6::R6Class(
     },
     reset_junction = function(target) {
       if (!is.null(target$junction)) {
-        new_splits <- rep(NA_character_, length(target$junction$splits))
-        target$junction$splits <- new_splits
+        junction_invalidate(target$junction)
       }
     },
     register_checked = function(name) {

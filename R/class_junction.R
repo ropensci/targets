@@ -23,6 +23,10 @@ junction_upstream_edges <- function(junction) {
   data_frame(from = from, to = to)
 }
 
+junction_get_splits <- function(junction) {
+  as.character(junction$splits)
+}
+
 junction_transpose <- function(junction) {
   splits <- junction$splits
   deps <- junction$deps
@@ -32,6 +36,10 @@ junction_transpose <- function(junction) {
     out[[index]]$split <- splits[index]
   }
   out
+}
+
+junction_invalidate <- function(junction) {
+  junction$splits <- rep(NA_character_, length(junction$splits))
 }
 
 junction_validate_deps <- function(deps) {
