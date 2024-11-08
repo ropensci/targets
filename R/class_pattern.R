@@ -44,7 +44,7 @@ pattern_s3_class <- c("tar_pattern", "tar_target")
 
 #' @export
 target_get_children.tar_pattern <- function(target) {
-  junction_get_splits(target$junction)
+  junction_splits(target$junction)
 }
 
 #' @export

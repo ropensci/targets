@@ -5,15 +5,15 @@ tar_test("junction deps", {
   expect_equal(out, exp)
 })
 
-tar_test("junction_get_splits()", {
+tar_test("junction_splits()", {
   x <- junction_init("x", letters, list(a = LETTERS, b = rev(letters)))
-  expect_equal(junction_get_splits(x), letters)
+  expect_equal(junction_splits(x), letters)
 })
 
 tar_test("junction_invalidate()", {
   x <- junction_init("x", letters, list(a = LETTERS, b = rev(letters)))
   junction_invalidate(x)
-  expect_equal(junction_get_splits(x), rep(NA_character_, length(x$splits)))
+  expect_equal(junction_splits(x), rep(NA_character_, length(x$splits)))
 })
 
 tar_test("junction_upstream_edges()", {

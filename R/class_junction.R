@@ -23,7 +23,7 @@ junction_upstream_edges <- function(junction) {
   data_frame(from = from, to = to)
 }
 
-junction_get_splits <- function(junction) {
+junction_splits <- function(junction) {
   as.character(junction$splits)
 }
 

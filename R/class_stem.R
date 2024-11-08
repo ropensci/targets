@@ -47,7 +47,7 @@ target_get_children.tar_stem <- function(target) {
   if_any(
     is.null(target$junction),
     character(0),
-    junction_get_splits(target$junction)
+    junction_splits(target$junction)
   )
 }
 
