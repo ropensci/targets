@@ -247,27 +247,26 @@ pattern_prepend_branches <- function(target, scheduler) {
   scheduler$queue$prepend(children, ranks)
 }
 
+pattern_produce_branch <- function(target, name) {
+  junction <- .subset2(target, "junction")
+  index <- junction_extract_index(junction, name)
+  branch_init(
+    name = name,
+    command = .subset2(target, "command"),
+    deps_parent = .subset2(target, "deps"),
+    deps_child = junction_extract_deps(junction, index),
+    settings = .subset2(target, "settings"),
+    cue = .subset2(target, "cue"),
+    store = .subset2(target, "store"),
+    index = index
+  )
+}
+
 pattern_set_branches <- function(target, pipeline) {
-  command <- target$command
-  deps_parent <- target$deps
-  settings <- target$settings
-  cue <- target$cue
-  store <- target$store
-  specs <- junction_transpose(target$junction)
-  for (index in seq_along(specs)) {
-    spec <- .subset2(specs, index)
-    branch <- branch_init(
-      name = .subset2(spec, "split"),
-      command = command,
-      deps_parent = deps_parent,
-      deps_child = .subset2(spec, "deps"),
-      settings = settings,
-      cue = cue,
-      store = store,
-      index = index
-    )
-    pipeline_set_target(pipeline, branch)
-  }
+  map(
+    junction_splits(target$junction),
+    ~pipeline_set_target(pipeline, pattern_produce_branch(target, .x))
+  )
 }
 
 pattern_insert_branches <- function(target, pipeline, scheduler) {
