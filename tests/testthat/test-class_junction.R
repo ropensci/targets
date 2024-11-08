@@ -13,7 +13,7 @@ tar_test("junction_splits()", {
 tar_test("junction_invalidate()", {
   x <- junction_init("x", letters, list(a = LETTERS, b = rev(letters)))
   junction_invalidate(x)
-  expect_equal(junction_splits(x), rep(NA_character_, length(x$splits)))
+  expect_equal(junction_splits(x), rep(NA_character_, length(x$index)))
 })
 
 tar_test("junction_upstream_edges()", {

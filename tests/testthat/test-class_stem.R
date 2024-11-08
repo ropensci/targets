@@ -24,7 +24,7 @@ tar_test("stem$update_junction() on a good stem", {
   pipeline <- pipeline_init(list(x))
   stem_update_junction(x, pipeline)
   expect_silent(junction_validate(x$junction))
-  out <- x$junction$splits
+  out <- junction_splits(x$junction)
   expect_length(out, 10L)
   expect_true(all(grepl("abc_", out)))
 })
