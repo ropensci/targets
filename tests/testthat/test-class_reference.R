@@ -65,7 +65,7 @@ tar_test("reference_produce_target() and its inverse", {
     expect_equal(basename(dirname(branch$file$path)), "objects")
     expect_equal(basename(dirname(branch$file$stage)), "scratch")
     new_bud <- reference_produce_target(bud_reference, local$pipeline, bud_name)
-    rm(list = "value", envir = bud)
+    suppressWarnings(rm(list = "value", envir = bud))
     expect_equal(new_bud, bud)
     new_branch <- reference_produce_target(
       branch_reference,
