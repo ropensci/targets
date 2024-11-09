@@ -205,6 +205,11 @@ target_unmarshal_value.tar_pattern <- function(target) {
 }
 
 #' @export
+target_produce_child.tar_pattern <- function(target, name) {
+  pattern_produce_branch(target, name)
+}
+
+#' @export
 print.tar_pattern <- function(x, ...) {
   cat(
     "<tar_pattern>",

@@ -143,3 +143,13 @@ target_patternview_errored.tar_branch <- function(
   parent <- pipeline_get_target(pipeline, target_get_parent(target))
   patternview_register_errored(parent$patternview, parent, scheduler)
 }
+
+#' @export
+target_produce_reference.tar_branch <- function(target) {
+  file <- .subset2(target, "file")
+  reference_new(
+    parent = target_get_parent(target),
+    path = .subset2(file, "path"),
+    stage = .subset2(file, "stage")
+  )
+}

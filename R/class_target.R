@@ -493,6 +493,19 @@ target_validate <- function(target) {
   UseMethod("target_validate")
 }
 
+target_produce_child <- function(target, name) {
+  UseMethod("target_produce_child")
+}
+
+target_produce_reference <- function(target) {
+  UseMethod("target_produce_reference")
+}
+
+#' @export
+target_produce_reference.default <- function(target) {
+  target
+}
+
 #' @export
 target_validate.tar_target <- function(target) {
   tar_assert_chr(target$name)

@@ -3,13 +3,24 @@ reference_new <- function(parent, path = NULL, stage = NULL) {
 }
 
 reference_parent <- function(reference) {
-  .subset(reference, "parent")
+  as.character(.subset(reference, "parent"))
 }
 
 reference_path <- function(reference) {
-  .subset(reference, "path")
+  as.character(.subset(reference, "path"))
 }
 
 reference_stage <- function(reference) {
-  .subset2(reference, "stage")
+  as.character(.subset2(reference, "stage"))
+}
+
+reference_produce_target <- function(reference, pipeline, name) {
+  parent <- pipeline_get_target(pipeline, reference_parent(reference))
+  child <- target_produce_child(parent, name)
+  file <- .subset2(child, "file")
+  if (!is.null(file)) {
+    file$path <- reference_path(reference)
+    file$stage <- reference_stage(reference)
+  }
+  child
 }

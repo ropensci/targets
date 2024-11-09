@@ -218,6 +218,11 @@ stem_restore_junction <- function(target, pipeline, meta) {
 }
 
 #' @export
+target_produce_child.tar_stem <- function(target, name) {
+  stem_produce_bud(target, name)
+}
+
+#' @export
 print.tar_stem <- function(x, ...) {
   cat(
     "<tar_stem>",
