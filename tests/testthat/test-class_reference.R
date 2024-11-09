@@ -72,7 +72,9 @@ tar_test("reference_produce_target() and its inverse", {
       local$pipeline,
       branch_name
     )
-    rm(list = c("value", "metrics", "subpipeline"), envir = branch)
+    suppressWarnings(
+      rm(list = c("value", "metrics", "subpipeline"), envir = branch)
+    )
     branch$file$hash <- NA_character_
     branch$file$size <- NA_character_
     branch$file$time <- NA_character_

@@ -24,3 +24,5 @@ reference_produce_target <- function(reference, pipeline, name) {
   }
   child
 }
+
+is_reference <- is.character

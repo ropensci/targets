@@ -41,13 +41,24 @@ pipeline_targets_init <- function(targets, clone_targets) {
 }
 
 pipeline_get_target <- function(pipeline, name) {
-  .subset2(.subset2(pipeline, "targets"), name)
+  out <- .subset2(.subset2(pipeline, "targets"), name)
+  if (is_reference(out)) {
+    out <- reference_produce_target(out, pipeline, name)
+  }
+  out
 }
 
 pipeline_set_target <- function(pipeline, target) {
   envir <- .subset2(pipeline, "targets")
   name <- target_get_name(target)
   envir[[name]] <- target
+  NULL
+}
+
+pipeline_set_reference <- function(pipeline, target) {
+  envir <- .subset2(pipeline, "targets")
+  name <- target_get_name(target)
+  envir[[name]] <- target_produce_reference(target)
   NULL
 }
 
@@ -132,8 +143,11 @@ pipeline_register_loaded <- function(pipeline, name) { # nolint
 }
 
 pipeline_unload_target <- function(pipeline, name) {
-  target <- pipeline_get_target(pipeline, name)
-  store_unload(target$store, target)
+  target <- .subset2(.subset2(pipeline, "targets"), name)
+  if (!is_reference(target)) {
+    store_unload(target$store, target)
+    pipeline_set_reference(pipeline, target)
+  }
   counter_del_name(pipeline$loaded, name)
   counter_del_name(pipeline$transient, name)
 }

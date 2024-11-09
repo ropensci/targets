@@ -281,3 +281,63 @@ tar_test("automatically ignore non-target objects", {
   expect_equal(nrow(out), 1L)
   expect_equal(out$name, "x")
 })
+
+tar_test("managing lightweight references to targets in pipelines", {
+  skip_cran()
+  pipeline <- pipeline_init(
+    list(
+      target_init(
+        name = "data",
+        expr = quote(seq_len(3L))
+      ),
+      target_init(
+        name = "map",
+        expr = quote(data),
+        pattern = quote(map(data))
+      )
+    )
+  )
+  local <- local_init(pipeline)
+  local$run()
+  data <- pipeline_get_target(local$pipeline, "data")
+  map <- pipeline_get_target(local$pipeline, "map")
+  for (index in seq_len(2L)) {
+    bud_name <- junction_splits(data$junction)[index]
+    branch_name <- junction_splits(map$junction)[index]
+    bud <- pipeline_get_target(local$pipeline, bud_name)
+    branch <- pipeline_get_target(local$pipeline, branch_name)
+    expect_equal(
+      pipeline$targets[[bud_name]],
+      c(parent = "data")
+    )
+    expect_equal(
+      pipeline$targets[[branch_name]],
+      c(
+        parent = "map",
+        path = branch$file$path,
+        stage = branch$file$stage
+      )
+    )
+    expect_s3_class(bud, "tar_bud")
+    expect_s3_class(branch, "tar_branch")
+    target_load_value(bud, local$pipeline)
+    expect_equal(bud$value$object, index)
+    target_load_value(branch, local$pipeline)
+    expect_equal(branch$value$object, index)
+    expect_s3_class(local$pipeline$targets[[bud_name]], "tar_bud")
+    expect_s3_class(local$pipeline$targets[[branch_name]], "tar_branch")
+    pipeline_unload_loaded(local$pipeline)
+    expect_equal(
+      pipeline$targets[[bud_name]],
+      c(parent = "data")
+    )
+    expect_equal(
+      pipeline$targets[[branch_name]],
+      c(
+        parent = "map",
+        path = branch$file$path,
+        stage = branch$file$stage
+      )
+    )
+  }
+})
