@@ -313,7 +313,7 @@ builder_ensure_deps <- function(target, pipeline, retrieval) {
 builder_update_subpipeline <- function(target, pipeline) {
   target$subpipeline <- pipeline_produce_subpipeline(
     pipeline,
-    target_get_name(target)
+    target
   )
 }
 

@@ -154,7 +154,11 @@ tar_test("pipeline_produce_subpipeline()", {
   )
   local <- local_init(pipeline)
   local$run()
-  subpipeline <- pipeline_produce_subpipeline(pipeline, "summary")
+  target <- target_init(
+    name = "summary",
+    expr = quote(c(map, data0))
+  )
+  subpipeline <- pipeline_produce_subpipeline(pipeline, target)
   out <- sort(pipeline_get_names(subpipeline))
   branches <- target_get_children(pipeline_get_target(pipeline, "map"))
   exp <- sort(c("data0", "map", branches))

@@ -2,7 +2,7 @@ workspace_init <- function(target, pipeline) {
   target <- target_workspace_copy(target)
   subpipeline <- pipeline_produce_subpipeline(
     pipeline,
-    target_get_name(target),
+    target,
     keep_value = FALSE
   )
   workspace_new(target = target, subpipeline = subpipeline)

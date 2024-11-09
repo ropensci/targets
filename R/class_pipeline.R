@@ -154,8 +154,11 @@ pipeline_unload_transient <- function(pipeline) {
   }
 }
 
-pipeline_produce_subpipeline <- function(pipeline, name, keep_value = NULL) {
-  target <- pipeline_get_target(pipeline, name)
+pipeline_produce_subpipeline <- function(
+  pipeline,
+  target,
+  keep_value = NULL
+) {
   deps <- target_deps_deep(target, pipeline)
   targets <- new.env(parent = emptyenv())
   keep_value <- keep_value %|||% identical(target$settings$retrieval, "main")
