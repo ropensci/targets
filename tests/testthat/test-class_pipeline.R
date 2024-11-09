@@ -80,7 +80,7 @@ tar_test("pipeline_upstream_edges(targets_only = FALSE)", {
   expect_true(all(edges$to %in% names))
 })
 
-tar_test("pipeline_register_loaded(pipeline, )", {
+tar_test("pipeline_register_loaded()", {
   x <- target_init("x", quote(1), memory = "persistent")
   y <- target_init("y", quote(1), memory = "transient")
   pipeline <- pipeline_init(list(x, y))

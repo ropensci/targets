@@ -226,7 +226,6 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
   builder_ensure_object(target, "main")
   builder_ensure_correct_hash(target)
   builder_handle_warnings(target, scheduler)
-  pipeline_set_target(pipeline, target)
   switch(
     metrics_outcome(target$metrics),
     cancel = builder_cancel(target, pipeline, scheduler, meta),
@@ -241,6 +240,7 @@ builder_completed <- function(target, pipeline, scheduler, meta) {
   target_ensure_buds(target, pipeline, scheduler)
   meta$insert_record(target_produce_record(target, pipeline, meta))
   target_patternview_meta(target, pipeline, meta)
+  pipeline_set_target(pipeline, target)
   pipeline_register_loaded(pipeline, target_get_name(target))
   scheduler$progress$register_completed(target)
   scheduler$reporter$report_completed(target, scheduler$progress)
@@ -391,6 +391,7 @@ builder_error_null <- function(target, pipeline, scheduler, meta) {
   record$data <- "error"
   meta$insert_record(record)
   target_patternview_meta(target, pipeline, meta)
+  pipeline_set_target(pipeline, target)
   pipeline_register_loaded(pipeline, target_get_name(target))
   scheduler$progress$register_errored(target)
 }

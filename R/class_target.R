@@ -104,6 +104,7 @@ target_ensure_deps <- function(target, pipeline) {
 
 target_load_value <- function(target, pipeline) {
   target$value <- target_read_value(target, pipeline)
+  pipeline_set_target(pipeline, target)
   pipeline_register_loaded(pipeline, target_get_name(target))
 }
 

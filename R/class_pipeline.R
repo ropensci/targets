@@ -123,16 +123,12 @@ pipeline_produce_igraph <- function(pipeline, targets_only = TRUE) {
   igraph::simplify(igraph::graph_from_data_frame(edges))
 }
 
-pipeline_register_loaded_target <- function(pipeline, name) { # nolint
+pipeline_register_loaded <- function(pipeline, name) { # nolint
   counter_set_name(pipeline$loaded, name)
   target <- pipeline_get_target(pipeline, name)
   if (identical(target$settings$memory, "transient")) {
     counter_set_name(pipeline$transient, name)
   }
-}
-
-pipeline_register_loaded <- function(pipeline, names) {
-  lapply(names, pipeline_register_loaded_target, pipeline = pipeline)
 }
 
 pipeline_unload_target <- function(pipeline, name) {
