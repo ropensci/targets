@@ -307,20 +307,7 @@ builder_ensure_deps <- function(target, pipeline, retrieval) {
   if (!identical(target$settings$retrieval, retrieval)) {
     return()
   }
-  tryCatch(
-    target_ensure_deps(target, pipeline),
-    error = function(error) {
-      message <- paste0(
-        "could not load dependencies of target ",
-        target_get_name(target),
-        ". ",
-        conditionMessage(error)
-      )
-      expr <- as.expression(as.call(list(quote(stop), message)))
-      target$command$expr <- expr
-      target$settings$deployment <- "main"
-    }
-  )
+  target_ensure_deps(target, pipeline)
 }
 
 builder_update_subpipeline <- function(target, pipeline) {

@@ -92,7 +92,22 @@ target_get_name <- function(target) {
 }
 
 target_ensure_dep <- function(target, dep, pipeline) {
-  target_ensure_value(dep, pipeline)
+  tryCatch(
+    target_ensure_value(dep, pipeline),
+    error = function(error) {
+      message <- paste0(
+        "could not load dependency ",
+        target_get_name(dep),
+        " of target ",
+        target_get_name(target),
+        ". ",
+        conditionMessage(error)
+      )
+      expr <- as.expression(as.call(list(quote(stop), message)))
+      target$command$expr <- expr
+      target$settings$deployment <- "main"
+    }
+  )
 }
 
 target_ensure_deps <- function(target, pipeline) {
