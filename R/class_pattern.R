@@ -268,9 +268,10 @@ pattern_produce_branch <- function(target, name) {
 }
 
 pattern_set_branches <- function(target, pipeline) {
-  map(
-    junction_splits(target$junction),
-    ~pipeline_set_target(pipeline, pattern_produce_branch(target, .x))
+  pipeline_initialize_references_children(
+    pipeline = pipeline,
+    name_parent = target_get_name(target),
+    names_children = junction_splits(target$junction)
   )
 }
 

@@ -173,9 +173,10 @@ stem_produce_bud <- function(target, name) {
 }
 
 stem_insert_buds <- function(target, pipeline) {
-  map(
-    junction_splits(target$junction),
-    ~pipeline_set_target(pipeline, stem_produce_bud(target, .x))
+  pipeline_initialize_references_children(
+    pipeline = pipeline,
+    name_parent = target_get_name(target),
+    names_children = junction_splits(target$junction)
   )
 }
 

@@ -62,6 +62,18 @@ pipeline_set_reference <- function(pipeline, target) {
   NULL
 }
 
+pipeline_initialize_references_children <- function(
+  pipeline,
+  name_parent,
+  names_children
+) {
+  envir <- .subset2(pipeline, "targets")
+  for (name in names_children) {
+    envir[[name]] <- name_parent
+  }
+  NULL
+}
+
 pipeline_get_names <- function(pipeline) {
   names(pipeline$targets)
 }
