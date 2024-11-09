@@ -1,17 +1,17 @@
 reference_new <- function(parent, path = NULL, stage = NULL) {
-  c(parent = parent, path = path, stage = stage)
+  c(parent, path, stage)
 }
 
 reference_parent <- function(reference) {
-  as.character(.subset(reference, "parent"))
+  .subset(reference, 1L)
 }
 
 reference_path <- function(reference) {
-  as.character(.subset(reference, "path"))
+  .subset(reference, 2L)
 }
 
 reference_stage <- function(reference) {
-  as.character(.subset2(reference, "stage"))
+  .subset2(reference, 3L)
 }
 
 reference_produce_target <- function(reference, pipeline, name) {

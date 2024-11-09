@@ -1,27 +1,22 @@
 tar_test("reference with only parent", {
   out <- reference_new(parent = "my_parent")
-  expect_equal(out, c(parent = "my_parent"))
+  expect_equal(out, c("my_parent"))
 })
 
-tar_test("reference with parent and path", {
+tar_test("reference with parent and path but no stage", {
   out <- reference_new(parent = "my_parent", path = "my_path")
-  expect_equal(out, c(parent = "my_parent", path = "my_path"))
-})
-
-tar_test("reference with parent and stage", {
-  out <- reference_new(parent = "my_parent", stage = "my_stage")
-  expect_equal(out, c(parent = "my_parent", stage = "my_stage"))
+  expect_equal(out, c("my_parent", "my_path"))
 })
 
 tar_test("reference with parent and path", {
   out <- reference_new(
-    parent = "my_parent",
-    path = "my_path",
-    stage = "my_stage"
+    "my_parent",
+    "my_path",
+    "my_stage"
   )
   expect_equal(
     out,
-    c(parent = "my_parent", path = "my_path", stage = "my_stage")
+    c("my_parent", "my_path", "my_stage")
   )
 })
 
@@ -29,9 +24,7 @@ tar_test("reference_produce_target() and its inverse", {
   skip_cran()
   pipeline <- pipeline_init(
     list(
-      target_init(
-        name = "data",
-        expr = quote(seq_len(3L))
+      target_init(name = "data", expr = quote(seq_len(3L))
       ),
       target_init(
         name = "map",
@@ -53,14 +46,10 @@ tar_test("reference_produce_target() and its inverse", {
     expect_equal(target_produce_reference(map), map)
     bud_reference <- target_produce_reference(bud)
     branch_reference <- target_produce_reference(branch)
-    expect_equal(bud_reference, c(parent = "data"))
+    expect_equal(bud_reference, "data")
     expect_equal(
       branch_reference,
-      c(
-        parent = "map",
-        path = branch$file$path,
-        stage = branch$file$stage
-      )
+      c("map", branch$file$path, branch$file$stage)
     )
     expect_equal(basename(dirname(branch$file$path)), "objects")
     expect_equal(basename(dirname(branch$file$stage)), "scratch")

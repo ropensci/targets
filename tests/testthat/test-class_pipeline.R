@@ -306,17 +306,10 @@ tar_test("managing lightweight references to targets in pipelines", {
     branch_name <- junction_splits(map$junction)[index]
     bud <- pipeline_get_target(local$pipeline, bud_name)
     branch <- pipeline_get_target(local$pipeline, branch_name)
-    expect_equal(
-      pipeline$targets[[bud_name]],
-      c(parent = "data")
-    )
+    expect_equal(pipeline$targets[[bud_name]], "data")
     expect_equal(
       pipeline$targets[[branch_name]],
-      c(
-        parent = "map",
-        path = branch$file$path,
-        stage = branch$file$stage
-      )
+      c("map", branch$file$path, branch$file$stage)
     )
     expect_s3_class(bud, "tar_bud")
     expect_s3_class(branch, "tar_branch")
@@ -327,17 +320,10 @@ tar_test("managing lightweight references to targets in pipelines", {
     expect_s3_class(local$pipeline$targets[[bud_name]], "tar_bud")
     expect_s3_class(local$pipeline$targets[[branch_name]], "tar_branch")
     pipeline_unload_loaded(local$pipeline)
-    expect_equal(
-      pipeline$targets[[bud_name]],
-      c(parent = "data")
-    )
+    expect_equal(pipeline$targets[[bud_name]], "data")
     expect_equal(
       pipeline$targets[[branch_name]],
-      c(
-        parent = "map",
-        path = branch$file$path,
-        stage = branch$file$stage
-      )
+      c("map", branch$file$path, branch$file$stage)
     )
   }
 })
