@@ -96,13 +96,13 @@ target_conclude.tar_pattern <- function(target, pipeline, scheduler, meta) {
 #' @export
 target_read_value.tar_pattern <- function(target, pipeline) {
   branches <- target_get_children(target)
-  map(
-    branches,
-    ~target_ensure_value(pipeline_get_target(pipeline, .x), pipeline)
-  )
   objects <- map(
     branches,
-    ~pipeline_get_target(pipeline, .x)$value$object
+    ~ {
+      target <- pipeline_get_target(pipeline, .x)
+      target_ensure_value(target, pipeline)
+      target$value$object
+    }
   )
   names(objects) <- branches
   value <- value_init(iteration = target$settings$iteration)
