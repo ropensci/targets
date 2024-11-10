@@ -92,7 +92,22 @@ target_get_name <- function(target) {
 }
 
 target_ensure_dep <- function(target, dep, pipeline) {
-  target_ensure_value(dep, pipeline)
+  tryCatch(
+    target_ensure_value(dep, pipeline),
+    error = function(error) {
+      message <- paste0(
+        "could not load dependency ",
+        target_get_name(dep),
+        " of target ",
+        target_get_name(target),
+        ". ",
+        conditionMessage(error)
+      )
+      expr <- as.expression(as.call(list(quote(stop), message)))
+      target$command$expr <- expr
+      target$settings$deployment <- "main"
+    }
+  )
 }
 
 target_ensure_deps <- function(target, pipeline) {
@@ -104,6 +119,7 @@ target_ensure_deps <- function(target, pipeline) {
 
 target_load_value <- function(target, pipeline) {
   target$value <- target_read_value(target, pipeline)
+  pipeline_set_target(pipeline, target)
   pipeline_register_loaded(pipeline, target_get_name(target))
 }
 
@@ -475,6 +491,19 @@ target_reformat <- function(target, format) {
 
 target_validate <- function(target) {
   UseMethod("target_validate")
+}
+
+target_produce_child <- function(target, name) {
+  UseMethod("target_produce_child")
+}
+
+target_produce_reference <- function(target) {
+  UseMethod("target_produce_reference")
+}
+
+#' @export
+target_produce_reference.default <- function(target) {
+  target
 }
 
 #' @export

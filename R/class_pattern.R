@@ -44,7 +44,7 @@ pattern_s3_class <- c("tar_pattern", "tar_target")
 
 #' @export
 target_get_children.tar_pattern <- function(target) {
-  junction_get_splits(target$junction)
+  junction_splits(target$junction)
 }
 
 #' @export
@@ -96,13 +96,13 @@ target_conclude.tar_pattern <- function(target, pipeline, scheduler, meta) {
 #' @export
 target_read_value.tar_pattern <- function(target, pipeline) {
   branches <- target_get_children(target)
-  map(
-    branches,
-    ~target_ensure_value(pipeline_get_target(pipeline, .x), pipeline)
-  )
   objects <- map(
     branches,
-    ~pipeline_get_target(pipeline, .x)$value$object
+    ~ {
+      target <- pipeline_get_target(pipeline, .x)
+      target_ensure_value(target, pipeline)
+      target$value$object
+    }
   )
   names(objects) <- branches
   value <- value_init(iteration = target$settings$iteration)
@@ -205,6 +205,11 @@ target_unmarshal_value.tar_pattern <- function(target) {
 }
 
 #' @export
+target_produce_child.tar_pattern <- function(target, name) {
+  pattern_produce_branch(target, name)
+}
+
+#' @export
 print.tar_pattern <- function(x, ...) {
   cat(
     "<tar_pattern>",
@@ -247,27 +252,27 @@ pattern_prepend_branches <- function(target, scheduler) {
   scheduler$queue$prepend(children, ranks)
 }
 
+pattern_produce_branch <- function(target, name) {
+  junction <- .subset2(target, "junction")
+  index <- junction_extract_index(junction, name)
+  branch_init(
+    name = name,
+    command = .subset2(target, "command"),
+    deps_parent = .subset2(target, "deps"),
+    deps_child = junction_extract_deps(junction, index),
+    settings = .subset2(target, "settings"),
+    cue = .subset2(target, "cue"),
+    store = .subset2(target, "store"),
+    index = index
+  )
+}
+
 pattern_set_branches <- function(target, pipeline) {
-  command <- target$command
-  deps_parent <- target$deps
-  settings <- target$settings
-  cue <- target$cue
-  store <- target$store
-  specs <- junction_transpose(target$junction)
-  for (index in seq_along(specs)) {
-    spec <- .subset2(specs, index)
-    branch <- branch_init(
-      name = .subset2(spec, "split"),
-      command = command,
-      deps_parent = deps_parent,
-      deps_child = .subset2(spec, "deps"),
-      settings = settings,
-      cue = cue,
-      store = store,
-      index = index
-    )
-    pipeline_set_target(pipeline, branch)
-  }
+  pipeline_initialize_references_children(
+    pipeline = pipeline,
+    name_parent = target_get_name(target),
+    names_children = junction_splits(target$junction)
+  )
 }
 
 pattern_insert_branches <- function(target, pipeline, scheduler) {

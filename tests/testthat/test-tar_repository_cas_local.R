@@ -98,3 +98,55 @@ tar_test("local CAS repository works on custom directory", {
   expect_equal(tar_outdated(), "z")
   tar_destroy()
 })
+
+tar_test("local CAS repository with some invalidated branches", {
+  skip_cran()
+  tar_script({
+    tar_option_set(repository = tar_repository_cas_local(path = "cas"))
+    tar_option_set(memory = "transient")
+    list(
+      tar_target(x, seq_len(3)),
+      tar_target(y, x, pattern = map(x)),
+      tar_target(z, y, pattern = map(y)),
+      tar_target(w, sum(y))
+    )
+  })
+  tar_make(callr_function = NULL)
+  tar_script({
+    tar_option_set(repository = tar_repository_cas_local(path = "cas"))
+    tar_option_set(memory = "transient")
+    list(
+      tar_target(x, c(1L, 5L, 3L)),
+      tar_target(y, x, pattern = map(x)),
+      tar_target(z, y, pattern = map(y)),
+      tar_target(w, sum(y))
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(w), 9L)
+})
+
+tar_test("local CAS repository while depending on all branches", {
+  skip_cran()
+  tar_script({
+    tar_option_set(repository = tar_repository_cas_local(path = "cas"))
+    tar_option_set(memory = "transient")
+    list(
+      tar_target(x, seq_len(3)),
+      tar_target(y, x, pattern = map(x)),
+      tar_target(z, y)
+    )
+  })
+  tar_make(callr_function = NULL)
+  tar_script({
+    tar_option_set(repository = tar_repository_cas_local(path = "cas"))
+    tar_option_set(memory = "transient")
+    list(
+      tar_target(x, c(1L, 5L, 3L)),
+      tar_target(y, x, pattern = map(x)),
+      tar_target(z, y)
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(as.integer(tar_read(z)), c(1L, 5L, 3L))
+})

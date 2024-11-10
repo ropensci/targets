@@ -209,7 +209,6 @@ clustermq_class <- R6::R6Class(
       if (is.null(target)) {
         return()
       }
-      pipeline_set_target(self$pipeline, target)
       self$unmarshal_target(target)
       target_conclude(
         target,

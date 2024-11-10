@@ -22,6 +22,11 @@ target_read_value.tar_bud <- function(target, pipeline) {
 }
 
 #' @export
+target_produce_reference.tar_bud <- function(target) {
+  reference_init(parent = target_get_parent(target))
+}
+
+#' @export
 target_validate.tar_bud <- function(target) {
   tar_assert_correct_fields(target, bud_new, optional = "value")
   NextMethod()

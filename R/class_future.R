@@ -169,7 +169,6 @@ future_class <- R6::R6Class(
     },
     conclude_worker_target = function(value, name) {
       target <- future_value_target(value, name, self$pipeline)
-      pipeline_set_target(self$pipeline, target)
       self$unmarshal_target(target)
       target_conclude(
         target,

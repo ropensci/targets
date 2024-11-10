@@ -42,6 +42,7 @@ target_bootstrap.tar_builder <- function(
   record <- target_bootstrap_record(target, meta)
   target$store <- record_bootstrap_store(record)
   target$file <- record_bootstrap_file(record)
+  pipeline_set_target(pipeline, target)
   invisible()
 }
 
@@ -191,6 +192,7 @@ target_skip.tar_builder <- function(
 ) {
   target_update_queue(target, scheduler)
   file_repopulate(target$file, meta$get_record(target_get_name(target)))
+  pipeline_set_target(pipeline, target)
   if (active) {
     builder_ensure_workspace(
       target = target,
@@ -240,6 +242,7 @@ builder_completed <- function(target, pipeline, scheduler, meta) {
   target_ensure_buds(target, pipeline, scheduler)
   meta$insert_record(target_produce_record(target, pipeline, meta))
   target_patternview_meta(target, pipeline, meta)
+  pipeline_set_target(pipeline, target)
   pipeline_register_loaded(pipeline, target_get_name(target))
   scheduler$progress$register_completed(target)
   scheduler$reporter$report_completed(target, scheduler$progress)
@@ -306,26 +309,13 @@ builder_ensure_deps <- function(target, pipeline, retrieval) {
   if (!identical(target$settings$retrieval, retrieval)) {
     return()
   }
-  tryCatch(
-    target_ensure_deps(target, pipeline),
-    error = function(error) {
-      message <- paste0(
-        "could not load dependencies of target ",
-        target_get_name(target),
-        ". ",
-        conditionMessage(error)
-      )
-      expr <- as.expression(as.call(list(quote(stop), message)))
-      target$command$expr <- expr
-      target$settings$deployment <- "main"
-    }
-  )
+  target_ensure_deps(target, pipeline)
 }
 
 builder_update_subpipeline <- function(target, pipeline) {
   target$subpipeline <- pipeline_produce_subpipeline(
     pipeline,
-    target_get_name(target)
+    target
   )
 }
 
@@ -344,7 +334,7 @@ builder_unmarshal_subpipeline <- function(target) {
     pipeline_unmarshal_values(target$subpipeline)
   }
   patterns <- fltr(
-    names(subpipeline$targets),
+    pipeline_get_names(subpipeline),
     ~inherits(pipeline_get_target(subpipeline, .x), "tar_pattern")
   )
   map(
@@ -390,6 +380,7 @@ builder_error_null <- function(target, pipeline, scheduler, meta) {
   record$data <- "error"
   meta$insert_record(record)
   target_patternview_meta(target, pipeline, meta)
+  pipeline_set_target(pipeline, target)
   pipeline_register_loaded(pipeline, target_get_name(target))
   scheduler$progress$register_errored(target)
 }

@@ -24,18 +24,18 @@ tar_test("stem$update_junction() on a good stem", {
   pipeline <- pipeline_init(list(x))
   stem_update_junction(x, pipeline)
   expect_silent(junction_validate(x$junction))
-  out <- x$junction$splits
+  out <- junction_splits(x$junction)
   expect_length(out, 10L)
   expect_true(all(grepl("abc_", out)))
 })
 
-tar_test("stem_produce_buds()", {
+tar_test("stem produce buds", {
   x <- target_init(name = "abc", expr = quote(letters))
   tar_option_set(envir = baseenv())
   target_run(x, tar_option_get("envir"), path_store_default())
   pipeline <- pipeline_init(list(x))
   stem_update_junction(x, pipeline)
-  children <- stem_produce_buds(x)
+  children <- map(target_get_children(x), ~stem_produce_bud(x, .x))
   expect_true(is.list(children))
   expect_length(children, length(letters))
   for (index in seq_along(letters)) {

@@ -47,7 +47,7 @@ target_get_children.tar_stem <- function(target) {
   if_any(
     is.null(target$junction),
     character(0),
-    junction_get_splits(target$junction)
+    junction_splits(target$junction)
   )
 }
 
@@ -166,14 +166,18 @@ stem_tar_assert_nonempty <- function(target) {
   }
 }
 
-stem_produce_buds <- function(target) {
-  settings <- target$settings
-  names <- target_get_children(target)
-  map(seq_along(names), ~bud_new(names[.x], settings, .x))
+stem_produce_bud <- function(target, name) {
+  junction <- .subset2(target, "junction")
+  index <- junction_extract_index(junction, name)
+  bud_new(name = name, settings = .subset2(target, "settings"), index = index)
 }
 
 stem_insert_buds <- function(target, pipeline) {
-  map(stem_produce_buds(target), pipeline_set_target, pipeline = pipeline)
+  pipeline_initialize_references_children(
+    pipeline = pipeline,
+    name_parent = target_get_name(target),
+    names_children = junction_splits(target$junction)
+  )
 }
 
 stem_ensure_buds <- function(target, pipeline, scheduler) {
@@ -212,6 +216,11 @@ stem_restore_junction <- function(target, pipeline, meta) {
     junction_init(nexus = name, splits = children)
   )
   target$junction <- junction
+}
+
+#' @export
+target_produce_child.tar_stem <- function(target, name) {
+  stem_produce_bud(target, name)
 }
 
 #' @export

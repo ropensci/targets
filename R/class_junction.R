@@ -4,42 +4,55 @@ junction_init <- function(
   deps = list()
 ) {
   splits <- make.unique(splits, sep = "_")
-  names(deps) <- names(deps) %|||% seq_along(deps)
+  index <- seq_along(splits)
+  names(index) <- splits
   deps <- as_data_frame(deps)
-  junction_new(nexus, splits, deps)
+  has_deps <- nrow(deps) > 0L
+  junction_new(nexus, index, deps, has_deps)
 }
 
-junction_new <- function(nexus = NULL, splits = NULL, deps = NULL) {
+junction_new <- function(
+  nexus = NULL,
+  index = NULL,
+  deps = NULL,
+  has_deps = NULL
+) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$nexus <- nexus
-  out$splits <- splits
+  out$index <- index
   out$deps <- deps
+  out$has_deps <- has_deps
   out
 }
 
 junction_upstream_edges <- function(junction) {
-  from <- utils::stack(junction$deps)$values
-  to <- rep(junction$splits, times = ncol(junction$deps))
+  from <- unlist(junction$deps, use.names = FALSE)
+  to <- rep(junction_splits(junction), times = ncol(junction$deps))
   data_frame(from = from, to = to)
 }
 
-junction_get_splits <- function(junction) {
-  as.character(junction$splits)
+junction_length <- function(junction) {
+  length(.subset2(junction, "index"))
 }
 
-junction_transpose <- function(junction) {
-  splits <- junction$splits
-  deps <- junction$deps
-  out <- map_rows(deps, ~list(deps = unname(.x))) %||%
-    replicate(length(splits), list(deps = character(0)), simplify = FALSE)
-  for (index in seq_along(splits)) {
-    out[[index]]$split <- splits[index]
+junction_splits <- function(junction) {
+  names(.subset2(junction, "index"))
+}
+
+junction_extract_index <- function(junction, name) {
+  as.integer(.subset2(.subset2(junction, "index"), name))
+}
+
+junction_extract_deps <- function(junction, index) {
+  if (.subset2(junction, "has_deps")) {
+    as.character(vctrs::vec_slice(x = .subset2(junction, "deps"), i = index))
+  } else {
+    character(0L)
   }
-  out
 }
 
 junction_invalidate <- function(junction) {
-  junction$splits <- rep(NA_character_, length(junction$splits))
+  names(junction$index) <- rep(NA_character_, length(junction$index))
 }
 
 junction_validate_deps <- function(deps) {
@@ -52,6 +65,7 @@ junction_validate <- function(junction) {
   tar_assert_correct_fields(junction, junction_new)
   tar_assert_scalar(junction$nexus)
   tar_assert_chr(junction$nexus)
-  tar_assert_chr(junction$splits)
+  tar_assert_int(junction$index)
+  tar_assert_chr(junction_splits(junction))
   junction_validate_deps(junction$deps)
 }

@@ -236,7 +236,6 @@ crew_class <- R6::R6Class(
         msg = paste("target", result$name, "error:", result$error)
       )
       target <- result$result[[1]]
-      pipeline_set_target(self$pipeline, target)
       self$unmarshal_target(target)
       target_conclude(
         target,
