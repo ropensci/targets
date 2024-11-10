@@ -79,7 +79,12 @@ tar_described_as_inner <- function(
   described_as_quosure,
   tidyselect
 ) {
-  descriptions <- unlist(map(pipeline$targets, ~.x$settings$description))
+  descriptions <- unlist(
+    map(
+      pipeline_get_names(pipeline),
+      ~pipeline_get_target(pipeline, .x)$settings$description
+    )
+  )
   chosen <- tar_tidyselect_eval(described_as_quosure, unique(descriptions))
   sort(unique(names(descriptions[descriptions %in% chosen])))
 }

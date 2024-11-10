@@ -332,7 +332,7 @@ builder_unmarshal_subpipeline <- function(target) {
     pipeline_unmarshal_values(target$subpipeline)
   }
   patterns <- fltr(
-    names(subpipeline$targets),
+    pipeline_get_names(subpipeline),
     ~inherits(pipeline_get_target(subpipeline, .x), "tar_pattern")
   )
   map(

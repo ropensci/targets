@@ -75,7 +75,7 @@ pipeline_initialize_references_children <- function(
 }
 
 pipeline_get_names <- function(pipeline) {
-  names(pipeline$targets)
+  names(.subset2(pipeline, "targets"))
 }
 
 pipeline_get_priorities <- function(pipeline) {
@@ -109,8 +109,11 @@ pipeline_reset_deployment <- function(pipeline, name) {
 }
 
 pipeline_exists_target <- function(pipeline, name) {
-  envir <- pipeline$targets %|||% tar_empty_envir
-  exists(x = name, envir = envir, inherits = FALSE)
+  envir <- .subset2(pipeline, "targets")
+  if (is.null(envir)) {
+    envir <- tar_empty_envir
+  }
+  !is.null(.subset2(envir, name))
 }
 
 pipeline_exists_import <- function(pipeline, name) {
@@ -127,7 +130,10 @@ pipeline_targets_only_edges <- function(edges) {
 }
 
 pipeline_upstream_edges <- function(pipeline, targets_only = TRUE) {
-  edge_list <- map(pipeline$targets, ~target_upstream_edges(.x))
+  edge_list <- map(
+    pipeline_get_names(pipeline),
+    ~target_upstream_edges(pipeline_get_target(pipeline, .x))
+  )
   from <- map(edge_list, ~.x$from)
   to <- map(edge_list, ~.x$to)
   from <- unlist(from, recursive = FALSE, use.names = FALSE)
@@ -233,7 +239,11 @@ pipeline_prune_targets <- function(pipeline, names) {
   graph <- pipeline_produce_igraph(pipeline, targets_only = TRUE)
   keep <- upstream_vertices(graph = graph, from = names)
   discard <- setdiff(pipeline_get_names(pipeline), keep)
-  remove(list = discard, envir = pipeline$targets, inherits = FALSE)
+  remove(
+    list = discard,
+    envir = .subset2(pipeline, "targets"),
+    inherits = FALSE
+  )
 }
 
 pipeline_prune_shortcut <- function(pipeline, names, shortcut) {
@@ -298,7 +308,10 @@ pipeline_validate_dag <- function(igraph) {
 }
 
 pipeline_validate_conflicts <- function(pipeline) {
-  conflicts <- intersect(names(pipeline$imports), names(pipeline$targets))
+  conflicts <- intersect(
+    names(.subset2(pipeline, "imports")),
+    pipeline_get_names(pipeline)
+  )
   msg <- paste0(
     "Targets and globals must have unique names. ",
     "Ignoring global objects that conflict with target names: ",
