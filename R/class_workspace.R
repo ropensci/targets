@@ -30,7 +30,7 @@ workspace_read <- function(name, path_store) {
 }
 
 workspace_populate <- function(workspace) {
-  target_ensure_deps(workspace$target, workspace$subpipeline)
+  target_ensure_deps_worker(workspace$target, workspace$subpipeline)
 }
 
 workspace_assign <- function(workspace, envir) {

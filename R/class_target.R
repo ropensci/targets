@@ -113,11 +113,25 @@ target_ensure_dep <- function(target, dep, pipeline) {
   )
 }
 
-target_ensure_deps <- function(target, pipeline) {
+target_ensure_deps_worker <- function(target, pipeline) {
   map(
     target_deps_shallow(target, pipeline),
     ~target_ensure_dep(target, pipeline_get_target(pipeline, .x), pipeline)
   )
+}
+
+target_ensure_deps_main <- function(target, pipeline) {
+  for (name in target_deps_shallow(target, pipeline)) {
+    dep <- pipeline_get_target(pipeline, name)
+    if (inherits(dep, "tar_pattern")) {
+      map(
+        target_get_children(dep),
+        ~target_ensure_dep(target, pipeline_get_target(pipeline, .x), pipeline)
+      )
+    } else {
+      target_ensure_dep(target, dep, pipeline)
+    }
+  }
 }
 
 target_value_null <- function(target) {

@@ -74,7 +74,7 @@ target_prepare.tar_builder <- function(
     progress = scheduler$progress,
     pending = pending
   )
-  builder_ensure_deps(target, pipeline, "main")
+  target_ensure_deps_main(target, pipeline)
   builder_update_subpipeline(target, pipeline)
 }
 
@@ -138,7 +138,7 @@ target_run.tar_builder <- function(target, envir, path_store) {
   }
   on.exit(builder_unset_tar_runtime(), add = TRUE)
   on.exit(target$subpipeline <- NULL, add = TRUE)
-  builder_ensure_deps(target, target$subpipeline, "worker")
+  target_ensure_deps_worker(target, target$subpipeline)
   frames <- frames_produce(envir, target, target$subpipeline)
   builder_set_tar_runtime(target, frames)
   store_update_stage_early(
@@ -302,13 +302,6 @@ target_validate.tar_builder <- function(target) {
   if (!is.null(target$metrics)) {
     metrics_validate(target$metrics)
   }
-}
-
-builder_ensure_deps <- function(target, pipeline, retrieval) {
-  if (!identical(target$settings$retrieval, retrieval)) {
-    return()
-  }
-  target_ensure_deps(target, pipeline)
 }
 
 builder_update_subpipeline <- function(target, pipeline) {
