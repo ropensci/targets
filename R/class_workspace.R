@@ -1,5 +1,6 @@
 workspace_init <- function(target, pipeline) {
   target <- target_workspace_copy(target)
+  target$settings$retrieval <- "worker"
   subpipeline <- pipeline_produce_subpipeline(
     pipeline,
     target,
