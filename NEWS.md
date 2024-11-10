@@ -13,6 +13,7 @@
 * Add a `list()` method to `tar_repository_cas()` to make it easier and more efficient to specify custom CAS repositories (#1366).
 * Improve speed and reduce memory consumption by avoiding deep copies of inner environments of target definition objects (#1368).
 * Reduce memory consumption by storing buds and branches as lightweight references when `memory` is `"transient"` (#1364).
+* Replace the `memory` class with the new `lookup` class.
 
 # targets 1.8.0
 
