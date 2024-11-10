@@ -41,7 +41,7 @@ tar_config_get <- function(
   yaml <- tar_config_yaml(config)
   value <- if_any(
     tar_config_is_multi_project(yaml, config),
-    tar_config_get_multi_project(name, yaml, project, memory_init()),
+    tar_config_get_multi_project(name, yaml, project, lookup_new()),
     tar_config_get_project(name, yaml)
   )
   tar_config_get_convert(name, value)
@@ -65,21 +65,21 @@ tar_config_is_multi_project <- function(yaml, config) {
   out
 }
 
-tar_config_get_multi_project <- function(name, yaml, project, memory) {
+tar_config_get_multi_project <- function(name, yaml, project, lookup) {
   value <- yaml[[project]][[name]]
   if (!is.null(value)) {
     return(value)
   }
-  memory_set_object(memory, project, TRUE)
+  lookup_set(lookup, project, TRUE)
   inherits <- yaml[[project]]$inherits
   if (is.null(inherits)) {
     return(tar_config_get_project(name, list()))
   }
-  if (memory_exists_object(memory, inherits)) {
+  if (lookup_exists(lookup, inherits)) {
     msg <- sprintf("Circular project inheritance: %s, %s", project, inherits)
     tar_throw_validate(msg)
   }
-  tar_config_get_multi_project(name, yaml, inherits, memory)
+  tar_config_get_multi_project(name, yaml, inherits, lookup)
 }
 
 tar_config_get_project <- function(name, yaml) {
