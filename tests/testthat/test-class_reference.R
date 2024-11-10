@@ -1,32 +1,38 @@
 tar_test("reference with only parent", {
-  out <- reference_new(parent = "my_parent")
-  expect_equal(out, "my_parent")
+  out <- reference_init(parent = "my_parent")
   expect_equal(reference_parent(out), "my_parent")
   expect_equal(reference_path(out), NA_character_)
   expect_equal(reference_stage(out), NA_character_)
+  expect_equal(reference_hash(out), NA_character_)
 })
 
-tar_test("reference with parent and path but no stage", {
-  out <- reference_new(parent = "my_parent", path = "my_path")
-  expect_equal(out, c("my_parent", "my_path"))
+tar_test("reference with parent and path but no other fields", {
+  out <- reference_init(parent = "my_parent", path = "my_path")
   expect_equal(reference_parent(out), "my_parent")
   expect_equal(reference_path(out), "my_path")
   expect_equal(reference_stage(out), NA_character_)
+  expect_equal(reference_hash(out), NA_character_)
 })
 
-tar_test("reference with parent, path, and stage", {
-  out <- reference_new(
-    "my_parent",
-    "my_path",
-    "my_stage"
-  )
-  expect_equal(
-    out,
-    c("my_parent", "my_path", "my_stage")
+tar_test("reference with parent and hash but no other fields", {
+  out <- reference_init(parent = "my_parent", hash = "my_hash")
+  expect_equal(reference_parent(out), "my_parent")
+  expect_equal(reference_path(out), NA_character_)
+  expect_equal(reference_stage(out), NA_character_)
+  expect_equal(reference_hash(out), "my_hash")
+})
+
+tar_test("reference with all fields", {
+  out <- reference_init(
+    parent = "my_parent",
+    path = "my_path",
+    stage = "my_stage",
+    hash = "my_hash"
   )
   expect_equal(reference_parent(out), "my_parent")
   expect_equal(reference_path(out), "my_path")
   expect_equal(reference_stage(out), "my_stage")
+  expect_equal(reference_hash(out), "my_hash")
 })
 
 tar_test("reference_produce_target() and its inverse", {
@@ -55,13 +61,18 @@ tar_test("reference_produce_target() and its inverse", {
     expect_equal(target_produce_reference(map), map)
     bud_reference <- target_produce_reference(bud)
     branch_reference <- target_produce_reference(branch)
-    expect_equal(bud_reference, "data")
-    expect_equal(
-      branch_reference,
-      c("map", branch$file$path, branch$file$stage)
-    )
+    expect_equal(reference_parent(bud_reference), "data")
+    expect_equal(reference_path(bud_reference), NA_character_)
+    expect_equal(reference_stage(bud_reference), NA_character_)
+    expect_equal(reference_hash(bud_reference), NA_character_)
+    expect_equal(reference_parent(branch_reference), "map")
+    expect_equal(reference_path(branch_reference), branch$file$path)
+    expect_equal(reference_stage(branch_reference), branch$file$stage)
+    expect_equal(reference_hash(branch_reference), branch$file$hash)
     expect_equal(basename(dirname(branch$file$path)), "objects")
     expect_equal(basename(dirname(branch$file$stage)), "scratch")
+    expect_false(anyNA(branch$file$hash))
+    expect_equal(nchar(branch$file$hash), 16L)
     new_bud <- reference_produce_target(bud_reference, local$pipeline, bud_name)
     suppressWarnings(rm(list = "value", envir = bud))
     expect_equal(new_bud, bud)
@@ -73,7 +84,6 @@ tar_test("reference_produce_target() and its inverse", {
     suppressWarnings(
       rm(list = c("value", "metrics", "subpipeline"), envir = branch)
     )
-    branch$file$hash <- NA_character_
     branch$file$size <- NA_character_
     branch$file$time <- NA_character_
     branch$file$bytes <- 0

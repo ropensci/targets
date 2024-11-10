@@ -306,11 +306,16 @@ tar_test("managing lightweight references to targets in pipelines", {
     branch_name <- junction_splits(map$junction)[index]
     bud <- pipeline_get_target(local$pipeline, bud_name)
     branch <- pipeline_get_target(local$pipeline, branch_name)
-    expect_equal(pipeline$targets[[bud_name]], "data")
-    expect_equal(
-      pipeline$targets[[branch_name]],
-      c("map", branch$file$path, branch$file$stage)
-    )
+    reference <- pipeline$targets[[bud_name]]
+    expect_equal(reference_parent(reference), "data")
+    expect_equal(reference_path(reference), NA_character_)
+    expect_equal(reference_stage(reference), NA_character_)
+    expect_equal(reference_hash(reference), NA_character_)
+    reference <- pipeline$targets[[branch_name]]
+    expect_equal(reference_parent(reference), "map")
+    expect_equal(reference_path(reference), branch$file$path)
+    expect_equal(reference_stage(reference), branch$file$stage)
+    expect_equal(reference_hash(reference), branch$file$hash)
     expect_s3_class(bud, "tar_bud")
     expect_s3_class(branch, "tar_branch")
     target_load_value(bud, local$pipeline)
@@ -320,10 +325,15 @@ tar_test("managing lightweight references to targets in pipelines", {
     expect_s3_class(local$pipeline$targets[[bud_name]], "tar_bud")
     expect_s3_class(local$pipeline$targets[[branch_name]], "tar_branch")
     pipeline_unload_loaded(local$pipeline)
-    expect_equal(pipeline$targets[[bud_name]], "data")
-    expect_equal(
-      pipeline$targets[[branch_name]],
-      c("map", branch$file$path, branch$file$stage)
-    )
+    reference <- pipeline$targets[[bud_name]]
+    expect_equal(reference_parent(reference), "data")
+    expect_equal(reference_path(reference), NA_character_)
+    expect_equal(reference_stage(reference), NA_character_)
+    expect_equal(reference_hash(reference), NA_character_)
+    reference <- pipeline$targets[[branch_name]]
+    expect_equal(reference_parent(reference), "map")
+    expect_equal(reference_path(reference), branch$file$path)
+    expect_equal(reference_stage(reference), branch$file$stage)
+    expect_equal(reference_hash(reference), branch$file$hash)
   }
 })

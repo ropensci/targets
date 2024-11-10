@@ -42,7 +42,7 @@ target_bootstrap.tar_builder <- function(
   record <- target_bootstrap_record(target, meta)
   target$store <- record_bootstrap_store(record)
   target$file <- record_bootstrap_file(record)
-  pipeline_set_reference(pipeline, target)
+  pipeline_set_target(pipeline, target)
   invisible()
 }
 
@@ -192,6 +192,7 @@ target_skip.tar_builder <- function(
 ) {
   target_update_queue(target, scheduler)
   file_repopulate(target$file, meta$get_record(target_get_name(target)))
+  pipeline_set_target(pipeline, target)
   if (active) {
     builder_ensure_workspace(
       target = target,
