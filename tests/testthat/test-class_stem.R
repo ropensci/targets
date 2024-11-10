@@ -81,24 +81,68 @@ tar_test("target_update_queue() updates queue correctly", {
 
 tar_test("target_deps_deep()", {
   skip_cran()
+  tar_option_set(retrieval = "worker")
   pipeline <- pipeline_init(
     list(
       target_init(
         name = "data0",
-        expr = quote(seq_len(3L))
+        expr = quote(seq_len(3L)),
+        retrieval = "main"
       ),
       target_init(
         name = "data",
-        expr = quote(seq_len(3L))
+        expr = quote(seq_len(3L)),
+        retrieval = "main"
       ),
       target_init(
         name = "map",
         expr = quote(data),
-        pattern = quote(map(data))
+        pattern = quote(map(data)),
+        retrieval = "main"
       ),
       target_init(
         name = "summary",
-        expr = quote(c(map, data0))
+        expr = quote(c(map, data0)),
+        retrieval = "main"
+      )
+    )
+  )
+  local <- local_init(pipeline)
+  local$run()
+  target <- pipeline_get_target(pipeline, "summary")
+  out <- sort(target_deps_deep(target, pipeline))
+  children <- target_get_children(pipeline_get_target(pipeline, "map"))
+  exp <- sort(
+    c("data0", "map", children)
+  )
+  expect_equal(out, exp)
+})
+
+tar_test("target_deps_deep() with retrieval 'main'", {
+  skip_cran()
+  tar_option_set()
+  pipeline <- pipeline_init(
+    list(
+      target_init(
+        name = "data0",
+        expr = quote(seq_len(3L)),
+        retrieval = "main"
+      ),
+      target_init(
+        name = "data",
+        expr = quote(seq_len(3L)),
+        retrieval = "main"
+      ),
+      target_init(
+        name = "map",
+        expr = quote(data),
+        pattern = quote(map(data)),
+        retrieval = "main"
+      ),
+      target_init(
+        name = "summary",
+        expr = quote(c(map, data0)),
+        retrieval = "main"
       )
     )
   )

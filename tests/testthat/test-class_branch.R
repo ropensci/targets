@@ -103,7 +103,7 @@ tar_test("target_get_parent(branch)", {
   expect_equal(target_get_parent(branch), "x")
 })
 
-tar_test("target_deps_deep()", {
+tar_test("target_deps_deep() with worker retrieval", {
   pipeline <- pipeline_init(
     list(
       target_init(
@@ -117,7 +117,8 @@ tar_test("target_deps_deep()", {
       target_init(
         name = "map",
         expr = quote(c(data0, data)),
-        pattern = quote(map(data))
+        pattern = quote(map(data)),
+        retrieval = "worker"
       )
     )
   )
@@ -129,6 +130,36 @@ tar_test("target_deps_deep()", {
   expect_equal(
     sort(target_deps_deep(branch, pipeline)),
     sort(c("data0", "data", bud))
+  )
+})
+
+tar_test("target_deps_deep() with main retrieval", {
+  pipeline <- pipeline_init(
+    list(
+      target_init(
+        name = "data0",
+        expr = quote(seq_len(3L))
+      ),
+      target_init(
+        name = "data",
+        expr = quote(seq_len(3L))
+      ),
+      target_init(
+        name = "map",
+        expr = quote(c(data0, data)),
+        pattern = quote(map(data)),
+        retrieval = "main"
+      )
+    )
+  )
+  local <- local_init(pipeline)
+  local$run()
+  name <- target_get_children(pipeline_get_target(pipeline, "map"))[2]
+  branch <- pipeline_get_target(pipeline, name)
+  bud <- target_get_children(pipeline_get_target(pipeline, "data"))[2]
+  expect_equal(
+    sort(target_deps_deep(branch, pipeline)),
+    sort(c("data0", bud))
   )
 })
 

@@ -159,13 +159,17 @@ target_deps_deep <- function(target, pipeline) {
       target_get_children(pipeline_get_target(pipeline, dep))
     })
   )
-  patterns <- unlist(
+  retrieval_worker <- identical(target$settings$retrieval, "worker")
+  parents <- unlist(
     map(deps, function(dep) {
-      target <- pipeline_get_target(pipeline, dep)
-      if_any(inherits(target, "tar_bud"), target_get_parent(target), NULL)
+      dep <- pipeline_get_target(pipeline, dep)
+      if (inherits(dep, "tar_bud") && retrieval_worker) {
+        return(target_get_parent(dep))
+      }
+      NULL
     })
   )
-  unique(c(deps, children, patterns))
+  unique(c(deps, children, parents))
 }
 
 target_downstream_branching <- function(target, pipeline, scheduler) {
