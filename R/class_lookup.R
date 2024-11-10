@@ -1,5 +1,5 @@
-lookup_new <- function() {
-  new.env(parent = emptyenv(), hash = TRUE)
+lookup_new <- function(parent = emptyenv()) {
+  new.env(parent = parent, hash = TRUE)
 }
 
 lookup_exists <- function(lookup, name) {
