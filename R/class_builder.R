@@ -74,7 +74,9 @@ target_prepare.tar_builder <- function(
     progress = scheduler$progress,
     pending = pending
   )
-  target_ensure_deps_main(target, pipeline)
+  if (identical(target$settings$retrieval, "main")) {
+    target_ensure_deps_main(target, pipeline)
+  }
   builder_update_subpipeline(target, pipeline)
 }
 
@@ -138,7 +140,9 @@ target_run.tar_builder <- function(target, envir, path_store) {
   }
   on.exit(builder_unset_tar_runtime(), add = TRUE)
   on.exit(target$subpipeline <- NULL, add = TRUE)
-  target_ensure_deps_worker(target, target$subpipeline)
+  if (identical(target$settings$retrieval, "worker")) {
+    target_ensure_deps_worker(target, target$subpipeline)
+  }
   frames <- frames_produce(envir, target, target$subpipeline)
   builder_set_tar_runtime(target, frames)
   store_update_stage_early(
