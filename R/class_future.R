@@ -88,7 +88,7 @@ future_class <- R6::R6Class(
         envir = envir
       )
       self$workers <- workers
-      self$worker_list <- memory_init()
+      self$worker_list <- lookup_new()
     },
     run_worker = function(target) {
       builder_marshal_subpipeline(target)
@@ -132,8 +132,8 @@ future_class <- R6::R6Class(
         seed = FALSE
       )
       future <- do.call(what = future::future, args = args)
-      memory_set_object(
-        self$worker_list,
+      lookup_set(
+        lookup = self$worker_list,
         name = target_get_name(target),
         object = future
       )
@@ -179,7 +179,7 @@ future_class <- R6::R6Class(
       self$scheduler$backoff$reset()
     },
     can_submit = function() {
-      self$worker_list$count < self$workers &&
+      lookup_count(self$worker_list) < self$workers &&
         self$scheduler$queue$is_nonempty()
     },
     try_submit = function(wait) {
@@ -193,16 +193,16 @@ future_class <- R6::R6Class(
       tryCatch(future::value(worker, signal = FALSE), error = identity)
     },
     process_worker = function(name) {
-      worker <- memory_get_object(self$worker_list, name)
+      worker <- lookup_get(self$worker_list, name)
       if (future::resolved(worker)) {
         value <- self$future_value(worker)
         self$conclude_worker_target(value, name)
-        memory_del_objects(self$worker_list, name)
+        lookup_remove(self$worker_list, name)
       }
       self$try_submit(wait = FALSE)
     },
     process_workers = function() {
-      names <- self$worker_list$names
+      names <- lookup_list(self$worker_list)
       if (!length(names)) {
         return()
       }

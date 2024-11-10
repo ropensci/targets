@@ -111,7 +111,7 @@ database_class <- R6::R6Class(
       lookup_set(
         .subset2(self, "lookup"),
         name = as.character(.subset2(row, "name")),
-        value = as.list(row)
+        object = as.list(row)
       )
     },
     del_rows = function(names) {

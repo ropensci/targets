@@ -1,7 +1,9 @@
 tar_test("class lookup", {
   lookup <- lookup_new()
-  lookup_set(lookup, names = letters, value = TRUE)
-  lookup_set(lookup, names = LETTERS, value = FALSE)
+  expect_equal(lookup_count(lookup), 0L)
+  lookup_set(lookup, names = letters, object = TRUE)
+  lookup_set(lookup, names = LETTERS, object = FALSE)
+  expect_equal(lookup_count(lookup), length(letters) + length(LETTERS))
   expect_equal(sort(lookup_list(lookup)), sort(c(letters, LETTERS)))
   for (x in letters) {
     expect_true(lookup_exists(lookup, x))
@@ -26,7 +28,7 @@ tar_test("class lookup", {
 
 tar_test("class lookup remove method", {
   lookup <- lookup_new()
-  lookup_set(lookup, names = letters, value = TRUE)
+  lookup_set(lookup, names = letters, object = TRUE)
   expect_equal(sort(lookup_list(lookup)), sort(letters))
   lookup_remove(lookup, letters)
   expect_equal(lookup_list(lookup), character(0L))

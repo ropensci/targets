@@ -71,12 +71,12 @@ store_has_correct_hash.tar_repository_cas <- function(store, file) {
   lookup <- tar_repository_cas_lookup(store)
   key <- .subset2(file, "hash")
   if (lookup_missing(lookup = lookup, name = key)) {
-    value <- store_repository_cas_call_method(
+    object <- store_repository_cas_call_method(
       store = store,
       text = store$methods_repository$exists,
       args = list(key = key)
     )
-    lookup_set(lookup = lookup, names = key, value = value)
+    lookup_set(lookup = lookup, names = key, object = object)
   }
   lookup_get(lookup = lookup, name = key)
 }
@@ -122,9 +122,9 @@ tar_repository_cas_lookup <- function(store) {
     args = list(keys = keys_meta)
   )
   lookup <- lookup_new()
-  lookup_set(lookup, names = as.character(keys_cas), value = TRUE)
-  lookup_set(lookup, names = setdiff(keys_meta, keys_cas), value = FALSE)
-  lookup_set(lookup_table, names = repository, value = lookup)
+  lookup_set(lookup, names = as.character(keys_cas), object = TRUE)
+  lookup_set(lookup, names = setdiff(keys_meta, keys_cas), object = FALSE)
+  lookup_set(lookup_table, names = repository, object = lookup)
   lookup
 }
 

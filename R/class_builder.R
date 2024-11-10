@@ -27,7 +27,7 @@ target_update_depend.tar_builder <- function(target, pipeline, meta) {
   lookup_set(
     lookup = .subset2(meta, "depends"),
     names = target_get_name(target),
-    value = .subset2(meta, "produce_depend")(target, pipeline)
+    object = .subset2(meta, "produce_depend")(target, pipeline)
   )
 }
 

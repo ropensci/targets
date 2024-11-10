@@ -18,9 +18,13 @@ lookup_list <- function(lookup) {
   as.character(names(lookup))
 }
 
-lookup_set <- function(lookup, names, value) {
+lookup_count <- function(lookup) {
+  length(lookup_list(lookup))
+}
+
+lookup_set <- function(lookup, names, object) {
   for (name in names) {
-    lookup[[name]] <- value
+    lookup[[name]] <- object
   }
 }
 

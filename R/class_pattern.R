@@ -120,7 +120,7 @@ target_update_depend.tar_pattern <- function(target, pipeline, meta) {
   lookup_set(
     lookup = .subset2(meta, "depends"),
     names = target_get_name(target),
-    value = hash_null
+    object = hash_null
   )
 }
 

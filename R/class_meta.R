@@ -125,7 +125,7 @@ meta_class <- R6::R6Class(
       tar_runtime$meta <- self
     },
     ensure_preprocessed = function(write = FALSE) {
-      if (length(lookup_list(self$database$lookup)) == 0L) {
+      if (lookup_count(self$database$lookup) < 1L) {
         self$preprocess(write = write)
       }
     },
@@ -134,7 +134,11 @@ meta_class <- R6::R6Class(
       hashes <- split(x = data$data, f = data$repository)
       lookup_table <- lookup_new()
       for (name in names(hashes)) {
-        lookup_set(lookup_table, names = name, value = .subset2(hashes, name))
+        lookup_set(
+          lookup = lookup_table,
+          names = name,
+          object = .subset2(hashes, name)
+        )
       }
       self$repository_cas_lookup_table <- lookup_table
     },

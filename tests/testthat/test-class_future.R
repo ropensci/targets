@@ -151,7 +151,7 @@ tar_test("branching plan", {
   pipeline <- pipeline_map()
   out <- future_init(pipeline, workers = 2L)
   out$run()
-  expect_equal(out$worker_list$count, 0L)
+  expect_equal(lookup_count(out$worker_list), 0L)
   skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))
   out2 <- future_init(pipeline_map(), workers = 2L)
