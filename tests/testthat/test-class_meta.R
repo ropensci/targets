@@ -5,7 +5,7 @@ tar_test("meta$database", {
 
 tar_test("meta$depends", {
   out <- meta_init()
-  expect_silent(memory_validate(out$depends))
+  expect_silent(lookup_validate(out$depends))
 })
 
 tar_test("meta database key", {

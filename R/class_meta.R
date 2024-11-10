@@ -1,6 +1,6 @@
 meta_init <- function(path_store = path_store_default()) {
   database <- database_meta(path_store = path_store)
-  depends <- memory_init()
+  depends <- lookup_new()
   meta_new(
     database = database,
     depends = depends,
@@ -32,7 +32,7 @@ meta_class <- R6::R6Class(
       self$store <- store
     },
     get_depend = function(name) {
-      memory_get_object(self$depends, name)
+      lookup_get(.subset2(self, "depends"), name)
     },
     get_record = function(name) {
       record_from_row(
@@ -90,7 +90,7 @@ meta_class <- R6::R6Class(
       hash_object(string)
     },
     produce_depend = function(target, pipeline) {
-      self$hash_deps(target$deps, pipeline)
+      self$hash_deps(.subset2(target, "deps"), pipeline)
     },
     handle_error = function(record) {
       if (!self$exists_record(record$name)) {
@@ -178,7 +178,7 @@ meta_class <- R6::R6Class(
     },
     validate = function() {
       self$database$validate()
-      memory_validate(self$depends)
+      lookup_validate(self$depends)
     }
   )
 )

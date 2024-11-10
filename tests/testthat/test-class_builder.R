@@ -171,7 +171,7 @@ tar_test("builder writing from main", {
   expect_false(file.exists(x$file$path))
   expect_true(is.na(x$file$hash))
   meta <- meta_init()
-  memory_set_object(meta$depends, "abc", NA_character_)
+  lookup_set(meta$depends, "abc", NA_character_)
   target_conclude(x, pipeline, scheduler, meta)
   expect_true(file.exists(x$file$path))
   expect_false(is.na(x$file$hash))
@@ -202,7 +202,7 @@ tar_test("builder writing from worker", {
   pipeline <- pipeline_init(list(x))
   scheduler <- scheduler_init(pipeline, meta_init())
   meta <- meta_init()
-  memory_set_object(meta$depends, "abc", NA_character_)
+  lookup_set(meta$depends, "abc", NA_character_)
   target_conclude(x, pipeline, scheduler, meta)
 })
 
@@ -308,7 +308,7 @@ tar_test("dynamic file writing from main", {
   pipeline <- pipeline_init(list(x))
   scheduler <- scheduler_init(pipeline, meta_init())
   meta <- meta_init()
-  memory_set_object(meta$depends, "abc", NA_character_)
+  lookup_set(meta$depends, "abc", NA_character_)
   target_conclude(x, pipeline, scheduler, meta)
 })
 
@@ -370,7 +370,7 @@ tar_test("dynamic file writing from worker", {
   pipeline <- pipeline_init(list(x))
   meta <- meta_init()
   scheduler <- scheduler_init(pipeline, meta = meta)
-  memory_set_object(meta$depends, "abc", NA_character_)
+  lookup_set(meta$depends, "abc", NA_character_)
   target_conclude(x, pipeline, scheduler, meta)
 })
 

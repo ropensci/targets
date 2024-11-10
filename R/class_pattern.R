@@ -117,8 +117,11 @@ target_branches_over.tar_pattern <- function(target, name) {
 
 #' @export
 target_update_depend.tar_pattern <- function(target, pipeline, meta) {
-  depends <- meta$depends
-  memory_set_object(depends, target_get_name(target), hash_null)
+  lookup_set(
+    lookup = .subset2(meta, "depends"),
+    names = target_get_name(target),
+    value = hash_null
+  )
 }
 
 #' @export
