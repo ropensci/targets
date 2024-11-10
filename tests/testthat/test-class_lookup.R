@@ -24,6 +24,14 @@ tar_test("class lookup", {
   expect_silent(lookup_validate(lookup))
 })
 
+tar_test("class lookup remove method", {
+  lookup <- lookup_new()
+  lookup_set(lookup, names = letters, value = TRUE)
+  expect_equal(sort(lookup_list(lookup)), sort(letters))
+  lookup_remove(lookup, letters)
+  expect_equal(lookup_list(lookup), character(0L))
+})
+
 tar_test("class lookup methods on NULL objects", {
   expect_false(lookup_exists(NULL, "a"))
   expect_true(lookup_missing(NULL, "a"))

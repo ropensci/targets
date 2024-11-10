@@ -30,6 +30,10 @@ lookup_unset <- function(lookup, names) {
   }
 }
 
+lookup_remove <- function(lookup, names) {
+  remove(list = names, envir = lookup)
+}
+
 lookup_validate <- function(lookup) {
   tar_assert_envir(lookup)
 }
