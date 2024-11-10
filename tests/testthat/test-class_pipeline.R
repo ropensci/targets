@@ -337,3 +337,20 @@ tar_test("managing lightweight references to targets in pipelines", {
     expect_equal(reference_hash(reference), branch$file$hash)
   }
 })
+
+tar_test("subpiplines can be compressed with references", {
+  tar_script({
+    library(targets)
+    tar_option_set(memory = "transient")
+    list(
+      tar_target(x, seq_len(2L)),
+      tar_target(y, x, pattern = map(x)),
+      tar_target(z, y, pattern = map(y)),
+      tar_target(a, z)
+    )
+  })
+  for (retrieval in c("worker", "main")) {
+    tar_make(callr_function = NULL)
+    expect_equal(as.integer(tar_read(a)), seq_len(2L))
+  }
+})

@@ -1,4 +1,4 @@
-# targets 1.8.0.9011 (development)
+# targets 1.8.0.9012 (development)
 
 * Un-break workflows that use `format = "file_fast"` (#1339, @koefoeden).
 * Fix deadlock in `error = "trim"` (#1340, @koefoeden).
@@ -17,6 +17,7 @@
 * Implement `memory = "auto"` to select transient memory for dynamic branches and persistent memory for other targets (#1371).
 * Omit whole pattern targets from branch subpipelines when possible. Should reduce memory consumption in some cases.
 * Omit whole stem targets from branch subpipelines when `retrieval` is `"main"` and only a bud is actually used.
+* Compress branches into references when `retrieval` is `"worker"` and the whole pattern is part of the subpipeline.
 
 # targets 1.8.0
 

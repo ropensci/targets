@@ -201,17 +201,30 @@ pipeline_produce_subpipeline <- function(
     envir = targets,
     keep_value = keep_value
   )
-  pipeline_new(
+  subpipeline <- pipeline_new(
     targets = targets,
     loaded = counter_init(),
     transient = counter_init()
   )
+  pipeline_compress_subpipeline(subpipeline)
+  subpipeline
 }
 
 pipeline_assign_target_copy <- function(pipeline, name, envir, keep_value) {
   target <- pipeline_get_target(pipeline, name)
   copy <- target_subpipeline_copy(target, keep_value)
   envir[[name]] <- copy
+}
+
+pipeline_compress_subpipeline <- function(pipeline) {
+  for (name in pipeline_get_names(pipeline)) {
+    target <- pipeline_get_target(pipeline, name)
+    null_value <- is.null(.subset2(target, "value"))
+    has_parent <- pipeline_exists_target(pipeline, target_get_parent(target))
+    if (null_value && has_parent) {
+      pipeline_set_reference(pipeline, target)
+    }
+  }
 }
 
 pipeline_marshal_values <- function(pipeline) {
