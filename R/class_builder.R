@@ -42,6 +42,7 @@ target_bootstrap.tar_builder <- function(
   record <- target_bootstrap_record(target, meta)
   target$store <- record_bootstrap_store(record)
   target$file <- record_bootstrap_file(record)
+  pipeline_set_reference(pipeline, target)
   invisible()
 }
 
