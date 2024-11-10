@@ -1,7 +1,7 @@
 # Covered in semi-automated cloud tests.
 # nocov start
 database_aws_new <- function(
-  memory = NULL,
+  lookup = NULL,
   path = NULL,
   key = NULL,
   header = NULL,
@@ -14,7 +14,7 @@ database_aws_new <- function(
   resources = NULL
 ) {
   database_aws_class$new(
-    memory = memory,
+    lookup = lookup,
     path = path,
     key = key,
     header = header,

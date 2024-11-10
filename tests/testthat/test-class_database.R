@@ -15,16 +15,16 @@ tar_test("database$exists_row()", {
 
 tar_test("database$set_row()", {
   out <- database_init()
-  expect_equal(out$memory$names, character(0))
+  expect_equal(lookup_list(out$lookup), character(0))
   row <- list(name = "abc", string = "run(xyz)", children = list(letters))
   out$set_row(row)
-  expect_equal(out$memory$names, "abc")
-  expect_equal(memory_get_object(out$memory, "abc"), row)
+  expect_equal(lookup_list(out$lookup), "abc")
+  expect_equal(lookup_get(out$lookup, "abc"), row)
 })
 
 tar_test("database$get_data()", {
   db <- database_init()
-  expect_equal(db$memory$names, character(0))
+  expect_equal(lookup_list(db$lookup), character(0))
   row1 <- list(name = "abc", string = "123")
   row2 <- list(name = "xyz", string = "456")
   db$set_row(row1)
@@ -216,7 +216,7 @@ tar_test("database$set_data()", {
   )
   db <- database_init()
   db$set_data(data)
-  expect_equal(sort(db$memory$names), sort(c("e", "f", "x")))
+  expect_equal(sort(lookup_list(db$lookup)), sort(c("e", "f", "x")))
   exp <- list(
     name = "e",
     col2 = "e22",
@@ -236,7 +236,7 @@ tar_test("database$preprocess() on empty data", {
     list_columns = "col3"
   )
   db$preprocess(write = TRUE)
-  expect_equal(db$memory$names, character(0))
+  expect_equal(lookup_list(db$lookup), character(0))
   expect_equal(readLines(db$path), "name|col3")
 })
 
@@ -264,7 +264,7 @@ tar_test("database$preprocess() on different column types", {
     db$preprocess(write = TRUE)
     out <- readLines(path)
     expect_equal(out, lines[-3])
-    expect_equal(sort(db$memory$names), sort(c("e", "f", "x")))
+    expect_equal(sort(lookup_list(db$lookup)), sort(c("e", "f", "x")))
     exp <- list(
       name = "e",
       col2 = "e22",
@@ -320,7 +320,7 @@ tar_test("database$insert_row()", {
   out <- readLines(db$path)
   exp <- c("name|col2|col3", "x|1|a*b", "x|1|a*b")
   expect_equal(out, exp)
-  expect_equal(db$memory$names, "x")
+  expect_equal(lookup_list(db$lookup), "x")
   expect_equal(db$get_row("x"), row)
 })
 
@@ -389,12 +389,12 @@ tar_test("fail to validate incompatible header", {
 tar_test("database buffer", {
   db <- database_init()
   expect_null(db$buffer)
-  expect_equal(db$memory$names, character(0L))
+  expect_equal(lookup_list(db$lookup), character(0L))
   db$buffer_row(list(name = "x"))
-  expect_equal(db$memory$names, "x")
+  expect_equal(lookup_list(db$lookup), "x")
   db$buffer_row(list(name = "y"))
   expect_equal(sort(db$buffer), sort(c("x", "y")))
-  expect_equal(sort(db$memory$names), sort(c("x", "y")))
+  expect_equal(sort(lookup_list(db$lookup)), sort(c("x", "y")))
   expect_false(file.exists(db$path))
   db$flush_rows()
   lines <- readLines(db$path)

@@ -10,7 +10,7 @@ database_init <- function(
   repository = tar_options$get_repository_meta(),
   resources = tar_options$get_resources()
 ) {
-  memory <- memory_init()
+  lookup <- lookup_new()
   key <- file.path(
     resources[[repository]]$prefix %|||% path_store_default(),
     subkey
@@ -18,7 +18,7 @@ database_init <- function(
   switch(
     repository,
     local = database_local_new(
-      memory = memory,
+      lookup = lookup,
       path = path,
       key = key,
       header = header,
@@ -30,7 +30,7 @@ database_init <- function(
       resources = resources
     ),
     aws = database_aws_new(
-      memory = memory,
+      lookup = lookup,
       path = path,
       key = key,
       header = header,
@@ -42,7 +42,7 @@ database_init <- function(
       resources = resources
     ),
     gcp = database_gcp_new(
-      memory = memory,
+      lookup = lookup,
       path = path,
       key = key,
       header = header,
@@ -67,7 +67,7 @@ database_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    memory = NULL,
+    lookup = NULL,
     path = NULL,
     key = NULL,
     header = NULL,
@@ -80,7 +80,7 @@ database_class <- R6::R6Class(
     buffer = NULL,
     staged = NULL,
     initialize = function(
-      memory = NULL,
+      lookup = NULL,
       path = NULL,
       key = NULL,
       header = NULL,
@@ -92,7 +92,7 @@ database_class <- R6::R6Class(
       resources = NULL,
       buffer = NULL
     ) {
-      self$memory <- memory
+      self$lookup <- lookup
       self$path <- path
       self$key <- key
       self$header <- header
@@ -105,14 +105,17 @@ database_class <- R6::R6Class(
       self$buffer <- buffer
     },
     get_row = function(name) {
-      memory_get_object(self$memory, name)
+      lookup_get(.subset2(self, "lookup"), name)
     },
     set_row = function(row) {
-      name <- as.character(row$name)
-      memory_set_object(self$memory, name = name, object = as.list(row))
+      lookup_set(
+        .subset2(self, "lookup"),
+        name = as.character(.subset2(row, "name")),
+        value = as.list(row)
+      )
     },
     del_rows = function(names) {
-      memory_del_objects(self$memory, names)
+      lookup_remove(.subset2(self, "lookup"), names)
     },
     get_data = function() {
       rows <- self$list_rows()
@@ -136,10 +139,10 @@ database_class <- R6::R6Class(
       map(seq_along(list$name), ~self$set_row(lapply(list, `[[`, i = .x)))
     },
     exists_row = function(name) {
-      memory_exists_object(self$memory, name)
+      lookup_exists(.subset2(self, "lookup"), name)
     },
     list_rows = function() {
-      self$memory$names
+      lookup_list(.subset2(self, "lookup"))
     },
     condense_data = function(data) {
       data[!duplicated(data$name, fromLast = TRUE), ]
@@ -464,7 +467,7 @@ database_class <- R6::R6Class(
       )
     },
     validate = function() {
-      memory_validate(self$memory)
+      lookup_validate(self$lookup)
       self$validate_file()
       tar_assert_chr(self$path)
       tar_assert_scalar(self$path)

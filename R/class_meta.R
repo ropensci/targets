@@ -125,7 +125,7 @@ meta_class <- R6::R6Class(
       tar_runtime$meta <- self
     },
     ensure_preprocessed = function(write = FALSE) {
-      if (identical(self$database$memory$count, 0L)) {
+      if (length(lookup_list(self$database$lookup)) == 0L) {
         self$preprocess(write = write)
       }
     },

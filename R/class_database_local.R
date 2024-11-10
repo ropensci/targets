@@ -1,5 +1,5 @@
 database_local_new <- function(
-  memory = NULL,
+  lookup = NULL,
   path = NULL,
   key = NULL,
   header = NULL,
@@ -12,7 +12,7 @@ database_local_new <- function(
   buffer = NULL
 ) {
   database_local_class$new(
-    memory = memory,
+    lookup = lookup,
     path = path,
     key = key,
     header = header,
