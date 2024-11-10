@@ -75,3 +75,22 @@ tar_test("url format has local repository", {
   target <- tar_target(x, 1, repository = "aws", format = "url")
   expect_equal(target$settings$repository,  "local")
 })
+
+tar_test("memory = 'auto' sets the correct setting", {
+  expect_equal(
+    tar_target(x, 1, memory = "auto")$settings$memory,
+    "persistent"
+  )
+  expect_equal(
+    tar_target(x, 1, pattern = map(y), memory = "auto")$settings$memory,
+    "transient"
+  )
+  expect_equal(
+    tar_target(x, 1, memory = "persistent")$settings$memory,
+    "persistent"
+  )
+  expect_equal(
+    tar_target(x, 1, pattern = map(y), memory = "transient")$settings$memory,
+    "transient"
+  )
+})

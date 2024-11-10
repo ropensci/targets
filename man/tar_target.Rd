@@ -179,19 +179,26 @@ to begin running.
 to learn how to debug targets using saved workspaces.)
 }}
 
-\item{memory}{Character of length 1, memory strategy.
-If \code{"persistent"}, the target stays in memory
+\item{memory}{Character of length 1, memory strategy. Possible values:
+\itemize{
+\item \code{"auto"}: new in \code{targets} version 1.8.0.9011, \code{memory = "auto"}
+is equivalent to \code{memory = "transient"} for dynamic branching
+(a non-null \code{pattern} argument) and \code{memory = "persistent"}
+for targets that do not use dynamic branching.
+\item \code{"persistent"}: the target stays in memory
 until the end of the pipeline (unless \code{storage} is \code{"worker"},
 in which case \code{targets} unloads the value from memory
 right after storing it in order to avoid sending
 copious data over a network).
-If \code{"transient"}, the target gets unloaded
+\item \code{"transient"}: the target gets unloaded
 after every new target completes.
 Either way, the target gets automatically loaded into memory
 whenever another target needs the value.
+}
+
 For cloud-based dynamic files
 (e.g. \code{format = "file"} with \code{repository = "aws"}),
-this memory strategy applies to the
+the \code{memory} option applies to the
 temporary local copy of the file:
 \code{"persistent"} means it remains until the end of the pipeline
 and is then deleted,

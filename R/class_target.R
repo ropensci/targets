@@ -10,7 +10,7 @@ target_init <- function(
   pattern = NULL,
   iteration = "vector",
   error = "stop",
-  memory = "persistent",
+  memory = "auto",
   garbage_collection = FALSE,
   deployment = "worker",
   priority = 0,
@@ -23,6 +23,9 @@ target_init <- function(
   seed <- tar_seed_create(name)
   deps <- deps <- deps %|||% deps_function(embody_expr(expr))
   command <- command_init(expr, packages, library, string)
+  if (identical(memory, "auto")) {
+    memory <- if_any(is.null(pattern), "persistent", "transient")
+  }
   cue <- cue %|||% cue_init()
   if (any(grepl("^aws_", format))) {
     format <- gsub("^aws_", "", format)
@@ -117,8 +120,24 @@ target_ensure_deps <- function(target, pipeline) {
   )
 }
 
+target_value_null <- function(target) {
+  value_init(
+    object = NULL,
+    iteration = target$settings$iteration
+  )
+}
+
 target_load_value <- function(target, pipeline) {
-  target$value <- target_read_value(target, pipeline)
+  target$value <- tryCatch(
+    target_read_value(target, pipeline),
+    error = function(condition) {
+      if_any(
+        identical(target$settings$error, "null"),
+        target_value_null(target),
+        tar_throw_run(conditionMessage(condition))
+      )
+    }
+  )
   pipeline_set_target(pipeline, target)
   pipeline_register_loaded(pipeline, target_get_name(target))
 }

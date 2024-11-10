@@ -153,11 +153,11 @@ tar_test("deprecated error = \"workspace\"", {
 })
 
 tar_test("memory", {
-  expect_equal(tar_option_get("memory"), "persistent")
+  expect_equal(tar_option_get("memory"), "auto")
   tar_option_set(memory = "transient")
   expect_equal(tar_option_get("memory"), "transient")
   tar_option_reset()
-  expect_equal(tar_option_get("memory"), "persistent")
+  expect_equal(tar_option_get("memory"), "auto")
   expect_error(
     tar_option_set(memory = "invalid"),
     class = "tar_condition_validate"

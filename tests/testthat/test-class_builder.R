@@ -592,6 +592,7 @@ tar_test("error = \"null\" with branching", {
   skip_cran()
   tar_script({
     library(targets)
+    tar_option_set(memory = "transient")
     f <- function(x) {
       stopifnot(x < 1.5)
       x

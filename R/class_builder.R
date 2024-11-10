@@ -506,7 +506,7 @@ builder_update_object <- function(target) {
 builder_expect_storage <- function(target) {
   error_null <- identical(target$settings$error, "null") &&
     metrics_has_error(target$metrics)
-  !metrics_terminated_early(target$metrics) || error_null
+  !metrics_terminated_early(target$metrics) && !error_null
 }
 
 builder_ensure_object <- function(target, storage) {

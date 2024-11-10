@@ -213,6 +213,9 @@ safe_condition_class <- function(class) {
 }
 
 is_unsafe_condition_class <- function(class) {
-  condition <- try(rlang::inform(message = "x", class = class), silent = TRUE)
+  condition <- try(
+    suppressMessages(rlang::inform(message = "x", class = class)),
+    silent = TRUE
+  )
   inherits(condition, "try-error")
 }

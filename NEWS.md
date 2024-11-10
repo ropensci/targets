@@ -1,4 +1,4 @@
-# targets 1.8.0.9010 (development)
+# targets 1.8.0.9011 (development)
 
 * Un-break workflows that use `format = "file_fast"` (#1339, @koefoeden).
 * Fix deadlock in `error = "trim"` (#1340, @koefoeden).
@@ -14,6 +14,7 @@
 * Improve speed and reduce memory consumption by avoiding deep copies of inner environments of target definition objects (#1368).
 * Reduce memory consumption by storing buds and branches as lightweight references when `memory` is `"transient"` (#1364).
 * Replace the `memory` class with the new `lookup` class.
+* Implement `memory = "auto"` to select transient memory for dynamic branches and persistent memory for other targets (#1371).
 
 # targets 1.8.0
 

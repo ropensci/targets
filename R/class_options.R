@@ -314,7 +314,7 @@ options_class <- R6::R6Class(
       self$error %|||% "stop"
     },
     get_memory = function() {
-      self$memory %|||% "persistent"
+      self$memory %|||% "auto"
     },
     get_garbage_collection = function() {
       self$garbage_collection %|||% 1000L
@@ -521,7 +521,7 @@ options_class <- R6::R6Class(
       )
     },
     validate_memory = function(memory) {
-      tar_assert_flag(memory, c("persistent", "transient"))
+      tar_assert_flag(memory, c("auto", "persistent", "transient"))
     },
     validate_garbage_collection = function(garbage_collection) {
       tar_assert_dbl(garbage_collection)

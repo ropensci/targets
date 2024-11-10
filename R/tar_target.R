@@ -238,7 +238,9 @@
 #'   * `"continue"`: the whole pipeline keeps going.
 #'   * `"null"`: The errored target continues and returns `NULL`.
 #'     The data hash is deliberately wrong so the target is not
-#'     up to date for the next run of the pipeline.
+#'     up to date for the next run of the pipeline. In addition,
+#'     as of version 1.8.0.9011, a value of `NULL` is given
+#'     to upstream dependencies with `error = "null"` if loading fails.
 #'   * `"abridge"`: any currently running targets keep running,
 #'     but no new targets launch after that.
 #'   * `"trim"`: all currently running targets stay running. A queued
@@ -254,19 +256,25 @@
 #'     to begin running.
 #'   (Visit <https://books.ropensci.org/targets/debugging.html>
 #'   to learn how to debug targets using saved workspaces.)
-#' @param memory Character of length 1, memory strategy.
-#'   If `"persistent"`, the target stays in memory
-#'   until the end of the pipeline (unless `storage` is `"worker"`,
-#'   in which case `targets` unloads the value from memory
-#'   right after storing it in order to avoid sending
-#'   copious data over a network).
-#'   If `"transient"`, the target gets unloaded
-#'   after every new target completes.
-#'   Either way, the target gets automatically loaded into memory
-#'   whenever another target needs the value.
+#' @param memory Character of length 1, memory strategy. Possible values:
+#'
+#'   * `"auto"`: new in `targets` version 1.8.0.9011, `memory = "auto"`
+#'     is equivalent to `memory = "transient"` for dynamic branching
+#'     (a non-null `pattern` argument) and `memory = "persistent"`
+#'     for targets that do not use dynamic branching.
+#'   * `"persistent"`: the target stays in memory
+#'     until the end of the pipeline (unless `storage` is `"worker"`,
+#'     in which case `targets` unloads the value from memory
+#'     right after storing it in order to avoid sending
+#'     copious data over a network).
+#'   * `"transient"`: the target gets unloaded
+#'     after every new target completes.
+#'     Either way, the target gets automatically loaded into memory
+#'     whenever another target needs the value.
+#'
 #'   For cloud-based dynamic files
 #'   (e.g. `format = "file"` with `repository = "aws"`),
-#'   this memory strategy applies to the
+#'   the `memory` option applies to the
 #'   temporary local copy of the file:
 #'   `"persistent"` means it remains until the end of the pipeline
 #'   and is then deleted,
