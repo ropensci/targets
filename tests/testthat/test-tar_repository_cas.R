@@ -154,6 +154,64 @@ tar_test("CAS repository works", {
   tar_destroy()
 })
 
+tar_test("CAS repository works with parallel workers", {
+  skip_cran()
+  skip_if_not_installed("crew")
+  skip_if_not_installed("qs")
+  tar_script({
+    repository <- tar_repository_cas(
+      upload = function(key, path) {
+        if (!file.exists("cas")) {
+          dir.create("cas", recursive = TRUE)
+        }
+        if (dir.exists(path)) {
+          stop("This CAS repository does not support directory outputs.")
+        }
+        file.copy(path, file.path("cas", key))
+      },
+      download = function(key, path) {
+        file.copy(file.path("cas", key), path)
+      },
+      exists = function(key) {
+        file.exists(file.path("cas", key))
+      },
+      list = function(keys) {
+        keys[file.exists(file.path("cas", keys))]
+      },
+      consistent = FALSE
+    )
+    write_file <- function(object) {
+      writeLines(as.character(object), "file.txt")
+      "file.txt"
+    }
+    tar_option_set(
+      controller = crew::crew_controller_local(),
+      storage = "worker",
+      retrieval = "worker"
+    )
+    list(
+      tar_target(x, c(2L, 4L), repository = repository),
+      tar_target(
+        y,
+        x,
+        pattern = map(x),
+        format = "qs",
+        repository = repository
+      ),
+      tar_target(z, write_file(y), format = "file", repository = repository)
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_equal(tar_read(x), c(2L, 4L))
+  expect_equal(unname(tar_read(y)), c(2L, 4L))
+  expect_equal(unname(tar_read(y, branches = 2L)), 4L)
+  expect_equal(readLines(tar_read(z)), c("2", "4"))
+  expect_equal(tar_outdated(callr_function = NULL), character(0L))
+  unlink(file.path("cas", tar_meta(z)$data))
+  expect_equal(tar_outdated(callr_function = NULL), "z")
+  tar_destroy()
+})
+
 tar_test("CAS repository works without list method", {
   skip_cran()
   skip_if_not_installed("qs")
