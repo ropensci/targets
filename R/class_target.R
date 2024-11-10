@@ -159,10 +159,13 @@ target_deps_deep <- function(target, pipeline) {
       target_get_children(pipeline_get_target(pipeline, dep))
     })
   )
-  parents <- map_chr(deps, function(dep) {
-    target_get_parent(pipeline_get_target(pipeline, dep))
-  })
-  unique(c(deps, children, parents))
+  patterns <- unlist(
+    map(deps, function(dep) {
+      target <- pipeline_get_target(pipeline, dep)
+      if_any(inherits(target, "tar_bud"), target_get_parent(target), NULL)
+    })
+  )
+  unique(c(deps, children, patterns))
 }
 
 target_downstream_branching <- function(target, pipeline, scheduler) {
