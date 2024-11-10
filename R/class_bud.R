@@ -27,6 +27,11 @@ target_produce_reference.tar_bud <- function(target) {
 }
 
 #' @export
+target_worker_extras.tar_bud <- function(target, pipeline, retrieval_worker) {
+  if_any(retrieval_worker, target_get_parent(target), character(0L))
+}
+
+#' @export
 target_validate.tar_bud <- function(target) {
   tar_assert_correct_fields(target, bud_new, optional = "value")
   NextMethod()

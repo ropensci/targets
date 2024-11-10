@@ -154,22 +154,29 @@ target_deps_shallow <- function(target, pipeline) {
 
 target_deps_deep <- function(target, pipeline) {
   deps <- target_deps_shallow(target, pipeline)
-  children <- unlist(
-    lapply(deps, function(dep) {
-      target_get_children(pipeline_get_target(pipeline, dep))
-    })
-  )
   retrieval_worker <- identical(target$settings$retrieval, "worker")
-  parents <- unlist(
-    map(deps, function(dep) {
-      dep <- pipeline_get_target(pipeline, dep)
-      if (inherits(dep, "tar_bud") && retrieval_worker) {
-        return(target_get_parent(dep))
-      }
-      NULL
-    })
+  extras <- map(
+    deps,
+    ~target_worker_extras(
+      target = pipeline_get_target(pipeline, .x),
+      pipeline = pipeline,
+      retrieval_worker = retrieval_worker
+    )
   )
-  unique(c(deps, children, parents))
+  unique(as.character(c(deps, unlist(extras))))
+}
+
+target_worker_extras <- function(target, pipeline, retrieval_worker) {
+  UseMethod("target_worker_extras")
+}
+
+#' @export
+target_worker_extras.tar_target <- function(
+  target,
+  pipeline,
+  retrieval_worker
+) {
+  character(0L)
 }
 
 target_downstream_branching <- function(target, pipeline, scheduler) {

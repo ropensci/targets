@@ -213,6 +213,15 @@ target_produce_child.tar_pattern <- function(target, name) {
 }
 
 #' @export
+target_worker_extras.tar_pattern <- function(
+  target,
+  pipeline,
+  retrieval_worker
+) {
+  target_get_children(target)
+}
+
+#' @export
 print.tar_pattern <- function(x, ...) {
   cat(
     "<tar_pattern>",
