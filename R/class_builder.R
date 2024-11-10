@@ -140,7 +140,7 @@ target_run.tar_builder <- function(target, envir, path_store) {
   }
   on.exit(builder_unset_tar_runtime(), add = TRUE)
   on.exit(target$subpipeline <- NULL, add = TRUE)
-  if (identical(target$settings$retrieval, "worker")) {
+  if (!identical(target$settings$retrieval, "none")) {
     target_ensure_deps_worker(target, target$subpipeline)
   }
   frames <- frames_produce(envir, target, target$subpipeline)
