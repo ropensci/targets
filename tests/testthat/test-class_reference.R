@@ -1,14 +1,20 @@
 tar_test("reference with only parent", {
   out <- reference_new(parent = "my_parent")
-  expect_equal(out, c("my_parent"))
+  expect_equal(out, "my_parent")
+  expect_equal(reference_parent(out), "my_parent")
+  expect_equal(reference_path(out), NA_character_)
+  expect_equal(reference_stage(out), NA_character_)
 })
 
 tar_test("reference with parent and path but no stage", {
   out <- reference_new(parent = "my_parent", path = "my_path")
   expect_equal(out, c("my_parent", "my_path"))
+  expect_equal(reference_parent(out), "my_parent")
+  expect_equal(reference_path(out), "my_path")
+  expect_equal(reference_stage(out), NA_character_)
 })
 
-tar_test("reference with parent and path", {
+tar_test("reference with parent, path, and stage", {
   out <- reference_new(
     "my_parent",
     "my_path",
@@ -18,6 +24,9 @@ tar_test("reference with parent and path", {
     out,
     c("my_parent", "my_path", "my_stage")
   )
+  expect_equal(reference_parent(out), "my_parent")
+  expect_equal(reference_path(out), "my_path")
+  expect_equal(reference_stage(out), "my_stage")
 })
 
 tar_test("reference_produce_target() and its inverse", {

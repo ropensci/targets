@@ -3,15 +3,23 @@ reference_new <- function(parent, path = NULL, stage = NULL) {
 }
 
 reference_parent <- function(reference) {
-  .subset(reference, 1L)
+  reference[1L]
 }
 
 reference_path <- function(reference) {
-  .subset(reference, 2L)
+  if (length(reference) > 1L) {
+    reference[2L]
+  } else {
+    NA_character_
+  }
 }
 
 reference_stage <- function(reference) {
-  .subset2(reference, 3L)
+  if (length(reference) > 2L) {
+    reference[3L]
+  } else {
+    NA_character_
+  }
 }
 
 reference_produce_target <- function(reference, pipeline, name) {
