@@ -74,7 +74,7 @@ Imports:
   vctrs (>= 0.2.4),
   yaml (>= 2.2.1)
 Suggests:
-  autometric (>= 0.0.5.9002),
+  autometric (>= 0.1.0),
   bslib,
   clustermq (>= 0.9.2),
   crew (>= 0.9.0),
