@@ -91,9 +91,8 @@
 #'   Applies to all formats ending with the `"_parquet"` suffix.
 #'   For details on formats, see the `format` argument of [tar_target()].
 #' @param qs Output of function `tar_resources_qs()`.
-#'   Non-default arguments to `qs::qread()` and
-#'   `qs::qsave()` for `qs`-based storage formats.
-#'   Applies to all formats ending with the `"_qs"` suffix.
+#'   Non-default arguments to `qs2::qs_read()` and
+#'   `qs2::qs_save()` for targets with `format = "qs"`.
 #'   For details on formats, see the `format` argument of [tar_target()].
 #' @param repository_cas Output of function [tar_resources_repository_cas()]
 #'   with configuration details for [tar_repository_cas()] storage

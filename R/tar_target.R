@@ -47,9 +47,15 @@
 #'     existing files (and/or directories), then the format becomes
 #'     `"file"` before [tar_make()] saves the target. Otherwise,
 #'     the format becomes `"qs"`.
-#'   * `"qs"`: Uses `qs::qsave()` and `qs::qread()`. Should work for
-#'     most objects, much faster than `"rds"`. Optionally set the
-#'     preset for `qsave()` through `tar_resources()` and `tar_resources_qs()`.
+#'   * `"qs"`: Uses `qs2::qs_save()` and `qs2::qs_read()`. Should work for
+#'     most objects, much faster than `"rds"`. Optionally configure settings
+#'     through `tar_resources()` and `tar_resources_qs()`.
+#'
+#'     Prior to `targets` version 1.8.0.9014, `format = "qs"` used the `qs`
+#'     package. `qs` has since been superseded in favor of `qs2`, and so
+#'     later versions of `targets` use `qs2` to save new data. To read
+#'     existing data, `targets` first attempts [qs2::qs_read()], and then if
+#'     that fails, it falls back on [qs::qread()].
 #'   * `"feather"`: Uses `arrow::write_feather()` and
 #'     `arrow::read_feather()` (version 2.0). Much faster than `"rds"`,
 #'     but the value must be a data frame. Optionally set

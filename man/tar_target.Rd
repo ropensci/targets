@@ -368,9 +368,15 @@ of the target. If the return value is a character vector of
 existing files (and/or directories), then the format becomes
 \code{"file"} before \code{\link[=tar_make]{tar_make()}} saves the target. Otherwise,
 the format becomes \code{"qs"}.
-\item \code{"qs"}: Uses \code{qs::qsave()} and \code{qs::qread()}. Should work for
-most objects, much faster than \code{"rds"}. Optionally set the
-preset for \code{qsave()} through \code{tar_resources()} and \code{tar_resources_qs()}.
+\item \code{"qs"}: Uses \code{qs2::qs_save()} and \code{qs2::qs_read()}. Should work for
+most objects, much faster than \code{"rds"}. Optionally configure settings
+through \code{tar_resources()} and \code{tar_resources_qs()}.
+
+Prior to \code{targets} version 1.8.0.9014, \code{format = "qs"} used the \code{qs}
+package. \code{qs} has since been superseded in favor of \code{qs2}, and so
+later versions of \code{targets} use \code{qs2} to save new data. To read
+existing data, \code{targets} first attempts \code{\link[qs2:qs_read]{qs2::qs_read()}}, and then if
+that fails, it falls back on \code{\link[qs:qread]{qs::qread()}}.
 \item \code{"feather"}: Uses \code{arrow::write_feather()} and
 \code{arrow::read_feather()} (version 2.0). Much faster than \code{"rds"},
 but the value must be a data frame. Optionally set

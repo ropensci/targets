@@ -4,11 +4,26 @@
 \alias{tar_resources_qs}
 \title{Target resources: qs storage formats}
 \usage{
-tar_resources_qs(preset = targets::tar_option_get("resources")$qs$preset)
+tar_resources_qs(
+  compress_level = targets::tar_option_get("resources")$qs$compress_level,
+  shuffle = targets::tar_option_get("resources")$qs$shuffle,
+  nthreads = targets::tar_option_get("resources")$qs$nthreads,
+  preset = NULL
+)
 }
 \arguments{
-\item{preset}{Character of length 1, \code{preset}
-argument of \code{qs::qsave()}. Defaults to \code{"high"}.}
+\item{compress_level}{Positive integer, \code{compress_level} argument of
+\code{\link[qs2:qs_save]{qs2::qs_save()}} to control the compression level.}
+
+\item{shuffle}{\code{TRUE} to use byte shuffling in
+\code{\link[qs2:qs_save]{qs2::qs_save()}} to improve compression at the cost of some
+computation time, \code{FALSE} to forgo byte shuffling.}
+
+\item{nthreads}{Positive integer, number of threads to use for
+functions in the \code{qs2} package to save and read the data.}
+
+\item{preset}{Deprecated in \code{targets} version 1.8.0.9014 (2024-11-11)
+and not used.}
 }
 \value{
 Object of class \code{"tar_resources_qs"}, to be supplied

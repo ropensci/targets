@@ -96,9 +96,8 @@ Applies to all formats ending with the \code{"_parquet"} suffix.
 For details on formats, see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
 
 \item{qs}{Output of function \code{tar_resources_qs()}.
-Non-default arguments to \code{qs::qread()} and
-\code{qs::qsave()} for \code{qs}-based storage formats.
-Applies to all formats ending with the \code{"_qs"} suffix.
+Non-default arguments to \code{qs2::qs_read()} and
+\code{qs2::qs_save()} for targets with \code{format = "qs"}.
 For details on formats, see the \code{format} argument of \code{\link[=tar_target]{tar_target()}}.}
 
 \item{repository_cas}{Output of function \code{\link[=tar_resources_repository_cas]{tar_resources_repository_cas()}}

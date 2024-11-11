@@ -1,4 +1,4 @@
-# targets 1.8.0.9013 (development)
+# targets 1.8.0.9014 (development)
 
 * Un-break workflows that use `format = "file_fast"` (#1339, @koefoeden).
 * Fix deadlock in `error = "trim"` (#1340, @koefoeden).
@@ -19,6 +19,7 @@
 * Omit whole stem targets from branch subpipelines when `retrieval` is `"main"` and only a bud is actually used. The same cannot be done with branches because each branch may need to be (un)marshaled individually.
 * Compress branches into references when `retrieval` is `"worker"` and the whole pattern is part of the subpipeline.
 * Avoid duplicated branch aggregation: just send the branches over the network.
+* Back-compatibly switch `format = "qs"` from `qs` to `qs2` (#1373).
 
 # targets 1.8.0
 

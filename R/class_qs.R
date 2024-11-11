@@ -11,18 +11,37 @@ store_assert_format_setting.qs <- function(format) {
 
 #' @export
 store_read_path.tar_qs <- function(store, path) {
-  qs::qread(file = path, use_alt_rep = TRUE)
+  tryCatch(
+    qs2::qs_read(
+      file = path,
+      validate_checksum = FALSE,
+      nthreads = store$resources$qs$nthreads %|||% 1L
+    ),
+    # nocov start
+    error = function(condition) {
+      getNamespace("qs")$qread(
+        file = path,
+        use_alt_rep = TRUE,
+        nthreads = store$resources$qs$nthreads %|||% 1L
+      )
+    }
+    # nocov end
+  )
 }
 
 #' @export
 store_write_path.tar_qs <- function(store, object, path) {
-  preset <- store$resources$qs$preset %|||%
-    store$resources$preset %|||%
-    "high"
-  qs::qsave(x = object, file = path, preset = preset)
+  qs2::qs_save(
+    object = object,
+    file = path,
+    preset = preset,
+    compress_level = store$resources$qs$compress_level %|||% 3L,
+    shuffle = store$resources$qs$shuffle %|||% TRUE,
+    nthreads = store$resources$qs$nthreads %|||% 1L
+  )
 }
 
 #' @export
 store_get_packages.tar_qs <- function(store) {
-  "qs"
+  "qs2"
 }

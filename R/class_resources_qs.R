@@ -1,16 +1,24 @@
 resources_qs_init <- function(
-  preset = "high"
+  compress_level = 3L,
+  shuffle = TRUE,
+  nthreads = 1L
 ) {
   resources_qs_new(
-    preset = preset
+    compress_level = compress_level,
+    shuffle = shuffle,
+    nthreads = nthreads
   )
 }
 
 resources_qs_new <- function(
-  preset = NULL
+  compress_level = NULL,
+  shuffle = NULL,
+  nthreads = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
-  out$preset <- preset
+  out$compress_level <- compress_level
+  out$shuffle <- shuffle
+  out$nthreads <- nthreads
   enclass(out, resources_qs_s3_class)
 }
 
@@ -18,8 +26,15 @@ resources_qs_s3_class <- c("tar_resources_qs", "tar_resources")
 
 #' @export
 resources_validate.tar_resources_qs <- function(resources) {
-  tar_assert_scalar(resources$preset)
-  tar_assert_chr(resources$preset)
+  for (field in c("compress_level", "nthreads")) {
+    tar_assert_scalar(resources[[field]])
+    tar_assert_int(resources[[field]])
+    tar_assert_finite(resources[[field]])
+    tar_assert_none_na(resources[[field]])
+  }
+  tar_assert_scalar(resources$shuffle)
+  tar_assert_lgl(resources$shuffle)
+  tar_assert_none_na(resources$shuffle)
 }
 
 #' @export
