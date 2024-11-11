@@ -241,7 +241,7 @@ tar_test("cue_depend() suppressed", {
 })
 
 tar_test("cue_format()", {
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   x <- target_init("x", quote(1L), format = "rds")
   local <- local_init(pipeline_init(list(x)))
   local$run()
@@ -255,7 +255,7 @@ tar_test("cue_format()", {
 })
 
 tar_test("cue_format() suppressed", {
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   cue <- cue_init(format = FALSE)
   x <- target_init("x", quote(1L), format = "rds", cue = cue)
   local <- local_init(pipeline_init(list(x)))

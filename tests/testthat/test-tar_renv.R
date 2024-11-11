@@ -1,11 +1,11 @@
 tar_test("tar_renv() works", {
   expect_false(file.exists("_targets_packages.R"))
   tar_script({
-    tar_option_set(packages = c("tibble", "qs"))
+    tar_option_set(packages = c("tibble", "qs2"))
     list()
   })
   tar_renv()
-  pkgs <- sort(c("tibble", "qs", eval(formals(tar_renv)$extras)))
+  pkgs <- sort(c("tibble", "qs2", eval(formals(tar_renv)$extras)))
   expect_true(file.exists("_targets_packages.R"))
   expect_equal(
     sort(readLines("_targets_packages.R")),
@@ -26,11 +26,11 @@ tar_test("tar_renv() works with custom path", {
   path <- tempfile()
   expect_false(file.exists(path))
   tar_script({
-    tar_option_set(packages = c("tibble", "qs"))
+    tar_option_set(packages = c("tibble", "qs2"))
     list()
   })
   tar_renv(path = path, callr_function = NULL)
-  pkgs <- sort(c("tibble", "qs", eval(formals(tar_renv)$extras)))
+  pkgs <- sort(c("tibble", "qs2", eval(formals(tar_renv)$extras)))
   expect_true(file.exists(path))
   expect_equal(
     sort(readLines(path)),
@@ -72,7 +72,7 @@ tar_test("tar_renv() formats set in tar_target()", {
     )
   })
   tar_renv(callr_function = NULL)
-  pkgs <- sort(c("qs", eval(formals(tar_renv)$extras)))
+  pkgs <- sort(c("qs2", eval(formals(tar_renv)$extras)))
   expect_true(file.exists("_targets_packages.R"))
   expect_equal(
     sort(readLines("_targets_packages.R")),
@@ -94,7 +94,7 @@ tar_test("tar_renv() formats set in pattern targets", {
     )
   })
   tar_renv(callr_function = NULL)
-  pkgs <- sort(c("qs", eval(formals(tar_renv)$extras)))
+  pkgs <- sort(c("qs2", eval(formals(tar_renv)$extras)))
   expect_true(file.exists("_targets_packages.R"))
   expect_equal(
     sort(readLines("_targets_packages.R")),
@@ -116,7 +116,7 @@ tar_test("tar_renv() packages set in tar_option_set()", {
     list()
   })
   tar_renv(callr_function = NULL)
-  pkgs <- sort(c("tibble", "qs", eval(formals(tar_renv)$extras)))
+  pkgs <- sort(c("tibble", "qs2", eval(formals(tar_renv)$extras)))
   expect_true(file.exists("_targets_packages.R"))
   expect_equal(
     sort(readLines("_targets_packages.R")),
@@ -166,7 +166,7 @@ tar_test("custom script and store args", {
   tar_renv(script = "example/script.R", callr_function = NULL)
   expect_true(file.exists("_targets_packages.R"))
   lines <- readLines("_targets_packages.R")
-  expect_true(any(grepl("qs", lines)))
+  expect_true(any(grepl("qs2", lines)))
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
@@ -187,7 +187,7 @@ tar_test("custom script and store args with callr function", {
   tar_renv(script = "example/script.R")
   expect_true(file.exists("_targets_packages.R"))
   lines <- readLines("_targets_packages.R")
-  expect_true(any(grepl("qs", lines)))
+  expect_true(any(grepl("qs2", lines)))
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())

@@ -104,7 +104,7 @@ tar_test("validate CAS repository class", {
 })
 
 tar_test("CAS repository works", {
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   tar_script({
     repository <- tar_repository_cas(
       upload = function(key, path) {
@@ -157,7 +157,7 @@ tar_test("CAS repository works", {
 tar_test("CAS repository works with parallel workers", {
   skip_cran()
   skip_if_not_installed("crew")
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   tar_script({
     repository <- tar_repository_cas(
       upload = function(key, path) {
@@ -214,7 +214,7 @@ tar_test("CAS repository works with parallel workers", {
 
 tar_test("CAS repository works without list method", {
   skip_cran()
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   tar_script({
     repository <- tar_repository_cas(
       upload = function(key, path) {

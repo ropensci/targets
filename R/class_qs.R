@@ -34,7 +34,6 @@ store_write_path.tar_qs <- function(store, object, path) {
   qs2::qs_save(
     object = object,
     file = path,
-    preset = preset,
     compress_level = store$resources$qs$compress_level %|||% 3L,
     shuffle = store$resources$qs$shuffle %|||% TRUE,
     nthreads = store$resources$qs$nthreads %|||% 1L

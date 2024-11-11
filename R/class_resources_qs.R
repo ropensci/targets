@@ -3,11 +3,13 @@ resources_qs_init <- function(
   shuffle = TRUE,
   nthreads = 1L
 ) {
-  resources_qs_new(
+  out <- resources_qs_new(
     compress_level = compress_level,
     shuffle = shuffle,
     nthreads = nthreads
   )
+  resources_validate(out)
+  out
 }
 
 resources_qs_new <- function(
@@ -31,6 +33,7 @@ resources_validate.tar_resources_qs <- function(resources) {
     tar_assert_int(resources[[field]])
     tar_assert_finite(resources[[field]])
     tar_assert_none_na(resources[[field]])
+    tar_assert_ge(resources[[field]], 1L)
   }
   tar_assert_scalar(resources$shuffle)
   tar_assert_lgl(resources$shuffle)

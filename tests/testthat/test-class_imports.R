@@ -31,12 +31,12 @@ tar_test("imports_set_package()", {
 
 tar_test("imports_set_datasets()", {
   skip_cran()
-  skip_if_not_installed("qs")
-  datasets <- as.character(data(package = "qs")$results[, "Item"])
+  skip_if_not_installed("qs2")
+  datasets <- as.character(data(package = "qs2")$results[, "Item"])
   skip_if(!("starnames" %in% datasets))
   imports <- imports_new(new.env(parent = emptyenv()))
   expect_null(imports$starnames)
-  imports_set_datasets(imports = imports, package = "qs")
+  imports_set_datasets(imports = imports, package = "qs2")
   expect_true(nrow(imports$starnames) > 0L)
 })
 

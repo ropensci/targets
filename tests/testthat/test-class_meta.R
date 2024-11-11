@@ -137,7 +137,7 @@ tar_test("metadata storage is duplicated", {
 })
 
 tar_test("errored targets keep old path and old format in meta", {
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   x <- target_init(name = "abc", expr = quote(123), format = "qs")
   local_init(pipeline_init(list(x)))$run()
   x <- target_init(
@@ -178,7 +178,7 @@ tar_test("errored external targets keep old path and old format in meta", {
 })
 
 tar_test("can read metadata with a error & a non-error", {
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   targets <- list(
     target_init(name = "abc", expr = quote(123), format = "qs"),
     target_init(
