@@ -111,7 +111,7 @@ pipeline_reset_deployment <- function(pipeline, name) {
 pipeline_exists_target <- function(pipeline, name) {
   envir <- .subset2(pipeline, "targets")
   if (is.null(envir)) {
-    envir <- tar_empty_envir
+    envir <- tar_envir_base
   }
   !is.null(.subset2(envir, name))
 }

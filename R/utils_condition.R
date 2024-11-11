@@ -126,7 +126,7 @@ tar_error <- function(message, class) {
   on.exit(options(old), add = TRUE)
   message <- cli::col_red(message)
   class <- safe_condition_class(class)
-  rlang::abort(message = message, class = class, call = tar_empty_envir)
+  rlang::abort(message = message, class = class, call = tar_envir_base)
 }
 
 #' @export

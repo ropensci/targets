@@ -6,8 +6,6 @@ data_frame <- function(...) {
   data.frame(..., stringsAsFactors = FALSE)
 }
 
-tar_empty_envir <- new.env(parent = baseenv())
-
 expand_grid <- function(...) {
   rev(expand.grid(rev(list(...)), stringsAsFactors = FALSE))
 }
@@ -71,3 +69,7 @@ supported_args <- function(fun, args) {
   common <- intersect(names(formals(fun)), names(args))
   args[common]
 }
+
+tar_envir_base <- new.env(parent = baseenv())
+
+tar_envir_empty <- new.env(parent = emptyenv())
