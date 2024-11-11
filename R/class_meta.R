@@ -145,7 +145,7 @@ meta_class <- R6::R6Class(
     set_repository_hash_table = function(repository, data) {
       self$repository_key_lookup[[repository]] <- list2env(
         as.list(data),
-        parent = emptyenv(),
+        parent = emptyenv(), # nocov
         hash = TRUE
       )
     },

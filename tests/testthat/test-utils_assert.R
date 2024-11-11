@@ -463,3 +463,11 @@ tar_test("tar_assert_match()", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("tar_assert_identical()", {
+  expect_silent(tar_assert_identical(TRUE, TRUE))
+  expect_error(
+    tar_assert_identical(TRUE, "false"),
+    class = "tar_condition_validate"
+  )
+})
