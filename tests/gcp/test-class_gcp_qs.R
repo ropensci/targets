@@ -2,7 +2,7 @@
 # Verify all `targets` buckets are deleted afterwards.
 tar_test("gcp_qs format data gets stored", {
   skip_if_no_gcp()
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
   gcp_gcs_auth(max_tries = 5L)
@@ -53,7 +53,7 @@ tar_test("gcp_qs format data gets stored", {
 
 tar_test("gcp_qs format data gets stored with worker storage", {
   skip_if_no_gcp()
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
   gcp_gcs_auth(max_tries = 5L)
@@ -106,7 +106,7 @@ tar_test("gcp_qs format data gets stored with worker storage", {
 
 tar_test("gcp_qs format invalidation", {
   skip_if_no_gcp()
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
   gcp_gcs_auth(max_tries = 5L)
@@ -155,7 +155,7 @@ tar_test("gcp_qs format invalidation", {
 
 tar_test("gcp_qs format and dynamic branching", {
   skip_if_no_gcp()
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
   gcp_gcs_auth(max_tries = 5L)
@@ -189,7 +189,7 @@ tar_test("gcp_qs format and dynamic branching", {
 
 tar_test("gcp timestamp", {
   skip_if_no_gcp()
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
   gcp_gcs_auth(max_tries = 5L)
@@ -221,7 +221,7 @@ tar_test("gcp timestamp", {
 
 tar_test("gcp_qs format with an alternative data store", {
   skip_if_no_gcp()
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   tar_config_set(store = "custom_targets_store")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
@@ -273,7 +273,7 @@ tar_test("gcp_qs format with an alternative data store", {
 
 tar_test("gcp_qs format works with storage = \"none\"", {
   skip_if_no_gcp()
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
   gcp_gcs_auth(max_tries = 5L)
@@ -330,7 +330,7 @@ tar_test("gcp_qs format works with storage = \"none\"", {
 
 tar_test("gcp_qs nonexistent bucket", {
   skip_if_no_gcp()
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
   gcp_gcs_auth(max_tries = 5L)
@@ -364,7 +364,7 @@ tar_test("gcp_qs nonexistent bucket", {
 tar_test("gcp_qs format versioning", {
   # setup
   skip_if_no_gcp()
-  skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   bucket_name <- random_bucket_name()
   # needs to be a GCP project the tester auth has access to
   gcp_gcs_auth(max_tries = 5L)

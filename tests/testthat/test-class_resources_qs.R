@@ -4,8 +4,10 @@ tar_test("create tar_resources_qs object", {
 })
 
 tar_test("prohibit empty tar_resources_qs object", {
-  x <- resources_qs_init(compress_level = NULL)
-  expect_error(resources_validate(x), class = "tar_condition_validate")
+  expect_error(
+    resources_qs_init(compress_level = NULL),
+    class = "tar_condition_validate"
+  )
 })
 
 tar_test("print tar_resources_qs object", {
