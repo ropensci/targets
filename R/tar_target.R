@@ -314,43 +314,29 @@
 #'   functionality, alternative data storage formats,
 #'   and other optional capabilities of `targets`.
 #'   See `tar_resources()` for details.
-#' @param storage Character of length 1, only relevant to
-#'   [tar_make_clustermq()] and [tar_make_future()].
+#' @param storage Character string to control when the output of the target
+#'   is saved to storage. Only relevant when using `targets`
+#'   with parallel workers (<https://books.ropensci.org/targets/crew.html>).
 #'   Must be one of the following values:
 #'   * `"main"`: the target's return value is sent back to the
-#'   host machine and saved/uploaded locally.
+#'     host machine and saved/uploaded locally.
 #'   * `"worker"`: the worker saves/uploads the value.
-#'   * `"none"`: almost never recommended. It is only for
-#'     niche situations, e.g. the data needs to be loaded
-#'     explicitly from another language. If you do use it,
-#'     then the return value of the target is totally ignored
-#'     when the target ends, but
-#'     each downstream target still attempts to load the data file
-#'     (except when `retrieval = "none"`).
-#'
-#'     If you select `storage = "none"`, then
-#'     the return value of the target's command is ignored,
-#'     and the data is not saved automatically.
-#'     As with dynamic files (`format = "file"`) it is the
-#'     responsibility of the user to write to
-#'     the data store from inside the target.
-#'
-#'     The distinguishing feature of `storage = "none"`
-#'     (as opposed to `format = "file"`)
-#'     is that in the general case,
-#'     downstream targets will automatically try to load the data
-#'     from the data store as a dependency. As a corollary, `storage = "none"`
-#'     is completely unnecessary if `format` is `"file"`.
-#' @param retrieval Character of length 1, only relevant to
-#'   [tar_make_clustermq()] and [tar_make_future()].
+#'   * `"none"`: `targets` makes no attempt to save the result
+#'     of the target to storage in the location where `targets`
+#'     expects it to be. Saving to storage is the responsibility
+#'     of the user. Use with caution.
+#' @param retrieval Character string to control when the current target
+#'   loads its dependencies into memory before running.
+#'   (Here, a "dependency" is another target upstream that the current one
+#'   depends on.) Only relevant when using `targets`
+#'   with parallel workers (<https://books.ropensci.org/targets/crew.html>).
 #'   Must be one of the following values:
 #'   * `"main"`: the target's dependencies are loaded on the host machine
 #'     and sent to the worker before the target runs.
-#'   * `"worker"`: the worker loads the targets dependencies.
-#'   * `"none"`: the dependencies are not loaded at all.
-#'     This choice is almost never recommended. It is only for
-#'     niche situations, e.g. the data needs to be loaded
-#'     explicitly from another language.
+#'   * `"worker"`: the worker loads the target's dependencies.
+#'   * `"none"`: `targets` makes no attempt to load its
+#'     dependencies. With `retrieval = "none"`, loading dependencies
+#'     is the responsibility of the user. Use with caution.
 #' @param cue An optional object from `tar_cue()` to customize the
 #'   rules that decide whether the target is up to date.
 #' @param description Character of length 1, a custom free-form human-readable
