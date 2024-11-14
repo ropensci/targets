@@ -14,7 +14,7 @@ callr_outer <- function(
   tar_assert_nzchar(store)
   choice <- tar_assert_store_noninvalidating(
     store,
-    threshold = "1.6.0",
+    threshold = "1.8.0",
     prompt = grepl("^tar_make", fun)
   )
   # Tested in tests/interactive/test-tar_assert_store_noninvalidating.R

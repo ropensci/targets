@@ -1,4 +1,6 @@
-# targets 1.8.0.9014 (development)
+# targets 1.8.0.9015 (development)
+
+## Improvements
 
 * Un-break workflows that use `format = "file_fast"` (#1339, @koefoeden).
 * Fix deadlock in `error = "trim"` (#1340, @koefoeden).
@@ -21,6 +23,10 @@
 * Avoid duplicated branch aggregation: just send the branches over the network.
 * Back-compatibly switch `format = "qs"` from `qs` to `qs2` (#1373).
 * Add `tar_unblock_process()`.
+
+## Potentially invalidating changes
+
+* Add `"keepNA"` and `"keepInteger"` to `.deparseOpts()` (#1375). This may cause existing pipelines to rerun, but it makes add-ons like `tarchetypes::tar_map()` much easier to use.
 
 # targets 1.8.0
 

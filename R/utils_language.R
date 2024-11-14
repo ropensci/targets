@@ -60,7 +60,9 @@ tar_deparse_safe <- function(expr, collapse = "\n", backtick = TRUE) {
   out
 }
 
-deparse_control_custom <- .deparseOpts(c("keepNA", "keepInteger"))
+deparse_control_custom <- .deparseOpts(
+  c("keepInteger", "showAttributes", "keepNA", "niceNames")
+)
 
 deparse_direct <- function(...) {
   produce_deparse_direct()(...)
