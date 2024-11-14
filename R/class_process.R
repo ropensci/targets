@@ -81,9 +81,15 @@ process_class <- R6::R6Class(
             pid,
             "is really a {targets} pipeline and not a false positive,",
             "then terminate it manually. In case of a false positive,",
-            "remove the file",
+            "run",
+            sprintf(
+              "targets::tar_unblock_process(store = \"%s\")",
+              dirname(dirname(self$database$path))
+            ),
+            "(or manually remove",
             shQuote(self$database$path),
-            "and try again. False positives may happen if you run",
+            ") and try again.",
+            "False positives may happen if you run",
             "different calls to tar_make() in quick succession",
             "or if you run tar_make(callr_function = NULL) in a",
             "different R process and keep that process running."

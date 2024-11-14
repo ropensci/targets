@@ -48,7 +48,8 @@ Other utilities:
 \code{\link{tar_path_script_support}()},
 \code{\link{tar_path_store}()},
 \code{\link{tar_path_target}()},
-\code{\link{tar_source}()}
+\code{\link{tar_source}()},
+\code{\link{tar_unblock_process}()}
 }
 \concept{utilities}
 \keyword{internal}

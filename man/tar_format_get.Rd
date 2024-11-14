@@ -41,6 +41,7 @@ Other utilities:
 \code{\link{tar_path_store}()},
 \code{\link{tar_path_target}()},
 \code{\link{tar_source}()},
-\code{\link{tar_store}()}
+\code{\link{tar_store}()},
+\code{\link{tar_unblock_process}()}
 }
 \concept{utilities}

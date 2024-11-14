@@ -20,6 +20,7 @@
 * Compress branches into references when `retrieval` is `"worker"` and the whole pattern is part of the subpipeline.
 * Avoid duplicated branch aggregation: just send the branches over the network.
 * Back-compatibly switch `format = "qs"` from `qs` to `qs2` (#1373).
+* Add `tar_unblock_process()`.
 
 # targets 1.8.0
 

@@ -173,6 +173,7 @@ reference:
   - 'tar_path_store'
   - 'tar_path_target'
   - 'tar_source'
+  - 'tar_unblock_store'
 - title: Extending targets
   contents:
   - 'tar_assert'
