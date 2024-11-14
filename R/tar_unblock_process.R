@@ -12,7 +12,7 @@
 #' @param store Character string, path to the data store
 #'   (usually `"_targets"`).
 tar_unblock_process <- function(store = targets::tar_config_get("store")) {
-  tar_assert_allow_meta("tar_meta", store)
+  tar_assert_allow_meta("tar_unblock_process", store)
   tar_assert_scalar(store)
   tar_assert_chr(store)
   tar_assert_nzchar(store)
