@@ -22,5 +22,5 @@ load_packages <- function(packages, library) {
 
 installed_autometric <- rlang::is_installed(
   pkg = "autometric",
-  version = "0.0.5.9001"
+  version = "0.1.0"
 )
