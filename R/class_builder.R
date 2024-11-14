@@ -62,7 +62,7 @@ target_prepare.tar_builder <- function(
   meta,
   pending = FALSE
 ) {
-  if (installed_autometric) {
+  if (package_installed("autometric (>= 0.1.0)")) {
     phase <- paste("prepare:", target_get_name(target))
     autometric::log_phase_set(phase = phase)
     on.exit(autometric::log_phase_reset())
@@ -134,7 +134,7 @@ target_needs_worker.tar_builder <- function(target) {
 
 #' @export
 target_run.tar_builder <- function(target, envir, path_store) {
-  if (installed_autometric) {
+  if (package_installed("autometric (>= 0.1.0)")) {
     autometric::log_phase_set(phase = target_get_name(target))
     on.exit(autometric::log_phase_reset())
   }
@@ -167,7 +167,7 @@ target_run_worker.tar_builder <- function(
   options,
   envvars
 ) {
-  if (installed_autometric) {
+  if (package_installed("autometric (>= 0.1.0)")) {
     autometric::log_phase_set(phase = target_get_name(target))
     on.exit(autometric::log_phase_reset())
   }
@@ -214,7 +214,7 @@ target_skip.tar_builder <- function(
 
 #' @export
 target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
-  if (installed_autometric) {
+  if (package_installed("autometric (>= 0.1.0)")) {
     phase <- paste("conclude:", target_get_name(target))
     autometric::log_phase_set(phase = phase)
     on.exit(autometric::log_phase_reset())

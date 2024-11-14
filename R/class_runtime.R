@@ -10,7 +10,6 @@ runtime_new <- function(
   file_exist = NULL,
   file_info = NULL,
   file_info_exist = NULL,
-  nanonext = NULL,
   inventories = NULL,
   traceback = NULL,
   pid_parent = NULL,
@@ -32,7 +31,6 @@ runtime_new <- function(
   out$file_exist <- file_exist
   out$file_info <- file_info
   out$file_info_exist <- file_info_exist
-  out$nanonext <- nanonext
   out$inventories <- inventories
   out$traceback <- traceback
   out$pid_parent <- pid_parent
@@ -104,10 +102,6 @@ runtime_validate_extras <- function(x) {
   }
   if (!is.null(x$file_info_exist)) {
     tar_assert_envir(x$file_info_exist)
-  }
-  if (!is.null(x$nanonext)) {
-    tar_assert_scalar(x$nanonext)
-    tar_assert_lgl(x$nanonext)
   }
   if (!is.null(x$inventories)) {
     tar_assert_list(x$inventories)

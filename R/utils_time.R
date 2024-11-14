@@ -31,12 +31,9 @@ time_seconds <- function() {
 }
 
 time_seconds_local <- function() {
-  if (is.null(tar_runtime$nanonext)) {
-    tar_runtime$nanonext <- rlang::is_installed("nanonext")
+  if (package_installed("nanonext")) {
+    nanonext::mclock() / 1e3
+  } else {
+    as.numeric(proc.time()["elapsed"]) # nocov
   }
-  if_any(
-    tar_runtime$nanonext,
-    nanonext::mclock() / 1e3,
-    as.numeric(proc.time()["elapsed"])
-  )
 }

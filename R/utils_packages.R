@@ -20,7 +20,16 @@ load_packages <- function(packages, library) {
   tar_assert_true(all(out), msg)
 }
 
-installed_autometric <- rlang::is_installed(
-  pkg = "autometric",
-  version = "0.1.0"
-)
+package_installed <- function(package) {
+  installed_packages <- .subset2(tar_runtime, "installed_packages")
+  if (is.null(installed_packages)) {
+    installed_packages <- lookup_new()
+    tar_runtime$installed_packages <- installed_packages
+  }
+  result <- .subset2(installed_packages, package)
+  if (is.null(result)) {
+    result <- rlang::is_installed(pkg = package)
+    installed_packages[[package]] <- result
+  }
+  result
+}

@@ -34,7 +34,7 @@ rstudio_symbol_at_cursor <- function(context) {
 # nocov start
 rstudio_available <- function(verbose = TRUE) {
   available <- TRUE
-  if (!rlang::is_installed("rstudioapi")) {
+  if (!package_installed("rstudioapi")) {
     available <- FALSE
     reason <- "package {rstudioapi} is not installed."
   }

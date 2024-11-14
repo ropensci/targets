@@ -89,14 +89,6 @@ tar_test("file_info_exist", {
   expect_silent(runtime_validate(x))
 })
 
-tar_test("nanonext", {
-  x <- runtime_new()
-  expect_null(x$nanonext)
-  x$nanonext <- TRUE
-  expect_true(x$nanonext)
-  expect_silent(runtime_validate(x))
-})
-
 tar_test("traceback", {
   x <- runtime_new()
   expect_null(x$traceback)
