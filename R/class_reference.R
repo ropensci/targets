@@ -38,9 +38,21 @@ reference_produce_target <- function(reference, pipeline, name) {
   child <- target_produce_child(parent, name)
   file <- .subset2(child, "file")
   if (!is.null(file)) {
-    file$path <- reference_path(reference)
-    file$stage <- reference_stage(reference)
-    file$hash <- reference_hash(reference)
+    path <- reference_path(reference)
+    stage <- reference_stage(reference)
+    hash <- reference_hash(reference)
+    if (is.null(path)) {
+      path <- NA_character_
+    }
+    if (is.null(stage)) {
+      stage <- NA_character_
+    }
+    if (is.null(hash)) {
+      hash <- NA_character_
+    }
+    file$path <- path
+    file$stage <- stage
+    file$hash <- hash
   }
   child
 }
