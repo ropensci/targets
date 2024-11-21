@@ -110,7 +110,7 @@ database_class <- R6::R6Class(
     set_row = function(row) {
       lookup_set(
         .subset2(self, "lookup"),
-        name = as.character(.subset2(row, "name")),
+        names = as.character(.subset2(row, "name")),
         object = as.list(row)
       )
     },

@@ -213,7 +213,7 @@ tar_config_set <- function(
   yaml[[project]]$as_job <- as_job %|||% yaml[[project]]$as_job
   yaml[[project]]$garbage_collection <- garbage_collection %|||%
     yaml[[project]]$garbage_collection
-  yaml[[project]]$label <- label %|||% yaml[[project]]$label
+  yaml[[project]][["label"]] <- label %|||% yaml[[project]][["label"]]
   yaml[[project]]$label_width <- label_width %|||% yaml[[project]]$label_width
   yaml[[project]]$level_separation <- level_separation %|||%
     yaml[[project]]$level_separation
