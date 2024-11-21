@@ -1,5 +1,5 @@
 tar_test("reference with only parent", {
-  out <- reference_init(parent = "my_parent")
+  out <- reference_new(parent = "my_parent")
   expect_equal(reference_parent(out), "my_parent")
   expect_equal(reference_path(out), NULL)
   expect_equal(reference_stage(out), NULL)
@@ -7,7 +7,7 @@ tar_test("reference with only parent", {
 })
 
 tar_test("reference with parent and path but no other fields", {
-  out <- reference_init(parent = "my_parent", path = "my_path")
+  out <- reference_new(parent = "my_parent", path = "my_path")
   expect_equal(reference_parent(out), "my_parent")
   expect_equal(reference_path(out), "my_path")
   expect_equal(reference_stage(out), NULL)
@@ -15,15 +15,15 @@ tar_test("reference with parent and path but no other fields", {
 })
 
 tar_test("reference with parent and hash but no other fields", {
-  out <- reference_init(parent = "my_parent", hash = "my_hash")
+  out <- reference_new(parent = "my_parent", hash = "my_hash")
   expect_equal(reference_parent(out), "my_parent")
-  expect_equal(reference_path(out), NA_character_)
-  expect_equal(reference_stage(out), NA_character_)
+  expect_equal(reference_path(out), NULL)
+  expect_equal(reference_stage(out), NULL)
   expect_equal(reference_hash(out), "my_hash")
 })
 
 tar_test("reference with all fields", {
-  out <- reference_init(
+  out <- reference_new(
     parent = "my_parent",
     path = "my_path",
     stage = "my_stage",
@@ -62,9 +62,9 @@ tar_test("reference_produce_target() and its inverse", {
     bud_reference <- target_produce_reference(bud)
     branch_reference <- target_produce_reference(branch)
     expect_equal(reference_parent(bud_reference), "data")
-    expect_equal(reference_path(bud_reference), NA_character_)
-    expect_equal(reference_stage(bud_reference), NA_character_)
-    expect_equal(reference_hash(bud_reference), NA_character_)
+    expect_equal(reference_path(bud_reference), NULL)
+    expect_equal(reference_stage(bud_reference), NULL)
+    expect_equal(reference_hash(bud_reference), NULL)
     expect_equal(reference_parent(branch_reference), "map")
     expect_equal(reference_path(branch_reference), branch$file$path)
     expect_equal(reference_stage(branch_reference), branch$file$stage)

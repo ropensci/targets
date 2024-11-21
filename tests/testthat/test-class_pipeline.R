@@ -308,9 +308,9 @@ tar_test("managing lightweight references to targets in pipelines", {
     branch <- pipeline_get_target(local$pipeline, branch_name)
     reference <- pipeline$targets[[bud_name]]
     expect_equal(reference_parent(reference), "data")
-    expect_equal(reference_path(reference), NA_character_)
-    expect_equal(reference_stage(reference), NA_character_)
-    expect_equal(reference_hash(reference), NA_character_)
+    expect_equal(reference_path(reference), NULL)
+    expect_equal(reference_stage(reference), NULL)
+    expect_equal(reference_hash(reference), NULL)
     reference <- pipeline$targets[[branch_name]]
     expect_equal(reference_parent(reference), "map")
     expect_equal(reference_path(reference), branch$file$path)
@@ -327,9 +327,9 @@ tar_test("managing lightweight references to targets in pipelines", {
     pipeline_unload_loaded(local$pipeline)
     reference <- pipeline$targets[[bud_name]]
     expect_equal(reference_parent(reference), "data")
-    expect_equal(reference_path(reference), NA_character_)
-    expect_equal(reference_stage(reference), NA_character_)
-    expect_equal(reference_hash(reference), NA_character_)
+    expect_equal(reference_path(reference), NULL)
+    expect_equal(reference_stage(reference), NULL)
+    expect_equal(reference_hash(reference), NULL)
     reference <- pipeline$targets[[branch_name]]
     expect_equal(reference_parent(reference), "map")
     expect_equal(reference_path(reference), branch$file$path)

@@ -1,6 +1,8 @@
-# targets 1.9.0.9000 (development)
+# targets 1.9.0.9001 (development)
 
+## Bug fixes
 
+* Allow branch references to contain multi-element `path` vectors with cloud metadata (#1382).
 
 # targets 1.9.0
 

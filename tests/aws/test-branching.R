@@ -20,17 +20,32 @@ tar_test("dynamic branch references have complete path info", {
         )
       )
     )
+    # From
+    # https://github.com/wjschne/spiro/blob/ \
+    #   87f73ec37ceb0a7a9d09856ada8ae28d587a2ebd/R/spirograph.R
+    # Adapted under the CC0 1.0 Universal license:
+    # https://github.com/wjschne/spiro/blob/ \
+    #   87f73ec37ceb0a7a9d09856ada8ae28d587a2ebd/LICENSE.md
     spirograph_points <- function(fixed_radius, cycling_radius) {
       t <- seq(1, 30 * pi, length.out = 1e4)
       diff <- (fixed_radius - cycling_radius)
       ratio <- diff / cycling_radius
       x <- diff * cos(t) + cos(t * ratio)
       y <- diff * sin(t) - sin(t * ratio)
-      tibble(x = x, y = y, fixed_radius = fixed_radius, cycling_radius = cycling_radius)
+      tibble(
+        x = x,
+        y = y,
+        fixed_radius = fixed_radius,
+        cycling_radius = cycling_radius
+      )
     }
     plot_spirographs <- function(points) {
       label <- "fixed_radius = %s, cycling_radius = %s"
-      points$parameters <- sprintf(label, points$fixed_radius, points$cycling_radius)
+      points$parameters <- sprintf(
+        label,
+        points$fixed_radius,
+        points$cycling_radius
+      )
       ggplot(points) +
         geom_point(aes(x = x, y = y, color = parameters), size = 0.1) +
         facet_wrap(~parameters) +
