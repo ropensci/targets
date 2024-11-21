@@ -122,3 +122,17 @@ tar_test("imports setting works", {
   expect_equal(tar_progress(x)$progress, "completed")
   expect_equal(tar_read(x), 3L)
 })
+
+tar_test("imports_set_dataset_object()", {
+  skip_cran()
+  skip_if_not_installed("datasets")
+  datasets <- utils::data(package = "datasets")$results[, "Item"]
+  skip_if_not("airquality" %in% datasets)
+  imports <- new.env(parent = emptyenv())
+  imports_set_dataset_object(
+    name = "airquality",
+    imports = imports,
+    package = "datasets"
+  )
+  expect_true(is.data.frame(imports$airquality))
+})

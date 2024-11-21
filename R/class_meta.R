@@ -142,6 +142,8 @@ meta_class <- R6::R6Class(
       }
       self$repository_cas_lookup_table <- lookup_table
     },
+    # suppress a false positive:
+    # nocov start
     set_repository_hash_table = function(repository, data) {
       self$repository_key_lookup[[repository]] <- list2env(
         as.list(data),
@@ -149,6 +151,7 @@ meta_class <- R6::R6Class(
         hash = TRUE
       )
     },
+    # nocov end
     migrate_database = function() {
       # Add the repository column (> 0.10.0).
       if (!file.exists(self$database$path)) {
