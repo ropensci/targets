@@ -4,33 +4,23 @@ reference_new <- function(
   stage = NULL,
   hash = NULL
 ) {
-  out <- list(parent = parent)
-  if (!is.null(path)) {
-    out$path <- path
-  }
-  if (!is.null(stage)) {
-    out$stage <- stage
-  }
-  if (!is.null(hash)) {
-    out$hash <- hash
-  }
-  out
+  list(parent, path, stage, hash)
 }
 
 reference_parent <- function(reference) {
-  .subset2(reference, "parent")
+  .subset2(reference, 1L)
 }
 
 reference_path <- function(reference) {
-  .subset2(reference, "path")
+  .subset2(reference, 2L)
 }
 
 reference_stage <- function(reference) {
-  .subset2(reference, "stage")
+  .subset2(reference, 3L)
 }
 
 reference_hash <- function(reference) {
-  .subset2(reference, "hash")
+  .subset2(reference, 4L)
 }
 
 reference_produce_target <- function(reference, pipeline, name) {
@@ -57,6 +47,4 @@ reference_produce_target <- function(reference, pipeline, name) {
   child
 }
 
-is_reference <- function(reference) {
-  is.list(reference) && is.character(reference_parent(reference))
-}
+is_reference_not_target <- is.list
