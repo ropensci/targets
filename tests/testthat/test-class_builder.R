@@ -208,7 +208,6 @@ tar_test("builder writing from worker", {
 
 tar_test("retrieval = \"none\"", {
   skip_cran()
-  skip_cran()
   tar_script({
     list(
       tar_target(x, 1, memory = "transient"),

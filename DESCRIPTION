@@ -113,5 +113,7 @@ Encoding: UTF-8
 Language: en-US
 VignetteBuilder: knitr
 Config/testthat/edition: 3
+Config/testthat/parallel: TRUE
+Config/testthat/start-first: tar_repository_cas_local,tar_outdated,tar_repository_cas,tar_sitrep
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
