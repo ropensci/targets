@@ -16,7 +16,7 @@ summary_class <- R6::R6Class(
       }
     },
     report_start = function() {
-      cli_df_header(progress_init(path = tempfile())$cli_data())
+      cli_df_header(progress_init(path_store = tempfile())$cli_data())
     },
     report_progress = function(progress, force = FALSE) {
       self$buffer <- cli_df_body(progress$cli_data(), print = FALSE)
