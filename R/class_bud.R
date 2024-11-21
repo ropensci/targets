@@ -23,7 +23,7 @@ target_read_value.tar_bud <- function(target, pipeline) {
 
 #' @export
 target_produce_reference.tar_bud <- function(target) {
-  reference_init(parent = target_get_parent(target))
+  reference_new(parent = target_get_parent(target))
 }
 
 #' @export

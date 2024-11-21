@@ -147,7 +147,7 @@ target_patternview_errored.tar_branch <- function(
 #' @export
 target_produce_reference.tar_branch <- function(target) {
   file <- .subset2(target, "file")
-  reference_init(
+  reference_new(
     parent = target_get_parent(target),
     path = .subset2(file, "path"),
     stage = .subset2(file, "stage"),

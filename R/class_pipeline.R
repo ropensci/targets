@@ -69,7 +69,7 @@ pipeline_initialize_references_children <- function(
 ) {
   envir <- .subset2(pipeline, "targets")
   for (name in names_children) {
-    envir[[name]] <- reference_init(parent = name_parent)
+    envir[[name]] <- reference_new(parent = name_parent)
   }
   NULL
 }

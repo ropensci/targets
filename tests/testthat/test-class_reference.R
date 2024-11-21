@@ -1,17 +1,17 @@
 tar_test("reference with only parent", {
   out <- reference_init(parent = "my_parent")
   expect_equal(reference_parent(out), "my_parent")
-  expect_equal(reference_path(out), NA_character_)
-  expect_equal(reference_stage(out), NA_character_)
-  expect_equal(reference_hash(out), NA_character_)
+  expect_equal(reference_path(out), NULL)
+  expect_equal(reference_stage(out), NULL)
+  expect_equal(reference_hash(out), NULL)
 })
 
 tar_test("reference with parent and path but no other fields", {
   out <- reference_init(parent = "my_parent", path = "my_path")
   expect_equal(reference_parent(out), "my_parent")
   expect_equal(reference_path(out), "my_path")
-  expect_equal(reference_stage(out), NA_character_)
-  expect_equal(reference_hash(out), NA_character_)
+  expect_equal(reference_stage(out), NULL)
+  expect_equal(reference_hash(out), NULL)
 })
 
 tar_test("reference with parent and hash but no other fields", {

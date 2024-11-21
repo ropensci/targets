@@ -1,35 +1,36 @@
-reference_init <- function(
-  parent = NA_character_,
-  path = NA_character_,
-  stage = NA_character_,
-  hash = NA_character_
-) {
-  reference_new(parent = parent, path = path, stage = stage, hash = hash)
-}
-
 reference_new <- function(
   parent = NULL,
   path = NULL,
   stage = NULL,
   hash = NULL
 ) {
-  c(parent = parent, path = path, stage = stage, hash = hash)
+  out <- list(parent = parent)
+  if (!is.null(path)) {
+    out$path <- path
+  }
+  if (!is.null(stage)) {
+    out$stage <- stage
+  }
+  if (!is.null(hash)) {
+    out$hash <- hash
+  }
+  out
 }
 
 reference_parent <- function(reference) {
-  as.character(.subset(reference, 1L))
+  .subset2(reference, "parent")
 }
 
 reference_path <- function(reference) {
-  as.character(.subset(reference, 2L))
+  .subset2(reference, "path")
 }
 
 reference_stage <- function(reference) {
-  as.character(.subset(reference, 3L))
+  .subset2(reference, "stage")
 }
 
 reference_hash <- function(reference) {
-  as.character(.subset(reference, 4L))
+  .subset2(reference, "hash")
 }
 
 reference_produce_target <- function(reference, pipeline, name) {
@@ -44,4 +45,6 @@ reference_produce_target <- function(reference, pipeline, name) {
   child
 }
 
-is_reference <- is.character
+is_reference <- function(reference) {
+  is.list(reference) && is.character(reference_parent(reference))
+}
