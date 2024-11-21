@@ -2,7 +2,7 @@
 
 ## Bug fixes
 
-* Allow branch references to contain multi-element `path` vectors with cloud metadata (#1382).
+* Allow branch references to contain multi-element `path` vectors with cloud metadata (#1382, @n8layman).
 
 # targets 1.9.0
 
