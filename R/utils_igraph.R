@@ -27,7 +27,9 @@ targets_adjacent_vertices <- function(graph, v, mode) {
   index <- igraph::adjacent_vertices(graph = graph, v = v, mode = mode)
   index <- unlist(index, use.names = FALSE)
   index <- unique(index)
-  igraph::V(graph)$name[index + 1]
+  # igraph >= 2.1.2 fixes the off-by-one error
+  # https://github.com/igraph/rigraph/pull/1606
+  igraph::V(graph)$name[index]
 }
 
 igraph_leaves <- function(igraph) {
