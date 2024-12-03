@@ -27,15 +27,18 @@ targets_adjacent_vertices <- function(graph, v, mode) {
   index <- igraph::adjacent_vertices(graph = graph, v = v, mode = mode)
   index <- unlist(index, use.names = FALSE)
   index <- unique(index)
-  igraph::V(graph)$name[index + igraph_version_offset]
+  if (is.null(igraph_version_offset$offset)) {
+    igraph_version_offset$offset <- as.integer(
+      utils::compareVersion(
+        a = as.character(packageVersion("igraph")),
+        b = "2.1.2"
+      ) < 0L
+    )
+  }
+  igraph::V(graph)$name[index + igraph_version_offset$offset]
 }
 
-igraph_version_offset <- as.integer(
-  utils::compareVersion(
-    a = as.character(packageVersion("igraph")),
-    b = "2.1.2"
-  ) < 0L
-)
+igraph_version_offset <- new.env(parent = emptyenv())
 
 igraph_leaves <- function(igraph) {
   is_leaf <- igraph::degree(igraph, mode = "in") == 0L
