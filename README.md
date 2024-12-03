@@ -195,9 +195,6 @@ to ask for help using `targets`.
 
 ## Deployment
 
-- <https://solutions.rstudio.com/r/workflows/> explains how to deploy a
-  pipeline to RStudio Connect ([example
-  code](https://github.com/sol-eng/targets-deployment-rsc)).
 - [`tar_github_actions()`](https://docs.ropensci.org/targets/reference/tar_github_actions.html)
   sets up a pipeline to run on GitHub Actions. The [minimal
   example](https://github.com/wlandau/targets-minimal) demonstrates this

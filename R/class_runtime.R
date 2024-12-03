@@ -150,7 +150,19 @@ runtime_set_file_info <- function(runtime, store) {
 }
 
 runtime_file_systems <- function() {
-  info <- ps::ps_disk_partitions()
+  info <- tryCatch(
+    ps::ps_disk_partitions(),
+    # nocov start
+    error = function(condition) {
+      data.frame(
+        device = character(0L),
+        mountpoint = character(0L),
+        fstype = character(0L),
+        options = character(0L)
+      )
+    }
+    # nocov end
+  )
   out <- .subset2(info, "fstype")
   names(out) <- .subset2(info, "mountpoint")
   out

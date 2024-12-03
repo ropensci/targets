@@ -4,6 +4,7 @@
 
 * Allow branch references to contain multi-element `path` vectors with cloud metadata (#1382, @n8layman).
 * Avoid partial matches in internal code (#1384, @olivroy).
+* Add error handling around calls to `ps::ps_disk_partitions()` and `ps::ps_fs_mount_point()`.
 
 ## Compatibility
 

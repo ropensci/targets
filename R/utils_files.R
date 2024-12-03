@@ -109,9 +109,11 @@ trust_timestamps <- function(path) {
       file_systems <- runtime_file_systems()
       tar_runtime$file_systems <- file_systems
     }
-    mounts <- ps::ps_fs_mount_point(existing)
-    types <- as.character(file_systems[mounts])
-    trust[exists] <- !(types %in% unsafe)
+    try({
+      mounts <- ps::ps_fs_mount_point(existing)
+      types <- as.character(file_systems[mounts])
+      trust[exists] <- !(types %in% unsafe)
+    }, silent = TRUE)
   }
   trust
 }
