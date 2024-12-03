@@ -1,9 +1,13 @@
-# targets 1.9.0.9002 (development)
+# targets 1.9.1
 
 ## Bug fixes
 
 * Allow branch references to contain multi-element `path` vectors with cloud metadata (#1382, @n8layman).
 * Avoid partial matches in internal code (#1384, @olivroy).
+
+## Compatibility
+
+* Ensure compatibility with `igraph` >= 2.1.2.
 
 # targets 1.9.0
 
