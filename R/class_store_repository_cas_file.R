@@ -1,4 +1,7 @@
 #' @export
+store_row_path.tar_repository_cas_file <- store_row_path.tar_external
+
+#' @export
 store_hash_early.tar_repository_cas_file <- function(store, file) {
   store_hash_early.tar_store_file(store, file)
 }

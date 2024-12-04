@@ -15,6 +15,11 @@ store_assert_repository_setting.repository_cas <- function(repository) {
 }
 
 #' @export
+store_row_path.tar_repository_cas <- function(store, file) {
+  NA_character_
+}
+
+#' @export
 store_hash_early.tar_repository_cas <- function(store, file) {
 }
 
