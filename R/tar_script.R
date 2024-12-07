@@ -29,10 +29,10 @@
 #'       specific options to set, it is still recommended to call
 #'       [tar_option_set()] in order to register the proper environment.
 #'   4. Targets: define one or more target objects using [tar_target()].
-#'   5. Pipeline: call [list()] to bring the targets from (3)
+#'   5. Pipeline: call [list()] to bring the targets from (4)
 #'       together in a pipeline object. Every target script file must return
 #'       a pipeline object, which usually means ending with a call to
-#'       [list()]. In practice, (3) and (4) can be combined together
+#'       [list()]. In practice, (4) and (5) can be combined together
 #'       in the same function call.
 #'
 #' @return `NULL` (invisibly).
