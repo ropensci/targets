@@ -65,10 +65,10 @@ settings such as the names of required packages. Even if you have no
 specific options to set, it is still recommended to call
 \code{\link[=tar_option_set]{tar_option_set()}} in order to register the proper environment.
 \item Targets: define one or more target objects using \code{\link[=tar_target]{tar_target()}}.
-\item Pipeline: call \code{\link[=list]{list()}} to bring the targets from (3)
-together in a pipeline object. Every target script file must return
+\item Pipeline: call \code{\link[=list]{list()}} to aggregate the targets from (4)
+into a list. Every target script file must return
 a pipeline object, which usually means ending with a call to
-\code{\link[=list]{list()}}. In practice, (3) and (4) can be combined together
+\code{\link[=list]{list()}}. In practice, (4) and (5) can be combined together
 in the same function call.
 }
 }
