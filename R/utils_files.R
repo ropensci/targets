@@ -27,20 +27,14 @@ file_exists_runtime <- function(x) {
 }
 
 file_info_runtime <- function(x) {
+  file_info <- .subset2(tar_runtime, "file_info")
+  file_info_exist <- .subset2(tar_runtime, "file_info_exist")
   if_any(
-    !is.null(tar_runtime$file_info) &&
-      !is.null(tar_runtime$file_info_exist) &&
-      all(counter_exist_names(tar_runtime$file_info_exist, x)),
-    file_info_runtime_select(tar_runtime$file_info, x), # nolint
+    !is.null(file_info) &&
+      !is.null(file_info_exist) &&
+      all(counter_exist_names(file_info_exist, x)),
+    .subset2(file_info, x), # nolint
     file_info(x)
-  )
-}
-
-file_info_runtime_select <- function(info, x) {
-  list(
-    size = .subset2(info, "size")[x],
-    mtime_numeric = .subset2(info, "mtime_numeric")[x],
-    trust_timestamps = .subset2(info, "trust_timestamps")[x]
   )
 }
 

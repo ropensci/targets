@@ -192,12 +192,12 @@ tar_test("runtime_set_file_info()", {
   writeLines("x", path_objects(store, "x"))
   writeLines("y", path_objects(store, "y"))
   runtime_set_file_info(x, store)
-  for (field in c("size", "mtime_numeric")) {
-    expect_true(is.numeric(x$file_info[[field]]))
-    expect_equal(
-      sort(names(x$file_info[[field]])),
-      sort(c(path_objects(store, "x"), path_objects(store, "y")))
-    )
+  for (name in c("x", "y")) {
+    path <- path_objects(store, name)
+    for (field in c("size", "mtime_numeric")) {
+      expect_true(is.numeric(x$file_info[[path]][[field]]))
+    }
+    expect_true(is.logical(x$file_info[[path]][["trust_timestamps"]]))
   }
   for (field in c("file_exist", "file_info_exist")) {
     expect_true(is.environment(x[[field]]))
