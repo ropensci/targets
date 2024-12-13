@@ -143,22 +143,6 @@ tar_test("file_info_runtime() with no files registered", {
   expect_true(is.data.frame(out))
 })
 
-tar_test("file_info_runtime_select()", {
-  files <- unlist(replicate(6, tempfile()))
-  file.create(files)
-  on.exit(unlink(files))
-  info <- list(
-    mtime_numeric = seq_along(files),
-    size = file.size(files) + seq_along(files)
-  )
-  names(info$mtime_numeric) <- files
-  names(info$size) <- files
-  index <- c(2L, 3L, 5L)
-  out <- file_info_runtime_select(info, files[index])
-  expect_equal(out$mtime_numeric, info$mtime_numeric[index])
-  expect_equal(out$size, info$size[index])
-})
-
 tar_test("file_move() on files", {
   file.create("x")
   dir.create("z")
