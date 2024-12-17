@@ -42,3 +42,12 @@ tar_test("vector$validate()", {
   x <- value_init(object = "abc", iteration = "vector")
   expect_silent(value_validate(x))
 })
+
+tar_test("tar_vec_c()", {
+  expect_equal(tar_vec_c(list(x = TRUE, y = FALSE)), c(x = TRUE, y = FALSE))
+  x <- structure(TRUE, class = "custom")
+  y <- structure(FALSE, class = "custom")
+  c.custom <- function(...) structure(NextMethod(), class = "custom")
+  out <- tar_vec_c(list(x = x, y = y))
+  expect_equal(as.logical(out), c(TRUE, FALSE))
+})

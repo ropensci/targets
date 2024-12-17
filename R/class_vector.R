@@ -18,6 +18,23 @@ value_produce_slice.tar_vector <- function(value, index) { # nolint
 
 #' @export
 value_produce_aggregate.tar_vector <- function(value, objects) { # nolint
+  tar_vec_c(objects)
+}
+
+tar_vec_c <- function(objects) {
+  tryCatch(
+    vec_c_spec(objects),
+    # Covered in tests/testthat/test-class_vector.R
+    # but might not register in covr.
+    # nocov start
+    error = function(condition) {
+      do.call(vctrs::vec_c, unname(objects))
+    }
+    # nocov end
+  )
+}
+
+vec_c_spec <- function(objects) {
   objects$.name_spec <- "{outer}_{inner}"
   do.call(vctrs::vec_c, objects)
 }

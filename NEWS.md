@@ -1,6 +1,7 @@
 # targets 1.9.1.9000
 
 * Use a more lookup-efficient data structure for `tar_runtime$file_info` (#1398).
+* Fall back on vector aggregation without names (#1401, @guglicap).
 
 # targets 1.9.1
 
