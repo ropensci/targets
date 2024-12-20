@@ -54,19 +54,12 @@ tar_test("file path caches are correct", {
           file_info
           sort(names(tar_runtime_object()$file_exist$envir))
         }
-      ),
-      tar_target(
-        file_info_exist, {
-          file_exist
-          sort(names(tar_runtime_object()$file_info_exist$envir))
-        }
       )
     )
   )
   tar_make(callr_function = NULL, reporter = "silent")
   expect_null(tar_runtime$file_exist)
   expect_null(tar_runtime$file_info)
-  expect_null(tar_runtime$file_info_exist)
   expect_equal(
     tar_read(file_exist),
     sort(
@@ -77,17 +70,13 @@ tar_test("file path caches are correct", {
       )
     )
   )
-  expect_equal(
-    tar_read(file_info_exist),
-    sort(path_objects(path_store_default(), c("x", "y")))
-  )
   info <- tar_read(file_info)
-  expect_true(is.list(info))
+  expect_true(is.environment(info))
   expect_equal(
     sort(names(info)),
     sort(file.path(path_objects_dir(path_store_default()), c("x", "y")))
   )
-  for (item in info) {
+  for (item in as.list(info)) {
     expect_equal(
       sort(names(item)),
       sort(c("size", "mtime_numeric", "trust_timestamps"))

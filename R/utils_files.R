@@ -27,16 +27,14 @@ file_exists_runtime <- function(x) {
 }
 
 file_info_runtime <- function(x) {
-  file_info <- .subset2(tar_runtime, "file_info")
-  file_info_exist <- .subset2(tar_runtime, "file_info_exist")
-  if_any(
-    !is.null(file_info) &&
-      !is.null(file_info_exist) &&
-      (length(x) > 0L) &&
-      all(counter_exist_names(file_info_exist, x)),
-    file_info[[x]],
-    file_info(x)
-  )
+  if (length(x) < 1L) {
+    return(file_info(x))
+  }
+  out <- .subset2(tar_runtime, "file_info")[[x]]
+  if (is.null(out)) {
+    out <- file_info(x)
+  }
+  out
 }
 
 file_move <- function(from, to) {

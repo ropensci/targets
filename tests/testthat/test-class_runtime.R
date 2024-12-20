@@ -79,16 +79,6 @@ tar_test("file_info", {
   expect_silent(runtime_validate(x))
 })
 
-tar_test("file_info_exist", {
-  x <- runtime_new()
-  expect_null(x$file_info_exist)
-  tmp <- tempfile()
-  file.create(tmp)
-  x$file_info_exist <- counter_init()
-  expect_true(is.environment(x$file_info_exist))
-  expect_silent(runtime_validate(x))
-})
-
 tar_test("traceback", {
   x <- runtime_new()
   expect_null(x$traceback)
@@ -199,7 +189,7 @@ tar_test("runtime_set_file_info()", {
     }
     expect_true(is.logical(x$file_info[[path]][["trust_timestamps"]]))
   }
-  for (field in c("file_exist", "file_info_exist")) {
+  for (field in c("file_exist")) {
     expect_true(is.environment(x[[field]]))
     expect_silent(counter_validate(x[[field]]))
     expect_equal(x[[field]]$count, 2L)
