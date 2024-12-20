@@ -34,7 +34,7 @@ file_info_runtime <- function(x) {
       !is.null(file_info_exist) &&
       (length(x) > 0L) &&
       all(counter_exist_names(file_info_exist, x)),
-    .subset2(file_info, x), # nolint
+    file_info[[x]],
     file_info(x)
   )
 }
