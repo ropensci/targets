@@ -39,8 +39,8 @@ meta_class <- R6::R6Class(
     },
     get_record = function(name) {
       record_from_row(
-        row = self$database$get_row(name),
-        path_store = self$store
+        row = .subset2(self, "get_row")(name),
+        path_store = .subset2(self, "store")
       )
     },
     set_record = function(record) {
@@ -72,23 +72,16 @@ meta_class <- R6::R6Class(
       self$del_records(remove)
     },
     hash_dep = function(name, pipeline) {
-      exists <- self$exists_record(name) &&
-        pipeline_exists_object(pipeline, name)
-      if_any(
-        exists,
-        self$get_record(name)$data,
-        ""
-      )
+      .subset2(.subset2(.subset2(self, "database"), "get_row")(name), "data")
     },
     hash_deps = function(deps, pipeline) {
-      hashes <- vapply(
+      hashes <- lapply(
         X = sort_chr(deps),
         FUN = self$hash_dep,
-        pipeline = pipeline,
-        FUN.VALUE = character(1L),
-        USE.NAMES = TRUE
+        pipeline = pipeline
       )
-      hashes <- hashes[nzchar(hashes)]
+      names(hashes) <- deps
+      hashes <- unlist(hashes, use.names = TRUE)
       string <- paste(c(names(hashes), hashes), collapse = "")
       hash_object(string)
     },
