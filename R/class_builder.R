@@ -194,7 +194,15 @@ target_skip.tar_builder <- function(
   active
 ) {
   target_update_queue(target, scheduler)
-  file_repopulate(target$file, meta$get_record(target_get_name(target)))
+  name <- target_get_name(target)
+  row <- meta$get_row(name)
+  path <- store_path_from_name(
+    store = target$store,
+    name = name,
+    path = unlist(row$path),
+    path_store = meta$store
+  )
+  file_repopulate(target$file, path = path, data = row$data)
   pipeline_set_target(pipeline, target)
   if (active) {
     builder_ensure_workspace(

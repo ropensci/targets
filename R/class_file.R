@@ -85,9 +85,9 @@ file_should_rehash <- function(file, time, size, trust_timestamps) {
   )
 }
 
-file_repopulate <- function(file, record) {
-  file$path <- record$path
-  file$hash <- record$data
+file_repopulate <- function(file, path, data) {
+  file$path <- path
+  file$hash <- data
 }
 
 file_ensure_hash <- function(file) {

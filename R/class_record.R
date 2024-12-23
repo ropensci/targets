@@ -148,12 +148,13 @@ record_row_path <- function(record) {
 record_from_row <- function(row, path_store) {
   record <- do.call(record_init, lapply(row, unlist))
   if (!anyNA(record$format)) {
-    record$path <- store_path_from_record(
+    record$path <- store_path_from_name(
       store = store_mock(
         format = record$format,
         repository = record$repository
       ),
-      record = record,
+      name = record$name,
+      path = record$path,
       path_store = path_store
     )
   }
@@ -183,7 +184,7 @@ record_bootstrap_store <- function(record) {
 
 record_bootstrap_file <- function(record) {
   file <- file_init()
-  file_repopulate(file, record)
+  file_repopulate(file, path = record$path, data = record$data)
   file
 }
 

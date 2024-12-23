@@ -34,6 +34,9 @@ meta_class <- R6::R6Class(
     get_depend = function(name) {
       lookup_get(.subset2(self, "depends"), name)
     },
+    get_row = function(name) {
+      .subset2(.subset2(self, "database"), "get_row")(name)
+    },
     get_record = function(name) {
       record_from_row(
         row = self$database$get_row(name),

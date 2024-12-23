@@ -4,8 +4,8 @@ store_row_path.tar_external <- function(store, file) {
 }
 
 #' @export
-store_path_from_record.tar_external <- function(store, record, path_store) {
-  record$path
+store_path_from_name.tar_external <- function(store, name, path, path_store) {
+  path
 }
 
 #' @export

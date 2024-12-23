@@ -227,13 +227,13 @@ store_row_path.default <- function(store, file) {
   NA_character_
 }
 
-store_path_from_record <- function(store, record, path_store) {
-  UseMethod("store_path_from_record")
+store_path_from_name <- function(store, name, path, path_store) {
+  UseMethod("store_path_from_name")
 }
 
 #' @export
-store_path_from_record.default <- function(store, record, path_store) {
-  path_objects(path_store = path_store, name = record$name)
+store_path_from_name.default <- function(store, name, path, path_store) {
+  path_objects(path_store = path_store, name = name)
 }
 
 store_tar_path <- function(store, target, path_store) {
