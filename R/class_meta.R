@@ -75,11 +75,11 @@ meta_class <- R6::R6Class(
       .subset2(.subset2(.subset2(self, "database"), "get_row")(name), "data")
     },
     hash_deps = function(deps, pipeline) {
-      hashes <- lapply(
-        X = sort_chr(deps),
-        FUN = self$hash_dep,
-        pipeline = pipeline
-      )
+      
+      browser()
+      
+      deps <- sort_chr(deps)
+      hashes <- lapply(X = deps, FUN = self$hash_dep, pipeline = pipeline)
       names(hashes) <- deps
       hashes <- unlist(hashes, use.names = TRUE)
       string <- paste(c(names(hashes), hashes), collapse = "")
