@@ -111,13 +111,17 @@ pipeline_reset_deployment <- function(pipeline, name) {
 pipeline_exists_target <- function(pipeline, name) {
   envir <- .subset2(pipeline, "targets")
   if (is.null(envir)) {
-    envir <- tar_envir_base
+    return(FALSE)
   }
   !is.null(.subset2(envir, name))
 }
 
 pipeline_exists_import <- function(pipeline, name) {
-  exists(x = name, envir = pipeline$imports, inherits = FALSE)
+  envir <- .subset2(pipeline, "imports")
+  if (is.null(envir)) {
+    return(FALSE)
+  }
+  !is.null(.subset2(envir, name))
 }
 
 pipeline_exists_object <- function(pipeline, name) {
