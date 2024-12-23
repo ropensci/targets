@@ -75,9 +75,6 @@ meta_class <- R6::R6Class(
       .subset2(.subset2(.subset2(self, "database"), "get_row")(name), "data")
     },
     hash_deps = function(deps, pipeline) {
-      
-      browser()
-      
       deps <- sort_chr(deps)
       hashes <- lapply(X = deps, FUN = self$hash_dep, pipeline = pipeline)
       names(hashes) <- deps
