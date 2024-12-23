@@ -24,11 +24,10 @@ builder_s3_class <- c("tar_builder", "tar_target")
 
 #' @export
 target_update_depend.tar_builder <- function(target, pipeline, meta) {
-  lookup_set(
-    lookup = .subset2(meta, "depends"),
-    names = target_get_name(target),
-    object = .subset2(meta, "produce_depend")(target, pipeline)
-  )
+  lookup <- .subset2(meta, "depends")
+  name <- target_get_name(target)
+  object <- meta$produce_depend(target, pipeline)
+  lookup_set(lookup = lookup, names = name, object = object)
 }
 
 #' @export
