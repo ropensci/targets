@@ -48,9 +48,11 @@ counter_filter_exists <- function(counter, names) {
 }
 
 counter_set_name <- function(counter, name) {
-  is_new <- !counter_exists_name(counter, name)
-  assign(x = name, value = TRUE, envir = counter$envir)
-  counter$count <- counter$count + is_new
+  envir <- .subset2(counter, "envir")
+  if (is.null(.subset2(envir, name))) {
+    envir[[name]] <- TRUE
+    counter$count <- .subset2(counter, "count") + 1L
+  }
 }
 
 counter_set_names <- function(counter, names) {
