@@ -50,13 +50,8 @@ sort_chr <- function(x) {
   old_locale <- Sys.getlocale(category = "LC_COLLATE")
   on.exit(Sys.setlocale(category = "LC_COLLATE", locale = old_locale))
   Sys.setlocale(category = "LC_COLLATE", locale = "C")
-  sort.int(
-    x = as.character(x),
-    decreasing = FALSE,
-    na.last = NA,
-    method = "radix",
-    index.return = FALSE
-  )
+  x <- as.character(x)
+  x[order(x, na.last = NA, decreasing = FALSE, method = "radix")]
 }
 
 enclass <- function(x, class) {
