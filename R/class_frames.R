@@ -15,7 +15,8 @@ frames_get_envir <- function(frames) {
 }
 
 frames_set_object <- function(frames, name, object) {
-  lookup_set(.subset2(frames, "targets"), name, object)
+  lookup <- .subset2(frames, "targets")
+  lookup[[name]] <- object
 }
 
 frames_clear_objects <- function(frames) {
