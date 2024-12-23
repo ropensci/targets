@@ -109,6 +109,8 @@ record_has_error <- function(record) {
   length(error) > 0L && nzchar(error) && !anyNA(error)
 }
 
+row_has_error <- record_has_error
+
 record_is_target <- function(record) {
   !(record$type %in% c("function", "object"))
 }
@@ -153,6 +155,7 @@ record_from_row <- function(row, path_store) {
         format = record$format,
         repository = record$repository
       ),
+      format = record$format,
       name = record$name,
       path = record$path,
       path_store = path_store

@@ -48,14 +48,14 @@ cue_record_exists <- function(cue, target, meta) {
   !meta$exists_record(target_get_name(target))
 }
 
-cue_record <- function(cue, target, meta, record) {
-  if (record_has_error(record)) {
+cue_record <- function(cue, target, meta, row) {
+  if (row_has_error(row)) {
     # Not sure why covr does not catch this.
     # A test in tests/testthat/test-class_builder.R # nolint
     # definitely covers it (errored targets are always outdated).
     return(TRUE) # nocov
   }
-  if (!identical(record$type, target_get_type(target))) {
+  if (!identical(row$type, target_get_type(target))) {
     # Again, not sure why covr does not catch this.
     # A test in tests/testthat/test-class_cue.R # nolint
     # definitely covers it (conflicting import and target).
@@ -72,75 +72,82 @@ cue_never <- function(cue, target, meta) {
   identical(cue$mode, "never")
 }
 
-cue_command <- function(cue, target, meta, record) {
+cue_command <- function(cue, target, meta, row) {
   if (!cue$command) {
     return(FALSE)
   }
-  old <- record$command
+  old <- row$command
   new <- target$command$hash
   !identical(old, new)
 }
 
-cue_depend <- function(cue, target, meta, record) {
+cue_depend <- function(cue, target, meta, row) {
   if (!cue$depend) {
     return(FALSE)
   }
-  old <- record$depend
+  old <- row$depend
   new <- meta$get_depend(target_get_name(target))
   !identical(old, new)
 }
 
-cue_format <- function(cue, target, meta, record) {
+cue_format <- function(cue, target, meta, row) {
   if (!cue$format) {
     return(FALSE)
   }
-  old <- record$format
+  old <- row$format
   new <- target$settings$format
   up_to_date <- identical(old, new) ||
     (identical(new, "auto") && (old %in% c("file", "qs")))
   !up_to_date
 }
 
-cue_repository <- function(cue, target, meta, record) {
+cue_repository <- function(cue, target, meta, row) {
   if (!cue$repository) {
     return(FALSE)
   }
-  old <- record$repository
+  old <- row$repository
   new <- target$settings$repository
   !identical(old, new)
 }
 
-cue_iteration <- function(cue, target, meta, record) {
+cue_iteration <- function(cue, target, meta, row) {
   if (!cue$iteration) {
     return(FALSE)
   }
-  old <- record$iteration
+  old <- row$iteration
   new <- target$settings$iteration
   !identical(old, new)
 }
 
-cue_file <- function(cue, target, meta, record) {
+cue_file <- function(cue, target, meta, row) {
   if (!cue$file) {
     return(FALSE)
   }
+  path <- store_path_from_name(
+    store = target$store,
+    format = row$format,
+    name = target_get_name(target),
+    path = row$path,
+    path_store = meta$store
+  )
   file_current <- target$file
   file_recorded <- file_new(
-    path = record$path,
-    hash = record$data,
-    time = record$time,
-    size = record$size,
-    bytes = record$bytes
+    path = path,
+    hash = row$data,
+    time = row$time,
+    size = row$size,
+    bytes = row$bytes
   )
   on.exit(target$file <- file_current)
   target$file <- file_recorded
   !store_has_correct_hash(target$store, target$file)
 }
 
-cue_seed <- function(cue, target, meta, record) {
+cue_seed <- function(cue, target, meta, row) {
   if (!cue$seed) {
     return(FALSE)
   }
-  old <- as.integer(record$seed)
+  old <- as.integer(row$seed)
   new <- as.integer(target$seed)
   anyNA(new) || !identical(old, new)
 }

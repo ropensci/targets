@@ -14,6 +14,33 @@ store_get_packages.tar_auto <- function(store) {
   "qs"
 }
 
+#' @export
+store_path_from_name.tar_auto <- function(
+  store,
+  format,
+  name,
+  path,
+  path_store
+) {
+  if (identical(format, "file")) {
+    store_path_from_name.tar_external(
+      store = store,
+      format = format,
+      name = name,
+      path = path,
+      path_store = path_store
+    )
+  } else {
+    store_path_from_name.default(
+      store = store,
+      format = format,
+      name = name,
+      path = path,
+      path_store = path_store
+    )
+  }
+}
+
 store_reformat_auto <- function(target) {
   if (!identical(target$settings$format, "auto")) {
     return()

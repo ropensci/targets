@@ -4,7 +4,13 @@ store_row_path.tar_external <- function(store, file) {
 }
 
 #' @export
-store_path_from_name.tar_external <- function(store, name, path, path_store) {
+store_path_from_name.tar_external <- function(
+  store,
+  name,
+  path,
+  path_store,
+  format = NULL
+) {
   path
 }
 

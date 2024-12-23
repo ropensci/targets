@@ -227,12 +227,24 @@ store_row_path.default <- function(store, file) {
   NA_character_
 }
 
-store_path_from_name <- function(store, name, path, path_store) {
+store_path_from_name <- function(
+  store,
+  format,
+  name,
+  path,
+  path_store
+) {
   UseMethod("store_path_from_name")
 }
 
 #' @export
-store_path_from_name.default <- function(store, name, path, path_store) {
+store_path_from_name.default <- function(
+  store,
+  format,
+  name,
+  path,
+  path_store
+) {
   path_objects(path_store = path_store, name = name)
 }
 

@@ -48,3 +48,27 @@ tar_test("store_reformat_auto()", {
   target <- list(settings = list(format = "qs"))
   expect_null(store_reformat_auto(target))
 })
+
+tar_test("store_path_from_name() file", {
+  store <- tar_target(x, "x_value", format = "auto")$store
+  out <- store_path_from_name(
+    store,
+    format = "file",
+    name = "x",
+    path = "path",
+    path_store = path_store_default()
+  )
+  expect_equal(out, "path")
+})
+
+tar_test("store_path_from_name() file", {
+  store <- tar_target(x, "x_value", format = "auto")$store
+  out <- store_path_from_name(
+    store,
+    format = "qs",
+    name = "x",
+    path = "path",
+    path_store = path_store_default()
+  )
+  expect_equal(out, path_objects(path_store_default(), "x"))
+})

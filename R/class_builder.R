@@ -107,17 +107,17 @@ target_should_run.tar_builder <- function(target, meta) {
 builder_should_run <- function(target, meta) {
   cue <- target$cue
   if (cue_record_exists(cue, target, meta)) return(TRUE)
-  record <- meta$get_record(target_get_name(target))
-  if (cue_record(cue, target, meta, record)) return(TRUE)
+  row <- meta$get_row(target_get_name(target))
+  if (cue_record(cue, target, meta, row)) return(TRUE)
   if (cue_always(cue, target, meta)) return(TRUE)
   if (cue_never(cue, target, meta)) return(FALSE)
-  if (cue_command(cue, target, meta, record)) return(TRUE)
-  if (cue_depend(cue, target, meta, record)) return(TRUE)
-  if (cue_format(cue, target, meta, record)) return(TRUE)
-  if (cue_repository(cue, target, meta, record)) return(TRUE)
-  if (cue_iteration(cue, target, meta, record)) return(TRUE)
-  if (cue_seed(cue, target, meta, record)) return(TRUE)
-  if (cue_file(cue, target, meta, record)) return(TRUE)
+  if (cue_command(cue, target, meta, row)) return(TRUE)
+  if (cue_depend(cue, target, meta, row)) return(TRUE)
+  if (cue_format(cue, target, meta, row)) return(TRUE)
+  if (cue_repository(cue, target, meta, row)) return(TRUE)
+  if (cue_iteration(cue, target, meta, row)) return(TRUE)
+  if (cue_seed(cue, target, meta, row)) return(TRUE)
+  if (cue_file(cue, target, meta, row)) return(TRUE)
   FALSE
 }
 # nolint end
@@ -198,6 +198,7 @@ target_skip.tar_builder <- function(
   row <- meta$get_row(name)
   path <- store_path_from_name(
     store = target$store,
+    format = row$format,
     name = name,
     path = unlist(row$path),
     path_store = meta$store

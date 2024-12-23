@@ -32,6 +32,7 @@ tar_test("store_path_from_name()", {
   store <- tar_target(x, "x_value", format = "keras")$store
   out <- store_path_from_name(
     store,
+    format = store$format,
     name = "x",
     path = "path",
     path_store = path_store_default()
