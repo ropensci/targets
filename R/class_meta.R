@@ -32,7 +32,7 @@ meta_class <- R6::R6Class(
       self$store <- store
     },
     get_depend = function(name) {
-      lookup_get(.subset2(self, "depends"), name)
+      .subset2(.subset2(self, "depends"), name)
     },
     get_row = function(name) {
       .subset2(.subset2(self, "database"), "get_row")(name)
