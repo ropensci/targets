@@ -64,13 +64,15 @@ tar_test("store_row_path()", {
   expect_equal(store_row_path(store, file), "path")
 })
 
-tar_test("store_path_from_record()", {
+tar_test("store_path_from_name()", {
   store <- tar_target(x, "x_value", format = "file")$store
-  record <- record_init(path = "path", format = "file")
-  expect_equal(
-    store_path_from_record(store, record, path_store_default()),
-    "path"
+  out <- store_path_from_name(
+    store,
+    name = "x",
+    path = "path",
+    path_store = path_store_default()
   )
+  expect_equal(out, "path")
 })
 
 tar_test("files can be empty (#728)", {

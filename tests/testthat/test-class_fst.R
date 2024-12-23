@@ -99,12 +99,17 @@ tar_test("store_row_path()", {
   expect_equal(store_row_path(store, file), NA_character_)
 })
 
-tar_test("store_path_from_record()", {
+tar_test("store_path_from_name()", {
   skip_if_not_installed("fst")
   store <- tar_target(x, "x_value", format = "fst")$store
-  record <- record_init(name = "x", path = "path", format = "fst")
+  out <- store_path_from_name(
+    store,
+    name = "x",
+    path = "path",
+    path_store = path_store_default()
+  )
   expect_equal(
-    store_path_from_record(store, record, path_store_default()),
+    out,
     path_objects(path_store_default(), "x")
   )
 })

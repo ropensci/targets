@@ -40,7 +40,7 @@ tar_test("store_row_path()", {
   expect_equal(store_row_path(store, file), "path")
 })
 
-tar_test("store_path_from_record()", {
+tar_test("store_path_from_name()", {
   skip_cran()
   skip_on_os("windows")
   store <- tar_target(
@@ -49,12 +49,13 @@ tar_test("store_path_from_record()", {
     format = "file",
     repository = "aws"
   )$store
-  record <- record_init(
+  out <- store_path_from_name(
+    store,
+    name = "x",
     path = "path",
-    format = "file",
-    repository = "aws"
+    path_store = path_store_default()
   )
-  expect_equal(store_path_from_record(store, record), "path")
+  expect_equal(out, "path")
 })
 
 tar_test("store_aws_file_stage() with targets <= 0.4.2", {

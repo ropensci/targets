@@ -45,15 +45,20 @@ tar_test("store_row_path()", {
   expect_equal(store_row_path(store, file), "path")
 })
 
-tar_test("store_path_from_record()", {
+tar_test("store_path_from_name()", {
   store <- tar_target(
     x,
     "x_value",
     format = "feather",
     repository = "gcp"
   )$store
-  record <- record_init(path = "path", format = "gcp_feather")
-  expect_equal(store_path_from_record(store, record), "path")
+  out <- store_path_from_name(
+    store,
+    name = "x",
+    path = "path",
+    path_store = path_store_default()
+  )
+  expect_equal(out, "path")
 })
 
 tar_test("validate gcp_feather", {
