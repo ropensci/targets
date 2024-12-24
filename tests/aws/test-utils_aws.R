@@ -25,12 +25,16 @@ tar_test("aws_s3_exists()", {
       max_tries = 1L
     )
   )
-  expect_false(
-    aws_s3_exists(
-      key = "x",
-      bucket = bucket,
-      args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
-      max_tries = 1L
+  suppressWarnings(
+    expect_false(
+      suppressWarnings(
+        aws_s3_exists(
+          key = "x",
+          bucket = bucket,
+          args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
+          max_tries = 1L
+        )
+      )
     )
   )
 })
@@ -64,12 +68,14 @@ tar_test("aws_s3_head()", {
   expect_true(is.list(head))
   expect_true(is.character(head$ETag))
   expect_true(nzchar(head$ETag))
-  expect_null(
-    aws_s3_head(
-      key = "x",
-      bucket = bucket,
-      args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
-      max_tries = 1L
+  suppressWarnings(
+    expect_null(
+      aws_s3_head(
+        key = "x",
+        bucket = bucket,
+        args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
+        max_tries = 1L
+      )
     )
   )
 })
@@ -90,12 +96,14 @@ tar_test("aws_s3_download()", {
     max_tries = 1L
   )
   expect_error(
-    aws_s3_download(
-      file = tmp2,
-      key = "x",
-      bucket = bucket,
-      args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
-      max_tries = 1L
+    suppressWarnings(
+      aws_s3_download(
+        file = tmp2,
+        key = "x",
+        bucket = bucket,
+        args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
+        max_tries = 1L
+      )
     ),
     class = "http_400"
   )
@@ -118,11 +126,13 @@ tar_test("aws_s3_delete()", {
     )
   )
   expect_error(
-    aws_s3_delete(
-      key = key,
-      bucket = bucket,
-      args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
-      max_tries = 1L
+    suppressWarnings(
+      aws_s3_delete(
+        key = key,
+        bucket = bucket,
+        args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
+        max_tries = 1L
+      )
     ),
     class = "http_400"
   )
@@ -228,11 +238,13 @@ tar_test("aws_s3_delete_objects()", {
   }
   objects <- lapply(letters, function(x) list(Key = x))
   expect_error(
-    aws_s3_delete_objects(
-      objects = objects,
-      bucket = bucket,
-      args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
-      max_tries = 1L
+    suppressWarnings(
+      aws_s3_delete_objects(
+        objects = objects,
+        bucket = bucket,
+        args = list(ExpectedBucketOwner = "phantom_f4acd87c52d4e62b"),
+        max_tries = 1L
+      )
     ),
     class = "http_400"
   )
