@@ -27,7 +27,7 @@ tar_test("aws_parquet format returns data frames", {
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   expect_silent(tar_manifest(callr_function = NULL))
   expect_error(
-    tar_make(callr_function = NULL),
+    suppressWarnings(tar_make(callr_function = NULL)),
     class = "tar_condition_run"
   )
 })
