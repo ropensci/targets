@@ -75,6 +75,12 @@ tar_test("file_exists_runtime() with no files registered", {
   )
 })
 
+tar_test("file_info_runtime() with no files", {
+  out <- file_info_runtime(character(0L))
+  expect_true(is.data.frame(out))
+  expect_equal(nrow(out), 0L)
+})
+
 tar_test("file_info_runtime() with no caches", {
   old_info <- tar_runtime$file_info
   on.exit(tar_runtime$file_info <- old_info)

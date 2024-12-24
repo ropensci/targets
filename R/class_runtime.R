@@ -130,18 +130,16 @@ runtime_set_file_info <- function(runtime, store) {
     no.. = TRUE
   )
   runtime$file_systems <- runtime_file_systems()
-  file_info <- file_info(objects, trust_timestamps = FALSE)
-  file_info <- file_info[, c("size", "mtime_numeric")]
+  file_info <- as.list(file_info(objects, trust_timestamps = FALSE))
+  file_info <- file_info[c("path", "size", "mtime_numeric")]
   file_info$trust_timestamps <- rep(
     runtime$trust_timestamps_store,
     length(objects)
   )
-  file_info <- lapply(split(file_info, f = objects), as.list)
-  runtime$file_info <- list2env(
-    x = file_info,
-    parent = emptyenv(),
-    hash = TRUE
-  )
+  runtime$file_info <- file_info
+  file_info_index <- seq_along(objects)
+  names(file_info_index) <- objects
+  runtime$file_info_index <- list2env(as.list(file_info_index), hash = TRUE)
   runtime$file_exist <- tar_counter(names = objects)
 }
 

@@ -119,3 +119,15 @@ tar_test("store_class_format.file_fast()", {
     c("tar_store_file", "tar_external", "tar_store")
   )
 })
+
+tar_test("file info caching works with multiple external files", {
+  skip_cran()
+  file.create(c("temp1", "temp2"))
+  on.exit(unlink(c("temp1", "temp2"), recursive = TRUE))
+  tar_script(tar_target(x, c("temp1", "temp1"), format = "file"))
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress(x)$progress, "completed")
+  tar_make(callr_function = NULL)
+  expect_equal(tar_progress(x)$progress, "skipped")
+  expect_equal(tar_outdated(callr_function = NULL), character(0L))
+})

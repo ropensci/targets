@@ -28,19 +28,73 @@ file_exists_runtime <- function(x) {
 
 file_info_runtime <- function(x) {
   if (length(x) < 1L) {
-    return(file_info(x))
+    return(file_info_0)
   }
   file_info <- .subset2(tar_runtime, "file_info")
-  entries <- lapply(X = x, FUN = file_info_runtime_file, file_info = file_info)
-  out <- list()
-  out[[1L]] <- as.character(lapply(entries, .subset2, x = "path"))
-  out[[2L]] <- as.numeric(lapply(entries, .subset2, x = "size"))
-  out[[3L]] <- as.numeric(lapply(entries, .subset2, x = "mtime_numeric"))
-  out[[4L]] <- as.logical(lapply(entries, .subset2, x = "trust_timestamps"))
-  out[[5L]] <- as.logical(lapply(entries, .subset2, x = "hit"))
-  names(out) <- c("path", "size", "mtime_numeric", "trust_timestamps", "hit")
+  if (is.null(file_info)) {
+    out <- as.list(file_info(x))
+    out$hit <- rep(FALSE, length(x))
+    return(out)
+  }
+  file_info_index <- .subset2(tar_runtime, "file_info_index")
+  index <- as.integer(
+    lapply(
+      x,
+      file_info_runtime_index,
+      file_info_index = file_info_index
+    )
+  )
+  hit <- index > 0L
+  index_hit <- index[hit]
+  cache <- list(
+    path = .subset2(file_info, "path")[index_hit],
+    size = .subset2(file_info, "size")[index_hit],
+    mtime_numeric = .subset2(file_info, "mtime_numeric")[index_hit],
+    trust_timestamps = .subset2(file_info, "trust_timestamps")[index_hit],
+    hit = rep(TRUE, sum(hit))
+  )
+  if (all(hit)) {
+    return(cache)
+  }
+  miss <- !hit
+  read <- file_info(x[miss])
+  list(
+    path = c(
+      .subset2(cache, "path"),
+      .subset2(read, "path")
+    ),
+    size = c(
+      .subset2(cache, "size"),
+      .subset2(read, "size")
+    ),
+    mtime_numeric = c(
+      .subset2(cache, "mtime_numeric"),
+      .subset2(read, "mtime_numeric")
+    ),
+    trust_timestamps = c(
+      .subset2(cache, "trust_timestamps"),
+      .subset2(read, "trust_timestamps")
+    ),
+    hit = c(rep(TRUE, sum(hit)), rep(FALSE, sum(miss)))
+  )
+}
+
+file_info_runtime_index <- function(x, file_info_index) {
+  out <- .subset2(file_info_index, x)
+  if (is.null(out)) {
+    out <- 0L
+  }
   out
 }
+
+file_info_0 <- data.frame(
+  path = character(0L),
+  size = numeric(0L),
+  mtime_numeric = numeric(0L),
+  trust_timestamps = logical(0L),
+  hit = logical(0L),
+  stringsAsFactors = FALSE
+)
 
 file_info_runtime_file <- function(path, file_info) {
   out <- file_info[[path]]
