@@ -105,9 +105,9 @@ target_should_run.tar_builder <- function(target, meta) {
 # nolint start
 builder_should_run <- function(target, meta) {
   cue <- target$cue
-  if (cue_record_exists(cue, target, meta)) return(TRUE)
+  if (cue_meta_exists(cue, target, meta)) return(TRUE)
   row <- meta$get_row(target_get_name(target))
-  if (cue_record(cue, target, meta, row)) return(TRUE)
+  if (cue_meta(cue, target, meta, row)) return(TRUE)
   if (cue_always(cue, target, meta)) return(TRUE)
   if (cue_never(cue, target, meta)) return(FALSE)
   if (cue_command(cue, target, meta, row)) return(TRUE)
@@ -578,30 +578,30 @@ builder_sitrep <- function(target, meta) {
     meta$get_record(target_get_name(target)),
     NA
   )
-  cue_record <- if_any(
+  cue_meta <- if_any(
     exists,
-    cue_record(cue, target, meta, record),
+    cue_meta(cue, target, meta, record),
     TRUE
   )
   list(
     name = target_get_name(target),
-    record = if_any(exists, cue_record, TRUE),
+    record = if_any(exists, cue_meta, TRUE),
     always = cue_always(cue, target, meta),
     never = cue_never(cue, target, meta),
-    command = if_any(cue_record, NA, cue_command(cue, target, meta, record)),
-    depend = if_any(cue_record, NA, cue_depend(cue, target, meta, record)),
-    format = if_any(cue_record, NA, cue_format(cue, target, meta, record)),
+    command = if_any(cue_meta, NA, cue_command(cue, target, meta, record)),
+    depend = if_any(cue_meta, NA, cue_depend(cue, target, meta, record)),
+    format = if_any(cue_meta, NA, cue_format(cue, target, meta, record)),
     repository = if_any(
-      cue_record,
+      cue_meta,
       NA,
       cue_repository(cue, target, meta, record)
     ),
     iteration = if_any(
-      cue_record,
+      cue_meta,
       NA,
       cue_iteration(cue, target, meta, record)
     ),
-    file = if_any(cue_record, NA, cue_file(cue, target, meta, record)),
-    seed = if_any(cue_record, NA, cue_seed(cue, target, meta, record))
+    file = if_any(cue_meta, NA, cue_file(cue, target, meta, record)),
+    seed = if_any(cue_meta, NA, cue_seed(cue, target, meta, record))
   )
 }

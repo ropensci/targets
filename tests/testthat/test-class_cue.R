@@ -1,4 +1,4 @@
-tar_test("cue_record()", {
+tar_test("cue_meta()", {
   local <- local_init(pipeline_init(list(target_init("x", quote(1)))))
   local$run()
   out <- counter_get_names(local$scheduler$progress$completed)
@@ -77,7 +77,7 @@ tar_test("previous import conflicts with current target", {
   expect_equal(out, "x")
 })
 
-tar_test("cue_record() on a dynamic file", {
+tar_test("cue_meta() on a dynamic file", {
   envir <- new.env(parent = baseenv())
   tar_option_set(envir = envir)
   envir$save1 <- function() {

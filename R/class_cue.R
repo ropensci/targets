@@ -44,11 +44,11 @@ cue_new <- function(
 
 cue_s3_class <- "tar_cue"
 
-cue_record_exists <- function(cue, target, meta) {
+cue_meta_exists <- function(cue, target, meta) {
   !meta$exists_record(target_get_name(target))
 }
 
-cue_record <- function(cue, target, meta, row) {
+cue_meta <- function(cue, target, meta, row) {
   if (row_has_error(row)) {
     # Not sure why covr does not catch this.
     # A test in tests/testthat/test-class_builder.R # nolint
