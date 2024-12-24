@@ -48,7 +48,7 @@ tar_test("gcp_qs format data gets stored", {
     file = tmp,
     max_tries = 5L
   )
-  expect_equal(qs::qread(tmp), "x_value")
+  expect_equal(qs2::qs_read(tmp), "x_value")
 })
 
 tar_test("gcp_qs format data gets stored with worker storage", {
@@ -101,7 +101,7 @@ tar_test("gcp_qs format data gets stored with worker storage", {
     file = tmp,
     max_tries = 5L
   )
-  expect_equal(qs::qread(tmp), "x_value")
+  expect_equal(qs2::qs_read(tmp), "x_value")
 })
 
 tar_test("gcp_qs format invalidation", {
@@ -268,7 +268,7 @@ tar_test("gcp_qs format with an alternative data store", {
     file = tmp,
     max_tries = 5L
   )
-  expect_equal(qs::qread(tmp), "x_value")
+  expect_equal(qs2::qs_read(tmp), "x_value")
 })
 
 tar_test("gcp_qs format works with storage = \"none\"", {
@@ -289,7 +289,7 @@ tar_test("gcp_qs format works with storage = \"none\"", {
     list(
       tar_target(
         x,
-        qs::qsave("x_value", tar_path_target(create_dir = TRUE)),
+        qs2::qs_save("x_value", tar_path_target(create_dir = TRUE)),
         format = "qs",
         repository = "gcp",
         storage = "none"
@@ -325,7 +325,7 @@ tar_test("gcp_qs format works with storage = \"none\"", {
     file = tmp,
     max_tries = 5L
   )
-  expect_equal(qs::qread(tmp), "x_value")
+  expect_equal(qs2::qs_read(tmp), "x_value")
 })
 
 tar_test("gcp_qs nonexistent bucket", {
