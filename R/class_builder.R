@@ -572,36 +572,36 @@ builder_unmarshal_value <- function(target) {
 
 builder_sitrep <- function(target, meta) {
   cue <- target$cue
-  exists <- meta$exists_record(target_get_name(target))
-  record <- if_any(
-    exists,
-    meta$get_record(target_get_name(target)),
-    NA
+  missing <- cue_meta_exists(cue, target, meta)
+  row <- if_any(
+    missing,
+    NA,
+    meta$get_row(target_get_name(target))
   )
   cue_meta <- if_any(
-    exists,
-    cue_meta(cue, target, meta, record),
-    TRUE
+    missing,
+    TRUE,
+    cue_meta(cue, target, meta, row)
   )
   list(
     name = target_get_name(target),
-    record = if_any(exists, cue_meta, TRUE),
+    meta = cue_meta,
     always = cue_always(cue, target, meta),
     never = cue_never(cue, target, meta),
-    command = if_any(cue_meta, NA, cue_command(cue, target, meta, record)),
-    depend = if_any(cue_meta, NA, cue_depend(cue, target, meta, record)),
-    format = if_any(cue_meta, NA, cue_format(cue, target, meta, record)),
+    command = if_any(cue_meta, NA, cue_command(cue, target, meta, row)),
+    depend = if_any(cue_meta, NA, cue_depend(cue, target, meta, row)),
+    format = if_any(cue_meta, NA, cue_format(cue, target, meta, row)),
     repository = if_any(
       cue_meta,
       NA,
-      cue_repository(cue, target, meta, record)
+      cue_repository(cue, target, meta, row)
     ),
     iteration = if_any(
       cue_meta,
       NA,
-      cue_iteration(cue, target, meta, record)
+      cue_iteration(cue, target, meta, row)
     ),
-    file = if_any(cue_meta, NA, cue_file(cue, target, meta, record)),
-    seed = if_any(cue_meta, NA, cue_seed(cue, target, meta, record))
+    file = if_any(cue_meta, NA, cue_file(cue, target, meta, row)),
+    seed = if_any(cue_meta, NA, cue_seed(cue, target, meta, row))
   )
 }

@@ -12,7 +12,7 @@ tar_test("tar_sitrep() on an empty project", {
   out <- out[order(out$name), ]
   exp <- tibble::tibble(
     name = c("w", "x"),
-    record = TRUE,
+    meta = TRUE,
     always = FALSE,
     never = FALSE,
     command = NA,
@@ -55,7 +55,7 @@ tar_test("tar_sitrep() on an empty project with callr process", {
   out <- out[order(out$name), ]
   exp <- tibble::tibble(
     name = c("w", "x"),
-    record = TRUE,
+    meta = TRUE,
     always = FALSE,
     never = FALSE,
     command = NA,
@@ -80,11 +80,11 @@ tar_test("tar_sitrep() name selection", {
   )
   out <- tar_sitrep(
     callr_function = NULL,
-    fields = "record",
+    fields = "meta",
     names = starts_with("x")
   )
   out <- out[order(out$name), ]
-  exp <- tibble::tibble(name = c("x1", "x2"), record = TRUE)
+  exp <- tibble::tibble(name = c("x1", "x2"), meta = TRUE)
   exp <- exp[order(exp$name), ]
   expect_equiv(out, exp)
 })
@@ -100,10 +100,10 @@ tar_test("tar_sitrep() name selection in reverse", {
   )
   out <- tar_sitrep(
     callr_function = NULL,
-    fields = "record",
+    fields = "meta",
     names = c("x2", "x1")
   )
-  exp <- tibble::tibble(name = c("x2", "x1"), record = TRUE)
+  exp <- tibble::tibble(name = c("x2", "x1"), meta = TRUE)
   expect_equiv(out, exp)
 })
 
@@ -139,7 +139,7 @@ tar_test("tar_sitrep() on a run project", {
   children_z <- tar_meta(names = "z")$children[[1]]
   exp <- tibble::tibble(
     name = sort(c("w", "x", children_y, children_z)),
-    record = FALSE,
+    meta = FALSE,
     always = FALSE,
     never = FALSE,
     command = FALSE,
@@ -171,7 +171,7 @@ tar_test("tar_sitrep() on a project with a change", {
   out <- out[order(out$name), ]
   exp <- tibble::tibble(
     name = sort(c("w", "x", children_y, children_z)),
-    record = FALSE,
+    meta = FALSE,
     always = FALSE,
     never = FALSE,
     command = FALSE,
@@ -212,7 +212,7 @@ tar_test("tar_sitrep() invalidation due to aggregated pattern deps", {
   out <- out[order(out$name), ]
   exp <- tibble::tibble(
     name = sort(c("w", "x", children_y, children_z)),
-    record = FALSE,
+    meta = FALSE,
     always = FALSE,
     never = FALSE,
     command = FALSE,

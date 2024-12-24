@@ -105,7 +105,7 @@ record_new <- function(
 }
 
 record_has_error <- function(record) {
-  error <- record$error
+  error <- .subset2(record, "error")
   length(error) > 0L && nzchar(error) && !anyNA(error)
 }
 

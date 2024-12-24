@@ -45,7 +45,7 @@ cue_new <- function(
 cue_s3_class <- "tar_cue"
 
 cue_meta_exists <- function(cue, target, meta) {
-  !meta$exists_record(target_get_name(target))
+  !.subset2(meta, "exists_record")(target_get_name(target))
 }
 
 cue_meta <- function(cue, target, meta, row) {
@@ -55,101 +55,90 @@ cue_meta <- function(cue, target, meta, row) {
     # definitely covers it (errored targets are always outdated).
     return(TRUE) # nocov
   }
-  if (!identical(row$type, target_get_type(target))) {
-    # Again, not sure why covr does not catch this.
-    # A test in tests/testthat/test-class_cue.R # nolint
-    # definitely covers it (conflicting import and target).
-    return(TRUE) # nocov
-  }
-  FALSE
+  .subset2(row, "type") != target_get_type(target)
 }
 
 cue_always <- function(cue, target, meta) {
-  identical(cue$mode, "always")
+  .subset2(cue, "mode") == "always"
 }
 
 cue_never <- function(cue, target, meta) {
-  identical(cue$mode, "never")
+  .subset2(cue, "mode") == "never"
 }
 
 cue_command <- function(cue, target, meta, row) {
-  if (!cue$command) {
+  if (!.subset2(cue, "command")) {
     return(FALSE)
   }
-  old <- row$command
-  new <- target$command$hash
-  !identical(old, new)
+  .subset2(.subset2(target, "command"), "hash") != .subset2(row, "command")
 }
 
 cue_depend <- function(cue, target, meta, row) {
-  if (!cue$depend) {
+  if (!.subset2(cue, "depend")) {
     return(FALSE)
   }
-  old <- row$depend
-  new <- meta$get_depend(target_get_name(target))
-  !identical(old, new)
+  name <- target_get_name(target)
+  .subset2(meta, "get_depend")(name) != .subset2(row, "depend")
 }
 
 cue_format <- function(cue, target, meta, row) {
-  if (!cue$format) {
+  if (!.subset2(cue, "format")) {
     return(FALSE)
   }
-  old <- row$format
-  new <- target$settings$format
-  up_to_date <- identical(old, new) ||
-    (identical(new, "auto") && (old %in% c("file", "qs")))
+  new <- .subset2(.subset2(target, "settings"), "format")
+  old <- .subset2(row, "format")
+  up_to_date <- (new == old) ||
+    ((new == "auto") && (old %in% c("file", "qs")))
   !up_to_date
 }
 
 cue_repository <- function(cue, target, meta, row) {
-  if (!cue$repository) {
+  if (!.subset2(cue, "repository")) {
     return(FALSE)
   }
-  old <- row$repository
-  new <- target$settings$repository
-  !identical(old, new)
+  .subset2(.subset2(target, "settings"), "repository") !=
+    .subset(row, "repository")
 }
 
 cue_iteration <- function(cue, target, meta, row) {
-  if (!cue$iteration) {
+  if (!.subset2(cue, "iteration")) {
     return(FALSE)
   }
-  old <- row$iteration
-  new <- target$settings$iteration
-  !identical(old, new)
+  .subset2(.subset2(target, "settings"), "iteration") !=
+    .subset(row, "iteration")
 }
 
 cue_file <- function(cue, target, meta, row) {
-  if (!cue$file) {
+  if (!.subset2(cue, "file")) {
     return(FALSE)
   }
   path <- store_path_from_name(
-    store = target$store,
-    format = row$format,
+    store = .subset2(target, "store"),
+    format = .subset2(row, "format"),
     name = target_get_name(target),
-    path = row$path,
-    path_store = meta$store
+    path = .subset2(row, "path"),
+    path_store = .subset2(meta, "store")
   )
-  file_current <- target$file
+  file_current <- .subset2(target, "file")
   file_recorded <- file_new(
     path = path,
-    hash = row$data,
-    time = row$time,
-    size = row$size,
-    bytes = row$bytes
+    hash = .subset2(row, "data"),
+    time = .subset2(row, "time"),
+    size = .subset2(row, "size"),
+    bytes = .subset2(row, "bytes")
   )
   on.exit(target$file <- file_current)
   target$file <- file_recorded
-  !store_has_correct_hash(target$store, target$file)
+  !store_has_correct_hash(.subset2(target, "store"), .subset2(target, "file"))
 }
 
 cue_seed <- function(cue, target, meta, row) {
-  if (!cue$seed) {
+  if (!.subset2(cue, "seed")) {
     return(FALSE)
   }
-  old <- as.integer(row$seed)
-  new <- as.integer(target$seed)
-  anyNA(new) || !identical(old, new)
+  old <- as.integer(.subset2(row, "seed"))
+  new <- as.integer(.subset2(target, "seed"))
+  anyNA(new) || (new != old)
 }
 
 cue_validate <- function(cue) {
