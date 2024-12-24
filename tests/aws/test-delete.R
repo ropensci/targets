@@ -169,7 +169,7 @@ tar_test("tar_destroy() cloud targets", {
     path_store <- path_store_default()
     key1 <- path_objects(path_store, "x")
     key2 <- path_objects(path_store, "aws_file")
-    name <- tar_meta(name = y, fields = children)$children[[1L]]
+    name <- tar_meta(names = y, fields = children)$children[[1L]]
     key3 <- path_objects(path_store, name)
     expect_true(
       aws_s3_exists(key = key1, bucket = bucket_name, max_tries = 1L)
