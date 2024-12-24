@@ -86,7 +86,18 @@ tar_test("file_info_runtime() with no caches", {
   on.exit(unlink(c(tmp1, tmp2)), add = TRUE)
   tar_runtime$file_info <- NULL
   out <- file_info_runtime(files)
-  expect_true(is.data.frame(out))
+  expect_true(is.list(out))
+  fields <- c(
+    "path",
+    "size",
+    "mtime_numeric",
+    "trust_timestamps",
+    "hit"
+  )
+  for (field in fields) {
+    expect_equal(length(out[[field]]), 2L)
+  }
+  expect_false(any(out$hit))
 })
 
 tar_test("file_info_runtime() with all files registered", {
@@ -100,7 +111,17 @@ tar_test("file_info_runtime() with all files registered", {
   runtime_set_file_info(tar_runtime, store)
   out <- file_info_runtime(path_objects(store, "a"))
   expect_true(is.list(out))
-  expect_false(is.data.frame(out))
+  fields <- c(
+    "path",
+    "size",
+    "mtime_numeric",
+    "trust_timestamps",
+    "hit"
+  )
+  for (field in fields) {
+    expect_equal(length(out[[field]]), 1L)
+  }
+  expect_true(all(out$hit))
 })
 
 tar_test("file_info_runtime() with not all files registered", {
@@ -114,8 +135,8 @@ tar_test("file_info_runtime() with not all files registered", {
   file.create(path_objects(store, "b"))
   out_a <- file_info_runtime(path_objects(store, "a"))
   out_b <- file_info_runtime(path_objects(store, "b"))
-  expect_false(is.data.frame(out_a))
-  expect_true(is.data.frame(out_b))
+  expect_true(out_a$hit)
+  expect_false(out_b$hit)
 })
 
 tar_test("file_info_runtime() with no files registered", {
@@ -129,8 +150,8 @@ tar_test("file_info_runtime() with no files registered", {
   file.create(path_objects(store, "b"))
   out_a <- file_info_runtime(path_objects(store, "a"))
   out_b <- file_info_runtime(path_objects(store, "b"))
-  expect_true(is.data.frame(out_a))
-  expect_true(is.data.frame(out_b))
+  expect_false(out_a$hit)
+  expect_false(out_b$hit)
 })
 
 tar_test("file_move() on files", {

@@ -188,6 +188,7 @@ file_info <- function(files, trust_timestamps = NULL) {
   } else {
     out$trust_timestamps <- rep(trust_timestamps, nrow(out))
   }
+  out$path <- rownames(out)
   out
 }
 

@@ -30,9 +30,25 @@ file_info_runtime <- function(x) {
   if (length(x) < 1L) {
     return(file_info(x))
   }
-  out <- .subset2(tar_runtime, "file_info")[[x]]
+  file_info <- .subset2(tar_runtime, "file_info")
+  entries <- lapply(X = x, FUN = file_info_runtime_file, file_info = file_info)
+  out <- list()
+  out[[1L]] <- as.character(lapply(entries, .subset2, x = "path"))
+  out[[2L]] <- as.numeric(lapply(entries, .subset2, x = "size"))
+  out[[3L]] <- as.numeric(lapply(entries, .subset2, x = "mtime_numeric"))
+  out[[4L]] <- as.logical(lapply(entries, .subset2, x = "trust_timestamps"))
+  out[[5L]] <- as.logical(lapply(entries, .subset2, x = "hit"))
+  names(out) <- c("path", "size", "mtime_numeric", "trust_timestamps", "hit")
+  out
+}
+
+file_info_runtime_file <- function(path, file_info) {
+  out <- file_info[[path]]
   if (is.null(out)) {
-    out <- file_info(x)
+    out <- as.list(file_info(path))
+    out$hit <- FALSE
+  } else {
+    out$hit <- TRUE
   }
   out
 }
