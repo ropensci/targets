@@ -46,6 +46,10 @@ set_names <- function(x, names) {
   x
 }
 
+setdiff_chr <- function(x, y) {
+  x[!duplicated.default(x) & (match(x, y, 0L) == 0L)]
+}
+
 sort_chr <- function(x) {
   old_locale <- Sys.getlocale(category = "LC_COLLATE")
   on.exit(Sys.setlocale(category = "LC_COLLATE", locale = old_locale))

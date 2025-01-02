@@ -55,6 +55,12 @@ tar_test("supported_args()", {
   )
 })
 
+tar_test("setdiff_chr()", {
+  expect_equal(setdiff_chr("x", character(0L)), "x")
+  expect_equal(setdiff_chr(character(0L), "x"), character(0L))
+  expect_equal(setdiff(c("d", "a", "b"), "a"), c("d", "b"))
+})
+
 tar_test("sort_chr()", {
   expect_equal(sort_chr(c("a", "b")), c("a", "b"))
   expect_equal(sort_chr(character(0L)), character(0L))

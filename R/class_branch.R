@@ -8,7 +8,10 @@ branch_init <- function(
   store = NULL,
   index = NULL
 ) {
-  deps <- setdiff(unique(c(deps_parent, deps_child)), settings$dimensions)
+  deps <- setdiff_chr(
+    x = unique.default(c(deps_parent, deps_child)),
+    y = settings$dimensions
+  )
   branch_new(
     name = name,
     command = command,
