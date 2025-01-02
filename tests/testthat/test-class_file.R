@@ -209,7 +209,7 @@ tar_test("file_update_hash() where neither file exists", {
   expect_false(anyNA(file_time_posixct(file$time)))
   expect_true(inherits(file_time_posixct(file$time), "POSIXct"))
   expect_true(is.character(file$size))
-    expect_true(grepl("^s", file$size))
+  expect_true(grepl("^s", file$size))
   expect_true(grepl("b$", file$size))
 })
 

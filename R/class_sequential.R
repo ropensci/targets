@@ -14,8 +14,8 @@ sequential_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     dequeue = function() {
-      head <- self$data[1L]
-      self$data <- self$data[-1L]
+      head <- data[1L]
+      self$data <- data[-1L]
       head
     },
     prepend = function(names, ranks = NULL) {
