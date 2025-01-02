@@ -172,4 +172,5 @@ tar_outdated_reporter <- function(reporter) {
       "silent"
     )
   }
+  reporter
 }
