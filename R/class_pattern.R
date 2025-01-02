@@ -267,11 +267,12 @@ pattern_prepend_branches <- function(target, scheduler) {
 pattern_produce_branch <- function(target, name) {
   junction <- .subset2(target, "junction")
   index <- junction_extract_index(junction, name)
+  deps_child <- junction_extract_deps(junction, index)
   branch_init(
     name = name,
     command = .subset2(target, "command"),
     deps_parent = .subset2(target, "deps"),
-    deps_child = junction_extract_deps(junction, index),
+    deps_child = deps_child,
     settings = .subset2(target, "settings"),
     cue = .subset2(target, "cue"),
     store = .subset2(target, "store"),

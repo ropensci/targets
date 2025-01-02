@@ -45,7 +45,9 @@ junction_extract_index <- function(junction, name) {
 
 junction_extract_deps <- function(junction, index) {
   if (.subset2(junction, "has_deps")) {
-    as.character(vctrs::vec_slice(x = .subset2(junction, "deps"), i = index))
+    deps <- .subset2(junction, "deps")
+    slice <- vctrs::vec_slice(x = deps, i = index)
+    unlist(as.list(slice), use.names = FALSE)
   } else {
     character(0L)
   }
