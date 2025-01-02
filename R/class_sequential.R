@@ -13,13 +13,27 @@ sequential_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    head = NULL,
+    initialize = function(data) {
+      super$initialize(data = data)
+      self$head <- 1L
+    },
+    is_nonempty = function() {
+      head <= length(data) 
+    },
     dequeue = function() {
-      head <- data[1L]
-      self$data <- data[-1L]
-      head
+      index <- head
+      if (index <= length(data)) {
+        self$head <- index + 1L
+      }
+      .subset(data, index)
     },
     prepend = function(names, ranks = NULL) {
-      self$data <- c(names, self$data)
+      out <- c(data[seq_len(head - 1L)], names)
+      if (head <= length(data)) {
+        out <- c(out, data[seq(from = head, to = length(data), by = 1L)])
+      }
+      self$data <- out
     },
     append = function(names, ranks = NULL) {
       self$data <- c(self$data, names)

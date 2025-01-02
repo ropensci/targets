@@ -26,7 +26,6 @@ queue_class <- R6::R6Class(
       self$data <- data
     },
     is_nonempty = function() {
-      length(self$data) > 0L
     },
     dequeue = function() {
     },

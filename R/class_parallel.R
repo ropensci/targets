@@ -20,6 +20,9 @@ parallel_class <- R6::R6Class(
       super$initialize(data)
       self$counter <- counter
     },
+    is_nonempty = function() {
+      length(self$data) > 0L
+    },
     get_names = function() {
       names(self$data)
     },

@@ -1,14 +1,50 @@
-tar_test("sequential$dequeue() and sequential$peek()", {
+tar_test("sequential$dequeue()", {
   q <- queue_init("sequential", letters)
   expect_equal(q$dequeue(), "a")
   expect_equal(q$dequeue(), "b")
-  expect_equal(q$data, letters[c(-1L, -2L)])
+  expect_equal(q$data[q$head], "c")
+  for (index in seq_len(length(letters) - 2L) + 2L) {
+    expect_equal(q$dequeue(), letters[index])
+  }
 })
 
-tar_test("sequential$prepend()", {
+tar_test("sequential$prepend() with new queue", {
   q <- sequential_init(c("a", "b"))
+  q$head <- 1L
   q$prepend(c("c", "d"))
+  expect_true(q$is_nonempty())
   expect_equal(q$data, c("c", "d", "a", "b"))
+  expect_equal(q$head, 1L)
+  expect_equal(q$dequeue(), "c")
+  expect_equal(q$dequeue(), "d")
+  expect_equal(q$dequeue(), "a")
+  expect_equal(q$dequeue(), "b")
+  expect_false(q$is_nonempty())
+})
+
+tar_test("sequential$prepend() with active queue", {
+  q <- sequential_init(c("a", "b"))
+  q$head <- 2L
+  q$prepend(c("c", "d"))
+  expect_true(q$is_nonempty())
+  expect_equal(q$data, c("a", "c", "d", "b"))
+  expect_equal(q$head, 2L)
+  expect_equal(q$dequeue(), "c")
+  expect_equal(q$dequeue(), "d")
+  expect_equal(q$dequeue(), "b")
+  expect_false(q$is_nonempty())
+})
+
+tar_test("sequential$prepend() with finished queue", {
+  q <- sequential_init(c("a", "b"))
+  q$head <- 3L
+  q$prepend(c("c", "d"))
+  expect_true(q$is_nonempty())
+  expect_equal(q$data, c("a", "b", "c", "d"))
+  expect_equal(q$head, 3L)
+  expect_equal(q$dequeue(), "c")
+  expect_equal(q$dequeue(), "d")
+  expect_false(q$is_nonempty())
 })
 
 tar_test("sequential$append()", {
