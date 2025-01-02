@@ -19,7 +19,7 @@ sequential_class <- R6::R6Class(
       self$head <- 1L
     },
     is_nonempty = function() {
-      head <= length(data) 
+      head <= length(data)
     },
     dequeue = function() {
       index <- head
