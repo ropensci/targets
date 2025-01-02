@@ -108,7 +108,6 @@ database_class <- R6::R6Class(
       lookup_get(.subset2(self, "lookup"), name)
     },
     set_row = function(row) {
-      lookup <- .subset2(self, "lookup")
       name <- as.character(.subset2(row, "name"))
       object <- as.list(row)
       lookup[[name]] <- object

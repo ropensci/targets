@@ -9,7 +9,7 @@ meta_init <- function(path_store = path_store_default()) {
 }
 
 meta_new <- function(database = NULL, depends = NULL, store = NULL) {
-  meta_class$new(database, depends, store = store)
+  meta_class$new(database, depends, store = store, lookup = database$lookup)
 }
 
 meta_class <- R6::R6Class(
@@ -21,15 +21,18 @@ meta_class <- R6::R6Class(
     database = NULL,
     depends = NULL,
     store = NULL,
+    lookup = NULL,
     repository_cas_lookup_table = NULL,
     initialize = function(
       database = NULL,
       depends = NULL,
-      store = NULL
+      store = NULL,
+      lookup = NULL
     ) {
       self$database <- database
       self$depends <- depends
       self$store <- store
+      self$lookup <- lookup
     },
     get_depend = function(name) {
       .subset2(.subset2(self, "depends"), name)
@@ -71,12 +74,12 @@ meta_class <- R6::R6Class(
       remove <- setdiff(names_records, names_current)
       self$del_records(remove)
     },
-    hash_dep = function(name, pipeline) {
-      .subset2(.subset2(.subset2(self, "database"), "get_row")(name), "data")
+    hash_dep = function(name) {
+      .subset2(.subset2(lookup, name), "data")
     },
     hash_deps = function(deps, pipeline) {
       deps <- sort_chr(deps)
-      hashes <- lapply(X = deps, FUN = self$hash_dep, pipeline = pipeline)
+      hashes <- lapply(X = deps, FUN = hash_dep)
       names(hashes) <- deps
       hashes <- unlist(hashes, use.names = TRUE)
       string <- paste(c(names(hashes), hashes), collapse = "")
