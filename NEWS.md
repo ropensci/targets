@@ -1,9 +1,12 @@
-# targets 1.9.1.9004
+# targets 1.9.1.9005
 
 * Use a more lookup-efficient data structure for `tar_runtime$file_info` (#1398).
 * Fall back on vector aggregation without names (#1401, @guglicap).
 * Reduce overhead in `tar_outdated()` by at least 33% (#1408).
 * Speed up representation of file sizes in metadata (#1408). This may slow down the next call to `tar_make()` in existing pipelines, but the new file size format will update in the metadata during that call, and then `tar_make()` should be faster after that.
+* Add a new `"forecast_interactive"` reporter to `tar_outdated()` to choose `"forecast"` for interactive sessions and `"silent"` for non-interactive ones.
+* Add a new `seconds_reporter_outdated` argument to `tar_config_set()` with a default of 0.5 to control the time interval of the reporter of `tar_outdated()` and other passive algorithm functions.
+* Remove target descriptions from the default labels of graph visualizations.
 
 # targets 1.9.1
 

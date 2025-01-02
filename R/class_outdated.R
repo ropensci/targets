@@ -7,7 +7,7 @@ outdated_init <- function(
   reporter = "silent",
   seconds_meta_append = 0,
   seconds_meta_upload = 15,
-  seconds_reporter = 0
+  seconds_reporter = 0.5
 ) {
   outdated_new(
     pipeline = pipeline,

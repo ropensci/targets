@@ -52,7 +52,7 @@ tar_mermaid <- function(
   legend = TRUE,
   color = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
-  seconds_reporter = targets::tar_config_get("seconds_reporter"),
+  seconds_reporter = targets::tar_config_get("seconds_reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function),
   envir = parent.frame(),
@@ -72,6 +72,7 @@ tar_mermaid <- function(
   tar_assert_scalar(legend)
   tar_assert_scalar(color)
   tar_config_assert_reporter_outdated(reporter)
+  reporter <- tar_outdated_reporter(reporter)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments, "callr_arguments mut be a list.")
   tar_assert_dbl(seconds_reporter)

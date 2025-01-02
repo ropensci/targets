@@ -97,6 +97,7 @@ tar_sitrep <- function(
   fields = NULL,
   shortcut = targets::tar_config_get("shortcut"),
   reporter = targets::tar_config_get("reporter_outdated"),
+  seconds_reporter = targets::tar_config_get("seconds_reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
   envir = parent.frame(),
@@ -110,6 +111,7 @@ tar_sitrep <- function(
   tar_assert_scalar(shortcut)
   tar_assert_lgl(shortcut)
   tar_assert_flag(reporter, tar_reporters_outdated())
+  reporter <- tar_outdated_reporter(reporter)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
   tar_message_meta(store = store)
@@ -118,7 +120,8 @@ tar_sitrep <- function(
     names_quosure = rlang::enquo(names),
     shortcut = shortcut,
     fields_quosure = rlang::enquo(fields),
-    reporter = reporter
+    reporter = reporter,
+    seconds_reporter = seconds_reporter
   )
   callr_outer(
     targets_function = tar_sitrep_inner,
@@ -138,7 +141,8 @@ tar_sitrep_inner <- function(
   names_quosure,
   shortcut,
   fields_quosure,
-  reporter
+  reporter,
+  seconds_reporter
 ) {
   names_all <- pipeline_get_names(pipeline)
   names <- tar_tidyselect_eval(names_quosure, names_all)
@@ -148,7 +152,8 @@ tar_sitrep_inner <- function(
     names = names,
     shortcut = shortcut,
     queue = "sequential",
-    reporter = reporter
+    reporter = reporter,
+    seconds_reporter = seconds_reporter
   )
   sitrep$run()
   out <- tibble::as_tibble(data.table::rbindlist(as.list(sitrep$sitrep)))

@@ -37,9 +37,12 @@
 #'   created by running the target script file (default: `_targets.R`).
 #' @param reporter Character of length 1, name of the reporter to user.
 #'   Controls how messages are printed as targets are checked. Choices:
-#'   * `"silent"`: print nothing.
-#'   * `"forecast"`: print running totals of the checked and outdated
-#'     targets found so far.
+#'     * `"forecast_interactive"` (default): use the forecast reporter if the
+#'       session is interactive (see [base::interactive()]),
+#'       otherwise use the silent reporter.
+#'     * `"silent"`: print nothing.
+#'     * `"forecast"`: print running totals of the checked and outdated
+#'       targets found so far.
 #' @inheritParams tar_validate
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
@@ -64,7 +67,7 @@ tar_outdated <- function(
   branches = FALSE,
   targets_only = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
-  seconds_reporter = targets::tar_config_get("seconds_reporter"),
+  seconds_reporter = targets::tar_config_get("seconds_reporter_outdated"),
   seconds_interval = targets::tar_config_get("seconds_interval"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
@@ -78,6 +81,7 @@ tar_outdated <- function(
   tar_assert_lgl(shortcut)
   tar_assert_lgl(branches)
   tar_assert_flag(reporter, tar_reporters_outdated())
+  reporter <- tar_outdated_reporter(reporter)
   tar_assert_dbl(seconds_reporter)
   tar_assert_scalar(seconds_reporter)
   tar_assert_none_na(seconds_reporter)
@@ -158,4 +162,14 @@ tar_outdated_globals <- function(pipeline, meta) {
   different <- comparison$new != comparison$old
   different[is.na(different)] <- TRUE
   comparison$name[different]
+}
+
+tar_outdated_reporter <- function(reporter) {
+  if (identical(reporter, "forecast_interactive")) {
+    reporter <- if_any(
+      interactive(),
+      "forecast",
+      "silent"
+    )
+  }
 }

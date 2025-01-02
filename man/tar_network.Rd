@@ -12,7 +12,7 @@ tar_network(
   exclude = NULL,
   outdated = TRUE,
   reporter = targets::tar_config_get("reporter_outdated"),
-  seconds_reporter = targets::tar_config_get("seconds_reporter"),
+  seconds_reporter = targets::tar_config_get("seconds_reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function, reporter),
   envir = parent.frame(),
@@ -68,11 +68,12 @@ if you only want to see dependency relationships and pipeline progress.}
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets are checked. Choices:
-\itemize{
-\item \code{"silent"}: print nothing.
-\item \code{"forecast"}: print running totals of the checked and outdated
-targets found so far.
-}}
+* \code{"forecast_interactive"} (default): use the forecast reporter if the
+session is interactive (see \code{\link[base:interactive]{base::interactive()}}),
+otherwise use the silent reporter.
+* \code{"silent"}: print nothing.
+* \code{"forecast"}: print running totals of the checked and outdated
+targets found so far.}
 
 \item{seconds_reporter}{Positive numeric of length 1 with the minimum
 number of seconds between times when the reporter prints progress

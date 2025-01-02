@@ -4,7 +4,8 @@ sitrep_init <- function(
   names = NULL,
   shortcut = FALSE,
   queue = "sequential",
-  reporter = "silent"
+  reporter = "silent",
+  seconds_reporter = 0.5
 ) {
   sitrep_new(
     pipeline = pipeline,
@@ -12,7 +13,8 @@ sitrep_init <- function(
     names = names,
     shortcut = shortcut,
     queue = queue,
-    reporter = reporter
+    reporter = reporter,
+    seconds_reporter = seconds_reporter
   )
 }
 
@@ -22,7 +24,8 @@ sitrep_new <- function(
   names = NULL,
   shortcut = shortcut,
   queue = NULL,
-  reporter = NULL
+  reporter = NULL,
+  seconds_reporter = NULL
 ) {
   sitrep_class$new(
     pipeline = pipeline,
@@ -30,7 +33,8 @@ sitrep_new <- function(
     names = names,
     shortcut = shortcut,
     queue = queue,
-    reporter = reporter
+    reporter = reporter,
+    seconds_reporter = seconds_reporter
   )
 }
 
@@ -49,7 +53,8 @@ sitrep_class <- R6::R6Class(
       names = NULL,
       shortcut = NULL,
       queue = NULL,
-      reporter = NULL
+      reporter = NULL,
+      seconds_reporter = NULL
     ) {
       super$initialize(
         pipeline = pipeline,
@@ -57,7 +62,8 @@ sitrep_class <- R6::R6Class(
         names = names,
         shortcut = shortcut,
         queue = queue,
-        reporter = reporter
+        reporter = reporter,
+        seconds_reporter = seconds_reporter
       )
       self$sitrep <- new.env(parent = emptyenv())
     },

@@ -49,7 +49,7 @@ tar_test("tar_config_set() garbage_collection", {
 tar_test("tar_config_set() label", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
-  expect_equal(tar_config_get("label"), "description")
+  expect_equal(tar_config_get("label"), character(0L))
   tar_config_set(label = c("size", "time"))
   expect_equal(tar_config_get("label"), c("size", "time"))
   expect_true(file.exists("_targets.yaml"))
@@ -62,7 +62,7 @@ tar_test("tar_config_set() label", {
   tar_config_set(label = character(0L))
   expect_equal(tar_config_get("label"), character(0L))
   unlink("_targets.yaml")
-  expect_equal(tar_config_get("label"), "description")
+  expect_equal(tar_config_get("label"), character(0L))
 })
 
 tar_test("tar_config_set() label_width", {
@@ -117,7 +117,7 @@ tar_test("tar_config_set() reporter_make", {
 tar_test("tar_config_set() reporter_outdated", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
-  expect_equal(tar_config_get("reporter_outdated"), "silent")
+  expect_equal(tar_config_get("reporter_outdated"), "forecast_interactive")
   tar_config_set(reporter_outdated = "forecast")
   expect_equal(tar_config_get("reporter_outdated"), "forecast")
   expect_true(file.exists("_targets.yaml"))
@@ -126,7 +126,7 @@ tar_test("tar_config_set() reporter_outdated", {
   expect_equal(tar_config_get("reporter_outdated"), "forecast")
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
-  expect_equal(tar_config_get("reporter_outdated"), "silent")
+  expect_equal(tar_config_get("reporter_outdated"), "forecast_interactive")
 })
 
 tar_test("tar_config_set() shortcut", {
@@ -220,6 +220,21 @@ tar_test("tar_config_set() with seconds_reporter", {
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
   expect_equal(tar_config_get("seconds_reporter"), 0)
+})
+
+tar_test("tar_config_set() with seconds_reporter_outdated", {
+  skip_cran()
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("seconds_reporter_outdated"), 0.25)
+  path <- tempfile()
+  tar_config_set(seconds_reporter_outdated = 10)
+  expect_equal(tar_config_get("seconds_reporter_outdated"), 10)
+  expect_true(file.exists("_targets.yaml"))
+  tar_config_set()
+  expect_equal(tar_config_get("seconds_reporter_outdated"), 10)
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("seconds_reporter_outdated"), 0.25)
 })
 
 tar_test("tar_config_set() with seconds_interval", {

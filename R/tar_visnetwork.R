@@ -47,7 +47,7 @@ tar_visnetwork <- function(
   zoom_speed = 1,
   physics = FALSE,
   reporter = targets::tar_config_get("reporter_outdated"),
-  seconds_reporter = targets::tar_config_get("seconds_reporter"),
+  seconds_reporter = targets::tar_config_get("seconds_reporter_outdated"),
   callr_function = callr::r,
   callr_arguments = targets::tar_callr_args_default(callr_function),
   envir = parent.frame(),
@@ -76,6 +76,7 @@ tar_visnetwork <- function(
   tar_assert_lgl(physics)
   tar_assert_scalar(physics)
   tar_config_assert_reporter_outdated(reporter)
+  reporter <- tar_outdated_reporter(reporter)
   tar_assert_dbl(seconds_reporter)
   tar_assert_scalar(seconds_reporter)
   tar_assert_none_na(seconds_reporter)
