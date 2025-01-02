@@ -168,8 +168,8 @@ outdated_class <- R6::R6Class(
         self$register_outdated(target_get_name(target))
       }
     },
-    process_target = function(name) {
-      target <- pipeline_get_target(self$pipeline, name)
+    process_target = function(name, pipeline) {
+      target <- pipeline_get_target(pipeline, name)
       if_any(
         inherits(target, "tar_pattern"),
         self$process_pattern(target),
@@ -181,8 +181,12 @@ outdated_class <- R6::R6Class(
     run = function() {
       self$start()
       queue <- self$scheduler$queue
-      while (queue$should_dequeue()) {
-        self$process_target(self$scheduler$queue$dequeue())
+      should_dequeue <- queue$should_dequeue
+      dequeue <- queue$dequeue
+      pipeline <- self$pipeline
+      while (should_dequeue()) {
+        name <- dequeue()
+        self$process_target(name, pipeline)
       }
       self$end()
     },
