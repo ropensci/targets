@@ -216,7 +216,7 @@ file_bytes <- function(info) {
 }
 
 file_size <- function(bytes) {
-  hash_object(bytes)
+  sprintf("s%sb", as.character(bytes))
 }
 
 file_diff_chr <- function(dbl) {

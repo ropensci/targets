@@ -1,8 +1,9 @@
-# targets 1.9.1.9003
+# targets 1.9.1.9004
 
 * Use a more lookup-efficient data structure for `tar_runtime$file_info` (#1398).
 * Fall back on vector aggregation without names (#1401, @guglicap).
-* Reduce overhead in `tar_outdated()` by 33% (#1408).
+* Reduce overhead in `tar_outdated()` by at least 33% (#1408).
+* Speed up representation of file sizes in metadata (#1408).
 
 # targets 1.9.1
 
