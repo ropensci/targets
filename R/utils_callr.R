@@ -154,9 +154,9 @@ callr_inner <- function(
 ) {
   force(envir)
   parent <- parent.frame()
-  result <- new.env(parent = emptyenv())
-  tryCatch(
-    out <- withCallingHandlers(
+  # result <- new.env(parent = emptyenv())
+  # tryCatch(
+  #   out <- withCallingHandlers(
       targets::tar_callr_inner_try(
         targets_function = targets_function,
         targets_arguments = targets_arguments,
@@ -167,17 +167,18 @@ callr_inner <- function(
         store = store,
         fun = fun,
         pid_parent = pid_parent
-      ),
-      error = function(condition) {
-        trace <- .traceback(x = 3L)
-        result$condition <- targets::tar_condition_traced(
-          condition = condition,
-          trace = trace
-        )
-      }
-    ),
-    error = function(condition) {
-    }
+      )
+      #,
+    #   error = function(condition) {
+    #     trace <- .traceback(x = 3L)
+    #     result$condition <- targets::tar_condition_traced(
+    #       condition = condition,
+    #       trace = trace
+    #     )
+    #   }
+    # ),
+    # error = function(condition) {
+    # }
   )
   if (is.null(result$condition)) {
     out
