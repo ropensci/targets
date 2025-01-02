@@ -166,11 +166,7 @@ tar_outdated_globals <- function(pipeline, meta) {
 
 tar_outdated_reporter <- function(reporter) {
   if (identical(reporter, "forecast_interactive")) {
-    reporter <- if_any(
-      interactive(),
-      "forecast",
-      "silent"
-    )
+    reporter <- if_any(interactive(), "forecast", "silent")
   }
   reporter
 }
