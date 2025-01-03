@@ -193,7 +193,7 @@ file_info <- function(files, trust_timestamps = NULL) {
 }
 
 file_time <- function(info) {
-  file_diff_chr(max(info$mtime_numeric %||% 0))
+  file_diff_chr(max(.subset2(info, "mtime_numeric") %||% 0))
 }
 
 file_time_now <- function() {
