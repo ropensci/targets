@@ -58,8 +58,8 @@ parallel_class <- R6::R6Class(
       invisible()
     },
     increment_ranks = function(names, by) {
-      index <- names(self$data) %in% names
-      self$data[index] <- self$data[index] + by
+      index <- match(x = names(data), table = names, nomatch = 0L) > 0L
+      self$data[index] <- .subset(data, index) + by
     },
     should_dequeue = function() {
       any(as.integer(ceiling(self$get_ranks())) == 0L)

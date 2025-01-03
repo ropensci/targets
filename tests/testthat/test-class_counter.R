@@ -25,6 +25,14 @@ tar_test("counter_filter_exists()", {
   expect_equal(out, character(0))
 })
 
+tar_test("counter_count_exists()", {
+  x <- counter_init(letters)
+  out <- counter_count_exists(x, c("b", "xyz", "a", "cde"))
+  expect_equal(out, 2L)
+  out <- counter_count_exists(x, c("nothing"))
+  expect_equal(out, 0L)
+})
+
 tar_test("counter_set_name(new)", {
   x <- counter_init(letters)
   expect_false(counter_exists_name(x, "abc"))

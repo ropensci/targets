@@ -83,15 +83,7 @@ scheduler_class <- R6::R6Class(
     },
     count_unfinished_deps = function(name) {
       deps <- .subset2(graph, "produce_upstream")(name)
-      deps_queued <- counter_filter_exists(
-        .subset2(progress, "queued"),
-        deps
-      )
-      deps_dispatched <- counter_filter_exists(
-        .subset2(progress, "dispatched"),
-        deps
-      )
-      length(deps_queued) + length(deps_dispatched)
+      .subset2(progress, "count_unfinished")(deps)
     },
     abridge = function(target) {
       self$reporter$report_error(target$metrics$error)

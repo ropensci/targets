@@ -228,6 +228,10 @@ progress_class <- R6::R6Class(
     abridge = function() {
       counter_del_names(self$queued, counter_get_names(self$queued))
     },
+    count_unfinished = function(names) {
+      counter_count_exists(queued, names) +
+        counter_count_exists(dispatched, names)
+    },
     validate = function() {
       counter_validate(self$queued)
       counter_validate(self$dispatched)
