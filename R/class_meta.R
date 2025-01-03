@@ -74,12 +74,11 @@ meta_class <- R6::R6Class(
       remove <- setdiff(names_records, names_current)
       self$del_records(remove)
     },
-    hash_dep = function(name) {
-      .subset2(.subset2(lookup, name), "data")
-    },
     hash_deps = function(deps, pipeline) {
-      hashes <- lapply(X = deps, FUN = hash_dep)
-      names(hashes) <- deps
+      hashes <- list()
+      for (name in deps) {
+        hashes[[name]] <- .subset2(.subset2(lookup, name), "data")
+      }
       hashes <- unlist(hashes, use.names = TRUE)
       string <- paste(c(names(hashes), hashes), collapse = "")
       hash_object(string)
