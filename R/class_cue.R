@@ -87,9 +87,14 @@ cue_format <- function(cue, target, meta, row) {
   }
   new <- .subset2(.subset2(target, "settings"), "format")
   old <- .subset2(row, "format")
-  up_to_date <- (new == old) ||
-    ((new == "auto") && (old %in% c("file", "qs")))
-  !up_to_date
+  if (new == old) {
+    return(FALSE)
+  }
+  if (new == "auto") {
+    return(!(old %in% c("file", "qs")))
+  } else {
+    return(TRUE)
+  }
 }
 
 cue_repository <- function(cue, target, meta, row) {
