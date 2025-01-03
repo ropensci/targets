@@ -44,7 +44,16 @@ counter_exist_names <- function(counter, names) {
 }
 
 counter_filter_exists <- function(counter, names) {
-  names[counter_exist_names(counter, names)]
+  envir <- .subset2(counter, "envir")
+  out <- list()
+  for (name in names) {
+    out[[name]] <- .subset2(envir, name)
+  }
+  out <- names(out)
+  if (is.null(out)) {
+    out <- character0
+  }
+  out
 }
 
 counter_set_name <- function(counter, name) {

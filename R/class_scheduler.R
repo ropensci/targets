@@ -82,13 +82,13 @@ scheduler_class <- R6::R6Class(
       self$backoff <- backoff
     },
     count_unfinished_deps = function(name) {
-      deps <- self$graph$produce_upstream(name)
+      deps <- .subset2(graph, "produce_upstream")(name)
       deps_queued <- counter_filter_exists(
-        self$progress$queued,
+        .subset2(progress, "queued"),
         deps
       )
       deps_dispatched <- counter_filter_exists(
-        self$progress$dispatched,
+        .subset2(progress, "dispatched"),
         deps
       )
       length(deps_queued) + length(deps_dispatched)

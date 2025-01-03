@@ -33,10 +33,10 @@ graph_class <- R6::R6Class(
       unname(map_int(list[names], length))
     },
     produce_upstream = function(name) {
-      as.character(self$upstream[[name]])
+      as.character(.subset2(.subset2(self, "upstream"), name))
     },
     produce_downstream = function(name) {
-      as.character(self$downstream[[name]])
+      as.character(.subset2(.subset2(self, "downstream"), name))
     },
     replace_upstream = function(name, from, to) {
       upstream <- self$upstream
