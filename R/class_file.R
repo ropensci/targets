@@ -1,6 +1,6 @@
 file_init <- function(
-  path = character(0),
-  stage = character(0),
+  path = character0,
+  stage = character0,
   hash = NA_character_,
   time = NA_character_,
   size = NA_character_,

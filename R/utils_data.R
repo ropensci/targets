@@ -72,3 +72,5 @@ supported_args <- function(fun, args) {
 tar_envir_base <- new.env(parent = baseenv())
 
 tar_envir_empty <- new.env(parent = emptyenv())
+
+character0 <- character(0L)
