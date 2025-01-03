@@ -404,30 +404,37 @@ store_sync_file_meta <- function(store, target, meta) {
 
 #' @export
 store_sync_file_meta.default <- function(store, target, meta) {
-  cue <- target$cue
-  if (identical(cue$mode, "never") || identical(cue$file, FALSE)) {
+  cue <- .subset2(target, "cue")
+  if ((.subset2(cue, "mode") == "never") || (!.subset2(cue, "file"))) {
     return()
   }
   name <- target_get_name(target)
-  record <- meta$get_record(name)
-  file <- file_init(
-    path = record$path,
-    time = record$time,
-    size = record$size,
-    bytes = record$bytes
+  row <- .subset2(meta, "get_row")(name)
+  path <- store_path_from_name(
+    store = .subset2(target, "store"),
+    format = .subset2(row, "format"),
+    name = name,
+    path = unlist(.subset2(row, "path")),
+    path_store = .subset2(meta, "store")
   )
-  info <- file_info_runtime(target$file$path)
+  file <- file_init(
+    path = path,
+    time = .subset2(row, "time"),
+    size = .subset2(row, "size"),
+    bytes = .subset2(row, "bytes")
+  )
+  info <- file_info_runtime(.subset2(.subset2(target, "file"), "path"))
   time <- file_time(info)
   bytes <- file_bytes(info)
   size <- file_size(bytes)
-  # Fully automated tests do no use big files.
+  # Fully automated tests do no use big enough files.
   # Tested in tests/interactive/test-file.R. # nolint
   # nocov start
-  if (!identical(time, file$time) || !identical(size, file$size)) {
-    record$time <- time
-    record$size <- size
-    record$bytes <- bytes
-    meta$insert_record(record)
+  if ((time != .subset2(file, "time")) || (size != .subset2(file, "size"))) {
+    row$time <- time
+    row$size <- size
+    row$bytes <- bytes
+    .subset2(meta, "insert_row")(row)
   }
   # nocov end
 }

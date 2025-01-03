@@ -52,6 +52,9 @@ meta_class <- R6::R6Class(
     insert_record = function(record) {
       self$database$buffer_row(record_produce_row(record))
     },
+    insert_row = function(row) {
+      .subset2(.subset2(self, "database"), "buffer_row")(row)
+    },
     exists_record = function(name) {
       self$database$exists_row(name)
     },
