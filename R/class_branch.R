@@ -10,13 +10,13 @@ branch_init <- function(
 ) {
   deps <- setdiff_chr(
     x = unique.default(c(deps_parent, deps_child)),
-    y = settings$dimensions
+    y = .subset2(settings, "dimensions")
   )
   branch_new(
     name = name,
     command = command,
     seed = tar_seed_create(name),
-    deps = deps,
+    deps = sort_chr(deps),
     settings = settings,
     cue = cue,
     store = store,

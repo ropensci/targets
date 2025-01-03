@@ -78,7 +78,6 @@ meta_class <- R6::R6Class(
       .subset2(.subset2(lookup, name), "data")
     },
     hash_deps = function(deps, pipeline) {
-      deps <- sort_chr(deps)
       hashes <- lapply(X = deps, FUN = hash_dep)
       names(hashes) <- deps
       hashes <- unlist(hashes, use.names = TRUE)

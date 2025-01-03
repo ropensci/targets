@@ -37,7 +37,7 @@ deparse_script_code <- function(code) {
 deps_function <- function(fun) {
   env <- list(`~` = `identity`)
   body(fun) <- eval(call("substitute", body(fun), env), envir = baseenv())
-  codetools::findGlobals(fun)
+  sort_chr(codetools::findGlobals(fun))
 }
 
 #' @export
