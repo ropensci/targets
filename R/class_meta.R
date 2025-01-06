@@ -79,8 +79,12 @@ meta_class <- R6::R6Class(
     },
     hash_deps = function(deps, pipeline) {
       hashes <- list()
-      for (name in deps) {
+      index <- 1L
+      n <- length(deps)
+      while (index <= n) {
+        name <- .subset(deps, index)
         hashes[[name]] <- .subset2(.subset2(lookup, name), "data")
+        index <- index + 1L
       }
       hashes <- unlist(hashes, use.names = TRUE)
       string <- paste(c(names(hashes), hashes), collapse = "")
