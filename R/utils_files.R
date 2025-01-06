@@ -18,10 +18,11 @@ dir_create_runtime <- function(x) {
 }
 
 file_exists_runtime <- function(x) {
-  if (is.null(tar_runtime$file_exist)) {
+  file_exist <- .subset2(tar_runtime, "file_exist")
+  if (is.null(file_exist)) {
     return(file.exists(x))
   }
-  out <- counter_exist_names(tar_runtime$file_exist, x)
+  out <- counter_exist_names(file_exist, x)
   out[!out] <- file.exists(x[!out])
   out
 }

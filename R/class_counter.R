@@ -33,14 +33,14 @@ counter_exists_name <- function(counter, name) {
 
 counter_exist_names <- function(counter, names) {
   envir <- .subset2(counter, "envir")
-  as.logical(
-    lapply(
-      names,
-      function(name) {
-        !is.null(envir[[name]])
-      }
-    )
-  )
+  n <- length(names)
+  missing <- logical(length = n)
+  index <- 1L
+  while (index <= n) {
+    missing[index] <- is.null(.subset2(envir, .subset(names, index)))
+    index <- index + 1L
+  }
+  !missing
 }
 
 counter_filter_exists <- function(counter, names) {
