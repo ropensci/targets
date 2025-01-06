@@ -105,15 +105,14 @@ database_class <- R6::R6Class(
       self$buffer <- buffer
     },
     get_row = function(name) {
-      lookup_get(.subset2(self, "lookup"), name)
+      lookup_get(lookup, name)
     },
     set_row = function(row) {
       name <- as.character(.subset2(row, "name"))
-      object <- as.list(row)
-      lookup[[name]] <- object
+      lookup[[name]] <- as.list(row)
     },
     del_rows = function(names) {
-      lookup_remove(.subset2(self, "lookup"), names)
+      lookup_remove(lookup, names)
     },
     get_data = function() {
       rows <- self$list_rows()
@@ -134,7 +133,14 @@ database_class <- R6::R6Class(
     },
     set_data = function(data) {
       list <- lapply(data, as.list)
-      map(seq_along(list$name), ~self$set_row(lapply(list, `[[`, i = .x)))
+      index <- 1L
+      n <- nrow(data)
+      names <- .subset2(data, "name")
+      while (index <= n) {
+        name <- .subset(names, index)
+        lookup[[name]] <- lapply(list, `[[`, i = index)
+        index <- index + 1L
+      }
     },
     exists_row = function(name) {
       lookup_exists(.subset2(self, "lookup"), name)
