@@ -47,9 +47,10 @@ file_new <- function(
 }
 
 file_exists_path <- function(file) {
-  length(file$path) > 0L &&
-    all(!anyNA(file$path)) &&
-    all(file_exists_runtime(file$path))
+  path <- .subset2(file, "path")
+  length(path) > 0L &&
+    all(!anyNA(path)) &&
+    all(file_exists_runtime(path))
 }
 
 file_exists_stage <- function(file) {
@@ -212,7 +213,7 @@ file_time_numeric <- function(time) {
 
 file_bytes <- function(info) {
   # Cannot be integer because of large value.
-  round(sum(replace_na(info$size, 0)), 6)
+  round(sum(replace_na(.subset2(info, "size"), 0)), 6)
 }
 
 file_size <- function(bytes) {

@@ -37,13 +37,13 @@ file_info_runtime <- function(x) {
     return(out)
   }
   file_info_index <- .subset2(tar_runtime, "file_info_index")
-  index <- as.integer(
-    lapply(
-      x,
-      file_info_runtime_index,
-      file_info_index = file_info_index
-    )
-  )
+  n <- length(x)
+  i <- 1L
+  index <- integer(length = n)
+  while (i <= n) {
+    index[i] <- file_info_runtime_index(.subset(x, i), file_info_index)
+    i <- i + 1L
+  }
   hit <- index > 0L
   index_hit <- index[hit]
   cache <- list(
