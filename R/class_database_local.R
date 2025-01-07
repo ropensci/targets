@@ -8,8 +8,7 @@ database_local_new <- function(
   numeric_columns = NULL,
   list_columns = NULL,
   list_column_modes = NULL,
-  resources = NULL,
-  buffer = NULL
+  resources = NULL
 ) {
   database_local_class$new(
     lookup = lookup,
@@ -21,8 +20,7 @@ database_local_new <- function(
     numeric_columns = numeric_columns,
     list_columns = list_columns,
     list_column_modes = list_column_modes,
-    resources = resources,
-    buffer = buffer
+    resources = resources
   )
 }
 

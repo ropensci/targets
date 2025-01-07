@@ -78,6 +78,7 @@ database_class <- R6::R6Class(
     list_column_modes = NULL,
     resources = NULL,
     buffer = NULL,
+    buffer_length = NULL,
     staged = NULL,
     initialize = function(
       lookup = NULL,
@@ -89,8 +90,7 @@ database_class <- R6::R6Class(
       numeric_columns = NULL,
       list_columns = NULL,
       list_column_modes = NULL,
-      resources = NULL,
-      buffer = NULL
+      resources = NULL
     ) {
       self$lookup <- lookup
       self$path <- path
@@ -102,7 +102,8 @@ database_class <- R6::R6Class(
       self$list_columns <- list_columns
       self$list_column_modes <- list_column_modes
       self$resources <- resources
-      self$buffer <- buffer
+      self$buffer <- new.env(parent = emptyenv(), hash = FALSE)
+      self$buffer_length <- 0L
     },
     get_row = function(name) {
       lookup_get(lookup, name)
@@ -183,12 +184,14 @@ database_class <- R6::R6Class(
         row <- select_cols(row)
       }
       line <- produce_line(row)
-      self$buffer[[length(buffer) + 1L]] <- line
+      buffer[[.subset2(row, "name")]] <- line
+      self$buffer_length <- buffer_length + 1L
     },
     flush_rows = function() {
-      if (length(buffer)) {
-        append_lines(as.character(buffer))
-        self$buffer <- NULL
+      if (buffer_length) {
+        append_lines(as.character(as.list(buffer)))
+        self$buffer <- new.env(parent = emptyenv(), hash = FALSE)
+        self$buffer_length <- 0L
         self$staged <- TRUE
       }
     },

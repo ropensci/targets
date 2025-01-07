@@ -10,7 +10,6 @@ database_gcp_new <- function(
   numeric_columns = NULL,
   list_columns = NULL,
   list_column_modes = NULL,
-  buffer = NULL,
   resources = NULL
 ) {
   database_gcp_class$new(
@@ -23,7 +22,6 @@ database_gcp_new <- function(
     numeric_columns = numeric_columns,
     list_columns = list_columns,
     list_column_modes = list_column_modes,
-    buffer = buffer,
     resources = resources
   )
 }

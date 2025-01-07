@@ -388,12 +388,12 @@ tar_test("fail to validate incompatible header", {
 
 tar_test("database buffer", {
   db <- database_init()
-  expect_null(db$buffer)
+  expect_true(is.environment(db$buffer))
   expect_equal(lookup_list(db$lookup), character(0L))
   db$buffer_row(list(name = "x"))
   expect_equal(lookup_list(db$lookup), "x")
   db$buffer_row(list(name = "y"))
-  expect_equal(sort(as.character(db$buffer)), sort(c("x", "y")))
+  expect_equal(sort(as.character(as.list(db$buffer))), sort(c("x", "y")))
   expect_equal(sort(lookup_list(db$lookup)), sort(c("x", "y")))
   expect_false(file.exists(db$path))
   db$flush_rows()
