@@ -79,11 +79,22 @@ file_update_hash <- function(file) {
 }
 
 file_should_rehash <- function(file, time, size, trust_timestamps) {
-  if_any(
-    .subset2(tar_options, "trust_timestamps") %|||% trust_timestamps,
-    !identical(time, file$time) || !identical(size, file$size),
-    TRUE
-  )
+  trust <- .subset2(tar_options, "trust_timestamps")
+  if (is.null(trust)) {
+    trust <- trust_timestamps
+  }
+  if (trust) {
+    file_time <- .subset2(file, "time")
+    file_size <- .subset2(file, "size")
+    if (anyNA(file_time) || anyNA(file_size)) {
+      out <- TRUE
+    } else {
+      out <- (time != file_time) || (size != file_size)
+    }
+  } else {
+    out <- TRUE
+  }
+  out
 }
 
 file_repopulate <- function(file, path, data) {
@@ -111,7 +122,7 @@ file_ensure_hash <- function(file) {
 }
 
 file_has_correct_hash <- function(file) {
-  files <- file_list_files(file$path)
+  files <- file_list_files(.subset2(file, "path"))
   info <- file_info_runtime(files)
   time <- file_time(info)
   bytes <- file_bytes(info)
@@ -120,9 +131,19 @@ file_has_correct_hash <- function(file) {
     file = file,
     time = time,
     size = size,
-    trust_timestamps = all(info$trust_timestamps)
+    trust_timestamps = all(.subset2(info, "trust_timestamps"))
   )
-  if_any(do, identical(file$hash, file_hash(files)), TRUE)
+  if (do) {
+    file_hash <- .subset2(file, "hash")
+    if (anyNA(file_hash)) {
+      out <- FALSE
+    } else {
+      out <- file_hash == file_hash(files)
+    }
+  } else {
+    out <- TRUE
+  }
+  out
 }
 
 file_validate_path <- function(path) {

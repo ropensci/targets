@@ -183,13 +183,15 @@ database_class <- R6::R6Class(
       if (fill_missing) {
         row <- select_cols(row)
       }
-      line <- produce_line(row)
-      buffer[[.subset2(row, "name")]] <- line
+      sublines <- produce_sublines(row)
+      buffer[[.subset2(row, "name")]] <- sublines
       self$buffer_length <- buffer_length + 1L
     },
     flush_rows = function() {
-      if (buffer_length) {
-        append_lines(as.character(as.list(buffer)))
+      if (buffer_length > 0L) {
+        lines_list <- eapply(buffer, paste, collapse = database_sep_outer)
+        lines <- as.character(lines_list)
+        append_lines(lines)
         self$buffer <- new.env(parent = emptyenv(), hash = FALSE)
         self$buffer_length <- 0L
         self$staged <- TRUE
@@ -255,7 +257,7 @@ database_class <- R6::R6Class(
       )
       file_move(from = tmp, to = self$path)
     },
-    produce_line = function(row) {
+    produce_sublines = function(row) {
       old <- options(OutDec = ".")
       on.exit(options(old))
       index <- 1L
@@ -265,6 +267,10 @@ database_class <- R6::R6Class(
         sublines[index] <- produce_subline(.subset2(row, index))
         index <- index + 1L
       }
+      sublines
+    },
+    produce_line = function(row) {
+      sublines <- produce_sublines(row)
       paste(sublines, collapse = database_sep_outer)
     },
     produce_subline = function(element) {

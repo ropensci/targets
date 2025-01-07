@@ -21,7 +21,7 @@ metrics_has_warnings <- function(metrics) {
 }
 
 metrics_has_error <- function(metrics) {
-  !is.null(metrics$error)
+  !is.null(.subset2(metrics, "error"))
 }
 
 metrics_has_cancel <- function(metrics) {

@@ -398,10 +398,10 @@ tar_test("database buffer", {
   expect_false(file.exists(db$path))
   db$flush_rows()
   lines <- readLines(db$path)
-  expect_equal(lines, c("x", "y"))
+  expect_equal(sort(lines), sort(c("x", "y")))
   db$flush_rows()
   lines <- readLines(db$path)
-  expect_equal(lines, c("x", "y"))
+  expect_equal(sort(lines), sort(c("x", "y")))
 })
 
 tar_test("compare_working_directories()", {

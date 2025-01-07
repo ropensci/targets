@@ -397,10 +397,10 @@ builder_ensure_workspace <- function(target, pipeline, scheduler, meta) {
 
 builder_should_save_workspace <- function(target) {
   names <- c(target_get_name(target), target_get_parent(target))
-  because_named <- any(names %in% tar_options$get_workspaces())
-  has_error <- metrics_has_error(target$metrics)
-  if_error <- tar_options$get_workspace_on_error() ||
-    identical(target$settings$error, "workspace")
+  because_named <- any(names %in% .subset2(tar_options, "workspaces"))
+  has_error <- metrics_has_error(.subset2(target, "metrics"))
+  if_error <- .subset2(tar_options, "get_workspace_on_error")() ||
+    identical(.subset2(.subset2(target, "settings"), "error"), "workspace")
   because_error <- if_error && has_error
   because_named || because_error
 }

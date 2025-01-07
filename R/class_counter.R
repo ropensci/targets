@@ -80,9 +80,10 @@ counter_set_names <- function(counter, names) {
 }
 
 counter_del_name <- function(counter, name) {
-  if (counter_exists_name(counter, name)) {
-    remove(list = name, envir = counter$envir)
-    counter$count <- counter$count - 1L
+  envir <- .subset2(counter, "envir")
+  if (!is.null(.subset2(envir, name))) {
+    remove(list = name, envir = envir)
+    counter$count <- .subset2(counter, "count") - 1L
   }
 }
 
