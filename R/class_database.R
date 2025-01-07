@@ -256,11 +256,19 @@ database_class <- R6::R6Class(
     produce_line = function(row) {
       old <- options(OutDec = ".")
       on.exit(options(old))
-      sublines <- vapply(row, self$produce_subline, FUN.VALUE = character(1))
+      index <- 1L
+      n <- length(row)
+      sublines <- character(length = n)
+      while (index <= n) {
+        sublines[index] <- produce_subline(.subset2(row, index))
+        index <- index + 1L
+      }
       paste(sublines, collapse = database_sep_outer)
     },
     produce_subline = function(element) {
-      element <- replace_na(element, "")
+      if (anyNA(element)) {
+        element <- replace_na(element, "")
+      }
       if (is.list(element)) {
         element <- paste(unlist(element), collapse = database_sep_inner)
       }
