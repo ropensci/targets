@@ -342,6 +342,11 @@ tar_test("database$deduplicate_storage()", {
   expect_equal(out, c("name|col", "x|2", "y|1", "name|z"))
 })
 
+tar_test("database$deduplicate_storage() on non-existent file", {
+  db <- database_init(path = tempfile(), header = c("name", "col"))
+  expect_silent(db$deduplicate_storage())
+})
+
 tar_test("database$validate()", {
   out <- database_init(header = "name")
   expect_silent(out$validate())

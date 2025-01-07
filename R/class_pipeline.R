@@ -116,19 +116,6 @@ pipeline_exists_target <- function(pipeline, name) {
   !is.null(.subset2(envir, name))
 }
 
-pipeline_exists_import <- function(pipeline, name) {
-  envir <- .subset2(pipeline, "imports")
-  if (is.null(envir)) {
-    return(FALSE)
-  }
-  !is.null(.subset2(envir, name))
-}
-
-pipeline_exists_object <- function(pipeline, name) {
-  pipeline_exists_target(pipeline, name) ||
-    pipeline_exists_import(pipeline, name)
-}
-
 pipeline_targets_only_edges <- function(edges) {
   edges[edges$from %in% edges$to,, drop = FALSE] # nolint
 }

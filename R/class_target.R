@@ -232,11 +232,6 @@ target_get_children <- function(target) {
   UseMethod("target_get_children")
 }
 
-#' @export
-target_get_children.default <- function(target) {
-  character(0)
-}
-
 target_get_type <- function(target) {
   UseMethod("target_get_type")
 }

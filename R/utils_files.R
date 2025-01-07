@@ -97,17 +97,6 @@ file_info_0 <- data.frame(
   stringsAsFactors = FALSE
 )
 
-file_info_runtime_file <- function(path, file_info) {
-  out <- file_info[[path]]
-  if (is.null(out)) {
-    out <- as.list(file_info(path))
-    out$hit <- FALSE
-  } else {
-    out$hit <- TRUE
-  }
-  out
-}
-
 file_move <- function(from, to) {
   dir_create(dirname(to))
   if (!suppressWarnings(file.rename(from = from, to = to))) {
