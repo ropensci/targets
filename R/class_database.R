@@ -149,7 +149,12 @@ database_class <- R6::R6Class(
       lookup_list(.subset2(self, "lookup"))
     },
     condense_data = function(data) {
-      data[!duplicated(data$name, fromLast = TRUE), ]
+      repeats <- duplicated(data$name, fromLast = TRUE)
+      if (any(repeats)) {
+        data[!repeats, ]
+      } else {
+        data
+      }
     },
     read_condensed_data = function() {
       self$condense_data(self$read_data())
