@@ -67,10 +67,16 @@ meta_class <- R6::R6Class(
     restrict_records = function(pipeline) {
       names_envir <- names(pipeline$imports)
       names_records <- self$list_records()
-      names_children <- fltr(
-        names_records,
-        ~self$database$get_row(.x)$type == "branch"
-      )
+      index <- 1L
+      n <- length(names_records)
+      get_row <- database$get_row
+      is_branch <- vector(mode = "logical", length = n)
+      while (index <= n) {
+        name <- .subset(names_records, index)
+        is_branch[index] <- .subset2(get_row(name), "type") == "branch"
+        index <- index + 1L
+      }
+      names_children <- names_records[is_branch]
       names_targets <- pipeline_get_names(pipeline)
       names_parents <- intersect(names_records, names_targets)
       names_current <- c(names_envir, names_targets, names_children)
