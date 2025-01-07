@@ -298,20 +298,23 @@ database_class <- R6::R6Class(
         self$produce_mock_data()
       )
     },
-    read_existing_data = function() {
-      # TODO: use sep2 once implemented:
-      # https://github.com/Rdatatable/data.table/issues/1162
+    get_encoding = function() {
       encoding <- getOption("encoding")
       encoding <- if_any(
         identical(tolower(encoding), "latin1"),
         "Latin-1",
         encoding
       )
-      encoding <- if_any(
+      if_any(
         encoding %in% c("unknown", "UTF-8", "Latin-1"),
         encoding,
         "unknown"
       )
+    },
+    read_existing_data = function() {
+      # TODO: use sep2 once implemented:
+      # https://github.com/Rdatatable/data.table/issues/1162
+      encoding <- self$get_encoding()
       out <- data.table::fread(
         file = self$path,
         sep = database_sep_outer,
@@ -357,16 +360,35 @@ database_class <- R6::R6Class(
       out
     },
     deduplicate_storage = function() {
-      exists <- file.exists(self$path)
-      overwrite <- !exists
-      if (exists) {
-        old <- self$read_data()
-        data <- self$condense_data(old)
-        overwrite <- (nrow(data) != nrow(old))
+      if (!all(file.exists(self$path))) {
+        return()
       }
-      if (overwrite) {
-        data <- data[order(data$name),, drop = FALSE] # nolint
-        self$overwrite_storage(data)
+      lines <- readLines(
+        con = self$path,
+        encoding = self$get_encoding(),
+        warn = FALSE
+      )
+      tar_assert_match(
+        x = lines[1L],
+        pattern = paste0("^name", database_sep_outer_grep),
+        msg = paste(
+          "bug in targets: cannot deduplicate storage for the database at",
+          self$path,
+          "because the header does not begin with \"name\"."
+        )
+      )
+      names <- gsub(
+        pattern = paste0(database_sep_outer_grep, ".*"),
+        replacement = "",
+        x = lines
+      )
+      line_duplicated <- c(FALSE, duplicated(names[-1L], fromLast = TRUE))
+      if (any(line_duplicated)) {
+        dir <- dirname(self$path)
+        dir_create(dir)
+        tmp <- tempfile(pattern = "tar_temp_", tmpdir = dir)
+        writeLines(text = lines[!line_duplicated], con = tmp)
+        file_move(from = tmp, to = self$path)
       }
       invisible()
     },
@@ -546,5 +568,6 @@ database_repair_list_columns <- function(x, columns, list_column_mode_list) {
   x
 }
 
-database_sep_outer <- "|"
 database_sep_inner <- "*"
+database_sep_outer <- "|"
+database_sep_outer_grep <- "\\|"

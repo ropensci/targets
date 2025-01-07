@@ -333,13 +333,13 @@ tar_test("database$select_cols()", {
 })
 
 tar_test("database$deduplicate_storage()", {
-  lines <- c("name|col", "x|1", "x|2", "y|2", "y|1")
+  lines <- c("name|col", "x|1", "x|2", "y|2", "y|1", "name|y", "name|z")
   tmp <- tempfile()
   writeLines(lines, tmp)
   db <- database_init(path = tmp, header = c("name", "col"))
   db$deduplicate_storage()
   out <- readLines(tmp)
-  expect_equal(out, c("name|col", "x|2", "y|1"))
+  expect_equal(out, c("name|col", "x|2", "y|1", "name|z"))
 })
 
 tar_test("database$validate()", {
