@@ -172,16 +172,19 @@ database_class <- R6::R6Class(
       self$set_data(data)
     },
     select_cols = function(data) {
-      fill <- setdiff(self$header, names(data))
-      na_col <- rep(NA_character_, length(data$name))
+      fill <- setdiff(header, names(data))
+      na_col <- rep(NA_character_, length(.subset2(data, "name")))
       for (col in fill) {
         data[[col]] <- na_col
       }
-      as.list(data)[self$header]
+      as.list(data)[header]
     },
-    buffer_row = function(row) {
+    buffer_row = function(row, fill_missing = TRUE) {
       set_row(row)
-      line <- produce_line(select_cols(row))
+      if (fill_missing) {
+        row <- select_cols(row)
+      }
+      line <- produce_line(row)
       self$buffer[[buffer_length + 1L]] <- line
       self$buffer_length <- buffer_length + 1L
     },
