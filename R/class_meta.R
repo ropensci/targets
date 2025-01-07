@@ -131,7 +131,8 @@ meta_class <- R6::R6Class(
       }
     },
     update_repository_cas_lookup_table = function(data) {
-      data <- data[!is.na(data$repository), c("data", "repository")]
+      rows <- !(data$repository %in% c("local", "aws", "gcp"))
+      data <- data[rows, c("data", "repository")]
       hashes <- split(x = data$data, f = data$repository)
       lookup_table <- lookup_new()
       for (name in names(hashes)) {
