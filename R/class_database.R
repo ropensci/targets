@@ -78,7 +78,6 @@ database_class <- R6::R6Class(
     list_column_modes = NULL,
     resources = NULL,
     buffer = NULL,
-    buffer_length = NULL,
     staged = NULL,
     initialize = function(
       lookup = NULL,
@@ -104,7 +103,6 @@ database_class <- R6::R6Class(
       self$list_column_modes <- list_column_modes
       self$resources <- resources
       self$buffer <- buffer
-      self$buffer_length <- length(buffer)
     },
     get_row = function(name) {
       lookup_get(lookup, name)
@@ -185,14 +183,12 @@ database_class <- R6::R6Class(
         row <- select_cols(row)
       }
       line <- produce_line(row)
-      self$buffer[[buffer_length + 1L]] <- line
-      self$buffer_length <- buffer_length + 1L
+      self$buffer[[length(buffer) + 1L]] <- line
     },
     flush_rows = function() {
-      if (buffer_length) {
+      if (length(buffer)) {
         append_lines(as.character(buffer))
         self$buffer <- NULL
-        self$buffer_length <- 0L
         self$staged <- TRUE
       }
     },
