@@ -135,7 +135,8 @@ progress_class <- R6::R6Class(
       )
     },
     buffer_progress = function(target, progress) {
-      self$database$buffer_row(self$produce_row(target, progress))
+      row <- self$produce_row(target, progress)
+      self$database$buffer_row(row)
     },
     buffer_skipped = function(target) {
       self$buffer_progress(target, progress = "skipped")
