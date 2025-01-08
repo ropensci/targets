@@ -23,9 +23,9 @@ in the RStudio IDE.}
 \item{overwrite}{Logical of length 1, \code{TRUE} to overwrite the the target
 script file, \code{FALSE} otherwise.}
 
-\item{scheduler}{Deprecated in version 1.5.0.9001 (2024-02-12).}
+\item{scheduler}{Deprecated in \code{targets} version 1.5.0.9001 (2024-02-12).}
 
-\item{job_name}{Deprecated in version 1.5.0.9001 (2024-02-12).}
+\item{job_name}{Deprecated in \code{targets} version 1.5.0.9001 (2024-02-12).}
 }
 \value{
 \code{NULL} (invisibly).

@@ -17,7 +17,7 @@ for \code{\link[=tar_make]{tar_make()}} or a related function.}
 A list of arguments to \code{callr_function}.
 }
 \description{
-Deprecated on 2022-08-05 (version 0.13.1).
+Deprecated on 2022-08-05 (\code{targets} version 0.13.1).
 Please use \code{\link[=tar_callr_args_default]{tar_callr_args_default()}} instead.
 }
 \details{

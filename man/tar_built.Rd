@@ -28,7 +28,7 @@ A character vector of completed targets.
 }
 \description{
 Deprecated in favor of \code{\link[=tar_completed]{tar_completed()}} on 2023-12-04
-(version 1.3.2.9004).
+(\code{targets} version 1.3.2.9004).
 }
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN

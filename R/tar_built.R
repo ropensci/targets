@@ -2,7 +2,7 @@
 #' @export
 #' @keywords internal
 #' @description Deprecated in favor of [tar_completed()] on 2023-12-04
-#'   (version 1.3.2.9004).
+#'   (`targets` version 1.3.2.9004).
 #' @return A character vector of completed targets.
 #' @inheritParams tar_progress
 #' @examples

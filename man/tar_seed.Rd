@@ -19,7 +19,7 @@ which is a deterministic function of the target name. Otherwise,
 the return value is \code{default}.
 }
 \description{
-Deprecated on 2023-10-12 (version 1.3.2.9001).
+Deprecated on 2023-10-12 (\code{targets} version 1.3.2.9001).
 Use \code{\link[=tar_seed_get]{tar_seed_get()}} instead.
 }
 \examples{

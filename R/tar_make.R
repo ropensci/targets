@@ -46,7 +46,8 @@
 #'     steps like data retrieval and output storage.
 #'   * `"verbose_positives"`: same as the `"verbose"` reporter
 #'     except without messages for skipped targets.
-#' @param seconds_interval Deprecated on 2023-08-24 (version 1.2.2.9001).
+#' @param seconds_interval Deprecated on 2023-08-24
+#'   (targets version 1.2.2.9001).
 #'   Use `seconds_meta_append`, `seconds_meta_upload`,
 #'   and `seconds_reporter` instead.
 #' @param seconds_meta_append Positive numeric of length 1 with the minimum
@@ -175,7 +176,7 @@ tar_make <- function(
     NULL,
     tar_warn_deprecate(
       "The garbage_collection argument of tar_make() was deprecated ",
-      "in version 1.8.0.9004 (2024-10-22). The garbage_collection ",
+      "in targets version 1.8.0.9004 (2024-10-22). The garbage_collection ",
       "argument of tar_option_set() is more unified and featureful now. ",
       "Please have a look at its documentation."
     )

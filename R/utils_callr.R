@@ -292,7 +292,7 @@ tar_callr_args_default <- function(callr_function, reporter = NULL) {
 #' @title Deprecated: `callr` arguments.
 #' @export
 #' @keywords internal
-#' @description Deprecated on 2022-08-05 (version 0.13.1).
+#' @description Deprecated on 2022-08-05 (`targets` version 0.13.1).
 #'   Please use [tar_callr_args_default()] instead.
 #' @details Not a user-side function. Do not invoke directly.
 #'   Exported for internal purposes only.

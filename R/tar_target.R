@@ -245,7 +245,7 @@
 #'   * `"null"`: The errored target continues and returns `NULL`.
 #'     The data hash is deliberately wrong so the target is not
 #'     up to date for the next run of the pipeline. In addition,
-#'     as of version 1.8.0.9011, a value of `NULL` is given
+#'     as of `targets` version 1.8.0.9011, a value of `NULL` is given
 #'     to upstream dependencies with `error = "null"` if loading fails.
 #'   * `"abridge"`: any currently running targets keep running,
 #'     but no new targets launch after that.

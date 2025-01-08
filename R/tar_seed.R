@@ -1,7 +1,7 @@
 #' @title Deprecated: get the seed of the current target.
 #' @export
 #' @keywords internal
-#' @description Deprecated on 2023-10-12 (version 1.3.2.9001).
+#' @description Deprecated on 2023-10-12 (`targets` version 1.3.2.9001).
 #'   Use [tar_seed_get()] instead.
 #' @return Integer of length 1. If invoked inside a `targets` pipeline,
 #'   the return value is the seed of the target currently running,
@@ -20,7 +20,7 @@
 #' }
 tar_seed <- function(default = 1L) {
   tar_warn_deprecate(
-    "tar_seed() was deprecated on 2023-10-12 (version 1.3.2.9001). ",
+    "tar_seed() was deprecated on 2023-10-12 (targets version 1.3.2.9001). ",
     "Use tar_seed_get() instead."
   )
   tar_seed_get(default = default)

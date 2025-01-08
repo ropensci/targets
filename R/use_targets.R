@@ -13,8 +13,8 @@
 #'   in the RStudio IDE.
 #' @param overwrite Logical of length 1, `TRUE` to overwrite the the target
 #'   script file, `FALSE` otherwise.
-#' @param scheduler Deprecated in version 1.5.0.9001 (2024-02-12).
-#' @param job_name Deprecated in version 1.5.0.9001 (2024-02-12).
+#' @param scheduler Deprecated in `targets` version 1.5.0.9001 (2024-02-12).
+#' @param job_name Deprecated in `targets` version 1.5.0.9001 (2024-02-12).
 #' @examples
 #' if (identical(Sys.getenv("TAR_INTERACTIVE_EXAMPLES"), "true")) {
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

@@ -84,7 +84,8 @@ regardless of \code{seconds_meta_upload}.}
 number of seconds between times when the reporter prints progress
 messages to the R console.}
 
-\item{seconds_interval}{Deprecated on 2023-08-24 (version 1.2.2.9001).
+\item{seconds_interval}{Deprecated on 2023-08-24
+(targets version 1.2.2.9001).
 Use \code{seconds_meta_append}, \code{seconds_meta_upload},
 and \code{seconds_reporter} instead.}
 

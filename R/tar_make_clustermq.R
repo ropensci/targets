@@ -96,7 +96,7 @@ tar_make_clustermq <- function(
     NULL,
     tar_warn_deprecate(
       "The garbage_collection argument of tar_make() was deprecated ",
-      "in version 1.8.0.9004 (2024-10-22). The garbage_collection ",
+      "in targets version 1.8.0.9004 (2024-10-22). The garbage_collection ",
       "argument of tar_option_set() is more unified and featureful now. ",
       "Please have a look at its documentation."
     )

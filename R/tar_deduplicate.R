@@ -1,7 +1,7 @@
 #' @title Deduplicate meta and progress databases (deprecated).
 #' @export
 #' @keywords internal
-#' @description Deprecated in version 0.3.0 (2020-03-06).
+#' @description Deprecated in `targets` version 0.3.0 (2020-03-06).
 #'   Deduplication happens automatically before and after the pipeline runs.
 #' @details Removes duplicated entries in the meta and progress
 #'   databases in order to lighten storage. These databases are located
@@ -22,7 +22,7 @@ tar_deduplicate <- function(
 ) {
   tar_assert_allow_meta("tar_deduplicate", store)
   tar_warn_deprecate(
-    "tar_deduplicate() is deprecated in version 0.3.0 (2020-03-06). ",
+    "tar_deduplicate() is deprecated in targets version 0.3.0 (2020-03-06). ",
     "The tar_make*() functions do enough deduplication now automatically."
   )
   tar_assert_lgl(meta, "meta arg of tar_deduplicate() must be logical.")

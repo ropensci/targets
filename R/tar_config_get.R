@@ -52,7 +52,7 @@ tar_config_is_multi_project <- function(yaml, config) {
   out <- !length(yaml) || any(map_lgl(yaml, ~is.list(.x)))
   if (!out && any(file.exists(config))) {
     msg <- paste(
-      "As of version 0.7.9001 (September 2021),",
+      "As of targets version 0.7.9001 (September 2021),",
       "targets YAML configuration files",
       "are moving to a format that supports multiple projects.",
       "Call tar_config_set(config = %s) to migrate",

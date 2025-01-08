@@ -19,8 +19,8 @@ group to use. If you need heterogeneous workers,
 you can leverage this argument to send different
 targets to different worker groups.}
 
-\item{scale}{Deprecated in version 1.3.0.9002 (2023-10-02). No longer
-necessary.}
+\item{scale}{Deprecated in \code{targets} version 1.3.0.9002 (2023-10-02).
+No longer necessary.}
 
 \item{seconds_timeout}{Positive numeric of length 1,
 optional task timeout passed to the \code{.timeout}

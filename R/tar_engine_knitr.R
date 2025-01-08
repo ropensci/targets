@@ -94,7 +94,7 @@ tar_engine_knitr <- function(options) {
     options$tar_globals <- options$tar_globals %|||% options$targets
     tar_warn_deprecate(
       "In Target Markdown, the `targets` chunk option is deprecated ",
-      "(version 0.6.0, 2021-07-21). ",
+      "(targets version 0.6.0, 2021-07-21). ",
       "Set the chunk option tar_globals = TRUE to define functions, ",
       "global objects, and settings. To define targets, ",
       "either set tar_globals = FALSE or leave tar_globals unset."

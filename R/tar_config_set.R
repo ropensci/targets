@@ -70,7 +70,8 @@
 #'   run the script from the current working directory.
 #'   If the argument `NULL`, the setting is not modified.
 #'   Use [tar_config_unset()] to delete a setting.
-#' @param seconds_interval Deprecated on 2023-08-24 (version 1.2.2.9001).
+#' @param seconds_interval Deprecated on 2023-08-24
+#'   (`targets` version 1.2.2.9001).
 #'   Use `seconds_meta_append`, `seconds_meta_upload`,
 #'   and `seconds_reporter` instead.
 #' @param seconds_meta_append Argument of [tar_make()], [tar_make_clustermq()],
@@ -193,7 +194,7 @@ tar_config_set <- function(
   project = Sys.getenv("TAR_PROJECT", "main")
 ) {
   # TODO: remove single-project format, which was deprecated on
-  # 2021-09-03 (version 0.7.0.9001).
+  # 2021-09-03 (targets version 0.7.0.9001).
   tar_assert_chr(config)
   tar_assert_scalar(config)
   tar_assert_chr(project)
@@ -282,7 +283,7 @@ tar_config_assert_garbage_collection <- function(garbage_collection) {
   }
   tar_warn_deprecate(
     "The garbage_collection argument of tar_config_set() was deprecated ",
-    "in version 1.8.0.9004 (2024-10-22). The garbage_collection ",
+    "in targets version 1.8.0.9004 (2024-10-22). The garbage_collection ",
     "argument of tar_option_set() is more unified and featureful now. ",
     "Please have a look at its documentation."
   )
