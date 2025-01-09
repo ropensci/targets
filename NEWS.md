@@ -1,9 +1,29 @@
-# targets 1.9.1.9005
+# targets 1.9.1.9006
 
+## Summary of performance gains
+
+`tar_make()` and `tar_outdated()` run much faster in this release. Extensive profiling was done on a real-world simulation pipeline with 66002 up-to-date targets. For `tar_make()` using all the default settings:
+
+Machine | Before (seconds) | After (seconds) | Speedup
+---|---|---|---
+M2 Macbook | 413.16 | 25.54 | 16.177
+RHEL9 | 450.66 | 105.9 | 4.256
+
+And for `tar_outdated()` using all the default settings
+
+Machine | Before (seconds) | After (seconds) | Speedup
+---|---|---|---
+M2 Macbook | 91.314 | 17.574 | 5.196
+RHEL9 | 167.809 | 34.321 | 4.889
+
+To take advantage of these speed gains for an existing pipeline, you may have to run `tar_make()` to convert the time stamps and file sizes to a new format. This initial `tar_make()` is slow, but subsequent `tar_make()` calls should be much faster than before the upgrade.
+
+## Specific changes
+
+* Speed up `tar_make()` and `tar_outdated()` by avoiding excessive buffering and disk writes for metadata and reporters when the pipeline is just skipping targets.
 * Use a more lookup-efficient data structure for `tar_runtime$file_info` (#1398).
 * Fall back on vector aggregation without names (#1401, @guglicap).
-* Make `tar_outdated()` run about 4.6 times faster (#1408).
-* Speed up representation of file sizes in metadata (#1408). This may slow down the next call to `tar_outdated()`/`tar_make()` in existing pipelines, but the new file size format will update in the metadata during the next `tar_make()`. After that, `tar_outdated()` should run much faster.
+* Speed up representation of file sizes in metadata (#1408).
 * Add a new `"forecast_interactive"` reporter to `tar_outdated()` to choose `"forecast"` for interactive sessions and `"silent"` for non-interactive ones.
 * Add a new `seconds_reporter_outdated` argument to `tar_config_set()` with a default of 0.5 to control the time interval of the reporter of `tar_outdated()` and other passive algorithm functions.
 * Remove target descriptions from the default labels of graph visualizations.
