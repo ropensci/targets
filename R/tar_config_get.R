@@ -97,7 +97,7 @@ tar_config_get_project <- function(name, yaml) {
     seconds_meta_append = yaml$seconds_meta_append %|||% 0,
     seconds_meta_upload = yaml$seconds_meta_upload %|||% 15,
     seconds_reporter = yaml$seconds_reporter %|||% 0,
-    seconds_reporter_outdated = yaml$seconds_reporter_outdated %|||% 0.25,
+    seconds_reporter_outdated = yaml$seconds_reporter_outdated %|||% 1,
     seconds_interval = yaml$seconds_interval,
     shortcut = yaml$shortcut %|||% FALSE,
     store = yaml$store %|||% path_store_default(),

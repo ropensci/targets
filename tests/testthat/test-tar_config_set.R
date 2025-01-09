@@ -225,7 +225,7 @@ tar_test("tar_config_set() with seconds_reporter", {
 tar_test("tar_config_set() with seconds_reporter_outdated", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
-  expect_equal(tar_config_get("seconds_reporter_outdated"), 0.25)
+  expect_equal(tar_config_get("seconds_reporter_outdated"), 1)
   path <- tempfile()
   tar_config_set(seconds_reporter_outdated = 10)
   expect_equal(tar_config_get("seconds_reporter_outdated"), 10)
@@ -234,7 +234,7 @@ tar_test("tar_config_set() with seconds_reporter_outdated", {
   expect_equal(tar_config_get("seconds_reporter_outdated"), 10)
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
-  expect_equal(tar_config_get("seconds_reporter_outdated"), 0.25)
+  expect_equal(tar_config_get("seconds_reporter_outdated"), 1)
 })
 
 tar_test("tar_config_set() with seconds_interval", {
