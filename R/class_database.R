@@ -282,10 +282,11 @@ database_class <- R6::R6Class(
       if (anyNA(element)) {
         element <- replace_na(element, "")
       }
-      if (is.list(element)) {
-        element <- paste(unlist(element), collapse = database_sep_inner)
+      element <- as.character(unlist(element))
+      if (length(element) != 1L) {
+        element <- paste(element, collapse = database_sep_inner)
       }
-      as.character(element)
+      element
     },
     reset_storage = function() {
       dir_create(dirname(self$path))
