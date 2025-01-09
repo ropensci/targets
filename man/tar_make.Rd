@@ -69,7 +69,11 @@ Higher values generally make the pipeline run faster, but unsaved
 work (in the event of a crash) is not up to date.
 When the pipeline ends,
 all the metadata and progress data is saved immediately,
-regardless of \code{seconds_meta_append}.}
+regardless of \code{seconds_meta_append}.
+
+When the pipeline is just skipping targets, the actual interval
+between saves is \code{max(1, seconds_meta_append)} to reduce
+overhead.}
 
 \item{seconds_meta_upload}{Positive numeric of length 1 with the minimum
 number of seconds between uploads of the metadata and progress data
@@ -83,7 +87,9 @@ regardless of \code{seconds_meta_upload}.}
 
 \item{seconds_reporter}{Positive numeric of length 1 with the minimum
 number of seconds between times when the reporter prints progress
-messages to the R console.}
+messages to the R console. When the pipeline is just skipping targets,
+the actual interval between messages is \code{max(1, seconds_reporter)}
+to reduce overhead.}
 
 \item{seconds_interval}{Deprecated on 2023-08-24
 (targets version 1.2.2.9001).

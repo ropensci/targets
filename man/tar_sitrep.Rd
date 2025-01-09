@@ -93,7 +93,9 @@ targets found so far.}
 
 \item{seconds_reporter}{Positive numeric of length 1 with the minimum
 number of seconds between times when the reporter prints progress
-messages to the R console.}
+messages to the R console. When the pipeline is just skipping targets,
+the actual interval between messages is \code{max(1, seconds_reporter)}
+to reduce overhead.}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session

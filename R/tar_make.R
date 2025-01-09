@@ -58,6 +58,10 @@
 #'   When the pipeline ends,
 #'   all the metadata and progress data is saved immediately,
 #'   regardless of `seconds_meta_append`.
+#'
+#'   When the pipeline is just skipping targets, the actual interval
+#'   between saves is `max(1, seconds_meta_append)` to reduce
+#'   overhead.
 #' @param seconds_meta_upload Positive numeric of length 1 with the minimum
 #'   number of seconds between uploads of the metadata and progress data
 #'   to the cloud
@@ -69,7 +73,9 @@
 #'   regardless of `seconds_meta_upload`.
 #' @param seconds_reporter Positive numeric of length 1 with the minimum
 #'   number of seconds between times when the reporter prints progress
-#'   messages to the R console.
+#'   messages to the R console. When the pipeline is just skipping targets,
+#'   the actual interval between messages is `max(1, seconds_reporter)`
+#'   to reduce overhead.
 #' @param garbage_collection Deprecated. Use the `garbage_collection`
 #'   argument of [tar_option_set()] instead to run garbage collection
 #'   at regular intervals in a pipeline, or use the argument of the same

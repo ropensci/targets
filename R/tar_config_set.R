@@ -84,6 +84,10 @@
 #'   When the pipeline ends,
 #'   all the metadata and progress data is saved immediately,
 #'   regardless of `seconds_meta_append`.
+#'
+#'   When the pipeline is just skipping targets, the actual interval
+#'   between saves is `max(1, seconds_meta_append)` to reduce
+#'   overhead.
 #' @param seconds_meta_upload Argument of [tar_make()], [tar_make_clustermq()],
 #'   and [tar_make_future()].
 #'   Positive numeric of length 1 with the minimum
@@ -100,6 +104,9 @@
 #'   number of seconds between times when the reporter prints progress
 #'   messages to the R console (for the aforementioned
 #'   [tar_make()]-like functions only).
+#'   When the pipeline is just skipping targets,
+#'   the actual interval between messages is `max(1, seconds_reporter)`
+#'   to reduce overhead.
 #' @param seconds_reporter_outdated Argument of [tar_outdated()]
 #'   and other related functions that do not run the pipeline.
 #'   Positive numeric of length 1 with the minimum

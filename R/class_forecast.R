@@ -15,9 +15,13 @@ forecast_class <- R6::R6Class(
         self$buffer <- NULL
       }
     },
-    report_outdated = function(outdated) {
-      self$buffer <- cli_forecast(outdated$cli_data(), print = FALSE)
-      self$poll()
+    report_outdated = function(outdated, force = FALSE) {
+      now <- time_seconds_local()
+      if (force || ((now - seconds_flushed) > seconds_interval)) {
+        self$buffer <- cli_forecast(outdated$cli_data(), print = FALSE)
+        flush_messages()
+        self$seconds_flushed <- now
+      }
     },
     report_end = function(progress = NULL, seconds_elapsed = NULL) {
       self$flush_messages()

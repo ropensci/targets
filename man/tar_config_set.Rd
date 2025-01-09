@@ -85,7 +85,11 @@ Higher values generally make the pipeline run faster, but unsaved
 work (in the event of a crash) is not up to date.
 When the pipeline ends,
 all the metadata and progress data is saved immediately,
-regardless of \code{seconds_meta_append}.}
+regardless of \code{seconds_meta_append}.
+
+When the pipeline is just skipping targets, the actual interval
+between saves is \code{max(1, seconds_meta_append)} to reduce
+overhead.}
 
 \item{seconds_meta_upload}{Argument of \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_clustermq]{tar_make_clustermq()}},
 and \code{\link[=tar_make_future]{tar_make_future()}}.
@@ -103,7 +107,10 @@ regardless of \code{seconds_meta_upload}.}
 and \code{\link[=tar_make_future]{tar_make_future()}}. Positive numeric of length 1 with the minimum
 number of seconds between times when the reporter prints progress
 messages to the R console (for the aforementioned
-\code{\link[=tar_make]{tar_make()}}-like functions only).}
+\code{\link[=tar_make]{tar_make()}}-like functions only).
+When the pipeline is just skipping targets,
+the actual interval between messages is \code{max(1, seconds_reporter)}
+to reduce overhead.}
 
 \item{seconds_reporter_outdated}{Argument of \code{\link[=tar_outdated]{tar_outdated()}}
 and other related functions that do not run the pipeline.

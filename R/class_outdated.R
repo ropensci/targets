@@ -172,11 +172,11 @@ outdated_class <- R6::R6Class(
       target <- pipeline_get_target(pipeline, name)
       if_any(
         inherits(target, "tar_pattern"),
-        self$process_pattern(target),
-        self$process_builder(target)
+        process_pattern(target),
+        process_builder(target)
       )
-      self$register_checked(name)
-      self$scheduler$reporter$report_outdated(self)
+      register_checked(name)
+      scheduler$reporter$report_outdated(self)
     },
     run = function() {
       self$start()
@@ -188,6 +188,7 @@ outdated_class <- R6::R6Class(
         name <- dequeue()
         self$process_target(name, pipeline)
       }
+      self$scheduler$reporter$report_outdated(self, force = TRUE)
       self$end()
     },
     validate = function() {

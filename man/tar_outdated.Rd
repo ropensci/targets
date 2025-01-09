@@ -59,7 +59,9 @@ targets found so far.}
 
 \item{seconds_reporter}{Positive numeric of length 1 with the minimum
 number of seconds between times when the reporter prints progress
-messages to the R console.}
+messages to the R console. When the pipeline is just skipping targets,
+the actual interval between messages is \code{max(1, seconds_reporter)}
+to reduce overhead.}
 
 \item{seconds_interval}{Deprecated on 2023-08-24
 (targets version 1.2.2.9001).
