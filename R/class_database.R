@@ -189,18 +189,26 @@ database_class <- R6::R6Class(
         row <- select_cols(row)
       }
       sublines <- produce_sublines(row)
-      buffer[[.subset2(row, "name")]] <- sublines
-      self$buffer_length <- buffer_length + 1L
+      new_length <- buffer_length + 1L
+      buffer[[as.character(new_length)]] <- sublines
+      self$buffer_length <- new_length
     },
     flush_rows = function() {
-      if (buffer_length > 0L) {
-        lines_list <- eapply(buffer, paste, collapse = database_sep_outer)
-        lines <- as.character(lines_list)
-        append_lines(lines)
-        self$buffer <- new.env(parent = emptyenv(), hash = FALSE)
-        self$buffer_length <- 0L
-        self$staged <- TRUE
+      if (buffer_length == 0L) {
+        return()
       }
+      lines_list <- vector(mode = "list", length = buffer_length)
+      index <- 1L
+      while (index <= buffer_length) {
+        line <- .subset2(buffer, as.character(index))
+        lines_list[[index]] <- paste(line, collapse = database_sep_outer)
+        index <- index + 1L
+      }
+      lines <- as.character(lines_list)
+      append_lines(lines)
+      self$buffer <- new.env(parent = emptyenv(), hash = FALSE)
+      self$buffer_length <- 0L
+      self$staged <- TRUE
     },
     upload_staged = function() {
       if (!is.null(self$staged) && self$staged) {

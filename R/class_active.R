@@ -36,7 +36,7 @@ active_class <- R6::R6Class(
     seconds_start = NULL,
     seconds_appended_meta = -Inf,
     seconds_appended_progress = -Inf,
-    seconds_meta_uploaded = NULL,
+    seconds_meta_uploaded = -Inf,
     skipping = TRUE,
     initialize = function(
       pipeline = NULL,
@@ -83,7 +83,7 @@ active_class <- R6::R6Class(
     flush_meta_time = function() {
       now <- time_seconds_local()
       if ((now - seconds_appended_meta) >= seconds_meta_append) {
-        self$meta$database$flush_rows()
+        .subset2(.subset2(meta, "database"), "flush_rows")()
         self$seconds_appended_meta <- now
       }
       if (skipping) {
@@ -92,7 +92,10 @@ active_class <- R6::R6Class(
         threshold <- seconds_meta_append
       }
       if ((now - seconds_appended_progress) >= threshold) {
-        self$scheduler$progress$database$flush_rows()
+        .subset2(
+          .subset2(.subset2(scheduler, "progress"), "database"),
+          "flush_rows"
+        )()
         self$seconds_appended_progress <- now
         self$skipping <- TRUE
       }
@@ -102,11 +105,10 @@ active_class <- R6::R6Class(
       self$scheduler$progress$database$upload_staged()
     },
     upload_meta_time = function() {
-      self$seconds_meta_uploaded <- self$seconds_meta_uploaded %|||% -Inf
       now <- time_seconds_local()
-      if ((now - self$seconds_meta_uploaded) >= self$seconds_meta_upload) {
-        self$upload_meta()
-        self$seconds_meta_uploaded <- time_seconds_local()
+      if ((now - seconds_meta_uploaded) >= seconds_meta_upload) {
+        upload_meta()
+        self$seconds_meta_uploaded <- now
       }
     },
     sync_meta_time = function() {
@@ -115,8 +117,8 @@ active_class <- R6::R6Class(
     },
     flush_upload_meta_file = function(target) {
       if (target_allow_meta(target)) {
-        self$flush_meta()
-        self$upload_meta()
+        flush_meta()
+        upload_meta()
       }
     },
     write_gitignore = function() {
