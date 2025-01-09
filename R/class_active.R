@@ -87,7 +87,7 @@ active_class <- R6::R6Class(
         self$seconds_appended_meta <- now
       }
       if (skipping) {
-        threshold <- max(1, seconds_meta_append)
+        threshold <- max(min_seconds_appended_progress, seconds_meta_append)
       } else {
         threshold <- seconds_meta_append
       }
@@ -199,7 +199,7 @@ active_class <- R6::R6Class(
         self$scheduler$trim(target, self$pipeline)
         counter_del_name(self$scheduler$progress$queued, name)
       } else if (target_should_run(target, self$meta)) {
-        self$skipping <- FALSE
+        self$skipping <- inherits(target, pattern_s3_class)
         self$flush_upload_meta_file(target)
         runtime_increment_targets_run(tar_runtime)
         target_gc(target)
@@ -241,3 +241,5 @@ active_class <- R6::R6Class(
     }
   )
 )
+
+min_seconds_appended_progress <- 1
