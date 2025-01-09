@@ -69,8 +69,10 @@ verbose_class <- R6::R6Class(
     report_workspace = function(target) {
       self$buffer_message(cli_workspace(target_get_name(target), print = FALSE))
     },
-    report_end = function(progress = NULL, seconds_elapsed = NULL) {
+    report_finalize = function(progress = NULL) {
       self$flush_messages()
+    },
+    report_end = function(progress = NULL, seconds_elapsed = NULL) {
       progress$cli_end(seconds_elapsed = seconds_elapsed)
       super$report_end(progress)
     }

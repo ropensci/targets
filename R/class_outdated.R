@@ -188,7 +188,7 @@ outdated_class <- R6::R6Class(
         name <- dequeue()
         self$process_target(name, pipeline)
       }
-      self$scheduler$reporter$report_outdated(self, force = TRUE)
+      scheduler$reporter$report_outdated_end(self)
       self$end()
     },
     validate = function() {
