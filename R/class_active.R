@@ -199,7 +199,7 @@ active_class <- R6::R6Class(
         self$scheduler$trim(target, self$pipeline)
         counter_del_name(self$scheduler$progress$queued, name)
       } else if (target_should_run(target, self$meta)) {
-        self$skipping <- inherits(target, pattern_s3_class)
+        self$skipping <- inherits(target, "tar_pattern")
         self$flush_upload_meta_file(target)
         runtime_increment_targets_run(tar_runtime)
         target_gc(target)
