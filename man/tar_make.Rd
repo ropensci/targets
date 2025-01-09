@@ -65,7 +65,9 @@ except without messages for skipped targets.
 \item{seconds_meta_append}{Positive numeric of length 1 with the minimum
 number of seconds between saves to the local metadata and progress files
 in the data store.
-Higher values generally make the pipeline run faster, but unsaved
+his is an aggressive optimization setting not recommended
+for most users:
+higher values generally make the pipeline run faster, but unsaved
 work (in the event of a crash) is not up to date.
 When the pipeline ends,
 all the metadata and progress data is saved immediately,
@@ -87,7 +89,12 @@ regardless of \code{seconds_meta_upload}.}
 
 \item{seconds_reporter}{Positive numeric of length 1 with the minimum
 number of seconds between times when the reporter prints progress
-messages to the R console. When the pipeline is just skipping targets,
+messages to the R console.
+This is an aggressive optimization setting not recommended
+for most users: higher values might make some pipelines run faster,
+but it becomes less clear which targets are actually running
+at any given moment.
+When the pipeline is just skipping targets,
 the actual interval between messages is \code{max(1, seconds_reporter)}
 to reduce overhead.}
 
