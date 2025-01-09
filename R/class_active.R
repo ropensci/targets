@@ -224,6 +224,7 @@ active_class <- R6::R6Class(
       self$scheduler$reporter$report_start()
     },
     end = function() {
+      scheduler$reporter$flush_messages()
       scheduler <- self$scheduler
       pipeline_unload_loaded(self$pipeline)
       self$flush_meta()
