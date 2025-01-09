@@ -76,4 +76,4 @@ reporter_class <- R6::R6Class(
   )
 )
 
-reporter_seconds_skipped <- 0.25
+reporter_seconds_skipped <- 1

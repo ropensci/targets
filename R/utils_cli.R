@@ -40,6 +40,13 @@ cli_skip <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
   cli_green_check(msg, print = print)
 }
 
+cli_skip_many <- function(skipped, time_stamp = FALSE, print = TRUE) {
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
+  content <- sprintf("skipping targets (%s so far)...", skipped)
+  msg <- paste(c(time, content), collapse = " ")
+  cli_green_check(msg, print = print)
+}
+
 cli_error <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
   time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "errored", prefix, name), collapse = " ")

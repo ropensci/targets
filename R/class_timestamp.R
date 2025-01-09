@@ -42,14 +42,14 @@ timestamp_class <- R6::R6Class(
       )
     },
     report_skipped = function(target, progress) {
-      self$buffer_message(
-        cli_skip(
-          target_get_name(target),
-          target_get_type_cli(target),
-          time_stamp = TRUE,
-          print = FALSE
+      now <- time_seconds_local()
+      skipped <- .subset2(.subset2(progress, "skipped"), "count")
+      if ((now - seconds_skipped) > reporter_seconds_skipped) {
+        self$buffer_message(
+          cli_skip_many(skipped = skipped, time_stamp = TRUE, print = FALSE)
         )
-      )
+        self$seconds_skipped <- now
+      }
     },
     report_errored = function(target, progress = NULL) {
       self$buffer_message(
