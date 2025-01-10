@@ -59,10 +59,11 @@ counter_filter_exists <- function(counter, names) {
 counter_count_exists <- function(counter, names) {
   envir <- .subset2(counter, "envir")
   out <- 0L
-  for (name in names) {
-    if (!is.null(.subset2(envir, name))) {
-      out <- out + 1L
-    }
+  index <- 1L
+  n <- length(names)
+  while (index <= n) {
+    out <- out + !is.null(.subset2(envir, .subset(names, index)))
+    index <- index + 1L
   }
   out
 }
