@@ -6,15 +6,15 @@
 
 Machine | Before (seconds) | After (seconds) | Speedup
 ---|---|---|---
-M2 Macbook | 413.16 | 25.54 | 16.177
-RHEL9 | 450.66 | 105.9 | 4.256
+M2 Macbook | 413.16 | 35.538 | 11.62587
+RHEL9 | 450.66 | 94.08 | 4.790
 
 And for `tar_outdated()` using all the default settings
 
 Machine | Before (seconds) | After (seconds) | Speedup
 ---|---|---|---
-M2 Macbook | 91.314 | 17.574 | 5.196
-RHEL9 | 167.809 | 34.321 | 4.889
+M2 Macbook | 91.314 | 16.636 | 5.48894
+RHEL9 | 167.809 | 37.395 | 4.487472
 
 To take advantage of these speed gains for an existing pipeline, you may have to run `tar_make()` to convert the time stamps and file sizes to a new format. This initial `tar_make()` is slow, but subsequent `tar_make()` calls should be much faster than before the upgrade.
 

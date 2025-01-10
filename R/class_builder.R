@@ -104,9 +104,9 @@ target_should_run.tar_builder <- function(target, meta) {
 # Willing to ignore high cyclomatic complexity score.
 # nolint start
 builder_should_run <- function(target, meta) {
-  cue <- target$cue
+  cue <- .subset2(target, "cue")
   if (cue_meta_exists(cue, target, meta)) return(TRUE)
-  row <- meta$get_row(target_get_name(target))
+  row <- .subset2(meta, "get_row")(target_get_name(target))
   if (cue_meta(cue, target, meta, row)) return(TRUE)
   if (cue_always(cue, target, meta)) return(TRUE)
   if (cue_never(cue, target, meta)) return(FALSE)
@@ -194,15 +194,19 @@ target_skip.tar_builder <- function(
 ) {
   target_update_queue(target, scheduler)
   name <- target_get_name(target)
-  row <- meta$get_row(name)
+  row <- .subset2(meta, "get_row")(name)
   path <- store_path_from_name(
-    store = target$store,
-    format = row$format,
+    store = .subset2(target, "store"),
+    format = .subset2(row, "format"),
     name = name,
-    path = unlist(row$path),
-    path_store = meta$store
+    path = unlist(.subset2(row, "path")),
+    path_store = .subset2(meta, "store")
   )
-  file_repopulate(target$file, path = path, data = row$data)
+  file_repopulate(
+    file = .subset2(target, "file"),
+    path = path,
+    data = .subset2(row, "data")
+  )
   pipeline_set_target(pipeline, target)
   if (active) {
     builder_ensure_workspace(
@@ -212,12 +216,16 @@ target_skip.tar_builder <- function(
       meta = meta
     )
   }
+  progress <- .subset2(scheduler, "progress")
   if_any(
     active,
-    scheduler$progress$register_skipped(target),
-    scheduler$progress$assign_skipped(target_get_name(target))
+    .subset2(progress, "register_skipped")(target),
+    .subset2(progress, "assign_skipped")(target_get_name(target))
   )
-  scheduler$reporter$report_skipped(target, scheduler$progress)
+  .subset2(.subset2(scheduler, "reporter"), "report_skipped")(
+    target,
+    .subset2(scheduler, "progress")
+  )
 }
 
 #' @export
