@@ -35,15 +35,15 @@ meta_class <- R6::R6Class(
       self$lookup <- lookup
     },
     get_depend = function(name) {
-      .subset2(.subset2(self, "depends"), name)
+      .subset2(depends, name)
     },
     get_row = function(name) {
-      .subset2(.subset2(self, "database"), "get_row")(name)
+      .subset2(database, "get_row")(name)
     },
     get_record = function(name) {
       record_from_row(
-        row = .subset2(self, "get_row")(name),
-        path_store = .subset2(self, "store")
+        row = get_row(name),
+        path_store = store
       )
     },
     set_record = function(record) {
@@ -53,7 +53,7 @@ meta_class <- R6::R6Class(
       self$database$buffer_row(record_produce_row(record))
     },
     insert_row = function(row) {
-      .subset2(.subset2(self, "database"), "buffer_row")(row)
+      .subset2(database, "buffer_row")(row)
     },
     exists_record = function(name) {
       self$database$exists_row(name)

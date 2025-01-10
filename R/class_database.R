@@ -122,7 +122,7 @@ database_class <- R6::R6Class(
       out <- map(
         rows,
         ~database_repair_list_columns(
-          .subset2(self, "get_row")(.x),
+          get_row(.x),
           list_columns,
           list_column_mode_list
         )
@@ -143,10 +143,10 @@ database_class <- R6::R6Class(
       }
     },
     exists_row = function(name) {
-      lookup_exists(.subset2(self, "lookup"), name)
+      lookup_exists(lookup, name)
     },
     list_rows = function() {
-      lookup_list(.subset2(self, "lookup"))
+      lookup_list(lookup)
     },
     condense_data = function(data) {
       repeats <- duplicated(data$name, fromLast = TRUE)
