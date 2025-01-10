@@ -49,7 +49,7 @@ tar_test("consistent CAS repository invokes methods at the right times", {
   # list() should run once,
   # and upload() should run on every target.
   tar_make()
-  # Only list() should be calledonce , and everything should be skipped.
+  # Only list() should be called (once), and everything should be skipped.
   tar_make()
   # A target should rebuild, but exists() should not be called.
   # download() should be called.
@@ -109,7 +109,7 @@ tar_test("non-consistent CAS repository invokes methods at the right times", {
   # list() should be called once, and
   # upload() and exists() should be called on each target.
   tar_make()
-  # Only list() should be called once, and everything should be skipped.
+  # Only list() should be called (once), and everything should be skipped.
   tar_make()
   # A target should rebuild, and exists() should be called on
   # that target just after upload.
