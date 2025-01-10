@@ -316,6 +316,9 @@ tar_repository_cas <- function(
 }
 
 tar_repository_cas_field <- function(key, value) {
+  if (is.function(value)) {
+    value <- body(value)
+  }
   encoded <- base64url::base64_urlencode(tar_deparse_safe(value))
   paste0(key, "=", encoded)
 }

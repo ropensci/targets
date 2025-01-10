@@ -2,12 +2,31 @@ store_repository_cas_methods_init <- function(repository) {
   splits <- unlist(strsplit(repository, split = "&", fixed = TRUE))
   store_repository_cas_methods_new(
     repository = repository,
-    upload = store_repository_cas_field(splits, pattern = "^upload="),
-    download = store_repository_cas_field(splits, pattern = "^download="),
-    exists = store_repository_cas_field(splits, pattern = "^exists="),
-    list = store_repository_cas_field(splits, pattern = "^list="),
+    upload = store_repository_cas_field(
+      splits,
+      pattern = "^upload=",
+      prefix = "function(key, path) "
+    ),
+    download = store_repository_cas_field(
+      splits,
+      pattern = "^download=",
+      prefix = "function(key, path) "
+    ),
+    exists = store_repository_cas_field(
+      splits,
+      pattern = "^exists=",
+      prefix = "function(key) "
+    ),
+    list = store_repository_cas_field(
+      splits,
+      pattern = "^list=",
+      prefix = "function(keys) "
+    ),
     consistent = as.logical(
-      store_repository_cas_field(splits, pattern = "^consistent=")
+      store_repository_cas_field(
+        splits,
+        pattern = "^consistent="
+      )
     )
   )
 }
@@ -45,6 +64,10 @@ store_repository_cas_methods_validate <- function(methods) {
   tar_assert_none_na(methods[["consistent"]])
 }
 
-store_repository_cas_field <- function(repository, pattern) {
-  base64url::base64_urldecode(keyvalue_field(repository, pattern))
+store_repository_cas_field <- function(repository, pattern, prefix = "") {
+  text <- base64url::base64_urldecode(keyvalue_field(repository, pattern))
+  if (text != "NULL") {
+    text <- paste0(prefix, text)
+  }
+  text
 }

@@ -1,4 +1,10 @@
-# targets 1.9.1.9007
+# targets 1.9.1.9008
+
+## Invalidating changes
+
+These changes invalidate certain targets in a pipeline and cause them to rerun on the next `tar_make()`.
+
+* Exclude function signatures from `tar_repository_cas()` output strings to reduce the size of pipeline metadata (#1390).
 
 ## Summary of performance gains
 
@@ -18,14 +24,14 @@ RHEL9 | 167.809 | 37.395 | 4.487472
 
 To take advantage of these speed gains for an existing pipeline, you may have to run `tar_make()` to convert the time stamps and file sizes to a new format. This initial `tar_make()` is slow, but subsequent `tar_make()` calls should be much faster than before the upgrade.
 
-## Specific changes
+## Other/specific changes
 
 * Speed up `tar_make()` and `tar_outdated()` by avoiding excessive buffering and disk writes for metadata and reporters when the pipeline is just skipping targets.
 * Use a more lookup-efficient data structure for `tar_runtime$file_info` (#1398).
 * Fall back on vector aggregation without names (#1401, @guglicap).
 * Speed up representation of file sizes in metadata (#1408).
 * Add a new `"forecast_interactive"` reporter to `tar_outdated()` to choose `"forecast"` for interactive sessions and `"silent"` for non-interactive ones.
-* Add a new `seconds_reporter_outdated` argument to `tar_config_set()` with a default of 0.5 to control the time interval of the reporter of `tar_outdated()` and other passive algorithm functions.
+* Add a new `seconds_reporter_outdated` argument to `tar_config_set()` with a default of 1 to control the time interval of the reporter of `tar_outdated()` and other passive algorithm functions.
 * Remove target descriptions from the default labels of graph visualizations.
 
 # targets 1.9.1
