@@ -88,7 +88,7 @@ join_edges <- function(lookup, from, to) {
     if (is.null(.subset2(lookup, name))) {
       lookup[[name]] <- new_from
     } else {
-      lookup[[name]] <- union(new_from, .subset2(lookup, name))
+      lookup[[name]] <- unique.default(c(new_from, .subset2(lookup, name)))
     }
     index <- index + 1L
   }
