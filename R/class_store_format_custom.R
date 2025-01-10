@@ -9,12 +9,13 @@ store_class_format_format_custom <- c(
   "tar_store"
 )
 
-store_format_custom_field <- function(format, pattern, default) {
+store_format_custom_field <- function(format, pattern, default, prefix) {
   out <- base64url::base64_urldecode(keyvalue_field(format, pattern))
   if ((length(out) < 1L) || !any(nzchar(out))) {
-    out <- default
+    return(default)
+  } else {
+    return(paste0(prefix, out))
   }
-  out
 }
 
 #' @export

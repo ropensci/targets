@@ -49,8 +49,9 @@ See the "Format functions" section for specific requirements.
 If \code{NULL}, the \code{unmarshal} argument defaults to just
 returning the original object without any modifications.}
 
-\item{convert}{The \code{convert} argument is a function
-that accepts the object returned by the command of the target
+\item{convert}{The \code{convert} argument is a function with a single argument
+named \code{object}.
+It accepts the object returned by the command of the target
 and changes it into an acceptable format (e.g. can be
 saved with the \code{read} function). The \code{convert}
 ensures the in-memory copy
@@ -62,8 +63,9 @@ handle edge cases like \code{NULL} values (especially for
 If \code{NULL}, the \code{convert} argument defaults to just
 returning the original object without any modifications.}
 
-\item{copy}{The \code{copy} argument is a function
-that accepts the object returned by the command of the target
+\item{copy}{The \code{copy} argument is a function with a single function
+named \code{object}.
+It accepts the object returned by the command of the target
 and makes a deep copy in memory. This method does is relevant
 to objects like \code{data.table}s that support in-place modification
 which could cause unpredictable side effects from target

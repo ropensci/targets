@@ -339,6 +339,7 @@ pipeline_validate <- function(pipeline) {
 pipeline_validate_lite <- function(pipeline) {
   tar_assert_inherits(pipeline, "tar_pipeline", msg = "invalid pipeline.")
   tar_assert_correct_fields(pipeline, pipeline_new)
+  tar_assert_target_name_case(pipeline_get_names(pipeline))
   pipeline_validate_conflicts(pipeline)
 }
 

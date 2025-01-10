@@ -198,7 +198,15 @@
 #'   can refer to this name symbolically to induce a dependency relationship:
 #'   e.g. `tar_target(downstream_target, f(upstream_target))` is a
 #'   target named `downstream_target` which depends on a target
-#'   `upstream_target` and a function `f()`. In addition, a target's
+#'   `upstream_target` and a function `f()`.
+#'
+#'   In most cases, The target name is the name of its local data file
+#'   in storage. Some file systems are not case sensitive, which means
+#'   converting a name to a different case may overwrite a different target.
+#'   Please ensure all target names have unique names when converted to
+#'   lower case.
+#'
+#'   In addition, a target's
 #'   name determines its random number generator seed. In this way,
 #'   each target runs with a reproducible seed so someone else
 #'   running the same pipeline should get the same results,

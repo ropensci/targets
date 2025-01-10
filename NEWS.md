@@ -1,10 +1,11 @@
-# targets 1.9.1.9008
+# targets 1.9.1.9009
 
 ## Invalidating changes
 
 These changes invalidate certain targets in a pipeline and cause them to rerun on the next `tar_make()`.
 
 * Exclude function signatures from `tar_repository_cas()` output strings to reduce the size of pipeline metadata (#1390).
+* Exclude function signatures from `tar_format()` output strings to reduce the size of pipeline metadata (#1390).
 
 ## Summary of performance gains
 

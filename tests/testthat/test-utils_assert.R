@@ -471,3 +471,11 @@ tar_test("tar_assert_identical()", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("tar_assert_target_name_case()", {
+  expect_silent(tar_assert_target_name_case(letters))
+  expect_warning(
+    tar_assert_target_name_case(c(letters, LETTERS)),
+    class = "tar_condition_validate"
+  )
+})

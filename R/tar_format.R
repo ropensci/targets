@@ -76,8 +76,9 @@
 #'   See the "Format functions" section for specific requirements.
 #'   If `NULL`, the `unmarshal` argument defaults to just
 #'   returning the original object without any modifications.
-#' @param convert The `convert` argument is a function
-#'   that accepts the object returned by the command of the target
+#' @param convert The `convert` argument is a function with a single argument
+#'   named `object`.
+#'   It accepts the object returned by the command of the target
 #'   and changes it into an acceptable format (e.g. can be
 #'   saved with the `read` function). The `convert`
 #'   ensures the in-memory copy
@@ -88,8 +89,9 @@
 #'   `error = "null"` in [tar_target()] or [tar_option_set()]).
 #'   If `NULL`, the `convert` argument defaults to just
 #'   returning the original object without any modifications.
-#' @param copy The `copy` argument is a function
-#'   that accepts the object returned by the command of the target
+#' @param copy The `copy` argument is a function with a single function
+#'   named `object`.
+#'   It accepts the object returned by the command of the target
 #'   and makes a deep copy in memory. This method does is relevant
 #'   to objects like `data.table`s that support in-place modification
 #'   which could cause unpredictable side effects from target
@@ -231,10 +233,11 @@ tar_format <- function(
 }
 
 tar_format_field <- function(key, value) {
-  encoded <- if_any(
-    is.null(value),
-    "",
-    base64url::base64_urlencode(tar_deparse_safe(value))
-  )
-  paste0(key, "=", encoded)
+  if (is.null(value)) {
+    return(paste0(key, "="))
+  }
+  if (is.function(value)) {
+    value <- body(value)
+  }
+  paste0(key, "=", base64url::base64_urlencode(tar_deparse_safe(value)))
 }

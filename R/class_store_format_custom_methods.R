@@ -4,32 +4,38 @@ store_format_custom_methods_init <- function(format) {
     read = store_format_custom_field(
       format = format,
       pattern = "^read=",
-      default = store_format_custom_default_read()
+      default = store_format_custom_default_read(),
+      prefix = "function(path) "
     ),
     write = store_format_custom_field(
       format = format,
       pattern = "^write=",
-      default = store_format_custom_default_write()
+      default = store_format_custom_default_write(),
+      prefix = "function(object, path) "
     ),
     marshal = store_format_custom_field(
       format = format,
       pattern = "^marshal=",
-      default = store_format_custom_default_marshal()
+      default = store_format_custom_default_marshal(),
+      prefix = "function(object) "
     ),
     unmarshal = store_format_custom_field(
       format = format,
       pattern = "^unmarshal=",
-      default = store_format_custom_default_unmarshal()
+      default = store_format_custom_default_unmarshal(),
+      prefix = "function(object) "
     ),
     convert = store_format_custom_field(
       format = format,
       pattern = "^convert=",
-      default = store_format_custom_default_convert()
+      default = store_format_custom_default_convert(),
+      prefix = "function(object) "
     ),
     copy = store_format_custom_field(
       format = format,
       pattern = "^copy=",
-      default = store_format_custom_default_copy()
+      default = store_format_custom_default_copy(),
+      prefix = "function(object) "
     )
   )
 }

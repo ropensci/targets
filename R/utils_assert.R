@@ -871,3 +871,22 @@ tar_assert_meta <- function(store) {
     tar_throw_validate(message = message)
   }
 }
+
+tar_assert_target_name_case <- function(names) {
+  index <- duplicated(tolower(names))
+  if (!any(index)) {
+    return()
+  }
+  problems <- paste(names[index], collapse = ", ")
+  message <- paste0(
+    "In most pipelines, a target name is the name of its data file in ",
+    "storage. Some file systems are not case sensitive, so targets ",
+    "should not have duplicate names when converting to lower case. ",
+    "Found problematic names: ",
+    problems
+  )
+  tar_warning(
+    message = message,
+    class = c("tar_condition_validate", "tar_condition_targets")
+  )
+}
