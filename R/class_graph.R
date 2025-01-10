@@ -56,7 +56,7 @@ graph_class <- R6::R6Class(
     insert_edges = function(edges) {
       join_edges(
         lookup = upstream,
-        from = .subset2(edges, "from"), 
+        from = .subset2(edges, "from"),
         to = .subset2(edges, "to")
       )
       join_edges(
