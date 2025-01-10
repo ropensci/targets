@@ -23,14 +23,20 @@ lookup_count <- function(lookup) {
 }
 
 lookup_set <- function(lookup, names, object) {
-  for (name in names) {
-    lookup[[name]] <- object
+  index <- 1L
+  n <- length(names)
+  while (index <= n) {
+    lookup[[.subset(names, index)]] <- object
+    index <- index + 1L
   }
 }
 
 lookup_unset <- function(lookup, names) {
-  for (name in names) {
-    lookup[[name]] <- NULL
+  index <- 1L
+  n <- length(names)
+  while (index <= n) {
+    lookup[[.subset(names, index)]] <- NULL
+    index <- index + 1L
   }
 }
 
