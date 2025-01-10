@@ -316,6 +316,9 @@ tar_repository_cas <- function(
 }
 
 tar_repository_cas_field <- function(key, value) {
+  if (is.null(value)) {
+    return(paste0(key, "="))
+  }
   if (is.function(value)) {
     value <- body(value)
   }

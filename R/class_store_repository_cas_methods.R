@@ -54,10 +54,14 @@ store_repository_cas_methods_validate <- function(methods) {
   tar_assert_scalar(methods$repository)
   tar_assert_nzchar(methods$repository)
   tar_assert_correct_fields(methods, store_repository_cas_methods_new)
-  for (field in c("upload", "download", "exists", "list")) {
+  for (field in c("upload", "download")) {
     tar_assert_chr(methods[[field]])
     tar_assert_scalar(methods[[field]])
     tar_assert_nzchar(methods[[field]])
+  }
+  for (field in c("exists", "list")) {
+    tar_assert_chr(methods[[field]])
+    tar_assert_scalar(methods[[field]])
   }
   tar_assert_scalar(methods[["consistent"]])
   tar_assert_lgl(methods[["consistent"]])
@@ -66,7 +70,7 @@ store_repository_cas_methods_validate <- function(methods) {
 
 store_repository_cas_field <- function(repository, pattern, prefix = "") {
   text <- base64url::base64_urldecode(keyvalue_field(repository, pattern))
-  if (text != "NULL") {
+  if (nzchar(text)) {
     text <- paste0(prefix, text)
   }
   text

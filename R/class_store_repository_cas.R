@@ -117,7 +117,7 @@ tar_repository_cas_lookup <- function(store) {
     return(lookup)
   }
   list_method <- .subset2(methods, "list")
-  if (all(list_method == "NULL")) {
+  if (!any(nzchar(list_method))) {
     return(lookup_new())
   }
   keys_meta <- as.character(lookup)

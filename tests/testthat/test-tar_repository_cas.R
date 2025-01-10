@@ -19,7 +19,7 @@ tar_test("tar_repository_cas() generates an encoded string", {
   expect_equal(out[1], "repository_cas")
   expect_true(any(grepl("^upload=+.", out)))
   expect_true(any(grepl("^download=+.", out)))
-  expect_true(any(grepl("^exists=+.", out)))
+  expect_true(any(grepl("^exists=*.", out)))
   expect_true(any(grepl("^list=+.", out)))
   expect_true(any(grepl("^consistent=+.", out)))
 })
@@ -41,10 +41,7 @@ tar_test("tar_repository_cas() keeps 'exists' at the right times", {
     consistent = TRUE
   )
   out <- unlist(strsplit(out, split = "&", fixed = TRUE))
-  exists <- base64url::base64_urldecode(
-    gsub("^exists=", "", out[grepl("^exists=+.", out)])
-  )
-  expect_equal(exists, "NULL")
+  expect_true(any(out == "exists="))
   out <- tar_repository_cas(
     upload = function(key, path) {
       file.copy(path, file.path("cas", key))
@@ -64,7 +61,8 @@ tar_test("tar_repository_cas() keeps 'exists' at the right times", {
   exists <- base64url::base64_urldecode(
     gsub("^exists=", "", out[grepl("^exists=+.", out)])
   )
-  expect_false(exists == "NULL")
+  expect_true(nzchar(exists))
+  expect_false(any(out == "exists="))
   for (consistent in c(TRUE, FALSE)) {
     out <- tar_repository_cas(
       upload = function(key, path) {
@@ -82,7 +80,8 @@ tar_test("tar_repository_cas() keeps 'exists' at the right times", {
     exists <- base64url::base64_urldecode(
       gsub("^exists=", "", out[grepl("^exists=+.", out)])
     )
-    expect_false(exists == "NULL")
+    expect_true(nzchar(exists))
+    expect_false(any(out == "exists="))
   }
 })
 
