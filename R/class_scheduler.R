@@ -40,7 +40,7 @@ scheduler_topo_sort <- function(igraph, priorities, queue) {
 }
 
 initial_ranks <- function(names, graph, priorities) {
-  graph$produce_degrees(names, "upstream") + rank_offset(priorities[names])
+  graph$produce_degrees_upstream(names) + rank_offset(priorities[names])
 }
 
 rank_offset <- function(priorities) {

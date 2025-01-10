@@ -1,3 +1,7 @@
+lookup_init <- function(list, parent = emptyenv()) {
+  list2env(x = list, parent = parent, hash = TRUE)
+}
+
 lookup_new <- function(parent = emptyenv()) {
   new.env(parent = parent, hash = TRUE)
 }

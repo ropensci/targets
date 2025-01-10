@@ -32,38 +32,38 @@ tar_test("graph$produce_downstream()", {
   expect_equal(graph$produce_downstream("all"), character(0))
 })
 
-tar_test("graph$produce_degrees(mode = \"in\")", {
+tar_test("graph$produce_degrees_upstream()", {
   edges <- pipeline_upstream_edges(pipeline_order(), targets_only = TRUE)
   graph <- graph_init(remove_loops(edges))
-  expect_equal(graph$produce_degrees("data1", mode = "upstream"), 0L)
-  expect_equal(graph$produce_degrees("data2", mode = "upstream"), 0L)
-  expect_equal(graph$produce_degrees("min1", mode = "upstream"), 1L)
-  expect_equal(graph$produce_degrees("min2", mode = "upstream"), 1L)
-  expect_equal(graph$produce_degrees("max1", mode = "upstream"), 1L)
-  expect_equal(graph$produce_degrees("max2", mode = "upstream"), 1L)
-  expect_equal(graph$produce_degrees("mins", mode = "upstream"), 2L)
-  expect_equal(graph$produce_degrees("maxes", mode = "upstream"), 2L)
-  expect_equal(graph$produce_degrees("all", mode = "upstream"), 2L)
+  expect_equal(graph$produce_degrees_upstream("data1"), 0L)
+  expect_equal(graph$produce_degrees_upstream("data2"), 0L)
+  expect_equal(graph$produce_degrees_upstream("min1"), 1L)
+  expect_equal(graph$produce_degrees_upstream("min2"), 1L)
+  expect_equal(graph$produce_degrees_upstream("max1"), 1L)
+  expect_equal(graph$produce_degrees_upstream("max2"), 1L)
+  expect_equal(graph$produce_degrees_upstream("mins"), 2L)
+  expect_equal(graph$produce_degrees_upstream("maxes"), 2L)
+  expect_equal(graph$produce_degrees_upstream("all"), 2L)
   expect_equal(
-    graph$produce_degrees(c("all", "data1"), mode = "upstream"),
+    graph$produce_degrees_upstream(c("all", "data1")),
     c(2L, 0L)
   )
 })
 
-tar_test("graph$produce_degrees(mode = \"out\")", {
+tar_test("graph$produce_degrees_downstream()", {
   edges <- pipeline_upstream_edges(pipeline_order(), targets_only = TRUE)
   graph <- graph_init(remove_loops(edges))
-  expect_equal(graph$produce_degrees("data1", mode = "out"), 2L)
-  expect_equal(graph$produce_degrees("data2", mode = "out"), 2L)
-  expect_equal(graph$produce_degrees("min1", mode = "out"), 1L)
-  expect_equal(graph$produce_degrees("min2", mode = "out"), 1L)
-  expect_equal(graph$produce_degrees("max1", mode = "out"), 1L)
-  expect_equal(graph$produce_degrees("max2", mode = "out"), 1L)
-  expect_equal(graph$produce_degrees("mins", mode = "out"), 1L)
-  expect_equal(graph$produce_degrees("maxes", mode = "out"), 1L)
-  expect_equal(graph$produce_degrees("all", mode = "out"), 0L)
+  expect_equal(graph$produce_degrees_downstream("data1"), 2L)
+  expect_equal(graph$produce_degrees_downstream("data2"), 2L)
+  expect_equal(graph$produce_degrees_downstream("min1"), 1L)
+  expect_equal(graph$produce_degrees_downstream("min2"), 1L)
+  expect_equal(graph$produce_degrees_downstream("max1"), 1L)
+  expect_equal(graph$produce_degrees_downstream("max2"), 1L)
+  expect_equal(graph$produce_degrees_downstream("mins"), 1L)
+  expect_equal(graph$produce_degrees_downstream("maxes"), 1L)
+  expect_equal(graph$produce_degrees_downstream("all"), 0L)
   expect_equal(
-    graph$produce_degrees(c("all", "data1"), mode = "out"),
+    graph$produce_degrees_downstream(c("all", "data1")),
     c(0L, 2L)
   )
 })
@@ -72,8 +72,8 @@ tar_test("graph$insert_edges() upstream checks", {
   edges <- pipeline_upstream_edges(pipeline_order(), targets_only = TRUE)
   graph <- graph_init(remove_loops(edges))
   new_edgelist <- data_frame(
-    from = c("abc", "xyz", "min1", "other1"),
-    to = c("data1", "data2", "123", "other2")
+    from = c("abc", "xyz", "min1", "other1", "one_more"),
+    to = c("data1", "data2", "123", "other2", "all")
   )
   graph$insert_edges(new_edgelist)
   upstream <- graph$upstream
@@ -90,7 +90,7 @@ tar_test("graph$insert_edges() upstream checks", {
   expect_equal(upstream[["max2"]], "data2")
   expect_equal(sort(upstream[["mins"]]), sort(c("min1", "min2")))
   expect_equal(sort(upstream[["maxes"]]), sort(c("max1", "max2")))
-  expect_equal(sort(upstream[["all"]]), sort(c("mins", "maxes")))
+  expect_equal(sort(upstream[["all"]]), sort(c("mins", "maxes", "one_more")))
 })
 
 tar_test("graph$insert_edges() downstream checks", {

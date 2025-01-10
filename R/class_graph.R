@@ -1,7 +1,7 @@
 graph_init <- function(edges = NULL) {
   edges <- edges %|||% data_frame(from = character(0), to = character(0))
-  upstream <- adjacency_list(edges$from, edges$to)
-  downstream <- adjacency_list(edges$to, edges$from)
+  upstream <- lookup_init(adjacency_list(from = edges$from, to = edges$to))
+  downstream <- lookup_init(adjacency_list(from = edges$to, to = edges$from))
   graph_new(upstream, downstream)
 }
 
@@ -24,13 +24,25 @@ graph_class <- R6::R6Class(
       self$upstream <- upstream
       self$downstream <- downstream
     },
-    produce_degrees = function(names, mode) {
-      list <- if_any(
-        identical(mode, "upstream"),
-        self$upstream,
-        self$downstream
-      )
-      unname(map_int(list[names], length))
+    produce_degrees_upstream = function(names) {
+      index <- 1L
+      n <- length(names)
+      out <- vector(mode = "integer", length = n)
+      while (index <= n) {
+        out[index] <- length(.subset2(upstream, .subset(names, index)))
+        index <- index + 1L
+      }
+      out
+    },
+    produce_degrees_downstream = function(names) {
+      index <- 1L
+      n <- length(names)
+      out <- vector(mode = "integer", length = n)
+      while (index <= n) {
+        out[index] <- length(.subset2(downstream, .subset(names, index)))
+        index <- index + 1L
+      }
+      out
     },
     produce_upstream = function(name) {
       as.character(.subset2(upstream, name))
@@ -39,16 +51,19 @@ graph_class <- R6::R6Class(
       as.character(.subset2(downstream, name))
     },
     replace_upstream = function(name, from, to) {
-      upstream <- self$upstream
-      upstream[[name]][upstream[[name]] == from] <- to
-      self$upstream <- upstream
+      upstream[[name]][.subset2(upstream, name) == from] <- to
     },
     insert_edges = function(edges) {
-      upstream <- join_edges(self$upstream, edges$from, edges$to)
-      downstream <- join_edges(self$downstream, edges$to, edges$from)
-      self$upstream <- upstream
-      self$downstream <- downstream
-      invisible()
+      join_edges(
+        lookup = upstream,
+        from = .subset2(edges, "from"), 
+        to = .subset2(edges, "to")
+      )
+      join_edges(
+        lookup = downstream,
+        from = .subset2(edges, "to"),
+        to = .subset2(edges, "from")
+      )
     },
     validate = function() {
       lapply(self$upstream, tar_assert_chr)
@@ -59,18 +74,24 @@ graph_class <- R6::R6Class(
 )
 
 adjacency_list <- function(from, to) {
-  tapply(from, to, identity, simplify = FALSE)
+  tapply(X = from, INDEX = to, identity, simplify = FALSE)
 }
 
-join_edges <- function(edgelist, from, to) {
-  new_edgelist <- adjacency_list(from, to)
-  dups <- intersect(names(new_edgelist), names(edgelist))
-  new <- setdiff(names(new_edgelist), names(edgelist))
-  out <- c(edgelist, new_edgelist[new])
-  for (name in dups) {
-    out[[name]] <- union(out[[name]], new_edgelist[[name]])
+join_edges <- function(lookup, from, to) {
+  new_edgelist <- adjacency_list(from = from, to = to)
+  index <- 1L
+  names <- names(new_edgelist)
+  n <- length(names)
+  while (index <= n) {
+    name <- .subset(names, index)
+    new_from <- .subset2(new_edgelist, index)
+    if (is.null(.subset2(lookup, name))) {
+      lookup[[name]] <- new_from
+    } else {
+      lookup[[name]] <- union(new_from, .subset2(lookup, name))
+    }
+    index <- index + 1L
   }
-  out
 }
 
 remove_loops <- function(edges) {
