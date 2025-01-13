@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/ropensci/targets",
   "issueTracker": "https://github.com/ropensci/targets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.7.1.9008",
+  "version": "1.10.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -50,6 +50,12 @@
       "name": "Eli Lilly and Company"
     }
   ],
+  "funder": [
+    {
+      "@type": "Organization",
+      "name": "Eli Lilly and Company"
+    }
+  ],
   "maintainer": [
     {
       "@type": "Person",
@@ -60,6 +66,19 @@
     }
   ],
   "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "autometric",
+      "name": "autometric",
+      "version": ">= 0.1.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=autometric"
+    },
     {
       "@type": "SoftwareApplication",
       "identifier": "bslib",
@@ -347,16 +366,15 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "qs",
-      "name": "qs",
-      "version": ">= 0.24.1",
+      "identifier": "qs2",
+      "name": "qs2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=qs"
+      "sameAs": "https://CRAN.R-project.org/package=qs2"
     },
     {
       "@type": "SoftwareApplication",
@@ -720,7 +738,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2667.066KB",
+  "fileSize": "2759.397KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
