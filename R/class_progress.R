@@ -135,7 +135,8 @@ progress_class <- R6::R6Class(
       )
     },
     buffer_progress = function(target, progress) {
-      row <- produce_row(target, progress)
+      database <- .subset2(self, "database")
+      row <- .subset2(self, "produce_row")(target, progress)
       .subset2(database, "buffer_row")(row, fill_missing = FALSE)
     },
     buffer_skipped = function(target) {
