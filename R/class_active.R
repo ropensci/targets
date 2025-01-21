@@ -83,7 +83,7 @@ active_class <- R6::R6Class(
     flush_meta_time = function() {
       now <- time_seconds_local()
       if ((now - seconds_appended_meta) >= seconds_meta_append) {
-        .subset2(.subset2(meta, "database"), "flush_rows")()
+        .subset2(.subset2(.subset2(self, "meta"), "database"), "flush_rows")()
         self$seconds_appended_meta <- now
       }
       if (skipping) {
@@ -92,10 +92,8 @@ active_class <- R6::R6Class(
         threshold <- seconds_meta_append
       }
       if ((now - seconds_appended_progress) >= threshold) {
-        .subset2(
-          .subset2(.subset2(scheduler, "progress"), "database"),
-          "flush_rows"
-        )()
+        progress <- .subset2(.subset2(self, "scheduler"), "progress")
+        .subset2(.subset2(progress, "database"), "flush_rows")()
         self$seconds_appended_progress <- now
         self$skipping <- TRUE
       }
@@ -107,18 +105,18 @@ active_class <- R6::R6Class(
     upload_meta_time = function() {
       now <- time_seconds_local()
       if ((now - seconds_meta_uploaded) >= seconds_meta_upload) {
-        upload_meta()
+        .subset2(self, "upload_meta")()
         self$seconds_meta_uploaded <- now
       }
     },
     sync_meta_time = function() {
-      flush_meta_time()
-      upload_meta_time()
+      .subset2(self, "flush_meta_time")()
+      .subset2(self, "upload_meta_time")()
     },
     flush_upload_meta_file = function(target) {
       if (target_allow_meta(target)) {
-        flush_meta()
-        upload_meta()
+        .subset2(self, "flush_meta")()
+        .subset2(self, "upload_meta")()
       }
     },
     write_gitignore = function() {
@@ -185,29 +183,33 @@ active_class <- R6::R6Class(
     skip_target = function(target) {
       target_skip(
         target = target,
-        pipeline = self$pipeline,
-        scheduler = self$scheduler,
-        meta = self$meta,
+        pipeline = .subset2(self, "pipeline"),
+        scheduler = .subset2(self, "scheduler"),
+        meta = .subset2(self, "meta"),
         active = TRUE
       )
-      target_sync_file_meta(target, self$meta)
+      target_sync_file_meta(target, .subset2(self, "meta"))
     },
     process_target = function(name) {
-      self$scheduler$backoff$reset()
-      target <- pipeline_get_target(self$pipeline, name)
+      scheduler <- .subset2(self, "scheduler")
+      progress <- .subset2(scheduler, "progress")
+      pipeline <- .subset2(self, "pipeline")
+      meta <- .subset2(self, "meta")
+      .subset2(.subset2(scheduler, "backoff"), "reset")()
+      target <- pipeline_get_target(pipeline, name)
       target_debug(target)
-      target_update_depend(target, self$pipeline, self$meta)
-      if (counter_exists_name(self$scheduler$progress$trimmed, name)) {
-        self$scheduler$trim(target, self$pipeline)
-        counter_del_name(self$scheduler$progress$queued, name)
-      } else if (target_should_run(target, self$meta)) {
+      target_update_depend(target, pipeline, meta)
+      if (counter_exists_name(.subset2(progress, "trimmed"), name)) {
+        .subset2(scheduler, "trim")(target, pipeline)
+        counter_del_name(.subset2(progress, "queued"), name)
+      } else if (target_should_run(target, meta)) {
         self$skipping <- inherits(target, "tar_pattern")
         self$flush_upload_meta_file(target)
         runtime_increment_targets_run(tar_runtime)
         target_gc(target)
-        self$run_target(target)
+        .subset2(self, "run_target")(target)
       } else {
-        self$skip_target(target)
+        .subset2(self, "skip_target")(target)
       }
     },
     backoff = function() {
@@ -224,8 +226,8 @@ active_class <- R6::R6Class(
       self$scheduler$reporter$report_start()
     },
     end = function() {
-      scheduler$reporter$report_finalize(scheduler$progress)
       scheduler <- self$scheduler
+      scheduler$reporter$report_finalize(scheduler$progress)
       pipeline_unload_loaded(self$pipeline)
       self$flush_meta()
       self$meta$database$deduplicate_storage()
