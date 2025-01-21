@@ -1,6 +1,6 @@
-# targets 1.10.0.9000 (development)
+# targets 1.10.0.9001 (development)
 
-
+* Restore explicit references to "self" in `R6` classes.
 
 # targets 1.10.0
 
