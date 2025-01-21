@@ -19,16 +19,18 @@ sequential_class <- R6::R6Class(
       self$head <- 1L
     },
     is_nonempty = function() {
-      head <= length(data)
+      .subset2(self, "head") <= length(.subset2(self, "data"))
     },
     dequeue = function() {
-      index <- head
+      index <- .subset2(self, "head")
+      data <- .subset2(self, "data")
       if (index <= length(data)) {
         self$head <- index + 1L
       }
       .subset(data, index)
     },
     prepend = function(names, ranks = NULL) {
+      data <- .subset2(self, "data")
       out <- c(data[seq_len(head - 1L)], names)
       if (head <= length(data)) {
         out <- c(out, data[seq(from = head, to = length(data), by = 1L)])
