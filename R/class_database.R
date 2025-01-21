@@ -143,10 +143,10 @@ database_class <- R6::R6Class(
       }
     },
     exists_row = function(name) {
-      lookup_exists(lookup, name)
+      lookup_exists(.subset2(self, "lookup"), name)
     },
     list_rows = function() {
-      lookup_list(lookup)
+      lookup_list(.subset2(self, "lookup"))
     },
     condense_data = function(data) {
       repeats <- duplicated(data$name, fromLast = TRUE)
@@ -176,7 +176,7 @@ database_class <- R6::R6Class(
       self$set_data(data)
     },
     select_cols = function(data) {
-      fill <- setdiff(header, names(data))
+      fill <- setdiff(.subset2(self, "header"), names(data))
       na_col <- rep(NA_character_, length(.subset2(data, "name")))
       for (col in fill) {
         data[[col]] <- na_col
@@ -186,11 +186,11 @@ database_class <- R6::R6Class(
     buffer_row = function(row, fill_missing = TRUE) {
       set_row(row)
       if (fill_missing) {
-        row <- select_cols(row)
+        row <- .subset2(self, "select_cols")(row)
       }
-      sublines <- produce_sublines(row)
+      sublines <- .subset2(self, "produce_sublines")(row)
       new_length <- buffer_length + 1L
-      buffer[[as.character(new_length)]] <- sublines
+      self$buffer[[as.character(new_length)]] <- sublines
       self$buffer_length <- new_length
     },
     flush_rows = function() {
@@ -199,6 +199,7 @@ database_class <- R6::R6Class(
       }
       lines_list <- vector(mode = "list", length = buffer_length)
       index <- 1L
+      buffer <- .subset2(self, "buffer")
       while (index <= buffer_length) {
         line <- .subset2(buffer, as.character(index))
         lines_list[[index]] <- paste(line, collapse = database_sep_outer)

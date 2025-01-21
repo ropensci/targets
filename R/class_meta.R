@@ -56,7 +56,7 @@ meta_class <- R6::R6Class(
       .subset2(.subset2(self, "database"), "buffer_row")(row)
     },
     exists_record = function(name) {
-      self$database$exists_row(name)
+      .subset2(.subset2(self, "database"), "exists_row")(name)
     },
     del_records = function(names) {
       self$database$del_rows(names)
