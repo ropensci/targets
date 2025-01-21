@@ -28,6 +28,7 @@ graph_class <- R6::R6Class(
       index <- 1L
       n <- length(names)
       out <- vector(mode = "integer", length = n)
+      upstream <- .subset2(self, "upstream")
       while (index <= n) {
         out[index] <- length(.subset2(upstream, .subset(names, index)))
         index <- index + 1L
@@ -38,6 +39,7 @@ graph_class <- R6::R6Class(
       index <- 1L
       n <- length(names)
       out <- vector(mode = "integer", length = n)
+      downstream <- .subset2(self, "downstream")
       while (index <= n) {
         out[index] <- length(.subset2(downstream, .subset(names, index)))
         index <- index + 1L
@@ -45,22 +47,23 @@ graph_class <- R6::R6Class(
       out
     },
     produce_upstream = function(name) {
-      as.character(.subset2(upstream, name))
+      as.character(.subset2(.subset2(self, "upstream"), name))
     },
     produce_downstream = function(name) {
-      as.character(.subset2(downstream, name))
+      as.character(.subset2(.subset2(self, "downstream"), name))
     },
     replace_upstream = function(name, from, to) {
-      upstream[[name]][.subset2(upstream, name) == from] <- to
+      index <- .subset2(.subset2(self, "upstream"), name) == from
+      self$upstream[[name]][index] <- to
     },
     insert_edges = function(edges) {
       join_edges(
-        lookup = upstream,
+        lookup = .subset2(self, "upstream"),
         from = .subset2(edges, "from"),
         to = .subset2(edges, "to")
       )
       join_edges(
-        lookup = downstream,
+        lookup = .subset2(self, "downstream"),
         from = .subset2(edges, "to"),
         to = .subset2(edges, "from")
       )
