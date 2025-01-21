@@ -98,7 +98,7 @@ outdated_class <- R6::R6Class(
       counter_exists_name(self$outdated, name)
     },
     reset_hash = function(name) {
-      database <- .subset2(meta, "database")
+      database <- .subset2(.subset2(self, "meta"), "database")
       row <- .subset2(database, "get_row")(name)
       row$data <- NA_character_
       .subset2(database, "set_row")(row)

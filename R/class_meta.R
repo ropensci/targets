@@ -35,14 +35,14 @@ meta_class <- R6::R6Class(
       self$lookup <- lookup
     },
     get_depend = function(name) {
-      .subset2(depends, name)
+      .subset2(.subset2(self, "depends"), name)
     },
     get_row = function(name) {
-      .subset2(database, "get_row")(name)
+      .subset2(.subset2(self, "database"), "get_row")(name)
     },
     get_record = function(name) {
       record_from_row(
-        row = get_row(name),
+        row = .subset2(self, "get_row")(name),
         path_store = store
       )
     },
@@ -53,7 +53,7 @@ meta_class <- R6::R6Class(
       self$database$buffer_row(record_produce_row(record))
     },
     insert_row = function(row) {
-      .subset2(database, "buffer_row")(row)
+      .subset2(.subset2(self, "database"), "buffer_row")(row)
     },
     exists_record = function(name) {
       self$database$exists_row(name)
@@ -69,7 +69,7 @@ meta_class <- R6::R6Class(
       names_records <- self$list_records()
       index <- 1L
       n <- length(names_records)
-      get_row <- database$get_row
+      get_row <- self$database$get_row
       is_branch <- vector(mode = "logical", length = n)
       while (index <= n) {
         name <- .subset(names_records, index)
@@ -87,6 +87,7 @@ meta_class <- R6::R6Class(
       hashes <- list()
       index <- 1L
       n <- length(deps)
+      lookup <- .subset2(self, "lookup")
       while (index <= n) {
         name <- .subset(deps, index)
         hashes[[name]] <- .subset2(.subset2(lookup, name), "data")
@@ -97,7 +98,7 @@ meta_class <- R6::R6Class(
       hash_object(string)
     },
     produce_depend = function(target, pipeline) {
-      self$hash_deps(.subset2(target, "deps"), pipeline)
+      .subset2(self, "hash_deps")(.subset2(target, "deps"), pipeline)
     },
     handle_error = function(record) {
       if (!self$exists_record(record$name)) {
