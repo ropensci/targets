@@ -5,11 +5,12 @@
 #'   where a `crew` controller was started, get summary-level information
 #'   of the workers.
 #' @inheritSection tar_meta Storage access
-#' @return A data frame one row per `crew` worker and the following columns:
+#' @return A data frame one row per `crew` controller
+#'   (potentially multiple rows if `tar_option_get("controller")`
+#'   is a controller group) and the following columns:
 #'   * `controller`: name of the `crew` controller.
-#'   * `launches`: number of times the worker was launched.
-#'   * `seconds`: number of seconds the worker spent running tasks.
-#'   * `targets`: number of targets the worker completed and delivered.
+#'   * `targets`: number of times the controller attempted to run a target.
+#'   * `seconds`: number of seconds the workers spent running tasks.
 #' @inheritParams tar_validate
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN

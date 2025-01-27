@@ -17,12 +17,13 @@ about how to set the data store path persistently
 for a project.}
 }
 \value{
-A data frame one row per \code{crew} worker and the following columns:
+A data frame one row per \code{crew} controller
+(potentially multiple rows if \code{tar_option_get("controller")}
+is a controller group) and the following columns:
 \itemize{
 \item \code{controller}: name of the \code{crew} controller.
-\item \code{launches}: number of times the worker was launched.
-\item \code{seconds}: number of seconds the worker spent running tasks.
-\item \code{targets}: number of targets the worker completed and delivered.
+\item \code{targets}: number of times the controller attempted to run a target.
+\item \code{seconds}: number of seconds the workers spent running tasks.
 }
 }
 \description{
