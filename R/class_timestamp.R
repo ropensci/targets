@@ -80,6 +80,16 @@ timestamp_class <- R6::R6Class(
         )
       )
     },
+    report_retry = function(target, progress = NULL) {
+      self$buffer_message(
+        cli_retry(
+          target_get_name(target),
+          target_get_type_cli(target),
+          time_stamp = TRUE,
+          print = FALSE
+        )
+      )
+    },
     report_end = function(progress = NULL, seconds_elapsed = NULL) {
       self$flush_messages()
       progress$cli_end(time_stamp = TRUE, seconds_elapsed = seconds_elapsed)

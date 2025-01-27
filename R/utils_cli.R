@@ -126,6 +126,12 @@ cli_workspace <- function(name, time_stamp = FALSE, print = TRUE) {
   cli_blue_play(msg, print = print)
 }
 
+cli_retry <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
+  msg <- paste(c(time, "retrying", prefix, name), collapse = " ")
+  cli_magenta_play(msg, print = print)
+}
+
 cli_blue_bullet <- function(msg, print = TRUE) {
   symbol <- cli_symbol_bullet_blue
   msg <- paste(symbol, msg)
@@ -134,6 +140,12 @@ cli_blue_bullet <- function(msg, print = TRUE) {
 
 cli_blue_play <- function(msg, print = TRUE) {
   symbol <- cli_symbol_play_blue
+  msg <- paste(symbol, msg)
+  if_any(print, message(msg), msg)
+}
+
+cli_magenta_play <- function(msg, print = TRUE) {
+  symbol <- cli_symbol_play_magenta
   msg <- paste(symbol, msg)
   if_any(print, message(msg), msg)
 }
@@ -241,6 +253,7 @@ cli_url <- function(url) {
 
 cli_symbol_bullet_blue <- cli::col_blue(cli::symbol$bullet)
 cli_symbol_play_blue <- cli::col_blue(cli::symbol$play)
+cli_symbol_play_magenta <- cli::col_magenta(cli::symbol$play)
 cli_symbol_record_green <- cli::col_green(cli::symbol$record)
 cli_symbol_box_yellow <- cli::col_yellow(cli::symbol$stop)
 cli_symbol_info_cyan <- cli::col_cyan(cli::symbol$info)

@@ -1,6 +1,7 @@
-# targets 1.10.0.9001 (development)
+# targets 1.10.0.9002 (development)
 
 * Restore explicit references to "self" in `R6` classes.
+* Perform `crew` task retries.
 
 # targets 1.10.0
 

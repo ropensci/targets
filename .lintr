@@ -1,4 +1,5 @@
 linters: linters_with_defaults(
+  cyclocomp_linter = NULL,
   infix_spaces_linter = NULL,
   object_length_linter = NULL,
   object_name_linter = NULL,

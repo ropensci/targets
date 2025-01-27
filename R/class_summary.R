@@ -43,6 +43,9 @@ summary_class <- R6::R6Class(
     report_canceled = function(target = NULL, progress) {
       self$report_progress(progress)
     },
+    report_retry = function(target = NULL, progress) {
+      self$report_progress(progress)
+    },
     report_finalize = function(progress) {
       self$report_progress(progress)
       self$flush_messages()

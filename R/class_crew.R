@@ -230,6 +230,15 @@ crew_class <- R6::R6Class(
       if (is.null(result)) {
         return()
       }
+      if (result$status == "crash") {
+        target <- pipeline_get_target(self$pipeline, result$name)
+        self$scheduler$reporter$report_retry(
+          target = target,
+          progress = self$scheduler$progress
+        )
+        self$run_target(target)
+        return()
+      }
       tar_assert_all_na(
         result$error,
         msg = paste("target", result$name, "error:", result$error)
