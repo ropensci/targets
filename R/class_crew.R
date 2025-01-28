@@ -230,6 +230,8 @@ crew_class <- R6::R6Class(
       if (is.null(result)) {
         return()
       }
+      # Tested in tests/testthat/test-crew_retries.R.
+      # nocov start
       if (result$status == "crash") {
         target <- pipeline_get_target(self$pipeline, result$name)
         self$scheduler$reporter$report_retry(
@@ -239,6 +241,7 @@ crew_class <- R6::R6Class(
         self$run_target(target)
         return()
       }
+      # nocov end
       tar_assert_all_na(
         result$error,
         msg = paste("target", result$name, "error:", result$error)

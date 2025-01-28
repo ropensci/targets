@@ -25,6 +25,18 @@ tar_test("run verbose reporter with a warning", {
   )
 })
 
+tar_test("verbose reporter retry message", {
+  pipeline <- pipeline_init(list(target_init("x", quote(TRUE))))
+  local <- local_init(pipeline, reporter = "verbose")
+  local$run()
+  expect_message(
+    local$scheduler$reporter$report_retry(
+      target = local$pipeline$targets$x,
+      progress = local$scheduler$progress
+    )
+  )
+})
+
 tar_test("validate verbose reporter", {
   expect_silent(reporter_init("verbose")$validate())
 })

@@ -33,6 +33,18 @@ tar_test("run timestamp reporter with a cancellation", {
   expect_message(local$run())
 })
 
+tar_test("timestamp reporter retry message", {
+  pipeline <- pipeline_init(list(target_init("x", quote(TRUE))))
+  local <- local_init(pipeline, reporter = "timestamp")
+  local$run()
+  expect_message(
+    local$scheduler$reporter$report_retry(
+      target = local$pipeline$targets$x,
+      progress = local$scheduler$progress
+    )
+  )
+})
+
 tar_test("validate timestamp reporter", {
   expect_silent(reporter_init("timestamp")$validate())
 })

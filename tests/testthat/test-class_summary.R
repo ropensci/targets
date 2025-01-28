@@ -20,6 +20,17 @@ tar_test("run summary reporter with a cancellation", {
   expect_message(local$run())
 })
 
+tar_test("summary reporter retry message", {
+  pipeline <- pipeline_init(
+    list(target_init("x", quote(TRUE)))
+  )
+  local <- local_init(pipeline, reporter = "summary")
+  expect_message(local$run())
+  expect_message(
+    local$scheduler$reporter$report_retry(progress = local$scheduler$progress)
+  )
+})
+
 tar_test("validate summary reporter", {
   expect_silent(reporter_init("summary")$validate())
 })

@@ -23,6 +23,12 @@ tar_test("cli_cancel()", {
   expect_message(cli_cancel("x", time_stamp = TRUE))
 })
 
+tar_test("cli_cancel()", {
+  skip_cran()
+  expect_message(cli_retry("x", time_stamp = TRUE))
+  expect_message(cli_retry("x", time_stamp = FALSE))
+})
+
 tar_test("cli_pipeline_uptodate()", {
   skip_cran()
   expect_message(cli_pipeline_uptodate(seconds_elapsed = 1))
@@ -56,6 +62,11 @@ tar_test("cli_blue_bullet()", {
 tar_test("cli_blue_play()", {
   skip_cran()
   expect_message(cli_blue_play("x"))
+})
+
+tar_test("cli_magenta_play()", {
+  skip_cran()
+  expect_message(cli_magenta_play("x"))
 })
 
 tar_test("cli_green_record()", {
