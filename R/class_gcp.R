@@ -142,6 +142,9 @@ store_delete_objects.tar_gcp <- function(store, meta, batch_size, verbose) {
     for (index in seq_len(nrow(subset))) {
       example_path <- subset$path[[index]]
       bucket <- store_gcp_bucket(example_path)
+      if (anyNA(example_path) || anyNA(bucket)) {
+        next
+      }
       key <- store_gcp_key(example_path)
       version <- store_gcp_version(example_path)
       message <- paste(
