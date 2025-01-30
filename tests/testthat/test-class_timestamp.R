@@ -34,6 +34,7 @@ tar_test("run timestamp reporter with a cancellation", {
 })
 
 tar_test("timestamp reporter retry message", {
+  skip_on_os("windows")
   pipeline <- pipeline_init(list(target_init("x", quote(TRUE))))
   local <- local_init(pipeline, reporter = "timestamp")
   local$run()

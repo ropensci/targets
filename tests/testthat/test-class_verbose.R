@@ -26,6 +26,7 @@ tar_test("run verbose reporter with a warning", {
 })
 
 tar_test("verbose reporter retry message", {
+  skip_on_os("windows")
   pipeline <- pipeline_init(list(target_init("x", quote(TRUE))))
   local <- local_init(pipeline, reporter = "verbose")
   local$run()

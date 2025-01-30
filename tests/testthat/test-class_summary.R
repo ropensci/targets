@@ -21,6 +21,7 @@ tar_test("run summary reporter with a cancellation", {
 })
 
 tar_test("summary reporter retry message", {
+  skip_on_os("windows")
   pipeline <- pipeline_init(
     list(target_init("x", quote(TRUE)))
   )
