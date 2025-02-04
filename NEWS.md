@@ -1,6 +1,6 @@
-# targets 1.10.1.9001 (development)
+# targets 1.10.1.9002 (development)
 
-* Upload workspaces to the cloud if `tar_option_get("repository_meta")` is `"aws"`. Download them with `tar_workspace_download()` and delete them with `tar_destroy(destroy = "all")` or `tar_destroy(destroy = "cloud")`.
+* Upload workspaces to the cloud if `tar_option_get("repository_meta")` is `"aws"` or `"gcp"`. Download them with `tar_workspace_download()` and delete them with `tar_destroy(destroy = "all")` or `tar_destroy(destroy = "cloud")`.
 
 # targets 1.10.1
 
