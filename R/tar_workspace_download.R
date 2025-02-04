@@ -27,7 +27,6 @@
 #'   library(targets)
 #'   library(tarchetypes)
 #'   tar_option_set(
-#'   tar_option_set(
 #'     resources = tar_resources(
 #'       tar_resources_aws(
 #'         bucket = "YOUR_AWS_BUCKET",
@@ -37,9 +36,8 @@
 #'     repository = "aws",
 #'     repository_meta = "aws"
 #'   )
-#'   f <- function() stop("this is an error and thus triggers a workspace")
 #'   list(
-#'     tar_target(x, f())
+#'     tar_target(x, stop("this is an error and thus triggers a workspace"))
 #'   )
 #' }, ask = FALSE)
 #' # The following code throws an error for demonstration purposes.

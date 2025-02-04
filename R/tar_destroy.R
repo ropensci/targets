@@ -56,8 +56,11 @@
 #'     Dynamic files are not deleted this way.
 #'   * `"scratch"`: temporary files in saved during [tar_make()] that should
 #'     automatically get deleted except if R crashed.
-#'   * `"workspaces"`: compressed lightweight files in `workspaces/`
+#'   * `"workspaces"`: compressed lightweight files locally saved
+#'     to the `workspaces/` folder
 #'     in the data store with the saved workspaces of targets.
+#'     Does not delete workspace files on the cloud. For that,
+#'     consider `destroy = "all"` or `destroy = "cloud"`.
 #'     See [tar_workspace()] for details.
 #'   * `"user"`: custom user-supplied files in the `user/` folder in the
 #'     data store.

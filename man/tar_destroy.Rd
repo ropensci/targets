@@ -42,8 +42,11 @@ store but keep progress and metadata.
 Dynamic files are not deleted this way.
 \item \code{"scratch"}: temporary files in saved during \code{\link[=tar_make]{tar_make()}} that should
 automatically get deleted except if R crashed.
-\item \code{"workspaces"}: compressed lightweight files in \verb{workspaces/}
+\item \code{"workspaces"}: compressed lightweight files locally saved
+to the \verb{workspaces/} folder
 in the data store with the saved workspaces of targets.
+Does not delete workspace files on the cloud. For that,
+consider \code{destroy = "all"} or \code{destroy = "cloud"}.
 See \code{\link[=tar_workspace]{tar_workspace()}} for details.
 \item \code{"user"}: custom user-supplied files in the \verb{user/} folder in the
 data store.
