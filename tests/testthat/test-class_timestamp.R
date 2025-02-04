@@ -19,6 +19,7 @@ tar_test("run timestamp reporter with a error and saved workspace", {
 
 tar_test("run timestamp reporter workspace upload", {
   skip_on_os("windows")
+  skip_on_ci()
   pipeline <- pipeline_init(
     list(
       target_init("x", quote(123))

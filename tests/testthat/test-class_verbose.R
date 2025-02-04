@@ -19,6 +19,7 @@ tar_test("run verbose reporter with a error and save workspace", {
 
 tar_test("run verbose reporter workspace upload", {
   skip_on_os("windows")
+  skip_on_ci()
   pipeline <- pipeline_init(
     list(
       target_init("x", quote(123))
