@@ -126,6 +126,12 @@ cli_workspace <- function(name, time_stamp = FALSE, print = TRUE) {
   cli_blue_play(msg, print = print)
 }
 
+cli_workspace_upload <- function(name, time_stamp = FALSE, print = TRUE) {
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
+  msg <- paste(c(time, "uploaded workspace", name), collapse = " ")
+  cli_blue_play(msg, print = print)
+}
+
 cli_retry <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
   time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "retrying", prefix, name), collapse = " ")

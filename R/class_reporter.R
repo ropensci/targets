@@ -73,6 +73,8 @@ reporter_class <- R6::R6Class(
     },
     report_workspace = function(target) {
     },
+    report_workspace_upload = function(target) {
+    },
     report_retry = function(target = NULL, progress = NULL) {
     },
     report_finalize = function(progress = NULL) {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_workspace.R
 \name{tar_workspace}
 \alias{tar_workspace}
-\title{Load a saved workspace and seed for debugging.}
+\title{Load a locally saved workspace and seed for debugging.}
 \usage{
 tar_workspace(
   name,
@@ -68,6 +68,13 @@ and random number generator seed as long as the data objects
 are still in the data store (usually files in \verb{_targets/objects/}).
 When you are done debugging, you can remove the workspace files
 using \code{tar_destroy(destroy = "workspaces")}.
+
+If \code{tar_option_get("repository_meta")} is \code{"aws"} or \code{"gcp"}, then
+\code{\link[=tar_make]{tar_make()}} uploads workspaces to the bucket and prefix provided.
+Download one of these workspaces with \code{\link[=tar_workspace_download]{tar_workspace_download()}}.
+Downloaded workspaces can be loaded the usual way with
+\code{\link[=tar_workspace]{tar_workspace()}}, and you should see them in
+character vector returned by \code{\link[=tar_workspaces]{tar_workspaces()}}.
 }
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
@@ -76,7 +83,6 @@ tmp <- sample(1)
 tar_script({
   library(targets)
   library(tarchetypes)
-  tar_option_set(workspace_on_error = TRUE)
   list(
     tar_target(x, "loaded"),
     tar_target(y, stop(x))
@@ -99,6 +105,7 @@ tail(.Random.seed)
 Other debug: 
 \code{\link{tar_load_globals}()},
 \code{\link{tar_traceback}()},
+\code{\link{tar_workspace_download}()},
 \code{\link{tar_workspaces}()}
 }
 \concept{debug}

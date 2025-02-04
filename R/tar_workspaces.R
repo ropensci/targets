@@ -1,8 +1,11 @@
-#' @title List saved target workspaces.
+#' @title List locally saved target workspaces.
 #' @export
 #' @family debug
 #' @description List target workspaces currently saved to
-#'   `_targets/workspaces/`. See [tar_workspace()] for more information.
+#'   `_targets/workspaces/` locally.
+#'   Does not include workspaces saved to the cloud.
+#'   See [tar_workspace()] and [tar_workspace_download()]
+#'   for more information.
 #' @return Character vector of available workspaces to load with
 #'   [tar_workspace()].
 #' @inheritParams tar_validate

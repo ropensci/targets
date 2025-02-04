@@ -70,6 +70,7 @@ tar_traceback(y, characters = 60)
 Other debug: 
 \code{\link{tar_load_globals}()},
 \code{\link{tar_workspace}()},
+\code{\link{tar_workspace_download}()},
 \code{\link{tar_workspaces}()}
 }
 \concept{debug}

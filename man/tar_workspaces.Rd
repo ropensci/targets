@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_workspaces.R
 \name{tar_workspaces}
 \alias{tar_workspaces}
-\title{List saved target workspaces.}
+\title{List locally saved target workspaces.}
 \usage{
 tar_workspaces(names = NULL, store = targets::tar_config_get("store"))
 }
@@ -30,7 +30,10 @@ Character vector of available workspaces to load with
 }
 \description{
 List target workspaces currently saved to
-\verb{_targets/workspaces/}. See \code{\link[=tar_workspace]{tar_workspace()}} for more information.
+\verb{_targets/workspaces/} locally.
+Does not include workspaces saved to the cloud.
+See \code{\link[=tar_workspace]{tar_workspace()}} and \code{\link[=tar_workspace_download]{tar_workspace_download()}}
+for more information.
 }
 \examples{
 if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
@@ -54,6 +57,7 @@ tar_workspaces(contains("x"))
 Other debug: 
 \code{\link{tar_load_globals}()},
 \code{\link{tar_traceback}()},
-\code{\link{tar_workspace}()}
+\code{\link{tar_workspace}()},
+\code{\link{tar_workspace_download}()}
 }
 \concept{debug}

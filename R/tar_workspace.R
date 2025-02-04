@@ -1,4 +1,4 @@
-#' @title Load a saved workspace and seed for debugging.
+#' @title Load a locally saved workspace and seed for debugging.
 #' @export
 #' @family debug
 #' @description Load the packages, environment, and random number generator
@@ -12,6 +12,13 @@
 #'   are still in the data store (usually files in `_targets/objects/`).
 #'   When you are done debugging, you can remove the workspace files
 #'   using `tar_destroy(destroy = "workspaces")`.
+#'
+#'   If `tar_option_get("repository_meta")` is `"aws"` or `"gcp"`, then
+#'   [tar_make()] uploads workspaces to the bucket and prefix provided.
+#'   Download one of these workspaces with [tar_workspace_download()].
+#'   Downloaded workspaces can be loaded the usual way with
+#'   [tar_workspace()], and you should see them in
+#'   character vector returned by [tar_workspaces()].
 #' @return This function returns `NULL`, but it does load
 #'   the target's required packages, as well as multiple objects
 #'   into the environment (`envir` argument) in order to replicate the
@@ -35,7 +42,6 @@
 #' tar_script({
 #'   library(targets)
 #'   library(tarchetypes)
-#'   tar_option_set(workspace_on_error = TRUE)
 #'   list(
 #'     tar_target(x, "loaded"),
 #'     tar_target(y, stop(x))

@@ -435,11 +435,17 @@ database_class <- R6::R6Class(
       }
       "upload"
     },
+    upload_workspace = function(target, meta) {
+      "upload_workspace"
+    },
     download = function(verbose = TRUE) {
       if (verbose) {
         tar_message_run("downloading")
       }
       "download"
+    },
+    download_workspace = function(name, store) {
+      "download_workspace"
     },
     head = function() {
       file <- file_init(path = "path_cloud")

@@ -69,6 +69,11 @@ verbose_class <- R6::R6Class(
     report_workspace = function(target) {
       self$buffer_message(cli_workspace(target_get_name(target), print = FALSE))
     },
+    report_workspace_upload = function(target) {
+      self$buffer_message(
+        cli_workspace_upload(target_get_name(target), print = FALSE)
+      )
+    },
     report_retry = function(target, progress = NULL) {
       self$buffer_message(
         cli_retry(

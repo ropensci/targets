@@ -80,6 +80,7 @@ print("callr" \%in\% (.packages()))
 Other debug: 
 \code{\link{tar_traceback}()},
 \code{\link{tar_workspace}()},
+\code{\link{tar_workspace_download}()},
 \code{\link{tar_workspaces}()}
 }
 \concept{debug}

@@ -80,6 +80,15 @@ timestamp_class <- R6::R6Class(
         )
       )
     },
+    report_workspace_upload = function(target) {
+      self$buffer_message(
+        cli_workspace_upload(
+          target_get_name(target),
+          time_stamp = TRUE,
+          print = FALSE
+        )
+      )
+    },
     report_retry = function(target, progress = NULL) {
       self$buffer_message(
         cli_retry(

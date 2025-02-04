@@ -52,6 +52,7 @@ reference:
   - 'tar_load_globals'
   - 'tar_traceback'
   - 'tar_workspace'
+  - 'tar_workspace_download'
   - 'tar_workspaces'
 - title: Storage
   contents:

@@ -67,6 +67,22 @@ database_aws_class <- R6::R6Class(
       )
       invisible()
     },
+    download_workspace = function(name, store) {
+      path <- path_workspace(store, name)
+      key <- path_workspace(dirname(self$key), name)
+      aws <- self$resources$aws
+      dir_create(dirname(path))
+      aws_s3_download(
+        file = path,
+        key = key,
+        bucket = aws$bucket,
+        region = aws$region,
+        endpoint = aws$endpoint,
+        args = aws$args,
+        max_tries = aws$max_tries %|||% 5L
+      )
+      invisible()
+    },
     upload = function(verbose = TRUE) {
       if (verbose) {
         tar_print(
@@ -90,6 +106,23 @@ database_aws_class <- R6::R6Class(
           "targets-database-size" = file$size,
           "targets-database-time" = file$time
         ),
+        part_size = aws$part_size,
+        args = aws$args,
+        max_tries = aws$max_tries %|||% 5L
+      )
+      invisible()
+    },
+    upload_workspace = function(target, meta) {
+      name <- target_get_name(target)
+      path <- path_workspace(meta$store, name)
+      key <- path_workspace(dirname(self$key), name)
+      aws <- self$resources$aws
+      aws_s3_upload(
+        file = path,
+        key = key,
+        bucket = aws$bucket,
+        region = aws$region,
+        endpoint = aws$endpoint,
         part_size = aws$part_size,
         args = aws$args,
         max_tries = aws$max_tries %|||% 5L
