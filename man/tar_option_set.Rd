@@ -146,7 +146,10 @@ the target runs.}
 \code{repository} but excluding content-addressable storage
 (\code{"aws"}, \code{"gcp"}, \code{"local"}). Cloud repository
 for the metadata text files in \verb{_targets/meta/}, including target
-metadata and progress data. Defaults to \code{tar_option_get("repository")}
+metadata and progress data.
+Also enables cloud backup of workspace files in \verb{_targets/workspaces/}
+which can be downloaded with \code{\link[=tar_workspace_download]{tar_workspace_download()}}.
+\code{repository_meta} defaults to \code{tar_option_get("repository")}
 except in the case of content-addressable storage (CAS).
 When \code{tar_option_get("repository")} is a CAS repository,
 the default value of \code{repository_meta} is \code{"local"}.}

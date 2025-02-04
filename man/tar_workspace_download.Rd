@@ -67,7 +67,7 @@ tar_script({
   )
   f <- function() stop("this is an error and thus triggers a workspace")
   list(
-    tar_target(x, f()),
+    tar_target(x, f())
   )
 }, ask = FALSE)
 # The following code throws an error for demonstration purposes.

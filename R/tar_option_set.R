@@ -24,7 +24,10 @@
 #'   `repository` but excluding content-addressable storage
 #'   (`"aws"`, `"gcp"`, `"local"`). Cloud repository
 #'   for the metadata text files in `_targets/meta/`, including target
-#'   metadata and progress data. Defaults to `tar_option_get("repository")`
+#'   metadata and progress data.
+#'   Also enables cloud backup of workspace files in `_targets/workspaces/`
+#'   which can be downloaded with [tar_workspace_download()].
+#'   `repository_meta` defaults to `tar_option_get("repository")`
 #'   except in the case of content-addressable storage (CAS).
 #'   When `tar_option_get("repository")` is a CAS repository,
 #'   the default value of `repository_meta` is `"local"`.
