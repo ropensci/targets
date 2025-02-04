@@ -178,7 +178,6 @@ database_gcp_class <- R6::R6Class(
       }
       invisible()
     }
-    
   )
 )
 # nocov end
