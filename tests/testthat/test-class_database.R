@@ -423,7 +423,9 @@ tar_test("compare_working_directories()", {
 tar_test("local database cloud methods", {
   database <- database_init(repository = "local")
   expect_null(database$download())
+  expect_null(database$download_workspace(NULL, NULL, TRUE))
   expect_null(database$upload())
+  expect_null(database$upload_workspace(NULL, NULL, TRUE))
   expect_false(database$head()$exists)
   expect_null(database$delete_cloud())
 })
@@ -438,11 +440,13 @@ tar_test("database unknown repository", {
 tar_test("mock download",  {
   x <- database_class$new(path = tempfile())
   expect_equal(x$download(), "download")
+  expect_equal(x$download_workspace(), "download_workspace")
 })
 
 tar_test("mock upload",  {
   x <- database_class$new(path = tempfile())
   expect_equal(x$upload(), "upload")
+  expect_equal(x$upload_workspace(), "upload_workspace")
 })
 
 tar_test("mock head non-existent file",  {

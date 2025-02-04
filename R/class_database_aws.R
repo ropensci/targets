@@ -67,10 +67,18 @@ database_aws_class <- R6::R6Class(
       )
       invisible()
     },
-    download_workspace = function(name, store) {
+    download_workspace = function(name, store, verbose = TRUE) {
       path <- path_workspace(store, name)
       key <- path_workspace(dirname(self$key), name)
       aws <- self$resources$aws
+      if (verbose) {
+        tar_print(
+          "Downloading AWS workspace file ",
+          key,
+          " to local file ",
+          path
+        )
+      }
       dir_create(dirname(path))
       aws_s3_download(
         file = path,
@@ -112,7 +120,7 @@ database_aws_class <- R6::R6Class(
       )
       invisible()
     },
-    upload_workspace = function(target, meta) {
+    upload_workspace = function(target, meta, reporter) {
       name <- target_get_name(target)
       path <- path_workspace(meta$store, name)
       key <- path_workspace(dirname(self$key), name)
@@ -127,6 +135,7 @@ database_aws_class <- R6::R6Class(
         args = aws$args,
         max_tries = aws$max_tries %|||% 5L
       )
+      reporter$report_workspace_upload(target)
       invisible()
     },
     head = function() {

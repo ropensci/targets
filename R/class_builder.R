@@ -419,8 +419,7 @@ builder_save_workspace <- function(target, pipeline, scheduler, meta) {
     path_store = meta$store
   )
   scheduler$reporter$report_workspace(target)
-  meta$database$upload_workspace(target, meta)
-  scheduler$reporter$report_workspace_upload(target)
+  meta$database$upload_workspace(target, meta, scheduler$reporter)
 }
 
 builder_record_error_meta <- function(target, pipeline, meta) {

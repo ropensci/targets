@@ -7,7 +7,8 @@
 tar_workspace_download(
   name,
   script = targets::tar_config_get("script"),
-  store = targets::tar_config_get("store")
+  store = targets::tar_config_get("store"),
+  verbose = TRUE
 )
 }
 \arguments{
@@ -26,6 +27,9 @@ is temporarily changed for the current function call.
 See \code{\link[=tar_config_get]{tar_config_get()}} and \code{\link[=tar_config_set]{tar_config_set()}} for details
 about how to set the data store path persistently
 for a project.}
+
+\item{verbose}{\code{TRUE} to print an informative message describing the
+download, \code{FALSE} to stay silent.}
 }
 \value{
 \code{NULL} (invisibly). Returns an error if the workspace

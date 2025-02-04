@@ -54,6 +54,11 @@ tar_test("cli_workspace()", {
   expect_message(cli_workspace("x", time_stamp = TRUE))
 })
 
+tar_test("cli_workspace_upload()", {
+  skip_cran()
+  expect_message(cli_workspace_upload("x", time_stamp = TRUE))
+})
+
 tar_test("cli_blue_bullet()", {
   skip_cran()
   expect_message(cli_blue_bullet("x"))

@@ -17,6 +17,8 @@
 #'   defining the pipeline. Must be configured with the right `aws`
 #'   and `repository_meta` options (in [tar_option_set()])
 #'   to support downloading workspaces from the cloud.
+#' @param verbose `TRUE` to print an informative message describing the
+#'   download, `FALSE` to stay silent.
 #' @examples
 #' if (identical(Sys.getenv("TAR_EXAMPLES"), "true")) { # for CRAN
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
@@ -54,7 +56,8 @@
 tar_workspace_download <- function(
   name,
   script = targets::tar_config_get("script"),
-  store = targets::tar_config_get("store")
+  store = targets::tar_config_get("store"),
+  verbose = TRUE
 ) {
   name <- tar_deparse_language(substitute(name))
   tar_assert_chr(name)
@@ -80,6 +83,10 @@ tar_workspace_download <- function(
       "tar_option_get(\"repository_meta\") == \"local\"."
     )
   )
-  database_meta(path_store = store)$download_workspace(name, store)
+  # Tested in tests/aws/test-aws-workspaces.R.
+  # nocov start
+  database <- database_meta(path_store = store)
+  database$download_workspace(name, store = store, verbose = verbose)
   invisible()
+  # nocov end
 }

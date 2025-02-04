@@ -435,7 +435,7 @@ database_class <- R6::R6Class(
       }
       "upload"
     },
-    upload_workspace = function(target, meta) {
+    upload_workspace = function(target, meta, reporter) {
       "upload_workspace"
     },
     download = function(verbose = TRUE) {
@@ -444,7 +444,7 @@ database_class <- R6::R6Class(
       }
       "download"
     },
-    download_workspace = function(name, store) {
+    download_workspace = function(name, store, verbose = TRUE) {
       "download_workspace"
     },
     head = function() {

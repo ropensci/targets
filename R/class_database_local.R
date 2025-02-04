@@ -37,7 +37,16 @@ database_local_class <- R6::R6Class(
       }
       invisible()
     },
+    upload_workspace = function(target, meta, reporter) {
+      invisible()
+    },
     download = function(verbose = TRUE) {
+      if (verbose) {
+        tar_print(self$path, " not configured to download from the cloud.")
+      }
+      invisible()
+    },
+    download_workspace = function(name, store, verbose = TRUE) {
       if (verbose) {
         tar_print(self$path, " not configured to download from the cloud.")
       }
