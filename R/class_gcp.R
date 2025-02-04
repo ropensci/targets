@@ -132,11 +132,14 @@ store_delete_objects.tar_gcp <- function(store, meta, batch_size, verbose) {
   gcp <- store$resources$gcp
   meta$bucket_group <- map_chr(
     x = meta$path,
-    f = ~paste(
-      store_gcp_bucket(.x),
-      sep = "|"
-    )
+    f = function(x) {
+      paste(
+        store_gcp_bucket(x),
+        sep = "|"
+      ) %||% NA_character_
+    }
   )
+  meta <- meta[!is.na(meta$bucket_group), ]
   for (group in unique(meta$bucket_group)) {
     subset <- meta[meta$bucket_group == group,, drop = FALSE] # nolint
     for (index in seq_len(nrow(subset))) {

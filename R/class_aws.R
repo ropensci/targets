@@ -177,8 +177,9 @@ store_delete_objects.tar_aws <- function(store, meta, batch_size, verbose) {
       store_aws_region(.x),
       store_aws_endpoint(.x),
       sep = "|"
-    )
+    ) %||% NA_character_
   )
+  meta <- meta[!is.na(meta$bucket_group), ]
   for (group in unique(meta$bucket_group)) {
     subset <- meta[meta$bucket_group == group,, drop = FALSE] # nolint
     example_path <- subset$path[[1L]]

@@ -65,6 +65,28 @@ database_gcp_class <- R6::R6Class(
       )
       invisible()
     },
+    download_workspace = function(name, store, verbose = TRUE) {
+      path <- path_workspace(store, name)
+      key <- path_workspace(dirname(dirname(self$key)), name)
+      gcp <- self$resources$gcp
+      if (verbose) {
+        tar_print(
+          "Downloading gcp workspace file ",
+          key,
+          " to local file ",
+          path
+        )
+      }
+      dir_create(dirname(path))
+      gcp_gcs_download(
+        file = path,
+        key = key,
+        bucket = gcp$bucket,
+        max_tries = gcp$max_tries %|||% 5L,
+        verbose = gcp$verbose %|||% TRUE
+      )
+      invisible()
+    },
     upload = function(verbose = TRUE) {
       if (verbose) {
         tar_print(
@@ -90,6 +112,22 @@ database_gcp_class <- R6::R6Class(
         max_tries = gcp$max_tries %|||% 5L,
         verbose = gcp$verbose %|||% TRUE
       )
+      invisible()
+    },
+    upload_workspace = function(target, meta, reporter) {
+      name <- target_get_name(target)
+      path <- path_workspace(meta$store, name)
+      key <- path_workspace(dirname(dirname(self$key)), name)
+      gcp <- self$resources$gcp
+      gcp_gcs_upload(
+        file = path,
+        key = key,
+        bucket = gcp$bucket,
+        predefined_acl = gcp$predefined_acl %|||% "private",
+        max_tries = gcp$max_tries %|||% 5L,
+        verbose = gcp$verbose %|||% TRUE
+      )
+      reporter$report_workspace_upload(target)
       invisible()
     },
     head = function() {
@@ -118,7 +156,29 @@ database_gcp_class <- R6::R6Class(
         max_tries = gcp$max_tries %|||% 5L,
         verbose = gcp$verbose %|||% TRUE
       )
+    },
+    delete_cloud_workspaces = function() {
+      prefix <- dirname(path_workspace(dirname(dirname(self$key)), "x"))
+      gcp <- self$resources$gcp
+      keys <- names(
+        gcp_gcs_list_md5s(
+          prefix = prefix,
+          bucket = gcp$bucket,
+          verbose = FALSE,
+          max_tries = gcp$max_tries %|||% 5L
+        )
+      )
+      for (key in keys) {
+        gcp_gcs_delete(
+          key = key,
+          bucket = gcp$bucket,
+          verbose = FALSE,
+          max_tries = gcp$max_tries %|||% 5L
+        )
+      }
+      invisible()
     }
+    
   )
 )
 # nocov end
