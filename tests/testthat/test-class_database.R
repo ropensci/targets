@@ -426,6 +426,7 @@ tar_test("local database cloud methods", {
   expect_null(database$download_workspace(NULL, NULL, TRUE))
   expect_null(database$upload())
   expect_null(database$upload_workspace(NULL, NULL, TRUE))
+  expect_null(database$delete_cloud_workspaces())
   expect_false(database$head()$exists)
   expect_null(database$delete_cloud())
 })

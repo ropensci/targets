@@ -19,8 +19,9 @@ tar_destroy(
 \itemize{
 \item \code{"all"}: entire data store (default: \verb{_targets/})
 including cloud data, as well as download/upload scratch files.
-\item \code{"cloud"}: cloud data, including metadata as well as target object data
-from targets with \code{tar_target(..., repository = "aws")}.
+\item \code{"cloud"}: cloud data, including metadata, target object data
+from targets with \code{tar_target(..., repository = "aws")},
+and workspace files saved on the cloud.
 Also deletes temporary staging files in
 \code{file.path(tempdir(), "targets")}
 that may have been accidentally left over from incomplete

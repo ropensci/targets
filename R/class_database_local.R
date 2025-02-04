@@ -57,6 +57,9 @@ database_local_class <- R6::R6Class(
         tar_print("Not configured to delete cloud object ", self$key)
       }
       invisible()
+    },
+    delete_cloud_workspaces = function() {
+      invisible()
     }
   )
 )
