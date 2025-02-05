@@ -67,6 +67,44 @@ tar_test("builder metadata recording", {
   expect_equal(nrow(db$read_data()), 1L)
 })
 
+tar_test("meta$set_record()", {
+  skip_cran()
+  out <- meta_init()
+  target <- target_init("x", quote(sample.int(100)))
+  pipeline <- pipeline_init(list(target), clone_targets = FALSE)
+  local <- local_init(pipeline)
+  local$run()
+  meta <- local$meta
+  db <- meta$database
+  db$ensure_storage()
+  expect_gt(nrow(db$read_data()), 0L)
+  db$reset_storage()
+  expect_equal(nrow(db$read_data()), 0L)
+  meta$database$lookup <- lookup_new()
+  expect_false(meta$exists_record("x"))
+  meta$set_record(target_produce_record(target, pipeline, meta))
+  expect_true(meta$exists_record("x"))
+})
+
+tar_test("meta$insert_row()", {
+  skip_cran()
+  out <- meta_init()
+  target <- target_init("x", quote(sample.int(100)))
+  pipeline <- pipeline_init(list(target), clone_targets = FALSE)
+  local <- local_init(pipeline)
+  local$run()
+  meta <- local$meta
+  db <- meta$database
+  db$ensure_storage()
+  expect_gt(nrow(db$read_data()), 0L)
+  db$reset_storage()
+  expect_equal(nrow(db$read_data()), 0L)
+  meta$database$lookup <- lookup_new()
+  expect_false(meta$exists_record("x"))
+  meta$insert_row(list(name = "x", data = "y"))
+  expect_true(meta$exists_record("x"))
+})
+
 tar_test("meta$record_imports()", {
   envir <- new.env(parent = emptyenv())
   envir$f <- function(x) g(x) + h(x)

@@ -10,6 +10,12 @@ tar_test("tar_visnetwork()", {
     )
   })
   out <- tar_visnetwork(
+    label = c(
+      "description",
+      "time",
+      "size",
+      "branches"
+    ),
     callr_function = NULL,
     callr_arguments = list(show = FALSE)
   )
