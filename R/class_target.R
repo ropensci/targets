@@ -525,10 +525,9 @@ target_allow_meta <- function(target) {
 }
 
 target_reformat <- function(target, format) {
-  file <- target$file
+  target$settings <- settings_clone(.subset2(target, "settings"))
   target$settings$format <- format
-  target$store <- settings_produce_store(target$settings)
-  target$file <- file
+  target$store <- settings_produce_store(.subset2(target, "settings"))
 }
 
 target_validate <- function(target) {

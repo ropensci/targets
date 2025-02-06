@@ -72,6 +72,26 @@ settings_new <- function(
   out
 }
 
+settings_clone <- function(settings) {
+  settings_new(
+    name = .subset2(settings, "name"),
+    description = .subset2(settings, "description"),
+    format = .subset2(settings, "format"),
+    repository = .subset2(settings, "repository"),
+    pattern = .subset2(settings, "pattern"),
+    dimensions = .subset2(settings, "dimensions"),
+    iteration = .subset2(settings, "iteration"),
+    error = .subset2(settings, "error"),
+    memory = .subset2(settings, "memory"),
+    garbage_collection = .subset2(settings, "garbage_collection"),
+    deployment = .subset2(settings, "deployment"),
+    priority = .subset2(settings, "priority"),
+    resources = .subset2(settings, "resources"),
+    storage = .subset2(settings, "storage"),
+    retrieval = .subset2(settings, "retrieval")
+  )
+}
+
 settings_produce_pattern <- function(pattern) {
   pattern <- as.expression(pattern)
   if_any(is.null(pattern[[1]]), NULL, pattern)

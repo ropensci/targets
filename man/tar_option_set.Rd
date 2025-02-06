@@ -417,6 +417,9 @@ of the target. If the return value is a character vector of
 existing files (and/or directories), then the format becomes
 \code{"file"} before \code{\link[=tar_make]{tar_make()}} saves the target. Otherwise,
 the format becomes \code{"qs"}.
+
+NOTE: \code{format = "auto"} slows down pipelines with 10000+ targets
+because it creates deep copies of 20000+ internal data objects.
 \item \code{"qs"}: Uses \code{qs2::qs_save()} and \code{qs2::qs_read()}. Should work for
 most objects, much faster than \code{"rds"}. Optionally configure settings
 through \code{tar_resources()} and \code{tar_resources_qs()}.

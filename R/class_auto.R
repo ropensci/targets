@@ -42,7 +42,7 @@ store_path_from_name.tar_auto <- function(
 }
 
 store_reformat_auto <- function(target) {
-  if (!identical(target$settings$format, "auto")) {
+  if (target$settings$format != "auto") {
     return()
   }
   object <- target$value$object

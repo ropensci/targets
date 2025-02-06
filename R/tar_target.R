@@ -47,6 +47,9 @@
 #'     existing files (and/or directories), then the format becomes
 #'     `"file"` before [tar_make()] saves the target. Otherwise,
 #'     the format becomes `"qs"`.
+#'
+#'     NOTE: `format = "auto"` slows down pipelines with 10000+ targets
+#'     because it creates deep copies of 20000+ internal data objects.
 #'   * `"qs"`: Uses `qs2::qs_save()` and `qs2::qs_read()`. Should work for
 #'     most objects, much faster than `"rds"`. Optionally configure settings
 #'     through `tar_resources()` and `tar_resources_qs()`.
