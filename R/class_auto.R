@@ -11,7 +11,7 @@ store_assert_format_setting.auto <- function(format) {
 
 #' @export
 store_get_packages.tar_auto <- function(store) {
-  "qs"
+  "qs2"
 }
 
 #' @export
@@ -52,4 +52,14 @@ store_reformat_auto <- function(target) {
     "qs"
   )
   target_reformat(target, format)
+}
+
+#' @export
+store_read_path.tar_auto <- function(store, path) {
+  path_qs <- path_objects(.subset2(tar_runtime, "store"), basename(path))
+  if_any(
+    identical(path, path_qs),
+    store_read_path.tar_qs(store = store, path = path),
+    store_read_path.tar_store_file(store = store, path = path)
+  )
 }

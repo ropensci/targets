@@ -365,6 +365,8 @@ the format becomes \code{"qs"}.
 
 NOTE: \code{format = "auto"} slows down pipelines with 10000+ targets
 because it creates deep copies of 20000+ internal data objects.
+Pipelines of this size should use a more explicit format instead of
+\code{"auto"}.
 \item \code{"qs"}: Uses \code{qs2::qs_save()} and \code{qs2::qs_read()}. Should work for
 most objects, much faster than \code{"rds"}. Optionally configure settings
 through \code{tar_resources()} and \code{tar_resources_qs()}.

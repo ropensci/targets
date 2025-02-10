@@ -41,7 +41,7 @@ tar_test("auto format with error null", {
 })
 
 tar_test("store_get_packages.tar_auto()", {
-  expect_equal(store_get_packages.tar_auto(list()), "qs")
+  expect_equal(store_get_packages.tar_auto(list()), "qs2")
 })
 
 tar_test("store_reformat_auto()", {
@@ -71,4 +71,25 @@ tar_test("store_path_from_name() file", {
     path_store = path_store_default()
   )
   expect_equal(out, path_objects(path_store_default(), "x"))
+})
+
+tar_test("store_read_path.tar_auto()", {
+  skip_cran()
+  write.csv(data.frame(x = 1), "a.csv")
+  write.csv(data.frame(x = 2), "b.csv")
+  tar_script({
+    list(
+      tar_target(input, c("a.csv", "b.csv"), format = "rds"),
+      tar_target(paths, input, pattern = map(input), format = "file"),
+      tar_target(
+        data,
+        read.csv(paths),
+        pattern = map(paths),
+        format = "auto"
+      ),
+      tar_target(new_data, data, format = "auto")
+    )
+  })
+  tar_make(callr_function = NULL)
+  expect_true(is.data.frame(tar_read(new_data)))
 })

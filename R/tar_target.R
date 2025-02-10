@@ -50,6 +50,8 @@
 #'
 #'     NOTE: `format = "auto"` slows down pipelines with 10000+ targets
 #'     because it creates deep copies of 20000+ internal data objects.
+#'     Pipelines of this size should use a more explicit format instead of
+#'     `"auto"`.
 #'   * `"qs"`: Uses `qs2::qs_save()` and `qs2::qs_read()`. Should work for
 #'     most objects, much faster than `"rds"`. Optionally configure settings
 #'     through `tar_resources()` and `tar_resources_qs()`.
