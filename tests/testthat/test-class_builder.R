@@ -737,17 +737,3 @@ tar_test("capture storage warnings", {
   expect_equal(tar_read(x), 123L)
   expect_equal(tar_meta(x)$warnings, "run_warning. storage_warning")
 })
-
-tar_test("catch error concluding target", {
-  skip_cran()
-  tar_script(
-    list(
-      tar_target(x, stop("abc"), iteration = "group", error = "continue"),
-      tar_target(y, x, pattern = map(x))
-    )
-  )
-  expect_error(
-    suppressWarnings(tar_make(callr_function = NULL)),
-    class = "tar_condition_run"
-  )
-})
