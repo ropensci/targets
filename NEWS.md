@@ -1,8 +1,9 @@
-# targets 1.10.1.9004 (development)
+# targets 1.10.1.9005 (development)
 
 * Upload workspaces to the cloud if `tar_option_get("repository_meta")` is `"aws"` or `"gcp"`. Download them with `tar_workspace_download()` and delete them with `tar_destroy(destroy = "all")` or `tar_destroy(destroy = "cloud")`.
 * Deep-copy settings when resolving `format = "auto"` (#1425, @paulseamer).
 * Add `store_read_path.tar_auto()` (#1429, @paulseamer).
+* Report errors concluding targets (#1435, @stemangiola).
 
 # targets 1.10.1
 

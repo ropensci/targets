@@ -228,8 +228,7 @@ target_skip.tar_builder <- function(
   )
 }
 
-#' @export
-target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
+tar_conclude_tar_builder_try <- function(target, pipeline, scheduler, meta) {
   if (package_installed("autometric (>= 0.1.0)")) {
     phase <- paste("conclude:", target_get_name(target))
     autometric::log_phase_set(phase = phase)
@@ -252,6 +251,39 @@ target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
     cancel = builder_cancel(target, pipeline, scheduler, meta),
     error = builder_error(target, pipeline, scheduler, meta),
     completed = builder_completed(target, pipeline, scheduler, meta)
+  )
+}
+
+#' @export
+target_conclude.tar_builder <- function(target, pipeline, scheduler, meta) {
+  tryCatch(
+    tar_conclude_tar_builder_try(
+      target = target,
+      pipeline = pipeline,
+      scheduler = scheduler,
+      meta = meta
+    ),
+    error = function(condition) {
+      name <- target_get_name(target)
+      message <- sprintf(
+        paste0(
+          "Cannot conclude target %s. ",
+          "Cannot continue the current run of the pipeline. ",
+          "Error concluding the target: \"%s\"."
+        ),
+        name,
+        conditionMessage(condition)
+      )
+      if (!is.null(target$metrics$error)) {
+        message <- paste0(
+          message,
+          " Error running the target: \"",
+          target$metrics$error,
+          "\"."
+        )
+      }
+      tar_throw_run(message)
+    }
   )
   NextMethod()
 }
