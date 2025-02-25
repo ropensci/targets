@@ -35,13 +35,23 @@ value_produce_aggregate.tar_group <- function(value, objects) { # nolint
 value_validate.tar_group <- function(value) {
   tar_assert_df(
     value$object,
-    msg = "iteration = \"group\" requires data frame targets."
+    msg = paste(
+      "The pipeline cannot continue because",
+      "it reached a target it cannot branch over:",
+      "iteration = \"group\" requires the target to return a data frame,",
+      "but the target either never completed or it returned a different",
+      "kind of object.",
+      "Check the errors and warnings in tar_meta() to troubleshoot."
+    )
   )
   tar_assert_in(
     "tar_group",
     choices = colnames(value$object),
     msg = paste(
-      "iteration = \"group\" requires a special tar_group column.",
+      "The pipeline cannot continue because",
+      "it reached a target it cannot branch over:",
+      "iteration = \"group\" requires the target to return a data frame",
+      "with a special tar_group column.",
       "See the iteration argument in the tar_target() help file",
       "for details."
     )
