@@ -457,7 +457,8 @@ tar_test("relay errors as messages if error is continue", {
     )
   )
   meta <- tar_meta(names = c("data1", "data2"), fields = error)
-  expect_equal(sort(meta$error), sort(c("error_data1", "error_data2")))
+  expect_equal(grepl("error_data1", meta$error), meta$name == "data1")
+  expect_equal(grepl("error_data2", meta$error), meta$name == "data2")
 })
 
 tar_test("target_needs_worker(builder)", {

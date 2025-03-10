@@ -89,7 +89,7 @@ tar_test("feather format captures error messages", {
     tar_make(callr_function = NULL),
     class = "tar_condition_run"
   )
-  expect_equal(tar_meta(x, error)$error, "message123")
+  expect_true(grepl("message123$", tar_meta(x, error)$error))
 })
 
 tar_test("same with error = \"continue\"", {
@@ -99,7 +99,7 @@ tar_test("same with error = \"continue\"", {
     tar_target(x, stop("message123"), format = "feather", error = "continue")
   )
   tar_make(callr_function = NULL)
-  expect_equal(tar_meta(x, error)$error, "message123")
+  expect_true(grepl("message123$", tar_meta(x, error)$error))
 })
 
 tar_test("feather format cannot store non-data-frames", {

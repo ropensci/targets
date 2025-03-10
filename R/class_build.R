@@ -79,11 +79,19 @@ build_traceback <- function(calls) {
 }
 
 build_message <- function(condition, prefix = character(0)) {
-  out <- build_message_text_substr(
-    message = conditionMessage(condition),
-    prefix = prefix
-  )
-  if_any(nzchar(out), out, ".")
+  condition_message <- conditionMessage(condition)
+  if (inherits(condition, "error")) {
+    message <- paste0(
+      "error in ",
+      tar_deparse_language(conditionCall(condition)),
+      ": ",
+      condition_message
+    )
+  } else {
+    message <- condition_message
+  }
+  out <- build_message_text_substr(message = message, prefix = prefix)
+  if_any(nzchar(condition_message), out, ".")
 }
 
 build_message_text_substr <- function(message, prefix = character(0)) {

@@ -267,7 +267,7 @@ tar_test("stem$produce_record() of a errored stem", {
   expect_equal(record$children, NA_character_)
   expect_true(is.numeric(record$seconds))
   expect_equal(record$warnings, NA_character_)
-  expect_equal(record$error, "123")
+  expect_true(grepl("123$", record$error))
 })
 
 tar_test("stem$produce_record() with no error message", {

@@ -69,7 +69,7 @@ tar_test("tar_meta() targets_only", {
   out <- tar_meta(fields = error, complete_only = TRUE)
   expect_equal(dim(out), c(1L, 2L))
   expect_equal(out$name, "y")
-  expect_equal(out$error, "x")
+  expect_true(grepl("x$", out$error))
 })
 
 tar_test("custom script and store args", {

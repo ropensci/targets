@@ -170,8 +170,7 @@ record_encode_field <- function(field) {
   }
   field <- gsub(database_sep_outer, "", field, fixed = TRUE)
   field <- gsub(database_sep_inner, "", field, fixed = TRUE)
-  field <- gsub("\t", " ", field)
-  field <- gsub("[^[:alnum:] \\.,_]", "", field)
+  field <- gsub("\\s", " ", field)
   field <- paste(field, collapse = " ")
   field
 }

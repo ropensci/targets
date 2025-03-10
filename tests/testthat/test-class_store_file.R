@@ -48,7 +48,7 @@ tar_test("handle dynamic file errors properly", {
   pipeline <- pipeline_init(list(x))
   local <- local_init(pipeline = pipeline)
   expect_error(local$run(), class = "tar_condition_run")
-  expect_equal(tar_meta(abc, error)$error, "message123")
+  expect_true(grepl("message123$", tar_meta(abc, error)$error))
 })
 
 tar_test("inherits from tar_external", {

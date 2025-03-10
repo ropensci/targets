@@ -1,9 +1,11 @@
-# targets 1.10.1.9005 (development)
+# targets 1.10.1.9006 (development)
 
 * Upload workspaces to the cloud if `tar_option_get("repository_meta")` is `"aws"` or `"gcp"`. Download them with `tar_workspace_download()` and delete them with `tar_destroy(destroy = "all")` or `tar_destroy(destroy = "cloud")`.
 * Deep-copy settings when resolving `format = "auto"` (#1425, @paulseamer).
 * Add `store_read_path.tar_auto()` (#1429, @paulseamer).
 * Improve error message that explains `iteration = "group"` branching problems.
+* Prepend the output of `tar_deparse_language(conditionCall(condition))` to errors (#1441, @matthewcantele). Omitted from warnings because there could be many for a given target.
+* Allow more special characters in recorded warnings and error messages.
 
 # targets 1.10.1
 
