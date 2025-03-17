@@ -81,12 +81,11 @@ build_traceback <- function(calls) {
 build_message <- function(condition, prefix = character(0)) {
   condition_message <- conditionMessage(condition)
   if (inherits(condition, "error")) {
-    message <- paste0(
-      "error in ",
-      tar_deparse_language(conditionCall(condition)),
-      ": ",
-      condition_message
-    )
+    cap <- 100
+    call <- tar_deparse_language(conditionCall(condition))
+    call <- substr(call, 0, cap)
+    call <- if_any(nchar(call) >= cap, paste0(call, "..."), call)
+    message <- paste0("error in ", call, ": ", condition_message)
   } else {
     message <- condition_message
   }
