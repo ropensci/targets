@@ -71,7 +71,7 @@ dependency targets and global objects) is different from last time.
 \item The storage format is different from last time.
 \item The iteration mode is different from last time.
 \item A target's file (either the one in \verb{_targets/objects/}
-or a dynamic file) does not exist or changed since last time.
+or a file target) does not exist or changed since last time.
 }
 
 The user can suppress many of the above cues using the \code{tar_cue()}

@@ -95,7 +95,7 @@
 #'     The value must be an object from the `torch` package
 #'     such as a tensor or neural network module.
 #'     Requires the `torch` package (not installed by default).
-#'   * `"file"`: A dynamic file. To use this format,
+#'   * `"file"`: A file target. To use this format,
 #'     the target needs to manually identify or save some data
 #'     and return a character vector of paths
 #'     to the data (must be a single file path if `repository`
@@ -115,11 +115,11 @@
 #'     If `repository` is not `"local"` and `format` is `"file"`,
 #'     then the character vector returned by the target must be of length 1
 #'     and point to a single file. (Directories and vectors of multiple
-#'     file paths are not supported for dynamic files on the cloud.)
+#'     file paths are not supported for file targets on the cloud.)
 #'     That output file is uploaded to the cloud and tracked for changes
 #'     where it exists in the cloud. The local file is deleted after
 #'     the target runs.
-#'   * `"url"`: A dynamic input URL. For this storage format,
+#'   * `"url"`: An input URL. For this storage format,
 #'     `repository` is implicitly `"local"`,
 #'     URL format is like `format = "file"`
 #'     except the return value of the target is a URL that already exists
@@ -277,10 +277,6 @@
 #'   to learn how to debug targets using saved workspaces.)
 #' @param memory Character of length 1, memory strategy. Possible values:
 #'
-#'   * `"auto"`: new in `targets` version 1.8.0.9011, `memory = "auto"`
-#'     is equivalent to `memory = "transient"` for dynamic branching
-#'     (a non-null `pattern` argument) and `memory = "persistent"`
-#'     for targets that do not use dynamic branching.
 #'   * `"persistent"`: the target stays in memory
 #'     until the end of the pipeline (unless `storage` is `"worker"`,
 #'     in which case `targets` unloads the value from memory
@@ -290,8 +286,12 @@
 #'     after every new target completes.
 #'     Either way, the target gets automatically loaded into memory
 #'     whenever another target needs the value.
+#'   * `"auto"`: new in `targets` version 1.8.0.9011, `memory = "auto"`
+#'     is equivalent to `memory = "transient"` for dynamic branching
+#'     (a non-null `pattern` argument) and `memory = "persistent"`
+#'     for targets that do not use dynamic branching.
 #'
-#'   For cloud-based dynamic files
+#'   For cloud-based file targets
 #'   (e.g. `format = "file"` with `repository = "aws"`),
 #'   the `memory` option applies to the
 #'   temporary local copy of the file:

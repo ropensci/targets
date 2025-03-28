@@ -191,10 +191,6 @@ to learn how to debug targets using saved workspaces.)
 
 \item{memory}{Character of length 1, memory strategy. Possible values:
 \itemize{
-\item \code{"auto"}: new in \code{targets} version 1.8.0.9011, \code{memory = "auto"}
-is equivalent to \code{memory = "transient"} for dynamic branching
-(a non-null \code{pattern} argument) and \code{memory = "persistent"}
-for targets that do not use dynamic branching.
 \item \code{"persistent"}: the target stays in memory
 until the end of the pipeline (unless \code{storage} is \code{"worker"},
 in which case \code{targets} unloads the value from memory
@@ -204,9 +200,13 @@ copious data over a network).
 after every new target completes.
 Either way, the target gets automatically loaded into memory
 whenever another target needs the value.
+\item \code{"auto"}: new in \code{targets} version 1.8.0.9011, \code{memory = "auto"}
+is equivalent to \code{memory = "transient"} for dynamic branching
+(a non-null \code{pattern} argument) and \code{memory = "persistent"}
+for targets that do not use dynamic branching.
 }
 
-For cloud-based dynamic files
+For cloud-based file targets
 (e.g. \code{format = "file"} with \code{repository = "aws"}),
 the \code{memory} option applies to the
 temporary local copy of the file:
@@ -410,7 +410,7 @@ Uses \code{torch::torch_save()} and \code{torch::torch_load()}.
 The value must be an object from the \code{torch} package
 such as a tensor or neural network module.
 Requires the \code{torch} package (not installed by default).
-\item \code{"file"}: A dynamic file. To use this format,
+\item \code{"file"}: A file target. To use this format,
 the target needs to manually identify or save some data
 and return a character vector of paths
 to the data (must be a single file path if \code{repository}
@@ -430,11 +430,11 @@ If the target does not create any files, the return value should be
 If \code{repository} is not \code{"local"} and \code{format} is \code{"file"},
 then the character vector returned by the target must be of length 1
 and point to a single file. (Directories and vectors of multiple
-file paths are not supported for dynamic files on the cloud.)
+file paths are not supported for file targets on the cloud.)
 That output file is uploaded to the cloud and tracked for changes
 where it exists in the cloud. The local file is deleted after
 the target runs.
-\item \code{"url"}: A dynamic input URL. For this storage format,
+\item \code{"url"}: An input URL. For this storage format,
 \code{repository} is implicitly \code{"local"},
 URL format is like \code{format = "file"}
 except the return value of the target is a URL that already exists

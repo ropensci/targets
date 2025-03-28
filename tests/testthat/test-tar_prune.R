@@ -59,7 +59,7 @@ tar_test("tar_prune() removes old global objects from metadata", {
   expect_equal(sort(names), sort(c("a", "g", "x")))
 })
 
-tar_test("tar_delete() does not delete dynamic files", {
+tar_test("tar_delete() does not delete file targets", {
   skip_cran()
   file.create("x")
   pipeline <- pipeline_init(

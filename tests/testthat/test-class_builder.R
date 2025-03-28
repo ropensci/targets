@@ -285,7 +285,7 @@ tar_test("storage = \"none\" ignores return value but tracks file", {
   expect_false(any(hash == tar_meta(x, data)$data))
 })
 
-tar_test("dynamic file writing from main", {
+tar_test("file target writing from main", {
   skip_cran()
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())
@@ -311,7 +311,7 @@ tar_test("dynamic file writing from main", {
   target_conclude(x, pipeline, scheduler, meta)
 })
 
-tar_test("dynamic file has illegal path", {
+tar_test("file target has illegal path", {
   skip_cran()
   x <- target_init(
     name = "abc",
@@ -322,7 +322,7 @@ tar_test("dynamic file has illegal path", {
   expect_error(local$run(), class = "tar_condition_run")
 })
 
-tar_test("dynamic file has missing path value", {
+tar_test("file target has missing path value", {
   skip_cran()
   x <- target_init(
     name = "abc",
@@ -333,7 +333,7 @@ tar_test("dynamic file has missing path value", {
   expect_error(local$run(), class = "tar_condition_run")
 })
 
-tar_test("dynamic file is missing at path", {
+tar_test("file target is missing at path", {
   skip_cran()
   x <- target_init(
     name = "abc",
@@ -345,7 +345,7 @@ tar_test("dynamic file is missing at path", {
   expect_error(local$run(), class = "tar_condition_run")
 })
 
-tar_test("dynamic file writing from worker", {
+tar_test("file target writing from worker", {
   skip_cran()
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())

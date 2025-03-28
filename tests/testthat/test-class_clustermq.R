@@ -150,7 +150,7 @@ tar_test("nontrivial common data", {
   expect_equal(value$object, 3L)
 })
 
-tar_test("clustermq with a dynamic file", {
+tar_test("clustermq with a file target", {
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")

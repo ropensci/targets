@@ -14,6 +14,7 @@
 * Allow more special characters in recorded warnings and error messages.
 * Call `cli::style_reset()` at the end of non-silent reporters (#1450, @r2evans).
 * Exclude lists of target definitions from the globals in the dependency graph (#1431).
+* Nomenclature change: drop the term "dynamic file" in favor of "file target".
 
 # targets 1.10.1
 

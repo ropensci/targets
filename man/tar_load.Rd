@@ -66,7 +66,7 @@ Nothing.
 \description{
 Load the return values of targets into the current environment
 (or the environment of your choosing). For a typical target, the return
-value lives in a file in \verb{_targets/objects/}. For dynamic files (i.e.
+value lives in a file in \verb{_targets/objects/}. For file targets (i.e.
 \code{format = "file"}) the paths loaded in place of the values.
 \code{\link[=tar_load_everything]{tar_load_everything()}} is shorthand for \code{tar_load(everything())}
 to load all targets.

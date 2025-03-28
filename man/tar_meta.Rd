@@ -46,7 +46,7 @@ with \code{tar_meta(your_target, seed)} and run \code{\link[=tar_seed_set]{tar_s
 on the result to locally recreate the target's initial RNG state.
 \item \code{path}: A list column of paths to target data. Usually, each element
 is a single path, but there could be multiple paths per target
-for dynamic files (i.e. \code{tar_target(format = "file")}).
+for file targets (i.e. \code{tar_target(format = "file")}).
 \item \code{time}: \code{POSIXct} object with the time the target's data in storage
 was last modified. If the target stores no local file,
 then the time stamp corresponds to the time the target last

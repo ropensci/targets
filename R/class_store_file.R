@@ -51,7 +51,7 @@ store_assert_format.tar_store_file <- function(store, object, name) { # nolint
   if (!is.character(object %|||% character(0))) {
     tar_throw_validate(
       "target ", name, " did not return a character. ",
-      "dynamic files (targets with format = \"file\") must return ",
+      "File targets (targets with format = \"file\") must return ",
       "character vectors of file or directory paths."
     )
   }

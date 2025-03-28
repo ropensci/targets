@@ -77,7 +77,7 @@ tar_test("previous import conflicts with current target", {
   expect_equal(out, "x")
 })
 
-tar_test("cue_meta() on a dynamic file", {
+tar_test("cue_meta() on a file target", {
   envir <- new.env(parent = baseenv())
   tar_option_set(envir = envir)
   envir$save1 <- function() {
@@ -440,7 +440,7 @@ tar_test("cue_file() suppressed", {
   expect_equal(out, "x")
 })
 
-tar_test("cue_file() on a dynamic file", {
+tar_test("cue_file() on a file target", {
   envir <- new.env(parent = baseenv())
   envir$save1 <- function() {
     file <- tempfile()

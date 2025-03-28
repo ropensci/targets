@@ -21,7 +21,7 @@
 #'    1. The storage format is different from last time.
 #'    1. The iteration mode is different from last time.
 #'    1. A target's file (either the one in `_targets/objects/`
-#'       or a dynamic file) does not exist or changed since last time.
+#'       or a file target) does not exist or changed since last time.
 #'
 #'   The user can suppress many of the above cues using the `tar_cue()`
 #'   function, which creates the `cue` argument of [tar_target()].

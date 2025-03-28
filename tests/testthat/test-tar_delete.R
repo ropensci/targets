@@ -29,7 +29,7 @@ tar_test("tar_delete() works with patterns", {
   expect_equal(sum(grepl("^z", names)), 2L)
 })
 
-tar_test("tar_delete() does not delete dynamic files", {
+tar_test("tar_delete() does not delete file targets", {
   file.create("x")
   pipeline <- pipeline_init(
     list(target_init("x", quote("x"), format = "file"))

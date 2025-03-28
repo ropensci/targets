@@ -17,7 +17,7 @@ tar_test("tar_read_raw() works", {
   expect_equal(tar_read_raw(name), 1L)
 })
 
-tar_test("tar_read() works on a dynamic file", {
+tar_test("tar_read() works on a file target", {
   saveRDS("contents", "data_file")
   x <- target_init("x", quote("data_file"), format = "file")
   pipeline <- pipeline_init(list(x))
