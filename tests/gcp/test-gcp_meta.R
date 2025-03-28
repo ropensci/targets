@@ -13,6 +13,7 @@ tar_test("gcp meta", {
     tar_option_set(
       format = "rds",
       repository = "gcp",
+      repository_meta = "gcp",
       resources = tar_resources(
         gcp = tar_resources_gcp(
           bucket = bucket_name,
@@ -91,6 +92,7 @@ tar_test("gcp tar_meta_delete()", {
     tar_option_set(
       format = "rds",
       repository = "gcp",
+      repository_meta = "gcp",
       resources = tar_resources(
         gcp = tar_resources_gcp(
           bucket = bucket_name,
@@ -165,6 +167,7 @@ tar_test("gcp tar_meta_upload()", {
     tar_option_set(
       format = "rds",
       repository = "gcp",
+      repository_meta = "gcp",
       resources = tar_resources(
         gcp = tar_resources_gcp(
           bucket = bucket_name,
@@ -231,6 +234,7 @@ tar_test("gcp tar_meta_download()", {
     tar_option_set(
       format = "rds",
       repository = "gcp",
+      repository_meta = "gcp",
       resources = tar_resources(
         gcp = tar_resources_gcp(
           bucket = bucket_name,
@@ -285,6 +289,7 @@ tar_test("gcp tar_meta_sync() upload", {
     tar_option_set(
       format = "rds",
       repository = "gcp",
+      repository_meta = "gcp",
       resources = tar_resources(
         gcp = tar_resources_gcp(
           bucket = bucket_name,
@@ -351,6 +356,7 @@ tar_test("gcp tar_meta_sync() download", {
     tar_option_set(
       format = "rds",
       repository = "gcp",
+      repository_meta = "gcp",
       resources = tar_resources(
         gcp = tar_resources_gcp(
           bucket = bucket_name,
@@ -402,6 +408,7 @@ tar_test("GCP tar_meta_sync() download graceful failure", {
     tar_option_set(
       format = "rds",
       repository = "gcp",
+      repository_meta = "gcp",
       resources = tar_resources(
         gcp = tar_resources_gcp(
           bucket = bucket_name,
@@ -440,6 +447,7 @@ tar_test("GCP tar_meta_sync() upload graceful failure", {
     tar_option_set(
       format = "rds",
       repository = "gcp",
+      repository_meta = "gcp",
       resources = tar_resources(
         gcp = tar_resources_gcp(
           bucket = bucket_name,
