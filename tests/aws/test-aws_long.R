@@ -12,7 +12,8 @@ tar_test("pipeline continuously uploads metadata", {
         aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets"),
         network = tar_resources_network(max_tries = 10L)
       ),
-      repository = "aws"
+      repository = "aws",
+      repository_meta = "aws"
     )
     list(
       tar_target(a, 1),

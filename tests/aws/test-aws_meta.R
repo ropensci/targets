@@ -12,6 +12,7 @@ tar_test("AWS meta", {
     tar_option_set(
       format = "rds",
       repository = "aws",
+      repository_meta = "aws",
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = bucket_name,
@@ -89,6 +90,7 @@ tar_test("AWS tar_meta_delete()", {
     tar_option_set(
       format = "rds",
       repository = "aws",
+      repository_meta = "aws",
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = bucket_name,
@@ -162,6 +164,7 @@ tar_test("AWS tar_meta_upload()", {
     tar_option_set(
       format = "rds",
       repository = "aws",
+      repository_meta = "aws",
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = bucket_name,
@@ -227,6 +230,7 @@ tar_test("AWS tar_meta_download()", {
     tar_option_set(
       format = "rds",
       repository = "aws",
+      repository_meta = "aws",
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = bucket_name,
@@ -280,6 +284,7 @@ tar_test("AWS tar_meta_sync() upload", {
     tar_option_set(
       format = "rds",
       repository = "aws",
+      repository_meta = "aws",
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = bucket_name,
@@ -345,6 +350,7 @@ tar_test("AWS tar_meta_sync() download", {
     tar_option_set(
       format = "rds",
       repository = "aws",
+      repository_meta = "aws",
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = bucket_name,
@@ -394,6 +400,7 @@ tar_test("AWS tar_meta_sync() download graceful failure", {
     library(targets)
     tar_option_set(
       repository = "aws",
+      repository_meta = "aws",
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = bucket_name,
@@ -430,6 +437,7 @@ tar_test("AWS tar_meta_sync() upload graceful failure", {
     library(targets)
     tar_option_set(
       repository = "aws",
+      repository_meta = "aws",
       resources = tar_resources(
         aws = tar_resources_aws(
           bucket = bucket_name,

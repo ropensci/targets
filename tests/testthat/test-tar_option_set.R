@@ -107,12 +107,12 @@ tar_test("repository_meta", {
 })
 
 tar_test("repository_meta", {
-  tar_option_set(repository = "gcp")
+  tar_option_set(repository_meta = "gcp")
   expect_equal(tar_option_get("repository_meta"), "gcp")
   tar_option_set(repository_meta = "aws")
   expect_equal(tar_option_get("repository_meta"), "aws")
   tar_option_reset()
-  tar_option_set(repository = "gcp")
+  tar_option_set(repository_meta = "gcp")
   expect_equal(tar_option_get("repository_meta"), "gcp")
   expect_error(
     tar_option_set(repository_meta = 123),

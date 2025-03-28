@@ -43,6 +43,7 @@ tar_test("nontrivial globals with global environment", {
   skip_if_not_installed("future")
   skip_if_not_installed("future.callr")
   tar_script({
+    sample.int(1L) # Avoids .Random.seed warnings from future.
     future::plan(future.callr::callr)
     f <- function(x) {
       g(x) + 1L
@@ -67,6 +68,7 @@ tar_test("nontrivial globals with non-global environment", {
   skip_if_not_installed("future")
   skip_if_not_installed("future.callr")
   tar_script({
+    sample.int(1L) # Avoids .Random.seed warnings from future.
     future::plan(future.callr::callr)
     envir <- new.env(parent = globalenv())
     evalq({

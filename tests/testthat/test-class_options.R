@@ -223,22 +223,10 @@ tar_test("repository", {
 tar_test("repository_meta", {
   x <- options_init()
   expect_equal(x$get_repository_meta(), "local")
-  x$set_repository("aws")
+  x$set_repository_meta("aws")
   expect_equal(x$get_repository_meta(), "aws")
   x$reset()
   expect_equal(x$get_repository_meta(), "local")
-  expect_error(x$set_repository_meta(123), class = "tar_condition_validate")
-})
-
-tar_test("repository_meta defaults to repository", {
-  x <- options_init()
-  x$set_repository("gcp")
-  expect_equal(x$get_repository_meta(), "gcp")
-  x$set_repository("aws")
-  expect_equal(x$get_repository_meta(), "aws")
-  x$reset()
-  x$set_repository("gcp")
-  expect_equal(x$get_repository_meta(), "gcp")
   expect_error(x$set_repository_meta(123), class = "tar_condition_validate")
 })
 
