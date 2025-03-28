@@ -312,7 +312,7 @@ options_class <- R6::R6Class(
       self$error %|||% "stop"
     },
     get_memory = function() {
-      self$memory %|||% "auto"
+      self$memory %|||% "transient"
     },
     get_garbage_collection = function() {
       self$garbage_collection %|||% 1000L
@@ -330,10 +330,10 @@ options_class <- R6::R6Class(
       self$resources %|||% list()
     },
     get_storage = function() {
-      self$storage %|||% "main"
+      self$storage %|||% "worker"
     },
     get_retrieval = function() {
-      self$retrieval %|||% "main"
+      self$retrieval %|||% "worker"
     },
     get_cue = function() {
       self$cue %|||% tar_cue()

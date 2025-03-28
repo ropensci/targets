@@ -3,6 +3,7 @@
 ## Changes to default settings
 
 * In `tar_option_get()`, set `repository_meta` to `"local"` by default, regardless of `repository` (#1427).
+* In `tar_option_get()`, set `storage = "worker"`, `retrieval = "worker"`, and `memory = "tranisient"` by default (#1426).
 
 ## Other changes
 

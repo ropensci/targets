@@ -277,15 +277,15 @@
 #'   to learn how to debug targets using saved workspaces.)
 #' @param memory Character of length 1, memory strategy. Possible values:
 #'
+#'   * `"transient"` (default): the target gets unloaded
+#'     after every new target completes.
+#'     Either way, the target gets automatically loaded into memory
+#'     whenever another target needs the value.
 #'   * `"persistent"`: the target stays in memory
 #'     until the end of the pipeline (unless `storage` is `"worker"`,
 #'     in which case `targets` unloads the value from memory
 #'     right after storing it in order to avoid sending
 #'     copious data over a network).
-#'   * `"transient"`: the target gets unloaded
-#'     after every new target completes.
-#'     Either way, the target gets automatically loaded into memory
-#'     whenever another target needs the value.
 #'   * `"auto"`: new in `targets` version 1.8.0.9011, `memory = "auto"`
 #'     is equivalent to `memory = "transient"` for dynamic branching
 #'     (a non-null `pattern` argument) and `memory = "persistent"`
@@ -331,9 +331,9 @@
 #'   is saved to storage. Only relevant when using `targets`
 #'   with parallel workers (<https://books.ropensci.org/targets/crew.html>).
 #'   Must be one of the following values:
+#'   * `"worker"` (default): the worker saves/uploads the value.
 #'   * `"main"`: the target's return value is sent back to the
 #'     host machine and saved/uploaded locally.
-#'   * `"worker"`: the worker saves/uploads the value.
 #'   * `"none"`: `targets` makes no attempt to save the result
 #'     of the target to storage in the location where `targets`
 #'     expects it to be. Saving to storage is the responsibility
@@ -344,9 +344,9 @@
 #'   depends on.) Only relevant when using `targets`
 #'   with parallel workers (<https://books.ropensci.org/targets/crew.html>).
 #'   Must be one of the following values:
+#'   * `"worker"` (default): the worker loads the target's dependencies.
 #'   * `"main"`: the target's dependencies are loaded on the host machine
 #'     and sent to the worker before the target runs.
-#'   * `"worker"`: the worker loads the target's dependencies.
 #'   * `"none"`: `targets` makes no attempt to load its
 #'     dependencies. With `retrieval = "none"`, loading dependencies
 #'     is the responsibility of the user. Use with caution.
