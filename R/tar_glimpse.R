@@ -25,7 +25,7 @@
 #'   Consider changing the value if the aspect ratio of the graph
 #'   is far from 1. If `level_separation` is `NULL`,
 #'   the `levelSeparation` argument of `visHierarchicalLayout()`
-#'   defaults to `150`.
+#'   defaults to a value chosen by `targets`.
 #' @param degree_from Integer of length 1. When you click on a node,
 #'   the graph highlights a neighborhood of that node. `degree_from`
 #'   controls the number of edges the neighborhood extends upstream.

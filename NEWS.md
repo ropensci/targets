@@ -1,4 +1,4 @@
-# targets 1.10.1.9008 (development)
+# targets 1.10.1.9009 (development)
 
 ## Changes to default settings
 
@@ -16,6 +16,8 @@
 * Call `cli::style_reset()` at the end of non-silent reporters (#1450, @r2evans).
 * Exclude lists of target definitions from the globals in the dependency graph (#1431).
 * Nomenclature change: drop the term "dynamic file" in favor of "file target".
+* Internally choose a default level separation in the `visNetwork` graph based on the number of hierarchical levels and the maximum number of vertices per level (#1432).
+* In `tar_visnetwork()`, choose the colors of the edges based on the origin vertices, not the destination vertices (#1433).
 
 # targets 1.10.1
 

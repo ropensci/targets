@@ -55,7 +55,7 @@ Controls the distance between hierarchical levels.
 Consider changing the value if the aspect ratio of the graph
 is far from 1. If \code{level_separation} is \code{NULL},
 the \code{levelSeparation} argument of \code{visHierarchicalLayout()}
-defaults to \code{150}.}
+defaults to a value chosen by \code{targets}.}
 
 \item{degree_from}{Integer of length 1. When you click on a node,
 the graph highlights a neighborhood of that node. \code{degree_from}

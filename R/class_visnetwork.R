@@ -146,7 +146,11 @@ visnetwork_class <- R6::R6Class(
       visNetwork::visHierarchicalLayout(
         graph = out,
         direction = "LR",
-        levelSeparation = self$level_separation
+        levelSeparation = if_any(
+          is.null(self$level_separation) && (nrow(vertices) > 0L),
+          max(150, 150 * (max(table(vertices$level)) / max(vertices$level))),
+          self$level_separation
+        )
       )
     },
     update_ids = function() {
