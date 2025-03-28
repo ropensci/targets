@@ -14,7 +14,8 @@ tar_test("pipeline continuously uploads metadata", {
         gcp = tar_resources_gcp(bucket = !!bucket_name, prefix = "_targets"),
         network = tar_resources_network(max_tries = 10L)
       ),
-      repository = "gcp"
+      repository = "gcp",
+      repository_meta = "gcp"
     )
     list(
       tar_target(a, 1),
