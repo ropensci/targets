@@ -1,4 +1,4 @@
-forecast_new <- function(seconds_interval = NULL) {
+forecast_new <- function(seconds_interval = 0) {
   forecast_class$new(seconds_interval = seconds_interval)
 }
 

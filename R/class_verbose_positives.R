@@ -1,4 +1,4 @@
-verbose_positives_new <- function(seconds_interval = NULL) {
+verbose_positives_new <- function(seconds_interval = 0) {
   verbose_positives_class$new(seconds_interval = seconds_interval)
 }
 

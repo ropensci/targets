@@ -111,6 +111,7 @@ tar_test("exclude special objects from imports", {
     tar_option_set(envir = envir)
     envir$regular_object <- "object"
     envir$target_object <- tar_target(x, regular_object)
+    envir$target_list <- list(tar_target(y, regular_object))
     envir$pipeline_object <- "pipeline"
     class(envir$pipeline_object) <- "tar_pipeline"
     list(envir$target_object)
@@ -119,7 +120,7 @@ tar_test("exclude special objects from imports", {
   expect_true(length(out$vertices$name) > 0L)
   expect_true(length(out$edges$from) > 0L)
   expect_true(length(out$edges$to) > 0L)
-  for (exclude in c("pipeline_object", "target_object")) {
+  for (exclude in c("pipeline_object", "target_object", "target_list")) {
     expect_false(exclude %in% out$vertices$name)
     expect_false(exclude %in% out$edges$from)
     expect_false(exclude %in% out$edges$to)

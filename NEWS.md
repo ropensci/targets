@@ -1,4 +1,4 @@
-# targets 1.10.1.9006 (development)
+# targets 1.10.1.9007 (development)
 
 * Upload workspaces to the cloud if `tar_option_get("repository_meta")` is `"aws"` or `"gcp"`. Download them with `tar_workspace_download()` and delete them with `tar_destroy(destroy = "all")` or `tar_destroy(destroy = "cloud")`.
 * Deep-copy settings when resolving `format = "auto"` (#1425, @paulseamer).
@@ -6,6 +6,8 @@
 * Improve error message that explains `iteration = "group"` branching problems.
 * Prepend the output of `tar_deparse_language(conditionCall(condition))` to errors (#1441, @matthewcantele). Omitted from warnings because there could be many for a given target.
 * Allow more special characters in recorded warnings and error messages.
+* Call `cli::style_reset()` at the end of non-silent reporters (#1450, @r2evans).
+* Exclude lists of target definitions from the globals in the dependency graph (#1431).
 
 # targets 1.10.1
 

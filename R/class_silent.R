@@ -7,5 +7,10 @@ silent_class <- R6::R6Class(
   inherit = reporter_class,
   class = FALSE,
   portable = FALSE,
-  cloneable = FALSE
+  cloneable = FALSE,
+  public = list(
+    report_end = function(progress = NULL, seconds_elapsed = NULL) {
+      invisible()
+    }
+  )
 )

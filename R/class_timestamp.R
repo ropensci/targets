@@ -1,4 +1,4 @@
-timestamp_new <- function(seconds_interval = NULL) {
+timestamp_new <- function(seconds_interval = 0) {
   timestamp_class$new(seconds_interval = seconds_interval)
 }
 

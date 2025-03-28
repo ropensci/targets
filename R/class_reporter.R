@@ -26,7 +26,7 @@ reporter_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    seconds_interval = NULL,
+    seconds_interval = 0,
     buffer = NULL,
     seconds_flushed = -Inf,
     seconds_skipped = -Inf,
@@ -35,7 +35,9 @@ reporter_class <- R6::R6Class(
     },
     poll = function() {
       now <- time_seconds_local()
-      if ((now - seconds_flushed) > seconds_interval) {
+      flush <- (now - .subset2(self, "seconds_flushed")) >
+        .subset2(self, "seconds_interval")
+      if (flush) {
         .subset2(self, "flush_messages")()
         self$seconds_flushed <- now
       }
@@ -52,6 +54,7 @@ reporter_class <- R6::R6Class(
       if (any(progress$warned$count > 0L)) {
         cli_warned(progress$warned$count)
       }
+      cli_reset()
     },
     report_dispatched = function(
       target = NULL,

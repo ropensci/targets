@@ -257,6 +257,10 @@ cli_url <- function(url) {
   cli::style_hyperlink(text = url, url = url)
 }
 
+cli_reset <- function() {
+  on.exit(message(cli::style_reset(), appendLF = FALSE))
+}
+
 cli_symbol_bullet_blue <- cli::col_blue(cli::symbol$bullet)
 cli_symbol_play_blue <- cli::col_blue(cli::symbol$play)
 cli_symbol_play_magenta <- cli::col_magenta(cli::symbol$play)

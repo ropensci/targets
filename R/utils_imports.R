@@ -42,7 +42,18 @@ is_internal_name <- function(name, envir) {
 }
 
 is_internal_object <- function(object) {
-  inherits(object, c("tar_algorithm", "tar_pipeline", "tar_target"))
+  inherits(object, c("tar_algorithm", "tar_pipeline", "tar_target")) ||
+    (identical(class(object), "list") && is_target_list(object))
+}
+
+is_target_list <- function(object) {
+  is_target <- lapply(
+    X = unlist(object, recursive = TRUE),
+    FUN = function(x) {
+      inherits(x, what = "tar_target")
+    }
+  )
+  all(as.logical(is_target))
 }
 
 envir_deps <- function(name, envir, names) {

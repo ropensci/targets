@@ -8,7 +8,6 @@ callr_outer <- function(
   store,
   fun
 ) {
-  on.exit(message(cli::style_reset(), appendLF = FALSE))
   tar_assert_script(script)
   tar_assert_scalar(store)
   tar_assert_chr(store)

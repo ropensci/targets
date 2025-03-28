@@ -1,4 +1,4 @@
-verbose_new <- function(seconds_interval = NULL) {
+verbose_new <- function(seconds_interval = 0) {
   verbose_class$new(seconds_interval = seconds_interval)
 }
 

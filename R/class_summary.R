@@ -1,4 +1,4 @@
-summary_new <- function(seconds_interval = NULL) {
+summary_new <- function(seconds_interval = 0) {
   summary_class$new(seconds_interval = seconds_interval)
 }
 
