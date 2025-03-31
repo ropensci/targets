@@ -435,6 +435,7 @@ tar_config_assert_workers <- function(workers) {
 
 tar_reporters_make <- function() {
   c(
+    "balanced",
     "silent",
     "summary",
     "timestamp",

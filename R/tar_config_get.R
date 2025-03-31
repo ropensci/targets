@@ -91,7 +91,7 @@ tar_config_get_project <- function(name, yaml) {
     label = yaml$label %|||% character(0L),
     label_width = yaml$label_width %|||% 30L,
     level_separation = yaml$level_separation,
-    reporter_make = yaml$reporter_make %|||% "verbose",
+    reporter_make = yaml$reporter_make %|||% "balanced",
     reporter_outdated = yaml$reporter_outdated %|||% "forecast_interactive",
     script = yaml$script %|||% path_script_default(),
     seconds_meta_append = yaml$seconds_meta_append %|||% 0,

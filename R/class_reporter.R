@@ -1,6 +1,7 @@
 reporter_init <- function(reporter = "verbose", seconds_interval = 0.5) {
   switch(
     reporter,
+    balanced = balanced_new(),
     forecast = forecast_new(seconds_interval = seconds_interval),
     silent = silent_new(),
     summary = summary_new(seconds_interval = seconds_interval),
