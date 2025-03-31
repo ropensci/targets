@@ -268,7 +268,7 @@ tar_config_set <- function(
 }
 
 tar_config_convert_multi_project <- function(yaml, config) {
-  cli_blue_bullet(sprintf("Converting %s to multi-project format.", config))
+  cli_grey_plus(sprintf("Converting %s to multi-project format.", config))
   list(main = yaml)
 }
 

@@ -49,7 +49,7 @@ callr_error <- function(traced_condition, fun) {
     ),
     paste(
       "   ",
-      cli_blue_bullet(
+      cli_grey_plus(
         c(
           "tar_errored()",
           "tar_meta(fields = any_of(\"error\"), complete_only = TRUE)",
@@ -64,7 +64,7 @@ callr_error <- function(traced_condition, fun) {
     utils::capture.output(cli::cli_h1("How to"), type = "message"),
     paste(
       "   ",
-      cli_blue_bullet(
+      cli_grey_plus(
         c(
           paste(
             "Debug:",

@@ -333,7 +333,7 @@ aws_s3_upload_parts <- function(
   on.exit(close(con))
   parts <- list()
   for (i in seq_len(num_parts)) {
-    cli_blue_bullet(sprintf("upload %s part %s of %s", file, i, num_parts))
+    cli_grey_plus(sprintf("upload %s part %s of %s", file, i, num_parts))
     part <- readBin(con, what = "raw", n = part_size)
     args$Body <- part
     args$Bucket <- bucket
