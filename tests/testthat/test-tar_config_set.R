@@ -117,7 +117,7 @@ tar_test("tar_config_set() reporter_make", {
 tar_test("tar_config_set() reporter_outdated", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
-  expect_equal(tar_config_get("reporter_outdated"), "forecast_interactive")
+  expect_equal(tar_config_get("reporter_outdated"), "balanced")
   tar_config_set(reporter_outdated = "forecast")
   expect_equal(tar_config_get("reporter_outdated"), "forecast")
   expect_true(file.exists("_targets.yaml"))
@@ -126,7 +126,7 @@ tar_test("tar_config_set() reporter_outdated", {
   expect_equal(tar_config_get("reporter_outdated"), "forecast")
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
-  expect_equal(tar_config_get("reporter_outdated"), "forecast_interactive")
+  expect_equal(tar_config_get("reporter_outdated"), "balanced")
 })
 
 tar_test("tar_config_set() shortcut", {

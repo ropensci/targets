@@ -54,7 +54,7 @@ use_targets <- function(
   from <- system.file(from, package = "targets", mustWork = TRUE)
   if (overwrite || !file.exists(script)) {
     file.copy(from = from, to = script, overwrite = TRUE)
-    cli_blue_play(paste("Wrote", script))
+    cli::cli_alert_success(paste("Wrote", script))
   } else {
     cli::cli_alert_danger(paste("Did not overwrite", script))
   }

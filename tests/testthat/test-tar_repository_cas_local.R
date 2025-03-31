@@ -52,11 +52,17 @@ tar_test("local CAS repository works on default directory", {
         expect_equal(unname(tar_read(y)), c(2L, 4L))
         expect_equal(unname(tar_read(y, branches = 2L)), 4L)
         expect_equal(readLines(tar_read(z)), c("2", "4"))
-        expect_equal(tar_outdated(callr_function = NULL), character(0L))
+        expect_equal(
+          tar_outdated(callr_function = NULL, reporter = "silent"),
+          character(0L)
+        )
         tar_make(callr_function = NULL, reporter = "silent")
         expect_equal(unique(tar_progress()$progress), "skipped")
         unlink(file.path(tar_config_get("store"), "cas", tar_meta(z)$data))
-        expect_equal(tar_outdated(callr_function = NULL), "z")
+        expect_equal(
+          tar_outdated(callr_function = NULL, reporter = "silent"),
+          "z"
+        )
         tar_make(callr_function = NULL, reporter = "silent")
         progress <- tar_progress()
         expect_equal(
@@ -111,7 +117,7 @@ tar_test("local CAS repository with some invalidated branches", {
       tar_target(w, sum(y))
     )
   })
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, reporter = "silent")
   tar_script({
     tar_option_set(repository = tar_repository_cas_local(path = "cas"))
     tar_option_set(memory = "transient")
@@ -122,7 +128,7 @@ tar_test("local CAS repository with some invalidated branches", {
       tar_target(w, sum(y))
     )
   })
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, reporter = "silent")
   expect_equal(tar_read(w), 9L)
 })
 
@@ -137,7 +143,7 @@ tar_test("local CAS repository while depending on all branches", {
       tar_target(z, y)
     )
   })
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, reporter = "silent")
   tar_script({
     tar_option_set(repository = tar_repository_cas_local(path = "cas"))
     tar_option_set(memory = "transient")
@@ -147,6 +153,6 @@ tar_test("local CAS repository while depending on all branches", {
       tar_target(z, y)
     )
   })
-  tar_make(callr_function = NULL)
+  tar_make(callr_function = NULL, reporter = "silent")
   expect_equal(as.integer(tar_read(z)), c(1L, 5L, 3L))
 })
