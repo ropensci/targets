@@ -44,6 +44,8 @@ It relies on stored metadata for information about upstream dependencies.
 Controls how messages are printed as targets run in the pipeline.
 Defaults to \code{tar_config_get("reporter_make")}. Choices:
 \itemize{
+\item \code{"balanced"} (default): a reporter that balances efficiency
+with informative detail. Uses a \code{cli} progress bar.
 \item \code{"silent"}: print nothing.
 \item \code{"summary"}: print a running total of the number of each targets in
 each status category (queued, dispatched, skipped, completed, canceled,
@@ -90,6 +92,8 @@ regardless of \code{seconds_meta_upload}.}
 \item{seconds_reporter}{Positive numeric of length 1 with the minimum
 number of seconds between times when the reporter prints progress
 messages to the R console.
+Does not apply to the \code{"balanced"} reporter.
+
 This is an aggressive optimization setting not recommended
 for most users: higher values might make some pipelines run faster,
 but it becomes less clear which targets are actually running

@@ -37,7 +37,9 @@
 #'   created by running the target script file (default: `_targets.R`).
 #' @param reporter Character of length 1, name of the reporter to user.
 #'   Controls how messages are printed as targets are checked. Choices:
-#'     * `"forecast_interactive"` (default): use the forecast reporter if the
+#'     * `"balanced"` (default): a reporter that balances efficiency
+#'       with informative detail. Uses a `cli` progress bar.
+#'     * `"forecast_interactive"`: use the forecast reporter if the
 #'       session is interactive (see [base::interactive()]),
 #'       otherwise use the silent reporter.
 #'     * `"silent"`: print nothing.

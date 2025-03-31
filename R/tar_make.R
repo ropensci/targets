@@ -30,6 +30,8 @@
 #' @param reporter Character of length 1, name of the reporter to user.
 #'   Controls how messages are printed as targets run in the pipeline.
 #'   Defaults to `tar_config_get("reporter_make")`. Choices:
+#'   * `"balanced"` (default): a reporter that balances efficiency
+#'       with informative detail. Uses a `cli` progress bar.
 #'   * `"silent"`: print nothing.
 #'   * `"summary"`: print a running total of the number of each targets in
 #'     each status category (queued, dispatched, skipped, completed, canceled,
@@ -76,6 +78,8 @@
 #' @param seconds_reporter Positive numeric of length 1 with the minimum
 #'   number of seconds between times when the reporter prints progress
 #'   messages to the R console.
+#'   Does not apply to the `"balanced"` reporter.
+#'
 #'   This is an aggressive optimization setting not recommended
 #'   for most users: higher values might make some pipelines run faster,
 #'   but it becomes less clear which targets are actually running

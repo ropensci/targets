@@ -84,7 +84,9 @@ Use with caution. \code{shortcut = TRUE} only works if you set \code{names}.}
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets are checked. Choices:
-* \code{"forecast_interactive"} (default): use the forecast reporter if the
+* \code{"balanced"} (default): a reporter that balances efficiency
+with informative detail. Uses a \code{cli} progress bar.
+* \code{"forecast_interactive"}: use the forecast reporter if the
 session is interactive (see \code{\link[base:interactive]{base::interactive()}}),
 otherwise use the silent reporter.
 * \code{"silent"}: print nothing.
@@ -94,6 +96,8 @@ targets found so far.}
 \item{seconds_reporter}{Positive numeric of length 1 with the minimum
 number of seconds between times when the reporter prints progress
 messages to the R console.
+Does not apply to the \code{"balanced"} reporter.
+
 This is an aggressive optimization setting not recommended
 for most users: higher values might make some pipelines run faster,
 but it becomes less clear which targets are actually running
