@@ -65,37 +65,22 @@ cli_port <- function(host, port) {
   cli::cli_end()
 }
 
-cli_df_header <- function(x, print = TRUE) {
-  msg <- cli_df_text(x)[1L]
-  if_any(print, message(msg, appendLF = FALSE), msg)
-}
-
-cli_df_body <- function(x, print = TRUE) {
-  msg <- cli_df_text(x)[2L]
-  if_any(print, message(msg, appendLF = FALSE), msg)
-}
-
-# nocov start
-# Covered in tests/interactive/test-reporter.R.
-cli_forecast <- function(x, print = TRUE) {
-  msg <- sprintf("\r  checked: %s | outdated: %s", x$checked, x$outdated)
-  if_any(print, message(msg, appendLF = FALSE), msg)
-}
-# nocov end
-
-cli_df_text <- function(x) {
-  names <- names(x)
-  fields <- vapply(x, as.character, FUN.VALUE = character(1L))
-  nchar_names <- nchar(names)
-  nchar_fields <- nchar(fields)
-  diff <- nchar_fields - nchar_names
-  pad_names <- strrep(" ", pmax(0L, diff))
-  pad_fields <- strrep(" ", abs(pmin(0L, diff)))
-  names <- paste0(names, pad_names)
-  fields <- paste0(fields, pad_fields)
-  line1 <- paste0(paste(names, collapse = " | "), "\n")
-  line2 <- paste0("\r", paste(fields, collapse = " | "))
-  c(line1, line2)
+cli_resources <- function(target) {
+  seconds_elapsed <- target$metrics$seconds %|||%
+    target$patternview$seconds
+  bytes_storage <- target$file$bytes %|||%
+    target$patternview$bytes
+  metrics <- NULL
+  if (!is.null(seconds_elapsed) && !anyNA(seconds_elapsed)) {
+    metrics <- c(metrics, units_seconds(seconds_elapsed))
+  }
+  if (!is.null(bytes_storage) && !anyNA(bytes_storage)) {
+    metrics <- c(metrics, units_bytes(bytes_storage))
+  }
+  if (!is.null(metrics)) {
+    metrics <- paste0("[", paste(metrics, collapse = ", "), "]")
+  }
+  metrics
 }
 
 cli_url <- function(url) {
@@ -107,3 +92,5 @@ cli_reset <- function() {
 }
 
 cli_number_ansi_colors <- cli::num_ansi_colors()
+
+cli_plus_grey <- cli::col_grey("+")

@@ -19,14 +19,15 @@ verbose_class <- R6::R6Class(
       )
     },
     report_pattern = function(target) {
-      message(paste("defined pattern", target_get_name(target)))
+      message(paste("declared pattern", target_get_name(target)))
     },
     report_completed = function(target, progress = NULL) {
       message(
         paste(
           "completed",
           target_get_type_cli(target),
-          target_get_name(target)
+          target_get_name(target),
+          cli_resources(target)
         )
       )
     },

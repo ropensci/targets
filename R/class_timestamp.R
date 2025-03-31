@@ -23,7 +23,7 @@ timestamp_class <- R6::R6Class(
       message(
         paste(
           time_stamp_cli(),
-          "defined pattern",
+          "declared pattern",
           target_get_name(target)
         )
       )
@@ -34,7 +34,8 @@ timestamp_class <- R6::R6Class(
           time_stamp_cli(),
           "completed",
           target_get_type_cli(target),
-          target_get_name(target)
+          target_get_name(target),
+          cli_resources(target)
         )
       )
     },
