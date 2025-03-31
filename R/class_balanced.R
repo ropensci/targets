@@ -48,15 +48,16 @@ balanced_class <- R6::R6Class(
         self$report_progress(progress)
       } else {
         cli::cli_alert(
-          "dispatched %s {.pkg %s}",
-          target_get_type_cli(target),
-          target_get_name(target)
+          sprintf(
+            "dispatched {.pkg %s}",
+            target_get_name(target)
+          )
         )
       }
     },
     report_pattern = function(target) {
-      cli::cli_alert(
-        sprintf("defined pattern {.pkg %s}", target_get_name(target))
+      cli::cli_alert_info(
+        sprintf("defined {.pkg %s}", target_get_name(target))
       )
     },
     report_completed = function(target, progress = NULL) {
@@ -65,8 +66,7 @@ balanced_class <- R6::R6Class(
       } else {
         cli::cli_alert_success(
           sprintf(
-            "completed %s {.pkg %s}",
-            target_get_type_cli(target),
+            "completed {.pkg %s}",
             target_get_name(target)
           )
         )
@@ -74,9 +74,10 @@ balanced_class <- R6::R6Class(
     },
     report_errored = function(target, progress = NULL) {
       cli::cli_alert_danger(
-        "errored %s {.pkg %s}",
-        target_get_type_cli(target),
-        target_get_name(target)
+        sprintf(
+          "errored {.pkg %s}",
+          target_get_name(target)
+        )
       )
     },
     report_outdated = function(outdated) {

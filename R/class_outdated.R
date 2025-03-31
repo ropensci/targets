@@ -6,8 +6,7 @@ outdated_init <- function(
   queue = "sequential",
   reporter = "silent",
   seconds_meta_append = 0,
-  seconds_meta_upload = 15,
-  seconds_reporter = 0.5
+  seconds_meta_upload = 15
 ) {
   outdated_new(
     pipeline = pipeline,
@@ -18,7 +17,6 @@ outdated_init <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     checked = counter_init(),
     outdated = counter_init()
   )
@@ -33,7 +31,6 @@ outdated_new <- function(
   reporter = NULL,
   seconds_meta_append = NULL,
   seconds_meta_upload = NULL,
-  seconds_reporter = NULL,
   checked = NULL,
   outdated = NULL
 ) {
@@ -46,7 +43,6 @@ outdated_new <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     checked = checked,
     outdated = outdated
   )
@@ -70,7 +66,6 @@ outdated_class <- R6::R6Class(
       reporter = NULL,
       seconds_meta_append = NULL,
       seconds_meta_upload = NULL,
-      seconds_reporter = NULL,
       checked = NULL,
       outdated = NULL
     ) {
@@ -82,8 +77,7 @@ outdated_class <- R6::R6Class(
         queue = queue,
         reporter = reporter,
         seconds_meta_append = seconds_meta_append,
-        seconds_meta_upload = seconds_meta_upload,
-        seconds_reporter = seconds_reporter
+        seconds_meta_upload = seconds_meta_upload
       )
       self$checked <- checked
       self$outdated <- outdated

@@ -8,8 +8,7 @@ inspection_init <- function(
   allow = NULL,
   exclude = NULL,
   outdated = TRUE,
-  reporter = "silent",
-  seconds_reporter = 0.5
+  reporter = "silent"
 ) {
   inspection_new(
     pipeline = pipeline,
@@ -21,8 +20,7 @@ inspection_init <- function(
     allow = allow,
     exclude = exclude,
     outdated = outdated,
-    reporter = reporter,
-    seconds_reporter = seconds_reporter
+    reporter = reporter
   )
 }
 
@@ -37,7 +35,6 @@ inspection_new <- function(
   exclude = NULL,
   outdated = NULL,
   reporter = NULL,
-  seconds_reporter = NULL,
   vertices = NULL,
   edges = NULL,
   vertices_imports = NULL,
@@ -56,7 +53,6 @@ inspection_new <- function(
     exclude = exclude,
     outdated = outdated,
     reporter = reporter,
-    seconds_reporter = seconds_reporter,
     vertices = vertices,
     edges = edges,
     vertices_imports = vertices_imports,
@@ -75,7 +71,6 @@ inspection_class <- R6::R6Class(
   public = list(
     outdated = NULL,
     reporter = NULL,
-    seconds_reporter = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
@@ -87,7 +82,6 @@ inspection_class <- R6::R6Class(
       exclude = NULL,
       outdated = NULL,
       reporter = NULL,
-      seconds_reporter = NULL,
       vertices = NULL,
       edges = NULL,
       vertices_imports = NULL,
@@ -113,7 +107,6 @@ inspection_class <- R6::R6Class(
       )
       self$outdated <- outdated
       self$reporter <- reporter
-      self$seconds_reporter <- seconds_reporter
     },
     hashes_to_vertices = function(hashes) {
       data_frame(
@@ -129,8 +122,7 @@ inspection_class <- R6::R6Class(
         meta = self$meta,
         names = self$names,
         shortcut = self$shortcut,
-        reporter = self$reporter,
-        seconds_reporter = self$seconds_reporter
+        reporter = self$reporter
       )
       outdated$run()
       names_outdated <- counter_get_names(outdated$outdated)

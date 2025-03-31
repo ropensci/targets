@@ -50,10 +50,7 @@ tar_test("run timestamp reporter with a cancellation", {
 
 tar_test("timestamp reporter retry message", {
   x <- timestamp_new()
-  expect_message({
-    x$report_retry(tar_target(x, TRUE))
-    x$flush_messages()
-  })
+  expect_message(x$report_retry(tar_target(x, TRUE)))
 })
 
 tar_test("validate timestamp reporter", {

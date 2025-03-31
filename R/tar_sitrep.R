@@ -120,8 +120,7 @@ tar_sitrep <- function(
     names_quosure = rlang::enquo(names),
     shortcut = shortcut,
     fields_quosure = rlang::enquo(fields),
-    reporter = reporter,
-    seconds_reporter = seconds_reporter
+    reporter = reporter
   )
   callr_outer(
     targets_function = tar_sitrep_inner,
@@ -141,8 +140,7 @@ tar_sitrep_inner <- function(
   names_quosure,
   shortcut,
   fields_quosure,
-  reporter,
-  seconds_reporter
+  reporter
 ) {
   names_all <- pipeline_get_names(pipeline)
   names <- tar_tidyselect_eval(names_quosure, names_all)
@@ -152,8 +150,7 @@ tar_sitrep_inner <- function(
     names = names,
     shortcut = shortcut,
     queue = "sequential",
-    reporter = reporter,
-    seconds_reporter = seconds_reporter
+    reporter = reporter
   )
   sitrep$run()
   out <- tibble::as_tibble(data.table::rbindlist(as.list(sitrep$sitrep)))

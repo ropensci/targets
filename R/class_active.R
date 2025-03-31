@@ -7,7 +7,6 @@ active_new <- function(
   reporter = NULL,
   seconds_meta_append = NULL,
   seconds_meta_upload = NULL,
-  seconds_reporter = NULL,
   envir = NULL
 ) {
   active_class$new(
@@ -19,7 +18,6 @@ active_new <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     envir = envir
   )
 }
@@ -47,7 +45,6 @@ active_class <- R6::R6Class(
       reporter = NULL,
       seconds_meta_append = NULL,
       seconds_meta_upload = NULL,
-      seconds_reporter = NULL,
       envir = NULL
     ) {
       super$initialize(
@@ -58,8 +55,7 @@ active_class <- R6::R6Class(
         queue = queue,
         reporter = reporter,
         seconds_meta_append = seconds_meta_append,
-        seconds_meta_upload = seconds_meta_upload,
-        seconds_reporter = seconds_reporter
+        seconds_meta_upload = seconds_meta_upload
       )
       self$envir <- envir
     },
@@ -227,7 +223,6 @@ active_class <- R6::R6Class(
     },
     end = function() {
       scheduler <- self$scheduler
-      scheduler$reporter$report_finalize(scheduler$progress)
       pipeline_unload_loaded(self$pipeline)
       self$flush_meta()
       self$meta$database$deduplicate_storage()

@@ -132,72 +132,33 @@ expect_equal(tar_progress()$progress, "canceled")
 # Should show counts per target status category
 # and show all completed at the end.
 tar_destroy()
-local_init(pipeline_map(), reporter = "summary")$run()
+local_init(pipeline_map(), reporter = "balanced")$run()
 
 # Should see a dispatched target for 2 seconds.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(Sys.sleep(2)))))
-local <- local_init(pipeline, reporter = "summary")$run()
+local <- local_init(pipeline, reporter = "balanced")$run()
 
 # Should show one errored target.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(stop(123)))))
-local <- local_init(pipeline, reporter = "summary")$run()
+local <- local_init(pipeline, reporter = "balanced")$run()
 
 # Should show one warned target.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(warning(123)))))
-local_init(pipeline, reporter = "summary")$run()
+local_init(pipeline, reporter = "balanced")$run()
 
-# Should show one canceled target.
+# Should not canceled targets.
 tar_destroy()
 pipeline <- pipeline_init(list(target_init("x", quote(targets::tar_cancel()))))
-local <- local_init(pipeline, reporter = "summary")$run()
+local <- local_init(pipeline, reporter = "balanced")$run()
 
-# Should show same number check as outdated.
+# May show progress bar.
 tar_destroy()
-out <- outdated_init(pipeline_map(), reporter = "forecast")
+out <- outdated_init(pipeline_map(), reporter = "balanced")
 tmp <- out$run()
 
-# Should show build messages for all targets.
-tar_destroy()
-local_init(pipeline_map(), reporter = "verbose_positives")$run()
-
-# Should skip skipped messages.
-local_init(pipeline_map(), reporter = "verbose_positives")$run()
-
-# Should show timestamped build messages for all targets.
-tar_destroy()
-local_init(pipeline_map(), reporter = "timestamp_positives")$run()
-
-# Should skip skipped messages.
-local_init(pipeline_map(), reporter = "timestamp_positives")$run()
-
-# Should show more checked and no outdated.
-local <- local_init(pipeline_map(), reporter = "silent")
-local$run()
-out <- outdated_init(pipeline_map(), reporter = "forecast")
-tmp <- out$run()
-
-# Should show more checked than outdated.
-data1 <- readRDS("_targets/objects/data1")
-data1 <- data1 + max(data1) + 10
-saveRDS(data1, "_targets/objects/data1")
-out <- outdated_init(pipeline_map(), reporter = "forecast")
-tmp <- out$run()
-
-# tar_outdated() uses forecast reporter.
-tar_script(
-  list(
-    tar_target(y1, seq_len(1000)),
-    tar_target(y2, y1, pattern = map(y1))
-  )
-)
-tar_make()
-tar_outdated(reporter = "forecast")
-
-# tar_visnetwork() uses forecast reporter.
-tar_visnetwork(reporter = "forecast")
-
+# Clean up.
 tar_destroy()
 unlink("_targets.R")

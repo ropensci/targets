@@ -99,9 +99,9 @@ tar_test("local CAS repository works on custom directory", {
   expect_equal(unname(tar_read(y)), c(2L, 4L))
   expect_equal(unname(tar_read(y, branches = 2L)), 4L)
   expect_equal(readLines(tar_read(z)), c("2", "4"))
-  expect_equal(tar_outdated(), character(0L))
+  expect_equal(tar_outdated(reporter = "silent"), character(0L))
   unlink(file.path("cas", tar_meta(z)$data))
-  expect_equal(tar_outdated(), "z")
+  expect_equal(tar_outdated(reporter = "silent"), "z")
   tar_destroy()
 })
 

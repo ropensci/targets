@@ -6,7 +6,6 @@ prelocal_new <- function(
   reporter = NULL,
   seconds_meta_append = NULL,
   seconds_meta_upload = NULL,
-  seconds_reporter = NULL,
   envir = NULL,
   scheduler = NULL
 ) {
@@ -18,7 +17,6 @@ prelocal_new <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     envir = envir,
     scheduler = scheduler
   )
@@ -38,7 +36,6 @@ prelocal_class <- R6::R6Class(
       reporter = NULL,
       seconds_meta_append = NULL,
       seconds_meta_upload = NULL,
-      seconds_reporter = NULL,
       envir = NULL,
       scheduler = NULL
     ) {
@@ -50,7 +47,6 @@ prelocal_class <- R6::R6Class(
         reporter = reporter,
         seconds_meta_append = seconds_meta_append,
         seconds_meta_upload = seconds_meta_upload,
-        seconds_reporter = seconds_reporter,
         envir = envir
       )
       self$scheduler <- scheduler

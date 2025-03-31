@@ -7,7 +7,6 @@ local_init <- function(
   reporter = "verbose",
   seconds_meta_append = 0,
   seconds_meta_upload = 15,
-  seconds_reporter = 0,
   envir = tar_option_get("envir")
 ) {
   local_new(
@@ -19,7 +18,6 @@ local_init <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     envir = envir
   )
 }
@@ -33,7 +31,6 @@ local_new <- function(
   reporter = NULL,
   seconds_meta_append = NULL,
   seconds_meta_upload = NULL,
-  seconds_reporter = NULL,
   envir = NULL
 ) {
   local_class$new(
@@ -45,7 +42,6 @@ local_new <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     envir = envir
   )
 }

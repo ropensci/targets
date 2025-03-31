@@ -101,23 +101,10 @@
 #'   When the pipeline ends,
 #'   all the metadata and progress data is uploaded immediately,
 #'   regardless of `seconds_meta_upload`.
-#' @param seconds_reporter Argument of [tar_make()], [tar_make_clustermq()],
-#'   and [tar_make_future()]. Positive numeric of length 1 with the minimum
-#'   number of seconds between times when the reporter prints progress
-#'   messages to the R console (for the aforementioned
-#'   [tar_make()]-like functions only).
-#'   This is an aggressive optimization setting not recommended
-#'   for most users: higher values might make some pipelines run faster,
-#'   but it becomes less clear which targets are actually running
-#'   at any given moment.
-#'   When the pipeline is just skipping targets,
-#'   the actual interval between messages is `max(1, seconds_reporter)`
-#'   to reduce overhead.
-#' @param seconds_reporter_outdated Argument of [tar_outdated()]
-#'   and other related functions that do not run the pipeline.
-#'   Positive numeric of length 1 with the minimum
-#'   number of seconds between times when the reporter prints progress
-#'   messages to the R console for [tar_outdated()].
+#' @param seconds_reporter Deprecated in `targets` 1.10.1.9010
+#'   (2025-03-31).
+#' @param seconds_reporter_outdated Deprecated in `targets` 1.10.1.9010
+#'   (2025-03-31).
 #' @param shortcut logical of length 1, default `shortcut` argument
 #'   to [tar_make()] and related functions.
 #'   If the argument `NULL`, the setting is not modified.
@@ -208,6 +195,33 @@ tar_config_set <- function(
 ) {
   # TODO: remove single-project format, which was deprecated on
   # 2021-09-03 (targets version 0.7.0.9001).
+  if_any(
+    is.null(seconds_reporter),
+    NULL,
+    tar_warn_deprecate(
+      "The seconds_reporter argument of tar_config_set() was deprecated ",
+      "in targets version 1.10.1.9010 (2025-03-31)."
+    )
+  )
+  if_any(
+    is.null(seconds_reporter_outdated),
+    NULL,
+    tar_warn_deprecate(
+      "The seconds_reporter_outdated argument of ",
+      "tar_config_set() was deprecated ",
+      "in targets version 1.10.1.9010 (2025-03-31)."
+    )
+  )
+  reporter_make <- if_any(
+    reporter_make == "summary",
+    "balanced",
+    reporter_make
+  )
+  reporter_outdated <- if_any(
+    reporter_outdated %in% c("forecast_interactive", "forecast"),
+    "balanced",
+    reporter_outdated
+  )
   tar_assert_chr(config)
   tar_assert_scalar(config)
   tar_assert_chr(project)
@@ -223,8 +237,6 @@ tar_config_set <- function(
   tar_config_assert_script(script)
   tar_config_assert_seconds_meta_append(seconds_meta_append)
   tar_config_assert_seconds_meta_upload(seconds_meta_upload)
-  tar_config_assert_seconds_reporter(seconds_reporter)
-  tar_config_assert_seconds_reporter_outdated(seconds_reporter_outdated)
   tar_config_assert_seconds_interval(seconds_interval)
   tar_config_assert_shortcut(shortcut)
   tar_config_assert_store(store)
@@ -344,6 +356,18 @@ tar_config_assert_reporter_outdated <- function(reporter_outdated) {
   if (is.null(reporter_outdated)) {
     return()
   }
+  reporter_outdated <- if_any(
+    reporter_outdated %in% c("forecast", "forecast_interactive"),
+    {
+      tar_warn_deprecate(
+        "The forecast reporters in tar_outdated() etc. were deprecated ",
+        "in targets version 1.10.1.9010 (2025-03-31). ",
+        "Use the \"balanced\" reporter instead."
+      )
+      "balanced"
+    },
+    reporter_outdated
+  )
   tar_assert_flag(reporter_outdated, tar_reporters_outdated())
 }
 
@@ -386,19 +410,6 @@ tar_config_assert_seconds_meta_upload <- function(seconds_meta_upload) {
   tar_assert_ge(seconds_meta_upload, 0)
 }
 
-tar_config_assert_seconds_reporter <- function(seconds_reporter) {
-  if (is.null(seconds_reporter)) {
-    return()
-  }
-  tar_assert_dbl(seconds_reporter)
-  tar_assert_scalar(seconds_reporter)
-  tar_assert_none_na(seconds_reporter)
-  tar_assert_ge(seconds_reporter, 0)
-}
-
-tar_config_assert_seconds_reporter_outdated <-
-  tar_config_assert_seconds_reporter
-
 tar_config_assert_shortcut <- function(shortcut) {
   if (is.null(shortcut)) {
     return()
@@ -437,7 +448,6 @@ tar_reporters_make <- function() {
   c(
     "balanced",
     "silent",
-    "summary",
     "timestamp",
     "timestamp_positives",
     "verbose",
@@ -446,7 +456,7 @@ tar_reporters_make <- function() {
 }
 
 tar_reporters_outdated <- function() {
-  c("balanced", "forecast_interactive", "forecast", "silent")
+  c("balanced", "silent")
 }
 
 tar_config_read_yaml <- function(config) {

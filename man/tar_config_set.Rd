@@ -105,24 +105,11 @@ When the pipeline ends,
 all the metadata and progress data is uploaded immediately,
 regardless of \code{seconds_meta_upload}.}
 
-\item{seconds_reporter}{Argument of \code{\link[=tar_make]{tar_make()}}, \code{\link[=tar_make_clustermq]{tar_make_clustermq()}},
-and \code{\link[=tar_make_future]{tar_make_future()}}. Positive numeric of length 1 with the minimum
-number of seconds between times when the reporter prints progress
-messages to the R console (for the aforementioned
-\code{\link[=tar_make]{tar_make()}}-like functions only).
-This is an aggressive optimization setting not recommended
-for most users: higher values might make some pipelines run faster,
-but it becomes less clear which targets are actually running
-at any given moment.
-When the pipeline is just skipping targets,
-the actual interval between messages is \code{max(1, seconds_reporter)}
-to reduce overhead.}
+\item{seconds_reporter}{Deprecated in \code{targets} 1.10.1.9010
+(2025-03-31).}
 
-\item{seconds_reporter_outdated}{Argument of \code{\link[=tar_outdated]{tar_outdated()}}
-and other related functions that do not run the pipeline.
-Positive numeric of length 1 with the minimum
-number of seconds between times when the reporter prints progress
-messages to the R console for \code{\link[=tar_outdated]{tar_outdated()}}.}
+\item{seconds_reporter_outdated}{Deprecated in \code{targets} 1.10.1.9010
+(2025-03-31).}
 
 \item{seconds_interval}{Deprecated on 2023-08-24
 (\code{targets} version 1.2.2.9001).

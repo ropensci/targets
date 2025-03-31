@@ -25,7 +25,7 @@ test_that("crew retries", {
   tar_make(reporter = "timestamp_positives")
   expect_equal(tar_read(x), "completed despite retries")
   tar_destroy()
-  tar_make(reporter = "summary")
+  tar_make(reporter = "balanced")
   expect_equal(tar_read(x), "completed despite retries")
   tar_destroy()
   tar_make(reporter = "verbose") # Max out the retry quota on this last one.

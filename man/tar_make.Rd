@@ -47,21 +47,13 @@ Defaults to \code{tar_config_get("reporter_make")}. Choices:
 \item \code{"balanced"} (default): a reporter that balances efficiency
 with informative detail. Uses a \code{cli} progress bar.
 \item \code{"silent"}: print nothing.
-\item \code{"summary"}: print a running total of the number of each targets in
-each status category (queued, dispatched, skipped, completed, canceled,
-or errored). Also show a timestamp (\code{"\%H:\%M \%OS2"} \code{strptime()} format)
-of the last time the progress changed and printed to the screen.
 \item \code{"timestamp"}: same as the \code{"verbose"} reporter except that each
-.message begins with a time stamp.
-\item \code{"timestamp_positives"}: same as the \code{"timestamp"} reporter
-except without messages for skipped targets.
+message begins with a time stamp.
 \item \code{"verbose"}: print messages for individual targets
-as they start, finish, or are skipped. Each individual
+as they dispatch or complete. Each individual
 target-specific time (e.g. "3.487 seconds") is strictly the
 elapsed runtime of the target and does not include
 steps like data retrieval and output storage.
-\item \code{"verbose_positives"}: same as the \code{"verbose"} reporter
-except without messages for skipped targets.
 }}
 
 \item{seconds_meta_append}{Positive numeric of length 1 with the minimum
@@ -89,23 +81,12 @@ When the pipeline ends,
 all the metadata and progress data is uploaded immediately,
 regardless of \code{seconds_meta_upload}.}
 
-\item{seconds_reporter}{Positive numeric of length 1 with the minimum
-number of seconds between times when the reporter prints progress
-messages to the R console.
-Does not apply to the \code{"balanced"} reporter.
-
-This is an aggressive optimization setting not recommended
-for most users: higher values might make some pipelines run faster,
-but it becomes less clear which targets are actually running
-at any given moment.
-When the pipeline is just skipping targets,
-the actual interval between messages is \code{max(1, seconds_reporter)}
-to reduce overhead.}
+\item{seconds_reporter}{Deprecated on 2025-03-31
+(\code{targets} version 1.10.1.9010).}
 
 \item{seconds_interval}{Deprecated on 2023-08-24
 (targets version 1.2.2.9001).
-Use \code{seconds_meta_append}, \code{seconds_meta_upload},
-and \code{seconds_reporter} instead.}
+Use \code{seconds_meta_append} and \code{seconds_meta_upload} instead.}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session

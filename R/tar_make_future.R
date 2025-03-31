@@ -56,7 +56,6 @@ tar_make_future <- function(
   tar_assert_package("future")
   tar_assert_scalar(shortcut)
   tar_assert_lgl(shortcut)
-  tar_assert_flag(reporter, tar_reporters_make())
   tar_assert_scalar(workers)
   tar_assert_dbl(workers)
   tar_assert_ge(workers, 1)
@@ -70,11 +69,8 @@ tar_make_future <- function(
   tar_assert_scalar(seconds_meta_upload)
   tar_assert_none_na(seconds_meta_upload)
   tar_assert_ge(seconds_meta_upload, 0)
-  tar_assert_dbl(seconds_reporter)
-  tar_assert_scalar(seconds_reporter)
-  tar_assert_none_na(seconds_reporter)
-  tar_assert_ge(seconds_reporter, 0)
   tar_deprecate_seconds_interval(seconds_interval)
+  reporter <- tar_make_reporter(reporter)
   if_any(
     is.null(garbage_collection),
     NULL,
@@ -92,7 +88,6 @@ tar_make_future <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     workers = workers
   )
   out <- callr_outer(
@@ -116,7 +111,6 @@ tar_make_future_inner <- function(
   reporter,
   seconds_meta_append,
   seconds_meta_upload,
-  seconds_reporter,
   workers
 ) {
   names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
@@ -129,7 +123,6 @@ tar_make_future_inner <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     workers = workers
   )$run()
   invisible()

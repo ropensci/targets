@@ -36,12 +36,12 @@ tar_test("full non-branching run", {
   expect_equal(sort(counter_get_names(out$outdated)), character(0))
 })
 
-tar_test("full branching run with forecast reporter", {
+tar_test("full branching run with balanced reporter", {
   skip_cran()
   out <- outdated_init(
     pipeline_map(),
     queue = "sequential",
-    reporter = "forecast"
+    reporter = "balanced"
   )
   out$run()
   exp <- sort(pipeline_get_names(pipeline_map()))
@@ -51,7 +51,7 @@ tar_test("full branching run with forecast reporter", {
   out <- outdated_init(
     pipeline_map(),
     queue = "sequential",
-    reporter = "forecast"
+    reporter = "balanced"
   )
   out$run()
   expect_equal(sort(counter_get_names(out$outdated)), character(0))

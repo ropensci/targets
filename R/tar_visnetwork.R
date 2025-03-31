@@ -75,12 +75,7 @@ tar_visnetwork <- function(
   tar_assert_positive(zoom_speed)
   tar_assert_lgl(physics)
   tar_assert_scalar(physics)
-  tar_config_assert_reporter_outdated(reporter)
   reporter <- tar_outdated_reporter(reporter)
-  tar_assert_dbl(seconds_reporter)
-  tar_assert_scalar(seconds_reporter)
-  tar_assert_none_na(seconds_reporter)
-  tar_assert_ge(seconds_reporter, 0)
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments, "callr_arguments mut be a list.")
   targets_arguments <- list(
@@ -98,8 +93,7 @@ tar_visnetwork <- function(
     degree_to = degree_to,
     zoom_speed = zoom_speed,
     physics = physics,
-    reporter = reporter,
-    seconds_reporter = seconds_reporter
+    reporter = reporter
   )
   callr_outer(
     targets_function = tar_visnetwork_inner,
@@ -129,8 +123,7 @@ tar_visnetwork_inner <- function(
   degree_to,
   zoom_speed,
   physics,
-  reporter,
-  seconds_reporter
+  reporter
 ) {
   names <- tar_tidyselect_eval(names_quosure, pipeline_get_names(pipeline))
   network <- inspection_init(
@@ -143,8 +136,7 @@ tar_visnetwork_inner <- function(
     allow = allow_quosure,
     exclude = exclude_quosure,
     outdated = outdated,
-    reporter = reporter,
-    seconds_reporter = seconds_reporter
+    reporter = reporter
   )
   visual <- visnetwork_init(
     network = network,

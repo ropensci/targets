@@ -1,24 +1,16 @@
-reporter_init <- function(reporter = "verbose", seconds_interval = 0.5) {
+reporter_init <- function(reporter = "verbose") {
   switch(
     reporter,
     balanced = balanced_new(),
-    forecast = forecast_new(seconds_interval = seconds_interval),
     silent = silent_new(),
-    summary = summary_new(seconds_interval = seconds_interval),
-    timestamp = timestamp_new(seconds_interval = seconds_interval),
-    timestamp_positives = timestamp_positives_new(
-      seconds_interval = seconds_interval
-    ),
-    verbose = verbose_new(seconds_interval = seconds_interval),
-    verbose_positives = verbose_positives_new(
-      seconds_interval = seconds_interval
-    ),
+    timestamp = timestamp_new(),
+    verbose = verbose_new(),
     tar_throw_validate("unsupported reporter")
   )
 }
 
-reporter_new <- function(seconds_interval = 0.5) {
-  reporter_class$new(seconds_interval = seconds_interval)
+reporter_new <- function() {
+  reporter_class$new()
 }
 
 reporter_class <- R6::R6Class(
@@ -27,22 +19,7 @@ reporter_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    seconds_interval = 0,
-    buffer = NULL,
-    seconds_flushed = -Inf,
     seconds_skipped = -Inf,
-    initialize = function(seconds_interval = NULL) {
-      self$seconds_interval <- seconds_interval
-    },
-    poll = function() {
-      now <- time_seconds_local()
-      flush <- (now - .subset2(self, "seconds_flushed")) >
-        .subset2(self, "seconds_interval")
-      if (flush) {
-        .subset2(self, "flush_messages")()
-        self$seconds_flushed <- now
-      }
-    },
     report_start = function() {
     },
     report_error = function(error) {
@@ -92,10 +69,6 @@ reporter_class <- R6::R6Class(
     report_workspace_upload = function(target) {
     },
     report_retry = function(target = NULL, progress = NULL) {
-    },
-    report_finalize = function(progress = NULL) {
-    },
-    flush_messages = function() {
     },
     validate = function() {
     }

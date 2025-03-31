@@ -7,7 +7,6 @@ future_init <- function(
   reporter = "verbose",
   seconds_meta_append = 0,
   seconds_meta_upload = 15,
-  seconds_reporter = 0,
   envir = tar_option_get("envir"),
   workers = 1L
 ) {
@@ -20,7 +19,6 @@ future_init <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     envir = envir,
     workers = as.integer(workers)
   )
@@ -36,7 +34,6 @@ future_new <- function(
   envir = NULL,
   seconds_meta_append = NULL,
   seconds_meta_upload = NULL,
-  seconds_reporter = NULL,
   workers = NULL
 ) {
   future_class$new(
@@ -48,7 +45,6 @@ future_new <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     envir = envir,
     workers = workers
   )
@@ -71,7 +67,6 @@ future_class <- R6::R6Class(
       reporter = NULL,
       seconds_meta_append = NULL,
       seconds_meta_upload = NULL,
-      seconds_reporter = NULL,
       envir = NULL,
       workers = NULL
     ) {
@@ -84,7 +79,6 @@ future_class <- R6::R6Class(
         reporter = reporter,
         seconds_meta_append = seconds_meta_append,
         seconds_meta_upload = seconds_meta_upload,
-        seconds_reporter = seconds_reporter,
         envir = envir
       )
       self$workers <- workers

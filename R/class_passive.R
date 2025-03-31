@@ -6,8 +6,7 @@ passive_new <- function(
   queue = NULL,
   reporter = NULL,
   seconds_meta_append = NULL,
-  seconds_meta_upload = NULL,
-  seconds_reporter = NULL
+  seconds_meta_upload = NULL
 ) {
   passive_class$new(
     pipeline = pipeline,
@@ -17,8 +16,7 @@ passive_new <- function(
     queue = queue,
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
-    seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter
+    seconds_meta_upload = seconds_meta_upload
   )
 }
 

@@ -33,25 +33,16 @@
 #'   * `"balanced"` (default): a reporter that balances efficiency
 #'       with informative detail. Uses a `cli` progress bar.
 #'   * `"silent"`: print nothing.
-#'   * `"summary"`: print a running total of the number of each targets in
-#'     each status category (queued, dispatched, skipped, completed, canceled,
-#'     or errored). Also show a timestamp (`"%H:%M %OS2"` `strptime()` format)
-#'     of the last time the progress changed and printed to the screen.
 #'   * `"timestamp"`: same as the `"verbose"` reporter except that each
-#'     .message begins with a time stamp.
-#'   * `"timestamp_positives"`: same as the `"timestamp"` reporter
-#'     except without messages for skipped targets.
+#'      message begins with a time stamp.
 #'   * `"verbose"`: print messages for individual targets
-#'     as they start, finish, or are skipped. Each individual
+#'     as they dispatch or complete. Each individual
 #'     target-specific time (e.g. "3.487 seconds") is strictly the
 #'     elapsed runtime of the target and does not include
 #'     steps like data retrieval and output storage.
-#'   * `"verbose_positives"`: same as the `"verbose"` reporter
-#'     except without messages for skipped targets.
 #' @param seconds_interval Deprecated on 2023-08-24
 #'   (targets version 1.2.2.9001).
-#'   Use `seconds_meta_append`, `seconds_meta_upload`,
-#'   and `seconds_reporter` instead.
+#'   Use `seconds_meta_append` and `seconds_meta_upload` instead.
 #' @param seconds_meta_append Positive numeric of length 1 with the minimum
 #'   number of seconds between saves to the local metadata and progress files
 #'   in the data store.
@@ -75,18 +66,8 @@
 #'   When the pipeline ends,
 #'   all the metadata and progress data is uploaded immediately,
 #'   regardless of `seconds_meta_upload`.
-#' @param seconds_reporter Positive numeric of length 1 with the minimum
-#'   number of seconds between times when the reporter prints progress
-#'   messages to the R console.
-#'   Does not apply to the `"balanced"` reporter.
-#'
-#'   This is an aggressive optimization setting not recommended
-#'   for most users: higher values might make some pipelines run faster,
-#'   but it becomes less clear which targets are actually running
-#'   at any given moment.
-#'   When the pipeline is just skipping targets,
-#'   the actual interval between messages is `max(1, seconds_reporter)`
-#'   to reduce overhead.
+#' @param seconds_reporter Deprecated on 2025-03-31
+#'   (`targets` version 1.10.1.9010).
 #' @param garbage_collection Deprecated. Use the `garbage_collection`
 #'   argument of [tar_option_set()] instead to run garbage collection
 #'   at regular intervals in a pipeline, or use the argument of the same
@@ -166,7 +147,6 @@ tar_make <- function(
   force(envir)
   tar_assert_scalar(shortcut)
   tar_assert_lgl(shortcut)
-  tar_assert_flag(reporter, tar_reporters_make())
   tar_assert_callr_function(callr_function)
   tar_assert_list(callr_arguments)
   tar_assert_dbl(seconds_meta_append)
@@ -177,10 +157,6 @@ tar_make <- function(
   tar_assert_scalar(seconds_meta_upload)
   tar_assert_none_na(seconds_meta_upload)
   tar_assert_ge(seconds_meta_upload, 0)
-  tar_assert_dbl(seconds_reporter)
-  tar_assert_scalar(seconds_reporter)
-  tar_assert_none_na(seconds_reporter)
-  tar_assert_ge(seconds_reporter, 0)
   tar_deprecate_seconds_interval(seconds_interval)
   tar_assert_lgl(terminate_controller)
   tar_assert_scalar(terminate_controller)
@@ -188,6 +164,7 @@ tar_make <- function(
   tar_assert_lgl(as_job)
   tar_assert_scalar(as_job)
   tar_assert_none_na(as_job)
+  reporter <- tar_make_reporter(reporter)
   if_any(
     is.null(garbage_collection),
     NULL,
@@ -196,6 +173,14 @@ tar_make <- function(
       "in targets version 1.8.0.9004 (2024-10-22). The garbage_collection ",
       "argument of tar_option_set() is more unified and featureful now. ",
       "Please have a look at its documentation."
+    )
+  )
+  if_any(
+    is.null(seconds_reporter),
+    NULL,
+    tar_warn_deprecate(
+      "The seconds_reporter argument of tar_make() etc. was deprecated ",
+      "in targets version 1.10.1.9010 (2025-03-31)."
     )
   )
   # Tested in tests/interactive/test-job.R.
@@ -216,7 +201,6 @@ tar_make <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     use_crew = use_crew,
     terminate_controller = terminate_controller
   )
@@ -241,7 +225,6 @@ tar_make_inner <- function(
   reporter,
   seconds_meta_append,
   seconds_meta_upload,
-  seconds_reporter,
   use_crew,
   terminate_controller
 ) {
@@ -263,7 +246,6 @@ tar_make_inner <- function(
       reporter = reporter,
       seconds_meta_append = seconds_meta_append,
       seconds_meta_upload = seconds_meta_upload,
-      seconds_reporter = seconds_reporter,
       envir = tar_option_get("envir")
     )$run()
   } else {
@@ -277,13 +259,30 @@ tar_make_inner <- function(
       reporter = reporter,
       seconds_meta_append = seconds_meta_append,
       seconds_meta_upload = seconds_meta_upload,
-      seconds_reporter = seconds_reporter,
       envir = tar_option_get("envir"),
       controller = controller,
       terminate_controller = terminate_controller
     )$run()
   }
   invisible()
+}
+
+tar_make_reporter <- function(reporter) {
+  reporter <- if_any(
+    reporter %in% c("summary", "timestamp_positives", "verbose_positives"),
+    {
+      tar_warn_deprecate(
+        "The summary reporter in tar_make() etc. was deprecated ",
+        "in targets version 1.10.1.9010 (2025-03-31). ",
+        "Use the \"balanced\", \"verbose\", or \"timestamp\" ",
+        "reporter instead."
+      )
+      "balanced"
+    },
+    reporter
+  )
+  tar_assert_flag(reporter, tar_reporters_make())
+  reporter
 }
 
 # Tested in tests/interactive/test-job.R.

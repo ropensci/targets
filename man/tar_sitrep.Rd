@@ -86,25 +86,10 @@ Use with caution. \code{shortcut = TRUE} only works if you set \code{names}.}
 Controls how messages are printed as targets are checked. Choices:
 * \code{"balanced"} (default): a reporter that balances efficiency
 with informative detail. Uses a \code{cli} progress bar.
-* \code{"forecast_interactive"}: use the forecast reporter if the
-session is interactive (see \code{\link[base:interactive]{base::interactive()}}),
-otherwise use the silent reporter.
-* \code{"silent"}: print nothing.
-* \code{"forecast"}: print running totals of the checked and outdated
-targets found so far.}
+* \code{"silent"}: print nothing.}
 
-\item{seconds_reporter}{Positive numeric of length 1 with the minimum
-number of seconds between times when the reporter prints progress
-messages to the R console.
-Does not apply to the \code{"balanced"} reporter.
-
-This is an aggressive optimization setting not recommended
-for most users: higher values might make some pipelines run faster,
-but it becomes less clear which targets are actually running
-at any given moment.
-When the pipeline is just skipping targets,
-the actual interval between messages is \code{max(1, seconds_reporter)}
-to reduce overhead.}
+\item{seconds_reporter}{Deprecated on 2025-03-31
+(\code{targets} version 1.10.1.9010).}
 
 \item{callr_function}{A function from \code{callr} to start a fresh clean R
 process to do the work. Set to \code{NULL} to run in the current session

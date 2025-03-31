@@ -7,7 +7,6 @@ clustermq_init <- function(
   reporter = "verbose",
   seconds_meta_append = 0,
   seconds_meta_upload = 15,
-  seconds_reporter = 0,
   envir = tar_option_get("envir"),
   workers = 1L,
   log_worker = FALSE
@@ -21,7 +20,6 @@ clustermq_init <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     envir = envir,
     workers = as.integer(workers),
     log_worker = log_worker
@@ -37,7 +35,6 @@ clustermq_new <- function(
   reporter = NULL,
   seconds_meta_append = NULL,
   seconds_meta_upload = NULL,
-  seconds_reporter = NULL,
   envir = NULL,
   workers = NULL,
   log_worker = NULL
@@ -51,7 +48,6 @@ clustermq_new <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     envir = envir,
     workers = workers,
     log_worker = log_worker
@@ -76,7 +72,6 @@ clustermq_class <- R6::R6Class(
       reporter = NULL,
       seconds_meta_append = NULL,
       seconds_meta_upload = NULL,
-      seconds_reporter = NULL,
       envir = NULL,
       workers = NULL,
       log_worker = NULL
@@ -90,7 +85,6 @@ clustermq_class <- R6::R6Class(
         reporter = reporter,
         seconds_meta_append = seconds_meta_append,
         seconds_meta_upload = seconds_meta_upload,
-        seconds_reporter = seconds_reporter,
         envir = envir
       )
       self$workers <- as.integer(workers)
@@ -238,7 +232,6 @@ clustermq_class <- R6::R6Class(
         reporter = self$reporter,
         seconds_meta_append = self$seconds_meta_append,
         seconds_meta_upload = self$seconds_meta_upload,
-        seconds_reporter = self$seconds_reporter,
         envir = self$envir,
         scheduler = self$scheduler
       )

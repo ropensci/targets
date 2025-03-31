@@ -12,7 +12,5 @@ tar_test("reporter abstract class", {
   expect_null(x$report_workspace(NULL))
   expect_null(x$report_workspace_upload(NULL))
   expect_null(x$report_retry())
-  expect_null(x$report_finalize())
-  expect_null(x$flush_messages())
   expect_null(x$validate())
 })

@@ -7,7 +7,6 @@ crew_init <- function(
   reporter = "verbose",
   seconds_meta_append = 0,
   seconds_meta_upload = 15,
-  seconds_reporter = 0,
   envir = tar_option_get("envir"),
   controller = NULL,
   terminate_controller = TRUE
@@ -21,7 +20,6 @@ crew_init <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     envir = envir,
     controller = controller,
     terminate_controller = terminate_controller
@@ -37,7 +35,6 @@ crew_new <- function(
   reporter = NULL,
   seconds_meta_append = NULL,
   seconds_meta_upload = NULL,
-  seconds_reporter = NULL,
   envir = NULL,
   controller = NULL,
   terminate_controller = NULL
@@ -51,7 +48,6 @@ crew_new <- function(
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
     seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter,
     envir = envir,
     controller = controller,
     terminate_controller = terminate_controller
@@ -75,7 +71,6 @@ crew_class <- R6::R6Class(
       reporter = NULL,
       seconds_meta_append = NULL,
       seconds_meta_upload = NULL,
-      seconds_reporter = NULL,
       envir = NULL,
       controller = NULL,
       terminate_controller = NULL
@@ -89,7 +84,6 @@ crew_class <- R6::R6Class(
         reporter = reporter,
         seconds_meta_append = seconds_meta_append,
         seconds_meta_upload = seconds_meta_upload,
-        seconds_reporter = seconds_reporter,
         envir = envir
       )
       self$controller <- controller
@@ -264,7 +258,6 @@ crew_class <- R6::R6Class(
         reporter = self$reporter,
         seconds_meta_append = self$seconds_meta_append,
         seconds_meta_upload = self$seconds_meta_upload,
-        seconds_reporter = self$seconds_reporter,
         envir = self$envir,
         scheduler = self$scheduler
       )

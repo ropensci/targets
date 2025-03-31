@@ -6,8 +6,7 @@ algorithm_new <- function(
   queue = NULL,
   reporter = NULL,
   seconds_meta_append = NULL,
-  seconds_meta_upload = NULL,
-  seconds_reporter = NULL
+  seconds_meta_upload = NULL
 ) {
   algorithm_class$new(
     pipeline = pipeline,
@@ -17,8 +16,7 @@ algorithm_new <- function(
     queue = queue,
     reporter = reporter,
     seconds_meta_append = seconds_meta_append,
-    seconds_meta_upload = seconds_meta_upload,
-    seconds_reporter = seconds_reporter
+    seconds_meta_upload = seconds_meta_upload
   )
 }
 
@@ -36,7 +34,6 @@ algorithm_class <- R6::R6Class(
     reporter = NULL,
     seconds_meta_append = NULL,
     seconds_meta_upload = NULL,
-    seconds_reporter = NULL,
     initialize = function(
       pipeline = NULL,
       meta = NULL,
@@ -45,8 +42,7 @@ algorithm_class <- R6::R6Class(
       queue = NULL,
       reporter = NULL,
       seconds_meta_append = NULL,
-      seconds_meta_upload = NULL,
-      seconds_reporter = NULL
+      seconds_meta_upload = NULL
     ) {
       self$pipeline <- pipeline
       self$meta <- meta
@@ -56,7 +52,6 @@ algorithm_class <- R6::R6Class(
       self$reporter <- reporter
       self$seconds_meta_append <- seconds_meta_append
       self$seconds_meta_upload <- seconds_meta_upload
-      self$seconds_reporter <- seconds_reporter
     },
     update_scheduler = function() {
       self$scheduler <- scheduler_init(
@@ -64,7 +59,6 @@ algorithm_class <- R6::R6Class(
         meta = self$meta,
         queue = self$queue,
         reporter = self$reporter,
-        seconds_reporter = self$seconds_reporter,
         names = self$names,
         shortcut = self$shortcut
       )
@@ -81,11 +75,7 @@ algorithm_class <- R6::R6Class(
       tar_assert_chr(self$names %|||% character(0))
       tar_assert_chr(self$queue %|||% character(0))
       tar_assert_chr(self$reporter %|||% character(0))
-      fields <- c(
-        "seconds_meta_append",
-        "seconds_meta_upload",
-        "seconds_reporter"
-      )
+      fields <- c("seconds_meta_append", "seconds_meta_upload")
       for (field in fields) {
         tar_assert_dbl(self[[field]])
         tar_assert_scalar(self[[field]])
