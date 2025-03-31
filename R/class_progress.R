@@ -182,34 +182,29 @@ progress_class <- R6::R6Class(
     },
     cli_end = function(
       time_stamp = FALSE,
-      seconds_elapsed = NULL,
-      print = TRUE
+      seconds_elapsed = NULL
     ) {
       if (self$uptodate()) {
         cli_pipeline_uptodate(
           time_stamp = time_stamp,
-          seconds_elapsed = seconds_elapsed,
-          print = print
+          seconds_elapsed = seconds_elapsed
         )
       } else if (!self$any_targets()) {
         cli_pipeline_empty(
           time_stamp = time_stamp,
-          seconds_elapsed = seconds_elapsed,
-          print = print
+          seconds_elapsed = seconds_elapsed
         )
       } else if (self$errored$count > 0L) {
         cli_pipeline_errored(
           time_stamp = time_stamp,
-          seconds_elapsed = seconds_elapsed,
-          print = print
+          seconds_elapsed = seconds_elapsed
         )
       } else {
         cli_pipeline_done(
           time_stamp = time_stamp,
           seconds_elapsed = seconds_elapsed,
           completed = self$completed$count,
-          skipped = self$skipped$count,
-          print = print
+          skipped = self$skipped$count
         )
       }
     },

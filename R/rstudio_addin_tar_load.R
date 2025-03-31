@@ -12,7 +12,7 @@ rstudio_addin_tar_load <- function(context = NULL) {
   context <- context %||% rstudioapi::getActiveDocumentContext()
   target <- rstudio_symbol_at_cursor(context)
   if (!is.null(target)) {
-    cli_grey_plus(paste("Loading target", target, "into global environment."))
+    cli::cli_alert(paste("Loading target", target, "into global environment."))
     env <- list(target = as.symbol(target))
     eval(substitute(targets::tar_load(target, envir = globalenv()), env = env))
   }

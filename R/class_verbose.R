@@ -21,33 +21,22 @@ verbose_class <- R6::R6Class(
     },
     report_dispatched = function(target, progress = NULL, pending = FALSE) {
       self$buffer_message(
-        cli_dispatched(
-          target_get_name(target),
+        paste(
+          "dispatched",
           target_get_type_cli(target),
-          print = FALSE,
-          pending = pending
+          target_get_name(target)
         )
       )
     },
     report_pattern = function(target) {
-      self$buffer_message(
-        cli_pattern(
-          target_get_name(target),
-          branches = length(target$junction$index),
-          print = FALSE
-        )
-      )
+      self$buffer_message(paste("defined pattern", target_get_name(target)))
     },
     report_completed = function(target, progress = NULL) {
       self$buffer_message(
-        cli_completed(
-          name = target_get_name(target),
-          prefix = target_get_type_cli(target),
-          seconds_elapsed = target$metrics$seconds %|||%
-            target$patternview$seconds,
-          bytes_storage = target$file$bytes %|||%
-            target$patternview$bytes,
-          print = FALSE
+        paste(
+          "completed",
+          target_get_type_cli(target),
+          target_get_name(target)
         )
       )
     },
@@ -55,42 +44,50 @@ verbose_class <- R6::R6Class(
       now <- time_seconds_local()
       skipped <- .subset2(.subset2(progress, "skipped"), "count")
       if ((now - seconds_skipped) > reporter_seconds_skipped) {
-        self$buffer_message(cli_skip_many(skipped = skipped, print = FALSE))
+        self$buffer_message(paste("skipped", skipped, "targets"))
         self$seconds_skipped <- now
       }
     },
     report_errored = function(target, progress = NULL) {
       self$buffer_message(
-        cli_error(
-          target_get_name(target),
+        paste(
+          "errored",
           target_get_type_cli(target),
-          print = FALSE
+          target_get_name(target)
         )
       )
     },
     report_canceled = function(target = NULL, progress = NULL) {
       self$buffer_message(
-        cli_cancel(
-          target_get_name(target),
+        paste(
+          "canceled",
           target_get_type_cli(target),
-          print = FALSE
+          target_get_name(target)
         )
       )
     },
     report_workspace = function(target) {
-      self$buffer_message(cli_workspace(target_get_name(target), print = FALSE))
+      self$buffer_message(
+        paste(
+          "record workspace",
+          target_get_name(target)
+        )
+      )
     },
     report_workspace_upload = function(target) {
       self$buffer_message(
-        cli_workspace_upload(target_get_name(target), print = FALSE)
+        paste(
+          "upload workspace",
+          target_get_name(target)
+        )
       )
     },
     report_retry = function(target, progress = NULL) {
       self$buffer_message(
-        cli_retry(
-          target_get_name(target),
+        paste(
+          "retry",
           target_get_type_cli(target),
-          print = FALSE
+          target_get_name(target)
         )
       )
     },

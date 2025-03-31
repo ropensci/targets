@@ -47,53 +47,36 @@ balanced_class <- R6::R6Class(
       if (inherits(target, "tar_branch")) {
         self$report_progress(progress)
       } else {
-        cli::cli_progress_output(
-          cli_dispatched(
-            target_get_name(target),
-            target_get_type_cli(target),
-            print = FALSE,
-            pending = pending
-          ),
-          .envir = .subset2(private, ".bar")
+        cli::cli_alert(
+          "dispatched %s {.pkg %s}",
+          target_get_type_cli(target),
+          target_get_name(target)
         )
       }
     },
     report_pattern = function(target) {
-      cli::cli_progress_output(
-        cli_pattern(
-          target_get_name(target),
-          branches = length(target$junction$index),
-          print = FALSE
-        ),
-        .envir = .subset2(private, ".bar")
+      cli::cli_alert(
+        sprintf("defined pattern {.pkg %s}", target_get_name(target))
       )
     },
     report_completed = function(target, progress = NULL) {
       if (inherits(target, "tar_branch")) {
         self$report_progress(progress)
       } else {
-        cli::cli_progress_output(
-          cli_completed(
-            name = target_get_name(target),
-            prefix = target_get_type_cli(target),
-            seconds_elapsed = target$metrics$seconds %|||%
-              target$patternview$seconds,
-            bytes_storage = target$file$bytes %|||%
-              target$patternview$bytes,
-            print = FALSE
-          ),
-          .envir = .subset2(private, ".bar")
+        cli::cli_alert_success(
+          sprintf(
+            "completed %s {.pkg %s}",
+            target_get_type_cli(target),
+            target_get_name(target)
+          )
         )
       }
     },
     report_errored = function(target, progress = NULL) {
-      cli::cli_progress_output(
-        cli_error(
-          target_get_name(target),
-          target_get_type_cli(target),
-          print = FALSE
-        ),
-        .envir = .subset2(private, ".bar")
+      cli::cli_alert_danger(
+        "errored %s {.pkg %s}",
+        target_get_type_cli(target),
+        target_get_name(target)
       )
     },
     report_outdated = function(outdated) {
@@ -101,10 +84,7 @@ balanced_class <- R6::R6Class(
     },
     report_end = function(progress = NULL, seconds_elapsed = NULL) {
       if (!is.null(progress)) {
-        cli::cli_progress_output(
-          progress$cli_end(seconds_elapsed = seconds_elapsed, print = FALSE),
-          .envir = .subset2(private, ".bar")
-        )
+        progress$cli_end(seconds_elapsed = seconds_elapsed)
       }
       cli::cli_progress_done(.envir = .subset2(private, ".bar"))
       super$report_end(progress)

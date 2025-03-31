@@ -1,93 +1,6 @@
-cli_dispatched <- function(
-  name,
-  prefix = NULL,
-  time_stamp = FALSE,
-  print = TRUE,
-  pending = FALSE
-) {
-  name <- cli_package(name)
-  time <- if_any(time_stamp, time_stamp_cli(), NULL)
-  action <- if_any(pending, "dispatched (pending)", "dispatched")
-  msg <- paste(c(time, action, prefix, name), collapse = " ")
-  cli_gray_plus(msg, print = print)
-}
-
-cli_pattern <- function(
-  name,
-  branches,
-  time_stamp = FALSE,
-  print = TRUE
-) {
-  name <- cli_package(name)
-  time <- if_any(time_stamp, time_stamp_cli(), NULL)
-  msg <- paste(
-    c(time, "defined pattern", name, sprintf("[%s branches]", branches)),
-    collapse = " "
-  )
-  cli_grey_plus(msg, print = print)
-}
-
-cli_completed <- function(
-  name,
-  prefix = NULL,
-  time_stamp = FALSE,
-  seconds_elapsed = NULL,
-  bytes_storage = NULL,
-  print = TRUE
-) {
-  name <- cli_package(name)
-  time <- if_any(time_stamp, time_stamp_cli(), NULL)
-  message <- paste(c(time, "completed", prefix, name), collapse = " ")
-  metrics <- character(0L)
-  if (!is.null(seconds_elapsed) && !anyNA(seconds_elapsed)) {
-    metrics <- c(metrics, units_seconds(seconds_elapsed))
-  }
-  if (!is.null(bytes_storage) && !anyNA(bytes_storage)) {
-    metrics <- c(metrics, units_bytes(bytes_storage))
-  }
-  if (length(metrics)) {
-    metrics <- paste0("[", paste(metrics, collapse = ", "), "]")
-  }
-  cli_green_check(paste(message, metrics), print = print)
-}
-
-cli_skip <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
-  name <- cli_package(name)
-  time <- if_any(time_stamp, time_stamp_cli(), NULL)
-  msg <- paste(c(time, "skipped", prefix, name), collapse = " ")
-  cli_green_check(msg, print = print)
-}
-
-cli_skip_many <- function(skipped, time_stamp = FALSE, print = TRUE) {
-  time <- if_any(time_stamp, time_stamp_cli(), NULL)
-  content <- sprintf("skipping targets (%s so far)...", skipped)
-  msg <- paste(c(time, content), collapse = " ")
-  cli_green_check(msg, print = print)
-}
-
-cli_error <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
-  name <- cli_package(name)
-  time <- if_any(time_stamp, time_stamp_cli(), NULL)
-  msg <- paste(c(time, "errored", prefix, name), collapse = " ")
-  cli_red_x(msg, print = print)
-}
-
-cli_cancel <- function(
-  name,
-  prefix = NULL,
-  time_stamp = FALSE,
-  print = TRUE
-) {
-  name <- cli_package(name)
-  time <- if_any(time_stamp, time_stamp_cli(), NULL)
-  msg <- paste(c(time, "canceled", prefix, name), collapse = " ")
-  cli_grey_minus(msg, print = print)
-}
-
 cli_pipeline_uptodate <- function(
   time_stamp = FALSE,
-  seconds_elapsed = NULL,
-  print = TRUE
+  seconds_elapsed = NULL
 ) {
   time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "skipped pipeline"), collapse = " ")
@@ -95,15 +8,14 @@ cli_pipeline_uptodate <- function(
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
     msg <- paste0(msg, msg_time)
   }
-  cli_green_check(msg, print = print)
+  cli::cli_alert_success(msg)
 }
 
 cli_pipeline_done <- function(
   time_stamp = FALSE,
   seconds_elapsed = NULL,
   completed,
-  skipped,
-  print = TRUE
+  skipped
 ) {
   time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "ended pipeline"), collapse = " ")
@@ -116,13 +28,12 @@ cli_pipeline_done <- function(
     )
     msg <- paste0(msg, msg_time)
   }
-  cli_green_check(msg, print = print)
+  cli::cli_alert_success(msg)
 }
 
 cli_pipeline_empty <- function(
   time_stamp = FALSE,
-  seconds_elapsed = NULL,
-  print = TRUE
+  seconds_elapsed = NULL
 ) {
   time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "empty pipeline"), collapse = " ")
@@ -130,13 +41,12 @@ cli_pipeline_empty <- function(
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
     msg <- paste0(msg, msg_time)
   }
-  cli_red_x(msg, print = print)
+  cli::cli_alert_warning(msg)
 }
 
 cli_pipeline_errored <- function(
   time_stamp = FALSE,
-  seconds_elapsed = NULL,
-  print = TRUE
+  seconds_elapsed = NULL
 ) {
   time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "errored pipeline"), collapse = " ")
@@ -144,87 +54,7 @@ cli_pipeline_errored <- function(
     msg_time <- paste0(" [", units_seconds(seconds_elapsed), "]")
     msg <- paste0(msg, msg_time)
   }
-  cli_red_x(msg, print = print)
-}
-
-cli_workspace <- function(name, time_stamp = FALSE, print = TRUE) {
-  time <- if_any(time_stamp, time_stamp_cli(), NULL)
-  msg <- paste(c(time, "recorded workspace", name), collapse = " ")
-  cli_gray_plus(msg, print = print)
-}
-
-cli_workspace_upload <- function(name, time_stamp = FALSE, print = TRUE) {
-  time <- if_any(time_stamp, time_stamp_cli(), NULL)
-  msg <- paste(c(time, "uploaded workspace", name), collapse = " ")
-  cli_gray_plus(msg, print = print)
-}
-
-cli_retry <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
-  time <- if_any(time_stamp, time_stamp_cli(), NULL)
-  msg <- paste(c(time, "retrying", prefix, name), collapse = " ")
-  cli_gray_plus(msg, print = print)
-}
-
-cli_gray_plus <- function(msg, print = TRUE) {
-  symbol <- cli_symbol_plus_grey
-  msg <- paste(symbol, msg)
-  if_any(print, message(msg), msg)
-}
-
-cli_grey_plus <- function(msg, print = TRUE) {
-  symbol <- cli_symbol_plus_grey
-  msg <- paste(symbol, msg)
-  if_any(print, message(msg), msg)
-}
-
-cli_green_check <- function(msg, print = TRUE) {
-  symbol <- cli_symbol_tick_green
-  msg <- paste(symbol, msg)
-  if_any(print, message(msg), msg)
-}
-
-cli_grey_minus <- function(msg, print = TRUE) {
-  symbol <- cli_symbol_minus_grey
-  msg <- paste(symbol, msg)
-  if_any(print, message(msg), msg)
-}
-
-cli_mark_info <- function(msg, print = TRUE) {
-  symbol <- cli_symbol_info_cyan
-  msg <- paste(symbol, msg)
-  if_any(print, message(msg), msg)
-}
-
-cli_blank <- function(msg, print = TRUE) {
-  msg <- paste(" ", msg)
-  if_any(print, message(msg), msg)
-}
-
-cli_red_x <- function(msg, print = TRUE) {
-  old_cli_number_ansi_colors <- getOption("cli.num_colors")
-  on.exit(options(cli.num_colors = old_cli_number_ansi_colors))
-  options(cli.num_colors = cli_number_ansi_colors)
-  symbol <- cli_symbol_x_red
-  msg <- paste(symbol, cli::col_red(msg))
-  if_any(print, message(msg), msg)
-}
-
-cli_errored <- function(errored) {
-  tar_warn_run(
-    errored,
-    " targets produced errors. ",
-    "Run targets::tar_meta(fields = error, complete_only = TRUE) ",
-    "for the messages."
-  )
-}
-
-cli_warned <- function(warned) {
-  tar_warn_run(
-    warned,
-    " targets produced warnings. ",
-    "Run targets::tar_meta(fields = warnings, complete_only = TRUE) ",
-    "for the messages."
-  )
+  cli::cli_alert_danger(msg)
 }
 
 cli_port <- function(host, port) {
@@ -272,17 +102,8 @@ cli_url <- function(url) {
   cli::style_hyperlink(text = url, url = url)
 }
 
-cli_package <- function(name) {
-  sprintf("{.pkg %s}", name)
-}
-
 cli_reset <- function() {
   on.exit(message(cli::style_reset(), appendLF = FALSE))
 }
 
 cli_number_ansi_colors <- cli::num_ansi_colors()
-cli_symbol_info_cyan <- cli::col_cyan(cli::symbol$info)
-cli_symbol_minus_grey <- cli::col_grey("-")
-cli_symbol_plus_grey <- cli::col_grey("+")
-cli_symbol_tick_green <- cli::col_green(cli::symbol$tick)
-cli_symbol_x_red <- cli::col_red(cli::symbol$times)

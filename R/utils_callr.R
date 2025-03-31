@@ -49,14 +49,11 @@ callr_error <- function(traced_condition, fun) {
     ),
     paste(
       "   ",
-      cli_grey_plus(
-        c(
-          "tar_errored()",
-          "tar_meta(fields = any_of(\"error\"), complete_only = TRUE)",
-          "tar_workspace()",
-          "tar_workspaces()"
-        ),
-        print = FALSE
+      c(
+        "tar_errored()",
+        "tar_meta(fields = any_of(\"error\"), complete_only = TRUE)",
+        "tar_workspace()",
+        "tar_workspaces()"
       )
     )
   )
@@ -64,18 +61,15 @@ callr_error <- function(traced_condition, fun) {
     utils::capture.output(cli::cli_h1("How to"), type = "message"),
     paste(
       "   ",
-      cli_grey_plus(
-        c(
-          paste(
-            "Debug:",
-            cli_url("https://books.ropensci.org/targets/debugging.html")
-          ),
-          paste(
-            "Help:",
-            cli_url("https://books.ropensci.org/targets/help.html")
-          )
+      c(
+        paste(
+          "Debug:",
+          cli_url("https://books.ropensci.org/targets/debugging.html")
         ),
-        print = FALSE
+        paste(
+          "Help:",
+          cli_url("https://books.ropensci.org/targets/help.html")
+        )
       )
     )
   )
@@ -308,7 +302,7 @@ callr_args_default <- function(callr_function, reporter = NULL) {
     "callr_args_default() is deprecated in `targets`.",
     "please use tar_callr_args_default() instead"
   )
-  cli_red_x(msg)
+  cli::cli_alert_danger(msg)
   tar_callr_args_default(
     callr_function = callr_function,
     reporter = reporter

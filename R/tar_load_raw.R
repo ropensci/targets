@@ -14,7 +14,7 @@ tar_load_raw <- function(
   force(meta)
   force(envir)
   if (!length(names)) {
-    cli_red_x("Identified no targets to load.")
+    cli::cli_alert_danger("Identified no targets to load.")
   }
   tar_assert_chr(names)
   if (!is.null(branches)) {

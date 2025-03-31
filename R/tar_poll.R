@@ -39,7 +39,7 @@ tar_poll <- function(
   tar_assert_allow_meta("tar_poll", store)
   start <- time_seconds()
   if (!tar_exist_progress(store = store)) {
-    cli_grey_plus(
+    cli::cli_alert(
       paste0(
         "Waiting for progress data in ",
         file.path(store, "meta", "progress")
@@ -74,7 +74,7 @@ tar_poll <- function(
     Sys.sleep(interval)
   }
   message("")
-  cli_grey_plus(paste("tar_poll() timed out after", timeout, "seconds."))
+  cli::cli_alert(paste("tar_poll() timed out after", timeout, "seconds."))
 }
 
 tar_poll_go <- function(start, timeout) {

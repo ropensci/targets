@@ -7,7 +7,7 @@
 #' @keywords internal
 rstudio_addin_tar_make_bg <- function() {
   tar_make(callr_function = callr::r_bg)
-  cli_grey_plus(
+  cli::cli_alert(
     "Running tar_make() in background. Monitor with tar_progress()."
   )
 }

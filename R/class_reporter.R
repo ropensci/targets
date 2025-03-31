@@ -50,10 +50,20 @@ reporter_class <- R6::R6Class(
     },
     report_end = function(progress = NULL, seconds_elapsed = NULL) {
       if (any(progress$errored$count > 1L)) {
-        cli_errored(progress$errored$count)
+        tar_warn_run(
+          progress$errored$count,
+          " targets produced errors. ",
+          "Run targets::tar_meta(fields = error, complete_only = TRUE) ",
+          "for the messages."
+        )
       }
       if (any(progress$warned$count > 0L)) {
-        cli_warned(progress$warned$count)
+        tar_warn_run(
+          progress$warned$count,
+          " targets produced warnings. ",
+          "Run targets::tar_meta(fields = warnings, complete_only = TRUE) ",
+          "for the messages."
+        )
       }
       cli_reset()
     },

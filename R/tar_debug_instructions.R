@@ -14,18 +14,18 @@ tar_debug_instructions <- function() {
   }
   deparsed <- targets::tar_deparse_safe(expr)
   text <- paste("    ", deparsed)
-  cli_mark_info(
+  cli::cli_alert(
     sprintf(
       "You are now running an interactive debugger in target %s.",
       name
     )
   )
-  cli_blank(
+  cli::cli_inform(
     "You can enter code and print objects as with the normal R console."
   )
-  cli_blank("How to use: https://adv-r.hadley.nz/debugging.html#browser")
+  cli::cli_inform("How to use: https://adv-r.hadley.nz/debugging.html#browser")
   message()
-  cli_mark_info(
+  cli::cli_alert(
     paste0(
       "The debugger is poised to run the command of target ",
       name, ":"
@@ -34,15 +34,15 @@ tar_debug_instructions <- function() {
   message()
   message(text)
   message()
-  cli_mark_info("Tip: run debug(your_function) and then enter \"c\"")
-  cli_blank("to move the debugger inside your_function(),")
-  cli_blank(
+  cli::cli_alert("Tip: run debug(your_function) and then enter \"c\"")
+  cli::cli_inform("to move the debugger inside your_function(),")
+  cli::cli_inform(
     sprintf(
       "where your_function() is called from the command of target %s.",
       name
     )
   )
-  cli_blank(
+  cli::cli_inform(
     "Then debug the function as you would normally (without `targets`)."
   )
 }
