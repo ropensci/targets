@@ -11,6 +11,20 @@ cli_dispatched <- function(
   cli_blue_play(msg, print = print)
 }
 
+cli_pattern <- function(
+  name,
+  branches,
+  time_stamp = FALSE,
+  print = TRUE
+) {
+  time <- if_any(time_stamp, time_stamp_cli(), NULL)
+  msg <- paste(
+    c(time, "defined pattern", name, sprintf("(%s branches)", branches)),
+    collapse = " "
+  )
+  cli_grey_plus(msg, print = print)
+}
+
 cli_completed <- function(
   name,
   prefix = NULL,
@@ -162,6 +176,12 @@ cli_green_record <- function(msg, print = TRUE) {
   if_any(print, message(msg), msg)
 }
 
+cli_grey_plus <- function(msg, print = TRUE) {
+  symbol <- cli_symbol_plus_grey
+  msg <- paste(symbol, msg)
+  if_any(print, message(msg), msg)
+}
+
 cli_green_check <- function(msg, print = TRUE) {
   symbol <- cli_symbol_tick_green
   msg <- paste(symbol, msg)
@@ -261,12 +281,13 @@ cli_reset <- function() {
   on.exit(message(cli::style_reset(), appendLF = FALSE))
 }
 
+cli_number_ansi_colors <- cli::num_ansi_colors()
+cli_symbol_box_yellow <- cli::col_yellow(cli::symbol$stop)
 cli_symbol_bullet_blue <- cli::col_blue(cli::symbol$bullet)
+cli_symbol_info_cyan <- cli::col_cyan(cli::symbol$info)
 cli_symbol_play_blue <- cli::col_blue(cli::symbol$play)
 cli_symbol_play_magenta <- cli::col_magenta(cli::symbol$play)
+cli_symbol_plus_grey <- cli::col_grey("+")
 cli_symbol_record_green <- cli::col_green(cli::symbol$record)
-cli_symbol_box_yellow <- cli::col_yellow(cli::symbol$stop)
-cli_symbol_info_cyan <- cli::col_cyan(cli::symbol$info)
 cli_symbol_tick_green <- cli::col_green(cli::symbol$tick)
 cli_symbol_x_red <- cli::col_red(cli::symbol$cross)
-cli_number_ansi_colors <- cli::num_ansi_colors()

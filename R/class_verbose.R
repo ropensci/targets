@@ -29,6 +29,15 @@ verbose_class <- R6::R6Class(
         )
       )
     },
+    report_pattern = function(target) {
+      self$buffer_message(
+        cli_pattern(
+          target_get_name(target),
+          branches = length(target$junction$index),
+          print = FALSE
+        )
+      )
+    },
     report_completed = function(target, progress = NULL) {
       self$buffer_message(
         cli_completed(
