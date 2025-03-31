@@ -119,7 +119,7 @@ callr_dispatch <- function(
   )
   if_any(
     is.null(callr_function),
-    do.call(callr_inner, callr_arguments),
+    do.call(callr_inner, callr_arguments$args),
     do.call(
       callr_function,
       callr_prepare_arguments(callr_function, callr_arguments)
