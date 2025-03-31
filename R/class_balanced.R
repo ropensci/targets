@@ -56,8 +56,8 @@ balanced_class <- R6::R6Class(
       }
     },
     report_pattern = function(target) {
-      cli::cli_alert_info(
-        sprintf("defined {.pkg %s}", target_get_name(target))
+      cli::cli_alert(
+        sprintf("branched {.pkg %s}", target_get_name(target))
       )
     },
     report_completed = function(target, progress = NULL) {
