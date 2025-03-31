@@ -446,7 +446,7 @@ tar_reporters_make <- function() {
 }
 
 tar_reporters_outdated <- function() {
-  c("forecast_interactive", "forecast", "silent")
+  c("balanced", "forecast_interactive", "forecast", "silent")
 }
 
 tar_config_read_yaml <- function(config) {

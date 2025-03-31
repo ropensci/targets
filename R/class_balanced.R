@@ -96,11 +96,16 @@ balanced_class <- R6::R6Class(
         .envir = .subset2(private, ".bar")
       )
     },
+    report_outdated = function(outdated) {
+      self$report_progress(outdated$scheduler$progress)
+    },
     report_end = function(progress = NULL, seconds_elapsed = NULL) {
-      cli::cli_progress_output(
-        progress$cli_end(seconds_elapsed = seconds_elapsed, print = FALSE),
-        .envir = .subset2(private, ".bar")
-      )
+      if (!is.null(progress)) {
+        cli::cli_progress_output(
+          progress$cli_end(seconds_elapsed = seconds_elapsed, print = FALSE),
+          .envir = .subset2(private, ".bar")
+        )
+      }
       cli::cli_progress_done(.envir = .subset2(private, ".bar"))
       super$report_end(progress)
     }
