@@ -119,9 +119,6 @@ tar_print <- function(...) {
 #' @export
 #' @rdname tar_condition
 tar_error <- function(message, class) {
-  old_cli_number_ansi_colors <- getOption("cli.num_colors")
-  on.exit(options(cli.num_colors = old_cli_number_ansi_colors))
-  options(cli.num_colors = cli_number_ansi_colors)
   old <- options(rlang_backtrace_on_error = "none")
   on.exit(options(old), add = TRUE)
   message <- cli::col_red(message)
@@ -132,9 +129,6 @@ tar_error <- function(message, class) {
 #' @export
 #' @rdname tar_condition
 tar_warning <- function(message, class) {
-  old_cli_number_ansi_colors <- getOption("cli.num_colors")
-  on.exit(options(cli.num_colors = old_cli_number_ansi_colors))
-  options(cli.num_colors = cli_number_ansi_colors)
   old <- options(rlang_backtrace_on_error = "none")
   on.exit(options(old), add = TRUE)
   message <- cli::col_red(message)

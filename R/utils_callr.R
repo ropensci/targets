@@ -105,7 +105,7 @@ callr_dispatch <- function(
   store,
   fun
 ) {
-  options <- list()
+  options <- list(cli.num_colors = cli::num_ansi_colors())
   pid_parent <- as.integer(Sys.getpid())
   callr_arguments$func <- callr_inner
   callr_arguments$args <- list(
@@ -119,16 +119,7 @@ callr_dispatch <- function(
   )
   if_any(
     is.null(callr_function),
-    callr_inner(
-      targets_function = targets_function,
-      targets_arguments = targets_arguments,
-      options = options,
-      envir = envir,
-      script = script,
-      store = store,
-      fun = fun,
-      pid_parent = pid_parent
-    ),
+    do.call(callr_inner, callr_arguments),
     do.call(
       callr_function,
       callr_prepare_arguments(callr_function, callr_arguments)

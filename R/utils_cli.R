@@ -91,6 +91,4 @@ cli_reset <- function() {
   on.exit(message(cli::style_reset(), appendLF = FALSE))
 }
 
-cli_number_ansi_colors <- cli::num_ansi_colors()
-
 cli_plus_grey <- cli::col_grey("+")
