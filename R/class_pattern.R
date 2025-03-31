@@ -349,6 +349,7 @@ pattern_begin_initial <- function(target, pipeline, scheduler, meta) {
   pattern_requeue_downstream_branching(target, pipeline, scheduler)
   pattern_requeue_self(target, scheduler)
   pattern_insert_branches(target, pipeline, scheduler)
+  scheduler$reporter$report_dispatched(target, scheduler$progress)
 }
 
 pattern_begin_final <- function(target, pipeline, scheduler, meta) {

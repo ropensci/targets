@@ -36,7 +36,10 @@ timestamp_class <- R6::R6Class(
           target_get_name(target),
           target_get_type_cli(target),
           time_stamp = TRUE,
-          seconds_elapsed = target$metrics$seconds,
+          seconds_elapsed = target$metrics$seconds %|||%
+            target$patternview$seconds,
+          bytes_storage = target$file$bytes %|||%
+            target$patternview$bytes,
           print = FALSE
         )
       )
