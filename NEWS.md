@@ -4,6 +4,7 @@
 
 * In `tar_option_get()`, set `repository_meta` to `"local"` by default, regardless of `repository` (#1427).
 * In `tar_option_get()`, set `storage = "worker"`, `retrieval = "worker"`, and `memory = "tranisient"` by default (#1426).
+* Set the new "balanced" reporter to be the default reporter for `tar_make()` and `tar_outdated()`.
 
 ## Other changes
 
@@ -19,6 +20,7 @@
 * Internally choose a default level separation in the `visNetwork` graph based on the number of hierarchical levels and the maximum number of vertices per level (#1432).
 * In `tar_visnetwork()`, choose the colors of the edges based on the origin vertices, not the destination vertices (#1433).
 * In the `"verbose"` and `"timestamp"` reporters, print "dispatched pattern" messages, and print the total computation and storage summed over all the branches.
+* Create a new `"balanced"` reporter with a `cli` progress bar (#1442).
 
 # targets 1.10.1
 

@@ -102,7 +102,7 @@ tar_test("tar_config_set() level_separation", {
 tar_test("tar_config_set() reporter_make", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
-  expect_equal(tar_config_get("reporter_make"), "verbose")
+  expect_equal(tar_config_get("reporter_make"), "balanced")
   tar_config_set(reporter_make = "summary")
   expect_equal(tar_config_get("reporter_make"), "summary")
   expect_true(file.exists("_targets.yaml"))
@@ -111,7 +111,7 @@ tar_test("tar_config_set() reporter_make", {
   expect_equal(tar_config_get("reporter_make"), "summary")
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
-  expect_equal(tar_config_get("reporter_make"), "verbose")
+  expect_equal(tar_config_get("reporter_make"), "balanced")
 })
 
 tar_test("tar_config_set() reporter_outdated", {

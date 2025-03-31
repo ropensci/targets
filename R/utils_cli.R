@@ -162,7 +162,7 @@ cli_workspace_upload <- function(name, time_stamp = FALSE, print = TRUE) {
 cli_retry <- function(name, prefix = NULL, time_stamp = FALSE, print = TRUE) {
   time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "retrying", prefix, name), collapse = " ")
-  cli_magenta_arrow(msg, print = print)
+  cli_gray_plus(msg, print = print)
 }
 
 cli_gray_plus <- function(msg, print = TRUE) {
