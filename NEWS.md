@@ -22,6 +22,7 @@
 * In the `"verbose"` and `"timestamp"` reporters, print "dispatched pattern" messages, and print the total computation and storage summed over all the branches.
 * Create a new `"balanced"` reporter with a `cli` progress bar (#1442).
 * Deprecate reporters `"forecast"`, `"forecast_interactive"`, `"verbose_positives"`, and `"timestamp_positives"` (#1442).
+* Ensure colors printed to the console are preserved when forwarded from the `callr` process (#1442).
 
 # targets 1.10.1
 
