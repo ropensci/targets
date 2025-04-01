@@ -105,7 +105,10 @@ callr_dispatch <- function(
   store,
   fun
 ) {
-  options <- list(cli.num_colors = cli::num_ansi_colors())
+  options <- list(
+    cli.dynamic = interactive(),
+    cli.num_colors = cli::num_ansi_colors()
+  )
   pid_parent <- as.integer(Sys.getpid())
   callr_arguments$func <- callr_inner
   callr_arguments$args <- list(
@@ -279,7 +282,7 @@ tar_callr_args_default <- function(callr_function, reporter = NULL) {
   if (is.null(callr_function)) {
     return(list())
   }
-  out <- list(spinner = TRUE, stderr = "2>&1")
+  out <- list(spinner = FALSE, stderr = "2>&1")
   out[intersect(names(out), names(formals(callr_function)))]
 }
 

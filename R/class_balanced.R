@@ -40,24 +40,6 @@ balanced_class <- R6::R6Class(
         id = .subset2(private, ".bar_id")
       )
     },
-    report_skipped = function(target = NULL, progress = NULL) {
-      self$report_progress(progress)
-    },
-    report_dispatched = function(target, progress = NULL, pending = FALSE) {
-      if (inherits(target, "tar_branch")) {
-        self$report_progress(progress)
-      } else {
-        cli::cli_progress_output(
-          sprintf(
-            "%s {.pkg %s} dispatched",
-            cli::col_silver("+"),
-            target_get_name(target)
-          ),
-          .envir = .subset2(private, ".bar_envir"),
-          id = .subset2(private, ".bar_id")
-        )
-      }
-    },
     report_pattern = function(target, progress = NULL) {
       cli::cli_progress_output(
         sprintf(
@@ -71,10 +53,26 @@ balanced_class <- R6::R6Class(
       )
       self$report_progress(progress, force = TRUE)
     },
+    report_skipped = function(target = NULL, progress = NULL) {
+      self$report_progress(progress)
+    },
+    report_dispatched = function(target, progress = NULL, pending = FALSE) {
+      self$report_progress(progress)
+      if (!inherits(target, "tar_branch")) {
+        cli::cli_progress_output(
+          sprintf(
+            "%s {.pkg %s} dispatched",
+            cli::col_silver("+"),
+            target_get_name(target)
+          ),
+          .envir = .subset2(private, ".bar_envir"),
+          id = .subset2(private, ".bar_id")
+        )
+      }
+    },
     report_completed = function(target, progress = NULL) {
-      if (inherits(target, "tar_branch")) {
-        self$report_progress(progress)
-      } else {
+      self$report_progress(progress)
+      if (!inherits(target, "tar_branch")) {
         cli::cli_alert_success(
           sprintf(
             "{.pkg %s} completed %s",
@@ -85,6 +83,7 @@ balanced_class <- R6::R6Class(
       }
     },
     report_errored = function(target, progress = NULL) {
+      self$report_progress(progress)
       cli::cli_alert_danger(
         sprintf(
           "{.pkg %s} errored",
@@ -96,9 +95,6 @@ balanced_class <- R6::R6Class(
       self$report_progress(outdated$scheduler$progress)
     },
     report_end = function(progress = NULL, seconds_elapsed = NULL) {
-      if (!is.null(progress)) {
-        progress$cli_end(seconds_elapsed = seconds_elapsed)
-      }
       cli::cli_progress_done(
         .envir = .subset2(private, ".bar_envir"),
         id = .subset2(private, ".bar_id")
@@ -107,6 +103,9 @@ balanced_class <- R6::R6Class(
       # but we don't want all of cli_progress_cleanup() because it terminates
       # all progress bars.
       cli::ansi_show_cursor()
+      if (!is.null(progress)) {
+        progress$cli_end(seconds_elapsed = seconds_elapsed)
+      }
       super$report_end(progress)
     }
   )
