@@ -38,6 +38,7 @@ reference:
   - 'tar_option_get'
   - 'tar_option_reset'
   - 'tar_option_set'
+  - 'tar_option_with'
 - title: Targets
   contents:
   - 'tar_cue'
