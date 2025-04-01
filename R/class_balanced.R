@@ -9,18 +9,16 @@ balanced_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   private = list(
-    .bar = NULL
+    .bar_envir = NULL,
+    .bar_id = NULL
   ),
   public = list(
-    bar = NULL,
-    initialize = function() {
-      private$.bar <- new.env(parent = globalenv())
-    },
     report_start = function() {
-      cli::cli_progress_bar(
+      private$.bar_envir <- new.env(parent = globalenv())
+      private$.bar_id <- cli::cli_progress_bar(
         name = paste("pipeline", Sys.time()),
         format = "{cli::pb_bar} {cli::pb_current}/{cli::pb_total}",
-        .envir = .subset2(private, ".bar"),
+        .envir = .subset2(private, ".bar_envir"),
         auto_terminate = FALSE,
         clear = TRUE
       )
@@ -38,7 +36,8 @@ balanced_class <- R6::R6Class(
           progress$queued$count +
           progress$skipped$count,
         force = force,
-        .envir = .subset2(private, ".bar")
+        .envir = .subset2(private, ".bar_envir"),
+        id = .subset2(private, ".bar_id")
       )
     },
     report_skipped = function(target = NULL, progress = NULL) {
@@ -54,7 +53,8 @@ balanced_class <- R6::R6Class(
             cli::col_silver("+"),
             target_get_name(target)
           ),
-          .envir = .subset2(private, ".bar")
+          .envir = .subset2(private, ".bar_envir"),
+          id = .subset2(private, ".bar_id")
         )
       }
     },
@@ -66,7 +66,8 @@ balanced_class <- R6::R6Class(
           target_get_name(target),
           length(target$junction$index)
         ),
-        .envir = .subset2(private, ".bar")
+        .envir = .subset2(private, ".bar_envir"),
+        id = .subset2(private, ".bar_id")
       )
       self$report_progress(progress, force = TRUE)
     },
@@ -86,7 +87,7 @@ balanced_class <- R6::R6Class(
     report_errored = function(target, progress = NULL) {
       cli::cli_alert_danger(
         sprintf(
-          "errored {.pkg %s}",
+          "{.pkg %s} errored",
           target_get_name(target)
         )
       )
@@ -98,7 +99,10 @@ balanced_class <- R6::R6Class(
       if (!is.null(progress)) {
         progress$cli_end(seconds_elapsed = seconds_elapsed)
       }
-      cli::cli_progress_done(.envir = .subset2(private, ".bar"))
+      cli::cli_progress_done(
+        .envir = .subset2(private, ".bar_envir"),
+        id = .subset2(private, ".bar_id")
+      )
       # ansi_show_cursor() is part of cli_progress_cleanup(),
       # but we don't want all of cli_progress_cleanup() because it terminates
       # all progress bars.
