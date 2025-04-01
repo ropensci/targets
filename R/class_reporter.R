@@ -50,7 +50,7 @@ reporter_class <- R6::R6Class(
       pending = FALSE
     ) {
     },
-    report_pattern = function(target = NULL) {
+    report_pattern = function(target = NULL, progress = NULL) {
     },
     report_completed = function(target = NULL, progress = NULL) {
     },

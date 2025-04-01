@@ -19,7 +19,7 @@ timestamp_class <- R6::R6Class(
         )
       )
     },
-    report_pattern = function(target) {
+    report_pattern = function(target, progress = NULL) {
       message(
         paste(
           time_stamp_cli(),

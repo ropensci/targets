@@ -25,7 +25,7 @@ balanced_class <- R6::R6Class(
         clear = TRUE
       )
     },
-    report_progress = function(progress) {
+    report_progress = function(progress, force = FALSE) {
       cli::cli_progress_update(
         set = progress$completed$count +
           progress$errored$count +
@@ -37,6 +37,7 @@ balanced_class <- R6::R6Class(
           progress$dispatched$count +
           progress$queued$count +
           progress$skipped$count,
+        force = force,
         .envir = .subset2(private, ".bar")
       )
     },
@@ -57,10 +58,7 @@ balanced_class <- R6::R6Class(
         )
       }
     },
-    report_pattern = function(target) {
-      
-      browser()
-      
+    report_pattern = function(target, progress = NULL) {
       cli::cli_progress_output(
         sprintf(
           "%s {.pkg %s} declared [%s branches]",
@@ -70,6 +68,7 @@ balanced_class <- R6::R6Class(
         ),
         .envir = .subset2(private, ".bar")
       )
+      self$report_progress(progress, force = TRUE)
     },
     report_completed = function(target, progress = NULL) {
       if (inherits(target, "tar_branch")) {
