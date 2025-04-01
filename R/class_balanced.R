@@ -14,14 +14,16 @@ balanced_class <- R6::R6Class(
   ),
   public = list(
     report_start = function() {
-      action <- 
       private$.bar_envir <- new.env(parent = globalenv())
       private$.bar_id <- cli::cli_progress_bar(
         name = paste("pipeline", Sys.time()),
-        format = "processing targets {cli::pb_bar} {cli::pb_current}/{cli::pb_total}",
+        format = sprintf(
+          "%s pipeline {cli::pb_bar} {cli::pb_current}/{cli::pb_total}",
+          if_any(tar_active(), "Running", "Scanning")
+        ),
         .envir = .subset2(private, ".bar_envir"),
         auto_terminate = FALSE,
-        clear = TRUE
+        clear = TRUE,
       )
     },
     report_progress = function(progress, force = FALSE) {
