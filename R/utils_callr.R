@@ -283,6 +283,9 @@ tar_callr_args_default <- function(callr_function, reporter = NULL) {
     return(list())
   }
   out <- list(spinner = FALSE, stderr = "2>&1")
+  if (interactive() && !isTRUE(getOption("knitr.in.progress"))) {
+    out$env <- c(callr::rcmd_safe_env(), CLI_TICK_TIME = "200") # nocov
+  }
   out[intersect(names(out), names(formals(callr_function)))]
 }
 
