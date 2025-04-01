@@ -50,7 +50,7 @@ balanced_class <- R6::R6Class(
         cli::cli_progress_output(
           sprintf(
             "%s {.pkg %s} dispatched",
-            cli_plus_grey,
+            cli::col_silver("+"),
             target_get_name(target)
           ),
           .envir = .subset2(private, ".bar")
@@ -58,10 +58,13 @@ balanced_class <- R6::R6Class(
       }
     },
     report_pattern = function(target) {
+      
+      browser()
+      
       cli::cli_progress_output(
         sprintf(
           "%s {.pkg %s} declared [%s branches]",
-          cli_plus_grey,
+          cli::col_silver("+"),
           target_get_name(target),
           length(target$junction$index)
         ),

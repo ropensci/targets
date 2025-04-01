@@ -90,5 +90,3 @@ cli_url <- function(url) {
 cli_reset <- function() {
   on.exit(message(cli::style_reset(), appendLF = FALSE))
 }
-
-cli_plus_grey <- cli::col_grey("+")
