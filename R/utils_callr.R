@@ -279,7 +279,7 @@ tar_callr_args_default <- function(callr_function, reporter = NULL) {
   if (is.null(callr_function)) {
     return(list())
   }
-  out <- list(spinner = !identical(reporter, "summary"))
+  out <- list(spinner = TRUE, stderr = "2>&1")
   out[intersect(names(out), names(formals(callr_function)))]
 }
 
