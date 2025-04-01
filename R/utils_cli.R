@@ -90,3 +90,28 @@ cli_url <- function(url) {
 cli_reset <- function() {
   on.exit(message(cli::style_reset(), appendLF = FALSE))
 }
+
+cli_df_header <- function(x, print = TRUE) {
+  msg <- cli_df_text(x)[1L]
+  if_any(print, message(msg, appendLF = FALSE), msg)
+}
+
+cli_df_body <- function(x, print = TRUE) {
+  msg <- cli_df_text(x)[2L]
+  if_any(print, message(msg, appendLF = FALSE), msg)
+}
+
+cli_df_text <- function(x) {
+  names <- names(x)
+  fields <- vapply(x, as.character, FUN.VALUE = character(1L))
+  nchar_names <- nchar(names)
+  nchar_fields <- nchar(fields)
+  diff <- nchar_fields - nchar_names
+  pad_names <- strrep(" ", pmax(0L, diff))
+  pad_fields <- strrep(" ", abs(pmin(0L, diff)))
+  names <- paste0(names, pad_names)
+  fields <- paste0(fields, pad_fields)
+  line1 <- paste0(paste(names, collapse = " | "), "\n")
+  line2 <- paste0("\r", paste(fields, collapse = " | "))
+  c(line1, line2)
+}
