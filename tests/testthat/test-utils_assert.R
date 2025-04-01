@@ -479,3 +479,10 @@ tar_test("tar_assert_target_name_case()", {
     class = "tar_condition_validate"
   )
 })
+
+tar_test("tar_config_assert_reporter_outdated()", {
+  expect_warning(
+    out <- tar_config_assert_reporter_outdated("forecast"),
+    class = "tar_condition_deprecate"
+  )
+})

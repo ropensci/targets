@@ -220,18 +220,6 @@ progress_class <- R6::R6Class(
         self$canceled$count
       count > 0L
     },
-    cli_data = function() {
-      list(
-        queued = self$queued$count,
-        skipped = self$skipped$count,
-        dispatched = self$dispatched$count,
-        completed = self$completed$count,
-        errored = self$errored$count,
-        warned = self$warned$count,
-        canceled = self$canceled$count,
-        time = time_stamp_short()
-      )
-    },
     abridge = function() {
       counter_del_names(self$queued, counter_get_names(self$queued))
     },

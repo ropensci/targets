@@ -53,6 +53,11 @@ tar_test("timestamp reporter retry message", {
   expect_message(x$report_retry(tar_target(x, TRUE)))
 })
 
+tar_test("report_pattern()", {
+  x <- timestamp_new()
+  expect_message(x$report_pattern(tar_target(x, TRUE, pattern = map(y))))
+})
+
 tar_test("validate timestamp reporter", {
   expect_silent(reporter_init("timestamp")$validate())
 })

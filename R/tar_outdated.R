@@ -165,14 +165,7 @@ tar_outdated_reporter <- function(reporter) {
   tar_config_assert_reporter_outdated(reporter)
   if_any(
     reporter %in% c("forecast", "forecast_interactive"),
-    {
-      tar_warn_deprecate(
-        "The forecast reporters in tar_outdated() etc. were deprecated ",
-        "in targets version 1.10.1.9010 (2025-03-31). ",
-        "Use the \"balanced\" reporter instead."
-      )
-      "balanced"
-    },
+    "balanced",
     reporter
   )
 }

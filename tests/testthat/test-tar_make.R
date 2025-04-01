@@ -268,3 +268,10 @@ tar_test("working directory antipattern", {
     class = "tar_condition_run"
   )
 })
+
+tar_test("tar_make_reporter()", {
+  expect_equal(
+    suppressWarnings(tar_make_reporter("summary")),
+    "balanced"
+  )
+})

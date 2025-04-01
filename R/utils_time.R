@@ -6,10 +6,6 @@ time_stamp_cli <- function(time = Sys.time()) {
   format(time, "%Y-%m-%d %H:%M:%OS2")
 }
 
-time_stamp_short <- function(time = Sys.time()) {
-  format(time, "%H:%M %OS2")
-}
-
 time_stamp_pid <- function(pid = Sys.getpid()) {
   handle <- tryCatch(
     ps::ps_handle(pid = pid),

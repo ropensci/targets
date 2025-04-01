@@ -82,12 +82,6 @@ outdated_class <- R6::R6Class(
       self$checked <- checked
       self$outdated <- outdated
     },
-    # nocov start
-    # Covered in tests/interactive/test-reporter.R.
-    cli_data = function() {
-      list(checked = self$checked$count, outdated = self$outdated$count)
-    },
-    # nocov end
     is_outdated = function(name) {
       counter_exists_name(self$outdated, name)
     },

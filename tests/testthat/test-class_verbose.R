@@ -53,6 +53,11 @@ tar_test("verbose reporter retry message", {
   )
 })
 
+tar_test("report_pattern()", {
+  x <- verbose_new()
+  expect_message(x$report_pattern(tar_target(x, TRUE, pattern = map(y))))
+})
+
 tar_test("validate verbose reporter", {
   expect_silent(reporter_init("verbose")$validate())
 })

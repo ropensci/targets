@@ -244,3 +244,10 @@ tar_test("bootstrap builder for shortcut", {
   )
   expect_equal(out, "z")
 })
+
+tar_test("tar_outdated_reporter()", {
+  expect_equal(
+    suppressWarnings(tar_outdated_reporter("forecast")),
+    "balanced"
+  )
+})
