@@ -18,7 +18,7 @@
 #'   cli_alert_info cli_alert_success
 #'   cli_alert_warning cli_inform cli_end cli_h1 cli_li cli_progress_bar
 #'   cli_progress_done cli_progress_update cli_ul col_red col_silver
-#'   make_spinner pb_bar pb_current pb_total
+#'   is_dynamic_tty make_spinner pb_bar pb_current pb_total
 #' @importFrom codetools findGlobals
 #' @importFrom data.table data.table fread fwrite rbindlist set
 #' @importFrom igraph adjacent_vertices as_edgelist gorder

@@ -106,7 +106,7 @@ callr_dispatch <- function(
   fun
 ) {
   options <- list(
-    cli.dynamic = interactive(),
+    cli.dynamic = cli::is_dynamic_tty(),
     cli.num_colors = cli::num_ansi_colors()
   )
   pid_parent <- as.integer(Sys.getpid())
