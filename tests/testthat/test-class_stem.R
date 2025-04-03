@@ -35,7 +35,8 @@ tar_test("stem produce buds", {
   target_run(x, tar_option_get("envir"), path_store_default())
   pipeline <- pipeline_init(list(x))
   stem_update_junction(x, pipeline)
-  children <- map(target_get_children(x), ~stem_produce_bud(x, .x))
+  names <- target_get_children(x)
+  children <- map(seq_along(names), ~stem_produce_bud(x, names[.x], .x))
   expect_true(is.list(children))
   expect_length(children, length(letters))
   for (index in seq_along(letters)) {
