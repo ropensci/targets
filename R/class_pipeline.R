@@ -68,8 +68,9 @@ pipeline_initialize_references_children <- function(
   names_children
 ) {
   envir <- .subset2(pipeline, "targets")
-  for (name in names_children) {
-    envir[[name]] <- reference_new(parent = name_parent)
+  for (index in seq_along(names_children)) {
+    name <- .subset(names_children, index)
+    envir[[name]] <- reference_new(parent = name_parent, index = index)
   }
   NULL
 }

@@ -154,6 +154,7 @@ target_produce_reference.tar_branch <- function(target) {
     parent = target_get_parent(target),
     path = .subset2(file, "path"),
     stage = .subset2(file, "stage"),
-    hash = .subset2(file, "hash")
+    hash = .subset2(file, "hash"),
+    index = .subset2(target, "index")
   )
 }
