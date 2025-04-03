@@ -38,7 +38,7 @@ rstudio_available <- function(verbose = TRUE) {
     available <- FALSE
     reason <- "package {rstudioapi} is not installed."
   }
-  if (!rstudioapi::isAvailable()) {
+  if (!rstudioapi::isAvailable(child_ok = TRUE)) {
     available <- FALSE
     reason <- "RStudio API / Posit Workbench is not running."
   }
