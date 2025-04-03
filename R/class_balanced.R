@@ -51,7 +51,7 @@ balanced_class <- R6::R6Class(
           "%s {.pkg %s} declared [%s branches]",
           cli::col_silver("+"),
           target_get_name(target),
-          length(target$junction$index)
+          junction_length(.subset2(target, "junction"))
         ),
         .envir = .subset2(private, ".bar_envir"),
         id = .subset2(private, ".bar_id")

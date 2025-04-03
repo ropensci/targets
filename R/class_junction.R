@@ -4,22 +4,20 @@ junction_init <- function(
   deps = list()
 ) {
   splits <- make.unique(splits, sep = "_")
-  index <- seq_along(splits)
-  names(index) <- splits
   deps <- as_data_frame(deps)
   has_deps <- nrow(deps) > 0L
-  junction_new(nexus, index, deps, has_deps)
+  junction_new(nexus, splits, deps, has_deps)
 }
 
 junction_new <- function(
   nexus = NULL,
-  index = NULL,
+  splits = NULL,
   deps = NULL,
   has_deps = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$nexus <- nexus
-  out$index <- index
+  out$splits <- splits
   out$deps <- deps
   out$has_deps <- has_deps
   out
@@ -32,11 +30,11 @@ junction_upstream_edges <- function(junction) {
 }
 
 junction_length <- function(junction) {
-  length(.subset2(junction, "index"))
+  length(.subset2(junction, "splits"))
 }
 
 junction_splits <- function(junction) {
-  names(.subset2(junction, "index"))
+  .subset2(junction, "splits")
 }
 
 junction_extract_deps <- function(junction, index) {
@@ -50,7 +48,7 @@ junction_extract_deps <- function(junction, index) {
 }
 
 junction_invalidate <- function(junction) {
-  names(junction$index) <- rep(NA_character_, length(junction$index))
+  junction$splits <- rep(NA_character_, junction_length(junction))
 }
 
 junction_validate_deps <- function(deps) {
@@ -63,7 +61,6 @@ junction_validate <- function(junction) {
   tar_assert_correct_fields(junction, junction_new)
   tar_assert_scalar(junction$nexus)
   tar_assert_chr(junction$nexus)
-  tar_assert_int(junction$index)
-  tar_assert_chr(junction_splits(junction))
+  tar_assert_chr(junction$splits)
   junction_validate_deps(junction$deps)
 }
