@@ -166,9 +166,8 @@ stem_tar_assert_nonempty <- function(target) {
   }
 }
 
-stem_produce_bud <- function(target, name) {
+stem_produce_bud <- function(target, name, index) {
   junction <- .subset2(target, "junction")
-  index <- junction_extract_index(junction, name)
   bud_new(name = name, settings = .subset2(target, "settings"), index = index)
 }
 
@@ -219,8 +218,8 @@ stem_restore_junction <- function(target, pipeline, meta) {
 }
 
 #' @export
-target_produce_child.tar_stem <- function(target, name) {
-  stem_produce_bud(target, name)
+target_produce_child.tar_stem <- function(target, name, index) {
+  stem_produce_bud(target, name, index)
 }
 
 #' @export

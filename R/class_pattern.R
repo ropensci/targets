@@ -208,8 +208,8 @@ target_unmarshal_value.tar_pattern <- function(target) {
 }
 
 #' @export
-target_produce_child.tar_pattern <- function(target, name) {
-  pattern_produce_branch(target, name)
+target_produce_child.tar_pattern <- function(target, name, index) {
+  pattern_produce_branch(target, name, index)
 }
 
 #' @export
@@ -264,9 +264,8 @@ pattern_prepend_branches <- function(target, scheduler) {
   scheduler$queue$prepend(children, ranks)
 }
 
-pattern_produce_branch <- function(target, name) {
+pattern_produce_branch <- function(target, name, index) {
   junction <- .subset2(target, "junction")
-  index <- junction_extract_index(junction, name)
   deps_child <- junction_extract_deps(junction, index)
   branch_init(
     name = name,

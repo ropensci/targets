@@ -30,7 +30,7 @@ reference_index <- function(reference) {
 
 reference_produce_target <- function(reference, pipeline, name) {
   parent <- pipeline_get_target(pipeline, reference_parent(reference))
-  child <- target_produce_child(parent, name)
+  child <- target_produce_child(parent, name, reference_index(reference))
   file <- .subset2(child, "file")
   if (!is.null(file)) {
     path <- reference_path(reference)

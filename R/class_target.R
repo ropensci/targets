@@ -534,7 +534,7 @@ target_validate <- function(target) {
   UseMethod("target_validate")
 }
 
-target_produce_child <- function(target, name) {
+target_produce_child <- function(target, name, index) {
   UseMethod("target_produce_child")
 }
 

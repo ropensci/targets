@@ -39,10 +39,6 @@ junction_splits <- function(junction) {
   names(.subset2(junction, "index"))
 }
 
-junction_extract_index <- function(junction, name) {
-  as.integer(.subset2(.subset2(junction, "index"), name))
-}
-
 junction_extract_deps <- function(junction, index) {
   if (.subset2(junction, "has_deps")) {
     deps <- .subset2(junction, "deps")
