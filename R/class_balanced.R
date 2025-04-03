@@ -19,7 +19,7 @@ balanced_class <- R6::R6Class(
         format = sprintf(
           paste(
             cli::symbol$arrow_right,
-            "{cli::pb_total} targets {cli::pb_bar} {cli::pb_current} done",
+            "{cli::pb_total} targets {cli::pb_bar} {cli::pb_current} resolved",
             "[{cli::pb_elapsed}]"
           )
         ),
