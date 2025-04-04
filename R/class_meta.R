@@ -87,17 +87,17 @@ meta_class <- R6::R6Class(
       hash_list <- .subset2(self, "produce_hash_list")(deps, pipeline)
       .subset2(self, "hash_hash_list")(hash_list)
     },
-    # Slow to run because it digs for hashes in metadata entries.
+    # produce_hash_list() could be a bottleneck.
+    # It currently uses lapply() rather than a simple loop because
+    # incrementally growing hash_list element by element
+    # makes pattern_produce_data_hash() extremely slow for patterns with
+    # 100000+ dynamic branches.
     produce_hash_list = function(deps, pipeline) {
-      hash_list <- list()
-      index <- 1L
-      n <- length(deps)
-      lookup <- .subset2(self, "lookup")
-      while (index <= n) {
-        name <- .subset(deps, index)
-        hash_list[[name]] <- .subset2(.subset2(lookup, name), "data")
-        index <- index + 1L
-      }
+      hash_list <- lapply(
+        deps,
+        function(name) .subset2(.subset2(lookup, name), "data")
+      )
+      names(hash_list) <- deps
       hash_list
     },
     hash_hash_list = function(hash_list) {

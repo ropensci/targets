@@ -1,10 +1,14 @@
-# targets 1.10.1.9011 (development)
+# targets 1.10.1.9012 (development)
 
 ## Changes to default settings
 
 * In `tar_option_get()`, set `repository_meta` to `"local"` by default, regardless of `repository` (#1427).
 * In `tar_option_get()`, set `storage = "worker"`, `retrieval = "worker"`, and `memory = "tranisient"` by default (#1426).
 * Set the new "balanced" reporter to be the default reporter for `tar_make()` and `tar_outdated()`.
+
+## Efficiency improvements
+
+* Speed up checking up-to-date targets in large dynamic branching pipelines (#1460).
 
 ## Other changes
 
