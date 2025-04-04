@@ -57,17 +57,22 @@ parallel_class <- R6::R6Class(
       counter_set_names(counter, names)
       invisible()
     },
+    should_dequeue = function() {
+      any(as.integer(ceiling(self$get_ranks())) == 0L)
+    },
+    # Only necessary for parallel computations.
     increment_ranks = function(names, by) {
       index <- match(x = names(data), table = names, nomatch = 0L) > 0L
       self$data[index] <- .subset(data, index) + by
     },
-    should_dequeue = function() {
-      any(as.integer(ceiling(self$get_ranks())) == 0L)
-    },
+    # Only necessary for parallel computations.
     update_ranks = function(target, scheduler) {
       names <- target_downstream_names(target, scheduler)
       target_decrement_ranks(names, scheduler)
     },
+    # engraph_branches() is unnecessary in the sequential queue:
+    # the queue only needs the graph for update_ranks() and increment_ranks(),
+    # which in turn are only necessary when there are parallel computations. 
     engraph_branches = function(target, pipeline, scheduler) {
       graph <- scheduler$graph
       graph$insert_edges(junction_upstream_edges(target$junction))
@@ -77,6 +82,7 @@ parallel_class <- R6::R6Class(
       )
       graph$insert_edges(edges)
     },
+    # Only necessary for parallel computations.
     branch_ranks = function(children, scheduler) {
       unlist(lapply(children, scheduler$count_unfinished_deps))
     },
