@@ -1,11 +1,15 @@
 parallel_init <- function(names = character(0), ranks = integer(0)) {
   names <- as.character(names)
   names(ranks) <- names
-  parallel_new(data = lookup_init(as.list(ranks)), queue = names[order(ranks)])
+  parallel_new(
+    data = lookup_init(as.list(ranks)),
+    ready = sequential_init(names(ranks)[ranks <= 0]),
+    size = length(ranks)
+  )
 }
 
-parallel_new <- function(data = NULL, queue = NULL) {
-  parallel_class$new(data = data, queue = queue)
+parallel_new <- function(data = NULL, ready = NULL, size = NULL) {
+  parallel_class$new(data = data, ready = ready, size = size)
 }
 
 parallel_class <- R6::R6Class(
@@ -15,42 +19,65 @@ parallel_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    queue = NULL,
-    initialize = function(data = NULL, queue = NULL) {
+    ready = NULL,
+    size = NULL,
+    initialize = function(data = NULL, ready = NULL, size = NULL) {
       super$initialize(data = data)
-      self$queue <- queue
+      self$ready <- ready
+      self$size <- size
     },
     is_nonempty = function() {
-      length(.subset2(self, "queue")) > 0L
+      .subset2(self, "size") > 0L
     },
     dequeue = function() {
-      queue <- .subset2(self, "queue")
-      if (length(queue) < 1L) {
-        return(NULL)
-      }
-      head <- queue[1L]
-      if (.subset2(.subset2(self, "data"), head) <= 0) {
-        self$queue <- queue[-1L]
-        return(head)
-      } else {
-        return(NULL)
-      }
+      .subset2(.subset2(self, "ready"), "dequeue")()
     },
     insert = function(names, ranks = NULL) {
-      new_ranks <- ranks %|||% rep(0L, length(names))
-      ranks <- c(new_ranks, self$get_ranks())
-      names <- c(names, self$get_names())
-      names(ranks) <- names
-      self$data <- ranks
-      invisible()
+      self$size <- .subset2(self, "size") + length(names)
+      is_ready <- ranks <= 0
+      not_ready <- !is_ready
+      if (any(is_ready)) {
+        .subset2(.subset2(self, "ready"), "insert")(names = names[is_ready])
+      }
+      if (any(not_ready)) {
+        index <- 1L
+        names <- names[not_ready]
+        ranks <- ranks[not_ready]
+        n <- length(names)
+        data <- .subset2(self, "data")
+        while (index <= n) {
+          data[[.subset(names, index)]] <- .subset(ranks, index)
+          index <- index + 1L
+        }
+      }
     },
     should_dequeue = function() {
-      any(as.integer(ceiling(self$get_ranks())) == 0L)
+      .subset2(.subset2(self, "ready"), "should_dequeue")()
     },
     # Only necessary for parallel computations.
     increment_ranks = function(names, by) {
-      index <- match(x = names(self$data), table = names, nomatch = 0L) > 0L
-      self$data[index] <- .subset(self$data, index) + by
+      index <- 1L
+      n <- length(names)
+      data <- .subset2(self, "data")
+      ready <- .subset2(self, "ready")
+
+if (length(by) == 1L) {
+  by <- rep(by, n)
+}
+
+
+      while (index <= n) {
+        name <- .subset(names, index)
+        rank <- .subset2(data, name) + .subset(by, index)
+
+
+        if (rank > 0) {
+          data[[name]] <- rank
+        } else {
+          .subset2(ready, "insert")(names = name) # probably slow because it grows a vector.
+        }
+        index <- index + 1L
+      }
     },
     # Only necessary for parallel computations.
     update_ranks = function(target, scheduler) {

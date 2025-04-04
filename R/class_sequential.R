@@ -38,7 +38,7 @@ sequential_class <- R6::R6Class(
       self$data <- out
     },
     should_dequeue = function() {
-      self$is_nonempty()
+      .subset2(self, "is_nonempty")()
     },
     validate = function() {
       tar_assert_chr(self$data)
