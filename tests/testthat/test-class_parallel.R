@@ -18,7 +18,7 @@ tar_test("parallel$validate() with missing names", {
   expect_error(q$validate(), class = "tar_condition_validate")
 })
 
-tar_test("parallel$validate() with non-integer ranks", {
+tar_test("parallel$validate() with non-numeric ranks", {
   data <- letters[seq_len(3)]
   names(data) <- data
   q <- parallel_new(data)
@@ -35,27 +35,12 @@ tar_test("parallel$validate() with missing ranks", {
   expect_error(q$validate(), class = "tar_condition_validate")
 })
 
-tar_test("parallel$validate() with bad counter", {
-  q <- parallel_init(names = c("a", "b"), ranks = c(1L, 2L))
-  counter <- q$counter
-  counter$count <- 0L
-  expect_error(q$validate(), class = "tar_condition_validate")
-})
-
 tar_test("parallel$data empty", {
   q <- parallel_init()
   out <- q$data
   exp <- integer(0)
   names(exp) <- character(0)
   expect_identical(out, exp)
-})
-
-tar_test("parallel$counter empty", {
-  q <- parallel_init()
-  out <- q$counter
-  expect_silent(counter_validate(out))
-  expect_equal(out$count, 0L)
-  expect_equal(counter_get_names(out), character(0))
 })
 
 tar_test("parallel$get_names() empty", {
@@ -74,14 +59,6 @@ tar_test("parallel$data nonempty", {
   exp <- seq_len(3)
   names(exp) <- letters[exp]
   expect_identical(out, exp)
-})
-
-tar_test("queue counter nonempty", {
-  q <- parallel_init(names = letters[seq_len(3)], ranks = seq_len(3))
-  out <- q$counter
-  expect_silent(counter_validate(out))
-  expect_equal(out$count, 3L)
-  expect_equal(sort(counter_get_names(out)), sort(letters[seq_len(3)]))
 })
 
 tar_test("parallel$get_names() nonempty", {
@@ -118,7 +95,6 @@ tar_test("parallel$dequeue() with one ready", {
   data <- q$data
   expect_identical(q$dequeue(), "b")
   expect_identical(q$data, sort(data)[-1])
-  expect_equal(sort(counter_get_names(q$counter)), sort(c("a", "c")))
 })
 
 tar_test("parallel$dequeue() with multiple ready", {
@@ -134,7 +110,6 @@ tar_test("parallel$prepend() nothing on an empty queue", {
   data <- q$data
   q$prepend(names = character(0))
   expect_identical(q$data, data)
-  expect_equal(counter_get_names(q$counter), character(0))
 })
 
 tar_test("parallel$prepend() something on an empty queue", {
@@ -169,7 +144,6 @@ tar_test("parallel$append() nothing on an empty queue", {
   data <- q$data
   q$append(names = character(0))
   expect_identical(q$data, data)
-  expect_equal(counter_get_names(q$counter), character(0))
 })
 
 tar_test("parallel$append() something on an empty queue", {
@@ -179,11 +153,6 @@ tar_test("parallel$append() something on an empty queue", {
   exp <- c(1L, 2L)
   names(exp) <- c("a", "b")
   expect_identical(out, exp)
-  expect_equal(q$counter$count, 2L)
-  expect_equal(
-    sort(counter_get_names(q$counter)),
-    sort(c("a", "b"))
-  )
 })
 
 tar_test("parallel$append() something on a nonempty queue", {
@@ -193,11 +162,6 @@ tar_test("parallel$append() something on a nonempty queue", {
   exp <- c(0L, 3L, 1L, 2L)
   names(exp) <- c("x", "y", "a", "b")
   expect_identical(out, exp)
-  expect_equal(q$counter$count, 4L)
-  expect_equal(
-    sort(counter_get_names(q$counter)),
-    sort(c("a", "b", "x", "y"))
-  )
 })
 
 tar_test("parallel$append() default ranks", {
@@ -207,11 +171,6 @@ tar_test("parallel$append() default ranks", {
   exp <- c(0L, 3L, 0L, 0L)
   names(exp) <- c("x", "y", "a", "b")
   expect_identical(out, exp)
-  expect_equal(q$counter$count, 4L)
-  expect_equal(
-    sort(counter_get_names(q$counter)),
-    sort(c("a", "b", "x", "y"))
-  )
 })
 
 tar_test("parallel$increment_ranks() elementwise", {

@@ -1,11 +1,11 @@
 parallel_init <- function(names = character(0), ranks = integer(0)) {
   data <- ranks
   names(data) <- as.character(names)
-  parallel_new(data, counter_init(names))
+  parallel_new(data)
 }
 
-parallel_new <- function(data = NULL, counter = NULL) {
-  parallel_class$new(data, counter)
+parallel_new <- function(data = NULL) {
+  parallel_class$new(data)
 }
 
 parallel_class <- R6::R6Class(
@@ -15,11 +15,6 @@ parallel_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    counter = NULL,
-    initialize = function(data = NULL, counter = NULL) {
-      super$initialize(data)
-      self$counter <- counter
-    },
     is_nonempty = function() {
       length(self$data) > 0L
     },
@@ -33,8 +28,6 @@ parallel_class <- R6::R6Class(
       index <- which.min(self$data)
       head <- names(self$data[index])
       self$data <- self$data[-index]
-      counter <- self$counter
-      counter_del_names(counter, head)
       head
     },
     prepend = function(names, ranks = NULL) {
@@ -43,8 +36,6 @@ parallel_class <- R6::R6Class(
       names <- c(names, self$get_names())
       names(ranks) <- names
       self$data <- ranks
-      counter <- self$counter
-      counter_set_names(counter, names)
       invisible()
     },
     append = function(names, ranks = NULL) {
@@ -53,8 +44,6 @@ parallel_class <- R6::R6Class(
       names <- c(self$get_names(), names)
       names(ranks) <- names
       self$data <- ranks
-      counter <- self$counter
-      counter_set_names(counter, names)
       invisible()
     },
     should_dequeue = function() {
@@ -62,8 +51,8 @@ parallel_class <- R6::R6Class(
     },
     # Only necessary for parallel computations.
     increment_ranks = function(names, by) {
-      index <- match(x = names(data), table = names, nomatch = 0L) > 0L
-      self$data[index] <- .subset(data, index) + by
+      index <- match(x = names(self$data), table = names, nomatch = 0L) > 0L
+      self$data[index] <- .subset(self$data, index) + by
     },
     # Only necessary for parallel computations.
     update_ranks = function(target, scheduler) {
@@ -72,7 +61,7 @@ parallel_class <- R6::R6Class(
     },
     # engraph_branches() is unnecessary in the sequential queue:
     # the queue only needs the graph for update_ranks() and increment_ranks(),
-    # which in turn are only necessary when there are parallel computations. 
+    # which in turn are only necessary when there are parallel computations.
     engraph_branches = function(target, pipeline, scheduler) {
       graph <- scheduler$graph
       graph$insert_edges(junction_upstream_edges(target$junction))
@@ -93,14 +82,13 @@ parallel_class <- R6::R6Class(
       }
     },
     validate_ranks = function(ranks) {
-      if (anyNA(ranks) || any(ranks <= -1L)) {
+      if (!is.numeric(ranks) || anyNA(ranks) || any(ranks <= -1L)) {
         tar_throw_validate("ranks must be nonmissing numerics greater than -1.")
       }
     },
     validate = function() {
       self$validate_names(self$get_names())
       self$validate_ranks(self$get_ranks())
-      counter_validate(self$counter)
     }
   )
 )
