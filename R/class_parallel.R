@@ -1,11 +1,11 @@
 parallel_init <- function(names = character(0), ranks = integer(0)) {
-  data <- ranks
-  names(data) <- as.character(names)
-  parallel_new(data)
+  names <- as.character(names)
+  names(ranks) <- names
+  parallel_new(data = lookup_init(as.list(ranks)), queue = names[order(ranks)])
 }
 
-parallel_new <- function(data = NULL) {
-  parallel_class$new(data)
+parallel_new <- function(data = NULL, queue = NULL) {
+  parallel_class$new(data = data, queue = queue)
 }
 
 parallel_class <- R6::R6Class(
@@ -15,20 +15,26 @@ parallel_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    queue = NULL,
+    initialize = function(data = NULL, queue = NULL) {
+      super$initialize(data = data)
+      self$queue <- queue
+    },
     is_nonempty = function() {
-      length(self$data) > 0L
-    },
-    get_names = function() {
-      names(self$data)
-    },
-    get_ranks = function() {
-      unname(self$data)
+      length(.subset2(self, "queue")) > 0L
     },
     dequeue = function() {
-      index <- which.min(self$data)
-      head <- names(self$data[index])
-      self$data <- self$data[-index]
-      head
+      queue <- .subset2(self, "queue")
+      if (length(queue) < 1L) {
+        return(NULL)
+      }
+      head <- queue[1L]
+      if (.subset2(.subset2(self, "data"), head) <= 0) {
+        self$queue <- queue[-1L]
+        return(head)
+      } else {
+        return(NULL)
+      }
     },
     insert = function(names, ranks = NULL) {
       new_ranks <- ranks %|||% rep(0L, length(names))
