@@ -69,6 +69,14 @@ supported_args <- function(fun, args) {
   args[common]
 }
 
+safe_min <- function(x) {
+  if (length(x)) {
+    min(x)
+  } else {
+    Inf
+  }
+}
+
 tar_envir_base <- new.env(parent = baseenv())
 
 tar_envir_empty <- new.env(parent = emptyenv())

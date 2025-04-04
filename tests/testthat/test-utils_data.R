@@ -67,3 +67,9 @@ tar_test("sort_chr()", {
   expect_equal(sort_chr(""), "")
   expect_equal(sort_chr(NULL), character(0L))
 })
+
+tar_test("safe_min()", {
+  expect_equal(safe_min(c(5L, 4L, 6L)), 4L)
+  expect_equal(safe_min(NULL), Inf)
+  expect_equal(safe_min(numeric(0L)), Inf)
+})

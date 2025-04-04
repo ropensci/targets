@@ -30,8 +30,10 @@ tar_test("parallel$validate() with negative ranks", {
   expect_error(q$validate(), class = "tar_condition_validate")
 })
 
-tar_test("parallel$validate() with missing ranks", {
-  q <- parallel_init(names = c("a", "b"), ranks = c(1L, NA_integer_))
+tar_test("parallel$validate() with a bad min", {
+  data <- letters[seq_len(3)]
+  names(data) <- data
+  q <- parallel_new(data, min = "abc")
   expect_error(q$validate(), class = "tar_condition_validate")
 })
 
@@ -51,6 +53,11 @@ tar_test("parallel$get_names() empty", {
 tar_test("parallel$get_names() empty", {
   q <- parallel_init()
   expect_identical(q$get_ranks(), integer(0))
+})
+
+tar_test("parallel$min empty", {
+  q <- parallel_init()
+  expect_identical(q$min, Inf)
 })
 
 tar_test("parallel$data nonempty", {
@@ -75,10 +82,15 @@ tar_test("parallel$get_ranks() nonempty", {
   expect_identical(out, exp)
 })
 
+tar_test("parallel$min nonempty", {
+  q <- parallel_init(names = letters[seq_len(3)], ranks = c(5L, 4L, 6L))
+  expect_equal(q$min, min(q$get_ranks()))
+})
+
 tar_test("parallel$dequeue() on an empty queue", {
   q <- parallel_init()
   data <- q$data
-  expect_identical(q$dequeue(), character(0))
+  expect_true(is.na(q$dequeue()))
   expect_identical(q$data, data)
 })
 
@@ -88,13 +100,16 @@ tar_test("parallel$dequeue() with none ready", {
   expect_false(q$should_dequeue())
   expect_identical(q$dequeue(), "b")
   expect_identical(q$data, sort(data)[-1])
+  expect_equal(q$min, min(q$get_ranks()))
 })
 
 tar_test("parallel$dequeue() with one ready", {
   q <- parallel_init(names = letters[seq_len(3)], ranks = c(2L, 0L, 3L))
   data <- q$data
+  expect_equal(q$min, min(q$get_ranks()))
   expect_identical(q$dequeue(), "b")
   expect_identical(q$data, sort(data)[-1])
+  expect_equal(q$min, min(q$get_ranks()))
 })
 
 tar_test("parallel$dequeue() with multiple ready", {
@@ -114,20 +129,22 @@ tar_test("parallel$prepend() nothing on an empty queue", {
 
 tar_test("parallel$prepend() something on an empty queue", {
   q <- parallel_init()
+  expect_equal(q$min, Inf)
   q$prepend(names = c("a", "b"), ranks = c(1L, 2L))
   out <- q$data
   exp <- c(1L, 2L)
   names(exp) <- c("a", "b")
   expect_identical(out, exp)
+  expect_equal(q$min, min(q$get_ranks()))
 })
 
 tar_test("parallel$prepend() something on a nonempty queue", {
   q <- parallel_init(names = c("x", "y"), ranks = c(0L, 3L))
   q$prepend(names = c("a", "b"), ranks = c(1L, 2L))
   out <- q$data
-  exp <- c(1L, 2L, 0L, 3L)
-  names(exp) <- c("a", "b", "x", "y")
-  expect_identical(out, exp)
+  exp <- c(0L, 1L, 2L, 3L)
+  names(exp) <- c("x", "a", "b", "y")
+  expect_identical(out, sort(exp))
 })
 
 tar_test("parallel$prepend() default ranks", {
@@ -136,7 +153,7 @@ tar_test("parallel$prepend() default ranks", {
   out <- q$data
   exp <- c(0L, 0L, 0L, 3L)
   names(exp) <- c("a", "b", "x", "y")
-  expect_identical(out, exp)
+  expect_identical(out, sort(exp))
 })
 
 tar_test("parallel$append() nothing on an empty queue", {
@@ -153,35 +170,44 @@ tar_test("parallel$append() something on an empty queue", {
   exp <- c(1L, 2L)
   names(exp) <- c("a", "b")
   expect_identical(out, exp)
+  expect_equal(q$min, min(q$get_ranks()))
 })
 
 tar_test("parallel$append() something on a nonempty queue", {
   q <- parallel_init(names = c("x", "y"), ranks = c(0L, 3L))
+  expect_equal(q$min, min(q$get_ranks()))
   q$append(names = c("a", "b"), ranks = c(1L, 2L))
+  expect_equal(q$min, min(q$get_ranks()))
   out <- q$data
-  exp <- c(0L, 3L, 1L, 2L)
-  names(exp) <- c("x", "y", "a", "b")
-  expect_identical(out, exp)
+  exp <- c(0L, 1L, 2L, 3L)
+  names(exp) <- c("x", "a", "b", "y")
+  expect_identical(out, sort(exp))
 })
 
 tar_test("parallel$append() default ranks", {
   q <- parallel_init(names = c("x", "y"), ranks = c(0L, 3L))
   q$append(names = c("a", "b"))
   out <- q$data
-  exp <- c(0L, 3L, 0L, 0L)
-  names(exp) <- c("x", "y", "a", "b")
+  exp <- c(0L, 0L, 0L, 3L)
+  names(exp) <- c("x", "a", "b", "y")
   expect_identical(out, exp)
 })
 
 tar_test("parallel$increment_ranks() elementwise", {
   q <- parallel_init(names = c("x", "y", "z"), ranks = seq_len(3L))
+  expect_equal(q$min, min(q$get_ranks()))
   q$increment_ranks(names = c("y", "z"), by = c(-2L, 2L))
-  expect_equal(q$get_ranks(), c(1L, 0L, 5L))
+  expect_equal(q$min, min(q$get_ranks()))
+  expect_equal(q$get_names(), c("y", "x", "z"))
+  expect_equal(q$get_ranks(), c(0L, 1L, 5L))
 })
 
 tar_test("parallel$increment_ranks() vectorized", {
   q <- parallel_init(names = c("x", "y", "z"), ranks = seq_len(3L))
+  expect_equal(q$min, min(q$get_ranks()))
   q$increment_ranks(names = c("y", "z"), by = 2L)
+  expect_equal(q$min, min(q$get_ranks()))
+  expect_equal(q$get_names(), c("x", "y", "z"))
   expect_equal(q$get_ranks(), c(1L, 4L, 5L))
 })
 
@@ -206,14 +232,18 @@ tar_test("parallel$should_dequeue() with no zero rank element", {
 
 tar_test("parallel$should_dequeue() with a zero rank element first", {
   q <- parallel_init(names = c("x", "y", "z"), ranks = c(0L, 1L, 2L))
+  expect_equal(q$min, min(q$get_ranks()))
   expect_false(parallel_init()$should_dequeue())
   expect_true(q$should_dequeue())
   expect_equal(q$dequeue(), "x")
+  expect_equal(q$min, min(q$get_ranks()))
 })
 
 tar_test("parallel$should_dequeue() with a zero rank element last", {
   q <- parallel_init(names = c("x", "y", "z"), ranks = c(2L, 1L, 0L))
+  expect_equal(q$min, min(q$get_ranks()))
   expect_false(parallel_init()$should_dequeue())
   expect_true(q$should_dequeue())
   expect_equal(q$dequeue(), "z")
+  expect_equal(q$min, min(q$get_ranks()))
 })

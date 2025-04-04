@@ -1,11 +1,12 @@
 parallel_init <- function(names = character(0), ranks = integer(0)) {
   data <- ranks
+  min <- safe_min(ranks)
   names(data) <- as.character(names)
-  parallel_new(data)
+  parallel_new(data = sort(data), min = min)
 }
 
-parallel_new <- function(data = NULL) {
-  parallel_class$new(data)
+parallel_new <- function(data = NULL, min = NULL) {
+  parallel_class$new(data = data, min = min)
 }
 
 parallel_class <- R6::R6Class(
@@ -15,19 +16,35 @@ parallel_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    min = NULL,
+    initialize = function(data = NULL, min = NULL) {
+      super$initialize(data)
+      self$min <- min
+    },
     is_nonempty = function() {
-      length(self$data) > 0L
+      length(.subset2(self, "data")) > 0L
     },
     get_names = function() {
-      names(self$data)
+      names(.subset2(self, "data"))
     },
     get_ranks = function() {
-      unname(self$data)
+      unname(.subset2(self, "data"))
+    },
+    sort_data = function() {
+      self$data <- sort(.subset2(self, "data"))
+    },
+    update_min = function() {
+      data <- .subset2(self, "data")
+      if (length(data)) {
+        self$min <- as.numeric(data[1L])
+      } else {
+        self$min <- Inf
+      }
     },
     dequeue = function() {
-      index <- which.min(self$data)
-      head <- names(self$data[index])
-      self$data <- self$data[-index]
+      head <- names(.subset2(self, "data"))[1L]
+      self$data <- .subset2(self, "data")[-1L]
+      .subset2(self, "update_min")()
       head
     },
     prepend = function(names, ranks = NULL) {
@@ -36,6 +53,8 @@ parallel_class <- R6::R6Class(
       names <- c(names, self$get_names())
       names(ranks) <- names
       self$data <- ranks
+      .subset2(self, "sort_data")()
+      .subset2(self, "update_min")()
       invisible()
     },
     append = function(names, ranks = NULL) {
@@ -44,15 +63,25 @@ parallel_class <- R6::R6Class(
       names <- c(self$get_names(), names)
       names(ranks) <- names
       self$data <- ranks
+      .subset2(self, "sort_data")()
+      .subset2(self, "update_min")()
       invisible()
     },
     should_dequeue = function() {
-      any(as.integer(ceiling(self$get_ranks())) == 0L)
+      min <- .subset2(self, "min")
+      length(min) && min <= 0
     },
     # Only necessary for parallel computations.
     increment_ranks = function(names, by) {
-      index <- match(x = names(self$data), table = names, nomatch = 0L) > 0L
-      self$data[index] <- .subset(self$data, index) + by
+      data <- .subset2(self, "data")
+      index <- match(x = names(data), table = names, nomatch = 0L) > 0L
+      new_ranks <- .subset(data, index) + by
+      self$data[index] <- new_ranks
+      .subset2(self, "sort_data")()
+      decremented <- by < 0
+      if (any(decremented)) {
+        self$min <- safe_min(c(self$min, safe_min(new_ranks[decremented])))
+      }
     },
     # Only necessary for parallel computations.
     update_ranks = function(target, scheduler) {
@@ -87,6 +116,7 @@ parallel_class <- R6::R6Class(
       }
     },
     validate = function() {
+      tar_assert_dbl(self$min)
       self$validate_names(self$get_names())
       self$validate_ranks(self$get_ranks())
     }
