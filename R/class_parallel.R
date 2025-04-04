@@ -38,14 +38,6 @@ parallel_class <- R6::R6Class(
       self$data <- ranks
       invisible()
     },
-    append = function(names, ranks = NULL) {
-      new_ranks <- ranks %|||% rep(0L, length(names))
-      ranks <- c(self$get_ranks(), new_ranks)
-      names <- c(self$get_names(), names)
-      names(ranks) <- names
-      self$data <- ranks
-      invisible()
-    },
     should_dequeue = function() {
       any(as.integer(ceiling(self$get_ranks())) == 0L)
     },

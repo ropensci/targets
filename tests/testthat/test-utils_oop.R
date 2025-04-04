@@ -31,7 +31,6 @@ tar_test("queue can instantiate", {
   expect_true(is.environment(queue))
   expect_null(queue$is_nonempty())
   expect_null(queue$dequeue())
-  expect_silent(queue$append())
   expect_silent(queue$prepend())
   expect_silent(queue$dequeue())
   expect_silent(queue$increment_ranks())

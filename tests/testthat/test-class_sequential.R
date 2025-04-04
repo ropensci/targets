@@ -47,12 +47,6 @@ tar_test("sequential$prepend() with finished queue", {
   expect_false(q$is_nonempty())
 })
 
-tar_test("sequential$append()", {
-  q <- sequential_init(c("a", "b"))
-  q$append(c("c", "d"))
-  expect_equal(q$data, c("a", "b", "c", "d"))
-})
-
 tar_test("sequential$increment_ranks()", {
   q <- sequential_init(c("a", "b"))
   q$increment_ranks("a", 1L)
