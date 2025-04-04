@@ -1,11 +1,15 @@
 parallel_init <- function(names = character(0), ranks = integer(0)) {
-  data <- ranks
-  names(data) <- as.character(names)
-  parallel_new(data)
+  names(ranks) <- as.character(names)
+  ranks <- sort(ranks)
+  parallel_new(
+    data = lookup_init(as.list(ranks)),
+    head = names(ranks)[ranks <= 0],
+    size = length(names)
+  )
 }
 
-parallel_new <- function(data = NULL) {
-  parallel_class$new(data)
+parallel_new <- function(data = NULL, head = NULL, size = NULL) {
+  parallel_class$new(data = data, head = head, size = size)
 }
 
 parallel_class <- R6::R6Class(
@@ -15,36 +19,41 @@ parallel_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
+    head = NULL,
+    size = NULL,
+    initialize = function(data = NULL, head = NULL, size = NULL) {
+      super$initialize(data = data)
+      self$head <- head
+      self$size <- size
+    },
     is_nonempty = function() {
-      length(self$data) > 0L
-    },
-    get_names = function() {
-      names(self$data)
-    },
-    get_ranks = function() {
-      unname(self$data)
+      .subset2(self, "size") > 0L
     },
     dequeue = function() {
-      index <- which.min(self$data)
-      head <- names(self$data[index])
-      self$data <- self$data[-index]
-      head
+      head <- .subset2(self, "head")
+      if (length(head)) {
+        out <- head[1L]
+        self$head <- head[-1L]
+        self$size <- self$size - 1L
+        return(out)
+      }
+      NULL
     },
     insert = function(names, ranks = NULL) {
-      new_ranks <- ranks %|||% rep(0L, length(names))
-      ranks <- c(new_ranks, self$get_ranks())
-      names <- c(names, self$get_names())
-      names(ranks) <- names
-      self$data <- ranks
-      invisible()
+      self$head <- c(names[ranks <= 0], .subset2(self, "head"))
+      data <- .subset2(self, "data")
+      lapply(seq_along(names), function(index) data[[names[index]]] <- ranks[index])
+      self$size <- self$size + length(names)
     },
     should_dequeue = function() {
-      any(as.integer(ceiling(self$get_ranks())) == 0L)
+      length(.subset2(self, "head")) > 0L
     },
     # Only necessary for parallel computations.
     increment_ranks = function(names, by) {
-      index <- match(x = names(self$data), table = names, nomatch = 0L) > 0L
-      self$data[index] <- .subset(self$data, index) + by
+      data <- .subset2(self, "data")
+      ranks <- as.numeric(lapply(names, function(name) .subset2(data, name))) + by
+      lapply(seq_along(names), function(index) data[[names[index]]] <- ranks[index])
+      self$head <- c(self$head, names[ranks <= 0])
     },
     # Only necessary for parallel computations.
     update_ranks = function(target, scheduler) {
@@ -67,20 +76,20 @@ parallel_class <- R6::R6Class(
     branch_ranks = function(children, scheduler) {
       unlist(lapply(children, scheduler$count_unfinished_deps))
     },
-    validate_names = function(names) {
-      tar_assert_chr(names)
-      if (anyNA(names) || anyDuplicated(names)) {
-        tar_throw_validate("names must unique finite character strings.")
-      }
-    },
-    validate_ranks = function(ranks) {
-      if (!is.numeric(ranks) || anyNA(ranks) || any(ranks <= -1L)) {
-        tar_throw_validate("ranks must be nonmissing numerics greater than -1.")
-      }
-    },
+    # validate_names = function(names) {
+    #   tar_assert_chr(names)
+    #   if (anyNA(names) || anyDuplicated(names)) {
+    #     tar_throw_validate("names must unique finite character strings.")
+    #   }
+    # },
+    # validate_ranks = function(ranks) {
+    #   if (!is.numeric(ranks) || anyNA(ranks) || any(ranks <= -1L)) {
+    #     tar_throw_validate("ranks must be nonmissing numerics greater than -1.")
+    #   }
+    # },
     validate = function() {
-      self$validate_names(self$get_names())
-      self$validate_ranks(self$get_ranks())
+      # self$validate_names(self$get_names())
+      # self$validate_ranks(self$get_ranks())
     }
   )
 )
