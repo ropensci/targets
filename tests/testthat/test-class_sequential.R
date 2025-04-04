@@ -8,10 +8,10 @@ tar_test("sequential$dequeue()", {
   }
 })
 
-tar_test("sequential$prepend() with new queue", {
+tar_test("sequential$insert() with new queue", {
   q <- sequential_init(c("a", "b"))
   q$head <- 1L
-  q$prepend(c("c", "d"))
+  q$insert(c("c", "d"))
   expect_true(q$is_nonempty())
   expect_equal(q$data, c("c", "d", "a", "b"))
   expect_equal(q$head, 1L)
@@ -22,10 +22,10 @@ tar_test("sequential$prepend() with new queue", {
   expect_false(q$is_nonempty())
 })
 
-tar_test("sequential$prepend() with active queue", {
+tar_test("sequential$insert() with active queue", {
   q <- sequential_init(c("a", "b"))
   q$head <- 2L
-  q$prepend(c("c", "d"))
+  q$insert(c("c", "d"))
   expect_true(q$is_nonempty())
   expect_equal(q$data, c("a", "c", "d", "b"))
   expect_equal(q$head, 2L)
@@ -35,10 +35,10 @@ tar_test("sequential$prepend() with active queue", {
   expect_false(q$is_nonempty())
 })
 
-tar_test("sequential$prepend() with finished queue", {
+tar_test("sequential$insert() with finished queue", {
   q <- sequential_init(c("a", "b"))
   q$head <- 3L
-  q$prepend(c("c", "d"))
+  q$insert(c("c", "d"))
   expect_true(q$is_nonempty())
   expect_equal(q$data, c("a", "b", "c", "d"))
   expect_equal(q$head, 3L)

@@ -105,34 +105,34 @@ tar_test("parallel$dequeue() with multiple ready", {
   expect_identical(q$data, data)
 })
 
-tar_test("parallel$prepend() nothing on an empty queue", {
+tar_test("parallel$insert() nothing on an empty queue", {
   q <- parallel_init()
   data <- q$data
-  q$prepend(names = character(0))
+  q$insert(names = character(0))
   expect_identical(q$data, data)
 })
 
-tar_test("parallel$prepend() something on an empty queue", {
+tar_test("parallel$insert() something on an empty queue", {
   q <- parallel_init()
-  q$prepend(names = c("a", "b"), ranks = c(1L, 2L))
+  q$insert(names = c("a", "b"), ranks = c(1L, 2L))
   out <- q$data
   exp <- c(1L, 2L)
   names(exp) <- c("a", "b")
   expect_identical(out, exp)
 })
 
-tar_test("parallel$prepend() something on a nonempty queue", {
+tar_test("parallel$insert() something on a nonempty queue", {
   q <- parallel_init(names = c("x", "y"), ranks = c(0L, 3L))
-  q$prepend(names = c("a", "b"), ranks = c(1L, 2L))
+  q$insert(names = c("a", "b"), ranks = c(1L, 2L))
   out <- q$data
   exp <- c(1L, 2L, 0L, 3L)
   names(exp) <- c("a", "b", "x", "y")
   expect_identical(out, exp)
 })
 
-tar_test("parallel$prepend() default ranks", {
+tar_test("parallel$insert() default ranks", {
   q <- parallel_init(names = c("x", "y"), ranks = c(0L, 3L))
-  q$prepend(names = c("a", "b"))
+  q$insert(names = c("a", "b"))
   out <- q$data
   exp <- c(0L, 0L, 0L, 3L)
   names(exp) <- c("a", "b", "x", "y")

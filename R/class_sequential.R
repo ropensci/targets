@@ -29,7 +29,7 @@ sequential_class <- R6::R6Class(
       }
       .subset(data, index)
     },
-    prepend = function(names, ranks = NULL) {
+    insert = function(names, ranks = NULL) {
       data <- .subset2(self, "data")
       out <- c(data[seq_len(head - 1L)], names)
       if (head <= length(data)) {

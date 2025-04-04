@@ -30,7 +30,7 @@ parallel_class <- R6::R6Class(
       self$data <- self$data[-index]
       head
     },
-    prepend = function(names, ranks = NULL) {
+    insert = function(names, ranks = NULL) {
       new_ranks <- ranks %|||% rep(0L, length(names))
       ranks <- c(new_ranks, self$get_ranks())
       names <- c(names, self$get_names())

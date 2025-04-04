@@ -32,7 +32,7 @@ queue_class <- R6::R6Class(
     abridge = function() {
       while (self$is_nonempty()) self$dequeue()
     },
-    prepend = function(names, ranks = NULL) {
+    insert = function(names, ranks = NULL) {
     },
     increment_ranks = function(names, by) {
     },
