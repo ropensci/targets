@@ -84,16 +84,24 @@ meta_class <- R6::R6Class(
       self$del_records(remove)
     },
     hash_deps = function(deps, pipeline) {
-      hashes <- list()
+      hash_list <- .subset2(self, "produce_hash_list")(deps, pipeline)
+      .subset2(self, "hash_hash_list")(hash_list)
+    },
+    # Slow to run because it digs for hashes in metadata entries.
+    produce_hash_list = function(deps, pipeline) {
+      hash_list <- list()
       index <- 1L
       n <- length(deps)
       lookup <- .subset2(self, "lookup")
       while (index <= n) {
         name <- .subset(deps, index)
-        hashes[[name]] <- .subset2(.subset2(lookup, name), "data")
+        hash_list[[name]] <- .subset2(.subset2(lookup, name), "data")
         index <- index + 1L
       }
-      hashes <- unlist(hashes, use.names = TRUE)
+      hash_list
+    },
+    hash_hash_list = function(hash_list) {
+      hashes <- unlist(hash_list, use.names = TRUE)
       string <- paste(c(names(hashes), hashes), collapse = "")
       hash_object(string)
     },
