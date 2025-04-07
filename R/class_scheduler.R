@@ -42,6 +42,11 @@ initial_ranks <- function(names, graph, priorities) {
   graph$produce_degrees_upstream(names) + rank_offset(priorities[names])
 }
 
+# Technically superfluous as of `targets` >= 1.10.1.9013
+# because priorities were deprecated
+# (https://github.com/ropensci/targets/issues/1458).
+# But keeping the infrastructure in case there is an efficient queue
+# structure that allows priorities.
 rank_offset <- function(priorities) {
   - priorities / 2
 }
