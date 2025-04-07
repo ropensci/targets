@@ -86,12 +86,25 @@ tar_test("parallel$prepend()", {
   q$prepend(names = c("w", "z"), ranks = c(0, 3))
   expect_equal(q$ready$data, c("w", "x", "b", "d"))
   expect_equal(length(as.list(q$data)), 4L)
+  expect_equal(q$n_data, 4L)
   expect_equal(
     as.list(q$data)[sort(names(q$data))],
     list(a = 1, c = 2, y = 3, z = 3)[sort(c("a", "c", "y", "z"))]
   )
 })
 
-tar_test("parallel$increment_ranks() elementwise", {
-  
+tar_test("parallel$increment_ranks()", {
+  q <- parallel_init(
+    names = c("a", "b", "c", "d"), ranks = c(1, 0, 2, 0),
+    step = 4L
+  )
+  q$increment_ranks(names = c("b", "c", "x"), by = c(6, 7, 8))
+  expect_equal(q$ready$data, c("b", "d"))
+  expect_equal(length(q$data), 2L)
+  expect_equal(q$n_data, 2L)
+  expect_equal(as.list(q$data)[c("a", "c")], list(a = 1, c = 9))
+  q$increment_ranks(names = c("a", "c"), by = -10)
+  expect_equal(q$ready$data, c("b", "d", "a", "c", NA_character_, NA_character_))
+  expect_equal(length(q$data), 0L)
+  expect_equal(q$n_data, 0L)
 })

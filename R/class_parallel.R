@@ -82,7 +82,12 @@ parallel_class <- R6::R6Class(
       ready_append <- .subset2(.subset2(self, "ready"), "append")
       while (index <= n) {
         name <- .subset(names, index)
-        rank <- .subset2(data, name) + .subset(by, index)
+        rank <- .subset2(data, name)
+        if (is.null(rank)) {
+          index <- index + 1L
+          next
+        }
+        rank <- rank + .subset(by, index)
         if (rank <= 0) {
           ready_append(name)
           rm(list = name, envir = data)
