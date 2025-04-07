@@ -1,3 +1,7 @@
+# The sequential queue is a queue structure that attempts to achieve
+# approximately O(1) complexity for common methods.
+# clean(), extend(), and prepend() are probably around O(n)
+# and do not need to be called often.
 sequential_init <- function(names = character(0), step = 1e5L) {
   sequential_new(data = names, step = step)
 }
@@ -19,7 +23,7 @@ sequential_class <- R6::R6Class(
     initialize = function(data = NULL, step = NULL) {
       super$initialize(data = data)
       self$tail <- length(data)
-      self$head <- as.integer(self$tail > 0L)
+      self$head <- 1L
       self$step <- as.integer(step)
     },
     is_nonempty = function() {
@@ -33,21 +37,17 @@ sequential_class <- R6::R6Class(
       tail > 0L && head <= tail
     },
     clean = function() {
-      if (.subset2(self, "is_nonempty")()) {
-        head <- .subset2(self, "head")
-        tail <- .subset2(self, "tail")
-        self$data <- .subset2(self, "data")[seq(from = head, to = tail)]
-        self$tail <- tail - head
+      head <- .subset2(self, "head")
+      if (head > 1L) {
+        self$data <- .subset2(self, "data")[-seq(head - 1L)]
+        self$tail <- tail - head + 1L
         self$head <- 1L
-      } else {
-        self$data <- character(0L)
-        self$head <- 0L
-        self$tail <- 0L
       }
     },
-    extend = function() {
+    extend = function(n) {
       .subset2(self, "clean")()
-      self$data <- c(.subset2(self, "data"), rep(NA_character_, self$step))
+      n <- max(n, .subset2(self, "step"))
+      self$data <- c(.subset2(self, "data"), rep(NA_character_, n))
     },
     dequeue = function() {
       if (.subset2(self, "is_nonempty")()) {
@@ -63,7 +63,7 @@ sequential_class <- R6::R6Class(
       data <- .subset2(self, "data")
       tail <- .subset2(self, "tail")
       if (length(data) - tail < length(names)) {
-        .subset2(self, "extend")()
+        .subset2(self, "extend")(length(names))
       }
       index <- 1L
       n <- length(names)
@@ -85,7 +85,6 @@ sequential_class <- R6::R6Class(
       tar_assert_int(self$head)
       tar_assert_int(self$tail)
       tar_assert_int(self$step)
-      tar_assert_true(self$head <= self$tail)
     }
   )
 )
