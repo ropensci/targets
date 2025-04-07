@@ -77,7 +77,7 @@ sequential_class <- R6::R6Class(
     },
     prepend = function(names, ranks = NULL) {
       .subset2(self, "clean")()
-      self$data <- c(.subset2(self, "data"), names)
+      self$data <- c(names, .subset2(self, "data"))
       self$tail <- .subset2(self, "tail") + length(names)
     },
     validate = function() {
