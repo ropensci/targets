@@ -72,6 +72,11 @@ parallel_class <- R6::R6Class(
     prepend = function(names, ranks = NULL) {
       .subset2(self, "insert")(names = names, ranks = ranks, method = "prepend")
     },
+    abridge = function() {
+      .subset2(.subset2(self, "ready"), "abridge")()
+      self$data <- lookup_new()
+      self$n_data <- 0L
+    },
     # Only necessary for parallel computations.
     increment_ranks = function(names, by) {
       if (length(by) == 1L) {

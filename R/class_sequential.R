@@ -80,6 +80,11 @@ sequential_class <- R6::R6Class(
       self$data <- c(names, .subset2(self, "data"))
       self$tail <- .subset2(self, "tail") + length(names)
     },
+    abridge = function() {
+      self$data <- character(0L)
+      self$head <- 1L
+      self$tail <- 0L
+    },
     validate = function() {
       tar_assert_chr(self$data)
       tar_assert_int(self$head)
