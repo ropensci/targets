@@ -8,29 +8,37 @@ tar_test("scheduler$queue", {
   expect_silent(s$queue$validate())
 })
 
-tar_test("queue has correct names", {
+tar_test("parallel queue has correct names", {
   pipeline <- pipeline_order()
-  s <- scheduler_init(pipeline)
-  out <- s$queue$get_names()
+  s <- scheduler_init(pipeline, queue = "parallel")
+  out <- c(names(s$queue$data), s$queue$ready$data)
   exp <- pipeline_get_names(pipeline)
   expect_equal(sort(out), sort(exp))
 })
 
-tar_test("queue has correct ranks", {
-  queue <- scheduler_init(pipeline_order())$queue
-  out <- queue$data
-  exp <- c(
-    data1 = 0L,
-    data2 = 0L,
-    min1 = 1L,
-    min2 = 1L,
-    max1 = 1L,
-    max2 = 1L,
-    mins = 2L,
-    maxes = 2L,
-    all = 2L
+tar_test("sequential queue has correct names", {
+  pipeline <- pipeline_order()
+  s <- scheduler_init(pipeline, queue = "sequential")
+  out <- s$queue$data
+  exp <- pipeline_get_names(pipeline)
+  expect_equal(sort(out), sort(exp))
+})
+
+tar_test("parallel queue has correct ranks", {
+  queue <- scheduler_init(pipeline_order(), queue = "parallel")$queue
+  expect_equal(sort(queue$ready$data), sort(c("data1", "data2")))
+  out <- as.list(queue$data)
+  exp <- list(
+    min1 = 1,
+    min2 = 1,
+    max1 = 1,
+    max2 = 1,
+    mins = 2,
+    maxes = 2,
+    all = 2
   )
-  expect_equal(out[sort(names(out))], exp[sort(names(exp))])
+  expect_equal(sort(names(out)), sort(names(exp)))
+  expect_equal(out[names(out)], exp[names(out)])
 })
 
 tar_test("scheduler$count_unfinished_deps()", {

@@ -104,7 +104,10 @@ tar_test("parallel$increment_ranks()", {
   expect_equal(q$n_data, 2L)
   expect_equal(as.list(q$data)[c("a", "c")], list(a = 1, c = 9))
   q$increment_ranks(names = c("a", "c"), by = -10)
-  expect_equal(q$ready$data, c("b", "d", "a", "c", NA_character_, NA_character_))
+  expect_equal(
+    q$ready$data,
+    c("b", "d", "a", "c", NA_character_, NA_character_)
+  )
   expect_equal(length(q$data), 0L)
   expect_equal(q$n_data, 0L)
 })

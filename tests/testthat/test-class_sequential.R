@@ -50,7 +50,7 @@ tar_test("sequential$clean()", {
     expect_equal(q$data[q$tail], "z")
     expect_equal(q$data, c(letters[-seq_len(4L)], rep(NA_character_, 74L)))
   }
-  while(q$is_nonempty()) {
+  while (q$is_nonempty()) {
     expect_true(nzchar(q$dequeue()))
   }
   expect_equal(q$data, c(letters[-seq_len(4L)], rep(NA_character_, 74L)))

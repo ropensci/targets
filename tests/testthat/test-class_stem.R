@@ -65,19 +65,19 @@ tar_test("target_update_queue() updates queue correctly", {
   scheduler <- scheduler_init(pipeline, meta = meta_init())
   target <- pipeline_get_target(pipeline, "min2")
   target_update_queue(target, scheduler)
-  out <- scheduler$queue$data
-  exp <- c(
-    data1 = 0L,
-    data2 = 0L,
-    min1 = 1L,
-    min2 = 1L,
-    max1 = 1L,
-    max2 = 1L,
-    mins = 1L,
-    maxes = 2L,
-    all = 2L
+  expect_equal(sort(scheduler$queue$ready$data), sort(c("data1", "data2")))
+  out <- as.list(scheduler$queue$data)
+  exp <- list(
+    min1 = 1,
+    min2 = 1,
+    max1 = 1,
+    max2 = 1,
+    mins = 1,
+    maxes = 2,
+    all = 2
   )
-  expect_equal(out[sort(names(out))], exp[sort(names(exp))])
+  expect_equal(sort(names(out)), sort(names(exp)))
+  expect_equal(out[sort(names(out))], exp[sort(names(out))])
 })
 
 tar_test("target_deps_deep()", {

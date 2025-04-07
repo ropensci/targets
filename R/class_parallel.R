@@ -1,7 +1,7 @@
 # The parallel queue is a hybrid data structure to promote efficiency
 # (c.f. https://github.com/ropensci/targets/issues/1458).
-# Targets that are ready to run are stored in a sequential queue where they can be
-# popped efficiently.
+# Targets that are ready to run are stored in a sequential
+# queue where they can be popped efficiently.
 # Targets that are waiting for dependencies are stored in a hash environment
 # so their ranks can be decremented in constant time.
 parallel_init <- function(
@@ -35,7 +35,8 @@ parallel_class <- R6::R6Class(
       self$ready <- ready
     },
     is_nonempty = function() {
-      .subset2(self, "n_data") > 0L || .subset2(.subset2(self, "ready"), "is_nonempty")()
+      .subset2(self, "n_data") > 0L ||
+        .subset2(.subset2(self, "ready"), "is_nonempty")()
     },
     dequeue = function() {
       .subset2(.subset2(self, "ready"), "dequeue")()

@@ -1,4 +1,8 @@
-# targets 1.10.1.9012 (development)
+# targets 1.10.1.9013 (development)
+
+## Deprecated features
+
+* Deprecate the `priority` argument of `tar_target()`. Because of #1458, custom priorities no longer have an effect on execution order. But as a benefit, up-to-date parallelized pipelines with 100000+ targets can be checked around 10 times faster.
 
 ## Changes to default settings
 
@@ -8,7 +12,7 @@
 
 ## Efficiency improvements
 
-* Speed up checking up-to-date targets in large dynamic branching pipelines (#1460).
+* Speed up checking up-to-date targets in large dynamic branching pipelines (#1458, #1460). The speedup is over 10-fold in some cases.
 
 ## Other changes
 
