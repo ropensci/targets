@@ -2,7 +2,7 @@
 # approximately O(1) complexity for common methods.
 # clean(), extend(), and prepend() are probably around O(n)
 # and do not need to be called often.
-sequential_init <- function(names = character(0), step = 1e5L) {
+sequential_init <- function(names = character(0), step = 1e3L) {
   sequential_new(data = names, step = step)
 }
 

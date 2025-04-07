@@ -7,7 +7,7 @@
 parallel_init <- function(
   names = character(0),
   ranks = numeric(0L),
-  step = 1e5
+  step = 1e3
 ) {
   names(ranks) <- as.character(names)
   positive_rank <- ranks > 0
