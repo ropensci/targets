@@ -1,15 +1,18 @@
 tar_test("meta$database", {
   out <- meta_init()
+  on.exit(out$database$close())
   expect_silent(out$database$validate())
 })
 
 tar_test("meta$depends", {
   out <- meta_init()
+  on.exit(out$database$close())
   expect_silent(lookup_validate(out$depends))
 })
 
 tar_test("meta database key", {
   out <- meta_init()
+  on.exit(out$database$close())
   expect_equal(
     out$database$key,
     file.path(path_store_default(), "meta", "meta")
@@ -18,6 +21,7 @@ tar_test("meta database key", {
 
 tar_test("meta$get_record() for internal storage", {
   meta <- meta_init()
+  on.exit(meta$database$close())
   row <- list(
     name = "x",
     type = "cross",
@@ -34,6 +38,7 @@ tar_test("meta$get_record() for internal storage", {
 
 tar_test("meta$get_record() for external storage", {
   meta <- meta_init()
+  on.exit(meta$database$close())
   row <- list(
     name = "x",
     type = "cross",
@@ -50,6 +55,7 @@ tar_test("meta$get_record() for external storage", {
 
 tar_test("builder metadata recording", {
   out <- meta_init()
+  on.exit(out$database$close())
   target <- target_init("x", quote(sample.int(100)))
   pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
@@ -70,6 +76,7 @@ tar_test("builder metadata recording", {
 tar_test("meta$set_record()", {
   skip_cran()
   out <- meta_init()
+  on.exit(out$database$close())
   target <- target_init("x", quote(sample.int(100)))
   pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
@@ -89,6 +96,7 @@ tar_test("meta$set_record()", {
 tar_test("meta$insert_row()", {
   skip_cran()
   out <- meta_init()
+  on.exit(out$database$close())
   target <- target_init("x", quote(sample.int(100)))
   pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
@@ -110,6 +118,7 @@ tar_test("meta$record_imports()", {
   envir$f <- function(x) g(x) + h(x)
   envir$a <- "x"
   meta <- meta_init()
+  on.exit(meta$database$close())
   meta$database$ensure_storage()
   meta$record_imports(envir, pipeline_order())
   row <- meta$database$get_row("f")
@@ -186,6 +195,7 @@ tar_test("errored targets keep old path and old format in meta", {
   )
   local_init(pipeline_init(list(x)))$run()
   meta <- meta_init()
+  on.exit(meta$database$close())
   meta$database$preprocess(write = TRUE)
   data <- meta$database$read_data()
   expect_equal(data$path[[1]], NA_character_)
@@ -208,6 +218,7 @@ tar_test("errored external targets keep old path and old format in meta", {
   )
   local_init(pipeline_init(list(x)))$run()
   meta <- meta_init()
+  on.exit(meta$database$close())
   meta$database$preprocess(write = TRUE)
   data <- meta$database$read_data()
   expect_equal(data$path[[1]], "x")
@@ -329,6 +340,7 @@ tar_test("migrate meta database", {
   tar_make(callr_function = NULL)
   expect_equal(tar_outdated(callr_function = NULL), character(0))
   meta <- meta_init()
+  on.exit(meta$database$close())
   data <- as_data_frame(meta$database$read_condensed_data())
   expect_false(is.null(data$repository))
   data$repository <- NULL
@@ -340,5 +352,6 @@ tar_test("migrate meta database", {
 
 tar_test("meta$validate()", {
   out <- meta_init()
+  on.exit(out$database$close())
   expect_silent(out$validate())
 })

@@ -66,11 +66,6 @@ database_class <- R6::R6Class(
   class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
-  private = list(
-    finalize = function() {
-      self$close()
-    }
-  ),
   public = list(
     lookup = NULL,
     path = NULL,

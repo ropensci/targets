@@ -1,5 +1,6 @@
 tar_test("database$get_row()", {
   out <- database_init()
+  on.exit(out$close())
   row <- list(name = "abc", string = "run(xyz)", children = list(letters))
   out$set_row(row)
   expect_equal(out$get_row("abc"), row)
@@ -7,6 +8,7 @@ tar_test("database$get_row()", {
 
 tar_test("database$exists_row()", {
   out <- database_init()
+  on.exit(out$close())
   row <- list(name = "abc", string = "run(xyz)", children = list(letters))
   expect_false(out$exists_row("abc"))
   out$set_row(row)
@@ -15,6 +17,7 @@ tar_test("database$exists_row()", {
 
 tar_test("database$set_row()", {
   out <- database_init()
+  on.exit(out$close())
   expect_equal(lookup_list(out$lookup), character(0))
   row <- list(name = "abc", string = "run(xyz)", children = list(letters))
   out$set_row(row)
@@ -24,6 +27,7 @@ tar_test("database$set_row()", {
 
 tar_test("database$get_data()", {
   db <- database_init()
+  on.exit(db$close())
   expect_equal(lookup_list(db$lookup), character(0))
   row1 <- list(name = "abc", string = "123")
   row2 <- list(name = "xyz", string = "456")
@@ -52,6 +56,7 @@ tar_test("database$get_data() with list columns", {
 
 tar_test("database$ensure_storage()", {
   out <- database_init(header = c("col1", "col2"))
+  on.exit(out$close())
   path <- out$path
   expect_false(file.exists(path))
   out$ensure_storage()
@@ -67,6 +72,7 @@ tar_test("database$ensure_storage()", {
 
 tar_test("database$produce_line()", {
   out <- database_init()
+  on.exit(out$close())
   row <- list(
     name = "abc",
     string = "run(xyz)",
@@ -77,6 +83,7 @@ tar_test("database$produce_line()", {
 
 tar_test("database$read_data() without rows or header", {
   db <- database_init(path = tempfile(), header = character(0))
+  on.exit(db$close())
   out <- db$read_data()
   expect_false(file.exists(db$path))
   expect_equal(out, data_frame())
@@ -84,6 +91,7 @@ tar_test("database$read_data() without rows or header", {
 
 tar_test("database$read_data() without rows", {
   db <- database_init(path = tempfile(), header = letters)
+  on.exit(db$close())
   out <- db$read_data()
   expect_false(file.exists(db$path))
   expect_equal(nrow(out), 0L)
@@ -100,6 +108,7 @@ tar_test("database$read_data()", {
   )
   writeLines(lines, path)
   db <- database_init(path, header, list_columns = "col3")
+  on.exit(db$close())
   out <- db$read_data()
   exp <- data_frame(
     name = c("e11", "e21"),
@@ -116,6 +125,7 @@ tar_test("database$overwrite_storage()", {
     col3 = list(c("e13", "e14"), c("e23", "e24", "e25"))
   )
   db <- database_init(header = c("name", "col2", "col3"))
+  on.exit(db$close())
   exp <- c(
     "name|col2|col3",
     "e|e12|e13*e14",
@@ -135,6 +145,7 @@ tar_test("database$append_storage()", {
     col3 = list(c("e13", "e14"), c("e23", "e24", "e25"))
   )
   db <- database_init(header = c("name", "col2", "col3"))
+  on.exit(db$close())
   exp <- c(
     "name|col2|col3",
     "e|e12|e13*e14",
@@ -164,6 +175,7 @@ tar_test("database$read_condensed_data()", {
     header = c("name", "col2", "col3"),
     list_columns = "col3"
   )
+  on.exit(db$close())
   out <- db$read_condensed_data()
   exp <- data_frame(
     name = c("e1", "e2"),
@@ -182,6 +194,7 @@ tar_test("database$condense_data()", {
     col3 = list(c("1", "2"), c("e13", "e14"), c("e23", "e24", "e25"), "x")
   )
   db <- database_init()
+  on.exit(db$close())
   out <- db$condense_data(data)
   exp <- data.table::data.table(
     name = c("x", "e", "f"),
@@ -198,6 +211,7 @@ tar_test("database$read_condensed_data()", {
     col3 = list(c("1", "2"), c("e13", "e14"), c("e23", "e24", "e25"), "x")
   )
   db <- database_init()
+  on.exit(db$close())
   out <- db$condense_data(data)
   exp <- data.table::data.table(
     name = c("x", "e", "f"),
@@ -215,6 +229,7 @@ tar_test("database$set_data()", {
     col4 = seq_len(4L)
   )
   db <- database_init()
+  on.exit(db$close())
   db$set_data(data)
   expect_equal(sort(lookup_list(db$lookup)), sort(c("e", "f", "x")))
   exp <- list(
@@ -235,6 +250,7 @@ tar_test("database$preprocess() on empty data", {
     header = c("name", "col3"),
     list_columns = "col3"
   )
+  on.exit(db$close())
   db$preprocess(write = TRUE)
   expect_equal(lookup_list(db$lookup), character(0))
   expect_equal(readLines(db$path), "name|col3")
@@ -261,6 +277,7 @@ tar_test("database$preprocess() on different column types", {
       numeric_columns = "col5",
       repository = repository
     )
+    on.exit(db$close())
     db$preprocess(write = TRUE)
     out <- readLines(path)
     expect_equal(out, lines[-3])
@@ -300,6 +317,7 @@ tar_test("database$write_row()", {
     header = c("name", "col2", "col3"),
     list_columns = "col3"
   )
+  on.exit(db$close())
   row <- list(name = "x", col2 = 1L, col3 = list(c("a", "b")))
   db$ensure_storage()
   db$write_row(row)
@@ -313,6 +331,7 @@ tar_test("database$insert_row()", {
     header = c("name", "col2", "col3"),
     list_columns = "col3"
   )
+  on.exit(db$close())
   row <- list(name = "x", col2 = 1L, col3 = list(c("a", "b")))
   db$ensure_storage()
   db$insert_row(row)
@@ -326,6 +345,7 @@ tar_test("database$insert_row()", {
 
 tar_test("database$select_cols()", {
   db <- database_init(header = c("name", "col2", "col3"))
+  on.exit(db$close())
   data <- data_frame(col2 = "b", name = "a")
   out <- db$select_cols(data)
   exp <- list(name = "a", col2 = "b", col3 = NA_character_)
@@ -337,6 +357,7 @@ tar_test("database$deduplicate_storage()", {
   tmp <- tempfile()
   writeLines(lines, tmp)
   db <- database_init(path = tmp, header = c("name", "col"))
+  on.exit(db$close())
   db$deduplicate_storage()
   out <- readLines(tmp)
   expect_equal(out, c("name|col", "x|2", "y|1", "name|z"))
@@ -344,36 +365,41 @@ tar_test("database$deduplicate_storage()", {
 
 tar_test("database$deduplicate_storage() on non-existent file", {
   db <- database_init(path = tempfile(), header = c("name", "col"))
+  on.exit(db$close())
   expect_silent(db$deduplicate_storage())
 })
 
 tar_test("database$validate()", {
   out <- database_init(header = "name")
+  on.exit(out$close())
   expect_silent(out$validate())
 })
 
 tar_test("database$validate() with bad list columns", {
   out <- database_init(header = c("name", "a"), list_columns = "b")
+  on.exit(out$close())
   expect_error(out$validate(), class = "tar_condition_validate")
 })
 
 tar_test("database$validate() without name column", {
   out <- database_init(header = letters)
+  on.exit(out$close())
   expect_error(out$validate(), class = "tar_condition_validate")
 })
-
 
 tar_test("validate compatible header", {
   tar_script(list())
   tar_make(callr_function = NULL)
   data <- tar_meta()
   meta <- meta_init()
+  on.exit(meta$database$close())
   meta$database$overwrite_storage(data)
   expect_silent(tar_make(callr_function = NULL, reporter = "silent"))
 })
 
 tar_test("do not validate header of missing file", {
   out <- database_init(header = "name")
+  on.exit(out$close())
   expect_silent(out$validate())
   expect_false(file.exists(out$path))
 })
@@ -384,6 +410,7 @@ tar_test("fail to validate incompatible header", {
   data <- tar_meta()
   data$size <- NULL
   meta <- meta_init()
+  on.exit(meta$database$close())
   meta$database$overwrite_storage(data)
   expect_error(
     tar_make(callr_function = NULL),
@@ -393,6 +420,7 @@ tar_test("fail to validate incompatible header", {
 
 tar_test("database buffer", {
   db <- database_init()
+  on.exit(db$close())
   expect_true(is.environment(db$buffer))
   expect_equal(lookup_list(db$lookup), character(0L))
   db$buffer_row(list(name = "x"))
@@ -425,6 +453,7 @@ tar_test("compare_working_directories()", {
 
 tar_test("local database cloud methods", {
   database <- database_init(repository = "local")
+  on.exit(database$close())
   expect_null(database$download())
   expect_null(database$download_workspace(NULL, NULL, TRUE))
   expect_null(database$upload())
@@ -443,18 +472,21 @@ tar_test("database unknown repository", {
 
 tar_test("mock download",  {
   x <- database_class$new(path = tempfile())
+  on.exit(x$close())
   expect_equal(x$download(), "download")
   expect_equal(x$download_workspace(), "download_workspace")
 })
 
 tar_test("mock upload",  {
   x <- database_class$new(path = tempfile())
+  on.exit(x$close())
   expect_equal(x$upload(), "upload")
   expect_equal(x$upload_workspace(), "upload_workspace")
 })
 
 tar_test("mock head non-existent file",  {
   x <- database_class$new(path = tempfile())
+  on.exit(x$close())
   out <- x$head()
   expect_false(out$exists)
   expect_equal(out$time, file_time(info = list(mtime_numeric = 0)))
@@ -462,6 +494,7 @@ tar_test("mock head non-existent file",  {
 
 tar_test("mock head",  {
   x <- database_class$new(path = tempfile())
+  on.exit(x$close())
   file.create("path_cloud")
   out <- x$head()
   expect_true(out$exists)
@@ -469,29 +502,34 @@ tar_test("mock head",  {
 
 tar_test("mock sync no action", {
   x <- database_class$new(path = tempfile(), key = "x")
+  on.exit(x$close())
   expect_null(x$sync(verbose = TRUE))
 })
 
 tar_test("mock sync only cloud", {
   x <- database_class$new(path = tempfile(), key = "x")
+  on.exit(x$close())
   file.create("path_cloud")
   expect_equal(x$sync(verbose = TRUE), "download")
 })
 
 tar_test("mock sync only local", {
   x <- database_class$new(path = tempfile(), key = "x")
+  on.exit(x$close())
   file.create(x$path)
   expect_equal(x$sync(verbose = TRUE), "upload")
 })
 
 tar_test("mock sync only local", {
   x <- database_class$new(path = tempfile(), key = "x")
+  on.exit(x$close())
   file.create(x$path)
   expect_equal(x$sync(verbose = TRUE), "upload")
 })
 
 tar_test("mock sync no action on agreement", {
   x <- database_class$new(path = tempfile())
+  on.exit(x$close())
   writeLines("lines", x$path)
   file.copy(x$path, "path_cloud")
   expect_null(x$sync(verbose = TRUE))
@@ -500,6 +538,7 @@ tar_test("mock sync no action on agreement", {
 tar_test("mock sync cloud file more recent", {
   old <- system.file("CITATION", package = "targets", mustWork = TRUE)
   x <- database_class$new(path = old, key = "x")
+  on.exit(x$close())
   writeLines("lines", "path_cloud")
   expect_equal(x$sync(verbose = TRUE), "download")
 })
@@ -507,6 +546,7 @@ tar_test("mock sync cloud file more recent", {
 tar_test("mock sync local file more recent", {
   skip_cran()
   x <- database_class$new(path = tempfile(), key = "x")
+  on.exit(x$close())
   writeLines("lines", x$path)
   old <- system.file("CITATION", package = "targets", mustWork = TRUE)
   file.copy(
@@ -520,6 +560,7 @@ tar_test("mock sync local file more recent", {
 
 tar_test("mock failed nice_upload()", {
   x <- database_class$new(path = tempfile(), key = "x")
+  on.exit(x$close())
   expect_silent(tmp <- x$nice_upload(verbose = FALSE, strict = FALSE))
   expect_null(tmp)
   expect_message(
@@ -541,6 +582,7 @@ tar_test("mock failed nice_upload()", {
 
 tar_test("mock succeeded nice_upload()", {
   x <- database_class$new(path = tempfile(), key = "x")
+  on.exit(x$close())
   file.create(x$path)
   for (strict in c(TRUE, FALSE)) {
     expect_silent(tmp <- x$nice_upload(verbose = FALSE, strict = strict))
@@ -555,6 +597,7 @@ tar_test("mock succeeded nice_upload()", {
 
 tar_test("mock failed nice_download()", {
   x <- database_class$new(path = tempfile(), key = "x")
+  on.exit(x$close())
   expect_silent(tmp <- x$nice_download(verbose = FALSE, strict = FALSE))
   expect_null(tmp)
   expect_message(
@@ -576,6 +619,7 @@ tar_test("mock failed nice_download()", {
 
 tar_test("mock succeeded nice_download()", {
   x <- database_class$new(path = tempfile(), key = "x")
+  on.exit(x$close())
   file.create("path_cloud")
   for (strict in c(TRUE, FALSE)) {
     expect_silent(tmp <- x$nice_download(verbose = FALSE, strict = strict))
