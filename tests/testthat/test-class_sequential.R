@@ -147,7 +147,7 @@ tar_test("sequential$increment_ranks()", {
   expect_equal(q$data, c("a", "b"))
 })
 
-tar_test("sequential$abridge()", {
+tar_test("sequential$reset()", {
   q <- sequential_init(names = letters, step = 100L)
   q$dequeue()
   expect_equal(q$data, letters)
@@ -156,7 +156,7 @@ tar_test("sequential$abridge()", {
   expect_equal(q$data[q$head], "b")
   expect_equal(q$data[q$tail], "z")
   expect_true(q$is_nonempty())
-  q$abridge()
+  q$reset()
   expect_equal(q$data, character(0L))
   expect_equal(q$head, 1L)
   expect_equal(q$tail, 0L)

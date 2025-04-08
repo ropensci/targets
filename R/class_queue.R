@@ -29,7 +29,7 @@ queue_class <- R6::R6Class(
     },
     dequeue = function() {
     },
-    abridge = function() {
+    reset = function() {
     },
     prepend = function(names, ranks = NULL) {
     },

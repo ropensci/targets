@@ -72,8 +72,8 @@ parallel_class <- R6::R6Class(
     prepend = function(names, ranks = NULL) {
       .subset2(self, "insert")(names = names, ranks = ranks, method = "prepend")
     },
-    abridge = function() {
-      .subset2(.subset2(self, "ready"), "abridge")()
+    reset = function() {
+      .subset2(.subset2(self, "ready"), "reset")()
       self$data <- lookup_new()
       self$n_data <- 0L
     },

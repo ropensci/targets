@@ -112,7 +112,7 @@ tar_test("parallel$increment_ranks()", {
   expect_equal(q$n_data, 0L)
 })
 
-tar_test("parallel$abridge()", {
+tar_test("parallel$reset()", {
   q <- parallel_init(
     names = letters,
     ranks = c(1, 2, rep(0, 24L)),
@@ -128,7 +128,7 @@ tar_test("parallel$abridge()", {
     list(a = 1, b = 2)
   )
   expect_true(q$is_nonempty())
-  q$abridge()
+  q$reset()
   expect_equal(q$ready$data, character(0L))
   expect_equal(q$ready$head, 1L)
   expect_equal(q$ready$tail, 0L)

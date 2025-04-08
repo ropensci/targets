@@ -92,7 +92,7 @@ scheduler_class <- R6::R6Class(
     abridge = function(target) {
       self$reporter$report_error(target$metrics$error)
       self$progress$abridge()
-      self$queue$abridge()
+      self$queue$reset()
     },
     trim = function(target, pipeline) {
       parent_name <- target_get_parent(target)
