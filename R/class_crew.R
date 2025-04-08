@@ -147,6 +147,7 @@ crew_class <- R6::R6Class(
       )
       builder_marshal_subpipeline(target)
       self$sync_meta_time()
+      runtime_increment_targets_run(tar_runtime)
       self$controller$push(
         command = command,
         data = data,

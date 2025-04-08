@@ -355,7 +355,7 @@ target_gc <- function(target) {
   } else {
     count <- .subset2(tar_runtime, "number_targets_run") %|||% 0L
     interval <- .subset2(tar_options, "get_garbage_collection")()
-    if (interval > 0L && (count %% interval) == 0L) {
+    if (interval > 0L && count > 0L && (count %% interval) == 0L) {
       gc()
     }
   }

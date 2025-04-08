@@ -125,6 +125,7 @@ future_class <- R6::R6Class(
         lazy = FALSE,
         seed = FALSE
       )
+      runtime_increment_targets_run(tar_runtime)
       future <- do.call(what = future::future, args = args)
       lookup_set(
         lookup = self$worker_list,

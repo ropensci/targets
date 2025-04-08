@@ -14,6 +14,7 @@
 
 * Speed up checking up-to-date targets in large dynamic branching pipelines (#1458, #1460). The speedup is over 10-fold or more in some cases.
 * Maintain a persistent text connection when appending to a metadata text file (#1415).
+* Avoid superfluous garbage collection when `crew` controllers are saturated.
 
 ## Other changes
 

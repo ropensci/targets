@@ -167,8 +167,7 @@ runtime_increment_targets_run <- function(x) {
   if (is.null(count)) {
     count <- 0L
   }
-  count <- count + 1L
-  x$number_targets_run <- count
+  x$number_targets_run <- count + 1L
 }
 
 runtime_reset <- function(x) {
