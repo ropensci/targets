@@ -1,5 +1,6 @@
 tar_test("progress database subkey", {
   out <- progress_init()
+  on.exit(out$database$close())
   expect_equal(
     out$database$key,
     file.path(path_store_default(), "meta", "progress")
@@ -32,6 +33,7 @@ tar_test("progress$errored", {
 
 tar_test("progress$assign_queued()", {
   progress <- progress_init()
+  on.exit(progress$database$close())
   progress$assign_queued("x")
   expect_equal(counter_get_names(progress$completed), character(0))
   expect_equal(counter_get_names(progress$queued), "x")
@@ -39,6 +41,7 @@ tar_test("progress$assign_queued()", {
 
 tar_test("progress$assign_dispatched()", {
   progress <- progress_init()
+  on.exit(progress$database$close())
   progress$assign_queued("x")
   progress$assign_dispatched("x")
   expect_equal(counter_get_names(progress$queued), character(0))
@@ -47,6 +50,7 @@ tar_test("progress$assign_dispatched()", {
 
 tar_test("progress$assign_skipped()", {
   progress <- progress_init()
+  on.exit(progress$database$close())
   progress$assign_queued("x")
   progress$assign_skipped("x")
   expect_equal(counter_get_names(progress$queued), character(0))
@@ -55,6 +59,7 @@ tar_test("progress$assign_skipped()", {
 
 tar_test("progress$assign_completed()", {
   progress <- progress_init()
+  on.exit(progress$database$close())
   progress$assign_dispatched("x")
   progress$assign_completed("x")
   expect_equal(counter_get_names(progress$dispatched), character(0))
@@ -63,6 +68,7 @@ tar_test("progress$assign_completed()", {
 
 tar_test("progress$assign_canceled()", {
   progress <- progress_init()
+  on.exit(progress$database$close())
   progress$assign_dispatched("x")
   progress$assign_canceled("x")
   expect_equal(counter_get_names(progress$dispatched), character(0))
@@ -71,6 +77,7 @@ tar_test("progress$assign_canceled()", {
 
 tar_test("progress$assign_errored()", {
   progress <- progress_init()
+  on.exit(progress$database$close())
   progress$assign_dispatched("x")
   progress$assign_errored("x")
   expect_equal(counter_get_names(progress$dispatched), character(0))
@@ -79,6 +86,7 @@ tar_test("progress$assign_errored()", {
 
 tar_test("progress$register_dispatched()", {
   progress <- progress_init()
+  on.exit(progress$database$close())
   progress$database$reset_storage()
   progress$register_dispatched(target_init("x", 1))
   expect_equal(counter_get_names(progress$dispatched), "x")
@@ -96,6 +104,7 @@ tar_test("progress$register_dispatched()", {
 
 tar_test("progress$register_completed()", {
   progress <- progress_init()
+  on.exit(progress$database$close())
   progress$database$reset_storage()
   progress$register_completed(target_init("x", 1))
   expect_equal(counter_get_names(progress$completed), "x")
@@ -113,6 +122,7 @@ tar_test("progress$register_completed()", {
 
 tar_test("progress$register_canceled()", {
   progress <- progress_init()
+  on.exit(progress$database$close())
   progress$database$reset_storage()
   progress$register_canceled(target_init("x", 1))
   expect_equal(counter_get_names(progress$canceled), "x")
@@ -130,6 +140,7 @@ tar_test("progress$register_canceled()", {
 
 tar_test("progress$register_errored()", {
   progress <- progress_init()
+  on.exit(progress$database$close())
   progress$database$reset_storage()
   progress$register_errored(target_init("x", 1))
   expect_equal(counter_get_names(progress$errored), "x")
@@ -147,6 +158,7 @@ tar_test("progress$register_errored()", {
 
 tar_test("progress$any_remaining() while queued", {
   progress <- progress_init()
+  on.exit(progress$database$close())
   expect_false(progress$any_remaining())
   progress$assign_queued("x")
   expect_true(progress$any_remaining())
@@ -154,6 +166,7 @@ tar_test("progress$any_remaining() while queued", {
 
 tar_test("progress$any_targets()", {
   progress <- progress_init()
+  on.exit(progress$database$close())
   expect_false(progress$any_targets())
   counter_set_name(progress$completed, "x")
   expect_true(progress$any_targets())
@@ -161,6 +174,7 @@ tar_test("progress$any_targets()", {
 
 tar_test("progress$any_remaining() while dispatched", {
   progress <- progress_init()
+  on.exit(progress$database$close())
   expect_false(progress$any_remaining())
   progress$assign_dispatched("x")
   expect_true(progress$any_remaining())
@@ -171,6 +185,7 @@ tar_test("progress database gets used", {
   y <- target_init("y", quote(x))
   local <- local_init(pipeline_init(list(x, y)))
   local$run()
+  local$end()
   out <- local$scheduler$progress$database$read_data()
   exp <- data_frame(
     name = c("x", "x", "y", "y"),
