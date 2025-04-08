@@ -398,7 +398,10 @@ tar_test("database buffer", {
   db$buffer_row(list(name = "x"))
   expect_equal(lookup_list(db$lookup), "x")
   db$buffer_row(list(name = "y"))
-  expect_equal(sort(as.character(as.list(db$buffer))), sort(c("x", "y")))
+  expect_equal(
+    as.list(db$buffer),
+    list("1" = list(name = "x"), "2" = list(name = "y"))
+  )
   expect_equal(sort(lookup_list(db$lookup)), sort(c("x", "y")))
   expect_false(file.exists(db$path))
   db$flush_rows()

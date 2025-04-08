@@ -108,7 +108,7 @@ database_class <- R6::R6Class(
       self$list_columns <- list_columns
       self$list_column_modes <- list_column_modes
       self$resources <- resources
-      self$buffer <- new.env(parent = emptyenv(), hash = FALSE)
+      self$buffer <- new.env(parent = emptyenv(), hash = TRUE)
       self$buffer_length <- 0L
     },
     close = function() {
@@ -200,9 +200,8 @@ database_class <- R6::R6Class(
       if (fill_missing) {
         row <- .subset2(self, "select_cols")(row)
       }
-      sublines <- .subset2(self, "produce_sublines")(row)
       new_length <- buffer_length + 1L
-      self$buffer[[as.character(new_length)]] <- sublines
+      self$buffer[[as.character(new_length)]] <- row
       self$buffer_length <- new_length
     },
     flush_rows = function() {
@@ -213,7 +212,8 @@ database_class <- R6::R6Class(
       index <- 1L
       buffer <- .subset2(self, "buffer")
       while (index <= buffer_length) {
-        line <- .subset2(buffer, as.character(index))
+        row <- .subset2(buffer, as.character(index))
+        line <- .subset2(self, "produce_sublines")(row)
         lines_list[[index]] <- paste(line, collapse = database_sep_outer)
         index <- index + 1L
       }
