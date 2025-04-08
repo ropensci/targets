@@ -25,6 +25,7 @@
 #'   graph_from_data_frame igraph_opt igraph_options is_dag simplify topo_sort
 #'   V
 #' @importFrom knitr engine_output knit_engines
+#' @importFrom prettyunits pretty_bytes pretty_sec vague_dt
 #' @importFrom ps ps_create_time ps_disk_partitions ps_fs_mount_point
 #'   ps_handle
 #' @importFrom R6 R6Class
