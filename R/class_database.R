@@ -113,7 +113,8 @@ database_class <- R6::R6Class(
     },
     close = function() {
       if (!is.null(self$connection)) {
-        base::close(self$connection)
+        try(base::close(self$connection), silent = TRUE)
+        self$connection <- NULL
       }
     },
     get_row = function(name) {
