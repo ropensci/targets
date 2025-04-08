@@ -196,7 +196,7 @@ database_class <- R6::R6Class(
       as.list(data)[header]
     },
     buffer_row = function(row, fill_missing = TRUE) {
-      set_row(row)
+      .subset2(self, "set_row")(row)
       if (fill_missing) {
         row <- .subset2(self, "select_cols")(row)
       }
