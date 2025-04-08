@@ -91,7 +91,6 @@ unlink("_targets.R")
 # error = "abridge" should keep current targets going.
 # Workers should clean up.
 tar_script({
-  #options(clustermq.scheduler = "multiprocess")
   tar_option_set(controller = crew::crew_controller_local(workers = 3L))
   error_middle <- function() {
     Sys.sleep(2)

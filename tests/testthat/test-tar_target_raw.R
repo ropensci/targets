@@ -14,8 +14,8 @@ tar_test("tar_target_raw() description", {
 })
 
 tar_test("tar_target_raw() gets priorities", {
-  x <- tar_target_raw("x", quote(get_data()), priority = 0.5)
-  expect_equal(x$settings$priority, 0.5)
+  x <- tar_target_raw("x", quote(get_data()), priority = 0)
+  expect_equal(x$settings$priority, 0)
 })
 
 tar_test("tar_target_raw() defines pattens correctly", {

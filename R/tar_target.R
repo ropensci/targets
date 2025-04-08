@@ -318,10 +318,12 @@
 #'   the target runs on a parallel worker. For more on distributed/parallel
 #'   computing in `targets`, please visit
 #'   <https://books.ropensci.org/targets/crew.html>.
-#' @param priority Numeric of length 1 between 0 and 1. Controls which
-#'   targets get deployed first when multiple competing targets are ready
-#'   simultaneously. Targets with priorities closer to 1 get dispatched earlier
-#'   (and polled earlier in [tar_make_future()]).
+#' @param priority Deprecated on 2025-04-08 (`targets` version 1.10.1.9013).
+#'   `targets` has moved to a more efficient scheduling algorithm
+#'   (<https://github.com/ropensci/targets/issues/1458>)
+#'   which cannot support priorities.
+#'   The `priority` argument of [tar_target()] no longer has a reliable
+#'   effect on execution order.
 #' @param resources Object returned by `tar_resources()`
 #'   with optional settings for high-performance computing
 #'   functionality, alternative data storage formats,

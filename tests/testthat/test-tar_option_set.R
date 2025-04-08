@@ -190,7 +190,10 @@ tar_test("deployment", {
 
 tar_test("priority", {
   expect_equal(tar_option_get("priority"), 0)
-  tar_option_set(priority = 1)
+  expect_warning(
+    tar_option_set(priority = 1),
+    class = "tar_condition_deprecate"
+  )
   expect_equal(tar_option_get("priority"), 1)
   tar_option_reset()
   expect_equal(tar_option_get("priority"), 0)

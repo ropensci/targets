@@ -13,8 +13,8 @@ tar_test("tar_target() description", {
 })
 
 tar_test("tar_target() gets priorities", {
-  x <- tar_target(x, get_data(), priority = 0.5)
-  expect_equal(x$settings$priority, 0.5)
+  x <- tar_target(x, get_data(), priority = 0)
+  expect_equal(x$settings$priority, 0)
 })
 
 tar_test("tar_target() defines pattens correctly", {

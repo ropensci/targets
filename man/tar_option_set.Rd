@@ -246,10 +246,12 @@ the target runs on a parallel worker. For more on distributed/parallel
 computing in \code{targets}, please visit
 \url{https://books.ropensci.org/targets/crew.html}.}
 
-\item{priority}{Numeric of length 1 between 0 and 1. Controls which
-targets get deployed first when multiple competing targets are ready
-simultaneously. Targets with priorities closer to 1 get dispatched earlier
-(and polled earlier in \code{\link[=tar_make_future]{tar_make_future()}}).}
+\item{priority}{Deprecated on 2025-04-08 (\code{targets} version 1.10.1.9013).
+\code{targets} has moved to a more efficient scheduling algorithm
+(\url{https://github.com/ropensci/targets/issues/1458})
+which cannot support priorities.
+The \code{priority} argument of \code{\link[=tar_target]{tar_target()}} no longer has a reliable
+effect on execution order.}
 
 \item{backoff}{An object from \code{\link[=tar_backoff]{tar_backoff()}} configuring the exponential
 backoff algorithm of the pipeline. See \code{\link[=tar_backoff]{tar_backoff()}} for details.

@@ -51,6 +51,7 @@ tar_target_raw <- function(
     c("stop", "continue", "null", "abridge", "trim", "workspace")
   )
   deprecate_error_workspace(error)
+  deprecate_priority(priority)
   tar_assert_flag(memory, c("auto", "persistent", "transient"))
   garbage_collection <- isTRUE(garbage_collection)
   tar_assert_lgl(garbage_collection)

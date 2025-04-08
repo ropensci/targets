@@ -535,6 +535,7 @@ options_class <- R6::R6Class(
       tar_assert_scalar(priority)
       tar_assert_ge(priority, 0)
       tar_assert_le(priority, 1)
+      deprecate_priority(priority)
     },
     validate_backoff = function(backoff) {
       tar_assert_inherits(backoff, class = "tar_backoff")
@@ -628,6 +629,21 @@ deprecate_error_workspace <- function(error) {
       "error = \"workspace\" is deprecated in tar_target(), ",
       "tar_target_raw(), and tar_option_set(). Please instead set ",
       "tar_option_set(workspace_on_error = TRUE)."
+    )
+  }
+}
+
+deprecate_priority <- function(priority) {
+  if (priority > 0) {
+    tar_warn_deprecate(
+      "Effective 2025-04-08 (targets version 1.10.1.9013), ",
+      "the `priority` argument is deprecated in tar_target(), ",
+      "tar_target_raw(), and tar_option_set(). ",
+      "The targets package has moved to a more efficient scheduling ",
+      "algorithm (https://github.com/ropensci/targets/issues/1458) ",
+      "which does not support custom user-specified priorities. ",
+      "User-specified priorities no longer have a reliable ",
+      "effect on execution order."
     )
   }
 }

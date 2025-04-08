@@ -3,7 +3,7 @@ tar_test("validate default options", {
   expect_silent(x$validate())
 })
 
-tar_test("validate non-default options", {
+tar_test("validate supported non-default options", {
   x <- options_init(
     tidy_eval = FALSE,
     packages = character(0),
@@ -18,7 +18,7 @@ tar_test("validate non-default options", {
     memory = "transient",
     garbage_collection = 3L,
     deployment = "main",
-    priority = 0.5,
+    priority = 0,
     backoff = backoff_init(),
     resources = tar_resources(qs = tar_resources_qs()),
     storage = "worker",
@@ -48,7 +48,7 @@ tar_test("export", {
     memory = "transient",
     garbage_collection = 3L,
     deployment = "main",
-    priority = 0.5,
+    priority = 0,
     resources = list(ncpu = 2),
     storage = "worker",
     retrieval = "worker",
@@ -74,7 +74,7 @@ tar_test("export", {
     memory = "transient",
     garbage_collection = 3L,
     deployment = "main",
-    priority = 0.5,
+    priority = 0,
     resources = list(ncpu = 2),
     storage = "worker",
     retrieval = "worker",
@@ -106,7 +106,7 @@ tar_test("import", {
     memory = "transient",
     garbage_collection = 4L,
     deployment = "main",
-    priority = 0.5,
+    priority = 0,
     resources = resources,
     storage = "worker",
     retrieval = "worker",
@@ -134,7 +134,7 @@ tar_test("import", {
   expect_equal(x$get_memory(), "transient")
   expect_equal(x$get_garbage_collection(), 4L)
   expect_equal(x$get_deployment(), "main")
-  expect_equal(x$get_priority(), 0.5)
+  expect_equal(x$get_priority(), 0)
   expect_equal(x$get_resources(), resources)
   expect_equal(x$get_storage(), "worker")
   expect_equal(x$get_retrieval(), "worker")
@@ -294,7 +294,7 @@ tar_test("deployment", {
 tar_test("priority", {
   x <- options_init()
   expect_equal(x$get_priority(), 0)
-  x$set_priority(1)
+  expect_warning(x$set_priority(1), class = "tar_condition_deprecate")
   expect_equal(x$get_priority(), 1)
   x$reset()
   expect_equal(x$get_priority(), 0)
