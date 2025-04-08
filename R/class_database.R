@@ -205,6 +205,7 @@ database_class <- R6::R6Class(
       self$buffer_length <- new_length
     },
     flush_rows = function() {
+      buffer_length <- .subset2(self, "buffer_length")
       if (buffer_length == 0L) {
         return()
       }
