@@ -43,6 +43,8 @@ passive_class <- R6::R6Class(
       self$scheduler$reporter$report_start()
     },
     end = function() {
+      self$meta$database$close()
+      self$scheduler$progress$database$close()
       self$scheduler$reporter$report_end()
     }
   )
