@@ -59,7 +59,11 @@ tar_progress_summary <- function(
     completed = sum(progress$progress == "completed"),
     errored = sum(progress$progress == "errored"),
     canceled = sum(progress$progress == "canceled"),
-    since = prettyunits::vague_dt(difftime(Sys.time(), time, units = "secs")),
+    since = if_any(
+      is.na(time),
+      "no data",
+      prettyunits::vague_dt(difftime(Sys.time(), time, units = "secs"))
+    ),
     time = time_stamp(time)
   )
   fields_quosure <- rlang::enquo(fields)

@@ -5,7 +5,7 @@ tar_test("progress does not exist", {
       expect_equal(out[[field]], 0)
     }
   }
-  expect_equal(out$since, "")
+  expect_equal(out$since, "no data")
 })
 
 tar_test("default progress", {
