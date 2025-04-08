@@ -66,6 +66,11 @@ database_class <- R6::R6Class(
   class = FALSE,
   portable = FALSE,
   cloneable = FALSE,
+  private = list(
+    finalize = function() {
+      self$close()
+    }
+  ),
   public = list(
     lookup = NULL,
     path = NULL,
@@ -80,6 +85,7 @@ database_class <- R6::R6Class(
     buffer = NULL,
     buffer_length = NULL,
     staged = NULL,
+    connection = NULL,
     initialize = function(
       lookup = NULL,
       path = NULL,
@@ -104,6 +110,11 @@ database_class <- R6::R6Class(
       self$resources <- resources
       self$buffer <- new.env(parent = emptyenv(), hash = FALSE)
       self$buffer_length <- 0L
+    },
+    close = function() {
+      if (!is.null(self$connection)) {
+        base::close(self$connection)
+      }
     },
     get_row = function(name) {
       lookup_get(lookup, name)
@@ -206,7 +217,7 @@ database_class <- R6::R6Class(
         index <- index + 1L
       }
       lines <- as.character(lines_list)
-      append_lines(lines)
+      self$append_lines(lines)
       self$buffer <- new.env(parent = emptyenv(), hash = FALSE)
       self$buffer_length <- 0L
       self$staged <- TRUE
@@ -243,7 +254,10 @@ database_class <- R6::R6Class(
       # nocov end
     },
     try_append_lines = function(lines) {
-      write(lines, self$path, ncolumns = 1L, append = TRUE, sep = "")
+      if (is.null(self$connection)) {
+        self$connection <- file(self$path, open = "a+")
+      }
+      cat(lines, file = self$connection, append = TRUE, sep = "\n")
       invisible()
     },
     append_storage = function(data) {

@@ -12,7 +12,8 @@
 
 ## Efficiency improvements
 
-* Speed up checking up-to-date targets in large dynamic branching pipelines (#1458, #1460). The speedup is over 10-fold in some cases.
+* Speed up checking up-to-date targets in large dynamic branching pipelines (#1458, #1460). The speedup is over 10-fold or more in some cases.
+* Maintain a persistent text connection when appending to a metadata text file (#1415).
 
 ## Other changes
 

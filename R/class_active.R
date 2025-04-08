@@ -230,6 +230,8 @@ active_class <- R6::R6Class(
       path_scratch_del(path_store = self$meta$store)
       compare_working_directories()
       tar_assert_objects_files(self$meta$store)
+      self$meta$database$close()
+      self$scheduler$progress$database$close()
       seconds_elapsed <- time_seconds() - self$seconds_start
       scheduler$reporter$report_end(scheduler$progress, seconds_elapsed)
     },
