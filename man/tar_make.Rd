@@ -46,6 +46,9 @@ Defaults to \code{tar_config_get("reporter_make")}. Choices:
 \itemize{
 \item \code{"balanced"} (default): a reporter that balances efficiency
 with informative detail. Uses a \code{cli} progress bar.
+To the right of the progress bar is a text string like
+"\link{22.6s, 4510+, 124-}" (22.6 seconds elapsed, 4510 targets
+completed successfully so far, 124 targets skipped so far).
 \item \code{"silent"}: print nothing.
 \item \code{"timestamp"}: same as the \code{"verbose"} reporter except that each
 message begins with a time stamp.

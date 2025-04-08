@@ -1,4 +1,4 @@
-# targets 1.10.1.9014 (development)
+# targets 1.10.1.9015 (development)
 
 ## Deprecated features
 
@@ -34,6 +34,7 @@
 * Deprecate reporters `"forecast"`, `"forecast_interactive"`, `"verbose_positives"`, and `"timestamp_positives"` (#1442).
 * Ensure colors printed to the console are preserved when forwarded from the `callr` process (#1442).
 * Add `tar_option_with()` (https://github.com/ropensci/tarchetypes/issues/215, @noamross).
+* Use `prettyunits` to print elapsed times and file sizes.
 
 # targets 1.10.1
 

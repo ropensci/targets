@@ -19,16 +19,19 @@ balanced_class <- R6::R6Class(
         format = sprintf(
           paste(
             cli::symbol$arrow_right,
-            "{cli::pb_total} targets {cli::pb_bar} {cli::pb_current} resolved",
-            "[{cli::pb_elapsed}]"
+            "{cli::pb_total} targets {cli::pb_bar}",
+            "[{cli::pb_elapsed}, {completed}+, {skipped}-]"
           )
         ),
         .envir = .subset2(private, ".bar_envir"),
         auto_terminate = FALSE,
-        clear = TRUE,
+        clear = TRUE
       )
     },
     report_progress = function(progress, force = FALSE) {
+      envir <- .subset2(private, ".bar_envir")
+      envir$completed <- progress$completed$count # For the cli format string.
+      envir$skipped <- progress$skipped$count # For the cli format string.
       cli::cli_progress_update(
         set = progress$completed$count +
           progress$errored$count +
@@ -41,7 +44,7 @@ balanced_class <- R6::R6Class(
           progress$queued$count +
           progress$skipped$count,
         force = force,
-        .envir = .subset2(private, ".bar_envir"),
+        .envir = envir,
         id = .subset2(private, ".bar_id")
       )
     },

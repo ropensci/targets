@@ -67,9 +67,12 @@ visual_class <- R6::R6Class(
       vertices <- self$network$vertices
       description <- vertices$description
       description[is.na(description)] <- ""
-      seconds <- as.character(units_seconds(vertices$seconds))
-      bytes <- as.character(units_bytes(vertices$bytes))
-      branches <- as.character(units_branches(vertices$branches))
+      seconds <- prettyunits::pretty_sec(vertices$seconds)
+      seconds[is.na(vertices$seconds)] <- ""
+      bytes <- prettyunits::pretty_bytes(vertices$bytes)
+      bytes[is.na(vertices$bytes)] <- ""
+      branches <- paste(vertices$branches, "branches")
+      branches[is.na(vertices$branches)] <- ""
       if (!is.null(self$label_width)) {
         n <- self$label_width
         description <- truncate_character(description, n)

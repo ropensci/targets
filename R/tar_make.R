@@ -32,6 +32,9 @@
 #'   Defaults to `tar_config_get("reporter_make")`. Choices:
 #'   * `"balanced"` (default): a reporter that balances efficiency
 #'       with informative detail. Uses a `cli` progress bar.
+#'       To the right of the progress bar is a text string like
+#'       "[22.6s, 4510+, 124-]" (22.6 seconds elapsed, 4510 targets
+#'       completed successfully so far, 124 targets skipped so far).
 #'   * `"silent"`: print nothing.
 #'   * `"timestamp"`: same as the `"verbose"` reporter except that each
 #'      message begins with a time stamp.
