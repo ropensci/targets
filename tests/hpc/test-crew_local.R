@@ -211,7 +211,7 @@ tar_test("heavily parallel workload should run fast", {
       )
     )
   })
-  tar_make(seconds_meta_append = 15, seconds_reporter = 1)
+  tar_make()
   expect_equal(tar_outdated(callr_function = NULL), character(0))
 })
 
@@ -228,10 +228,6 @@ tar_test("crew local with many tasks and many workers", {
       tar_target(y, Sys.sleep(1), pattern = map(x))
     )
   })
-  tar_make(
-    seconds_meta_append = 15,
-    seconds_reporter = 1,
-    reporter = "summary"
-  )
-  expect_equal(tar_outdated(reporter = "forecast"), character(0))
+  tar_make(seconds_meta_append = 15)
+  expect_equal(tar_outdated(), character(0))
 })
