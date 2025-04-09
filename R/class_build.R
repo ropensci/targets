@@ -79,18 +79,9 @@ build_traceback <- function(calls) {
 }
 
 build_message <- function(condition, prefix = character(0)) {
-  condition_message <- conditionMessage(condition)
-  if (inherits(condition, "error")) {
-    cap <- 100
-    call <- tar_deparse_language(conditionCall(condition))
-    call <- substr(call, 0, cap)
-    call <- if_any(nchar(call) >= cap, paste0(call, "..."), call)
-    message <- paste0("error in ", call, ": ", condition_message)
-  } else {
-    message <- condition_message
-  }
+  message <- conditionMessage(condition)
   out <- build_message_text_substr(message = message, prefix = prefix)
-  if_any(nzchar(condition_message), out, ".")
+  if_any(nzchar(out), out, ".")
 }
 
 build_message_text_substr <- function(message, prefix = character(0)) {

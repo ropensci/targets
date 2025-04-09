@@ -26,7 +26,6 @@
 * Deep-copy settings when resolving `format = "auto"` (#1425, @paulseamer).
 * Add `store_read_path.tar_auto()` (#1429, @paulseamer).
 * Improve error message that explains `iteration = "group"` branching problems.
-* Prepend the output of `tar_deparse_language(conditionCall(condition))` to errors (#1441, @matthewcantele). Omitted from warnings because there could be many for a given target.
 * Allow more special characters in recorded warnings and error messages.
 * Call `cli::style_reset()` at the end of non-silent reporters (#1450, @r2evans).
 * Exclude lists of target definitions from the globals in the dependency graph (#1431).
