@@ -187,7 +187,8 @@ progress_class <- R6::R6Class(
       if (self$uptodate()) {
         cli_pipeline_uptodate(
           time_stamp = time_stamp,
-          seconds_elapsed = seconds_elapsed
+          seconds_elapsed = seconds_elapsed,
+          skipped = self$skipped$count
         )
       } else if (!self$any_targets()) {
         cli_pipeline_empty(
@@ -197,7 +198,9 @@ progress_class <- R6::R6Class(
       } else if (self$errored$count > 0L) {
         cli_pipeline_errored(
           time_stamp = time_stamp,
-          seconds_elapsed = seconds_elapsed
+          seconds_elapsed = seconds_elapsed,
+          completed = self$completed$count,
+          skipped = self$skipped$count
         )
       } else {
         cli_pipeline_done(

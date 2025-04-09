@@ -1,11 +1,16 @@
 cli_pipeline_uptodate <- function(
   time_stamp = FALSE,
-  seconds_elapsed = NULL
+  seconds_elapsed = NULL,
+  skipped
 ) {
   time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "skipped pipeline"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
-    msg_time <- paste0(" [", prettyunits::pretty_sec(seconds_elapsed), "]")
+    msg_time <- sprintf(
+      " [%s, %s skipped]",
+      prettyunits::pretty_sec(seconds_elapsed),
+      skipped
+    )
     msg <- paste0(msg, msg_time)
   }
   cli::cli_alert_success(msg)
@@ -46,12 +51,19 @@ cli_pipeline_empty <- function(
 
 cli_pipeline_errored <- function(
   time_stamp = FALSE,
-  seconds_elapsed = NULL
+  seconds_elapsed = NULL,
+  completed,
+  skipped
 ) {
   time <- if_any(time_stamp, time_stamp_cli(), NULL)
   msg <- paste(c(time, "errored pipeline"), collapse = " ")
   if (!is.null(seconds_elapsed)) {
-    msg_time <- paste0(" [", prettyunits::pretty_sec(seconds_elapsed), "]")
+    msg_time <- sprintf(
+      " [%s, %s completed, %s skipped]",
+      prettyunits::pretty_sec(seconds_elapsed),
+      completed,
+      skipped
+    )
     msg <- paste0(msg, msg_time)
   }
   cli::cli_alert_danger(msg)
