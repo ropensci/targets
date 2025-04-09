@@ -30,3 +30,10 @@ tar_test("cli_port()", {
   skip_cran()
   expect_message(cli_port("host", "port"))
 })
+
+tar_test("cli_short()", {
+  expect_equal(cli_short("abcde", 100L), "abcde")
+  expect_equal(cli_short("abcde", 5L), "abcde")
+  expect_equal(cli_short("abcde", 4L), paste0("abc", cli::symbol$ellipsis))
+  expect_equal(cli_short("abcde", 3L), paste0("ab", cli::symbol$ellipsis))
+})

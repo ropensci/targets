@@ -42,54 +42,16 @@ callr_outer <- function(
 }
 
 callr_error <- function(traced_condition, fun) {
-  general <- c(
-    utils::capture.output(
-      cli::cli_h1("Debugging"),
-      type = "message"
-    ),
-    paste(
-      "   ",
-      c(
-        "tar_errored()",
-        "tar_meta(fields = any_of(\"error\"), complete_only = TRUE)",
-        "tar_workspace()",
-        "tar_workspaces()"
-      )
-    )
-  )
-  how_to <- c(
-    utils::capture.output(cli::cli_h1("How to"), type = "message"),
-    paste(
-      "   ",
-      c(
-        paste(
-          "Debug:",
-          cli_url("https://books.ropensci.org/targets/debugging.html")
-        ),
-        paste(
-          "Help:",
-          cli_url("https://books.ropensci.org/targets/help.html")
-        )
-      )
-    )
-  )
-  data <- c(
-    utils::capture.output(
-      cli::cli_h1("Last error message"),
-      type = "message"
-    ),
-    paste0("    ", conditionMessage(traced_condition$condition)),
-    utils::capture.output(
-      cli::cli_h1("Last error traceback"),
-      type = "message"
-    ),
-    paste0("    ", traced_condition$trace)
-  )
   lines <- c(
-    sprintf("targets::%s() error", fun),
-    general,
-    how_to,
-    data
+    sprintf(
+      "Error in %s():\n  %s",
+      fun,
+      conditionMessage(traced_condition$condition)
+    ),
+    paste(
+      "  See",
+      cli_url("https://books.ropensci.org/targets/debugging.html")
+    )
   )
   message <- paste(lines, collapse = "\n")
   tar_throw_run(message, class = class(traced_condition$condition))

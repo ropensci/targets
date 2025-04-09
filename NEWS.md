@@ -1,4 +1,4 @@
-# targets 1.10.1.9018 (development)
+# targets 1.10.1.9019 (development)
 
 ## Deprecated features
 
@@ -38,6 +38,7 @@
 * Ensure colors printed to the console are preserved when forwarded from the `callr` process (#1442).
 * Add `tar_option_with()` (https://github.com/ropensci/tarchetypes/issues/215, @noamross).
 * Use `prettyunits` to print elapsed times and file sizes.
+* Shorten and simplify the `tar_make()` error message.
 
 # targets 1.10.1
 

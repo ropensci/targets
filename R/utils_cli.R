@@ -127,3 +127,10 @@ cli_df_text <- function(x) {
   line2 <- paste0("\r", paste(fields, collapse = " | "))
   c(line1, line2)
 }
+
+cli_short <- function(x, max) {
+  if (nchar(x) > max) {
+    x <- paste0(substr(x, 0L, max - 1L), cli::symbol$ellipsis)
+  }
+  x
+}

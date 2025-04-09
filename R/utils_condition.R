@@ -123,7 +123,11 @@ tar_error <- function(message, class) {
   on.exit(options(old), add = TRUE)
   message <- cli::col_red(message)
   class <- safe_condition_class(class)
-  rlang::abort(message = message, class = class, call = tar_envir_base)
+  rlang::abort(
+    message = message,
+    class = class,
+    call = tar_envir_base
+  )
 }
 
 #' @export
@@ -195,7 +199,7 @@ custom_error_classes <- function(class) {
 }
 
 default_error_classes <- tryCatch(
-  rlang::abort("msg", class = NULL),
+  rlang::abort("msg", class = NULL, call = tar_envir_base),
   error = function(condition) class(condition)
 )
 
