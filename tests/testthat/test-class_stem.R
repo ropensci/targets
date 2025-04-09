@@ -48,6 +48,8 @@ tar_test("stem produce buds", {
 tar_test("stem$ensure_children()", {
   pipeline <- pipeline_map()
   local <- local_init(pipeline)
+  on.exit(local$meta$database$close())
+  on.exit(local$scheduler$progress$database$close(), add = TRUE)
   pipeline_prune_names(local$pipeline, local$names)
   local$update_scheduler()
   scheduler <- local$scheduler
@@ -111,6 +113,8 @@ tar_test("target_deps_deep()", {
     )
   )
   local <- local_init(pipeline)
+  on.exit(local$meta$database$close())
+  on.exit(local$scheduler$progress$database$close(), add = TRUE)
   local$run()
   target <- pipeline_get_target(pipeline, "summary")
   out <- sort(target_deps_deep(target, pipeline))
@@ -150,6 +154,8 @@ tar_test("target_deps_deep() with retrieval 'main'", {
     )
   )
   local <- local_init(pipeline)
+  on.exit(local$meta$database$close())
+  on.exit(local$scheduler$progress$database$close(), add = TRUE)
   local$run()
   target <- pipeline_get_target(pipeline, "summary")
   out <- sort(target_deps_deep(target, pipeline))
@@ -166,9 +172,11 @@ tar_test("insert stem record of a successful internal stem", {
   pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
   local$run()
+  on.exit(local$meta$database$close())
+  on.exit(local$scheduler$progress$database$close(), add = TRUE)
   meta <- local$meta
   db <- meta$database
-  on.exit(db$close())
+  on.exit(db$close(), add = TRUE)
   db$ensure_storage()
   db$reset_storage()
   record <- target_produce_record(target, pipeline, meta)
@@ -256,6 +264,8 @@ tar_test("stem$produce_record() of a errored stem", {
   target <- target_init("x", quote(stop(123)))
   pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
+  on.exit(local$meta$database$close())
+  on.exit(local$scheduler$progress$database$close(), add = TRUE)
   expect_error(local$run(), class = "tar_condition_run")
   meta <- local$meta
   record <- target_produce_record(target, pipeline, meta)
@@ -282,6 +292,8 @@ tar_test("stem$produce_record() with no error message", {
   target <- target_init("x", quote(stop()))
   pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
+  on.exit(local$meta$database$close())
+  on.exit(local$scheduler$progress$database$close(), add = TRUE)
   expect_error(local$run(), class = "tar_condition_run")
   meta <- local$meta
   record <- target_produce_record(target, pipeline, meta)

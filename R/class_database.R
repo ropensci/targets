@@ -108,7 +108,7 @@ database_class <- R6::R6Class(
     },
     close = function() {
       if (!is.null(self$connection)) {
-        try(base::close(self$connection), silent = TRUE)
+        try(base::close(self$connection))
         self$connection <- NULL
       }
     },
