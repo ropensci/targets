@@ -395,7 +395,7 @@ store_has_correct_hash <- function(store, file) {
 #' @export
 store_has_correct_hash.default <- function(store, file) {
   (all(is.na(file$path)) || file_exists_path(file)) &&
-  file_has_correct_hash(file)
+    file_has_correct_hash(file)
 }
 
 store_sync_file_meta <- function(store, target, meta, path) {

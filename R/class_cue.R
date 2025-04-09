@@ -134,11 +134,7 @@ cue_file <- function(cue, target, meta, row) {
   )
   is_active <- .subset2(tar_runtime, "active")
   is_correct <- store_has_correct_hash(store, file)
-  needs_sync <- .subset2(file, "needs_sync")
-  # should not happen:
-  if (is.null(needs_sync)) {
-    needs_sync <- FALSE # nocov
-  }
+  needs_sync <- !is.null(.subset2(file, "needs_sync"))
   # Fully automated tests do no use big enough files.
   # Tested in tests/interactive/test-file.R. # nolint
   # nocov start

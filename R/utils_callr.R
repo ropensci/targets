@@ -106,7 +106,8 @@ callr_dispatch <- function(
   fun
 ) {
   in_rstudio_job <- rstudio_available(verbose = FALSE) &&
-  rstudioapi::isBackgroundJob()
+    !is.null(getNamespace("rstudioapi")[["isBackgroundJob"]]) &&
+    rstudioapi::isBackgroundJob()
   options <- list(
     cli.dynamic = cli::is_dynamic_tty() || in_rstudio_job,
     cli.num_colors = cli::num_ansi_colors()
@@ -247,6 +248,12 @@ callr_set_runtime <- function(script, store, fun, pid_parent) {
   tar_runtime$store <- store
   tar_runtime$working_directory <- getwd()
   tar_runtime$fun <- fun
+  # Needs to be set here for user-side code in _targets.R outside the pipeline
+  tar_runtime$active <- fun %in% c(
+    "tar_make",
+    "tar_make_clustermq",
+    "tar_make_future"
+  )
   tar_runtime$pid_parent <- pid_parent
   tar_runtime$inventories <- list()
   runtime_set_file_info(tar_runtime, store)

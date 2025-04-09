@@ -4,8 +4,7 @@ file_init <- function(
   hash = NA_character_,
   time = NA_character_,
   size = NA_character_,
-  bytes = 0,
-  needs_sync = NULL
+  bytes = 0
 ) {
   file_new(
     path = path,
@@ -13,8 +12,7 @@ file_init <- function(
     hash = hash,
     time = time,
     size = size,
-    bytes = bytes,
-    needs_sync = needs_sync
+    bytes = bytes
   )
 }
 
@@ -24,8 +22,7 @@ file_new <- function(
   hash = NULL,
   time = NULL,
   size = NULL,
-  bytes = NULL,
-  needs_sync = NULL
+  bytes = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   if (!is.null(path)) {
@@ -45,9 +42,6 @@ file_new <- function(
   }
   if (!is.null(bytes)) {
     out$bytes <- bytes
-  }
-  if (!is.null(needs_sync)) {
-    out$needs_sync <- needs_sync
   }
   out
 }
@@ -96,7 +90,9 @@ file_should_rehash <- function(file, time, size, trust_timestamps) {
       out <- TRUE
     } else {
       out <- (time != file_time) || (size != file_size)
-      file$needs_sync <- out
+      if (out) {
+        file$needs_sync <- TRUE
+      }
     }
   } else {
     out <- TRUE
@@ -162,7 +158,7 @@ file_validate_path <- function(path) {
 }
 
 file_validate <- function(file) {
-  tar_assert_correct_fields(file, file_new)
+  tar_assert_correct_fields(file, file_new, optional = "needs_sync")
   file_validate_path(file$path)
   tar_assert_chr(file$hash)
   tar_assert_chr(file$time)

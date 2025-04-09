@@ -35,7 +35,7 @@ passive_class <- R6::R6Class(
       self$meta$restrict_records(self$pipeline)
     },
     start = function() {
-      tar_runtime$active <- FALSE
+      tar_runtime$active <- TRUE # Needs to be set here for tests.
       pipeline_prune_names(self$pipeline, self$names)
       pipeline_resolve_auto(self$pipeline)
       self$ensure_meta()

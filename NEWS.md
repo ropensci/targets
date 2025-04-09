@@ -1,4 +1,4 @@
-# targets 1.10.1.9016 (development)
+# targets 1.10.1.9018 (development)
 
 ## Deprecated features
 
@@ -18,6 +18,7 @@
 * Avoid superfluous garbage collection when `crew` controllers are saturated.
 * Set defaults for `storage`, `retrieval`, and `memory` that balance resource tradeoffs for the most common pipelines (#1426).
 * Garbage collection only runs in `targets:::target_run()` (#1464). There is no longer a separate `gc()` call on the main process.
+* Shave off overhead from `store_sync_file_meta()` in the general case.
 
 ## Other changes
 
