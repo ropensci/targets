@@ -306,16 +306,13 @@
 #'   The former conserves bandwidth,
 #'   and the latter conserves local storage.
 #' @param garbage_collection Logical: `TRUE` to run `base::gc()`
-#'   just before the target runs,
+#'   just before the target runs, in whatever R process it is about to run
+#'   (which could be a parallel worker).
 #'   `FALSE` to omit garbage collection.
-#'   In the case of high-performance computing,
-#'   `gc()` runs both locally and on the parallel worker.
-#'   All this garbage collection is skipped if the actual target
-#'   is skipped in the pipeline.
-#'   Non-logical values of `garbage_collection` are converted to `TRUE` or
-#'   `FALSE` using `isTRUE()`. In other words, non-logical values are
-#'   converted `FALSE`. For example, `garbage_collection = 2`
-#'   is equivalent to `garbage_collection = FALSE`.
+#'   Numeric values get converted to `FALSE`.
+#'   The `garbage_collection` option in [tar_option_set()]
+#'   is independent of the
+#'   argument of the same name in [tar_target()].
 #' @param deployment Character of length 1. If `deployment` is
 #'   `"main"`, then the target will run on the central controlling R process.
 #'   Otherwise, if `deployment` is `"worker"` and you set up the pipeline

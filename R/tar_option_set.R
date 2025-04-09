@@ -13,13 +13,15 @@
 #' @inheritParams tar_target
 #' @param garbage_collection A non-negative integer.
 #'   If `0`, do not run garbage collection.
-#'   If `1`, run garbage collection on every target
-#'   that is not skipped, both
-#'   locally and on all parallel workers.
-#'   If `garbage_collection` is a positive integer `n`, then garbage
-#'   collection runs every `n`'th target that is not skipped.
-#'   For example, `garbage_collection = 3` will run garbage collection
-#'   on every third active target, both locally and on all parallel workers.
+#'   If a positive integer `n`, run `base::gc()` just before
+#'   every `n`'th target that runs.
+#'   For the purposes of running garbage collection with this setting,
+#'   each R process (whether the local process a parallel worker)
+#'   maintains its own independent count of the number of targets
+#'   that ran so far.
+#'   The `garbage_collection` option in [tar_option_set()]
+#'   is independent of the
+#'   argument of the same name in [tar_target()].
 #' @param repository_meta Character of length 1 with the same values as
 #'   `repository` but excluding content-addressable storage
 #'   (`"aws"`, `"gcp"`, `"local"`). Cloud repository

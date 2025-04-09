@@ -58,7 +58,6 @@ local_class <- R6::R6Class(
       self$tar_assert_deployment(target)
       target_prepare(target, self$pipeline, self$scheduler, self$meta)
       self$sync_meta_time()
-      runtime_increment_targets_run(tar_runtime)
       target_run(
         target = target,
         envir = self$envir,

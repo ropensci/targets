@@ -118,7 +118,6 @@ clustermq_class <- R6::R6Class(
     },
     run_worker = function(target) {
       builder_marshal_subpipeline(target)
-      runtime_increment_targets_run(tar_runtime)
       self$worker_list$send(
         cmd = targets::target_run_worker(
           target = target,

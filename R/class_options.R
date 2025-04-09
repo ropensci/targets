@@ -315,7 +315,7 @@ options_class <- R6::R6Class(
       self$memory %|||% "auto"
     },
     get_garbage_collection = function() {
-      self$garbage_collection %|||% 1000L
+      self$garbage_collection %|||% 0L
     },
     get_deployment = function() {
       self$deployment %|||% "worker"

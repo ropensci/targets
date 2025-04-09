@@ -150,6 +150,8 @@ target_run.tar_builder <- function(target, envir, path_store) {
     name = target_get_name(target),
     path_store = path_store
   )
+  runtime_increment_targets_run(tar_runtime)
+  target_gc(target)
   builder_update_build(target, frames_get_envir(frames))
   builder_ensure_paths(target, path_store)
   builder_ensure_object(target, "worker")
@@ -176,8 +178,6 @@ target_run_worker.tar_builder <- function(
   tar_option_set(envir = envir)
   tar_runtime$store <- path_store
   tar_runtime$fun <- fun
-  runtime_increment_targets_run(tar_runtime)
-  target_gc(target)
   builder_unmarshal_subpipeline(target)
   target_run(target, envir, path_store)
   builder_marshal_value(target)

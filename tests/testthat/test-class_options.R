@@ -270,11 +270,11 @@ tar_test("memory", {
 
 tar_test("garbage_collection", {
   x <- options_init()
-  expect_equal(x$get_garbage_collection(), 1000L)
+  expect_equal(x$get_garbage_collection(), 0L)
   x$set_garbage_collection(6L)
   expect_equal(x$get_garbage_collection(), 6L)
   x$reset()
-  expect_equal(x$get_garbage_collection(), 1000L)
+  expect_equal(x$get_garbage_collection(), 0L)
   expect_error(
     suppressWarnings(x$set_garbage_collection("a")),
     class = "tar_condition_validate"

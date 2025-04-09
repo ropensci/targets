@@ -235,13 +235,15 @@ and the latter conserves local storage.}
 
 \item{garbage_collection}{A non-negative integer.
 If \code{0}, do not run garbage collection.
-If \code{1}, run garbage collection on every target
-that is not skipped, both
-locally and on all parallel workers.
-If \code{garbage_collection} is a positive integer \code{n}, then garbage
-collection runs every \code{n}'th target that is not skipped.
-For example, \code{garbage_collection = 3} will run garbage collection
-on every third active target, both locally and on all parallel workers.}
+If a positive integer \code{n}, run \code{base::gc()} just before
+every \code{n}'th target that runs.
+For the purposes of running garbage collection with this setting,
+each R process (whether the local process a parallel worker)
+maintains its own independent count of the number of targets
+that ran so far.
+The \code{garbage_collection} option in \code{\link[=tar_option_set]{tar_option_set()}}
+is independent of the
+argument of the same name in \code{\link[=tar_target]{tar_target()}}.}
 
 \item{deployment}{Character of length 1. If \code{deployment} is
 \code{"main"}, then the target will run on the central controlling R process.
