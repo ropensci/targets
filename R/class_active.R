@@ -177,14 +177,15 @@ active_class <- R6::R6Class(
       builder_unmarshal_value(target)
     },
     skip_target = function(target) {
+      meta <- .subset2(self, "meta")
       target_skip(
         target = target,
         pipeline = .subset2(self, "pipeline"),
         scheduler = .subset2(self, "scheduler"),
-        meta = .subset2(self, "meta"),
+        meta = meta,
         active = TRUE
       )
-      target_sync_file_meta(target, .subset2(self, "meta"))
+      target_sync_file_meta(target, meta)
     },
     process_target = function(name) {
       scheduler <- .subset2(self, "scheduler")

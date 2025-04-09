@@ -182,16 +182,6 @@ crew_class <- R6::R6Class(
       )
       self$unload_transient()
     },
-    skip_target = function(target) {
-      target_skip(
-        target = target,
-        pipeline = self$pipeline,
-        scheduler = self$scheduler,
-        meta = self$meta,
-        active = TRUE
-      )
-      target_sync_file_meta(target, self$meta)
-    },
     iterate = function() {
       self$sync_meta_time()
       queue <- self$scheduler$queue
