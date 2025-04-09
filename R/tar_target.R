@@ -277,7 +277,16 @@
 #'   to learn how to debug targets using saved workspaces.)
 #' @param memory Character of length 1, memory strategy. Possible values:
 #'
-#'   * `"transient"` (default): the target gets unloaded
+#'   * `"auto"` (default): equivalent to `memory = "transient"` in almost
+#'     all cases. But to avoid superfluous reads from disk,
+#'     `memory = "auto"` is equivalent to `memory = "persistent"` for
+#'     for non-dynamically-branched targets that other targets
+#'     dynamically branch over. For example: if your pipeline has
+#'     `tar_target(name = y, command = x, pattern = map(x))`,
+#'     then `tar_target(name = x, command = f(), memory = "auto")`
+#'     will use persistent memory in order to avoid rereading all of `x`
+#'     for every branch of `y`.
+#'   * `"transient"`: the target gets unloaded
 #'     after every new target completes.
 #'     Either way, the target gets automatically loaded into memory
 #'     whenever another target needs the value.
@@ -286,10 +295,6 @@
 #'     in which case `targets` unloads the value from memory
 #'     right after storing it in order to avoid sending
 #'     copious data over a network).
-#'   * `"auto"`: new in `targets` version 1.8.0.9011, `memory = "auto"`
-#'     is equivalent to `memory = "transient"` for dynamic branching
-#'     (a non-null `pattern` argument) and `memory = "persistent"`
-#'     for targets that do not use dynamic branching.
 #'
 #'   For cloud-based file targets
 #'   (e.g. `format = "file"` with `repository = "aws"`),
@@ -346,7 +351,16 @@
 #'   depends on.) Only relevant when using `targets`
 #'   with parallel workers (<https://books.ropensci.org/targets/crew.html>).
 #'   Must be one of the following values:
-#'   * `"worker"` (default): the worker loads the target's dependencies.
+#'
+#'   * `"auto"` (default): equivalent to `retrieval = "worker"` in almost all
+#'     cases. But to avoid unnecessary reads from disk, `retrieval = "auto"`
+#'     is equivalent to `retrieval = "main"` for dynamic branches that
+#'     branch over non-dynamic targets. For example: if your pipeline has
+#'     `tar_target(x, command = f())`, then
+#'     `tar_target(y, command = x, pattern = map(x), retrieval = "auto")`
+#'     will use `"main"` retrieval in order to avoid rereading all of `x`
+#'     for every branch of `y`.
+#'   * `"worker"`: the worker loads the target's dependencies.
 #'   * `"main"`: the target's dependencies are loaded on the host machine
 #'     and sent to the worker before the target runs.
 #'   * `"none"`: `targets` makes no attempt to load its

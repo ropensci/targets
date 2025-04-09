@@ -260,11 +260,11 @@ tar_test("deprecated error = \"workspace\"", {
 
 tar_test("memory", {
   x <- options_init()
-  expect_equal(x$get_memory(), "transient")
+  expect_equal(x$get_memory(), "auto")
   x$set_memory("persistent")
   expect_equal(x$get_memory(), "persistent")
   x$reset()
-  expect_equal(x$get_memory(), "transient")
+  expect_equal(x$get_memory(), "auto")
   expect_error(x$set_memory("invalid"), class = "tar_condition_validate")
 })
 
@@ -349,11 +349,11 @@ tar_test("storage", {
 
 tar_test("retrieval", {
   x <- options_init()
-  expect_equal(x$get_retrieval(), "worker")
+  expect_equal(x$get_retrieval(), "auto")
   x$set_retrieval("main")
   expect_equal(x$get_retrieval(), "main")
   x$reset()
-  expect_equal(x$get_retrieval(), "worker")
+  expect_equal(x$get_retrieval(), "auto")
   expect_error(x$set_retrieval("invalid"), class = "tar_condition_validate")
 })
 

@@ -191,7 +191,16 @@ to learn how to debug targets using saved workspaces.)
 
 \item{memory}{Character of length 1, memory strategy. Possible values:
 \itemize{
-\item \code{"transient"} (default): the target gets unloaded
+\item \code{"auto"} (default): equivalent to \code{memory = "transient"} in almost
+all cases. But to avoid superfluous reads from disk,
+\code{memory = "auto"} is equivalent to \code{memory = "persistent"} for
+for non-dynamically-branched targets that other targets
+dynamically branch over. For example: if your pipeline has
+\code{tar_target(name = y, command = x, pattern = map(x))},
+then \code{tar_target(name = x, command = f(), memory = "auto")}
+will use persistent memory in order to avoid rereading all of \code{x}
+for every branch of \code{y}.
+\item \code{"transient"}: the target gets unloaded
 after every new target completes.
 Either way, the target gets automatically loaded into memory
 whenever another target needs the value.
@@ -200,10 +209,6 @@ until the end of the pipeline (unless \code{storage} is \code{"worker"},
 in which case \code{targets} unloads the value from memory
 right after storing it in order to avoid sending
 copious data over a network).
-\item \code{"auto"}: new in \code{targets} version 1.8.0.9011, \code{memory = "auto"}
-is equivalent to \code{memory = "transient"} for dynamic branching
-(a non-null \code{pattern} argument) and \code{memory = "persistent"}
-for targets that do not use dynamic branching.
 }
 
 For cloud-based file targets
@@ -270,7 +275,15 @@ depends on.) Only relevant when using \code{targets}
 with parallel workers (\url{https://books.ropensci.org/targets/crew.html}).
 Must be one of the following values:
 \itemize{
-\item \code{"worker"} (default): the worker loads the target's dependencies.
+\item \code{"auto"} (default): equivalent to \code{retrieval = "worker"} in almost all
+cases. But to avoid unnecessary reads from disk, \code{retrieval = "auto"}
+is equivalent to \code{retrieval = "main"} for dynamic branches that
+branch over non-dynamic targets. For example: if your pipeline has
+\code{tar_target(x, command = f())}, then
+\code{tar_target(y, command = x, pattern = map(x), retrieval = "auto")}
+will use \code{"main"} retrieval in order to avoid rereading all of \code{x}
+for every branch of \code{y}.
+\item \code{"worker"}: the worker loads the target's dependencies.
 \item \code{"main"}: the target's dependencies are loaded on the host machine
 and sent to the worker before the target runs.
 \item \code{"none"}: \code{targets} makes no attempt to load its

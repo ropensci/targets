@@ -21,11 +21,8 @@ target_init <- function(
   description = character(0L)
 ) {
   seed <- tar_seed_create(name)
-  deps <- deps <- deps %|||% deps_function(embody_expr(expr))
+  deps <- deps %|||% deps_function(embody_expr(expr))
   command <- command_init(expr, packages, library, string)
-  if (identical(memory, "auto")) {
-    memory <- if_any(is.null(pattern), "persistent", "transient")
-  }
   cue <- cue %|||% cue_init()
   if (any(grepl("^aws_", format))) {
     format <- gsub("^aws_", "", format)

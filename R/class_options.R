@@ -312,7 +312,7 @@ options_class <- R6::R6Class(
       self$error %|||% "stop"
     },
     get_memory = function() {
-      self$memory %|||% "transient"
+      self$memory %|||% "auto"
     },
     get_garbage_collection = function() {
       self$garbage_collection %|||% 1000L
@@ -333,7 +333,7 @@ options_class <- R6::R6Class(
       self$storage %|||% "worker"
     },
     get_retrieval = function() {
-      self$retrieval %|||% "worker"
+      self$retrieval %|||% "auto"
     },
     get_cue = function() {
       self$cue %|||% tar_cue()
@@ -548,7 +548,7 @@ options_class <- R6::R6Class(
       tar_assert_flag(storage, c("main", "worker", "none"))
     },
     validate_retrieval = function(retrieval) {
-      tar_assert_flag(retrieval, c("main", "worker", "none"))
+      tar_assert_flag(retrieval, c("auto", "main", "worker", "none"))
     },
     validate_cue = function(cue) {
       cue_validate(cue)
