@@ -213,6 +213,7 @@ active_class <- R6::R6Class(
     start = function() {
       self$seconds_start <- time_seconds()
       pipeline_prune_names(self$pipeline, self$names)
+      pipeline_resolve_auto(self$pipeline)
       self$ensure_meta()
       self$update_scheduler()
       self$bootstrap_shortcut_deps()

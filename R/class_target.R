@@ -428,6 +428,13 @@ target_workspace_copy <- function(target) {
   out
 }
 
+target_resolve_auto <- function(target, setting, value) {
+  settings <- .subset2(target, "settings")
+  if (.subset2(settings, setting) == "auto") {
+    settings[[setting]] <- value
+  }
+}
+
 target_patternview_meta <- function(target, pipeline, meta) {
   UseMethod("target_patternview_meta")
 }

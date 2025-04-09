@@ -1,4 +1,4 @@
-# targets 1.10.1.9015 (development)
+# targets 1.10.1.9016 (development)
 
 ## Deprecated features
 
@@ -7,7 +7,7 @@
 ## Changes to default settings
 
 * In `tar_option_get()`, set `repository_meta` to `"local"` by default, regardless of `repository` (#1427).
-* In `tar_option_get()`, set `storage = "worker"`, `retrieval = "worker"`, and `memory = "tranisient"` by default (#1426).
+* In `tar_option_get()`, set `storage = "worker"`, `retrieval = "auto"`, and `memory = "auto"` by default (#1426). For `memory`, `"auto"` is now equivalent to `"transient"` most of the time, but it is equivalent to `"persistent"` for non-dynamic targets that other targets dynamically branch over. For `retrieval`, the `"auto"` setting is new. It is equivalent to `"worker"` for most cases, but it aligns with `"main"` for dynamic branches that branch over non-dynamic targets. All this is to avoid re-reading the upstream target from disk every time a branch needs to run.
 * Set the new "balanced" reporter to be the default reporter for `tar_make()` and `tar_outdated()`.
 
 ## Efficiency improvements
@@ -15,6 +15,7 @@
 * Speed up checking up-to-date targets in large dynamic branching pipelines (#1458, #1460). The speedup is over 10-fold or more in some cases.
 * Maintain a persistent text connection when appending to a metadata text file (#1415).
 * Avoid superfluous garbage collection when `crew` controllers are saturated.
+* Set defaults for `storage`, `retrieval`, and `memory` that balance resource tradeoffs for the most common pipelines (#1426).
 
 ## Other changes
 
