@@ -26,12 +26,16 @@ tar_test("inspection$pipeline", {
 })
 
 tar_test("inspection$meta", {
-  inspection <- inspection_init(pipeline_init(), meta_init())
+  meta <- meta_init()
+  on.exit(meta$database$close())
+  inspection <- inspection_init(pipeline_init(), meta)
   expect_silent(inspection$meta$validate())
 })
 
 tar_test("inspection$progress", {
-  inspection <- inspection_init(pipeline_init(), progress_init())
+  progress <- progress_init()
+  on.exit(progress$database$close())
+  inspection <- inspection_init(pipeline_init(), progress)
   expect_silent(inspection$progress$validate())
 })
 

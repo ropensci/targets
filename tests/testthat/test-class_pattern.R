@@ -201,6 +201,8 @@ tar_test("error relaying", {
 tar_test("maps produce correct junctions and bud niblings", {
   pipeline <- pipeline_map()
   local <- local_init(pipeline)
+  on.exit(local$meta$database$close())
+  on.exit(local$scheduler$progress$database$close(), add = TRUE)
   pipeline_prune_names(local$pipeline, local$names)
   local$update_scheduler()
   scheduler <- local$scheduler
@@ -231,6 +233,8 @@ tar_test("correct junction of a non-mapped stem", {
   local <- local_init(pipeline)
   pipeline_prune_names(local$pipeline, local$names)
   local$update_scheduler()
+  on.exit(local$meta$database$close())
+  on.exit(local$scheduler$progress$database$close(), add = TRUE)
   scheduler <- local$scheduler
   local$ensure_meta()
   local$process_target("data0")
@@ -527,6 +531,8 @@ tar_test("pattern$patternview with cross", {
 tar_test("cross produces correct junctions and bud niblings", {
   pipeline <- pipeline_cross()
   local <- local_init(pipeline)
+  on.exit(local$meta$database$close())
+  on.exit(local$scheduler$progress$database$close(), add = TRUE)
   pipeline_prune_names(local$pipeline, local$names)
   local$update_scheduler()
   scheduler <- local$scheduler
@@ -558,6 +564,8 @@ tar_test("cross produces correct junctions and bud niblings", {
 tar_test("correct junction of non-crossed stems", {
   pipeline <- pipeline_cross()
   local <- local_init(pipeline)
+  on.exit(local$meta$database$close())
+  on.exit(local$scheduler$progress$database$close(), add = TRUE)
   pipeline_prune_names(local$pipeline, local$names)
   local$update_scheduler()
   scheduler <- local$scheduler
@@ -579,6 +587,8 @@ tar_test("correct junction of non-crossed stems", {
 tar_test("cross pipeline gives correct values", {
   pipeline <- pipeline_cross()
   local <- local_init(pipeline)
+  on.exit(local$meta$database$close())
+  on.exit(local$scheduler$progress$database$close(), add = TRUE)
   scheduler <- local$scheduler
   local$run()
   value <- function(name) {

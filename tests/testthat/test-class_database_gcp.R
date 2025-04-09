@@ -6,5 +6,6 @@ tar_test("validate GCP database", {
       gcp = tar_resources_gcp(bucket = "x", prefix = "x")
     )
   )
+  on.exit(out$close())
   expect_silent(out$validate())
 })

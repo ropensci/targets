@@ -62,6 +62,7 @@ tar_test("builder metadata recording", {
   local$run()
   meta <- local$meta
   db <- meta$database
+  on.exit(db$close())
   db$ensure_storage()
   expect_gt(nrow(db$read_data()), 0L)
   db$reset_storage()

@@ -6,5 +6,6 @@ tar_test("validate AWS database", {
       aws = tar_resources_aws(bucket = "x", prefix = "x")
     )
   )
+  on.exit(out$close())
   expect_silent(out$validate())
 })

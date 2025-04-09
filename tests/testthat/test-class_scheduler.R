@@ -45,6 +45,8 @@ tar_test("scheduler$count_unfinished_deps()", {
   pipeline <- pipeline_order()
   target <- pipeline_get_target(pipeline, "mins")
   local <- local_init(pipeline)
+  on.exit(local$meta$database$close())
+  on.exit(local$scheduler$progress$database$close(), add = TRUE)
   pipeline_prune_names(local$pipeline, local$names)
   local$update_scheduler()
   scheduler <- local$scheduler

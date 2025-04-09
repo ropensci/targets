@@ -62,7 +62,9 @@ tar_test("stem$ensure_children()", {
 
 tar_test("target_update_queue() updates queue correctly", {
   pipeline <- pipeline_order()
-  scheduler <- scheduler_init(pipeline, meta = meta_init())
+  meta <- meta_init()
+  on.exit(meta$database$close())
+  scheduler <- scheduler_init(pipeline, meta = meta)
   target <- pipeline_get_target(pipeline, "min2")
   target_update_queue(target, scheduler)
   expect_equal(sort(scheduler$queue$ready$data), sort(c("data1", "data2")))
@@ -166,6 +168,7 @@ tar_test("insert stem record of a successful internal stem", {
   local$run()
   meta <- local$meta
   db <- meta$database
+  on.exit(db$close())
   db$ensure_storage()
   db$reset_storage()
   record <- target_produce_record(target, pipeline, meta)
@@ -194,9 +197,12 @@ tar_test("insert stem record of a external stem", {
   target <- target_init("x", quote("y"), format = "file")
   pipeline <- pipeline_init(list(target), clone_targets = FALSE)
   local <- local_init(pipeline)
+  on.exit(local$meta$database$close())
+  on.exit(local$scheduler$progress$database$close(), add = TRUE)
   local$run()
   meta <- local$meta
   db <- meta$database
+  on.exit(db$close(), add = TRUE)
   db$ensure_storage()
   db$reset_storage()
   record <- target_produce_record(target, pipeline, meta)

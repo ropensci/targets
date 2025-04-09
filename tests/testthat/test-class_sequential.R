@@ -67,7 +67,7 @@ tar_test("sequential$clean()", {
   }
 })
 
-test_that("sequential$extend()", {
+tar_test("sequential$extend()", {
   q <- sequential_init(step = 100L)
   q$extend(n = 50)
   expect_equal(q$data, rep(NA_character_, 100L))

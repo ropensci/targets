@@ -239,6 +239,8 @@ tar_test("runtime_increment_targets_run()", {
 })
 
 tar_test("validate non-null metadata", {
-  x <- runtime_new(meta = meta_init())
+  meta <-  meta_init()
+  on.exit(meta$database$close())
+  x <- runtime_new(meta = meta)
   expect_silent(runtime_validate(x))
 })
