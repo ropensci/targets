@@ -43,6 +43,6 @@ store_ensure_correct_hash.tar_cloud <- function(
 }
 
 #' @export
-store_sync_file_meta.tar_cloud <- function(store, target, meta) {
+store_sync_file_meta.tar_cloud <- function(store, target, meta, path) {
 }
 # nocov end

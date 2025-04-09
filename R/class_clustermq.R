@@ -163,7 +163,6 @@ clustermq_class <- R6::R6Class(
         meta = self$meta,
         active = TRUE
       )
-      target_sync_file_meta(target, self$meta)
     },
     shut_down_worker = function() {
       if (self$workers > 0L) {

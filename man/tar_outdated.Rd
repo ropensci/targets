@@ -52,6 +52,9 @@ created by running the target script file (default: \verb{_targets.R}).}
 Controls how messages are printed as targets are checked. Choices:
 * \code{"balanced"} (default): a reporter that balances efficiency
 with informative detail. Uses a \code{cli} progress bar.
+To the right of the progress bar is a text string like
+"22.6s, 4510+, 124-" (22.6 seconds elapsed, 4510 targets
+detected as outdated so far, 124 targets detected as up to date so far).
 * \code{"silent"}: print nothing.}
 
 \item{seconds_reporter}{Deprecated on 2025-03-31

@@ -395,47 +395,34 @@ store_has_correct_hash <- function(store, file) {
 #' @export
 store_has_correct_hash.default <- function(store, file) {
   (all(is.na(file$path)) || file_exists_path(file)) &&
-    file_has_correct_hash(file)
+  file_has_correct_hash(file)
 }
 
-store_sync_file_meta <- function(store, target, meta) {
+store_sync_file_meta <- function(store, target, meta, path) {
   UseMethod("store_sync_file_meta")
 }
 
 #' @export
-store_sync_file_meta.default <- function(store, target, meta) {
-  cue <- .subset2(target, "cue")
-  if ((.subset2(cue, "mode") == "never") || (!.subset2(cue, "file"))) {
-    return()
-  }
+store_sync_file_meta.default <- function(store, target, meta, path) {
+  # Fully automated tests do no use big enough files.
+  # Tested in tests/interactive/test-file.R. # nolint
+  # nocov start
   name <- target_get_name(target)
   row <- .subset2(meta, "get_row")(name)
-  path <- store_path_from_name(
-    store = .subset2(target, "store"),
-    format = .subset2(row, "format"),
-    name = name,
-    path = unlist(.subset2(row, "path")),
-    path_store = .subset2(meta, "store")
-  )
   file <- file_init(
     path = path,
     time = .subset2(row, "time"),
     size = .subset2(row, "size"),
     bytes = .subset2(row, "bytes")
   )
-  info <- file_info_runtime(.subset2(.subset2(target, "file"), "path"))
+  info <- file_info_runtime(path)
   time <- file_time(info)
   bytes <- file_bytes(info)
   size <- file_size(bytes)
-  # Fully automated tests do no use big enough files.
-  # Tested in tests/interactive/test-file.R. # nolint
-  # nocov start
-  if ((time != .subset2(file, "time")) || (size != .subset2(file, "size"))) {
-    row$time <- time
-    row$size <- size
-    row$bytes <- bytes
-    .subset2(meta, "insert_row")(row)
-  }
+  row$time <- time
+  row$size <- size
+  row$bytes <- bytes
+  .subset2(meta, "insert_row")(row)
   # nocov end
 }
 

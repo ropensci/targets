@@ -75,7 +75,7 @@ store_ensure_correct_hash.tar_url <- function( # nolint
 }
 
 #' @export
-store_sync_file_meta.tar_url <- function(store, target, meta) {
+store_sync_file_meta.tar_url <- function(store, target, meta, path) {
 }
 
 #' @export

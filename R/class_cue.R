@@ -117,24 +117,36 @@ cue_file <- function(cue, target, meta, row) {
   if (!.subset2(cue, "file")) {
     return(FALSE)
   }
+  store <- .subset2(target, "store")
   path <- store_path_from_name(
-    store = .subset2(target, "store"),
+    store = store,
     format = .subset2(row, "format"),
     name = target_get_name(target),
     path = .subset2(row, "path"),
     path_store = .subset2(meta, "store")
   )
-  file_current <- .subset2(target, "file")
-  file_recorded <- file_new(
+  file <- file_new(
     path = path,
     hash = .subset2(row, "data"),
     time = .subset2(row, "time"),
     size = .subset2(row, "size"),
     bytes = .subset2(row, "bytes")
   )
-  on.exit(target$file <- file_current)
-  target$file <- file_recorded
-  !store_has_correct_hash(.subset2(target, "store"), .subset2(target, "file"))
+  is_active <- .subset2(tar_runtime, "active")
+  is_correct <- store_has_correct_hash(store, file)
+  needs_sync <- .subset2(file, "needs_sync")
+  # should not happen:
+  if (is.null(needs_sync)) {
+    needs_sync <- FALSE # nocov
+  }
+  # Fully automated tests do no use big enough files.
+  # Tested in tests/interactive/test-file.R. # nolint
+  # nocov start
+  if (is_active && is_correct && needs_sync) {
+    store_sync_file_meta(store, target, meta, path)
+  }
+  # nocov end
+  !is_correct
 }
 
 cue_seed <- function(cue, target, meta, row) {

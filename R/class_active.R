@@ -177,15 +177,13 @@ active_class <- R6::R6Class(
       builder_unmarshal_value(target)
     },
     skip_target = function(target) {
-      meta <- .subset2(self, "meta")
       target_skip(
         target = target,
         pipeline = .subset2(self, "pipeline"),
         scheduler = .subset2(self, "scheduler"),
-        meta = meta,
+        meta = .subset2(self, "meta"),
         active = TRUE
       )
-      target_sync_file_meta(target, meta)
     },
     process_target = function(name) {
       scheduler <- .subset2(self, "scheduler")
@@ -211,6 +209,7 @@ active_class <- R6::R6Class(
       self$scheduler$backoff$wait()
     },
     start = function() {
+      tar_runtime$active <- TRUE
       self$seconds_start <- time_seconds()
       pipeline_prune_names(self$pipeline, self$names)
       pipeline_resolve_auto(self$pipeline)

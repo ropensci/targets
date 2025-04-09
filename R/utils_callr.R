@@ -106,7 +106,7 @@ callr_dispatch <- function(
   fun
 ) {
   in_rstudio_job <- rstudio_available(verbose = FALSE) &&
-    rstudioapi::isBackgroundJob()
+  rstudioapi::isBackgroundJob()
   options <- list(
     cli.dynamic = cli::is_dynamic_tty() || in_rstudio_job,
     cli.num_colors = cli::num_ansi_colors()

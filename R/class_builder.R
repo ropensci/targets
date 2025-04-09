@@ -302,11 +302,6 @@ target_debug.tar_builder <- function(target) {
 }
 
 #' @export
-target_sync_file_meta.tar_builder <- function(target, meta) {
-  store_sync_file_meta(target$store, target, meta)
-}
-
-#' @export
 target_get_packages.tar_builder <- function(target) {
   packages_command <- target$command$packages
   packages_store <- store_get_packages(target$store)

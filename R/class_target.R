@@ -479,14 +479,6 @@ target_debug <- function(target) {
 target_debug.default <- function(target) {
 }
 
-target_sync_file_meta <- function(target, meta) {
-  UseMethod("target_sync_file_meta")
-}
-
-#' @export
-target_sync_file_meta.default <- function(target, meta) {
-}
-
 target_marshal_value <- function(target) {
   UseMethod("target_marshal_value")
 }

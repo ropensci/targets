@@ -4,7 +4,8 @@ file_init <- function(
   hash = NA_character_,
   time = NA_character_,
   size = NA_character_,
-  bytes = 0
+  bytes = 0,
+  needs_sync = NULL
 ) {
   file_new(
     path = path,
@@ -12,7 +13,8 @@ file_init <- function(
     hash = hash,
     time = time,
     size = size,
-    bytes = bytes
+    bytes = bytes,
+    needs_sync = needs_sync
   )
 }
 
@@ -22,7 +24,8 @@ file_new <- function(
   hash = NULL,
   time = NULL,
   size = NULL,
-  bytes = NULL
+  bytes = NULL,
+  needs_sync = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   if (!is.null(path)) {
@@ -42,6 +45,9 @@ file_new <- function(
   }
   if (!is.null(bytes)) {
     out$bytes <- bytes
+  }
+  if (!is.null(needs_sync)) {
+    out$needs_sync <- needs_sync
   }
   out
 }
@@ -69,12 +75,12 @@ file_update_info <- function(file) {
 }
 
 file_update_hash <- function(file) {
-  files <- file_list_files(file$path)
+  files <- file_list_files(.subset2(file, "path"))
   info <- file_info(files)
   file$hash <- file_hash(files)
   file$time <- file_time(info)
   file$bytes <- file_bytes(info)
-  file$size <- file_size(file$bytes)
+  file$size <- file_size(.subset2(file, "bytes"))
   invisible()
 }
 
@@ -90,6 +96,7 @@ file_should_rehash <- function(file, time, size, trust_timestamps) {
       out <- TRUE
     } else {
       out <- (time != file_time) || (size != file_size)
+      file$needs_sync <- out
     }
   } else {
     out <- TRUE
@@ -103,7 +110,7 @@ file_repopulate <- function(file, path, data) {
 }
 
 file_ensure_hash <- function(file) {
-  files <- file_list_files(file$path)
+  files <- file_list_files(.subset2(file, "path"))
   info <- file_info(files)
   time <- file_time(info)
   bytes <- file_bytes(info)
@@ -112,9 +119,9 @@ file_ensure_hash <- function(file) {
     file = file,
     time = time,
     size = size,
-    trust_timestamps = all(info$trust_timestamps)
+    trust_timestamps = all(.subset2(info, "trust_timestamps"))
   )
-  hash <- if_any(do, file_hash(files), file$hash)
+  hash <- if_any(do, file_hash(files), .subset2(file, "hash"))
   file$hash <- hash
   file$time <- time
   file$size <- size
