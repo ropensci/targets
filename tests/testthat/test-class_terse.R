@@ -15,4 +15,5 @@ test_that("terse reporter", {
   suppressMessages(
     expect_error(tar_make(callr_function = NULL, reporter = "terse"))
   )
+  expect_message((tar_outdated(callr_function = NULL, reporter = "terse"))
 })
