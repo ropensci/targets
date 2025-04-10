@@ -43,6 +43,7 @@
 * Add `tar_option_with()` (https://github.com/ropensci/tarchetypes/issues/215, @noamross).
 * Use `prettyunits` to print elapsed times and file sizes.
 * Shorten and simplify the `tar_make()` error message.
+* Minor bugfix: add a new `on_worker` argument to `target_run()` so that the return value is only removed if the target was actually run on a worker.
 
 # targets 1.10.1
 

@@ -355,7 +355,7 @@ tar_test("file target is missing at path", {
   expect_error(local$run(), class = "tar_condition_run")
 })
 
-tar_test("file target writing from worker", {
+tar_test("file target writing with worker deployment", {
   skip_cran()
   local_init(pipeline_init())$start()
   envir <- new.env(parent = environment())
@@ -373,6 +373,45 @@ tar_test("file target writing from worker", {
     file
   }
   target_run(x, tar_option_get("envir"), path_store_default())
+  # Not actually on a worker, even though deployment is "worker"
+  # by default and storage is "worker".
+  expect_false(is.null(x$value))
+  expect_true(file.exists(x$file$path))
+  expect_false(is.na(x$file$hash))
+  pipeline <- pipeline_init(list(x))
+  meta <- meta_init()
+  on.exit(meta$database$close())
+  scheduler <- scheduler_init(pipeline, meta = meta)
+  lookup_set(meta$depends, "abc", NA_character_)
+  target_conclude(x, pipeline, scheduler, meta)
+})
+
+tar_test("file target writing when actually on worker", {
+  skip_cran()
+  local_init(pipeline_init())$start()
+  envir <- new.env(parent = environment())
+  tar_option_set(envir = envir)
+  x <- target_init(
+    name = "abc",
+    expr = quote(f()),
+    format = "file",
+    storage = "worker",
+    retrieval = "main"
+  )
+  envir$f <- function() {
+    file <- tempfile()
+    writeLines("lines", con = file)
+    file
+  }
+  target_run_worker(
+    x,
+    tar_option_get("envir"),
+    path_store_default(),
+    envvars = data.frame(),
+    options = tar_options$export(),
+    fun = "tar_make"
+  )
+  # On an actual worker, we assume the value was saved to storage.
   expect_null(x$value)
   expect_true(file.exists(x$file$path))
   expect_false(is.na(x$file$hash))

@@ -315,12 +315,12 @@ target_needs_worker.default <- function(target) {
   FALSE
 }
 
-target_run <- function(target, envir, path_store) {
+target_run <- function(target, envir, path_store, on_worker = FALSE) {
   UseMethod("target_run")
 }
 
 #' @export
-target_run.default <- function(target, envir, path_store) {
+target_run.default <- function(target, envir, path_store, on_worker = FALSE) {
 }
 
 #' @title Internal function to run a target on a worker.
