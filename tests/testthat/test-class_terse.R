@@ -6,7 +6,9 @@ test_that("terse reporter", {
       tar_target(y, x, pattern = map(x))
     )
   })
-  expect_message(tar_make(callr_function = NULL, reporter = "terse"))
+  suppressMessages(
+    expect_message(tar_make(callr_function = NULL, reporter = "terse"))
+  )
   tar_script({
     list(
       tar_target(x, stop("intentional error"))
@@ -15,5 +17,7 @@ test_that("terse reporter", {
   suppressMessages(
     expect_error(tar_make(callr_function = NULL, reporter = "terse"))
   )
-  expect_message((tar_outdated(callr_function = NULL, reporter = "terse"))
+  suppressMessages(
+    expect_message(tar_outdated(callr_function = NULL, reporter = "terse"))
+  )
 })
