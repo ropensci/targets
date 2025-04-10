@@ -91,8 +91,8 @@ tar_config_get_project <- function(name, yaml) {
     label = yaml$label %|||% character(0L),
     label_width = yaml$label_width %|||% 30L,
     level_separation = yaml$level_separation,
-    reporter_make = yaml$reporter_make %|||% "balanced",
-    reporter_outdated = yaml$reporter_outdated %|||% "balanced",
+    reporter_make = yaml$reporter_make %|||% reporter_default(),
+    reporter_outdated = yaml$reporter_outdated %|||% reporter_default(),
     script = yaml$script %|||% path_script_default(),
     seconds_meta_append = yaml$seconds_meta_append %|||% 0,
     seconds_meta_upload = yaml$seconds_meta_upload %|||% 15,
@@ -131,5 +131,13 @@ tar_config_get_convert <- function(name, value) {
     store = as.character(value),
     use_crew = as.logical(value),
     workers = as.integer(max(1L, as.integer(value)))
+  )
+}
+
+reporter_default <- function() {
+  if_any(
+    isTRUE(getOption("knitr.in.progress")),
+    "terse",
+    "balanced"
   )
 }

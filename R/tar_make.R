@@ -29,9 +29,17 @@
 #'   `shortcut = TRUE` only works if you set `names`.
 #' @param reporter Character of length 1, name of the reporter to user.
 #'   Controls how messages are printed as targets run in the pipeline.
-#'   Defaults to `tar_config_get("reporter_make")`. Choices:
-#'   * `"balanced"` (default): a reporter that balances efficiency
-#'       with informative detail. Uses a `cli` progress bar.
+#'   Defaults to `tar_config_get("reporter_make")`.
+#'
+#'   The default of `tar_config_get("reporter_make")` is `"terse"`
+#'   if running inside a literate programming document
+#'   (i.e. the `knitr.in.progress` global option is `TRUE`).
+#'   Otherwise, the default is `"balanced"`. Choices:
+#'
+#'   * `"balanced"`: a reporter that balances efficiency
+#'       with informative detail.
+#'       Uses a `cli` progress bar instead of printing messages
+#'       for individual dynamic branches.
 #'       To the right of the progress bar is a text string like
 #'       "22.6s, 4510+, 124-" (22.6 seconds elapsed, 4510 targets
 #'       completed successfully so far, 124 targets skipped so far).
@@ -44,6 +52,7 @@
 #'       which controls the time delay between progress bar updates.
 #'       If the delay is too low, then overhead from printing to the console
 #'       may slow down the pipeline.
+#'   * `"terse"`: like the `"balanced"` reporter, but without a progress bar.
 #'   * `"silent"`: print nothing.
 #'   * `"timestamp"`: same as the `"verbose"` reporter except that each
 #'      message begins with a time stamp.

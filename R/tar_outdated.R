@@ -36,9 +36,17 @@
 #'   or to include functions and other global objects from the environment
 #'   created by running the target script file (default: `_targets.R`).
 #' @param reporter Character of length 1, name of the reporter to user.
-#'   Controls how messages are printed as targets are checked. Choices:
-#'     * `"balanced"` (default): a reporter that balances efficiency
-#'       with informative detail. Uses a `cli` progress bar.
+#'   Controls how messages are printed as targets are checked.
+#'
+#'   The default of `tar_config_get("reporter_make")` is `"terse"`
+#'   if running inside a literate programming document
+#'   (i.e. the `knitr.in.progress` global option is `TRUE`).
+#'   Otherwise, the default is `"balanced"`. Choices:
+#'
+#'     * `"balanced"`: a reporter that balances efficiency
+#'       with informative detail.
+#'       Uses a `cli` progress bar instead of printing messages
+#'       for individual dynamic branches.
 #'       To the right of the progress bar is a text string like
 #'       "22.6s, 4510+, 124-" (22.6 seconds elapsed, 4510 targets
 #'       detected as outdated so far,
@@ -52,6 +60,7 @@
 #'       which controls the time delay between progress bar updates.
 #'       If the delay is too low, then overhead from printing to the console
 #'       may slow down the pipeline.
+#'     * `"terse"`: like `"balanced"`, except without a progress bar.
 #'     * `"silent"`: print nothing.
 #' @inheritParams tar_validate
 #' @examples

@@ -42,10 +42,17 @@ It relies on stored metadata for information about upstream dependencies.
 
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets run in the pipeline.
-Defaults to \code{tar_config_get("reporter_make")}. Choices:
+Defaults to \code{tar_config_get("reporter_make")}.
+
+The default of \code{tar_config_get("reporter_make")} is \code{"terse"}
+if running inside a literate programming document
+(i.e. the \code{knitr.in.progress} global option is \code{TRUE}).
+Otherwise, the default is \code{"balanced"}. Choices:
 \itemize{
-\item \code{"balanced"} (default): a reporter that balances efficiency
-with informative detail. Uses a \code{cli} progress bar.
+\item \code{"balanced"}: a reporter that balances efficiency
+with informative detail.
+Uses a \code{cli} progress bar instead of printing messages
+for individual dynamic branches.
 To the right of the progress bar is a text string like
 "22.6s, 4510+, 124-" (22.6 seconds elapsed, 4510 targets
 completed successfully so far, 124 targets skipped so far).
@@ -58,6 +65,7 @@ On that page is also the \code{CLI_TICK_TIME} environment variable
 which controls the time delay between progress bar updates.
 If the delay is too low, then overhead from printing to the console
 may slow down the pipeline.
+\item \code{"terse"}: like the \code{"balanced"} reporter, but without a progress bar.
 \item \code{"silent"}: print nothing.
 \item \code{"timestamp"}: same as the \code{"verbose"} reporter except that each
 message begins with a time stamp.

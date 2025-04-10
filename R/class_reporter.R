@@ -2,6 +2,7 @@ reporter_init <- function(reporter = "verbose") {
   switch(
     reporter,
     balanced = balanced_new(),
+    terse = terse_new(),
     silent = silent_new(),
     timestamp = timestamp_new(),
     verbose = verbose_new(),

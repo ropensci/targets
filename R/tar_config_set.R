@@ -447,6 +447,7 @@ tar_config_assert_workers <- function(workers) {
 tar_reporters_make <- function() {
   c(
     "balanced",
+    "terse",
     "silent",
     "timestamp",
     "timestamp_positives",
@@ -456,7 +457,7 @@ tar_reporters_make <- function() {
 }
 
 tar_reporters_outdated <- function() {
-  c("balanced", "silent")
+  c("balanced", "terse", "silent")
 }
 
 tar_config_read_yaml <- function(config) {

@@ -87,15 +87,23 @@ Only the description is enabled by default.}
 by status.}
 
 \item{reporter}{Character of length 1, name of the reporter to user.
-Controls how messages are printed as targets are checked. Choices:
-* \code{"balanced"} (default): a reporter that balances efficiency
-with informative detail. Uses a \code{cli} progress bar.
-To the right of the progress bar is a text string like
-"22.6s, 4510+, 124-" (22.6 seconds elapsed, 4510 targets
-detected as outdated so far,
-124 targets detected as up to date so far).
+Controls how messages are printed as targets are checked.
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{  For best results with the balanced reporter, you may need to
+The default of \code{tar_config_get("reporter_make")} is \code{"terse"}
+if running inside a literate programming document
+(i.e. the \code{knitr.in.progress} global option is \code{TRUE}).
+Otherwise, the default is \code{"balanced"}. Choices:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{* `"balanced"`: a reporter that balances efficiency
+  with informative detail.
+  Uses a `cli` progress bar instead of printing messages
+  for individual dynamic branches.
+  To the right of the progress bar is a text string like
+  "22.6s, 4510+, 124-" (22.6 seconds elapsed, 4510 targets
+  detected as outdated so far,
+  124 targets detected as up to date so far).
+
+  For best results with the balanced reporter, you may need to
   adjust your `cli` settings. See global options `cli.num_colors`
   and `cli.dynamic` at
   <https://cli.r-lib.org/reference/cli-config.html>.
@@ -103,6 +111,7 @@ detected as outdated so far,
   which controls the time delay between progress bar updates.
   If the delay is too low, then overhead from printing to the console
   may slow down the pipeline.
+* `"terse"`: like `"balanced"`, except without a progress bar.
 * `"silent"`: print nothing.
 }\if{html}{\out{</div>}}}
 

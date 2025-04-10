@@ -1,6 +1,7 @@
 # targets 1.11.1
 
 * Bugfix: `rstudio_available()` returns `FALSE` without error if `rstudioapi` is not installed.
+* Add a new `"terse"` reporter, which is the `"balanced"` reporter without the progress bar. Make `"terse"` the default reporter 
 
 # targets 1.11.0
 

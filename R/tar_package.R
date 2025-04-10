@@ -17,7 +17,7 @@
 #' @importFrom cli ansi_show_cursor cli_alert cli_alert_danger
 #'   cli_alert_info cli_alert_success
 #'   cli_alert_warning cli_inform cli_end cli_h1 cli_li cli_progress_bar
-#'   cli_progress_done cli_progress_update cli_ul col_red col_silver
+#'   cli_progress_done cli_progress_update cli_text cli_ul col_red col_silver
 #'   is_dynamic_tty make_spinner pb_bar pb_current pb_total
 #' @importFrom codetools findGlobals
 #' @importFrom data.table data.table fread fwrite rbindlist set
