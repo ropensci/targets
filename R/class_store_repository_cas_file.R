@@ -30,9 +30,3 @@ store_read_object.tar_repository_cas_file <- function(store, file) {
   file_move(from = scratch, to = file$path)
   file$path
 }
-
-#' @export
-store_unload.tar_repository_cas_file <- function(store, target) {
-  unlink(as.character(target$value$object))
-  NextMethod()
-}

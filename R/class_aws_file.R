@@ -82,10 +82,4 @@ store_read_object.tar_aws_file <- function(store, file) {
   file_move(from = scratch, to = stage)
   stage
 }
-
-#' @export
-store_unload.tar_aws_file <- function(store, target) {
-  unlink(as.character(target$value$object))
-  NextMethod()
-}
 # nocov end

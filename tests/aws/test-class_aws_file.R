@@ -36,6 +36,8 @@ tar_test("aws file gets stored", {
       max_tries = 1L
     )
   )
+  expect_true(file.exists("example_aws_file.txt"))
+  unlink("example_aws_file.txt")
   expect_false(file.exists("example_aws_file.txt"))
   unlink("_targets/scratch", recursive = TRUE)
   expect_equal(tar_read(y), "x_lines")
@@ -93,6 +95,8 @@ tar_test("aws file gets stored with transient memory", {
       max_tries = 1L
     )
   )
+  expect_true(file.exists("example_aws_file.txt"))
+  unlink("example_aws_file.txt")
   expect_false(file.exists("example_aws_file.txt"))
   unlink("_targets/scratch", recursive = TRUE)
   expect_equal(tar_read(y), "x_lines")
@@ -221,6 +225,7 @@ tar_test("aws_file format with a custom data store", {
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL, envir = tar_option_get("envir"))
+  unlink("example_aws_file.txt")
   expect_true(file.exists("custom_targets_store"))
   expect_false(file.exists(path_store_default()))
   expect_true(
@@ -290,6 +295,7 @@ tar_test("aws_file format file with different region", {
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL, envir = tar_option_get("envir"))
+  unlink("example_aws_file.txt")
   expect_true(
     aws_s3_exists(
       bucket = bucket_name,

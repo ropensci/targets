@@ -427,11 +427,6 @@ store_sync_file_meta.default <- function(store, target, meta, path) {
 # nocov end
 
 store_unload <- function(store, target) {
-  UseMethod("store_unload")
-}
-
-#' @export
-store_unload.default <- function(store, target) {
   target$value <- NULL
 }
 

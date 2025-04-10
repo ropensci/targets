@@ -4,6 +4,10 @@
 
 * Deprecate the `priority` argument of `tar_target()`. Because of #1458, custom priorities no longer have an effect on execution order. However, up-to-date parallelized pipelines with 100000+ targets can now be checked around 10 times faster, so the tradeoff is worth it.
 
+## Changes to default behavior
+
+* Keep `format = "file"` files on disk even for non-local repositories (#1467).
+
 ## Changes to default settings
 
 * In `tar_option_get()`, set `repository_meta` to `"local"` by default, regardless of `repository` (#1427).
