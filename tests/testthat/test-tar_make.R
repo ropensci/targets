@@ -135,12 +135,15 @@ tar_test("tar_make() handles callr errors", {
   )
 })
 
-tar_test("custom script and store args", {
+tar_test("custom script, store args, and garbage collection", {
   skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
   tar_script(
-    tar_target(x, TRUE),
+    {
+      tar_option_set(garbage_collection = 1L)
+      tar_target(x, TRUE)
+    },
     script = "example/script.R"
   )
   tar_make(

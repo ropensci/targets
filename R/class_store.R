@@ -398,15 +398,15 @@ store_has_correct_hash.default <- function(store, file) {
     file_has_correct_hash(file)
 }
 
+# Fully automated tests do no use big enough files.
+# Tested in tests/interactive/test-file.R. # nolint
+# nocov start
 store_sync_file_meta <- function(store, target, meta, path) {
   UseMethod("store_sync_file_meta")
 }
 
 #' @export
 store_sync_file_meta.default <- function(store, target, meta, path) {
-  # Fully automated tests do no use big enough files.
-  # Tested in tests/interactive/test-file.R. # nolint
-  # nocov start
   name <- target_get_name(target)
   row <- .subset2(meta, "get_row")(name)
   file <- file_init(
@@ -423,8 +423,8 @@ store_sync_file_meta.default <- function(store, target, meta, path) {
   row$size <- size
   row$bytes <- bytes
   .subset2(meta, "insert_row")(row)
-  # nocov end
 }
+# nocov end
 
 store_unload <- function(store, target) {
   UseMethod("store_unload")
