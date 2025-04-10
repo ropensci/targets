@@ -31,6 +31,8 @@ tar_test("gcp_file format file gets stored", {
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL, envir = tar_option_get("envir"))
+  unlink("example_gcp_file.txt")
+  unlink("example_gcp_file.txt")
   expect_true(
     gcp_gcs_exists(
       bucket = bucket_name,
@@ -97,9 +99,11 @@ tar_test("gcp_file format invalidation", {
     expr <- tar_tidy_eval(expr, environment(), TRUE)
     eval(as.call(list(`tar_script`, expr, ask = FALSE)))
     tar_make(callr_function = NULL, envir = tar_option_get("envir"))
+    unlink("example_gcp_file.txt")
     expect_equal(tar_progress(x)$progress, "completed")
     expect_equal(tar_progress(y)$progress, "completed")
     tar_make(callr_function = NULL)
+    unlink("example_gcp_file.txt")
     progress <- tar_progress()
     progress <- progress[progress$progress != "skipped", ]
     expect_equal(nrow(progress), 0L)
@@ -129,6 +133,7 @@ tar_test("gcp_file format invalidation", {
     expr <- tar_tidy_eval(expr, environment(), TRUE)
     eval(as.call(list(`tar_script`, expr, ask = FALSE)))
     tar_make(callr_function = NULL, envir = tar_option_get("envir"))
+    unlink("example_gcp_file.txt")
     expect_equal(tar_progress(x)$progress, "completed")
     expect_equal(tar_progress(y)$progress, "completed")
     expect_equal(tar_read(y), "x_lines2")
@@ -169,6 +174,7 @@ tar_test("gcp_file format with a custom data store", {
   expr <- tar_tidy_eval(expr, environment(), TRUE)
   eval(as.call(list(`tar_script`, expr, ask = FALSE)))
   tar_make(callr_function = NULL, envir = tar_option_get("envir"))
+  unlink("example_gcp_file.txt")
   expect_true(file.exists("custom_targets_store"))
   expect_false(file.exists(path_store_default()))
   expect_true(
