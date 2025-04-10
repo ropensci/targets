@@ -224,7 +224,6 @@ active_class <- R6::R6Class(
       on.exit(self$meta$database$close())
       on.exit(scheduler$progress$database$close(), add = TRUE)
       scheduler <- self$scheduler
-      pipeline_unload_loaded(self$pipeline)
       self$flush_meta()
       self$meta$database$deduplicate_storage()
       self$upload_meta()

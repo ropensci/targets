@@ -74,7 +74,17 @@ To the right of the progress bar is a text string like
 "22.6s, 4510+, 124-" (22.6 seconds elapsed, 4510 targets
 detected as outdated so far,
 124 targets detected as up to date so far).
-* \code{"silent"}: print nothing.}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  For best results with the balanced reporter, you may need to
+  adjust your `cli` settings. See global options `cli.num_colors`
+  and `cli.dynamic` at
+  <https://cli.r-lib.org/reference/cli-config.html>.
+  On that page is also the `CLI_TICK_TIME` environment variable
+  which controls the time delay between progress bar updates.
+  If the delay is too low, then overhead from printing to the console
+  may slow down the pipeline.
+* `"silent"`: print nothing.
+}\if{html}{\out{</div>}}}
 
 \item{seconds_reporter}{Deprecated on 2025-03-31
 (\code{targets} version 1.10.1.9010).}

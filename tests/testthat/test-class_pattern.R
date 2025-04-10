@@ -87,6 +87,7 @@ tar_test("can load an entire map", {
   )
   local <- local_init(pipeline)
   local$run()
+  pipeline_unload_loaded(local$pipeline)
   expect_equal(counter_get_names(pipeline$loaded), character(0))
   target <- pipeline_get_target(pipeline, "map")
   target_load_value(target, pipeline)

@@ -49,6 +49,15 @@ with informative detail. Uses a \code{cli} progress bar.
 To the right of the progress bar is a text string like
 "22.6s, 4510+, 124-" (22.6 seconds elapsed, 4510 targets
 completed successfully so far, 124 targets skipped so far).
+
+For best results with the balanced reporter, you may need to
+adjust your \code{cli} settings. See global options \code{cli.num_colors}
+and \code{cli.dynamic} at
+\url{https://cli.r-lib.org/reference/cli-config.html}.
+On that page is also the \code{CLI_TICK_TIME} environment variable
+which controls the time delay between progress bar updates.
+If the delay is too low, then overhead from printing to the console
+may slow down the pipeline.
 \item \code{"silent"}: print nothing.
 \item \code{"timestamp"}: same as the \code{"verbose"} reporter except that each
 message begins with a time stamp.

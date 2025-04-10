@@ -39,6 +39,7 @@ tar_test("buds can load values from storage", {
   )
   local <- local_init(pipeline)
   local$run()
+  pipeline_unload_loaded(local$pipeline)
   map(
     pipeline_get_names(pipeline),
     function(name) {
@@ -79,6 +80,7 @@ tar_test("buds can load values from memory", {
   )
   local <- local_init(pipeline)
   local$run()
+  pipeline_unload_loaded(local$pipeline)
   map(
     pipeline_get_names(pipeline),
     function(name) {

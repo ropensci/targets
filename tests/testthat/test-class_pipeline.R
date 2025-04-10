@@ -299,6 +299,7 @@ tar_test("managing lightweight references to targets in pipelines", {
   )
   local <- local_init(pipeline)
   local$run()
+  pipeline_unload_loaded(local$pipeline)
   data <- pipeline_get_target(local$pipeline, "data")
   map <- pipeline_get_target(local$pipeline, "map")
   for (index in seq_len(2L)) {
