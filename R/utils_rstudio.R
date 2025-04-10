@@ -37,12 +37,10 @@ rstudio_available <- function(verbose = TRUE) {
   if (!package_installed("rstudioapi")) {
     available <- FALSE
     reason <- "package {rstudioapi} is not installed."
-  }
-  if (!rstudioapi::isAvailable(child_ok = TRUE)) {
+  } else if (!rstudioapi::isAvailable(child_ok = TRUE)) {
     available <- FALSE
     reason <- "RStudio API / Posit Workbench is not running."
-  }
-  if (!available && verbose) {
+  } else if (!available && verbose) {
     message <- paste(
       "as_job is TRUE in tar_make(), but",
       reason,

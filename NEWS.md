@@ -1,3 +1,7 @@
+# targets 1.11.1
+
+* Bugfix: `rstudio_available()` returns `FALSE` without error if `rstudioapi` is not installed.
+
 # targets 1.11.0
 
 ## Deprecated features
