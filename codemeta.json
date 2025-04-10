@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ropensci/targets",
   "issueTracker": "https://github.com/ropensci/targets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.10.0",
+  "version": "1.11.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.0 (2024-04-24)",
+  "runtimePlatform": "R version 4.4.3 (2025-02-28)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -619,6 +619,19 @@
     },
     "9": {
       "@type": "SoftwareApplication",
+      "identifier": "prettyunits",
+      "name": "prettyunits",
+      "version": ">= 1.1.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=prettyunits"
+    },
+    "10": {
+      "@type": "SoftwareApplication",
       "identifier": "ps",
       "name": "ps",
       "version": ">= 1.8.0",
@@ -630,7 +643,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=ps"
     },
-    "10": {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "R6",
       "name": "R6",
@@ -643,7 +656,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=R6"
     },
-    "11": {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -656,7 +669,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    "12": {
+    "13": {
       "@type": "SoftwareApplication",
       "identifier": "secretbase",
       "name": "secretbase",
@@ -669,12 +682,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=secretbase"
     },
-    "13": {
+    "14": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    "14": {
+    "15": {
       "@type": "SoftwareApplication",
       "identifier": "tibble",
       "name": "tibble",
@@ -687,7 +700,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tibble"
     },
-    "15": {
+    "16": {
       "@type": "SoftwareApplication",
       "identifier": "tidyselect",
       "name": "tidyselect",
@@ -700,17 +713,17 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tidyselect"
     },
-    "16": {
+    "17": {
       "@type": "SoftwareApplication",
       "identifier": "tools",
       "name": "tools"
     },
-    "17": {
+    "18": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    "18": {
+    "19": {
       "@type": "SoftwareApplication",
       "identifier": "vctrs",
       "name": "vctrs",
@@ -723,7 +736,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=vctrs"
     },
-    "19": {
+    "20": {
       "@type": "SoftwareApplication",
       "identifier": "yaml",
       "name": "yaml",
@@ -738,7 +751,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2759.397KB",
+  "fileSize": "2799.44KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
