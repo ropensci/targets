@@ -1,3 +1,7 @@
+# targets 1.11.1.9000
+
+
+
 # targets 1.11.1
 
 * Bugfix: `rstudio_available()` returns `FALSE` without error if `rstudioapi` is not installed.
@@ -7,7 +11,7 @@
 
 ## Deprecated features
 
-* Deprecate the `priority` argument of `tar_target()`. Because of #1458, custom priorities no longer have an effect on execution order. However, up-to-date parallelized pipelines with 100000+ targets can now be checked around 10 times faster, so the tradeoff is worth it.
+* Deprecate the `priority` argument of `tar_target()`. Because of #1458, custom priorities no longer have an effect on execution order. However, up-to-date parallelized pipelines with 100000+ targets can now be checked around 10 times faster, so the tradeoff is worth it. And as a workaround, you can send high-priority targets to one or more special `crew` controllers in a controller group (details: https://books.ropensci.org/targets/crew.html#heterogeneous-workers).
 
 ## Changes to default behavior
 
