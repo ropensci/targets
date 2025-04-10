@@ -1,4 +1,4 @@
-# targets 1.10.1.9019 (development)
+# targets 1.11.0
 
 ## Deprecated features
 
