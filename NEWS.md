@@ -1,6 +1,6 @@
-# targets 1.11.2.9000 (development)
+# targets 1.11.2.9001 (development)
 
-
+* Call `suppressPackageStartupMessages()` once for the whole pipeline. Repeated target-specific calls may be slow, and the messages themselves are cumbersome. This is an appropriate tradeoff.
 
 # targets 1.11.2
 

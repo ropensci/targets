@@ -202,7 +202,7 @@ tar_callr_inner_try <- function(
   targets <- eval(parse(file = script, keep.source = TRUE), envir = envir)
   targets_arguments$pipeline <- pipeline_from_list(targets)
   pipeline_validate_lite(targets_arguments$pipeline)
-  do.call(targets_function, targets_arguments)
+  suppressPackageStartupMessages(do.call(targets_function, targets_arguments))
 }
 
 callr_set_runtime <- function(script, store, fun, pid_parent) {
