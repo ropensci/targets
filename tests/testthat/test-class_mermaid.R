@@ -67,7 +67,7 @@ tar_test("mermaid$update_legend() on cross plan", {
     open = c("[", "(["),
     close = c("]", "])"),
     status = rep("none", 2),
-    label = c("\"Pattern\"", "\"Stem\"")
+    label = c("Dynamic branches", "Regular target")
   )
   cols <- colnames(legend)
   legend <- legend[order(legend$label), cols]
@@ -84,7 +84,6 @@ tar_test("mermaid$update() on cross pipeline + legend + color", {
   expect_true(is.character(mermaid))
   expect_true(all(nzchar(mermaid)))
   expect_true(any(grepl("subgraph Legend", mermaid)))
-  expect_true(any(grepl("linkStyle", mermaid)))
   expect_true(any(grepl("classDef", mermaid)))
 })
 
@@ -97,7 +96,6 @@ tar_test("mermaid$update() on cross pipeline, no legend, color", {
   expect_true(is.character(mermaid))
   expect_true(all(nzchar(mermaid)))
   expect_false(any(grepl("subgraph Legend", mermaid)))
-  expect_false(any(grepl("linkStyle", mermaid)))
   expect_true(any(grepl("classDef", mermaid)))
 })
 
@@ -110,7 +108,6 @@ tar_test("mermaid$update() on cross pipeline, legend, no color", {
   expect_true(is.character(mermaid))
   expect_true(all(nzchar(mermaid)))
   expect_true(any(grepl("subgraph Legend", mermaid)))
-  expect_true(any(grepl("linkStyle", mermaid)))
   expect_false(any(grepl("classDef", mermaid)))
 })
 

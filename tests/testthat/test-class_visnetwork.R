@@ -105,7 +105,7 @@ tar_test("visnetwork$update_legend() on cross plan", {
   expect_silent(vis$validate())
   legend <- vis$legend
   exp <- data_frame(
-    label = c("Stem", "Pattern"),
+    label = c("Regular\ntarget", "Dynamic\nbranches"),
     color = c("#899DA4", "#899DA4"),
     shape = c("dot", "square"),
     font.size = rep(20L, 2L)

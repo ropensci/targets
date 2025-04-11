@@ -1,7 +1,8 @@
-# targets 1.11.1.9002
+# targets 1.11.1.9003
 
 * Documentation fix: if `format` is `"file"` and `repository` is not `"local"`, then the local file is no longer deleted after upload (#1467).
 * Improve legend labels in graphs.
+* Repair mermaid.js graphs with disconnected edges (#1472).
 
 # targets 1.11.1
 

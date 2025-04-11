@@ -139,8 +139,8 @@ storage.
 Note: if \code{repository} is not \code{"local"} and \code{format} is \code{"file"}
 then the target should create a single output file.
 That output file is uploaded to the cloud and tracked for changes
-where it exists in the cloud. The local file is deleted after
-the target runs.}
+where it exists in the cloud. As of \code{targets} version 1.11.0 and higher,
+the local file is no longer deleted after the target runs.}
 
 \item{repository_meta}{Character of length 1 with the same values as
 \code{repository} but excluding content-addressable storage
@@ -504,8 +504,9 @@ then the character vector returned by the target must be of length 1
 and point to a single file. (Directories and vectors of multiple
 file paths are not supported for file targets on the cloud.)
 That output file is uploaded to the cloud and tracked for changes
-where it exists in the cloud. The local file is deleted after
-the target runs.
+where it exists in the cloud. As of \code{targets} version >= 1.11.0,
+the physical file is retained locally after the target runs.
+(Previous versions of \code{targets} deleted the file locally.)
 \item \code{"url"}: An input URL. For this storage format,
 \code{repository} is implicitly \code{"local"},
 URL format is like \code{format = "file"}

@@ -29,7 +29,6 @@ tar_test("tar_mermaid() + legend + color", {
   expect_true(is.character(out))
   expect_true(any(grepl("subgraph Legend", out)))
   expect_true(any(grepl("classDef", out)))
-  expect_true(any(grepl("linkStyle", out)))
 })
 
 tar_test("tar_mermaid() + no legend + color", {
@@ -74,7 +73,6 @@ tar_test("tar_mermaid() + legend + no color", {
   )
   expect_true(is.character(out))
   expect_true(any(grepl("subgraph Legend", out)))
-  expect_true(any(grepl("linkStyle", out)))
   expect_false(any(grepl("classDef", out)))
 })
 
