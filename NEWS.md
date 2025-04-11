@@ -1,6 +1,6 @@
-# targets 1.11.1.9000
+# targets 1.11.1.9001
 
-
+* Documentation fix: if `format` is `"file"` and `repository` is not `"local"`, then the local file is no longer deleted after upload (#1467).
 
 # targets 1.11.1
 

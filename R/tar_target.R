@@ -117,8 +117,9 @@
 #'     and point to a single file. (Directories and vectors of multiple
 #'     file paths are not supported for file targets on the cloud.)
 #'     That output file is uploaded to the cloud and tracked for changes
-#'     where it exists in the cloud. The local file is deleted after
-#'     the target runs.
+#'     where it exists in the cloud. As of `targets` version >= 1.11.0,
+#'     the physical file is retained locally after the target runs.
+#'     (Previous versions of `targets` deleted the file locally.)
 #'   * `"url"`: An input URL. For this storage format,
 #'     `repository` is implicitly `"local"`,
 #'     URL format is like `format = "file"`
@@ -171,8 +172,8 @@
 #'   Note: if `repository` is not `"local"` and `format` is `"file"`
 #'   then the target should create a single output file.
 #'   That output file is uploaded to the cloud and tracked for changes
-#'   where it exists in the cloud. The local file is deleted after
-#'   the target runs.
+#'   where it exists in the cloud. As of `targets` version 1.11.0 and higher,
+#'   the local file is no longer deleted after the target runs.
 #' @param iteration Character of length 1, name of the iteration mode
 #'   of the target. Choices:
 #'   * `"vector"`: branching happens with `vctrs::vec_slice()` and
