@@ -103,6 +103,8 @@ visnetwork_class <- R6::R6Class(
       legend <- rbind(colors, shapes)
       rownames(legend) <- NULL
       legend$label <- gsub("uptodate", "Up to date", legend$label)
+      legend$label[legend$label == "stem"] <- "Regular\ntarget"
+      legend$label[legend$label == "pattern"] <- "Dynamic\nbranches"
       legend$label <- capitalize(legend$label)
       legend
     },

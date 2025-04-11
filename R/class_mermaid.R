@@ -116,7 +116,9 @@ mermaid_class <- R6::R6Class(
       legend <- rbind(status, type)
       legend$label <- gsub("uptodate", "Up to date", legend$name)
       legend <- legend[legend$label != "none",, drop = FALSE] # nolint
-      legend$label <- sprintf("\"%s\"", capitalize(legend$label))
+      legend$label[legend$label == "stem"] <- "Regular\ntarget"
+      legend$label[legend$label == "pattern"] <- "Dynamic\nbranches"
+      legend$label <- capitalize(legend$label)
       legend
     },
     produce_mermaid_vertices = function(data) {

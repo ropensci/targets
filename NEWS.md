@@ -1,6 +1,7 @@
-# targets 1.11.1.9001
+# targets 1.11.1.9002
 
 * Documentation fix: if `format` is `"file"` and `repository` is not `"local"`, then the local file is no longer deleted after upload (#1467).
+* Improve legend labels in graphs.
 
 # targets 1.11.1
 
