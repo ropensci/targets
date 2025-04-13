@@ -62,17 +62,12 @@ sequential_class <- R6::R6Class(
     append = function(names, ranks = NULL) {
       data <- .subset2(self, "data")
       tail <- .subset2(self, "tail")
-      if (length(data) - tail < length(names)) {
-        .subset2(self, "extend")(length(names))
-      }
-      index <- 1L
       n <- length(names)
-      data <- .subset2(self, "data")
-      tail <- .subset2(self, "tail")
-      while (index <= n) {
-        self$data[index + tail] <- .subset(names, index)
-        index <- index + 1L
+      if (length(data) - tail < n) {
+        .subset2(self, "extend")(n)
       }
+      tail <- .subset2(self, "tail")
+      self$data[seq_len(n) + tail] <- names
       self$tail <- tail + n
     },
     prepend = function(names, ranks = NULL) {
