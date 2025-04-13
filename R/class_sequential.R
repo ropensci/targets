@@ -40,7 +40,7 @@ sequential_class <- R6::R6Class(
       head <- .subset2(self, "head")
       if (head > 1L) {
         self$data <- .subset2(self, "data")[-seq(head - 1L)]
-        self$tail <- tail - head + 1L
+        self$tail <- .subset2(self, "tail") - head + 1L
         self$head <- 1L
       }
     },
