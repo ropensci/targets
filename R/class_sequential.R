@@ -2,6 +2,13 @@
 # approximately O(1) complexity for common methods.
 # clean(), extend(), and prepend() are probably around O(n)
 # and do not need to be called often.
+#
+# The `portable = FALSE` setting in R6Class() is super important because
+# it allows elements to be directly referenced, and the `<<-`
+# operator can be used for assignment. In portable classes,
+# either `self$` or `private$` must be used explicitly,
+# which causes entire long vectors to be deep-copied in cases
+# where the code just needs to replace a single vector element.
 sequential_init <- function(names = character(0), step = 1e3L) {
   sequential_new(data = names, step = step)
 }

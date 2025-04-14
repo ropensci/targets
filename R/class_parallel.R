@@ -4,6 +4,13 @@
 # queue where they can be popped efficiently.
 # Targets that are waiting for dependencies are stored in a hash environment
 # so their ranks can be decremented in constant time.
+#
+# The `portable = FALSE` setting in R6Class() is super important because
+# it allows elements to be directly referenced, and the `<<-`
+# operator can be used for assignment. In portable classes,
+# either `self$` or `private$` must be used explicitly,
+# which causes entire long vectors to be deep-copied in cases
+# where the code just needs to replace a single vector element.
 parallel_init <- function(
   names = character(0),
   ranks = numeric(0L),
