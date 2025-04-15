@@ -29,69 +29,59 @@ sequential_class <- R6::R6Class(
     step = NULL,
     initialize = function(data = NULL, step = NULL) {
       super$initialize(data = data)
-      self$tail <- length(data)
-      self$head <- 1L
-      self$step <- as.integer(step)
+      tail <<- length(data)
+      head <<- 1L
+      step <<- as.integer(step)
     },
     is_nonempty = function() {
-      head <- .subset2(self, "head")
-      tail <- .subset2(self, "tail")
       tail > 0L && head <= tail
     },
     should_dequeue = function() {
-      head <- .subset2(self, "head")
-      tail <- .subset2(self, "tail")
       tail > 0L && head <= tail
     },
     clean = function() {
-      head <- .subset2(self, "head")
       if (head > 1L) {
-        self$data <- .subset2(self, "data")[-seq(head - 1L)]
-        self$tail <- .subset2(self, "tail") - head + 1L
-        self$head <- 1L
+        data <<- data[-seq(head - 1L)]
+        tail <<- tail - head + 1L
+        head <<- 1L
       }
     },
     extend = function(n) {
-      .subset2(self, "clean")()
-      n <- max(n, .subset2(self, "step"))
-      self$data <- c(.subset2(self, "data"), rep(NA_character_, n))
+      clean()
+      data <<- c(data, rep(NA_character_, max(n, step)))
     },
     dequeue = function() {
-      if (.subset2(self, "is_nonempty")()) {
-        head <- .subset2(self, "head")
-        out <- .subset(.subset2(self, "data"), head)
-        self$head <- head + 1L
+      if (is_nonempty()) {
+        out <- .subset(data, head)
+        head <<- head + 1L
         return(out)
       } else {
         return(NULL)
       }
     },
     append = function(names, ranks = NULL) {
-      data <- .subset2(self, "data")
-      tail <- .subset2(self, "tail")
       n <- length(names)
       if (length(data) - tail < n) {
-        .subset2(self, "extend")(n)
+        extend(n)
       }
-      tail <- .subset2(self, "tail")
-      self$data[seq_len(n) + tail] <- names
-      self$tail <- tail + n
+      data[seq_len(n) + tail] <<- names
+      tail <<- tail + n
     },
     prepend = function(names, ranks = NULL) {
-      .subset2(self, "clean")()
-      self$data <- c(names, .subset2(self, "data"))
-      self$tail <- .subset2(self, "tail") + length(names)
+      clean()
+      data <<- c(names, data)
+      tail <<- tail + length(names)
     },
     reset = function() {
-      self$data <- character(0L)
-      self$head <- 1L
-      self$tail <- 0L
+      data <<- character(0L)
+      head <<- 1L
+      tail <<- 0L
     },
     validate = function() {
-      tar_assert_chr(self$data)
-      tar_assert_int(self$head)
-      tar_assert_int(self$tail)
-      tar_assert_int(self$step)
+      tar_assert_chr(data)
+      tar_assert_int(head)
+      tar_assert_int(tail)
+      tar_assert_int(step)
     }
   )
 )
