@@ -168,6 +168,7 @@ record_encode_field <- function(field) {
   if (!length(field) || anyNA(field)) {
     return(NA_character_)
   }
+  field <- cli::ansi_strip(field)
   field <- gsub(database_sep_outer, "", field, fixed = TRUE)
   field <- gsub(database_sep_inner, "", field, fixed = TRUE)
   field <- gsub("\\s", " ", field)

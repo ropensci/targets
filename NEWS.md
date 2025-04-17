@@ -1,6 +1,8 @@
-# targets 1.11.2.9001 (development)
+# targets 1.11.2.9002 (development)
 
 * Call `suppressPackageStartupMessages()` once for the whole pipeline. Repeated target-specific calls may be slow, and the messages themselves are cumbersome. This is an appropriate tradeoff.
+* Ensure the progress bar from the balanced reporter does not chop up messages from `tar_debug_instructions()`.
+* Remove ANSI escape sequences from warnings and error messages.
 
 # targets 1.11.2
 

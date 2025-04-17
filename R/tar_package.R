@@ -14,9 +14,9 @@
 #' @family help
 #' @importFrom base64url base64_urldecode base64_urlencode
 #' @importFrom callr r r_bg
-#' @importFrom cli ansi_show_cursor cli_alert cli_alert_danger
-#'   cli_alert_info cli_alert_success
-#'   cli_alert_warning cli_inform cli_end cli_h1 cli_li cli_progress_bar
+#' @importFrom cli ansi_show_cursor ansi_strip cli_alert cli_alert_danger
+#'   cli_alert_info cli_alert_success cli_alert_warning cli_inform
+#'   cli_end cli_h1 cli_li cli_progress_bar
 #'   cli_progress_done cli_progress_update cli_text cli_ul col_red col_silver
 #'   is_dynamic_tty make_spinner pb_bar pb_current pb_total
 #' @importFrom codetools findGlobals
