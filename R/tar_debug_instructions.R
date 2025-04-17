@@ -12,8 +12,12 @@ tar_debug_instructions <- function() {
   if (is.expression(expr)) {
     expr <- expr[[1]]
   }
+  old <- getOption("width")
+  on.exit(options(width = old))
+  options(width = old - 4L)
   deparsed <- targets::tar_deparse_safe(expr)
-  text <- paste("    ", deparsed)
+  text <- unlist(strsplit(trimws(deparsed), split = "\n"))
+  text <- paste(paste0("    ", text), collapse = "\n")
   lines <- paste(
     sprintf(
       "\n\n  You are now running an interactive debugger in target %s.",
@@ -26,7 +30,7 @@ tar_debug_instructions <- function() {
       name,
       ":"
     ),
-    sprintf("\n      %s\n", text),
+    sprintf("\n%s\n", text),
     "  Tip: run debug(your_function) and then enter \"c\"",
     "  to move the debugger inside your_function(),",
     sprintf(
