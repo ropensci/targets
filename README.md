@@ -63,7 +63,7 @@ both the latest release and the development version are available.
 | Type        | Source   | Command                                                           |
 |-------------|----------|-------------------------------------------------------------------|
 | Release     | CRAN     | `install.packages("targets")`                                     |
-| Development | GitHub   | `remotes::install_github("ropensci/targets")`                     |
+| Development | GitHub   | `pak::pkg_install("ropensci/targets")`                            |
 | Development | rOpenSci | `install.packages("targets", repos = "https://dev.ropensci.org")` |
 
 ## Get started in 4 minutes
