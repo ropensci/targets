@@ -49,15 +49,13 @@ balanced_class <- R6::R6Class(
       )
     },
     report_pattern = function(target, progress = NULL) {
-      cli::cli_progress_output(
+      cli::cli_text(
         sprintf(
           "%s {.pkg %s} declared [%s branches]",
           cli::col_silver("+"),
           target_get_name(target),
           junction_length(.subset2(target, "junction"))
-        ),
-        .envir = .subset2(private, ".bar_envir"),
-        id = .subset2(private, ".bar_id")
+        )
       )
       self$report_progress(progress, force = TRUE)
     },
@@ -67,14 +65,12 @@ balanced_class <- R6::R6Class(
     report_dispatched = function(target, progress = NULL, pending = FALSE) {
       self$report_progress(progress)
       if (!inherits(target, "tar_branch")) {
-        cli::cli_progress_output(
+        cli::cli_text(
           sprintf(
             "%s {.pkg %s} dispatched",
             cli::col_silver("+"),
             target_get_name(target)
-          ),
-          .envir = .subset2(private, ".bar_envir"),
-          id = .subset2(private, ".bar_id")
+          )
         )
       }
     },
