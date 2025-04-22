@@ -171,7 +171,15 @@ record_encode_field <- function(field) {
   field <- cli::ansi_strip(field)
   field <- gsub(database_sep_outer, "", field, fixed = TRUE)
   field <- gsub(database_sep_inner, "", field, fixed = TRUE)
-  field <- gsub("\\s", " ", field)
+  # https://github.com/Rdatatable/data.table/issues/3509
+  # https://github.com/ropensci/targets/issues/1480
+  field <- gsub("\"", "'", field)
+  # {targets} might remove non-ASCII characters if absolutely necessary,
+  # but then it would also drop e.g. characters with accents and umlauts,
+  # which would be a hardship for users who prefer languages
+  # other than English.
+  # field <- iconv(field, to = "ASCII", sub = "") # nolint
+  field <- trimws(gsub("\\s", " ", field))
   field <- paste(field, collapse = " ")
   field
 }
