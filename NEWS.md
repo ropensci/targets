@@ -1,10 +1,16 @@
-# targets 1.11.2.9004 (development)
+# targets 1.11.2.9005 (development)
+
+## Bug fixes
+
+* Use `qmethod = "escape"` to avoid https://github.com/Rdatatable/data.table/issues/3509 (#1480, @koefoeden).
+* Ensure `error = "trim"` does not hang when the errored target has a long chain of reverse dependencies (#1481, @koefoeden).
+
+## Other changes
 
 * Call `suppressPackageStartupMessages()` once for the whole pipeline. Repeated target-specific calls may be slow, and the messages themselves are cumbersome. This is an appropriate tradeoff.
 * Ensure the progress bar from the balanced reporter does not chop up messages from `tar_debug_instructions()`.
 * Remove ANSI escape sequences from warnings and error messages.
 * Use `cli::cli_text()` instead of `cli::cli_progress_output()` (#1478, @dipterix).
-* Use `qmethod = "escape"` to avoid https://github.com/Rdatatable/data.table/issues/3509 (#1480, @koefoeden).
 
 # targets 1.11.2
 

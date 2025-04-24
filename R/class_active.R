@@ -197,6 +197,7 @@ active_class <- R6::R6Class(
       if (counter_exists_name(.subset2(progress, "trimmed"), name)) {
         .subset2(scheduler, "trim")(target, pipeline)
         counter_del_name(.subset2(progress, "queued"), name)
+        target_update_queue(target, scheduler)
       } else if (target_should_run(target, meta)) {
         self$skipping <- inherits(target, "tar_pattern")
         self$flush_upload_meta_file(target)

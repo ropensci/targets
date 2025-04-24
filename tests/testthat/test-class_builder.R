@@ -758,6 +758,53 @@ tar_test("error = \"trim\" on a dynamic branch", {
   expect_equal(unique(progress$progress), "skipped")
 })
 
+tar_test("error = \"trim\" with a long chain of reverse dependencies", {
+  tar_script({
+    tar_option_set(
+      error = "trim",
+      controller =  crew::crew_controller_sequential()
+    )
+    list(
+      tar_target(erroring_target, stop()),
+      tar_target(downstream_1, erroring_target),
+      tar_target(downstream_2, downstream_1),
+      tar_target(downstream_3, downstream_2),
+      tar_target(dynamic, downstream_3, pattern = map(downstream_3)),
+      tar_target(aggregate, dynamic)
+    )
+  })
+  tar_make(callr_function = NULL)
+  progress <- tar_progress()
+  expect_equal(progress$name, "erroring_target")
+  expect_equal(progress$progress, "errored")
+})
+
+tar_test("error = \"trim\", long chain of revdeps, dynamic branching", {
+  tar_script({
+    tar_option_set(
+      error = "trim",
+      controller =  crew::crew_controller_sequential()
+    )
+    list(
+      tar_target(a, seq_len(2)),
+      tar_target(erroring_target, stop(), pattern = map(a)),
+      tar_target(downstream_1, erroring_target, pattern = map(erroring_target)),
+      tar_target(downstream_2, downstream_1, pattern = map(downstream_1)),
+      tar_target(downstream_3, downstream_2),
+      tar_target(dynamic, downstream_3, pattern = map(downstream_3)),
+      tar_target(aggregate, dynamic)
+    )
+  })
+  tar_make(callr_function = NULL)
+  progress <- tar_progress()
+  expect_equal(nrow(progress), 3L)
+  expect_equal(
+    unique(progress$progress[grepl("^erroring_", progress$name)]),
+    "errored"
+  )
+  expect_equal(progress$progress[progress$name == "a"], "completed")
+})
+
 tar_test("capture storage warnings", {
   skip_cran()
   tar_script(
