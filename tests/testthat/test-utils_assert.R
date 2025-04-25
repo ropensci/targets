@@ -376,13 +376,11 @@ tar_test("tar_assert_internet()", {
 
 tar_test("tar_assert_objects_files()", {
   skip_cran()
-  tar_script(tar_target(x, 1))
-  tar_make(callr_function = NULL)
-  expect_silent(tar_assert_objects_files(path_store_default()))
-  path <- file.path(path_objects_dir(path_store_default()), "y")
+  path <- tempfile()
+  on.exit(unlink(path, recursive = TRUE))
   dir.create(path)
   expect_error(
-    tar_assert_objects_files(path_store_default()),
+    tar_assert_objects_file(path),
     class = "tar_condition_run"
   )
 })

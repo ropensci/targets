@@ -230,7 +230,6 @@ active_class <- R6::R6Class(
       self$upload_meta()
       path_scratch_del(path_store = self$meta$store)
       compare_working_directories()
-      tar_assert_objects_files(self$meta$store)
       seconds_elapsed <- time_seconds() - self$seconds_start
       scheduler$reporter$report_end(scheduler$progress, seconds_elapsed)
     },

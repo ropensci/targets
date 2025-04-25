@@ -703,15 +703,13 @@ tar_assert_script <- function(script) {
   tar_assert_not_in(vars, choices, msg)
 }
 
-tar_assert_objects_files <- function(store) {
-  directories <- list.dirs(path = path_objects_dir(store), recursive = FALSE)
-  if (length(directories) > 0L) {
+tar_assert_objects_file <- function(path) {
+  if (any(dir.exists(path))) {
     tar_throw_run(
       "the write() function in tar_format() ",
       "must not create a directory. ",
-      "Found directories inside the data store ",
-      "where there should only be files: ",
-      paste(directories, collapse = ", ")
+      "Found a directory that should be a single file: ",
+      path
     )
   }
 }

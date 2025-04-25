@@ -38,6 +38,7 @@ store_write_path.tar_store_format_custom <- function(store, object, path) {
     text = store$methods_format$write,
     args = list(object = object, path = path)
   )
+  tar_assert_objects_file(path)
 }
 
 #' @export
