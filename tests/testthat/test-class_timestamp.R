@@ -18,18 +18,8 @@ tar_test("run timestamp reporter with a error and saved workspace", {
 })
 
 tar_test("run timestamp reporter workspace upload", {
-  skip_on_os("windows")
-  skip_on_ci()
-  pipeline <- pipeline_init(
-    list(
-      target_init("x", quote(123))
-    )
-  )
-  local <- local_init(pipeline, reporter = "timestamp")
-  local$run()
-  expect_message(
-    local$scheduler$reporter$report_workspace_upload(pipeline$targets$x)
-  )
+  reporter <- reporter_init("timestamp")
+  expect_message(reporter$report_workspace_upload(tar_target(s, 1)))
 })
 
 tar_test("run timestamp reporter with a warning", {

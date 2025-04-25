@@ -18,18 +18,8 @@ tar_test("run verbose reporter with a error and save workspace", {
 })
 
 tar_test("run verbose reporter workspace upload", {
-  skip_on_os("windows")
-  skip_on_ci()
-  pipeline <- pipeline_init(
-    list(
-      target_init("x", quote(123))
-    )
-  )
-  local <- local_init(pipeline, reporter = "verbose")
-  local$run()
-  expect_message(
-    local$scheduler$reporter$report_workspace_upload(pipeline$targets$x)
-  )
+  reporter <- reporter_init("verbose")
+  expect_message(reporter$report_workspace_upload(tar_target(s, 1)))
 })
 
 tar_test("run verbose reporter with a warning", {

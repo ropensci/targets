@@ -1,4 +1,4 @@
-reporter_init <- function(reporter = "verbose") {
+reporter_init <- function(reporter = "balanced") {
   switch(
     reporter,
     balanced = balanced_new(),
