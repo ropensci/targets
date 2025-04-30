@@ -1,9 +1,10 @@
-# targets 1.11.2.9005 (development)
+# targets 1.11.2.9006 (development)
 
 ## Bug fixes
 
 * Use `qmethod = "escape"` to avoid https://github.com/Rdatatable/data.table/issues/3509 (#1480, @koefoeden).
 * Ensure `error = "trim"` does not hang when the errored target has a long chain of reverse dependencies (#1481, @koefoeden).
+* Manually remove class `"rlib_error_package_not_found"` from errors (#1484, @malcolmbarrett). This and #1354 are unfortunate consequences of #997.
 
 ## Other changes
 

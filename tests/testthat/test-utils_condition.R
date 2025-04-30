@@ -13,3 +13,8 @@ tar_test("tar_throw_run() forwards custom error condition", {
   expect_true("my_class_1" %in% out)
   expect_true("my_class_2" %in% out)
 })
+
+tar_test("special case in safe_condition_class()", {
+  class <- c("rlib_error_package_not_found", "another")
+  expect_equal(safe_condition_class(class), "another")
+})

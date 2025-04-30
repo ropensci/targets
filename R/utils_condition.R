@@ -203,7 +203,13 @@ default_error_classes <- tryCatch(
   error = function(condition) class(condition)
 )
 
+# It is difficult to preserve custom error classes
+# (c.f. https://github.com/ropensci/targets/discussions/997).
+# https://github.com/ropensci/targets/discussions/1354 and
+# https://github.com/ropensci/targets/issues/1484 are edge cases.
 safe_condition_class <- function(class) {
+  known_unsafe <- c("rlib_error_package_not_found")
+  class <- setdiff(class, known_unsafe)
   while (length(class) && is_unsafe_condition_class(class)) {
     class <- class[-1L] # nocov
   }
