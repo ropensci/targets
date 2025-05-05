@@ -77,7 +77,13 @@ graph_class <- R6::R6Class(
 )
 
 adjacency_list <- function(from, to) {
-  tapply(X = from, INDEX = to, identity, simplify = FALSE)
+  # Faster than tapply(X = from, INDEX = to, identity, simplify = FALSE):
+  tapply(
+    X = from,
+    INDEX = factor(to, levels = unique.default(to)),
+    FUN = identity,
+    simplify = FALSE
+  )
 }
 
 join_edges <- function(lookup, from, to) {
