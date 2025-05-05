@@ -197,7 +197,7 @@ tar_test("errored targets keep old path and old format in meta", {
   local_init(pipeline_init(list(x)))$run()
   meta <- meta_init()
   on.exit(meta$database$close())
-  meta$database$preprocess(write = TRUE)
+  meta$preprocess(write = TRUE)
   data <- meta$database$read_data()
   expect_equal(data$path[[1]], NA_character_)
   expect_equal(
@@ -220,7 +220,7 @@ tar_test("errored external targets keep old path and old format in meta", {
   local_init(pipeline_init(list(x)))$run()
   meta <- meta_init()
   on.exit(meta$database$close())
-  meta$database$preprocess(write = TRUE)
+  meta$preprocess(write = TRUE)
   data <- meta$database$read_data()
   expect_equal(data$path[[1]], "x")
   expect_equal(meta$get_record("abc")$path, "x")
@@ -349,6 +349,16 @@ tar_test("migrate meta database", {
   meta$database$overwrite_storage(data)
   expect_equal(tar_outdated(callr_function = NULL), character(0))
   expect_equal(tar_read(x), "value")
+})
+
+tar_test("meta$preprocess() on empty data", {
+  for (write in c(TRUE, FALSE)) {
+    meta <- meta_init(path_store = tempfile())
+    on.exit(meta$database$close())
+    meta$preprocess(write = TRUE)
+    expect_equal(lookup_list(meta$database$lookup), character(0))
+    expect_true(grepl("^name\\|type", readLines(meta$database$path)))
+  }
 })
 
 tar_test("meta$validate()", {

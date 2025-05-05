@@ -36,7 +36,7 @@ tar_timestamp_raw <- function(
   }
   tar_message_meta(store = store)
   meta <- meta_init(path_store = store)
-  meta$database$preprocess(write = FALSE)
+  meta$preprocess(write = FALSE)
   if (!meta$exists_record(name)) {
     return(file_time_system_tz(file_time_reference))
   }

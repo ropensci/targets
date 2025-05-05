@@ -245,18 +245,7 @@ tar_test("database$set_data()", {
   expect_equal(db$get_row("x"), exp)
 })
 
-tar_test("database$preprocess() on empty data", {
-  db <- database_init(
-    header = c("name", "col3"),
-    list_columns = "col3"
-  )
-  on.exit(db$close())
-  db$preprocess(write = TRUE)
-  expect_equal(lookup_list(db$lookup), character(0))
-  expect_equal(readLines(db$path), "name|col3")
-})
-
-tar_test("database$preprocess() on different column types", {
+tar_test("database preprocess on different column types", {
   path <- tempfile()
   on.exit(unlink(path))
   lines <- c(
@@ -278,7 +267,13 @@ tar_test("database$preprocess() on different column types", {
       repository = repository
     )
     on.exit(db$close())
-    db$preprocess(write = TRUE)
+    # stand-in for old preprocess(write = TRUE) method:
+    # begin
+    data <- db$read_condensed_data()
+    db$set_data(data)
+    db$ensure_storage()
+    db$overwrite_storage(data)
+    # end
     out <- readLines(path)
     expect_equal(out, lines[-3])
     expect_equal(sort(lookup_list(db$lookup)), sort(c("e", "f", "x")))

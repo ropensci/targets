@@ -135,9 +135,14 @@ meta_class <- R6::R6Class(
       self$database$set_data(data)
     },
     preprocess = function(write = FALSE) {
-      data <- self$database$read_condensed_data()
+      if (write) {
+        self$database$deduplicate_storage()
+        data <- self$database$read_data()
+      } else {
+        data <- self$database$read_condensed_data()
+      }
       self$update_repository_cas_lookup_table(data)
-      self$database$preprocess(data = data, write = write)
+      self$database$set_data(data)
       tar_runtime$meta <- self
     },
     ensure_preprocessed = function(write = FALSE) {

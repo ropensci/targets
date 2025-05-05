@@ -12,6 +12,7 @@
 * Ensure the progress bar from the balanced reporter does not chop up messages from `tar_debug_instructions()`.
 * Remove ANSI escape sequences from warnings and error messages.
 * Use `cli::cli_text()` instead of `cli::cli_progress_output()` (#1478, @dipterix).
+* Minor speedups in the beginning and end of `tar_make()` (#1482).
 
 # targets 1.11.2
 

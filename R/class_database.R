@@ -166,14 +166,6 @@ database_class <- R6::R6Class(
     read_condensed_data = function() {
       self$condense_data(self$read_data())
     },
-    preprocess = function(data = NULL, write = FALSE) {
-      data <- data %|||% self$read_condensed_data()
-      self$set_data(data)
-      if (write) {
-        self$ensure_storage()
-        self$overwrite_storage(data)
-      }
-    },
     insert_row = function(row) {
       self$set_row(row)
       self$write_row(row)
@@ -386,9 +378,7 @@ database_class <- R6::R6Class(
       out
     },
     deduplicate_storage = function() {
-      if (!all(file.exists(self$path))) {
-        return()
-      }
+      self$ensure_storage()
       lines <- readLines(
         con = self$path,
         encoding = self$get_encoding(),
