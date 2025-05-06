@@ -135,12 +135,13 @@ cli_short <- function(x, max) {
   x
 }
 
-cli_local_progress_bar_start <- function(format) {
+cli_local_progress_bar_start <- function(label, total) {
   envir <- parent.frame()
   force(envir)
   if (cli_use_local_progress_bar()) {
     cli::cli_progress_bar(
-      format = paste(cli::symbol$arrow_right, format),
+      name = paste(cli::symbol$arrow_right, label),
+      total = total,
       clear = TRUE,
       .envir = envir
     )

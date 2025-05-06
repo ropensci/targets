@@ -139,15 +139,16 @@ database_class <- R6::R6Class(
       out[, columns, drop = FALSE]
     },
     set_data = function(data) {
-      list <- lapply(data, as.list)
-      index <- 1L
-      n <- nrow(data)
-      names <- .subset2(data, "name")
-      while (index <= n) {
-        name <- .subset(names, index)
-        lookup[[name]] <- lapply(list, `[[`, i = index)
-        index <- index + 1L
-      }
+      cli_local_progress_bar_start(label = "setting metadata", total = 5L)
+      cli_local_progress_bar_update()
+      transposed <- data.table::transpose(data)
+      cli_local_progress_bar_update()
+      named <- lapply(transposed, stats::setNames, names(data))
+      cli_local_progress_bar_update()
+      names(named) <- data$name
+      cli_local_progress_bar_update()
+      list2env(x = named, envir = self$lookup)
+      cli_local_progress_bar_terminate()
     },
     exists_row = function(name) {
       lookup_exists(.subset2(self, "lookup"), name)
@@ -257,7 +258,8 @@ database_class <- R6::R6Class(
         sep = database_sep_outer,
         sep2 = c("", database_sep_inner, ""),
         na = "",
-        append = TRUE
+        append = TRUE,
+        showProgress = isTRUE(tar_runtime$progress_bar)
       )
     },
     overwrite_storage = function(data) {
@@ -339,7 +341,8 @@ database_class <- R6::R6Class(
         fill = TRUE,
         na.strings = "",
         encoding = encoding,
-        colClasses = "character"
+        colClasses = "character",
+        showProgress = isTRUE(tar_runtime$progress_bar)
       )
       out <- as_data_frame(out)
       for (name in self$logical_columns) {

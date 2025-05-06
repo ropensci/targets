@@ -91,16 +91,23 @@ pipeline_set_reference <- function(pipeline, target) {
 pipeline_initialize_references_children <- function(
   pipeline,
   name_parent,
-  names_children
+  names_children,
+  type
 ) {
   envir <- .subset2(pipeline, "targets")
   index <- 1L
   n <- length(names_children)
+  cli_local_progress_bar_start(
+    label = sprintf("creating %s references", type),
+    total = n
+  )
   while (index <= n) {
     name <- .subset(names_children, index)
     envir[[name]] <- reference_new(parent = name_parent, index = index)
     index <- index + 1L
+    cli_local_progress_bar_update()
   }
+  cli_local_progress_bar_terminate()
   NULL
 }
 

@@ -283,7 +283,8 @@ pattern_set_branches <- function(target, pipeline) {
   pipeline_initialize_references_children(
     pipeline = pipeline,
     name_parent = target_get_name(target),
-    names_children = junction_splits(target$junction)
+    names_children = junction_splits(target$junction),
+    type = "branch"
   )
 }
 

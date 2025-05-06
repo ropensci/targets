@@ -135,6 +135,7 @@ runtime_validate_extras <- function(x) {
 }
 
 runtime_set_file_info <- function(runtime, store, names) {
+  cli_local_progress_bar_start(label = "querying local files", total = 5L)
   runtime$trust_timestamps_store <- trust_timestamps(store)
   runtime$file_systems <- runtime_file_systems()
   info <- file_info(
