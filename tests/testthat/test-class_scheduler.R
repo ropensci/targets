@@ -52,6 +52,7 @@ tar_test("scheduler$count_unfinished_deps()", {
   scheduler <- local$scheduler
   expect_equal(scheduler$count_unfinished_deps("mins"), 2L)
   local$ensure_meta()
+  local$set_file_info()
   local$process_target("data1")
   local$process_target("data2")
   expect_equal(scheduler$count_unfinished_deps("mins"), 2L)

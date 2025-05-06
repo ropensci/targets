@@ -238,6 +238,7 @@ tar_test("correct junction of a non-mapped stem", {
   on.exit(local$scheduler$progress$database$close(), add = TRUE)
   scheduler <- local$scheduler
   local$ensure_meta()
+  local$set_file_info()
   local$process_target("data0")
   local$process_target("data1")
   target <- pipeline_get_target(pipeline, "map1")
@@ -571,6 +572,7 @@ tar_test("correct junction of non-crossed stems", {
   local$update_scheduler()
   scheduler <- local$scheduler
   local$ensure_meta()
+  local$set_file_info()
   local$process_target("data1")
   local$process_target("data2")
   cross2 <- pipeline_get_target(pipeline, "cross2")
