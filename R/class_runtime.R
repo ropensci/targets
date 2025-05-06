@@ -17,7 +17,8 @@ runtime_new <- function(
   trust_timestamps_store = NULL,
   number_targets_run = NULL,
   installed_packages = NULL,
-  meta = NULL
+  meta = NULL,
+  progress_bar = NULL
 ) {
   out <- new.env(parent = emptyenv(), hash = FALSE)
   out$target <- target
@@ -39,6 +40,7 @@ runtime_new <- function(
   out$number_targets_run <- number_targets_run
   out$installed_packages <- installed_packages
   out$meta <- meta
+  out$progress_bar <- progress_bar
   out
 }
 
@@ -124,6 +126,11 @@ runtime_validate_extras <- function(x) {
   }
   if (!is.null(x$meta)) {
     tar_assert_envir(x$meta)
+  }
+  if (!is.null(x$progress_bar)) {
+    tar_assert_lgl(x$progress_bar)
+    tar_assert_scalar(x$progress_bar)
+    tar_assert_none_na(x$progress_bar)
   }
 }
 

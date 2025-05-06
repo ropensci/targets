@@ -195,7 +195,8 @@ tar_callr_inner_try <- function(
     script = script,
     store = store,
     fun = fun,
-    pid_parent = pid_parent
+    pid_parent = pid_parent,
+    reporter = targets_arguments$reporter
   )
   envir <- if_any(is.null(envir), parent, envir)
   tar_options$set_envir(envir = envir)
@@ -205,7 +206,7 @@ tar_callr_inner_try <- function(
   suppressPackageStartupMessages(do.call(targets_function, targets_arguments))
 }
 
-callr_set_runtime <- function(script, store, fun, pid_parent) {
+callr_set_runtime <- function(script, store, fun, pid_parent, reporter) {
   tar_runtime$script <- script
   tar_runtime$store <- store
   tar_runtime$working_directory <- getwd()
@@ -218,6 +219,7 @@ callr_set_runtime <- function(script, store, fun, pid_parent) {
   )
   tar_runtime$pid_parent <- pid_parent
   tar_runtime$inventories <- list()
+  tar_runtime$progress_bar <- identical(as.character(reporter), "balanced")
 }
 
 callr_prepare_arguments <- function(callr_function, callr_arguments) {

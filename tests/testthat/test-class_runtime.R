@@ -160,6 +160,12 @@ tar_test("validate non-null script", {
   expect_silent(runtime_validate(x))
 })
 
+tar_test("validate non-null progress_bar", {
+  x <- runtime_new()
+  x$progress_bar <- TRUE
+  expect_silent(runtime_validate(x))
+})
+
 tar_test("detect bad script", {
   x <- runtime_new()
   x$script <- FALSE
