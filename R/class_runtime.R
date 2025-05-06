@@ -127,14 +127,9 @@ runtime_validate_extras <- function(x) {
   }
 }
 
-runtime_set_file_info <- function(runtime, store) {
+runtime_set_file_info <- function(runtime, store, names) {
   runtime$trust_timestamps_store <- trust_timestamps(store)
-  objects <- list.files(
-    path = path_objects_dir(store),
-    all.files = TRUE,
-    full.names = TRUE,
-    no.. = TRUE
-  )
+  objects <- file.path(path_objects_dir(store), names)
   runtime$file_systems <- runtime_file_systems()
   file_info <- as.list(file_info(objects, trust_timestamps = FALSE))
   file_info <- file_info[c("path", "size", "mtime_numeric")]

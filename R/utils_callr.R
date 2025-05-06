@@ -218,7 +218,6 @@ callr_set_runtime <- function(script, store, fun, pid_parent) {
   )
   tar_runtime$pid_parent <- pid_parent
   tar_runtime$inventories <- list()
-  runtime_set_file_info(tar_runtime, store)
 }
 
 callr_prepare_arguments <- function(callr_function, callr_arguments) {

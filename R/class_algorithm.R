@@ -68,6 +68,13 @@ algorithm_class <- R6::R6Class(
         pipeline_bootstrap_deps(self$pipeline, self$meta, self$names)
       }
     },
+    set_file_info = function() {
+      runtime_set_file_info(
+        tar_runtime,
+        self$meta$store,
+        self$meta$local_builders
+      )
+    },
     validate = function() {
       pipeline_validate(self$pipeline)
       (self$scheduler %|||% scheduler_init())$validate()

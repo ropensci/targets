@@ -215,6 +215,7 @@ active_class <- R6::R6Class(
       pipeline_prune_names(self$pipeline, self$names)
       pipeline_resolve_auto(self$pipeline)
       self$ensure_meta()
+      self$set_file_info()
       self$update_scheduler()
       self$bootstrap_shortcut_deps()
       self$ensure_process()

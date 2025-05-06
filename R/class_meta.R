@@ -23,6 +23,7 @@ meta_class <- R6::R6Class(
     store = NULL,
     lookup = NULL,
     repository_cas_lookup_table = NULL,
+    local_builders = NULL,
     initialize = function(
       database = NULL,
       depends = NULL,
@@ -143,6 +144,9 @@ meta_class <- R6::R6Class(
       }
       self$update_repository_cas_lookup_table(data)
       self$database$set_data(data)
+      is_local_builder <- data$type %in% c("stem", "branch") &
+        data$repository == "local"
+      self$local_builders <- data$name[is_local_builder]
       tar_runtime$meta <- self
     },
     ensure_preprocessed = function(write = FALSE) {
