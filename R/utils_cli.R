@@ -135,12 +135,17 @@ cli_short <- function(x, max) {
   x
 }
 
-cli_local_progress_bar_start <- function(label, total) {
+cli_local_progress_bar_start <- function(label, total, simple = FALSE) {
   envir <- parent.frame()
   force(envir)
+  prefix <- paste(cli::symbol$arrow_right, label)
   if (cli_use_local_progress_bar()) {
     cli::cli_progress_bar(
-      name = paste(cli::symbol$arrow_right, label),
+      format = if_any(
+        simple,
+        prefix,
+        paste(prefix, "{cli::pb_bar} {cli::pb_percent} | ETA: {cli::pb_eta}")
+      ),
       total = total,
       clear = TRUE,
       .envir = envir
@@ -148,19 +153,20 @@ cli_local_progress_bar_start <- function(label, total) {
   }
 }
 
-cli_local_progress_bar_update <- function() {
+# Using the progress bar ID can reduce overhead.
+cli_local_progress_bar_update <- function(id, force = FALSE) {
   envir <- parent.frame()
   force(envir)
   if (cli_use_local_progress_bar()) {
-    cli::cli_progress_update(.envir = envir)
+    cli::cli_progress_update(force = force, id = id, .envir = envir)
   }
 }
 
-cli_local_progress_bar_terminate <- function() {
+cli_local_progress_bar_terminate <- function(id) {
   envir <- parent.frame()
   force(envir)
   if (cli_use_local_progress_bar()) {
-    cli::cli_progress_done(.envir = envir)
+    cli::cli_progress_done(id = id, .envir = envir)
   }
 }
 
@@ -168,3 +174,5 @@ cli_use_local_progress_bar <- function() {
   progress_bar <- .subset2(tar_runtime, "progress_bar")
   !is.null(progress_bar) && progress_bar
 }
+
+cli_many <- 1e4

@@ -97,7 +97,7 @@ pipeline_initialize_references_children <- function(
   envir <- .subset2(pipeline, "targets")
   index <- 1L
   n <- length(names_children)
-  cli_local_progress_bar_start(
+  id <- cli_local_progress_bar_start(
     label = sprintf("creating %s references", type),
     total = n
   )
@@ -105,9 +105,9 @@ pipeline_initialize_references_children <- function(
     name <- .subset(names_children, index)
     envir[[name]] <- reference_new(parent = name_parent, index = index)
     index <- index + 1L
-    cli_local_progress_bar_update()
+    cli_local_progress_bar_update(id = id)
   }
-  cli_local_progress_bar_terminate()
+  cli_local_progress_bar_terminate(id = id)
   NULL
 }
 

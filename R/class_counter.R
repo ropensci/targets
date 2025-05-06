@@ -11,8 +11,9 @@ tar_counter <- function(names = NULL) {
 
 counter_init <- function(names = NULL) {
   count <- length(names)
-  envir <- new.env(hash = TRUE, parent = emptyenv())
-  map(names, assign, value = TRUE, envir = envir, inherits = FALSE)
+  list <- as.list(rep(TRUE, count))
+  names(list) <- names
+  envir <- list2env(x = list, hash = TRUE, parent = emptyenv())
   counter_new(count = count, envir = envir)
 }
 

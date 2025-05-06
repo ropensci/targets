@@ -135,17 +135,30 @@ runtime_validate_extras <- function(x) {
 }
 
 runtime_set_file_info <- function(runtime, store, names) {
-  cli_local_progress_bar_start(label = "querying local files", total = 5L)
+  id <- cli_local_progress_bar_start(
+    label = paste(
+      "querying",
+      length(names),
+      "local files in",
+      path_objects_dir(store)
+    ),
+    total = 2L,
+    simple = TRUE
+  )
+  cli_local_progress_bar_update(id = id, force = length(names) > cli_many)
   runtime$trust_timestamps_store <- trust_timestamps(store)
   runtime$file_systems <- runtime_file_systems()
   info <- file_info(
     file.path(path_objects_dir(store), names),
     trust_timestamps = FALSE
   )
-  info <- info[!is.na(info$size),, drop = FALSE] # nolint
+  info <- as.list(info)
+  keep <- !is.na(info$size)
+  info$path <- info$path[keep]
+  info$size <- info$size[keep]
+  info$mtime_numeric <- info$mtime_numeric[keep]
   objects <- info$path
-  file_info <- as.list(info)
-  file_info <- file_info[c("path", "size", "mtime_numeric")]
+  file_info <- info[c("path", "size", "mtime_numeric")]
   file_info$trust_timestamps <- rep(
     runtime$trust_timestamps_store,
     length(objects)
@@ -155,6 +168,7 @@ runtime_set_file_info <- function(runtime, store, names) {
   names(file_info_index) <- objects
   runtime$file_info_index <- list2env(as.list(file_info_index), hash = TRUE)
   runtime$file_exist <- tar_counter(names = objects)
+  cli_local_progress_bar_terminate(id = id)
 }
 
 runtime_file_systems <- function() {

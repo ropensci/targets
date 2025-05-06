@@ -139,16 +139,17 @@ database_class <- R6::R6Class(
       out[, columns, drop = FALSE]
     },
     set_data = function(data) {
-      cli_local_progress_bar_start(label = "setting metadata", total = 5L)
-      cli_local_progress_bar_update()
+      id <- cli_local_progress_bar_start(
+        label = "setting metadata",
+        total = 1L,
+        simple = TRUE
+      )
+      cli_local_progress_bar_update(id = id, force = nrow(data) > cli_many)
       transposed <- data.table::transpose(data)
-      cli_local_progress_bar_update()
       named <- lapply(transposed, stats::setNames, names(data))
-      cli_local_progress_bar_update()
       names(named) <- data$name
-      cli_local_progress_bar_update()
       list2env(x = named, envir = self$lookup)
-      cli_local_progress_bar_terminate()
+      cli_local_progress_bar_terminate(id = id)
     },
     exists_row = function(name) {
       lookup_exists(.subset2(self, "lookup"), name)
@@ -258,8 +259,7 @@ database_class <- R6::R6Class(
         sep = database_sep_outer,
         sep2 = c("", database_sep_inner, ""),
         na = "",
-        append = TRUE,
-        showProgress = isTRUE(tar_runtime$progress_bar)
+        append = TRUE
       )
     },
     overwrite_storage = function(data) {
@@ -332,6 +332,12 @@ database_class <- R6::R6Class(
       )
     },
     read_existing_data = function() {
+      id <- cli_local_progress_bar_start(
+        label = "setting metadata",
+        total = 1L,
+        simple = TRUE
+      )
+      
       # TODO: use sep2 once implemented:
       # https://github.com/Rdatatable/data.table/issues/1162
       encoding <- self$get_encoding()
@@ -341,8 +347,7 @@ database_class <- R6::R6Class(
         fill = TRUE,
         na.strings = "",
         encoding = encoding,
-        colClasses = "character",
-        showProgress = isTRUE(tar_runtime$progress_bar)
+        colClasses = "character"
       )
       out <- as_data_frame(out)
       for (name in self$logical_columns) {
