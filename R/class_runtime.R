@@ -134,7 +134,7 @@ runtime_set_file_info <- function(runtime, store, names) {
     file.path(path_objects_dir(store), names),
     trust_timestamps = FALSE
   )
-  info <- info[!is.na(info$size),, drop = FALSE]
+  info <- info[!is.na(info$size),, drop = FALSE] # nolint
   objects <- info$path
   file_info <- as.list(info)
   file_info <- file_info[c("path", "size", "mtime_numeric")]

@@ -189,7 +189,7 @@ tar_test("runtime_set_file_info()", {
   dir_create(path_objects_dir(store))
   writeLines("x", path_objects(store, "x"))
   writeLines("y", path_objects(store, "y"))
-  runtime_set_file_info(x, store)
+  runtime_set_file_info(x, store, c("x", "y"))
   expect_true(is.character(x$file_info$path))
   for (field in c("size", "mtime_numeric")) {
     expect_true(is.numeric(x$file_info[[field]]))
