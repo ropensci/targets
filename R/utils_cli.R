@@ -134,3 +134,36 @@ cli_short <- function(x, max) {
   }
   x
 }
+
+cli_local_progress_bar_start <- function(format) {
+  envir <- parent.frame()
+  force(envir)
+  if (cli_use_local_progress_bar()) {
+    cli::cli_progress_bar(
+      format = paste(cli::symbol$arrow_right, format),
+      clear = TRUE,
+      .envir = envir
+    )
+  }
+}
+
+cli_local_progress_bar_update <- function() {
+  envir <- parent.frame()
+  force(envir)
+  if (cli_use_local_progress_bar()) {
+    cli::cli_progress_update(.envir = envir)
+  }
+}
+
+cli_local_progress_bar_terminate <- function() {
+  envir <- parent.frame()
+  force(envir)
+  if (cli_use_local_progress_bar()) {
+    cli::cli_progress_done(.envir = envir)
+  }
+}
+
+cli_use_local_progress_bar <- function() {
+  progress_bar <- .subset2(tar_runtime, "progress_bar")
+  !is.null(progress_bar) && progress_bar
+}
