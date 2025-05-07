@@ -154,7 +154,7 @@ cli_local_progress_bar_init <- function(label, total = NA_integer_) {
       clear = TRUE,
       .envir = envir
     )
-    bar <- list(id = id, envir = envir)
+    bar <- list(id = id, envir = envir, total = total)
     if (anyNA(total)) {
       cli_local_progress_bar_update(bar = bar, force = TRUE)
     }
@@ -166,7 +166,8 @@ cli_local_progress_bar_init <- function(label, total = NA_integer_) {
 cli_local_progress_bar_update <- function(bar, index = 1L, force = FALSE) {
   envir <- parent.frame()
   force(envir)
-  if ((force || !(index %% cli_many)) && cli_use_local_progress_bar()) {
+  interval <- .subset2(bar, "total") / 10
+  if ((force || !(index %% interval)) && cli_use_local_progress_bar()) {
     cli::cli_progress_update(
       set = index,
       force = TRUE,
