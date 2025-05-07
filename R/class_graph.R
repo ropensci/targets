@@ -91,7 +91,8 @@ join_edges <- function(lookup, from, to) {
   index <- 1L
   names <- names(new_edgelist)
   n <- length(names)
-  id <- cli_local_progress_bar_start(label = "joining graph edges", total = n)
+  bar <- cli_local_progress_bar_init(label = "joining graph edges", total = n)
+  on.exit(cli_local_progress_bar_destroy(bar = bar))
   while (index <= n) {
     name <- .subset(names, index)
     new_from <- .subset2(new_edgelist, index)
@@ -101,9 +102,8 @@ join_edges <- function(lookup, from, to) {
       lookup[[name]] <- unique.default(c(new_from, .subset2(lookup, name)))
     }
     index <- index + 1L
-    cli_local_progress_bar_update(id = id)
+    cli_local_progress_bar_update(bar = bar, index = index)
   }
-  cli_local_progress_bar_terminate(id = id)
 }
 
 remove_loops <- function(edges) {

@@ -135,39 +135,51 @@ cli_short <- function(x, max) {
   x
 }
 
-cli_local_progress_bar_start <- function(label, total, simple = FALSE) {
-  envir <- parent.frame()
-  force(envir)
-  prefix <- paste(cli::symbol$arrow_right, label)
+cli_local_progress_bar_init <- function(label, total = NA_integer_) {
+  envir <- new.env(parent = globalenv())
   if (cli_use_local_progress_bar()) {
-    cli::cli_progress_bar(
-      format = if_any(
-        simple,
-        prefix,
-        paste(prefix, "{cli::pb_bar} {cli::pb_percent} | ETA: {cli::pb_eta}")
+    id <- cli::cli_progress_bar(
+      format = trimws(
+        paste(
+          cli::symbol$arrow_right,
+          label,
+          if_any(
+            anyNA(total),
+            character(0L),
+            "{cli::pb_bar} {cli::pb_percent} | ETA: {cli::pb_eta}"
+          )
+        )
       ),
       total = total,
       clear = TRUE,
       .envir = envir
     )
+    bar <- list(id = id, envir = envir)
+    if (anyNA(total)) {
+      cli_local_progress_bar_update(bar = bar, force = TRUE)
+    }
+    bar
   }
 }
 
 # Using the progress bar ID can reduce overhead.
-cli_local_progress_bar_update <- function(id, force = FALSE) {
+cli_local_progress_bar_update <- function(bar, index = 1L, force = FALSE) {
   envir <- parent.frame()
   force(envir)
-  if (cli_use_local_progress_bar()) {
-    cli::cli_progress_update(force = force, id = id, .envir = envir)
+  if ((force || !(index %% cli_many)) && cli_use_local_progress_bar()) {
+    cli::cli_progress_update(
+      set = index,
+      force = TRUE,
+      id = bar$id,
+      .envir = bar$envir
+    )
   }
 }
 
-cli_local_progress_bar_terminate <- function(id) {
+cli_local_progress_bar_destroy <- function(bar) {
   envir <- parent.frame()
   force(envir)
-  if (cli_use_local_progress_bar()) {
-    cli::cli_progress_done(id = id, .envir = envir)
-  }
+  cli::cli_progress_done(id = bar$id, .envir = bar$envir)
 }
 
 cli_use_local_progress_bar <- function() {
@@ -175,4 +187,4 @@ cli_use_local_progress_bar <- function() {
   !is.null(progress_bar) && progress_bar
 }
 
-cli_many <- 1e4
+cli_many <- 1e4L

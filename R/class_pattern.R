@@ -431,16 +431,16 @@ pattern_name_branches <- function(parent, niblings) {
   suffixes <- tuples
   index <- 1L
   n <- length(suffixes)
-  id <- cli_local_progress_bar_start(
+  bar <- cli_local_progress_bar_init(
     label = paste("creating", parent, "branch names"),
     total = n
   )
+  on.exit(cli_local_progress_bar_destroy(bar = bar))
   while (index <= n) {
     suffixes[index] <- hash_object(.subset(tuples, index))
     index <- index + 1L
-    cli_local_progress_bar_update(id = id)
+    cli_local_progress_bar_update(bar = bar, index = index)
   }
-  cli_local_progress_bar_terminate(id = id)
   paste0(parent, "_", suffixes)
 }
 
