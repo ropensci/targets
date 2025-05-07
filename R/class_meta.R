@@ -70,11 +70,17 @@ meta_class <- R6::R6Class(
       names_records <- self$list_records()
       index <- 1L
       n <- length(names_records)
+      bar <- cli_local_progress_bar_init(
+        label = "selecting metadata",
+        total = n
+      )
+      on.exit(cli_local_progress_bar_destroy(bar = bar))
       get_row <- self$database$get_row
       is_branch <- vector(mode = "logical", length = n)
       while (index <= n) {
         name <- .subset(names_records, index)
         is_branch[index] <- .subset2(get_row(name), "type") == "branch"
+        cli_local_progress_bar_update(bar = bar, index = index)
         index <- index + 1L
       }
       names_children <- names_records[is_branch]
@@ -144,6 +150,8 @@ meta_class <- R6::R6Class(
       }
       self$update_repository_cas_lookup_table(data)
       self$database$set_data(data)
+      bar <- cli_local_progress_bar_init(label = "noting local builders")
+      on.exit(cli_local_progress_bar_destroy(bar = bar))
       is_local_builder <- data$type %in% c("stem", "branch") &
         data$repository == "local"
       self$local_builders <- data$name[is_local_builder]

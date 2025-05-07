@@ -377,6 +377,10 @@ database_class <- R6::R6Class(
       out
     },
     deduplicate_storage = function() {
+      bar <- cli_local_progress_bar_init(
+        label = paste("de-duplicating", self$path)
+      )
+      on.exit(cli_local_progress_bar_destroy(bar = bar))
       self$ensure_storage()
       lines <- readLines(
         con = self$path,
