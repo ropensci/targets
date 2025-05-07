@@ -12,7 +12,7 @@ dir_create_runtime <- function(x) {
   }
   if (!all(counter_exist_names(tar_runtime$file_exist, x))) {
     dir.create(x, showWarnings = FALSE, recursive = TRUE)
-    counter_set_names(tar_runtime$file_exist, x)
+    lapply(x, counter_set_name, counter = tar_runtime$file_exist)
   }
   invisible()
 }

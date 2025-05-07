@@ -81,6 +81,14 @@ counter_set_names <- function(counter, names) {
   lapply(names, counter_set_name, counter = counter)
 }
 
+counter_set_new_names <- function(counter, names) {
+  n <- length(names)
+  list <- as.list(rep(TRUE, n))
+  names(list) <- names
+  list2env(list, envir = .subset2(counter, "envir"))
+  counter$count <- .subset2(counter, "count") + n
+}
+
 counter_del_name <- function(counter, name) {
   envir <- .subset2(counter, "envir")
   if (!is.null(.subset2(envir, name))) {

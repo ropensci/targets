@@ -252,6 +252,10 @@ target_branches_over.default <- function(target, name) {
 }
 
 target_produce_junction <- function(target, pipeline) {
+  bar <- cli_local_progress_bar_init(
+    label = paste("creating", target_get_name(target), "junction")
+  )
+  on.exit(cli_local_progress_bar_destroy(bar = bar))
   UseMethod("target_produce_junction")
 }
 

@@ -1,4 +1,4 @@
-# targets 1.11.2.9006 (development)
+# targets 1.11.2.9007 (development)
 
 ## Bug fixes
 
@@ -14,6 +14,7 @@
 * Use `cli::cli_text()` instead of `cli::cli_progress_output()` (#1478, @dipterix).
 * Minor speedups in the beginning and end of `tar_make()` (#1482).
 * Cache `_targets/objects/` time stamps only for local builders mentioned in the metadata, as opposed to everything in that directory (#1482).
+* Instrument pre-processing overhead with progress bars (#1482).
 
 # targets 1.11.2
 

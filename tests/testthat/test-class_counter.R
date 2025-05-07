@@ -42,6 +42,16 @@ tar_test("counter_set_name(new)", {
   expect_equal(x$count, 27L)
 })
 
+tar_test("counter_set_new_names()", {
+  x <- counter_init(letters)
+  expect_false(counter_exists_name(x, "abc"))
+  expect_equal(x$count, 26L)
+  counter_set_new_names(x, c("abc", "xyz"))
+  expect_true(counter_exists_name(x, "abc"))
+  expect_true(counter_exists_name(x, "xyz"))
+  expect_equal(x$count, 28L)
+})
+
 tar_test("counter_set_name(new) on an empty counter", {
   x <- counter_init()
   expect_false(counter_exists_name(x, "abc"))

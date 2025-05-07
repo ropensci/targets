@@ -292,7 +292,14 @@ pattern_insert_branches <- function(target, pipeline, scheduler) {
   pattern_engraph_branches(target, pipeline, scheduler)
   pattern_prepend_branches(target, scheduler)
   pattern_set_branches(target, pipeline)
-  lapply(target_get_children(target), scheduler$progress$assign_queued)
+  bar <- cli_local_progress_bar_init(
+    label = paste("queueing", target_get_name(target), "branches")
+  )
+  on.exit(cli_local_progress_bar_destroy(bar = bar))
+  counter_set_new_names(
+    scheduler$progress$queued,
+    target_get_children(target)
+  )
   NULL
 }
 
