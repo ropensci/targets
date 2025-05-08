@@ -17,6 +17,8 @@ tar_test("target_run() on a good builder", {
   expect_silent(metrics_validate(x$metrics))
   expect_silent(value_validate(x$value))
   expect_equal(x$value$object, "x")
+  dir_create(dirname(x$file$stage))
+  dir_create(dirname(x$file$path))
   builder_update_object(x)
   expect_true(file.exists(x$file$path))
 })
