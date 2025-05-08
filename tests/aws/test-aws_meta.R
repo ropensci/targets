@@ -52,7 +52,10 @@ tar_test("AWS meta", {
     )
   }
   unlink(path_meta(path_store_default()))
-  expect_equal(sort(tar_outdated()), sort(c("a", "b", "c")))
+  expect_equal(
+    sort(tar_outdated(reporter = "silent")),
+    sort(c("a", "b", "c"))
+  )
   tar_make(reporter = "silent")
   expect_true(all(tar_progress()$progress == "skipped"))
   tar_destroy()
