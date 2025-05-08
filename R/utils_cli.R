@@ -170,8 +170,8 @@ cli_local_progress_bar_update <- function(bar, index = 1L, force = FALSE) {
   force(envir)
   print_progress <- cli_use_local_progress_bar() && (
     force ||
-    (index == 1L) ||
-    !(index %% max(1L, as.integer(.subset2(bar, "total") / 10)))
+      (index == 1L) ||
+      !(index %% max(1L, as.integer(.subset2(bar, "total") / 10)))
   )
   if (print_progress) {
     cli::cli_progress_update(
