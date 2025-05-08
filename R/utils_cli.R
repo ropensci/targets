@@ -150,7 +150,9 @@ cli_local_progress_bar_init <- function(label, total = NA_integer_) {
           )
         )
       ),
-      total = total,
+      # Prevents a mysterious cli progress error.
+      # Would have liked to set auto_terminate = FALSE instead.
+      total = if_any(anyNA(total), NA_integer_, total + 1L),
       clear = TRUE,
       .envir = envir
     )
@@ -166,10 +168,12 @@ cli_local_progress_bar_init <- function(label, total = NA_integer_) {
 cli_local_progress_bar_update <- function(bar, index = 1L, force = FALSE) {
   envir <- parent.frame()
   force(envir)
-  print_progress <- force ||
+  print_progress <- cli_use_local_progress_bar() && (
+    force ||
     (index == 1L) ||
-    !(index %% as.integer(.subset2(bar, "total") / 10))
-  if (print_progress && cli_use_local_progress_bar()) {
+    !(index %% max(1L, as.integer(.subset2(bar, "total") / 10)))
+  )
+  if (print_progress) {
     cli::cli_progress_update(
       set = index,
       force = TRUE,

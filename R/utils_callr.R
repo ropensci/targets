@@ -141,12 +141,12 @@ callr_inner <- function(
     ),
     error = function(condition) {
     }
- )
- if (is.null(result$condition)) {
-   out
- } else {
-   result$condition
- }
+  )
+  if (is.null(result$condition)) {
+    out
+  } else {
+    result$condition
+  }
 }
 
 #' @title Invoke a `targets` task from inside a `callr` function
