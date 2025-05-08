@@ -143,7 +143,11 @@ database_class <- R6::R6Class(
       on.exit(cli_local_progress_bar_destroy(bar = bar))
       if (nrow(data)) {
         transposed <- data.table::transpose(data)
-        named <- lapply(transposed, stats::setNames, names(data))
+        names <- names(data)
+        named <- lapply(
+          transposed,
+          function(x) as.list(stats::setNames(x, nm = names))
+        )
         names(named) <- data$name
         list2env(x = named, envir = self$lookup)
       }

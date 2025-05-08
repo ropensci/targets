@@ -24,6 +24,7 @@ meta_class <- R6::R6Class(
     lookup = NULL,
     repository_cas_lookup_table = NULL,
     local_builders = NULL,
+    branches = NULL,
     initialize = function(
       database = NULL,
       depends = NULL,
@@ -72,22 +73,8 @@ meta_class <- R6::R6Class(
       on.exit(cli_local_progress_bar_destroy(bar = bar))
       names_envir <- names(pipeline$imports)
       names_pipeline <- pipeline_get_names(pipeline)
-      types <- unlist(
-        lapply(names_pipeline, function(name) get_row(name)$type)
-      )
-      names_stems <- names_pipeline[types == "stem"]
-      names_patterns <- names_pipeline[types == "pattern"]
-      names_branches <- unlist(
-        lapply(
-          names_patterns,
-          function (name) get_row(name)$children
-        )
-      )
-      names_builders <- c(names_stems, names_branches)
-      names_current <- c(names_envir, names_patterns, names_builders)
-      remove <- setdiff(self$list_records(), names_current)
-      self$del_records(remove)
-      self$local_builders <- intersect(self$local_builders, names_builders)
+      names_current <- c(names_envir, names_pipeline, self$branches)
+      self$del_records(setdiff(self$list_records(), names_current))
     },
     hash_deps = function(deps, pipeline) {
       hash_list <- .subset2(self, "produce_hash_list")(deps, pipeline)
@@ -149,11 +136,14 @@ meta_class <- R6::R6Class(
       }
       self$update_repository_cas_lookup_table(data)
       self$database$set_data(data)
-      bar <- cli_local_progress_bar_init(label = "noting local builders")
+      bar <- cli_local_progress_bar_init(
+        label = "noting builders and branches"
+      )
       on.exit(cli_local_progress_bar_destroy(bar = bar))
       is_local_builder <- data$type %in% c("stem", "branch") &
         data$repository == "local"
       self$local_builders <- data$name[is_local_builder]
+      self$branches <- data$name[data$type == "branch"]
       tar_runtime$meta <- self
     },
     ensure_preprocessed = function(write = FALSE) {
