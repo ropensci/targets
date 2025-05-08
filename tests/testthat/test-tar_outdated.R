@@ -164,9 +164,16 @@ tar_test("tar_outdated() names arg works", {
      tar_option_set(envir = envir)
      list(tar_target(x, 1L), tar_target(y, x))
    })
-   out <- tar_outdated(callr_function = NULL)
+   out <- tar_outdated(
+     callr_function = NULL,
+     callr_arguments = list(show = FALSE)
+   )
    expect_equal(sort(out), sort(c("x", "y")))
-   out <- tar_outdated(callr_function = NULL, names = "x")
+   out <- tar_outdated(
+     callr_function = NULL,
+     names = "x",
+     callr_arguments = list(show = FALSE)
+   )
    expect_equal(out, "x")
 })
 # nolint end
@@ -178,7 +185,8 @@ tar_test("custom script and store args", {
   out <- tar_outdated(
     script = "example/script.R",
     store = "example/store",
-    callr_function = NULL
+    callr_function = NULL,
+    callr_arguments = list(show = FALSE)
   )
   expect_equal(out, "x")
   expect_false(file.exists("_targets.yaml"))
@@ -200,7 +208,8 @@ tar_test("custom script and store args with callr function", {
   tar_script(tar_target(x, "y"), script = "example/script.R")
   out <- tar_outdated(
     script = "example/script.R",
-    store = "example/store"
+    store = "example/store",
+    callr_arguments = list(show = FALSE)
   )
   expect_equal(out, "x")
   expect_false(file.exists("_targets.yaml"))
