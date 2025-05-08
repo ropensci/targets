@@ -51,7 +51,7 @@ tar_test("tar_sitrep() on an empty project with callr process", {
       tar_target(w, sum(y))
     )
   )
-  out <- tar_sitrep()
+  out <- tar_sitrep(callr_arguments = list(show = FALSE))
   out <- out[order(out$name), ]
   exp <- tibble::tibble(
     name = c("w", "x"),
@@ -257,7 +257,8 @@ tar_test("custom script and store args with callr function", {
   tar_script(tar_target(x, "y"), script = "example/script.R")
   out <- tar_sitrep(
     script = "example/script.R",
-    store = "example/store"
+    store = "example/store",
+    callr_arguments = list(show = FALSE)
   )
   expect_true(is.data.frame(out))
   expect_false(file.exists("_targets.yaml"))
@@ -301,7 +302,8 @@ tar_test("custom script and store args with callr function", {
   tar_script(tar_target(x, "y"), script = "example/script.R")
   tar_sitrep(
     script = "example/script.R",
-    store = "example/store"
+    store = "example/store",
+    callr_arguments = list(show = FALSE)
   )
   expect_false(file.exists("_targets.yaml"))
   expect_equal(tar_config_get("script"), path_script_default())
