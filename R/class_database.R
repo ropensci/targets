@@ -141,10 +141,12 @@ database_class <- R6::R6Class(
     set_data = function(data) {
       bar <- cli_local_progress_bar_init(label = paste("parsing", self$path))
       on.exit(cli_local_progress_bar_destroy(bar = bar))
-      transposed <- data.table::transpose(data)
-      named <- lapply(transposed, stats::setNames, names(data))
-      names(named) <- data$name
-      list2env(x = named, envir = self$lookup)
+      if (nrow(data)) {
+        transposed <- data.table::transpose(data)
+        named <- lapply(transposed, stats::setNames, names(data))
+        names(named) <- data$name
+        list2env(x = named, envir = self$lookup)
+      }
     },
     exists_row = function(name) {
       lookup_exists(.subset2(self, "lookup"), name)

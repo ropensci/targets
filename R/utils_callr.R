@@ -129,7 +129,8 @@ callr_inner <- function(
         store = store,
         fun = fun,
         pid_parent = pid_parent
-      ),
+      )
+      ,
       error = function(condition) {
         trace <- .traceback(x = 3L)
         result$condition <- targets::tar_condition_traced(
@@ -140,12 +141,12 @@ callr_inner <- function(
     ),
     error = function(condition) {
     }
-  )
-  if (is.null(result$condition)) {
-    out
-  } else {
-    result$condition
-  }
+ )
+ if (is.null(result$condition)) {
+   out
+ } else {
+   result$condition
+ }
 }
 
 #' @title Invoke a `targets` task from inside a `callr` function
