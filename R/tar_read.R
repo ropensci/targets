@@ -71,7 +71,10 @@
 tar_read <- function(
   name,
   branches = NULL,
-  meta = tar_meta(store = store),
+  meta = targets::tar_meta(
+    store = store,
+    fields = -tidyselect::any_of("time")
+  ),
   store = targets::tar_config_get("store")
 ) {
   tar_assert_allow_meta("tar_read", store)

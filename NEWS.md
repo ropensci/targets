@@ -1,6 +1,7 @@
-# targets 1.11.3.9000 (development)
+# targets 1.11.3.9001 (development)
 
-
+* Tone down progress bar output for medium-overhead scenarios.
+* Speed up `tar_meta()` default settings for `tar_read()` etc. (for million-target pipelines).
 
 # targets 1.11.3
 

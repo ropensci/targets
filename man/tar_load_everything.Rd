@@ -6,7 +6,7 @@
 \usage{
 tar_load_everything(
   branches = NULL,
-  meta = tar_meta(targets_only = TRUE, store = store),
+  meta = targets::tar_meta(store = store, fields = -tidyselect::any_of("time")),
   strict = TRUE,
   silent = FALSE,
   envir = parent.frame(),
