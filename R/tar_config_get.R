@@ -136,7 +136,7 @@ tar_config_get_convert <- function(name, value) {
 
 reporter_default <- function() {
   if_any(
-    isTRUE(getOption("knitr.in.progress")),
+    isTRUE(getOption("knitr.in.progress")) || !interactive(),
     "terse",
     "balanced"
   )

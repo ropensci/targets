@@ -102,7 +102,7 @@ tar_test("tar_config_set() level_separation", {
 tar_test("tar_config_set() reporter_make", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
-  expect_equal(tar_config_get("reporter_make"), "balanced")
+  expect_true(tar_config_get("reporter_make") %in% c("balanced", "terse"))
   tar_config_set(reporter_make = "silent")
   expect_equal(tar_config_get("reporter_make"), "silent")
   expect_true(file.exists("_targets.yaml"))
@@ -111,13 +111,13 @@ tar_test("tar_config_set() reporter_make", {
   expect_equal(tar_config_get("reporter_make"), "silent")
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
-  expect_equal(tar_config_get("reporter_make"), "balanced")
+  expect_true(tar_config_get("reporter_make") %in% c("balanced", "terse"))
 })
 
 tar_test("tar_config_set() reporter_outdated", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
-  expect_equal(tar_config_get("reporter_outdated"), "balanced")
+  expect_true(tar_config_get("reporter_outdated") %in% c("balanced", "terse"))
   tar_config_set(reporter_outdated = "silent")
   expect_equal(tar_config_get("reporter_outdated"), "silent")
   expect_true(file.exists("_targets.yaml"))
@@ -126,7 +126,7 @@ tar_test("tar_config_set() reporter_outdated", {
   expect_equal(tar_config_get("reporter_outdated"), "silent")
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
-  expect_equal(tar_config_get("reporter_outdated"), "balanced")
+  expect_true(tar_config_get("reporter_outdated") %in% c("balanced", "terse"))
 })
 
 tar_test("tar_config_set() shortcut", {

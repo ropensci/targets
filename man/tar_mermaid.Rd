@@ -89,10 +89,19 @@ by status.}
 \item{reporter}{Character of length 1, name of the reporter to user.
 Controls how messages are printed as targets are checked.
 
-The default of \code{tar_config_get("reporter_make")} is \code{"terse"}
-if running inside a literate programming document
-(i.e. the \code{knitr.in.progress} global option is \code{TRUE}).
-Otherwise, the default is \code{"balanced"}. Choices:
+The default value of \code{reporter} is the value
+returned by \code{tar_config_get("reporter_outdated")}.
+The default of \code{tar_config_get("reporter_outdated")} is \code{"terse"}
+if the calling R session is either:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  1. Non-interactive (`interactive()` returns `FALSE`), or
+  2. Inside a literate programming document
+    (the `knitr.in.progress` global option is `TRUE`).
+}\if{html}{\out{</div>}}
+
+Otherwise, the default is \code{"balanced"}.
+You can always set the reporter manually.
+Choices:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{* `"balanced"`: a reporter that balances efficiency
   with informative detail.

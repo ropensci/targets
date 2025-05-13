@@ -38,10 +38,18 @@
 #' @param reporter Character of length 1, name of the reporter to user.
 #'   Controls how messages are printed as targets are checked.
 #'
-#'   The default of `tar_config_get("reporter_make")` is `"terse"`
-#'   if running inside a literate programming document
-#'   (i.e. the `knitr.in.progress` global option is `TRUE`).
-#'   Otherwise, the default is `"balanced"`. Choices:
+#'   The default value of `reporter` is the value
+#'   returned by `tar_config_get("reporter_outdated")`.
+#'   The default of `tar_config_get("reporter_outdated")` is `"terse"`
+#'   if the calling R session is either:
+#'
+#'       1. Non-interactive (`interactive()` returns `FALSE`), or
+#'       2. Inside a literate programming document
+#'         (the `knitr.in.progress` global option is `TRUE`).
+#'
+#'   Otherwise, the default is `"balanced"`.
+#'   You can always set the reporter manually.
+#'   Choices:
 #'
 #'     * `"balanced"`: a reporter that balances efficiency
 #'       with informative detail.

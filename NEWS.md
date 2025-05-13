@@ -1,7 +1,8 @@
-# targets 1.11.3.9001 (development)
+# targets 1.11.3.9002 (development)
 
 * Tone down progress bar output for medium-overhead scenarios.
 * Speed up `tar_meta()` default settings for `tar_read()` etc. (for million-target pipelines).
+* Choose the `"terse"` reporter by default if the calling session is non-interactive. This will hopefully avoid problems on CRAN for packages that use `targets` with the default settings. 
 
 # targets 1.11.3
 
