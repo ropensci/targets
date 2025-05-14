@@ -59,7 +59,7 @@ Imports:
   callr (>= 3.7.0),
   cli (>= 2.0.2),
   codetools (>= 0.2.16),
-  data.table (>= 1.12.8),
+  data.table (>= 1.16.0),
   igraph (>= 2.0.0),
   knitr (>= 1.34),
   prettyunits (>= 1.1.0),
