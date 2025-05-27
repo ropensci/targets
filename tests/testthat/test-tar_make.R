@@ -259,4 +259,12 @@ tar_test("tar_make_reporter()", {
     suppressWarnings(tar_make_reporter("summary")),
     "balanced"
   )
+  expect_equal(
+    suppressWarnings(tar_make_reporter("timestamp_positives")),
+    "timestamp"
+  )
+  expect_equal(
+    suppressWarnings(tar_make_reporter("verbose_positives")),
+    "verbose"
+  )
 })

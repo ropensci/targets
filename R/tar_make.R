@@ -296,19 +296,30 @@ tar_make_inner <- function(
 }
 
 tar_make_reporter <- function(reporter) {
-  reporter <- if_any(
-    reporter %in% c("summary", "timestamp_positives", "verbose_positives"),
-    {
-      tar_warn_deprecate(
-        "The summary reporter in tar_make() etc. was deprecated ",
-        "in targets version 1.10.1.9010 (2025-03-31). ",
-        "Use the \"balanced\", \"verbose\", or \"timestamp\" ",
-        "reporter instead."
-      )
-      "balanced"
-    },
-    reporter
+  reporter <- as.character(reporter)
+  template <- paste0(
+    "The \"%s\" reporter ",
+    "in tar_make() etc. was deprecated ",
+    "in targets version 1.10.1.9010 (2025-03-31). ",
+    "Use the \"balanced\", \"verbose\", or \"timestamp\" ",
+    "reporter instead. Switching to \"%s\"."
   )
+  if (identical(reporter, "summary")) {
+    tar_warn_deprecate(sprintf(template, "summary", "balanced"))
+    reporter <- "balanced"
+  }
+  if (identical(reporter, "timestamp_positives")) {
+    tar_warn_deprecate(
+      sprintf(template, "timestamp_positives", "timestamp")
+    )
+    reporter <- "timestamp"
+  }
+  if (identical(reporter, "verbose_positives")) {
+    tar_warn_deprecate(
+      sprintf(template, "verbose_positives", "verbose")
+    )
+    reporter <- "verbose"
+  }
   tar_assert_flag(reporter, tar_reporters_make())
   reporter
 }
