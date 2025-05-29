@@ -186,6 +186,10 @@ tar_callr_inner_try <- function(
   old_options <- options(options)
   old_envir <- tar_options$get_envir()
   on.exit({
+    # options(old_options) does not remove newly set options, only
+    # the values of previously nonempty options.
+    # However, a more invasive approach causes mysterious errors, including
+    # false positives in compare_working_directories().
     options(old_options)
     tar_options$set_envir(old_envir)
     traceback <- tar_runtime$traceback
