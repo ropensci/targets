@@ -285,7 +285,8 @@
 #'     dynamically branch over. For example: if your pipeline has
 #'     `tar_target(name = y, command = x, pattern = map(x))`,
 #'     then `tar_target(name = x, command = f(), memory = "auto")`
-#'     will use persistent memory in order to avoid rereading all of `x`
+#'     will use persistent memory for `x`
+#'     in order to avoid rereading all of `x`
 #'     for every branch of `y`.
 #'   * `"transient"`: the target gets unloaded
 #'     after every new target completes.

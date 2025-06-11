@@ -198,7 +198,8 @@ for non-dynamically-branched targets that other targets
 dynamically branch over. For example: if your pipeline has
 \code{tar_target(name = y, command = x, pattern = map(x))},
 then \code{tar_target(name = x, command = f(), memory = "auto")}
-will use persistent memory in order to avoid rereading all of \code{x}
+will use persistent memory for \code{x}
+in order to avoid rereading all of \code{x}
 for every branch of \code{y}.
 \item \code{"transient"}: the target gets unloaded
 after every new target completes.
