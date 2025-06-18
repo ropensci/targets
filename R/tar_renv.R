@@ -7,6 +7,14 @@
 #'   Each package is written to a separate line
 #'   as a standard [library()] call (e.g. `library(package)`) so
 #'   `renv` can identify them automatically.
+#'   The following packages are included:
+#'
+#'     * Packages listed in the `packages` argument of [tar_target()]
+#'       or [tar_option_set()].
+#'     * Packages required by the `format` set in [tar_target()]
+#'       or [tar_option_set()].
+#'     * Packages directly listed in the `extras` argument of [tar_renv()].
+#'
 #' @details This function gets called for its side-effect, which writes
 #'   package dependencies to a script for compatibility with `renv`.
 #'   The generated file should __not__ be edited by hand and will be
@@ -16,12 +24,11 @@
 #'   and keep a record of project dependencies in a file called `renv.lock`.
 #'   To identify dependencies, `renv` crawls through code to find packages
 #'   explicitly mentioned using `library()`, `require()`, or `::`.
-#'   However, `targets` manages packages in a way that hides dependencies
-#'   from `renv.` `tar_renv()` finds package dependencies that would be
-#'   otherwise hidden to `renv` because they are declared using the `targets`
-#'   API. Thus, calling `tar_renv` this is only necessary if using
-#'   [`tar_option_set()`] or [`tar_target()`] to use specialized storage
-#'   formats or manage packages.
+#'   However, `targets` pipelines introduce extra package dependencies
+#'   through the `packages` and `format` arguments of
+#'   [tar_option_set()] and [tar_target()].
+#'   [tar_renv()] writes a special R script which allows these extra packages
+#'   (along with packages listed in `extras`) to be detected by `renv`.
 #'
 #'   With the script written by `tar_renv()`, `renv` is able to crawl the
 #'   file to identify package dependencies (with `renv::dependencies()`).
@@ -42,8 +49,8 @@
 #'   After confirming at
 #'   <https://rstudio.github.io/renv/reference/config.html>
 #'   that you can safely disable these checks,
-#'   you can write lines `RENV_CONFIG_RSPM_ENABLED=false`,
-#'   `RENV_CONFIG_SANDBOX_ENABLED=false`,
+#'   you can write lines
+#'   `RENV_CONFIG_SANDBOX_ENABLED=false`
 #'   and `RENV_CONFIG_SYNCHRONIZED_CHECK=false`
 #'   in your user-level `.Renviron` file. If you disable the synchronization
 #'   check, remember to call `renv::status()` periodically

@@ -68,6 +68,14 @@ Write package dependencies to a script file
 Each package is written to a separate line
 as a standard \code{\link[=library]{library()}} call (e.g. \code{library(package)}) so
 \code{renv} can identify them automatically.
+The following packages are included:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{* Packages listed in the `packages` argument of [tar_target()]
+  or [tar_option_set()].
+* Packages required by the `format` set in [tar_target()]
+  or [tar_option_set()].
+* Packages directly listed in the `extras` argument of [tar_renv()].
+}\if{html}{\out{</div>}}
 }
 \details{
 This function gets called for its side-effect, which writes
@@ -79,12 +87,11 @@ The behavior of \code{renv} is to create and manage a project-local \code{R} lib
 and keep a record of project dependencies in a file called \code{renv.lock}.
 To identify dependencies, \code{renv} crawls through code to find packages
 explicitly mentioned using \code{library()}, \code{require()}, or \code{::}.
-However, \code{targets} manages packages in a way that hides dependencies
-from \code{renv.} \code{tar_renv()} finds package dependencies that would be
-otherwise hidden to \code{renv} because they are declared using the \code{targets}
-API. Thus, calling \code{tar_renv} this is only necessary if using
-\code{\link[=tar_option_set]{tar_option_set()}} or \code{\link[=tar_target]{tar_target()}} to use specialized storage
-formats or manage packages.
+However, \code{targets} pipelines introduce extra package dependencies
+through the \code{packages} and \code{format} arguments of
+\code{\link[=tar_option_set]{tar_option_set()}} and \code{\link[=tar_target]{tar_target()}}.
+\code{\link[=tar_renv]{tar_renv()}} writes a special R script which allows these extra packages
+(along with packages listed in \code{extras}) to be detected by \code{renv}.
 
 With the script written by \code{tar_renv()}, \code{renv} is able to crawl the
 file to identify package dependencies (with \code{renv::dependencies()}).
@@ -107,8 +114,8 @@ In addition, you can disable the slowest \code{renv} initialization checks.
 After confirming at
 \url{https://rstudio.github.io/renv/reference/config.html}
 that you can safely disable these checks,
-you can write lines \code{RENV_CONFIG_RSPM_ENABLED=false},
-\code{RENV_CONFIG_SANDBOX_ENABLED=false},
+you can write lines
+\code{RENV_CONFIG_SANDBOX_ENABLED=false}
 and \code{RENV_CONFIG_SYNCHRONIZED_CHECK=false}
 in your user-level \code{.Renviron} file. If you disable the synchronization
 check, remember to call \code{renv::status()} periodically
