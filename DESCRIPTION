@@ -12,7 +12,7 @@ Description: Pipeline tools coordinate the pieces of computationally
   The methodology in this package
   borrows from GNU 'Make' (2015, ISBN:978-9881443519)
   and 'drake' (2018, <doi:10.21105/joss.00550>).
-Version: 1.11.3.9004
+Version: 1.11.3.9005
 License: MIT + file LICENSE
 URL: https://docs.ropensci.org/targets/, https://github.com/ropensci/targets
 BugReports: https://github.com/ropensci/targets/issues
@@ -60,6 +60,7 @@ Imports:
   cli (>= 2.0.2),
   codetools (>= 0.2.16),
   data.table (>= 1.16.0),
+  fs,
   igraph (>= 2.0.0),
   knitr (>= 1.34),
   prettyunits (>= 1.1.0),
