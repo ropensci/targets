@@ -772,10 +772,8 @@ tar_assert_allow_meta <- function(fun, store) {
   safe <- is.null(target) ||
     is.null(tar_runtime$store) ||
     !identical(
-      fs::path_abs(normalizePath(as.character(store), mustWork = FALSE)),
-      fs::path_abs(
-        normalizePath(as.character(tar_runtime$store), mustWork = FALSE)
-      )
+      normalizePath(as.character(store), mustWork = FALSE),
+      normalizePath(as.character(tar_runtime$store), mustWork = FALSE)
     )
   if (safe) {
     return()

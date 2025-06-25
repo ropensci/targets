@@ -21,7 +21,6 @@
 #'   is_dynamic_tty make_spinner pb_bar pb_current pb_total
 #' @importFrom codetools findGlobals
 #' @importFrom data.table data.table fread fwrite rbindlist set transpose
-#' @importFrom fs path_abs
 #' @importFrom igraph adjacent_vertices as_edgelist gorder
 #'   graph_from_data_frame igraph_opt igraph_options is_dag simplify topo_sort
 #'   V

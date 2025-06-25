@@ -1,11 +1,10 @@
-# targets 1.11.3.9005 (development)
+# targets 1.11.3.9004 (development)
 
 * Tone down progress bar output for medium-overhead scenarios.
 * Speed up `tar_meta()` default settings for `tar_read()` etc. (for million-target pipelines).
 * Choose the `"terse"` reporter by default if the calling session is non-interactive. This will hopefully avoid problems on CRAN for packages that use `targets` with the default settings.
 * Improve reporter deprecation messages (#1493, @dakvid).
 * Clarify scope of `tar_renv()` (#1506, @valentingar).
-* Check absolute paths in `tar_assert_allow_meta()` (#1508, @dipterix).
 
 # targets 1.11.3
 
