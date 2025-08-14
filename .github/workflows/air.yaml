@@ -4,10 +4,10 @@ on:
   pull_request:
     branches: [main, master]
 
-name: lint
+name: air
 
 jobs:
-  lint:
+  air:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,4 +16,4 @@ jobs:
         uses: posit-dev/setup-air@v1
 
       - name: Format
-        run: air format .
+        run: air format . --check
