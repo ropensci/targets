@@ -113,7 +113,7 @@ target_ensure_dep <- function(target, dep, pipeline) {
 target_ensure_deps_worker <- function(target, pipeline) {
   map(
     target_deps_shallow(target, pipeline),
-    ~target_ensure_dep(target, pipeline_get_target(pipeline, .x), pipeline)
+    ~ target_ensure_dep(target, pipeline_get_target(pipeline, .x), pipeline)
   )
 }
 
@@ -123,7 +123,7 @@ target_ensure_deps_main <- function(target, pipeline) {
     if (inherits(dep, "tar_pattern")) {
       map(
         target_get_children(dep),
-        ~target_ensure_dep(target, pipeline_get_target(pipeline, .x), pipeline)
+        ~ target_ensure_dep(target, pipeline_get_target(pipeline, .x), pipeline)
       )
     } else {
       target_ensure_dep(target, dep, pipeline)
@@ -160,7 +160,7 @@ target_ensure_value <- function(target, pipeline) {
 }
 
 target_deps_shallow <- function(target, pipeline) {
-  fltr(target$deps, ~pipeline_exists_target(pipeline, .x))
+  fltr(target$deps, ~ pipeline_exists_target(pipeline, .x))
 }
 
 target_deps_deep <- function(target, pipeline) {
@@ -168,7 +168,7 @@ target_deps_deep <- function(target, pipeline) {
   retrieval_worker <- identical(target$settings$retrieval, "worker")
   extras <- map(
     deps,
-    ~target_worker_extras(
+    ~ target_worker_extras(
       target = pipeline_get_target(pipeline, .x),
       pipeline = pipeline,
       retrieval_worker = retrieval_worker
@@ -193,13 +193,13 @@ target_worker_extras.tar_target <- function(
 target_downstream_branching <- function(target, pipeline, scheduler) {
   name <- target_get_name(target)
   names <- scheduler$graph$produce_downstream(name)
-  fltr(names, ~target_branches_over(pipeline_get_target(pipeline, .x), name))
+  fltr(names, ~ target_branches_over(pipeline_get_target(pipeline, .x), name))
 }
 
 target_downstream_nonbranching <- function(target, pipeline, scheduler) {
   name <- target_get_name(target)
   names <- scheduler$graph$produce_downstream(name)
-  fltr(names, ~!target_branches_over(pipeline_get_target(pipeline, .x), name))
+  fltr(names, ~ !target_branches_over(pipeline_get_target(pipeline, .x), name))
 }
 
 target_upstream_edges <- function(target) {
@@ -294,8 +294,7 @@ target_prepare.default <- function(
   scheduler,
   meta,
   pending = FALSE
-) {
-}
+) {}
 
 target_should_run <- function(target, meta) {
   UseMethod("target_should_run")
@@ -324,8 +323,7 @@ target_run <- function(target, envir, path_store, on_worker = FALSE) {
 }
 
 #' @export
-target_run.default <- function(target, envir, path_store, on_worker = FALSE) {
-}
+target_run.default <- function(target, envir, path_store, on_worker = FALSE) {}
 
 #' @title Internal function to run a target on a worker.
 #' @export
@@ -367,8 +365,7 @@ target_conclude <- function(target, pipeline, scheduler, meta) {
 }
 
 #' @export
-target_conclude.tar_target <- function(target, pipeline, scheduler, meta) {
-}
+target_conclude.tar_target <- function(target, pipeline, scheduler, meta) {}
 
 target_ensure_buds <- function(target, pipeline, scheduler) {
   UseMethod("target_ensure_buds")
@@ -444,8 +441,7 @@ target_patternview_meta <- function(target, pipeline, meta) {
 }
 
 #' @export
-target_patternview_meta.default <- function(target, pipeline, meta) {
-}
+target_patternview_meta.default <- function(target, pipeline, meta) {}
 
 target_patternview_dispatched <- function(target, pipeline, scheduler) {
   UseMethod("target_patternview_dispatched")
@@ -456,32 +452,28 @@ target_patternview_dispatched.default <- function(
   target,
   pipeline,
   scheduler
-) {
-}
+) {}
 
 target_patternview_canceled <- function(target, pipeline, scheduler) {
   UseMethod("target_patternview_canceled")
 }
 
 #' @export
-target_patternview_canceled.default <- function(target, pipeline, scheduler) {
-}
+target_patternview_canceled.default <- function(target, pipeline, scheduler) {}
 
 target_patternview_errored <- function(target, pipeline, scheduler) {
   UseMethod("target_patternview_errored")
 }
 
 #' @export
-target_patternview_errored.default <- function(target, pipeline, scheduler) {
-}
+target_patternview_errored.default <- function(target, pipeline, scheduler) {}
 
 target_debug <- function(target) {
   UseMethod("target_debug")
 }
 
 #' @export
-target_debug.default <- function(target) {
-}
+target_debug.default <- function(target) {}
 
 target_marshal_value <- function(target) {
   UseMethod("target_marshal_value")

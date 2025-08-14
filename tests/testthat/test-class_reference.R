@@ -53,8 +53,7 @@ tar_test("reference_produce_target() and its inverse", {
   skip_cran()
   pipeline <- pipeline_init(
     list(
-      target_init(name = "data", expr = quote(seq_len(3L))
-      ),
+      target_init(name = "data", expr = quote(seq_len(3L))),
       target_init(
         name = "map",
         expr = quote(data),

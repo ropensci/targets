@@ -86,11 +86,14 @@ tar_test("debug mode works for entire patterns", {
     list(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
   })
   tar_make(callr_function = NULL) # Should not debug.
-  tar_script({
-    envir <- new.env(parent = baseenv())
-    tar_option_set(envir = envir, debug = "b")
-    list(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
-  }, ask = FALSE)
+  tar_script(
+    {
+      envir <- new.env(parent = baseenv())
+      tar_option_set(envir = envir, debug = "b")
+      list(tar_target(a, seq_len(2)), tar_target(b, a, pattern = map(a)))
+    },
+    ask = FALSE
+  )
   # Now verify that we launch a debugger.
   tar_make(callr_function = NULL)
   # Print targets::tar_name(). Should be a branch.

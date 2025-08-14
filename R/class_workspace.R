@@ -49,7 +49,7 @@ workspace_populate <- function(workspace) {
 workspace_assign <- function(workspace, envir) {
   frames <- frames_produce(envir, workspace$target, workspace$subpipeline)
   from <- frames_get_envir(frames)
-  map(names(from), ~assign(x = .x, value = from[[.x]], envir = envir))
+  map(names(from), ~ assign(x = .x, value = from[[.x]], envir = envir))
 }
 
 workspace_load_packages <- function(workspace) {

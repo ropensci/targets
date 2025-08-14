@@ -129,7 +129,7 @@ pipeline_cross <- function() {
       ),
       tar_target_raw(
         name = "map2",
-        command = quote(as.integer(out6 ^ 2)),
+        command = quote(as.integer(out6^2)),
         pattern = quote(map(out6))
       )
     )

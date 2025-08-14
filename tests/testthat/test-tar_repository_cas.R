@@ -289,7 +289,8 @@ tar_test("CAS repository works with transient memory and files", {
       tar_target(y, x + 1L, repository = repository),
       tar_target(z, y + 1L, repository = repository),
       tar_target(
-        a, {
+        a,
+        {
           saveRDS(z, "file_a.rds")
           "file_a.rds"
         },
@@ -297,7 +298,8 @@ tar_test("CAS repository works with transient memory and files", {
         format = "file"
       ),
       tar_target(
-        b, {
+        b,
+        {
           saveRDS(readRDS(a), "file_b.rds")
           "file_b.rds"
         },

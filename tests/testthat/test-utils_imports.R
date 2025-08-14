@@ -98,7 +98,7 @@ tar_test("hash_imports() after trivial formatting change", {
   envir$a <- "x"
   envir$b <- 2L
   hashes1 <- hash_imports(envir)
-  envir$g <- function(x)  dne +               x
+  envir$g <- function(x) dne + x
   hashes2 <- hash_imports(envir)
   hashes1 <- hashes1[order(hashes1$name), ]
   hashes2 <- hashes2[order(hashes2$name), ]

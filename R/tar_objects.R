@@ -46,13 +46,13 @@ tar_objects <- function(
   local <- tar_tidyselect_eval(names_quosure, local) %|||% local
   meta <- tar_meta(store = store)
   index <- !is.na(meta$repository) & (meta$repository != "local")
-  meta <- meta[index,, drop = FALSE] # nolint
+  meta <- meta[index, , drop = FALSE] # nolint
   names <- tar_tidyselect_eval(names_quosure, meta$name) %|||% meta$name
   remote <- character(0)
   if (cloud) {
     exists <- map_lgl(
       names,
-      ~tar_exist_cloud_target(name = .x, meta = meta, path_store = store)
+      ~ tar_exist_cloud_target(name = .x, meta = meta, path_store = store)
     )
     remote <- names[exists]
   }

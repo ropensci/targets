@@ -12,12 +12,14 @@ value_count_slices.tar_vector <- function(value) {
 }
 
 #' @export
-value_produce_slice.tar_vector <- function(value, index) { # nolint
+value_produce_slice.tar_vector <- function(value, index) {
+  # nolint
   vctrs::vec_slice(x = value$object, i = index)
 }
 
 #' @export
-value_produce_aggregate.tar_vector <- function(value, objects) { # nolint
+value_produce_aggregate.tar_vector <- function(value, objects) {
+  # nolint
   tar_vec_c(objects)
 }
 

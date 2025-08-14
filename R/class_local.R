@@ -52,8 +52,7 @@ local_class <- R6::R6Class(
   portable = FALSE,
   cloneable = FALSE,
   public = list(
-    tar_assert_deployment = function(target) {
-    },
+    tar_assert_deployment = function(target) {},
     run_target = function(target) {
       self$tar_assert_deployment(target)
       target_prepare(target, self$pipeline, self$scheduler, self$meta)

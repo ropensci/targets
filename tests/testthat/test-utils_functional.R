@@ -17,9 +17,9 @@ tar_test("map_lgl()", {
 
 tar_test("map_rows()", {
   x <- data_frame(x = seq_len(3), y = rep(1, 3), z = rep(2, 3))
-  expect_equal(map_rows(x, ~sum(.x)), seq_len(3) + 3)
+  expect_equal(map_rows(x, ~ sum(.x)), seq_len(3) + 3)
 })
 
 tar_test("fltr()", {
-  expect_equal(fltr(seq_len(10), ~.x < 5), seq_len(4))
+  expect_equal(fltr(seq_len(10), ~ .x < 5), seq_len(4))
 })

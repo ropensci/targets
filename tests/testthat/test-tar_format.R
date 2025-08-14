@@ -70,7 +70,8 @@ tar_test("Function assertions", {
     tar_format(
       read = function(x) {
         keras::load_model_hdf5(x)
-      }),
+      }
+    ),
     class = "tar_condition_validate"
   )
 })

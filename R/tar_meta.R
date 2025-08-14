@@ -147,15 +147,15 @@ tar_meta <- function(
   fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||%
     colnames(out)
   if (!is.null(names)) {
-    out <- out[match(names, out$name),, drop = FALSE] # nolint
+    out <- out[match(names, out$name), , drop = FALSE] # nolint
   }
   if (targets_only) {
     index <- out$type %in% c("function", "object")
-    out <- out[!index,, drop = FALSE] # nolint
+    out <- out[!index, , drop = FALSE] # nolint
   }
   out <- out[, base::union("name", fields), drop = FALSE]
   if (complete_only) {
-    out <- out[stats::complete.cases(out),, drop = FALSE] # nolint
+    out <- out[stats::complete.cases(out), , drop = FALSE] # nolint
   }
   if ("time" %in% colnames(out)) {
     out$time <- file_time_posixct(out$time)

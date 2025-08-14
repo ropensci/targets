@@ -74,12 +74,15 @@ tar_test("vertices and edges of empty imports", {
 
 tar_test("vertices and edges of nonempty imports", {
   envir <- new.env(parent = baseenv())
-  evalq({
-    f <- function(x) g(x) + h
-    g <- function(x) i
-    h <- 1
-    i <- 1
-  }, envir = envir)
+  evalq(
+    {
+      f <- function(x) g(x) + h
+      g <- function(x) i
+      h <- 1
+      i <- 1
+    },
+    envir = envir
+  )
   tar_option_set(envir = envir)
   pipeline <- pipeline_init(
     list(
@@ -121,12 +124,15 @@ tar_test("vertices and edges of nonempty imports", {
 
 tar_test("same for targets", {
   envir <- new.env(parent = baseenv())
-  evalq({
-    f <- function(x) g(x) + h
-    g <- function(x) i
-    h <- 1
-    i <- 1
-  }, envir = envir)
+  evalq(
+    {
+      f <- function(x) g(x) + h
+      g <- function(x) i
+      h <- 1
+      i <- 1
+    },
+    envir = envir
+  )
   tar_option_set(envir = envir)
   pipeline <- pipeline_init(
     list(
@@ -200,12 +206,15 @@ tar_test("branches get counted in network data", {
 
 tar_test("targets and imports bound together", {
   envir <- new.env(parent = baseenv())
-  evalq({
-    f <- function(x) g(x) + h
-    g <- function(x) i
-    h <- 1
-    i <- 1
-  }, envir = envir)
+  evalq(
+    {
+      f <- function(x) g(x) + h
+      g <- function(x) i
+      h <- 1
+      i <- 1
+    },
+    envir = envir
+  )
   tar_option_set(envir = envir)
   pipeline <- pipeline_init(
     list(

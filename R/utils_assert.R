@@ -139,13 +139,14 @@ tar_assert_flag <- function(x, choices, msg = NULL) {
     msg %|||% paste(tar_deparse_safe(substitute(x)), "must have length 1")
   )
   if (!all(x %in% choices)) {
-    msg <- msg %|||% paste(
-      tar_deparse_safe(substitute(x)),
-      "equals",
-      tar_deparse_safe(x),
-      "but must be in",
-      tar_deparse_safe(choices)
-    )
+    msg <- msg %|||%
+      paste(
+        tar_deparse_safe(substitute(x)),
+        "equals",
+        tar_deparse_safe(x),
+        "but must be in",
+        tar_deparse_safe(choices)
+      )
     tar_throw_validate(msg)
   }
 }
@@ -268,13 +269,14 @@ tar_assert_identical_chr <- function(x, y, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_in <- function(x, choices, msg = NULL) {
   if (!all(x %in% choices)) {
-    msg <- msg %|||% paste(
-      tar_deparse_safe(substitute(x)),
-      "equals",
-      tar_deparse_safe(x),
-      "but must be in",
-      tar_deparse_safe(choices)
-    )
+    msg <- msg %|||%
+      paste(
+        tar_deparse_safe(substitute(x)),
+        "equals",
+        tar_deparse_safe(x),
+        "but must be in",
+        tar_deparse_safe(choices)
+      )
     tar_throw_validate(msg)
   }
 }
@@ -400,11 +402,12 @@ tar_assert_name <- function(x) {
 #' @export
 #' @rdname tar_assert
 tar_assert_named <- function(x, msg = NULL) {
-  msg <- msg %|||% paste(
-    "names of",
-    tar_deparse_safe(substitute(x)),
-    "must have a complete set of unique nonempty names."
-  )
+  msg <- msg %|||%
+    paste(
+      "names of",
+      tar_deparse_safe(substitute(x)),
+      "must have a complete set of unique nonempty names."
+    )
   if (!length(x)) {
     return()
   }
@@ -500,10 +503,11 @@ tar_assert_path <- function(path, msg = NULL) {
   missing <- !file.exists(path)
   if (any(missing)) {
     tar_throw_validate(
-      msg %|||% paste0(
-        "missing files: ",
-        paste(path[missing], collapse = ", ")
-      )
+      msg %|||%
+        paste0(
+          "missing files: ",
+          paste(path[missing], collapse = ", ")
+        )
     )
   }
 }
@@ -591,7 +595,9 @@ tar_assert_store <- function(store) {
   tar_assert_path(
     store,
     paste(
-      "targets data store", store, "not found.",
+      "targets data store",
+      store,
+      "not found.",
       "Utility functions like tar_read() and tar_load() require a",
       "pre-existing targets data store (default: _targets/)",
       "created by tar_make(), tar_make_clustermq(), or tar_make_future().",
@@ -645,12 +651,13 @@ tar_assert_store_noninvalidating <- function(store, threshold, prompt) {
 #' @export
 #' @rdname tar_assert
 tar_assert_target <- function(x, msg = NULL) {
-  msg <- msg %|||% paste(
-    "Found a non-target object in the target list.",
-    "The target script file (default: _targets.R)",
-    "must end with a list of tar_target() objects (recommended)",
-    "or a tar_pipeline() object (deprecated)."
-  )
+  msg <- msg %|||%
+    paste(
+      "Found a non-target object in the target list.",
+      "The target script file (default: _targets.R)",
+      "must end with a list of tar_target() objects (recommended)",
+      "or a tar_pipeline() object (deprecated)."
+    )
   tar_assert_inherits(x = x, class = "tar_target", msg = msg)
 }
 

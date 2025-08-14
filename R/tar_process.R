@@ -49,7 +49,7 @@ tar_process <- function(
   names_quosure <- rlang::enquo(names)
   names <- tar_tidyselect_eval(names_quosure, out$name)
   if (!is.null(names)) {
-    out <- out[match(names, out$name),, drop = FALSE] # nolint
+    out <- out[match(names, out$name), , drop = FALSE] # nolint
   }
   out
 }

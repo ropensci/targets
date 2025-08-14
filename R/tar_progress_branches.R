@@ -55,14 +55,14 @@ tar_progress_branches <- function(
   fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||%
     colnames(out)
   if (!is.null(names)) {
-    out <- out[match(names, out$name),, drop = FALSE] # nolint
+    out <- out[match(names, out$name), , drop = FALSE] # nolint
   }
   out <- out[, base::union("name", fields), drop = FALSE]
-  out[order(out$name),, drop = FALSE] # nolint
+  out[order(out$name), , drop = FALSE] # nolint
 }
 
 tar_progress_branches_summary <- function(progress) {
-  branches <- progress[progress$type == "branch",, drop = FALSE] # nolint
+  branches <- progress[progress$type == "branch", , drop = FALSE] # nolint
   group <- paste(branches$parent, branches$progress)
   table <- table(group)
   group <- names(table)
@@ -72,8 +72,8 @@ tar_progress_branches_summary <- function(progress) {
     branches = as.integer(table)
   )
   levels <- c("skipped", "dispatched", "completed", "errored", "canceled")
-  bins <- map(levels, ~tar_progress_branches_bin(.x, long))
-  out <- progress[progress$type == "pattern",, drop = FALSE] # nolint
+  bins <- map(levels, ~ tar_progress_branches_bin(.x, long))
+  out <- progress[progress$type == "pattern", , drop = FALSE] # nolint
   out <- tibble::tibble(name = out$name, branches = out$branches)
   for (bin in bins) {
     out <- base::merge(x = out, y = bin, by = "name", all.x = TRUE)
@@ -85,7 +85,7 @@ tar_progress_branches_summary <- function(progress) {
 }
 
 tar_progress_branches_bin <- function(level, long) {
-  out <- long[long$progress %in% level,, drop = FALSE] # nolint
+  out <- long[long$progress %in% level, , drop = FALSE] # nolint
   out[[level]] <- out[["branches"]]
   out[["branches"]] <- NULL
   out[["progress"]] <- NULL

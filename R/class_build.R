@@ -37,8 +37,7 @@ build_init <- function(
       warning = capture_warning,
       tar_condition_cancel = capture_cancel
     ),
-    error = function(condition) {
-    }
+    error = function(condition) {}
   )
   if (!is.null(state$warnings)) {
     state$warnings <- build_message_text_substr(state$warnings)

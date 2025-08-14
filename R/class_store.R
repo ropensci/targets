@@ -121,8 +121,7 @@ store_assert_repository_setting.default <- function(repository) {
 }
 
 #' @export
-store_assert_repository_setting.local <- function(repository) {
-}
+store_assert_repository_setting.local <- function(repository) {}
 
 store_read_object <- function(store, file) {
   UseMethod("store_read_object")
@@ -202,8 +201,7 @@ store_upload_object <- function(store, file) {
 }
 
 #' @export
-store_upload_object.default <- function(store, file) {
-}
+store_upload_object.default <- function(store, file) {}
 
 store_update_path <- function(store, file, name, object, path_store) {
   file$path <- store_produce_path(store, name, object, path_store)
@@ -282,8 +280,7 @@ store_update_stage_late.default <- function(
   name,
   object,
   path_store
-) {
-}
+) {}
 
 #' @export
 store_update_stage_early.default <- function(store, file, name, path_store) {
@@ -325,16 +322,14 @@ store_assert_format <- function(store, object, name) {
 }
 
 #' @export
-store_assert_format.default <- function(store, object, name) {
-}
+store_assert_format.default <- function(store, object, name) {}
 
 store_hash_early <- function(store, file) {
   UseMethod("store_hash_early")
 }
 
 #' @export
-store_hash_early.default <- function(store, file) {
-}
+store_hash_early.default <- function(store, file) {}
 
 store_hash_late <- function(store, file) {
   UseMethod("store_hash_late")
@@ -373,7 +368,7 @@ store_wait_correct_hash <- function(store, file) {
   max_tries <- store$resources$network$max_tries %|||% Inf
   verbose <- store$resources$network$verbose %|||% TRUE
   retry_until_true(
-    fun = ~store_has_correct_hash(store, file),
+    fun = ~ store_has_correct_hash(store, file),
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
     max_tries = max_tries,
@@ -453,16 +448,14 @@ store_marshal_value <- function(store, target) {
 }
 
 #' @export
-store_marshal_value.default <- function(store, target) {
-}
+store_marshal_value.default <- function(store, target) {}
 
 store_unmarshal_value <- function(store, target) {
   UseMethod("store_unmarshal_value")
 }
 
 #' @export
-store_unmarshal_value.default <- function(store, target) {
-}
+store_unmarshal_value.default <- function(store, target) {}
 
 store_validate <- function(store) {
   tar_assert_correct_fields(store, store_new)

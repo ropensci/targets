@@ -7,8 +7,7 @@ store_class_format.url <- function(format) {
 }
 
 #' @export
-store_assert_format_setting.url <- function(format) {
-}
+store_assert_format_setting.url <- function(format) {}
 
 #' @export
 store_read_path.tar_url <- function(store, path) {
@@ -16,12 +15,10 @@ store_read_path.tar_url <- function(store, path) {
 }
 
 #' @export
-store_write_object.tar_url <- function(store, file, object) {
-}
+store_write_object.tar_url <- function(store, file, object) {}
 
 #' @export
-store_write_path.tar_url <- function(store, object, path) {
-}
+store_write_path.tar_url <- function(store, object, path) {}
 
 #' @export
 store_produce_path.tar_url <- function(store, name, object, path_store) {
@@ -37,7 +34,9 @@ store_convert_object.tar_url <- function(store, object) {
 store_assert_format.tar_url <- function(store, object, name) {
   if (!is.character(object %|||% character(0))) {
     tar_throw_validate(
-      "target ", name, " did not return a character. ",
+      "target ",
+      name,
+      " did not return a character. ",
       "targets with format = \"url\" must return ",
       "character vectors of URL paths."
     )
@@ -45,7 +44,8 @@ store_assert_format.tar_url <- function(store, object, name) {
 }
 
 #' @export
-store_hash_early.tar_url <- function(store, file) { # nolint
+store_hash_early.tar_url <- function(store, file) {
+  # nolint
   handle <- store$resources$url$handle %|||% store$resources$handle
   max_tries <- store$resources$url$max_tries %|||% 5L
   seconds_interval <- store$resources$url$seconds_interval %|||% 1
@@ -62,21 +62,21 @@ store_hash_early.tar_url <- function(store, file) { # nolint
 }
 
 #' @export
-store_hash_late.tar_url <- function(store, file) { # nolint
+store_hash_late.tar_url <- function(store, file) {
+  # nolint
 }
 
 #' @export
-store_ensure_correct_hash.tar_url <- function( # nolint
+store_ensure_correct_hash.tar_url <- function(
+  # nolint
   store,
   file,
   storage,
   deployment
-) {
-}
+) {}
 
 #' @export
-store_sync_file_meta.tar_url <- function(store, target, meta, path) {
-}
+store_sync_file_meta.tar_url <- function(store, target, meta, path) {}
 
 #' @export
 store_has_correct_hash.tar_url <- function(store, file) {

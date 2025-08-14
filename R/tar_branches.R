@@ -71,7 +71,7 @@ tar_branches <- function(
   diffs <- setdiff(vars, meta$name)
   msg <- paste("targets not in metadata:", paste(diffs, collapse = ", "))
   tar_assert_in(vars, choices = meta$name, msg = msg)
-  niblings <- set_names(map(deps, ~tar_branches_nibling(.x, meta)), deps)
+  niblings <- set_names(map(deps, ~ tar_branches_nibling(.x, meta)), deps)
   seed <- as.integer(meta[meta$name == name, "seed"])
   methods <- dynamic_init()
   out <- pattern_produce_grid(

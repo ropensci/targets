@@ -66,7 +66,7 @@ glimpse_class <- R6::R6Class(
       graph <- graph_envir(envir)
       edges <- lapply(as_data_frame(igraph::as_edgelist(graph)), as.character)
       edges <- data_frame(from = edges[[1]], to = edges[[2]])
-      edges <- edges[edges$from != edges$to,, drop = FALSE] # nolint
+      edges <- edges[edges$from != edges$to, , drop = FALSE] # nolint
       names <- names(envir)
       type <- map_chr(names, type_import, envir = envir)
       status <- rep("none", length(names))
@@ -91,7 +91,7 @@ glimpse_class <- R6::R6Class(
       pipeline <- self$pipeline
       descriptions <- map_chr(
         names,
-        ~pipeline_get_target(pipeline, .x)$settings$description %||%
+        ~ pipeline_get_target(pipeline, .x)$settings$description %||%
           NA_character_
       )
       vertices <- data_frame(
@@ -105,8 +105,12 @@ glimpse_class <- R6::R6Class(
       )
       names <- c(names, names(self$pipeline$imports))
       edges <- pipeline_upstream_edges(self$pipeline, targets_only = FALSE)
-      edges <- edges[edges$from %in% names & edges$to %in% names,, drop = FALSE] # nolint
-      edges <- edges[edges$from != edges$to,, drop = FALSE] # nolint
+      edges <- edges[
+        edges$from %in% names & edges$to %in% names,
+        ,
+        drop = FALSE
+      ] # nolint
+      edges <- edges[edges$from != edges$to, , drop = FALSE] # nolint
       self$edges_targets <- edges
       self$vertices_targets <- vertices
     }

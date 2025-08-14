@@ -19,8 +19,7 @@ store_format_custom_field <- function(format, pattern, default, prefix) {
 }
 
 #' @export
-store_assert_format_setting.format_custom <- function(format) {
-}
+store_assert_format_setting.format_custom <- function(format) {}
 
 #' @export
 store_read_path.tar_store_format_custom <- function(store, path) {

@@ -52,7 +52,7 @@ tar_progress_summary <- function(
   time <- file.mtime(path_progress(path_store = store))
   progress <- progress_init(path_store = store)
   progress <- tibble::as_tibble(progress$database$read_condensed_data())
-  progress <- progress[progress$type != "pattern",, drop = FALSE] # nolint
+  progress <- progress[progress$type != "pattern", , drop = FALSE] # nolint
   out <- tibble::tibble(
     skipped = sum(progress$progress == "skipped"),
     dispatched = sum(progress$progress == "dispatched"),

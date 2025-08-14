@@ -97,13 +97,13 @@ mermaid_class <- R6::R6Class(
         type$name,
         levels = c("object", "function", "stem", "pattern")
       )
-      type <- type[order(type$name),, drop = FALSE] # nolint
+      type <- type[order(type$name), , drop = FALSE] # nolint
       type$name <- as.character(type$name)
       type$open <- self$produce_shape_open(type$name)
       type$close <- self$produce_shape_close(type$name)
       legend <- rbind(status, type)
       legend$label <- gsub("uptodate", "Up to date", legend$name)
-      legend <- legend[legend$label != "none",, drop = FALSE] # nolint
+      legend <- legend[legend$label != "none", , drop = FALSE] # nolint
       legend$label[legend$label == "stem"] <- "Regular target"
       legend$label[legend$label == "pattern"] <- "Dynamic branches"
       legend$label <- capitalize(legend$label)
@@ -174,8 +174,7 @@ mermaid_class <- R6::R6Class(
         class_defs
       )
     },
-    update_extra = function() {
-    },
+    update_extra = function() {},
     validate = function() {
       super$validate()
       if (!is.null(self$visual)) {

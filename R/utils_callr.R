@@ -129,8 +129,7 @@ callr_inner <- function(
         store = store,
         fun = fun,
         pid_parent = pid_parent
-      )
-      ,
+      ),
       error = function(condition) {
         trace <- .traceback(x = 3L)
         result$condition <- targets::tar_condition_traced(
@@ -139,8 +138,7 @@ callr_inner <- function(
         )
       }
     ),
-    error = function(condition) {
-    }
+    error = function(condition) {}
   )
   if (is.null(result$condition)) {
     out
@@ -217,11 +215,12 @@ callr_set_runtime <- function(script, store, fun, pid_parent, reporter) {
   tar_runtime$working_directory <- getwd()
   tar_runtime$fun <- fun
   # Needs to be set here for user-side code in _targets.R outside the pipeline
-  tar_runtime$active <- fun %in% c(
-    "tar_make",
-    "tar_make_clustermq",
-    "tar_make_future"
-  )
+  tar_runtime$active <- fun %in%
+    c(
+      "tar_make",
+      "tar_make_clustermq",
+      "tar_make_future"
+    )
   tar_runtime$pid_parent <- pid_parent
   tar_runtime$inventories <- list()
   tar_runtime$progress_bar <- identical(as.character(reporter), "balanced")

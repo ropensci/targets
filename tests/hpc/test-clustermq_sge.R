@@ -31,14 +31,17 @@ test_that("nontrivial common data with custom environment", {
       clustermq.template = "sge_clustermq.tmpl"
     )
     envir <- new.env(parent = globalenv())
-    evalq({
-      f <- function(x) {
-        g(x) + 1L
-      }
-      g <- function(x) {
-        x + 1L
-      }
-    }, envir = envir)
+    evalq(
+      {
+        f <- function(x) {
+          g(x) + 1L
+        }
+        g <- function(x) {
+          x + 1L
+        }
+      },
+      envir = envir
+    )
     tar_option_set(envir = envir)
     list(
       tar_target(x, 1),
@@ -225,13 +228,16 @@ test_that("clustermq with a dynamic file", {
   on.exit(tar_option_set(envir = old_envir), add = TRUE)
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
-  evalq({
-    save1 <- function() {
-      file <- "saved.out"
-      saveRDS(1L, file)
-      file
-    }
-  }, envir = envir)
+  evalq(
+    {
+      save1 <- function() {
+        file <- "saved.out"
+        saveRDS(1L, file)
+        file
+      }
+    },
+    envir = envir
+  )
   x <- tar_target_raw("x", quote(save1()), format = "file")
   pipeline <- pipeline_init(list(x))
   cmq <- clustermq_init(pipeline)

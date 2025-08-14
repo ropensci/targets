@@ -280,14 +280,17 @@ tar_test("nontrivial common data", {
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
-  evalq({
-    f <- function(x) {
-      g(x) + 1L
-    }
-    g <- function(x) {
-      x + 1L
-    }
-  }, envir = envir)
+  evalq(
+    {
+      f <- function(x) {
+        g(x) + 1L
+      }
+      g <- function(x) {
+        x + 1L
+      }
+    },
+    envir = envir
+  )
   x <- tar_target_raw(
     "x",
     quote(f(1L)),

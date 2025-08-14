@@ -36,7 +36,7 @@ tar_test("stem produce buds", {
   pipeline <- pipeline_init(list(x))
   stem_update_junction(x, pipeline)
   names <- target_get_children(x)
-  children <- map(seq_along(names), ~stem_produce_bud(x, names[.x], .x))
+  children <- map(seq_along(names), ~ stem_produce_bud(x, names[.x], .x))
   expect_true(is.list(children))
   expect_length(children, length(letters))
   for (index in seq_along(letters)) {
@@ -319,10 +319,14 @@ tar_test("stem print", {
   resources <- tar_resources(
     future = tar_resources_future(resources = list(cpu = 1, mem = 2))
   )
-  x <- tar_target(x, {
-    a <- 1
-    b
-  }, resources = resources)
+  x <- tar_target(
+    x,
+    {
+      a <- 1
+      b
+    },
+    resources = resources
+  )
   out <- utils::capture.output(print(x))
   expect_true(any(grepl("stem", out)))
 })

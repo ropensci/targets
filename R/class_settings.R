@@ -123,7 +123,7 @@ settings_validate_pattern <- function(name, pattern, dimensions) {
   functions <- setdiff(symbols, non_functions)
   illegal <- fltr(
     functions,
-    ~!exists(.x, envir = dynamic_methods$self) & !exists(.x, envir = baseenv())
+    ~ !exists(.x, envir = dynamic_methods$self) & !exists(.x, envir = baseenv())
   )
   if (length(illegal) > 0L) {
     string <- string_sub_expression(tar_deparse_safe(pattern))

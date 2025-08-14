@@ -25,9 +25,9 @@ tar_bind <- function(...) {
     "with a list of tar_target() objects (arbitrarily nested)."
   )
   x <- unlist(list(...), recursive = TRUE)
-  map(x, ~tar_assert_inherits(.x, "tar_pipeline"))
+  map(x, ~ tar_assert_inherits(.x, "tar_pipeline"))
   names <- unlist(map(x, pipeline_get_names))
   tar_assert_unique_targets(names)
-  targets <- map(x, ~as.list(.x$targets))
+  targets <- map(x, ~ as.list(.x$targets))
   tar_pipeline(targets)
 }

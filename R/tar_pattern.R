@@ -76,7 +76,7 @@ tar_pattern <- function(pattern, ..., seed = 0L) {
   lengths <- list(...)
   tar_pattern_tar_assert_lengths(lengths)
   lengths <- lapply(lengths, as.integer)
-  niblings <- map(names(lengths), ~tar_pattern_nibling(.x, lengths[[.x]]))
+  niblings <- map(names(lengths), ~ tar_pattern_nibling(.x, lengths[[.x]]))
   niblings <- set_names(niblings, names(lengths))
   methods <- dynamic_init()
   out <- pattern_produce_grid(

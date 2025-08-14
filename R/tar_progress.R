@@ -61,7 +61,7 @@ tar_progress <- function(
   fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||%
     colnames(out)
   if (!is.null(names)) {
-    out <- out[match(names, out$name),, drop = FALSE] # nolint
+    out <- out[match(names, out$name), , drop = FALSE] # nolint
   }
   out[, base::union("name", fields), drop = FALSE]
 }

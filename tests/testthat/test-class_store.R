@@ -35,7 +35,7 @@ tar_test("default delete and exists methods", {
   tar_make(callr_function = NULL)
   path <- path_objects(path_store_default(), "x")
   meta <- tar_meta()
-  meta <- meta[meta$name == "x",, drop = FALSE] # nolint
+  meta <- meta[meta$name == "x", , drop = FALSE] # nolint
   record <- record_from_row(row = meta, path_store = path_store_default())
   store <- record_bootstrap_store(record)
   file <- record_bootstrap_file(record)
@@ -56,13 +56,16 @@ tar_test("alternate storage with _targets.yaml", {
   expect_equal(tar_config_get("store"), path)
   writeLines("x_line", "x_file.txt")
   tar_script({
-    evalq({
-      write_lines <- function(file) {
-        file <- paste0(file, ".txt")
-        writeLines("lines", file)
-        file
-      }
-    }, envir = tar_option_get("envir"))
+    evalq(
+      {
+        write_lines <- function(file) {
+          file <- paste0(file, ".txt")
+          writeLines("lines", file)
+          file
+        }
+      },
+      envir = tar_option_get("envir")
+    )
     list(
       tar_target(x, "x_file.txt", format = "file"),
       tar_target(y, readLines(x)),

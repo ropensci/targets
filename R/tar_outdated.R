@@ -176,11 +176,11 @@ tar_outdated_globals <- function(pipeline, meta) {
   meta$ensure_preprocessed(write = FALSE)
   new <- hash_imports(pipeline$imports)
   new$new <- new$data
-  recorded <- fltr(new$name, ~meta$exists_record(.x))
+  recorded <- fltr(new$name, ~ meta$exists_record(.x))
   if (!length(recorded)) {
     return(new$name)
   }
-  data <- map_chr(recorded, ~meta$get_record(.x)$data)
+  data <- map_chr(recorded, ~ meta$get_record(.x)$data)
   old <- utils::stack(data)
   old$name <- as.character(old$ind)
   old$old <- old$values

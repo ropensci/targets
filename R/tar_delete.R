@@ -115,12 +115,12 @@ tar_delete_cloud_objects <- function(
   verbose
 ) {
   index_cloud <- !is.na(meta$repository) & (meta$repository != "local")
-  meta <- meta[index_cloud,, drop = FALSE] # nolint
-  meta <- meta[meta$name %in% names,, drop = FALSE] # nolint
-  meta <- meta[meta$type != "pattern",, drop = FALSE] # nolint
+  meta <- meta[index_cloud, , drop = FALSE] # nolint
+  meta <- meta[meta$name %in% names, , drop = FALSE] # nolint
+  meta <- meta[meta$type != "pattern", , drop = FALSE] # nolint
   for (repository in unique(meta$repository)) {
-    subset <- meta[meta$repository == repository,, drop = FALSE] # nolint
-    row <- subset[1L,, drop = FALSE] # nolint
+    subset <- meta[meta$repository == repository, , drop = FALSE] # nolint
+    row <- subset[1L, , drop = FALSE] # nolint
     record <- record_from_row(row = row, path_store = path_store)
     store <- record_bootstrap_store(record)
     store_delete_objects(

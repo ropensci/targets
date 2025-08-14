@@ -48,7 +48,7 @@ tar_branch_index <- function(names, store = targets::tar_config_get("store")) {
       paste(missing_patterns, collapse = ", ")
     )
   }
-  map_int(names, ~tar_branch_index_branch(.x, meta))
+  map_int(names, ~ tar_branch_index_branch(.x, meta))
 }
 
 tar_branch_index_branch <- function(name, meta) {

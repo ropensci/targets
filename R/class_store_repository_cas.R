@@ -11,8 +11,7 @@ store_class_repository.repository_cas <- function(repository, store, format) {
 }
 
 #' @export
-store_assert_repository_setting.repository_cas <- function(repository) {
-}
+store_assert_repository_setting.repository_cas <- function(repository) {}
 
 #' @export
 store_row_path.tar_repository_cas <- function(store, file) {
@@ -20,8 +19,7 @@ store_row_path.tar_repository_cas <- function(store, file) {
 }
 
 #' @export
-store_hash_early.tar_repository_cas <- function(store, file) {
-}
+store_hash_early.tar_repository_cas <- function(store, file) {}
 
 #' @export
 store_hash_late.tar_repository_cas <- function(store, file) {
@@ -104,8 +102,7 @@ store_delete_objects.tar_repository_cas <- function(
   meta,
   batch_size,
   verbose
-) {
-}
+) {}
 
 tar_repository_cas_lookup <- function(store) {
   meta <- .subset2(tar_runtime, "meta")

@@ -90,7 +90,7 @@ crew_class <- R6::R6Class(
       self$terminate_controller <- terminate_controller
     },
     produce_exports = function(envir, path_store, is_globalenv = NULL) {
-      map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
+      map(names(envir), ~ force(envir[[.x]])) # try to nix high-mem promises
       common <- list()
       globals <- list()
       # Avoid the global environment in autometed tests.
@@ -98,12 +98,12 @@ crew_class <- R6::R6Class(
       # nocov start
       if (is_globalenv %|||% identical(envir, globalenv())) {
         globals <- as.list(envir, all.names = TRUE)
-        which_globals <- fltr(names(globals), ~!is_internal_name(.x, envir))
+        which_globals <- fltr(names(globals), ~ !is_internal_name(.x, envir))
         globals <- globals[which_globals]
         common$envir <- "globalenv"
       } else {
         # nocov end
-        discard <- fltr(names(envir), ~is_internal_name(.x, envir))
+        discard <- fltr(names(envir), ~ is_internal_name(.x, envir))
         remove(list = discard, envir = envir)
         common$envir <- envir
       }
@@ -193,7 +193,7 @@ crew_class <- R6::R6Class(
       } else if (length(backlog <- self$controller$pop_backlog())) {
         map(
           x = backlog,
-          f = ~{
+          f = ~ {
             self$process_target(.x)
             self$conclude_worker_task()
           }

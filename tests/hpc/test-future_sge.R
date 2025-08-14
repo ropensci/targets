@@ -34,14 +34,17 @@ test_that("nontrivial globals with custom environment", {
       template = "sge_batchtools.tmpl"
     )
     envir <- new.env(parent = globalenv())
-    evalq({
-      f <- function(x) {
-        g(x) + 1L
-      }
-      g <- function(x) {
-        x + 1L
-      }
-    }, envir = envir)
+    evalq(
+      {
+        f <- function(x) {
+          g(x) + 1L
+        }
+        g <- function(x) {
+          x + 1L
+        }
+      },
+      envir = envir
+    )
     tar_option_set(envir = envir)
     list(
       tar_target(x, 1),

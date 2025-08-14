@@ -45,7 +45,8 @@ value_validate <- function(value) {
 }
 
 #' @export
-value_produce_slice_kernel.default <- function(value, index) { # nolint
+value_produce_slice_kernel.default <- function(value, index) {
+  # nolint
   value_produce_slice(value = value, index = index)
 }
 

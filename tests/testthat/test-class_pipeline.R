@@ -366,7 +366,7 @@ tar_test("resolve auto memory and retrieval (#1426)", {
       tar_target(c, b, pattern = map(b)),
       tar_target(d, b + c, pattern = map(b, c)),
       tar_target(e, c, pattern = map(c)),
-      tar_target(f, d, pattern= map(c))
+      tar_target(f, d, pattern = map(c))
     )
   )
   targets <- pipeline$targets

@@ -20,19 +20,22 @@ tar_test("pipeline continuously uploads metadata", {
     list(
       tar_target(a, 1),
       tar_target(
-        b, {
+        b,
+        {
           Sys.sleep(2)
           a
         }
       ),
       tar_target(
-        c, {
+        c,
+        {
           Sys.sleep(2)
           b
         }
       ),
       tar_target(
-        d, {
+        d,
+        {
           Sys.sleep(200)
           c
         }

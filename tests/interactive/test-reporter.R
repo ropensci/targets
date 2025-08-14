@@ -63,10 +63,13 @@ tar_option_set(workspace_on_error = FALSE)
 tar_destroy()
 pipeline <- pipeline_init(
   list(
-    target_init("x", quote({
-      warning("abc")
-      Sys.sleep(2)
-    })),
+    target_init(
+      "x",
+      quote({
+        warning("abc")
+        Sys.sleep(2)
+      })
+    ),
     target_init("y", quote(x))
   )
 )
@@ -77,10 +80,13 @@ local <- local_init(pipeline, reporter = "verbose")$run()
 tar_destroy()
 pipeline <- pipeline_init(
   list(
-    target_init("x", quote({
-      warning("abc")
-      Sys.sleep(2)
-    })),
+    target_init(
+      "x",
+      quote({
+        warning("abc")
+        Sys.sleep(2)
+      })
+    ),
     target_init("y", quote(x))
   )
 )

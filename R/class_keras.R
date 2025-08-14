@@ -6,8 +6,7 @@ store_class_format.keras <- function(format) {
 store_class_format_keras <- c("tar_keras", "tar_nonexportable", "tar_store")
 
 #' @export
-store_assert_format_setting.keras <- function(format) {
-}
+store_assert_format_setting.keras <- function(format) {}
 
 # It would be too burdensome to depend on Python Keras
 # just for automated testing, so this code is covered

@@ -6,8 +6,7 @@ store_class_format.feather <- function(format) {
 store_class_format_feather <- c("tar_feather", "tar_store")
 
 #' @export
-store_assert_format_setting.feather <- function(format) {
-}
+store_assert_format_setting.feather <- function(format) {}
 
 #' @export
 store_read_path.tar_feather <- function(store, path) {
@@ -27,9 +26,12 @@ store_write_path.tar_feather <- function(store, object, path) {
 }
 
 #' @export
-store_assert_format.tar_feather <- function(store, object, name) { # nolint
+store_assert_format.tar_feather <- function(store, object, name) {
+  # nolint
   msg <- paste(
-    "target", name, "has feather format, so it must have class",
+    "target",
+    name,
+    "has feather format, so it must have class",
     "data.frame, RecordBatch, or Table."
   )
   tar_assert_inherits(

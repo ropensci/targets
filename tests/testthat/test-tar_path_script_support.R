@@ -12,9 +12,11 @@ tar_test("tar_path_script() outside a pipeline", {
 tar_test("tar_path_script() inside a pipeline", {
   skip_cran()
   script <- "example_script"
-  tar_script(tar_target(
-    x,
-    tar_path_script_support()),
+  tar_script(
+    tar_target(
+      x,
+      tar_path_script_support()
+    ),
     script = script,
     ask = FALSE
   )

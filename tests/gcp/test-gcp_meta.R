@@ -8,28 +8,31 @@ tar_test("gcp meta", {
   gcp_gcs_auth(max_tries = 5)
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "gcp",
-      repository_meta = "gcp",
-      resources = tar_resources(
-        gcp = tar_resources_gcp(
-          bucket = bucket_name,
-          prefix = "_targets"
-        )
-      ),
-      controller = crew::crew_controller_local(),
-      storage = "worker",
-      retrieval = "worker"
-    )
-    list(
-      tar_target(a, 1L),
-      tar_target(b, a),
-      tar_target(c, a + b)
-    )
-  }, env = list(bucket_name = bucket_name))
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "gcp",
+        repository_meta = "gcp",
+        resources = tar_resources(
+          gcp = tar_resources_gcp(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
+        ),
+        controller = crew::crew_controller_local(),
+        storage = "worker",
+        retrieval = "worker"
+      )
+      list(
+        tar_target(a, 1L),
+        tar_target(b, a),
+        tar_target(c, a + b)
+      )
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   tar_make(reporter = "silent")
   expect_true(all(tar_progress()$progress == "completed"))
@@ -87,28 +90,31 @@ tar_test("gcp tar_meta_delete()", {
   gcp_gcs_auth(max_tries = 5)
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "gcp",
-      repository_meta = "gcp",
-      resources = tar_resources(
-        gcp = tar_resources_gcp(
-          bucket = bucket_name,
-          prefix = "_targets"
-        )
-      ),
-      controller = crew::crew_controller_local(),
-      storage = "worker",
-      retrieval = "worker"
-    )
-    list(
-      tar_target(a, 1L),
-      tar_target(b, a),
-      tar_target(c, a + b)
-    )
-  }, env = list(bucket_name = bucket_name))
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "gcp",
+        repository_meta = "gcp",
+        resources = tar_resources(
+          gcp = tar_resources_gcp(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
+        ),
+        controller = crew::crew_controller_local(),
+        storage = "worker",
+        retrieval = "worker"
+      )
+      list(
+        tar_target(a, 1L),
+        tar_target(b, a),
+        tar_target(c, a + b)
+      )
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   tar_make(reporter = "silent")
   expect_true(all(tar_progress()$progress == "completed"))
@@ -162,28 +168,31 @@ tar_test("gcp tar_meta_upload()", {
   gcp_gcs_auth(max_tries = 5)
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "gcp",
-      repository_meta = "gcp",
-      resources = tar_resources(
-        gcp = tar_resources_gcp(
-          bucket = bucket_name,
-          prefix = "_targets"
-        )
-      ),
-      controller = crew::crew_controller_local(),
-      storage = "worker",
-      retrieval = "worker"
-    )
-    list(
-      tar_target(a, 1L),
-      tar_target(b, a),
-      tar_target(c, a + b)
-    )
-  }, env = list(bucket_name = bucket_name))
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "gcp",
+        repository_meta = "gcp",
+        resources = tar_resources(
+          gcp = tar_resources_gcp(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
+        ),
+        controller = crew::crew_controller_local(),
+        storage = "worker",
+        retrieval = "worker"
+      )
+      list(
+        tar_target(a, 1L),
+        tar_target(b, a),
+        tar_target(c, a + b)
+      )
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   tar_make(reporter = "silent")
   expect_true(all(tar_progress()$progress == "completed"))
@@ -229,28 +238,31 @@ tar_test("gcp tar_meta_download()", {
   gcp_gcs_auth(max_tries = 5)
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "gcp",
-      repository_meta = "gcp",
-      resources = tar_resources(
-        gcp = tar_resources_gcp(
-          bucket = bucket_name,
-          prefix = "_targets"
-        )
-      ),
-      controller = crew::crew_controller_local(),
-      storage = "worker",
-      retrieval = "worker"
-    )
-    list(
-      tar_target(a, 1L),
-      tar_target(b, a),
-      tar_target(c, a + b)
-    )
-  }, env = list(bucket_name = bucket_name))
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "gcp",
+        repository_meta = "gcp",
+        resources = tar_resources(
+          gcp = tar_resources_gcp(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
+        ),
+        controller = crew::crew_controller_local(),
+        storage = "worker",
+        retrieval = "worker"
+      )
+      list(
+        tar_target(a, 1L),
+        tar_target(b, a),
+        tar_target(c, a + b)
+      )
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   tar_make(reporter = "silent")
   expect_true(all(tar_progress()$progress == "completed"))
@@ -284,28 +296,31 @@ tar_test("gcp tar_meta_sync() upload", {
   gcp_gcs_auth(max_tries = 5)
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "gcp",
-      repository_meta = "gcp",
-      resources = tar_resources(
-        gcp = tar_resources_gcp(
-          bucket = bucket_name,
-          prefix = "_targets"
-        )
-      ),
-      controller = crew::crew_controller_local(),
-      storage = "worker",
-      retrieval = "worker"
-    )
-    list(
-      tar_target(a, 1L),
-      tar_target(b, a),
-      tar_target(c, a + b)
-    )
-  }, env = list(bucket_name = bucket_name))
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "gcp",
+        repository_meta = "gcp",
+        resources = tar_resources(
+          gcp = tar_resources_gcp(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
+        ),
+        controller = crew::crew_controller_local(),
+        storage = "worker",
+        retrieval = "worker"
+      )
+      list(
+        tar_target(a, 1L),
+        tar_target(b, a),
+        tar_target(c, a + b)
+      )
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   tar_make(reporter = "silent")
   expect_true(all(tar_progress()$progress == "completed"))
@@ -351,28 +366,31 @@ tar_test("gcp tar_meta_sync() download", {
   gcp_gcs_auth(max_tries = 5)
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "gcp",
-      repository_meta = "gcp",
-      resources = tar_resources(
-        gcp = tar_resources_gcp(
-          bucket = bucket_name,
-          prefix = "_targets"
-        )
-      ),
-      controller = crew::crew_controller_local(),
-      storage = "worker",
-      retrieval = "worker"
-    )
-    list(
-      tar_target(a, 1L),
-      tar_target(b, a),
-      tar_target(c, a + b)
-    )
-  }, env = list(bucket_name = bucket_name))
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "gcp",
+        repository_meta = "gcp",
+        resources = tar_resources(
+          gcp = tar_resources_gcp(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
+        ),
+        controller = crew::crew_controller_local(),
+        storage = "worker",
+        retrieval = "worker"
+      )
+      list(
+        tar_target(a, 1L),
+        tar_target(b, a),
+        tar_target(c, a + b)
+      )
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   tar_make(reporter = "silent")
   expect_true(all(tar_progress()$progress == "completed"))
@@ -403,21 +421,24 @@ tar_test("GCP tar_meta_sync() download graceful failure", {
   gcp_gcs_auth(max_tries = 5)
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "gcp",
-      repository_meta = "gcp",
-      resources = tar_resources(
-        gcp = tar_resources_gcp(
-          bucket = bucket_name,
-          prefix = "_targets"
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "gcp",
+        repository_meta = "gcp",
+        resources = tar_resources(
+          gcp = tar_resources_gcp(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
         )
       )
-    )
-    list(tar_target(a, 1L))
-  }, env = list(bucket_name = bucket_name))
+      list(tar_target(a, 1L))
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   dir.create(path_store_default())
   expect_message(
@@ -442,21 +463,24 @@ tar_test("GCP tar_meta_sync() upload graceful failure", {
   gcp_gcs_auth(max_tries = 5)
   googleCloudStorageR::gcs_create_bucket(bucket_name, projectId = project)
   on.exit(gcp_gcs_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "gcp",
-      repository_meta = "gcp",
-      resources = tar_resources(
-        gcp = tar_resources_gcp(
-          bucket = bucket_name,
-          prefix = "_targets"
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "gcp",
+        repository_meta = "gcp",
+        resources = tar_resources(
+          gcp = tar_resources_gcp(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
         )
       )
-    )
-    list(tar_target(a, 1L))
-  }, env = list(bucket_name = bucket_name))
+      list(tar_target(a, 1L))
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   dir.create(path_store_default())
   expect_message(

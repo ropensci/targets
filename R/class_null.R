@@ -16,8 +16,7 @@ store_read_path.tar_null <- function(store, path) {
 }
 
 #' @export
-store_write_path.tar_null <- function(store, object, path) {
-}
+store_write_path.tar_null <- function(store, object, path) {}
 
 store_reformat_null <- function(target) {
   outcome <- metrics_outcome(target$metrics)

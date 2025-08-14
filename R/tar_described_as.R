@@ -82,7 +82,7 @@ tar_described_as_inner <- function(
   names <- pipeline_get_names(pipeline)
   descriptions <- map(
     names,
-    ~pipeline_get_target(pipeline, .x)$settings$description
+    ~ pipeline_get_target(pipeline, .x)$settings$description
   )
   names(descriptions) <- names
   descriptions <- unlist(descriptions, use.names = TRUE)

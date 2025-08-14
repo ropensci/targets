@@ -17,7 +17,7 @@ dynamic_class <- R6::R6Class(
       n_y <- nrow(y)
       index_x <- rep(seq_len(n_x), each = n_y)
       index_y <- rep(seq_len(n_y), times = n_x)
-      cbind(x[index_x,, drop = FALSE], y[index_y,, drop = FALSE]) # nolint
+      cbind(x[index_x, , drop = FALSE], y[index_y, , drop = FALSE]) # nolint
     }
   ),
   public = list(
@@ -44,7 +44,7 @@ dynamic_class <- R6::R6Class(
         seq_len(nrow(x)),
         "index is out of bounds in pattern = slice()."
       )
-      omit_rownames(x[index,, drop = FALSE]) # nolint
+      omit_rownames(x[index, , drop = FALSE]) # nolint
     },
     sample = function(x, n = 1L) {
       tar_assert_positive(n, "n must be positive in pattern = sample().")

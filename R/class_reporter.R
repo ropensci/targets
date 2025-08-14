@@ -21,8 +21,7 @@ reporter_class <- R6::R6Class(
   cloneable = FALSE,
   public = list(
     seconds_skipped = -Inf,
-    report_start = function() {
-    },
+    report_start = function() {},
     report_error = function(error) {
       tar_message_run("Error: ", error, "\n")
     },
@@ -49,30 +48,18 @@ reporter_class <- R6::R6Class(
       target = NULL,
       progress = NULL,
       pending = FALSE
-    ) {
-    },
-    report_pattern = function(target = NULL, progress = NULL) {
-    },
-    report_completed = function(target = NULL, progress = NULL) {
-    },
-    report_skipped = function(target = NULL, progress = NULL) {
-    },
-    report_errored = function(target = NULL, progress = NULL) {
-    },
-    report_canceled = function(target = NULL, progress = NULL) {
-    },
-    report_outdated = function(outdated) {
-    },
-    report_outdated_end = function(outdated) {
-    },
-    report_workspace = function(target) {
-    },
-    report_workspace_upload = function(target) {
-    },
-    report_retry = function(target = NULL, progress = NULL) {
-    },
-    validate = function() {
-    }
+    ) {},
+    report_pattern = function(target = NULL, progress = NULL) {},
+    report_completed = function(target = NULL, progress = NULL) {},
+    report_skipped = function(target = NULL, progress = NULL) {},
+    report_errored = function(target = NULL, progress = NULL) {},
+    report_canceled = function(target = NULL, progress = NULL) {},
+    report_outdated = function(outdated) {},
+    report_outdated_end = function(outdated) {},
+    report_workspace = function(target) {},
+    report_workspace_upload = function(target) {},
+    report_retry = function(target = NULL, progress = NULL) {},
+    validate = function() {}
   )
 )
 

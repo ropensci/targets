@@ -21,8 +21,7 @@ store_write_object.tar_cloud <- function(store, file, object) {
 }
 
 #' @export
-store_cache_path.tar_cloud <- function(store, path) {
-}
+store_cache_path.tar_cloud <- function(store, path) {}
 
 #' @export
 store_hash_late.tar_cloud <- function(store, file) {
@@ -39,10 +38,8 @@ store_ensure_correct_hash.tar_cloud <- function(
   file,
   storage,
   deployment
-) {
-}
+) {}
 
 #' @export
-store_sync_file_meta.tar_cloud <- function(store, target, meta, path) {
-}
+store_sync_file_meta.tar_cloud <- function(store, target, meta, path) {}
 # nocov end

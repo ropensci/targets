@@ -159,22 +159,22 @@ tar_test("tar_outdated() does not deduplicate metadata", {
 
 # nolint start
 tar_test("tar_outdated() names arg works", {
-   tar_script({
-     envir <- new.env(parent = baseenv())
-     tar_option_set(envir = envir)
-     list(tar_target(x, 1L), tar_target(y, x))
-   })
-   out <- tar_outdated(
-     callr_function = NULL,
-     callr_arguments = list(show = FALSE)
-   )
-   expect_equal(sort(out), sort(c("x", "y")))
-   out <- tar_outdated(
-     callr_function = NULL,
-     names = "x",
-     callr_arguments = list(show = FALSE)
-   )
-   expect_equal(out, "x")
+  tar_script({
+    envir <- new.env(parent = baseenv())
+    tar_option_set(envir = envir)
+    list(tar_target(x, 1L), tar_target(y, x))
+  })
+  out <- tar_outdated(
+    callr_function = NULL,
+    callr_arguments = list(show = FALSE)
+  )
+  expect_equal(sort(out), sort(c("x", "y")))
+  out <- tar_outdated(
+    callr_function = NULL,
+    names = "x",
+    callr_arguments = list(show = FALSE)
+  )
+  expect_equal(out, "x")
 })
 # nolint end
 

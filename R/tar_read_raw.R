@@ -24,7 +24,7 @@ tar_read_inner <- function(name, branches, meta, path_store) {
   if (!any(index)) {
     tar_throw_validate("target ", name, " not found")
   }
-  row <- meta[max(which(index)),, drop = FALSE] # nolint
+  row <- meta[max(which(index)), , drop = FALSE] # nolint
   record <- record_from_row(row = row, path_store = path_store)
   if_any(
     record$type %in% c("stem", "branch"),
@@ -51,11 +51,11 @@ read_pattern <- function(name, record, meta, branches, path_store) {
       paste(diff, collapse = ", ")
     )
   }
-  meta <- meta[meta$name %in% names,, drop = FALSE] # nolint
+  meta <- meta[meta$name %in% names, , drop = FALSE] # nolint
   if (nrow(meta)) {
-    meta <- meta[match(names, meta$name),, drop = FALSE] # nolint
+    meta <- meta[match(names, meta$name), , drop = FALSE] # nolint
   }
-  records <- map_rows(meta, ~record_from_row(.x, path_store = path_store))
+  records <- map_rows(meta, ~ record_from_row(.x, path_store = path_store))
   objects <- lapply(records, read_builder)
   names(objects) <- names
   value <- value_init(iteration = record$iteration)

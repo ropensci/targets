@@ -129,18 +129,24 @@ tar_test("nontrivial common data", {
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
   tar_option_set(envir = envir)
-  on.exit({
-    options(clustermq.scheduler = old)
-    tar_option_set(envir = old_envir)
-  }, add = TRUE)
-  evalq({
-    f <- function(x) {
-      g(x) + 1L
-    }
-    g <- function(x) {
-      x + 1L
-    }
-  }, envir = envir)
+  on.exit(
+    {
+      options(clustermq.scheduler = old)
+      tar_option_set(envir = old_envir)
+    },
+    add = TRUE
+  )
+  evalq(
+    {
+      f <- function(x) {
+        g(x) + 1L
+      }
+      g <- function(x) {
+        x + 1L
+      }
+    },
+    envir = envir
+  )
   x <- tar_target_raw("x", quote(f(1L)))
   pipeline <- pipeline_init(list(x))
   cmq <- clustermq_init(pipeline)
@@ -162,18 +168,24 @@ tar_test("clustermq with a file target", {
   on.exit(tar_runtime$fun <- NULL)
   old_envir <- tar_option_get("envir")
   envir <- new.env(parent = globalenv())
-  on.exit({
-    options(clustermq.scheduler = old)
-    tar_option_set(envir = old_envir)
-  }, add = TRUE)
+  on.exit(
+    {
+      options(clustermq.scheduler = old)
+      tar_option_set(envir = old_envir)
+    },
+    add = TRUE
+  )
   tar_option_set(envir = envir)
-  evalq({
-    save1 <- function() {
-      file <- "saved.out"
-      saveRDS(1L, file)
-      file
-    }
-  }, envir = envir)
+  evalq(
+    {
+      save1 <- function() {
+        file <- "saved.out"
+        saveRDS(1L, file)
+        file
+      }
+    },
+    envir = envir
+  )
   x <- tar_target_raw("x", quote(save1()), format = "file")
   pipeline <- pipeline_init(list(x))
   cmq <- clustermq_init(pipeline)

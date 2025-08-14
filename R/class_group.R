@@ -13,13 +13,15 @@ value_count_slices.tar_group <- function(value) {
 }
 
 #' @export
-value_produce_slice.tar_group <- function(value, index) { # nolint
+value_produce_slice.tar_group <- function(value, index) {
+  # nolint
   which <- as.integer(value$object$tar_group) == as.integer(index)
-  value$object[which,, drop = FALSE] # nolint
+  value$object[which, , drop = FALSE] # nolint
 }
 
 #' @export
-value_produce_slice_kernel.tar_group <- function(value, index) { # nolint
+value_produce_slice_kernel.tar_group <- function(value, index) {
+  # nolint
   out <- value_produce_slice(value = value, index = index)
   out$tar_group <- NULL
   attr(out, "out.attrs") <- NULL
@@ -27,7 +29,8 @@ value_produce_slice_kernel.tar_group <- function(value, index) { # nolint
 }
 
 #' @export
-value_produce_aggregate.tar_group <- function(value, objects) { # nolint
+value_produce_aggregate.tar_group <- function(value, objects) {
+  # nolint
   do.call(vctrs::vec_rbind, objects)
 }
 

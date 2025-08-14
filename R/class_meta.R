@@ -117,7 +117,7 @@ meta_class <- R6::R6Class(
     },
     data_imports = function(envir, pipeline) {
       data <- hash_imports(envir)
-      data[!(data$name %in% pipeline_get_names(pipeline)),, drop = FALSE] # nolint
+      data[!(data$name %in% pipeline_get_names(pipeline)), , drop = FALSE] # nolint
     },
     record_imports = function(envir, pipeline) {
       data <- self$data_imports(envir, pipeline)
@@ -140,7 +140,8 @@ meta_class <- R6::R6Class(
         label = "noting builders and branches"
       )
       on.exit(cli_local_progress_bar_destroy(bar = bar))
-      is_local_builder <- data$type %in% c("stem", "branch") &
+      is_local_builder <- data$type %in%
+        c("stem", "branch") &
         data$repository == "local"
       self$local_builders <- data$name[is_local_builder]
       self$branches <- data$name[data$type == "branch"]

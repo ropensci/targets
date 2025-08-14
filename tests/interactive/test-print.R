@@ -4,10 +4,14 @@ tar_test("print stem", {
       template = list(cpu = 1, mem = 2)
     )
   )
-  x <- tar_target(x, {
-    a <- 1
-    b
-  }, resources = resources)
+  x <- tar_target(
+    x,
+    {
+      a <- 1
+      b
+    },
+    resources = resources
+  )
   print(x)
   expect_equal(1, 1)
 })

@@ -63,5 +63,4 @@ tar_make_interactive_load_target.tar_bud <- function(
   target,
   name,
   pipeline
-) {
-}
+) {}

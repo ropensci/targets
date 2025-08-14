@@ -22,7 +22,7 @@ pipeline <- pipeline_init(
 local_init(pipeline)$run()
 # Run these tests inside the debugger:
 names <- pipeline_get_names(pipeline)
-result <- map_lgl(names, ~is.null(pipeline_get_target(pipeline, .x)$value))
+result <- map_lgl(names, ~ is.null(pipeline_get_target(pipeline, .x)$value))
 expect_true(result["all"])
 expect_false(any(result[setdiff(names(result), "all")]))
 # Exit the debugger.
@@ -50,7 +50,7 @@ pipeline <- pipeline_init(
 local_init(pipeline)$run()
 # Run these tests inside the debugger:
 names <- pipeline_get_names(pipeline)
-result <- map_lgl(names, ~is.null(pipeline_get_target(pipeline, .x)$value))
+result <- map_lgl(names, ~ is.null(pipeline_get_target(pipeline, .x)$value))
 expect_true(all(result[setdiff(names(result), c("mins", "maxes"))]))
 expect_false(any(result[c("mins", "maxes")]))
 # Exit the debugger.

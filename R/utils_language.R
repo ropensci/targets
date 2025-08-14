@@ -69,8 +69,7 @@ deparse_direct <- function(...) {
 }
 
 embody_expr <- function(expr) {
-  fun <- function() {
-  }
+  fun <- function() {}
   body(fun) <- expr
   fun
 }

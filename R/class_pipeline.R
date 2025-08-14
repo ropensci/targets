@@ -28,13 +28,13 @@ pipeline_s3_class <- "tar_pipeline"
 pipeline_targets_init <- function(targets, clone_targets) {
   targets <- targets %|||% list()
   tar_assert_target_list(targets)
-  names <- map_chr(targets, ~target_get_name(.x))
+  names <- map_chr(targets, ~ target_get_name(.x))
   tar_assert_unique_targets(names)
   if (clone_targets) {
     # If the user has target objects in the global environment,
     # loading data into them may cause huge data transfers to workers.
     # Best to not modify the user's copies of target objects.
-    targets <- map(targets, ~target_subpipeline_copy(.x, keep_value = FALSE))
+    targets <- map(targets, ~ target_subpipeline_copy(.x, keep_value = FALSE))
   }
   names(targets) <- names
   list2env(targets, parent = emptyenv(), hash = TRUE)
@@ -118,7 +118,7 @@ pipeline_get_names <- function(pipeline) {
 pipeline_get_priorities <- function(pipeline) {
   map_dbl(
     pipeline_get_names(pipeline),
-    ~pipeline_get_target(pipeline, .x)$settings$priority,
+    ~ pipeline_get_target(pipeline, .x)$settings$priority,
     USE.NAMES = TRUE
   )
 }
@@ -128,7 +128,7 @@ pipeline_uses_priorities <- function(pipeline) {
 }
 
 pipeline_reset_priorities <- function(pipeline) {
-  map(pipeline_get_names(pipeline), ~pipeline_reset_priority(pipeline, .x))
+  map(pipeline_get_names(pipeline), ~ pipeline_reset_priority(pipeline, .x))
 }
 
 pipeline_reset_priority <- function(pipeline, name) {
@@ -137,7 +137,7 @@ pipeline_reset_priority <- function(pipeline, name) {
 }
 
 pipeline_reset_deployments <- function(pipeline) {
-  map(pipeline_get_names(pipeline), ~pipeline_reset_deployment(pipeline, .x))
+  map(pipeline_get_names(pipeline), ~ pipeline_reset_deployment(pipeline, .x))
 }
 
 pipeline_reset_deployment <- function(pipeline, name) {
@@ -154,16 +154,16 @@ pipeline_exists_target <- function(pipeline, name) {
 }
 
 pipeline_targets_only_edges <- function(edges) {
-  edges[edges$from %in% edges$to,, drop = FALSE] # nolint
+  edges[edges$from %in% edges$to, , drop = FALSE] # nolint
 }
 
 pipeline_upstream_edges <- function(pipeline, targets_only = TRUE) {
   edge_list <- map(
     pipeline_get_names(pipeline),
-    ~target_upstream_edges(pipeline_get_target(pipeline, .x))
+    ~ target_upstream_edges(pipeline_get_target(pipeline, .x))
   )
-  from <- map(edge_list, ~.x$from)
-  to <- map(edge_list, ~.x$to)
+  from <- map(edge_list, ~ .x$from)
+  to <- map(edge_list, ~ .x$to)
   from <- unlist(from, recursive = FALSE, use.names = FALSE)
   to <- unlist(to, recursive = FALSE, use.names = FALSE)
   edges <- data_frame(from = from, to = to)
@@ -180,7 +180,8 @@ pipeline_produce_igraph <- function(pipeline, targets_only = TRUE) {
   igraph::simplify(igraph::graph_from_data_frame(edges))
 }
 
-pipeline_register_loaded <- function(pipeline, name) { # nolint
+pipeline_register_loaded <- function(pipeline, name) {
+  # nolint
   counter_set_name(pipeline$loaded, name)
   target <- pipeline_get_target(pipeline, name)
   if (identical(target$settings$memory, "transient")) {
@@ -258,7 +259,7 @@ pipeline_compress_subpipeline <- function(pipeline) {
 pipeline_marshal_values <- function(pipeline) {
   map(
     pipeline_get_names(pipeline),
-    ~target_marshal_value(pipeline_get_target(pipeline, .x))
+    ~ target_marshal_value(pipeline_get_target(pipeline, .x))
   )
 }
 
@@ -266,7 +267,7 @@ pipeline_unmarshal_values <- function(pipeline) {
   names <- pipeline_get_names(pipeline)
   map(
     names,
-    ~target_unmarshal_value(pipeline_get_target(pipeline, .x))
+    ~ target_unmarshal_value(pipeline_get_target(pipeline, .x))
   )
 }
 
@@ -292,25 +293,25 @@ pipeline_prune_shortcut <- function(pipeline, names, shortcut) {
     return(pipeline)
   }
   available <- intersect(names, pipeline_get_names(pipeline))
-  targets <- map(available, ~pipeline_get_target(pipeline, .x))
+  targets <- map(available, ~ pipeline_get_target(pipeline, .x))
   pipeline_init(targets = targets, clone_targets = FALSE)
 }
 
 pipeline_get_packages <- function(pipeline) {
   out <- map(
     pipeline_get_names(pipeline),
-    ~target_get_packages(pipeline_get_target(pipeline, .x))
+    ~ target_get_packages(pipeline_get_target(pipeline, .x))
   )
   sort_chr(unique(unlist(out)))
 }
 
 pipeline_bootstrap_deps <- function(pipeline, meta, names) {
-  deps <- map(names, ~pipeline_get_target(pipeline, .x)$deps)
+  deps <- map(names, ~ pipeline_get_target(pipeline, .x)$deps)
   deps <- intersect(unique(unlist(deps)), pipeline_get_names(pipeline))
   deps <- setdiff(x = deps, y = names)
   branched_over <- map(
     names,
-    ~pipeline_get_target(pipeline, .x)$settings$dimensions
+    ~ pipeline_get_target(pipeline, .x)$settings$dimensions
   )
   branched_over <- intersect(
     unique(unlist(branched_over)),
@@ -320,7 +321,7 @@ pipeline_bootstrap_deps <- function(pipeline, meta, names) {
   not_branched_over <- setdiff(deps, branched_over)
   map(
     not_branched_over,
-    ~target_bootstrap(
+    ~ target_bootstrap(
       pipeline_get_target(pipeline, .x),
       pipeline,
       meta,
@@ -329,7 +330,7 @@ pipeline_bootstrap_deps <- function(pipeline, meta, names) {
   )
   map(
     branched_over,
-    ~target_bootstrap(
+    ~ target_bootstrap(
       pipeline_get_target(pipeline, .x),
       pipeline,
       meta,
@@ -394,7 +395,7 @@ pipeline_from_list.tar_pipeline <- function(x) {
 #' @keywords internal
 pipeline_from_list.default <- function(x) {
   out <- unlist(list(x), recursive = TRUE)
-  out <- fltr(out, ~inherits(x = .x, what = "tar_target"))
+  out <- fltr(out, ~ inherits(x = .x, what = "tar_target"))
   pipeline_init(out)
 }
 

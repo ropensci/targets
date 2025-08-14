@@ -27,7 +27,7 @@ tar_option_set(
   # cluster, select a controller from the {crew.cluster} package.
   # For the cloud, see plugin packages like {crew.aws.batch}.
   # The following example is a controller for Sun Grid Engine (SGE).
-  # 
+  #
   #   controller = crew.cluster::crew_controller_sge(
   #     # Number of workers that the pipeline can scale up to:
   #     workers = 10,

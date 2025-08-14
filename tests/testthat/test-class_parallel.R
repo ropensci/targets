@@ -52,7 +52,8 @@ tar_test("parallel$dequeue() and parallel$should_dequeue()", {
 
 tar_test("parallel$append()", {
   q <- parallel_init(
-    names = c("a", "b", "c", "d"), ranks = c(1, 0, 2, 0),
+    names = c("a", "b", "c", "d"),
+    ranks = c(1, 0, 2, 0),
     step = 4L
   )
   q$append(names = c("x", "y"), ranks = c(0, 3))
@@ -73,7 +74,8 @@ tar_test("parallel$append()", {
 
 tar_test("parallel$prepend()", {
   q <- parallel_init(
-    names = c("a", "b", "c", "d"), ranks = c(1, 0, 2, 0),
+    names = c("a", "b", "c", "d"),
+    ranks = c(1, 0, 2, 0),
     step = 4L
   )
   q$prepend(names = c("x", "y"), ranks = c(0, 3))
@@ -95,7 +97,8 @@ tar_test("parallel$prepend()", {
 
 tar_test("parallel$increment_ranks()", {
   q <- parallel_init(
-    names = c("a", "b", "c", "d"), ranks = c(1, 0, 2, 0),
+    names = c("a", "b", "c", "d"),
+    ranks = c(1, 0, 2, 0),
     step = 4L
   )
   q$increment_ranks(names = c("b", "c", "x"), by = c(6, 7, 8))

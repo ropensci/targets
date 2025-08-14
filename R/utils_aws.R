@@ -227,7 +227,7 @@ aws_s3_upload <- function(
   endpoint = NULL,
   metadata = list(),
   multipart = file.size(file) > part_size,
-  part_size = 5 * (2 ^ 20),
+  part_size = 5 * (2^20),
   args = list(),
   max_tries = NULL,
   seconds_timeout = NULL,
@@ -242,7 +242,7 @@ aws_s3_upload <- function(
     s3_force_path_style = s3_force_path_style,
     max_tries = max_tries
   )
-  part_size <- part_size %|||% (5 * (2 ^ 20))
+  part_size <- part_size %|||% (5 * (2^20))
   if (!multipart) {
     args_put_object <- args
     args_put_object$Body <- readBin(file, what = "raw", n = file.size(file))
@@ -286,31 +286,34 @@ aws_s3_upload <- function(
       tar_throw_file(response)
     }
   })
-  response <- try({
-    parts <- aws_s3_upload_parts(
-      file = file,
-      key = key,
-      bucket = bucket,
-      client = client,
-      part_size = part_size,
-      upload_id = multipart$UploadId,
-      max_tries = max_tries,
-      args = args
-    )
-    args_complete_multipart_upload <- args
-    args_complete_multipart_upload$Bucket <- bucket
-    args_complete_multipart_upload$Key <- key
-    args_complete_multipart_upload$MultipartUpload <- list(Parts = parts)
-    args_complete_multipart_upload$UploadId <- multipart$UploadId
-    args_complete_multipart_upload <- supported_args(
-      fun = client$complete_multipart_upload,
-      args = args_complete_multipart_upload
-    )
-    do.call(
-      what = client$complete_multipart_upload,
-      args = args_complete_multipart_upload
-    )
-  }, silent = TRUE)
+  response <- try(
+    {
+      parts <- aws_s3_upload_parts(
+        file = file,
+        key = key,
+        bucket = bucket,
+        client = client,
+        part_size = part_size,
+        upload_id = multipart$UploadId,
+        max_tries = max_tries,
+        args = args
+      )
+      args_complete_multipart_upload <- args
+      args_complete_multipart_upload$Bucket <- bucket
+      args_complete_multipart_upload$Key <- key
+      args_complete_multipart_upload$MultipartUpload <- list(Parts = parts)
+      args_complete_multipart_upload$UploadId <- multipart$UploadId
+      args_complete_multipart_upload <- supported_args(
+        fun = client$complete_multipart_upload,
+        args = args_complete_multipart_upload
+      )
+      do.call(
+        what = client$complete_multipart_upload,
+        args = args_complete_multipart_upload
+      )
+    },
+    silent = TRUE
+  )
   response
 }
 

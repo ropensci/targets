@@ -200,8 +200,8 @@ future_class <- R6::R6Class(
       if (!length(names)) {
         return()
       }
-      targets <- map(names, ~pipeline_get_target(self$pipeline, .x))
-      priorities <- map_dbl(targets, ~.x$settings$priority)
+      targets <- map(names, ~ pipeline_get_target(self$pipeline, .x))
+      priorities <- map_dbl(targets, ~ .x$settings$priority)
       names(priorities) <- names
       names <- names(sort(priorities, decreasing = TRUE))
       lapply(names, self$process_worker)

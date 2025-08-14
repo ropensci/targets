@@ -13,7 +13,7 @@
 #'   (`https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/`).
 #'   Alternatively, you can render it inline in an R Markdown or Quarto
 #'   document using a `results = "asis"` code chunk like so:
-#'   
+#'
 #'       ```{r, results = "asis", echo = FALSE}
 #'       cat(c("```{mermaid}", targets::tar_mermaid(), "```"), sep = "\n")
 #'       ```

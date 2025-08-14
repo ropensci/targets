@@ -4,7 +4,7 @@ resources_aws_init <- function(
   region = NULL,
   endpoint = NULL,
   s3_force_path_style = NULL,
-  part_size = 5 * (2 ^ 20),
+  part_size = 5 * (2^20),
   page_size = 1000L,
   max_tries = NULL,
   seconds_timeout = NULL,
@@ -100,10 +100,21 @@ resources_aws_validate_args <- function(args) {
   names <- names(args)
   illegal <- c(
     setdiff(names(formals(tar_resources_aws)), "..."),
-    "bucket", "Bucket", "key", "Key",
-    "prefix", "region", "part_size", "endpoint",
-    "VersionId", "body", "Body",
-    "metadata", "Metadata", "UploadId", "MultipartUpload",
+    "bucket",
+    "Bucket",
+    "key",
+    "Key",
+    "prefix",
+    "region",
+    "part_size",
+    "endpoint",
+    "VersionId",
+    "body",
+    "Body",
+    "metadata",
+    "Metadata",
+    "UploadId",
+    "MultipartUpload",
     "PartNumber"
   )
   illegal <- unique(illegal)

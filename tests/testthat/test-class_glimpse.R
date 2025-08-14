@@ -27,12 +27,15 @@ tar_test("glimpse$pipeline", {
 
 tar_test("vertices and edges", {
   envir <- new.env(parent = baseenv())
-  evalq({
-    f <- function(x) g(x) + h
-    g <- function(x) i
-    h <- 1
-    i <- 1
-  }, envir = envir)
+  evalq(
+    {
+      f <- function(x) g(x) + h
+      g <- function(x) i
+      h <- 1
+      i <- 1
+    },
+    envir = envir
+  )
   tar_option_set(envir = envir)
   pipeline <- pipeline_init(
     list(

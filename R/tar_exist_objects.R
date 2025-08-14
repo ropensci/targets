@@ -28,7 +28,7 @@ tar_exist_objects <- function(
   meta <- if_any(file.exists(store), tar_meta(store = store), data_frame())
   out <- map_lgl(
     names,
-    ~tar_exist_object(name = .x, cloud = cloud, meta = meta, store = store)
+    ~ tar_exist_object(name = .x, cloud = cloud, meta = meta, store = store)
   )
   unname(out)
 }
@@ -51,7 +51,7 @@ tar_exist_object <- function(name, cloud, meta, store) {
 # Tested in tests/aws/test-delete.R
 # nocov start
 tar_exist_cloud_target <- function(name, meta, path_store) {
-  row <- meta[meta$name == name,, drop = FALSE] # nolint
+  row <- meta[meta$name == name, , drop = FALSE] # nolint
   record <- record_from_row(row = row, path_store = path_store)
   store <- record_bootstrap_store(record)
   file <- record_bootstrap_file(record)

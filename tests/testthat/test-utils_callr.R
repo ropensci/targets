@@ -37,7 +37,8 @@ tar_test("file path caches are correct", {
       tar_target(x, 1),
       tar_target(y, x),
       tar_target(
-        z, {
+        z,
+        {
           file.create("z")
           "z"
         },
@@ -50,7 +51,8 @@ tar_test("file path caches are correct", {
     list(
       tar_target(file_info, tar_runtime_object()$file_info),
       tar_target(
-        file_exist, {
+        file_exist,
+        {
           file_info
           sort(names(tar_runtime_object()$file_exist$envir))
         }

@@ -62,71 +62,81 @@ tar_watch_server <- function(
           about = tar_watch_about()
         )
       })
-      output$summary <- gt::render_gt({
-        shiny::req(refresh$refresh)
-        if_any(
-          tar_exist_progress(
-            store = tar_config_get(
-              "store",
-              config = config,
-              project = project
-            )
-          ),
-          tar_progress_summary_gt(
-            path_store = tar_config_get(
-              "store",
-              config = config,
-              project = project
-            )
-          ),
-          gt_borderless(data_frame(progress = "No progress recorded."))
-        )
-      }, height = height)
-      output$branches <- gt::render_gt({
-        shiny::req(refresh$refresh)
-        if_any(
-          tar_exist_progress(
-            store = tar_config_get(
-              "store",
-              config = config,
-              project = project
-            )
-          ),
-          tar_progress_branches_gt(
-            path_store = tar_config_get(
-              "store",
-              config = config,
-              project = project
-            )
-          ),
-          gt_borderless(data_frame(progress = "No progress recorded."))
-        )
-      }, height = height)
-      output$progress <- DT::renderDataTable({
-        shiny::req(refresh$refresh)
-        path_store <- tar_config_get(
-          "store",
-          config = config,
-          project = project
-        )
-        if (!tar_exist_progress(store = path_store)) {
-          return(data_frame(progress = "No progress recorded."))
-        }
-        out <- tar_progress(fields = everything(), store = path_store)
-        if (tar_exist_meta(store = path_store)) {
-          fields <- c("name", "time", "seconds", "bytes", "error", "warnings")
-          meta <- tar_meta(fields = any_of(fields), store = path_store)
-          meta$finished <- as.character(meta$time)
-          meta$time <- prettyunits::pretty_sec(meta$seconds)
-          meta$size <- prettyunits::pretty_bytes(meta$bytes)
-          meta$seconds <- NULL
-          meta$bytes <- NULL
-          fields <- c("name", "finished", "time", "size", "error", "warnings")
-          meta <- meta[, fields, drop = FALSE]
-          out <- merge(x = out, y = meta, by = "name", all.x = TRUE)
-        }
-        out
-      }, height = height, filter = "top")
+      output$summary <- gt::render_gt(
+        {
+          shiny::req(refresh$refresh)
+          if_any(
+            tar_exist_progress(
+              store = tar_config_get(
+                "store",
+                config = config,
+                project = project
+              )
+            ),
+            tar_progress_summary_gt(
+              path_store = tar_config_get(
+                "store",
+                config = config,
+                project = project
+              )
+            ),
+            gt_borderless(data_frame(progress = "No progress recorded."))
+          )
+        },
+        height = height
+      )
+      output$branches <- gt::render_gt(
+        {
+          shiny::req(refresh$refresh)
+          if_any(
+            tar_exist_progress(
+              store = tar_config_get(
+                "store",
+                config = config,
+                project = project
+              )
+            ),
+            tar_progress_branches_gt(
+              path_store = tar_config_get(
+                "store",
+                config = config,
+                project = project
+              )
+            ),
+            gt_borderless(data_frame(progress = "No progress recorded."))
+          )
+        },
+        height = height
+      )
+      output$progress <- DT::renderDataTable(
+        {
+          shiny::req(refresh$refresh)
+          path_store <- tar_config_get(
+            "store",
+            config = config,
+            project = project
+          )
+          if (!tar_exist_progress(store = path_store)) {
+            return(data_frame(progress = "No progress recorded."))
+          }
+          out <- tar_progress(fields = everything(), store = path_store)
+          if (tar_exist_meta(store = path_store)) {
+            fields <- c("name", "time", "seconds", "bytes", "error", "warnings")
+            meta <- tar_meta(fields = any_of(fields), store = path_store)
+            meta$finished <- as.character(meta$time)
+            meta$time <- prettyunits::pretty_sec(meta$seconds)
+            meta$size <- prettyunits::pretty_bytes(meta$bytes)
+            meta$seconds <- NULL
+            meta$bytes <- NULL
+            fields <- c("name", "finished", "time", "size", "error", "warnings")
+            meta <- meta[, fields, drop = FALSE]
+            out <- merge(x = out, y = meta, by = "name", all.x = TRUE)
+          }
+          out
+        },
+        height = height,
+        filter = "top"
+      )
       output$graph <- visNetwork::renderVisNetwork({
         shiny::req(refresh$refresh)
         if_any(

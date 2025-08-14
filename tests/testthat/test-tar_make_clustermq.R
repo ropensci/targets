@@ -73,11 +73,14 @@ tar_test("custom script and store args", {
   expect_equal(tar_config_get("store"), path_store_default())
   old_option <- getOption("clustermq.scheduler")
   on.exit(options(clustermq.scheduler = old_option))
-  tar_script({
-    tar_option_set(packages = character(0))
-    options(clustermq.scheduler = "multicore")
-    tar_target(x, TRUE)
-  }, script = "example/script.R")
+  tar_script(
+    {
+      tar_option_set(packages = character(0))
+      options(clustermq.scheduler = "multicore")
+      tar_target(x, TRUE)
+    },
+    script = "example/script.R"
+  )
   tar_make_clustermq(
     script = "example/script.R",
     store = "example/store",
@@ -107,10 +110,13 @@ tar_test("custom script and store args with callr function", {
   skip_on_os("windows")
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  tar_script({
-    options(clustermq.scheduler = "multicore")
-    tar_target(x, TRUE)
-  }, script = "example/script.R")
+  tar_script(
+    {
+      options(clustermq.scheduler = "multicore")
+      tar_target(x, TRUE)
+    },
+    script = "example/script.R"
+  )
   tmp <- utils::capture.output(
     suppressMessages(
       tar_make_clustermq(

@@ -35,7 +35,7 @@ tar_test("junction_invalidate()", {
 })
 
 tar_test("junction_upstream_edges()", {
-  names <-  paste0("child_", seq_len(3))
+  names <- paste0("child_", seq_len(3))
   x <- paste0("x_", seq_len(3))
   y <- paste0("y_", seq_len(3))
   junction <- junction_init("parent", names, list(x, y))

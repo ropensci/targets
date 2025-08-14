@@ -76,11 +76,14 @@ tar_test("custom script and store args", {
   skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  tar_script({
-    list(
-      tar_target(w, letters)
-    )
-  }, script = "example/script.R")
+  tar_script(
+    {
+      list(
+        tar_target(w, letters)
+      )
+    },
+    script = "example/script.R"
+  )
   tar_make(
     callr_function = NULL,
     script = "example/script.R",

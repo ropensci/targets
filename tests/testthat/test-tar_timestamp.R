@@ -37,7 +37,8 @@ tar_test("good timestamp outside target", {
 tar_test("one timestamp for two files", {
   tar_script(
     tar_target(
-      y, {
+      y,
+      {
         file.create(c("x", "y"))
         c("x", "y")
       }
@@ -56,7 +57,8 @@ tar_test("use timestamp in a target", {
   tar_script(
     list(
       tar_target(
-        y, {
+        y,
+        {
           tar_cancel(Sys.time() - tar_timestamp() < 360)
           tar_timestamp()
         },
@@ -79,11 +81,14 @@ tar_test("custom script and store args", {
   skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  tar_script({
-    list(
-      tar_target(w, letters)
-    )
-  }, script = "example/script.R")
+  tar_script(
+    {
+      list(
+        tar_target(w, letters)
+      )
+    },
+    script = "example/script.R"
+  )
   tar_make(
     callr_function = NULL,
     script = "example/script.R",

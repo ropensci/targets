@@ -51,7 +51,7 @@ backoff_class <- R6::R6Class(
       self$index <- min(self$index + 1L, as.integer(1e9))
     },
     bound = function() {
-      min(self$max, (self$min) * ((self$rate) ^ (self$index)))
+      min(self$max, (self$min) * ((self$rate)^(self$index)))
     },
     interval = function() {
       stats::runif(n = 1L, min = self$min, max = self$bound())

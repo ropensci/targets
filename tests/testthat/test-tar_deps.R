@@ -5,7 +5,7 @@ tar_test("tar_deps(expr)", {
 })
 
 tar_test("tar_deps(fun)", {
-  out <- tar_deps(function(a = b) map_dfr(data, ~do_row(.x)))
+  out <- tar_deps(function(a = b) map_dfr(data, ~ do_row(.x)))
   expect_true(all(c("b", "data", "do_row", "map_dfr") %in% out))
   expect_false(any(c("a", "~") %in% out))
 })
@@ -17,7 +17,7 @@ tar_test("tar_deps_raw(expr)", {
 })
 
 tar_test("tar_deps_raw(fun)", {
-  out <- tar_deps_raw(function(a = b) map_dfr(data, ~do_row(.x)))
+  out <- tar_deps_raw(function(a = b) map_dfr(data, ~ do_row(.x)))
   expect_true(all(c("b", "data", "do_row", "map_dfr") %in% out))
   expect_false(any(c("a", "~") %in% out))
 })

@@ -38,7 +38,7 @@ tar_test("retry_until_true(catch_error = TRUE)", {
   args <- list(x = tmp)
   expect_error(
     retry_until_true(
-      fun = ~rlang::abort(message = "error", class = "ad_hoc"),
+      fun = ~ rlang::abort(message = "error", class = "ad_hoc"),
       args = args,
       seconds_interval = 0.01,
       seconds_timeout = 0.05,
@@ -55,7 +55,7 @@ tar_test("retry_until_true(catch_error = FALSE)", {
   args <- list(x = tmp)
   expect_error(
     retry_until_true(
-      fun = ~rlang::abort(message = "error", class = "ad_hoc"),
+      fun = ~ rlang::abort(message = "error", class = "ad_hoc"),
       args = args,
       seconds_interval = 0.01,
       seconds_timeout = 0.05,
@@ -71,7 +71,7 @@ tar_test("retry_until_true() max_tries", {
   envir$count <- 0L
   expect_error(
     retry_until_true(
-      fun = ~{
+      fun = ~ {
         envir$count <- envir$count + 1L
         FALSE
       },
@@ -103,7 +103,7 @@ tar_test("retry_until_success() uncaught class", {
   envir$count <- 0L
   expect_error(
     retry_until_success(
-      fun = ~{
+      fun = ~ {
         envir$count <- envir$count + 1L
         rlang::abort(message = "error", class = "ad_hoc")
       },
@@ -126,7 +126,7 @@ tar_test("retry_until_success() caught class", {
   envir$count <- 0L
   expect_error(
     retry_until_success(
-      fun = ~{
+      fun = ~ {
         envir$count <- envir$count + 1L
         class <- ifelse(envir$count %% 2L, "class1", "class2")
         rlang::abort(message = "error", class = class)
@@ -150,7 +150,7 @@ tar_test("retry_until_success() caught class", {
   envir <- new.env(parent = emptyenv())
   envir$count <- 0L
   out <- retry_until_success(
-    fun = ~{
+    fun = ~ {
       envir$count <- envir$count + 1L
       class <- ifelse(envir$count %% 2L, "class1", "class2")
       if (envir$count < 2L) {

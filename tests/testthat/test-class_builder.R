@@ -697,15 +697,20 @@ tar_test("error = \"trim\" on a stem", {
       tar_target(b2, b, pattern = map(b)),
       tar_target(c, index),
       tar_target(c2, c),
-      tar_target(d, index,  pattern = map(index)),
+      tar_target(d, index, pattern = map(index)),
       tar_target(d2, d, pattern = map(d))
     )
   })
   tar_make(callr_function = NULL)
   names <- c(
-    "a", "c", "c2",
-    "d", tar_meta(d)$children[[1L]], "d2",
-    tar_meta(d2)$children[[1L]], "index"
+    "a",
+    "c",
+    "c2",
+    "d",
+    tar_meta(d)$children[[1L]],
+    "d2",
+    tar_meta(d2)$children[[1L]],
+    "index"
   )
   progress <- tar_progress()
   expect_equal(nrow(progress), 10L)
@@ -733,15 +738,19 @@ tar_test("error = \"trim\" on a dynamic branch", {
       tar_target(b2, b),
       tar_target(c, index),
       tar_target(c2, c),
-      tar_target(d, index,  pattern = map(index)),
+      tar_target(d, index, pattern = map(index)),
       tar_target(d2, d, pattern = map(d))
     )
   })
   tar_make(callr_function = NULL)
   names <- c(
-    "c", "c2",
-    "d", tar_meta(d)$children[[1L]], "d2",
-    tar_meta(d2)$children[[1L]], "index"
+    "c",
+    "c2",
+    "d",
+    tar_meta(d)$children[[1L]],
+    "d2",
+    tar_meta(d2)$children[[1L]],
+    "index"
   )
   progress <- tar_progress()
   expect_equal(nrow(progress), 11L)
@@ -764,7 +773,7 @@ tar_test("error = \"trim\" with a long chain of reverse dependencies", {
   tar_script({
     tar_option_set(
       error = "trim",
-      controller =  crew::crew_controller_sequential()
+      controller = crew::crew_controller_sequential()
     )
     list(
       tar_target(erroring_target, stop()),
@@ -785,7 +794,7 @@ tar_test("error = \"trim\", long chain of revdeps, dynamic branching", {
   tar_script({
     tar_option_set(
       error = "trim",
-      controller =  crew::crew_controller_sequential()
+      controller = crew::crew_controller_sequential()
     )
     list(
       tar_target(a, seq_len(2)),
@@ -812,7 +821,8 @@ tar_test("capture storage warnings", {
   tar_script(
     list(
       tar_target(
-        x, {
+        x,
+        {
           warning("run_warning")
           123L
         },

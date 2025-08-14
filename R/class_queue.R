@@ -25,24 +25,15 @@ queue_class <- R6::R6Class(
     initialize = function(data = NULL) {
       self$data <- data
     },
-    is_nonempty = function() {
-    },
-    dequeue = function() {
-    },
-    reset = function() {
-    },
-    prepend = function(names, ranks = NULL) {
-    },
-    append = function(names, ranks = NULL) {
-    },
-    increment_ranks = function(names, by) {
-    },
-    should_dequeue = function() {
-    },
-    update_ranks = function(target, scheduler) {
-    },
-    engraph_branches = function(target, pipeline, scheduler) {
-    },
+    is_nonempty = function() {},
+    dequeue = function() {},
+    reset = function() {},
+    prepend = function(names, ranks = NULL) {},
+    append = function(names, ranks = NULL) {},
+    increment_ranks = function(names, by) {},
+    should_dequeue = function() {},
+    update_ranks = function(target, scheduler) {},
+    engraph_branches = function(target, pipeline, scheduler) {},
     branch_ranks = function(children, scheduler) {
       integer(0)
     }

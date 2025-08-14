@@ -30,7 +30,7 @@ tar_load_raw <- function(
   tar_assert_envir(envir)
   map(
     names,
-    ~tar_load_target(
+    ~ tar_load_target(
       name = .x,
       branches = branches,
       meta = meta,

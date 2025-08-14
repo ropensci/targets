@@ -7,14 +7,18 @@ tar_test("aws file gets stored", {
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
-    tar_option_set(memory = "persistent", resources = tar_resources(
-      aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
-    ))
+    tar_option_set(
+      memory = "persistent",
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
+      )
+    )
     evalq(
       write_local_file <- function(lines) {
         writeLines(lines, "example_aws_file.txt")
         "example_aws_file.txt"
-      }, envir = tar_option_get("envir")
+      },
+      envir = tar_option_get("envir")
     )
     list(
       tar_target(
@@ -66,14 +70,18 @@ tar_test("aws file gets stored with transient memory", {
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
-    tar_option_set(memory = "transient", resources = tar_resources(
-      aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
-    ))
+    tar_option_set(
+      memory = "transient",
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
+      )
+    )
     evalq(
       write_local_file <- function(lines) {
         writeLines(lines, "example_aws_file.txt")
         "example_aws_file.txt"
-      }, envir = tar_option_get("envir")
+      },
+      envir = tar_option_get("envir")
     )
     list(
       tar_target(
@@ -140,7 +148,8 @@ tar_test("aws_file format invalidation", {
         write_local_file <- function(lines) {
           writeLines(lines, "example_aws_file.txt")
           "example_aws_file.txt"
-        }, envir = tar_option_get("envir")
+        },
+        envir = tar_option_get("envir")
       )
       list(
         tar_target(
@@ -172,7 +181,8 @@ tar_test("aws_file format invalidation", {
         write_local_file <- function(lines) {
           writeLines(lines, "example_aws_file.txt")
           "example_aws_file.txt"
-        }, envir = tar_option_get("envir")
+        },
+        envir = tar_option_get("envir")
       )
       list(
         tar_target(
@@ -203,14 +213,17 @@ tar_test("aws_file format with a custom data store", {
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
-    tar_option_set(resources = tar_resources(
-      aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
-    ))
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
+      )
+    )
     evalq(
       write_local_file <- function(lines) {
         writeLines(lines, "example_aws_file.txt")
         "example_aws_file.txt"
-      }, envir = tar_option_get("envir")
+      },
+      envir = tar_option_get("envir")
     )
     list(
       tar_target(
@@ -265,22 +278,25 @@ tar_test("aws_file format file with different region", {
   s3$create_bucket(Bucket = bucket_name, CreateBucketConfiguration = cfg)
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
-    tar_option_set(resources = tar_resources(
-      aws = tar_resources_aws(
-        bucket = !!bucket_name,
-        prefix = "_targets",
-        region = region <- ifelse(
-          Sys.getenv("AWS_REGION") == "us-east-1",
-          "us-east-2",
-          "us-east-1"
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(
+          bucket = !!bucket_name,
+          prefix = "_targets",
+          region = region <- ifelse(
+            Sys.getenv("AWS_REGION") == "us-east-1",
+            "us-east-2",
+            "us-east-1"
+          )
         )
       )
-    ))
+    )
     evalq(
       write_local_file <- function(lines) {
         writeLines(lines, "example_aws_file.txt")
         "example_aws_file.txt"
-      }, envir = tar_option_get("envir")
+      },
+      envir = tar_option_get("envir")
     )
     list(
       tar_target(

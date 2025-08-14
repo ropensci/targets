@@ -465,21 +465,21 @@ tar_test("database unknown repository", {
   )
 })
 
-tar_test("mock download",  {
+tar_test("mock download", {
   x <- database_class$new(path = tempfile())
   on.exit(x$close())
   expect_equal(x$download(), "download")
   expect_equal(x$download_workspace(), "download_workspace")
 })
 
-tar_test("mock upload",  {
+tar_test("mock upload", {
   x <- database_class$new(path = tempfile())
   on.exit(x$close())
   expect_equal(x$upload(), "upload")
   expect_equal(x$upload_workspace(), "upload_workspace")
 })
 
-tar_test("mock head non-existent file",  {
+tar_test("mock head non-existent file", {
   x <- database_class$new(path = tempfile())
   on.exit(x$close())
   out <- x$head()
@@ -487,7 +487,7 @@ tar_test("mock head non-existent file",  {
   expect_equal(out$time, file_time(info = list(mtime_numeric = 0)))
 })
 
-tar_test("mock head",  {
+tar_test("mock head", {
   x <- database_class$new(path = tempfile())
   on.exit(x$close())
   file.create("path_cloud")

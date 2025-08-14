@@ -93,7 +93,9 @@ tar_test("warning character limit", {
   tar_script(
     tar_target(
       a,
-      for (i in 1:1e3) warning(paste(rep("a", 65), collapse = ""))
+      for (i in 1:1e3) {
+        warning(paste(rep("a", 65), collapse = ""))
+      }
     )
   )
   suppressWarnings(tar_make(callr_function = NULL))

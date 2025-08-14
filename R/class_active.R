@@ -143,13 +143,13 @@ active_class <- R6::R6Class(
       self$process$database$upload(verbose = FALSE)
     },
     produce_exports = function(envir, path_store, is_globalenv = NULL) {
-      map(names(envir), ~force(envir[[.x]])) # try to nix high-mem promises
+      map(names(envir), ~ force(envir[[.x]])) # try to nix high-mem promises
       if (is_globalenv %|||% identical(envir, globalenv())) {
         out <- as.list(envir, all.names = TRUE)
-        out <- out[fltr(names(out), ~!is_internal_name(.x, envir))]
+        out <- out[fltr(names(out), ~ !is_internal_name(.x, envir))]
         out[[".tar_envir_5048826d"]] <- "globalenv"
       } else {
-        discard <- fltr(names(envir), ~is_internal_name(.x, envir))
+        discard <- fltr(names(envir), ~ is_internal_name(.x, envir))
         remove(list = discard, envir = envir)
         out <- list(.tar_envir_5048826d = envir)
       }

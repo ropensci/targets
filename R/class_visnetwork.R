@@ -94,8 +94,8 @@ visnetwork_class <- R6::R6Class(
       vertices <- self$network$vertices
       colors <- vertices[vertices$status != "none", c("status", "color")]
       shapes <- vertices[, c("type", "shape")]
-      colors <- colors[!duplicated(colors),, drop = FALSE] # nolint
-      shapes <- shapes[!duplicated(shapes),, drop = FALSE] # nolint
+      colors <- colors[!duplicated(colors), , drop = FALSE] # nolint
+      shapes <- shapes[!duplicated(shapes), , drop = FALSE] # nolint
       colors$shape <- rep("dot", nrow(colors))
       shapes$color <- rep("#899DA4", nrow(shapes))
       colnames(colors) <- c("label", "color", "shape")

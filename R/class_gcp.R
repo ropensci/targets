@@ -11,8 +11,7 @@ store_class_repository.gcp <- function(repository, store, format) {
 }
 
 #' @export
-store_assert_repository_setting.gcp <- function(repository) {
-}
+store_assert_repository_setting.gcp <- function(repository) {}
 
 #' @export
 store_produce_path.tar_gcp <- function(store, name, object, path_store) {
@@ -114,7 +113,7 @@ store_delete_object.tar_gcp <- function(store, file, name = NULL) {
   tryCatch(
     gcp_gcs_delete(
       key = key,
-      bucket =  bucket,
+      bucket = bucket,
       version = version,
       verbose = store$resources$gcp$verbose %|||% FALSE,
       max_tries = store$resources$gcp$max_tries %|||% 5L
@@ -136,12 +135,13 @@ store_delete_objects.tar_gcp <- function(store, meta, batch_size, verbose) {
       paste(
         store_gcp_bucket(x),
         sep = "|"
-      ) %||% NA_character_
+      ) %||%
+        NA_character_
     }
   )
   meta <- meta[!is.na(meta$bucket_group), ]
   for (group in unique(meta$bucket_group)) {
-    subset <- meta[meta$bucket_group == group,, drop = FALSE] # nolint
+    subset <- meta[meta$bucket_group == group, , drop = FALSE] # nolint
     for (index in seq_len(nrow(subset))) {
       example_path <- subset$path[[index]]
       bucket <- store_gcp_bucket(example_path)
@@ -168,7 +168,7 @@ store_delete_objects.tar_gcp <- function(store, meta, batch_size, verbose) {
       tryCatch(
         gcp_gcs_delete(
           key = key,
-          bucket =  bucket,
+          bucket = bucket,
           version = version,
           verbose = gcp$verbose %|||% FALSE,
           max_tries = gcp$max_tries %|||% 5L

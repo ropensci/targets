@@ -42,10 +42,12 @@ tar_script({
     tar_target(w, x, pattern = map(x)),
     # nolint start
     tar_target(
-      forever, {
-      Sys.sleep(Inf)
-      c(x, y, z, w)
-    })
+      forever,
+      {
+        Sys.sleep(Inf)
+        c(x, y, z, w)
+      }
+    )
     # nolint end
   )
 })
@@ -89,18 +91,21 @@ tar_destroy()
 unlink("_targets.R")
 
 # Launch using different config settings.
-tar_script({
-  sleep_run <- function(...) Sys.sleep(0.5)
-  list(
-    tar_target(x, seq_len(2)),
-    tar_target(y, x, pattern = map(x)),
-    tar_target(data1, sleep_run()),
-    tar_target(data2, sleep_run()),
-    tar_target(model1, sleep_run(data1)),
-    tar_target(model2, sleep_run(data2)),
-    tar_target(conclusions, sleep_run(c(model1, model2)))
-  )
-}, script = "example/script.R")
+tar_script(
+  {
+    sleep_run <- function(...) Sys.sleep(0.5)
+    list(
+      tar_target(x, seq_len(2)),
+      tar_target(y, x, pattern = map(x)),
+      tar_target(data1, sleep_run()),
+      tar_target(data2, sleep_run()),
+      tar_target(model1, sleep_run(data1)),
+      tar_target(model2, sleep_run(data2)),
+      tar_target(conclusions, sleep_run(c(model1, model2)))
+    )
+  },
+  script = "example/script.R"
+)
 tar_config_set(
   script = "example/script.R",
   store = "example/store",

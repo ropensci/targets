@@ -6,8 +6,7 @@ store_class_format.rds <- function(format) {
 store_class_format_rds <- c("tar_rds", "tar_store")
 
 #' @export
-store_assert_format_setting.rds <- function(format) {
-}
+store_assert_format_setting.rds <- function(format) {}
 
 #' @export
 store_read_path.tar_rds <- function(store, path) {

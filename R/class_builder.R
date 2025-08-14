@@ -105,18 +105,40 @@ target_should_run.tar_builder <- function(target, meta) {
 # nolint start
 builder_should_run <- function(target, meta) {
   cue <- .subset2(target, "cue")
-  if (cue_meta_exists(cue, target, meta)) return(TRUE)
+  if (cue_meta_exists(cue, target, meta)) {
+    return(TRUE)
+  }
   row <- .subset2(meta, "get_row")(target_get_name(target))
-  if (cue_meta(cue, target, meta, row)) return(TRUE)
-  if (cue_always(cue, target, meta)) return(TRUE)
-  if (cue_never(cue, target, meta)) return(FALSE)
-  if (cue_command(cue, target, meta, row)) return(TRUE)
-  if (cue_depend(cue, target, meta, row)) return(TRUE)
-  if (cue_format(cue, target, meta, row)) return(TRUE)
-  if (cue_repository(cue, target, meta, row)) return(TRUE)
-  if (cue_iteration(cue, target, meta, row)) return(TRUE)
-  if (cue_seed(cue, target, meta, row)) return(TRUE)
-  if (cue_file(cue, target, meta, row)) return(TRUE)
+  if (cue_meta(cue, target, meta, row)) {
+    return(TRUE)
+  }
+  if (cue_always(cue, target, meta)) {
+    return(TRUE)
+  }
+  if (cue_never(cue, target, meta)) {
+    return(FALSE)
+  }
+  if (cue_command(cue, target, meta, row)) {
+    return(TRUE)
+  }
+  if (cue_depend(cue, target, meta, row)) {
+    return(TRUE)
+  }
+  if (cue_format(cue, target, meta, row)) {
+    return(TRUE)
+  }
+  if (cue_repository(cue, target, meta, row)) {
+    return(TRUE)
+  }
+  if (cue_iteration(cue, target, meta, row)) {
+    return(TRUE)
+  }
+  if (cue_seed(cue, target, meta, row)) {
+    return(TRUE)
+  }
+  if (cue_file(cue, target, meta, row)) {
+    return(TRUE)
+  }
   FALSE
 }
 # nolint end
@@ -349,11 +371,11 @@ builder_unmarshal_subpipeline <- function(target) {
   }
   patterns <- fltr(
     pipeline_get_names(subpipeline),
-    ~inherits(pipeline_get_target(subpipeline, .x), "tar_pattern")
+    ~ inherits(pipeline_get_target(subpipeline, .x), "tar_pattern")
   )
   map(
     setdiff(patterns, target$settings$dimensions),
-    ~target_ensure_value(pipeline_get_target(subpipeline, .x), subpipeline)
+    ~ target_ensure_value(pipeline_get_target(subpipeline, .x), subpipeline)
   )
 }
 

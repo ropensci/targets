@@ -28,7 +28,7 @@ graph_edges <- function(edges) {
 }
 
 edges_envir <- function(envir) {
-  names <- fltr(names(envir), ~!is_internal_name(.x, envir))
+  names <- fltr(names(envir), ~ !is_internal_name(.x, envir))
   from <- lapply(names, envir_deps, envir = envir, names = names)
   lengths <- lengths(from)
   to <- lapply(seq_along(names), rep_to, names = names, lengths = lengths)

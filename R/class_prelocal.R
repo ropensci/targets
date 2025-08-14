@@ -51,10 +51,8 @@ prelocal_class <- R6::R6Class(
       )
       self$scheduler <- scheduler
     },
-    start = function() {
-    },
-    end = function() {
-    },
+    start = function() {},
+    end = function() {},
     tar_assert_deployment = function(target) {
       should_abort <- identical(target$settings$deployment, "worker") &&
         inherits(target, "tar_builder")

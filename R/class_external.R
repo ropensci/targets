@@ -15,5 +15,4 @@ store_path_from_name.tar_external <- function(
 }
 
 #' @export
-store_cache_path.tar_external <- function(store, path) {
-}
+store_cache_path.tar_external <- function(store, path) {}

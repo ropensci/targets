@@ -34,7 +34,7 @@ frames_set_dep <- function(frames, dep, pipeline) {
 frames_set_deps <- function(frames, target, pipeline) {
   map(
     target_deps_shallow(target, pipeline),
-    ~frames_set_dep(frames, pipeline_get_target(pipeline, .x), pipeline)
+    ~ frames_set_dep(frames, pipeline_get_target(pipeline, .x), pipeline)
   )
 }
 

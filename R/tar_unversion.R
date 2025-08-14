@@ -25,7 +25,8 @@ tar_unversion <- function(
   tar_assert_chr(names, "names arg of tar_unversion() must eval to chr")
   replacement <- "version="
   pattern <- paste0("^", replacement, ".*")
-  unversion <- data$name %in% names &
+  unversion <- data$name %in%
+    names &
     !is.na(data$repository) &
     data$repository != "local"
   for (index in which(unversion)) {

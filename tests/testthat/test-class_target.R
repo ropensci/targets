@@ -51,7 +51,7 @@ tar_test("pattern with automatic deps", {
 tar_test("stem inspect formulas", {
   target <- target_init(
     name = "x",
-    expr = quote(map_dfr(data, ~do_row(.x, dataset)))
+    expr = quote(map_dfr(data, ~ do_row(.x, dataset)))
   )
   expect_true(all(c("dataset", "do_row") %in% target$deps))
   expect_false("~" %in% target$deps)
@@ -60,7 +60,7 @@ tar_test("stem inspect formulas", {
 tar_test("pattern inspect formulas", {
   target <- target_init(
     name = "x",
-    expr = quote(map_dfr(data, ~do_row(.x, dataset))),
+    expr = quote(map_dfr(data, ~ do_row(.x, dataset))),
     pattern = quote(map(dataset))
   )
   expect_true(all(c("dataset", "do_row") %in% target$deps))
@@ -424,14 +424,17 @@ tar_test("invalidation: change a nested function", {
   skip_cran()
   tar_script({
     envir <- new.env(parent = globalenv())
-    evalq({
-      f <- function(x) {
-        g(x)
-      }
-      g <- function(x) {
-        x + 1L
-      }
-    }, envir = envir)
+    evalq(
+      {
+        f <- function(x) {
+          g(x)
+        }
+        g <- function(x) {
+          x + 1L
+        }
+      },
+      envir = envir
+    )
     tar_option_set(envir = envir)
     list(tar_target(x, f(1L)))
   })
@@ -450,14 +453,17 @@ tar_test("invalidation: change a nested function", {
   # Change the inner function.
   tar_script({
     envir <- new.env(parent = globalenv())
-    evalq({
-      f <- function(x) {
-        g(x)
-      }
-      g <- function(x) {
-        x + 2L
-      }
-    }, envir = envir)
+    evalq(
+      {
+        f <- function(x) {
+          g(x)
+        }
+        g <- function(x) {
+          x + 2L
+        }
+      },
+      envir = envir
+    )
     tar_option_set(envir = envir)
     list(tar_target(x, f(1L)))
   })

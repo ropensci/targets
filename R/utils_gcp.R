@@ -21,7 +21,7 @@ gcp_gcs_head <- function(
     options(googleAuthR.tryAttempts = max_tries %|||% 5L)
   )
   gcp_gcs_auth(verbose = verbose, max_tries = max_tries)
-  if_any(verbose, identity, suppressMessages) (
+  if_any(verbose, identity, suppressMessages)(
     tryCatch(
       googleCloudStorageR::gcs_get_object(
         key,
@@ -103,7 +103,7 @@ gcp_gcs_download <- function(
   )
   gcp_gcs_auth(verbose = verbose, max_tries = max_tries)
   dir_create(dirname(file))
-  if_any(verbose, identity, suppressMessages) (
+  if_any(verbose, identity, suppressMessages)(
     googleCloudStorageR::gcs_get_object(
       key,
       bucket = bucket,
@@ -130,7 +130,7 @@ gcp_gcs_delete <- function(
     options(googleAuthR.tryAttempts = max_tries %|||% 5L)
   )
   gcp_gcs_auth(verbose = verbose, max_tries = max_tries)
-  if_any(verbose, identity, suppressMessages) (
+  if_any(verbose, identity, suppressMessages)(
     tryCatch(
       googleCloudStorageR::gcs_delete_object(
         object_name = key,
@@ -172,7 +172,7 @@ gcp_gcs_upload <- function(
       metadata = metadata
     )
   }
-  if_any(verbose, identity, suppressMessages) (
+  if_any(verbose, identity, suppressMessages)(
     googleCloudStorageR::gcs_upload(
       file,
       bucket = bucket,
@@ -195,7 +195,7 @@ gcp_gcs_auth <- function(verbose = FALSE, max_tries = NULL) {
     NULL,
     options(googleAuthR.tryAttempts = max_tries %|||% 5L)
   )
-  if_any(verbose, identity, suppressMessages) (
+  if_any(verbose, identity, suppressMessages)(
     googleCloudStorageR::gcs_auth(
       token = gargle::token_fetch(
         scopes = c("https://www.googleapis.com/auth/cloud-platform"),
@@ -217,7 +217,7 @@ gcp_gcs_bucket <- function(verbose = FALSE, max_tries = NULL) {
     options(googleAuthR.tryAttempts = max_tries %|||% 5L)
   )
   gcp_gcs_auth(verbose = verbose, max_tries = max_tries)
-  if_any(verbose, identity, suppressMessages) (
+  if_any(verbose, identity, suppressMessages)(
     googleCloudStorageR::gcs_get_global_bucket()
   )
 }

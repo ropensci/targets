@@ -48,7 +48,7 @@ initial_ranks <- function(names, graph, priorities) {
 # But keeping the infrastructure in case there is an efficient queue
 # structure that allows priorities.
 rank_offset <- function(priorities) {
-  - priorities / 2
+  -priorities / 2
 }
 
 scheduler_new <- function(

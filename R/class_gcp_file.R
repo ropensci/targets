@@ -25,8 +25,7 @@ store_produce_stage.tar_gcp_file <- function(store, name, object, path_store) {
 }
 
 #' @export
-store_assert_format_setting.gcp_file <- function(format) {
-}
+store_assert_format_setting.gcp_file <- function(format) {}
 
 #' @export
 store_upload_object.tar_gcp_file <- function(store, file) {
@@ -34,7 +33,8 @@ store_upload_object.tar_gcp_file <- function(store, file) {
 }
 
 #' @export
-store_hash_early.tar_gcp_file <- function(store, file) { # nolint
+store_hash_early.tar_gcp_file <- function(store, file) {
+  # nolint
   old <- file$path
   file$path <- store_gcp_file_stage(file$path)
   on.exit(file$path <- old)
@@ -43,7 +43,8 @@ store_hash_early.tar_gcp_file <- function(store, file) { # nolint
 }
 
 #' @export
-store_hash_late.tar_gcp_file <- function(store, file) { # nolint
+store_hash_late.tar_gcp_file <- function(store, file) {
+  # nolint
 }
 
 #' @export

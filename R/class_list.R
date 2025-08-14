@@ -17,6 +17,7 @@ value_produce_slice.tar_list <- function(value, index) {
 }
 
 #' @export
-value_produce_aggregate.tar_list <- function(value, objects) { #nolint
+value_produce_aggregate.tar_list <- function(value, objects) {
+  #nolint
   objects
 }

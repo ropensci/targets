@@ -89,9 +89,9 @@ network_class <- R6::R6Class(
       }
       vertices <- self$vertices
       edges <- self$edges
-      vertices <- vertices[vertices$name %in% self$names,, drop = FALSE] # nolint
-      edges <- edges[edges$from %in% self$names,, drop = FALSE] # nolint
-      edges <- edges[edges$to %in% self$names,, drop = FALSE] # nolint
+      vertices <- vertices[vertices$name %in% self$names, , drop = FALSE] # nolint
+      edges <- edges[edges$from %in% self$names, , drop = FALSE] # nolint
+      edges <- edges[edges$to %in% self$names, , drop = FALSE] # nolint
       self$vertices <- vertices
       self$edges <- edges
     },
@@ -102,9 +102,9 @@ network_class <- R6::R6Class(
         return()
       }
       edges <- self$edges
-      vertices <- vertices[vertices$name %in% allow,, drop = FALSE] # nolint
-      edges <- edges[edges$from %in% allow,, drop = FALSE] # nolint
-      edges <- edges[edges$to %in% allow,, drop = FALSE] # nolint
+      vertices <- vertices[vertices$name %in% allow, , drop = FALSE] # nolint
+      edges <- edges[edges$from %in% allow, , drop = FALSE] # nolint
+      edges <- edges[edges$to %in% allow, , drop = FALSE] # nolint
       self$vertices <- vertices
       self$edges <- edges
     },
@@ -115,9 +115,9 @@ network_class <- R6::R6Class(
         return()
       }
       edges <- self$edges
-      vertices <- vertices[!(vertices$name %in% exclude),, drop = FALSE] # nolint
-      edges <- edges[!(edges$from %in% exclude),, drop = FALSE] # nolint
-      edges <- edges[!(edges$to %in% exclude),, drop = FALSE] # nolint
+      vertices <- vertices[!(vertices$name %in% exclude), , drop = FALSE] # nolint
+      edges <- edges[!(edges$from %in% exclude), , drop = FALSE] # nolint
+      edges <- edges[!(edges$to %in% exclude), , drop = FALSE] # nolint
       self$vertices <- vertices
       self$edges <- edges
     },
@@ -128,12 +128,12 @@ network_class <- R6::R6Class(
       }
       self$update_targets()
       vertices <- rbind(self$vertices_targets, self$vertices_imports)
-      vertices <- vertices[!duplicated(vertices$name),, drop = FALSE] # nolint
-      vertices <- vertices[order(vertices$name),, drop = FALSE] # nolint
+      vertices <- vertices[!duplicated(vertices$name), , drop = FALSE] # nolint
+      vertices <- vertices[order(vertices$name), , drop = FALSE] # nolint
       edges <- rbind(self$edges_imports, self$edges_targets)
-      edges <- edges[edges$from %in% vertices$name,, drop = FALSE] # nolint
-      edges <- edges[edges$to %in% vertices$name,, drop = FALSE] # nolint
-      edges <- edges[order(edges$from),, drop = FALSE] # nolint
+      edges <- edges[edges$from %in% vertices$name, , drop = FALSE] # nolint
+      edges <- edges[edges$to %in% vertices$name, , drop = FALSE] # nolint
+      edges <- edges[order(edges$from), , drop = FALSE] # nolint
       self$vertices <- vertices
       self$edges <- edges
       self$shortcut_vertices()

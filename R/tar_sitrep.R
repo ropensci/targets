@@ -155,7 +155,7 @@ tar_sitrep_inner <- function(
   sitrep$run()
   out <- tibble::as_tibble(data.table::rbindlist(as.list(sitrep$sitrep)))
   if (!is.null(names)) {
-    out <- out[match(names, out$name),, drop = FALSE] # nolint
+    out <- out[match(names, out$name), , drop = FALSE] # nolint
   }
   fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||%
     colnames(out)

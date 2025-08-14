@@ -6,8 +6,7 @@ store_class_format.parquet <- function(format) {
 store_class_format_parquet <- c("tar_parquet", "tar_store")
 
 #' @export
-store_assert_format_setting.parquet <- function(format) {
-}
+store_assert_format_setting.parquet <- function(format) {}
 
 #' @export
 store_read_path.tar_parquet <- function(store, path) {
@@ -27,9 +26,12 @@ store_write_path.tar_parquet <- function(store, object, path) {
 }
 
 #' @export
-store_assert_format.tar_parquet <- function(store, object, name) { # nolint
+store_assert_format.tar_parquet <- function(store, object, name) {
+  # nolint
   msg <- paste(
-    "target", name, "has parquet format, so it must have class",
+    "target",
+    name,
+    "has parquet format, so it must have class",
     "data.frame, RecordBatch, or Table."
   )
   tar_assert_inherits(

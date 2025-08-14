@@ -71,14 +71,17 @@ tar_test("nontrivial globals with non-global environment", {
     sample.int(1L) # Avoids .Random.seed warnings from future.
     future::plan(future.callr::callr)
     envir <- new.env(parent = globalenv())
-    evalq({
-      f <- function(x) {
-        g(x) + 1L
-      }
-      g <- function(x) {
-        x + 1L
-      }
-    }, envir = envir)
+    evalq(
+      {
+        f <- function(x) {
+          g(x) + 1L
+        }
+        g <- function(x) {
+          x + 1L
+        }
+      },
+      envir = envir
+    )
     tar_option_set(envir = envir)
     list(
       tar_target(x, 1),

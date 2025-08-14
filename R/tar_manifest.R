@@ -114,7 +114,7 @@ tar_manifest_inner <- function(
   all_names <- topo_sort_igraph(igraph)
   names <- tar_tidyselect_eval(names_quosure, all_names) %|||% all_names
   names <- intersect(all_names, names)
-  out <- map(names, ~tar_manifest_target(pipeline_get_target(pipeline, .x)))
+  out <- map(names, ~ tar_manifest_target(pipeline_get_target(pipeline, .x)))
   out <- do.call(rbind, out)
   fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||%
     colnames(out)

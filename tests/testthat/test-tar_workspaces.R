@@ -13,10 +13,13 @@ tar_test("custom script and store args", {
   skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  tar_script({
-    tar_option_set(workspace_on_error = TRUE)
-    list(tar_target(x, "value"), tar_target(y, stop(x)))
-  }, script = "example/script.R")
+  tar_script(
+    {
+      tar_option_set(workspace_on_error = TRUE)
+      list(tar_target(x, "value"), tar_target(y, stop(x)))
+    },
+    script = "example/script.R"
+  )
   expect_false(file.exists("example/store/workspaces/y"))
   try(
     tar_make(

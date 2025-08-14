@@ -7,28 +7,31 @@ tar_test("AWS meta", {
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "aws",
-      repository_meta = "aws",
-      resources = tar_resources(
-        aws = tar_resources_aws(
-          bucket = bucket_name,
-          prefix = "_targets"
-        )
-      ),
-      controller = crew::crew_controller_local(),
-      storage = "worker",
-      retrieval = "worker"
-    )
-    list(
-      tar_target(a, 1L),
-      tar_target(b, a),
-      tar_target(c, a + b)
-    )
-  }, env = list(bucket_name = bucket_name))
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "aws",
+        repository_meta = "aws",
+        resources = tar_resources(
+          aws = tar_resources_aws(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
+        ),
+        controller = crew::crew_controller_local(),
+        storage = "worker",
+        retrieval = "worker"
+      )
+      list(
+        tar_target(a, 1L),
+        tar_target(b, a),
+        tar_target(c, a + b)
+      )
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   tar_make(reporter = "silent")
   expect_true(all(tar_progress()$progress == "completed"))
@@ -88,28 +91,31 @@ tar_test("AWS tar_meta_delete()", {
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "aws",
-      repository_meta = "aws",
-      resources = tar_resources(
-        aws = tar_resources_aws(
-          bucket = bucket_name,
-          prefix = "_targets"
-        )
-      ),
-      controller = crew::crew_controller_local(),
-      storage = "worker",
-      retrieval = "worker"
-    )
-    list(
-      tar_target(a, 1L),
-      tar_target(b, a),
-      tar_target(c, a + b)
-    )
-  }, env = list(bucket_name = bucket_name))
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "aws",
+        repository_meta = "aws",
+        resources = tar_resources(
+          aws = tar_resources_aws(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
+        ),
+        controller = crew::crew_controller_local(),
+        storage = "worker",
+        retrieval = "worker"
+      )
+      list(
+        tar_target(a, 1L),
+        tar_target(b, a),
+        tar_target(c, a + b)
+      )
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   tar_make(reporter = "silent")
   expect_true(all(tar_progress()$progress == "completed"))
@@ -162,28 +168,31 @@ tar_test("AWS tar_meta_upload()", {
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "aws",
-      repository_meta = "aws",
-      resources = tar_resources(
-        aws = tar_resources_aws(
-          bucket = bucket_name,
-          prefix = "_targets"
-        )
-      ),
-      controller = crew::crew_controller_local(),
-      storage = "worker",
-      retrieval = "worker"
-    )
-    list(
-      tar_target(a, 1L),
-      tar_target(b, a),
-      tar_target(c, a + b)
-    )
-  }, env = list(bucket_name = bucket_name))
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "aws",
+        repository_meta = "aws",
+        resources = tar_resources(
+          aws = tar_resources_aws(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
+        ),
+        controller = crew::crew_controller_local(),
+        storage = "worker",
+        retrieval = "worker"
+      )
+      list(
+        tar_target(a, 1L),
+        tar_target(b, a),
+        tar_target(c, a + b)
+      )
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   tar_make(reporter = "silent")
   expect_true(all(tar_progress()$progress == "completed"))
@@ -228,28 +237,31 @@ tar_test("AWS tar_meta_download()", {
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "aws",
-      repository_meta = "aws",
-      resources = tar_resources(
-        aws = tar_resources_aws(
-          bucket = bucket_name,
-          prefix = "_targets"
-        )
-      ),
-      controller = crew::crew_controller_local(),
-      storage = "worker",
-      retrieval = "worker"
-    )
-    list(
-      tar_target(a, 1L),
-      tar_target(b, a),
-      tar_target(c, a + b)
-    )
-  }, env = list(bucket_name = bucket_name))
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "aws",
+        repository_meta = "aws",
+        resources = tar_resources(
+          aws = tar_resources_aws(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
+        ),
+        controller = crew::crew_controller_local(),
+        storage = "worker",
+        retrieval = "worker"
+      )
+      list(
+        tar_target(a, 1L),
+        tar_target(b, a),
+        tar_target(c, a + b)
+      )
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   tar_make(reporter = "silent")
   expect_true(all(tar_progress()$progress == "completed"))
@@ -282,28 +294,31 @@ tar_test("AWS tar_meta_sync() upload", {
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "aws",
-      repository_meta = "aws",
-      resources = tar_resources(
-        aws = tar_resources_aws(
-          bucket = bucket_name,
-          prefix = "_targets"
-        )
-      ),
-      controller = crew::crew_controller_local(),
-      storage = "worker",
-      retrieval = "worker"
-    )
-    list(
-      tar_target(a, 1L),
-      tar_target(b, a),
-      tar_target(c, a + b)
-    )
-  }, env = list(bucket_name = bucket_name))
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "aws",
+        repository_meta = "aws",
+        resources = tar_resources(
+          aws = tar_resources_aws(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
+        ),
+        controller = crew::crew_controller_local(),
+        storage = "worker",
+        retrieval = "worker"
+      )
+      list(
+        tar_target(a, 1L),
+        tar_target(b, a),
+        tar_target(c, a + b)
+      )
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   tar_make(reporter = "silent")
   expect_true(all(tar_progress()$progress == "completed"))
@@ -348,28 +363,31 @@ tar_test("AWS tar_meta_sync() download", {
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      format = "rds",
-      repository = "aws",
-      repository_meta = "aws",
-      resources = tar_resources(
-        aws = tar_resources_aws(
-          bucket = bucket_name,
-          prefix = "_targets"
-        )
-      ),
-      controller = crew::crew_controller_local(),
-      storage = "worker",
-      retrieval = "worker"
-    )
-    list(
-      tar_target(a, 1L),
-      tar_target(b, a),
-      tar_target(c, a + b)
-    )
-  }, env = list(bucket_name = bucket_name))
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        format = "rds",
+        repository = "aws",
+        repository_meta = "aws",
+        resources = tar_resources(
+          aws = tar_resources_aws(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
+        ),
+        controller = crew::crew_controller_local(),
+        storage = "worker",
+        retrieval = "worker"
+      )
+      list(
+        tar_target(a, 1L),
+        tar_target(b, a),
+        tar_target(c, a + b)
+      )
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   tar_make(reporter = "silent")
   expect_true(all(tar_progress()$progress == "completed"))
@@ -399,20 +417,23 @@ tar_test("AWS tar_meta_sync() download graceful failure", {
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      repository = "aws",
-      repository_meta = "aws",
-      resources = tar_resources(
-        aws = tar_resources_aws(
-          bucket = bucket_name,
-          prefix = "_targets"
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        repository = "aws",
+        repository_meta = "aws",
+        resources = tar_resources(
+          aws = tar_resources_aws(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
         )
       )
-    )
-    list(tar_target(a, 1L))
-  }, env = list(bucket_name = bucket_name))
+      list(tar_target(a, 1L))
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   dir.create(path_store_default())
   expect_message(
@@ -436,20 +457,23 @@ tar_test("AWS tar_meta_sync() upload graceful failure", {
   bucket_name <- random_bucket_name()
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
-  code <- substitute({
-    library(targets)
-    tar_option_set(
-      repository = "aws",
-      repository_meta = "aws",
-      resources = tar_resources(
-        aws = tar_resources_aws(
-          bucket = bucket_name,
-          prefix = "_targets"
+  code <- substitute(
+    {
+      library(targets)
+      tar_option_set(
+        repository = "aws",
+        repository_meta = "aws",
+        resources = tar_resources(
+          aws = tar_resources_aws(
+            bucket = bucket_name,
+            prefix = "_targets"
+          )
         )
       )
-    )
-    list(tar_target(a, 1L))
-  }, env = list(bucket_name = bucket_name))
+      list(tar_target(a, 1L))
+    },
+    env = list(bucket_name = bucket_name)
+  )
   do.call(tar_script, list(code = code))
   dir.create(path_store_default())
   expect_message(

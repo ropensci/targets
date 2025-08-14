@@ -150,7 +150,7 @@ inspection_class <- R6::R6Class(
       vertices[, columns, drop = FALSE]
     },
     resolve_target_status = function(vertices) {
-      vertices <- vertices[order(vertices$name),, drop = FALSE] # nolint
+      vertices <- vertices[order(vertices$name), , drop = FALSE] # nolint
       status <- if_any(
         self$outdated,
         self$produce_outdated(vertices),
@@ -167,10 +167,10 @@ inspection_class <- R6::R6Class(
       progress$progress <- gsub("built", "completed", x = progress$progress)
       if (self$outdated) {
         index <- !(progress$progress %in% c("skipped", "completed"))
-        progress <- progress[index,, drop = FALSE] # nolint
+        progress <- progress[index, , drop = FALSE] # nolint
       }
       out <- merge(vertices, progress, all.x = TRUE, sort = FALSE)
-      out <- out[order(out$name),, drop = FALSE] # nolint
+      out <- out[order(out$name), , drop = FALSE] # nolint
       levels <- c("skipped", "dispatched", "completed", "canceled", "errored")
       in_levels <- !is.na(out$progress) & out$progress %in% levels
       status <- ifelse(in_levels, out$progress, status)
@@ -178,7 +178,7 @@ inspection_class <- R6::R6Class(
       pipeline <- self$pipeline
       descriptions <- map_chr(
         vertices$name,
-        ~pipeline_get_target(pipeline, .x)$settings$description %||%
+        ~ pipeline_get_target(pipeline, .x)$settings$description %||%
           NA_character_
       )
       data_frame(
@@ -205,12 +205,13 @@ inspection_class <- R6::R6Class(
           )
         }
       })
-      meta <- do.call(rbind, meta) %|||% data_frame(
-        name = character(0),
-        seconds = numeric(0),
-        bytes = numeric(0),
-        branches = integer(0)
-      )
+      meta <- do.call(rbind, meta) %|||%
+        data_frame(
+          name = character(0),
+          seconds = numeric(0),
+          bytes = numeric(0),
+          branches = integer(0)
+        )
       merge(vertices, meta, all.x = TRUE, sort = FALSE)
     },
     update_imports = function() {
@@ -218,7 +219,7 @@ inspection_class <- R6::R6Class(
       graph <- graph_envir(envir)
       edges <- lapply(as_data_frame(igraph::as_edgelist(graph)), as.character)
       edges <- data_frame(from = edges[[1]], to = edges[[2]])
-      edges <- edges[edges$from != edges$to,, drop = FALSE] # nolint
+      edges <- edges[edges$from != edges$to, , drop = FALSE] # nolint
       vertices <- self$hashes_to_vertices(hash_imports_graph(envir, graph))
       self$edges_imports <- edges
       vertices <- self$resolve_import_status(vertices)
@@ -228,8 +229,12 @@ inspection_class <- R6::R6Class(
       target_names <- pipeline_get_names(self$pipeline)
       names <- c(target_names, names(self$pipeline$imports))
       edges <- pipeline_upstream_edges(self$pipeline, targets_only = FALSE)
-      edges <- edges[edges$from %in% names & edges$to %in% names,, drop = FALSE] # nolint
-      edges <- edges[edges$from != edges$to,, drop = FALSE] # nolint
+      edges <- edges[
+        edges$from %in% names & edges$to %in% names,
+        ,
+        drop = FALSE
+      ] # nolint
+      edges <- edges[edges$from != edges$to, , drop = FALSE] # nolint
       vertices <- data_frame(name = target_names)
       vertices <- self$resolve_target_status(vertices)
       vertices <- self$resolve_target_meta(vertices)

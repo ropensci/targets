@@ -9,13 +9,16 @@ tar_test("tar_progress_branches() on empty progress", {
 
 tar_test("tar_progress_branches()", {
   skip_cran()
-  tar_script({
-    list(
-      tar_target(x, seq_len(1)),
-      tar_target(y, x, pattern = map(x)),
-      tar_target(z, stopifnot(y > 1.5), pattern = map(y))
-    )
-  }, ask = FALSE)
+  tar_script(
+    {
+      list(
+        tar_target(x, seq_len(1)),
+        tar_target(y, x, pattern = map(x)),
+        tar_target(z, stopifnot(y > 1.5), pattern = map(y))
+      )
+    },
+    ask = FALSE
+  )
   expect_error(tar_make(callr_function = NULL))
   out <- tar_progress_branches()
   expect_equal(nrow(out), 2)
@@ -51,12 +54,15 @@ tar_test("tar_progress_branches()", {
 
 tar_test("tar_progress_branches() with fields", {
   skip_cran()
-  tar_script({
-    list(
-      tar_target(x, seq_len(1)),
-      tar_target(y, x, pattern = map(x))
-    )
-  }, ask = FALSE)
+  tar_script(
+    {
+      list(
+        tar_target(x, seq_len(1)),
+        tar_target(y, x, pattern = map(x))
+      )
+    },
+    ask = FALSE
+  )
   tar_make(callr_function = NULL)
   out <- tar_progress_branches(fields = dispatched)
   exp <- tibble::tibble(name = "y", dispatched = 0L)
@@ -66,12 +72,15 @@ tar_test("tar_progress_branches() with fields", {
 tar_test("tar_progress_branches_gt() runs without error.", {
   skip_cran()
   skip_if_not_installed("gt")
-  tar_script({
-    list(
-      tar_target(x, seq_len(1)),
-      tar_target(y, x, pattern = map(x))
-    )
-  }, ask = FALSE)
+  tar_script(
+    {
+      list(
+        tar_target(x, seq_len(1)),
+        tar_target(y, x, pattern = map(x))
+      )
+    },
+    ask = FALSE
+  )
   tar_make(callr_function = NULL)
   out <- tar_progress_branches_gt(path_store_default())
   expect_true(inherits(out, "gt_tbl"))
@@ -81,11 +90,14 @@ tar_test("custom script and store args", {
   skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  tar_script({
-    list(
-      tar_target(w, letters)
-    )
-  }, script = "example/script.R")
+  tar_script(
+    {
+      list(
+        tar_target(w, letters)
+      )
+    },
+    script = "example/script.R"
+  )
   tar_make(
     callr_function = NULL,
     script = "example/script.R",

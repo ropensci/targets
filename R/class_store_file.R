@@ -11,12 +11,10 @@ store_class_format.file_fast <- function(format) {
 store_class_format_file <- c("tar_store_file", "tar_external", "tar_store")
 
 #' @export
-store_assert_format_setting.file <- function(format) {
-}
+store_assert_format_setting.file <- function(format) {}
 
 #' @export
-store_assert_format_setting.file_fast <- function(format) {
-}
+store_assert_format_setting.file_fast <- function(format) {}
 
 #' @export
 store_read_path.tar_store_file <- function(store, path) {
@@ -24,15 +22,14 @@ store_read_path.tar_store_file <- function(store, path) {
 }
 
 #' @export
-store_write_object.tar_store_file <- function(store, file, object) {
-}
+store_write_object.tar_store_file <- function(store, file, object) {}
 
 #' @export
-store_write_path.tar_store_file <- function(store, object, path) {
-}
+store_write_path.tar_store_file <- function(store, object, path) {}
 
 #' @export
-store_produce_path.tar_store_file <- function( # nolint
+store_produce_path.tar_store_file <- function(
+  # nolint
   store,
   name,
   object,
@@ -42,15 +39,19 @@ store_produce_path.tar_store_file <- function( # nolint
 }
 
 #' @export
-store_convert_object.tar_store_file <- function(store, object) { # nolint
+store_convert_object.tar_store_file <- function(store, object) {
+  # nolint
   as.character(object)
 }
 
 #' @export
-store_assert_format.tar_store_file <- function(store, object, name) { # nolint
+store_assert_format.tar_store_file <- function(store, object, name) {
+  # nolint
   if (!is.character(object %|||% character(0))) {
     tar_throw_validate(
-      "target ", name, " did not return a character. ",
+      "target ",
+      name,
+      " did not return a character. ",
       "File targets (targets with format = \"file\") must return ",
       "character vectors of file or directory paths."
     )
@@ -63,8 +64,7 @@ store_update_stage_early.tar_store_file <- function(
   file,
   name,
   path_store
-) {
-}
+) {}
 
 #' @export
 store_update_stage_late.tar_store_file <- function(
@@ -83,13 +83,15 @@ store_update_stage_late.tar_store_file <- function(
 }
 
 #' @export
-store_hash_early.tar_store_file <- function(store, file) { # nolint
+store_hash_early.tar_store_file <- function(store, file) {
+  # nolint
   tar_assert_path(file$path)
   file_update_hash(file)
 }
 
 #' @export
-store_hash_late.tar_store_file <- function(store, file) { # nolint
+store_hash_late.tar_store_file <- function(store, file) {
+  # nolint
 }
 
 #' @export

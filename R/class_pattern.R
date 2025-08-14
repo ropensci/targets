@@ -187,7 +187,7 @@ target_bootstrap.tar_pattern <- function(
   pattern_set_branches(target, pipeline)
   map(
     children,
-    ~target_bootstrap(
+    ~ target_bootstrap(
       pipeline_get_target(pipeline, .x),
       pipeline,
       meta,
@@ -225,27 +225,40 @@ target_worker_extras.tar_pattern <- function(
 print.tar_pattern <- function(x, ...) {
   cat(
     "<tar_pattern>",
-    "\n  name:", target_get_name(x),
-    "\n  description:", x$settings$description,
+    "\n  name:",
+    target_get_name(x),
+    "\n  description:",
+    x$settings$description,
     "\n  command:\n   ",
     produce_lines(string_sub_expression(x$command$string)),
     "\n  pattern:\n   ",
     produce_lines(string_sub_expression(tar_deparse_safe(x$settings$pattern))),
-    "\n  format:", x$settings$format,
-    "\n  repository:", x$settings$repository,
-    "\n  iteration method:", x$settings$iteration,
-    "\n  error mode:", x$settings$error,
-    "\n  memory mode:", x$settings$memory,
-    "\n  storage mode:", x$settings$storage,
-    "\n  retrieval mode:", x$settings$retrieval,
-    "\n  deployment mode:", x$settings$deployment,
-    "\n  priority:", x$settings$priority,
+    "\n  format:",
+    x$settings$format,
+    "\n  repository:",
+    x$settings$repository,
+    "\n  iteration method:",
+    x$settings$iteration,
+    "\n  error mode:",
+    x$settings$error,
+    "\n  memory mode:",
+    x$settings$memory,
+    "\n  storage mode:",
+    x$settings$storage,
+    "\n  retrieval mode:",
+    x$settings$retrieval,
+    "\n  deployment mode:",
+    x$settings$deployment,
+    "\n  priority:",
+    x$settings$priority,
     "\n  resources:\n   ",
     produce_lines(paste_list(x$settings$resources)),
     "\n  cue:\n   ",
     produce_lines(paste_list(as.list(x$cue))),
-    "\n  packages:\n   ", produce_lines(x$command$packages),
-    "\n  library:\n   ", produce_lines(x$command$library)
+    "\n  packages:\n   ",
+    produce_lines(x$command$packages),
+    "\n  library:\n   ",
+    produce_lines(x$command$library)
   )
 }
 
@@ -378,8 +391,11 @@ pipeline_tar_assert_dimension <- function(target, pipeline, name) {
   }
   if (!branchable) {
     tar_throw_validate(
-      "Target ", target_get_name(target),
-      " tried to branch over ", name, ", which is illegal. ",
+      "Target ",
+      target_get_name(target),
+      " tried to branch over ",
+      name,
+      ", which is illegal. ",
       "Patterns must only branch over explicitly ",
       "declared targets in the pipeline. ",
       "Stems and patterns are fine, but you cannot branch over branches or ",
@@ -413,7 +429,7 @@ pattern_debug_branches <- function(target) {
 }
 
 pattern_children_columns <- function(dimensions, pipeline) {
-  out <- map(dimensions, ~pattern_children_column(.x, pipeline))
+  out <- map(dimensions, ~ pattern_children_column(.x, pipeline))
   names(out) <- dimensions
   out
 }

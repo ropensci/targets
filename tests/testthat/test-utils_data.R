@@ -34,8 +34,7 @@ tar_test("omit_null()", {
 })
 
 tar_test("supported_args()", {
-  f <- function(a, b, c = "c_default", d = "d_default", x = "x_default") {
-  }
+  f <- function(a, b, c = "c_default", d = "d_default", x = "x_default") {}
   args <- list(
     a = "a_value",
     b = "b_value",

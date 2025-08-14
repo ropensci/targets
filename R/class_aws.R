@@ -11,8 +11,7 @@ store_class_repository.aws <- function(repository, store, format) {
 }
 
 #' @export
-store_assert_repository_setting.aws <- function(repository) {
-}
+store_assert_repository_setting.aws <- function(repository) {}
 
 #' @export
 store_produce_path.tar_aws <- function(store, name, object, path_store) {
@@ -172,16 +171,17 @@ store_delete_objects.tar_aws <- function(store, meta, batch_size, verbose) {
   aws <- store$resources$aws
   meta$bucket_group <- map_chr(
     x = meta$path,
-    f = ~paste(
+    f = ~ paste(
       store_aws_bucket(.x),
       store_aws_region(.x),
       store_aws_endpoint(.x),
       sep = "|"
-    ) %||% NA_character_
+    ) %||%
+      NA_character_
   )
   meta <- meta[!is.na(meta$bucket_group), ]
   for (group in unique(meta$bucket_group)) {
-    subset <- meta[meta$bucket_group == group,, drop = FALSE] # nolint
+    subset <- meta[meta$bucket_group == group, , drop = FALSE] # nolint
     example_path <- subset$path[[1L]]
     bucket <- store_aws_bucket(example_path)
     if (anyNA(example_path) || anyNA(bucket)) {
@@ -191,7 +191,7 @@ store_delete_objects.tar_aws <- function(store, meta, batch_size, verbose) {
     endpoint <- store_aws_endpoint(example_path)
     objects <- map(
       subset$path,
-      ~list(
+      ~ list(
         Key = store_aws_key(.x),
         VersionId = store_aws_version(.x)
       )
@@ -204,7 +204,7 @@ store_delete_objects.tar_aws <- function(store, meta, batch_size, verbose) {
     tryCatch(
       aws_s3_delete_objects(
         objects = objects,
-        bucket =  bucket,
+        bucket = bucket,
         batch_size = batch_size,
         region = region,
         endpoint = endpoint,

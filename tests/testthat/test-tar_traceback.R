@@ -38,10 +38,13 @@ tar_test("custom script and store args", {
   skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
   expect_equal(tar_config_get("store"), path_store_default())
-  tar_script({
-    tar_option_set(workspace_on_error = TRUE)
-    list(tar_target(y, stop("3c47b24bd4a7ad8e5ce70f05eefe7c9c")))
-  }, script = "example/script.R")
+  tar_script(
+    {
+      tar_option_set(workspace_on_error = TRUE)
+      list(tar_target(y, stop("3c47b24bd4a7ad8e5ce70f05eefe7c9c")))
+    },
+    script = "example/script.R"
+  )
   try(
     tar_make(
       callr_function = NULL,

@@ -218,9 +218,11 @@ tar_test("aws_qs format with an alternative data store", {
   s3$create_bucket(Bucket = bucket_name)
   on.exit(aws_s3_delete_bucket(bucket_name))
   expr <- quote({
-    tar_option_set(resources = tar_resources(
-      aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
-    ))
+    tar_option_set(
+      resources = tar_resources(
+        aws = tar_resources_aws(bucket = !!bucket_name, prefix = "_targets")
+      )
+    )
     list(
       tar_target(x, "x_value", format = "qs", repository = "aws"),
       tar_target(y, c(x, "y_value"), format = "qs", repository = "aws")

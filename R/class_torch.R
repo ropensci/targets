@@ -4,8 +4,7 @@ store_class_format.torch <- function(format) {
 }
 
 #' @export
-store_assert_format_setting.torch <- function(format) {
-}
+store_assert_format_setting.torch <- function(format) {}
 
 #' @export
 store_read_path.tar_torch <- function(store, path) {
