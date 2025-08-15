@@ -13,10 +13,9 @@ Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&lab
 [![lint](https://github.com/ropensci/targets/actions/workflows/lint.yaml/badge.svg)](https://github.com/ropensci/targets/actions?query=workflow%3Alint)
 
 Pipeline tools coordinate the pieces of computationally demanding
-analysis projects. The `targets` package is a
-Make-like pipeline tool for
-statistics and data science in R. The package skips costly runtime for
-tasks that are already up to date, orchestrates the necessary
+analysis projects. The `targets` package is a Make-like pipeline tool
+for statistics and data science in R. The package skips costly runtime
+for tasks that are already up to date, orchestrates the necessary
 computation with implicit parallel computing, and abstracts files as R
 objects. If all the current output matches the current upstream code and
 data, then the whole pipeline is up to date, and the results are more
@@ -60,10 +59,10 @@ install.packages("crew")
 There are multiple ways to install the `targets` package itself, and
 both the latest release and the development version are available.
 
-| Type        | Source   | Command                                                           |
-|-------------|----------|-------------------------------------------------------------------|
-| Release     | CRAN     | `install.packages("targets")`                                     |
-| Development | GitHub   | `pak::pkg_install("ropensci/targets")`                            |
+| Type | Source | Command |
+|----|----|----|
+| Release | CRAN | `install.packages("targets")` |
+| Development | GitHub | `pak::pkg_install("ropensci/targets")` |
 | Development | rOpenSci | `install.packages("targets", repos = "https://dev.ropensci.org")` |
 
 ## Get started in 4 minutes
@@ -138,9 +137,14 @@ to ask for help using `targets`.
 
 - [Get started with `targets` in 4 minutes
   (4:08)](https://vimeo.com/700982360)
+- [Powerful simulation pipelines with
+  `targets`](https://www.youtube.com/watch?v=fgtIqJfzPK0). [useR! 2025
+  Conference](https://user2025.r-project.org/program/in-person/keynotes/will-landau)
+  (1:00:25).
 - [`targets` in Action](https://ropensci.org/commcalls/jan2023-targets/)
   with [Joel Nitta](https://github.com/joelnitta) and [Eric
-  Scott](https://github.com/Aariq). rOpenSci Community Call (1:09:56).
+  Scott](https://github.com/Aariq). [rOpenSci Community
+  Call](https://ropensci.org/commcalls/jan2023-targets/) (1:09:56).
 - [`targets` and `crew` for clinical trial simulation
   pipelines](https://www.youtube.com/watch?v=cyF2dzloVLo&list=PLMtxz1fUYA5C0csy8-wTfFmRYQEB30vr3).
   R/Pharma 2023 (1:57:22).

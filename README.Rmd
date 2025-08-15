@@ -86,7 +86,8 @@ Please read the [help guide](https://books.ropensci.org/targets/help.html) to le
 ### English
 
 * [Get started with `targets` in 4 minutes (4:08)](https://vimeo.com/700982360)
-* [`targets` in Action](https://ropensci.org/commcalls/jan2023-targets/) with [Joel Nitta](https://github.com/joelnitta) and [Eric Scott](https://github.com/Aariq). rOpenSci Community Call (1:09:56).
+* [Powerful simulation pipelines with `targets`](https://www.youtube.com/watch?v=fgtIqJfzPK0). [useR! 2025 Conference](https://user2025.r-project.org/program/in-person/keynotes/will-landau) (1:00:25).
+* [`targets` in Action](https://ropensci.org/commcalls/jan2023-targets/) with [Joel Nitta](https://github.com/joelnitta) and [Eric Scott](https://github.com/Aariq). [rOpenSci Community Call](https://ropensci.org/commcalls/jan2023-targets/) (1:09:56).
 * [`targets` and `crew` for clinical trial simulation pipelines](https://www.youtube.com/watch?v=cyF2dzloVLo&list=PLMtxz1fUYA5C0csy8-wTfFmRYQEB30vr3). R/Pharma 2023 (1:57:22).
 * [`targets` and `stantargets` for Bayesian model validation pipelines](https://youtu.be/HJI5mQJRGpY). R/Medicine 2021 (15:33)
 * [Reproducible computation at scale in R with `targets`](https://youtu.be/Gqn7Xn4d5NI) New York Open Statistical Programming Meetup, December 2020 (1:54:28).
