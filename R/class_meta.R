@@ -182,6 +182,9 @@ meta_class <- R6::R6Class(
         return()
       }
       line <- readLines(self$database$path, n = 1)
+      if (!length(line)) {
+        return()
+      }
       line <- strsplit(line, split = database_sep_outer, fixed = TRUE)[[1]]
       if ("repository" %in% line) {
         return()

@@ -351,6 +351,18 @@ tar_test("migrate meta database", {
   expect_equal(tar_read(x), "value")
 })
 
+tar_test("migrate meta database", {
+  temp <- tempfile()
+  meta <- meta_init(path_store = temp)
+  on.exit({
+    meta$database$close()
+    unlink(temp, recursive = TRUE)
+  })
+  dir.create(dirname(meta$database$path), recursive = TRUE)
+  file.create(meta$database$path)
+  expect_no_error(meta$migrate_database())
+})
+
 tar_test("meta$preprocess() on empty data", {
   for (write in c(TRUE, FALSE)) {
     meta <- meta_init(path_store = tempfile())

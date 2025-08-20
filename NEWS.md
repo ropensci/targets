@@ -6,6 +6,7 @@
 * Improve reporter deprecation messages (#1493, @dakvid).
 * Clarify scope of `tar_renv()` (#1506, @valentingar).
 * Handle errors in `rstudioapi::isAvailable()` (#1519, @dipterix).
+* Improve error message when metadata file is corrupted (#1523, @dakvid).
 
 # targets 1.11.3
 

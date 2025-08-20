@@ -528,12 +528,16 @@ database_class <- R6::R6Class(
         return()
       }
       line <- readLines(self$path, n = 1L)
-      header <- strsplit(line, split = database_sep_outer, fixed = TRUE)[[1]]
+      header <- if_any(
+        length(line) > 0L,
+        strsplit(line, split = database_sep_outer, fixed = TRUE)[[1]],
+        ""
+      )
       if (identical(header, self$header)) {
         return()
       }
       tar_throw_file(
-        "invalid header in ",
+        "invalid header in the {targets} database file ",
         self$path,
         "\n",
         "  found:    ",
@@ -541,10 +545,11 @@ database_class <- R6::R6Class(
         "\n",
         "  expected: ",
         paste(self$header, collapse = database_sep_outer),
-        "\nProbably because of a breaking change in the targets package. ",
-        "Before running tar_make() again, ",
-        "either delete the data store with tar_destroy() ",
-        "or downgrade the targets package to an earlier version."
+        "\nEither there was a breaking change in the {targets} package ",
+        "or the metadata file was corrupted somehow. ",
+        "Before running tar_make() again, either delete the aforementioned ",
+        "database file, or if applicable, ",
+        "downgrade the {targets} package to an earlier version."
       )
     },
     validate = function() {
