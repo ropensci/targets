@@ -245,5 +245,5 @@ future_value_target.tar_target <- function(value, name, pipeline) {
 #' @export
 future_value_target.condition <- function(value, name, pipeline) {
   target <- pipeline_get_target(pipeline, name)
-  builder_error_internal(target, value, "_future_")
+  builder_error_internal(target, value, "Error getting value from future:")
 }

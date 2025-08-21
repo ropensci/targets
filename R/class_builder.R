@@ -458,7 +458,13 @@ builder_update_build <- function(target, envir) {
   object <- build$object
   object <- tryCatch(
     builder_resolve_object(target, build),
-    error = function(error) builder_error_internal(target, error, "_build_")
+    error = function(error) {
+      builder_error_internal(
+        target,
+        error,
+        "Error resolving stored output:"
+      )
+    }
   )
   if (!identical(target$settings$storage, "none")) {
     target$value <- value_init(object, target$settings$iteration)
@@ -486,7 +492,13 @@ builder_ensure_paths <- function(target, path_store) {
   if (builder_expect_storage(target)) {
     tryCatch(
       builder_update_paths(target, path_store),
-      error = function(error) builder_error_internal(target, error, "_paths_")
+      error = function(error) {
+        builder_error_internal(
+          target,
+          error,
+          "Error resolving output location:"
+        )
+      }
     )
   }
 }
@@ -549,7 +561,13 @@ builder_ensure_object <- function(target, storage, on_worker) {
   if (context && builder_expect_storage(target)) {
     tryCatch(
       builder_update_object(target, on_worker),
-      error = function(error) builder_error_internal(target, error, "_store_")
+      error = function(error) {
+        builder_error_internal(
+          target,
+          error,
+          "Error storing output:"
+        )
+      }
     )
   }
 }
@@ -567,7 +585,13 @@ builder_ensure_correct_hash <- function(target) {
   if (!metrics_terminated_early(target$metrics)) {
     tryCatch(
       builder_wait_correct_hash(target),
-      error = function(error) builder_error_internal(target, error, "_hash_")
+      error = function(error) {
+        builder_error_internal(
+          target,
+          error,
+          "Error hashing output:"
+        )
+      }
     )
   }
 }
