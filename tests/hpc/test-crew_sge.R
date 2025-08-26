@@ -15,5 +15,5 @@ test_that("crew SGE with many tasks and many workers", {
     )
   })
   tar_make()
-  expect_equal(tar_outdated(reporter = "forecast"), character(0))
+  expect_equal(tar_outdated(), character(0))
 })

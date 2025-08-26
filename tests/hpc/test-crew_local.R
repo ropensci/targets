@@ -60,7 +60,17 @@ tar_test("prevent high-memory data via target objects", {
   skip_if_not_installed("crew")
   tar_runtime$fun <- "tar_make"
   on.exit(tar_runtime$fun <- NULL)
-  t <- list(tar_target(x, runif(1e7), deployment = "main", format = "qs"))
+  t <- list(
+    tar_target(
+      x,
+      runif(1e7),
+      deployment = "main",
+      format = "qs",
+      storage = "main",
+      retrieval = "main",
+      memory = "persistent"
+    )
+  )
   pipeline <- pipeline_init(list(t[[1]], tar_target(y, x)))
   controller <- crew::crew_controller_local()
   algo <- crew_init(pipeline, controller = controller)
