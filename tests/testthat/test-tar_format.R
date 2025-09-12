@@ -149,7 +149,7 @@ tar_test("patterns are marshaled correctly", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_if_not_installed("crew", minimum_version = "0.9.0")
-  skip_if_not_installed("torch")
+  skip_torch()
   on.exit(crew_test_sleep())
   tar_script({
     tar_option_set(controller = crew::crew_controller_local())
