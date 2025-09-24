@@ -78,7 +78,8 @@ tar_load <- function(
   tar_assert_store(store = store)
   force(meta)
   force(envir)
-  names <- tar_tidyselect_eval(rlang::enquo(names), meta$name)
+  choices <- meta$name[!(meta$type %in% c("object", "function"))]
+  names <- tar_tidyselect_eval(rlang::enquo(names), choices)
   tar_load_raw(
     names = names,
     branches = branches,

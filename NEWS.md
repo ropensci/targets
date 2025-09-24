@@ -1,6 +1,6 @@
-# targets 1.11.4.9000 (development)
+# targets 1.11.4.9001 (development)
 
-
+* Avoid loading non-targets in `tar_load(everything())` (#1529, @pitakakariki).
 
 # targets 1.11.4
 

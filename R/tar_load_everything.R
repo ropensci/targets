@@ -37,7 +37,7 @@ tar_load_everything <- function(
   tar_assert_allow_meta("tar_load_everything", store)
   force(envir)
   tar_load(
-    everything(),
+    tidyselect::everything(),
     branches = branches,
     meta = meta,
     strict = strict,
