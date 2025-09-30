@@ -1,6 +1,7 @@
-# targets 1.11.4.9001 (development)
+# targets 1.11.4.9002 (development)
 
 * Avoid loading non-targets in `tar_load(everything())` (#1529, @pitakakariki).
+* For internal consistency, return `NA_character_` from `tar_path_target()` when `format` is `"file"` (#1532, @noamross).
 
 # targets 1.11.4
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_path_target.R
 \name{tar_path_target}
 \alias{tar_path_target}
-\title{Identify the file path where a target will be stored.}
+\title{Identify the file path where the current target will be stored.}
 \usage{
 tar_path_target(
   name = NULL,
@@ -36,32 +36,38 @@ and actual the path to the running pipeline's data store
 is used instead.}
 }
 \value{
-Character, file path of the return value of the target.
+Character string, the file path where the target currently running
+will be stored. This path is not always known or available in advance,
+it depends on the \code{format} and \code{repository} settings.
+
+If \code{format} is not \code{"file"} and \code{repository} is \code{"local"} (default)
+then \code{tar_path_target()} returns \code{"STORE/objects/YOUR_TARGET"},
+where \code{STORE} is the value of \code{tar_config_get("store")} and
+\code{YOUR_TARGET} is the name of your target.
+
+Otherwise, if \code{format} is \code{"file"}, then the return value is
+\code{NA_character_} because \code{targets} does not control where
+those files are stored.
+
+Otherwise, if \code{format} is not \code{"file"} and \code{repository} is
+not \code{"local"}, then \code{tar_path_target()} returns
+the temporary staging path where the data is stored
+before it is uploaded to a remote repository.
+Remote repositories vary so widely that the eventual final location
+cannot always be known, but all remote repositories use staging
+files that \code{targets} knows about.
+
 If not called from inside a running target,
 \code{tar_path_target(name = your_target)} just returns
-\verb{_targets/objects/your_target}, the file path where \code{your_target}
-will be saved unless \code{format} is equal to \code{"file"} or any of the
-supported cloud-based storage formats.
-
-For non-cloud storage formats, if you call \code{tar_path_target()}
-with no arguments while target \code{x} is running, the \code{name}
-argument defaults to the name of the running target,
-so \code{tar_path_target()} returns \verb{_targets/objects/x}.
-
-For cloud-backed formats, \code{tar_path_target()} returns the
-path to the staging file in \verb{_targets/scratch/}.
-That way, even if you select a cloud repository
-(e.g. \code{tar_target(..., repository = "aws", storage = "none")})
-then you can still manually write to
-\code{tar_path_target(create_dir = TRUE)}
-and the \code{targets} package will automatically hash it and
-upload it to the AWS S3 bucket. This does not apply to
-\code{format = "file"}, where you would never need \code{storage = "none"}
-anyway.
+\code{"STORE/objects/your_target"}.
 }
 \description{
-Identify the file path where a target will be stored
-after the target finishes running in the pipeline.
+Identify the file path where the current target will be stored
+locally on disk.
+Designed to be called inside the command of a target currently
+running in a pipeline.
+See the "Value" section for specifics because the return
+value depends on the \code{format} and \code{repository} settings.
 }
 \examples{
 tar_path_target()

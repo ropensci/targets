@@ -1,30 +1,36 @@
-#' @title Identify the file path where a target will be stored.
+#' @title Identify the file path where the current target will be stored.
 #' @export
 #' @family utilities
-#' @description Identify the file path where a target will be stored
-#'   after the target finishes running in the pipeline.
-#' @return Character, file path of the return value of the target.
+#' @description Identify the file path where the current target will be stored
+#'   locally on disk.
+#'   Designed to be called inside the command of a target currently
+#'   running in a pipeline.
+#'   See the "Value" section for specifics because the return
+#'   value depends on the `format` and `repository` settings.
+#' @return Character string, the file path where the target currently running
+#'   will be stored. This path is not always known or available in advance,
+#'   it depends on the `format` and `repository` settings.
+#'
+#'   If `format` is not `"file"` and `repository` is `"local"` (default)
+#'   then `tar_path_target()` returns `"STORE/objects/YOUR_TARGET"`,
+#'   where `STORE` is the value of `tar_config_get("store")` and
+#'   `YOUR_TARGET` is the name of your target.
+#'
+#'   Otherwise, if `format` is `"file"`, then the return value is
+#'   `NA_character_` because `targets` does not control where
+#'   those files are stored.
+#'
+#'   Otherwise, if `format` is not `"file"` and `repository` is
+#'   not `"local"`, then `tar_path_target()` returns
+#'   the temporary staging path where the data is stored
+#'   before it is uploaded to a remote repository.
+#'   Remote repositories vary so widely that the eventual final location
+#'   cannot always be known, but all remote repositories use staging
+#'   files that `targets` knows about.
+#'
 #'   If not called from inside a running target,
 #'   `tar_path_target(name = your_target)` just returns
-#'   `_targets/objects/your_target`, the file path where `your_target`
-#'   will be saved unless `format` is equal to `"file"` or any of the
-#'   supported cloud-based storage formats.
-#'
-#'   For non-cloud storage formats, if you call `tar_path_target()`
-#'   with no arguments while target `x` is running, the `name`
-#'   argument defaults to the name of the running target,
-#'   so `tar_path_target()` returns `_targets/objects/x`.
-#'
-#'   For cloud-backed formats, `tar_path_target()` returns the
-#'   path to the staging file in `_targets/scratch/`.
-#'   That way, even if you select a cloud repository
-#'   (e.g. `tar_target(..., repository = "aws", storage = "none")`)
-#'   then you can still manually write to
-#'   `tar_path_target(create_dir = TRUE)`
-#'   and the `targets` package will automatically hash it and
-#'   upload it to the AWS S3 bucket. This does not apply to
-#'   `format = "file"`, where you would never need `storage = "none"`
-#'   anyway.
+#'   `"STORE/objects/your_target"`.
 #' @param name Symbol, name of a target.
 #'   If `NULL`, `tar_path_target()` returns the path of the target currently
 #'   running in a pipeline.
@@ -77,13 +83,15 @@ tar_path_target <- function(
 }
 
 tar_path_running <- function(default, path_store) {
-  if_any(
-    !is.null(tar_runtime$target),
-    store_tar_path(
-      tar_runtime$target$store,
-      tar_runtime$target,
-      tar_runtime$store
-    ),
-    as.character(default)
+  if (is.null(tar_runtime$target)) {
+    return(as.character(default))
+  }
+  if (identical(tar_runtime$target$settings$format, "file")) {
+    return(NA_character_)
+  }
+  store_tar_path(
+    tar_runtime$target$store,
+    tar_runtime$target,
+    tar_runtime$store
   )
 }

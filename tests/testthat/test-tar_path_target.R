@@ -19,6 +19,26 @@ tar_test("tar_path_target() inside a pipeline", {
   expect_equal(target_read_value(x, pipeline)$object, path)
 })
 
+tar_test("tar_path_target() inside a pipeline with file format", {
+  x <- target_init(
+    "x",
+    quote({
+      value <- targets::tar_path_target()
+      saveRDS(value, "file.rds")
+      "file.rds"
+    }),
+    format = "file"
+  )
+  tar_runtime$store <- path_store_default()
+  on.exit({
+    tar_runtime$store <- NULL
+    unlink("file.rds")
+  })
+  pipeline <- pipeline_init(list(x))
+  local_init(pipeline)$run()
+  expect_equal(readRDS("file.rds"), NA_character_)
+})
+
 tar_test("custom script and store args", {
   skip_cran()
   expect_equal(tar_config_get("script"), path_script_default())
