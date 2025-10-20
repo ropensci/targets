@@ -38,6 +38,7 @@ Other configuration:
 \code{\link{tar_envvars}()},
 \code{\link{tar_option_get}()},
 \code{\link{tar_option_reset}()},
-\code{\link{tar_option_set}()}
+\code{\link{tar_option_set}()},
+\code{\link{tar_option_unset}()}
 }
 \concept{configuration}
