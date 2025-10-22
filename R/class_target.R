@@ -329,7 +329,7 @@ target_run.default <- function(target, envir, path_store, on_worker = FALSE) {}
 #' @export
 #' @keywords internal
 #' @description For internal purposes only. Not a user-side function.
-#' @param target A target object.
+#' @param target A target definition object.
 #' @param envir An environment or the string `"globalenv"`.
 #' @param path_store Character of length 1, path to the data store.
 #' @param fun Character of length 1, name of the user-side function called

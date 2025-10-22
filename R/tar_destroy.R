@@ -33,7 +33,7 @@
 #' @param destroy Character of length 1, what to destroy. Choices:
 #'   * `"all"`: entire data store (default: `_targets/`)
 #'     including cloud data, as well as download/upload scratch files.
-#'   * `"cloud"`: cloud data, including metadata, target object data
+#'   * `"cloud"`: cloud data, including metadata, target definition object data
 #'     from targets with `tar_target(..., repository = "aws")`,
 #'     and workspace files saved on the cloud.
 #'     Also deletes temporary staging files in

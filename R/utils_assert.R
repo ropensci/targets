@@ -653,7 +653,7 @@ tar_assert_store_noninvalidating <- function(store, threshold, prompt) {
 tar_assert_target <- function(x, msg = NULL) {
   msg <- msg %|||%
     paste(
-      "Found a non-target object in the target list.",
+      "Found a non-target-definition object in the target list.",
       "The target script file (default: _targets.R)",
       "must end with a list of tar_target() objects (recommended)",
       "or a tar_pipeline() object (deprecated)."
@@ -665,10 +665,13 @@ tar_assert_target <- function(x, msg = NULL) {
 #' @rdname tar_assert
 tar_assert_target_list <- function(x) {
   msg <- paste(
-    "Expected a list of target objects, but the object is not a list.",
-    "Are you missing a target list at the end of your target script file?",
+    "Expected a list of target definition objects,",
+    "but the object is not a list.",
+    "Are you missing a target list at the",
+    "end of your target script file?",
     "The target script file (e.g. _targets.R)",
-    "must end with a list of tar_target() objects."
+    "must end with a list of target definition",
+    "objects produced by tar_target() or similar."
   )
   tar_assert_list(x, msg = msg)
   map(x, tar_assert_target)
@@ -821,7 +824,7 @@ tar_deprecate_seconds_interval <- function(seconds_interval) {
 
 tar_warn_prefix <- function() {
   tar_warn_deprecate(
-    "Please supply an explicit prefix for you target object data ",
+    "Please supply an explicit prefix for you target definition object data ",
     "and metadata. The prefix should be unique to your `targets` project. ",
     "In the future, `targets` will begin requiring explicitly ",
     "user-supplied prefixes. This warning was added on 2023-08-24 ",

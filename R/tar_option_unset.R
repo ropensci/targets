@@ -5,8 +5,8 @@
 #'   [tar_option_set()]. These options are mostly configurable default
 #'   arguments to [tar_target()] and [tar_target_raw()].
 #' @return `NULL` (invisibly).
-#' @param options A character vector of options to reset. Must all be elements of
-#'   `names(formals(tar_option_set))`
+#' @param options A character vector of options to reset.
+#'   Must all be elements of `names(formals(tar_option_set))`
 #' @examples
 #' tar_option_get("format") # default format before we set anything
 #' tar_target(x, 1)$settings$format

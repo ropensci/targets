@@ -7,7 +7,7 @@
 target_run_worker(target, envir, path_store, fun, options, envvars)
 }
 \arguments{
-\item{target}{A target object.}
+\item{target}{A target definition object.}
 
 \item{envir}{An environment or the string \code{"globalenv"}.}
 

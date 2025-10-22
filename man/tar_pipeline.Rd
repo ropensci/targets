@@ -15,7 +15,7 @@ A pipeline object.
 \description{
 Functions \code{tar_pipeline()} and \code{\link[=tar_bind]{tar_bind()}} are deprecated.
 Instead, simply end your target script file (default: \verb{_targets.R})
-with a list of target objects.
+with a list of target definition objects.
 You can nest these objects however you like.
 }
 \details{

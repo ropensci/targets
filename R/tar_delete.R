@@ -30,7 +30,7 @@
 #'   from the cloud if applicable (e.g. AWS, GCP). If `FALSE`,
 #'   files are not deleted from the cloud.
 #' @param batch_size Positive integer between 1 and 1000,
-#'   number of target objects to delete
+#'   number of target definition objects to delete
 #'   from the cloud with each HTTP API request.
 #'   Currently only supported for AWS.
 #'   Cannot be more than 1000.

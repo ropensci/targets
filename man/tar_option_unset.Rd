@@ -7,8 +7,8 @@
 tar_option_unset(options)
 }
 \arguments{
-\item{options}{A character vector of options to reset. Must all be elements of
-\code{names(formals(tar_option_set))}}
+\item{options}{A character vector of options to reset.
+Must all be elements of \code{names(formals(tar_option_set))}}
 }
 \value{
 \code{NULL} (invisibly).

@@ -19,7 +19,7 @@ tar_destroy(
 \itemize{
 \item \code{"all"}: entire data store (default: \verb{_targets/})
 including cloud data, as well as download/upload scratch files.
-\item \code{"cloud"}: cloud data, including metadata, target object data
+\item \code{"cloud"}: cloud data, including metadata, target definition object data
 from targets with \code{tar_target(..., repository = "aws")},
 and workspace files saved on the cloud.
 Also deletes temporary staging files in
@@ -53,7 +53,7 @@ data store.
 }}
 
 \item{batch_size}{Positive integer between 1 and 1000,
-number of target objects to delete
+number of target definition objects to delete
 from the cloud with each HTTP API request.
 Currently only supported for AWS.
 Cannot be more than 1000.}

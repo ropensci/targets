@@ -21,21 +21,22 @@
 #'   `tar_target_raw(name = "data", command = quote(get_data()))`.
 #'   [tar_target_raw()] also has extra arguments `deps` and `string`
 #'   for advanced customization.
-#' @section Target objects:
-#'   Functions like `tar_target()` produce target objects,
+#' @section Target definition objects:
+#'   Functions like `tar_target()` produce target definition objects,
 #'   special objects with specialized sets of S3 classes.
-#'   Target objects represent skippable steps of the analysis pipeline
+#'   Target definition objects
+#'   represent skippable steps of the analysis pipeline
 #'   as described at <https://books.ropensci.org/targets/>.
 #'   Please read the walkthrough at
 #'   <https://books.ropensci.org/targets/walkthrough.html>
-#'   to understand the role of target objects in analysis pipelines.
+#'   to understand the role of target definition objects in analysis pipelines.
 #'
 #'   For developers,
 #'   <https://wlandau.github.io/targetopia/contributing.html#target-factories>
 #'   explains target factories (functions like this one which generate targets)
 #'   and the design specification at
 #'   <https://books.ropensci.org/targets-design/>
-#'   details the structure and composition of target objects.
+#'   details the structure and composition of target definition objects.
 #' @section Storage formats:
 #'   `targets` has several built-in storage formats to control how return
 #'   values are saved and loaded from disk:
@@ -190,7 +191,7 @@
 #'     and a branch is created for each collection of rows in a group.
 #'     See the [tar_group()] function to see how you can
 #'     create the special `tar_group` column with `dplyr::group_by()`.
-#' @return A target object. Users should not modify these directly,
+#' @return A target definition object. Users should not modify these directly,
 #'   just feed them to [list()] in your target script file
 #'   (default: `_targets.R`).
 #' @param name Symbol, name of the target.

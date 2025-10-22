@@ -31,9 +31,9 @@ pipeline_targets_init <- function(targets, clone_targets) {
   names <- map_chr(targets, ~ target_get_name(.x))
   tar_assert_unique_targets(names)
   if (clone_targets) {
-    # If the user has target objects in the global environment,
+    # If the user has target definition objects in the global environment,
     # loading data into them may cause huge data transfers to workers.
-    # Best to not modify the user's copies of target objects.
+    # Best to not modify the user's copies of target definition objects.
     targets <- map(targets, ~ target_subpipeline_copy(.x, keep_value = FALSE))
   }
   names(targets) <- names

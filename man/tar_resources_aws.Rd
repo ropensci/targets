@@ -25,7 +25,7 @@ bucket to upload and download the return values
 of the affected targets during the pipeline.}
 
 \item{prefix}{Character of length 1, "directory path"
-in the bucket where your target object and metadata will go.
+in the bucket where your target definition object and metadata will go.
 Please supply an explicit prefix
 unique to your \code{targets} project.
 In the future, \code{targets} will begin requiring

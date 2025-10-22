@@ -117,7 +117,7 @@ meta_class <- R6::R6Class(
     },
     data_imports = function(envir, pipeline) {
       data <- hash_imports(envir)
-      data[!(data$name %in% pipeline_get_names(pipeline)), , drop = FALSE] # nolint
+      data[!(data$name %in% pipeline_get_names(pipeline)), , drop = FALSE]
     },
     record_imports = function(envir, pipeline) {
       data <- self$data_imports(envir, pipeline)

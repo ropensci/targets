@@ -319,7 +319,7 @@ target is up to date. External interfaces can take control of
 If \code{NULL}, the strings is just deparsed from \code{command} (default).}
 }
 \value{
-A target object. Users should not modify these directly,
+A target definition object. Users should not modify these directly,
 just feed them to \code{\link[=list]{list()}} in your target script file
 (default: \verb{_targets.R}).
 }
@@ -345,22 +345,23 @@ arguments are evaluated expressions. Example:
 \code{\link[=tar_target_raw]{tar_target_raw()}} also has extra arguments \code{deps} and \code{string}
 for advanced customization.
 }
-\section{Target objects}{
+\section{Target definition objects}{
 
-Functions like \code{tar_target()} produce target objects,
+Functions like \code{tar_target()} produce target definition objects,
 special objects with specialized sets of S3 classes.
-Target objects represent skippable steps of the analysis pipeline
+Target definition objects
+represent skippable steps of the analysis pipeline
 as described at \url{https://books.ropensci.org/targets/}.
 Please read the walkthrough at
 \url{https://books.ropensci.org/targets/walkthrough.html}
-to understand the role of target objects in analysis pipelines.
+to understand the role of target definition objects in analysis pipelines.
 
 For developers,
 \url{https://wlandau.github.io/targetopia/contributing.html#target-factories}
 explains target factories (functions like this one which generate targets)
 and the design specification at
 \url{https://books.ropensci.org/targets-design/}
-details the structure and composition of target objects.
+details the structure and composition of target definition objects.
 }
 
 \section{Storage formats}{

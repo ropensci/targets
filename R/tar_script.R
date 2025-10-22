@@ -28,7 +28,8 @@
 #'       settings such as the names of required packages. Even if you have no
 #'       specific options to set, it is still recommended to call
 #'       [tar_option_set()] in order to register the proper environment.
-#'   4. Targets: define one or more target objects using [tar_target()].
+#'   4. Targets: define one or more target definition objects
+#'       using [tar_target()].
 #'   5. Pipeline: call [list()] to aggregate the targets from (4)
 #'       into a list. Every target script file must return
 #'       a pipeline object, which usually means ending with a call to

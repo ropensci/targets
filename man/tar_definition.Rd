@@ -16,8 +16,8 @@ which helps peel back layers of code and troubleshoot bugs.}
 }
 \value{
 If called from a running target, \code{tar_definition()} returns
-the target object of the currently running target.
-See the "Target objects" section for details.
+the target definition object of the currently running target.
+See the "Target definition objects" section for details.
 }
 \description{
 For developers only: get the full definition of the
@@ -30,22 +30,23 @@ modifications could break the pipeline.
 \code{tar_definition()} only exists in order to support third-party interface
 packages, and even then the returned target definition is not modified..
 }
-\section{Target objects}{
+\section{Target definition objects}{
 
-Functions like \code{tar_target()} produce target objects,
+Functions like \code{tar_target()} produce target definition objects,
 special objects with specialized sets of S3 classes.
-Target objects represent skippable steps of the analysis pipeline
+Target definition objects
+represent skippable steps of the analysis pipeline
 as described at \url{https://books.ropensci.org/targets/}.
 Please read the walkthrough at
 \url{https://books.ropensci.org/targets/walkthrough.html}
-to understand the role of target objects in analysis pipelines.
+to understand the role of target definition objects in analysis pipelines.
 
 For developers,
 \url{https://wlandau.github.io/targetopia/contributing.html#target-factories}
 explains target factories (functions like this one which generate targets)
 and the design specification at
 \url{https://books.ropensci.org/targets-design/}
-details the structure and composition of target objects.
+details the structure and composition of target definition objects.
 }
 
 \examples{

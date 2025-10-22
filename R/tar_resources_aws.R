@@ -15,7 +15,7 @@
 #'   bucket to upload and download the return values
 #'   of the affected targets during the pipeline.
 #' @param prefix Character of length 1, "directory path"
-#'   in the bucket where your target object and metadata will go.
+#'   in the bucket where your target definition object and metadata will go.
 #'   Please supply an explicit prefix
 #'   unique to your `targets` project.
 #'   In the future, `targets` will begin requiring

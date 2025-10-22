@@ -64,7 +64,8 @@ the R commands of the targets.
 settings such as the names of required packages. Even if you have no
 specific options to set, it is still recommended to call
 \code{\link[=tar_option_set]{tar_option_set()}} in order to register the proper environment.
-\item Targets: define one or more target objects using \code{\link[=tar_target]{tar_target()}}.
+\item Targets: define one or more target definition objects
+using \code{\link[=tar_target]{tar_target()}}.
 \item Pipeline: call \code{\link[=list]{list()}} to aggregate the targets from (4)
 into a list. Every target script file must return
 a pipeline object, which usually means ending with a call to

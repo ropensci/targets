@@ -9,9 +9,9 @@
 #'   `tar_definition()` only exists in order to support third-party interface
 #'   packages, and even then the returned target definition is not modified..
 #' @return If called from a running target, `tar_definition()` returns
-#'   the target object of the currently running target.
-#'   See the "Target objects" section for details.
-#' @inheritSection tar_target Target objects
+#'   the target definition object of the currently running target.
+#'   See the "Target definition objects" section for details.
+#' @inheritSection tar_target Target definition objects
 #' @param default Environment, value to return if `tar_definition()`
 #'   is called on its own outside a `targets` pipeline.
 #'   Having a default lets users run things without [tar_make()],
