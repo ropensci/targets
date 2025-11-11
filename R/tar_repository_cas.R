@@ -46,7 +46,7 @@
 #'   to look up the current hash of `x`. If `tar_meta(x)$data` returns
 #'   `"1fffeb09ad36e84a"`, then `tar_read(x)` returns the data from
 #'   `my_cas/1fffeb09ad36e84a`. Files `my_cas/68328d833e6361d3` and
-#'   and `my_cas/798af464fb2f6b30` are left over from previous values of `x`.
+#'   `my_cas/798af464fb2f6b30` are left over from previous values of `x`.
 #'
 #'   Because CAS accumulates historical data objects,
 #'   it is ideal for data versioning and collaboration.
@@ -59,7 +59,7 @@
 #'   The downside of CAS is the cost of accumulating many data objects
 #'   over time. Most pipelines that use CAS
 #'   should have a garbage collection system or retention policy
-#'   to remove data objects when they no longer needed.
+#'   to remove data objects when they are no longer needed.
 #'
 #'   The [tar_repository_cas()] function lets you create your own CAS system
 #'   for `targets`. You can supply arbitrary custom methods to upload,
