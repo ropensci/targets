@@ -163,7 +163,7 @@ The next call to \code{tar_read(x)} uses \code{tar_meta(x)$data}
 to look up the current hash of \code{x}. If \code{tar_meta(x)$data} returns
 \code{"1fffeb09ad36e84a"}, then \code{tar_read(x)} returns the data from
 \verb{my_cas/1fffeb09ad36e84a}. Files \verb{my_cas/68328d833e6361d3} and
-and \verb{my_cas/798af464fb2f6b30} are left over from previous values of \code{x}.
+\verb{my_cas/798af464fb2f6b30} are left over from previous values of \code{x}.
 
 Because CAS accumulates historical data objects,
 it is ideal for data versioning and collaboration.
@@ -176,7 +176,7 @@ results using a fork of your code and metadata.
 The downside of CAS is the cost of accumulating many data objects
 over time. Most pipelines that use CAS
 should have a garbage collection system or retention policy
-to remove data objects when they no longer needed.
+to remove data objects when they are no longer needed.
 
 The \code{\link[=tar_repository_cas]{tar_repository_cas()}} function lets you create your own CAS system
 for \code{targets}. You can supply arbitrary custom methods to upload,
