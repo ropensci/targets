@@ -1,8 +1,9 @@
-# targets 1.11.4.9003 (development)
+# targets development version
 
 * Avoid loading non-targets in `tar_load(everything())` (#1529, @pitakakariki).
 * For internal consistency, return `NA_character_` from `tar_path_target()` when `format` is `"file"` (#1532, @noamross).
 * Add `tar_option_unset()` (#1521, @noamross).
+* Use a new `TAR_ASK` environment variable instead of a field of the `tar_runtime` object (https://github.com/ropensci/tarchetypes/issues/232, @lgaborini).
 
 # targets 1.11.4
 

@@ -164,6 +164,9 @@ target_run.tar_builder <- function(
     autometric::log_phase_set(phase = target_get_name(target))
     on.exit(autometric::log_phase_reset())
   }
+  old_tar_active <- Sys.getenv("TAR_ACTIVE")
+  Sys.setenv(TAR_ACTIVE = "true")
+  on.exit(Sys.setenv(TAR_ACTIVE = old_tar_active), add = TRUE)
   on.exit(builder_unset_tar_runtime(), add = TRUE)
   on.exit(target$subpipeline <- NULL, add = TRUE)
   if (!identical(target$settings$retrieval, "none")) {

@@ -210,7 +210,6 @@ active_class <- R6::R6Class(
       self$scheduler$backoff$wait()
     },
     start = function() {
-      tar_runtime$active <- TRUE # Needs to be set here for tests.
       self$seconds_start <- time_seconds()
       pipeline_prune_names(self$pipeline, self$names)
       pipeline_resolve_auto(self$pipeline)

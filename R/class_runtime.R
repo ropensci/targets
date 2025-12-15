@@ -6,7 +6,6 @@ runtime_new <- function(
   store = NULL,
   working_directory = NULL,
   fun = NULL,
-  active = NULL,
   gcp_auth = NULL,
   file_exist = NULL,
   file_info = NULL,
@@ -28,7 +27,6 @@ runtime_new <- function(
   out$store <- store
   out$working_directory <- working_directory
   out$fun <- fun
-  out$active <- active
   out$gcp_auth <- gcp_auth
   out$file_exist <- file_exist
   out$file_info <- file_info
@@ -81,10 +79,6 @@ runtime_validate_basics <- function(x) {
     tar_assert_scalar(x$fun)
     tar_assert_chr(x$fun)
     tar_assert_nzchar(x$fun)
-  }
-  if (!is.null(x$active)) {
-    tar_assert_lgl(x$active)
-    tar_assert_scalar(x$active)
   }
   if (!is.null(x$number_targets_run)) {
     tar_assert_scalar(x$number_targets_run)

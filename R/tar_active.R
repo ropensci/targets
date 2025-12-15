@@ -21,5 +21,5 @@
 #' })
 #' }
 tar_active <- function() {
-  isTRUE(tar_runtime$active)
+  all(Sys.getenv("TAR_ACTIVE") == "true")
 }

@@ -193,6 +193,7 @@ tar_callr_inner_try <- function(
     traceback <- tar_runtime$traceback
     runtime_reset(tar_runtime)
     tar_runtime$traceback <- traceback
+    Sys.unsetenv("TAR_ACTIVE")
   })
   callr_set_runtime(
     script = script,
@@ -215,12 +216,15 @@ callr_set_runtime <- function(script, store, fun, pid_parent, reporter) {
   tar_runtime$working_directory <- getwd()
   tar_runtime$fun <- fun
   # Needs to be set here for user-side code in _targets.R outside the pipeline
-  tar_runtime$active <- fun %in%
+  active <- fun %in%
     c(
       "tar_make",
       "tar_make_clustermq",
       "tar_make_future"
     )
+  if (active) {
+    Sys.setenv(TAR_ACTIVE = "true")
+  }
   tar_runtime$pid_parent <- pid_parent
   tar_runtime$inventories <- list()
   tar_runtime$progress_bar <- identical(as.character(reporter), "balanced")

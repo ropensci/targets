@@ -53,14 +53,6 @@ tar_test("fun", {
   expect_silent(runtime_validate(x))
 })
 
-tar_test("active", {
-  x <- runtime_new()
-  expect_null(x$active)
-  x$active <- TRUE
-  expect_true(x$active)
-  expect_silent(runtime_validate(x))
-})
-
 tar_test("gcp_auth", {
   x <- runtime_new()
   expect_null(x$gcp_auth)

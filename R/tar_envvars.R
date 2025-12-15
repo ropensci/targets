@@ -30,6 +30,10 @@
 #'   for any environment variable that is not set.
 #' @examples
 #' tar_envvars()
+#' @section TAR_ACTIVE:
+#'   The `TAR_ACTIVE` environment variable is automatically `"true"`
+#'   if the current process is part of a `targets` pipeline
+#'   and unset otherwise.
 #' @section TAR_ASK:
 #'   The `TAR_ASK` environment variable accepts values `"true"` and `"false"`.
 #'   If `TAR_ASK` is not set, or if it is set to `"true"`,
@@ -63,6 +67,7 @@ tar_envvars <- function(unset = "") {
   tar_assert_chr(unset, "unset must be a character.")
   tar_assert_scalar(unset, "unset must have length 1.")
   names <- c(
+    "TAR_ACTIVE",
     "TAR_ASK",
     "TAR_CONFIG",
     "TAR_PROJECT",

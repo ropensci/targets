@@ -41,6 +41,13 @@ For all other environment variables, you will have to set
 the values manually, e.g. a project-level \code{.Renviron} file
 (for workers that have access to the local file system).
 }
+\section{TAR_ACTIVE}{
+
+The \code{TAR_ACTIVE} environment variable is automatically \code{"true"}
+if the current process is part of a \code{targets} pipeline
+and unset otherwise.
+}
+
 \section{TAR_ASK}{
 
 The \code{TAR_ASK} environment variable accepts values \code{"true"} and \code{"false"}.
