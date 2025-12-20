@@ -156,7 +156,7 @@
 #'
 #'   The `list` function increases efficiency by reducing repeated calls
 #'   to the `exists` function (see above) or entirely avoiding them
-#'   if `consistent` is `TRUE.
+#'   if `consistent` is `TRUE`.
 #'
 #'   The `list` function should return a character vector of keys that
 #'   already exist in the CAS system.
