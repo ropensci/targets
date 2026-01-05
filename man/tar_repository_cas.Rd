@@ -59,7 +59,7 @@ argument named \code{keys}.
 
 The \code{list} function increases efficiency by reducing repeated calls
 to the \code{exists} function (see above) or entirely avoiding them
-if \code{consistent} is `TRUE.
+if \code{consistent} is \code{TRUE}.
 
 The \code{list} function should return a character vector of keys that
 already exist in the CAS system.
