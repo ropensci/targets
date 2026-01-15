@@ -10,7 +10,6 @@ Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&lab
 [![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![check](https://github.com/ropensci/targets/actions/workflows/check.yaml/badge.svg)](https://github.com/ropensci/targets/actions?query=workflow%3Acheck)
 [![codecov](https://codecov.io/gh/ropensci/targets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://app.codecov.io/gh/ropensci/targets)
-[![lint](https://github.com/ropensci/targets/actions/workflows/lint.yaml/badge.svg)](https://github.com/ropensci/targets/actions?query=workflow%3Alint)
 
 Pipeline tools coordinate the pieces of computationally demanding
 analysis projects. The `targets` package is a Make-like pipeline tool
