@@ -99,8 +99,8 @@ targets <- lapply(
 pipeline <- pipeline_init(targets)
 local <- local_init(pipeline)
 local$run()
-pryr::object_size(pipeline)
-pryr::object_size(local)
+lobstr::obj_size(pipeline)
+lobstr::obj_size(local)
 
 # Pipeline should still be acceptably small even with lots of targets.
 tar_destroy()
@@ -112,7 +112,7 @@ pipeline <- pipeline_init(
 )
 local <- local_init(pipeline)
 local$run()
-pryr::object_size(pipeline)
+lobstr::obj_size(pipeline)
 x <- pipeline_get_target(pipeline, "x")
-pryr::object_size(x)
+lobstr::obj_size(x)
 tar_destroy()

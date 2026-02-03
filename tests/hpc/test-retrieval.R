@@ -17,7 +17,7 @@ cmq <- clustermq_init(pipeline)
 debug(cmq$run_worker)
 cmq$run()
 # The target object should be several MB.
-# pryr::object_size(target) # Run in the debugger. # nolint
+# lobstr::obj_size(target) # Run in the debugger. # nolint
 tar_destroy()
 tar_option_set(retrieval = "worker")
 pipeline <- pipeline_init(
@@ -35,5 +35,5 @@ cmq <- clustermq_init(pipeline)
 debug(cmq$run_worker)
 cmq$run()
 # The target object should be a lot smaller.
-# pryr::object_size(target) # Run in the debugger. # nolint
+# lobstr::obj_size(target) # Run in the debugger. # nolint
 tar_destroy()

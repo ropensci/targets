@@ -82,14 +82,14 @@ tar_test("prevent high-memory data via target objects", {
   # the value of x because we cloned the target objects in pipeline_init().
   o <- self$produce_exports(envir, path_store_default())
   # Exported data should be small:
-  pryr::object_size(o)
+  lobstr::obj_size(o)
   # The target object should not be in the environment.
   expect_true(inherits(tar_option_get("envir")$t[[1]], "tar_target"))
-  pryr::object_size(tar_option_get("envir")$t[[1]])
+  lobstr::obj_size(tar_option_get("envir")$t[[1]])
   # The pipeline's copy of the target object should be much larger:
-  pryr::object_size(pipeline_get_target(self$pipeline, "x")$value$object)
+  lobstr::obj_size(pipeline_get_target(self$pipeline, "x")$value$object)
   # The algorithm object itself should be large too, and it is not exported.
-  pryr::object_size(self)
+  lobstr::obj_size(self)
 })
 
 tar_test("saturated controllers should not get tasks", {
