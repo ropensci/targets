@@ -21,8 +21,9 @@ tar_network(
 )
 }
 \arguments{
-\item{targets_only}{Logical, whether to restrict the output to just targets
-(\code{FALSE}) or to also include imported global functions and objects.}
+\item{targets_only}{\code{TRUE} to restrict the output to just
+the actual targets in the pipeline, \code{FALSE} to include
+imported global functions and objects as well.}
 
 \item{names}{Names of targets. The graph visualization will operate
 only on these targets (and unless \code{shortcut} is \code{TRUE},
@@ -207,6 +208,7 @@ tar_network(targets_only = TRUE)
 \seealso{
 Other inspect: 
 \code{\link{tar_deps}()},
+\code{\link{tar_igraph}()},
 \code{\link{tar_manifest}()},
 \code{\link{tar_outdated}()},
 \code{\link{tar_sitrep}()},

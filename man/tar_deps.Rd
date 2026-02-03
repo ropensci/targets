@@ -46,6 +46,7 @@ tar_deps_raw(function(a = b) map_dfr(data, ~do_row(.x)))
 \code{\link[=tar_branches]{tar_branches()}}, \code{\link[=tar_network]{tar_network()}}
 
 Other inspect: 
+\code{\link{tar_igraph}()},
 \code{\link{tar_manifest}()},
 \code{\link{tar_network}()},
 \code{\link{tar_outdated}()},

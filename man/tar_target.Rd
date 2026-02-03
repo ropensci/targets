@@ -389,7 +389,7 @@ Prior to \code{targets} version 1.8.0.9014, \code{format = "qs"} used the \code{
 package. \code{qs} has since been superseded in favor of \code{qs2}, and so
 later versions of \code{targets} use \code{qs2} to save new data. To read
 existing data, \code{targets} first attempts \code{\link[qs2:qs_read]{qs2::qs_read()}}, and then if
-that fails, it falls back on \code{\link[qs:qread]{qs::qread()}}.
+that fails, it falls back on \code{qs::qread()}.
 \item \code{"feather"}: Uses \code{arrow::write_feather()} and
 \code{arrow::read_feather()} (version 2.0). Much faster than \code{"rds"},
 but the value must be a data frame. Optionally set

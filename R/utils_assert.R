@@ -70,10 +70,13 @@ tar_assert_correct_fields <- function(
 tar_assert_target_dag <- function(x, msg = NULL) {
   if (!inherits(x, "igraph") || !igraph::is_dag(x)) {
     default <- paste(
-      "dependency graph contains a cycle.",
-      "If target x depends on target y, then",
-      "target y must not depend on target x,",
-      "either directly or indirectly."
+      "the dependency graph contains a cycle.",
+      "That means at least one target, function, or global object",
+      "appears to depends on itself, either directly or indirectly.",
+      "To debug, run targets::tar_igraph()",
+      "to get the igraph object of the dependency graph,",
+      "then run igraph::find_cycle() to find a cycle.",
+      "find_cycle() requires igraph >= 2.2.0."
     )
     tar_throw_validate(msg %|||% default)
   }

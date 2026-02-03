@@ -149,6 +149,7 @@ tar_manifest(fields = starts_with("cue"))
 \seealso{
 Other inspect: 
 \code{\link{tar_deps}()},
+\code{\link{tar_igraph}()},
 \code{\link{tar_network}()},
 \code{\link{tar_outdated}()},
 \code{\link{tar_sitrep}()},

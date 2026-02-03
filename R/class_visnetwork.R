@@ -207,6 +207,7 @@ position_level <- function(vertices, edges) {
     return(vertices)
   }
   igraph <- igraph::graph_from_data_frame(edges)
+  tar_assert_target_dag(igraph)
   while (length(igraph::V(igraph))) {
     level <- level + 1L
     leaves <- igraph_leaves(igraph)

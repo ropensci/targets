@@ -61,7 +61,7 @@
 #'     package. `qs` has since been superseded in favor of `qs2`, and so
 #'     later versions of `targets` use `qs2` to save new data. To read
 #'     existing data, `targets` first attempts [qs2::qs_read()], and then if
-#'     that fails, it falls back on [qs::qread()].
+#'     that fails, it falls back on `qs::qread()`.
 #'   * `"feather"`: Uses `arrow::write_feather()` and
 #'     `arrow::read_feather()` (version 2.0). Much faster than `"rds"`,
 #'     but the value must be a data frame. Optionally set

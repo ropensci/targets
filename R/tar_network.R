@@ -28,8 +28,9 @@
 #'   The edges data frame has one row for every edge and columns `to` and
 #'   `from` to mark the starting and terminating vertices.
 #' @inheritParams tar_outdated
-#' @param targets_only Logical, whether to restrict the output to just targets
-#'   (`FALSE`) or to also include imported global functions and objects.
+#' @param targets_only `TRUE` to restrict the output to just
+#'   the actual targets in the pipeline, `FALSE` to include
+#'   imported global functions and objects as well.
 #' @param names Names of targets. The graph visualization will operate
 #'   only on these targets (and unless `shortcut` is `TRUE`,
 #'   all the targets upstream as well). Selecting a small subgraph

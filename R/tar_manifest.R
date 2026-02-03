@@ -111,7 +111,11 @@ tar_manifest_inner <- function(
   drop_missing
 ) {
   igraph <- pipeline_produce_igraph(pipeline, targets_only = TRUE)
-  all_names <- topo_sort_igraph(igraph)
+  all_names <- if_any(
+    igraph::is_dag(igraph),
+    topo_sort_igraph(igraph),
+    igraph::V(igraph)$name
+  )
   names <- tar_tidyselect_eval(names_quosure, all_names) %|||% all_names
   names <- intersect(all_names, names)
   out <- map(names, ~ tar_manifest_target(pipeline_get_target(pipeline, .x)))
