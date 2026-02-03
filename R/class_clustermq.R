@@ -238,8 +238,9 @@ clustermq_class <- R6::R6Class(
     run_clustermq = function() {
       on.exit({
         if (!is.null(self$worker_list)) {
+          self$scheduler$backoff$reset()
           while (!suppressMessages(self$worker_list$cleanup())) {
-            Sys.sleep(0.1)
+            self$scheduler$backoff$wait()
           }
         }
       })
