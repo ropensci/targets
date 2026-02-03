@@ -30,21 +30,24 @@ tar_test("torch in-memory serialization of deps", {
   skip_cran()
   skip_on_os("solaris")
   skip_on_os("windows")
-  require_clustermq()
+  skip_if_not_installed("crew")
   skip_torch()
   tar_script({
-    tar_option_set(packages = "torch", retrieval = "main")
-    options(clustermq.scheduler = "multiprocess")
+    tar_option_set(
+      packages = "torch",
+      retrieval = "main",
+      controller = crew::crew_controller_local(
+        tasks_max = 1L,
+        seconds_idle = 120
+      )
+    )
     list(
       tar_target(tensor, torch_zeros(10), format = "torch"),
       tar_target(array, as.array(tensor))
     )
   })
-  # https://github.com/mschubert/clustermq/issues/269
-  suppressWarnings(
-    capture.output(
-      tar_make_clustermq(reporter = "silent", callr_function = NULL)
-    )
+  capture.output(
+    tar_make(reporter = "silent", callr_function = NULL)
   )
   tar_load(tensor)
   expect_true(inherits(tensor, "torch_tensor"))
