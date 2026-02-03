@@ -115,7 +115,7 @@ tar_test("heavily parallel workload should run fast", {
   skip_if_not_installed("clustermq")
   tar_script({
     library(targets)
-    options(clustermq.scheduler = "multicore")
+    options(clustermq.scheduler = "multiprocess")
     list(
       tar_target(
         index_batch,
@@ -152,7 +152,7 @@ tar_test("profile heavily parallel workload", {
   skip_if_not_installed("clustermq")
   tar_script({
     library(targets)
-    options(clustermq.scheduler = "multicore")
+    options(clustermq.scheduler = "multiprocess")
     list(
       tar_target(
         index_batch,
