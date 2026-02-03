@@ -5,6 +5,7 @@
 * Add `tar_option_unset()` (#1521, @noamross).
 * Use a new `TAR_ACTIVE` environment variable instead of a field of the `tar_runtime` object for `tar_runtime()` (https://github.com/ropensci/tarchetypes/issues/232, @lgaborini).
 * Add `tar_igraph()` and recommend it along with `igraph::find_cycle()` for debugging (#1562, @tylermorganwall).
+* Avoid the unclean shutdown message in the `clustermq` multi-process scheduler by calling `cleanup()` repeatedly until it returns `TRUE`. Uses exponential backoff to avoid excessive CPU load.
 
 # targets 1.11.4
 
