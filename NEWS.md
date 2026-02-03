@@ -4,6 +4,7 @@
 * For internal consistency, return `NA_character_` from `tar_path_target()` when `format` is `"file"` (#1532, @noamross).
 * Add `tar_option_unset()` (#1521, @noamross).
 * Use a new `TAR_ACTIVE` environment variable instead of a field of the `tar_runtime` object for `tar_runtime()` (https://github.com/ropensci/tarchetypes/issues/232, @lgaborini).
+* Add `tar_igraph()` and recommend it along with `igraph::find_cycle()` for debugging (#1562, @tylermorganwall).
 
 # targets 1.11.4
 

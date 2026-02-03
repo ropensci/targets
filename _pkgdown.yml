@@ -81,6 +81,7 @@ reference:
 - title: Inspect
   contents:
   - 'tar_deps'
+  - 'tar_igraph'
   - 'tar_manifest'
   - 'tar_outdated'
   - 'tar_sitrep'

@@ -23,6 +23,6 @@ googlecloudrunner-auth-key.json
 run.R
 run.sh
 cas
-
+CLAUDE.md
 /.quarto/
 **/*.quarto_ipynb
