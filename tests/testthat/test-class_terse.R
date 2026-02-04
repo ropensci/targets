@@ -1,4 +1,4 @@
-test_that("terse reporter", {
+tar_test("terse reporter", {
   skip_cran()
   tar_script({
     list(
