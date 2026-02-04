@@ -847,3 +847,20 @@ tar_test("capture storage warnings", {
   expect_equal(tar_read(x), 123L)
   expect_equal(tar_meta(x)$warnings, "run_warning. storage_warning")
 })
+
+tar_test("builder_ensure_correct_hash()", {
+  skip_cran()
+  x <- target_init(
+    "x",
+    expr = quote(123),
+    storage = "worker",
+    deployment = "worker"
+  )
+  pipeline <- pipeline_init(list(x))
+  local_init(pipeline)$run()
+  expect_silent(builder_ensure_correct_hash(x))
+  expect_null(x$metrics)
+  unlink(x$file$path)
+  expect_silent(builder_ensure_correct_hash(x))
+  expect_true(grepl(x$metrics$error, pattern = "hashing output"))
+})

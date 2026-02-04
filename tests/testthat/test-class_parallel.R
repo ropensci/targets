@@ -140,6 +140,7 @@ tar_test("parallel$reset()", {
 })
 
 tar_test("parallel$insert(ranks = NULL)", {
+  skip_cran()
   q <- parallel_init(
     names = letters,
     ranks = c(1, 2, rep(0, 24L)),
