@@ -40,7 +40,7 @@ junction_splits <- function(junction) {
 junction_extract_deps <- function(junction, index) {
   if (.subset2(junction, "has_deps")) {
     deps <- .subset2(junction, "deps")
-    slice <- vctrs::vec_slice(x = deps, i = index)
+    slice <- slice_vector(x = deps, i = index)
     unlist(as.list(slice), use.names = FALSE)
   } else {
     character(0L)

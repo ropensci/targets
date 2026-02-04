@@ -7,6 +7,7 @@
 * Add `tar_igraph()` and recommend it along with `igraph::find_cycle()` for debugging (#1562, @tylermorganwall).
 * Avoid the unclean shutdown message in the `clustermq` multi-process scheduler by calling `cleanup()` repeatedly until it returns `TRUE`. Uses exponential backoff to avoid excessive CPU load.
 * Use sequential controller in `covr`.
+* Fix hash stability under R-devel (4.6.0). R-devel changed how it serializes slices of vectors produced from e.g. `vctrs::vec_slice()`. Wrapping `vec_slice()` inside `c()` ensures hashes of slices are stable.
 
 # targets 1.11.4
 
