@@ -8,6 +8,7 @@ tar_test("workerless deployment works", {
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
+  skip_if_not_installed("R.utils")
   require_clustermq()
   skip_on_covr()
   tar_runtime$fun <- "tar_make_clustermq"
@@ -16,7 +17,10 @@ tar_test("workerless deployment works", {
   y <- tar_target_raw("y", quote(x), deployment = "main")
   z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
   pipeline <- pipeline_init(list(x, y, z))
-  clustermq_init(pipeline)$run()
+  R.utils::withTimeout(
+    clustermq_init(pipeline)$run(),
+    timeout = 60
+  )
   expect_equal(target_read_value(x)$object, 1L)
   expect_equal(target_read_value(y)$object, 1L)
   expect_equal(target_read_value(z)$object, 2L)
@@ -25,7 +29,10 @@ tar_test("workerless deployment works", {
   z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
   pipeline <- pipeline_init(list(x, y, z))
   out <- clustermq_init(pipeline)
-  out$run()
+  R.utils::withTimeout(
+    out$run(),
+    timeout = 60
+  )
   completed <- names(out$scheduler$progress$completed$envir)
   expect_equal(completed, character(0))
 })
@@ -34,6 +41,7 @@ tar_test("semi-workerless deployment works", {
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
+  skip_if_not_installed("R.utils")
   require_clustermq()
   skip_on_covr()
   tar_runtime$fun <- "tar_make_clustermq"
@@ -46,7 +54,12 @@ tar_test("semi-workerless deployment works", {
   z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
   pipeline <- pipeline_init(list(x, y, z))
   # https://github.com/mschubert/clustermq/issues/269
-  suppressWarnings(clustermq_init(pipeline)$run())
+  suppressWarnings(
+    R.utils::withTimeout(
+      clustermq_init(pipeline)$run(),
+      timeout = 60
+    )
+  )
   expect_equal(target_read_value(x)$object, 1L)
   expect_equal(tar_read(y), 1L)
   expect_equal(target_read_value(z)$object, 2L)
@@ -55,7 +68,7 @@ tar_test("semi-workerless deployment works", {
   z <- tar_target_raw("z", quote(x + 1L), deployment = "main")
   pipeline <- pipeline_init(list(x, y, z))
   out <- clustermq_init(pipeline)
-  out$run()
+  R.utils::withTimeout(out$run(), timeout = 60)
   completed <- names(out$scheduler$progress$completed$envir)
   expect_equal(completed, character(0))
 })
@@ -64,6 +77,7 @@ tar_test("some targets up to date, some not", {
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
+  skip_if_not_installed("R.utils")
   require_clustermq()
   skip_on_covr()
   old <- getOption("clustermq.scheduler")
@@ -81,7 +95,9 @@ tar_test("some targets up to date, some not", {
   pipeline <- pipeline_init(list(x, y))
   # https://github.com/mschubert/clustermq/issues/269
   cmq <- clustermq_init(pipeline)
-  suppressWarnings(cmq$run())
+  suppressWarnings(
+    R.utils::withTimeout(cmq$run(), timeout = 60)
+  )
   out <- names(cmq$scheduler$progress$completed$envir)
   expect_equal(out, "y")
   value <- target_read_value(pipeline_get_target(pipeline, "y"))
@@ -92,6 +108,7 @@ tar_test("clustermq algo can skip targets", {
   skip_cran()
   skip_on_os("windows")
   skip_on_os("solaris")
+  skip_if_not_installed("R.utils")
   require_clustermq()
   skip_on_covr()
   old <- getOption("clustermq.scheduler")
@@ -110,7 +127,9 @@ tar_test("clustermq algo can skip targets", {
   pipeline <- pipeline_init(list(x, y))
   cmq <- clustermq_init(pipeline)
   # https://github.com/mschubert/clustermq/issues/269
-  suppressWarnings(cmq$run())
+  suppressWarnings(
+    R.utils::withTimeout(cmq$run(), timeout = 60)
+  )
   out <- names(cmq$scheduler$progress$completed$envir)
   expect_equal(out, "x")
   expect_equal(tar_read(x), 1L)
@@ -121,6 +140,7 @@ tar_test("nontrivial common data", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_on_covr()
+  skip_if_not_installed("R.utils")
   require_clustermq()
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multiprocess")
@@ -151,7 +171,9 @@ tar_test("nontrivial common data", {
   pipeline <- pipeline_init(list(x))
   cmq <- clustermq_init(pipeline)
   # https://github.com/mschubert/clustermq/issues/269
-  suppressWarnings(cmq$run())
+  suppressWarnings(
+    R.utils::withTimeout(cmq$run(), timeout = 60)
+  )
   value <- target_read_value(pipeline_get_target(pipeline, "x"))
   expect_equal(value$object, 3L)
 })
@@ -161,6 +183,7 @@ tar_test("clustermq with a file target", {
   skip_on_os("windows")
   skip_on_os("solaris")
   skip_on_covr()
+  skip_if_not_installed("R.utils")
   require_clustermq()
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multiprocess")
@@ -190,7 +213,9 @@ tar_test("clustermq with a file target", {
   pipeline <- pipeline_init(list(x))
   cmq <- clustermq_init(pipeline)
   # https://github.com/mschubert/clustermq/issues/269
-  suppressWarnings(cmq$run())
+  suppressWarnings(
+    R.utils::withTimeout(cmq$run(), timeout = 60)
+  )
   out <- names(cmq$scheduler$progress$completed$envir)
   expect_equal(out, "x")
   saveRDS(2L, pipeline_get_target(pipeline, "x")$file$path)
@@ -198,7 +223,9 @@ tar_test("clustermq with a file target", {
   pipeline <- pipeline_init(list(x))
   cmq <- clustermq_init(pipeline)
   # https://github.com/mschubert/clustermq/issues/269
-  suppressWarnings(cmq$run())
+  suppressWarnings(
+    R.utils::withTimeout(cmq$run(), timeout = 60)
+  )
   out <- names(cmq$scheduler$progress$completed$envir)
   expect_equal(out, "x")
 })
@@ -208,6 +235,7 @@ tar_test("branching plan", {
   skip_on_os("windows")
   skip_on_os("solaris")
   require_clustermq()
+  skip_if_not_installed("R.utils")
   skip_on_covr()
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multiprocess")
@@ -217,12 +245,16 @@ tar_test("branching plan", {
   pipeline <- pipeline_map()
   out <- clustermq_init(pipeline, workers = 2L)
   # https://github.com/mschubert/clustermq/issues/269
-  suppressWarnings(out$run())
+  suppressWarnings(
+    R.utils::withTimeout(out$run(), timeout = 60)
+  )
   skipped <- names(out$scheduler$progress$skipped$envir)
   expect_equal(skipped, character(0))
   out2 <- clustermq_init(pipeline_map(), workers = 2L)
   # https://github.com/mschubert/clustermq/issues/269
-  suppressWarnings(out2$run())
+  suppressWarnings(
+    R.utils::withTimeout(out2$run(), timeout = 60)
+  )
   completed <- names(out2$scheduler$progress$completed$envir)
   expect_equal(completed, character(0))
   value <- function(name) {
@@ -262,6 +294,7 @@ tar_test("cover the worker shutdown step in clustermq$iterate() event loop", {
   skip_on_os("windows")
   skip_on_os("solaris")
   require_clustermq()
+  skip_if_not_installed("R.utils")
   skip_on_covr()
   old <- getOption("clustermq.scheduler")
   options(clustermq.scheduler = "multiprocess")
@@ -277,7 +310,9 @@ tar_test("cover the worker shutdown step in clustermq$iterate() event loop", {
   pipeline <- pipeline_init(targets)
   out <- clustermq_init(pipeline, workers = 2L)
   # https://github.com/mschubert/clustermq/issues/269
-  suppressWarnings(out$run())
+  suppressWarnings(
+    R.utils::withTimeout(out$run(), timeout = 60)
+  )
   expect_equal(tar_read(x4), 1L)
 })
 
