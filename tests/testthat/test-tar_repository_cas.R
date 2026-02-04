@@ -184,7 +184,7 @@ tar_test("CAS repository works with parallel workers", {
       "file.txt"
     }
     tar_option_set(
-      controller = crew::crew_controller_local(),
+      controller = crew_test_controller(),
       storage = "worker",
       retrieval = "worker"
     )
@@ -208,7 +208,7 @@ tar_test("CAS repository works with parallel workers", {
   expect_equal(tar_outdated(callr_function = NULL), character(0L))
   unlink(file.path("cas", tar_meta(z)$data))
   expect_equal(tar_outdated(callr_function = NULL), "z")
-  tar_destroy()
+  tar_destroy(destroy = "local")
 })
 
 tar_test("CAS repository works without list method", {

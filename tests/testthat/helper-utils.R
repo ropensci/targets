@@ -28,6 +28,17 @@ skip_torch <- function() {
   )
 }
 
+crew_test_controller <- function() {
+  if (isTRUE(as.logical(Sys.getenv("R_COVR", "false")))) {
+    controller <- crew::crew_controller_sequential()
+  } else {
+    controller <- crew::crew_controller_local(
+      host = "127.0.0.1",
+      tasks_max = 1L
+    )
+  }
+}
+
 crew_test_sleep <- function() {
   on_windows <- identical(tolower(Sys.info()[["sysname"]]), "windows")
   on_cran <- !identical(Sys.getenv("NOT_CRAN"), "true")

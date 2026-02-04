@@ -152,7 +152,7 @@ tar_test("patterns are marshaled correctly", {
   skip_torch()
   on.exit(crew_test_sleep())
   tar_script({
-    tar_option_set(controller = crew::crew_controller_local())
+    tar_option_set(controller = crew_test_controller())
     list(
       tar_target(x, c(1L, 2L)),
       tar_target(

@@ -436,13 +436,9 @@ tar_test("controller", {
   skip_if_not_installed("crew")
   x <- options_init()
   expect_silent(x$validate_controller(NULL))
-  expect_silent(
-    x$validate_controller(
-      crew::crew_controller_local(host = "127.0.0.1")
-    )
-  )
+  expect_silent(x$validate_controller(crew_test_controller()))
   expect_null(x$get_controller())
-  x$set_controller(crew::crew_controller_local(host = "127.0.0.1"))
+  x$set_controller(crew_test_controller())
   expect_true(inherits(x$get_controller(), "crew_class_controller"))
   x$reset()
   expect_null(x$get_controller())

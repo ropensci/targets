@@ -36,10 +36,7 @@ tar_test("torch in-memory serialization of deps", {
     tar_option_set(
       packages = "torch",
       retrieval = "main",
-      controller = crew::crew_controller_local(
-        tasks_max = 1L,
-        seconds_idle = 120
-      )
+      controller = crew_test_controller()
     )
     list(
       tar_target(tensor, torch_zeros(10), format = "torch"),

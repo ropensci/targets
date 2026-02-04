@@ -1,9 +1,6 @@
 tar_test("crew$validate()", {
   skip_if_not_installed("crew", minimum_version = "0.9.0")
-  controller <- crew::crew_controller_local(
-    host = "127.0.0.1",
-    seconds_interval = 0.5
-  )
+  controller <- crew_test_controller()
   out <- crew_init(pipeline_init(), controller = controller)
   expect_silent(out$validate())
 })
@@ -38,10 +35,7 @@ tar_test("workerless deployment works", {
     memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y, z))
-  controller <- crew::crew_controller_local(
-    host = "127.0.0.1",
-    seconds_interval = 0.5
-  )
+  controller <- crew_test_controller()
   R.utils::withTimeout(
     crew_init(pipeline, controller = controller)$run(),
     timeout = 360
@@ -71,10 +65,7 @@ tar_test("workerless deployment works", {
     memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y, z))
-  controller <- crew::crew_controller_local(
-    host = "127.0.0.1",
-    seconds_interval = 0.5
-  )
+  controller <- crew_test_controller()
   out <- crew_init(pipeline, controller = controller)
   on.exit({
     tar_runtime$fun <- NULL
@@ -116,10 +107,7 @@ tar_test("semi-workerless deployment works", {
     memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y, z))
-  controller <- crew::crew_controller_local(
-    host = "127.0.0.1",
-    seconds_interval = 0.5
-  )
+  controller <- crew_test_controller()
   R.utils::withTimeout(
     crew_init(pipeline, controller = controller)$run(),
     timeout = 360
@@ -150,10 +138,7 @@ tar_test("semi-workerless deployment works", {
     memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y, z))
-  controller <- crew::crew_controller_local(
-    host = "127.0.0.1",
-    seconds_interval = 0.5
-  )
+  controller <- crew_test_controller()
   on.exit({
     tar_runtime$fun <- NULL
     controller$terminate()
@@ -199,10 +184,7 @@ tar_test("some targets up to date, some not", {
     memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y))
-  controller <- crew::crew_controller_local(
-    host = "127.0.0.1",
-    seconds_interval = 0.5
-  )
+  controller <- crew_test_controller()
   on.exit({
     tar_runtime$fun <- NULL
     controller$terminate()
@@ -251,10 +233,7 @@ tar_test("crew algo can skip targets", {
     memory = "transient"
   )
   pipeline <- pipeline_init(list(x, y))
-  controller <- crew::crew_controller_local(
-    host = "127.0.0.1",
-    seconds_interval = 0.5
-  )
+  controller <- crew_test_controller()
   on.exit({
     tar_runtime$fun <- NULL
     controller$terminate()
@@ -297,10 +276,7 @@ tar_test("nontrivial common data", {
     memory = "transient"
   )
   pipeline <- pipeline_init(list(x))
-  controller <- crew::crew_controller_local(
-    host = "127.0.0.1",
-    seconds_interval = 0.5
-  )
+  controller <- crew_test_controller()
   on.exit({
     tar_option_set(envir = old_envir)
     tar_runtime$fun <- NULL

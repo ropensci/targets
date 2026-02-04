@@ -25,13 +25,7 @@ tar_test("tar_make() works with crew", {
     skip("skipping on Windows CI.")
   }
   tar_script({
-    tar_option_set(
-      controller = crew::crew_controller_local(
-        host = "127.0.0.1",
-        seconds_interval = 0.5
-      ),
-      backoff = tar_backoff(min = 0.5, max = 0.5)
-    )
+    tar_option_set(controller = crew_test_controller())
     tar_target(
       x,
       TRUE,
