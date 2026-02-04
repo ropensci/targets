@@ -58,11 +58,8 @@ sort_chr <- function(x) {
   x[order(x, na.last = NA, decreasing = FALSE, method = "radix")]
 }
 
-# The wrapper in c() is important for R >= 4.6.0.
-# It stabilizes the internals of the returned slice
-# so hashes can be computed properly.
 slice_vector <- function(x, i) {
-  c(vctrs::vec_slice(x = x, i = i))
+  vctrs::vec_slice(x = x, i = i)
 }
 
 enclass <- function(x, class) {
