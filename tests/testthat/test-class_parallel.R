@@ -138,3 +138,23 @@ tar_test("parallel$reset()", {
   expect_equal(as.list(q$data), list())
   expect_false(q$is_nonempty())
 })
+
+tar_test("parallel$insert(ranks = NULL)", {
+  q <- parallel_init(
+    names = letters,
+    ranks = c(1, 2, rep(0, 24L)),
+    step = 100L
+  )
+  expect_equal(q$ready$data, letters[-c(1L, 2L)])
+  expect_equal(q$ready$head, 1L)
+  expect_equal(q$ready$tail, 24L)
+  expect_equal(length(as.list(q$data)), 2L)
+  expect_equal(
+    as.list(q$data)[c("a", "b")],
+    list(a = 1, b = 2)
+  )
+  expect_true(q$is_nonempty())
+  q$insert(names = c("new1", "new2"), ranks = NULL, method = "prepend")
+  expect_equal(as.list(q$data), list(a = 1L, b = 2L))
+  expect_equal(q$ready$data, c("new1", "new2", letters[-c(1L, 2L)]))
+})
