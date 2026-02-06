@@ -770,6 +770,7 @@ tar_test("error = \"trim\" on a dynamic branch", {
 })
 
 tar_test("error = \"trim\" with a long chain of reverse dependencies", {
+  skip_if_not_installed("crew")
   tar_script({
     tar_option_set(
       error = "trim",
@@ -791,6 +792,7 @@ tar_test("error = \"trim\" with a long chain of reverse dependencies", {
 })
 
 tar_test("error = \"trim\", long chain of revdeps, dynamic branching", {
+  skip_if_not_installed("crew")
   tar_script({
     tar_option_set(
       error = "trim",

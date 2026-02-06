@@ -180,7 +180,7 @@ clustermq_class <- R6::R6Class(
       try(
         if_any(
           self$any_upcoming_jobs(),
-          self$worker_list$send_wait(),
+          self$worker_list$send(NULL),
           self$shut_down_worker()
         )
       )
