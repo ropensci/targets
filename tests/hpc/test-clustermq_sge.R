@@ -6,10 +6,7 @@ test_that("packages are actually loaded", {
   tar_destroy()
   on.exit(tar_destroy(), add = TRUE)
   tar_script({
-    options(
-      clustermq.scheduler = "sge",
-      clustermq.template = "sge_clustermq.tmpl"
-    )
+    options(clustermq.scheduler = "sge")
     tar_target(
       x,
       tibble(x = "x"),
@@ -26,10 +23,7 @@ test_that("nontrivial common data with custom environment", {
   tar_destroy()
   on.exit(tar_destroy())
   tar_script({
-    options(
-      clustermq.scheduler = "sge",
-      clustermq.template = "sge_clustermq.tmpl"
-    )
+    options(clustermq.scheduler = "sge")
     envir <- new.env(parent = globalenv())
     evalq(
       {
@@ -58,10 +52,7 @@ test_that("nontrivial globals with global environment", {
   tar_destroy()
   on.exit(tar_destroy())
   tar_script({
-    options(
-      clustermq.scheduler = "sge",
-      clustermq.template = "sge_clustermq.tmpl"
-    )
+    options(clustermq.scheduler = "sge")
     f <- function(x) {
       g(x) + 1L
     }
@@ -89,10 +80,7 @@ test_that("branching plan on SGE", {
   skip_if_not_installed("clustermq")
   old_schd <- getOption("clustermq.scheduler")
   old_tmpl <- getOption("clustermq.template")
-  options(
-    clustermq.scheduler = "sge",
-    clustermq.template = "sge_clustermq.tmpl"
-  )
+  options(clustermq.scheduler = "sge")
   on.exit(
     options(
       clustermq.scheduler = old_schd,
@@ -153,10 +141,7 @@ test_that("Same with worker-side storage", {
   skip_if_not_installed("clustermq")
   old_schd <- getOption("clustermq.scheduler")
   old_tmpl <- getOption("clustermq.template")
-  options(
-    clustermq.scheduler = "sge",
-    clustermq.template = "sge_clustermq.tmpl"
-  )
+  options(clustermq.scheduler = "sge")
   on.exit(
     options(
       clustermq.scheduler = old_schd,
@@ -213,10 +198,7 @@ test_that("clustermq with a dynamic file", {
   skip_if_not_installed("clustermq")
   old_schd <- getOption("clustermq.scheduler")
   old_tmpl <- getOption("clustermq.template")
-  options(
-    clustermq.scheduler = "sge",
-    clustermq.template = "sge_clustermq.tmpl"
-  )
+  options(clustermq.scheduler = "sge")
   on.exit(
     options(
       clustermq.scheduler = old_schd,
