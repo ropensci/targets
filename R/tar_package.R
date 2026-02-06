@@ -29,7 +29,7 @@
 #' @importFrom ps ps_create_time ps_disk_partitions ps_fs_mount_point
 #'   ps_handle
 #' @importFrom R6 R6Class
-#' @importFrom rlang abort as_function check_installed enquo inform
+#' @importFrom rlang abort as_function check_installed duplicate enquo inform
 #'   is_installed quo_squash warn
 #' @importFrom secretbase shake256 siphash13
 #' @importFrom stats complete.cases runif

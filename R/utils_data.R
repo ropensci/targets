@@ -58,8 +58,11 @@ sort_chr <- function(x) {
   x[order(x, na.last = NA, decreasing = FALSE, method = "radix")]
 }
 
+# rlang::duplicate() is important for hash stability in R >= 4.6.0:
+# https://github.com/r-lib/vctrs/issues/2144
+# Shallow copies are not enough.
 slice_vector <- function(x, i) {
-  vctrs::vec_slice(x = x, i = i)
+  rlang::duplicate(vctrs::vec_slice(x = x, i = i), shallow = FALSE)
 }
 
 enclass <- function(x, class) {

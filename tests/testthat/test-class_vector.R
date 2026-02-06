@@ -20,7 +20,7 @@ tar_test("value_hash_slice(vector)", {
   object <- data_frame(x = seq_len(26), y = letters)
   x$object <- object
   for (index in seq_len(nrow(object))) {
-    slice <- vctrs::vec_slice(x = object, i = index)
+    slice <- slice_vector(x = object, i = index)
     expect_equal(value_hash_slice(x, index), hash_object(slice))
   }
 })
@@ -32,7 +32,7 @@ tar_test("value_hash_slices(vector)", {
   out <- value_hash_slices(x)
   expect_length(out, 26)
   for (index in seq_len(nrow(object))) {
-    slice <- vctrs::vec_slice(x = object, i = index)
+    slice <- slice_vector(x = object, i = index)
     exp <- hash_object(slice)
     expect_equal(out[index], exp)
   }
