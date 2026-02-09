@@ -41,18 +41,26 @@
 #'   `tidyselect` expression like [any_of()] or [starts_with()]
 #'   from `tidyselect` itself, or [tar_described_as()] to select target names
 #'   based on their descriptions.
-#' @param allow Optional, define the set of allowable vertices in the graph.
+#' @param allow Optional, the set of allowable vertices in the graph.
+#'   Supplied as `NULL` or a `tidyselect` expression like [any_of()]
+#'   or [starts_with()].
+#'
 #'   Unlike `names`, `allow` is invoked only after the graph is mostly
 #'   resolved, so it will not speed up execution.
 #'   Set to `NULL` to allow all vertices in the pipeline and environment
-#'   (default). Otherwise, you can supply symbols or
-#'   `tidyselect` helpers like [starts_with()].
-#' @param exclude Optional, define the set of exclude vertices from the graph.
+#'   (default).
+#' @param exclude Optional, the set of exclude vertices from the graph.
+#'   Supplied as `NULL` or a `tidyselect` expression like [any_of()]
+#'   or [starts_with()].
+#'
 #'   Unlike `names`, `exclude` is invoked only after the graph is mostly
 #'   resolved, so it will not speed up execution.
-#'   Set to `NULL` to exclude no vertices.
-#'   Otherwise, you can supply symbols or `tidyselect`
-#'   helpers like [any_of()] and [starts_with()].
+#'
+#'   Unlike all other `tidyselect`-powered arguments in `targets`,
+#'   `exclude` lets you supply target names
+#'   that do not necessarily exist in the graph.
+#'
+#'   Set `exclude` to `NULL` to exclude no vertices.
 #' @param outdated Logical, whether to show colors to distinguish outdated
 #'   targets from up-to-date targets. (Global functions and objects
 #'   still show these colors.) Looking for outdated targets

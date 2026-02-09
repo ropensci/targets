@@ -110,7 +110,11 @@ network_class <- R6::R6Class(
     },
     exclude_vertices = function() {
       vertices <- self$vertices
-      exclude <- tar_tidyselect_eval(self$exclude, vertices$name)
+      exclude <- tar_tidyselect_eval(
+        self$exclude,
+        vertices$name,
+        strict = FALSE
+      )
       if (is.null(exclude)) {
         return()
       }

@@ -92,7 +92,8 @@ tar_tidy_eval <- function(expr, envir, tidy_eval) {
 
 #' @export
 #' @rdname tar_language
-tar_tidyselect_eval <- function(names_quosure, choices) {
+#' @inheritParams tidyselect::eval_select
+tar_tidyselect_eval <- function(names_quosure, choices, strict = TRUE) {
   if (is.null(rlang::quo_squash(names_quosure))) {
     return(NULL)
   }
@@ -100,7 +101,11 @@ tar_tidyselect_eval <- function(names_quosure, choices) {
     return(NULL)
   }
   names(choices) <- choices
-  out <- tidyselect::eval_select(names_quosure, data = choices, strict = FALSE)
+  out <- tidyselect::eval_select(
+    names_quosure,
+    data = choices,
+    strict = strict
+  )
   out <- names(out)
   tar_assert_chr(
     out %|||% character(0),

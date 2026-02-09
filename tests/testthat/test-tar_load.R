@@ -8,7 +8,7 @@ tar_test("tar_load() works", {
   )
   local_init(pipeline = pipeline)$run()
   envir <- new.env(parent = emptyenv())
-  expect_message(tar_load(missing), regexp = "no targets to load")
+  expect_message(tar_load(any_of("missing")), regexp = "no targets to load")
   tar_load(starts_with("y"), envir = envir)
   expect_equal(sort(names(envir)), sort(c("y1", "y2")))
   expect_equal(envir$y1, 1L)
@@ -43,7 +43,10 @@ tar_test("tar_load_raw() works", {
   )
   local_init(pipeline = pipeline)$run()
   envir <- new.env(parent = emptyenv())
-  expect_message(tar_load(missing), regexp = "no targets to load")
+  expect_message(
+    tar_load(tidyselect::any_of("missing")),
+    regexp = "no targets to load"
+  )
   tar_load_raw(c("y1", "y2"), envir = envir)
   expect_equal(sort(names(envir)), sort(c("y1", "y2")))
   expect_equal(envir$y1, 1L)

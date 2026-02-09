@@ -9,6 +9,7 @@
 * Use sequential controller in `covr`.
 * Ensure hash stability of vector slices in R >= 4.6.0 (#1566).
 * Use a dummy send instead of `send_wait()` to work around <https://github.com/mschubert/clustermq/issues/340> (#1566).
+* Set `strict = TRUE` by default in `tidyselect::eval_select()` to make `tidyselect` interfaces consistent with `dplyr::select()` (except the `exclude` argument of graph functions, which need to allow names to not exist in the list of choices) (#1563, @statzhero).
 
 # targets 1.11.4
 

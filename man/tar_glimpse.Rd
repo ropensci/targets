@@ -49,19 +49,27 @@ up-to-date targets, but it assumes all the dependencies
 are up to date, so please use with caution.
 Also, \code{shortcut = TRUE} only works if you set \code{names}.}
 
-\item{allow}{Optional, define the set of allowable vertices in the graph.
+\item{allow}{Optional, the set of allowable vertices in the graph.
+Supplied as \code{NULL} or a \code{tidyselect} expression like \code{\link[=any_of]{any_of()}}
+or \code{\link[=starts_with]{starts_with()}}.
+
 Unlike \code{names}, \code{allow} is invoked only after the graph is mostly
 resolved, so it will not speed up execution.
 Set to \code{NULL} to allow all vertices in the pipeline and environment
-(default). Otherwise, you can supply symbols or
-\code{tidyselect} helpers like \code{\link[=starts_with]{starts_with()}}.}
+(default).}
 
-\item{exclude}{Optional, define the set of exclude vertices from the graph.
+\item{exclude}{Optional, the set of exclude vertices from the graph.
+Supplied as \code{NULL} or a \code{tidyselect} expression like \code{\link[=any_of]{any_of()}}
+or \code{\link[=starts_with]{starts_with()}}.
+
 Unlike \code{names}, \code{exclude} is invoked only after the graph is mostly
 resolved, so it will not speed up execution.
-Set to \code{NULL} to exclude no vertices.
-Otherwise, you can supply symbols or \code{tidyselect}
-helpers like \code{\link[=any_of]{any_of()}} and \code{\link[=starts_with]{starts_with()}}.}
+
+Unlike all other \code{tidyselect}-powered arguments in \code{targets},
+\code{exclude} lets you supply target names
+that do not necessarily exist in the graph.
+
+Set \code{exclude} to \code{NULL} to exclude no vertices.}
 
 \item{label}{Character vector of one or more aesthetics to add to the
 vertex labels. Currently, the only option is  \code{"description"} to show each

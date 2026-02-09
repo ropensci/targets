@@ -14,7 +14,7 @@ tar_deparse_safe(expr, collapse = "\\n", backtick = TRUE)
 
 tar_tidy_eval(expr, envir, tidy_eval)
 
-tar_tidyselect_eval(names_quosure, choices)
+tar_tidyselect_eval(names_quosure, choices, strict = TRUE)
 }
 \arguments{
 \item{expr}{A language object to modify or deparse.}
@@ -32,6 +32,10 @@ tar_tidyselect_eval(names_quosure, choices)
 
 \item{choices}{A character vector of choices for character elements
 returned by tidy evaluation.}
+
+\item{strict}{If \code{TRUE}, out-of-bounds errors are thrown if \code{expr}
+attempts to select or rename a variable that doesn't exist. If
+\code{FALSE}, failed selections or renamings are ignored.}
 }
 \description{
 These functions help with metaprogramming in
