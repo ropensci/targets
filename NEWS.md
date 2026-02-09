@@ -1,4 +1,4 @@
-# targets development version
+# targets 1.12.0
 
 * Avoid loading non-targets in `tar_load(everything())` (#1529, @pitakakariki).
 * For internal consistency, return `NA_character_` from `tar_path_target()` when `format` is `"file"` (#1532, @noamross).
