@@ -35,7 +35,7 @@ tar_option_set(
   #     # down if they are not running tasks.
   #     seconds_idle = 120,
   #     # Many clusters install R as an environment module, and you can load it
-  #     # with the script_lines argument. To select a specific verison of R,
+  #     # with the script_lines argument. To select a specific version of R,
   #     # you may need to include a version string, e.g. "module load R/4.3.2".
   #     # Check with your system administrator if you are unsure.
   #     script_lines = "module load R"
