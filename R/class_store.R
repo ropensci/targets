@@ -282,16 +282,6 @@ store_update_stage_late.default <- function(
   path_store
 ) {}
 
-#' @export
-store_update_stage_early.default <- function(store, file, name, path_store) {
-  file$stage <- store_produce_stage(
-    store = store,
-    name = name,
-    object = NULL,
-    path_store = path_store
-  )
-}
-
 store_produce_stage <- function(store, name, object, path_store) {
   UseMethod("store_produce_stage")
 }
