@@ -1,6 +1,6 @@
 # targets development version
 
-
+* Harmonize internal lists of possible values for the error, memory, deployment, storage, and retrieval options (#1587, @koefoeden).
 
 # targets 1.12.0
 

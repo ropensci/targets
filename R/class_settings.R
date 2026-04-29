@@ -157,19 +157,26 @@ settings_validate <- function(settings) {
     settings$dimensions
   )
   tar_assert_chr(settings$iteration)
-  tar_assert_in(
-    settings$error,
-    c("stop", "continue", "abridge", "workspace", "null")
-  )
-  tar_assert_in(settings$memory, c("auto", "persistent", "transient"))
+  tar_assert_in(settings$error, settings_error)
+  tar_assert_in(settings$memory, settings_memory)
   tar_assert_lgl(settings$garbage_collection)
   tar_assert_scalar(settings$garbage_collection)
-  tar_assert_in(settings$deployment, c("main", "worker"))
+  tar_assert_in(settings$deployment, settings_deployment)
   tar_assert_scalar(settings$priority)
   tar_assert_ge(settings$priority, 0)
   tar_assert_le(settings$priority, 1)
   tar_assert_list(settings$resources)
-  tar_assert_in(settings$storage, c("main", "worker"))
-  tar_assert_in(settings$retrieval, c("auto", "main", "worker"))
+  tar_assert_in(settings$storage, settings_storage)
+  tar_assert_in(settings$retrieval, settings_retrieval)
   invisible()
 }
+
+settings_error <- c("stop", "continue", "null", "abridge", "trim", "workspace")
+
+settings_memory <- c("auto", "persistent", "transient")
+
+settings_deployment <- c("main", "worker")
+
+settings_storage <- c("main", "worker", "none")
+
+settings_retrieval <- c("auto", "main", "worker", "none")

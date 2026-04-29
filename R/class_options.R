@@ -513,13 +513,10 @@ options_class <- R6::R6Class(
     },
     validate_error = function(error) {
       deprecate_error_workspace(error)
-      tar_assert_flag(
-        error,
-        c("stop", "continue", "null", "abridge", "trim", "workspace")
-      )
+      tar_assert_flag(error, settings_error)
     },
     validate_memory = function(memory) {
-      tar_assert_flag(memory, c("auto", "persistent", "transient"))
+      tar_assert_flag(memory, settings_memory)
     },
     validate_garbage_collection = function(garbage_collection) {
       tar_assert_dbl(garbage_collection)
@@ -528,7 +525,7 @@ options_class <- R6::R6Class(
       tar_assert_ge(garbage_collection, 0L)
     },
     validate_deployment = function(deployment) {
-      tar_assert_flag(deployment, c("worker", "main"))
+      tar_assert_flag(deployment, settings_deployment)
     },
     validate_priority = function(priority) {
       tar_assert_dbl(priority)
@@ -545,10 +542,10 @@ options_class <- R6::R6Class(
       tar_assert_resources(resources)
     },
     validate_storage = function(storage) {
-      tar_assert_flag(storage, c("main", "worker", "none"))
+      tar_assert_flag(storage, settings_storage)
     },
     validate_retrieval = function(retrieval) {
-      tar_assert_flag(retrieval, c("auto", "main", "worker", "none"))
+      tar_assert_flag(retrieval, settings_retrieval)
     },
     validate_cue = function(cue) {
       cue_validate(cue)

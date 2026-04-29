@@ -46,24 +46,21 @@ tar_target_raw <- function(
     format <- "file"
   }
   tar_assert_flag(iteration, c("vector", "list", "group"))
-  tar_assert_flag(
-    error,
-    c("stop", "continue", "null", "abridge", "trim", "workspace")
-  )
+  tar_assert_flag(error, settings_error)
   deprecate_error_workspace(error)
   deprecate_priority(priority)
-  tar_assert_flag(memory, c("auto", "persistent", "transient"))
+  tar_assert_flag(memory, settings_memory)
   garbage_collection <- isTRUE(garbage_collection)
   tar_assert_lgl(garbage_collection)
   tar_assert_scalar(garbage_collection)
-  tar_assert_flag(deployment, c("worker", "main"))
+  tar_assert_flag(deployment, settings_deployment)
   tar_assert_dbl(priority)
   tar_assert_scalar(priority)
   tar_assert_ge(priority, 0)
   tar_assert_le(priority, 1)
   tar_assert_resources(resources)
-  tar_assert_flag(storage, c("main", "worker", "none"))
-  tar_assert_flag(retrieval, c("auto", "main", "worker", "none"))
+  tar_assert_flag(storage, settings_storage)
+  tar_assert_flag(retrieval, settings_retrieval)
   warn_error_format(error = error, format = format)
   if (!is.null(cue)) {
     cue_validate(cue)
