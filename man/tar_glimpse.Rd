@@ -11,6 +11,7 @@ tar_glimpse(
   allow = NULL,
   exclude = ".Random.seed",
   label = targets::tar_config_get("label"),
+  label_length = targets::tar_config_get("label_length"),
   label_width = targets::tar_config_get("label_width"),
   level_separation = targets::tar_config_get("level_separation"),
   degree_from = 1L,
@@ -75,8 +76,11 @@ Set \code{exclude} to \code{NULL} to exclude no vertices.}
 vertex labels. Currently, the only option is  \code{"description"} to show each
 target's custom description, or \code{character(0)} to suppress it.}
 
+\item{label_length}{Positive numeric of length 1, maximum
+number of content characters of each node label.}
+
 \item{label_width}{Positive numeric of length 1, maximum width
-(in number of characters) of the node labels.}
+of each node label.}
 
 \item{level_separation}{Numeric of length 1,
 \code{levelSeparation} argument of \code{visNetwork::visHierarchicalLayout()}.

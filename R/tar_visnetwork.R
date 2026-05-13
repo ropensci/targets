@@ -40,6 +40,7 @@ tar_visnetwork <- function(
   exclude = ".Random.seed",
   outdated = TRUE,
   label = targets::tar_config_get("label"),
+  label_length = targets::tar_config_get("label_length"),
   label_width = targets::tar_config_get("label_width"),
   level_separation = targets::tar_config_get("level_separation"),
   degree_from = 1L,
@@ -60,6 +61,9 @@ tar_visnetwork <- function(
   tar_assert_lgl(targets_only, "targets_only must be logical.")
   tar_assert_lgl(outdated, "outdated in tar_visnetwork() must be logical.")
   tar_assert_in(label, c("description", "time", "size", "branches"))
+  tar_assert_dbl(label_length)
+  tar_assert_scalar(label_length)
+  tar_assert_none_na(label_length)
   tar_assert_dbl(label_width)
   tar_assert_scalar(label_width)
   tar_assert_none_na(label_width)
@@ -87,6 +91,7 @@ tar_visnetwork <- function(
     exclude_quosure = rlang::enquo(exclude),
     outdated = outdated,
     label = label,
+    label_length = label_length,
     label_width = label_width,
     level_separation = level_separation,
     degree_from = degree_from,
@@ -117,6 +122,7 @@ tar_visnetwork_inner <- function(
   exclude_quosure,
   outdated,
   label,
+  label_length,
   label_width,
   level_separation,
   degree_from,
@@ -141,6 +147,7 @@ tar_visnetwork_inner <- function(
   visual <- visnetwork_init(
     network = network,
     label = label,
+    label_length = label_length,
     label_width = label_width,
     level_separation = level_separation,
     degree_from = degree_from,

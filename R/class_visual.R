@@ -2,12 +2,14 @@ visual_new <- function(
   network = NULL,
   label = NULL,
   label_break = NULL,
+  label_length = NULL,
   label_width = NULL
 ) {
   visual_class$new(
     network = network,
     label = label,
     label_break = label_break,
+    label_length = label_length,
     label_width = label_width
   )
 }
@@ -22,17 +24,20 @@ visual_class <- R6::R6Class(
     legend = NULL,
     label = NULL,
     label_break = NULL,
+    label_length = NULL,
     label_width = NULL,
     visual = NULL,
     initialize = function(
       network = NULL,
       label = NULL,
       label_break = NULL,
+      label_length = NULL,
       label_width = NULL
     ) {
       self$network <- network
       self$label <- label
       self$label_break <- label_break
+      self$label_length <- label_length
       self$label_width <- label_width
     },
     produce_colors = function(status) {

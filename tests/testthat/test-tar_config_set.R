@@ -65,6 +65,25 @@ tar_test("tar_config_set() label", {
   expect_equal(tar_config_get("label"), character(0L))
 })
 
+tar_test("tar_config_set() label_length", {
+  skip_cran()
+  expect_false(file.exists("_targets.yaml"))
+  expect_equal(tar_config_get("label_length"), 60L)
+  tar_config_set(label_length = 120L)
+  expect_equal(tar_config_get("label_length"), 120L)
+  expect_true(file.exists("_targets.yaml"))
+  expect_true(any(grepl("label_length", readLines("_targets.yaml"))))
+  tar_config_set()
+  expect_equal(tar_config_get("label_length"), 120L)
+  expect_true(file.exists("_targets.yaml"))
+  unlink("_targets.yaml")
+  expect_equal(tar_config_get("label_length"), 60L)
+  expect_error(
+    tar_config_set(label_length = -1L),
+    class = "tar_condition_validate"
+  )
+})
+
 tar_test("tar_config_set() label_width", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))

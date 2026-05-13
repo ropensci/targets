@@ -2,6 +2,7 @@ visnetwork_init <- function(
   network,
   label = NULL,
   label_break = "\n",
+  label_length = 60L,
   label_width = 30L,
   level_separation = NULL,
   degree_from = 1L,
@@ -13,6 +14,7 @@ visnetwork_init <- function(
     network = network,
     label = label,
     label_break = label_break,
+    label_length = label_length,
     label_width = label_width,
     level_separation = level_separation,
     degree_from = degree_from,
@@ -26,6 +28,7 @@ visnetwork_new <- function(
   network = NULL,
   label = NULL,
   label_break = NULL,
+  label_length = NULL,
   label_width = NULL,
   level_separation = NULL,
   degree_from = NULL,
@@ -37,6 +40,7 @@ visnetwork_new <- function(
     network = network,
     label = label,
     label_break = label_break,
+    label_length = label_length,
     label_width = label_width,
     level_separation = level_separation,
     degree_from = degree_from,
@@ -62,6 +66,7 @@ visnetwork_class <- R6::R6Class(
       network = NULL,
       label = NULL,
       label_break = NULL,
+      label_length = NULL,
       label_width = NULL,
       level_separation = NULL,
       degree_from = NULL,
@@ -73,6 +78,7 @@ visnetwork_class <- R6::R6Class(
         network = network,
         label = label,
         label_break = label_break,
+        label_length = label_length,
         label_width = label_width
       )
       self$level_separation <- level_separation

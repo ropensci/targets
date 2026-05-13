@@ -9,6 +9,7 @@ tar_config_set(
   as_job = NULL,
   garbage_collection = NULL,
   label = NULL,
+  label_length = NULL,
   label_width = NULL,
   level_separation = NULL,
   reporter_make = NULL,
@@ -50,9 +51,11 @@ a specific target.}
 \item{label}{Argument of \code{\link[=tar_glimpse]{tar_glimpse()}} and \code{\link[=tar_visnetwork]{tar_visnetwork()}}
 to control node labels.}
 
+\item{label_length}{Argument of \code{\link[=tar_glimpse]{tar_glimpse()}} and \code{\link[=tar_visnetwork]{tar_visnetwork()}}
+to control the maximum number of content characters of each node label.}
+
 \item{label_width}{Argument of \code{\link[=tar_glimpse]{tar_glimpse()}} and \code{\link[=tar_visnetwork]{tar_visnetwork()}}
-to control the maximum width (number of characters wide)
-of the node labels.}
+to control the maximum width of the node labels.}
 
 \item{level_separation}{Argument of \code{\link[=tar_visnetwork]{tar_visnetwork()}} and \code{\link[=tar_glimpse]{tar_glimpse()}}
 to control the space between hierarchical levels.}

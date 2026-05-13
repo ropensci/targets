@@ -48,6 +48,7 @@ tar_mermaid <- function(
   exclude = ".Random.seed",
   outdated = TRUE,
   label = targets::tar_config_get("label"),
+  label_length = targets::tar_config_get("label_length"),
   label_width = targets::tar_config_get("label_width"),
   legend = TRUE,
   color = TRUE,
@@ -64,6 +65,9 @@ tar_mermaid <- function(
   tar_assert_lgl(targets_only, "targets_only must be logical.")
   tar_assert_lgl(outdated, "outdated in tar_mermaid() must be logical.")
   tar_assert_in(label, c("description", "time", "size", "branches"))
+  tar_assert_dbl(label_length)
+  tar_assert_scalar(label_length)
+  tar_assert_none_na(label_length)
   tar_assert_dbl(label_width)
   tar_assert_scalar(label_width)
   tar_assert_none_na(label_width)
@@ -83,6 +87,7 @@ tar_mermaid <- function(
     exclude_quosure = rlang::enquo(exclude),
     outdated = outdated,
     label = label,
+    label_length = label_length,
     label_width = label_width,
     legend = legend,
     color = color,
@@ -110,6 +115,7 @@ tar_mermaid_inner <- function(
   exclude_quosure,
   outdated,
   label,
+  label_length,
   label_width,
   legend,
   color,
@@ -131,6 +137,7 @@ tar_mermaid_inner <- function(
   visual <- mermaid_init(
     network = network,
     label = label,
+    label_length = label_length,
     label_width = label_width,
     show_legend = legend,
     show_color = color

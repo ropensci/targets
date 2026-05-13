@@ -12,6 +12,7 @@ tar_mermaid(
   exclude = ".Random.seed",
   outdated = TRUE,
   label = targets::tar_config_get("label"),
+  label_length = targets::tar_config_get("label_length"),
   label_width = targets::tar_config_get("label_width"),
   legend = TRUE,
   color = TRUE,
@@ -86,8 +87,11 @@ branches in each pattern. You can choose multiple aesthetics
 at once, e.g. \code{label = c("description", "time")}.
 Only the description is enabled by default.}
 
+\item{label_length}{Positive numeric of length 1, maximum
+number of content characters of each node label.}
+
 \item{label_width}{Positive numeric of length 1, maximum width
-(in number of characters) of the node labels.}
+of each node label.}
 
 \item{legend}{Logical of length 1, whether to display the legend.}
 

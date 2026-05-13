@@ -49,9 +49,10 @@
 #'   a specific target.
 #' @param label Argument of [tar_glimpse()] and [tar_visnetwork()]
 #'   to control node labels.
+#' @param label_length Argument of [tar_glimpse()] and [tar_visnetwork()]
+#'   to control the maximum number of content characters of each node label.
 #' @param label_width Argument of [tar_glimpse()] and [tar_visnetwork()]
-#'   to control the maximum width (number of characters wide)
-#'   of the node labels.
+#'   to control the maximum width of the node labels.
 #' @param level_separation Argument of [tar_visnetwork()] and [tar_glimpse()]
 #'   to control the space between hierarchical levels.
 #' @param reporter_make Character of length 1, `reporter` argument to
@@ -176,6 +177,7 @@ tar_config_set <- function(
   as_job = NULL,
   garbage_collection = NULL,
   label = NULL,
+  label_length = NULL,
   label_width = NULL,
   level_separation = NULL,
   reporter_make = NULL,
@@ -230,6 +232,7 @@ tar_config_set <- function(
   tar_config_assert_as_job(as_job)
   tar_config_assert_garbage_collection(garbage_collection)
   tar_config_assert_label(label)
+  tar_config_assert_label_length(label_length)
   tar_config_assert_label_width(label_width)
   tar_config_assert_level_separation(level_separation)
   tar_config_assert_reporter_make(reporter_make)
@@ -248,6 +251,8 @@ tar_config_set <- function(
   yaml[[project]]$garbage_collection <- garbage_collection %|||%
     yaml[[project]]$garbage_collection
   yaml[[project]][["label"]] <- label %|||% yaml[[project]][["label"]]
+  yaml[[project]]$label_length <- label_length %|||%
+    yaml[[project]]$label_length
   yaml[[project]]$label_width <- label_width %|||% yaml[[project]]$label_width
   yaml[[project]]$level_separation <- level_separation %|||%
     yaml[[project]]$level_separation
@@ -334,6 +339,16 @@ tar_config_assert_label_width <- function(label_width) {
   tar_assert_ge(label_width, 1L)
   tar_assert_none_na(label_width)
   tar_assert_scalar(label_width)
+}
+
+tar_config_assert_label_length <- function(label_length) {
+  if (is.null(label_length)) {
+    return()
+  }
+  tar_assert_dbl(label_length)
+  tar_assert_ge(label_length, 1L)
+  tar_assert_none_na(label_length)
+  tar_assert_scalar(label_length)
 }
 
 tar_config_assert_level_separation <- function(level_separation) {

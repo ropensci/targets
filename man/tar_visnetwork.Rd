@@ -12,6 +12,7 @@ tar_visnetwork(
   exclude = ".Random.seed",
   outdated = TRUE,
   label = targets::tar_config_get("label"),
+  label_length = targets::tar_config_get("label_length"),
   label_width = targets::tar_config_get("label_width"),
   level_separation = targets::tar_config_get("level_separation"),
   degree_from = 1L,
@@ -89,8 +90,11 @@ branches in each pattern. You can choose multiple aesthetics
 at once, e.g. \code{label = c("description", "time")}.
 Only the description is enabled by default.}
 
+\item{label_length}{Positive numeric of length 1, maximum
+number of content characters of each node label.}
+
 \item{label_width}{Positive numeric of length 1, maximum width
-(in number of characters) of the node labels.}
+of each node label.}
 
 \item{level_separation}{Numeric of length 1,
 \code{levelSeparation} argument of \code{visNetwork::visHierarchicalLayout()}.

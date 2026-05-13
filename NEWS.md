@@ -1,6 +1,7 @@
 # targets development version
 
 * Harmonize internal lists of possible values for the error, memory, deployment, storage, and retrieval options (#1587, @koefoeden).
+* Use `label_length` instead of `label_width` to set the maximum number of content characters in visualization node labels (`tar_visnetwork()`, `tar_mermaid()`, `tar_glimpse()`, `tar_config_set()`, `tar_config_get()`). `label_width` still controls the width, but long strings wrap over multiple lines (#1588, @jesse-ross).
 
 # targets 1.12.0
 
