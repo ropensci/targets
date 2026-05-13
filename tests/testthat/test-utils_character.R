@@ -13,3 +13,9 @@ tar_test("truncate_character()", {
   out <- truncate_character(x, 7L)
   expect_equal(out, c("not ...", "very...", NA_character_, "short"))
 })
+
+tar_test("string_wrap()", {
+  x <- "a b c d e f g h i j k l m n o p q r s t u v w x y z"
+  out <- string_wrap(x, width = 10L, separator = "\n")
+  expect_equal(out, "a b c d e\nf g h i j\nk l m n o\np q r s t\nu v w x y\nz")
+})

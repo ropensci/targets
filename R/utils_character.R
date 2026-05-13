@@ -33,3 +33,7 @@ truncate_character <- function(x, n) {
   x[index] <- paste0(x[index], "...")
   x
 }
+
+string_wrap <- function(x, width, separator) {
+  paste(strwrap(x, width = width, simplify = TRUE), collapse = separator)
+}
