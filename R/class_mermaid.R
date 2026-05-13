@@ -2,7 +2,7 @@ mermaid_init <- function(
   network,
   label = NULL,
   label_break = "<br>",
-  label_length = 60L,
+  label_length = 128L,
   label_width = 30L,
   show_legend = TRUE,
   show_color = TRUE

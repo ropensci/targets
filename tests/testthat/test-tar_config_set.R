@@ -68,7 +68,7 @@ tar_test("tar_config_set() label", {
 tar_test("tar_config_set() label_length", {
   skip_cran()
   expect_false(file.exists("_targets.yaml"))
-  expect_equal(tar_config_get("label_length"), 60L)
+  expect_equal(tar_config_get("label_length"), 128L)
   tar_config_set(label_length = 120L)
   expect_equal(tar_config_get("label_length"), 120L)
   expect_true(file.exists("_targets.yaml"))
@@ -77,7 +77,7 @@ tar_test("tar_config_set() label_length", {
   expect_equal(tar_config_get("label_length"), 120L)
   expect_true(file.exists("_targets.yaml"))
   unlink("_targets.yaml")
-  expect_equal(tar_config_get("label_length"), 60L)
+  expect_equal(tar_config_get("label_length"), 128L)
   expect_error(
     tar_config_set(label_length = -1L),
     class = "tar_condition_validate"

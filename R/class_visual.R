@@ -78,17 +78,31 @@ visual_class <- R6::R6Class(
       bytes[is.na(vertices$bytes)] <- ""
       branches <- paste(vertices$branches, "branches")
       branches[is.na(vertices$branches)] <- ""
-      if (!is.null(self$label_width)) {
-        n <- self$label_width
+      if (!is.null(self$label_length)) {
+        n <- self$label_length
         description <- truncate_character(description, n)
         seconds <- truncate_character(seconds, n)
         bytes <- truncate_character(bytes, n)
         branches <- truncate_character(branches, n)
       }
+      if (!is.null(self$label_break) && !is.null(self$label_width)) {
+        b <- self$label_break
+        n <- self$label_width
+        for (i in seq_len(length(description))) {
+          description[i] <- string_wrap(
+            description[i],
+            width = n,
+            separator = b
+          )
+          seconds[i] <- string_wrap(seconds[i], width = n, separator = b)
+          bytes[i] <- string_wrap(bytes[i], width = n, separator = b)
+          branches[i] <- string_wrap(branches[i], width = n, separator = b)
+        }
+      }
       out <- vertices$name
-      if ("description" %in% self$label) {
-        i <- nzchar(description)
-        out[i] <- paste(out[i], description[i], sep = self$label_break)
+      if ("branches" %in% self$label) {
+        i <- nzchar(branches)
+        out[i] <- paste(out[i], branches[i], sep = self$label_break)
       }
       if ("time" %in% self$label) {
         i <- nzchar(seconds)
@@ -98,9 +112,9 @@ visual_class <- R6::R6Class(
         i <- nzchar(bytes)
         out[i] <- paste(out[i], bytes[i], sep = self$label_break)
       }
-      if ("branches" %in% self$label) {
-        i <- nzchar(branches)
-        out[i] <- paste(out[i], branches[i], sep = self$label_break)
+      if ("description" %in% self$label) {
+        i <- nzchar(description)
+        out[i] <- paste(out[i], description[i], sep = self$label_break)
       }
       out
     },
