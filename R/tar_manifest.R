@@ -118,11 +118,11 @@ tar_manifest_inner <- function(
   )
   names <- tar_tidyselect_eval(names_quosure, all_names) %|||% all_names
   names <- intersect(all_names, names)
-  out <- map(names, ~ tar_manifest_target(pipeline_get_target(pipeline, .x)))
-  out <- do.call(rbind, out)
-  fields <- tar_tidyselect_eval(fields_quosure, colnames(out)) %|||%
-    colnames(out)
-  out <- out[, base::union("name", fields), drop = FALSE]
+  choices <- names(tar_manifest_fields)
+  fields <- tar_tidyselect_eval(fields_quosure, choices) %|||% choices
+  fields <- base::union("name", fields)
+  targets <- map(names, ~ pipeline_get_target(pipeline, .x))
+  out <- tibble::as_tibble(map(tar_manifest_fields[fields], ~ .x(targets)))
   if (drop_missing) {
     for (field in colnames(out)) {
       if (all(is.na(unlist(out[[field]])))) {
@@ -133,34 +133,37 @@ tar_manifest_inner <- function(
   out
 }
 
-tar_manifest_target <- function(target) {
-  out <- list(
-    name = target_get_name(target),
-    command = tar_manifest_command(target$command$expr),
-    description = target$settings$description %||% NA_character_,
-    pattern = tar_manifest_pattern(target$settings$pattern),
-    format = target$settings$format,
-    repository = target$settings$repository,
-    iteration = target$settings$iteration,
-    error = target$settings$error,
-    memory = target$settings$memory,
-    storage = target$settings$storage,
-    retrieval = target$settings$retrieval,
-    deployment = target$settings$deployment,
-    priority = target$settings$priority,
-    resources = list(target$settings$resources),
-    cue_mode = target$cue$mode,
-    cue_command = target$cue$command,
-    cue_depend = target$cue$depend,
-    cue_file = target$cue$file,
-    cue_format = target$cue$format,
-    cue_repository = target$cue$repository,
-    cue_iteration = target$cue$iteration,
-    packages = list(target$command$packages),
-    library = list(target$command$library)
-  )
-  tibble::as_tibble(out)
-}
+tar_manifest_fields <- list(
+  name = function(targets) map_chr(targets, target_get_name),
+  command = function(targets) {
+    map_chr(targets, ~ tar_manifest_command(.x$command$expr))
+  },
+  description = function(targets) {
+    map_chr(targets, ~ .x$settings$description %||% NA_character_)
+  },
+  pattern = function(targets) {
+    map_chr(targets, ~ tar_manifest_pattern(.x$settings$pattern))
+  },
+  format = function(targets) map_chr(targets, ~ .x$settings$format),
+  repository = function(targets) map_chr(targets, ~ .x$settings$repository),
+  iteration = function(targets) map_chr(targets, ~ .x$settings$iteration),
+  error = function(targets) map_chr(targets, ~ .x$settings$error),
+  memory = function(targets) map_chr(targets, ~ .x$settings$memory),
+  storage = function(targets) map_chr(targets, ~ .x$settings$storage),
+  retrieval = function(targets) map_chr(targets, ~ .x$settings$retrieval),
+  deployment = function(targets) map_chr(targets, ~ .x$settings$deployment),
+  priority = function(targets) map_dbl(targets, ~ .x$settings$priority),
+  resources = function(targets) map(targets, ~ .x$settings$resources),
+  cue_mode = function(targets) map_chr(targets, ~ .x$cue$mode),
+  cue_command = function(targets) map_lgl(targets, ~ .x$cue$command),
+  cue_depend = function(targets) map_lgl(targets, ~ .x$cue$depend),
+  cue_file = function(targets) map_lgl(targets, ~ .x$cue$file),
+  cue_format = function(targets) map_lgl(targets, ~ .x$cue$format),
+  cue_repository = function(targets) map_lgl(targets, ~ .x$cue$repository),
+  cue_iteration = function(targets) map_lgl(targets, ~ .x$cue$iteration),
+  packages = function(targets) map(targets, ~ .x$command$packages),
+  library = function(targets) map(targets, ~ .x$command$library)
+)
 
 tar_manifest_command <- function(expr) {
   out <- tar_deparse_safe(expr, collapse = "\n ")
