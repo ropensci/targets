@@ -49,6 +49,8 @@ tar_test("file path caches are correct", {
   tar_make(callr_function = NULL, reporter = "silent")
   tar_script(
     list(
+      tar_target(x, 1),
+      tar_target(y, x),
       tar_target(file_info, tar_runtime_object()$file_info),
       tar_target(
         file_exist,

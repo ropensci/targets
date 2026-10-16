@@ -1,5 +1,6 @@
 # targets development version
 
+* Query file information only for targets whose data are in `_targets/objects/` and which the current pipeline uses: its stems and the current branches of its patterns. Previously, `tar_make()`, `tar_outdated()` and friends queried every local target ever recorded in the metadata, including removed targets, superseded branches, targets outside the `names` selection, and file and URL targets stored elsewhere (#1597, @koefoeden).
 * Harmonize internal lists of possible values for the error, memory, deployment, storage, and retrieval options (#1587, @koefoeden).
 * Use `label_length` instead of `label_width` to set the maximum number of content characters in visualization node labels (`tar_visnetwork()`, `tar_mermaid()`, `tar_glimpse()`, `tar_config_set()`, `tar_config_get()`). `label_width` still controls the width, but long strings wrap over multiple lines (#1588, @jesse-ross).
 
