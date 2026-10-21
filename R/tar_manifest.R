@@ -118,6 +118,9 @@ tar_manifest_inner <- function(
   )
   names <- tar_tidyselect_eval(names_quosure, all_names) %|||% all_names
   names <- intersect(all_names, names)
+  if (length(names) < 1L) {
+    return(NULL)
+  }
   choices <- names(tar_manifest_fields)
   fields <- tar_tidyselect_eval(fields_quosure, choices) %|||% choices
   fields <- base::union("name", fields)
