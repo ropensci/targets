@@ -66,6 +66,13 @@ tar_test("tar_manifest() tidyselect on names", {
   expect_equal(nrow(out), 2L)
 })
 
+tar_test("tar_manifest() is NULL if no targets are selected", {
+  skip_cran()
+  tar_script(tar_target(y1, 1 + 1))
+  out <- tar_manifest(names = starts_with("z"), callr_function = NULL)
+  expect_null(out)
+})
+
 tar_test("tar_manifest() shows patterns correctly", {
   skip_cran()
   tar_script({
