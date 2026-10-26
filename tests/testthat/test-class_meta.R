@@ -378,3 +378,24 @@ tar_test("meta$validate()", {
   on.exit(out$database$close())
   expect_silent(out$validate())
 })
+
+tar_test("meta$restrict_records() keeps local objects of the pipeline", {
+  file.create("x")
+  targets <- list(
+    target_init(name = "data", expr = quote(seq_len(3))),
+    target_init(name = "map", expr = quote(data), pattern = quote(map(data))),
+    target_init(name = "file", expr = quote("x"), format = "file"),
+    target_init(name = "old", expr = quote(1))
+  )
+  local_init(pipeline_init(targets))$run()
+  targets[[1L]] <- target_init(name = "data", expr = quote(seq_len(2)))
+  local_init(pipeline_init(targets))$run()
+  meta <- meta_init()
+  on.exit(meta$database$close())
+  meta$preprocess(write = FALSE)
+  expect_equal(length(meta$branches), 3L)
+  meta$restrict_records(pipeline_init(targets[c(1L, 2L, 3L)]))
+  branches <- meta$get_record("map")$children
+  expect_equal(length(branches), 2L)
+  expect_equal(sort(meta$local_builders), sort(c("data", branches)))
+})

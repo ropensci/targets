@@ -75,6 +75,11 @@ meta_class <- R6::R6Class(
       names_pipeline <- pipeline_get_names(pipeline)
       names_current <- c(names_envir, names_pipeline, self$branches)
       self$del_records(setdiff(self$list_records(), names_current))
+      children <- unlist(map(names_pipeline, ~ self$get_row(.x)$children))
+      self$local_builders <- intersect(
+        self$local_builders,
+        c(names_pipeline, children)
+      )
     },
     hash_deps = function(deps, pipeline) {
       hash_list <- .subset2(self, "produce_hash_list")(deps, pipeline)
@@ -142,7 +147,8 @@ meta_class <- R6::R6Class(
       on.exit(cli_local_progress_bar_destroy(bar = bar))
       is_local_builder <- data$type %in%
         c("stem", "branch") &
-        data$repository == "local"
+        data$repository == "local" &
+        !(data$format %in% c("file", "url"))
       self$local_builders <- data$name[is_local_builder]
       self$branches <- data$name[data$type == "branch"]
       tar_runtime$meta <- self
