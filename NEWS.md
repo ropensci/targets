@@ -1,4 +1,4 @@
-# targets development version
+# targets 1.12.1
 
 * Before running custom storage code saved in the data store by `tar_format()` or `tar_repository_cas()`, `tar_read()`, `tar_load()`, and `tar_workspace()` now ask whether you trust the data store. Unless the `TAR_ASK` environment variable is `"false"`, they show a menu in interactive sessions and throw an informative error in non-interactive ones. They never ask inside a running pipeline or during `R CMD check`. **Non-interactive scripts that read custom-format or CAS targets from outside the pipeline now need `TAR_ASK = "false"`.** See the new "Trusting custom storage code" section of `?tar_format` (#1602).
 * Update the R Markdown notebook URL in `?tar_engine_knitr` to <https://pkg.yihui.org/rmarkdown-book/notebook.html>.
