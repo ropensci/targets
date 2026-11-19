@@ -14,6 +14,10 @@ At <https://github.com/ropensci/targets/discussions>, you can post general quest
 
 <https://github.com/ropensci/targets/issues> is for maintenance tasks feature requests. When you post, please abide by the same guidelines as <https://books.ropensci.org/targets/help.html>.
 
+## Security
+
+Please report security vulnerabilities privately, not in public issues, discussions, or pull requests. See the [security policy](https://github.com/ropensci/targets/blob/main/.github/SECURITY.md).
+
 ## Development
 
 External code contributions are extremely helpful in the right circumstances. Here are the recommended steps.

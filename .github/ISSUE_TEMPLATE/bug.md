@@ -10,6 +10,7 @@ assignees: wlandau
 
 * [ ] I have read and understand [help guide](https://books.ropensci.org/targets/help.html).
 * [ ] I understand and agree to [contributing guide](https://github.com/ropensci/targets/blob/main/CONTRIBUTING.md).
+* [ ] This is not a security vulnerability. (Please report those privately as described in the [security policy](https://github.com/ropensci/targets/blob/main/.github/SECURITY.md).)
 * [ ] I am confident this issue is a bug in `targets` itself, not a user error or a bug in a different package. I have done troubleshooting on my own to verify this. User questions which are not bugs in `targets` should be posted as [discussions](https://github.com/ropensci/targets/discussions) instead of bug reports.
 * [ ] I am posting a runnable [reprex](https://books.ropensci.org/targets/help.html#write-a-reprex) to help others troubleshoot.
 

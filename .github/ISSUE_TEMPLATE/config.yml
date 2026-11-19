@@ -6,3 +6,6 @@ contact_links:
   - name: Discussions
     url: https://github.com/ropensci/targets/discussions
     about: Ask for help or propose an idea.
+  - name: Report a security vulnerability
+    url: https://github.com/ropensci/targets/security/advisories/new
+    about: Please report security vulnerabilities privately, not in a public issue. See SECURITY.md.
