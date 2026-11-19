@@ -28,6 +28,7 @@ tar_load_raw <- function(
   tar_assert_scalar(strict)
   tar_assert_lgl(strict)
   tar_assert_envir(envir)
+  tar_assert_trust_meta(meta = meta, names = names, store = store)
   map(
     names,
     ~ tar_load_target(

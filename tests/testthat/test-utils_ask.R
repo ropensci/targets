@@ -15,3 +15,41 @@ tar_test("tar_should_overwrite", {
   expect_true(tar_should_overwrite(path = tmp, ask = FALSE))
   # More testing is in tests/interactive/test-tar_script.R # nolint.
 })
+
+tar_test("tar_assert_trust_store() skips if TAR_ASK is false", {
+  skip_if(interactive())
+  Sys.setenv(TAR_ASK = "false")
+  expect_silent(tar_assert_trust_store("_targets"))
+})
+
+tar_test("tar_assert_trust_store() skips if the pipeline is active", {
+  skip_if(interactive())
+  old <- Sys.getenv("TAR_ACTIVE")
+  on.exit(Sys.setenv(TAR_ACTIVE = old))
+  Sys.setenv(TAR_ASK = "true", TAR_ACTIVE = "true")
+  expect_silent(tar_assert_trust_store("_targets"))
+})
+
+tar_test("tar_assert_trust_store() errors if non-interactive", {
+  skip_if(interactive())
+  for (value in c("", "true")) {
+    Sys.setenv(TAR_ASK = value)
+    expect_error(
+      tar_assert_trust_store("_targets"),
+      class = "tar_condition_run"
+    )
+  }
+})
+
+tar_test("tar_meta_has_custom_code()", {
+  meta <- data_frame(
+    format = c("rds", NA_character_),
+    repository = c("local", NA_character_)
+  )
+  expect_false(tar_meta_has_custom_code(meta))
+  meta$format[2L] <- tar_format(read = function(path) readRDS(path))
+  expect_true(tar_meta_has_custom_code(meta))
+  meta$format[2L] <- "rds"
+  meta$repository[2L] <- "repository_cas&upload=xyz"
+  expect_true(tar_meta_has_custom_code(meta))
+})

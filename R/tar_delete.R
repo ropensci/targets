@@ -122,6 +122,8 @@ tar_delete_cloud_objects <- function(
     subset <- meta[meta$repository == repository, , drop = FALSE] # nolint
     row <- subset[1L, , drop = FALSE] # nolint
     record <- record_from_row(row = row, path_store = path_store)
+    # No trust check needed: store_delete_objects() is a no-op
+    # for tar_repository_cas() and never runs custom tar_format() code.
     store <- record_bootstrap_store(record)
     store_delete_objects(
       store = store,

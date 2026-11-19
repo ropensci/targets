@@ -45,6 +45,15 @@
 #'   [tar_script()], [tar_github_actions()], and similar functions,
 #'   you can safely set `TAR_ASK` to `"false"` in either a project-level
 #'   or user-level `.Renviron` file.
+#'
+#'   `TAR_ASK` also controls whether [tar_read()], [tar_load()], and
+#'   [tar_workspace()] ask before running custom storage code
+#'   from [tar_format()] or [tar_repository_cas()] that is saved
+#'   in the data store. Unless `TAR_ASK` is `"false"`, these functions
+#'   ask whether you trust the data store, or throw an error
+#'   in a non-interactive session.
+#'   Inside a running pipeline, they never ask.
+#'   See the "Trusting custom storage code" section of [tar_format()].
 #' @section TAR_CONFIG:
 #'   The `TAR_CONFIG` environment variable controls the file path to the
 #'   optional YAML configuration file with project settings.

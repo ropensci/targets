@@ -4,6 +4,7 @@
 #' @family content-addressable storage
 #' @description Define a custom storage repository that uses
 #'   content-addressable storage (CAS).
+#' @inheritSection tar_format Trusting custom storage code
 #' @section Content-addressable storage:
 #'   Normally, `targets` organizes output data
 #'   based on target names. For example,
