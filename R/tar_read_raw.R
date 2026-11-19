@@ -13,6 +13,7 @@ tar_read_raw <- function(
   tar_assert_store(store = store)
   force(meta)
   tar_assert_chr(name)
+  tar_assert_trust_meta(meta = meta, names = name, store = store)
   tar_read_inner(name, branches, meta, path_store = store)
 }
 

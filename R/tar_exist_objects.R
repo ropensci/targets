@@ -53,6 +53,8 @@ tar_exist_object <- function(name, cloud, meta, store) {
 tar_exist_cloud_target <- function(name, meta, path_store) {
   row <- meta[meta$name == name, , drop = FALSE] # nolint
   record <- record_from_row(row = row, path_store = path_store)
+  # No trust check needed: store_exist_object() never runs
+  # custom tar_format() or tar_repository_cas() code.
   store <- record_bootstrap_store(record)
   file <- record_bootstrap_file(record)
   store_exist_object(store = store, file = file, name = name)

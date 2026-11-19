@@ -44,3 +44,65 @@ tar_ask_env <- function() {
   }
   NULL
 }
+
+tar_assert_trust_store <- function(store) {
+  if (tar_trust_store_exempt()) {
+    return(invisible())
+  }
+  message <- paste0(
+    "Data store ",
+    store,
+    " contains custom R code from tar_format() and/or ",
+    "tar_repository_cas(), and reading these targets will run that code. ",
+    "Only continue if you trust where this data store came from. ",
+    "Set the TAR_ASK environment variable to \"false\" to skip this check ",
+    "(e.g. usethis::edit_r_environ())."
+  )
+  if (!interactive()) {
+    tar_throw_run(
+      message,
+      " Cannot ask for confirmation in a non-interactive R session."
+    )
+  }
+  # This part is intrinsically interactive and cannot be covered
+  # in fully automated tests.
+  # tests/interactive/test-tar_assert_trust_store.R covers it.
+  # nocov start
+  choice <- utils::menu(c("yes", "no"), title = paste(message, "Run the code?"))
+  if (!identical(as.integer(choice), 1L)) {
+    tar_throw_run("Stopped: data store ", store, " is not trusted.")
+  }
+  invisible()
+  # nocov end
+}
+
+# R CMD check runs examples, tests, and vignettes that the package
+# developer wrote and chose to run, and it is non-interactive,
+# so asking for trust there would only break checks on CRAN.
+# R CMD check sets _R_CHECK_PACKAGE_NAME_ while it runs
+# tests, examples, and vignettes.
+tar_trust_store_exempt <- function() {
+  tar_active() ||
+    identical(tar_ask_env(), FALSE) ||
+    tar_in_check()
+}
+
+tar_in_check <- function() {
+  nzchar(Sys.getenv("_R_CHECK_PACKAGE_NAME_"))
+}
+
+tar_assert_trust_meta <- function(meta, names, store) {
+  rows <- meta$name %in% names
+  if ("parent" %in% colnames(meta)) {
+    rows <- rows | (meta$parent %in% names)
+  }
+  if (tar_meta_has_custom_code(meta[rows, , drop = FALSE])) {
+    tar_assert_trust_store(store)
+  }
+  invisible()
+}
+
+tar_meta_has_custom_code <- function(meta) {
+  any(grepl(pattern = "^format_custom", x = meta$format)) ||
+    any(grepl(pattern = "^repository_cas", x = meta$repository))
+}

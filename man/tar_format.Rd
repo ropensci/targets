@@ -104,6 +104,47 @@ argument of \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_s
 Define a custom target storage format for the
 \code{format} argument of \code{\link[=tar_target]{tar_target()}} or \code{\link[=tar_option_set]{tar_option_set()}}.
 }
+\section{Trusting custom storage code}{
+
+\code{\link[=tar_format]{tar_format()}} and \code{\link[=tar_repository_cas]{tar_repository_cas()}} save your custom
+functions as text in the data store: in the metadata
+(\verb{_targets/meta/meta}) and in any saved workspaces
+(\verb{_targets/workspaces/}). \code{targets} runs that code again
+whenever it reads those targets. If you get a data store
+from someone else, the code in its metadata
+could do anything, and you cannot see it in \verb{_targets.R}.
+
+For this reason, if the targets being read use a custom format or a
+CAS repository, \code{\link[=tar_read]{tar_read()}}, \code{\link[=tar_load]{tar_load()}}, and \code{\link[=tar_workspace]{tar_workspace()}}
+first ask whether you trust the data store.
+In a non-interactive session, they throw an error instead.
+To skip the check, e.g. on a continuous integration server
+or in a project you trust, set the \code{TAR_ASK} environment
+variable to \code{"false"} (see \code{\link[=tar_envvars]{tar_envvars()}}).
+
+The pipeline itself never asks. \code{\link[=tar_make]{tar_make()}} and its relatives
+already work from the existing data store, so running the pipeline
+is a choice to trust it. If you do not trust a data store,
+delete or move it and run the pipeline from scratch. Then every
+custom function in the new metadata comes from your own \verb{_targets.R}.
+Likewise, calls to \code{\link[=tar_read]{tar_read()}} and \code{\link[=tar_load]{tar_load()}} inside the
+pipeline (for example, in a report) are your own code,
+in plain sight rather than hidden in the metadata,
+so you are responsible for them like any other code
+you write. A data store you cannot rebuild is different:
+the code hidden in its metadata is the only way to read the data,
+which is why reading it from outside the pipeline asks first.
+
+\verb{R CMD check} is also exempt. It runs package examples, tests,
+and vignettes that the package developer wrote and chose to run,
+and it is never interactive, so asking would only make
+checks fail on CRAN.
+
+Even ordinary storage formats like \code{"rds"} and \code{"qs"} can hold
+R objects such as functions, so treat any data store you get
+from someone else with the same care as code from that person.
+}
+
 \section{Marshalling}{
 
 If an object can only be used in the R session

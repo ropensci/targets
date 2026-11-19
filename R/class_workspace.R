@@ -42,6 +42,23 @@ workspace_read <- function(name, path_store) {
   readRDS(path)
 }
 
+workspace_has_custom_code <- function(workspace) {
+  targets <- c(
+    list(workspace$target),
+    map(
+      pipeline_get_names(workspace$subpipeline),
+      ~ pipeline_get_target(workspace$subpipeline, .x)
+    )
+  )
+  any(
+    map_lgl(
+      targets,
+      ~ !is.null(.x$store$methods_format) ||
+        !is.null(.x$store$methods_repository)
+    )
+  )
+}
+
 workspace_populate <- function(workspace) {
   target_ensure_deps_worker(workspace$target, workspace$subpipeline)
 }

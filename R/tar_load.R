@@ -12,6 +12,7 @@
 #'   (example: `tar_load(names = everything())`), whereas [tar_load_raw()]
 #'   uses standard evaluation for `names`
 #'   (example: `tar_load_raw(names = quote(everything()))`).
+#' @inheritSection tar_format Trusting custom storage code
 #' @return Nothing.
 #' @inheritSection tar_meta Storage access
 #' @inheritSection tar_read Cloud target data versioning

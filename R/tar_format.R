@@ -6,6 +6,44 @@
 #' @return A character string of length 1 encoding the custom format.
 #'   You can supply this string directly to the `format`
 #'   argument of [tar_target()] or [tar_option_set()].
+#' @section Trusting custom storage code:
+#'   [tar_format()] and [tar_repository_cas()] save your custom
+#'   functions as text in the data store: in the metadata
+#'   (`_targets/meta/meta`) and in any saved workspaces
+#'   (`_targets/workspaces/`). `targets` runs that code again
+#'   whenever it reads those targets. If you get a data store
+#'   from someone else, the code in its metadata
+#'   could do anything, and you cannot see it in `_targets.R`.
+#'
+#'   For this reason, if the targets being read use a custom format or a
+#'   CAS repository, [tar_read()], [tar_load()], and [tar_workspace()]
+#'   first ask whether you trust the data store.
+#'   In a non-interactive session, they throw an error instead.
+#'   To skip the check, e.g. on a continuous integration server
+#'   or in a project you trust, set the `TAR_ASK` environment
+#'   variable to `"false"` (see [tar_envvars()]).
+#'
+#'   The pipeline itself never asks. [tar_make()] and its relatives
+#'   already work from the existing data store, so running the pipeline
+#'   is a choice to trust it. If you do not trust a data store,
+#'   delete or move it and run the pipeline from scratch. Then every
+#'   custom function in the new metadata comes from your own `_targets.R`.
+#'   Likewise, calls to [tar_read()] and [tar_load()] inside the
+#'   pipeline (for example, in a report) are your own code,
+#'   in plain sight rather than hidden in the metadata,
+#'   so you are responsible for them like any other code
+#'   you write. A data store you cannot rebuild is different:
+#'   the code hidden in its metadata is the only way to read the data,
+#'   which is why reading it from outside the pipeline asks first.
+#'
+#'   `R CMD check` is also exempt. It runs package examples, tests,
+#'   and vignettes that the package developer wrote and chose to run,
+#'   and it is never interactive, so asking would only make
+#'   checks fail on CRAN.
+#'
+#'   Even ordinary storage formats like `"rds"` and `"qs"` can hold
+#'   R objects such as functions, so treat any data store you get
+#'   from someone else with the same care as code from that person.
 #' @section Marshalling:
 #'   If an object can only be used in the R session
 #'   where it was created, it is called "non-exportable".

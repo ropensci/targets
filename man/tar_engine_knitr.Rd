@@ -37,7 +37,7 @@ when you run \code{knitr::knit()} or \code{rmarkdown::render()}
 and \code{NULL} if you are running one chunk at a time interactively
 in an integrated development environment, e.g. the
 notebook interface in RStudio:
-\url{https://bookdown.org/yihui/rmarkdown/notebook.html}.
+\url{https://pkg.yihui.org/rmarkdown-book/notebook.html}.
 You can choose the mode with the \code{tar_interactive}
 chunk option.
 (In \code{targets} 0.6.0, \code{tar_interactive} defaults to \code{interactive()}

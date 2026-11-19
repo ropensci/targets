@@ -24,7 +24,7 @@
 #'   and `NULL` if you are running one chunk at a time interactively
 #'   in an integrated development environment, e.g. the
 #'   notebook interface in RStudio:
-#'   <https://bookdown.org/yihui/rmarkdown/notebook.html>.
+#'   <https://pkg.yihui.org/rmarkdown-book/notebook.html>.
 #'   You can choose the mode with the `tar_interactive`
 #'   chunk option.
 #'   (In `targets` 0.6.0, `tar_interactive` defaults to `interactive()`

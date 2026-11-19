@@ -19,6 +19,7 @@
 #'   Downloaded workspaces can be loaded the usual way with
 #'   [tar_workspace()], and you should see them in
 #'   character vector returned by [tar_workspaces()].
+#' @inheritSection tar_format Trusting custom storage code
 #' @return This function returns `NULL`, but it does load
 #'   the target's required packages, as well as multiple objects
 #'   into the environment (`envir` argument) in order to replicate the
@@ -73,6 +74,9 @@ tar_workspace <- function(
   tar_assert_chr(name)
   tar_assert_scalar(name)
   workspace <- workspace_read(name = name, path_store = store)
+  if (workspace_has_custom_code(workspace)) {
+    tar_assert_trust_store(store)
+  }
   workspace_populate(workspace)
   workspace_assign(workspace, envir)
   if (packages) {

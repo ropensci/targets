@@ -60,6 +60,15 @@ with the new ones without asking. Once you are comfortable with
 \code{\link[=tar_script]{tar_script()}}, \code{\link[=tar_github_actions]{tar_github_actions()}}, and similar functions,
 you can safely set \code{TAR_ASK} to \code{"false"} in either a project-level
 or user-level \code{.Renviron} file.
+
+\code{TAR_ASK} also controls whether \code{\link[=tar_read]{tar_read()}}, \code{\link[=tar_load]{tar_load()}}, and
+\code{\link[=tar_workspace]{tar_workspace()}} ask before running custom storage code
+from \code{\link[=tar_format]{tar_format()}} or \code{\link[=tar_repository_cas]{tar_repository_cas()}} that is saved
+in the data store. Unless \code{TAR_ASK} is \code{"false"}, these functions
+ask whether you trust the data store, or throw an error
+in a non-interactive session.
+They never ask inside a running pipeline or during \verb{R CMD check}.
+See the "Trusting custom storage code" section of \code{\link[=tar_format]{tar_format()}}.
 }
 
 \section{TAR_CONFIG}{

@@ -9,6 +9,7 @@
 #'   unevaluated symbol for the `name` argument, whereas [tar_read_raw()]
 #'   expects a character string.
 #' @inheritSection tar_meta Storage access
+#' @inheritSection tar_format Trusting custom storage code
 #' @section Cloud target data versioning:
 #'   Some buckets in Amazon S3 or Google Cloud Storage are "versioned",
 #'   which means they track historical versions of each data object.
