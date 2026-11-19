@@ -46,7 +46,7 @@ tar_ask_env <- function() {
 }
 
 tar_assert_trust_store <- function(store) {
-  if (tar_active() || identical(tar_ask_env(), FALSE)) {
+  if (tar_trust_store_exempt()) {
     return(invisible())
   }
   message <- paste0(
@@ -74,6 +74,21 @@ tar_assert_trust_store <- function(store) {
   }
   invisible()
   # nocov end
+}
+
+# R CMD check runs examples, tests, and vignettes that the package
+# developer wrote and chose to run, and it is non-interactive,
+# so asking for trust there would only break checks on CRAN.
+# R CMD check sets _R_CHECK_PACKAGE_NAME_ while it runs
+# tests, examples, and vignettes.
+tar_trust_store_exempt <- function() {
+  tar_active() ||
+    identical(tar_ask_env(), FALSE) ||
+    tar_in_check()
+}
+
+tar_in_check <- function() {
+  nzchar(Sys.getenv("_R_CHECK_PACKAGE_NAME_"))
 }
 
 tar_assert_trust_meta <- function(meta, names, store) {

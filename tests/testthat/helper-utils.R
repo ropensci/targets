@@ -47,3 +47,16 @@ crew_test_sleep <- function() {
     Sys.sleep(2.25)
   }
 }
+
+# Pretend to run outside R CMD check so the trust gate for
+# custom storage code is active and can be tested.
+# Returns a function that restores the original state.
+mock_outside_check <- function() {
+  old <- Sys.getenv("_R_CHECK_PACKAGE_NAME_", unset = NA_character_)
+  Sys.unsetenv("_R_CHECK_PACKAGE_NAME_")
+  function() {
+    if (!is.na(old)) {
+      Sys.setenv(`_R_CHECK_PACKAGE_NAME_` = old)
+    }
+  }
+}

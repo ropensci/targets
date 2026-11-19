@@ -267,6 +267,11 @@ you write. A data store you cannot rebuild is different:
 the code hidden in its metadata is the only way to read the data,
 which is why reading it from outside the pipeline asks first.
 
+\verb{R CMD check} is also exempt. It runs package examples, tests,
+and vignettes that the package developer wrote and chose to run,
+and it is never interactive, so asking would only make
+checks fail on CRAN.
+
 Even ordinary storage formats like \code{"rds"} and \code{"qs"} can hold
 R objects such as functions, so treat any data store you get
 from someone else with the same care as code from that person.

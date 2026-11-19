@@ -52,7 +52,7 @@
 #'   in the data store. Unless `TAR_ASK` is `"false"`, these functions
 #'   ask whether you trust the data store, or throw an error
 #'   in a non-interactive session.
-#'   Inside a running pipeline, they never ask.
+#'   They never ask inside a running pipeline or during `R CMD check`.
 #'   See the "Trusting custom storage code" section of [tar_format()].
 #' @section TAR_CONFIG:
 #'   The `TAR_CONFIG` environment variable controls the file path to the
