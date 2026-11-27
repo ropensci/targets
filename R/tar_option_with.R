@@ -18,10 +18,17 @@ tar_option_with <- function(expression, ..., envir_with = parent.frame()) {
   expression <- substitute(expression)
   options <- list(...)
   force(envir_with)
-  tar_assert_in(names(options), names(formals(tar_option_set)))
-  old <- lapply(names(options), tar_option_get)
-  names(old) <- names(options)
-  on.exit(do.call(tar_option_set, old))
+  option_names <- names(options)
+  tar_assert_in(option_names, names(formals(tar_option_set)))
+  old <- lapply(option_names, function(name) tar_options[[name]])
+  names(old) <- option_names
+  on.exit(tar_option_restore(old))
   do.call(tar_option_set, options)
   eval(expression, envir = envir_with)
+}
+
+tar_option_restore <- function(old) {
+  for (name in intersect(names(old), names(tar_options))) {
+    tar_options[[name]] <- old[[name]]
+  }
 }

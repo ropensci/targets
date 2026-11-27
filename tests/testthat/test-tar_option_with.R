@@ -11,3 +11,19 @@ tar_test("tar_option_with()", {
   expect_equal(tar_option_get("cue")$mode, "thorough")
   expect_equal(tar_option_get("packages"), "targets")
 })
+
+tar_test("tar_option_with() restores unset options", {
+  on.exit(tar_option_reset())
+  tar_option_reset()
+  out <- tar_option_with(
+    tar_target(data, get_data()),
+    library = "custom_library",
+    trust_timestamps = FALSE,
+    packages = "stats"
+  )
+  expect_equal(out$command$library, "custom_library")
+  expect_equal(out$command$packages, "stats")
+  expect_null(tar_option_get("library"))
+  expect_null(tar_option_get("trust_timestamps"))
+  expect_null(tar_options$packages)
+})
